@@ -1,0 +1,8 @@
+[package]
+name = "forensic-indicators"
+version = "0.1.0"
+description = "Static indicator tables for forensic analysis: suspicious ports, LOLBins, persistence paths, execution artifacts, anti-forensics indicators, and more"
+edition = "2021"
+rust-version = "1.75"
+license = "Apache-2.0"
+repository = "https://github.com/SecurityRonin/forensic-indicators"
