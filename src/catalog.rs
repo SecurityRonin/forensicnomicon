@@ -6239,6 +6239,175 @@ mod tests_batch_d {
         assert!(EVTX_SYSMON.mitre_techniques.contains(&"T1059"));
     }
 
+    // ═══════════════════════════════════════════════════════════════════════
+    // Enhancement I — retention / triage_priority / related_artifacts (RED)
+    // ═══════════════════════════════════════════════════════════════════════
+
+    // ── TriagePriority enum exists and is ordered ─────────────────────────
+
+    #[test]
+    fn triage_priority_ordering() {
+        assert!(TriagePriority::Critical > TriagePriority::High);
+        assert!(TriagePriority::High    > TriagePriority::Medium);
+        assert!(TriagePriority::Medium  > TriagePriority::Low);
+    }
+
+    // ── ArtifactDescriptor has new fields ─────────────────────────────────
+
+    #[test]
+    fn descriptor_has_retention_field() {
+        // retention is Option<&str>; registry persistence keys are indefinite
+        assert_eq!(RUN_KEY_HKLM_RUN.retention, None);
+    }
+
+    #[test]
+    fn descriptor_has_triage_priority_field() {
+        assert_eq!(RUN_KEY_HKLM_RUN.triage_priority, TriagePriority::High);
+    }
+
+    #[test]
+    fn descriptor_has_related_artifacts_field() {
+        let _ = RUN_KEY_HKLM_RUN.related_artifacts;
+    }
+
+    // ── Specific retention values ─────────────────────────────────────────
+
+    #[test]
+    fn srum_retention_is_30_days() {
+        assert_eq!(SRUM_DB.retention, Some("~30 days"));
+    }
+
+    #[test]
+    fn shimcache_retention_mentions_shutdown() {
+        assert!(SHIMCACHE.retention.unwrap_or("").contains("shutdown"));
+    }
+
+    #[test]
+    fn powershell_history_retention_mentions_limit() {
+        assert!(POWERSHELL_HISTORY.retention.unwrap_or("").contains("4096"));
+    }
+
+    #[test]
+    fn bam_user_retention_is_7_days() {
+        assert!(BAM_USER.retention.unwrap_or("").contains("7 day"));
+    }
+
+    #[test]
+    fn evtx_security_retention_mentions_rolling() {
+        assert!(EVTX_SECURITY.retention.unwrap_or("").contains("rolling"));
+    }
+
+    // ── Specific triage_priority values ──────────────────────────────────
+
+    #[test]
+    fn evtx_security_triage_is_critical() {
+        assert_eq!(EVTX_SECURITY.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn sam_users_triage_is_critical() {
+        assert_eq!(SAM_USERS.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn lsa_secrets_triage_is_critical() {
+        assert_eq!(LSA_SECRETS.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn linux_shadow_triage_is_critical() {
+        assert_eq!(LINUX_SHADOW.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn shimcache_triage_is_critical() {
+        assert_eq!(SHIMCACHE.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn userassist_exe_triage_is_high() {
+        assert_eq!(USERASSIST_EXE.triage_priority, TriagePriority::High);
+    }
+
+    #[test]
+    fn thumbcache_triage_is_medium() {
+        assert_eq!(THUMBCACHE.triage_priority, TriagePriority::Medium);
+    }
+
+    #[test]
+    fn vpn_ras_phonebook_triage_is_low() {
+        assert_eq!(VPN_RAS_PHONEBOOK.triage_priority, TriagePriority::Low);
+    }
+
+    // ── related_artifacts ────────────────────────────────────────────────
+
+    #[test]
+    fn srum_network_related_includes_evtx_security() {
+        assert!(SRUM_NETWORK_USAGE.related_artifacts.contains(&"evtx_security"));
+    }
+
+    #[test]
+    fn evtx_security_related_includes_srum() {
+        assert!(EVTX_SECURITY.related_artifacts.contains(&"srum_network_usage"));
+    }
+
+    #[test]
+    fn prefetch_file_related_includes_shimcache() {
+        assert!(PREFETCH_FILE.related_artifacts.contains(&"shimcache"));
+    }
+
+    #[test]
+    fn dpapi_masterkey_related_includes_dpapi_cred() {
+        assert!(DPAPI_MASTERKEY_USER.related_artifacts.contains(&"dpapi_cred_user"));
+    }
+
+    // ── New catalog API ──────────────────────────────────────────────────
+
+    #[test]
+    fn catalog_by_mitre_finds_srum_network_usage() {
+        let hits = CATALOG.by_mitre("T1049");
+        assert!(hits.iter().any(|d| d.id == "srum_network_usage"));
+    }
+
+    #[test]
+    fn catalog_by_mitre_finds_no_results_for_unknown() {
+        assert!(CATALOG.by_mitre("T9999.999").is_empty());
+    }
+
+    #[test]
+    fn catalog_for_triage_nonempty_and_critical_first() {
+        let hits = CATALOG.for_triage();
+        assert!(!hits.is_empty());
+        assert_eq!(hits[0].triage_priority, TriagePriority::Critical);
+        // Last entry must not be higher priority than Medium
+        assert!(hits.last().unwrap().triage_priority <= TriagePriority::Medium);
+    }
+
+    #[test]
+    fn catalog_for_triage_stable_within_priority() {
+        // All Criticals before any High; all Highs before any Medium
+        let hits = CATALOG.for_triage();
+        let mut max_seen = TriagePriority::Critical;
+        for d in &hits {
+            assert!(d.triage_priority <= max_seen, "priority not monotone");
+            max_seen = d.triage_priority;
+        }
+    }
+
+    #[test]
+    fn catalog_filter_by_keyword_finds_dpapi() {
+        let hits = CATALOG.filter_by_keyword("DPAPI");
+        assert!(!hits.is_empty());
+        assert!(hits.iter().any(|d| d.id.contains("dpapi")));
+    }
+
+    #[test]
+    fn catalog_filter_by_keyword_case_insensitive() {
+        let lower = CATALOG.filter_by_keyword("dpapi");
+        let upper = CATALOG.filter_by_keyword("DPAPI");
+        assert_eq!(lower.len(), upper.len());
+    }
+
     // ── CATALOG completeness (batch H) ────────────────────────────────────
 
     #[test]
