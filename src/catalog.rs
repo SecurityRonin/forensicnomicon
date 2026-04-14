@@ -161,6 +161,19 @@ pub struct FieldSchema {
     pub is_uid_component: bool,
 }
 
+/// Triage collection priority for this artifact during live incident response.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub enum TriagePriority {
+    /// Must collect immediately — volatile, high forensic value, or credential exposure.
+    Critical = 3,
+    /// Collect in first pass — strong execution/persistence evidence.
+    High = 2,
+    /// Collect when time permits — useful but less time-sensitive.
+    Medium = 1,
+    /// Collect last — low volatility, supporting evidence only.
+    Low = 0,
+}
+
 // ── ArtifactDescriptor (the catalog entry) ───────────────────────────────────
 
 /// A single entry in the forensic artifact catalog. Fully `const`-constructible
@@ -193,6 +206,13 @@ pub struct ArtifactDescriptor {
     pub mitre_techniques: &'static [&'static str],
     /// Schema of the decoded output fields.
     pub fields: &'static [FieldSchema],
+    /// How long this artifact typically persists before being overwritten or rotated.
+    /// `None` means indefinite (registry keys, most files until explicitly deleted).
+    pub retention: Option<&'static str>,
+    /// Live triage collection priority.
+    pub triage_priority: TriagePriority,
+    /// IDs of related catalog descriptors useful for cross-correlation.
+    pub related_artifacts: &'static [&'static str],
 }
 
 // ── ArtifactValue (universal decoded value) ──────────────────────────────────
@@ -360,6 +380,32 @@ impl ForensicCatalog {
                     }
                 }
                 true
+            })
+            .collect()
+    }
+
+    /// Return all descriptors associated with the given MITRE ATT&CK technique ID.
+    pub fn by_mitre(&self, technique: &str) -> Vec<&ArtifactDescriptor> {
+        self.entries.iter().filter(|d| d.mitre_techniques.contains(&technique)).collect()
+    }
+
+    /// Return all descriptors sorted by triage priority descending (Critical first).
+    /// Within the same priority, original catalog order is preserved.
+    pub fn for_triage(&self) -> Vec<&ArtifactDescriptor> {
+        let mut v: Vec<&ArtifactDescriptor> = self.entries.iter().collect();
+        v.sort_by(|a, b| b.triage_priority.cmp(&a.triage_priority));
+        v
+    }
+
+    /// Return all descriptors whose `meaning` or `name` contains `keyword`
+    /// (case-insensitive).
+    pub fn filter_by_keyword(&self, keyword: &str) -> Vec<&ArtifactDescriptor> {
+        let kw = keyword.to_ascii_lowercase();
+        self.entries
+            .iter()
+            .filter(|d| {
+                d.meaning.to_ascii_lowercase().contains(&kw)
+                    || d.name.to_ascii_lowercase().contains(&kw)
             })
             .collect()
     }
@@ -847,6 +893,9 @@ pub static USERASSIST_EXE: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Program execution history with launch counts and timestamps",
     mitre_techniques: &["T1059", "T1204.002"],
     fields: USERASSIST_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["prefetch_dir", "shimcache", "srum_app_resource"],
 };
 
 /// Run key field schema.
@@ -872,6 +921,9 @@ pub static RUN_KEY_HKLM_RUN: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "System-wide autostart entry executed at every user logon",
     mitre_techniques: &["T1547.001"],
     fields: RUN_KEY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["run_key_hklm_run", "services_imagepath", "scheduled_tasks_dir"],
 };
 
 /// TypedURLs field schema.
@@ -897,6 +949,9 @@ pub static TYPED_URLS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "URLs manually typed into the Internet Explorer or Edge address bar",
     mitre_techniques: &["T1071.001"],
     fields: TYPED_URLS_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// PCA AppLaunch.dic pipe-delimited fields.
@@ -936,6 +991,9 @@ pub static PCA_APPLAUNCH_DIC: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Program execution evidence from the Program Compatibility Assistant",
     mitre_techniques: &["T1059", "T1204.002"],
     fields: PCA_FIELDS_SCHEMA,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 // ── Run key HKCU variants ────────────────────────────────────────────────────
@@ -957,6 +1015,9 @@ pub static RUN_KEY_HKCU_RUN: ArtifactDescriptor = ArtifactDescriptor {
               making it a common unprivileged persistence location that survives password resets.",
     mitre_techniques: &["T1547.001"],
     fields: RUN_KEY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["run_key_hklm_run", "startup_folder_user"],
 };
 
 /// HKCU RunOnce — per-user one-shot autostart (deleted after execution).
@@ -974,6 +1035,9 @@ pub static RUN_KEY_HKCU_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Per-user one-time autostart, deleted after first execution",
     mitre_techniques: &["T1547.001"],
     fields: RUN_KEY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// HKLM RunOnce — system-wide one-shot autostart.
@@ -991,6 +1055,9 @@ pub static RUN_KEY_HKLM_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "System-wide one-time autostart, deleted after first execution",
     mitre_techniques: &["T1547.001"],
     fields: RUN_KEY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 // ── IFEO ──────────────────────────────────────────────────────────────────────
@@ -1020,6 +1087,9 @@ pub static IFEO_DEBUGGER: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Redirects target-process launch to an attacker-controlled binary",
     mitre_techniques: &["T1546.012"],
     fields: IFEO_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── UserAssist (Folder GUID) ─────────────────────────────────────────────────
@@ -1041,6 +1111,9 @@ pub static USERASSIST_FOLDER: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Folder navigation history with access counts and timestamps",
     mitre_techniques: &["T1083"],
     fields: USERASSIST_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 // ── ShellBags ─────────────────────────────────────────────────────────────────
@@ -1070,6 +1143,9 @@ pub static SHELLBAGS_USER: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Folder access history; persists paths even after folder deletion",
     mitre_techniques: &["T1083", "T1005"],
     fields: SHELLBAGS_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 // ── Amcache ───────────────────────────────────────────────────────────────────
@@ -1104,6 +1180,9 @@ pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Program execution evidence with file hash; persists after binary deletion",
     mitre_techniques: &["T1218", "T1204.002"],
     fields: AMCACHE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["shimcache", "prefetch_dir", "srum_app_resource"],
 };
 
 // ── ShimCache (AppCompatCache) ────────────────────────────────────────────────
@@ -1134,6 +1213,9 @@ pub static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Executable metadata cache; presence proves binary existed on disk",
     mitre_techniques: &["T1218", "T1059"],
     fields: SHIMCACHE_FIELDS,
+    retention: Some("written at clean shutdown only; lost on crash/hard-power-off"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["amcache_app_file", "prefetch_dir", "bam_user"],
 };
 
 // ── BAM / DAM ─────────────────────────────────────────────────────────────────
@@ -1163,6 +1245,9 @@ pub static BAM_USER: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Last execution time of background/UWP processes per-user SID",
     mitre_techniques: &["T1059", "T1204"],
     fields: BAM_FIELDS,
+    retention: Some("~7 days rolling window"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["dam_user", "shimcache", "prefetch_dir"],
 };
 
 static DAM_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -1187,6 +1272,9 @@ pub static DAM_USER: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Last execution time of desktop applications per-user SID",
     mitre_techniques: &["T1059", "T1204"],
     fields: DAM_FIELDS,
+    retention: Some("~7 days rolling window"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["bam_user", "shimcache"],
 };
 
 // ── SAM ───────────────────────────────────────────────────────────────────────
@@ -1216,6 +1304,9 @@ pub static SAM_USERS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Local Windows accounts; F/V records contain login counts and NTLM hash metadata",
     mitre_techniques: &["T1003.002", "T1087.001"],
     fields: SAM_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["lsa_secrets", "dcc2_cache"],
 };
 
 // ── LSA Secrets / DCC2 ───────────────────────────────────────────────────────
@@ -1242,6 +1333,9 @@ pub static LSA_SECRETS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Encrypted service credentials, auto-logon passwords, and DPAPI master key",
     mitre_techniques: &["T1003.004", "T1552.002"],
     fields: LSA_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["sam_users", "dpapi_system_masterkey", "dcc2_cache"],
 };
 
 static DCC2_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -1269,6 +1363,9 @@ pub static DCC2_CACHE: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "MS-Cache v2 (PBKDF2-SHA1) hashes enabling offline domain logon",
     mitre_techniques: &["T1003.005"],
     fields: DCC2_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
 };
 
 // ── TypedURLsTime ─────────────────────────────────────────────────────────────
@@ -1295,6 +1392,9 @@ pub static TYPED_URLS_TIME: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Timestamps of URLs typed into IE/Edge address bar (paired with TypedURLs)",
     mitre_techniques: &["T1071.001"],
     fields: TYPED_URLS_TIME_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── MRU RecentDocs ────────────────────────────────────────────────────────────
@@ -1321,6 +1421,9 @@ pub static MRU_RECENT_DOCS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Most-recently-used documents list (MRUListEx order of shell32 items)",
     mitre_techniques: &["T1005", "T1083"],
     fields: MRU_RECENT_DOCS_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── USB device enumeration ────────────────────────────────────────────────────
@@ -1349,6 +1452,9 @@ pub static USB_ENUM: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "USB storage device connection history; persists after device removal",
     mitre_techniques: &["T1200", "T1052.001"],
     fields: USB_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── MUICache ──────────────────────────────────────────────────────────────────
@@ -1378,6 +1484,9 @@ pub static MUICACHE: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Cached display names keyed by executable path; program execution evidence",
     mitre_techniques: &["T1059", "T1204.002"],
     fields: MUICACHE_FIELDS,
+    retention: Some("persists until registry cleanup"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── AppInit_DLLs ──────────────────────────────────────────────────────────────
@@ -1406,6 +1515,9 @@ pub static APPINIT_DLLS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "DLLs injected into every process that loads user32.dll",
     mitre_techniques: &["T1546.010"],
     fields: APPINIT_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── Winlogon Userinit ─────────────────────────────────────────────────────────
@@ -1435,6 +1547,9 @@ pub static WINLOGON_USERINIT: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Process(es) launched by Winlogon at logon; default is userinit.exe,",
     mitre_techniques: &["T1547.004"],
     fields: WINLOGON_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 // ── Screensaver persistence ───────────────────────────────────────────────────
@@ -1464,6 +1579,9 @@ pub static SCREENSAVER_EXE: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Screensaver path; malicious .scr enables persistence on screen lock",
     mitre_techniques: &["T1546.002"],
     fields: SCREENSAVER_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1524,6 +1642,9 @@ pub static WINLOGON_SHELL: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Windows shell process(es) launched by Winlogon; default is explorer.exe",
     mitre_techniques: &["T1547.004"],
     fields: PERSIST_CMD_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// Windows Services — ImagePath value indicates binary launched as a service.
@@ -1544,6 +1665,9 @@ pub static SERVICES_IMAGEPATH: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Executable path of a Windows service; auto-started services persist across reboots",
     mitre_techniques: &["T1543.003"],
     fields: PERSIST_CMD_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 static ACTIVE_SETUP_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -1571,6 +1695,9 @@ pub static ACTIVE_SETUP_HKLM: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Per-user setup command executed by HKLM Active Setup; malicious StubPath = user-context persistence",
     mitre_techniques: &["T1547.014"],
     fields: ACTIVE_SETUP_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// Active Setup HKCU — user-side Active Setup version tracking.
@@ -1590,6 +1717,9 @@ pub static ACTIVE_SETUP_HKCU: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "User-side Active Setup version; mismatch with HKLM triggers StubPath re-execution",
     mitre_techniques: &["T1547.014"],
     fields: RUN_KEY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// COM Hijacking via HKCU CLSID registration (T1546.015).
@@ -1611,6 +1741,9 @@ pub static COM_HIJACK_CLSID_HKCU: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "User-space CLSID registration overriding system COM server; no admin needed",
     mitre_techniques: &["T1546.015"],
     fields: DLL_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// AppCert DLLs — DLL injected into every process calling CreateProcess (T1546.009).
@@ -1631,6 +1764,9 @@ pub static APPCERT_DLLS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "DLLs injected into every process that calls CreateProcess-family APIs",
     mitre_techniques: &["T1546.009"],
     fields: DLL_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 static BOOT_EXECUTE_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -1658,6 +1794,9 @@ pub static BOOT_EXECUTE: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Native executables run by smss.exe at boot; executes before most security software",
     mitre_techniques: &["T1547.001"],
     fields: BOOT_EXECUTE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// LSA Security Support Providers — SSPs injected into LSASS (T1547.005).
@@ -1678,6 +1817,9 @@ pub static LSA_SECURITY_PKGS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Security Support Providers loaded into LSASS; malicious SSP = persistent LSASS credential access",
     mitre_techniques: &["T1547.005"],
     fields: BOOT_EXECUTE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// LSA Authentication Packages — loaded by LSASS for auth (T1547.002).
@@ -1695,6 +1837,9 @@ pub static LSA_AUTH_PKGS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Authentication packages loaded by LSASS; extra DLLs intercept logon credentials",
     mitre_techniques: &["T1547.002"],
     fields: BOOT_EXECUTE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// Print Monitors — DLL loaded by the spooler service (T1547.010).
@@ -1714,6 +1859,9 @@ pub static PRINT_MONITORS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "DLL loaded into spoolsv.exe (SYSTEM); extra monitors = SYSTEM persistence",
     mitre_techniques: &["T1547.010"],
     fields: DLL_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// Time Provider DLLs — loaded into svchost as part of W32Time (T1547.003).
@@ -1731,6 +1879,9 @@ pub static TIME_PROVIDERS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "DLLs loaded by the Windows Time service; malicious entry = SYSTEM persistence",
     mitre_techniques: &["T1547.003"],
     fields: DLL_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// Netsh Helper DLLs — COM-like DLLs loaded by netsh.exe (T1546.007).
@@ -1748,6 +1899,9 @@ pub static NETSH_HELPER_DLLS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "DLLs loaded whenever netsh.exe is invoked; attacker DLL runs in user's netsh context",
     mitre_techniques: &["T1546.007"],
     fields: DLL_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 static BHO_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -1775,6 +1929,9 @@ pub static BROWSER_HELPER_OBJECTS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "COM components auto-loaded into IE; can intercept browsing and steal credentials",
     mitre_techniques: &["T1176"],
     fields: BHO_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── Windows persistence: filesystem ──────────────────────────────────────
@@ -1794,6 +1951,9 @@ pub static STARTUP_FOLDER_USER: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Executables and LNKs here run at user logon; no admin required",
     mitre_techniques: &["T1547.001"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// System Startup Folder — files/LNKs here execute for all users at logon.
@@ -1811,6 +1971,9 @@ pub static STARTUP_FOLDER_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Executables and LNKs run for every user at logon; requires admin to plant",
     mitre_techniques: &["T1547.001"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// Windows Task Scheduler task XML files (T1053.005).
@@ -1831,6 +1994,9 @@ pub static SCHEDULED_TASKS_DIR: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "XML task definitions; malicious tasks can run at boot, logon, or arbitrary intervals",
     mitre_techniques: &["T1053.005"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// WDigest credential caching control (T1003.001).
@@ -1851,6 +2017,9 @@ pub static WDIGEST_CACHING: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "1 = cleartext creds in LSASS; attackers set this before Mimikatz to harvest passwords",
     mitre_techniques: &["T1003.001"],
     fields: RUN_KEY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── Windows execution evidence ────────────────────────────────────────────
@@ -1870,6 +2039,9 @@ pub static WORDWHEEL_QUERY: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Search terms entered into Windows Explorer search bar; reveals attacker reconnaissance",
     mitre_techniques: &["T1083"],
     fields: MRU_RECENT_DOCS_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// OpenSaveMRU — files opened/saved via Windows common dialog (T1083).
@@ -1890,6 +2062,9 @@ pub static OPENSAVE_MRU: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Paths of files opened or saved via Win32 common dialog boxes; per-extension history",
     mitre_techniques: &["T1083"],
     fields: MRU_RECENT_DOCS_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// LastVisitedMRU — last folder visited in common dialog per-application.
@@ -1907,6 +2082,9 @@ pub static LASTVISITED_MRU: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Application + last-used folder from common dialog; reveals programs accessing files",
     mitre_techniques: &["T1083"],
     fields: MRU_RECENT_DOCS_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// Windows Prefetch files directory — execution evidence (T1204.002).
@@ -1927,6 +2105,9 @@ pub static PREFETCH_DIR: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Binary .pf files recording 30-day program execution history with timestamps",
     mitre_techniques: &["T1204.002"],
     fields: DIR_ENTRY_FIELDS,
+    retention: Some("128 entries; oldest evicted"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["shimcache", "amcache_app_file", "bam_user"],
 };
 
 static SRUM_FIELDS: &[FieldSchema] = &[
@@ -1963,6 +2144,9 @@ pub static SRUM_DB: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Per-app CPU, network, and energy usage records; execution timeline survives log clearing",
     mitre_techniques: &["T1204.002"],
     fields: SRUM_FIELDS,
+    retention: Some("~30 days"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
 };
 
 /// Windows Timeline / Activities Cache — cross-device activity history (Win10+).
@@ -1983,6 +2167,9 @@ pub static WINDOWS_TIMELINE: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Application activity timeline including focus time, file access, and clipboard events",
     mitre_techniques: &["T1059", "T1204.002"],
     fields: SRUM_FIELDS,
+    retention: Some("~30 days"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// PowerShell PSReadLine command history (T1059.001).
@@ -2003,6 +2190,9 @@ pub static POWERSHELL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Line-by-line PowerShell interactive command history; attackers often clear this",
     mitre_techniques: &["T1059.001", "T1552"],
     fields: FILE_PATH_FIELDS,
+    retention: Some("4096 commands; oldest evicted when limit reached"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// Recycle Bin ($I metadata files) — deletion evidence (T1070.004).
@@ -2023,6 +2213,9 @@ pub static RECYCLE_BIN: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "$I files reveal original path and deletion time even after Recycle Bin is emptied",
     mitre_techniques: &["T1070.004", "T1083"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// Windows Explorer Thumbnail Cache — file-access and image evidence.
@@ -2043,6 +2236,9 @@ pub static THUMBCACHE: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Cached thumbnails including deleted files; proves files were viewed via Explorer",
     mitre_techniques: &["T1083"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// Windows Search database — indexed file/content search history.
@@ -2063,6 +2259,9 @@ pub static SEARCH_DB_USER: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "ESE database of indexed file metadata; reveals filenames and content even after deletion",
     mitre_techniques: &["T1083"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── Windows credential artifacts ──────────────────────────────────────────
@@ -2092,6 +2291,9 @@ pub static DPAPI_MASTERKEY_USER: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Master keys protecting all DPAPI-encrypted user secrets (credentials, browser passwords, WiFi PSKs)",
     mitre_techniques: &["T1555.004"],
     fields: DPAPI_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["dpapi_cred_user", "dpapi_credhist", "chrome_login_data"],
 };
 
 /// DPAPI Credential Blobs (Local) — encrypted credential store entries.
@@ -2112,6 +2314,9 @@ pub static DPAPI_CRED_USER: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "DPAPI-encrypted credential blobs for network resources; decryptable with DPAPI master key",
     mitre_techniques: &["T1555.004"],
     fields: DPAPI_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["dpapi_masterkey_user", "windows_vault_user"],
 };
 
 /// DPAPI Credential Blobs (Roaming) — roaming profile credential store.
@@ -2129,6 +2334,9 @@ pub static DPAPI_CRED_ROAMING: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Roaming DPAPI credential blobs; same structure as Local, synced across domain machines",
     mitre_techniques: &["T1555.004"],
     fields: DPAPI_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 static VAULT_FIELDS: &[FieldSchema] = &[
@@ -2164,6 +2372,9 @@ pub static WINDOWS_VAULT_USER: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Per-user Credential Manager vault (.vpol + .vcrd); contains WEB and WINDOWS saved credentials",
     mitre_techniques: &["T1555.004"],
     fields: VAULT_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// Windows Vault (System) — system-wide Windows Credential Manager vault.
@@ -2181,6 +2392,9 @@ pub static WINDOWS_VAULT_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "System-level Windows Credential Manager vault; contains machine-scoped credentials",
     mitre_techniques: &["T1555.004"],
     fields: VAULT_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 static RDP_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -2208,6 +2422,9 @@ pub static RDP_CLIENT_SERVERS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Hostnames and usernames of previously-connected RDP servers; lateral movement evidence",
     mitre_techniques: &["T1021.001"],
     fields: RDP_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 static RDP_MRU_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -2232,6 +2449,9 @@ pub static RDP_CLIENT_DEFAULT: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "MRU0-MRU9 ordered list of RDP server addresses; confirms specific hosts were targeted",
     mitre_techniques: &["T1021.001"],
     fields: RDP_MRU_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 static NTDS_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -2259,6 +2479,9 @@ pub static NTDS_DIT: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Domain controller AD database; contains NTLM hashes for all domain accounts",
     mitre_techniques: &["T1003.003"],
     fields: NTDS_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
 };
 
 static BROWSER_CRED_FIELDS: &[FieldSchema] = &[
@@ -2291,6 +2514,9 @@ pub static CHROME_LOGIN_DATA: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "SQLite DB with DPAPI-encrypted passwords for saved Chrome/Edge credentials",
     mitre_techniques: &["T1555.003"],
     fields: BROWSER_CRED_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["chrome_cookies", "dpapi_masterkey_user"],
 };
 
 static FIREFOX_CRED_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -2317,6 +2543,9 @@ pub static FIREFOX_LOGINS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "NSS3-encrypted Firefox saved credentials; decryptable with key4.db and master password",
     mitre_techniques: &["T1555.003"],
     fields: FIREFOX_CRED_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
 };
 
 static WIFI_FIELDS: &[FieldSchema] = &[
@@ -2352,6 +2581,9 @@ pub static WIFI_PROFILES: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "XML profiles for previously joined WiFi networks; may contain plaintext PSKs",
     mitre_techniques: &["T1552.001"],
     fields: WIFI_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -2420,6 +2652,9 @@ pub static LINUX_CRONTAB_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "System-wide scheduled job definitions; user field allows cross-account execution",
     mitre_techniques: &["T1053.003"],
     fields: CRON_LINE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// Drop-in cron jobs directory `/etc/cron.d/` (T1053.003).
@@ -2440,6 +2675,9 @@ pub static LINUX_CRON_D: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Drop-in cron files with full crontab format; easy to add without touching crontab",
     mitre_techniques: &["T1053.003"],
     fields: CRON_LINE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// Periodic cron directories (daily/hourly/weekly/monthly) (T1053.003).
@@ -2460,6 +2698,9 @@ pub static LINUX_CRON_PERIODIC: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Shell scripts executed periodically by crond/anacron; no schedule syntax required",
     mitre_techniques: &["T1053.003"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// Per-user crontab spool at `/var/spool/cron/crontabs/{user}` (T1053.003).
@@ -2480,6 +2721,9 @@ pub static LINUX_USER_CRONTAB: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Per-user scheduled jobs; attacker can set up recurring execution without admin",
     mitre_techniques: &["T1053.003"],
     fields: CRON_LINE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// Anacron configuration at `/etc/anacrontab`.
@@ -2500,6 +2744,9 @@ pub static LINUX_ANACRONTAB: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Deferred cron jobs for irregular uptime; period-based rather than time-based",
     mitre_techniques: &["T1053.003"],
     fields: CRON_LINE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── Linux persistence: systemd ────────────────────────────────────────────
@@ -2523,6 +2770,9 @@ pub static LINUX_SYSTEMD_SYSTEM_UNIT: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Service definitions executed as root at boot; WantedBy=multi-user.target = auto-start",
     mitre_techniques: &["T1543.002"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// Per-user systemd service units (T1543.002).
@@ -2543,6 +2793,9 @@ pub static LINUX_SYSTEMD_USER_UNIT: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "User-scope service definitions; executed without root on user login",
     mitre_techniques: &["T1543.002"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// systemd timer units — cron-like scheduling (T1053.006).
@@ -2563,6 +2816,9 @@ pub static LINUX_SYSTEMD_TIMER: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Timer-based scheduled execution; malicious timers trigger services on a schedule",
     mitre_techniques: &["T1053.006"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── Linux persistence: init / rc.local ───────────────────────────────────
@@ -2585,6 +2841,9 @@ pub static LINUX_RC_LOCAL: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Legacy boot-time script executed as root; simple and widely supported",
     mitre_techniques: &["T1037.004"],
     fields: CRON_LINE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// SysV init scripts directory `/etc/init.d/`.
@@ -2605,6 +2864,9 @@ pub static LINUX_INIT_D: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "SysV init scripts; malicious script here runs at boot across reboots",
     mitre_techniques: &["T1543.002"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── Linux persistence: shell startup files ────────────────────────────────
@@ -2627,6 +2889,9 @@ pub static LINUX_BASHRC_USER: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Sourced on every interactive bash session; persistent aliases, functions, or background processes",
     mitre_techniques: &["T1546.004"],
     fields: CRON_LINE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// `~/.bash_profile` — Bash login shell startup (T1546.004).
@@ -2644,6 +2909,9 @@ pub static LINUX_BASH_PROFILE_USER: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Sourced on Bash login shells; runs at SSH login and console login",
     mitre_techniques: &["T1546.004"],
     fields: CRON_LINE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// `~/.profile` — POSIX login shell startup.
@@ -2661,6 +2929,9 @@ pub static LINUX_PROFILE_USER: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "POSIX login shell startup; sourced by sh, dash, and bash on login",
     mitre_techniques: &["T1546.004"],
     fields: CRON_LINE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// `~/.zshrc` — per-user Zsh interactive startup (T1546.004).
@@ -2678,6 +2949,9 @@ pub static LINUX_ZSHRC_USER: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Sourced on every interactive Zsh session; same persistence vector as .bashrc",
     mitre_techniques: &["T1546.004"],
     fields: CRON_LINE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// `/etc/profile` — system-wide login shell startup.
@@ -2695,6 +2969,9 @@ pub static LINUX_PROFILE_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "System-wide login shell startup; modifications affect all users",
     mitre_techniques: &["T1546.004"],
     fields: CRON_LINE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// `/etc/profile.d/` — drop-in system-wide shell startup scripts.
@@ -2712,6 +2989,9 @@ pub static LINUX_PROFILE_D: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Shell scripts sourced by /etc/profile for all users at login; drop-in persistence",
     mitre_techniques: &["T1546.004"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── Linux persistence: dynamic linker ────────────────────────────────────
@@ -2735,6 +3015,9 @@ pub static LINUX_LD_SO_PRELOAD: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Libraries preloaded into EVERY process system-wide; standard rootkit hiding mechanism",
     mitre_techniques: &["T1574.006"],
     fields: CRON_LINE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// `/etc/ld.so.conf.d/` — linker search path configuration (T1574.006).
@@ -2755,6 +3038,9 @@ pub static LINUX_LD_SO_CONF_D: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Library search path config; malicious entry adds attacker directory to ldconfig paths",
     mitre_techniques: &["T1574.006"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── Linux persistence: SSH ────────────────────────────────────────────────
@@ -2777,6 +3063,9 @@ pub static LINUX_SSH_AUTHORIZED_KEYS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Public keys permitting passwordless SSH login; attacker key = permanent backdoor",
     mitre_techniques: &["T1098.004"],
     fields: SSH_KEY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 // ── Linux persistence: PAM / privilege / kernel ───────────────────────────
@@ -2800,6 +3089,9 @@ pub static LINUX_PAM_D: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "PAM module configs per service; malicious module intercepts and logs all passwords",
     mitre_techniques: &["T1556.003"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// `/etc/sudoers.d/` — drop-in sudoers rules (T1548.003).
@@ -2820,6 +3112,9 @@ pub static LINUX_SUDOERS_D: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Drop-in sudoers rules; NOPASSWD entries enable privilege escalation without credentials",
     mitre_techniques: &["T1548.003"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// `/etc/modules-load.d/` — kernel modules loaded at boot (T1547.006).
@@ -2840,6 +3135,9 @@ pub static LINUX_MODULES_LOAD_D: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Kernel modules auto-loaded at boot; rootkit module here = persistent kernel access",
     mitre_techniques: &["T1547.006"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// `/etc/update-motd.d/` — dynamic MOTD scripts executed on login (Debian/Ubuntu).
@@ -2860,6 +3158,9 @@ pub static LINUX_MOTD_D: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Scripts run as root at SSH login for MOTD generation; covert execution vector",
     mitre_techniques: &["T1037.004"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// `/etc/udev/rules.d/` — udev device event rules (T1546).
@@ -2881,6 +3182,9 @@ pub static LINUX_UDEV_RULES_D: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Device event rules; RUN+= directive executes payload on device attach/detach",
     mitre_techniques: &["T1546"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── Linux execution evidence ──────────────────────────────────────────────
@@ -2904,6 +3208,9 @@ pub static LINUX_BASH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Interactive Bash command history; reveals lateral movement, exfil, and recon commands",
     mitre_techniques: &["T1059.004", "T1552"],
     fields: CRON_LINE_FIELDS,
+    retention: Some("HISTSIZE limit; default 500-2000 commands"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// `~/.zsh_history` — Zsh interactive command history.
@@ -2921,6 +3228,9 @@ pub static LINUX_ZSH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Interactive Zsh command history; extended format optionally includes timestamps",
     mitre_techniques: &["T1059.004", "T1552"],
     fields: CRON_LINE_FIELDS,
+    retention: Some("HISTSIZE limit; default 500-2000 commands"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// `/var/log/wtmp` — binary successful login history (T1078).
@@ -2941,6 +3251,9 @@ pub static LINUX_WTMP: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Binary record of all successful logins/logouts/reboots; evidence of valid-account abuse",
     mitre_techniques: &["T1078", "T1021.004"],
     fields: LOG_LINE_FIELDS,
+    retention: Some("until rotated by logrotate"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// `/var/log/btmp` — binary failed login attempts.
@@ -2960,6 +3273,9 @@ pub static LINUX_BTMP: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Binary record of failed authentication attempts; brute-force and credential-stuffing evidence",
     mitre_techniques: &["T1110"],
     fields: LOG_LINE_FIELDS,
+    retention: Some("until rotated by logrotate"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// `/var/log/lastlog` — binary last-login-per-UID database.
@@ -2980,6 +3296,9 @@ pub static LINUX_LASTLOG: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Per-UID last-login record including source IP; never-logged-in vs recent entries",
     mitre_techniques: &["T1078"],
     fields: LOG_LINE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// `/var/log/auth.log` — authentication and sudo event log (Debian/Ubuntu).
@@ -3000,6 +3319,9 @@ pub static LINUX_AUTH_LOG: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "PAM auth events, SSH logins, sudo commands, su usage; primary lateral-movement log",
     mitre_techniques: &["T1078", "T1548.003"],
     fields: LOG_LINE_FIELDS,
+    retention: Some("until rotated by logrotate"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// systemd journal directory `/var/log/journal/`.
@@ -3020,6 +3342,9 @@ pub static LINUX_JOURNAL_DIR: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Structured binary system journal; includes boot IDs, service crashes, and audit events",
     mitre_techniques: &["T1078", "T1059.004"],
     fields: DIR_ENTRY_FIELDS,
+    retention: Some("50MB or 1 month default; configurable in journald.conf"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 // ── Linux credential artifacts ────────────────────────────────────────────
@@ -3043,6 +3368,9 @@ pub static LINUX_PASSWD: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Local user enumeration; UID=0 duplicates or unusual shells indicate backdoor accounts",
     mitre_techniques: &["T1087.001", "T1136.001"],
     fields: ACCOUNT_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
 };
 
 /// `/etc/shadow` — password hash database (T1003.008).
@@ -3063,6 +3391,9 @@ pub static LINUX_SHADOW: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Password hashes for all local accounts; crackable offline once read",
     mitre_techniques: &["T1003.008"],
     fields: ACCOUNT_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
 };
 
 /// SSH private key files — stolen keys enable impersonation (T1552.004).
@@ -3083,6 +3414,9 @@ pub static LINUX_SSH_PRIVATE_KEY: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Private key material for SSH authentication; unencrypted keys = immediate lateral movement",
     mitre_techniques: &["T1552.004"],
     fields: SSH_KEY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
 };
 
 /// `~/.ssh/known_hosts` — previously connected SSH server fingerprints (T1021.004).
@@ -3103,6 +3437,9 @@ pub static LINUX_SSH_KNOWN_HOSTS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Previously-connected SSH server fingerprints; lateral movement destination history",
     mitre_techniques: &["T1021.004", "T1083"],
     fields: SSH_KEY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 /// `~/.gnupg/private-keys-v1.d/` — GnuPG private key store (T1552.004).
@@ -3123,6 +3460,9 @@ pub static LINUX_GNUPG_PRIVATE: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "GnuPG private keys; enables message decryption and code-signing forgery",
     mitre_techniques: &["T1552.004"],
     fields: DPAPI_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// `~/.aws/credentials` — AWS access key material (T1552.001).
@@ -3143,6 +3483,9 @@ pub static LINUX_AWS_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "AWS long-term or temporary credentials; enables cloud infrastructure compromise",
     mitre_techniques: &["T1552.001"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 /// `~/.docker/config.json` — Docker registry auth tokens (T1552.001).
@@ -3163,6 +3506,9 @@ pub static LINUX_DOCKER_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Docker registry credentials; enables container image exfil or malicious image push",
     mitre_techniques: &["T1552.001"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 // ── Batch E — Windows execution / persistence / credential ───────────────────
@@ -3184,6 +3530,9 @@ pub static LNK_FILES: ArtifactDescriptor = ArtifactDescriptor {
               NetBIOS host — evidence of file access even after target deletion. T1547.009.",
     mitre_techniques: &["T1547.009", "T1070.004"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["jump_list_auto", "mru_recent_docs"],
 };
 
 pub static JUMP_LIST_AUTO: ArtifactDescriptor = ArtifactDescriptor {
@@ -3201,6 +3550,9 @@ pub static JUMP_LIST_AUTO: ArtifactDescriptor = ArtifactDescriptor {
               for each application including timestamps and target metadata.",
     mitre_techniques: &["T1547.009", "T1070.004"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["lnk_files", "mru_recent_docs"],
 };
 
 pub static JUMP_LIST_CUSTOM: ArtifactDescriptor = ArtifactDescriptor {
@@ -3218,6 +3570,9 @@ pub static JUMP_LIST_CUSTOM: ArtifactDescriptor = ArtifactDescriptor {
               revealing attacker-pinned tools or exfiltrated document access.",
     mitre_techniques: &["T1547.009", "T1070.004"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["lnk_files", "jump_list_auto"],
 };
 
 pub static EVTX_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -3235,6 +3590,9 @@ pub static EVTX_DIR: ArtifactDescriptor = ArtifactDescriptor {
               PowerShell/Operational.evtx. Primary execution, logon, and process-creation record.",
     mitre_techniques: &["T1070.001", "T1059.001"],
     fields: DIR_ENTRY_FIELDS,
+    retention: Some("configurable; default ~20MB rolling per channel"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 pub static USN_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3252,6 +3610,9 @@ pub static USN_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
               number; persists even after file deletion, proving prior file existence.",
     mitre_techniques: &["T1070.004", "T1059"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── Persistence ───────────────────────────────────────────────────────────────
@@ -3271,6 +3632,9 @@ pub static WMI_MOF_DIR: ArtifactDescriptor = ArtifactDescriptor {
               objects; persistence survives reboots and is invisible to registry-only tools.",
     mitre_techniques: &["T1546.003"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 pub static BITS_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -3288,6 +3652,9 @@ pub static BITS_DB: ArtifactDescriptor = ArtifactDescriptor {
               jobs including URL, destination, and command-to-notify — abused for stealthy malware staging.",
     mitre_techniques: &["T1197"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 static WMI_SUB_FIELDS: &[FieldSchema] = &[
@@ -3312,6 +3679,9 @@ pub static WMI_SUBSCRIPTIONS: ArtifactDescriptor = ArtifactDescriptor {
               complete picture of WMI-based persistence.",
     mitre_techniques: &["T1546.003"],
     fields: WMI_SUB_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 pub static LOGON_SCRIPTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -3329,6 +3699,9 @@ pub static LOGON_SCRIPTS: ArtifactDescriptor = ArtifactDescriptor {
               persistence that survives password resets.",
     mitre_techniques: &["T1037.001"],
     fields: PERSIST_CMD_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 pub static WINSOCK_LSP: ArtifactDescriptor = ArtifactDescriptor {
@@ -3346,6 +3719,9 @@ pub static WINSOCK_LSP: ArtifactDescriptor = ArtifactDescriptor {
               plaintext protocols. Rare but high-signal indicator of network interception.",
     mitre_techniques: &["T1547.010"],
     fields: DLL_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 pub static APPSHIM_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -3363,6 +3739,9 @@ pub static APPSHIM_DB: ArtifactDescriptor = ArtifactDescriptor {
               disable security checks, or load malicious DLLs without modifying the target binary.",
     mitre_techniques: &["T1546.011"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 pub static PASSWORD_FILTER_DLL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3380,6 +3759,9 @@ pub static PASSWORD_FILTER_DLL: ArtifactDescriptor = ArtifactDescriptor {
               malicious filter captures and exfiltrates credentials.",
     mitre_techniques: &["T1556.002"],
     fields: DLL_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 pub static OFFICE_NORMAL_DOTM: ArtifactDescriptor = ArtifactDescriptor {
@@ -3397,6 +3779,9 @@ pub static OFFICE_NORMAL_DOTM: ArtifactDescriptor = ArtifactDescriptor {
               embedded here achieve persistence across all Word sessions.",
     mitre_techniques: &["T1137.001"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 pub static POWERSHELL_PROFILE_ALL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3414,6 +3799,9 @@ pub static POWERSHELL_PROFILE_ALL: ArtifactDescriptor = ArtifactDescriptor {
               SYSTEM-writable, provides privileged persistence without registry modification.",
     mitre_techniques: &["T1546.013"],
     fields: PERSIST_CMD_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 // ── Credentials ───────────────────────────────────────────────────────────────
@@ -3433,6 +3821,9 @@ pub static DPAPI_SYSTEM_MASTERKEY: ArtifactDescriptor = ArtifactDescriptor {
               such as LSA secrets, service credentials, and scheduled task credentials.",
     mitre_techniques: &["T1555.004"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["lsa_secrets", "dpapi_masterkey_user"],
 };
 
 pub static DPAPI_CREDHIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -3450,6 +3841,9 @@ pub static DPAPI_CREDHIST: ArtifactDescriptor = ArtifactDescriptor {
               secrets encrypted with old passwords after a password change.",
     mitre_techniques: &["T1555.004"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["dpapi_masterkey_user"],
 };
 
 pub static CHROME_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -3467,6 +3861,9 @@ pub static CHROME_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
               these to bypass MFA and impersonate authenticated sessions (pass-the-cookie).",
     mitre_techniques: &["T1539", "T1185"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["chrome_login_data"],
 };
 
 pub static EDGE_WEBCACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -3484,6 +3881,9 @@ pub static EDGE_WEBCACHE: ArtifactDescriptor = ArtifactDescriptor {
               content; reveals browsing patterns and potential data exfiltration URLs.",
     mitre_techniques: &["T1539", "T1217"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &[],
 };
 
 pub static VPN_RAS_PHONEBOOK: ArtifactDescriptor = ArtifactDescriptor {
@@ -3501,6 +3901,9 @@ pub static VPN_RAS_PHONEBOOK: ArtifactDescriptor = ArtifactDescriptor {
               and saved credential references; reveals network pivoting paths.",
     mitre_techniques: &["T1552.001"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &[],
 };
 
 pub static WINDOWS_HELLO_NGC: ArtifactDescriptor = ArtifactDescriptor {
@@ -3518,6 +3921,9 @@ pub static WINDOWS_HELLO_NGC: ArtifactDescriptor = ArtifactDescriptor {
               compromise reveals authentication material bypassing traditional password forensics.",
     mitre_techniques: &["T1555"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 pub static USER_CERT_PRIVATE_KEY: ArtifactDescriptor = ArtifactDescriptor {
@@ -3535,6 +3941,9 @@ pub static USER_CERT_PRIVATE_KEY: ArtifactDescriptor = ArtifactDescriptor {
               smart-card emulation; exfiltration enables impersonation and signing of malicious artifacts.",
     mitre_techniques: &["T1552.004"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 pub static MACHINE_CERT_STORE: ArtifactDescriptor = ArtifactDescriptor {
@@ -3552,6 +3961,9 @@ pub static MACHINE_CERT_STORE: ArtifactDescriptor = ArtifactDescriptor {
               auth, code signing, and IPSec — high-value credential exfiltration target.",
     mitre_techniques: &["T1552.004"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 // ── Batch F — Linux extended credentials / execution ─────────────────────────
@@ -3571,6 +3983,9 @@ pub static LINUX_AT_QUEUE: ArtifactDescriptor = ArtifactDescriptor {
               script to run at a specified time, used for stealthy one-shot persistence.",
     mitre_techniques: &["T1053.001"],
     fields: CRON_LINE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 pub static LINUX_SSHD_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3588,6 +4003,9 @@ pub static LINUX_SSHD_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
               ForceCommand bypass, PermitRootLogin yes, or AllowUsers modifications.",
     mitre_techniques: &["T1098.004", "T1021.004"],
     fields: PERSIST_CMD_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 pub static LINUX_ETC_GROUP: ArtifactDescriptor = ArtifactDescriptor {
@@ -3605,6 +4023,9 @@ pub static LINUX_ETC_GROUP: ArtifactDescriptor = ArtifactDescriptor {
               detect unauthorized group additions (e.g., added to `sudo` or `docker` group).",
     mitre_techniques: &["T1087.001", "T1078.003"],
     fields: ACCOUNT_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 pub static LINUX_GNOME_KEYRING: ArtifactDescriptor = ArtifactDescriptor {
@@ -3622,6 +4043,9 @@ pub static LINUX_GNOME_KEYRING: ArtifactDescriptor = ArtifactDescriptor {
               browser master passwords encrypted with user login credential.",
     mitre_techniques: &["T1555.003"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
 };
 
 pub static LINUX_KDE_KWALLET: ArtifactDescriptor = ArtifactDescriptor {
@@ -3639,6 +4063,9 @@ pub static LINUX_KDE_KWALLET: ArtifactDescriptor = ArtifactDescriptor {
               credentials for KDE applications.",
     mitre_techniques: &["T1555.003"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
 };
 
 pub static LINUX_CHROME_LOGIN_LINUX: ArtifactDescriptor = ArtifactDescriptor {
@@ -3656,6 +4083,9 @@ pub static LINUX_CHROME_LOGIN_LINUX: ArtifactDescriptor = ArtifactDescriptor {
               GNOME Keyring or plaintext depending on configuration.",
     mitre_techniques: &["T1555.003"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
 };
 
 pub static LINUX_FIREFOX_LOGINS_LINUX: ArtifactDescriptor = ArtifactDescriptor {
@@ -3673,6 +4103,9 @@ pub static LINUX_FIREFOX_LOGINS_LINUX: ArtifactDescriptor = ArtifactDescriptor {
               can be decrypted with master password or via memory forensics of the Firefox process.",
     mitre_techniques: &["T1555.003"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
 };
 
 pub static LINUX_UTMP: ArtifactDescriptor = ArtifactDescriptor {
@@ -3690,6 +4123,9 @@ pub static LINUX_UTMP: ArtifactDescriptor = ArtifactDescriptor {
               to detect sessions not present in persistent logs (anti-forensics via utmp wiper).",
     mitre_techniques: &["T1078"],
     fields: LOG_LINE_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 pub static LINUX_GCP_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
@@ -3707,6 +4143,9 @@ pub static LINUX_GCP_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
               exfiltration enables cloud resource takeover without password.",
     mitre_techniques: &["T1552.001"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 pub static LINUX_AZURE_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
@@ -3724,6 +4163,9 @@ pub static LINUX_AZURE_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
               msal_token_cache.json contains active OAuth tokens enabling lateral movement in Azure.",
     mitre_techniques: &["T1552.001"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 pub static LINUX_KUBE_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3741,6 +4183,9 @@ pub static LINUX_KUBE_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
               and cluster API endpoints; enables full cluster takeover if exfiltrated.",
     mitre_techniques: &["T1552.001"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 pub static LINUX_GIT_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
@@ -3758,6 +4203,9 @@ pub static LINUX_GIT_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
               personal access tokens here can access source repositories and CI/CD pipelines.",
     mitre_techniques: &["T1552.001"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 pub static LINUX_NETRC: ArtifactDescriptor = ArtifactDescriptor {
@@ -3775,6 +4223,9 @@ pub static LINUX_NETRC: ArtifactDescriptor = ArtifactDescriptor {
               hostname/login/password triplets, often forgotten and highly sensitive.",
     mitre_techniques: &["T1552.001"],
     fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── Batch G — LinuxPersist-sourced persistence artifacts ─────────────────────
@@ -3796,6 +4247,9 @@ pub static LINUX_ETC_ENVIRONMENT: ArtifactDescriptor = ArtifactDescriptor {
               to redirect binary execution system-wide without modifying shell configuration files.",
     mitre_techniques: &["T1546.004"],
     fields: PERSIST_CMD_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 pub static LINUX_XDG_AUTOSTART_USER: ArtifactDescriptor = ArtifactDescriptor {
@@ -3814,6 +4268,9 @@ pub static LINUX_XDG_AUTOSTART_USER: ArtifactDescriptor = ArtifactDescriptor {
               root privileges — frequently overlooked by server-focused forensic checklists.",
     mitre_techniques: &["T1547.014"],
     fields: PERSIST_CMD_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 pub static LINUX_XDG_AUTOSTART_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
@@ -3831,6 +4288,9 @@ pub static LINUX_XDG_AUTOSTART_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
               start. Provides privileged persistence targeting all GUI logins on a workstation.",
     mitre_techniques: &["T1547.014"],
     fields: PERSIST_CMD_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 pub static LINUX_NETWORKMANAGER_DISPATCHER: ArtifactDescriptor = ArtifactDescriptor {
@@ -3849,6 +4309,9 @@ pub static LINUX_NETWORKMANAGER_DISPATCHER: ArtifactDescriptor = ArtifactDescrip
               WiFi association, or interface cycling, making detection harder than at-boot persistence.",
     mitre_techniques: &["T1547.013"],
     fields: PERSIST_CMD_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 pub static LINUX_APT_HOOKS: ArtifactDescriptor = ArtifactDescriptor {
@@ -3867,6 +4330,9 @@ pub static LINUX_APT_HOOKS: ArtifactDescriptor = ArtifactDescriptor {
               every package install or update — long-lived trigger-based privilege persistence.",
     mitre_techniques: &["T1546.004"],
     fields: PERSIST_CMD_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
 };
 
 // ── Batch H — Jump List / LNK / Prefetch / SRUM tables / EVTX channels ──────
@@ -3887,6 +4353,9 @@ pub static JUMP_LIST_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
               a DestList stream (AppID → target MRU) plus embedded LNK blocks.",
     mitre_techniques: &["T1547.009", "T1070.004"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["jump_list_auto", "jump_list_custom"],
 };
 
 pub static LNK_FILES_OFFICE: ArtifactDescriptor = ArtifactDescriptor {
@@ -3905,6 +4374,9 @@ pub static LNK_FILES_OFFICE: ArtifactDescriptor = ArtifactDescriptor {
               Reveals document access including network shares and USB paths.",
     mitre_techniques: &["T1547.009", "T1070.004"],
     fields: DIR_ENTRY_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["lnk_files", "mru_recent_docs"],
 };
 
 static PREFETCH_FIELDS: &[FieldSchema] = &[
@@ -3934,6 +4406,9 @@ pub static PREFETCH_FILE: ArtifactDescriptor = ArtifactDescriptor {
               Versions: v17 (XP), v23 (Vista/7), v26 (Win8), v30/v31 (Win10+).",
     mitre_techniques: &["T1059", "T1070.004"],
     fields: PREFETCH_FIELDS,
+    retention: Some("128 entries; oldest evicted"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["shimcache", "amcache_app_file", "evtx_security", "srum_app_resource"],
 };
 
 static SRUM_NET_FIELDS: &[FieldSchema] = &[
@@ -3961,6 +4436,9 @@ pub static SRUM_NETWORK_USAGE: ArtifactDescriptor = ArtifactDescriptor {
               even after log deletion; correlate AppId + UserId + BytesSent for exfil attribution.",
     mitre_techniques: &["T1049", "T1048"],
     fields: SRUM_NET_FIELDS,
+    retention: Some("~30 days"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["evtx_security", "srum_app_resource", "prefetch_file"],
 };
 
 static SRUM_APP_FIELDS: &[FieldSchema] = &[
@@ -3989,6 +4467,9 @@ pub static SRUM_APP_RESOURCE: ArtifactDescriptor = ArtifactDescriptor {
               or Event Log entries — CPU cycles are non-zero only if the process actually ran.",
     mitre_techniques: &["T1059", "T1070.004"],
     fields: SRUM_APP_FIELDS,
+    retention: Some("~30 days"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["srum_network_usage", "prefetch_file", "evtx_security"],
 };
 
 static SRUM_ENERGY_FIELDS: &[FieldSchema] = &[
@@ -4016,6 +4497,9 @@ pub static SRUM_ENERGY_USAGE: ArtifactDescriptor = ArtifactDescriptor {
               and correlates app activity with physical device presence.",
     mitre_techniques: &["T1059"],
     fields: SRUM_ENERGY_FIELDS,
+    retention: Some("~30 days"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 static SRUM_PUSH_FIELDS: &[FieldSchema] = &[
@@ -4042,6 +4526,9 @@ pub static SRUM_PUSH_NOTIFICATION: ArtifactDescriptor = ArtifactDescriptor {
               malicious UWP/PWA apps and confirms app network activity.",
     mitre_techniques: &["T1059"],
     fields: SRUM_PUSH_FIELDS,
+    retention: Some("~30 days"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
 };
 
 static EVTX_FIELDS: &[FieldSchema] = &[
@@ -4070,6 +4557,9 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
               1102 (audit log cleared — high-priority anti-forensics indicator).",
     mitre_techniques: &["T1070.001", "T1059", "T1078"],
     fields: EVTX_FIELDS,
+    retention: Some("configurable; default ~20MB rolling per channel"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["srum_network_usage", "srum_app_resource", "prefetch_file", "shimcache"],
 };
 
 pub static EVTX_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
@@ -4089,6 +4579,9 @@ pub static EVTX_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
               lateral-movement and persistence indicator.",
     mitre_techniques: &["T1543.003", "T1070.001"],
     fields: EVTX_FIELDS,
+    retention: Some("configurable; default ~20MB rolling per channel"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["evtx_security", "scheduled_tasks_dir", "services_imagepath"],
 };
 
 pub static EVTX_POWERSHELL: ArtifactDescriptor = ArtifactDescriptor {
@@ -4108,6 +4601,9 @@ pub static EVTX_POWERSHELL: ArtifactDescriptor = ArtifactDescriptor {
               highest-fidelity PS forensic source when enabled.",
     mitre_techniques: &["T1059.001", "T1027"],
     fields: EVTX_FIELDS,
+    retention: Some("configurable; default ~20MB rolling per channel"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["evtx_security", "powershell_history", "powershell_profile_all"],
 };
 
 pub static EVTX_SYSMON: ArtifactDescriptor = ArtifactDescriptor {
@@ -4127,6 +4623,9 @@ pub static EVTX_SYSMON: ArtifactDescriptor = ArtifactDescriptor {
               Gold standard for EDR-quality forensics without commercial tooling.",
     mitre_techniques: &["T1059", "T1055", "T1003.001"],
     fields: EVTX_FIELDS,
+    retention: Some("configurable; default ~20MB rolling per channel"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["evtx_security", "prefetch_file", "srum_app_resource"],
 };
 
 // ── Global catalog ───────────────────────────────────────────────────────────
@@ -4643,6 +5142,9 @@ mod tests {
             meaning: "test",
             mitre_techniques: &[],
             fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::Low,
+            related_artifacts: &[],
         };
         let raw = 42u32.to_le_bytes();
         let rec = CATALOG.decode(&DWORD_DESC, "val", &raw).unwrap();
@@ -4665,6 +5167,9 @@ mod tests {
             meaning: "test",
             mitre_techniques: &[],
             fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::Low,
+            related_artifacts: &[],
         };
         let err = CATALOG.decode(&DWORD_DESC, "v", &[1, 2]).unwrap_err();
         assert_eq!(
@@ -4694,6 +5199,9 @@ mod tests {
             meaning: "test",
             mitre_techniques: &[],
             fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::Low,
+            related_artifacts: &[],
         };
         // "Hi" in UTF-16LE + NUL terminator
         let raw: &[u8] = &[0x48, 0x00, 0x69, 0x00, 0x00, 0x00];
@@ -4720,6 +5228,9 @@ mod tests {
             meaning: "test",
             mitre_techniques: &[],
             fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::Low,
+            related_artifacts: &[],
         };
         let err = CATALOG.decode(&UTF16_DESC, "", &[0x48, 0x00, 0x69]).unwrap_err();
         assert_eq!(err, DecodeError::InvalidUtf16);
@@ -4743,6 +5254,9 @@ mod tests {
             meaning: "test",
             mitre_techniques: &[],
             fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::Low,
+            related_artifacts: &[],
         };
         // "AB\0CD\0\0" in UTF-16LE
         let raw: &[u8] = &[
@@ -4781,6 +5295,9 @@ mod tests {
             meaning: "test",
             mitre_techniques: &[],
             fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::Low,
+            related_artifacts: &[],
         };
         let rec = CATALOG.decode(&MSZ_DESC, "", &[]).unwrap();
         assert_eq!(
@@ -4807,6 +5324,9 @@ mod tests {
             meaning: "test",
             mitre_techniques: &[],
             fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::Low,
+            related_artifacts: &[],
         };
         // [2, 0, 1, 0xFFFFFFFF]
         let mut raw = Vec::new();
@@ -4844,6 +5364,9 @@ mod tests {
             meaning: "test",
             mitre_techniques: &[],
             fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::Low,
+            related_artifacts: &[],
         };
         let rec = CATALOG.decode(&MRU_DESC, "", &[]).unwrap();
         assert_eq!(
@@ -4870,6 +5393,9 @@ mod tests {
             meaning: "test",
             mitre_techniques: &[],
             fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::Low,
+            related_artifacts: &[],
         };
         let ft: u64 = 116_444_736_000_000_000; // Unix epoch
         let raw = ft.to_le_bytes();
@@ -4900,6 +5426,9 @@ mod tests {
             meaning: "test",
             mitre_techniques: &[],
             fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::Low,
+            related_artifacts: &[],
         };
         let err = CATALOG.decode(&FT_DESC, "", &[0; 8]).unwrap_err();
         assert_eq!(
@@ -5014,6 +5543,9 @@ mod tests {
             meaning: "test",
             mitre_techniques: &[],
             fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::Low,
+            related_artifacts: &[],
         };
         let raw = 99u32.to_le_bytes();
         let rec = CATALOG.decode(&DESC, "", &raw).unwrap();
@@ -5042,6 +5574,9 @@ mod tests {
             meaning: "test",
             mitre_techniques: &[],
             fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::Low,
+            related_artifacts: &[],
         };
         let raw = [0xDE, 0xAD, 0xBE, 0xEF];
         let rec = CATALOG.decode(&DESC, "", &raw).unwrap();
