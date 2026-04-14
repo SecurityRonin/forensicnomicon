@@ -952,7 +952,9 @@ pub static RUN_KEY_HKCU_RUN: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::User,
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
-    meaning: "Per-user autostart entry executed at every logon",
+    meaning: "Per-user autostart programs executed at every logon without elevation. \
+              Lower-privilege than HKLM Run — writable by the user account itself, \
+              making it a common unprivileged persistence location that survives password resets.",
     mitre_techniques: &["T1547.001"],
     fields: RUN_KEY_FIELDS,
 };
