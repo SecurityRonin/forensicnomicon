@@ -1,12 +1,18 @@
 /// Registry paths that indicate presence of VeraCrypt encryption tool.
 ///
 /// Sources:
-/// - Elcomsoft — VeraCrypt forensic analysis:
-///   <https://blog.elcomsoft.com/2020/03/breaking-veracrypt-obtaining-and-extracting-on-the-fly-encryption-keys/>
-/// - Belkasoft — VeraCrypt artefacts in Windows registry:
+/// - Elcomsoft — "Breaking VeraCrypt: Obtaining and Extracting On-The-Fly
+///   Encryption Keys" (Jun 2021), covers OTFE key extraction from RAM and
+///   hibernation files:
+///   <https://blog.elcomsoft.com/2021/06/breaking-veracrypt-obtaining-and-extracting-on-the-fly-encryption-keys/>
+/// - Elcomsoft — "Live System Analysis: Discovering Encrypted Disk Volumes"
+///   (Jul 2020), covers VeraCrypt OTFE keys in hibernation/page files:
+///   <https://blog.elcomsoft.com/2020/07/live-system-analysis-discovering-encrypted-disk-volumes/>
+/// - Belkasoft — VeraCrypt forensic artifacts in the Windows registry:
 ///   <https://belkasoft.com/veracrypt-forensics>
-/// - VeraCrypt documentation — Windows registry keys:
-///   <https://veracrypt.fr/en/Documentation.html>
+/// - SANS white paper — "Mission Implausible: Defeating Plausible Deniability
+///   with Digital Forensics" (VeraCrypt nested volumes and deniable OS):
+///   <https://www.sans.org/white-papers/39500>
 pub const VERACRYPT_PATHS: &[&str] = &[
     r"SOFTWARE\VeraCrypt",
     r"SOFTWARE\Wow6432Node\VeraCrypt",
@@ -17,10 +23,14 @@ pub const VERACRYPT_PATHS: &[&str] = &[
 /// BitLocker-related registry evidence.
 ///
 /// Sources:
-/// - Microsoft — BitLocker registry settings reference:
+/// - Microsoft — BitLocker Group Policy settings registry reference
+///   (HKLM\SOFTWARE\Policies\Microsoft\FVE):
 ///   <https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/bitlocker-group-policy-settings>
-/// - SANS DFIR — BitLocker forensics and key recovery:
-///   <https://www.sans.org/blog/windows-full-disk-encryption-fde-forensics/>
+/// - Harlan Carvey — "Drive Encryption" (Apr 2007), WMI-based BitLocker detection
+///   and live acquisition as the recommended response to active encryption:
+///   <http://windowsir.blogspot.com/2007/04/drive-encryption.html>
+/// - Geoff Chappell — deep technical reference for every FVE registry value:
+///   <https://www.geoffchappell.com/studies/windows/win32/fveapi/policy/index.htm>
 pub const BITLOCKER_PATHS: &[&str] = &[
     r"SOFTWARE\Policies\Microsoft\FVE",
     r"SYSTEM\CurrentControlSet\Control\BitLockerStatus",
@@ -31,10 +41,11 @@ pub const BITLOCKER_PATHS: &[&str] = &[
 /// EFS (Encrypting File System) policy paths.
 ///
 /// Sources:
-/// - Microsoft — EFS registry configuration:
+/// - SANS white paper — "A Forensic Analysis of the Encrypting File System" (Feb 2021),
+///   covers EFS registry keys, DDF/DRF fields, ransomware abuse of EFS:
+///   <https://www.sans.org/white-papers/40160>
+/// - Microsoft — Windows EFS developer reference:
 ///   <https://learn.microsoft.com/en-us/windows/win32/fileio/file-encryption>
-/// - SANS — EFS forensic artifacts:
-///   <https://www.sans.org/blog/protecting-sensitive-files-with-efs/>
 pub const EFS_PATHS: &[&str] = &[
     r"SOFTWARE\Policies\Microsoft\Windows\System",
     r"SOFTWARE\Microsoft\Windows NT\CurrentVersion\EFS",
@@ -44,8 +55,9 @@ pub const EFS_PATHS: &[&str] = &[
 /// 7-Zip MRU and settings paths.
 ///
 /// Sources:
-/// - Harlan Carvey, "Windows Registry Forensics" — archiver MRU chapter
-/// - SANS FOR500 — Windows forensics: archiver registry artifacts
+/// - Harlan Carvey, *Windows Registry Forensics* (2nd ed., Syngress/Elsevier, 2016)
+///   ISBN 978-0-12-803291-6 — archiver MRU chapter:
+///   <https://shop.elsevier.com/books/windows-registry-forensics/carvey/978-0-12-803291-6>
 pub const SEVENZIP_PATHS: &[&str] = &[
     r"SOFTWARE\7-Zip",
     r"SOFTWARE\Wow6432Node\7-Zip",
@@ -55,8 +67,9 @@ pub const SEVENZIP_PATHS: &[&str] = &[
 /// WinRAR MRU paths (archive access evidence).
 ///
 /// Sources:
-/// - Harlan Carvey, "Windows Registry Forensics" — archiver MRU chapter
-/// - SANS FOR500 — Windows forensics: WinRAR registry artifacts
+/// - Harlan Carvey, *Windows Registry Forensics* (2nd ed., Syngress/Elsevier, 2016)
+///   ISBN 978-0-12-803291-6 — archiver MRU chapter:
+///   <https://shop.elsevier.com/books/windows-registry-forensics/carvey/978-0-12-803291-6>
 pub const WINRAR_PATHS: &[&str] = &[
     r"SOFTWARE\WinRAR",
     r"SOFTWARE\WinRAR SFX",
@@ -66,15 +79,19 @@ pub const WINRAR_PATHS: &[&str] = &[
 /// Tor Browser / Tor Project registry paths.
 ///
 /// Sources:
+/// - SANS white paper #37642 — "Tor Browser Artifacts in Windows 10" (Feb 2017),
+///   primary DFIR reference for Tor Browser Windows registry artifacts:
+///   <https://www.sans.org/white-papers/37642>
+/// - MDPI 2024 (open access) — "Analyzing Tor Browser Artifacts for Enhanced Web
+///   Forensics" (documents PowerShell checking for SOFTWARE\Tor Project):
+///   <https://www.mdpi.com/2078-2489/15/8/495>
 /// - Tor Project — Windows installation documentation:
 ///   <https://tb-manual.torproject.org/installation/>
-/// - SANS — Tor Browser forensic artefacts:
-///   <https://www.sans.org/blog/tor-browser-forensics/>
 pub const TOR_PATHS: &[&str] = &[r"SOFTWARE\Tor Project", r"SOFTWARE\Wow6432Node\Tor Project"];
 
 /// Returns an iterator over all encryption tool indicator paths.
 ///
-/// Prefer this over the legacy `ALL_ENCRYPTION_PATHS` slice for bulk scanning —
+/// Prefer this over any duplicated flat slice for bulk scanning —
 /// zero allocation, no data duplication.
 pub fn all_encryption_paths() -> impl Iterator<Item = &'static str> {
     VERACRYPT_PATHS
@@ -115,10 +132,7 @@ mod tests {
 
     #[test]
     fn all_encryption_paths_includes_tor() {
-        assert!(
-            all_encryption_paths().any(|p| p == r"SOFTWARE\Tor Project"),
-            "all_encryption_paths() must include Tor Project"
-        );
+        assert!(all_encryption_paths().any(|p| p == r"SOFTWARE\Tor Project"));
     }
 
     #[test]
@@ -141,25 +155,16 @@ mod tests {
 
     #[test]
     fn is_encryption_tool_path_veracrypt_matches() {
-        assert!(
-            is_encryption_tool_path(r"SOFTWARE\VeraCrypt\MRUList"),
-            "VeraCrypt path must match"
-        );
+        assert!(is_encryption_tool_path(r"SOFTWARE\VeraCrypt\MRUList"));
     }
 
     #[test]
     fn is_encryption_tool_path_case_insensitive() {
-        assert!(
-            is_encryption_tool_path(r"software\veracrypt"),
-            "Match must be case-insensitive"
-        );
+        assert!(is_encryption_tool_path(r"software\veracrypt"));
     }
 
     #[test]
     fn is_encryption_tool_path_unrelated_returns_false() {
-        assert!(
-            !is_encryption_tool_path(r"SOFTWARE\Microsoft\Office"),
-            "Unrelated path must not match"
-        );
+        assert!(!is_encryption_tool_path(r"SOFTWARE\Microsoft\Office"));
     }
 }

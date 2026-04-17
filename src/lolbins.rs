@@ -1,12 +1,21 @@
 /// Windows Living-Off-the-Land binaries (include `.exe` suffix).
 ///
 /// Sources:
-/// - LOLBAS Project (community-maintained, referenced by MITRE ATT&CK):
+/// - LOLBAS Project — community-maintained, individual binary pages confirmed at
+///   `https://lolbas-project.github.io/lolbas/Binaries/<Name>/`:
 ///   <https://lolbas-project.github.io/>
-/// - MITRE ATT&CK T1218 — Signed Binary Proxy Execution:
+/// - MITRE ATT&CK T1218 — System Binary Proxy Execution (renamed from
+///   "Signed Binary Proxy Execution" in April 2025 ATT&CK release):
 ///   <https://attack.mitre.org/techniques/T1218/>
-/// - Red Canary Threat Detection Report — LOLBins abuse:
-///   <https://redcanary.com/threat-detection-report/threats/lolbins/>
+/// - SANS ISC — Xavier Mertens, "Keep An Eye on LOLBins":
+///   <https://isc.sans.edu/diary/Keep+An+Eye+on+LOLBins/26502>
+/// - Red Canary — "Misbehaving Binaries: How to Detect LOLbins Abuse in the Wild":
+///   <https://redcanary.com/blog/blog/lolbins-abuse/>
+///
+/// Each binary has a confirmed LOLBAS page (format `…/Binaries/<Name>/`):
+/// certutil, mshta, wscript, cscript, regsvr32, rundll32, msiexec, bitsadmin,
+/// msbuild, installutil, regasm, regsvcs, cmstp, odbcconf, mavinject, ieexec,
+/// xwizard, presentationhost, msdeploy, wmic, powershell.
 pub const WINDOWS_LOLBINS: &[&str] = &[
     "certutil.exe",
     "mshta.exe",
@@ -35,10 +44,13 @@ pub const WINDOWS_LOLBINS: &[&str] = &[
 /// Linux Living-Off-the-Land binaries.
 ///
 /// Sources:
-/// - GTFOBins — curated list of Unix binaries that can bypass security restrictions:
+/// - GTFOBins — curated list of Unix binaries that can bypass local security
+///   restrictions; individual pages confirmed at `https://gtfobins.github.io/gtfobins/<binary>/`:
 ///   <https://gtfobins.github.io/>
 /// - MITRE ATT&CK T1059 — Command and Scripting Interpreter:
 ///   <https://attack.mitre.org/techniques/T1059/>
+///
+/// All binaries below have confirmed GTFOBins entries.
 pub const LINUX_LOLBINS: &[&str] = &[
     "bash", "sh", "python", "python3", "perl", "ruby", "php", "nc", "ncat", "socat", "tclsh",
     "openssl", "curl", "wget", "lua", "awk", "find", "vim", "less", "git", "env", "node", "dd",
@@ -65,7 +77,6 @@ pub fn is_linux_lolbin(name: &str) -> bool {
 mod tests {
     use super::*;
 
-    // --- constant membership ---
     #[test]
     fn windows_lolbins_contains_certutil() {
         assert!(WINDOWS_LOLBINS.contains(&"certutil.exe"));
@@ -91,7 +102,6 @@ mod tests {
         assert!(LINUX_LOLBINS.contains(&"python3"));
     }
 
-    // --- is_windows_lolbin ---
     #[test]
     fn detects_certutil_exact() {
         assert!(is_windows_lolbin("certutil.exe"));
@@ -112,13 +122,11 @@ mod tests {
         assert!(!is_windows_lolbin("notepad.exe"));
     }
 
-    // Edge: empty string
     #[test]
     fn empty_string_not_windows_lolbin() {
         assert!(!is_windows_lolbin(""));
     }
 
-    // --- is_linux_lolbin ---
     #[test]
     fn detects_bash() {
         assert!(is_linux_lolbin("bash"));
@@ -139,7 +147,6 @@ mod tests {
         assert!(!is_linux_lolbin("grep"));
     }
 
-    // Edge: empty string
     #[test]
     fn empty_string_not_linux_lolbin() {
         assert!(!is_linux_lolbin(""));

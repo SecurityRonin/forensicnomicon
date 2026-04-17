@@ -5,8 +5,10 @@
 ///   <https://attack.mitre.org/techniques/T1070/001/>
 /// - MITRE ATT&CK T1070.002 — Indicator Removal: Clear Linux or Mac System Logs:
 ///   <https://attack.mitre.org/techniques/T1070/002/>
-/// - Red Canary — event log clearing detection:
-///   <https://redcanary.com/blog/threat-intelligence/windows-event-log/>
+/// - Harlan Carvey — "Timestomping Registry Keys" (Apr 2022), covers clearing
+///   Windows Event Logs as a parallel anti-forensic technique alongside registry
+///   key timestamp manipulation:
+///   <http://windowsir.blogspot.com/2022/04/timestomping-registry-keys.html>
 pub const LOG_WIPE_COMMANDS: &[&str] = &[
     "wevtutil cl",
     "wevtutil cl System",
@@ -26,12 +28,17 @@ pub const LOG_WIPE_COMMANDS: &[&str] = &[
 /// Well-known Linux rootkit names.
 ///
 /// Sources:
-/// - Sandfly Security — Linux rootkit detection research:
-///   <https://sandflysecurity.com/blog/bpfdoor-an-evasive-linux-backdoor-technical-analysis/>
-/// - Sysdig — Linux rootkit indicators:
-///   <https://sysdig.com/blog/rootkit-detection-linux/>
-/// - Elastic Security — Linux kernel rootkit research:
-///   <https://www.elastic.co/security-labs/a-peek-behind-the-bpfdoor>
+/// - Elastic Security Labs — "Hooked on Linux: Rootkit Taxonomy, Hooking Techniques
+///   and Tradecraft" (Part 1 and Part 2, 2025), covers Jynx, Azazel, Diamorphine,
+///   Reptile, PUMAKIT, and eBPF rootkits with full technical analysis:
+///   <https://www.elastic.co/security-labs/linux-rootkits-1-hooked-on-linux>
+///   <https://www.elastic.co/security-labs/linux-rootkits-2-caught-in-the-act>
+/// - Sandfly Security — "De-Cloaking Linux Stealth Malware and Rootkits: sedexp,
+///   Diamorphine, and Reptile" (Oct 2024), live demonstration of de-cloaking:
+///   <https://sandflysecurity.com/blog/de-cloaking-linux-stealth-malware-and-rootkits-sedexp-diamorphine-and-reptile>
+/// - Sandfly Security — "De-Cloaking Linux Stealth Rootkits" (v1.4, ~2019),
+///   covers EnyeLKM as originator of tag-based file-hiding, Reptile as a descendant:
+///   <https://www.sandflysecurity.com/blog/de-cloaking-linux-stealth-rootkits-whitelisting-and-ui-updates-sandfly-1-4-released/>
 pub const KNOWN_ROOTKIT_NAMES: &[&str] = &[
     "reptile",
     "diamorphine",
@@ -54,8 +61,15 @@ pub const KNOWN_ROOTKIT_NAMES: &[&str] = &[
 /// Sources:
 /// - MITRE ATT&CK T1070.006 — Indicator Removal: Timestomp:
 ///   <https://attack.mitre.org/techniques/T1070/006/>
-/// - Harlan Carvey, "Windows Registry Forensics" — timestamp artifacts chapter
-/// - SANS FOR508 — $STANDARD_INFORMATION vs $FILE_NAME timestamp discrepancy analysis
+/// - Harlan Carvey — "Investigating Time Stomping" (Oct 2023), covers
+///   $STANDARD_INFORMATION vs $FILE_NAME discrepancy and Cobalt Strike's
+///   technique of copying timestamps from calc.exe:
+///   <http://windowsir.blogspot.com/2023/10/investigating-time-stomping.html>
+/// - SANS white paper — "Breaking Time: Methods, Artifacts, and Forensic Detection
+///   of Timestomping on FAT32, Ext3, and Ext4 File Systems" (Oct 2025):
+///   <https://www.sans.org/white-papers/breaking-time-methods-artifacts-forensic-detection-timestomping-fat32-ext3-ext4-file-systems>
+/// - Elastic Security — prebuilt detection rule for `touch` with timestamp flags:
+///   <https://www.elastic.co/docs/reference/security/prebuilt-rules/rules/cross-platform/defense_evasion_timestomp_touch>
 pub const TIMESTOMP_INDICATORS: &[&str] = &[
     "timestomp",
     "touch -t",
@@ -93,7 +107,6 @@ pub fn is_timestomp_indicator(s: &str) -> bool {
 mod tests {
     use super::*;
 
-    // --- constant membership ---
     #[test]
     fn log_wipe_contains_wevtutil_cl() {
         assert!(LOG_WIPE_COMMANDS.contains(&"wevtutil cl"));
@@ -129,7 +142,6 @@ mod tests {
         assert!(TIMESTOMP_INDICATORS.contains(&"touch -t"));
     }
 
-    // --- is_log_wipe_command ---
     #[test]
     fn detects_wevtutil_cl_system() {
         assert!(is_log_wipe_command("wevtutil cl System"));
@@ -162,13 +174,11 @@ mod tests {
         ));
     }
 
-    // Edge: empty
     #[test]
     fn empty_string_not_log_wipe() {
         assert!(!is_log_wipe_command(""));
     }
 
-    // --- is_known_rootkit ---
     #[test]
     fn detects_reptile_exact() {
         assert!(is_known_rootkit("reptile"));
@@ -189,13 +199,11 @@ mod tests {
         assert!(!is_known_rootkit("ext4"));
     }
 
-    // Edge: empty
     #[test]
     fn empty_string_not_rootkit() {
         assert!(!is_known_rootkit(""));
     }
 
-    // --- is_timestomp_indicator ---
     #[test]
     fn detects_timestomp_tool() {
         assert!(is_timestomp_indicator(
@@ -218,7 +226,6 @@ mod tests {
         assert!(!is_timestomp_indicator("touch newfile.txt"));
     }
 
-    // Edge: empty
     #[test]
     fn empty_string_not_timestomp() {
         assert!(!is_timestomp_indicator(""));

@@ -3,13 +3,17 @@
 /// Sources:
 /// - SANS Internet Storm Center — port threat data:
 ///   <https://isc.sans.edu/port.html>
-/// - Recorded Future — C2 port intelligence:
-///   <https://www.recordedfuture.com/threat-intelligence-101/indicators-of-compromise/c2-servers>
-/// - Cobalt Strike documentation (teamserver port 50050):
-///   <https://www.cobaltstrike.com/blog/cobalt-strike-and-default-configurations>
-/// - Tor Project — relay and directory port assignments:
+/// - Cobalt Strike port 50050 — documented in Raphael Mudge's own blog post,
+///   "Cobalt Strike Team Server Population Study" (Feb 2019):
+///   <https://www.cobaltstrike.com/blog/cobalt-strike-team-server-population-study>
+///   Also documented in the official HelpSystems user guide:
+///   <https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/welcome_starting-cs-client.htm>
+/// - Recorded Future — Insikt Group, "A Multi-Method Approach to Identifying
+///   Rogue Cobalt Strike Servers" (Jun 2019), uses port 50050 as a detection signal:
+///   <https://www.recordedfuture.com/research/cobalt-strike-servers>
+/// - Tor Project — relay (9001) and directory (9030) port assignments:
 ///   <https://support.torproject.org/tbb/tbb-firewall-ports/>
-/// - Microsoft — WinRM port assignments:
+/// - Microsoft — WinRM port assignments (5985 HTTP, 5986 HTTPS, 47001 alt):
 ///   <https://learn.microsoft.com/en-us/windows/win32/winrm/installation-and-configuration-for-windows-remote-management>
 pub const SUSPICIOUS_PORTS: &[u16] = &[
     4444,  // Metasploit default
@@ -23,8 +27,8 @@ pub const SUSPICIOUS_PORTS: &[u16] = &[
     6666,  // IRC / C2
     7777,  // common C2
     8080,  // HTTP proxy / C2 (beyond the HTTP norm)
-    9001,  // Tor relay
-    9030,  // Tor directory
+    9001,  // Tor relay (ORPort)
+    9030,  // Tor directory (DirPort)
     4899,  // Radmin
     5900,  // VNC
     5985,  // WinRM HTTP
@@ -41,7 +45,6 @@ pub fn is_suspicious_port(port: u16) -> bool {
 mod tests {
     use super::*;
 
-    // Positive cases — ports that MUST be flagged
     #[test]
     fn detects_metasploit_default_4444() {
         assert!(
@@ -82,7 +85,6 @@ mod tests {
         );
     }
 
-    // Negative cases — common benign ports
     #[test]
     fn allows_port_80() {
         assert!(
@@ -99,7 +101,6 @@ mod tests {
         );
     }
 
-    // Edge / boundary cases
     #[test]
     fn port_zero_not_suspicious() {
         assert!(!is_suspicious_port(0), "port 0 should not be flagged");
@@ -113,7 +114,6 @@ mod tests {
         );
     }
 
-    // Constant membership checks
     #[test]
     fn suspicious_ports_contains_4444() {
         assert!(SUSPICIOUS_PORTS.contains(&4444));

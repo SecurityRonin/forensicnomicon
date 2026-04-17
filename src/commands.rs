@@ -1,11 +1,13 @@
 /// Substrings indicative of reverse-shell command lines.
 ///
 /// Sources:
-/// - PayloadsAllTheThings — reverse shell cheat sheet (community-maintained):
+/// - PayloadsAllTheThings — reverse shell cheat sheet (all patterns below confirmed present):
 ///   <https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md>
 /// - MITRE ATT&CK T1059 — Command and Scripting Interpreter:
 ///   <https://attack.mitre.org/techniques/T1059/>
-/// - SANS FOR508 — incident response reverse shell indicators
+/// - Red Canary — "How Process Streams Can Help You Detect Linux Threats"
+///   (universal reverse shell detection via `*sh` + socket on stdin/stdout):
+///   <https://redcanary.com/blog/threat-detection/process-streams/>
 pub const REVERSE_SHELL_PATTERNS: &[&str] = &[
     "bash -i",
     "sh -i",
@@ -28,10 +30,18 @@ pub const REVERSE_SHELL_PATTERNS: &[&str] = &[
 /// Sources:
 /// - MITRE ATT&CK T1059.001 — PowerShell:
 ///   <https://attack.mitre.org/techniques/T1059/001/>
-/// - Red Canary — PowerShell abuse patterns:
-///   <https://redcanary.com/threat-detection-report/threats/powershell/>
-/// - FireEye/Mandiant — Invoke-Expression and encoded command abuse
-///   (referenced in: <https://www.mandiant.com/resources/blog/bring-your-own-land-novel-red-teaming-technique>)
+/// - Red Canary — "Encode All the Things! Investigating PowerShell Attacks"
+///   (IEX, .DownloadString, -encodedcommand detection):
+///   <https://redcanary.com/blog/threat-detection/investigating-powershell-attacks/>
+/// - Red Canary Threat Detection Report — PowerShell technique (updated annually,
+///   detection analytics for -nop, -noni, iex, downloadstring, EncodedCommand):
+///   <https://redcanary.com/threat-detection-report/techniques/powershell/>
+/// - Mandiant — Daniel Bohannon & Lee Holmes, "Revoke-Obfuscation: PowerShell
+///   Obfuscation Detection Using Science" (Black Hat USA 2017):
+///   <https://www.mandiant.com/resources/blog/revoke-obfuscation-powershell>
+/// - Mandiant — "Greater Visibility Through PowerShell Logging" (module logging,
+///   Script Block Logging, and transcription as detection sources):
+///   <https://www.mandiant.com/resources/blog/greater-visibility>
 pub const POWERSHELL_ABUSE_PATTERNS: &[&str] = &[
     "IEX",
     "Invoke-Expression",
@@ -52,12 +62,16 @@ pub const POWERSHELL_ABUSE_PATTERNS: &[&str] = &[
 /// Sources:
 /// - MITRE ATT&CK T1105 — Ingress Tool Transfer:
 ///   <https://attack.mitre.org/techniques/T1105/>
-/// - MITRE ATT&CK T1218.003 — CMSTP / certutil abuse:
-///   <https://attack.mitre.org/techniques/T1218/>
-/// - SANS — certutil as a download cradle:
-///   <https://www.sans.org/blog/certutil-qualifications/>
-/// - Red Canary — BITSAdmin transfer abuse:
-///   <https://redcanary.com/threat-detection-report/threats/bitsadmin/>
+/// - SANS ISC — Xavier Mertens, "A Suspicious Use of certutil.exe" (2018):
+///   <https://isc.sans.edu/diary/A+Suspicious+Use+of+certutil.exe/23517>
+/// - Red Canary Threat Detection Report — Ingress Tool Transfer (certutil,
+///   bitsadmin download abuse):
+///   <https://redcanary.com/threat-detection-report/techniques/ingress-tool-transfer/>
+/// - Cyber Triage — "DFIR Breakdown: Using Certutil To Download Attack Tools"
+///   (CryptnetURLCache as a persistent artifact of certutil downloads):
+///   <https://www.cybertriage.com/blog/dfir-breakdown-using-certutil-to-download-attack-tools/>
+/// - MITRE ATT&CK T1218.005 — System Binary Proxy Execution: Mshta:
+///   <https://attack.mitre.org/techniques/T1218/005/>
 pub const DOWNLOAD_TOOL_PATTERNS: &[&str] = &[
     "certutil -urlcache",
     "certutil -decode",
@@ -98,7 +112,6 @@ pub fn is_download_tool_usage(cmd: &str) -> bool {
 mod tests {
     use super::*;
 
-    // --- constant membership ---
     #[test]
     fn reverse_shell_patterns_contains_bash_i() {
         assert!(REVERSE_SHELL_PATTERNS.contains(&"bash -i"));
@@ -129,7 +142,6 @@ mod tests {
         assert!(DOWNLOAD_TOOL_PATTERNS.contains(&"wget "));
     }
 
-    // --- is_reverse_shell_pattern ---
     #[test]
     fn detects_bash_i_reverse_shell() {
         assert!(is_reverse_shell_pattern(
@@ -159,13 +171,11 @@ mod tests {
         assert!(!is_reverse_shell_pattern("ls -la /tmp"));
     }
 
-    // Edge: empty
     #[test]
     fn empty_string_not_reverse_shell() {
         assert!(!is_reverse_shell_pattern(""));
     }
 
-    // --- is_powershell_abuse ---
     #[test]
     fn detects_iex_downloadstring() {
         assert!(is_powershell_abuse(
@@ -190,13 +200,11 @@ mod tests {
         assert!(!is_powershell_abuse("Get-Process"));
     }
 
-    // Edge: empty
     #[test]
     fn empty_string_not_powershell_abuse() {
         assert!(!is_powershell_abuse(""));
     }
 
-    // --- is_download_tool_usage ---
     #[test]
     fn detects_certutil_urlcache() {
         assert!(is_download_tool_usage(
@@ -221,7 +229,6 @@ mod tests {
         assert!(!is_download_tool_usage("dir C:\\Windows\\System32"));
     }
 
-    // Edge: empty
     #[test]
     fn empty_string_not_download_tool() {
         assert!(!is_download_tool_usage(""));

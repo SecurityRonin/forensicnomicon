@@ -1,11 +1,18 @@
 /// Windows registry autorun keys used for persistence.
 ///
 /// Sources:
-/// - Harlan Carvey, "Windows Registry Forensics" (2nd ed.) — Run key chapter:
-///   <https://www.elsevier.com/books/windows-registry-forensics/carvey/978-0-12-803291-9>
+/// - Harlan Carvey, *Windows Registry Forensics* (2nd ed., Syngress/Elsevier, 2016)
+///   ISBN 978-0-12-803291-6:
+///   <https://shop.elsevier.com/books/windows-registry-forensics/carvey/978-0-12-803291-6>
+/// - Harlan Carvey — "HowTo: Detecting Persistence Mechanisms" (Jul 2013),
+///   Run/RunOnce as the most-used persistence path:
+///   <http://windowsir.blogspot.com/2013/07/howto-detecting-persistence-mechanisms.html>
+/// - Harlan Carvey — "Reasons to Go Looking in the Registry" (Dec 2021),
+///   Run key dominance (51% of registry paths on popular AV sites):
+///   <http://windowsir.blogspot.com/2021/12/reasons-to-go-looking-in-registry.html>
 /// - MITRE ATT&CK T1547.001 — Registry Run Keys / Startup Folder:
 ///   <https://attack.mitre.org/techniques/T1547/001/>
-/// - Sysinternals Autoruns — canonical Windows autostart locations:
+/// - Sysinternals Autoruns — canonical Windows autostart location reference:
 ///   <https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns>
 pub const WINDOWS_RUN_KEYS: &[&str] = &[
     r"Software\Microsoft\Windows\CurrentVersion\Run",
@@ -25,9 +32,13 @@ pub const WINDOWS_RUN_KEYS: &[&str] = &[
 /// Sources:
 /// - MITRE ATT&CK T1053.003 — Cron:
 ///   <https://attack.mitre.org/techniques/T1053/003/>
-/// - MITRE ATT&CK T1574.006 — Dynamic Linker Hijacking (/etc/ld.so.preload):
+/// - MITRE ATT&CK T1574.006 — Hijack Execution Flow: Dynamic Linker Hijacking
+///   (/etc/ld.so.preload):
 ///   <https://attack.mitre.org/techniques/T1574/006/>
-/// - pberba.github.io — Persistence in Linux series (comprehensive survey):
+/// - Elastic Security Labs — "Linux Detection Engineering — A Continuation on
+///   Persistence Mechanisms" (27 Jan 2025), covering LD_PRELOAD and /etc/ld.so.preload:
+///   <https://www.elastic.co/security-labs/continuation-on-persistence-mechanisms>
+/// - pberba.github.io — "Linux Threat Hunting for Persistence" series (Nov 2021):
 ///   <https://pberba.github.io/security/2021/11/22/linux-threat-hunting-for-persistence-sysmon-auditd-osquery/>
 pub const LINUX_PERSISTENCE_PATHS: &[&str] = &[
     "/etc/cron.d",
@@ -53,10 +64,10 @@ pub const LINUX_PERSISTENCE_PATHS: &[&str] = &[
 /// macOS filesystem paths associated with persistence mechanisms.
 ///
 /// Sources:
-/// - MITRE ATT&CK T1543.004 — Launch Daemon:
-///   <https://attack.mitre.org/techniques/T1543/004/>
 /// - MITRE ATT&CK T1543.001 — Launch Agent:
 ///   <https://attack.mitre.org/techniques/T1543/001/>
+/// - MITRE ATT&CK T1543.004 — Launch Daemon:
+///   <https://attack.mitre.org/techniques/T1543/004/>
 /// - Howard Oakley / The Eclectic Light Company — LaunchAgent/Daemon forensics:
 ///   <https://eclecticlight.co/2021/09/16/launch-agents-and-daemons-in-big-sur/>
 pub const MACOS_PERSISTENCE_PATHS: &[&str] = &[
@@ -76,7 +87,8 @@ pub const MACOS_PERSISTENCE_PATHS: &[&str] = &[
 /// Sources:
 /// - MITRE ATT&CK T1546.012 — Image File Execution Options Injection:
 ///   <https://attack.mitre.org/techniques/T1546/012/>
-/// - Harlan Carvey, "Windows Registry Forensics" — IFEO chapter
+/// - Harlan Carvey, *Windows Registry Forensics* (2nd ed., 2016):
+///   <https://shop.elsevier.com/books/windows-registry-forensics/carvey/978-0-12-803291-6>
 pub const IFEO_PATHS: &[&str] =
     &[r"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options"];
 
@@ -85,7 +97,8 @@ pub const IFEO_PATHS: &[&str] =
 /// Sources:
 /// - MITRE ATT&CK T1546.010 — AppInit DLLs:
 ///   <https://attack.mitre.org/techniques/T1546/010/>
-/// - Microsoft — AppInit_DLLs Registry Value and Windows 8:
+/// - Microsoft — AppInit_DLLs Registry Value and Windows 8 (Secure Boot blocks
+///   AppInit_DLLs unless UEFI Secure Boot is disabled):
 ///   <https://learn.microsoft.com/en-us/windows/win32/dlls/secure-boot-and-appinit-dlls>
 pub const APPINIT_PATHS: &[&str] = &[
     r"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows",
@@ -95,9 +108,9 @@ pub const APPINIT_PATHS: &[&str] = &[
 /// Session Manager BootExecute / KnownDLLs — boot-time execution.
 ///
 /// Sources:
-/// - MITRE ATT&CK T1547.001 — Registry Run Keys / Startup Folder (BootExecute):
+/// - MITRE ATT&CK T1547.001 — Registry Run Keys / Startup Folder (covers BootExecute):
 ///   <https://attack.mitre.org/techniques/T1547/001/>
-/// - Microsoft — Session Manager registry keys:
+/// - Microsoft — Session Manager registry key reference:
 ///   <https://learn.microsoft.com/en-us/windows-hardware/drivers/install/registering-a-boot-start-driver>
 pub const SESSION_MANAGER_PATHS: &[&str] = &[
     r"SYSTEM\CurrentControlSet\Control\Session Manager",
@@ -127,7 +140,8 @@ pub const SCREENSAVER_PATHS: &[&str] = &[r"Control Panel\Desktop"];
 /// Sources:
 /// - MITRE ATT&CK T1547.004 — Winlogon Helper DLL:
 ///   <https://attack.mitre.org/techniques/T1547/004/>
-/// - Harlan Carvey, "Windows Registry Forensics" — Winlogon chapter
+/// - Harlan Carvey, *Windows Registry Forensics* (2nd ed., 2016):
+///   <https://shop.elsevier.com/books/windows-registry-forensics/carvey/978-0-12-803291-6>
 pub const WINLOGON_PATHS: &[&str] = &[
     r"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon",
     r"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify",
@@ -138,8 +152,6 @@ pub const WINLOGON_PATHS: &[&str] = &[
 /// Sources:
 /// - MITRE ATT&CK T1546.015 — Component Object Model Hijacking:
 ///   <https://attack.mitre.org/techniques/T1546/015/>
-/// - SpecterOps — COM hijacking for persistence (Casey Smith, 2016):
-///   <https://www.specterops.io/blog>
 pub const COM_HIJACK_PATHS: &[&str] = &[
     r"SOFTWARE\Classes\CLSID",
     r"SOFTWARE\Classes\WOW6432Node\CLSID",
@@ -175,12 +187,10 @@ pub fn is_suspicious_ifeo_debugger(value: &str) -> bool {
         return false;
     }
     let lower = value.to_ascii_lowercase();
-    // Known benign debuggers
     let benign = ["ntsd", "windbg", "vsjitdebugger.exe"];
     if benign.iter().any(|b| lower.contains(b)) {
         return false;
     }
-    // Suspicious locations
     lower.contains(r"\temp\") || lower.contains(r"\appdata\")
 }
 
@@ -198,56 +208,36 @@ pub fn is_persistence_location(path: &str) -> bool {
 mod tests {
     use super::*;
 
-    // --- constant membership ---
     #[test]
     fn windows_run_keys_contains_run() {
-        assert!(
-            WINDOWS_RUN_KEYS.contains(&r"Software\Microsoft\Windows\CurrentVersion\Run"),
-            "Run key must be present"
-        );
+        assert!(WINDOWS_RUN_KEYS.contains(&r"Software\Microsoft\Windows\CurrentVersion\Run"));
     }
 
     #[test]
     fn windows_run_keys_contains_services() {
-        assert!(
-            WINDOWS_RUN_KEYS.contains(&r"SYSTEM\CurrentControlSet\Services"),
-            "Services key must be present"
-        );
+        assert!(WINDOWS_RUN_KEYS.contains(&r"SYSTEM\CurrentControlSet\Services"));
     }
 
     #[test]
     fn linux_persistence_contains_cron_d() {
-        assert!(
-            LINUX_PERSISTENCE_PATHS.contains(&"/etc/cron.d"),
-            "/etc/cron.d must be present"
-        );
+        assert!(LINUX_PERSISTENCE_PATHS.contains(&"/etc/cron.d"));
     }
 
     #[test]
     fn linux_persistence_contains_ld_so_preload() {
-        assert!(
-            LINUX_PERSISTENCE_PATHS.contains(&"/etc/ld.so.preload"),
-            "/etc/ld.so.preload must be present"
-        );
+        assert!(LINUX_PERSISTENCE_PATHS.contains(&"/etc/ld.so.preload"));
     }
 
     #[test]
     fn macos_persistence_contains_launch_agents() {
-        assert!(
-            MACOS_PERSISTENCE_PATHS.contains(&"/Library/LaunchAgents"),
-            "/Library/LaunchAgents must be present"
-        );
+        assert!(MACOS_PERSISTENCE_PATHS.contains(&"/Library/LaunchAgents"));
     }
 
     #[test]
     fn macos_persistence_contains_launch_daemons() {
-        assert!(
-            MACOS_PERSISTENCE_PATHS.contains(&"/Library/LaunchDaemons"),
-            "/Library/LaunchDaemons must be present"
-        );
+        assert!(MACOS_PERSISTENCE_PATHS.contains(&"/Library/LaunchDaemons"));
     }
 
-    // --- is_persistence_location ---
     #[test]
     fn detects_windows_run_key_path() {
         assert!(is_persistence_location(
@@ -277,13 +267,11 @@ mod tests {
         assert!(!is_persistence_location("/usr/bin/ls"));
     }
 
-    // Edge: empty string
     #[test]
     fn empty_string_not_persistence() {
         assert!(!is_persistence_location(""));
     }
 
-    // --- sub-group constant membership ---
     #[test]
     fn ifeo_paths_contains_ifeo_key() {
         assert!(IFEO_PATHS.contains(
@@ -304,54 +292,40 @@ mod tests {
 
     #[test]
     fn all_windows_persistence_paths_contains_run_keys() {
-        assert!(
-            all_windows_persistence_paths()
-                .any(|p| p == r"Software\Microsoft\Windows\CurrentVersion\Run"),
-            "all_windows_persistence_paths() must include the Run key"
-        );
+        assert!(all_windows_persistence_paths()
+            .any(|p| p == r"Software\Microsoft\Windows\CurrentVersion\Run"));
     }
 
-    // --- is_persistence_path ---
     #[test]
     fn is_persistence_path_run_key_matches() {
-        assert!(
-            is_persistence_path(r"Software\Microsoft\Windows\CurrentVersion\Run"),
-            "Run key should match"
-        );
+        assert!(is_persistence_path(
+            r"Software\Microsoft\Windows\CurrentVersion\Run"
+        ));
     }
 
     #[test]
     fn is_persistence_path_ifeo_matches() {
-        assert!(
-            is_persistence_path(
-                r"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe"
-            ),
-            "IFEO path should match"
-        );
+        assert!(is_persistence_path(
+            r"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe"
+        ));
     }
 
     #[test]
     fn is_persistence_path_case_insensitive() {
-        assert!(
-            is_persistence_path(r"software\microsoft\windows\currentversion\run"),
-            "Match must be case-insensitive"
-        );
+        assert!(is_persistence_path(
+            r"software\microsoft\windows\currentversion\run"
+        ));
     }
 
-    // --- is_suspicious_ifeo_debugger ---
     #[test]
     fn is_suspicious_ifeo_debugger_temp_path() {
-        assert!(
-            is_suspicious_ifeo_debugger(r"C:\Users\user\AppData\Local\Temp\evil.exe"),
-            "Path in \\temp\\ must be flagged"
-        );
+        assert!(is_suspicious_ifeo_debugger(
+            r"C:\Users\user\AppData\Local\Temp\evil.exe"
+        ));
     }
 
     #[test]
     fn is_suspicious_ifeo_debugger_windbg_benign() {
-        assert!(
-            !is_suspicious_ifeo_debugger("windbg"),
-            "windbg should not be flagged as suspicious"
-        );
+        assert!(!is_suspicious_ifeo_debugger("windbg"));
     }
 }
