@@ -7,6 +7,7 @@
 
 pub mod antiforensics;
 pub mod artifact;
+pub use artifact as catalog;
 pub mod commands;
 pub mod encryption;
 pub mod lolbins;
@@ -15,5 +16,6 @@ pub mod pca;
 pub mod persistence;
 pub mod ports;
 pub mod processes;
+pub mod references;
 pub mod remote_access;
 pub mod third_party;

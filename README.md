@@ -46,6 +46,7 @@ let critical: Vec<_> = CATALOG
 | `remote_access` | Remote access tool indicators (RMM, RAT, VPN) | indicator slices |
 | `third_party` | OneDrive, PuTTY, and other third-party app artifact paths | path slices |
 | `pca` | Windows Program Compatibility Assistant artifacts | path / key constants |
+| `references` | Queryable authoritative source map for each public module | `module_references(name)` |
 
 ## The `ForensicCatalog` API
 
@@ -133,8 +134,38 @@ let record = CATALOG.decode(descriptor, value_name, raw_bytes)?;
 - **Test-driven** — every indicator table has positive and negative test cases. Run `cargo test` to verify coverage.
 - **Additive** — each module is independent. Pull in only what you need.
 
+## Source provenance
+
+Module-level research provenance is available through `forensic_catalog::references`.
+
+```rust
+use forensic_catalog::references::module_references;
+
+let refs = module_references("persistence").unwrap();
+assert!(refs.urls.iter().any(|url| url.contains("attack.mitre.org")));
+```
+
+Artifact-level provenance remains embedded directly in the catalog:
+
+```rust
+use forensic_catalog::catalog::CATALOG;
+
+let desc = CATALOG.by_id("userassist_exe").unwrap();
+assert!(!desc.sources.is_empty());
+```
+
+## Blog Archive Ingestion
+
+The repo also includes a dependency-free blog scraper for building a local DFIR
+research corpus from archive pages, sitemaps, or Blogger feeds:
+
+```bash
+python3 scripts/scrape_blog.py \
+  --url https://windowsir.blogspot.com \
+  --output research/windowsir
+```
+
 ## Used by
 
 - [`RapidTriage`](https://github.com/SecurityRonin/RapidTriage) — live incident response triage tool
-
 
