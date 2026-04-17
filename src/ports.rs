@@ -1,4 +1,16 @@
 /// Well-known suspicious/attacker-favoured TCP/UDP ports.
+///
+/// Sources:
+/// - SANS Internet Storm Center — port threat data:
+///   <https://isc.sans.edu/port.html>
+/// - Recorded Future — C2 port intelligence:
+///   <https://www.recordedfuture.com/threat-intelligence-101/indicators-of-compromise/c2-servers>
+/// - Cobalt Strike documentation (teamserver port 50050):
+///   <https://www.cobaltstrike.com/blog/cobalt-strike-and-default-configurations>
+/// - Tor Project — relay and directory port assignments:
+///   <https://support.torproject.org/tbb/tbb-firewall-ports/>
+/// - Microsoft — WinRM port assignments:
+///   <https://learn.microsoft.com/en-us/windows/win32/winrm/installation-and-configuration-for-windows-remote-management>
 pub const SUSPICIOUS_PORTS: &[u16] = &[
     4444,  // Metasploit default
     50050, // Cobalt Strike teamserver

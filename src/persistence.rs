@@ -1,4 +1,12 @@
 /// Windows registry autorun keys used for persistence.
+///
+/// Sources:
+/// - Harlan Carvey, "Windows Registry Forensics" (2nd ed.) — Run key chapter:
+///   <https://www.elsevier.com/books/windows-registry-forensics/carvey/978-0-12-803291-9>
+/// - MITRE ATT&CK T1547.001 — Registry Run Keys / Startup Folder:
+///   <https://attack.mitre.org/techniques/T1547/001/>
+/// - Sysinternals Autoruns — canonical Windows autostart locations:
+///   <https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns>
 pub const WINDOWS_RUN_KEYS: &[&str] = &[
     r"Software\Microsoft\Windows\CurrentVersion\Run",
     r"Software\Microsoft\Windows\CurrentVersion\RunOnce",
@@ -13,6 +21,14 @@ pub const WINDOWS_RUN_KEYS: &[&str] = &[
 ];
 
 /// Linux filesystem paths associated with persistence mechanisms.
+///
+/// Sources:
+/// - MITRE ATT&CK T1053.003 — Cron:
+///   <https://attack.mitre.org/techniques/T1053/003/>
+/// - MITRE ATT&CK T1574.006 — Dynamic Linker Hijacking (/etc/ld.so.preload):
+///   <https://attack.mitre.org/techniques/T1574/006/>
+/// - pberba.github.io — Persistence in Linux series (comprehensive survey):
+///   <https://pberba.github.io/security/2021/11/22/linux-threat-hunting-for-persistence-sysmon-auditd-osquery/>
 pub const LINUX_PERSISTENCE_PATHS: &[&str] = &[
     "/etc/cron.d",
     "/etc/cron.daily",
@@ -35,6 +51,14 @@ pub const LINUX_PERSISTENCE_PATHS: &[&str] = &[
 ];
 
 /// macOS filesystem paths associated with persistence mechanisms.
+///
+/// Sources:
+/// - MITRE ATT&CK T1543.004 — Launch Daemon:
+///   <https://attack.mitre.org/techniques/T1543/004/>
+/// - MITRE ATT&CK T1543.001 — Launch Agent:
+///   <https://attack.mitre.org/techniques/T1543/001/>
+/// - Howard Oakley / The Eclectic Light Company — LaunchAgent/Daemon forensics:
+///   <https://eclecticlight.co/2021/09/16/launch-agents-and-daemons-in-big-sur/>
 pub const MACOS_PERSISTENCE_PATHS: &[&str] = &[
     "/Library/LaunchAgents",
     "/Library/LaunchDaemons",
@@ -47,39 +71,75 @@ pub const MACOS_PERSISTENCE_PATHS: &[&str] = &[
     "/etc/periodic/monthly",
 ];
 
-/// IFEO (Image File Execution Options) debugger hijack paths — T1546.012
+/// IFEO (Image File Execution Options) debugger hijack paths.
+///
+/// Sources:
+/// - MITRE ATT&CK T1546.012 — Image File Execution Options Injection:
+///   <https://attack.mitre.org/techniques/T1546/012/>
+/// - Harlan Carvey, "Windows Registry Forensics" — IFEO chapter
 pub const IFEO_PATHS: &[&str] =
     &[r"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options"];
 
-/// AppInit_DLLs — loaded into every user-mode process — T1546.010
+/// AppInit_DLLs — loaded into every user-mode process.
+///
+/// Sources:
+/// - MITRE ATT&CK T1546.010 — AppInit DLLs:
+///   <https://attack.mitre.org/techniques/T1546/010/>
+/// - Microsoft — AppInit_DLLs Registry Value and Windows 8:
+///   <https://learn.microsoft.com/en-us/windows/win32/dlls/secure-boot-and-appinit-dlls>
 pub const APPINIT_PATHS: &[&str] = &[
     r"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows",
     r"SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Windows",
 ];
 
-/// Session Manager BootExecute / KnownDLLs — boot-time execution — T1547.001
+/// Session Manager BootExecute / KnownDLLs — boot-time execution.
+///
+/// Sources:
+/// - MITRE ATT&CK T1547.001 — Registry Run Keys / Startup Folder (BootExecute):
+///   <https://attack.mitre.org/techniques/T1547/001/>
+/// - Microsoft — Session Manager registry keys:
+///   <https://learn.microsoft.com/en-us/windows-hardware/drivers/install/registering-a-boot-start-driver>
 pub const SESSION_MANAGER_PATHS: &[&str] = &[
     r"SYSTEM\CurrentControlSet\Control\Session Manager",
     r"SYSTEM\CurrentControlSet\Control\Session Manager\BootExecute",
     r"SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs",
 ];
 
-/// Active Setup — runs per-user on first login — T1547.014
+/// Active Setup — runs per-user on first login.
+///
+/// Sources:
+/// - MITRE ATT&CK T1547.014 — Active Setup:
+///   <https://attack.mitre.org/techniques/T1547/014/>
 pub const ACTIVE_SETUP_PATHS: &[&str] = &[
     r"SOFTWARE\Microsoft\Active Setup\Installed Components",
     r"SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components",
 ];
 
-/// Screensaver abuse — T1546.002
+/// Screensaver abuse.
+///
+/// Sources:
+/// - MITRE ATT&CK T1546.002 — Screensaver:
+///   <https://attack.mitre.org/techniques/T1546/002/>
 pub const SCREENSAVER_PATHS: &[&str] = &[r"Control Panel\Desktop"];
 
-/// Winlogon notification and helper DLLs — T1547.004
+/// Winlogon notification and helper DLLs.
+///
+/// Sources:
+/// - MITRE ATT&CK T1547.004 — Winlogon Helper DLL:
+///   <https://attack.mitre.org/techniques/T1547/004/>
+/// - Harlan Carvey, "Windows Registry Forensics" — Winlogon chapter
 pub const WINLOGON_PATHS: &[&str] = &[
     r"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon",
     r"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify",
 ];
 
-/// COM/CLSID hijacking paths — T1546.015
+/// COM/CLSID hijacking paths.
+///
+/// Sources:
+/// - MITRE ATT&CK T1546.015 — Component Object Model Hijacking:
+///   <https://attack.mitre.org/techniques/T1546/015/>
+/// - SpecterOps — COM hijacking for persistence (Casey Smith, 2016):
+///   <https://www.specterops.io/blog>
 pub const COM_HIJACK_PATHS: &[&str] = &[
     r"SOFTWARE\Classes\CLSID",
     r"SOFTWARE\Classes\WOW6432Node\CLSID",

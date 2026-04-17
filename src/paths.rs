@@ -1,4 +1,12 @@
 /// Returns `true` if `path` is a trusted Windows system library directory (case-insensitive).
+///
+/// Sources:
+/// - Microsoft — Windows file system layout:
+///   <https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file>
+/// - SANS DFIR — DLL hijacking and masquerading detection:
+///   <https://www.sans.org/blog/defense-spotlight-finding-dll-hijack-attempts/>
+/// - MITRE ATT&CK T1574.001 — DLL Search Order Hijacking:
+///   <https://attack.mitre.org/techniques/T1574/001/>
 pub fn is_trusted_windows_lib_path(path: &str) -> bool {
     let lower = path.to_ascii_lowercase();
     lower.contains("system32")
@@ -9,6 +17,12 @@ pub fn is_trusted_windows_lib_path(path: &str) -> bool {
 }
 
 /// Returns `true` if `path` is a trusted Linux system library directory.
+///
+/// Sources:
+/// - Filesystem Hierarchy Standard (FHS) 3.0 — canonical Linux directory layout:
+///   <https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html>
+/// - MITRE ATT&CK T1574.006 — Dynamic Linker Hijacking:
+///   <https://attack.mitre.org/techniques/T1574/006/>
 pub fn is_trusted_linux_lib_path(path: &str) -> bool {
     path.starts_with("/lib")
         || path.starts_with("/lib64")
@@ -18,6 +32,13 @@ pub fn is_trusted_linux_lib_path(path: &str) -> bool {
 }
 
 /// Returns `true` if `path` refers to a temp/scratch directory commonly abused by malware.
+///
+/// Sources:
+/// - MITRE ATT&CK T1036.005 — Match Legitimate Name or Location:
+///   <https://attack.mitre.org/techniques/T1036/005/>
+/// - Red Canary — dropper staging from temp directories:
+///   <https://redcanary.com/blog/threat-intelligence/staging-directories/>
+/// - SANS FOR508 course material — malware staging paths (temp directory abuse)
 pub fn is_suspicious_temp_path(path: &str) -> bool {
     let lower = path.to_ascii_lowercase();
     lower.contains("\\temp\\")

@@ -1,4 +1,12 @@
 /// Command substrings indicative of log-wiping activity.
+///
+/// Sources:
+/// - MITRE ATT&CK T1070.001 — Indicator Removal: Clear Windows Event Logs:
+///   <https://attack.mitre.org/techniques/T1070/001/>
+/// - MITRE ATT&CK T1070.002 — Indicator Removal: Clear Linux or Mac System Logs:
+///   <https://attack.mitre.org/techniques/T1070/002/>
+/// - Red Canary — event log clearing detection:
+///   <https://redcanary.com/blog/threat-intelligence/windows-event-log/>
 pub const LOG_WIPE_COMMANDS: &[&str] = &[
     "wevtutil cl",
     "wevtutil cl System",
@@ -16,6 +24,14 @@ pub const LOG_WIPE_COMMANDS: &[&str] = &[
 ];
 
 /// Well-known Linux rootkit names.
+///
+/// Sources:
+/// - Sandfly Security — Linux rootkit detection research:
+///   <https://sandflysecurity.com/blog/bpfdoor-an-evasive-linux-backdoor-technical-analysis/>
+/// - Sysdig — Linux rootkit indicators:
+///   <https://sysdig.com/blog/rootkit-detection-linux/>
+/// - Elastic Security — Linux kernel rootkit research:
+///   <https://www.elastic.co/security-labs/a-peek-behind-the-bpfdoor>
 pub const KNOWN_ROOTKIT_NAMES: &[&str] = &[
     "reptile",
     "diamorphine",
@@ -34,6 +50,12 @@ pub const KNOWN_ROOTKIT_NAMES: &[&str] = &[
 ];
 
 /// Substrings indicative of timestamp-manipulation (timestomping) activity.
+///
+/// Sources:
+/// - MITRE ATT&CK T1070.006 — Indicator Removal: Timestomp:
+///   <https://attack.mitre.org/techniques/T1070/006/>
+/// - Harlan Carvey, "Windows Registry Forensics" — timestamp artifacts chapter
+/// - SANS FOR508 — $STANDARD_INFORMATION vs $FILE_NAME timestamp discrepancy analysis
 pub const TIMESTOMP_INDICATORS: &[&str] = &[
     "timestomp",
     "touch -t",

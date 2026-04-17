@@ -1,4 +1,12 @@
 /// Windows Living-Off-the-Land binaries (include `.exe` suffix).
+///
+/// Sources:
+/// - LOLBAS Project (community-maintained, referenced by MITRE ATT&CK):
+///   <https://lolbas-project.github.io/>
+/// - MITRE ATT&CK T1218 — Signed Binary Proxy Execution:
+///   <https://attack.mitre.org/techniques/T1218/>
+/// - Red Canary Threat Detection Report — LOLBins abuse:
+///   <https://redcanary.com/threat-detection-report/threats/lolbins/>
 pub const WINDOWS_LOLBINS: &[&str] = &[
     "certutil.exe",
     "mshta.exe",
@@ -25,6 +33,12 @@ pub const WINDOWS_LOLBINS: &[&str] = &[
 ];
 
 /// Linux Living-Off-the-Land binaries.
+///
+/// Sources:
+/// - GTFOBins — curated list of Unix binaries that can bypass security restrictions:
+///   <https://gtfobins.github.io/>
+/// - MITRE ATT&CK T1059 — Command and Scripting Interpreter:
+///   <https://attack.mitre.org/techniques/T1059/>
 pub const LINUX_LOLBINS: &[&str] = &[
     "bash", "sh", "python", "python3", "perl", "ruby", "php", "nc", "ncat", "socat", "tclsh",
     "openssl", "curl", "wget", "lua", "awk", "find", "vim", "less", "git", "env", "node", "dd",

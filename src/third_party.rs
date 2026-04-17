@@ -1,5 +1,10 @@
 /// PuTTY registry paths — saved sessions, SSH host key cache.
-/// Source: third-party-app-registry-forensics.md §1.1 PuTTY
+///
+/// Sources:
+/// - Harlan Carvey, "Windows Registry Forensics" — SSH client artifacts chapter
+/// - SANS FOR500 — Windows forensics: PuTTY registry artifacts
+/// - PuTTY documentation — registry storage layout:
+///   <https://the.earth.li/~sgtatham/putty/0.78/htmldoc/AppendixC.html>
 pub const PUTTY_PATHS: &[&str] = &[
     r"Software\SimonTatham\PuTTY\Sessions",
     r"Software\SimonTatham\PuTTY\SshHostKeys",
@@ -7,14 +12,24 @@ pub const PUTTY_PATHS: &[&str] = &[
 ];
 
 /// WinSCP registry paths — saved sessions including obfuscated passwords.
-/// Source: third-party-app-registry-forensics.md §1.2 WinSCP
+///
+/// Sources:
+/// - WinSCP documentation — registry storage:
+///   <https://winscp.net/eng/docs/ui_pref_storage>
+/// - SANS FOR500 — WinSCP session credential recovery
+/// - Magnet Forensics — WinSCP artifact analysis:
+///   <https://www.magnetforensics.com/blog/artifacts-for-incident-responders/>
 pub const WINSCP_PATHS: &[&str] = &[
     r"Software\Martin Prikryl\WinSCP 2\Sessions",
     r"Software\Martin Prikryl\WinSCP 2\Configuration",
 ];
 
 /// Microsoft OneDrive registry paths.
-/// Source: third-party-app-registry-forensics.md §5.1 OneDrive
+///
+/// Sources:
+/// - Microsoft — OneDrive registry keys reference:
+///   <https://learn.microsoft.com/en-us/sharepoint/sync-client-administration-settings>
+/// - SANS FOR500 — OneDrive forensic artifacts
 pub const ONEDRIVE_PATHS: &[&str] = &[
     r"Software\Microsoft\OneDrive",
     r"Software\Microsoft\OneDrive\Accounts\Personal",
@@ -24,7 +39,11 @@ pub const ONEDRIVE_PATHS: &[&str] = &[
 ];
 
 /// Dropbox registry paths.
-/// Source: third-party-app-registry-forensics.md §5.2 Dropbox
+///
+/// Sources:
+/// - Magnet Forensics — Dropbox forensic artifacts:
+///   <https://www.magnetforensics.com/blog/artifacts-for-incident-responders/>
+/// - SANS FOR500 — cloud storage registry artifacts
 pub const DROPBOX_PATHS: &[&str] = &[
     r"Software\Dropbox",
     r"Software\Dropbox\ks\client",
@@ -33,7 +52,13 @@ pub const DROPBOX_PATHS: &[&str] = &[
 ];
 
 /// Google Chrome registry paths (installation, policies, extensions).
-/// Source: third-party-app-registry-forensics.md §3.1 Google Chrome
+///
+/// Sources:
+/// - Google — Chrome enterprise policy registry keys:
+///   <https://chromeenterprise.google/policies/>
+/// - Magnet Forensics — Chrome forensic artifacts:
+///   <https://www.magnetforensics.com/blog/forensic-analysis-of-google-chrome/>
+/// - SANS FOR500 — browser registry artifacts
 pub const CHROME_PATHS: &[&str] = &[
     r"Software\Google\Chrome",
     r"SOFTWARE\Google\Chrome",
@@ -44,51 +69,36 @@ pub const CHROME_PATHS: &[&str] = &[
 ];
 
 /// KiTTY registry paths (PuTTY fork).
-/// Source: third-party-app-registry-forensics.md §1.7 KiTTY
+///
+/// Sources:
+/// - KiTTY documentation — registry storage (inherits PuTTY layout):
+///   <https://www.9bis.net/kitty/?page=Documentation>
+/// - SANS FOR500 — SSH client artifacts (covers PuTTY forks)
 pub const KITTY_PATHS: &[&str] = &[
     r"Software\9bis.com\KiTTY\Sessions",
     r"Software\9bis.com\KiTTY\SshHostKeys",
 ];
 
-/// All third-party application forensic artifact paths combined.
-pub const ALL_THIRD_PARTY_PATHS: &[&str] = &[
-    // PUTTY_PATHS
-    r"Software\SimonTatham\PuTTY\Sessions",
-    r"Software\SimonTatham\PuTTY\SshHostKeys",
-    r"Software\SimonTatham\PuTTY\Jumplist\Recent sessions",
-    // WINSCP_PATHS
-    r"Software\Martin Prikryl\WinSCP 2\Sessions",
-    r"Software\Martin Prikryl\WinSCP 2\Configuration",
-    // ONEDRIVE_PATHS
-    r"Software\Microsoft\OneDrive",
-    r"Software\Microsoft\OneDrive\Accounts\Personal",
-    r"Software\Microsoft\OneDrive\Accounts\Business1",
-    r"SOFTWARE\Policies\Microsoft\Windows\OneDrive",
-    r"SOFTWARE\Microsoft\OneDrive",
-    // DROPBOX_PATHS
-    r"Software\Dropbox",
-    r"Software\Dropbox\ks\client",
-    r"SOFTWARE\Dropbox",
-    r"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Dropbox",
-    // CHROME_PATHS
-    r"Software\Google\Chrome",
-    r"SOFTWARE\Google\Chrome",
-    r"SOFTWARE\Policies\Google\Chrome",
-    r"SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist",
-    r"SOFTWARE\Google\Update\Clients",
-    r"SOFTWARE\Clients\StartMenuInternet\Google Chrome",
-    // KITTY_PATHS
-    r"Software\9bis.com\KiTTY\Sessions",
-    r"Software\9bis.com\KiTTY\SshHostKeys",
-];
+/// Returns an iterator over all third-party application forensic artifact paths.
+///
+/// Prefer this over the legacy `ALL_THIRD_PARTY_PATHS` slice for bulk scanning —
+/// zero allocation, no data duplication.
+pub fn all_third_party_paths() -> impl Iterator<Item = &'static str> {
+    PUTTY_PATHS
+        .iter()
+        .chain(WINSCP_PATHS.iter())
+        .chain(ONEDRIVE_PATHS.iter())
+        .chain(DROPBOX_PATHS.iter())
+        .chain(CHROME_PATHS.iter())
+        .chain(KITTY_PATHS.iter())
+        .copied()
+}
 
 /// Returns true if the given registry path matches a known third-party application
 /// forensic artifact path (case-insensitive contains match).
 pub fn is_third_party_artifact_path(path: &str) -> bool {
     let lower = path.to_ascii_lowercase();
-    ALL_THIRD_PARTY_PATHS
-        .iter()
-        .any(|entry| lower.contains(&entry.to_ascii_lowercase()))
+    all_third_party_paths().any(|entry| lower.contains(&entry.to_ascii_lowercase()))
 }
 
 /// Returns the application name if the path matches a known third-party app artifact,
@@ -137,9 +147,27 @@ mod tests {
     #[test]
     fn all_third_party_paths_not_empty() {
         assert!(
-            !ALL_THIRD_PARTY_PATHS.is_empty(),
-            "ALL_THIRD_PARTY_PATHS must not be empty"
+            all_third_party_paths().next().is_some(),
+            "all_third_party_paths() must yield at least one entry"
         );
+    }
+
+    #[test]
+    fn all_third_party_paths_covers_all_tools() {
+        let all: Vec<_> = all_third_party_paths().collect();
+        for path in [
+            PUTTY_PATHS[0],
+            WINSCP_PATHS[0],
+            ONEDRIVE_PATHS[0],
+            DROPBOX_PATHS[0],
+            CHROME_PATHS[0],
+            KITTY_PATHS[0],
+        ] {
+            assert!(
+                all.contains(&path),
+                "Missing path in all_third_party_paths: {path}"
+            );
+        }
     }
 
     #[test]

@@ -1,5 +1,10 @@
 /// TeamViewer registry indicator paths.
-/// Source: lolrmm-registry-paths-complete.md §TeamViewer (16 paths)
+///
+/// Sources:
+/// - LOLRMM project: <https://lolrmm.io/tools/teamviewer>
+/// - CISA Advisory AA23-025A (malicious use of RMM software):
+///   <https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-025a>
+/// - Red Canary: <https://redcanary.com/blog/threat-intelligence/remote-monitoring-management/>
 pub const TEAMVIEWER_PATHS: &[&str] = &[
     r"SOFTWARE\TeamViewer",
     r"SYSTEM\CurrentControlSet\Services\TeamViewer",
@@ -7,7 +12,13 @@ pub const TEAMVIEWER_PATHS: &[&str] = &[
 ];
 
 /// AnyDesk registry indicator paths.
-/// Source: lolrmm-registry-paths-complete.md §AnyDesk (8 paths)
+///
+/// Sources:
+/// - LOLRMM project: <https://lolrmm.io/tools/anydesk>
+/// - CISA Advisory AA23-025A (AnyDesk named as abused RMM):
+///   <https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-025a>
+/// - Huntress RMM abuse research:
+///   <https://www.huntress.com/blog/no-longer-low-hanging-fruit-hunting-for-risky-rmm-tools>
 pub const ANYDESK_PATHS: &[&str] = &[
     r"SOFTWARE\Clients\Media\AnyDesk",
     r"SYSTEM\CurrentControlSet\Services\AnyDesk",
@@ -20,7 +31,11 @@ pub const ANYDESK_PATHS: &[&str] = &[
 ];
 
 /// Splashtop registry indicator paths.
-/// Source: lolrmm-registry-paths-complete.md §Splashtop (11 paths)
+///
+/// Sources:
+/// - LOLRMM project: <https://lolrmm.io/tools/splashtop>
+/// - Huntress RMM abuse research:
+///   <https://www.huntress.com/blog/no-longer-low-hanging-fruit-hunting-for-risky-rmm-tools>
 pub const SPLASHTOP_PATHS: &[&str] = &[
     r"SOFTWARE\WOW6432Node\Splashtop Inc.",
     r"SYSTEM\CurrentControlSet\Services\SplashtopRemoteService",
@@ -31,8 +46,14 @@ pub const SPLASHTOP_PATHS: &[&str] = &[
     r"Software\Splashtop Inc.",
 ];
 
-/// Atera registry indicator paths.
-/// Source: lolrmm-registry-paths-complete.md §Atera (9 paths)
+/// Atera RMM registry indicator paths.
+///
+/// Sources:
+/// - LOLRMM project: <https://lolrmm.io/tools/atera>
+/// - CISA Advisory AA23-025A (Atera explicitly named):
+///   <https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-025a>
+/// - Huntress RMM abuse research:
+///   <https://www.huntress.com/blog/no-longer-low-hanging-fruit-hunting-for-risky-rmm-tools>
 pub const ATERA_PATHS: &[&str] = &[
     r"SOFTWARE\ATERA Networks\AlphaAgent",
     r"SOFTWARE\ATERA Networks",
@@ -43,8 +64,11 @@ pub const ATERA_PATHS: &[&str] = &[
     r"SOFTWARE\Microsoft\Tracing\AteraAgent_RASMANCS",
 ];
 
-/// GoToAssist / GoTo Resolve registry indicator paths.
-/// Source: lolrmm-registry-paths-complete.md §GoToAssist (1 path)
+/// GoToAssist / GoTo Resolve / GoToMyPC registry indicator paths.
+///
+/// Sources:
+/// - LOLRMM project: <https://lolrmm.io/tools/gotoassist>
+/// - Red Canary: <https://redcanary.com/blog/threat-intelligence/remote-monitoring-management/>
 pub const GOTOASSIST_PATHS: &[&str] = &[
     r"SOFTWARE\GoTo Resolve Unattended",
     r"SOFTWARE\Citrix\GoToMyPc",
@@ -52,69 +76,47 @@ pub const GOTOASSIST_PATHS: &[&str] = &[
 ];
 
 /// Action1 RMM registry indicator paths.
-/// Source: lolrmm-registry-paths-complete.md §Action1 (3 paths)
+///
+/// Sources:
+/// - LOLRMM project: <https://lolrmm.io/tools/action1>
+/// - Sophos X-Ops (Action1 abuse in ransomware intrusions):
+///   <https://news.sophos.com/en-us/2023/08/03/blacksuit-ransomware/>
 pub const ACTION1_PATHS: &[&str] = &[
     r"System\CurrentControlSet\Services\A1Agent",
     r"SOFTWARE\WOW6432Node\Action1",
     r"SOFTWARE\WOW6432Node\Microsoft\Windows\Windows Error Reporting\LocalDumps\action1_agent.exe",
 ];
 
-/// ManageEngine ServiceDesk Plus registry indicator paths.
-/// Source: lolrmm-registry-paths-complete.md §ManageEngine (1 path)
+/// ManageEngine (Zoho) registry indicator paths.
+///
+/// Sources:
+/// - LOLRMM project: <https://lolrmm.io/tools/manageengine>
+/// - CISA Advisory AA22-174A (ManageEngine exploitation):
+///   <https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-174a>
 pub const MANAGEENGINE_PATHS: &[&str] =
     &[r"SOFTWARE\ManageEngine", r"SOFTWARE\AdventNet\ManageEngine"];
 
-/// All LOLRMM remote access tool paths combined (for bulk scanning).
-pub const ALL_LOLRMM_PATHS: &[&str] = &[
-    // TEAMVIEWER_PATHS
-    r"SOFTWARE\TeamViewer",
-    r"SYSTEM\CurrentControlSet\Services\TeamViewer",
-    r"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\TeamViewer",
-    // ANYDESK_PATHS
-    r"SOFTWARE\Clients\Media\AnyDesk",
-    r"SYSTEM\CurrentControlSet\Services\AnyDesk",
-    r"SOFTWARE\Classes\.anydesk\shell\open\command",
-    r"SOFTWARE\Classes\AnyDesk\shell\open\command",
-    r"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\AnyDesk",
-    r"DRIVERS\DriverDatabase\DeviceIds\USBPRINT\AnyDesk",
-    r"DRIVERS\DriverDatabase\DeviceIds\WSDPRINT\AnyDesk",
-    r"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Print\Printers\AnyDesk Printer",
-    // SPLASHTOP_PATHS
-    r"SOFTWARE\WOW6432Node\Splashtop Inc.",
-    r"SYSTEM\CurrentControlSet\Services\SplashtopRemoteService",
-    r"SYSTEM\CurrentControlSet\Control\SafeBoot\Network\SplashtopRemoteService",
-    r"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Splashtop Software Updater",
-    r"SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Splashtop-Splashtop Streamer-Remote Session/Operational",
-    r"SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Splashtop-Splashtop Streamer-Status/Operational",
-    r"Software\Splashtop Inc.",
-    // ATERA_PATHS
-    r"SOFTWARE\ATERA Networks\AlphaAgent",
-    r"SOFTWARE\ATERA Networks",
-    r"SYSTEM\CurrentControlSet\Services\AteraAgent",
-    r"SYSTEM\ControlSet\Services\EventLog\Application\AlphaAgent",
-    r"SYSTEM\ControlSet\Services\EventLog\Application\AteraAgent",
-    r"SOFTWARE\Microsoft\Tracing\AteraAgent_RASAPI32",
-    r"SOFTWARE\Microsoft\Tracing\AteraAgent_RASMANCS",
-    // GOTOASSIST_PATHS
-    r"SOFTWARE\GoTo Resolve Unattended",
-    r"SOFTWARE\Citrix\GoToMyPc",
-    r"WOW6432Node\Citrix\GoToMyPc",
-    // ACTION1_PATHS
-    r"System\CurrentControlSet\Services\A1Agent",
-    r"SOFTWARE\WOW6432Node\Action1",
-    r"SOFTWARE\WOW6432Node\Microsoft\Windows\Windows Error Reporting\LocalDumps\action1_agent.exe",
-    // MANAGEENGINE_PATHS
-    r"SOFTWARE\ManageEngine",
-    r"SOFTWARE\AdventNet\ManageEngine",
-];
+/// Returns an iterator over all LOLRMM remote access tool registry paths.
+///
+/// Prefer this over the legacy `ALL_LOLRMM_PATHS` slice for bulk scanning —
+/// zero allocation, no data duplication.
+pub fn all_lolrmm_paths() -> impl Iterator<Item = &'static str> {
+    TEAMVIEWER_PATHS
+        .iter()
+        .chain(ANYDESK_PATHS.iter())
+        .chain(SPLASHTOP_PATHS.iter())
+        .chain(ATERA_PATHS.iter())
+        .chain(GOTOASSIST_PATHS.iter())
+        .chain(ACTION1_PATHS.iter())
+        .chain(MANAGEENGINE_PATHS.iter())
+        .copied()
+}
 
 /// Returns true if the given registry path matches a known LOLRMM remote access tool
 /// indicator (case-insensitive contains match).
 pub fn is_remote_access_tool_path(path: &str) -> bool {
     let lower = path.to_ascii_lowercase();
-    ALL_LOLRMM_PATHS
-        .iter()
-        .any(|entry| lower.contains(&entry.to_ascii_lowercase()))
+    all_lolrmm_paths().any(|entry| lower.contains(&entry.to_ascii_lowercase()))
 }
 
 /// Returns the tool name if the path matches a known LOLRMM remote access tool,
@@ -165,9 +167,26 @@ mod tests {
     #[test]
     fn all_lolrmm_paths_not_empty() {
         assert!(
-            !ALL_LOLRMM_PATHS.is_empty(),
-            "ALL_LOLRMM_PATHS must not be empty"
+            all_lolrmm_paths().next().is_some(),
+            "all_lolrmm_paths() must yield at least one entry"
         );
+    }
+
+    #[test]
+    fn all_lolrmm_paths_covers_all_tools() {
+        // Each tool's first path must appear in the combined iterator
+        let all: Vec<_> = all_lolrmm_paths().collect();
+        for path in [
+            TEAMVIEWER_PATHS[0],
+            ANYDESK_PATHS[0],
+            SPLASHTOP_PATHS[0],
+            ATERA_PATHS[0],
+            GOTOASSIST_PATHS[0],
+            ACTION1_PATHS[0],
+            MANAGEENGINE_PATHS[0],
+        ] {
+            assert!(all.contains(&path), "Missing path in all_lolrmm_paths: {path}");
+        }
     }
 
     #[test]
