@@ -195,7 +195,10 @@ mod tests {
             "third_party",
             "pca",
         ] {
-            assert!(modules.contains(&expected), "missing module reference for {expected}");
+            assert!(
+                modules.contains(&expected),
+                "missing module reference for {expected}"
+            );
         }
     }
 
