@@ -7240,6 +7240,99 @@ pub static CATALOG: ForensicCatalog = ForensicCatalog::new(&[
 // ── Tests ────────────────────────────────────────────────────────────────────
 
 #[cfg(test)]
+mod catalog_integrity {
+    use super::*;
+
+    #[test]
+    fn no_duplicate_ids() {
+        let mut seen = std::collections::HashSet::new();
+        for d in CATALOG.list() {
+            assert!(
+                seen.insert(d.id),
+                "duplicate artifact id: {}", d.id
+            );
+        }
+    }
+
+    #[test]
+    fn all_related_artifacts_exist() {
+        let ids: std::collections::HashSet<&str> =
+            CATALOG.list().iter().map(|d| d.id).collect();
+        for d in CATALOG.list() {
+            for related in d.related_artifacts {
+                assert!(
+                    ids.contains(related),
+                    "artifact '{}' references unknown related artifact '{}'",
+                    d.id, related
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn all_mitre_ids_match_pattern() {
+        // Valid: T1234 or T1234.001
+        let valid = |s: &str| -> bool {
+            let bytes = s.as_bytes();
+            if bytes.len() < 5 { return false; }
+            if bytes[0] != b'T' { return false; }
+            let digits: &[u8] = if bytes.len() == 5 {
+                &bytes[1..5]
+            } else if bytes.len() == 9 && bytes[5] == b'.' {
+                // check sub-technique: T1234.001
+                let sub = &bytes[6..9];
+                if !sub.iter().all(|b| b.is_ascii_digit()) { return false; }
+                &bytes[1..5]
+            } else {
+                return false;
+            };
+            digits.iter().all(|b| b.is_ascii_digit())
+        };
+        for d in CATALOG.list() {
+            for technique in d.mitre_techniques {
+                assert!(
+                    valid(technique),
+                    "artifact '{}' has invalid MITRE technique id '{}'",
+                    d.id, technique
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn all_entries_have_sources() {
+        for d in CATALOG.list() {
+            assert!(
+                !d.sources.is_empty(),
+                "artifact '{}' has no sources", d.id
+            );
+        }
+    }
+
+    #[test]
+    fn no_empty_meanings() {
+        for d in CATALOG.list() {
+            assert!(
+                !d.meaning.is_empty(),
+                "artifact '{}' has empty meaning", d.id
+            );
+        }
+    }
+
+    #[test]
+    fn all_sources_are_https_urls() {
+        for d in CATALOG.list() {
+            for src in d.sources {
+                assert!(
+                    src.starts_with("https://") || src.starts_with("http://"),
+                    "artifact '{}' has non-URL source: {}", d.id, src
+                );
+            }
+        }
+    }
+}
+
+#[cfg(test)]
 mod tests {
     use super::*;
 
