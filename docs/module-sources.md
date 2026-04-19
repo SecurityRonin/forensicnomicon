@@ -3,9 +3,9 @@
 This crate has two layers:
 
 - small zero-allocation indicator modules such as `ports`, `lolbins`, and `persistence`
-- the larger [`artifact`](/Users/4n6h4x0r/src/forensic-catalog/src/artifact.rs:1) catalog, which models specific artifacts with decode logic, ATT&CK mappings, triage priority, retention, and per-artifact sources
+- the larger [`artifact`](../src/artifact.rs) catalog, which models specific artifacts with decode logic, ATT&CK mappings, triage priority, retention, and per-artifact sources
 
-The new [`references`](/Users/4n6h4x0r/src/forensic-catalog/src/references.rs:1) module turns module-level provenance into queryable static data.
+The [`references`](../src/references.rs) module turns module-level provenance into queryable static data.
 
 ## Coverage
 
@@ -155,7 +155,7 @@ Expansion targets:
 
 ## Full-Blog Archive
 
-The repository now includes [`scripts/archive_blog.py`](/Users/4n6h4x0r/src/forensic-catalog/scripts/archive_blog.py:1), a dependency-free archive tool intended for building a local source corpus from a DFIR blog.
+The repository includes [`scripts/archive_blog.py`](../scripts/archive_blog.py), a dependency-free archive tool for building a local source corpus from a DFIR blog.
 
 Recommended target for Windows-focused artifact work:
 
@@ -287,16 +287,16 @@ For catalog pages such as `aboutDFIR`, `aboutDFIR Forensicators of DFIR`, and
 
 The subscribed feed manifest now lives at:
 
-- [`archive/sources/dfir-feeds.opml`](/Users/4n6h4x0r/src/forensic-catalog/archive/sources/dfir-feeds.opml:1)
-- [`archive/sources/catalog-directories.json`](/Users/4n6h4x0r/src/forensic-catalog/archive/sources/catalog-directories.json:1)
-- [`archive/sources/manual-sources.json`](/Users/4n6h4x0r/src/forensic-catalog/archive/sources/manual-sources.json:1)
-- [`archive/sources/source-inventory.json`](/Users/4n6h4x0r/src/forensic-catalog/archive/sources/source-inventory.json:1)
+- [`archive/sources/dfir-feeds.opml`](../archive/sources/dfir-feeds.opml)
+- [`archive/sources/catalog-directories.json`](../archive/sources/catalog-directories.json)
+- [`archive/sources/manual-sources.json`](../archive/sources/manual-sources.json)
+- [`archive/sources/source-inventory.json`](../archive/sources/source-inventory.json)
 
 Periodic updates are handled by:
 
-- [`scripts/normalize_sources.py`](/Users/4n6h4x0r/src/forensic-catalog/scripts/normalize_sources.py:1)
-- [`scripts/check_feed_updates.py`](/Users/4n6h4x0r/src/forensic-catalog/scripts/check_feed_updates.py:1)
-- [feed-watch.yml](/Users/4n6h4x0r/src/forensic-catalog/.github/workflows/feed-watch.yml:1)
+- [`scripts/normalize_sources.py`](../scripts/normalize_sources.py)
+- [`scripts/check_feed_updates.py`](../scripts/check_feed_updates.py)
+- [`feed-watch.yml`](../.github/workflows/feed-watch.yml)
 
 The maintenance workflow:
 
@@ -391,63 +391,35 @@ Use hierarchy:
 - use long-form practitioner writeups for artifact nuance, parser caveats, and retention behavior
 - use GitHub field notes and rule corpora for hunting pivots, log coverage, and cross-checking investigator assumptions
 
-## Feed-Derived Additions
+## Additional Practitioner Blogs
 
-The Google Drive file you provided (`1Ykbd9fDXxWnD1-MTag_-8-Wh_Wnd28q0`) resolved to an OPML export of Feedly subscriptions rather than a PDF. The following blog sources were extracted from that OPML and should be treated as additional intake sources for artifact discovery and validation.
+These are subscribed in [`archive/sources/dfir-feeds.opml`](../archive/sources/dfir-feeds.opml) and are useful as secondary research sources when expanding artifact coverage:
 
-DFIR bloggers from the OPML:
-
-- Windows Incident Response: http://windowsir.blogspot.com/
-- dfir.blog: https://dfir.blog/
-- Another Forensics Blog: http://az4n6.blogspot.com/
+- az4n6 (Paul Rascagneres): https://az4n6.blogspot.com/
 - DFIR Diva: https://dfirdiva.com
 - Digital Forensics Stream: https://df-stream.com
-- mac4n6.com: http://www.mac4n6.com/
-- binary foray: https://binaryforay.blogspot.com/
+- mac4n6 (Sarah Edwards): https://www.mac4n6.com/
 - Salt Forensics: https://salt4n6.com/
 - Cheeky4n6Monkey: http://cheeky4n6monkey.blogspot.com/
 - ThinkDFIR: https://thinkdfir.com/
 - DoubleBlak: https://www.doubleblak.com/
 - The Binary Hick: https://thebinaryhick.blog/
 - forensicmike1: https://forensicmike1.com/
-- Hacking Exposed Computer Forensics Blog / HECF: https://www.hecfblog.com/
 - tisiphone.net: https://tisiphone.net/
 - Smarter Forensics: https://smarterforensics.com/
 - Initialization Vectors: https://abrignoni.blogspot.com/
 - Brett Shavers: https://brettshavers.com/brett-s-blog
 - Yogesh Khatri's forensic blog: http://www.swiftforensics.com/
-
-Digital forensics and adjacent feeds from the OPML:
-
 - Forensic Focus: https://www.forensicfocus.com/
-- Forensic Multimedia Analysis Blog: http://forensicphotoshop.blogspot.com/
-- Cellebrite category feeds:
-- Carved From Unallocated: https://www.cellebrite.com/
-- Nothing to See Here? I Beg to DFIR: https://www.cellebrite.com/
-- Life has no ctrl alt del: https://www.cellebrite.com/
-- Magnet Forensics: https://www.magnetforensics.com/
-- DFIR Training: https://www.dfir.training/
-- MSAB: https://www.msab.com/
-- AboutDFIR: https://aboutdfir.com/
-- AboutDFIR Forensicators of DFIR: https://aboutdfir.com/the-community/forensicators-of-dfir/
-- AboutDFIR blogs index: https://aboutdfir.com/reading/blogs/
 - Forensic 4cast: https://forensic4cast.com/
 - This Week In 4n6: https://thisweekin4n6.com/
-- The Sleuth Kit updates: http://www.sleuthkit.org/
-- Amped Software blog: http://blog.ampedsoftware.com/
+- Cellebrite blog: https://cellebrite.com/en/blog/
+- Magnet Forensics blog: https://www.magnetforensics.com/blog/
+- DFIR Training: https://www.dfir.training/
+- Amped Software blog: https://blog.ampedsoftware.com/
 
-Cybersecurity feeds in the same OPML that may still be useful as secondary context:
-
-- CrowdStrike From the Front Lines: https://www.crowdstrike.com/en-us/blog/category.from-the-front-lines/
-- VMware Carbon Black: https://www.carbonblack.com/
-- Malwarebytes Labs: https://blog.malwarebytes.com/
-- Krebs on Security: https://krebsonsecurity.com/
-- BleepingComputer: https://www.bleepingcomputer.com/
-- Dark Reading: https://www.darkreading.com/
-- Have I Been Pwned: https://haveibeenpwned.com/
-
-Not all of these should be cited equally. For catalog entries, prefer:
+For catalog entries, prefer:
 
 - platform and tool docs first
 - deep DFIR practitioner blogs second
-- broader security blogs only when they provide unique incident or tradecraft detail that is directly relevant to the artifact
+- broader security blogs only when they provide unique incident or tradecraft detail directly relevant to the artifact

@@ -10,11 +10,13 @@ Forensic knowledge as code — zero-dependency, `std`-only, embeds in any Rust b
 
 ## Docs
 
-- [DFIR Handbook](docs/index.md)
-- [Module Source Map](docs/module-sources.md)
-- [Canonical Source Inventory](archive/sources/source-inventory.md)
-- [Windows IR Archive Index](archive/windowsir/index.json)
-- GitHub Pages / API docs: `https://securityronin.github.io/forensic-catalog/`
+| | |
+|---|---|
+| [DFIR Handbook](https://securityronin.github.io/forensic-catalog/forensic_catalog/handbook/) | Analyst-facing artifact guide, investigation paths, carving guidance |
+| [API Reference](https://docs.rs/forensic-catalog) | Full rustdoc — all structs, enums, and functions |
+| [Architecture Diagram](https://securityronin.github.io/forensic-catalog/architecture.html) | Data-flow diagram: raw bytes → ArtifactRecord |
+| [Module Source Map](docs/module-sources.md) | Per-module authoritative reference list |
+| [Source Inventory](archive/sources/source-inventory.md) | Normalized DFIR source corpus |
 
 ## Quick start
 
@@ -105,7 +107,7 @@ let hits = CATALOG.filter(&ArtifactQuery {
 ```rust
 use forensic_catalog::catalog::CATALOG;
 
-let descriptor = CATALOG.by_id("userassist").unwrap();
+let descriptor = CATALOG.by_id("userassist_exe").unwrap();
 let record = CATALOG.decode(descriptor, value_name, raw_bytes)?;
 // record.fields — decoded field name/value pairs
 // record.timestamp — ISO 8601 UTC string, if present
@@ -131,6 +133,7 @@ let record = CATALOG.decode(descriptor, value_name, raw_bytes)?;
 | `retention` | `Option<&'static str>` | How long artifact typically persists |
 | `triage_priority` | `TriagePriority` | `Critical` / `High` / `Medium` / `Low` |
 | `related_artifacts` | `&'static [&'static str]` | Cross-correlation artifact IDs |
+| `sources` | `&'static [&'static str]` | Authoritative source URLs (MITRE, SANS, vendor docs) |
 
 </details>
 

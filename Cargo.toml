@@ -1,7 +1,7 @@
 [package]
 name = "forensic-catalog"
 version = "0.1.0"
-description = "Static indicator tables for forensic analysis: suspicious ports, LOLBins, persistence paths, execution artifacts, anti-forensics indicators, and more"
+description = "DFIR knowledge as code: queryable artifact catalog with decode logic, MITRE ATT&CK mappings, triage priority, and indicator tables — zero dependencies"
 edition = "2021"
 rust-version = "1.75"
 license = "Apache-2.0"
