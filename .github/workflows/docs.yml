@@ -30,6 +30,8 @@ jobs:
         run: |
           echo '<meta http-equiv="refresh" content="0;url=forensic_catalog/">' \
             > target/doc/index.html
+      - name: Copy static docs
+        run: cp docs/architecture.html target/doc/architecture.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: target/doc
