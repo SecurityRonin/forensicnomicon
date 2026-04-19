@@ -9862,3 +9862,84 @@ mod tests_batch_d {
         }
     }
 }
+
+#[cfg(test)]
+#[cfg(feature = "serde")]
+mod serde_tests {
+    use super::*;
+
+    #[test]
+    fn artifact_type_roundtrips_json() {
+        let json = serde_json::to_string(&ArtifactType::File).unwrap();
+        assert_eq!(json, "\"File\"");
+        let decoded: ArtifactType = serde_json::from_str(&json).unwrap();
+        assert_eq!(decoded, ArtifactType::File);
+    }
+
+    #[test]
+    fn triage_priority_roundtrips_json() {
+        let json = serde_json::to_string(&TriagePriority::Critical).unwrap();
+        assert_eq!(json, "\"Critical\"");
+        let decoded: TriagePriority = serde_json::from_str(&json).unwrap();
+        assert_eq!(decoded, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn data_scope_roundtrips_json() {
+        let json = serde_json::to_string(&DataScope::User).unwrap();
+        assert_eq!(json, "\"User\"");
+        let decoded: DataScope = serde_json::from_str(&json).unwrap();
+        assert_eq!(decoded, DataScope::User);
+    }
+
+    #[test]
+    fn artifact_value_text_roundtrips_json() {
+        let val = ArtifactValue::Text("hello".to_string());
+        let json = serde_json::to_string(&val).unwrap();
+        let decoded: ArtifactValue = serde_json::from_str(&json).unwrap();
+        assert_eq!(decoded, val);
+    }
+
+    #[test]
+    fn artifact_value_list_roundtrips_json() {
+        let val = ArtifactValue::List(vec![
+            ArtifactValue::Integer(1),
+            ArtifactValue::Bool(true),
+        ]);
+        let json = serde_json::to_string(&val).unwrap();
+        let decoded: ArtifactValue = serde_json::from_str(&json).unwrap();
+        assert_eq!(decoded, val);
+    }
+
+    #[test]
+    fn artifact_descriptor_serializes_to_json() {
+        let d = CATALOG.by_id("userassist_exe").unwrap();
+        let json = serde_json::to_string(d).unwrap();
+        assert!(json.contains("userassist_exe"), "id missing from JSON");
+        assert!(json.contains("UserAssist"), "name missing from JSON");
+        assert!(json.contains("T1547"), "mitre_techniques missing from JSON");
+    }
+
+    #[test]
+    fn decode_error_roundtrips_json() {
+        let err = DecodeError::InvalidUtf8;
+        let json = serde_json::to_string(&err).unwrap();
+        let decoded: DecodeError = serde_json::from_str(&json).unwrap();
+        assert_eq!(decoded, err);
+    }
+
+    #[test]
+    fn decode_error_buffer_too_short_roundtrips_json() {
+        let err = DecodeError::BufferTooShort { expected: 8, actual: 3 };
+        let json = serde_json::to_string(&err).unwrap();
+        let decoded: DecodeError = serde_json::from_str(&json).unwrap();
+        assert_eq!(decoded, err);
+    }
+
+    #[test]
+    fn os_scope_roundtrips_json() {
+        let json = serde_json::to_string(&OsScope::Win10Plus).unwrap();
+        let decoded: OsScope = serde_json::from_str(&json).unwrap();
+        assert_eq!(decoded, OsScope::Win10Plus);
+    }
+}
