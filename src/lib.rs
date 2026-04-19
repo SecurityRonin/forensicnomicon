@@ -43,6 +43,7 @@
 //! modules or companion crates.
 
 pub mod antiforensics;
+pub mod antiforensics_aware;
 pub mod catalog;
 pub mod evidence;
 pub use catalog as artifact;
