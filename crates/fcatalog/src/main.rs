@@ -59,9 +59,20 @@ fn print_detail(d: &ArtifactDescriptor) {
     let col = priority_colour(d.triage_priority);
     let label = priority_label(d.triage_priority);
     println!();
-    println!("{BOLD}{CYAN}Artifact: {id}{RESET}", BOLD = BOLD, CYAN = CYAN, id = d.id, RESET = RESET);
+    println!(
+        "{BOLD}{CYAN}Artifact: {id}{RESET}",
+        BOLD = BOLD,
+        CYAN = CYAN,
+        id = d.id,
+        RESET = RESET
+    );
     println!("  Name     : {}", d.name);
-    println!("  Priority : {col}{label}{RESET}", col = col, label = label, RESET = RESET);
+    println!(
+        "  Priority : {col}{label}{RESET}",
+        col = col,
+        label = label,
+        RESET = RESET
+    );
     println!("  Meaning  : {}", d.meaning);
 
     if let Some(fp) = d.file_path {
@@ -87,8 +98,14 @@ fn print_detail(d: &ArtifactDescriptor) {
 
 fn print_header(title: &str, count: usize) {
     println!();
-    println!("{BOLD}{title}{RESET}  {DIM}({count} artifact(s)){RESET}",
-        BOLD = BOLD, title = title, RESET = RESET, DIM = DIM, count = count);
+    println!(
+        "{BOLD}{title}{RESET}  {DIM}({count} artifact(s)){RESET}",
+        BOLD = BOLD,
+        title = title,
+        RESET = RESET,
+        DIM = DIM,
+        count = count
+    );
     println!("{}", "─".repeat(70));
 }
 
@@ -107,7 +124,12 @@ fn cmd_search(catalog: &'static ForensicCatalog, keyword: &str) {
     let results = catalog.filter_by_keyword(keyword);
     print_header(&format!("Search: {keyword}"), results.len());
     if results.is_empty() {
-        println!("  {DIM}No results for \"{keyword}\".{RESET}", DIM = DIM, keyword = keyword, RESET = RESET);
+        println!(
+            "  {DIM}No results for \"{keyword}\".{RESET}",
+            DIM = DIM,
+            keyword = keyword,
+            RESET = RESET
+        );
     } else {
         for d in results {
             print_row(d);
@@ -120,7 +142,12 @@ fn cmd_show(catalog: &'static ForensicCatalog, id: &str) {
     match catalog.by_id(id) {
         Some(d) => print_detail(d),
         None => {
-            eprintln!("{RED}Error:{RESET} artifact '{id}' not found.", RED = RED, RESET = RESET, id = id);
+            eprintln!(
+                "{RED}Error:{RESET} artifact '{id}' not found.",
+                RED = RED,
+                RESET = RESET,
+                id = id
+            );
             std::process::exit(1);
         }
     }
@@ -128,8 +155,14 @@ fn cmd_show(catalog: &'static ForensicCatalog, id: &str) {
 
 fn cmd_triage(catalog: &'static ForensicCatalog) {
     let all = catalog.for_triage();
-    let critical: Vec<_> = all.iter().filter(|d| d.triage_priority == TriagePriority::Critical).collect();
-    let high: Vec<_> = all.iter().filter(|d| d.triage_priority == TriagePriority::High).collect();
+    let critical: Vec<_> = all
+        .iter()
+        .filter(|d| d.triage_priority == TriagePriority::Critical)
+        .collect();
+    let high: Vec<_> = all
+        .iter()
+        .filter(|d| d.triage_priority == TriagePriority::High)
+        .collect();
 
     print_header("Triage — Critical", critical.len());
     for d in &critical {
@@ -144,7 +177,11 @@ fn cmd_triage(catalog: &'static ForensicCatalog) {
 }
 
 fn usage() {
-    println!("{BOLD}fnomicon{RESET} — forensic artifact catalog explorer", BOLD = BOLD, RESET = RESET);
+    println!(
+        "{BOLD}fnomicon{RESET} — forensic artifact catalog explorer",
+        BOLD = BOLD,
+        RESET = RESET
+    );
     println!();
     println!("USAGE:");
     println!("  fnomicon list");

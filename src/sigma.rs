@@ -48,7 +48,6 @@ pub static SIGMA_TABLE: &[SigmaRef] = &[
         logsource_category: "file_event",
         mitre_techniques: &["T1059"],
     },
-
     // ── evtx_security ────────────────────────────────────────────────────────
     // SigmaHQ: rules/windows/builtin/security/win_security_susp_logon_types.yml
     SigmaRef {
@@ -74,7 +73,6 @@ pub static SIGMA_TABLE: &[SigmaRef] = &[
         logsource_category: "security",
         mitre_techniques: &["T1550.002"],
     },
-
     // ── run_key_hklm ─────────────────────────────────────────────────────────
     // SigmaHQ: rules/windows/registry/registry_set/registry_set_run_key_startup.yml
     SigmaRef {
@@ -92,7 +90,6 @@ pub static SIGMA_TABLE: &[SigmaRef] = &[
         logsource_category: "registry_set",
         mitre_techniques: &["T1547.001"],
     },
-
     // ── scheduled_tasks_dir ──────────────────────────────────────────────────
     // SigmaHQ: rules/windows/process_creation/proc_creation_win_schtasks_creation.yml
     SigmaRef {
@@ -110,7 +107,6 @@ pub static SIGMA_TABLE: &[SigmaRef] = &[
         logsource_category: "security",
         mitre_techniques: &["T1053.005"],
     },
-
     // ── lnk_files ────────────────────────────────────────────────────────────
     // SigmaHQ: rules/windows/file/file_event/file_event_win_lnk_file_creation_susp_location.yml
     SigmaRef {
@@ -128,7 +124,6 @@ pub static SIGMA_TABLE: &[SigmaRef] = &[
         logsource_category: "file_event",
         mitre_techniques: &["T1547.009"],
     },
-
     // ── userassist_exe ───────────────────────────────────────────────────────
     // SigmaHQ: rules/windows/registry/registry_set/registry_set_userassist_key_modifications.yml
     SigmaRef {
@@ -146,7 +141,6 @@ pub static SIGMA_TABLE: &[SigmaRef] = &[
         logsource_category: "registry_event",
         mitre_techniques: &["T1547.001"],
     },
-
     // ── powershell_history ───────────────────────────────────────────────────
     // SigmaHQ: rules/windows/process_creation/proc_creation_win_powershell_susp_commands.yml
     SigmaRef {
@@ -208,7 +202,10 @@ mod tests {
     #[test]
     fn prefetch_has_sigma_rule() {
         let refs = sigma_refs_for("prefetch_dir");
-        assert!(!refs.is_empty(), "prefetch_dir should have at least one sigma ref");
+        assert!(
+            !refs.is_empty(),
+            "prefetch_dir should have at least one sigma ref"
+        );
     }
 
     #[test]

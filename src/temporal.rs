@@ -170,7 +170,10 @@ mod tests {
     #[test]
     fn prefetch_has_temporal_hints() {
         let hints = temporal_hints_for("prefetch_dir");
-        assert!(!hints.is_empty(), "prefetch should have temporal correlation hints");
+        assert!(
+            !hints.is_empty(),
+            "prefetch should have temporal correlation hints"
+        );
     }
 
     #[test]
@@ -198,7 +201,11 @@ mod tests {
         use crate::catalog::CATALOG;
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
         for hint in TEMPORAL_TABLE {
-            assert!(ids.contains(hint.artifact_id), "Unknown artifact_id: {}", hint.artifact_id);
+            assert!(
+                ids.contains(hint.artifact_id),
+                "Unknown artifact_id: {}",
+                hint.artifact_id
+            );
             assert!(
                 ids.contains(hint.correlates_with),
                 "Unknown correlates_with: {}",

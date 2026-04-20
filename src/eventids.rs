@@ -202,7 +202,10 @@ mod tests {
     #[test]
     fn evtx_security_has_events() {
         let events = events_for_artifact("evtx_security");
-        assert!(!events.is_empty(), "evtx_security should have event associations");
+        assert!(
+            !events.is_empty(),
+            "evtx_security should have event associations"
+        );
     }
 
     #[test]
@@ -218,7 +221,12 @@ mod tests {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
         for entry in EVENT_ID_TABLE {
             for aid in entry.artifact_ids {
-                assert!(ids.contains(aid), "Unknown artifact_id {} in event {}", aid, entry.event_id);
+                assert!(
+                    ids.contains(aid),
+                    "Unknown artifact_id {} in event {}",
+                    aid,
+                    entry.event_id
+                );
             }
         }
     }

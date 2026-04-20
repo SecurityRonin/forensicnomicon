@@ -198,9 +198,7 @@ pub static KAPE_MAPPINGS: &[KapeMapping] = &[
 
 /// Returns the KAPE mapping for a given artifact ID.
 pub fn kape_mapping_for(artifact_id: &str) -> Option<&'static KapeMapping> {
-    KAPE_MAPPINGS
-        .iter()
-        .find(|m| m.artifact_id == artifact_id)
+    KAPE_MAPPINGS.iter().find(|m| m.artifact_id == artifact_id)
 }
 
 /// Returns all unique KAPE target names needed to collect the given artifact IDs.

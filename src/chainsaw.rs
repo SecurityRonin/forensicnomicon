@@ -66,7 +66,6 @@ pub static HUNT_RULE_TABLE: &[HuntRuleRef] = &[
         log_channel: "Security",
         mitre_techniques: &["T1053.005"],
     },
-
     // ── evtx_system ──────────────────────────────────────────────────────────
     // Chainsaw: sigma/rules/windows/builtin/system/win_system_service_install.yml
     HuntRuleRef {
@@ -84,7 +83,6 @@ pub static HUNT_RULE_TABLE: &[HuntRuleRef] = &[
         log_channel: "System",
         mitre_techniques: &["T1543.003"],
     },
-
     // ── scheduled_tasks_dir ──────────────────────────────────────────────────
     // SigmaHQ: rules/windows/file/file_event/file_event_win_susp_scheduled_task.yml
     HuntRuleRef {
@@ -94,7 +92,6 @@ pub static HUNT_RULE_TABLE: &[HuntRuleRef] = &[
         log_channel: "Security",
         mitre_techniques: &["T1053.005"],
     },
-
     // ── prefetch_dir ─────────────────────────────────────────────────────────
     // Hayabusa: hayabusa-rules/sigma/builtin/security/susp_prefetch_execution.yml
     HuntRuleRef {
@@ -104,7 +101,6 @@ pub static HUNT_RULE_TABLE: &[HuntRuleRef] = &[
         log_channel: "Security",
         mitre_techniques: &["T1059"],
     },
-
     // ── run_key_hklm ─────────────────────────────────────────────────────────
     // SigmaHQ: rules/windows/registry/registry_set/registry_set_run_key_startup.yml
     HuntRuleRef {
@@ -114,7 +110,6 @@ pub static HUNT_RULE_TABLE: &[HuntRuleRef] = &[
         log_channel: "Security",
         mitre_techniques: &["T1547.001"],
     },
-
     // ── lnk_files ────────────────────────────────────────────────────────────
     // Hayabusa: hayabusa-rules/sigma/builtin/security/susp_lnk_file_temp.yml
     HuntRuleRef {
@@ -124,7 +119,6 @@ pub static HUNT_RULE_TABLE: &[HuntRuleRef] = &[
         log_channel: "Security",
         mitre_techniques: &["T1547.009"],
     },
-
     // ── mft_file ─────────────────────────────────────────────────────────────
     // Chainsaw: sigma/rules/windows/builtin/system/win_system_ntfs_journal_susp.yml
     HuntRuleRef {
@@ -205,8 +199,7 @@ mod tests {
     #[test]
     fn all_artifact_ids_valid() {
         use crate::catalog::CATALOG;
-        let ids: std::collections::HashSet<&str> =
-            CATALOG.list().iter().map(|d| d.id).collect();
+        let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
         for r in HUNT_RULE_TABLE {
             assert!(
                 ids.contains(r.artifact_id),
