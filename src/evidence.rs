@@ -354,6 +354,39 @@ pub static EVIDENCE_TABLE: &[EvidenceEntry] = &[
             "Passphrase-protected keys require cracking; unprotected keys are immediately usable",
         ],
     },
+    // macOS Critical artifacts added after macOS coverage expansion (1.2)
+    EvidenceEntry {
+        artifact_id: "macos_launch_agents_user",
+        strength: EvidenceStrength::Strong,
+        caveats: &[
+            "LaunchAgent plists in ~/Library/LaunchAgents prove user-context persistence",
+            "Legitimate software also uses LaunchAgents; cross-reference signing and bundle ID",
+        ],
+    },
+    EvidenceEntry {
+        artifact_id: "macos_launch_agents_system",
+        strength: EvidenceStrength::Strong,
+        caveats: &[
+            "System LaunchAgents require root installation; elevated-privilege persistence indicator",
+            "Apple-signed plists are expected; unsigned or ad-hoc signed warrant investigation",
+        ],
+    },
+    EvidenceEntry {
+        artifact_id: "macos_launch_daemons",
+        strength: EvidenceStrength::Strong,
+        caveats: &[
+            "LaunchDaemons run as root; highest-privilege persistence mechanism on macOS",
+            "Correlate with install history and Gatekeeper records for origin attribution",
+        ],
+    },
+    EvidenceEntry {
+        artifact_id: "macos_keychain_user",
+        strength: EvidenceStrength::Corroborative,
+        caveats: &[
+            "Keychain DB requires user unlock; credential entries show what accounts were stored",
+            "Cannot be read without unlocking; useful post-acquisition with user password",
+        ],
+    },
 ];
 
 /// Returns the evidence entry for a given artifact ID, or None if unknown.

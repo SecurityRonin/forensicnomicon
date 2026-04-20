@@ -333,6 +333,27 @@ pub static VOLATILITY_TABLE: &[VolatilityEntry] = &[
         volatility: VolatilityClass::RotatingBuffer,
         rationale: "Rotated by logrotate",
     },
+    // macOS Critical artifacts added after macOS coverage expansion (1.2)
+    VolatilityEntry {
+        artifact_id: "macos_launch_agents_user",
+        volatility: VolatilityClass::Persistent,
+        rationale: "LaunchAgent plist persists until deleted; survives reboots",
+    },
+    VolatilityEntry {
+        artifact_id: "macos_launch_agents_system",
+        volatility: VolatilityClass::Persistent,
+        rationale: "System-wide LaunchAgent plist; requires root to modify",
+    },
+    VolatilityEntry {
+        artifact_id: "macos_launch_daemons",
+        volatility: VolatilityClass::Persistent,
+        rationale: "LaunchDaemon plist; persists across reboots, requires root",
+    },
+    VolatilityEntry {
+        artifact_id: "macos_keychain_user",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Keychain DB; persists until item deletion or keychain reset",
+    },
 ];
 
 /// Returns the volatility entry for a given artifact ID, or `None` if unknown.
