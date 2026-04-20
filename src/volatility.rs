@@ -354,6 +354,32 @@ pub static VOLATILITY_TABLE: &[VolatilityEntry] = &[
         volatility: VolatilityClass::Persistent,
         rationale: "Keychain DB; persists until item deletion or keychain reset",
     },
+    // ── Memory forensics artifacts ───────────────────────────────────────────
+    VolatilityEntry {
+        artifact_id: "mem_running_processes",
+        volatility: VolatilityClass::Volatile,
+        rationale: "RAM; lost on power-off",
+    },
+    VolatilityEntry {
+        artifact_id: "mem_network_connections",
+        volatility: VolatilityClass::Volatile,
+        rationale: "RAM; lost on power-off",
+    },
+    VolatilityEntry {
+        artifact_id: "mem_loaded_modules",
+        volatility: VolatilityClass::Volatile,
+        rationale: "RAM; lost on power-off",
+    },
+    VolatilityEntry {
+        artifact_id: "mem_registry_hives",
+        volatility: VolatilityClass::Volatile,
+        rationale: "RAM; lost on power-off",
+    },
+    VolatilityEntry {
+        artifact_id: "mem_user_credentials",
+        volatility: VolatilityClass::Volatile,
+        rationale: "RAM; lost on power-off",
+    },
 ];
 
 /// Returns the volatility entry for a given artifact ID, or `None` if unknown.

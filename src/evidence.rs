@@ -387,6 +387,22 @@ pub static EVIDENCE_TABLE: &[EvidenceEntry] = &[
             "Cannot be read without unlocking; useful post-acquisition with user password",
         ],
     },
+    // ── Memory forensics artifacts ────────────────────────────────────────────
+    EvidenceEntry {
+        artifact_id: "mem_running_processes",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Live RAM only; requires active acquisition"],
+    },
+    EvidenceEntry {
+        artifact_id: "mem_network_connections",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Volatile; connections may close during acquisition"],
+    },
+    EvidenceEntry {
+        artifact_id: "mem_user_credentials",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Credentials in memory (LSASS); most valuable live artifact"],
+    },
 ];
 
 /// Returns the evidence entry for a given artifact ID, or None if unknown.

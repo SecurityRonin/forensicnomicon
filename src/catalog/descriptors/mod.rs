@@ -5773,6 +5773,224 @@ pub static MACOS_COREANALYTICS: ArtifactDescriptor = ArtifactDescriptor {
     ],
 };
 
+// ── Memory forensics artifacts ───────────────────────────────────────────────
+
+pub(crate) static MEM_RUNNING_PROCESSES_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "pid",
+        value_type: ValueType::UnsignedInt,
+        description: "Process identifier",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "name",
+        value_type: ValueType::Text,
+        description: "Process image name",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "path",
+        value_type: ValueType::Text,
+        description: "Full executable path from process object",
+        is_uid_component: false,
+    },
+];
+
+pub static MEM_RUNNING_PROCESSES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "mem_running_processes",
+    name: "Running Processes (Memory)",
+    artifact_type: ArtifactType::MemoryRegion,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "Live process list from RAM; reveals injected processes, hollowing, and malware hiding from OS APIs",
+    mitre_techniques: &["T1057", "T1055"],
+    fields: MEM_RUNNING_PROCESSES_FIELDS,
+    retention: Some("RAM only; lost on power-off"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["mem_loaded_modules", "mem_network_connections"],
+    sources: &[
+        "https://volatilityfoundation.org/",
+        "https://attack.mitre.org/techniques/T1057/",
+        "https://attack.mitre.org/techniques/T1055/",
+    ],
+};
+
+pub(crate) static MEM_NETWORK_CONNECTIONS_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "local_addr",
+        value_type: ValueType::Text,
+        description: "Local IP address and port",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "remote_addr",
+        value_type: ValueType::Text,
+        description: "Remote IP address and port",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "state",
+        value_type: ValueType::Text,
+        description: "TCP connection state (ESTABLISHED, LISTEN, etc.)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "pid",
+        value_type: ValueType::UnsignedInt,
+        description: "Owning process identifier",
+        is_uid_component: false,
+    },
+];
+
+pub static MEM_NETWORK_CONNECTIONS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "mem_network_connections",
+    name: "Network Connections (Memory)",
+    artifact_type: ArtifactType::MemoryRegion,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "Active and recently closed network connections from kernel socket structures; reveals C2 channels and lateral movement paths",
+    mitre_techniques: &["T1049"],
+    fields: MEM_NETWORK_CONNECTIONS_FIELDS,
+    retention: Some("RAM only; connections may close during acquisition"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["mem_running_processes"],
+    sources: &[
+        "https://volatilityfoundation.org/",
+        "https://attack.mitre.org/techniques/T1049/",
+    ],
+};
+
+pub(crate) static MEM_LOADED_MODULES_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "base_addr",
+        value_type: ValueType::UnsignedInt,
+        description: "Module base address in process virtual memory",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "name",
+        value_type: ValueType::Text,
+        description: "Module image name",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "path",
+        value_type: ValueType::Text,
+        description: "Full path of the loaded DLL or module",
+        is_uid_component: false,
+    },
+];
+
+pub static MEM_LOADED_MODULES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "mem_loaded_modules",
+    name: "Loaded Modules (Memory)",
+    artifact_type: ArtifactType::MemoryRegion,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "DLLs and modules loaded into process address spaces; detects reflective DLL injection and unsigned in-memory modules",
+    mitre_techniques: &["T1055"],
+    fields: MEM_LOADED_MODULES_FIELDS,
+    retention: Some("RAM only; lost on power-off"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["mem_running_processes"],
+    sources: &[
+        "https://volatilityfoundation.org/",
+        "https://attack.mitre.org/techniques/T1055/",
+    ],
+};
+
+pub(crate) static MEM_REGISTRY_HIVES_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "hive_name",
+        value_type: ValueType::Text,
+        description: "Name of the in-memory registry hive",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "base_addr",
+        value_type: ValueType::UnsignedInt,
+        description: "Hive CM_HIVE base address in kernel memory",
+        is_uid_component: false,
+    },
+];
+
+pub static MEM_REGISTRY_HIVES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "mem_registry_hives",
+    name: "In-Memory Registry Hives",
+    artifact_type: ArtifactType::MemoryRegion,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "Registry hives as held in kernel memory; may reveal keys deleted on disk, transient values, and malware-created volatile hives not flushed to disk",
+    mitre_techniques: &["T1012"],
+    fields: MEM_REGISTRY_HIVES_FIELDS,
+    retention: Some("RAM only; lost on power-off"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["mem_running_processes"],
+    sources: &[
+        "https://volatilityfoundation.org/",
+        "https://attack.mitre.org/techniques/T1012/",
+    ],
+};
+
+pub(crate) static MEM_USER_CREDENTIALS_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "account",
+        value_type: ValueType::Text,
+        description: "Account name associated with the credential material",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "credential_type",
+        value_type: ValueType::Text,
+        description: "Type of credential (NTLM hash, Kerberos ticket, cleartext, etc.)",
+        is_uid_component: false,
+    },
+];
+
+pub static MEM_USER_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "mem_user_credentials",
+    name: "User Credentials in Memory (LSASS)",
+    artifact_type: ArtifactType::MemoryRegion,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "NTLM hashes, Kerberos tickets, and cleartext credentials cached in LSASS process memory; most valuable live artifact for credential theft detection",
+    mitre_techniques: &["T1003.001"],
+    fields: MEM_USER_CREDENTIALS_FIELDS,
+    retention: Some("RAM only; lost on power-off"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["mem_running_processes"],
+    sources: &[
+        "https://volatilityfoundation.org/",
+        "https://attack.mitre.org/techniques/T1003/001/",
+        "https://www.sans.org/blog/protecting-privileged-domain-accounts-lsa-secrets-good-times/",
+    ],
+};
+
 // ── Global catalog entries ────────────────────────────────────────────────────
 
 /// All descriptor instances that make up the global catalog.
@@ -5986,4 +6204,10 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     MACOS_KEYCHAIN_USER,
     MACOS_EMOND,
     MACOS_COREANALYTICS,
+    // Memory forensics artifacts
+    MEM_RUNNING_PROCESSES,
+    MEM_NETWORK_CONNECTIONS,
+    MEM_LOADED_MODULES,
+    MEM_REGISTRY_HIVES,
+    MEM_USER_CREDENTIALS,
 ];
