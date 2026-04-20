@@ -3057,3 +3057,146 @@ mod extension_tests {
         assert!(CATALOG.by_id("linux_selinux_config").is_some());
     }
 }
+
+#[cfg(test)]
+mod phase2_registry_tests {
+    use super::*;
+
+    #[test]
+    fn catalog_count_includes_phase2() {
+        assert_eq!(CATALOG.list().len(), 314);
+    }
+
+    #[test]
+    fn winlogon_autoadmin_logon_exists() {
+        let d = CATALOG.by_id("winlogon_autoadmin_logon").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1547.001"));
+    }
+
+    #[test]
+    fn winlogon_default_password_exists() {
+        let d = CATALOG.by_id("winlogon_default_password").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1552.002"));
+    }
+
+    #[test]
+    fn portproxy_config_exists() {
+        let d = CATALOG.by_id("portproxy_config").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1572"));
+    }
+
+    #[test]
+    fn windows_defender_exclusions_local_exists() {
+        let d = CATALOG.by_id("windows_defender_exclusions_local").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1562.001"));
+    }
+
+    #[test]
+    fn vss_files_not_to_snapshot_exists() {
+        let d = CATALOG.by_id("vss_files_not_to_snapshot").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1490"));
+    }
+
+    #[test]
+    fn ifeo_silent_exit_exists() {
+        let d = CATALOG.by_id("ifeo_silent_exit").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1546.012"));
+    }
+
+    #[test]
+    fn rdp_shadow_sessions_exists() {
+        let d = CATALOG.by_id("rdp_shadow_sessions").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1021.001"));
+    }
+
+    #[test]
+    fn taskcache_tasks_path_exists() {
+        let d = CATALOG.by_id("taskcache_tasks_path").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1053.005"));
+    }
+
+    #[test]
+    fn event_log_channel_status_exists() {
+        let d = CATALOG.by_id("event_log_channel_status").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1562.002"));
+    }
+
+    #[test]
+    fn sysinternals_eula_exists() {
+        let d = CATALOG.by_id("sysinternals_eula").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::High);
+        assert!(d.mitre_techniques.contains(&"T1012"));
+    }
+
+    #[test]
+    fn startup_approved_run_system_exists() {
+        let d = CATALOG.by_id("startup_approved_run_system").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::High);
+        assert!(d.mitre_techniques.contains(&"T1547.001"));
+    }
+
+    #[test]
+    fn profile_list_users_exists() {
+        let d = CATALOG.by_id("profile_list_users").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::High);
+        assert!(!d.sources.is_empty());
+    }
+
+    #[test]
+    fn firewall_rules_exists() {
+        let d = CATALOG.by_id("firewall_rules").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::High);
+        assert!(d.mitre_techniques.contains(&"T1562.004"));
+    }
+
+    #[test]
+    fn all_phase2_ids_present() {
+        let ids = [
+            "winlogon_autoadmin_logon",
+            "winlogon_default_password",
+            "winlogon_default_username",
+            "logonui_last_loggedon_user",
+            "portproxy_config",
+            "windows_defender_exclusions_local",
+            "windows_defender_disabled_av",
+            "windows_defender_realtime",
+            "ms_office_trusted_docs",
+            "vss_files_not_to_snapshot",
+            "vss_files_not_to_backup",
+            "ifeo_silent_exit",
+            "exefile_shell_open_software",
+            "exefile_shell_open_usrclass",
+            "rdp_shadow_sessions",
+            "restricted_admin_rdp",
+            "network_shares_server",
+            "sysinternals_eula",
+            "ms_office_server_cache",
+            "powershell_cobalt_info",
+            "startup_approved_run_system",
+            "startup_approved_run_user",
+            "taskcache_tasks_path",
+            "profile_list_users",
+            "registrar_favorites",
+            "dhcp_ipv4_interface",
+            "ntfs_last_access_status",
+            "prefetch_status",
+            "firewall_rules",
+            "event_log_channel_status",
+        ];
+        for id in &ids {
+            assert!(
+                CATALOG.by_id(id).is_some(),
+                "missing phase-2 artifact: {id}"
+            );
+        }
+    }
+}
