@@ -91,6 +91,7 @@ mod tests {
 
     /// Persistence key tables are `&[&'static str]` — zero allocation.
     #[test]
+    #[allow(clippy::const_is_empty)]
     fn persistence_keys_are_static() {
         assert!(
             !crate::persistence::WINDOWS_RUN_KEYS.is_empty(),

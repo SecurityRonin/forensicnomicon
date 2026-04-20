@@ -3207,3 +3207,304 @@ mod phase2_registry_tests {
         }
     }
 }
+
+#[cfg(test)]
+mod phase2b_files_tests {
+    use super::*;
+
+    #[test]
+    fn catalog_count_includes_phase2b() {
+        // phase2a adds 30 registry artifacts (284→314), phase2b adds 41 file artifacts (314→355)
+        assert_eq!(CATALOG.list().len(), 355);
+    }
+
+    #[test]
+    fn chrome_history_exists() {
+        let d = CATALOG.by_id("chrome_history").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1217"));
+    }
+
+    #[test]
+    fn chrome_web_data_exists() {
+        assert!(CATALOG.by_id("chrome_web_data").is_some());
+    }
+
+    #[test]
+    fn edge_chromium_history_exists() {
+        let d = CATALOG.by_id("edge_chromium_history").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn edge_chromium_login_data_exists() {
+        let d = CATALOG.by_id("edge_chromium_login_data").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1555.003"));
+    }
+
+    #[test]
+    fn firefox_places_exists() {
+        let d = CATALOG.by_id("firefox_places").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1217"));
+    }
+
+    #[test]
+    fn firefox_form_history_exists() {
+        assert!(CATALOG.by_id("firefox_form_history").is_some());
+    }
+
+    #[test]
+    fn firefox_session_restore_exists() {
+        assert!(CATALOG.by_id("firefox_session_restore").is_some());
+    }
+
+    #[test]
+    fn psreadline_history_exists() {
+        let d = CATALOG.by_id("psreadline_history").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1059.001"));
+    }
+
+    #[test]
+    fn psreadline_history_system_exists() {
+        let d = CATALOG.by_id("psreadline_history_system").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn powershell_transcripts_exists() {
+        let d = CATALOG.by_id("powershell_transcripts").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn teamviewer_connection_log_exists() {
+        let d = CATALOG.by_id("teamviewer_connection_log").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1219"));
+    }
+
+    #[test]
+    fn anydesk_trace_user_exists() {
+        let d = CATALOG.by_id("anydesk_trace_user").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn anydesk_trace_system_exists() {
+        let d = CATALOG.by_id("anydesk_trace_system").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn anydesk_connection_trace_exists() {
+        assert!(CATALOG.by_id("anydesk_connection_trace").is_some());
+    }
+
+    #[test]
+    fn anydesk_file_transfer_log_exists() {
+        let d = CATALOG.by_id("anydesk_file_transfer_log").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn screenconnect_session_db_exists() {
+        let d = CATALOG.by_id("screenconnect_session_db").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn rustdesk_logs_exists() {
+        assert!(CATALOG.by_id("rustdesk_logs").is_some());
+    }
+
+    #[test]
+    fn dropbox_instance_db_exists() {
+        let d = CATALOG.by_id("dropbox_instance_db").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1567.002"));
+    }
+
+    #[test]
+    fn onedrive_metadata_exists() {
+        let d = CATALOG.by_id("onedrive_metadata").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn google_drive_fs_metadata_exists() {
+        let d = CATALOG.by_id("google_drive_fs_metadata").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn megasync_data_exists() {
+        assert!(CATALOG.by_id("megasync_data").is_some());
+    }
+
+    #[test]
+    fn teams_indexed_db_exists() {
+        let d = CATALOG.by_id("teams_indexed_db").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn slack_indexed_db_exists() {
+        let d = CATALOG.by_id("slack_indexed_db").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn discord_local_storage_exists() {
+        let d = CATALOG.by_id("discord_local_storage").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1539"));
+    }
+
+    #[test]
+    fn signal_database_exists() {
+        let d = CATALOG.by_id("signal_database").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn signal_config_json_exists() {
+        let d = CATALOG.by_id("signal_config_json").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1552.001"));
+    }
+
+    #[test]
+    fn windows_search_edb_exists() {
+        assert!(CATALOG.by_id("windows_search_edb").is_some());
+    }
+
+    #[test]
+    fn event_transcript_db_exists() {
+        assert!(CATALOG.by_id("event_transcript_db").is_some());
+    }
+
+    #[test]
+    fn certutil_cache_exists() {
+        let d = CATALOG.by_id("certutil_cache").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1105"));
+    }
+
+    #[test]
+    fn sdb_custom_files_exists() {
+        let d = CATALOG.by_id("sdb_custom_files").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1546.011"));
+    }
+
+    #[test]
+    fn wer_reports_exists() {
+        assert!(CATALOG.by_id("wer_reports").is_some());
+    }
+
+    #[test]
+    fn iis_w3svc_logs_exists() {
+        let d = CATALOG.by_id("iis_w3svc_logs").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1190"));
+    }
+
+    #[test]
+    fn iis_config_applicationhost_exists() {
+        let d = CATALOG.by_id("iis_config_applicationhost").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn dns_debug_log_exists() {
+        let d = CATALOG.by_id("dns_debug_log").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1071.004"));
+    }
+
+    #[test]
+    fn dhcp_server_log_exists() {
+        assert!(CATALOG.by_id("dhcp_server_log").is_some());
+    }
+
+    #[test]
+    fn sum_db_exists() {
+        let d = CATALOG.by_id("sum_db").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn copilot_recall_ukg_exists() {
+        let d = CATALOG.by_id("copilot_recall_ukg").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1113"));
+    }
+
+    #[test]
+    fn ntuser_dat_file_exists() {
+        let d = CATALOG.by_id("ntuser_dat_file").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+        assert!(d.mitre_techniques.contains(&"T1012"));
+    }
+
+    #[test]
+    fn usrclass_dat_file_exists() {
+        assert!(CATALOG.by_id("usrclass_dat_file").is_some());
+    }
+
+    #[test]
+    fn all_phase2b_ids_present() {
+        let ids = [
+            "chrome_history",
+            "chrome_web_data",
+            "edge_chromium_history",
+            "edge_chromium_login_data",
+            "firefox_places",
+            "firefox_form_history",
+            "firefox_session_restore",
+            "psreadline_history",
+            "psreadline_history_system",
+            "powershell_transcripts",
+            "teamviewer_connection_log",
+            "teamviewer_app_log",
+            "anydesk_trace_user",
+            "anydesk_trace_system",
+            "anydesk_connection_trace",
+            "anydesk_file_transfer_log",
+            "screenconnect_session_db",
+            "rustdesk_logs",
+            "dropbox_instance_db",
+            "onedrive_metadata",
+            "google_drive_fs_metadata",
+            "megasync_data",
+            "teams_indexed_db",
+            "slack_indexed_db",
+            "discord_local_storage",
+            "signal_database",
+            "signal_config_json",
+            "windows_search_edb",
+            "event_transcript_db",
+            "certutil_cache",
+            "sdb_custom_files",
+            "wer_reports",
+            "iis_w3svc_logs",
+            "iis_config_applicationhost",
+            "dns_debug_log",
+            "dhcp_server_log",
+            "sum_db",
+            "copilot_recall_ukg",
+            "ntuser_dat_file",
+            "usrclass_dat_file",
+            "teamviewer_app_log",
+        ];
+        for id in &ids {
+            assert!(
+                CATALOG.by_id(id).is_some(),
+                "missing phase-2b artifact: {id}"
+            );
+        }
+    }
+}

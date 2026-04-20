@@ -98,10 +98,9 @@ mod tests {
         let count = covered_technique_count();
         assert!(
             count >= 10,
-            "Should cover at least 10 ATT&CK techniques, got {}",
-            count
+            "Should cover at least 10 ATT&CK techniques, got {count}"
         );
-        assert!(count <= 500, "Technique count seems too high: {}", count);
+        assert!(count <= 500, "Technique count seems too high: {count}");
     }
 
     #[test]
@@ -122,12 +121,11 @@ mod tests {
     #[test]
     fn coverage_artifacts_are_valid_ids() {
         let coverage = technique_coverage();
-        for (_technique, artifact_ids) in &coverage {
+        for artifact_ids in coverage.values() {
             for id in artifact_ids {
                 assert!(
                     CATALOG.by_id(id).is_some(),
-                    "coverage map references unknown artifact: {}",
-                    id
+                    "coverage map references unknown artifact: {id}",
                 );
             }
         }

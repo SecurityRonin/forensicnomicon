@@ -73,9 +73,8 @@ pub fn yara_rule_template(artifact_id: &str) -> Option<String> {
             } else {
                 artifact.key_path.to_string()
             };
-            let block = format!(
-                "    strings:\n        $key_path = \"{full_path}\" nocase wide ascii"
-            );
+            let block =
+                format!("    strings:\n        $key_path = \"{full_path}\" nocase wide ascii");
             (block, "$key_path")
         }
         ArtifactType::File | ArtifactType::Directory => {
@@ -84,17 +83,15 @@ pub fn yara_rule_template(artifact_id: &str) -> Option<String> {
             // Use the filename portion for a compact, focused string match.
             let filename = path.rsplit(['\\', '/']).next().unwrap_or(path);
             let target = if filename.is_empty() { path } else { filename };
-            let block = format!(
-                "    strings:\n        $file_path = \"{target}\" nocase wide ascii"
-            );
+            let block =
+                format!("    strings:\n        $file_path = \"{target}\" nocase wide ascii");
             (block, "$file_path")
         }
         ArtifactType::EventLog => {
             let path = artifact.file_path.unwrap_or(artifact.key_path);
             let filename = path.rsplit(['\\', '/']).next().unwrap_or(path);
-            let block = format!(
-                "    strings:\n        $evtx_file = \"{filename}\" nocase wide ascii"
-            );
+            let block =
+                format!("    strings:\n        $evtx_file = \"{filename}\" nocase wide ascii");
             (block, "$evtx_file")
         }
         ArtifactType::MemoryRegion => {
@@ -169,18 +166,15 @@ mod tests {
         for (id, rule) in &templates {
             assert!(
                 rule.contains("rule "),
-                "Rule for '{}' missing 'rule' keyword",
-                id
+                "Rule for '{id}' missing 'rule' keyword"
             );
             assert!(
                 rule.contains("meta:"),
-                "Rule for '{}' missing 'meta:' block",
-                id
+                "Rule for '{id}' missing 'meta:' block"
             );
             assert!(
                 rule.contains("condition:"),
-                "Rule for '{}' missing 'condition:' block",
-                id
+                "Rule for '{id}' missing 'condition:' block"
             );
         }
     }
@@ -189,12 +183,10 @@ mod tests {
     fn rule_name_is_valid_identifier() {
         let templates = all_yara_templates();
         for (id, rule) in &templates {
-            let expected_name = id.replace('-', "_").replace('.', "_");
+            let expected_name = id.replace(['-', '.'], "_");
             assert!(
-                rule.contains(&format!("rule {}", expected_name)),
-                "Rule for '{}' should use identifier '{}'",
-                id,
-                expected_name
+                rule.contains(&format!("rule {expected_name}")),
+                "Rule for '{id}' should use identifier '{expected_name}'"
             );
         }
     }

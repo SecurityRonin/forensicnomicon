@@ -6,8 +6,8 @@
 #![allow(clippy::too_many_lines)]
 
 use super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, FieldSchema, HiveTarget, OsScope,
-    TriagePriority, ValueType,
+    ArtifactDescriptor, ArtifactType, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
+    ValueType,
 };
 
 pub(crate) static LINUX_AUDITD_LOG: ArtifactDescriptor = ArtifactDescriptor {
