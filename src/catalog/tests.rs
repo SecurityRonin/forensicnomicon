@@ -168,7 +168,7 @@ mod decode_tests {
     #[test]
     fn catalog_has_entries() {
         assert!(!CATALOG.list().is_empty());
-        assert_eq!(CATALOG.list().len(), 182);
+        assert_eq!(CATALOG.list().len(), 187);
     }
 
     #[test]
