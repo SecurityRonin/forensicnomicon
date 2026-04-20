@@ -70,6 +70,7 @@ pub mod pca;
 pub mod persistence;
 pub mod ports;
 pub mod processes;
+pub mod no_std_compat;
 pub mod references;
 pub mod remote_access;
 pub mod third_party;
