@@ -47,7 +47,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! forensic-catalog = { version = "...", default-features = false }
+//! forensicnomicon = { version = "...", default-features = false }
 //! ```
 //!
 //! You will still have access to all the modules listed in the first table above.

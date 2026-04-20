@@ -1,6 +1,6 @@
 # DFIR Handbook
 
-This handbook is the analyst-facing entry point for `forensic-catalog`.
+This handbook is the analyst-facing entry point for `forensicnomicon`.
 
 Use it when you need to answer questions like:
 

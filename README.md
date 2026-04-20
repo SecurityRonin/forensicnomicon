@@ -1,11 +1,11 @@
-[![crates.io](https://img.shields.io/crates/v/forensic-catalog?style=for-the-badge&logo=rust)](https://crates.io/crates/forensic-catalog)
-[![docs.rs](https://img.shields.io/docsrs/forensic-catalog?style=for-the-badge)](https://docs.rs/forensic-catalog)
-[![CI](https://img.shields.io/github/actions/workflow/status/SecurityRonin/forensic-catalog/ci.yml?branch=main&style=for-the-badge&label=CI)](https://github.com/SecurityRonin/forensic-catalog/actions/workflows/ci.yml)
-[![license](https://img.shields.io/crates/l/forensic-catalog?style=for-the-badge)](LICENSE)
+[![crates.io](https://img.shields.io/crates/v/forensicnomicon?style=for-the-badge&logo=rust)](https://crates.io/crates/forensicnomicon)
+[![docs.rs](https://img.shields.io/docsrs/forensicnomicon?style=for-the-badge)](https://docs.rs/forensicnomicon)
+[![CI](https://img.shields.io/github/actions/workflow/status/SecurityRonin/forensicnomicon/ci.yml?branch=main&style=for-the-badge&label=CI)](https://github.com/SecurityRonin/forensicnomicon/actions/workflows/ci.yml)
+[![license](https://img.shields.io/crates/l/forensicnomicon?style=for-the-badge)](LICENSE)
 [![rust](https://img.shields.io/badge/rust-1.75+-orange?style=for-the-badge&logo=rust)](https://www.rust-lang.org)
 [![Sponsor](https://img.shields.io/github/sponsors/h4x0r?style=for-the-badge&logo=github&label=Sponsor&color=ea4aaa)](https://github.com/sponsors/h4x0r)
 
-# forensic-catalog
+# forensicnomicon
 
 **Stop hardcoding artifact paths and MITRE tags into your DFIR tool.**
 
@@ -13,7 +13,7 @@
 
 ```toml
 [dependencies]
-forensic-catalog = "0.1"
+forensicnomicon = "0.1"
 ```
 
 Zero dependencies. No I/O. Everything lives in `const` memory.
@@ -23,8 +23,8 @@ Zero dependencies. No I/O. Everything lives in `const` memory.
 ## See it in 30 seconds
 
 ```rust
-use forensic_catalog::ports::is_suspicious_port;
-use forensic_catalog::catalog::{CATALOG, TriagePriority};
+use forensicnomicon::ports::is_suspicious_port;
+use forensicnomicon::catalog::{CATALOG, TriagePriority};
 
 // Boolean port check — no allocations
 assert!(is_suspicious_port(4444)); // Metasploit default
@@ -45,7 +45,7 @@ If that looks useful, keep reading.
 
 Every DFIR tool eventually accumulates a hand-rolled list of artifact paths, MITRE tags, and triage rules scattered across constants, comments, and config files. That list drifts, goes uncited, and becomes a maintenance burden.
 
-`forensic-catalog` is that list, structured:
+`forensicnomicon` is that list, structured:
 
 - Each artifact has a **known location** (hive, key path, file path), a **decoder**, a **triage priority**, and **authoritative source URLs** — all in one `const`-constructible struct
 - The catalog is **queryable** — by MITRE technique, triage priority, keyword, or structured filter
@@ -89,7 +89,7 @@ Every DFIR tool eventually accumulates a hand-rolled list of artifact paths, MIT
 ## Decode a raw artifact
 
 ```rust
-use forensic_catalog::catalog::CATALOG;
+use forensicnomicon::catalog::CATALOG;
 
 let d = CATALOG.by_id("userassist_exe").unwrap();
 let record = CATALOG.decode(d, value_name, raw_bytes)?;
@@ -116,7 +116,7 @@ let ordered = CATALOG.for_triage();
 let hits = CATALOG.filter_by_keyword("prefetch");
 
 // Structured filter
-use forensic_catalog::catalog::{ArtifactQuery, DataScope, HiveTarget};
+use forensicnomicon::catalog::{ArtifactQuery, DataScope, HiveTarget};
 let hits = CATALOG.filter(&ArtifactQuery {
     scope: Some(DataScope::User),
     hive: Some(HiveTarget::NtUser),
@@ -131,7 +131,7 @@ let hits = CATALOG.filter(&ArtifactQuery {
 Six directed investigation paths — given a trigger artifact or technique, get an ordered list of what to examine next:
 
 ```rust
-use forensic_catalog::playbooks::{PLAYBOOKS, playbook_by_id, playbooks_for_artifact};
+use forensicnomicon::playbooks::{PLAYBOOKS, playbook_by_id, playbooks_for_artifact};
 
 // "I found a suspicious scheduled task — what else should I look at?"
 let path = playbook_by_id("persistence_hunt").unwrap();
@@ -153,7 +153,7 @@ Available playbooks: `lateral_movement_rdp`, `credential_harvesting`, `persisten
 Map any artifact ID to KAPE targets and Velociraptor artifacts:
 
 ```rust
-use forensic_catalog::toolchain::{kape_mapping_for, kape_target_set, velociraptor_artifact_set};
+use forensicnomicon::toolchain::{kape_mapping_for, kape_target_set, velociraptor_artifact_set};
 
 // Single artifact
 let m = kape_mapping_for("prefetch_dir").unwrap();
@@ -171,20 +171,20 @@ let velo    = velociraptor_artifact_set(&["evtx_security", "mft_file"]);
 
 ```rust
 // Sigma rules for an artifact
-use forensic_catalog::sigma::sigma_refs_for;
+use forensicnomicon::sigma::sigma_refs_for;
 let rules = sigma_refs_for("evtx_security");
 // rules[0].rule_id, rules[0].title, rules[0].mitre_techniques
 
 // YARA skeleton
-use forensic_catalog::yara::yara_rule_template;
+use forensicnomicon::yara::yara_rule_template;
 let rule = yara_rule_template("prefetch_dir").unwrap();
 
 // ATT&CK Navigator layer (JSON)
-use forensic_catalog::navigator::generate_navigator_layer;
+use forensicnomicon::navigator::generate_navigator_layer;
 let json = generate_navigator_layer("My Hunt");
 
 // STIX 2.1 observable pattern
-use forensic_catalog::stix::stix_mapping_for;
+use forensicnomicon::stix::stix_mapping_for;
 let stix = stix_mapping_for("userassist_exe").unwrap();
 // stix.stix_pattern — Some("[windows-registry-key:key = '...']")
 ```
@@ -194,8 +194,8 @@ let stix = stix_mapping_for("userassist_exe").unwrap();
 ## Evidence and volatility
 
 ```rust
-use forensic_catalog::evidence::{evidence_for, EvidenceStrength};
-use forensic_catalog::volatility::{volatility_for, acquisition_order};
+use forensicnomicon::evidence::{evidence_for, EvidenceStrength};
+use forensicnomicon::volatility::{volatility_for, acquisition_order};
 
 // How reliable is this artifact as evidence?
 let e = evidence_for("prefetch_dir").unwrap();
@@ -215,7 +215,7 @@ let order = acquisition_order();
 Thirteen flat lookup modules — no schema, no decoder, just fast boolean checks:
 
 ```rust
-use forensic_catalog::{
+use forensicnomicon::{
     ports::is_suspicious_port,
     lolbins::is_windows_lolbin,
     processes::MALWARE_PROCESS_NAMES,
@@ -330,16 +330,16 @@ let rs  = CATALOG.record_signatures("userassist_exe");
 
 ---
 
-## `fcatalog` CLI
+## `fnomicon` CLI
 
 A companion CLI binary for interactive exploration:
 
 ```
-$ cargo install fcatalog
-$ fcatalog list
-$ fcatalog search prefetch
-$ fcatalog show userassist_exe
-$ fcatalog triage
+$ cargo install fnomicon
+$ fnomicon list
+$ fnomicon search prefetch
+$ fnomicon show userassist_exe
+$ fnomicon triage
 ```
 
 ---
@@ -358,9 +358,9 @@ All static indicators and catalog types work without any feature flag. The `serd
 
 | | |
 |---|---|
-| [DFIR Handbook](https://securityronin.github.io/forensic-catalog/forensic_catalog/handbook/) | Artifact families, investigation paths, carving guidance |
-| [API Reference](https://docs.rs/forensic-catalog) | Full rustdoc |
-| [Architecture Diagram](https://securityronin.github.io/forensic-catalog/architecture.html) | Data-flow: raw bytes → ArtifactRecord |
+| [DFIR Handbook](https://securityronin.github.io/forensicnomicon/forensicnomicon/handbook/) | Artifact families, investigation paths, carving guidance |
+| [API Reference](https://docs.rs/forensicnomicon) | Full rustdoc |
+| [Architecture Diagram](https://securityronin.github.io/forensicnomicon/architecture.html) | Data-flow: raw bytes → ArtifactRecord |
 | [Module Source Map](docs/module-sources.md) | Per-module authoritative references |
 
 ---

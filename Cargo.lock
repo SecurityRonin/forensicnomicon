@@ -3,14 +3,14 @@
 version = 3
 
 [[package]]
-name = "fcatalog"
+name = "fnomicon"
 version = "0.1.0"
 dependencies = [
- "forensic-catalog",
+ "forensicnomicon",
 ]
 
 [[package]]
-name = "forensic-catalog"
+name = "forensicnomicon"
 version = "0.1.0"
 dependencies = [
  "serde",

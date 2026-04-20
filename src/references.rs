@@ -99,7 +99,7 @@ pub const PCA_REFERENCES: &[&str] = &[
 ];
 
 pub const ARTIFACT_REFERENCES: &[&str] = &[
-    "https://docs.rs/forensic-catalog",
+    "https://docs.rs/forensicnomicon",
     "https://attack.mitre.org/",
     "http://windowsir.blogspot.com/",
     "https://ericzimmerman.github.io/#!index.md",

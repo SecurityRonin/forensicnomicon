@@ -1,4 +1,4 @@
-//! fcatalog — CLI explorer for the forensic-catalog.
+//! fnomicon — CLI explorer for the ForensicNomicon artifact catalog.
 //!
 //! Subcommands:
 //!   list              List all artifacts (id, name, priority)
@@ -6,7 +6,7 @@
 //!   show <id>         Print full descriptor for a single artifact
 //!   triage            List Critical and High priority artifacts
 
-use forensic_catalog::catalog::{ArtifactDescriptor, ForensicCatalog, TriagePriority, CATALOG};
+use forensicnomicon::catalog::{ArtifactDescriptor, ForensicCatalog, TriagePriority, CATALOG};
 use std::env;
 
 // ── ANSI colour helpers ───────────────────────────────────────────────────────
@@ -144,13 +144,13 @@ fn cmd_triage(catalog: &'static ForensicCatalog) {
 }
 
 fn usage() {
-    println!("{BOLD}fcatalog{RESET} — forensic artifact catalog explorer", BOLD = BOLD, RESET = RESET);
+    println!("{BOLD}fnomicon{RESET} — forensic artifact catalog explorer", BOLD = BOLD, RESET = RESET);
     println!();
     println!("USAGE:");
-    println!("  fcatalog list");
-    println!("  fcatalog search <keyword>");
-    println!("  fcatalog show <artifact-id>");
-    println!("  fcatalog triage");
+    println!("  fnomicon list");
+    println!("  fnomicon search <keyword>");
+    println!("  fnomicon show <artifact-id>");
+    println!("  fnomicon triage");
     println!();
 }
 
@@ -164,7 +164,7 @@ fn main() {
         Some("search") => {
             let keyword = args.get(2).map(String::as_str).unwrap_or("");
             if keyword.is_empty() {
-                eprintln!("Usage: fcatalog search <keyword>");
+                eprintln!("Usage: fnomicon search <keyword>");
                 std::process::exit(1);
             }
             cmd_search(&CATALOG, keyword);
@@ -172,7 +172,7 @@ fn main() {
         Some("show") => {
             let id = args.get(2).map(String::as_str).unwrap_or("");
             if id.is_empty() {
-                eprintln!("Usage: fcatalog show <artifact-id>");
+                eprintln!("Usage: fnomicon show <artifact-id>");
                 std::process::exit(1);
             }
             cmd_show(&CATALOG, id);
@@ -186,7 +186,7 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-    use forensic_catalog::catalog::{TriagePriority, CATALOG};
+    use forensicnomicon::catalog::{TriagePriority, CATALOG};
 
     #[test]
     fn catalog_accessible_from_binary() {

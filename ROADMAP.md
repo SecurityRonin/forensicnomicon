@@ -1,4 +1,4 @@
-# forensic-catalog Enhancement Roadmap
+# forensicnomicon Enhancement Roadmap
 
 > Produced 2026-04-19 after full codebase analysis of v0.1.0.
 > Each item respects the zero-mandatory-dep / no-I/O / const-static / MSRV 1.75 constraints unless explicitly noted as feature-gated.
@@ -20,7 +20,7 @@
 
 ### 1.1 `serde` Feature Flag for Serialization
 
-**Problem:** Consumers building DFIR pipelines, web UIs, or Sigma-to-forensic-catalog bridges need JSON/YAML/CBOR output. Today they must hand-roll serialization for every struct.
+**Problem:** Consumers building DFIR pipelines, web UIs, or Sigma-to-forensicnomicon bridges need JSON/YAML/CBOR output. Today they must hand-roll serialization for every struct.
 
 **Shape:**
 ```toml
@@ -281,7 +281,7 @@ pub struct SigmaMapping {
 
 ### 2.2 KAPE Target/Module Mapping
 
-**Problem:** KAPE is the most widely used forensic collection tool. Analysts need to map forensic-catalog artifact IDs to KAPE target names and module names so they can programmatically build collection configs.
+**Problem:** KAPE is the most widely used forensic collection tool. Analysts need to map forensicnomicon artifact IDs to KAPE target names and module names so they can programmatically build collection configs.
 
 **Shape:**
 ```rust
@@ -296,7 +296,7 @@ pub struct KapeMapping {
 }
 ```
 
-New module: `src/toolchain.rs` — maps forensic-catalog IDs to KAPE, Velociraptor, Plaso/log2timeline parser names, and Autopsy module names.
+New module: `src/toolchain.rs` — maps forensicnomicon IDs to KAPE, Velociraptor, Plaso/log2timeline parser names, and Autopsy module names.
 
 **Priority:** High. Makes the catalog the Rosetta Stone between DFIR tools.
 
@@ -510,7 +510,7 @@ Output example:
 ```
 rule PrefetchFile {
     meta:
-        description = "Windows Prefetch file (forensic-catalog: prefetch_file)"
+        description = "Windows Prefetch file (forensicnomicon: prefetch_file)"
         mitre = "T1059"
         reference = "https://..."
     strings:
@@ -532,7 +532,7 @@ rule PrefetchFile {
 
 ### 3.1 ForensicArtifacts.com (GRR) YAML Interop
 
-**Problem:** The [ForensicArtifacts](https://github.com/ForensicArtifacts/artifacts) project (used by GRR, Plaso, dfTimewolf) is the closest thing to a standard artifact definition format. Bidirectional interop would make forensic-catalog the canonical Rust representation.
+**Problem:** The [ForensicArtifacts](https://github.com/ForensicArtifacts/artifacts) project (used by GRR, Plaso, dfTimewolf) is the closest thing to a standard artifact definition format. Bidirectional interop would make forensicnomicon the canonical Rust representation.
 
 **Shape:**
 - Feature-gated `forensicartifacts` module.
@@ -540,7 +540,7 @@ rule PrefetchFile {
 - `pub fn from_forensic_artifact_yaml(yaml: &str) -> Result<ArtifactDescriptor, ParseError>` — parse YAML into a descriptor (requires `serde` + `serde_yaml` as optional deps).
 - CI job that diffs the catalog against the upstream ForensicArtifacts repo and reports coverage gaps.
 
-**Priority:** Medium-high. Positions forensic-catalog as the superset, not a competitor.
+**Priority:** Medium-high. Positions forensicnomicon as the superset, not a competitor.
 
 **Effort:** Medium-high.
 
@@ -548,7 +548,7 @@ rule PrefetchFile {
 
 ### 3.2 STIX 2.1 Observable Mapping
 
-**Problem:** Threat intelligence platforms speak STIX. If forensic-catalog can emit STIX 2.1 Observed Data objects and Indicator patterns, it becomes usable in CTI workflows.
+**Problem:** Threat intelligence platforms speak STIX. If forensicnomicon can emit STIX 2.1 Observed Data objects and Indicator patterns, it becomes usable in CTI workflows.
 
 **Shape:**
 ```rust
@@ -621,7 +621,7 @@ Starter artifacts:
 
 **Effort:** High (each provider has its own schema, retention model, and access pattern).
 
-**Risk:** Scope creep. Consider a separate `forensic-catalog-cloud` crate.
+**Risk:** Scope creep. Consider a separate `forensicnomicon-cloud` crate.
 
 ---
 
@@ -708,13 +708,13 @@ This preserves the zero-alloc const core while allowing runtime extension.
 
 ## Tier 4 — Visionary / Ecosystem Play
 
-### 4.1 `forensic-catalog-ffi` — C/Python/Go FFI Layer
+### 4.1 `forensicnomicon-ffi` — C/Python/Go FFI Layer
 
-**Problem:** The DFIR tooling ecosystem is predominantly Python (Volatility, Plaso, dfTimewolf), Go (Velociraptor), and C (Sleuth Kit). If forensic-catalog is Rust-only, it's a silo.
+**Problem:** The DFIR tooling ecosystem is predominantly Python (Volatility, Plaso, dfTimewolf), Go (Velociraptor), and C (Sleuth Kit). If forensicnomicon is Rust-only, it's a silo.
 
 **Shape:**
-- Companion crate `forensic-catalog-ffi` with `cbindgen`-generated C headers.
-- Python bindings via `pyo3`/`maturin` → `pip install forensic-catalog`.
+- Companion crate `forensicnomicon-ffi` with `cbindgen`-generated C headers.
+- Python bindings via `pyo3`/`maturin` → `pip install forensicnomicon`.
 - Go bindings via CGo or a gRPC interface.
 - WASM target for browser-based forensic dashboards.
 
@@ -731,7 +731,7 @@ const char* fc_artifact_meaning(const ArtifactDescriptor* d);
 
 ```python
 # Python API
-from forensic_catalog import CATALOG
+from forensicnomicon import CATALOG
 
 for art in CATALOG.by_mitre("T1547.001"):
     print(f"{art.name}: {art.meaning}")
@@ -750,7 +750,7 @@ for art in CATALOG.by_mitre("T1547.001"):
 **Problem:** Analysts exploring the catalog need something better than grep. A TUI that lets you browse artifacts, filter by MITRE technique, see related artifacts, and follow investigation paths would be a killer demo and daily-use tool.
 
 **Shape:**
-- Companion binary crate `forensic-catalog-tui` using `ratatui` (the `tui-rs` successor).
+- Companion binary crate `forensicnomicon-tui` using `ratatui` (the `tui-rs` successor).
 - Panels: artifact list (filterable), detail view, investigation path viewer, MITRE heatmap.
 - Vim-style keybindings.
 - Export selected artifacts to JSON, KAPE targets, or Velociraptor artifact YAML.
@@ -763,7 +763,7 @@ for art in CATALOG.by_mitre("T1547.001"):
 
 ### 4.3 MITRE ATT&CK Coverage Heatmap Generator
 
-**Problem:** Security teams need to understand their detection coverage gaps. If forensic-catalog can generate an ATT&CK Navigator layer JSON showing which techniques have artifact coverage, it becomes a coverage assessment tool.
+**Problem:** Security teams need to understand their detection coverage gaps. If forensicnomicon can generate an ATT&CK Navigator layer JSON showing which techniques have artifact coverage, it becomes a coverage assessment tool.
 
 **Shape:**
 ```rust
@@ -887,7 +887,7 @@ pub struct DiffProfile {
 
 ### 4.8 Chainsaw / Hayabusa Rule Mapping
 
-**Problem:** [Chainsaw](https://github.com/WithSecureLabs/chainsaw) and [Hayabusa](https://github.com/Yamato-Security/hayabusa) are Rust-native EVTX analysis tools. Mapping forensic-catalog event log artifacts to their rule formats creates a Rust-native DFIR stack.
+**Problem:** [Chainsaw](https://github.com/WithSecureLabs/chainsaw) and [Hayabusa](https://github.com/Yamato-Security/hayabusa) are Rust-native EVTX analysis tools. Mapping forensicnomicon event log artifacts to their rule formats creates a Rust-native DFIR stack.
 
 **Shape:**
 ```rust
@@ -1017,7 +1017,7 @@ These are things the crate should **not** do, to maintain focus:
 
 5. **Threat intelligence feed consumption** — The crate is a reference library, not a real-time feed consumer. The `feed-watch` CI job maintains source freshness, but the crate itself is a point-in-time snapshot.
 
-6. **Replacing existing tools** — forensic-catalog is the *knowledge layer* that existing tools can embed. It doesn't replace KAPE, Velociraptor, or Plaso — it makes them better by giving them a shared vocabulary.
+6. **Replacing existing tools** — forensicnomicon is the *knowledge layer* that existing tools can embed. It doesn't replace KAPE, Velociraptor, or Plaso — it makes them better by giving them a shared vocabulary.
 
 ---
 

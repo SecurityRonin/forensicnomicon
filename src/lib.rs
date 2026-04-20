@@ -1,4 +1,4 @@
-//! forensic-catalog — DFIR knowledge as code.
+//! forensicnomicon — the comprehensive DFIR artifact catalog.
 //!
 //! 187 forensic artifacts — registry keys, files, event logs, memory regions —
 //! each with a decoder, MITRE ATT&CK mapping, triage priority, and source
@@ -9,8 +9,8 @@
 //! # Quick start
 //!
 //! ```rust
-//! use forensic_catalog::catalog::{CATALOG, TriagePriority};
-//! use forensic_catalog::ports::is_suspicious_port;
+//! use forensicnomicon::catalog::{CATALOG, TriagePriority};
+//! use forensicnomicon::ports::is_suspicious_port;
 //!
 //! // Boolean checks — no allocation
 //! assert!(is_suspicious_port(4444));
@@ -90,7 +90,7 @@
 //! All layers queryable via `CATALOG`:
 //!
 //! ```rust
-//! use forensic_catalog::catalog::CATALOG;
+//! use forensicnomicon::catalog::CATALOG;
 //! let cp = CATALOG.container_profile("windows_registry_hive");
 //! let pp = CATALOG.parsing_profile("userassist_exe");
 //! ```

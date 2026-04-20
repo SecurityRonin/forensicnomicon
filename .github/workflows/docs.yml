@@ -28,7 +28,7 @@ jobs:
           RUSTDOCFLAGS: "--cfg docsrs -D warnings"
       - name: Add root redirect
         run: |
-          echo '<meta http-equiv="refresh" content="0;url=forensic_catalog/">' \
+          echo '<meta http-equiv="refresh" content="0;url=forensicnomicon/">' \
             > target/doc/index.html
       - name: Copy static docs
         run: cp docs/architecture.html target/doc/architecture.html

@@ -36,7 +36,7 @@ pub const PCA_ALL_PATHS: &[&str] = &[
 /// Returns `true` if `path` (case-insensitive) matches a known PCA artifact file.
 ///
 /// ```
-/// use forensic_catalog::pca::is_pca_file;
+/// use forensicnomicon::pca::is_pca_file;
 /// assert!(is_pca_file(r"C:\Windows\appcompat\pca\PcaAppLaunchDic.txt"));
 /// assert!(!is_pca_file(r"C:\Windows\System32\notepad.exe"));
 /// ```
@@ -54,7 +54,7 @@ pub fn is_pca_file(path: &str) -> bool {
 /// Returns `None` for empty lines or lines that contain no `|` separator.
 ///
 /// ```
-/// use forensic_catalog::pca::parse_pca_line;
+/// use forensicnomicon::pca::parse_pca_line;
 /// let (path, ts) = parse_pca_line(r"C:\Windows\notepad.exe|2024-01-15 10:30:00").unwrap();
 /// assert_eq!(path, r"C:\Windows\notepad.exe");
 /// assert_eq!(ts, "2024-01-15 10:30:00");

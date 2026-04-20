@@ -37,7 +37,7 @@ pub fn generate_navigator_layer(layer_name: &str) -> String {
   "name": "{layer_name}",
   "versions": {{"attack": "14", "navigator": "4.9", "layer": "4.5"}},
   "domain": "enterprise-attack",
-  "description": "forensic-catalog coverage",
+  "description": "forensicnomicon coverage",
   "techniques": [
 {techniques_str}
   ]
