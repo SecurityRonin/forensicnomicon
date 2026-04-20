@@ -5371,6 +5371,408 @@ pub static RDP_BITMAP_CACHE: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv"],
 };
 
+// ── macOS artifacts ───────────────────────────────────────────────────────────
+
+/// Apple Unified Logging system (`/var/db/diagnostics/`). macOS 10.12+.
+///
+/// Provides timestamped, structured log entries for process activity, crashes,
+/// and security events. Primary timeline source on macOS.
+pub static MACOS_UNIFIED_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_unified_log",
+    name: "macOS Unified Log",
+    artifact_type: ArtifactType::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/db/diagnostics/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS12Plus,
+    decoder: Decoder::Identity,
+    meaning: "Apple Unified Logging system. Contains all system and application logs since macOS 10.12. Provides timestamped, structured log entries for process activity, crashes, and security events.",
+    mitre_techniques: &["T1070.001", "T1059"],
+    fields: &[],
+    retention: Some("Rotated by OS; typically weeks to months"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_install_history"],
+    sources: &[
+        "https://www.mandiant.com/resources/blog/reviewing-macos-unified-logs",
+        "https://developer.apple.com/documentation/os/logging",
+    ],
+};
+
+/// Per-user LaunchAgent plist files (`~/Library/LaunchAgents/`).
+///
+/// Loaded automatically at user login. Primary persistence mechanism for
+/// malware targeting individual users.
+pub static MACOS_LAUNCH_AGENTS_USER: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_launch_agents_user",
+    name: "macOS User LaunchAgents",
+    artifact_type: ArtifactType::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("~/Library/LaunchAgents/"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Per-user LaunchAgent plist files. Automatically loaded at user login. Primary persistence mechanism for malware targeting individual users.",
+    mitre_techniques: &["T1543.001"],
+    fields: &[],
+    retention: Some("Persistent until removed"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["macos_launch_agents_system", "macos_launch_daemons"],
+    sources: &[
+        "https://www.sentinelone.com/blog/how-malware-persists-on-macos/",
+        "https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html",
+    ],
+};
+
+/// System-wide LaunchAgent plist files (`/Library/LaunchAgents/`).
+///
+/// Requires root to install; used by system-level malware and legitimate software.
+pub static MACOS_LAUNCH_AGENTS_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_launch_agents_system",
+    name: "macOS System LaunchAgents",
+    artifact_type: ArtifactType::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/LaunchAgents/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "System-wide LaunchAgent plist files loaded for all users. Requires root to install; used by system-level malware and legitimate software.",
+    mitre_techniques: &["T1543.001"],
+    fields: &[],
+    retention: Some("Persistent until removed"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["macos_launch_agents_user", "macos_launch_daemons"],
+    sources: &[
+        "https://www.sentinelone.com/blog/how-malware-persists-on-macos/",
+        "https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html",
+    ],
+};
+
+/// System LaunchDaemon plist files (`/Library/LaunchDaemons/`).
+///
+/// Run as root at system boot, independent of user login. High-value
+/// persistence for privileged malware.
+pub static MACOS_LAUNCH_DAEMONS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_launch_daemons",
+    name: "macOS LaunchDaemons",
+    artifact_type: ArtifactType::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/LaunchDaemons/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "System LaunchDaemon plist files. Run as root at system boot, independent of user login. High-value persistence for privileged malware.",
+    mitre_techniques: &["T1543.004"],
+    fields: &[],
+    retention: Some("Persistent until removed"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["macos_launch_agents_system"],
+    sources: &[
+        "https://www.sentinelone.com/blog/how-malware-persists-on-macos/",
+        "https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html",
+    ],
+};
+
+/// Transparency, Consent, and Control database (`~/Library/Application Support/com.apple.TCC/TCC.db`).
+///
+/// Records which applications have been granted privacy permissions. Attackers
+/// may modify TCC.db to bypass privacy controls.
+pub static MACOS_TCC_DB: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_tcc_db",
+    name: "macOS TCC Database",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("~/Library/Application Support/com.apple.TCC/TCC.db"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Transparency, Consent, and Control database. Records which applications have been granted permissions (camera, microphone, Full Disk Access, etc.). Attackers may modify TCC.db to bypass privacy controls.",
+    mitre_techniques: &["T1548"],
+    fields: &[],
+    retention: Some("Persistent; updated on permission grant/revoke"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_launch_agents_user"],
+    sources: &[
+        "https://www.sentinelone.com/blog/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/",
+        "https://eclecticlight.co/2020/11/04/tcc-in-big-sur-more-permissions-issues/",
+    ],
+};
+
+/// Quarantine events database (`~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`).
+///
+/// SQLite database recording all files downloaded from the internet. Proves a
+/// file was downloaded even after deletion from Downloads.
+pub static MACOS_QUARANTINE_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_quarantine_events",
+    name: "macOS Quarantine Events Database",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "SQLite database recording all files downloaded from the internet with their origin URL, download date, and quarantine agent. Proves a file was downloaded even after deletion.",
+    mitre_techniques: &["T1204.002"],
+    fields: &[],
+    retention: Some("Persistent; entries accumulate unless cleared"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_safari_downloads"],
+    sources: &[
+        "https://www.jaiminton.com/cheatsheet/DFIR/#quarantine-events",
+        "https://eclecticlight.co/2021/06/05/checking-quarantine-flags-in-big-sur/",
+    ],
+};
+
+/// Safari browser history SQLite database (`~/Library/Safari/History.db`).
+///
+/// Contains URLs, timestamps, and visit counts. Key artifact for establishing
+/// attacker research, C2 communication attempts, and data exfiltration.
+pub static MACOS_SAFARI_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_safari_history",
+    name: "macOS Safari Browser History",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("~/Library/Safari/History.db"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "SQLite database containing Safari browsing history with URLs, timestamps, and visit counts. Key artifact for establishing attacker research, C2 communication attempts, and data exfiltration.",
+    mitre_techniques: &["T1217"],
+    fields: &[],
+    retention: Some("Rotated; typically weeks to months of history"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_safari_downloads", "macos_quarantine_events"],
+    sources: &[
+        "https://www.sans.org/blog/mac-artifact-safari/",
+        "https://www.magnetforensics.com/blog/artifacts-for-ios-investigations/",
+    ],
+};
+
+/// Safari downloads plist (`~/Library/Safari/Downloads.plist`).
+///
+/// Records all files downloaded via Safari. Corroborates quarantine events database.
+pub static MACOS_SAFARI_DOWNLOADS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_safari_downloads",
+    name: "macOS Safari Downloads",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("~/Library/Safari/Downloads.plist"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Plist file recording all files downloaded via Safari with source URL, local path, and download date. Corroborates quarantine events database.",
+    mitre_techniques: &["T1217"],
+    fields: &[],
+    retention: Some("Persistent; entries accumulate"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_safari_history", "macos_quarantine_events"],
+    sources: &[
+        "https://www.sans.org/blog/mac-artifact-safari/",
+    ],
+};
+
+/// KnowledgeC database (`~/Library/Application Support/Knowledge/knowledgeC.db`).
+///
+/// Maintained by the Duet Activity Scheduler. Rich timeline source for user
+/// activity reconstruction including app usage and device lock events.
+pub static MACOS_KNOWLEDGEC: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_knowledgec",
+    name: "macOS KnowledgeC Database",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("~/Library/Application Support/Knowledge/knowledgeC.db"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS12Plus,
+    decoder: Decoder::Identity,
+    meaning: "SQLite database maintained by the Duet Activity Scheduler. Records application usage, device lock/unlock events, browser activity, and screen time. Rich timeline source for user activity reconstruction.",
+    mitre_techniques: &["T1083"],
+    fields: &[],
+    retention: Some("Rolling window; typically 30 days"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_unified_log"],
+    sources: &[
+        "https://www.mac4n6.com/blog/2018/8/5/knowledge-is-power-using-the-knowledgecdb-database-on-macos-ios-to-determine-precise-user-and-application-usage",
+        "https://github.com/mac4n6/APOLLO",
+    ],
+};
+
+/// Per-session bash history files (`~/.bash_sessions/`).
+///
+/// Contains command history per terminal session. macOS Catalina+ uses zsh by
+/// default but bash_sessions may persist for users who previously used bash.
+pub static MACOS_BASH_SESSIONS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_bash_sessions",
+    name: "macOS Bash Session History",
+    artifact_type: ArtifactType::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("~/.bash_sessions/"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Per-session bash history files. macOS Catalina+ uses zsh by default but bash_sessions may persist for users who used bash previously. Contains command history per terminal session.",
+    mitre_techniques: &["T1059.004"],
+    fields: &[],
+    retention: Some("Persistent per session"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_unified_log"],
+    sources: &[
+        "https://eclecticlight.co/2019/07/08/why-mojave-could-be-your-last-bash/",
+    ],
+};
+
+/// Software package install history plist (`/Library/Receipts/InstallHistory.plist`).
+///
+/// Records all software packages installed via macOS installer. Useful for
+/// identifying unauthorized software installation.
+pub static MACOS_INSTALL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_install_history",
+    name: "macOS Software Install History",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/Receipts/InstallHistory.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Plist recording all software packages installed via macOS installer. Includes package name, version, date, and source. Useful for identifying unauthorized software installation.",
+    mitre_techniques: &["T1204"],
+    fields: &[],
+    retention: Some("Persistent; accumulates over system lifetime"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_launch_daemons"],
+    sources: &[
+        "https://www.forensicmike1.com/2019/12/17/macos-forensic-artifacts-install-history/",
+    ],
+};
+
+/// Gatekeeper policy database (`/var/db/SystemPolicy-prefs.plist`).
+///
+/// Records which applications were allowed or blocked by Gatekeeper. Useful
+/// for detecting Gatekeeper bypass attempts.
+pub static MACOS_GATEKEEPER_LOGS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_gatekeeper_logs",
+    name: "macOS Gatekeeper Assessment Logs",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/db/SystemPolicy-prefs.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Gatekeeper policy database and assessment logs. Records which applications were allowed or blocked by Gatekeeper. Useful for detecting Gatekeeper bypass attempts.",
+    mitre_techniques: &["T1553.001"],
+    fields: &[],
+    retention: Some("Persistent; updated on policy decisions"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_tcc_db"],
+    sources: &[
+        "https://support.apple.com/en-us/102445",
+        "https://www.sentinelone.com/blog/gatekeeper-bypass-macos-security/",
+    ],
+};
+
+/// User keychain database (`~/Library/Keychains/login.keychain-db`).
+///
+/// Stores passwords, certificates, and private keys. Unlocked at login with
+/// user password. Attackers with user access can dump all stored credentials.
+pub static MACOS_KEYCHAIN_USER: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_keychain_user",
+    name: "macOS User Keychain",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("~/Library/Keychains/login.keychain-db"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "User keychain database storing passwords, certificates, and private keys. Unlocked at login with user password. Attackers with user access can dump all stored credentials.",
+    mitre_techniques: &["T1555.001"],
+    fields: &[],
+    retention: Some("Persistent; updated on credential add/remove"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["macos_tcc_db"],
+    sources: &[
+        "https://www.hexnode.com/blogs/macos-keychain-forensics/",
+        "https://github.com/n0fate/chainbreaker",
+    ],
+};
+
+/// emond plist rules directory (`/etc/emond.d/rules/`).
+///
+/// Rules executed by the Event Monitor Daemon. Deprecated in macOS 12 but
+/// exploited for persistence on older versions via event-triggered commands.
+pub static MACOS_EMOND: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_emond",
+    name: "macOS Event Monitor Daemon Rules",
+    artifact_type: ArtifactType::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/etc/emond.d/rules/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "emond plist rules executed by the Event Monitor Daemon. Deprecated in macOS 12 but exploited for persistence on older versions. Rules can execute commands on system events.",
+    mitre_techniques: &["T1546"],
+    fields: &[],
+    retention: Some("Persistent until removed"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_launch_daemons"],
+    sources: &[
+        "https://www.xorrior.com/emond-persistence/",
+        "https://attack.mitre.org/techniques/T1546/014/",
+    ],
+};
+
+/// CoreAnalytics execution reports directory (`/Library/Logs/DiagnosticReports/`).
+///
+/// CoreAnalytics `.ca_report` files record process execution metadata including
+/// SHA256 hashes. Provides execution evidence similar to Windows Prefetch.
+pub static MACOS_COREANALYTICS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_coreanalytics",
+    name: "macOS CoreAnalytics Execution Reports",
+    artifact_type: ArtifactType::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/Logs/DiagnosticReports/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Execution reports generated by macOS diagnostics. CoreAnalytics .ca_report files record process execution metadata including SHA256 hashes. Provides execution evidence similar to Windows Prefetch.",
+    mitre_techniques: &["T1059"],
+    fields: &[],
+    retention: Some("Rolling; older reports auto-deleted"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_unified_log"],
+    sources: &[
+        "https://www.crowdstrike.com/blog/reconstructing-command-line-activity-on-macos/",
+        "https://thedfirreport.com/2021/01/18/all-that-for-a-coinminer/",
+    ],
+};
+
 // ── Global catalog entries ────────────────────────────────────────────────────
 
 /// All descriptor instances that make up the global catalog.
@@ -5568,4 +5970,20 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     EVTX_SYSTEM,
     EVTX_POWERSHELL,
     EVTX_SYSMON,
+    // Batch macOS — persistence, execution, credentials, privacy
+    MACOS_UNIFIED_LOG,
+    MACOS_LAUNCH_AGENTS_USER,
+    MACOS_LAUNCH_AGENTS_SYSTEM,
+    MACOS_LAUNCH_DAEMONS,
+    MACOS_TCC_DB,
+    MACOS_QUARANTINE_EVENTS,
+    MACOS_SAFARI_HISTORY,
+    MACOS_SAFARI_DOWNLOADS,
+    MACOS_KNOWLEDGEC,
+    MACOS_BASH_SESSIONS,
+    MACOS_INSTALL_HISTORY,
+    MACOS_GATEKEEPER_LOGS,
+    MACOS_KEYCHAIN_USER,
+    MACOS_EMOND,
+    MACOS_COREANALYTICS,
 ];

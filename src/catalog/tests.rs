@@ -168,7 +168,7 @@ mod decode_tests {
     #[test]
     fn catalog_has_entries() {
         assert!(!CATALOG.list().is_empty());
-        assert_eq!(CATALOG.list().len(), 167);
+        assert_eq!(CATALOG.list().len(), 182);
     }
 
     #[test]
@@ -2906,10 +2906,7 @@ mod macos_tests {
         for d in CATALOG.for_triage() {
             if matches!(
                 d.os_scope,
-                OsScope::MacOS
-                    | OsScope::MacOS12Plus
-                    | OsScope::MacOS13Plus
-                    | OsScope::MacOS14Plus
+                OsScope::MacOS | OsScope::MacOS12Plus | OsScope::MacOS13Plus | OsScope::MacOS14Plus
             ) {
                 assert!(
                     !d.sources.is_empty(),
