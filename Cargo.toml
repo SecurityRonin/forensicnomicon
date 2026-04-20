@@ -2,15 +2,15 @@
 members = [".", "crates/fcatalog"]
 
 [package]
-name = "forensic-catalog"
+name = "forensicnomicon"
 version = "0.1.0"
-description = "Forensic artifact catalog for DFIR: UserAssist, Shimcache, Amcache, Prefetch, $MFT, ShellBags, EVTX, NTDS.dit, SAM, SRUM, LNK, Jump Lists + KAPE/Velociraptor/Sigma/MITRE cross-refs. Zero deps."
+description = "The ForensicNomicon — comprehensive DFIR artifact catalog: UserAssist, Shimcache, Amcache, Prefetch, $MFT, ShellBags, EVTX, NTDS.dit, SAM, SRUM, LNK, Jump Lists + KAPE/Velociraptor/Sigma/MITRE. Zero deps."
 edition = "2021"
 rust-version = "1.75"
 license = "Apache-2.0"
-repository = "https://github.com/SecurityRonin/forensic-catalog"
-homepage = "https://github.com/SecurityRonin/forensic-catalog"
-documentation = "https://docs.rs/forensic-catalog"
+repository = "https://github.com/SecurityRonin/forensicnomicon"
+homepage = "https://github.com/SecurityRonin/forensicnomicon"
+documentation = "https://docs.rs/forensicnomicon"
 keywords = ["forensics", "dfir", "incident-response", "mitre", "artifacts"]
 categories = ["science", "data-structures"]
 readme = "README.md"

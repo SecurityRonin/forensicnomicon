@@ -1,12 +1,12 @@
 [package]
-name = "fcatalog"
+name = "fnomicon"
 version = "0.1.0"
 edition = "2021"
-description = "TUI/CLI explorer for forensic-catalog"
+description = "CLI explorer for the ForensicNomicon artifact catalog"
 
 [[bin]]
-name = "fcatalog"
+name = "fnomicon"
 path = "src/main.rs"
 
 [dependencies]
-forensic-catalog = { path = "../.." }
+forensicnomicon = { path = "../.." }
