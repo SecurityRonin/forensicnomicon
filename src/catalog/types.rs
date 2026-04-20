@@ -69,6 +69,15 @@ pub enum OsScope {
     LinuxDebian,
     /// Red Hat / CentOS / Fedora specific paths.
     LinuxRhel,
+    // ── macOS ────────────────────────────────────────────────────────────
+    /// All macOS versions (10.x+).
+    MacOS,
+    /// macOS 12 Monterey and later.
+    MacOS12Plus,
+    /// macOS 13 Ventura and later.
+    MacOS13Plus,
+    /// macOS 14 Sonoma and later.
+    MacOS14Plus,
 }
 
 // ── Binary field layout ──────────────────────────────────────────────────────

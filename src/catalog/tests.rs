@@ -2847,3 +2847,76 @@ mod serde_tests {
         assert_eq!(decoded, OsScope::Win10Plus);
     }
 }
+
+#[cfg(test)]
+mod macos_tests {
+    use crate::catalog::{OsScope, CATALOG};
+
+    #[test]
+    fn macos_artifacts_exist_in_catalog() {
+        let macos_artifacts: Vec<_> = CATALOG
+            .for_triage()
+            .into_iter()
+            .filter(|d| {
+                matches!(
+                    d.os_scope,
+                    OsScope::MacOS
+                        | OsScope::MacOS12Plus
+                        | OsScope::MacOS13Plus
+                        | OsScope::MacOS14Plus
+                )
+            })
+            .collect();
+        assert!(
+            macos_artifacts.len() >= 10,
+            "Expected at least 10 macOS artifacts, got {}",
+            macos_artifacts.len()
+        );
+    }
+
+    #[test]
+    fn macos_launch_agents_user_exists() {
+        assert!(
+            CATALOG.by_id("macos_launch_agents_user").is_some(),
+            "macos_launch_agents_user should be in catalog"
+        );
+    }
+
+    #[test]
+    fn macos_tcc_db_has_mitre_mapping() {
+        let d = CATALOG
+            .by_id("macos_tcc_db")
+            .expect("macos_tcc_db should be in catalog");
+        assert!(
+            !d.mitre_techniques.is_empty(),
+            "macos_tcc_db should have MITRE techniques"
+        );
+    }
+
+    #[test]
+    fn macos_unified_log_exists() {
+        assert!(
+            CATALOG.by_id("macos_unified_log").is_some(),
+            "macos_unified_log should be in catalog"
+        );
+    }
+
+    #[test]
+    fn macos_artifacts_have_sources() {
+        for d in CATALOG.for_triage() {
+            if matches!(
+                d.os_scope,
+                OsScope::MacOS
+                    | OsScope::MacOS12Plus
+                    | OsScope::MacOS13Plus
+                    | OsScope::MacOS14Plus
+            ) {
+                assert!(
+                    !d.sources.is_empty(),
+                    "macOS artifact '{}' has no sources",
+                    d.id
+                );
+            }
+        }
+    }
+}
