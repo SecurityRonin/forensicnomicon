@@ -168,7 +168,7 @@ mod decode_tests {
     #[test]
     fn catalog_has_entries() {
         assert!(!CATALOG.list().is_empty());
-        assert_eq!(CATALOG.list().len(), 284);
+        assert_eq!(CATALOG.list().len(), 314);
     }
 
     #[test]
@@ -2929,7 +2929,10 @@ mod memory_tests {
             .iter()
             .filter(|d| matches!(d.artifact_type, ArtifactType::MemoryRegion))
             .collect();
-        assert!(mem.len() >= 3, "Should have at least 3 MemoryRegion artifacts");
+        assert!(
+            mem.len() >= 3,
+            "Should have at least 3 MemoryRegion artifacts"
+        );
     }
 
     #[test]
@@ -2953,7 +2956,11 @@ mod memory_tests {
             .filter(|d| matches!(d.artifact_type, ArtifactType::MemoryRegion))
             .collect();
         for d in &mem {
-            assert!(!d.mitre_techniques.is_empty(), "{} has no MITRE mappings", d.id);
+            assert!(
+                !d.mitre_techniques.is_empty(),
+                "{} has no MITRE mappings",
+                d.id
+            );
         }
     }
 }

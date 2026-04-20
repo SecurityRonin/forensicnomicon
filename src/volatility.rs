@@ -381,34 +381,230 @@ pub static VOLATILITY_TABLE: &[VolatilityEntry] = &[
         rationale: "RAM; lost on power-off",
     },
     // Extended Windows registry Critical artifacts
-    VolatilityEntry { artifact_id: "credential_providers", volatility: VolatilityClass::Persistent, rationale: "Registry key; persistent until deleted" },
-    VolatilityEntry { artifact_id: "scheduled_task_registry_cache", volatility: VolatilityClass::Persistent, rationale: "Registry cache; survives XML task file deletion" },
-    VolatilityEntry { artifact_id: "winlogon_notify", volatility: VolatilityClass::Persistent, rationale: "Registry key; persistent until deleted" },
-    VolatilityEntry { artifact_id: "usb_stor_enum", volatility: VolatilityClass::Persistent, rationale: "Registry key; survives device removal" },
-    VolatilityEntry { artifact_id: "setupapi_dev_log", volatility: VolatilityClass::Persistent, rationale: "Log file; retained until manually cleared" },
-    VolatilityEntry { artifact_id: "terminal_server_client_servers_ext", volatility: VolatilityClass::Persistent, rationale: "Registry key; persists across sessions" },
+    VolatilityEntry {
+        artifact_id: "credential_providers",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key; persistent until deleted",
+    },
+    VolatilityEntry {
+        artifact_id: "scheduled_task_registry_cache",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry cache; survives XML task file deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "winlogon_notify",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key; persistent until deleted",
+    },
+    VolatilityEntry {
+        artifact_id: "usb_stor_enum",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key; survives device removal",
+    },
+    VolatilityEntry {
+        artifact_id: "setupapi_dev_log",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Log file; retained until manually cleared",
+    },
+    VolatilityEntry {
+        artifact_id: "terminal_server_client_servers_ext",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key; persists across sessions",
+    },
     // Extended Windows EVTX Critical artifacts
-    VolatilityEntry { artifact_id: "evtx_task_scheduler", volatility: VolatilityClass::RotatingBuffer, rationale: "Event log; rotated on size limit" },
-    VolatilityEntry { artifact_id: "evtx_rdp_client", volatility: VolatilityClass::RotatingBuffer, rationale: "Event log; rotated on size limit" },
-    VolatilityEntry { artifact_id: "evtx_rdp_inbound", volatility: VolatilityClass::RotatingBuffer, rationale: "Event log; rotated on size limit" },
-    VolatilityEntry { artifact_id: "evtx_rdp_session", volatility: VolatilityClass::RotatingBuffer, rationale: "Event log; rotated on size limit" },
-    VolatilityEntry { artifact_id: "evtx_winrm", volatility: VolatilityClass::RotatingBuffer, rationale: "Event log; rotated on size limit" },
-    VolatilityEntry { artifact_id: "evtx_wmi_activity", volatility: VolatilityClass::RotatingBuffer, rationale: "Event log; rotated on size limit" },
-    VolatilityEntry { artifact_id: "evtx_defender", volatility: VolatilityClass::RotatingBuffer, rationale: "Event log; rotated on size limit" },
-    VolatilityEntry { artifact_id: "evtx_netlogon", volatility: VolatilityClass::RotatingBuffer, rationale: "Event log; rotated on size limit" },
-    VolatilityEntry { artifact_id: "evtx_lsa_protection", volatility: VolatilityClass::RotatingBuffer, rationale: "Event log; rotated on size limit" },
+    VolatilityEntry {
+        artifact_id: "evtx_task_scheduler",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log; rotated on size limit",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_rdp_client",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log; rotated on size limit",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_rdp_inbound",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log; rotated on size limit",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_rdp_session",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log; rotated on size limit",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_winrm",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log; rotated on size limit",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_wmi_activity",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log; rotated on size limit",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_defender",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log; rotated on size limit",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_netlogon",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log; rotated on size limit",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_lsa_protection",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log; rotated on size limit",
+    },
     // Extended macOS Critical artifacts
-    VolatilityEntry { artifact_id: "macos_fsevents", volatility: VolatilityClass::RotatingBuffer, rationale: "FSEvents log; rotated as volume fills" },
-    VolatilityEntry { artifact_id: "macos_login_items_plist", volatility: VolatilityClass::Persistent, rationale: "Plist file; persistent until deleted" },
-    VolatilityEntry { artifact_id: "macos_tcc_system_db", volatility: VolatilityClass::Persistent, rationale: "SQLite DB; persistent until reset" },
-    VolatilityEntry { artifact_id: "macos_sms_db", volatility: VolatilityClass::Persistent, rationale: "SQLite DB; persistent until deleted" },
+    VolatilityEntry {
+        artifact_id: "macos_fsevents",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "FSEvents log; rotated as volume fills",
+    },
+    VolatilityEntry {
+        artifact_id: "macos_login_items_plist",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Plist file; persistent until deleted",
+    },
+    VolatilityEntry {
+        artifact_id: "macos_tcc_system_db",
+        volatility: VolatilityClass::Persistent,
+        rationale: "SQLite DB; persistent until reset",
+    },
+    VolatilityEntry {
+        artifact_id: "macos_sms_db",
+        volatility: VolatilityClass::Persistent,
+        rationale: "SQLite DB; persistent until deleted",
+    },
     // Extended Linux Critical artifacts
-    VolatilityEntry { artifact_id: "linux_auditd_log", volatility: VolatilityClass::RotatingBuffer, rationale: "Log file; rotated by logrotate" },
-    VolatilityEntry { artifact_id: "linux_secure_log", volatility: VolatilityClass::RotatingBuffer, rationale: "Log file; rotated by logrotate" },
-    VolatilityEntry { artifact_id: "linux_apache_access_log", volatility: VolatilityClass::RotatingBuffer, rationale: "Log file; rotated by logrotate" },
-    VolatilityEntry { artifact_id: "linux_nginx_access_log", volatility: VolatilityClass::RotatingBuffer, rationale: "Log file; rotated by logrotate" },
-    VolatilityEntry { artifact_id: "linux_selinux_config", volatility: VolatilityClass::Persistent, rationale: "Config file; persistent until modified" },
-    VolatilityEntry { artifact_id: "linux_proc_modules", volatility: VolatilityClass::Volatile, rationale: "Virtual FS; lost on reboot" },
+    VolatilityEntry {
+        artifact_id: "linux_auditd_log",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Log file; rotated by logrotate",
+    },
+    VolatilityEntry {
+        artifact_id: "linux_secure_log",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Log file; rotated by logrotate",
+    },
+    VolatilityEntry {
+        artifact_id: "linux_apache_access_log",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Log file; rotated by logrotate",
+    },
+    VolatilityEntry {
+        artifact_id: "linux_nginx_access_log",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Log file; rotated by logrotate",
+    },
+    VolatilityEntry {
+        artifact_id: "linux_selinux_config",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Config file; persistent until modified",
+    },
+    VolatilityEntry {
+        artifact_id: "linux_proc_modules",
+        volatility: VolatilityClass::Volatile,
+        rationale: "Virtual FS; lost on reboot",
+    },
+    // Phase-2 Windows registry Critical artifacts
+    VolatilityEntry {
+        artifact_id: "winlogon_autoadmin_logon",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry value; persistent until modification",
+    },
+    VolatilityEntry {
+        artifact_id: "winlogon_default_password",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry value; persistent until modification",
+    },
+    VolatilityEntry {
+        artifact_id: "portproxy_config",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key; persistent until netsh portproxy delete",
+    },
+    VolatilityEntry {
+        artifact_id: "windows_defender_exclusions_local",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key; persistent until Defender policy change",
+    },
+    VolatilityEntry {
+        artifact_id: "windows_defender_disabled_av",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry value; persistent until GPO refresh",
+    },
+    VolatilityEntry {
+        artifact_id: "windows_defender_realtime",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key; persistent until Defender reset",
+    },
+    VolatilityEntry {
+        artifact_id: "ms_office_trusted_docs",
+        volatility: VolatilityClass::ActivityDriven,
+        rationale: "Updated when user enables Office document macros",
+    },
+    VolatilityEntry {
+        artifact_id: "vss_files_not_to_snapshot",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key; persistent until registry modification",
+    },
+    VolatilityEntry {
+        artifact_id: "vss_files_not_to_backup",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key; persistent until registry modification",
+    },
+    VolatilityEntry {
+        artifact_id: "ifeo_silent_exit",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key; persistent until modification",
+    },
+    VolatilityEntry {
+        artifact_id: "exefile_shell_open_software",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry value; persistent until explicit deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "exefile_shell_open_usrclass",
+        volatility: VolatilityClass::Persistent,
+        rationale: "UsrClass.dat value; persistent until profile deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "rdp_shadow_sessions",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry value; persistent until policy modification",
+    },
+    VolatilityEntry {
+        artifact_id: "restricted_admin_rdp",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry value; persistent until explicit change",
+    },
+    VolatilityEntry {
+        artifact_id: "network_shares_server",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key; persistent until share removal",
+    },
+    VolatilityEntry {
+        artifact_id: "ms_office_server_cache",
+        volatility: VolatilityClass::ActivityDriven,
+        rationale: "Updated on Office server connections; persists in NTUSER.DAT",
+    },
+    VolatilityEntry {
+        artifact_id: "powershell_cobalt_info",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key created by Cobalt Strike; persistent until cleanup",
+    },
+    VolatilityEntry {
+        artifact_id: "taskcache_tasks_path",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key; persistent until task deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "event_log_channel_status",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key; persistent until channel re-enabled",
+    },
 ];
 
 /// Returns the volatility entry for a given artifact ID, or `None` if unknown.

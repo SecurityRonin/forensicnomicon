@@ -10,6 +10,7 @@ mod linux_ext;
 mod macos_ext;
 mod windows_evtx_ext;
 mod windows_registry_ext;
+mod windows_registry_ext2;
 
 use super::types::{
     ArtifactDescriptor, ArtifactType, BinaryField, BinaryFieldType, DataScope, Decoder,
@@ -6316,4 +6317,35 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     linux_ext::LINUX_COREDUMP_DIR,
     linux_ext::LINUX_LOGROTATE_D,
     linux_ext::LINUX_SNAP_PACKAGES,
+    // Phase-2 Windows registry threat-hunting artifacts (windows_registry_ext2)
+    windows_registry_ext2::WINLOGON_AUTOADMIN_LOGON,
+    windows_registry_ext2::WINLOGON_DEFAULT_PASSWORD,
+    windows_registry_ext2::WINLOGON_DEFAULT_USERNAME,
+    windows_registry_ext2::LOGONUI_LAST_LOGGEDON_USER,
+    windows_registry_ext2::PORTPROXY_CONFIG,
+    windows_registry_ext2::WINDOWS_DEFENDER_EXCLUSIONS_LOCAL,
+    windows_registry_ext2::WINDOWS_DEFENDER_DISABLED_AV,
+    windows_registry_ext2::WINDOWS_DEFENDER_REALTIME,
+    windows_registry_ext2::MS_OFFICE_TRUSTED_DOCS,
+    windows_registry_ext2::VSS_FILES_NOT_TO_SNAPSHOT,
+    windows_registry_ext2::VSS_FILES_NOT_TO_BACKUP,
+    windows_registry_ext2::IFEO_SILENT_EXIT,
+    windows_registry_ext2::EXEFILE_SHELL_OPEN_SOFTWARE,
+    windows_registry_ext2::EXEFILE_SHELL_OPEN_USRCLASS,
+    windows_registry_ext2::RDP_SHADOW_SESSIONS,
+    windows_registry_ext2::RESTRICTED_ADMIN_RDP,
+    windows_registry_ext2::NETWORK_SHARES_SERVER,
+    windows_registry_ext2::SYSINTERNALS_EULA,
+    windows_registry_ext2::MS_OFFICE_SERVER_CACHE,
+    windows_registry_ext2::POWERSHELL_COBALT_INFO,
+    windows_registry_ext2::STARTUP_APPROVED_RUN_SYSTEM,
+    windows_registry_ext2::STARTUP_APPROVED_RUN_USER,
+    windows_registry_ext2::TASKCACHE_TASKS_PATH,
+    windows_registry_ext2::PROFILE_LIST_USERS,
+    windows_registry_ext2::REGISTRAR_FAVORITES,
+    windows_registry_ext2::DHCP_IPV4_INTERFACE,
+    windows_registry_ext2::NTFS_LAST_ACCESS_STATUS,
+    windows_registry_ext2::PREFETCH_STATUS,
+    windows_registry_ext2::FIREWALL_RULES,
+    windows_registry_ext2::EVENT_LOG_CHANNEL_STATUS,
 ];

@@ -432,6 +432,26 @@ pub static EVIDENCE_TABLE: &[EvidenceEntry] = &[
     EvidenceEntry { artifact_id: "linux_nginx_access_log", strength: EvidenceStrength::Definitive, caveats: &["Web exploitation primary source; attacker may delete or tamper"] },
     EvidenceEntry { artifact_id: "linux_selinux_config", strength: EvidenceStrength::Strong, caveats: &["Disabled SELinux is itself a strong indicator of attacker activity"] },
     EvidenceEntry { artifact_id: "linux_proc_modules", strength: EvidenceStrength::Definitive, caveats: &["Live kernel modules; rootkit detection; lost on reboot"] },
+    // Phase-2 Windows registry Critical artifacts
+    EvidenceEntry { artifact_id: "winlogon_autoadmin_logon", strength: EvidenceStrength::Definitive, caveats: &["Legitimate on unattended kiosk/server builds; verify DefaultPassword also present"] },
+    EvidenceEntry { artifact_id: "winlogon_default_password", strength: EvidenceStrength::Definitive, caveats: &["Presence proves plaintext credential stored; must confirm AutoAdminLogon=1 for context"] },
+    EvidenceEntry { artifact_id: "portproxy_config", strength: EvidenceStrength::Strong, caveats: &["Legitimate uses exist (e.g., WSL2 port forwarding); verify rule targets are suspicious"] },
+    EvidenceEntry { artifact_id: "windows_defender_exclusions_local", strength: EvidenceStrength::Strong, caveats: &["Legitimate AV exclusions common; suspicious if path matches known attacker staging directories"] },
+    EvidenceEntry { artifact_id: "windows_defender_disabled_av", strength: EvidenceStrength::Definitive, caveats: &["Via policy key — Tamper Protection bypass required; near-certain indicator of deliberate disabling"] },
+    EvidenceEntry { artifact_id: "windows_defender_realtime", strength: EvidenceStrength::Strong, caveats: &["Individual component flags may be legitimately set by MDM; check for combination of multiple disabled components"] },
+    EvidenceEntry { artifact_id: "ms_office_trusted_docs", strength: EvidenceStrength::Strong, caveats: &["Legitimate macros also create entries; suspicious if document path is temp folder or remote share"] },
+    EvidenceEntry { artifact_id: "vss_files_not_to_snapshot", strength: EvidenceStrength::Definitive, caveats: &["Non-Microsoft entries in this key are highly suspicious; verify against known software"] },
+    EvidenceEntry { artifact_id: "vss_files_not_to_backup", strength: EvidenceStrength::Definitive, caveats: &["Non-Microsoft entries in this key are highly suspicious; verify against known software"] },
+    EvidenceEntry { artifact_id: "ifeo_silent_exit", strength: EvidenceStrength::Definitive, caveats: &["Legitimate uses exist (WER config); suspicious if MonitorProcess points to unknown binary"] },
+    EvidenceEntry { artifact_id: "exefile_shell_open_software", strength: EvidenceStrength::Definitive, caveats: &["Any deviation from default (%1 %*) is extremely suspicious; near-certain compromise indicator"] },
+    EvidenceEntry { artifact_id: "exefile_shell_open_usrclass", strength: EvidenceStrength::Definitive, caveats: &["Any presence of this key is suspicious; no legitimate software sets per-user .exe handler"] },
+    EvidenceEntry { artifact_id: "rdp_shadow_sessions", strength: EvidenceStrength::Strong, caveats: &["Shadow=2 or 4 (no consent) is particularly suspicious; verify against admin policy"] },
+    EvidenceEntry { artifact_id: "restricted_admin_rdp", strength: EvidenceStrength::Strong, caveats: &["May be legitimately enabled for privileged access workstations; context required"] },
+    EvidenceEntry { artifact_id: "network_shares_server", strength: EvidenceStrength::Strong, caveats: &["Legitimate shares common; suspicious if share path is attacker staging directory or C: root"] },
+    EvidenceEntry { artifact_id: "ms_office_server_cache", strength: EvidenceStrength::Corroborative, caveats: &["URL presence requires correlation with known C2 domains; many legitimate Office URLs expected"] },
+    EvidenceEntry { artifact_id: "powershell_cobalt_info", strength: EvidenceStrength::Definitive, caveats: &["Key is not created by legitimate software; presence is near-certain Cobalt Strike IOC"] },
+    EvidenceEntry { artifact_id: "taskcache_tasks_path", strength: EvidenceStrength::Strong, caveats: &["Many legitimate tasks present; suspicious tasks have random names or reside outside \\Microsoft\\"] },
+    EvidenceEntry { artifact_id: "event_log_channel_status", strength: EvidenceStrength::Definitive, caveats: &["Disabled Security or Sysmon channel during an incident is near-certain evidence of tampering"] },
 ];
 
 /// Returns the evidence entry for a given artifact ID, or None if unknown.
