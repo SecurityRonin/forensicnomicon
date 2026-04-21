@@ -1,3 +1,88 @@
+//! Deduplication against existing catalog artifact IDs.
+
+use std::collections::HashSet;
+use std::fs;
+use std::io;
+use std::path::Path;
+
+use regex::Regex;
+
+/// A set of existing artifact IDs used to skip duplicates during ingestion.
+#[derive(Debug, Default, Clone)]
+pub struct IdSet {
+    ids: HashSet<String>,
+}
+
+impl IdSet {
+    /// Returns `true` if `id` is already in the set.
+    pub fn is_duplicate(&self, id: &str) -> bool {
+        self.ids.contains(id)
+    }
+
+    /// Add `id` to the set. Duplicate inserts are no-ops.
+    pub fn insert(&mut self, id: String) {
+        self.ids.insert(id);
+    }
+
+    /// Number of IDs in the set.
+    pub fn len(&self) -> usize {
+        self.ids.len()
+    }
+
+    /// Returns `true` if the set is empty.
+    pub fn is_empty(&self) -> bool {
+        self.ids.is_empty()
+    }
+
+    /// Iterate over all IDs.
+    pub fn iter(&self) -> impl Iterator<Item = &str> {
+        self.ids.iter().map(String::as_str)
+    }
+}
+
+/// Extract all artifact IDs from a Rust source string.
+///
+/// Matches lines of the form:
+/// ```rust
+///     id: "some_id",
+/// ```
+pub fn extract_ids_from_source(source: &str) -> HashSet<String> {
+    // Match:  id: "the_id", (optional trailing comma/whitespace)
+    let re = Regex::new(r#"^\s+id:\s+"([a-z0-9_]+)""#).unwrap();
+    let mut ids = HashSet::new();
+    for line in source.lines() {
+        if let Some(caps) = re.captures(line) {
+            ids.insert(caps[1].to_string());
+        }
+    }
+    ids
+}
+
+/// Scan all `.rs` files under `catalog_dir` and collect every `id: "..."` value.
+///
+/// Returns an `IdSet` ready for duplicate checks during ingestion.
+pub fn load_catalog_ids(catalog_dir: impl AsRef<Path>) -> io::Result<IdSet> {
+    let mut set = IdSet::default();
+    scan_dir(catalog_dir.as_ref(), &mut set)?;
+    Ok(set)
+}
+
+fn scan_dir(dir: &Path, set: &mut IdSet) -> io::Result<()> {
+    for entry in fs::read_dir(dir)? {
+        let entry = entry?;
+        let path = entry.path();
+        if path.is_dir() {
+            scan_dir(&path, set)?;
+        } else if path.extension().map_or(false, |e| e == "rs") {
+            let source = fs::read_to_string(&path)?;
+            for id in extract_ids_from_source(&source) {
+                set.insert(id);
+            }
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
