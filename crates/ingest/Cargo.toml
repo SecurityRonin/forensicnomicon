@@ -1,0 +1,22 @@
+[package]
+name = "ingest"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Mass-import ingestion pipeline for the forensicnomicon artifact catalog"
+license = "Apache-2.0"
+
+[[bin]]
+name = "ingest"
+path = "src/main.rs"
+
+[dependencies]
+reqwest = { version = "0.12", features = ["blocking"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+regex = "1"
+sha2 = "0.10"
+
+[dev-dependencies]
+tempfile = "3"

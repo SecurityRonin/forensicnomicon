@@ -1,5 +1,5 @@
 [workspace]
-members = [".", "crates/fcatalog"]
+members = [".", "crates/fcatalog", "crates/ingest"]
 
 [package]
 name = "forensicnomicon"
