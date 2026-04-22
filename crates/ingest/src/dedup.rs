@@ -122,7 +122,10 @@ pub(crate) static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
 };
 "#;
         let ids = extract_ids_from_source(source);
-        assert!(ids.contains("userassist"), "missing userassist, got: {ids:?}");
+        assert!(
+            ids.contains("userassist"),
+            "missing userassist, got: {ids:?}"
+        );
         assert!(ids.contains("shimcache"), "missing shimcache, got: {ids:?}");
         assert_eq!(ids.len(), 2);
     }
@@ -142,10 +145,7 @@ pub(crate) static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
     #[test]
     fn load_catalog_ids_scans_descriptors_dir() {
         // Use the real catalog directory
-        let catalog_dir = concat!(
-            env!("CARGO_MANIFEST_DIR"),
-            "/../../src/catalog/descriptors"
-        );
+        let catalog_dir = concat!(env!("CARGO_MANIFEST_DIR"), "/../../src/catalog/descriptors");
         let set = load_catalog_ids(catalog_dir).expect("should scan catalog dir");
         // The catalog has hundreds of entries; just confirm we got some
         assert!(

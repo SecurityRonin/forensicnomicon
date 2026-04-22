@@ -14,8 +14,7 @@ use crate::record::{IngestRecord, IngestType};
 
 const EVTX_CONTENTS_URL: &str =
     "https://api.github.com/repos/nasbench/EVTX-ETW-Resources/contents/ETWProvidersCSVs/Internal";
-const EVTX_RAW_BASE: &str =
-    "https://raw.githubusercontent.com/nasbench/EVTX-ETW-Resources/main/";
+const EVTX_RAW_BASE: &str = "https://raw.githubusercontent.com/nasbench/EVTX-ETW-Resources/main/";
 
 /// Parse a per-provider CSV string and return unique (ProviderName, Channel) pairs.
 ///
@@ -40,13 +39,10 @@ pub fn parse_evtx_csv(content: &str) -> Vec<IngestRecord> {
 
         // Build file path
         let sanitized = channel.replace('/', "\\");
-        let file_path =
-            format!(r"%SystemRoot%\System32\winevt\Logs\{sanitized}.evtx");
+        let file_path = format!(r"%SystemRoot%\System32\winevt\Logs\{sanitized}.evtx");
 
         let meaning = if !provider.is_empty() {
-            format!(
-                "Windows Event Log channel '{channel}' from provider '{provider}'."
-            )
+            format!("Windows Event Log channel '{channel}' from provider '{provider}'.")
         } else {
             format!("Windows Event Log channel '{channel}'.")
         };
@@ -65,9 +61,7 @@ pub fn parse_evtx_csv(content: &str) -> Vec<IngestRecord> {
             meaning,
             mitre_techniques: Vec::new(),
             triage_priority: triage.to_string(),
-            sources: vec![
-                "https://github.com/nasbench/EVTX-ETW-Resources".to_string(),
-            ],
+            sources: vec!["https://github.com/nasbench/EVTX-ETW-Resources".to_string()],
         });
     }
 
@@ -246,9 +240,8 @@ pub fn fetch_evtx_records() -> Vec<IngestRecord> {
                             };
 
                             let sanitized = channel.replace('/', "\\");
-                            let file_path = format!(
-                                r"%SystemRoot%\System32\winevt\Logs\{sanitized}.evtx"
-                            );
+                            let file_path =
+                                format!(r"%SystemRoot%\System32\winevt\Logs\{sanitized}.evtx");
 
                             let meaning = if !provider.is_empty() {
                                 format!("Windows Event Log channel '{channel}' from provider '{provider}'.")
@@ -271,7 +264,7 @@ pub fn fetch_evtx_records() -> Vec<IngestRecord> {
                                 mitre_techniques: Vec::new(),
                                 triage_priority: triage.to_string(),
                                 sources: vec![
-                                    "https://github.com/nasbench/EVTX-ETW-Resources".to_string(),
+                                    "https://github.com/nasbench/EVTX-ETW-Resources".to_string()
                                 ],
                             });
                         }
@@ -386,9 +379,7 @@ Event ID,Event Version,Level,Channel,Task,Opcode,Keyword
     fn fetch_evtx_records_from_network() {
         let records = fetch_evtx_records();
         if records.is_empty() {
-            eprintln!(
-                "WARN: evtx: network fetch returned 0 records (acceptable in offline CI)"
-            );
+            eprintln!("WARN: evtx: network fetch returned 0 records (acceptable in offline CI)");
         } else {
             assert!(
                 records.len() > 50,

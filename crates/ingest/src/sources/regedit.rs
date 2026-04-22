@@ -34,13 +34,9 @@ pub fn parse_reb(content: &str) -> Vec<IngestRecord> {
         if trimmed == "-" {
             // Flush previous entry
             if in_entry && !description.is_empty() && !key_path.is_empty() {
-                if let Some(rec) = build_record(
-                    &description,
-                    &hive_type,
-                    &key_path,
-                    &comment,
-                    &mut seen_ids,
-                ) {
+                if let Some(rec) =
+                    build_record(&description, &hive_type, &key_path, &comment, &mut seen_ids)
+                {
                     records.push(rec);
                 }
             }
@@ -69,7 +65,9 @@ pub fn parse_reb(content: &str) -> Vec<IngestRecord> {
 
     // Flush last entry
     if in_entry && !description.is_empty() && !key_path.is_empty() {
-        if let Some(rec) = build_record(&description, &hive_type, &key_path, &comment, &mut seen_ids) {
+        if let Some(rec) =
+            build_record(&description, &hive_type, &key_path, &comment, &mut seen_ids)
+        {
             records.push(rec);
         }
     }
@@ -222,9 +220,7 @@ fn infer_triage(description: &str, comment: &str) -> &'static str {
 
 fn extract_mitre(text: &str) -> Vec<String> {
     let re = regex::Regex::new(r"T\d{4}(?:\.\d{3})?").unwrap();
-    re.find_iter(text)
-        .map(|m| m.as_str().to_string())
-        .collect()
+    re.find_iter(text).map(|m| m.as_str().to_string()).collect()
 }
 
 #[cfg(test)]
@@ -275,13 +271,21 @@ Keys:
     #[test]
     fn parse_correct_record_count() {
         let records = parse_reb(SAMPLE_REB);
-        assert_eq!(records.len(), 4, "expected 4 entries, got {}", records.len());
+        assert_eq!(
+            records.len(),
+            4,
+            "expected 4 entries, got {}",
+            records.len()
+        );
     }
 
     #[test]
     fn parse_ntuser_hive_detected() {
         let records = parse_reb(SAMPLE_REB);
-        let network = records.iter().find(|r| r.key_path == "Network").expect("no Network record");
+        let network = records
+            .iter()
+            .find(|r| r.key_path == "Network")
+            .expect("no Network record");
         assert_eq!(network.hive.as_deref(), Some("HKCU"));
         assert_eq!(network.name, "Network");
     }
@@ -289,15 +293,24 @@ Keys:
     #[test]
     fn parse_hklm_hive_detected() {
         let records = parse_reb(SAMPLE_REB);
-        let run = records.iter().find(|r| r.name == "System Run Key").expect("no System Run Key");
+        let run = records
+            .iter()
+            .find(|r| r.name == "System Run Key")
+            .expect("no System Run Key");
         assert_eq!(run.hive.as_deref(), Some("HKLM"));
-        assert_eq!(run.key_path, r"Software\Microsoft\Windows\CurrentVersion\Run");
+        assert_eq!(
+            run.key_path,
+            r"Software\Microsoft\Windows\CurrentVersion\Run"
+        );
     }
 
     #[test]
     fn parse_meaning_from_comment() {
         let records = parse_reb(SAMPLE_REB);
-        let portproxy = records.iter().find(|r| r.name == "PortProxy v4ToV4").expect("no PortProxy record");
+        let portproxy = records
+            .iter()
+            .find(|r| r.name == "PortProxy v4ToV4")
+            .expect("no PortProxy record");
         assert!(
             portproxy.meaning.contains("Port proxy") || portproxy.meaning.contains("lateral"),
             "meaning should include comment text, got: {}",
@@ -309,7 +322,11 @@ Keys:
     fn parse_source_name_is_regedit() {
         let records = parse_reb(SAMPLE_REB);
         for rec in &records {
-            assert_eq!(rec.source_name, "regedit", "wrong source_name for {}", rec.id);
+            assert_eq!(
+                rec.source_name, "regedit",
+                "wrong source_name for {}",
+                rec.id
+            );
         }
     }
 
@@ -327,7 +344,9 @@ Keys:
         let records = parse_reb(SAMPLE_REB);
         for rec in &records {
             assert!(
-                rec.id.chars().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '_'),
+                rec.id
+                    .chars()
+                    .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '_'),
                 "ID not snake_case: {}",
                 rec.id
             );

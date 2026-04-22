@@ -173,17 +173,13 @@ fn ensure_unique(base: String, seen: &mut HashSet<String>) -> String {
 
 fn detect_hive_string(path: &str) -> Option<String> {
     let upper = path.to_ascii_uppercase();
-    if upper.starts_with("HKEY_LOCAL_MACHINE\\SYSTEM")
-        || upper.starts_with("HKLM\\SYSTEM")
-    {
+    if upper.starts_with("HKEY_LOCAL_MACHINE\\SYSTEM") || upper.starts_with("HKLM\\SYSTEM") {
         Some("HKLM\\SYSTEM".to_string())
     } else if upper.starts_with("HKEY_LOCAL_MACHINE\\SOFTWARE")
         || upper.starts_with("HKLM\\SOFTWARE")
     {
         Some("HKLM\\SOFTWARE".to_string())
-    } else if upper.starts_with("HKEY_LOCAL_MACHINE\\SAM")
-        || upper.starts_with("HKLM\\SAM")
-    {
+    } else if upper.starts_with("HKEY_LOCAL_MACHINE\\SAM") || upper.starts_with("HKLM\\SAM") {
         Some("HKLM\\SAM".to_string())
     } else if upper.starts_with("HKEY_LOCAL_MACHINE\\SECURITY")
         || upper.starts_with("HKLM\\SECURITY")
@@ -263,7 +259,8 @@ pub fn fetch_fa_artifacts(url: &str) -> Result<Vec<IngestRecord>, Box<dyn std::e
 
 /// Fetch all ForensicArtifacts YAML files from the GitHub repository.
 pub fn fetch_all_fa_artifacts() -> Vec<IngestRecord> {
-    let tree_url = "https://api.github.com/repos/forensicartifacts/artifacts/git/trees/main?recursive=1";
+    let tree_url =
+        "https://api.github.com/repos/forensicartifacts/artifacts/git/trees/main?recursive=1";
     let client = match reqwest::blocking::Client::builder()
         .user_agent("forensicnomicon-ingest/0.1")
         .timeout(std::time::Duration::from_secs(30))
@@ -383,7 +380,11 @@ urls: []
     fn parse_source_name_is_fa() {
         let records = parse_fa_yaml(SAMPLE_FA_YAML);
         for rec in &records {
-            assert_eq!(rec.source_name, "fa", "wrong source_name: {}", rec.source_name);
+            assert_eq!(
+                rec.source_name, "fa",
+                "wrong source_name: {}",
+                rec.source_name
+            );
         }
     }
 

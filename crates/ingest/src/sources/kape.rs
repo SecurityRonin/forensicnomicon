@@ -16,8 +16,7 @@ use crate::record::{IngestRecord, IngestType};
 
 const KAPE_TREE_URL: &str =
     "https://api.github.com/repos/EricZimmerman/KapeFiles/git/trees/master?recursive=1";
-const KAPE_RAW_BASE: &str =
-    "https://raw.githubusercontent.com/EricZimmerman/KapeFiles/master/";
+const KAPE_RAW_BASE: &str = "https://raw.githubusercontent.com/EricZimmerman/KapeFiles/master/";
 
 /// Parse a `.tkape` YAML string into `IngestRecord`s.
 /// `file_name` is the base name (e.g., "Chrome") used in meaning fallback.
@@ -200,7 +199,11 @@ fn build_record(
     let id = if seen_ids.contains(&base_id) {
         let name_part = to_snake_case(name);
         let name_short = &name_part[..name_part.len().min(20)];
-        let candidate = format!("kape_{}_{}", if is_directory { "dir" } else { "file" }, name_short);
+        let candidate = format!(
+            "kape_{}_{}",
+            if is_directory { "dir" } else { "file" },
+            name_short
+        );
         let candidate = candidate.trim_end_matches('_').to_string();
         if seen_ids.contains(&candidate) {
             let mut n = 2u32;
@@ -274,9 +277,7 @@ fn infer_triage(name: &str, comment: &str) -> &'static str {
 
 fn extract_mitre(text: &str) -> Vec<String> {
     let re = regex::Regex::new(r"T\d{4}(?:\.\d{3})?").unwrap();
-    re.find_iter(text)
-        .map(|m| m.as_str().to_string())
-        .collect()
+    re.find_iter(text).map(|m| m.as_str().to_string()).collect()
 }
 
 #[cfg(test)]
@@ -321,13 +322,21 @@ Targets:
     #[test]
     fn parse_correct_count() {
         let records = parse_tkape(SAMPLE_TKAPE, "Chrome");
-        assert_eq!(records.len(), 3, "expected 3 targets, got {}", records.len());
+        assert_eq!(
+            records.len(),
+            3,
+            "expected 3 targets, got {}",
+            records.len()
+        );
     }
 
     #[test]
     fn parse_file_artifact_type() {
         let records = parse_tkape(SAMPLE_TKAPE, "Chrome");
-        let history = records.iter().find(|r| r.name == "Chrome History").expect("no Chrome History");
+        let history = records
+            .iter()
+            .find(|r| r.name == "Chrome History")
+            .expect("no Chrome History");
         use crate::record::IngestType;
         assert_eq!(history.artifact_type, IngestType::File);
         assert!(history.file_path.is_some(), "file_path should be set");
@@ -337,7 +346,9 @@ Targets:
     fn parse_directory_artifact_type() {
         let records = parse_tkape(SAMPLE_TKAPE, "Chrome");
         use crate::record::IngestType;
-        let dir_rec = records.iter().find(|r| r.artifact_type == IngestType::Directory);
+        let dir_rec = records
+            .iter()
+            .find(|r| r.artifact_type == IngestType::Directory);
         assert!(dir_rec.is_some(), "expected at least one Directory record");
     }
 
@@ -363,7 +374,9 @@ Targets:
         let records = parse_tkape(SAMPLE_TKAPE, "Chrome");
         for rec in &records {
             assert!(
-                rec.id.chars().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '_'),
+                rec.id
+                    .chars()
+                    .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '_'),
                 "ID not snake_case: {}",
                 rec.id
             );

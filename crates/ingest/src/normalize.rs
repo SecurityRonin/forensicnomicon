@@ -135,10 +135,8 @@ mod tests {
 
     #[test]
     fn normalize_hkcu_path() {
-        let id = normalize_registry_id(
-            r"HKCU\Software\Microsoft\Terminal Server Client",
-            "regedit",
-        );
+        let id =
+            normalize_registry_id(r"HKCU\Software\Microsoft\Terminal Server Client", "regedit");
         assert_eq!(id, "regedit_microsoft_terminal_server_client");
     }
 
@@ -159,10 +157,7 @@ mod tests {
 
     #[test]
     fn normalize_replaces_special_chars() {
-        let id = normalize_registry_id(
-            r"HKCU\Software\Classes\.exe\OpenWithProgids",
-            "fa",
-        );
+        let id = normalize_registry_id(r"HKCU\Software\Classes\.exe\OpenWithProgids", "fa");
         // dots become underscores, backslashes become underscores
         assert!(id.starts_with("fa_"));
         assert!(!id.contains('\\'));
@@ -206,16 +201,20 @@ mod tests {
     #[test]
     fn normalize_makes_snake_case() {
         let id = normalize_registry_id(r"HKLM\SOFTWARE\Microsoft Office\16.0", "regedit");
-        assert!(id.chars().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '_'),
-            "ID contains non-snake-case chars: {id}");
+        assert!(
+            id.chars()
+                .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '_'),
+            "ID contains non-snake-case chars: {id}"
+        );
     }
 
     #[test]
     fn unique_suffix_on_collision() {
         // The base ID for this path is kape_windows_currentversion_run.
         // Simulate it already being in the set.
-        let existing: HashSet<String> =
-            ["kape_windows_currentversion_run".to_string()].into_iter().collect();
+        let existing: HashSet<String> = ["kape_windows_currentversion_run".to_string()]
+            .into_iter()
+            .collect();
         let id = normalize_registry_id_unique(
             r"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run",
             "kape",

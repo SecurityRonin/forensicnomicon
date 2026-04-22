@@ -24,8 +24,8 @@ struct Opts {
 impl Opts {
     fn parse(args: &[String]) -> Result<Self, String> {
         let mut sources = Vec::new();
-        let mut output_dir =
-            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../src/catalog/descriptors/generated");
+        let mut output_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../src/catalog/descriptors/generated");
         let mut dry_run = false;
         let mut limit = None;
         let mut verbose = false;
@@ -161,14 +161,12 @@ fn main() {
     let output_dir = if opts.output_dir.is_absolute() {
         opts.output_dir.clone()
     } else {
-        std::env::current_dir()
-            .expect("cwd")
-            .join(&opts.output_dir)
+        std::env::current_dir().expect("cwd").join(&opts.output_dir)
     };
 
     // Load existing catalog IDs for deduplication
-    let catalog_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("../../src/catalog/descriptors");
+    let catalog_dir =
+        PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../src/catalog/descriptors");
     let existing_ids = load_catalog_ids(&catalog_dir).unwrap_or_else(|e| {
         eprintln!("WARN: could not load catalog IDs: {e}");
         dedup::IdSet::default()
@@ -179,7 +177,15 @@ fn main() {
     }
 
     // Expand "all" to every source
-    let all_sources = ["regedit", "kape", "fa", "velociraptor", "evtx", "browsers", "nirsoft"];
+    let all_sources = [
+        "regedit",
+        "kape",
+        "fa",
+        "velociraptor",
+        "evtx",
+        "browsers",
+        "nirsoft",
+    ];
     let source_names: Vec<&str> = if opts.sources.iter().any(|s| s == "all") {
         all_sources.iter().copied().collect()
     } else {
@@ -188,7 +194,10 @@ fn main() {
 
     if !opts.dry_run {
         fs::create_dir_all(&output_dir).unwrap_or_else(|e| {
-            eprintln!("ERROR: could not create output dir {}: {e}", output_dir.display());
+            eprintln!(
+                "ERROR: could not create output dir {}: {e}",
+                output_dir.display()
+            );
             std::process::exit(1);
         });
     }
@@ -203,9 +212,7 @@ fn main() {
         // Deduplicate against catalog AND against already-generated this run
         let new_records: Vec<IngestRecord> = records
             .into_iter()
-            .filter(|r| {
-                !existing_ids.is_duplicate(&r.id) && !all_generated_ids.contains(&r.id)
-            })
+            .filter(|r| !existing_ids.is_duplicate(&r.id) && !all_generated_ids.contains(&r.id))
             .collect();
         let new_count = new_records.len();
 
@@ -261,10 +268,7 @@ fn main() {
                     true
                 }
                 Err(e) => {
-                    eprintln!(
-                        "ERROR: failed to write {}: {e}",
-                        out_path.display()
-                    );
+                    eprintln!("ERROR: failed to write {}: {e}", out_path.display());
                     false
                 }
             }
@@ -311,14 +315,14 @@ fn main() {
     if opts.dry_run {
         println!("(dry-run: no files written)");
     } else if total_new > 0 {
-        println!(
-            "Output written to: {}",
-            output_dir.display()
-        );
+        println!("Output written to: {}", output_dir.display());
         println!();
         println!("To wire into the catalog, add to src/catalog/descriptors/mod.rs:");
         for s in summaries.iter().filter(|s| s.written) {
-            println!("  mod generated {{ pub(super) mod {}_generated; }}", s.source);
+            println!(
+                "  mod generated {{ pub(super) mod {}_generated; }}",
+                s.source
+            );
         }
     }
 }

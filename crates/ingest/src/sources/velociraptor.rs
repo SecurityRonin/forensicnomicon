@@ -11,8 +11,7 @@ use crate::record::{IngestRecord, IngestType};
 
 const VELO_TREE_URL: &str =
     "https://api.github.com/repos/Velocidex/velociraptor/git/trees/master?recursive=1";
-const VELO_RAW_BASE: &str =
-    "https://raw.githubusercontent.com/Velocidex/velociraptor/master/";
+const VELO_RAW_BASE: &str = "https://raw.githubusercontent.com/Velocidex/velociraptor/master/";
 
 /// Parse a Velociraptor artifact YAML string into IngestRecords.
 ///
@@ -62,11 +61,9 @@ pub fn parse_velociraptor_yaml(content: &str) -> Vec<IngestRecord> {
             continue;
         }
 
-        if let Some(rec) = try_parse_as_registry(default_val, &name, &description, &mut seen_ids)
-        {
+        if let Some(rec) = try_parse_as_registry(default_val, &name, &description, &mut seen_ids) {
             records.push(rec);
-        } else if let Some(rec) =
-            try_parse_as_file(default_val, &name, &description, &mut seen_ids)
+        } else if let Some(rec) = try_parse_as_file(default_val, &name, &description, &mut seen_ids)
         {
             records.push(rec);
         }
@@ -170,17 +167,13 @@ fn try_parse_as_file(
 
 fn detect_hive_string(path: &str) -> Option<String> {
     let upper = path.to_ascii_uppercase();
-    if upper.starts_with("HKEY_LOCAL_MACHINE\\SYSTEM")
-        || upper.starts_with("HKLM\\SYSTEM")
-    {
+    if upper.starts_with("HKEY_LOCAL_MACHINE\\SYSTEM") || upper.starts_with("HKLM\\SYSTEM") {
         Some("HKLM\\SYSTEM".to_string())
     } else if upper.starts_with("HKEY_LOCAL_MACHINE\\SOFTWARE")
         || upper.starts_with("HKLM\\SOFTWARE")
     {
         Some("HKLM\\SOFTWARE".to_string())
-    } else if upper.starts_with("HKEY_LOCAL_MACHINE\\SAM")
-        || upper.starts_with("HKLM\\SAM")
-    {
+    } else if upper.starts_with("HKEY_LOCAL_MACHINE\\SAM") || upper.starts_with("HKLM\\SAM") {
         Some("HKLM\\SAM".to_string())
     } else if upper.starts_with("HKEY_LOCAL_MACHINE\\SECURITY")
         || upper.starts_with("HKLM\\SECURITY")
@@ -295,9 +288,7 @@ pub fn fetch_velociraptor_artifacts() -> Vec<IngestRecord> {
         let yaml_paths: Vec<String> = tree_items
             .iter()
             .filter_map(|item| item.get("path").and_then(|p| p.as_str()))
-            .filter(|p| {
-                p.starts_with("artifacts/definitions/") && p.ends_with(".yaml")
-            })
+            .filter(|p| p.starts_with("artifacts/definitions/") && p.ends_with(".yaml"))
             .map(|s| s.to_string())
             .collect();
 
@@ -354,7 +345,9 @@ parameters:
     fn parse_registry_artifact() {
         let records = parse_velociraptor_yaml(SAMPLE_YAML);
         assert!(!records.is_empty(), "should return at least one record");
-        let rec = records.iter().find(|r| r.artifact_type == IngestType::RegistryKey);
+        let rec = records
+            .iter()
+            .find(|r| r.artifact_type == IngestType::RegistryKey);
         assert!(rec.is_some(), "expected a RegistryKey record");
     }
 

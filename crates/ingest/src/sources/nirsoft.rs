@@ -19,12 +19,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             value_name: None,
             file_path: Some(r"%APPDATA%\Microsoft\Windows\Recent\*".to_string()),
             meaning: "Recent files and folders accessed by the user (LNK shortcuts). \
-                     Documented by NirSoft LastActivityView.".to_string(),
+                     Documented by NirSoft LastActivityView."
+                .to_string(),
             mitre_techniques: vec!["T1547.009".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/computer_activity_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/computer_activity_view.html".to_string()],
         },
         // BrowsingHistoryView — browser history locations
         IngestRecord {
@@ -36,12 +35,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             key_path: String::new(),
             value_name: None,
             file_path: Some(r"%LOCALAPPDATA%\Google\Chrome\User Data\Default\History".to_string()),
-            meaning: "Chrome browsing history SQLite DB as parsed by NirSoft BrowsingHistoryView.".to_string(),
+            meaning: "Chrome browsing history SQLite DB as parsed by NirSoft BrowsingHistoryView."
+                .to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/browsing_history_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/browsing_history_view.html".to_string()],
         },
         IngestRecord {
             id: "nirsoft_browsing_history_firefox".to_string(),
@@ -54,12 +52,12 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             file_path: Some(
                 r"%APPDATA%\Mozilla\Firefox\Profiles\*.default-release\places.sqlite".to_string(),
             ),
-            meaning: "Firefox browsing history (places.sqlite) as parsed by NirSoft BrowsingHistoryView.".to_string(),
+            meaning:
+                "Firefox browsing history (places.sqlite) as parsed by NirSoft BrowsingHistoryView."
+                    .to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/browsing_history_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/browsing_history_view.html".to_string()],
         },
         // NetworkConnectLog — network log files
         IngestRecord {
@@ -72,12 +70,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             value_name: None,
             file_path: Some(r"%SystemRoot%\System32\LogFiles\*".to_string()),
             meaning: "Network connection log files in System32\\LogFiles. \
-                     Parsed by NirSoft NetworkConnectLog.".to_string(),
+                     Parsed by NirSoft NetworkConnectLog."
+                .to_string(),
             mitre_techniques: vec!["T1049".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/network_connect_log.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/network_connect_log.html".to_string()],
         },
         // USBDeview — USB device history
         IngestRecord {
@@ -90,12 +87,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             value_name: None,
             file_path: None,
             meaning: "USB device enumeration entries in HKLM\\SYSTEM. \
-                     Parsed by NirSoft USBDeview to list connected USB devices.".to_string(),
+                     Parsed by NirSoft USBDeview to list connected USB devices."
+                .to_string(),
             mitre_techniques: vec!["T1052".to_string(), "T1025".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/usb_devices_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/usb_devices_view.html".to_string()],
         },
         IngestRecord {
             id: "nirsoft_usbdeview_enum_usbstor".to_string(),
@@ -107,12 +103,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             value_name: None,
             file_path: None,
             meaning: "USB mass storage device history in HKLM\\SYSTEM\\USBSTOR. \
-                     Records device serial numbers and connection history.".to_string(),
+                     Records device serial numbers and connection history."
+                .to_string(),
             mitre_techniques: vec!["T1052".to_string(), "T1025".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/usb_devices_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/usb_devices_view.html".to_string()],
         },
         // ShellBagsView — ShellBags (folder access)
         IngestRecord {
@@ -125,12 +120,14 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             value_name: None,
             file_path: None,
             meaning: "ShellBag entries in UsrClass.dat recording folder view settings — \
-                     proves folder access even after deletion. Parsed by NirSoft ShellBagsView.".to_string(),
+                     proves folder access even after deletion. Parsed by NirSoft ShellBagsView."
+                .to_string(),
             mitre_techniques: vec!["T1083".to_string()],
             triage_priority: "High".to_string(),
             sources: vec![
                 "https://www.nirsoft.net/utils/shell_bags_view.html".to_string(),
-                "https://www.sans.org/blog/computer-forensic-artifacts-windows-7-shellbags/".to_string(),
+                "https://www.sans.org/blog/computer-forensic-artifacts-windows-7-shellbags/"
+                    .to_string(),
             ],
         },
         IngestRecord {
@@ -142,12 +139,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             key_path: r"Software\Microsoft\Windows\Shell\BagMRU".to_string(),
             value_name: None,
             file_path: None,
-            meaning: "ShellBag MRU entries in NTUSER.DAT. Tracks folder navigation history.".to_string(),
+            meaning: "ShellBag MRU entries in NTUSER.DAT. Tracks folder navigation history."
+                .to_string(),
             mitre_techniques: vec!["T1083".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/shell_bags_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/shell_bags_view.html".to_string()],
         },
         // JumpListsView — Jump Lists
         IngestRecord {
@@ -162,12 +158,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
                 r"%APPDATA%\Microsoft\Windows\Recent\AutomaticDestinations".to_string(),
             ),
             meaning: "Automatic Jump List files (*.automaticDestinations-ms) — records recent \
-                     files opened by each application. Parsed by NirSoft JumpListsView.".to_string(),
+                     files opened by each application. Parsed by NirSoft JumpListsView."
+                .to_string(),
             mitre_techniques: vec!["T1547.009".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/jump_lists_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/jump_lists_view.html".to_string()],
         },
         IngestRecord {
             id: "nirsoft_jumplists_custom_destinations".to_string(),
@@ -177,16 +172,13 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: None,
             key_path: String::new(),
             value_name: None,
-            file_path: Some(
-                r"%APPDATA%\Microsoft\Windows\Recent\CustomDestinations".to_string(),
-            ),
+            file_path: Some(r"%APPDATA%\Microsoft\Windows\Recent\CustomDestinations".to_string()),
             meaning: "Custom Jump List files (*.customDestinations-ms) — pinned items and tasks \
-                     defined by applications.".to_string(),
+                     defined by applications."
+                .to_string(),
             mitre_techniques: vec!["T1547.009".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/jump_lists_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/jump_lists_view.html".to_string()],
         },
         // MUICache — program execution evidence
         IngestRecord {
@@ -200,12 +192,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             file_path: None,
             meaning: "MUICache stores program display names for executables that have run — \
                      evidence of program execution even after binary deletion. \
-                     Documented by NirSoft MUICacheView.".to_string(),
+                     Documented by NirSoft MUICacheView."
+                .to_string(),
             mitre_techniques: vec!["T1059".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/muicache_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/muicache_view.html".to_string()],
         },
         // RecentFilesView — recent documents
         IngestRecord {
@@ -218,12 +209,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             value_name: None,
             file_path: None,
             meaning: "Registry key tracking recently opened documents — per-extension MRU lists. \
-                     Parsed by NirSoft RecentFilesView.".to_string(),
+                     Parsed by NirSoft RecentFilesView."
+                .to_string(),
             mitre_techniques: vec!["T1083".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/recent_files_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/recent_files_view.html".to_string()],
         },
         // WifiHistoryView — wireless network history
         IngestRecord {
@@ -234,16 +224,13 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: None,
             key_path: String::new(),
             value_name: None,
-            file_path: Some(
-                r"%SystemRoot%\System32\wlansvc\Profiles\Interfaces".to_string(),
-            ),
+            file_path: Some(r"%SystemRoot%\System32\wlansvc\Profiles\Interfaces".to_string()),
             meaning: "WLAN XML profile files listing previously connected Wi-Fi networks \
-                     (includes SSID). Parsed by NirSoft WifiHistoryView.".to_string(),
+                     (includes SSID). Parsed by NirSoft WifiHistoryView."
+                .to_string(),
             mitre_techniques: vec!["T1049".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/wifi_history_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/wifi_history_view.html".to_string()],
         },
         // NetworkPasswordRecovery — cached credentials
         IngestRecord {
@@ -256,7 +243,8 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             value_name: None,
             file_path: Some(r"%APPDATA%\Microsoft\Credentials".to_string()),
             meaning: "Windows Credential Manager store. May contain cached network passwords \
-                     and domain credentials. Parsed by NirSoft NetworkPasswordRecovery.".to_string(),
+                     and domain credentials. Parsed by NirSoft NetworkPasswordRecovery."
+                .to_string(),
             mitre_techniques: vec!["T1555.004".to_string()],
             triage_priority: "Critical".to_string(),
             sources: vec![
@@ -274,12 +262,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             value_name: None,
             file_path: None,
             meaning: "SAM hive users sub-key contains NT/LM password hashes for local accounts. \
-                     Relevant to NirSoft's password recovery tools.".to_string(),
+                     Relevant to NirSoft's password recovery tools."
+                .to_string(),
             mitre_techniques: vec!["T1003.002".to_string()],
             triage_priority: "Critical".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/sam_password_recovery.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/sam_password_recovery.html".to_string()],
         },
         // RegistryChangesView — registry comparison baseline
         IngestRecord {
@@ -292,12 +279,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             value_name: None,
             file_path: Some(r"%USERPROFILE%\NTUSER.DAT".to_string()),
             meaning: "User registry hive (NTUSER.DAT) — source for RegistryChangesView \
-                     to diff registry before/after malware execution.".to_string(),
+                     to diff registry before/after malware execution."
+                .to_string(),
             mitre_techniques: vec!["T1112".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/registry_changes_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/registry_changes_view.html".to_string()],
         },
         // OpenedFilesView — open file handles (live system)
         IngestRecord {
@@ -310,12 +296,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             value_name: None,
             file_path: Some(r"\\.\PhysicalDrive0".to_string()),
             meaning: "NirSoft OpenedFilesView queries the OS for open file handles — \
-                     live artifact useful during triage to identify locked files.".to_string(),
+                     live artifact useful during triage to identify locked files."
+                .to_string(),
             mitre_techniques: vec!["T1083".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/opened_files_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/opened_files_view.html".to_string()],
         },
         // ProcessActivityView — prefetch-based execution
         IngestRecord {
@@ -328,12 +313,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             value_name: None,
             file_path: Some(r"%SystemRoot%\Prefetch\*.pf".to_string()),
             meaning: "Windows Prefetch files used by NirSoft ProcessActivityView to reconstruct \
-                     process execution history.".to_string(),
+                     process execution history."
+                .to_string(),
             mitre_techniques: vec!["T1059".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/process_activity_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/process_activity_view.html".to_string()],
         },
         // InstalledCodec — registered codecs
         IngestRecord {
@@ -346,12 +330,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             value_name: None,
             file_path: None,
             meaning: "Audio/video codec registrations — sometimes abused for persistence \
-                     (DLL hijacking via codec paths). Documented by NirSoft InstalledCodec.".to_string(),
+                     (DLL hijacking via codec paths). Documented by NirSoft InstalledCodec."
+                .to_string(),
             mitre_techniques: vec!["T1546".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/installed_codec.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/installed_codec.html".to_string()],
         },
         // StartupRun (autoruns equivalent)
         IngestRecord {
@@ -364,12 +347,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             value_name: None,
             file_path: None,
             meaning: "System-wide Run key — programs listed here launch for all users at logon. \
-                     A primary persistence mechanism documented by NirSoft StartupRun.".to_string(),
+                     A primary persistence mechanism documented by NirSoft StartupRun."
+                .to_string(),
             mitre_techniques: vec!["T1547.001".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/startup_run_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/startup_run_view.html".to_string()],
         },
         IngestRecord {
             id: "nirsoft_startup_run_hkcu_run".to_string(),
@@ -380,13 +362,13 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             key_path: r"Software\Microsoft\Windows\CurrentVersion\Run".to_string(),
             value_name: None,
             file_path: None,
-            meaning: "Per-user Run key — programs listed here launch when the current user logs on. \
-                     Common persistence mechanism.".to_string(),
+            meaning:
+                "Per-user Run key — programs listed here launch when the current user logs on. \
+                     Common persistence mechanism."
+                    .to_string(),
             mitre_techniques: vec!["T1547.001".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/startup_run_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/startup_run_view.html".to_string()],
         },
         // AppCrashView — application crash dumps
         IngestRecord {
@@ -399,12 +381,11 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             value_name: None,
             file_path: Some(r"%LOCALAPPDATA%\CrashDumps".to_string()),
             meaning: "Application crash dump files. May contain credential material or memory \
-                     forensics artefacts. Listed by NirSoft AppCrashView.".to_string(),
+                     forensics artefacts. Listed by NirSoft AppCrashView."
+                .to_string(),
             mitre_techniques: vec!["T1003".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![
-                "https://www.nirsoft.net/utils/app_crash_view.html".to_string(),
-            ],
+            sources: vec!["https://www.nirsoft.net/utils/app_crash_view.html".to_string()],
         },
     ]
 }
