@@ -488,6 +488,448 @@ pub static EVIDENCE_TABLE: &[EvidenceEntry] = &[
     EvidenceEntry { artifact_id: "lsa_security_packages", strength: EvidenceStrength::Definitive, caveats: &["Any non-Microsoft SSP DLL is definitive IOC; cross-reference DLL hash with threat intel"] },
     EvidenceEntry { artifact_id: "print_monitor_dlls", strength: EvidenceStrength::Definitive, caveats: &["Rogue Driver value in any sub-key is definitive; PrintNightmare (CVE-2021-1675) may leave forensic artifacts"] },
     EvidenceEntry { artifact_id: "services_hklm", strength: EvidenceStrength::Definitive, caveats: &["New service sub-key creation time is definitive; ImagePath outside System32/SysWOW64 is suspicious; correlate with EVTX 7045"] },
+
+    // ── Generated mass-import Critical artifacts ──────────────────────────────
+    EvidenceEntry {
+        artifact_id: "browsers_firefox_logins",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_networksecurity_debug",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_smbclient_security",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_smbserver_security",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_adminless_operational",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_audit_configuration_client_d",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_audit_configuration_client_o",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_configuration_wizard_diagnos",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_configuration_wizard_operati",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_enterprisedata_filerevocatio",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_exchangeactivesyncprovisioni",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_identitystore_performance",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_lessprivilegedappcontainer_o",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_licensing_slc_perf",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_netlogon_operational",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_spp_ux_gc_analytic",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_spp_ux_genuinecenter_logging",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_spp_ux_notifications_actionc",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_spp_ux_analytic",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_spp_perf",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_userconsentverifier_audit",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_security_vault_performance",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_securitymitigationsbroker_perf",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_securitymitigationsbroker_operational",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "evtx_microsoft_windows_securitymitigationsbroker_admin",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_log_esxtokend_log",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Authentication events to vSphere; check for admin API token theft"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_etc_passwd",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Check for UID 0 accounts not root; compare shadow file for password hash presence"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_kernel_dmesg_restrict",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Tampered value (0=off) indicates attacker hardening-bypass; check sysctl.conf"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_kernel_kptr_restrict",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Tampered value (0=off) indicates attacker hardening-bypass; check sysctl.conf"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_users_plist",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Check for UID 0 accounts not root; compare shadow file for password hash presence"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_users_plist_2",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Check for UID 0 accounts not root; compare shadow file for password hash presence"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Plaintext credentials; check for admin-role accounts not in baseline"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_2",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Plaintext credentials; check for admin-role accounts not in baseline"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_3",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Plaintext credentials; check for admin-role accounts not in baseline"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_4",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Plaintext credentials; check for admin-role accounts not in baseline"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_5",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Plaintext credentials; check for admin-role accounts not in baseline"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_6",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Plaintext credentials; check for admin-role accounts not in baseline"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_7",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Plaintext credentials; check for admin-role accounts not in baseline"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_8",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Plaintext credentials; check for admin-role accounts not in baseline"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_9",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Plaintext credentials; check for admin-role accounts not in baseline"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_10",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Plaintext credentials; check for admin-role accounts not in baseline"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_11",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Plaintext credentials; check for admin-role accounts not in baseline"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_ntds_ntds_dit",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Domain credential store; offline cracking risk; compare hash count against user count"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_ntds_dit",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Domain credential store; offline cracking risk; compare hash count against user count"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_ntds_dit_2",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Domain credential store; offline cracking risk; compare hash count against user count"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_file_system32_ntds_dit",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Domain credential store; offline cracking risk; compare hash count against user count"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_authentication_credential_provider_filters",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Non-default DLLs indicate credential interception; compare against known-good baseline"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_authentication_credential_provider_filters_2",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Non-default DLLs indicate credential interception; compare against known-good baseline"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_authentication_credential_providers",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Non-default DLLs indicate credential interception; compare against known-good baseline"],
+    },
+    EvidenceEntry {
+        artifact_id: "fa_authentication_credential_providers_2",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Non-default DLLs indicate credential interception; compare against known-good baseline"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_1password_data_1password10_sqlite",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_1password_backups_1password10_sqlite",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_1password_logs_log",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_aws_credentials",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["AWS access key ID and secret; timestamp indicates when last modified"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_user_git_credentials",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Repository tokens; check for non-corporate VCS hosts"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_free_download_manager_fdm_sqlite",
+        strength: EvidenceStrength::Strong,
+        caveats: &["May contain saved FTP/HTTP credentials; check for non-standard download sources"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_my_certificates",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Personal certificates including private keys; check for self-signed or unexpected issuers"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_logins_json",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_mremoteng_confcons_xml",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Encrypted vault; master password hash extractable for offline attack"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_key_db",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Encrypted vault; master password hash extractable for offline attack"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_signon",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_logins_json_2",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_password_xp",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_signon_2",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_logins_json_2_2",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_local_puffinsecurebrowserpasswordforms_dat",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_local_puffinsecurebrowsercredential_dat",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Browser-saved form passwords; check timestamp against incident window"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_windows_ntds",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Domain credential store; offline cracking risk; compare hash count against user count"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_config_sam_log",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Local account credential hashes; NTLM offline cracking risk"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_sam_registry_transac",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Verify presence against incident timeline; correlate with other triage artifacts"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_config_sam",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Local account credential hashes; NTLM offline cracking risk"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_sam_registry_hive",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Local account credential hashes; NTLM offline cracking risk"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_regback_sam",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Verify presence against incident timeline; correlate with other triage artifacts"],
+    },
+    EvidenceEntry {
+        artifact_id: "kape_file_sam_registry_hive_re",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Local account credential hashes; NTLM offline cracking risk"],
+    },
+    EvidenceEntry {
+        artifact_id: "nirsoft_network_passwords_cred_dir",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    },
+    EvidenceEntry {
+        artifact_id: "nirsoft_sam_hive_reg",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Local account credential hashes; NTLM offline cracking risk"],
+    },
+    EvidenceEntry {
+        artifact_id: "regedit_domains_account_users",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Local account enumeration via registry; compare against expected user list"],
+    },
+    EvidenceEntry {
+        artifact_id: "velociraptor_file_log_auth_log",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Authentication events; check for brute-force patterns and privilege escalation"],
+    },
+    EvidenceEntry {
+        artifact_id: "velociraptor_file_syslogtimestamp_timestamp_syslogfacility_s",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Authentication events; check for brute-force patterns and privilege escalation"],
+    },
+    EvidenceEntry {
+        artifact_id: "velociraptor_file_ssh_pem_id_rsa_id_dsa",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Private key presence proves access capability; verify authorized_keys for lateral movement"],
+    },
+    EvidenceEntry {
+        artifact_id: "velociraptor_file_usr",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Modified timestamps on system binaries indicate trojanized files"],
+    },
+    EvidenceEntry {
+        artifact_id: "velociraptor_file_tmp_collection_zip",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Presence indicates active Velociraptor collection; metadata reveals scope"],
+    },
+    EvidenceEntry {
+        artifact_id: "velociraptor_file_logs_security_evtx",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Velociraptor-collected EVTX; check collection timestamp vs log timespan"],
+    },
+    EvidenceEntry {
+        artifact_id: "velociraptor_file_logs_microsoft_windows_taskscheduler_4oper",
+        strength: EvidenceStrength::Strong,
+        caveats: &["Scheduled task execution; correlate with persistence keys"],
+    },
+    EvidenceEntry {
+        artifact_id: "velociraptor_file_config_sam",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Local account credential hashes; NTLM offline cracking risk"],
+    },
+    EvidenceEntry {
+        artifact_id: "velociraptor_currentversion_image_file_execution_options",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["Non-zero GlobalFlag with Debugger value indicates silent process exit / hijack"],
+    },
+    EvidenceEntry {
+        artifact_id: "velociraptor_securityproviders_wdigest",
+        strength: EvidenceStrength::Definitive,
+        caveats: &["UseLogonCredential=1 enables plaintext credential caching in LSASS — critical IOC"],
+    },
+    EvidenceEntry {
+        artifact_id: "velociraptor_currentversion_profilelist",
+        strength: EvidenceStrength::Strong,
+        caveats: &["User SID enumeration; compare against expected user base for rogue accounts"],
+    },
 ];
 
 /// Returns the evidence entry for a given artifact ID, or None if unknown.

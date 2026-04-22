@@ -4,9 +4,8 @@
 // Do not edit manually — re-run `cargo run -p ingest` to regenerate.
 #![allow(clippy::too_many_lines)]
 
-use forensicnomicon::catalog::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, HiveTarget, OsScope,
-    TriagePriority,
+use super::super::super::types::{
+    ArtifactDescriptor, ArtifactType, DataScope, Decoder, HiveTarget, OsScope, TriagePriority,
 };
 pub(crate) static REGEDIT_NETWORK: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_network",

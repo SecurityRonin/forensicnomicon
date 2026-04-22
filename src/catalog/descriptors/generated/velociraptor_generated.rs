@@ -4,22 +4,24 @@
 // Do not edit manually — re-run `cargo run -p ingest` to regenerate.
 #![allow(clippy::too_many_lines)]
 
-use forensicnomicon::catalog::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, HiveTarget, OsScope,
-    TriagePriority,
+use super::super::super::types::{
+    ArtifactDescriptor, ArtifactType, DataScope, Decoder, HiveTarget, OsScope, TriagePriority,
 };
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_MICROSOFT_WINDOWS_SYSMON_4OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_microsoft_windows_sysmon_4operational",
-    name: "Elastic.EventLogs.Sysmon",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:/Windows/System32/WinEvt/Logs/Microsoft-Windows-Sysmon%4Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Ships the the Sysmon event log in ECS schema.
+pub(crate) static VELOCIRAPTOR_FILE_LOGS_MICROSOFT_WINDOWS_SYSMON_4OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_logs_microsoft_windows_sysmon_4operational",
+        name: "Elastic.EventLogs.Sysmon",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:/Windows/System32/WinEvt/Logs/Microsoft-Windows-Sysmon%4Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Ships the the Sysmon event log in ECS schema.
 
 The Elastic Common Schema (ECS) is an open source specification,
 developed with support from the Elastic user community. ECS defines
@@ -36,13 +38,13 @@ There may be slight variations between the data produced by this
 artifact and the official Winlogbeat client. If you find such
 variation, please file an issue on Velociraptor's GitHub issue
 board.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_DOCX_DOCM_DOTX_DOTM_DOCB_XLSX_XLSM_XLTX_XL: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_docx_docm_dotx_dotm_docb_xlsx_xlsm_xltx_xl",
@@ -193,26 +195,6 @@ we need to access what the client was doing in the past.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_TEMP_LOCALLOGS_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_temp_locallogs_log",
-    name: "Generic.Client.LocalLogsRetrieve",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%TEMP%/locallogs.log"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Retrives the locally written logs.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
 pub(crate) static VELOCIRAPTOR_FILE_: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_",
     name: "Generic.Detection.HashHunter",
@@ -351,28 +333,6 @@ to perform a slow update of the local file hash database.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_USERS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_users",
-    name: "Generic.Forensic.Timeline",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\**"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact generates a timeline of a file glob in bodyfile
-format. We currently do not calculate the md5 because it is quite
-expensive.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
 pub(crate) static VELOCIRAPTOR_FILE_TMP_IMAGE_DD: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_tmp_image_dd",
     name: "Generic.Utils.DeadDiskRemapping",
@@ -476,26 +436,6 @@ pub(crate) static VELOCIRAPTOR_FILE_RUN_DOCKER_SOCK: ArtifactDescriptor = Artifa
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
     meaning: "Get Dockers info by connecting to its socket.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_RUN_DOCKER_SOCK: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_run_docker_sock",
-    name: "Linux.Applications.Docker.Version",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/run/docker.sock"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Get Dockers version by connecting to its socket.",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -834,48 +774,6 @@ exploit the weak password.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_LOG_AUTH_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_log_auth_log",
-    name: "Linux.Events.SSHLogin",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/log/auth.log"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This monitoring artifact watches the auth.log file for new
-successful SSH login events and relays them back to the server.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_SYSLOGTIMESTAMP_TIMESTAMP_SYSLOGFACILITY_S: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_syslogtimestamp_timestamp_syslogfacility_s",
-    name: "Linux.Events.SSHLogin",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%{SYSLOGTIMESTAMP:timestamp} (?:%{SYSLOGFACILITY} )?%{SYSLOGHOST:logsource} %{SYSLOGPROG}: %{DATA:event} %{DATA:method} for (invalid user )?%{DATA:user} from %{IPORHOST:ip} port %{NUMBER:port} ssh2(: %{GREEDYDATA:system.auth.ssh.signature})?"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This monitoring artifact watches the auth.log file for new
-successful SSH login events and relays them back to the server.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
 pub(crate) static VELOCIRAPTOR_FILE_HOME: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_home",
     name: "Linux.Forensics.ImmutableFiles",
@@ -893,27 +791,6 @@ Attackers sometimes enable immutable files in Linux. This prevents files from
 being modified. However this is sometimes a strong signal.
 
 NOTE: We use the ext4 accessor to parse the low level filesystem.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_journal",
-    name: "Linux.Forensics.Journal",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/{run,var}/log/journal/*/*.journal"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Parses the binary journal logs. Systemd uses a binary log format to
-store logs.",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -1017,53 +894,6 @@ quarantined system.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_HOME: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_home",
-    name: "Linux.Search.FileFinder",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/home/*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Find files on the filesystem using the filename or content.
-
-
-## Performance Note
-
-This artifact can be quite expensive, especially if we search file
-content. It will require opening each file and reading its entire
-content. To minimize the impact on the endpoint we recommend this
-artifact is collected with a rate limited way (about 20-50 ops per
-second).
-
-This artifact is useful in the following scenarios:
-
-  * We need to locate all the places on our network where customer
-    data has been copied.
-
-  * We’ve identified malware in a data breach, named using short
-    random strings in specific folders and need to search for other
-    instances across the network.
-
-  * We believe our user account credentials have been dumped and
-    need to locate them.
-
-  * We need to search for exposed credit card data to satisfy PCI
-    requirements.
-
-  * We have a sample of data that has been disclosed and need to
-    locate other similar files",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
 pub(crate) static VELOCIRAPTOR_FILE_SSH_AUTHORIZED_KEYS: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_ssh_authorized_keys",
     name: "Linux.Ssh.AuthorizedKeys",
@@ -1092,18 +922,19 @@ field is optional.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_SSH_PEM_ID_RSA_ID_DSA: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_ssh_pem_id_rsa_id_dsa",
-    name: "Linux.Ssh.PrivateKeys",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/home/*/.ssh/{*.pem,id_rsa,id_dsa}"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "SSH Private keys can be either encrypted or unencrypted. Unencrypted
+pub(crate) static VELOCIRAPTOR_FILE_SSH_PEM_ID_RSA_ID_DSA: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_ssh_pem_id_rsa_id_dsa",
+        name: "Linux.Ssh.PrivateKeys",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/home/*/.ssh/{*.pem,id_rsa,id_dsa}"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "SSH Private keys can be either encrypted or unencrypted. Unencrypted
 private keys are more risky because an attacker can use them without
 needing to unlock them with a password.
 
@@ -1124,13 +955,13 @@ ssh-keygen -p -f my_private_key
 
 Change the glob to /** if you would like to search the entire filesystem.
 Be aware, this is an expensive operation.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Critical,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_ACPI_TABLES: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_acpi_tables",
@@ -1306,34 +1137,6 @@ log files.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_log",
-    name: "Linux.Sys.LogHunter",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/log/**"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Allows grep-like searching of Linux, MacOS and Windows logs.
-
-Parameters include `SearchRegex` and `WhitelistRegex` as regex terms.
-
-Also included is a Path exclusion regex (`ExcludePathRegex`) to refine results
-and automatically exclude hits in commonly unwanted locations such as `/proc`.
-
-NOTE: The `nosymlink` feature of glob is set so unexpected results may occur
-if your targets includes symlink files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
 pub(crate) static VELOCIRAPTOR_FILE_USR: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_usr",
     name: "Linux.Sys.SUID",
@@ -1415,26 +1218,6 @@ pub(crate) static VELOCIRAPTOR_FILE_LOG_AUTH_LOG_SECURE: ArtifactDescriptor = Ar
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_SYSLOGTIMESTAMP_TIMESTAMP_SYSLOGFACILITY_S: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_syslogtimestamp_timestamp_syslogfacility_s",
-    name: "Linux.Syslog.SSHLogin",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%{SYSLOGTIMESTAMP:Timestamp} (?:%{SYSLOGFACILITY} )?%{SYSLOGHOST:logsource} %{SYSLOGPROG}: %{DATA:event} %{DATA:method} for (invalid user )?%{DATA:user} from %{IPORHOST:ip} port %{NUMBER:port} ssh2(: %{GREEDYDATA:system.auth.ssh.signature})?"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Parses the auth logs to determine all SSH login attempts.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
 pub(crate) static VELOCIRAPTOR_FILE_BIN_SYNC: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_bin_sync",
     name: "Linux.Users.InteractiveUsers",
@@ -1455,73 +1238,51 @@ pub(crate) static VELOCIRAPTOR_FILE_BIN_SYNC: ArtifactDescriptor = ArtifactDescr
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_history",
-    name: "MacOS.Applications.Chrome.History",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Users/*/Library/Application Support/Google/Chrome/*/History"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Read all User's chrome history.
+pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_FINDER_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_preferences_com_apple_finder_plist",
+        name: "MacOS.Applications.MRU",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/Users/*/Library/Preferences/com.apple.finder.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Parse the MRU from MacOS users",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
-## NOTES:
-
-This artifact is deprecated in favor of
-Generic.Forensic.SQLiteHunter and will be removed in future",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_FINDER_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_preferences_com_apple_finder_plist",
-    name: "MacOS.Applications.MRU",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Users/*/Library/Preferences/com.apple.finder.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Parse the MRU from MacOS users",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_COM_APPLE_XPC_LAUNCHD_DISABLED_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_com_apple_xpc_launchd_disabled_plist",
-    name: "MacOS.Detection.Autoruns",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/db/com.apple.xpc.launchd/disabled.*.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact collects evidence of autoruns. We also capture the files and upload them.
+pub(crate) static VELOCIRAPTOR_FILE_COM_APPLE_XPC_LAUNCHD_DISABLED_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_com_apple_xpc_launchd_disabled_plist",
+        name: "MacOS.Detection.Autoruns",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/var/db/com.apple.xpc.launchd/disabled.*.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning:
+            "This artifact collects evidence of autoruns. We also capture the files and upload them.
 
 This code is based on
 https://github.com/CrowdStrike/automactc/blob/master/modules/mod_autoruns_v102.py",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::High,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_TABS: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_tabs",
@@ -1534,7 +1295,8 @@ pub(crate) static VELOCIRAPTOR_FILE_TABS: ArtifactDescriptor = ArtifactDescripto
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "This artifact collects evidence of autoruns. We also capture the files and upload them.
+    meaning:
+        "This artifact collects evidence of autoruns. We also capture the files and upload them.
 
 This code is based on
 https://github.com/CrowdStrike/automactc/blob/master/modules/mod_autoruns_v102.py",
@@ -1546,25 +1308,26 @@ https://github.com/CrowdStrike/automactc/blob/master/modules/mod_autoruns_v102.p
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_RECEIPTS_INSTALLHISTORY_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_receipts_installhistory_plist",
-    name: "MacOS.Detection.InstallHistory",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Library/Receipts/InstallHistory.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact collects entries from the InstallHistory .plist file",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+pub(crate) static VELOCIRAPTOR_FILE_RECEIPTS_INSTALLHISTORY_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_receipts_installhistory_plist",
+        name: "MacOS.Detection.InstallHistory",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/Library/Receipts/InstallHistory.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "This artifact collects entries from the InstallHistory .plist file",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_DOWNLOADS_ZIP: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_downloads_zip",
@@ -1606,65 +1369,19 @@ contain sensitive URLs embedded within them.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_USERS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_users",
-    name: "MacOS.Search.FileFinder",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Users/*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Find files on the filesystem using the filename or content.
-
-
-## Performance Note
-
-This artifact can be quite expensive, especially if we search file
-content. It will require opening each file and reading its entire
-content. To minimize the impact on the endpoint we recommend this
-artifact is collected with a rate limited way (about 20-50 ops per
-second).
-
-This artifact is useful in the following scenarios:
-
-  * We need to locate all the places on our network where customer
-    data has been copied.
-
-  * We’ve identified malware in a data breach, named using short
-    random strings in specific folders and need to search for other
-    instances across the network.
-
-  * We believe our user account credentials have been dumped and
-    need to locate them.
-
-  * We need to search for exposed credit card data to satisfy PCI
-    requirements.
-
-  * We have a sample of data that has been disclosed and need to
-    locate other similar files",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_DOCK_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_preferences_com_apple_dock_plist",
-    name: "MacOS.System.Dock",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Users/*/Library/Preferences/com.apple.dock.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact examines the contents of the user's dock.  The
+pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_DOCK_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_preferences_com_apple_dock_plist",
+        name: "MacOS.System.Dock",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/Users/*/Library/Preferences/com.apple.dock.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "This artifact examines the contents of the user's dock.  The
 property list entry for each application represented within the dock
 can be modified to point to a malicious application.
 
@@ -1672,13 +1389,13 @@ can be modified to point to a malicious application.
  gather greater context to assist in determining if an adversary may
  have tampered with an entry, or if an entry has been added to
  emulate a legitimate application.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_preferences_plist",
@@ -1703,26 +1420,27 @@ and modified.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_LAUNCHSERVICES_QUARA: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_preferences_com_apple_launchservices_quara",
-    name: "MacOS.System.QuarantineEvents",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Users/*/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact parses the QuarantineEventsV2 database, which provides
+pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_LAUNCHSERVICES_QUARA: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_preferences_com_apple_launchservices_quara",
+        name: "MacOS.System.QuarantineEvents",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/Users/*/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "This artifact parses the QuarantineEventsV2 database, which provides
 information on when a file was downloaded from the internet.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_COM_APPLE_TCC_TCC_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_com_apple_tcc_tcc_db",
@@ -1751,25 +1469,26 @@ columns for Catalina and prior.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_TIMEMACHINE_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_preferences_com_apple_timemachine_plist",
-    name: "MacOS.System.TimeMachine",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Library/Preferences/com.apple.TimeMachine.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact collects information about MacOS Time Machine backups.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_TIMEMACHINE_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_preferences_com_apple_timemachine_plist",
+        name: "MacOS.System.TimeMachine",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/Library/Preferences/com.apple.TimeMachine.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "This artifact collects information about MacOS Time Machine backups.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_USERS_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_users_plist",
@@ -1792,28 +1511,31 @@ system. The information is stored in plist files.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_SYSTEMCONFIGURATION_COM_APPLE_AIRPORT_PREF: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_systemconfiguration_com_apple_airport_pref",
-    name: "MacOS.System.Wifi",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact looks for all Wifi networks to which a host has
+pub(crate) static VELOCIRAPTOR_FILE_SYSTEMCONFIGURATION_COM_APPLE_AIRPORT_PREF: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_systemconfiguration_com_apple_airport_pref",
+        name: "MacOS.System.Wifi",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "This artifact looks for all Wifi networks to which a host has
 joined.  This can be useful in determining where a machine has
 been, or if a user has joined an illegitimate or unauthorized
 wireless network.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_YAML_YML: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_yaml_yml",
@@ -1917,18 +1639,19 @@ artifact using the resources tab.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_TMP_REMAPPING_WRITEBACK_YAML: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_tmp_remapping_writeback_yaml",
-    name: "Server.Utils.DeadDiskClient",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/tmp/remapping.writeback.yaml"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Automates the analysis of dead disk images in Velociraptor
+pub(crate) static VELOCIRAPTOR_FILE_TMP_REMAPPING_WRITEBACK_YAML: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_tmp_remapping_writeback_yaml",
+        name: "Server.Utils.DeadDiskClient",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/tmp/remapping.writeback.yaml"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Automates the analysis of dead disk images in Velociraptor
 
 Velociraptor can analyze dead disk images by using accessor
 remapping. The process involves detecting a suitable remapping
@@ -1945,13 +1668,13 @@ the virtual client will be up. To kill the virtual client you can
 cancel this collection. By default the artifact will remain running
 for 1 hour but you can extend the time limit while launching the
 artifact using the resources tab.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_TMP_1_YAML: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_tmp_1_yaml",
@@ -2066,55 +1789,29 @@ With `UploadLogs` selected a copy of the logs are uploaded to the server.
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_USERS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_users",
-    name: "Windows.Applications.OfficeMacros",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\**\\"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Scans through a given directory glob for common office files. Then tries to
-extract any embedded macros by parsing the OLE file structure.
-
-Office macros are a prominent initial infection vector. Many users click
-through the warning dialogs, thus leading to infection.
-
-If a macro calls an external program (e.g. PowerShell) this is very
-suspicious!",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_TEAMVIEWER_CONNECTIONS_INCOMING_TXT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_teamviewer_connections_incoming_txt",
-    name: "Windows.Applications.TeamViewer.Incoming",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Program Files (x86)\\TeamViewer\\Connections_incoming.txt"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Parses the TeamViewer Connections_incoming.txt log file.
+pub(crate) static VELOCIRAPTOR_FILE_TEAMVIEWER_CONNECTIONS_INCOMING_TXT: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_teamviewer_connections_incoming_txt",
+        name: "Windows.Applications.TeamViewer.Incoming",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Program Files (x86)\\TeamViewer\\Connections_incoming.txt"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Parses the TeamViewer Connections_incoming.txt log file.
 
 When inbound logging enabled, this file will show all inbound TeamViewer
 connections.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_TMP_COLLECTION_ZIP: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_tmp_collection_zip",
@@ -2302,66 +1999,6 @@ NOTE:
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_",
-    name: "Windows.Detection.BinaryHunter",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:/Users/**/*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact enables hunting for binary attributes.
-
-The artifact takes a glob targeting input, then checks each file in scope for an MZ header.
-The artifact also queries Authenticode details and parses out PE attributes.
-
-Both PE and Authenticode output can be queried for relevant strings by using a regex filter and whitelist to hunt with.
-This enables unique capability to hunt for specific things such as PE imports, exports or other attributes.
-
-Note: this artifacts filters are cumulative so a hash based hit will return
-no results if the file is filtered out by other filters.
-For most performant searches use path, size and and date filters. By default
-the artifact uses the 'auto' data accessor but can also be changed as desired.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_EXE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_exe",
-    name: "Windows.Detection.BinaryRename",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/**/*.exe"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact will detect renamed binaries commonly abused by adversaries.
-
-Binary rename is a defense evasion technique used to bypass brittle process
-name and path based detections. Observed in use across
-all stages of the attack lifecycle it is a technique used by a large
-selection of actors from commodity malware crews through to Nation States.
-
-Add additional entries to the VersionInfoTable parameter. For straight
-detection on an Internal or Original name, the Filename entry can be set to
-an unlikely value - e.g ANY or left blank.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
@@ -2574,54 +2211,6 @@ $sequence_5 = { 250000ff00 33d0 8b4db0 c1e9 ( 08 | 08 ) }
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_BIN_LS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_bin_ls",
-    name: "Windows.Detection.YaraX.Glob",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/usr/bin/ls"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact returns a list of target files then runs YARA over the target
-list.
-
-There are 2 kinds of YARA rules that can be deployed:
-
-1. Url link to a YARA rule.
-2. or a Standard YARA rule attached as a parameter.
-
-Only one method of YARA will be applied and search order is as above.
-
-The artifact uses Glob for search so relevant filters can be applied
-including Glob, Size and date. Date filters will target files with a timestamp
-before LatestTime and after EarliestTime. The artifact also has an option to
-upload any files with YARA hits.
-
-Some examples of path glob may include:
-
-* Specific binary: `/usr/bin/ls`
-* Wildcards: `/var/www/*.js`
-* More wildcards: `/var/www/**/*.js`
-* Multiple extensions: `/var/www/*\\.{php,aspx,js,html}`
-* Windows: `C:/Users/**/*.{exe,dll,ps1,bat}`
-* Windows: `C:\\Users\\**\\*.{exe,dll,ps1,bat}`
-
-NOTE: this artifact runs the glob plugin with the nosymlink switch turned on.
-This will NOT follow any symlinks and may cause unexpected results if
-unknowingly targeting a folder with symlinks.
-If upload is selected NumberOfHits is redundant and not advised as hits are
-grouped by path to ensure files only downloaded once.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
 pub(crate) static VELOCIRAPTOR_FILE_LOGS_SECURITY_EVTX: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_logs_security_evtx",
     name: "Windows.EventLogs.AlternateLogon",
@@ -2644,27 +2233,28 @@ Destination Host Name/IP Process Name",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_SYSTEM_SECURITY_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_system_security_evtx",
-    name: "Windows.EventLogs.Cleared",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\System32\\Winevt\\Logs\\{System,Security}.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Extract Event Logs related to EventLog clearing
+pub(crate) static VELOCIRAPTOR_FILE_LOGS_SYSTEM_SECURITY_EVTX: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_logs_system_security_evtx",
+        name: "Windows.EventLogs.Cleared",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Windows\\System32\\Winevt\\Logs\\{System,Security}.evtx"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Extract Event Logs related to EventLog clearing
 - Security Log  - EventID 1102
 - System Log - EventID 104",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_WINEVT_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_winevt_logs",
@@ -2757,136 +2347,21 @@ Inspired by others in `Windows.EventLogs.*`, many by Matt Green (@mgreen27).",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_evtx",
-    name: "Windows.EventLogs.EvtxHunter",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\Winevt\\Logs\\*.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This Artifact will hunt the Event Log message field for a regex value.
-For example and IP, username or string.
-
-Searching EventLog files is helpful for triage and scoping an incident.
-The idea is a user can search for any IOC or other string of interest and
-return all results across the Event Log ecosystem.
-
-There are several parameters available for search leveraging regex.
-  - EvtxGlob glob of EventLogs to target. Default to all but can be targeted.
-  - dateAfter enables search for events after this date.
-  - dateBefore enables search for events before this date.
-  - IocRegex enables regex search over the message field.
-  - WhitelistRegex enables a regex whitelist for the Message field.
-  - PathRegex enables filtering on evtx path for specific log targeting.
-  - ChannelRegex allows specific EVTX Channel targets.
-  - IdRegex enables a regex query to select specific event Ids.
-  - SearchVSS enables searching over VSS
-
-  Note: this artifact can potentially be heavy on the endpoint.
-  Please use with caution.
-  EventIds with an EventData field regex will be applied and requires double
-  escape for backslash due to serialization of this field.
-  E.g `C:\\\\\\\\FOLDER\\\\\\\\binary\\\\.exe`
-  For EventIds with no EventData the Message field is queried and requires
-  standard Velociraptor escape. E.g `C:\\\\FOLDER\\\\binary\\\\.exe`",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_SECURITY_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_security_evtx",
-    name: "Windows.EventLogs.ExplicitLogon",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\Winevt\\Logs\\Security.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Searches the Windows Security event log for explicit logon events, that is
-Event ID 4648: \"A logon was attempted using explicit credentials\".
-
-If logging is enabled, these events are generated on the source machine
-whenever an authentication attempt occurs under a different user context.
-Examples include a user authenticating to another machine using wmic or
-mapping a drive using different credentials, or using the RunAs option
-locally.
-
-This artifact by default filters all events with `localhost` as the server
-and `MACHINE$` as target user. A recommended hunt for lateral movement would
-be activity to other machines from commonly abused LOLBins or explicit logon
-events from unusual processes.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_SECURITY_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_security_evtx",
-    name: "Windows.EventLogs.Kerberoasting",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\logs\\Security.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This Artifact will return all successful Kerberos TGS Ticket events for
-Service Accounts (SPN attribute) implemented with weak encryption. These
-tickets are vulnerable to brute force attack and this event is an indicator
-of a Kerberoasting attack.
-
-Typical attacker methodology is to firstly request accounts in the domain
-with SPN attributes, then request an insecure TGS ticket for brute forcing.
-This attack is particularly effective as any domain credentials can be used
-to implement the attack and service accounts often have elevated privileges.
-Kerberoasting can be used for privilege escalation or persistence by adding a
-SPN attribute to an unexpected account.
-
-Log Source: Windows Security Event Log (Domain Controllers).
-Event ID: 4769
-Status: 0x0 (Audit Success)
-Ticket Encryption: 0x17 (RC4)
-Service Name: NOT krbtgt or NOT a system account (account name ends in $)
-TargetUserName: NOT a system account (*$@*)
-
-Monitor and alert on unusual events with these conditions from an unexpected
-IP.
-Note: There are potential false positives so whitelist normal source IPs and
-manage risk of insecure ticket generation.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_MICROSOFT_WINDOWS_POWERSHELL_4OPERATI: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_microsoft_windows_powershell_4operati",
-    name: "Windows.EventLogs.PowershellModule",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\system32\\winevt\\logs\\Microsoft-Windows-PowerShell%4Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This Artifact will search and extract Module events (Event ID 4103) from
+pub(crate) static VELOCIRAPTOR_FILE_LOGS_MICROSOFT_WINDOWS_POWERSHELL_4OPERATI: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_logs_microsoft_windows_powershell_4operati",
+        name: "Windows.EventLogs.PowershellModule",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Windows\\system32\\winevt\\logs\\Microsoft-Windows-PowerShell%4Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "This Artifact will search and extract Module events (Event ID 4103) from
 Powershell-Operational Event Logs.
 
 PowerShell is commonly used by attackers across all stages of the attack
@@ -2898,79 +2373,13 @@ There are several parameters available for search leveraging regex.
   - ContextRegex enables regex search over ContextInfo text field.
   - PayloadRegex enables a regex search over Payload text field.
   - SearchVSS enables VSS search",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_MICROSOFT_WINDOWS_POWERSHELL_4OPERATI: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_microsoft_windows_powershell_4operati",
-    name: "Windows.EventLogs.PowershellScriptblock",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\logs\\Microsoft-Windows-PowerShell%4Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This Artifact will search and extract ScriptBlock events (Event ID 4104) from
-Powershell-Operational Event Logs.
-
-PowerShell is commonly used by attackers across all stages of the attack
-lifecycle. A valuable hunt is to search Scriptblock logs for signs of
-malicious content.
-
-There are several parameters available for search leveraging regex.
-  - DateAfter enables search for events after this date.
-  - DateBefore enables search for events before this date.
-  - SearchStrings enables regex search over scriptblock text field.
-  - StringWhiteList enables a regex whitelist for scriptblock text field.
-  - PathWhitelist enables a regex whitelist for path of scriptblock.
-  - LogLevel enables searching on type of log. Default is Warning level which
-  is logged even if ScriptBlock logging is turned off when suspicious keywords
-  detected in PowerShell interpreter. See second reference for list of keywords.
-  - SearchVSS enables VSS search.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_SECURITY_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_security_evtx",
-    name: "Windows.EventLogs.RDPAuth",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\Winevt\\Logs\\Security.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact will extract Event Logs related to Remote Desktop sessions,
-logon and logoff.
-
-Security channel - EventID in 4624,4634 AND LogonType 3, 7, or 10.
-Security channel - EventID in 4778,4625,4779, or 4647.
-System channel -  EventID 9009.
-Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational - EventID 1149.
-Microsoft-Windows-TerminalServices-LocalSessionManager/Operational - EventID 23,22,21,24,25,39, or 40.
-
-Best use of this artifact is to collect RDP and Authentication events around
-a timeframe of interest and order by EventTime to scope RDP activity.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOGS_SYSTEM_EVTX: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_logs_system_evtx",
@@ -3062,45 +2471,6 @@ a timeframe of interest and order by EventTime to scope RDP activity.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_SECURITY_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_security_evtx",
-    name: "Windows.EventLogs.ScheduledTasks",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\Winevt\\Logs\\Security.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact will extract Event Logs related to ScheduledTasks and provide
-a nice format for simplified review.
-
-Adversaries may abuse tasks for execution, persistence, lateral movement or
-privilege escalation. This artifact collates all events from
-Microsoft-Windows-TaskScheduler/Operational event log channel and scheduled
-task events from the Security log if configured.
-
-A common hunting use case may be collection all deleted scheduled tasks (EID 141),
-all modified scheduled tasks (EID 140) then run frequency analysis and chase
-down any abnormalities for the environment. Similarly task execution (EID 129)
-and registration (EID 106) can be a good collection hunting for unusual paths.
-
-Pivoting can be via either: TaskSchedulerEventRegex, TaskName or IOC Regex
-(e.g taskname|delete|created|update)
-
-Note: Audit Other Object Access Events is required to be implemented to record
-scheduled tasks being registered, modified or disabled in the Security event
-log channel.
-See: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
 pub(crate) static VELOCIRAPTOR_FILE_LOGS_MICROSOFT_WINDOWS_TASKSCHEDULER_4OPER: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_logs_microsoft_windows_taskscheduler_4oper",
     name: "Windows.EventLogs.ScheduledTasks",
@@ -3140,45 +2510,21 @@ See: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Adva
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_SYSTEM_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_system_evtx",
-    name: "Windows.EventLogs.ServiceCreationComspec",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\system32\\winevt\\logs\\System.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Detects the string \"COMSPEC\" (nocase) in Windows Service
-Creation (SCM) events. That is: EventID 7045 from the System event log.
-
-This detects many hack tools that use SCM based lateral movement
-including `smbexec`.
-
-If `VSSAnalysisAge` is non-zero then this enables querying VSS instances for
-the `EventLog` path, which includes event deduplication.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_SYMANTEC_ENDPOINT_PROTECTION_CLIENT_E: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_symantec_endpoint_protection_client_e",
-    name: "Windows.EventLogs.Symantec",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\system32\\winevt\\logs\\Symantec Endpoint Protection Client.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Query the Symantec Endpoint Protection Event Logs. The default artifact will
+pub(crate) static VELOCIRAPTOR_FILE_LOGS_SYMANTEC_ENDPOINT_PROTECTION_CLIENT_E: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_logs_symantec_endpoint_protection_client_e",
+        name: "Windows.EventLogs.Symantec",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Windows\\system32\\winevt\\logs\\Symantec Endpoint Protection Client.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Query the Symantec Endpoint Protection Event Logs. The default artifact will
 return EventId 51 and high value strings with goals bubble up some events for
 triage.
 
@@ -3187,26 +2533,27 @@ EventID selection is controlled by regex to allow multiple EID selections.
 If running a hunt, consider also hunting EventId 45 - Tamper Protection
 Detection (this will be noisy so whitelist is required).
 IgnoreRegex allows filtering out events relevant to the target environment.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_APPLICATION_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_application_evtx",
-    name: "Windows.EventLogs.Telerik",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\Winevt\\Logs\\Application.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This Artifact will hunt for evidence of Telerik exploitation in the Application
+pub(crate) static VELOCIRAPTOR_FILE_LOGS_APPLICATION_EVTX: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_logs_application_evtx",
+        name: "Windows.EventLogs.Telerik",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%SystemRoot%\\System32\\Winevt\\Logs\\Application.evtx"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "This Artifact will hunt for evidence of Telerik exploitation in the Application
 Event Log.
 
 Telerik is a commonly exploited component of IIS web pages that has been
@@ -3220,138 +2567,27 @@ Output of this artifact is targeted fields from EventID 1309 to provide
 context for the hit.
 
 This Artifact will hunt for evidence of Telerik exploitation in the Application Event Log.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::High,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_SECURITY_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_security_evtx",
-    name: "Windows.Events.FailedLogBeforeSuccess",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:/Windows/System32/Winevt/Logs/Security.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Sometimes attackers will brute force an local user's account's
-password. If the account password is strong, brute force attacks are
-not effective and might not represent a high value event in
-themselves.
-
-However, if the brute force attempt succeeds, then it is a very high
-value event (since brute forcing a password is typically a
-suspicious activity).
-
-On the endpoint this looks like a bunch of failed logon attempts in
-quick succession followed by a successful login.
-
-NOTE: In order for this artifact to work we need Windows to be
-logging failed account login. This is not on by default and should
-be enabled via group policy.
-
-https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
-
-You can set the policy in Group Policy Management Console (GPMC):
-`Computer Configuration\\Windows Settings\\Security Settings\\Local Policies\\Audit Policy`.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_SECURITY_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_security_evtx",
-    name: "Windows.Events.Kerberoasting",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\system32\\winevt\\logs\\Security.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "**Description**:
-This Artifact will monitor all successful Kerberos TGS Ticket events for
-Service Accounts (SPN attribute) implemented with weak encryption. These
-tickets are vulnerable to brute force attack and this event is an indicator
-of a Kerberoasting attack.
-
-**ATT&CK**: [T1208 - Kerberoasting](https://attack.mitre.org/techniques/T1208/)
-Typical attacker methodology is to firstly request accounts in the domain
-with SPN attributes, then request an insecure TGS ticket for brute forcing.
-This attack is particularly effective as any domain credentials can be used
-to implement the attack and service accounts often have elevated privileges.
-Kerberoasting can be used for privilege escalation or persistence by adding a
-SPN attribute to an unexpected account.
-
-**Reference**: [The Art of Detecting Kerberoast Attacks](https://www.trustedsec.com/2018/05/art_of_kerberoast/)
-**Log Source**: Windows Security Event Log (Domain Controllers)
-**Event ID**: 4769
-**Status**: 0x0 (Audit Success)
-**Ticket Encryption**: 0x17 (RC4)
-**Service Name**: NOT krbtgt or NOT a system account (account name ends in $)
-**TargetUserName**: NOT a system account (*$@*)
-
-
-Monitor and alert on unusual events from an unexpected IP.
-Note: There are potential false positives so whitelist normal source IPs and
-manage risk of insecure ticket generation.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_SYSTEM_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_system_evtx",
-    name: "Windows.Events.ServiceCreation",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:/Windows/System32/Winevt/Logs/System.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Monitor for creation of new services.
-
-New services are typically created by installing new software or
-kernel drivers. Attackers will sometimes install a new service to
-either insert a malicious kernel driver or as a persistence
-mechanism.
-
-This event monitor extracts the service creation events from the
-event log and records them on the server.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_WINDOWS_SYSMON64_EXE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_windows_sysmon64_exe",
-    name: "Windows.Events.TrackProcesses",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:/Windows/sysmon64.exe"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Uses Sysmon and pslist to keep track of running processes by using the
+pub(crate) static VELOCIRAPTOR_FILE_TEMP_PROCESSES_SQLITE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_temp_processes_sqlite",
+        name: "Windows.Events.TrackProcesses",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%TEMP%/processes.sqlite"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Uses Sysmon and pslist to keep track of running processes by using the
 Velociraptor Process Tracker.
 
 The Process Tracker keeps track of exited processes, and resolves
@@ -3360,87 +2596,13 @@ process call chains from it in memory cache.
 This event artifact enables the global process tracker and makes it
 possible to run many other artifacts that depend on the process
 tracker.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_TEMP_PROCESSES_SQLITE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_temp_processes_sqlite",
-    name: "Windows.Events.TrackProcesses",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%TEMP%/processes.sqlite"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Uses Sysmon and pslist to keep track of running processes by using the
-Velociraptor Process Tracker.
-
-The Process Tracker keeps track of exited processes, and resolves
-process call chains from it in memory cache.
-
-This event artifact enables the global process tracker and makes it
-possible to run many other artifacts that depend on the process
-tracker.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_SECURITY_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_security_evtx",
-    name: "Windows.Events.Trackaccount",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\system32\\winevt\\logs\\Security.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Artifact to detect account usage by monitoring event id 4624. This is useful for tracking attacker activity. If you want to receive Slack/Teams/Discord/etc alerts you can enable the server_event artifact named 'Server.Alerts.Trackaccount'",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_PROGRAMS_AMCACHE_HVE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_programs_amcache_hve",
-    name: "Windows.Forensics.Amcache",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SYSTEMROOT%/appcompat/Programs/Amcache.hve"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "The Amcache.hve is a registry artifact that stores metadata
-used by the OS’s application compatibility infrastructure to 
-record metadata about binaries present on the system. This 
-includes file paths, hashes, timestamps, and install/interaction 
-information for executables and drivers. 
-
-NOTE: execution must be corroborated with additional artifacts.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_METADATA: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_metadata",
@@ -3475,7 +2637,9 @@ pub(crate) static VELOCIRAPTOR_FILE_METADATA_2: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:/Windows/*/config/systemprofile/AppData/LocalLow/Microsoft/CryptnetUrlCache/MetaData/*"),
+    file_path: Some(
+        "C:/Windows/*/config/systemprofile/AppData/LocalLow/Microsoft/CryptnetUrlCache/MetaData/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -3636,7 +2800,9 @@ pub(crate) static VELOCIRAPTOR_FILE_TABSTATE_BIN: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:/Users/*/AppData/Local*/Packages/Microsoft.WindowsNotepad*/LocalState/TabState/*.bin"),
+    file_path: Some(
+        "C:/Users/*/AppData/Local*/Packages/Microsoft.WindowsNotepad*/LocalState/TabState/*.bin",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -3856,7 +3022,9 @@ pub(crate) static VELOCIRAPTOR_FILE_ACTIVITIESCACHE_DB: ArtifactDescriptor = Art
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\*\\AppData\\Local\\ConnectedDevicesPlatform\\*\\ActivitiesCache.db"),
+    file_path: Some(
+        "C:\\Users\\*\\AppData\\Local\\ConnectedDevicesPlatform\\*\\ActivitiesCache.db",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -3907,112 +3075,20 @@ trouble parsing these files on a live system.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_TEMP_WINPMEM_SYS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_temp_winpmem_sys",
-    name: "Windows.Memory.Acquisition",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\Temp\\winpmem.sys"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Acquires a full memory image by using the built-in WinPmem driver.
-
-NOTE: This artifact usually transfers a lot of data. You should
-increase the default timeout to allow it to complete.
-
-Memory images are typically susceptible to a lot of smear. To
-minimize this we need to acquire memory as quickly as possible. This
-artifact offers a few compression methods for the output
-file. Reducing the size of the file will decrease time needed for IO
-but will increase CPU requirements so this is a
-trade-off. Empirically we found that using S2 compression gives a
-reasonable compression and very high speed reducing acquisition time
-from the no compression options significantly.
-
-To decompress the image you can use the [Go WinPmem binary](https://github.com/Velocidex/WinPmem/releases)
-
-```
-go-winpmem.exe extract image.compressed image.raw
-```",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_",
-    name: "Windows.NTFS.ADSHunter",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\{*,**\\*}"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact hunts
-for Alternate Data Streams on NTFS file systems.
-Adversaries may use NTFS file attributes for covert storage to evade
-detection.
-Alternate Data Streams (ADS) are additional $DATA attributes for an MFT entry in
-NTFS file systems. In NTFS, the primary $DATA attribute is
-never named but subsequent $DATA attributes must be named.
-
-Targeting is via mix of path globs and include / exclude regex.
-
-- TargetGlob is a glob to target for ADS. NOTE **\\* is recursive. To hit C drive we need to search for C:\\*
-- AdsName is name in glob format: e.g *, Zone.Identifier or Zone.*.
-- AdsNameExclusion - A regex value, common ADS added to exclusions have been
-added by default. The artifact also excludes NTFS system files by default.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_USERS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_users",
-    name: "Windows.NTFS.I30",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Carve the $I30 index stream for a directory.
-
-This can reveal previously deleted files. Optionally upload the I30
-stream to the server as well.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_CURRENTVERSION_IMAGE_FILE_EXECUTION_OPTIONS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_currentversion_image_file_execution_options",
-    name: "Windows.Persistence.Debug",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\*",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows allows specific configuration of various executables via a
+pub(crate) static VELOCIRAPTOR_CURRENTVERSION_IMAGE_FILE_EXECUTION_OPTIONS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_currentversion_image_file_execution_options",
+        name: "Windows.Persistence.Debug",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path:
+            "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\*",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows allows specific configuration of various executables via a
 registry key. Some keys allow defining a debugger to attach to a
 program as it is run. If this debugger is launched for commonly used
 programs (e.g. notepad) then another program can be launched at the
@@ -4025,13 +3101,13 @@ therefore does not need to be processed.
 
 Limitations: This queries the live registry and therefore does not
 parse data in Windows.old or Regback folders, or VSS.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Critical,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_V1_0_PROFILE_MICROSOFT_PROFILE_PS1: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_v1_0_profile_microsoft_profile_ps1",
@@ -4084,18 +3160,19 @@ http://www.hexacorn.com/blog/2019/07/11/beyond-good-ol-run-key-part-108-2/",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_SESSION_MANAGER_APPCOMPATCACHE_APPCOMPATCACHE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_session_manager_appcompatcache_appcompatcache",
-    name: "Windows.Registry.AppCompatCache",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSystem),
-    key_path: "System\\ControlSet*\\Control\\Session Manager\\AppCompatCache\\AppCompatCache",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact parses AppCompatCache (shimcache) from target hives.
+pub(crate) static VELOCIRAPTOR_SESSION_MANAGER_APPCOMPATCACHE_APPCOMPATCACHE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_session_manager_appcompatcache_appcompatcache",
+        name: "Windows.Registry.AppCompatCache",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSystem),
+        key_path: "System\\ControlSet*\\Control\\Session Manager\\AppCompatCache\\AppCompatCache",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "This artifact parses AppCompatCache (shimcache) from target hives.
 
 AppCompatCache, also known as Shimcache, is a component of the Application
 Compatibility Database, which was created by Microsoft and used by the Windows
@@ -4108,13 +3185,13 @@ Note:
 - Windows 10+ systems Execution flag of 1 indicates execution.
 - The appcompatcache artifact does not currently support execution flag in
 Windows 7 and 8 / 8.1 Systems.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::High,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_CONTROL_BACKUPRESTORE: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_control_backuprestore",
@@ -4308,18 +3385,19 @@ but there are no rail guards on other domains. Use with caution.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_ETC_HOSTS_VELOCIRAPTOR_BACKUP: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_etc_hosts_velociraptor_backup",
-    name: "Windows.Remediation.Sinkhole",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\System32\\drivers\\etc\\hosts.velociraptor.backup"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "**Apply a Sinkhole via Windows hosts file modification**
+pub(crate) static VELOCIRAPTOR_FILE_ETC_HOSTS_VELOCIRAPTOR_BACKUP: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_file_etc_hosts_velociraptor_backup",
+        name: "Windows.Remediation.Sinkhole",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Windows\\System32\\drivers\\etc\\hosts.velociraptor.backup"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "**Apply a Sinkhole via Windows hosts file modification**
 This content will modify the Windows hosts file by a configurable
 lookup table.
 
@@ -4333,37 +3411,13 @@ NOTE:
 Modifying the hosts file may cause network communication issues. I have
 disabled any sinkhole settings on the Velociraptor agent configuration
 but there are no rail guards on other domains. Use with caution.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_LOGS_SECURITY_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_logs_security_evtx",
-    name: "Windows.Search.VSS",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\System32\\winevt\\Logs\\Security.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact will find all relevant files in the VSS. Typically
-used to out deduplicated paths for processing by other artifacts.
-
-NOTE: This used to be more complicated but now delegates to the
-\"ntfs_vss\" accessor to do all the work.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_VHDX: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_vhdx",
@@ -4386,64 +3440,19 @@ Linux (WSL) images.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_HOME: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_home",
-    name: "Windows.Search.WSLFileFinder",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/home/*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Find files within the VHDX containers of the Windows Subsystem for
-Linux (WSL) images.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_WINEVT_LOGS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_winevt_logs",
-    name: "Windows.Sigma.EventLogs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:/Windows/System32/WinEvt/Logs/"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Parse Windows event logs and matches then against Sigma Rules.
-
-NOTE: This is a very simple artifact for demonstration only. For
-more extensive Sigma rules use the `Server.Import.CuratedSigma`
-artifact to import a curated set of Sigma rules from
-https://sigma.velocidex.com/",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_CURRENTVERSION_PROFILELIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_currentversion_profilelist",
-    name: "Windows.Sys.AllUsers",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\*",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "List User accounts. We combine two data sources - the output from
+pub(crate) static VELOCIRAPTOR_CURRENTVERSION_PROFILELIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_currentversion_profilelist",
+        name: "Windows.Sys.AllUsers",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path: "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\*",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "List User accounts. We combine two data sources - the output from
 the `NetUserEnum` API (termed `local` users) and the list of SIDs in
 the registry (termed `remote` users).
 
@@ -4458,35 +3467,37 @@ this does not mean that the users have logged into the DC
 locally. In this artifact we limit the number of users to 1000. If
 you need to obtain the full list from the AD, customize this
 artifact.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Critical,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
-pub(crate) static VELOCIRAPTOR_APPCOMPATFLAGS_INSTALLEDSDB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_appcompatflags_installedsdb",
-    name: "Windows.Sys.AppcompatShims",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\InstalledSDB\\*",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Application Compatibility shims are a way to persist malware. This
+pub(crate) static VELOCIRAPTOR_APPCOMPATFLAGS_INSTALLEDSDB: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_appcompatflags_installedsdb",
+        name: "Windows.Sys.AppcompatShims",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path:
+            "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\InstalledSDB\\*",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Application Compatibility shims are a way to persist malware. This
 table presents the AppCompat Shim information from the registry in a
 nice format.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::High,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_CUSTOM: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_custom",
@@ -4530,25 +3541,26 @@ pub(crate) static VELOCIRAPTOR_FIREWALLRULES: ArtifactDescriptor = ArtifactDescr
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_SYSTEM_RESOURCES_PHYSICAL_MEMORY_TRANSLATED: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_system_resources_physical_memory_translated",
-    name: "Windows.Sys.PhysicalMemoryRanges",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "HARDWARE\\RESOURCEMAP\\System Resources\\Physical Memory\\.Translated",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "List Windows physical memory ranges.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+pub(crate) static VELOCIRAPTOR_SYSTEM_RESOURCES_PHYSICAL_MEMORY_TRANSLATED: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_system_resources_physical_memory_translated",
+        name: "Windows.Sys.PhysicalMemoryRanges",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path: "HARDWARE\\RESOURCEMAP\\System Resources\\Physical Memory\\.Translated",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "List Windows physical memory ranges.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_CURRENTVERSION_UNINSTALL: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_currentversion_uninstall",
@@ -4570,78 +3582,6 @@ Limitations: This key parses the live registry hives - if a user is not logged i
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_CURRENTVERSION_PROFILELIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_currentversion_profilelist",
-    name: "Windows.Sys.Users",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\*",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "List User accounts by inspecting registry keys. This method is a
-reliable indicator for users who have physically logged into the
-system and thereby created local profiles.
-
-This will not include domain users or the output from `NetUserEnum`
-- you should collect the `Windows.Sys.AllUsers` artifact to get all
-possible users on the system.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_WINDOWS_SYSMON64_EXE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_windows_sysmon64_exe",
-    name: "Windows.Sysinternals.SysmonInstall",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:/Windows/sysmon64.exe"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Sysmon is a kernel level system monitor written by Sysinternals. While we are
-not able to distribute Sysmon ourselves, Velociraptor can help you manage its
-deployment and installation.
-
-NOTE: By default we install the Sysmon config from SwiftOnSecurity - we
-recommend that you review the config file and, if necessary, override it in
-the GUI with one that better suits your needs.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_WINDOWS_SYSMON64_EXE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_windows_sysmon64_exe",
-    name: "Windows.Sysinternals.SysmonLogForward",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:/Windows/sysmon64.exe"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "A client-side event forwarder to forward Sysmon events to the server.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
@@ -4672,96 +3612,6 @@ parsing all the cat files.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_FILE_ETC_HOSTS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_etc_hosts",
-    name: "Windows.System.HostsFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\System32\\drivers\\etc\\hosts"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Parses the Windows Hostsfile.
-
-Regex searching for Hostname and resolution is enabled over output.
-NOTE: For Hostname search is on the hostfile line and regex ^ or $
-is not recommended.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_V1_0_POWERSHELL_EXE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_v1_0_powershell_exe",
-    name: "Windows.System.LocalAdmins",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Gets a list of local admin accounts.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_V1_0_POWERSHELL_EXE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_v1_0_powershell_exe",
-    name: "Windows.System.PowerShell",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "This artifact allows running arbitrary commands through the system
-PowerShell.
-
-Since Velociraptor typically runs as system, the commands will also
-run as System.
-
-This is a very powerful artifact since it allows for arbitrary
-command execution on the endpoints. Therefore this artifact requires
-elevated permissions (specifically the `EXECVE`
-permission). Typically it is only available with the `administrator`
-role.
-
-Note that in addition to running PowerShell cmdlets and scripts, the
-Windows.System.PowerShell artifact can also be used to launch
-Windows command-line executables with their parameters. This can be
-difficult to achieve with the Windows.System.CmdShell artifact due
-to complications with spaces in paths and other special character
-issues. This PowerShell artifact is able to avoid most of these
-problems by encoding the command in Base64.
-
-As an example, the following command initiates a Windows Defender AV
-quick-scan from the default location, which includes a path with
-spaces in it:
-
-```
-  & 'C:\\Program Files\\Windows Defender\\MpCmdRun.exe' -Scan -ScanType 1
-```",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
 pub(crate) static VELOCIRAPTOR_FILE_POWERSHELL_MODULEANALYSISCACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_powershell_moduleanalysiscache",
     name: "Windows.System.Powershell.ModuleAnalysisCache",
@@ -4785,25 +3635,26 @@ use cases.",
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
 
-pub(crate) static VELOCIRAPTOR_SYSTEM_CURRENTCONTROLSET_SERVICES: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_system_currentcontrolset_services",
-    name: "Windows.System.Services",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSystem),
-    key_path: "SYSTEM\\CurrentControlSet\\Services\\",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "List Service details.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
+pub(crate) static VELOCIRAPTOR_SYSTEM_CURRENTCONTROLSET_SERVICES: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_system_currentcontrolset_services",
+        name: "Windows.System.Services",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSystem),
+        key_path: "SYSTEM\\CurrentControlSet\\Services\\",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "List Service details.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::High,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+    };
 
 pub(crate) static VELOCIRAPTOR_FILE_DLL_EXE: ArtifactDescriptor = ArtifactDescriptor {
     id: "velociraptor_file_dll_exe",
@@ -4821,34 +3672,6 @@ pub(crate) static VELOCIRAPTOR_FILE_DLL_EXE: ArtifactDescriptor = ArtifactDescri
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_TASKS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_tasks",
-    name: "Windows.System.TaskScheduler",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:/Windows/System32/Tasks/**"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "The Windows task scheduler is a common mechanism that malware uses
-for persistence. It can be used to run arbitrary programs at a later
-time. Commonly malware installs a scheduled task to run itself
-periodically to achieve persistence.
-
-This artifact enumerates all the task jobs (which are XML
-files). The artifact uploads the original XML files and then
-analyses them to provide an overview of the commands executed and
-the user under which they will be run.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
 };
@@ -4878,37 +3701,6 @@ each row to aid analysis.",
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/Velocidex/velociraptor"],
-};
-
-pub(crate) static VELOCIRAPTOR_FILE_PREFETCH_PF: ArtifactDescriptor = ArtifactDescriptor {
-    id: "velociraptor_file_prefetch_pf",
-    name: "Windows.Timeline.Prefetch",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\Prefetch\\*.pf"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows keeps a cache of prefetch files. When an executable is run,
-the system records properties about the executable to make it faster
-to run next time. By parsing this information we are able to
-determine when binaries are run in the past. On Windows10 we can see
-the last 8 execution times and creation time (9 potential executions).
-
-This artifact is a timelined output version of the standard Prefetch
-artifact. There are several parameters available.
-  - dateAfter enables search for prefetch evidence after this date.
-  - dateBefore enables search for prefetch evidence before this date.
-  - binaryRegex enables to filter on binary name, e.g evil.exe.
-  - hashRegex enables to filter on prefetch hash.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
 };

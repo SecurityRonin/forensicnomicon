@@ -4,9 +4,8 @@
 // Do not edit manually — re-run `cargo run -p ingest` to regenerate.
 #![allow(clippy::too_many_lines)]
 
-use forensicnomicon::catalog::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, HiveTarget, OsScope,
-    TriagePriority,
+use super::super::super::types::{
+    ArtifactDescriptor, ArtifactType, DataScope, Decoder, HiveTarget, OsScope, TriagePriority,
 };
 pub(crate) static NIRSOFT_LAST_ACTIVITY_RECENT_ITEMS: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_last_activity_recent_items",
@@ -79,7 +78,8 @@ pub(crate) static NIRSOFT_NETWORK_CONNECT_LOG: ArtifactDescriptor = ArtifactDesc
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Network connection log files in System32\\LogFiles. Parsed by NirSoft NetworkConnectLog.",
+    meaning:
+        "Network connection log files in System32\\LogFiles. Parsed by NirSoft NetworkConnectLog.",
     mitre_techniques: &["T1049"],
     fields: &[],
     retention: None,

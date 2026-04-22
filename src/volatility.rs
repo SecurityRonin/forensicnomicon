@@ -777,6 +777,447 @@ pub static VOLATILITY_TABLE: &[VolatilityEntry] = &[
         volatility: VolatilityClass::Persistent,
         rationale: "Registry key persists until service key deletion",
     },
+    // ── Generated mass-import Critical artifacts ──────────────────────────────
+    VolatilityEntry {
+        artifact_id: "browsers_firefox_logins",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Credential store persists until browser profile deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_networksecurity_debug",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_smbclient_security",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_smbserver_security",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_adminless_operational",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_audit_configuration_client_d",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_audit_configuration_client_o",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_configuration_wizard_diagnos",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_configuration_wizard_operati",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_enterprisedata_filerevocatio",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_exchangeactivesyncprovisioni",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_identitystore_performance",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_lessprivilegedappcontainer_o",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_licensing_slc_perf",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_netlogon_operational",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_spp_ux_gc_analytic",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_spp_ux_genuinecenter_logging",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_spp_ux_notifications_actionc",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_spp_ux_analytic",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_spp_perf",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_userconsentverifier_audit",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_security_vault_performance",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_securitymitigationsbroker_perf",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_securitymitigationsbroker_operational",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "evtx_microsoft_windows_securitymitigationsbroker_admin",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Event log rotates on size limit; Security channel is high-value",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_log_esxtokend_log",
+        volatility: VolatilityClass::Persistent,
+        rationale: "ESXi token daemon log persists until rotation",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_etc_passwd",
+        volatility: VolatilityClass::Persistent,
+        rationale: "User account file persists until system decommission",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_kernel_dmesg_restrict",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Kernel sysctl setting persists across reboots when configured",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_kernel_kptr_restrict",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Kernel sysctl setting persists across reboots when configured",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_users_plist",
+        volatility: VolatilityClass::Persistent,
+        rationale: "User account file persists until system decommission",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_users_plist_2",
+        volatility: VolatilityClass::Persistent,
+        rationale: "User account file persists until system decommission",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Tomcat credential file persists until application reconfiguration",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_2",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Tomcat credential file persists until application reconfiguration",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_3",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Tomcat credential file persists until application reconfiguration",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_4",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Tomcat credential file persists until application reconfiguration",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_5",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Tomcat credential file persists until application reconfiguration",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_6",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Tomcat credential file persists until application reconfiguration",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_7",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Tomcat credential file persists until application reconfiguration",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_8",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Tomcat credential file persists until application reconfiguration",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_9",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Tomcat credential file persists until application reconfiguration",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_10",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Tomcat credential file persists until application reconfiguration",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_conf_tomcat_users_xml_11",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Tomcat credential file persists until application reconfiguration",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_ntds_ntds_dit",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Active Directory database persists until DC decommission",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_ntds_dit",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Active Directory database persists until DC decommission",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_ntds_dit_2",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Active Directory database persists until DC decommission",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_file_system32_ntds_dit",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Active Directory database persists until DC decommission",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_authentication_credential_provider_filters",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key persists until key deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_authentication_credential_provider_filters_2",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key persists until key deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_authentication_credential_providers",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key persists until key deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "fa_authentication_credential_providers_2",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Registry key persists until key deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_1password_data_1password10_sqlite",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Credential store persists until browser profile deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_1password_backups_1password10_sqlite",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Credential store persists until browser profile deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_1password_logs_log",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Credential store persists until browser profile deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_aws_credentials",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Credential file persists until key rotation",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_user_git_credentials",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Git credential helper store persists until credential deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_free_download_manager_fdm_sqlite",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Download manager credential database persists until uninstall",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_my_certificates",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Certificate store persists until certificate deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_logins_json",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Credential store persists until browser profile deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_mremoteng_confcons_xml",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Password manager database persists until application uninstall",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_key_db",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Password manager database persists until application uninstall",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_signon",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Credential store persists until browser profile deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_logins_json_2",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Credential store persists until browser profile deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_password_xp",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Credential store persists until browser profile deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_signon_2",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Credential store persists until browser profile deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_logins_json_2_2",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Credential store persists until browser profile deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_local_puffinsecurebrowserpasswordforms_dat",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Credential store persists until browser profile deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_local_puffinsecurebrowsercredential_dat",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Browser credential file persists until app data deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_windows_ntds",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Active Directory database persists until DC decommission",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_config_sam_log",
+        volatility: VolatilityClass::Persistent,
+        rationale: "SAM hive persists across reboots; protected in-use by Windows",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_sam_registry_transac",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Artifact persists until explicit deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_config_sam",
+        volatility: VolatilityClass::Persistent,
+        rationale: "SAM hive persists across reboots; protected in-use by Windows",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_sam_registry_hive",
+        volatility: VolatilityClass::Persistent,
+        rationale: "SAM hive persists across reboots; protected in-use by Windows",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_regback_sam",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Artifact persists until explicit deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "kape_file_sam_registry_hive_re",
+        volatility: VolatilityClass::Persistent,
+        rationale: "SAM hive persists across reboots; protected in-use by Windows",
+    },
+    VolatilityEntry {
+        artifact_id: "nirsoft_network_passwords_cred_dir",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Credential store persists until browser profile deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "nirsoft_sam_hive_reg",
+        volatility: VolatilityClass::Persistent,
+        rationale: "SAM hive persists across reboots; protected in-use by Windows",
+    },
+    VolatilityEntry {
+        artifact_id: "regedit_domains_account_users",
+        volatility: VolatilityClass::Persistent,
+        rationale: "SAM account registry persists until account deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "velociraptor_file_log_auth_log",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Linux log rotates on size/time schedule",
+    },
+    VolatilityEntry {
+        artifact_id: "velociraptor_file_syslogtimestamp_timestamp_syslogfacility_s",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Linux log rotates on size/time schedule",
+    },
+    VolatilityEntry {
+        artifact_id: "velociraptor_file_ssh_pem_id_rsa_id_dsa",
+        volatility: VolatilityClass::Persistent,
+        rationale: "Private key files persist until explicitly deleted",
+    },
+    VolatilityEntry {
+        artifact_id: "velociraptor_file_usr",
+        volatility: VolatilityClass::Persistent,
+        rationale: "System binary directory persists until package update",
+    },
+    VolatilityEntry {
+        artifact_id: "velociraptor_file_tmp_collection_zip",
+        volatility: VolatilityClass::Volatile,
+        rationale: "Temporary collection ZIP is volatile and deleted after upload",
+    },
+    VolatilityEntry {
+        artifact_id: "velociraptor_file_logs_security_evtx",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Collected EVTX rotates; velociraptor copy is point-in-time",
+    },
+    VolatilityEntry {
+        artifact_id: "velociraptor_file_logs_microsoft_windows_taskscheduler_4oper",
+        volatility: VolatilityClass::RotatingBuffer,
+        rationale: "Task scheduler log rotates; collected copy is point-in-time",
+    },
+    VolatilityEntry {
+        artifact_id: "velociraptor_file_config_sam",
+        volatility: VolatilityClass::Persistent,
+        rationale: "SAM hive persists across reboots; protected in-use by Windows",
+    },
+    VolatilityEntry {
+        artifact_id: "velociraptor_currentversion_image_file_execution_options",
+        volatility: VolatilityClass::Persistent,
+        rationale: "IFEO GlobalFlag registry persists until key deletion",
+    },
+    VolatilityEntry {
+        artifact_id: "velociraptor_securityproviders_wdigest",
+        volatility: VolatilityClass::Persistent,
+        rationale: "WDigest registry value persists across reboots",
+    },
+    VolatilityEntry {
+        artifact_id: "velociraptor_currentversion_profilelist",
+        volatility: VolatilityClass::Persistent,
+        rationale: "ProfileList registry persists until profile deletion",
+    },
 ];
 
 /// Returns the volatility entry for a given artifact ID, or `None` if unknown.

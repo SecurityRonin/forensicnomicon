@@ -4,9 +4,8 @@
 // Do not edit manually — re-run `cargo run -p ingest` to regenerate.
 #![allow(clippy::too_many_lines)]
 
-use forensicnomicon::catalog::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, HiveTarget, OsScope,
-    TriagePriority,
+use super::super::super::types::{
+    ArtifactDescriptor, ArtifactType, DataScope, Decoder, OsScope, TriagePriority,
 };
 pub(crate) static KAPE_FILE_KAPETRIAGE_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_kapetriage_tkape",
@@ -225,7 +224,9 @@ pub(crate) static KAPE_FILE_USER_DESKTOP: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LiveUserFiles.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LiveUserFiles.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_USER_DOCUMENTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -245,7 +246,9 @@ pub(crate) static KAPE_FILE_USER_DOCUMENTS: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LiveUserFiles.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LiveUserFiles.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_USER_DOWNLOADS: ArtifactDescriptor = ArtifactDescriptor {
@@ -265,7 +268,9 @@ pub(crate) static KAPE_FILE_USER_DOWNLOADS: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LiveUserFiles.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LiveUserFiles.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_USER_DROPBOX: ArtifactDescriptor = ArtifactDescriptor {
@@ -285,7 +290,9 @@ pub(crate) static KAPE_FILE_USER_DROPBOX: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LiveUserFiles.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LiveUserFiles.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ANTIVIRUS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -315,7 +322,9 @@ pub(crate) static KAPE_FILE_ANTIVIRUS_REPORT: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\All Users\\Application Data\\AVG\\Antivirus\\report"),
+    file_path: Some(
+        "C:\\Documents and Settings\\All Users\\Application Data\\AVG\\Antivirus\\report",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -435,7 +444,9 @@ pub(crate) static KAPE_FILE_AVAST_LOG: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents And Settings\\All Users\\Application Data\\Avast Software\\Avast\\Log\\"),
+    file_path: Some(
+        "C:\\Documents And Settings\\All Users\\Application Data\\Avast Software\\Avast\\Log\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -705,7 +716,9 @@ pub(crate) static KAPE_FILE_CROWDSTRIKE_QUARANTINE: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CrowdStrikeFalcon.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CrowdStrikeFalcon.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CRS1_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -895,7 +908,9 @@ pub(crate) static KAPE_FILE_ERAAGENTAPPLICATIONDATA_LOGS: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\ProgramData\\ESET\\RemoteAdministrator\\Agent\\EraAgentApplicationData\\Logs"),
+    file_path: Some(
+        "C:\\ProgramData\\ESET\\RemoteAdministrator\\Agent\\EraAgentApplicationData\\Logs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -965,7 +980,9 @@ pub(crate) static KAPE_FILE_LOG_LOG: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ElasticDefend.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ElasticDefend.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EQUARANTINE: ArtifactDescriptor = ArtifactDescriptor {
@@ -985,7 +1002,9 @@ pub(crate) static KAPE_FILE_EQUARANTINE: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ElasticDefend.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ElasticDefend.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ELASTIC_DEFEND_QUARA: ArtifactDescriptor = ArtifactDescriptor {
@@ -1005,7 +1024,9 @@ pub(crate) static KAPE_FILE_ELASTIC_DEFEND_QUARA: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ElasticDefend.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ElasticDefend.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REPORTS_SCAN_TXT: ArtifactDescriptor = ArtifactDescriptor {
@@ -1068,25 +1089,26 @@ pub(crate) static KAPE_FILE_F_SECURE_USER_LOGS: ArtifactDescriptor = ArtifactDes
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FSecure.tkape"],
 };
 
-pub(crate) static KAPE_FILE_ANTIVIRUS_SCHEDULEDSCANREPORTS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_antivirus_scheduledscanreports",
-    name: "F-Secure Scheduled Scan Reports",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\ProgramData\\F-Secure\\Antivirus\\ScheduledScanReports\\"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "F-Secure Scheduled Scan Reports — collected by KAPE FSecure target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FSecure.tkape"],
-};
+pub(crate) static KAPE_FILE_ANTIVIRUS_SCHEDULEDSCANREPORTS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_antivirus_scheduledscanreports",
+        name: "F-Secure Scheduled Scan Reports",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\ProgramData\\F-Secure\\Antivirus\\ScheduledScanReports\\"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "F-Secure Scheduled Scan Reports — collected by KAPE FSecure target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FSecure.tkape"],
+    };
 
 pub(crate) static KAPE_FILE_HITMANPRO_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_hitmanpro_logs",
@@ -1175,7 +1197,9 @@ pub(crate) static KAPE_FILE_LOGS_MBAM_LOG_XML: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\ProgramData\\Malwarebytes\\Malwarebytes Anti-Malware\\Logs\\'mbam-log-*.xml'"),
+    file_path: Some(
+        "C:\\ProgramData\\Malwarebytes\\Malwarebytes Anti-Malware\\Logs\\'mbam-log-*.xml'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -1208,25 +1232,30 @@ pub(crate) static KAPE_FILE_LOGS_MBAMSERVICE_LOG: ArtifactDescriptor = ArtifactD
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Malwarebytes.tkape"],
 };
 
-pub(crate) static KAPE_FILE_MALWAREBYTES_ANTI_MALWARE_LOGS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_malwarebytes_anti_malware_logs",
-    name: "MalwareBytes Anti-Malware Scan Logs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Malwarebytes\\Malwarebytes Anti-Malware\\Logs\\"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "MalwareBytes Anti-Malware Scan Logs — collected by KAPE Malwarebytes target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Malwarebytes.tkape"],
-};
+pub(crate) static KAPE_FILE_MALWAREBYTES_ANTI_MALWARE_LOGS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_malwarebytes_anti_malware_logs",
+        name: "MalwareBytes Anti-Malware Scan Logs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Users\\%user%\\AppData\\Roaming\\Malwarebytes\\Malwarebytes Anti-Malware\\Logs\\",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "MalwareBytes Anti-Malware Scan Logs — collected by KAPE Malwarebytes target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Malwarebytes.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_MBAMSERVICE_SCANRESULTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_mbamservice_scanresults",
@@ -1495,7 +1524,9 @@ pub(crate) static KAPE_FILE_DATREPUTATION_LOGS: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\All Users\\Application Data\\McAfee\\datreputation\\Logs"),
+    file_path: Some(
+        "C:\\Documents and Settings\\All Users\\Application Data\\McAfee\\datreputation\\Logs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -1515,7 +1546,9 @@ pub(crate) static KAPE_FILE_MCAFEE_MANAGED_VIRUS: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\All Users\\Application Data\\McAfee\\Managed\\VirusScan\\Logs"),
+    file_path: Some(
+        "C:\\Documents and Settings\\All Users\\Application Data\\McAfee\\Managed\\VirusScan\\Logs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -1705,7 +1738,9 @@ pub(crate) static KAPE_FILE_SUPERANTISPYWARE_LOGS: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SUPERAntiSpyware.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SUPERAntiSpyware.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SECUREAGE_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1865,48 +1900,61 @@ pub(crate) static KAPE_FILE_DATA_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Symantec_AV_Logs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Symantec_AV_Logs.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_SYMANTEC_ENDPOINT_PROTECTION_LOGS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_symantec_endpoint_protection_logs",
-    name: "Symantec Endpoint Protection User Logs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Symantec\\Symantec Endpoint Protection\\Logs\\"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Symantec Endpoint Protection User Logs — collected by KAPE Symantec_AV_Logs target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Symantec_AV_Logs.tkape"],
-};
+pub(crate) static KAPE_FILE_SYMANTEC_ENDPOINT_PROTECTION_LOGS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_symantec_endpoint_protection_logs",
+        name: "Symantec Endpoint Protection User Logs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Users\\%user%\\AppData\\Local\\Symantec\\Symantec Endpoint Protection\\Logs\\",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning:
+            "Symantec Endpoint Protection User Logs — collected by KAPE Symantec_AV_Logs target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Symantec_AV_Logs.tkape",
+        ],
+    };
 
-pub(crate) static KAPE_FILE_LOGS_SYMANTEC_ENDPOINT_PROTECTION_CLIENT_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_logs_symantec_endpoint_protection_client_evtx",
-    name: "Symantec Event Log Win7+",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\System32\\winevt\\logs\\Symantec Endpoint Protection Client.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Symantec specific Windows event log\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Symantec_AV_Logs.tkape"],
-};
+pub(crate) static KAPE_FILE_LOGS_SYMANTEC_ENDPOINT_PROTECTION_CLIENT_EVTX: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_logs_symantec_endpoint_protection_client_evtx",
+        name: "Symantec Event Log Win7+",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Windows\\System32\\winevt\\logs\\Symantec Endpoint Protection Client.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Symantec specific Windows event log\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::High,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Symantec_AV_Logs.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_SYMANTEC_EVENT_LOG_W: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_symantec_event_log_w",
@@ -1975,7 +2023,9 @@ pub(crate) static KAPE_FILE_DATA_QUARANTINE: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\ProgramData\\Symantec\\Symantec Endpoint Protection\\*\\Data\\Quarantine\\"),
+    file_path: Some(
+        "C:\\ProgramData\\Symantec\\Symantec Endpoint Protection\\*\\Data\\Quarantine\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -1985,7 +2035,9 @@ pub(crate) static KAPE_FILE_DATA_QUARANTINE: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Symantec_AV_Logs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Symantec_AV_Logs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CMNCLNT_CCSUBSDK: ArtifactDescriptor = ArtifactDescriptor {
@@ -1995,7 +2047,9 @@ pub(crate) static KAPE_FILE_CMNCLNT_CCSUBSDK: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\ProgramData\\Symantec\\Symantec Endpoint Protection\\*\\Data\\CmnClnt\\ccSubSDK\\"),
+    file_path: Some(
+        "C:\\ProgramData\\Symantec\\Symantec Endpoint Protection\\*\\Data\\CmnClnt\\ccSubSDK\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -2005,7 +2059,9 @@ pub(crate) static KAPE_FILE_CMNCLNT_CCSUBSDK: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Symantec_AV_Logs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Symantec_AV_Logs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DATA_REGISTRATIONINFO_XML: ArtifactDescriptor = ArtifactDescriptor {
@@ -2015,7 +2071,9 @@ pub(crate) static KAPE_FILE_DATA_REGISTRATIONINFO_XML: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\ProgramData\\Symantec\\Symantec Endpoint Protection\\*\\Data\\registrationInfo.xml"),
+    file_path: Some(
+        "C:\\ProgramData\\Symantec\\Symantec Endpoint Protection\\*\\Data\\registrationInfo.xml",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -2025,7 +2083,9 @@ pub(crate) static KAPE_FILE_DATA_REGISTRATIONINFO_XML: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Symantec_AV_Logs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Symantec_AV_Logs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TOTALAV_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -2268,45 +2328,53 @@ pub(crate) static KAPE_FILE_DETECTIONHISTORY: ArtifactDescriptor = ArtifactDescr
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WinDefendDetectionHist.tkape"],
 };
 
-pub(crate) static KAPE_FILE_MICROSOFT_ANTIMALWARE_SUPPORT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_microsoft_antimalware_support",
-    name: "Windows Defender Logs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\ProgramData\\Microsoft\\Microsoft AntiMalware\\Support\\"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Defender Logs — collected by KAPE WindowsDefender target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsDefender.tkape"],
-};
+pub(crate) static KAPE_FILE_MICROSOFT_ANTIMALWARE_SUPPORT: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_microsoft_antimalware_support",
+        name: "Windows Defender Logs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\ProgramData\\Microsoft\\Microsoft AntiMalware\\Support\\"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Defender Logs — collected by KAPE WindowsDefender target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsDefender.tkape",
+        ],
+    };
 
-pub(crate) static KAPE_FILE_LOGS_MICROSOFT_WINDOWS_WINDOWS_DEFENDER_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_logs_microsoft_windows_windows_defender_evtx",
-    name: "Windows Defender Event Logs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\System32\\winevt\\Logs\\Microsoft-Windows-Windows Defender*.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Defender Event Logs — collected by KAPE WindowsDefender target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsDefender.tkape"],
-};
+pub(crate) static KAPE_FILE_LOGS_MICROSOFT_WINDOWS_WINDOWS_DEFENDER_EVTX: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_logs_microsoft_windows_windows_defender_evtx",
+        name: "Windows Defender Event Logs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Windows\\System32\\winevt\\Logs\\Microsoft-Windows-Windows Defender*.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Defender Event Logs — collected by KAPE WindowsDefender target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::High,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsDefender.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_WINDOWS_DEFENDER_EVE: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_windows_defender_eve",
@@ -2345,7 +2413,9 @@ pub(crate) static KAPE_FILE_WINDOWS_DEFENDER_SUPPORT: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsDefender.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsDefender.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TEMP_MPCMDRUN_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2365,7 +2435,9 @@ pub(crate) static KAPE_FILE_TEMP_MPCMDRUN_LOG: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsDefender.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsDefender.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWS_DEFENDER_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2385,7 +2457,9 @@ pub(crate) static KAPE_FILE_WINDOWS_DEFENDER_LOG: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsDefender.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsDefender.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DETECTIONHISTORY_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -2425,7 +2499,9 @@ pub(crate) static KAPE_FILE_WINDOWS_DEFENDER_QUARANTINE: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsDefender.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsDefender.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SERVICE_DETECTIONS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2435,7 +2511,9 @@ pub(crate) static KAPE_FILE_SERVICE_DETECTIONS_LOG: ArtifactDescriptor = Artifac
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\ProgramData\\Microsoft\\Windows Defender\\Scans\\History\\Service\\Detections.log"),
+    file_path: Some(
+        "C:\\ProgramData\\Microsoft\\Windows Defender\\Scans\\History\\Service\\Detections.log",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -2445,7 +2523,9 @@ pub(crate) static KAPE_FILE_SERVICE_DETECTIONS_LOG: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsDefender.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsDefender.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_1PASSWORD_DATA_1PASSWORD10_SQLITE: ArtifactDescriptor = ArtifactDescriptor {
@@ -2468,25 +2548,30 @@ pub(crate) static KAPE_FILE_1PASSWORD_DATA_1PASSWORD10_SQLITE: ArtifactDescripto
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/1Password.tkape"],
 };
 
-pub(crate) static KAPE_FILE_1PASSWORD_BACKUPS_1PASSWORD10_SQLITE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_1password_backups_1password10_sqlite",
-    name: "1Password Backup Databases",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\1password\\backups'1Password10.sqlite'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Backups of 1Password Database\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/1Password.tkape"],
-};
+pub(crate) static KAPE_FILE_1PASSWORD_BACKUPS_1PASSWORD10_SQLITE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_1password_backups_1password10_sqlite",
+        name: "1Password Backup Databases",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Users\\%user%\\AppData\\Local\\1password\\backups'1Password10.sqlite'",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Backups of 1Password Database\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Critical,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/1Password.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_1PASSWORD_LOGS_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_1password_logs_log",
@@ -2499,7 +2584,8 @@ pub(crate) static KAPE_FILE_1PASSWORD_LOGS_LOG: ArtifactDescriptor = ArtifactDes
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Log of usage of 1Password - can be useful for identifying periods of user activity\"",
+    meaning:
+        "\"Log of usage of 1Password - can be useful for identifying periods of user activity\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -2585,28 +2671,33 @@ pub(crate) static KAPE_FILE_LOGS_TI_DEMON: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AcronisTrueImage.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AcronisTrueImage.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_TRUEIMAGEHOME_DATABASEARCHIVES_DB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_trueimagehome_databasearchives_db",
-    name: "Acronis True Image - Database Files",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\ProgramData\\Acronis\\TrueImageHome\\Databasearchives.db*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Copies out the Database folder which appears to have important information\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AcronisTrueImage.tkape"],
-};
+pub(crate) static KAPE_FILE_TRUEIMAGEHOME_DATABASEARCHIVES_DB: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_trueimagehome_databasearchives_db",
+        name: "Acronis True Image - Database Files",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\ProgramData\\Acronis\\TrueImageHome\\Databasearchives.db*"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Copies out the Database folder which appears to have important information\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AcronisTrueImage.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_TRUEIMAGEHOME_SCRIPTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_trueimagehome_scripts",
@@ -2625,7 +2716,9 @@ pub(crate) static KAPE_FILE_TRUEIMAGEHOME_SCRIPTS: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AcronisTrueImage.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AcronisTrueImage.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ACTION1_LOGS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2968,7 +3061,8 @@ pub(crate) static KAPE_FILE_TEMP_ADVANCED_IP_SCANNER_2_ADVANCED_IP_SCANNER_MAC: 
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AdvancedIPScanner.tkape"],
 };
 
-pub(crate) static KAPE_FILE_TEMP_ADVANCED_IP_SCANNER_2_ADVANCED_IP_SCANNER_MAC_2: ArtifactDescriptor = ArtifactDescriptor {
+pub(crate) static KAPE_FILE_TEMP_ADVANCED_IP_SCANNER_2_ADVANCED_IP_SCANNER_MAC_2:
+    ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_temp_advanced_ip_scanner_2_advanced_ip_scanner_mac_2",
     name: "Advanced IP Scanner MAC - Windows Temp Folder",
     artifact_type: ArtifactType::File,
@@ -2979,13 +3073,16 @@ pub(crate) static KAPE_FILE_TEMP_ADVANCED_IP_SCANNER_2_ADVANCED_IP_SCANNER_MAC_2
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Advanced IP Scanner MAC - Windows Temp Folder — collected by KAPE AdvancedIPScanner target",
+    meaning:
+        "Advanced IP Scanner MAC - Windows Temp Folder — collected by KAPE AdvancedIPScanner target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AdvancedIPScanner.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AdvancedIPScanner.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_SYSTEMPROFILE_ADVANCED_IP_SCANNER_MAC_BIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -4028,25 +4125,26 @@ pub(crate) static KAPE_FILE_ANYDESK_CONNECTION_TRACE_TXT: ArtifactDescriptor = A
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AnyDesk.tkape"],
 };
 
-pub(crate) static KAPE_FILE_ANYDESK_CONNECTION_TRACE_TXT_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_anydesk_connection_trace_txt_2",
-    name: "AnyDesk Logs - ProgramData - connection_trace.txt",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\ProgramData\\AnyDesk\\'connection_trace.txt'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Collects the connection trace log from ProgramData\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AnyDesk.tkape"],
-};
+pub(crate) static KAPE_FILE_ANYDESK_CONNECTION_TRACE_TXT_2: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_anydesk_connection_trace_txt_2",
+        name: "AnyDesk Logs - ProgramData - connection_trace.txt",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\ProgramData\\AnyDesk\\'connection_trace.txt'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Collects the connection trace log from ProgramData\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AnyDesk.tkape"],
+    };
 
 pub(crate) static KAPE_FILE_ROAMING_ANYDESK: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_roaming_anydesk",
@@ -4088,45 +4186,47 @@ pub(crate) static KAPE_FILE_ANYDESK_CHAT_TXT: ArtifactDescriptor = ArtifactDescr
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AnyDesk.tkape"],
 };
 
-pub(crate) static KAPE_FILE_ROAMING_ANYDESK_FILE_TRANSFER_TRACE_TXT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_roaming_anydesk_file_transfer_trace_txt",
-    name: "AnyDesk File Transfer Logs - Running in portable mode",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\AnyDesk'file_transfer_trace.txt'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Collects file transfer logs that occur when running in portable mode\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AnyDesk.tkape"],
-};
+pub(crate) static KAPE_FILE_ROAMING_ANYDESK_FILE_TRANSFER_TRACE_TXT: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_roaming_anydesk_file_transfer_trace_txt",
+        name: "AnyDesk File Transfer Logs - Running in portable mode",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\AnyDesk'file_transfer_trace.txt'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Collects file transfer logs that occur when running in portable mode\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AnyDesk.tkape"],
+    };
 
-pub(crate) static KAPE_FILE_ANYDESK_FILE_TRANSFER_TRACE_TXT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_anydesk_file_transfer_trace_txt",
-    name: "AnyDesk File Transfer Logs - Installed as a Service",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\ProgramData\\AnyDesk\\'file_transfer_trace.txt'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Collects file transfer logs that occur when running as an installed service\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AnyDesk.tkape"],
-};
+pub(crate) static KAPE_FILE_ANYDESK_FILE_TRANSFER_TRACE_TXT: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_anydesk_file_transfer_trace_txt",
+        name: "AnyDesk File Transfer Logs - Installed as a Service",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\ProgramData\\AnyDesk\\'file_transfer_trace.txt'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Collects file transfer logs that occur when running as an installed service\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AnyDesk.tkape"],
+    };
 
 pub(crate) static KAPE_FILE_LOG_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_log_log_2",
@@ -4145,7 +4245,9 @@ pub(crate) static KAPE_FILE_LOG_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AsperaConnect.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AsperaConnect.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ASPERA_SERVER_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -4165,48 +4267,56 @@ pub(crate) static KAPE_FILE_ASPERA_SERVER_LOGS: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AsperaConnect.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AsperaConnect.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_ATERA_NETWORKS_ATERAAGENT_INI: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_atera_networks_ateraagent_ini",
-    name: "AteraAgent .ini files",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Program Files\\ATERA Networks\\AteraAgent'*.ini'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Collects logs for AteraAgent\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AteraAgent.tkape"],
-};
+pub(crate) static KAPE_FILE_ATERA_NETWORKS_ATERAAGENT_INI: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_atera_networks_ateraagent_ini",
+        name: "AteraAgent .ini files",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Program Files\\ATERA Networks\\AteraAgent'*.ini'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Collects logs for AteraAgent\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AteraAgent.tkape",
+        ],
+    };
 
-pub(crate) static KAPE_FILE_ATERA_NETWORKS_ATERAAGENT_TXT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_atera_networks_ateraagent_txt",
-    name: "AteraAgent Logs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Program Files\\ATERA Networks\\AteraAgent'*.txt'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Collects logs for AteraAgent\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AteraAgent.tkape"],
-};
+pub(crate) static KAPE_FILE_ATERA_NETWORKS_ATERAAGENT_TXT: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_atera_networks_ateraagent_txt",
+        name: "AteraAgent Logs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Program Files\\ATERA Networks\\AteraAgent'*.txt'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Collects logs for AteraAgent\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AteraAgent.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_ATERA_NETWORKS_ATERAAGENT_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_atera_networks_ateraagent_db",
@@ -4228,45 +4338,51 @@ pub(crate) static KAPE_FILE_ATERA_NETWORKS_ATERAAGENT_DB: ArtifactDescriptor = A
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AteraAgent.tkape"],
 };
 
-pub(crate) static KAPE_FILE_ATERA_NETWORKS_ATERAAGENT_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_atera_networks_ateraagent_config",
-    name: "AteraAgent Logs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Program Files\\ATERA Networks\\AteraAgent'*.config'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Collects logs for AteraAgent\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AteraAgent.tkape"],
-};
+pub(crate) static KAPE_FILE_ATERA_NETWORKS_ATERAAGENT_CONFIG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_atera_networks_ateraagent_config",
+        name: "AteraAgent Logs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Program Files\\ATERA Networks\\AteraAgent'*.config'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Collects logs for AteraAgent\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AteraAgent.tkape",
+        ],
+    };
 
-pub(crate) static KAPE_FILE_ATERA_NETWORKS_ATERAAGENT_CFG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_atera_networks_ateraagent_cfg",
-    name: "AteraAgent Logs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Program Files\\ATERA Networks\\AteraAgent'*.cfg'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Collects logs for AteraAgent\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AteraAgent.tkape"],
-};
+pub(crate) static KAPE_FILE_ATERA_NETWORKS_ATERAAGENT_CFG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_atera_networks_ateraagent_cfg",
+        name: "AteraAgent Logs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Program Files\\ATERA Networks\\AteraAgent'*.cfg'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Collects logs for AteraAgent\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/AteraAgent.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_BOX_BOX: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_box_box",
@@ -4285,7 +4401,9 @@ pub(crate) static KAPE_FILE_BOX_BOX: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/BoxDrive_Metadata.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/BoxDrive_Metadata.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOCAL_BOX_SYNC: ArtifactDescriptor = ArtifactDescriptor {
@@ -4305,7 +4423,9 @@ pub(crate) static KAPE_FILE_LOCAL_BOX_SYNC: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/BoxDrive_Metadata.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/BoxDrive_Metadata.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_USER_BOX: ArtifactDescriptor = ArtifactDescriptor {
@@ -4345,7 +4465,9 @@ pub(crate) static KAPE_FILE_USER_BOX_SYNC: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/BoxDrive_UserFiles.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/BoxDrive_UserFiles.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOCAL_STORAGE_LEVELDB: ArtifactDescriptor = ArtifactDescriptor {
@@ -4488,25 +4610,30 @@ pub(crate) static KAPE_FILE_HISTORY_DB: ArtifactDescriptor = ArtifactDescriptor 
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CiscoJabber.tkape"],
 };
 
-pub(crate) static KAPE_FILE_CLIPBOARDMASTER_CLIPBOARD_CLM4: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_clipboardmaster_clipboard_clm4",
-    name: "ClipboardMaster - Clipboard History - Text",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Jumping Bytes\\ClipboardMaster\\'Clipboard.clm4'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Locates the user’s clipboard history (text) for ClipboardMaster\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ClipboardMaster.tkape"],
-};
+pub(crate) static KAPE_FILE_CLIPBOARDMASTER_CLIPBOARD_CLM4: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_clipboardmaster_clipboard_clm4",
+        name: "ClipboardMaster - Clipboard History - Text",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Users\\%user%\\AppData\\Roaming\\Jumping Bytes\\ClipboardMaster\\'Clipboard.clm4'",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Locates the user’s clipboard history (text) for ClipboardMaster\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ClipboardMaster.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_CLIPBOARDMASTER_PICS: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_clipboardmaster_pics",
@@ -4525,7 +4652,9 @@ pub(crate) static KAPE_FILE_CLIPBOARDMASTER_PICS: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ClipboardMaster.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ClipboardMaster.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CLIPBOARDMASTER_CLIPBOARD_CLM4_BA: ArtifactDescriptor = ArtifactDescriptor {
@@ -4565,7 +4694,9 @@ pub(crate) static KAPE_FILE_LOGS_LOG_2: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ConfluenceLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ConfluenceLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFLUENCE_WIKI_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -4585,7 +4716,9 @@ pub(crate) static KAPE_FILE_CONFLUENCE_WIKI_LOG: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ConfluenceLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ConfluenceLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DWAGENT_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -5085,7 +5218,9 @@ pub(crate) static KAPE_FILE_DOUBLECMD_MULTIARC_INI: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/DoubleCommander.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/DoubleCommander.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DOUBLECMD_SESSION_INI: ArtifactDescriptor = ArtifactDescriptor {
@@ -5105,7 +5240,9 @@ pub(crate) static KAPE_FILE_DOUBLECMD_SESSION_INI: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/DoubleCommander.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/DoubleCommander.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DOUBLECMD_PIXMAPS_TXT: ArtifactDescriptor = ArtifactDescriptor {
@@ -5125,7 +5262,9 @@ pub(crate) static KAPE_FILE_DOUBLECMD_PIXMAPS_TXT: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/DoubleCommander.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/DoubleCommander.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DOUBLECMD_SHORTCUTS_SCF: ArtifactDescriptor = ArtifactDescriptor {
@@ -5145,7 +5284,9 @@ pub(crate) static KAPE_FILE_DOUBLECMD_SHORTCUTS_SCF: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/DoubleCommander.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/DoubleCommander.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DROPBOX_INFO_JSON: ArtifactDescriptor = ArtifactDescriptor {
@@ -5245,7 +5386,9 @@ pub(crate) static KAPE_FILE_PROTECT: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Dropbox_Metadata.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Dropbox_Metadata.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DROPBOX_INSTANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -5315,7 +5458,9 @@ pub(crate) static KAPE_FILE_DATABASES_ACCOUNTS: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Evernote\\Evernote\\Databases\\\".accounts\""),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Evernote\\Evernote\\Databases\\\".accounts\"",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -5355,7 +5500,9 @@ pub(crate) static KAPE_FILE_DATABASES_EXB_SNIPPETS: ArtifactDescriptor = Artifac
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Evernote\\Evernote\\Databases\\\"*.exb.snippets\""),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Evernote\\Evernote\\Databases\\\"*.exb.snippets\"",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -5465,7 +5612,9 @@ pub(crate) static KAPE_FILE_FSIV_FSIV_DB: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FastStoneImageViewer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FastStoneImageViewer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FENCES_BACKUPS: ArtifactDescriptor = ArtifactDescriptor {
@@ -5505,7 +5654,9 @@ pub(crate) static KAPE_FILE_FILEZILLA_XML: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FileZillaClient.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FileZillaClient.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FILEZILLA_SQLITE3: ArtifactDescriptor = ArtifactDescriptor {
@@ -5525,7 +5676,9 @@ pub(crate) static KAPE_FILE_FILEZILLA_SQLITE3: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FileZillaClient.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FileZillaClient.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FILEZILLA_SERVER_XML: ArtifactDescriptor = ArtifactDescriptor {
@@ -5545,7 +5698,9 @@ pub(crate) static KAPE_FILE_FILEZILLA_SERVER_XML: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FileZillaServer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FileZillaServer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOGS_LOG_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -5565,7 +5720,9 @@ pub(crate) static KAPE_FILE_LOGS_LOG_3: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FileZillaServer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FileZillaServer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOGS_TRACE: ArtifactDescriptor = ArtifactDescriptor {
@@ -5585,7 +5742,9 @@ pub(crate) static KAPE_FILE_LOGS_TRACE: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FortiClientVPN.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FortiClientVPN.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FORTICLIENT_TRACE_LO: ArtifactDescriptor = ArtifactDescriptor {
@@ -5605,7 +5764,9 @@ pub(crate) static KAPE_FILE_FORTICLIENT_TRACE_LO: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FortiClientVPN.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FortiClientVPN.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SETTINGS_FREECOMMANDER_INI: ArtifactDescriptor = ArtifactDescriptor {
@@ -5615,7 +5776,9 @@ pub(crate) static KAPE_FILE_SETTINGS_FREECOMMANDER_INI: ArtifactDescriptor = Art
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\FreeCommanderXE\\Settings\\'FreeCommander.ini'"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\FreeCommanderXE\\Settings\\'FreeCommander.ini'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -5625,7 +5788,9 @@ pub(crate) static KAPE_FILE_SETTINGS_FREECOMMANDER_INI: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FreeCommander.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FreeCommander.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SETTINGS_FREECOMMANDER_FTP_INI: ArtifactDescriptor = ArtifactDescriptor {
@@ -5668,25 +5833,30 @@ pub(crate) static KAPE_FILE_SETTINGS_FREECOMMANDER_HIST_INI: ArtifactDescriptor 
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FreeCommander.tkape"],
 };
 
-pub(crate) static KAPE_FILE_SETTINGS_FREECOMMANDER_FAV_XML: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_settings_freecommander_fav_xml",
-    name: "Free Commander - FreeCommander.fav.xml",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\FreeCommanderXE\\Settings\\'FreeCommander.fav.xml'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Locates an .xml file that contains favorited files/folder by the user.\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FreeCommander.tkape"],
-};
+pub(crate) static KAPE_FILE_SETTINGS_FREECOMMANDER_FAV_XML: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_settings_freecommander_fav_xml",
+        name: "Free Commander - FreeCommander.fav.xml",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Users\\%user%\\AppData\\Local\\FreeCommanderXE\\Settings\\'FreeCommander.fav.xml'",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Locates an .xml file that contains favorited files/folder by the user.\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FreeCommander.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_SETTINGS_BKP_SETTINGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_settings_bkp_settings",
@@ -5795,17 +5965,22 @@ pub(crate) static KAPE_FILE_BACKUP_USERDATA_ZIP: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Free Download Manager\\backup\\\"userdata.zip\""),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Free Download Manager\\backup\\\"userdata.zip\"",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"fdm.sqlite can also appear in the backup folder in a compressed userdata.zip file\"",
+    meaning:
+        "\"fdm.sqlite can also appear in the backup folder in a compressed userdata.zip file\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FreeDownloadManager.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FreeDownloadManager.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FREEFILESYNC_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -5865,7 +6040,9 @@ pub(crate) static KAPE_FILE_GOOGLE_DRIVE: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/GoogleDrive_Metadata.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/GoogleDrive_Metadata.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_GOOGLE_DRIVEFS: ArtifactDescriptor = ArtifactDescriptor {
@@ -5888,45 +6065,53 @@ pub(crate) static KAPE_FILE_GOOGLE_DRIVEFS: ArtifactDescriptor = ArtifactDescrip
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/GoogleDrive_Metadata.tkape"],
 };
 
-pub(crate) static KAPE_FILE_GOOGLE_GOOGLEEARTH_MYPLACES_KML: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_google_googleearth_myplaces_kml",
-    name: "Google Earth My Places file",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\LocalLow\\Google\\GoogleEarth'myplaces.kml'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"File which holds favorited locations\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/GoogleEarth.tkape"],
-};
+pub(crate) static KAPE_FILE_GOOGLE_GOOGLEEARTH_MYPLACES_KML: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_google_googleearth_myplaces_kml",
+        name: "Google Earth My Places file",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Users\\%user%\\AppData\\LocalLow\\Google\\GoogleEarth'myplaces.kml'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"File which holds favorited locations\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/GoogleEarth.tkape",
+        ],
+    };
 
-pub(crate) static KAPE_FILE_GOOGLE_GOOGLEEARTH_MYPLACES_BACKUP_KML: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_google_googleearth_myplaces_backup_kml",
-    name: "Google Earth My Places Backup file",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\LocalLow\\Google\\GoogleEarth'myplaces.backup.kml'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Backup file which holds favorited locations\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/GoogleEarth.tkape"],
-};
+pub(crate) static KAPE_FILE_GOOGLE_GOOGLEEARTH_MYPLACES_BACKUP_KML: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_google_googleearth_myplaces_backup_kml",
+        name: "Google Earth My Places Backup file",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Users\\%user%\\AppData\\LocalLow\\Google\\GoogleEarth'myplaces.backup.kml'",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Backup file which holds favorited locations\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/GoogleEarth.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_GOOGLE_EARTH_MY_PLAC: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_google_earth_my_plac",
@@ -5935,7 +6120,9 @@ pub(crate) static KAPE_FILE_GOOGLE_EARTH_MY_PLAC: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\%user%\\Application Data\\Google\\GoogleEarth'myplaces.kml'"),
+    file_path: Some(
+        "C:\\Documents and Settings\\%user%\\Application Data\\Google\\GoogleEarth'myplaces.kml'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -6315,7 +6502,9 @@ pub(crate) static KAPE_FILE_ISLCLIENT_OUT: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\ISL Online Cache\\ISL Light Client\\*\\'ISLClient.out'"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\ISL Online Cache\\ISL Light Client\\*\\'ISLClient.out'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -6335,7 +6524,9 @@ pub(crate) static KAPE_FILE_CONF: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\ISL Online Cache\\ISL Light Client\\*\\conf\\'*'"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\ISL Online Cache\\ISL Light Client\\*\\conf\\'*'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -6415,7 +6606,9 @@ pub(crate) static KAPE_FILE_ISL_LIGHT_LOGS_SESSI: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\ISL Online Cache\\ISL Light\\*\\'trace.out'"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\ISL Online Cache\\ISL Light\\*\\'trace.out'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -6448,25 +6641,31 @@ pub(crate) static KAPE_FILE_STATUS_TRAY: ArtifactDescriptor = ArtifactDescriptor
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ISLOnline.tkape"],
 };
 
-pub(crate) static KAPE_FILE_ISL_ALWAYSON_STATICCONFIGURATION_INI: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_isl_alwayson_staticconfiguration_ini",
-    name: "ISL AlwaysOn - Configuration",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Program Files (x86)\\ISL Online\\ISL AlwaysOn\\'StaticConfiguration.ini'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Configuration information (port, http/htpps) for ISL AlwaysOn (Unattended Access)\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ISLOnline.tkape"],
-};
+pub(crate) static KAPE_FILE_ISL_ALWAYSON_STATICCONFIGURATION_INI: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_isl_alwayson_staticconfiguration_ini",
+        name: "ISL AlwaysOn - Configuration",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Program Files (x86)\\ISL Online\\ISL AlwaysOn\\'StaticConfiguration.ini'",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning:
+            "\"Configuration information (port, http/htpps) for ISL AlwaysOn (Unattended Access)\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ISLOnline.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_ENDPOINT_MANAGER_RMMLOGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_endpoint_manager_rmmlogs",
@@ -6715,7 +6914,9 @@ pub(crate) static KAPE_FILE_IDX: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Sun\\Java\\Deployment\\cache\\*\\*\\'*.idx'"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Sun\\Java\\Deployment\\cache\\*\\*\\'*.idx'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -6735,11 +6936,14 @@ pub(crate) static KAPE_FILE_JAVA_WEBSTART_CACHE: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\LocalLow\\Sun\\Java\\Deployment\\cache\\*\\*\\'*.idx'"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\LocalLow\\Sun\\Java\\Deployment\\cache\\*\\*\\'*.idx'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Java WebStart Cache User Level - IE Protected Mode — collected by KAPE JavaWebCache target",
+    meaning:
+        "Java WebStart Cache User Level - IE Protected Mode — collected by KAPE JavaWebCache target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -7099,7 +7303,8 @@ pub(crate) static KAPE_FILE_LOG_KASEYAEDGESERVICES: ArtifactDescriptor = Artifac
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"https://www.huntress.com/blog/rapid-response-kaseya-vsa-mass-msp-ransomware-incident\"",
+    meaning:
+        "\"https://www.huntress.com/blog/rapid-response-kaseya-vsa-mass-msp-ransomware-incident\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -7305,7 +7510,9 @@ pub(crate) static KAPE_FILE_MACRIUM_MACRIUM_SERVICE: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MacriumReflect.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MacriumReflect.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MACRIUM_REFLECT: ArtifactDescriptor = ArtifactDescriptor {
@@ -7325,7 +7532,9 @@ pub(crate) static KAPE_FILE_MACRIUM_REFLECT: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MacriumReflect.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MacriumReflect.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MACRIUM_REFLECT_LAUNCHER: ArtifactDescriptor = ArtifactDescriptor {
@@ -7345,7 +7554,9 @@ pub(crate) static KAPE_FILE_MACRIUM_REFLECT_LAUNCHER: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MacriumReflect.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MacriumReflect.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MATTERMOST_INDEXEDDB: ArtifactDescriptor = ArtifactDescriptor {
@@ -7485,7 +7696,9 @@ pub(crate) static KAPE_FILE_AZCOPY_LOG: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MicrosoftAzureCopy.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MicrosoftAzureCopy.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PLANS_STE: ArtifactDescriptor = ArtifactDescriptor {
@@ -7505,7 +7718,9 @@ pub(crate) static KAPE_FILE_PLANS_STE: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MicrosoftAzureCopy.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MicrosoftAzureCopy.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FULLTEXTSEARCHINDEX: ArtifactDescriptor = ArtifactDescriptor {
@@ -7675,7 +7890,9 @@ pub(crate) static KAPE_FILE_LOCAL_STORAGE_LEVELDB_3: ArtifactDescriptor = Artifa
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Teams\\Local Storage\\leveldb\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Teams\\Local Storage\\leveldb\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -7685,7 +7902,9 @@ pub(crate) static KAPE_FILE_LOCAL_STORAGE_LEVELDB_3: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MicrosoftTeams.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MicrosoftTeams.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TEAMS_CACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -7705,7 +7924,9 @@ pub(crate) static KAPE_FILE_TEAMS_CACHE: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MicrosoftTeams.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MicrosoftTeams.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TEAMS_DESKTOP_CONFIG_JSON: ArtifactDescriptor = ArtifactDescriptor {
@@ -7715,7 +7936,9 @@ pub(crate) static KAPE_FILE_TEAMS_DESKTOP_CONFIG_JSON: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Teams\\\"desktop-config.json\""),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Teams\\\"desktop-config.json\"",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -7725,7 +7948,9 @@ pub(crate) static KAPE_FILE_TEAMS_DESKTOP_CONFIG_JSON: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MicrosoftTeams.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MicrosoftTeams.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MSTEAMS_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -7805,7 +8030,9 @@ pub(crate) static KAPE_FILE_USER_MIDNIGHT_COMMANDER: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MidnightCommander.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MidnightCommander.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ROAMING_MOBAXTERM: ArtifactDescriptor = ArtifactDescriptor {
@@ -7865,7 +8092,9 @@ pub(crate) static KAPE_FILE_LOCAL_MULTICOMMANDER: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MultiCommander.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MultiCommander.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MULTICOMMANDER_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
@@ -7885,7 +8114,9 @@ pub(crate) static KAPE_FILE_MULTICOMMANDER_CONFIG: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MultiCommander.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MultiCommander.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MULTICOMMANDER_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -7905,7 +8136,9 @@ pub(crate) static KAPE_FILE_MULTICOMMANDER_LOGS: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MultiCommander.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MultiCommander.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MULTICOMMANDER_USERDATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -7925,7 +8158,9 @@ pub(crate) static KAPE_FILE_MULTICOMMANDER_USERDATA: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MultiCommander.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MultiCommander.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MULTICOMMANDER_MULTICOMMANDER_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -8265,7 +8500,9 @@ pub(crate) static KAPE_FILE_MICROSOFT_ONEDRIVE: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OneDrive_Metadata.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OneDrive_Metadata.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_USER_ONEDRIVE: ArtifactDescriptor = ArtifactDescriptor {
@@ -8365,7 +8602,9 @@ pub(crate) static KAPE_FILE_SSH_ID_RSA: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHClient.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHClient.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SSH_ID_ECDSA: ArtifactDescriptor = ArtifactDescriptor {
@@ -8385,7 +8624,9 @@ pub(crate) static KAPE_FILE_SSH_ID_ECDSA: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHClient.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHClient.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SSH_ID_ECDSA_SK: ArtifactDescriptor = ArtifactDescriptor {
@@ -8405,7 +8646,9 @@ pub(crate) static KAPE_FILE_SSH_ID_ECDSA_SK: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHClient.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHClient.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SSH_ID_ED25519: ArtifactDescriptor = ArtifactDescriptor {
@@ -8425,7 +8668,9 @@ pub(crate) static KAPE_FILE_SSH_ID_ED25519: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHClient.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHClient.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SSH_ID_ED25519_SK: ArtifactDescriptor = ArtifactDescriptor {
@@ -8445,7 +8690,9 @@ pub(crate) static KAPE_FILE_SSH_ID_ED25519_SK: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHClient.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHClient.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SSH_ID_DSA: ArtifactDescriptor = ArtifactDescriptor {
@@ -8465,7 +8712,9 @@ pub(crate) static KAPE_FILE_SSH_ID_DSA: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHClient.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHClient.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SSH_SSHD_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
@@ -8485,7 +8734,9 @@ pub(crate) static KAPE_FILE_SSH_SSHD_CONFIG: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOGS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -8505,7 +8756,9 @@ pub(crate) static KAPE_FILE_LOGS_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SSH_SSH_HOST_ECDSA_KEY: ArtifactDescriptor = ArtifactDescriptor {
@@ -8525,7 +8778,9 @@ pub(crate) static KAPE_FILE_SSH_SSH_HOST_ECDSA_KEY: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SSH_SSH_HOST_ED25519_KEY: ArtifactDescriptor = ArtifactDescriptor {
@@ -8545,7 +8800,9 @@ pub(crate) static KAPE_FILE_SSH_SSH_HOST_ED25519_KEY: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SSH_SSH_HOST_DSA_KEY: ArtifactDescriptor = ArtifactDescriptor {
@@ -8565,7 +8822,9 @@ pub(crate) static KAPE_FILE_SSH_SSH_HOST_DSA_KEY: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SSH_SSH_HOST_RSA_KEY: ArtifactDescriptor = ArtifactDescriptor {
@@ -8585,7 +8844,9 @@ pub(crate) static KAPE_FILE_SSH_SSH_HOST_RSA_KEY: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SSH_AUTHORIZED_KEYS: ArtifactDescriptor = ArtifactDescriptor {
@@ -8605,7 +8866,9 @@ pub(crate) static KAPE_FILE_SSH_AUTHORIZED_KEYS: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SSH_AUTHORIZED_KEYS2: ArtifactDescriptor = ArtifactDescriptor {
@@ -8625,28 +8888,33 @@ pub(crate) static KAPE_FILE_SSH_AUTHORIZED_KEYS2: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_SSH_ADMINISTRATORS_AUTHORIZED_KEYS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_ssh_administrators_authorized_keys",
-    name: "OpenSSH Authorized Administrator Keys",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\ProgramData\\ssh\\'administrators_authorized_keys'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Retrieves the administrator group's authorised public keys\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape"],
-};
+pub(crate) static KAPE_FILE_SSH_ADMINISTRATORS_AUTHORIZED_KEYS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_ssh_administrators_authorized_keys",
+        name: "OpenSSH Authorized Administrator Keys",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\ProgramData\\ssh\\'administrators_authorized_keys'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Retrieves the administrator group's authorised public keys\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenSSHServer.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_OPENVPN_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_openvpn_config",
@@ -8665,7 +8933,9 @@ pub(crate) static KAPE_FILE_OPENVPN_CONFIG: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenVPNClient.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenVPNClient.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_OPENVPN_CLIENT_CONFI: ArtifactDescriptor = ArtifactDescriptor {
@@ -8685,7 +8955,9 @@ pub(crate) static KAPE_FILE_OPENVPN_CLIENT_CONFI: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenVPNClient.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenVPNClient.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOG_LOG_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -8705,7 +8977,9 @@ pub(crate) static KAPE_FILE_LOG_LOG_3: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenVPNClient.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OpenVPNClient.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_OUTLOOK_PST: ArtifactDescriptor = ArtifactDescriptor {
@@ -8765,7 +9039,9 @@ pub(crate) static KAPE_FILE_OUTLOOK_FILES_PST: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OutlookPSTOST.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OutlookPSTOST.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_OUTLOOK_FILES_OST: ArtifactDescriptor = ArtifactDescriptor {
@@ -8785,7 +9061,9 @@ pub(crate) static KAPE_FILE_OUTLOOK_FILES_OST: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OutlookPSTOST.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OutlookPSTOST.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PST: ArtifactDescriptor = ArtifactDescriptor {
@@ -8805,7 +9083,9 @@ pub(crate) static KAPE_FILE_PST: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OutlookPSTOST.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OutlookPSTOST.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_OST: ArtifactDescriptor = ArtifactDescriptor {
@@ -8825,7 +9105,9 @@ pub(crate) static KAPE_FILE_OST: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OutlookPSTOST.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OutlookPSTOST.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_OUTLOOK_NST: ArtifactDescriptor = ArtifactDescriptor {
@@ -8845,7 +9127,9 @@ pub(crate) static KAPE_FILE_OUTLOOK_NST: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OutlookPSTOST.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OutlookPSTOST.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_INETCACHE_CONTENT_OUTLOOK: ArtifactDescriptor = ArtifactDescriptor {
@@ -8855,7 +9139,9 @@ pub(crate) static KAPE_FILE_INETCACHE_CONTENT_OUTLOOK: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.Outlook\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.Outlook\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -8865,7 +9151,9 @@ pub(crate) static KAPE_FILE_INETCACHE_CONTENT_OUTLOOK: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OutlookPSTOST.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OutlookPSTOST.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PDQ_DEPLOY_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -9068,45 +9356,51 @@ pub(crate) static KAPE_FILE_PULSE_SECURE_LOGS_IN: ArtifactDescriptor = ArtifactD
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/PulseSecure.tkape"],
 };
 
-pub(crate) static KAPE_FILE_PULSE_SECURE_SETUP_CLIENT_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_pulse_secure_setup_client_log",
-    name: "Pulse Secure setup logs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\*\\AppData\\Roaming\\Pulse Secure\\Setup Client'*.log'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Setup logs for Pule Secure\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/PulseSecure.tkape"],
-};
+pub(crate) static KAPE_FILE_PULSE_SECURE_SETUP_CLIENT_LOG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_pulse_secure_setup_client_log",
+        name: "Pulse Secure setup logs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Users\\*\\AppData\\Roaming\\Pulse Secure\\Setup Client'*.log'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Setup logs for Pule Secure\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/PulseSecure.tkape",
+        ],
+    };
 
-pub(crate) static KAPE_FILE_PULSE_SECURE_LOGGING_PULSECLIENT_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_pulse_secure_logging_pulseclient_log",
-    name: "Pulse Secure PSAL logs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\*\\AppData\\Local\\Pulse Secure\\Logging'PulseClient.log'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"PSAL logs\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/PulseSecure.tkape"],
-};
+pub(crate) static KAPE_FILE_PULSE_SECURE_LOGGING_PULSECLIENT_LOG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_pulse_secure_logging_pulseclient_log",
+        name: "Pulse Secure PSAL logs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Users\\*\\AppData\\Local\\Pulse Secure\\Logging'PulseClient.log'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"PSAL logs\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/PulseSecure.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_Q_DIR_Q_DIR_INI: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_q_dir_q_dir_ini",
@@ -9119,7 +9413,8 @@ pub(crate) static KAPE_FILE_Q_DIR_Q_DIR_INI: ArtifactDescriptor = ArtifactDescri
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Locates .ini file associated with Q-Dir which stores useful user activity information.\"",
+    meaning:
+        "\"Locates .ini file associated with Q-Dir which stores useful user activity information.\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -9315,7 +9610,9 @@ pub(crate) static KAPE_FILE_MY_CERTIFICATES: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users%user%\\AppData\\Roaming\\Microsoft\\SystemCertificates\\My\\Certificates"),
+    file_path: Some(
+        "C:\\Users%user%\\AppData\\Roaming\\Microsoft\\SystemCertificates\\My\\Certificates",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -9339,7 +9636,8 @@ pub(crate) static KAPE_FILE_RSERVER30_RADM_LOG_HTM: ArtifactDescriptor = Artifac
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Contains Application Log entries such as service start and incomming connections.\"",
+    meaning:
+        "\"Contains Application Log entries such as service start and incomming connections.\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -9359,7 +9657,8 @@ pub(crate) static KAPE_FILE_RADMIN_SERVER_64BIT: ArtifactDescriptor = ArtifactDe
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Contains Application Log entries such as service start and incomming connections.\"",
+    meaning:
+        "\"Contains Application Log entries such as service start and incomming connections.\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -9448,25 +9747,28 @@ pub(crate) static KAPE_FILE_USERS_USER_RCLONE_CONF: ArtifactDescriptor = Artifac
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RcloneConf.tkape"],
 };
 
-pub(crate) static KAPE_FILE_CONFIG_SYSTEMPROFILE_RCLONE_CONF: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_config_systemprofile_rclone_conf",
-    name: "Rclone config - SYSTEM SysWOW64 User Folder",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\SysWOW64\\config\\systemprofile'.rclone.conf'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Collects .rclone.conf from SYSTEM SysWOW64 user profile - v0.96\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RcloneConf.tkape"],
-};
+pub(crate) static KAPE_FILE_CONFIG_SYSTEMPROFILE_RCLONE_CONF: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_config_systemprofile_rclone_conf",
+        name: "Rclone config - SYSTEM SysWOW64 User Folder",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Windows\\SysWOW64\\config\\systemprofile'.rclone.conf'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Collects .rclone.conf from SYSTEM SysWOW64 user profile - v0.96\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RcloneConf.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_RCLONE_CONFIG_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_rclone_config_system",
@@ -9488,45 +9790,51 @@ pub(crate) static KAPE_FILE_RCLONE_CONFIG_SYSTEM: ArtifactDescriptor = ArtifactD
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RcloneConf.tkape"],
 };
 
-pub(crate) static KAPE_FILE_SERVICEPROFILES_LOCALSERVICE_RCLONE_CONF: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_serviceprofiles_localservice_rclone_conf",
-    name: "Rclone config - LocalService User Folder",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\ServiceProfiles\\LocalService'.rclone.conf'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Collects .rclone.conf from LocalService user profile - v0.96\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RcloneConf.tkape"],
-};
+pub(crate) static KAPE_FILE_SERVICEPROFILES_LOCALSERVICE_RCLONE_CONF: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_serviceprofiles_localservice_rclone_conf",
+        name: "Rclone config - LocalService User Folder",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Windows\\ServiceProfiles\\LocalService'.rclone.conf'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Collects .rclone.conf from LocalService user profile - v0.96\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RcloneConf.tkape",
+        ],
+    };
 
-pub(crate) static KAPE_FILE_SERVICEPROFILES_NETWORKSERVICE_RCLONE_CONF: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_serviceprofiles_networkservice_rclone_conf",
-    name: "Rclone config - NetworkService User Folder",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\ServiceProfiles\\NetworkService'.rclone.conf'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Collects .rclone.conf from NetworkService user profile - v0.96\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RcloneConf.tkape"],
-};
+pub(crate) static KAPE_FILE_SERVICEPROFILES_NETWORKSERVICE_RCLONE_CONF: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_serviceprofiles_networkservice_rclone_conf",
+        name: "Rclone config - NetworkService User Folder",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Windows\\ServiceProfiles\\NetworkService'.rclone.conf'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Collects .rclone.conf from NetworkService user profile - v0.96\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RcloneConf.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_CONFIG_RCLONE_RCLONE_CONF: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_config_rclone_rclone_conf",
@@ -9559,7 +9867,8 @@ pub(crate) static KAPE_FILE_CONFIG_RCLONE_RCLONE_CONF_2: ArtifactDescriptor = Ar
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Collects rclone.conf from the .config folder in SYSTEM SysWOW64 user profile - v1.55.1\"",
+    meaning:
+        "\"Collects rclone.conf from the .config folder in SYSTEM SysWOW64 user profile - v1.55.1\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -9599,7 +9908,8 @@ pub(crate) static KAPE_FILE_RCLONE_CONFIG_LOCALS: ArtifactDescriptor = ArtifactD
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Collects rclone.conf from the .config folder in LocalService user profile - v1.55.1\"",
+    meaning:
+        "\"Collects rclone.conf from the .config folder in LocalService user profile - v1.55.1\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -9619,7 +9929,8 @@ pub(crate) static KAPE_FILE_RCLONE_CONFIG_NETWOR: ArtifactDescriptor = ArtifactD
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Collects rclone.conf from the .config folder in NetworkService user profile - v1.55.1\"",
+    meaning:
+        "\"Collects rclone.conf from the .config folder in NetworkService user profile - v1.55.1\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -9755,11 +10066,14 @@ pub(crate) static KAPE_FILE_ROAMING_RCLONE_RCLONE_CONF_2: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Windows\\SysWOW64\\config\\systemprofile\\AppData\\Roaming\\rclone'rclone.conf'"),
+    file_path: Some(
+        "C:\\Windows\\SysWOW64\\config\\systemprofile\\AppData\\Roaming\\rclone'rclone.conf'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Collects rclone.conf from the config folder in SYSTEM SysWOW64 user profile - v1.56+\"",
+    meaning:
+        "\"Collects rclone.conf from the config folder in SYSTEM SysWOW64 user profile - v1.56+\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -9775,7 +10089,9 @@ pub(crate) static KAPE_FILE_ROAMING_RCLONE_RCLONE_CONF_3: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Windows\\System32\\config\\systemprofile\\AppData\\Roaming\\rclone'rclone.conf'"),
+    file_path: Some(
+        "C:\\Windows\\System32\\config\\systemprofile\\AppData\\Roaming\\rclone'rclone.conf'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -9795,11 +10111,14 @@ pub(crate) static KAPE_FILE_ROAMING_RCLONE_RCLONE_CONF_4: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Windows\\ServiceProfiles\\LocalService\\AppData\\Roaming\\rclone'rclone.conf'"),
+    file_path: Some(
+        "C:\\Windows\\ServiceProfiles\\LocalService\\AppData\\Roaming\\rclone'rclone.conf'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Collects rclone.conf from the config folder in LocalService user profile - v1.56+\"",
+    meaning:
+        "\"Collects rclone.conf from the config folder in LocalService user profile - v1.56+\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -9815,11 +10134,14 @@ pub(crate) static KAPE_FILE_ROAMING_RCLONE_RCLONE_CONF_5: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Windows\\ServiceProfiles\\NetworkService\\AppData\\Roaming\\rclone'rclone.conf'"),
+    file_path: Some(
+        "C:\\Windows\\ServiceProfiles\\NetworkService\\AppData\\Roaming\\rclone'rclone.conf'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Collects rclone.conf from the config folder in NetworkService user profile - v1.56+\"",
+    meaning:
+        "\"Collects rclone.conf from the config folder in NetworkService user profile - v1.56+\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -10215,7 +10537,9 @@ pub(crate) static KAPE_FILE_MRU_XML: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Devolutions\\RemoteDesktopManager\\*\\\"Mru.xml\""),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Devolutions\\RemoteDesktopManager\\*\\\"Mru.xml\"",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -10225,7 +10549,9 @@ pub(crate) static KAPE_FILE_MRU_XML: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RemoteDesktopManager.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RemoteDesktopManager.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FAVORITES_XML: ArtifactDescriptor = ArtifactDescriptor {
@@ -10628,25 +10954,28 @@ pub(crate) static KAPE_FILE_PROGRAMDATA_CONFIG_XML: ArtifactDescriptor = Artifac
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Robo-FTP.tkape"],
 };
 
-pub(crate) static KAPE_FILE_PROGRAMDATA_SCHEDULERSERVICE_SQLITE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_programdata_schedulerservice_sqlite",
-    name: "Robo-FTP Jobs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Program Files\\Robo-FTP 3.12\\ProgramData\\\"SchedulerService.sqlite\""),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Contains details of scheduled jobs\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Robo-FTP.tkape"],
-};
+pub(crate) static KAPE_FILE_PROGRAMDATA_SCHEDULERSERVICE_SQLITE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_programdata_schedulerservice_sqlite",
+        name: "Robo-FTP Jobs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Program Files\\Robo-FTP 3.12\\ProgramData\\\"SchedulerService.sqlite\"",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Contains details of scheduled jobs\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Robo-FTP.tkape"],
+    };
 
 pub(crate) static KAPE_FILE_ROAMING_RUSTDESK: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_roaming_rustdesk",
@@ -10675,7 +11004,9 @@ pub(crate) static KAPE_FILE_LOG_SERVER: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Windows\\ServiceProfiles\\LocalService\\AppData\\Roaming\\RustDesk\\log\\server"),
+    file_path: Some(
+        "C:\\Windows\\ServiceProfiles\\LocalService\\AppData\\Roaming\\RustDesk\\log\\server",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -10905,7 +11236,9 @@ pub(crate) static KAPE_FILE_APP_DATA_SESSION_DB: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScreenConnect.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScreenConnect.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_APP_DATA_USER_XML: ArtifactDescriptor = ArtifactDescriptor {
@@ -10925,7 +11258,9 @@ pub(crate) static KAPE_FILE_APP_DATA_USER_XML: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScreenConnect.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScreenConnect.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_APPLICATIONEVENTS_TKAPE_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -10945,28 +11280,33 @@ pub(crate) static KAPE_FILE_APPLICATIONEVENTS_TKAPE_4: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScreenConnect.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScreenConnect.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_SCREENCONNECT_CLIENT_USER_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_screenconnect_client_user_config",
-    name: "ScreenConnect User Config",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\ProgramData\\ScreenConnect Client*\\user.config"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Contains server domain and IP info\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScreenConnect.tkape"],
-};
+pub(crate) static KAPE_FILE_SCREENCONNECT_CLIENT_USER_CONFIG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_screenconnect_client_user_config",
+        name: "ScreenConnect User Config",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\ProgramData\\ScreenConnect Client*\\user.config"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Contains server domain and IP info\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScreenConnect.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_ROAMING_SESSION: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_roaming_session",
@@ -11015,7 +11355,9 @@ pub(crate) static KAPE_FILE_PORTAL_SETTINGS: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Siemens\\Automation\\Portal*\\Settings\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Siemens\\Automation\\Portal*\\Settings\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -11148,25 +11490,30 @@ pub(crate) static KAPE_FILE_SIMPLEHELP_LOGS: ArtifactDescriptor = ArtifactDescri
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SimpleHelp.tkape"],
 };
 
-pub(crate) static KAPE_FILE_JWRAPPER_SIMPLEHELP_TECHNICIAN_LOGS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_jwrapper_simplehelp_technician_logs",
-    name: "SimpleHelp - User AppData - Technician Console Logs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\JWrapper-SimpleHelp Technician\\logs\\"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Collects technician console logs\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SimpleHelp.tkape"],
-};
+pub(crate) static KAPE_FILE_JWRAPPER_SIMPLEHELP_TECHNICIAN_LOGS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_jwrapper_simplehelp_technician_logs",
+        name: "SimpleHelp - User AppData - Technician Console Logs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Users\\%user%\\AppData\\Roaming\\JWrapper-SimpleHelp Technician\\logs\\",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Collects technician console logs\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SimpleHelp.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_MAIN_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_main_db",
@@ -11175,7 +11522,9 @@ pub(crate) static KAPE_FILE_MAIN_DB: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Packages\\Microsoft.SkypeApp_*\\LocalState\\*\\main.db"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Packages\\Microsoft.SkypeApp_*\\LocalState\\*\\main.db",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -11255,7 +11604,9 @@ pub(crate) static KAPE_FILE_LOCALSTATE_S4L_DB: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Packages\\Microsoft.SkypeApp_*\\LocalState\\s4l-*.db"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Packages\\Microsoft.SkypeApp_*\\LocalState\\s4l-*.db",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -11275,7 +11626,9 @@ pub(crate) static KAPE_FILE_INDEXEDDB_LEVELDB: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Skype for Desktop\\IndexedDB\\*.leveldb\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Skype for Desktop\\IndexedDB\\*.leveldb\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -11445,28 +11798,33 @@ pub(crate) static KAPE_FILE_C_NETSCAN_XML: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SoftPerfectNetscan.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SoftPerfectNetscan.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_SPEEDPROJECT_SPEEDCOMMANDER_19: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_speedproject_speedcommander_19",
-    name: "SpeedCommander - .ini File",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\SpeedProject\\SpeedCommander 19\\"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Locates folder where all configuration files reside\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SpeedCommander.tkape"],
-};
+pub(crate) static KAPE_FILE_SPEEDPROJECT_SPEEDCOMMANDER_19: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_speedproject_speedcommander_19",
+        name: "SpeedCommander - .ini File",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\SpeedProject\\SpeedCommander 19\\"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Locates folder where all configuration files reside\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SpeedCommander.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_SERVER_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_server_log",
@@ -11848,25 +12206,29 @@ pub(crate) static KAPE_FILE_SUGARSYNC_SC1_LOG: ArtifactDescriptor = ArtifactDesc
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SugarSync.tkape"],
 };
 
-pub(crate) static KAPE_FILE_DOCUMENTS_SUGARSYNC_SHARED_FOLDERS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_documents_sugarsync_shared_folders",
-    name: "SugarSync - Shared Folders (Default Location)",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\Documents\\SugarSync Shared Folders\\"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "SugarSync - Shared Folders (Default Location) — collected by KAPE SugarSync target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SugarSync.tkape"],
-};
+pub(crate) static KAPE_FILE_DOCUMENTS_SUGARSYNC_SHARED_FOLDERS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_documents_sugarsync_shared_folders",
+        name: "SugarSync - Shared Folders (Default Location)",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Users\\%user%\\Documents\\SugarSync Shared Folders\\"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning:
+            "SugarSync - Shared Folders (Default Location) — collected by KAPE SugarSync target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SugarSync.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_DOCUMENTS_MY_SUGARSYNC: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_documents_my_sugarsync",
@@ -11888,25 +12250,28 @@ pub(crate) static KAPE_FILE_DOCUMENTS_MY_SUGARSYNC: ArtifactDescriptor = Artifac
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SugarSync.tkape"],
 };
 
-pub(crate) static KAPE_FILE_LOCAL_SUMATRAPDFSUMATRAPDF_SETTINGS_TXT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_local_sumatrapdfsumatrapdf_settings_txt",
-    name: "SumatraPDF Settings - SessionData",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\SumatraPDFSumatraPDF-settings.txt"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Settings file which contains information about previous user session",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SumatraPDF.tkape"],
-};
+pub(crate) static KAPE_FILE_LOCAL_SUMATRAPDFSUMATRAPDF_SETTINGS_TXT: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_local_sumatrapdfsumatrapdf_settings_txt",
+        name: "SumatraPDF Settings - SessionData",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Users\\%user%\\AppData\\Local\\SumatraPDFSumatraPDF-settings.txt"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Settings file which contains information about previous user session",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SumatraPDF.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_SUMATRAPDF_SUMATRAPDFCACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_sumatrapdf_sumatrapdfcache",
@@ -11945,7 +12310,9 @@ pub(crate) static KAPE_FILE_SUPREMOREMOTEDESKTOP_LOG_LOG: ArtifactDescriptor = A
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SupremoRemoteDesktop.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SupremoRemoteDesktop.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SUPREMOREMOTEDESKTOP_INBOX: ArtifactDescriptor = ArtifactDescriptor {
@@ -12045,7 +12412,9 @@ pub(crate) static KAPE_FILE_CONFIG_REMEMBER_XML: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TablacusExplorer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TablacusExplorer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_WINDOW_XML: ArtifactDescriptor = ArtifactDescriptor {
@@ -12065,7 +12434,9 @@ pub(crate) static KAPE_FILE_CONFIG_WINDOW_XML: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TablacusExplorer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TablacusExplorer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_WINDOW1_XML: ArtifactDescriptor = ArtifactDescriptor {
@@ -12085,7 +12456,9 @@ pub(crate) static KAPE_FILE_CONFIG_WINDOW1_XML: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TablacusExplorer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TablacusExplorer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TEAMVIEWER_CONNECTIONS_TXT: ArtifactDescriptor = ArtifactDescriptor {
@@ -12105,28 +12478,34 @@ pub(crate) static KAPE_FILE_TEAMVIEWER_CONNECTIONS_TXT: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TeamViewerLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TeamViewerLogs.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_TEAMVIEWER_TEAMVIEWER_LOGFILE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_teamviewer_teamviewer_logfile",
-    name: "TeamViewer Application Logs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Program Files*\\TeamViewer\\'TeamViewer*_Logfile*'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Includes TeamViewer<version>_Logfile.log and TeamViewer<version>_Logfile_OLD.log\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TeamViewerLogs.tkape"],
-};
+pub(crate) static KAPE_FILE_TEAMVIEWER_TEAMVIEWER_LOGFILE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_teamviewer_teamviewer_logfile",
+        name: "TeamViewer Application Logs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Program Files*\\TeamViewer\\'TeamViewer*_Logfile*'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning:
+            "\"Includes TeamViewer<version>_Logfile.log and TeamViewer<version>_Logfile_OLD.log\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TeamViewerLogs.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_TEAMVIEWER_APPLICATI: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_teamviewer_applicati",
@@ -12145,7 +12524,9 @@ pub(crate) static KAPE_FILE_TEAMVIEWER_APPLICATI: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TeamViewerLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TeamViewerLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MRU_REMOTESUPPORT: ArtifactDescriptor = ArtifactDescriptor {
@@ -12165,7 +12546,9 @@ pub(crate) static KAPE_FILE_MRU_REMOTESUPPORT: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TeamViewerLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TeamViewerLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ROAMING_TELEGRAM_DESKTOP: ArtifactDescriptor = ArtifactDescriptor {
@@ -12235,7 +12618,9 @@ pub(crate) static KAPE_FILE_CRASH_REPORTS_INSTALLTIME: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Thunderbird\\Crash Reports\\'InstallTime*'"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Thunderbird\\Crash Reports\\'InstallTime*'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -12259,7 +12644,8 @@ pub(crate) static KAPE_FILE_THUNDERBIRD_PROFILES_INI: ArtifactDescriptor = Artif
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Profiles list - can hold references to other profiles held elsewhere on the device\"",
+    meaning:
+        "\"Profiles list - can hold references to other profiles held elsewhere on the device\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -12355,7 +12741,9 @@ pub(crate) static KAPE_FILE_IMAPMAIL_INBOX: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Thunderbird\\Profiles\\*\\ImapMail\\\"INBOX\""),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Thunderbird\\Profiles\\*\\ImapMail\\\"INBOX\"",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -12375,7 +12763,9 @@ pub(crate) static KAPE_FILE_MAIL_INBOX: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Thunderbird\\Profiles\\*\\Mail\\\"INBOX\""),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Thunderbird\\Profiles\\*\\Mail\\\"INBOX\"",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -12435,7 +12825,9 @@ pub(crate) static KAPE_FILE_ABOOK_SQLITE: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Thunderbird\\Profiles\\*\\\"abook.sqlite\""),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Thunderbird\\Profiles\\*\\\"abook.sqlite\"",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -12519,13 +12911,16 @@ pub(crate) static KAPE_FILE_GHISLER_WCX_FTP_INI: ArtifactDescriptor = ArtifactDe
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Locates .ini file associated with Total Commander which stores useful FTP information.\"",
+    meaning:
+        "\"Locates .ini file associated with Total Commander which stores useful FTP information.\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TotalCommander.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TotalCommander.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_GHISLER_TREEINFO_WC: ArtifactDescriptor = ArtifactDescriptor {
@@ -12545,7 +12940,9 @@ pub(crate) static KAPE_FILE_GHISLER_TREEINFO_WC: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TotalCommander.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TotalCommander.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_GHISLER_TCDIRFRQ_TXT: ArtifactDescriptor = ArtifactDescriptor {
@@ -12565,7 +12962,9 @@ pub(crate) static KAPE_FILE_GHISLER_TCDIRFRQ_TXT: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TotalCommander.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TotalCommander.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TEMP_TCFTP_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -12585,7 +12984,9 @@ pub(crate) static KAPE_FILE_TEMP_TCFTP_LOG: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TotalCommander.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TotalCommander.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_JAM_SOFTWARE_TREESIZE_SCANHISTORY_XML: ArtifactDescriptor = ArtifactDescriptor {
@@ -12688,45 +13089,51 @@ pub(crate) static KAPE_FILE_ULTRAVIEWER_SYSTEM_L: ArtifactDescriptor = ArtifactD
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Ultraviewer.tkape"],
 };
 
-pub(crate) static KAPE_FILE_PROGRAM_FILES_ULTRAVIEWERULTRAVIEWERSERVICE_LOG_TX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_program_files_ultraviewerultraviewerservice_log_tx",
-    name: "UltraViewer Service Log",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Program Files*\\UltraViewerUltraViewerService_log.txt"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"UltraViewer Service log file\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Ultraviewer.tkape"],
-};
+pub(crate) static KAPE_FILE_PROGRAM_FILES_ULTRAVIEWERULTRAVIEWERSERVICE_LOG_TX: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_program_files_ultraviewerultraviewerservice_log_tx",
+        name: "UltraViewer Service Log",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Program Files*\\UltraViewerUltraViewerService_log.txt"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"UltraViewer Service log file\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Ultraviewer.tkape",
+        ],
+    };
 
-pub(crate) static KAPE_FILE_PROGRAM_FILES_ULTRAVIEWERCONNECTIONLOG_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_program_files_ultraviewerconnectionlog_log",
-    name: "UltraViewer Connection Log",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Program Files*\\UltraViewerConnectionLog.Log"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"UltraViewer Service level connection log\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Ultraviewer.tkape"],
-};
+pub(crate) static KAPE_FILE_PROGRAM_FILES_ULTRAVIEWERCONNECTIONLOG_LOG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_program_files_ultraviewerconnectionlog_log",
+        name: "UltraViewer Connection Log",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Program Files*\\UltraViewerConnectionLog.Log"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"UltraViewer Service level connection log\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Ultraviewer.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_VLC_VLC_QT_INTERFACE_INI: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_vlc_vlc_qt_interface_ini",
@@ -12785,7 +13192,9 @@ pub(crate) static KAPE_FILE_ROAMING_VMWARE: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VMwareInventory.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VMwareInventory.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_C_VMEM: ArtifactDescriptor = ArtifactDescriptor {
@@ -12888,25 +13297,26 @@ pub(crate) static KAPE_FILE_REALVNC_VNCVIEWER_LOG: ArtifactDescriptor = Artifact
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VNCLogs.tkape"],
 };
 
-pub(crate) static KAPE_FILE_PROGRAMDATA_REALVNC_SERVICEVNCSERVER_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_programdata_realvnc_servicevncserver_log",
-    name: "RealVNC Log",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\ProgramData\\RealVNC-Servicevncserver.log"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"https://help.realvnc.com/hc/en-us/articles/360002254238-All-About-Logging-\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VNCLogs.tkape"],
-};
+pub(crate) static KAPE_FILE_PROGRAMDATA_REALVNC_SERVICEVNCSERVER_LOG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_programdata_realvnc_servicevncserver_log",
+        name: "RealVNC Log",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\ProgramData\\RealVNC-Servicevncserver.log"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"https://help.realvnc.com/hc/en-us/articles/360002254238-All-About-Logging-\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VNCLogs.tkape"],
+    };
 
 pub(crate) static KAPE_FILE_APPLICATIONEVENTS_TKAPE_5: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_applicationevents_tkape_5",
@@ -13065,7 +13475,9 @@ pub(crate) static KAPE_FILE_C_VBOX: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VirtualBoxConfig.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VirtualBoxConfig.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_C_VBOX_PREV: ArtifactDescriptor = ArtifactDescriptor {
@@ -13085,7 +13497,9 @@ pub(crate) static KAPE_FILE_C_VBOX_PREV: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VirtualBoxConfig.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VirtualBoxConfig.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_C_VBOX_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -13105,7 +13519,9 @@ pub(crate) static KAPE_FILE_C_VBOX_LOG: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VirtualBoxLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VirtualBoxLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_VIRTUALBOX_BACKUP_LO: ArtifactDescriptor = ArtifactDescriptor {
@@ -13125,7 +13541,9 @@ pub(crate) static KAPE_FILE_VIRTUALBOX_BACKUP_LO: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VirtualBoxLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VirtualBoxLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_C_VBOXHARDENING_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -13145,7 +13563,9 @@ pub(crate) static KAPE_FILE_C_VBOXHARDENING_LOG: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VirtualBoxLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VirtualBoxLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_C_SAV: ArtifactDescriptor = ArtifactDescriptor {
@@ -13165,7 +13585,9 @@ pub(crate) static KAPE_FILE_C_SAV: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VirtualBoxMemory.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VirtualBoxMemory.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -13179,13 +13601,16 @@ pub(crate) static KAPE_FILE_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Grabs the files in the VSCode history. These are files the user has opened with VSCode\"",
+    meaning:
+        "\"Grabs the files in the VSCode history. These are files the user has opened with VSCode\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_GLOBALSTORAGE_STORAGE_JSON: ArtifactDescriptor = ArtifactDescriptor {
@@ -13195,7 +13620,9 @@ pub(crate) static KAPE_FILE_GLOBALSTORAGE_STORAGE_JSON: ArtifactDescriptor = Art
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Code\\User\\globalStorage\\storage.json*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Code\\User\\globalStorage\\storage.json*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -13205,7 +13632,9 @@ pub(crate) static KAPE_FILE_GLOBALSTORAGE_STORAGE_JSON: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CACHEDEXTENSIONS_USER: ArtifactDescriptor = ArtifactDescriptor {
@@ -13225,7 +13654,9 @@ pub(crate) static KAPE_FILE_CACHEDEXTENSIONS_USER: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_USER_SETTINGS_JSON: ArtifactDescriptor = ArtifactDescriptor {
@@ -13245,7 +13676,9 @@ pub(crate) static KAPE_FILE_USER_SETTINGS_JSON: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CODE_PREFERENCES: ArtifactDescriptor = ArtifactDescriptor {
@@ -13265,7 +13698,9 @@ pub(crate) static KAPE_FILE_CODE_PREFERENCES: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORK_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -13285,28 +13720,35 @@ pub(crate) static KAPE_FILE_NETWORK_COOKIES: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_NETWORK_NETWORK_PERSISTENT_STATE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_network_network_persistent_state",
-    name: "VSCode Network Persistent State",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Code\\Network\\Network Persistent State*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Grabs the Network Persistent State file. Same format as in  Chromium\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape"],
-};
+pub(crate) static KAPE_FILE_NETWORK_NETWORK_PERSISTENT_STATE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_network_network_persistent_state",
+        name: "VSCode Network Persistent State",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Users\\%user%\\AppData\\Roaming\\Code\\Network\\Network Persistent State*",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Grabs the Network Persistent State file. Same format as in  Chromium\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_CODE_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_code_logs",
@@ -13345,7 +13787,9 @@ pub(crate) static KAPE_FILE_BACKUPS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/VisualStudioCode.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WHATSAPP_CACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -13599,7 +14043,8 @@ pub(crate) static KAPE_FILE_PROGRAM_FILES_XEOX_LOG: ArtifactDescriptor = Artifac
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Contains Application Log entries such as service start and incomming connections.\"",
+    meaning:
+        "\"Contains Application Log entries such as service start and incomming connections.\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -14025,7 +14470,9 @@ pub(crate) static KAPE_FILE_PCLOUD_DB: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/pCloudDatabase.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/pCloudDatabase.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PCLOUD_DB_WAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -14045,7 +14492,9 @@ pub(crate) static KAPE_FILE_PCLOUD_DB_WAL: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/pCloudDatabase.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/pCloudDatabase.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PCLOUD_DB_SHM: ArtifactDescriptor = ArtifactDescriptor {
@@ -14065,7 +14514,9 @@ pub(crate) static KAPE_FILE_PCLOUD_DB_SHM: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/pCloudDatabase.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/pCloudDatabase.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_360BOOKMARKS: ArtifactDescriptor = ArtifactDescriptor {
@@ -14085,7 +14536,9 @@ pub(crate) static KAPE_FILE_360BOOKMARKS: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -14105,7 +14558,9 @@ pub(crate) static KAPE_FILE_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CURRENT_SESSION: ArtifactDescriptor = ArtifactDescriptor {
@@ -14125,7 +14580,9 @@ pub(crate) static KAPE_FILE_CURRENT_SESSION: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CURRENT_TABS: ArtifactDescriptor = ArtifactDescriptor {
@@ -14145,7 +14602,9 @@ pub(crate) static KAPE_FILE_CURRENT_TABS: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DOWNLOADMETADATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -14165,7 +14624,9 @@ pub(crate) static KAPE_FILE_DOWNLOADMETADATA: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EXTENSION_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -14185,7 +14646,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FAVICONS: ArtifactDescriptor = ArtifactDescriptor {
@@ -14205,7 +14668,9 @@ pub(crate) static KAPE_FILE_FAVICONS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_360HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -14225,7 +14690,9 @@ pub(crate) static KAPE_FILE_360HISTORY: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LAST_SESSION: ArtifactDescriptor = ArtifactDescriptor {
@@ -14245,7 +14712,9 @@ pub(crate) static KAPE_FILE_LAST_SESSION: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LAST_TABS: ArtifactDescriptor = ArtifactDescriptor {
@@ -14265,7 +14734,9 @@ pub(crate) static KAPE_FILE_LAST_TABS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SESSIONS: ArtifactDescriptor = ArtifactDescriptor {
@@ -14285,7 +14756,9 @@ pub(crate) static KAPE_FILE_SESSIONS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOGIN_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -14305,7 +14778,9 @@ pub(crate) static KAPE_FILE_LOGIN_DATA: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MEDIA_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -14325,7 +14800,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORK_ACTION_PREDICTOR: ArtifactDescriptor = ArtifactDescriptor {
@@ -14335,17 +14812,22 @@ pub(crate) static KAPE_FILE_NETWORK_ACTION_PREDICTOR: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\360se6\\User Data\\*\\Network Action Predictor"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\360se6\\User Data\\*\\Network Action Predictor",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "360 Secure Browser Network Action Predictor — collected by KAPE 360SecureBrowser target",
+    meaning:
+        "360 Secure Browser Network Action Predictor — collected by KAPE 360SecureBrowser target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORK_PERSISTENT_STATE: ArtifactDescriptor = ArtifactDescriptor {
@@ -14355,17 +14837,22 @@ pub(crate) static KAPE_FILE_NETWORK_PERSISTENT_STATE: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\360se6\\User Data\\*\\Network Persistent State"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\360se6\\User Data\\*\\Network Persistent State",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "360 Secure Browser Network Persistent State — collected by KAPE 360SecureBrowser target",
+    meaning:
+        "360 Secure Browser Network Persistent State — collected by KAPE 360SecureBrowser target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PREFERENCES: ArtifactDescriptor = ArtifactDescriptor {
@@ -14385,7 +14872,9 @@ pub(crate) static KAPE_FILE_PREFERENCES: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_QUOTAMANAGER: ArtifactDescriptor = ArtifactDescriptor {
@@ -14405,7 +14894,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REPORTING_AND_NEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -14425,7 +14916,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SHORTCUTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -14445,7 +14938,9 @@ pub(crate) static KAPE_FILE_SHORTCUTS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TOP_SITES: ArtifactDescriptor = ArtifactDescriptor {
@@ -14465,7 +14960,9 @@ pub(crate) static KAPE_FILE_TOP_SITES: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TRUST_TOKENS: ArtifactDescriptor = ArtifactDescriptor {
@@ -14485,7 +14982,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYNC_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -14505,7 +15004,9 @@ pub(crate) static KAPE_FILE_SYNC_DATA: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_VISITED_LINKS: ArtifactDescriptor = ArtifactDescriptor {
@@ -14525,7 +15026,9 @@ pub(crate) static KAPE_FILE_VISITED_LINKS: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WEB_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -14545,7 +15048,9 @@ pub(crate) static KAPE_FILE_WEB_DATA: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PROTECT_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -14565,7 +15070,9 @@ pub(crate) static KAPE_FILE_PROTECT_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/360SecureBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SNAPSHOTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -14895,7 +15402,9 @@ pub(crate) static KAPE_FILE_BOOKMARKS_2: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\Bookmarks*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\Bookmarks*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -14915,7 +15424,9 @@ pub(crate) static KAPE_FILE_COOKIES_2: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\Cookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -14995,7 +15506,9 @@ pub(crate) static KAPE_FILE_FAVICONS_3: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\Favicons*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\Favicons*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15015,7 +15528,9 @@ pub(crate) static KAPE_FILE_HISTORY_3: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15055,7 +15570,9 @@ pub(crate) static KAPE_FILE_LOGIN_DATA_3: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\Login Data"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\Login Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15175,7 +15692,9 @@ pub(crate) static KAPE_FILE_SHORTCUTS_3: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\Shortcuts*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\Shortcuts*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15215,7 +15734,9 @@ pub(crate) static KAPE_FILE_TOP_SITES_3: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\Top Sites*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\Top Sites*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15255,7 +15776,9 @@ pub(crate) static KAPE_FILE_WEB_DATA_3: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\Web Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\*\\Web Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15315,7 +15838,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_CACHE_FO: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Cache\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Cache\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15395,7 +15920,9 @@ pub(crate) static KAPE_FILE_CHROMIUM_EDGE_BETA_C: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Cache\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Cache\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15415,7 +15942,9 @@ pub(crate) static KAPE_FILE_CHROMIUM_EDGE_DEV_CA: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Cache\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Cache\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15435,7 +15964,9 @@ pub(crate) static KAPE_FILE_CHROMIUM_EDGE_SXS_CA: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Cache\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Cache\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15488,25 +16019,30 @@ pub(crate) static KAPE_FILE_PROFILES: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/BrowserCache.tkape"],
 };
 
-pub(crate) static KAPE_FILE_WINDOWS_TEMPORARY_INTERNET_FILES: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_windows_temporary_internet_files",
-    name: "IE 9/10 Cache",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\Temporary Internet Files\\"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "IE 9/10 Cache — collected by KAPE BrowserCache target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/BrowserCache.tkape"],
-};
+pub(crate) static KAPE_FILE_WINDOWS_TEMPORARY_INTERNET_FILES: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_windows_temporary_internet_files",
+        name: "IE 9/10 Cache",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\Temporary Internet Files\\",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "IE 9/10 Cache — collected by KAPE BrowserCache target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/BrowserCache.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_CONTENT_IE5_INDEX_DAT: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_content_ie5_index_dat",
@@ -15915,7 +16451,9 @@ pub(crate) static KAPE_FILE_CHROME_CURRENT_SESSI: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15935,7 +16473,9 @@ pub(crate) static KAPE_FILE_CHROME_CURRENT_TABS: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15955,7 +16495,9 @@ pub(crate) static KAPE_FILE_DOWNLOADMETADATA_3: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\DownloadMetadata"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\DownloadMetadata",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15975,7 +16517,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_2: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Extension Cookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Extension Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16035,7 +16579,9 @@ pub(crate) static KAPE_FILE_CHROME_LAST_SESSION: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Last Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Last Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16115,7 +16661,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_2: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Media History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Media History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16155,7 +16703,9 @@ pub(crate) static KAPE_FILE_NETWORK_PERSISTENT_STATE_3: ArtifactDescriptor = Art
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Network Persistent State"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Network Persistent State",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16215,7 +16765,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_3: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\QuotaManager*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\QuotaManager*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16235,7 +16787,9 @@ pub(crate) static KAPE_FILE_WEBSTORAGEQUOTAMANAGER: ArtifactDescriptor = Artifac
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\WebStorageQuotaManager*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\WebStorageQuotaManager*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16255,7 +16809,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_3: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Reporting and NEL*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Reporting and NEL*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16335,7 +16891,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_2: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Trust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Trust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16355,7 +16913,9 @@ pub(crate) static KAPE_FILE_NETWORKTRUST_TOKENS: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\NetworkTrust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\NetworkTrust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16395,7 +16955,9 @@ pub(crate) static KAPE_FILE_CHROME_VISITED_LINKS: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Visited Links"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Visited Links",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16439,7 +17001,8 @@ pub(crate) static KAPE_FILE_INDEXEDDB: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
+    meaning:
+        "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -16815,7 +17378,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_BOOKMARK: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Bookmarks*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Bookmarks*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16835,7 +17400,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_COOKIES: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Cookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16855,7 +17422,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_CURRENT: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Current Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Current Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16875,7 +17444,9 @@ pub(crate) static KAPE_FILE_CURRENT_TABS_2_2: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Current Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Current Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16895,7 +17466,9 @@ pub(crate) static KAPE_FILE_DOWNLOADMETADATA_4: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\DownloadMetadata"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\DownloadMetadata",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16915,7 +17488,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_3: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Extension Cookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Extension Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16935,7 +17510,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_FAVICONS: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Favicons*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Favicons*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16955,7 +17532,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_HISTORY: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16975,7 +17554,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_LAST_SES: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Last Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Last Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16995,7 +17576,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_LAST_TAB: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Last Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Last Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17015,7 +17598,9 @@ pub(crate) static KAPE_FILE_SESSIONS_4: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Sessions\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Sessions\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17035,7 +17620,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_LOGIN_DA: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Login Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Login Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17055,7 +17642,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_3: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Media History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Media History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17135,7 +17724,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_PREFEREN: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Preferences"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17155,7 +17746,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_4: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\QuotaManager*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\QuotaManager*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17195,7 +17788,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_4: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Reporting and NEL*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Reporting and NEL*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17235,7 +17830,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_SHORTCUT: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Shortcuts*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Shortcuts*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17255,7 +17852,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_TOP_SITE: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Top Sites*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Top Sites*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17275,7 +17874,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_3: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Trust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Trust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17335,7 +17936,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_VISITED: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Visited Links"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Visited Links",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17355,7 +17958,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_WEB_DATA: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Web Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Web Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17375,11 +17980,14 @@ pub(crate) static KAPE_FILE_INDEXEDDB_2: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\IndexedDB\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\IndexedDB\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
+    meaning:
+        "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -17755,7 +18363,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_BOOKMARKS: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Bookmarks*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Bookmarks*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17775,7 +18385,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_COOKIES: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Cookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17795,7 +18407,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_CURRENT_S: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Current Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Current Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17815,7 +18429,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_CURRENT_T: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Current Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Current Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17835,7 +18451,9 @@ pub(crate) static KAPE_FILE_DOWNLOADMETADATA_5: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\DownloadMetadata"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\DownloadMetadata",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17855,7 +18473,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_4: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Extension Cookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Extension Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17875,7 +18495,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_FAVICONS: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Favicons*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Favicons*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17895,7 +18517,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_HISTORY: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17915,7 +18539,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_LAST_SESS: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Last Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Last Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17935,7 +18561,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_LAST_TABS: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Last Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Last Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17955,7 +18583,9 @@ pub(crate) static KAPE_FILE_SESSIONS_5: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Sessions\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Sessions\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17975,7 +18605,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_LOGIN_DAT: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Login Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Login Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17995,7 +18627,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_4: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Media History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Media History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18075,7 +18709,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_PREFERENC: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Preferences"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18095,7 +18731,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_5: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\QuotaManager*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\QuotaManager*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18135,7 +18773,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_5: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Reporting and NEL*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Reporting and NEL*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18175,7 +18815,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_SHORTCUTS: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Shortcuts*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Shortcuts*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18195,7 +18837,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_TOP_SITES: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Top Sites*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Top Sites*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18215,7 +18859,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_4: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Trust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Trust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18235,7 +18881,9 @@ pub(crate) static KAPE_FILE_NETWORKTRUST_TOKENS_3: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\NetworkTrust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\NetworkTrust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18275,7 +18923,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_VISITED_L: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Visited Links"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Visited Links",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18295,7 +18945,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_WEB_DATA: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Web Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Web Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18315,11 +18967,14 @@ pub(crate) static KAPE_FILE_INDEXEDDB_3: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\IndexedDB\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\IndexedDB\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
+    meaning:
+        "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -18575,7 +19230,9 @@ pub(crate) static KAPE_FILE_EXTENSIONS: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Extensions\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Extensions\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18585,7 +19242,9 @@ pub(crate) static KAPE_FILE_EXTENSIONS: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeExtensions.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeExtensions.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_EXTENSION_FIL: ArtifactDescriptor = ArtifactDescriptor {
@@ -18615,7 +19274,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_EXTENSIO: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Extensions\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\Extensions\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18625,7 +19286,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_EXTENSIO: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeExtensions.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeExtensions.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EXTENSIONS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -18655,7 +19318,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_EXTENSION: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Extensions\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\Extensions\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18665,7 +19330,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_EXTENSION: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeExtensions.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeExtensions.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EXTENSIONS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -18695,7 +19362,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_CANARY_EX: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Extensions\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Extensions\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18705,7 +19374,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_CANARY_EX: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeExtensions.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeExtensions.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EXTENSIONS_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -18735,7 +19406,9 @@ pub(crate) static KAPE_FILE_FILE_SYSTEM: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\File System\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\File System\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18745,7 +19418,9 @@ pub(crate) static KAPE_FILE_FILE_SYSTEM: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeFileSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeFileSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_BETA_HTML5_FI: ArtifactDescriptor = ArtifactDescriptor {
@@ -18755,7 +19430,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_HTML5_FI: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\File System\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Beta\\User Data\\*\\File System\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18765,7 +19442,9 @@ pub(crate) static KAPE_FILE_CHROME_BETA_HTML5_FI: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeFileSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeFileSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_DEV_HTML5_FIL: ArtifactDescriptor = ArtifactDescriptor {
@@ -18775,7 +19454,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_HTML5_FIL: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\File System\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome Dev\\User Data\\*\\File System\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18785,7 +19466,9 @@ pub(crate) static KAPE_FILE_CHROME_DEV_HTML5_FIL: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeFileSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeFileSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_SXS_CANARY_HT: ArtifactDescriptor = ArtifactDescriptor {
@@ -18795,17 +19478,22 @@ pub(crate) static KAPE_FILE_CHROME_SXS_CANARY_HT: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\File System\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\File System\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Chrome SxS - Canary HTML5 File System Folder — collected by KAPE ChromeFileSystem target",
+    meaning:
+        "Chrome SxS - Canary HTML5 File System Folder — collected by KAPE ChromeFileSystem target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeFileSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ChromeFileSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_BOOKMARKS_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -19095,7 +19783,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_BOOKMARKS: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Bookmarks*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Bookmarks*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19115,7 +19805,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_COOKIES: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Cookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19135,7 +19827,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_CURRENT_S: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Current Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Current Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19155,7 +19849,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_CURRENT_T: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Current Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Current Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19175,7 +19871,9 @@ pub(crate) static KAPE_FILE_DOWNLOADMETADATA_6: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\DownloadMetadata"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\DownloadMetadata",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19195,7 +19893,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_5: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Extension Cookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Extension Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19215,7 +19915,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_FAVICONS: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Favicons*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Favicons*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19235,7 +19937,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_HISTORY: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19255,7 +19959,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_LAST_SESS: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Last Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Last Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19275,7 +19981,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_LAST_TABS: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Last Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Last Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19295,7 +20003,9 @@ pub(crate) static KAPE_FILE_SESSIONS_6: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Sessions\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Sessions\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19315,7 +20025,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_LOGIN_DAT: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Login Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Login Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19335,7 +20047,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_5: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Media History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Media History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19415,7 +20129,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_PREFERENC: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Preferences"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19435,7 +20151,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_6: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\QuotaManager*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\QuotaManager*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19475,7 +20193,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_6: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Reporting and NEL*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Reporting and NEL*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19515,7 +20235,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_SHORTCUTS: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Shortcuts*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Shortcuts*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19535,7 +20257,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_TOP_SITES: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Top Sites*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Top Sites*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19555,7 +20279,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_5: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Trust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Trust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19575,7 +20301,9 @@ pub(crate) static KAPE_FILE_NETWORKTRUST_TOKENS_4: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\NetworkTrust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\NetworkTrust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19615,7 +20343,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_VISITED_L: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Visited Links"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Visited Links",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19635,7 +20365,9 @@ pub(crate) static KAPE_FILE_CHROME_SXS_WEB_DATA: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Web Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\Web Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19655,11 +20387,14 @@ pub(crate) static KAPE_FILE_INDEXEDDB_4: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\IndexedDB\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome SxS\\User Data\\*\\IndexedDB\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
+    meaning:
+        "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -20135,7 +20870,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_6: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\Extension Cookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\Extension Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -20295,7 +21032,9 @@ pub(crate) static KAPE_FILE_NETWORK_ACTION_PREDICTOR_8: ArtifactDescriptor = Art
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\Network Action Predictor*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\Network Action Predictor*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -20315,7 +21054,9 @@ pub(crate) static KAPE_FILE_NETWORK_PERSISTENT_STATE_7: ArtifactDescriptor = Art
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\Network Persistent State"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\Network Persistent State",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -20395,7 +21136,9 @@ pub(crate) static KAPE_FILE_WEBSTORAGEQUOTAMANAGER_5: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\WebStorageQuotaManager*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\WebStorageQuotaManager*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -20415,7 +21158,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_7: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\Reporting and NEL*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\Reporting and NEL*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -20435,7 +21180,9 @@ pub(crate) static KAPE_FILE_NETWORKREPORTING_AND_NEL_5: ArtifactDescriptor = Art
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\NetworkReporting and NEL*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\NetworkReporting and NEL*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -20515,7 +21262,9 @@ pub(crate) static KAPE_FILE_NETWORKTRUST_TOKENS_5: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\NetworkTrust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\NetworkTrust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -20535,7 +21284,9 @@ pub(crate) static KAPE_FILE_SYNC_DATASYNCDATA_SQLITE3_5: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\Sync DataSyncData.sqlite3"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Chromium\\User Data\\*\\Sync DataSyncData.sqlite3",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -20599,7 +21350,8 @@ pub(crate) static KAPE_FILE_INDEXEDDB_5: ArtifactDescriptor = ArtifactDescriptor
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
+    meaning:
+        "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -20735,7 +21487,9 @@ pub(crate) static KAPE_FILE_CURRENT_SESSION_8: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Current Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Current Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -20755,7 +21509,9 @@ pub(crate) static KAPE_FILE_CURRENT_TABS_8: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Current Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Current Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -20775,7 +21531,9 @@ pub(crate) static KAPE_FILE_DOWNLOADMETADATA_8: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\DownloadMetadata"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\DownloadMetadata",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -20795,7 +21553,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_7: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Extension Cookies"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Extension Cookies",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -20855,7 +21615,9 @@ pub(crate) static KAPE_FILE_LAST_SESSION_7: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Last Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Last Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -20915,7 +21677,9 @@ pub(crate) static KAPE_FILE_LOGIN_DATA_9: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Login Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Login Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -20935,7 +21699,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_7: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Media History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Media History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -20995,7 +21761,9 @@ pub(crate) static KAPE_FILE_PREFERENCES_9: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Preferences"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21015,7 +21783,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_8: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\QuotaManager"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\QuotaManager",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21035,7 +21805,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_8: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Reporting and NEL"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Reporting and NEL",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21095,7 +21867,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_7: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Trust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Trust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21135,7 +21909,9 @@ pub(crate) static KAPE_FILE_VISITED_LINKS_9: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Visited Links"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\CocCoc\\Browser\\User Data\\*\\Visited Links",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21208,25 +21984,28 @@ pub(crate) static KAPE_FILE_SNAPSHOTS_7: ArtifactDescriptor = ArtifactDescriptor
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CocCoc.tkape"],
 };
 
-pub(crate) static KAPE_FILE_PACKAGES_MICROSOFT_MICROSOFTEDGE_8WEKYB3D8BBWE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_packages_microsoft_microsoftedge_8wekyb3d8bbwe",
-    name: "Edge folder",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Packages\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\\"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Edge folder — collected by KAPE Edge target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Edge.tkape"],
-};
+pub(crate) static KAPE_FILE_PACKAGES_MICROSOFT_MICROSOFTEDGE_8WEKYB3D8BBWE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_packages_microsoft_microsoftedge_8wekyb3d8bbwe",
+        name: "Edge folder",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Users\\%user%\\AppData\\Local\\Packages\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\\",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Edge folder — collected by KAPE Edge target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Edge.tkape"],
+    };
 
 pub(crate) static KAPE_FILE_COLLECTIONSCOLLECTIONSSQLITE: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_collectionscollectionssqlite",
@@ -21255,7 +22034,9 @@ pub(crate) static KAPE_FILE_BOOKMARKS_9: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Bookmarks*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Bookmarks*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21265,7 +22046,9 @@ pub(crate) static KAPE_FILE_BOOKMARKS_9: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORKCOOKIES_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -21275,7 +22058,9 @@ pub(crate) static KAPE_FILE_NETWORKCOOKIES_2: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\NetworkCookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\NetworkCookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21285,7 +22070,9 @@ pub(crate) static KAPE_FILE_NETWORKCOOKIES_2: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CURRENT_SESSION_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -21295,7 +22082,9 @@ pub(crate) static KAPE_FILE_CURRENT_SESSION_9: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Current Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Current Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21305,7 +22094,9 @@ pub(crate) static KAPE_FILE_CURRENT_SESSION_9: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CURRENT_TABS_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -21315,7 +22106,9 @@ pub(crate) static KAPE_FILE_CURRENT_TABS_9: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Current Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Current Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21325,7 +22118,9 @@ pub(crate) static KAPE_FILE_CURRENT_TABS_9: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EXTENSION_COOKIES_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -21335,7 +22130,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_8: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Extension Cookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Extension Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21345,7 +22142,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_8: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FAVICONS_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -21355,7 +22154,9 @@ pub(crate) static KAPE_FILE_FAVICONS_10: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Favicons*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Favicons*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21365,7 +22166,9 @@ pub(crate) static KAPE_FILE_FAVICONS_10: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_HISTORY_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -21375,7 +22178,9 @@ pub(crate) static KAPE_FILE_HISTORY_10: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21385,7 +22190,9 @@ pub(crate) static KAPE_FILE_HISTORY_10: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LAST_SESSION_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -21395,7 +22202,9 @@ pub(crate) static KAPE_FILE_LAST_SESSION_8: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Last Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Last Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21405,7 +22214,9 @@ pub(crate) static KAPE_FILE_LAST_SESSION_8: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LAST_TABS_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -21415,7 +22226,9 @@ pub(crate) static KAPE_FILE_LAST_TABS_8: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Last Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Last Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21425,7 +22238,9 @@ pub(crate) static KAPE_FILE_LAST_TABS_8: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SESSIONS_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -21435,7 +22250,9 @@ pub(crate) static KAPE_FILE_SESSIONS_9: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Sessions\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Sessions\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21445,7 +22262,9 @@ pub(crate) static KAPE_FILE_SESSIONS_9: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOGIN_DATA_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -21455,7 +22274,9 @@ pub(crate) static KAPE_FILE_LOGIN_DATA_10: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Login Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Login Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21465,7 +22286,9 @@ pub(crate) static KAPE_FILE_LOGIN_DATA_10: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MEDIA_HISTORY_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -21475,7 +22298,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_8: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Media History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Media History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21485,7 +22310,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_8: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORK_ACTION_PREDICTOR_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -21555,7 +22382,9 @@ pub(crate) static KAPE_FILE_PREFERENCES_10: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Preferences"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21565,7 +22394,9 @@ pub(crate) static KAPE_FILE_PREFERENCES_10: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_QUOTAMANAGER_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -21575,7 +22406,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_9: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\QuotaManager*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\QuotaManager*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21585,7 +22418,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_9: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WEBSTORAGEQUOTAMANAGER_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -21615,7 +22450,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_9: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Reporting and NEL*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Reporting and NEL*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21625,7 +22462,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_9: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORKREPORTING_AND_NEL_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -21655,7 +22494,9 @@ pub(crate) static KAPE_FILE_SHORTCUTS_10: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Shortcuts*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Shortcuts*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21665,7 +22506,9 @@ pub(crate) static KAPE_FILE_SHORTCUTS_10: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TOP_SITES_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -21675,7 +22518,9 @@ pub(crate) static KAPE_FILE_TOP_SITES_10: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Top Sites*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Top Sites*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21685,7 +22530,9 @@ pub(crate) static KAPE_FILE_TOP_SITES_10: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TRUST_TOKENS_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -21695,7 +22542,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_8: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Trust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Trust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21705,7 +22554,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_8: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORKTRUST_TOKENS_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -21755,7 +22606,9 @@ pub(crate) static KAPE_FILE_VISITED_LINKS_10: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Visited Links"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Visited Links",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21765,7 +22618,9 @@ pub(crate) static KAPE_FILE_VISITED_LINKS_10: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WEB_DATA_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -21775,7 +22630,9 @@ pub(crate) static KAPE_FILE_WEB_DATA_10: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Web Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\Web Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21785,7 +22642,9 @@ pub(crate) static KAPE_FILE_WEB_DATA_10: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_INDEXEDDB_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -21795,17 +22654,22 @@ pub(crate) static KAPE_FILE_INDEXEDDB_6: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\IndexedDB\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\IndexedDB\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
+    meaning:
+        "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOCAL_STORAGE_LEVELDB_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -21835,7 +22699,9 @@ pub(crate) static KAPE_FILE_WEBASSISTDATABASE: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\WebAssistDatabase*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\WebAssistDatabase*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21845,7 +22711,9 @@ pub(crate) static KAPE_FILE_WEBASSISTDATABASE: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PROTECT_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -21865,7 +22733,9 @@ pub(crate) static KAPE_FILE_PROTECT_9: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeBetaChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SNAPSHOTS_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -21935,7 +22805,9 @@ pub(crate) static KAPE_FILE_NETWORKCOOKIES_3: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\NetworkCookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\NetworkCookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21955,7 +22827,9 @@ pub(crate) static KAPE_FILE_CURRENT_SESSION_10: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Current Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Current Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21975,7 +22849,9 @@ pub(crate) static KAPE_FILE_CURRENT_TABS_10: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Current Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Current Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21995,7 +22871,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_9: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Extension Cookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Extension Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22055,7 +22933,9 @@ pub(crate) static KAPE_FILE_LAST_SESSION_9: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Last Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Last Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22115,7 +22995,9 @@ pub(crate) static KAPE_FILE_LOGIN_DATA_11: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Login Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Login Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22135,7 +23017,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_9: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Media History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Media History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22215,7 +23099,9 @@ pub(crate) static KAPE_FILE_PREFERENCES_11: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Preferences"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22235,7 +23121,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_10: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\QuotaManager*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\QuotaManager*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22255,7 +23143,9 @@ pub(crate) static KAPE_FILE_WEBSTORAGEQUOTAMANAGER_7: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\WebStorageQuotaManager*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\WebStorageQuotaManager*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22275,7 +23165,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_10: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Reporting and NEL*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Reporting and NEL*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22355,7 +23247,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_9: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Trust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Trust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22375,7 +23269,9 @@ pub(crate) static KAPE_FILE_NETWORKTRUST_TOKENS_7: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\NetworkTrust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\NetworkTrust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22415,7 +23311,9 @@ pub(crate) static KAPE_FILE_VISITED_LINKS_11: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Visited Links"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Visited Links",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22455,11 +23353,14 @@ pub(crate) static KAPE_FILE_INDEXEDDB_7: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\IndexedDB\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\IndexedDB\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
+    meaning:
+        "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -22495,7 +23396,9 @@ pub(crate) static KAPE_FILE_WEBASSISTDATABASE_2: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\WebAssistDatabase*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\WebAssistDatabase*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22655,7 +23558,9 @@ pub(crate) static KAPE_FILE_BOOKMARKS_11: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Bookmarks*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Bookmarks*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22665,7 +23570,9 @@ pub(crate) static KAPE_FILE_BOOKMARKS_11: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORKCOOKIES_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -22675,7 +23582,9 @@ pub(crate) static KAPE_FILE_NETWORKCOOKIES_4: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\NetworkCookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\NetworkCookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22685,7 +23594,9 @@ pub(crate) static KAPE_FILE_NETWORKCOOKIES_4: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CURRENT_SESSION_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -22695,7 +23606,9 @@ pub(crate) static KAPE_FILE_CURRENT_SESSION_11: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Current Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Current Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22705,7 +23618,9 @@ pub(crate) static KAPE_FILE_CURRENT_SESSION_11: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CURRENT_TABS_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -22715,7 +23630,9 @@ pub(crate) static KAPE_FILE_CURRENT_TABS_11: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Current Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Current Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22725,7 +23642,9 @@ pub(crate) static KAPE_FILE_CURRENT_TABS_11: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EXTENSION_COOKIES_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -22735,7 +23654,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_10: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Extension Cookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Extension Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22745,7 +23666,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_10: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FAVICONS_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -22755,7 +23678,9 @@ pub(crate) static KAPE_FILE_FAVICONS_12: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Favicons*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Favicons*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22765,7 +23690,9 @@ pub(crate) static KAPE_FILE_FAVICONS_12: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_HISTORY_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -22775,7 +23702,9 @@ pub(crate) static KAPE_FILE_HISTORY_12: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22785,7 +23714,9 @@ pub(crate) static KAPE_FILE_HISTORY_12: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LAST_SESSION_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -22795,7 +23726,9 @@ pub(crate) static KAPE_FILE_LAST_SESSION_10: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Last Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Last Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22805,7 +23738,9 @@ pub(crate) static KAPE_FILE_LAST_SESSION_10: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LAST_TABS_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -22815,7 +23750,9 @@ pub(crate) static KAPE_FILE_LAST_TABS_10: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Last Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Last Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22825,7 +23762,9 @@ pub(crate) static KAPE_FILE_LAST_TABS_10: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SESSIONS_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -22835,7 +23774,9 @@ pub(crate) static KAPE_FILE_SESSIONS_11: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Sessions\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Sessions\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22845,7 +23786,9 @@ pub(crate) static KAPE_FILE_SESSIONS_11: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOGIN_DATA_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -22855,7 +23798,9 @@ pub(crate) static KAPE_FILE_LOGIN_DATA_12: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Login Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Login Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22865,7 +23810,9 @@ pub(crate) static KAPE_FILE_LOGIN_DATA_12: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MEDIA_HISTORY_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -22875,7 +23822,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_10: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Media History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Media History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22885,7 +23834,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_10: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORK_ACTION_PREDICTOR_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -22955,7 +23906,9 @@ pub(crate) static KAPE_FILE_PREFERENCES_12: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Preferences"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22965,7 +23918,9 @@ pub(crate) static KAPE_FILE_PREFERENCES_12: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_QUOTAMANAGER_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -22975,7 +23930,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_11: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\QuotaManager*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\QuotaManager*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22985,7 +23942,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_11: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WEBSTORAGEQUOTAMANAGER_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -23015,7 +23974,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_11: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Reporting and NEL*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Reporting and NEL*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23025,7 +23986,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_11: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORKREPORTING_AND_NEL_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -23055,7 +24018,9 @@ pub(crate) static KAPE_FILE_SHORTCUTS_12: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Shortcuts*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Shortcuts*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23065,7 +24030,9 @@ pub(crate) static KAPE_FILE_SHORTCUTS_12: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TOP_SITES_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -23075,7 +24042,9 @@ pub(crate) static KAPE_FILE_TOP_SITES_12: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Top Sites*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Top Sites*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23085,7 +24054,9 @@ pub(crate) static KAPE_FILE_TOP_SITES_12: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TRUST_TOKENS_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -23095,7 +24066,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_10: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Trust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Trust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23105,7 +24078,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_10: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORKTRUST_TOKENS_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -23155,7 +24130,9 @@ pub(crate) static KAPE_FILE_VISITED_LINKS_12: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Visited Links"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Visited Links",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23165,7 +24142,9 @@ pub(crate) static KAPE_FILE_VISITED_LINKS_12: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WEB_DATA_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -23175,7 +24154,9 @@ pub(crate) static KAPE_FILE_WEB_DATA_12: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Web Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\Web Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23185,7 +24166,9 @@ pub(crate) static KAPE_FILE_WEB_DATA_12: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_INDEXEDDB_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -23195,17 +24178,22 @@ pub(crate) static KAPE_FILE_INDEXEDDB_8: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\IndexedDB\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\IndexedDB\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
+    meaning:
+        "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOCAL_STORAGE_LEVELDB_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -23235,7 +24223,9 @@ pub(crate) static KAPE_FILE_WEBASSISTDATABASE_3: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\WebAssistDatabase*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\WebAssistDatabase*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23245,7 +24235,9 @@ pub(crate) static KAPE_FILE_WEBASSISTDATABASE_3: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PROTECT_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -23265,7 +24257,9 @@ pub(crate) static KAPE_FILE_PROTECT_11: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeDevChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SNAPSHOTS_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -23295,7 +24289,9 @@ pub(crate) static KAPE_FILE_FILE_SYSTEM_2: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\File System\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\File System\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23305,7 +24301,9 @@ pub(crate) static KAPE_FILE_FILE_SYSTEM_2: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeFileSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeFileSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_BETA_HTML5_FILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -23315,7 +24313,9 @@ pub(crate) static KAPE_FILE_EDGE_BETA_HTML5_FILE: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\File System\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Beta\\User Data\\*\\File System\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23325,7 +24325,9 @@ pub(crate) static KAPE_FILE_EDGE_BETA_HTML5_FILE: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeFileSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeFileSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_DEV_HTML5_FILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -23335,7 +24337,9 @@ pub(crate) static KAPE_FILE_EDGE_DEV_HTML5_FILE: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\File System\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge Dev\\User Data\\*\\File System\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23345,7 +24349,9 @@ pub(crate) static KAPE_FILE_EDGE_DEV_HTML5_FILE: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeFileSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeFileSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_SXS_CANARY_HTML: ArtifactDescriptor = ArtifactDescriptor {
@@ -23355,7 +24361,9 @@ pub(crate) static KAPE_FILE_EDGE_SXS_CANARY_HTML: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\File System\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\File System\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23365,7 +24373,9 @@ pub(crate) static KAPE_FILE_EDGE_SXS_CANARY_HTML: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeFileSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeFileSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_COLLECTIONSCOLLECTIONSSQLITE_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -23395,7 +24405,9 @@ pub(crate) static KAPE_FILE_BOOKMARKS_12: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Bookmarks*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Bookmarks*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23405,7 +24417,9 @@ pub(crate) static KAPE_FILE_BOOKMARKS_12: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORKCOOKIES_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -23415,7 +24429,9 @@ pub(crate) static KAPE_FILE_NETWORKCOOKIES_5: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\NetworkCookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\NetworkCookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23425,7 +24441,9 @@ pub(crate) static KAPE_FILE_NETWORKCOOKIES_5: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CURRENT_SESSION_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -23435,7 +24453,9 @@ pub(crate) static KAPE_FILE_CURRENT_SESSION_12: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Current Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Current Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23445,7 +24465,9 @@ pub(crate) static KAPE_FILE_CURRENT_SESSION_12: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CURRENT_TABS_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -23455,7 +24477,9 @@ pub(crate) static KAPE_FILE_CURRENT_TABS_12: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Current Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Current Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23465,7 +24489,9 @@ pub(crate) static KAPE_FILE_CURRENT_TABS_12: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EXTENSION_COOKIES_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -23475,7 +24501,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_11: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Extension Cookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Extension Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23485,7 +24513,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_11: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FAVICONS_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -23495,7 +24525,9 @@ pub(crate) static KAPE_FILE_FAVICONS_13: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Favicons*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Favicons*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23505,7 +24537,9 @@ pub(crate) static KAPE_FILE_FAVICONS_13: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_HISTORY_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -23515,7 +24549,9 @@ pub(crate) static KAPE_FILE_HISTORY_13: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23525,7 +24561,9 @@ pub(crate) static KAPE_FILE_HISTORY_13: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LAST_SESSION_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -23535,7 +24573,9 @@ pub(crate) static KAPE_FILE_LAST_SESSION_11: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Last Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Last Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23545,7 +24585,9 @@ pub(crate) static KAPE_FILE_LAST_SESSION_11: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LAST_TABS_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -23555,7 +24597,9 @@ pub(crate) static KAPE_FILE_LAST_TABS_11: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Last Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Last Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23565,7 +24609,9 @@ pub(crate) static KAPE_FILE_LAST_TABS_11: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SESSIONS_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -23575,7 +24621,9 @@ pub(crate) static KAPE_FILE_SESSIONS_12: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Sessions\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Sessions\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23585,7 +24633,9 @@ pub(crate) static KAPE_FILE_SESSIONS_12: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOGIN_DATA_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -23595,7 +24645,9 @@ pub(crate) static KAPE_FILE_LOGIN_DATA_13: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Login Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Login Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23605,7 +24657,9 @@ pub(crate) static KAPE_FILE_LOGIN_DATA_13: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MEDIA_HISTORY_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -23615,7 +24669,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_11: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Media History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Media History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23625,7 +24681,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_11: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORK_ACTION_PREDICTOR_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -23695,7 +24753,9 @@ pub(crate) static KAPE_FILE_PREFERENCES_13: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Preferences"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23705,7 +24765,9 @@ pub(crate) static KAPE_FILE_PREFERENCES_13: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_QUOTAMANAGER_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -23715,7 +24777,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_12: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\QuotaManager*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\QuotaManager*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23725,7 +24789,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_12: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WEBSTORAGEQUOTAMANAGER_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -23755,7 +24821,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_12: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Reporting and NEL*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Reporting and NEL*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23765,7 +24833,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_12: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORKREPORTING_AND_NEL_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -23795,7 +24865,9 @@ pub(crate) static KAPE_FILE_SHORTCUTS_13: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Shortcuts*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Shortcuts*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23805,7 +24877,9 @@ pub(crate) static KAPE_FILE_SHORTCUTS_13: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TOP_SITES_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -23815,7 +24889,9 @@ pub(crate) static KAPE_FILE_TOP_SITES_13: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Top Sites*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Top Sites*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23825,7 +24901,9 @@ pub(crate) static KAPE_FILE_TOP_SITES_13: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TRUST_TOKENS_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -23835,7 +24913,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_11: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Trust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Trust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23845,7 +24925,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_11: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORKTRUST_TOKENS_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -23895,7 +24977,9 @@ pub(crate) static KAPE_FILE_VISITED_LINKS_13: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Visited Links"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Visited Links",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23905,7 +24989,9 @@ pub(crate) static KAPE_FILE_VISITED_LINKS_13: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WEB_DATA_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -23915,7 +25001,9 @@ pub(crate) static KAPE_FILE_WEB_DATA_13: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Web Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\Web Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23925,7 +25013,9 @@ pub(crate) static KAPE_FILE_WEB_DATA_13: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_INDEXEDDB_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -23935,17 +25025,22 @@ pub(crate) static KAPE_FILE_INDEXEDDB_9: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\IndexedDB\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\IndexedDB\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
+    meaning:
+        "\"Collects IndexedDB (LevelDB) databases used by modern web applications to store data.\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOCAL_STORAGE_LEVELDB_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -23975,7 +25070,9 @@ pub(crate) static KAPE_FILE_WEBASSISTDATABASE_4: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\WebAssistDatabase*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge SxS\\User Data\\*\\WebAssistDatabase*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23985,7 +25082,9 @@ pub(crate) static KAPE_FILE_WEBASSISTDATABASE_4: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PROTECT_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -24005,7 +25104,9 @@ pub(crate) static KAPE_FILE_PROTECT_12: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EdgeSxSChromium.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SNAPSHOTS_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -24035,7 +25136,9 @@ pub(crate) static KAPE_FILE_ADDONS_SQLITE: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\addons.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\addons.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24075,7 +25178,9 @@ pub(crate) static KAPE_FILE_BOOKMARKBACKUPS: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\bookmarkbackups"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\bookmarkbackups",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24095,7 +25200,9 @@ pub(crate) static KAPE_FILE_COOKIES_SQLITE: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\cookies.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\cookies.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24135,7 +25242,9 @@ pub(crate) static KAPE_FILE_DOWNLOADS_SQLITE: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\downloads.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\downloads.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24155,7 +25264,9 @@ pub(crate) static KAPE_FILE_EXTENSIONS_JSON: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\extensions.json"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\extensions.json",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24175,7 +25286,9 @@ pub(crate) static KAPE_FILE_FAVICONS_SQLITE: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\favicons.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\favicons.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24195,7 +25308,9 @@ pub(crate) static KAPE_FILE_FORMHISTORY_SQLITE: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\formhistory.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\formhistory.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24215,7 +25330,9 @@ pub(crate) static KAPE_FILE_PERMISSIONS_SQLITE: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\permissions.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\permissions.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24235,7 +25352,9 @@ pub(crate) static KAPE_FILE_PLACES_SQLITE_2: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\places.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\places.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24255,7 +25374,9 @@ pub(crate) static KAPE_FILE_PROTECTIONS_SQLITE: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\protections.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\protections.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24275,7 +25396,9 @@ pub(crate) static KAPE_FILE_SEARCH_SQLITE: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\search.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\search.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24295,7 +25418,9 @@ pub(crate) static KAPE_FILE_SIGNONS_SQLITE: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\signons.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\signons.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24315,7 +25440,9 @@ pub(crate) static KAPE_FILE_STORAGE_SYNC_SQLITE: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\storage-sync.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\storage-sync.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24335,7 +25462,9 @@ pub(crate) static KAPE_FILE_WEBAPPSTORE_SQLITE: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\webappstore.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\webappstore.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24375,7 +25504,9 @@ pub(crate) static KAPE_FILE_SIGNON: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\signon*.*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\signon*.*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24395,7 +25526,9 @@ pub(crate) static KAPE_FILE_LOGINS_JSON_2: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\logins.json"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\logins.json",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24435,7 +25568,9 @@ pub(crate) static KAPE_FILE_SESSIONSTORE: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\sessionstore*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\sessionstore*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24455,7 +25590,9 @@ pub(crate) static KAPE_FILE_SESSIONSTORE_BACKUPS: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\sessionstore-backups"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\sessionstore-backups",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24735,7 +25872,9 @@ pub(crate) static KAPE_FILE_HISTORY_IE5_INDEX_DAT: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\%user%\\Local Settings\\History\\History.IE5\\index.dat"),
+    file_path: Some(
+        "C:\\Documents and Settings\\%user%\\Local Settings\\History\\History.IE5\\index.dat",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24745,7 +25884,9 @@ pub(crate) static KAPE_FILE_HISTORY_IE5_INDEX_DAT: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_INDEX_DAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -24755,7 +25896,9 @@ pub(crate) static KAPE_FILE_INDEX_DAT: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\%user%\\Local Settings\\History\\History.IE5\\*\\index.dat"),
+    file_path: Some(
+        "C:\\Documents and Settings\\%user%\\Local Settings\\History\\History.IE5\\*\\index.dat",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24765,7 +25908,9 @@ pub(crate) static KAPE_FILE_INDEX_DAT: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_COOKIES_INDEX_DAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -24785,7 +25930,9 @@ pub(crate) static KAPE_FILE_COOKIES_INDEX_DAT: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_USERDATA_INDEX_DAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -24845,7 +25992,9 @@ pub(crate) static KAPE_FILE_INDEX_DAT_OFFICE: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MICROSOFT_INTERNET_EXPLORER: ArtifactDescriptor = ArtifactDescriptor {
@@ -24865,7 +26014,9 @@ pub(crate) static KAPE_FILE_MICROSOFT_INTERNET_EXPLORER: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ROAMING_INTERNET_EXP: ArtifactDescriptor = ArtifactDescriptor {
@@ -24885,7 +26036,9 @@ pub(crate) static KAPE_FILE_ROAMING_INTERNET_EXP: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWS_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -24905,7 +26058,9 @@ pub(crate) static KAPE_FILE_WINDOWS_HISTORY: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWS_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -24925,7 +26080,9 @@ pub(crate) static KAPE_FILE_WINDOWS_COOKIES: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWS_IEDOWNLOADHISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -24945,7 +26102,9 @@ pub(crate) static KAPE_FILE_WINDOWS_IEDOWNLOADHISTORY: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWS_WEBCACHE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -24965,7 +26124,9 @@ pub(crate) static KAPE_FILE_WINDOWS_WEBCACHE_2: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWS_INETCOOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -24985,7 +26146,9 @@ pub(crate) static KAPE_FILE_WINDOWS_INETCOOKIES: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/InternetExplorer.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_OPERA_SOFTWARE_OPERA_STABLE: ArtifactDescriptor = ArtifactDescriptor {
@@ -25805,7 +26968,9 @@ pub(crate) static KAPE_FILE_PROTECT_13: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/PrismaAccessBrowser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/PrismaAccessBrowser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SNAPSHOTS_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -26015,7 +27180,9 @@ pub(crate) static KAPE_FILE_BOOKMARKS_14: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Bookmarks*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Bookmarks*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26035,7 +27202,9 @@ pub(crate) static KAPE_FILE_COOKIES_10: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Cookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26055,7 +27224,9 @@ pub(crate) static KAPE_FILE_CURRENT_SESSION_14: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Current Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Current Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26075,7 +27246,9 @@ pub(crate) static KAPE_FILE_CURRENT_TABS_14: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Current Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Current Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26095,7 +27268,9 @@ pub(crate) static KAPE_FILE_DOWNLOADMETADATA_10: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\DownloadMetadata"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\DownloadMetadata",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26115,7 +27290,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_13: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Extension Cookies"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Extension Cookies",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26135,7 +27312,9 @@ pub(crate) static KAPE_FILE_FAVICONS_15: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Favicons*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Favicons*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26155,7 +27334,9 @@ pub(crate) static KAPE_FILE_HISTORY_15: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26175,7 +27356,9 @@ pub(crate) static KAPE_FILE_LAST_SESSION_13: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Last Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Last Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26195,7 +27378,9 @@ pub(crate) static KAPE_FILE_LAST_TABS_13: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Last Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Last Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26215,7 +27400,9 @@ pub(crate) static KAPE_FILE_SESSIONS_14: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Sessions\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Sessions\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26235,7 +27422,9 @@ pub(crate) static KAPE_FILE_LOGIN_DATA_15: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Login Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Login Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26255,7 +27444,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_13: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Media History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Media History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26315,7 +27506,9 @@ pub(crate) static KAPE_FILE_PREFERENCES_15: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Preferences"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26335,7 +27528,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_14: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\QuotaManager"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\QuotaManager",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26355,7 +27550,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_14: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Reporting and NEL"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Reporting and NEL",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26375,7 +27572,9 @@ pub(crate) static KAPE_FILE_SHORTCUTS_15: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Shortcuts*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Shortcuts*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26395,7 +27594,9 @@ pub(crate) static KAPE_FILE_TOP_SITES_15: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Top Sites*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Top Sites*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26415,7 +27616,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_13: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Trust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Trust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26435,7 +27638,9 @@ pub(crate) static KAPE_FILE_SYNC_DATA_4: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Sync Data"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Sync Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26455,7 +27660,9 @@ pub(crate) static KAPE_FILE_VISITED_LINKS_15: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Visited Links"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Visited Links",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26475,7 +27682,9 @@ pub(crate) static KAPE_FILE_WEB_DATA_15: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Web Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Tencent\\QQBrowser\\User Data\\*\\Web Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26535,7 +27744,9 @@ pub(crate) static KAPE_FILE_BOOKMARKS_15: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Bookmarks*"),
+    file_path: Some(
+        "C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Bookmarks*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26555,7 +27766,9 @@ pub(crate) static KAPE_FILE_COOKIES_11: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Cookies*"),
+    file_path: Some(
+        "C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26615,7 +27828,9 @@ pub(crate) static KAPE_FILE_FAVICONS_16: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Favicons*"),
+    file_path: Some(
+        "C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Favicons*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26635,7 +27850,9 @@ pub(crate) static KAPE_FILE_HISTORY_16: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\History*"),
+    file_path: Some(
+        "C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26675,7 +27892,9 @@ pub(crate) static KAPE_FILE_LAST_TABS_14: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Last Tabs"),
+    file_path: Some(
+        "C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Last Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26695,7 +27914,9 @@ pub(crate) static KAPE_FILE_SESSIONS_15: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Sessions\\"),
+    file_path: Some(
+        "C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Sessions\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26835,7 +28056,9 @@ pub(crate) static KAPE_FILE_SYNC_DATA_5: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Sync Data"),
+    file_path: Some(
+        "C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Sync Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26855,7 +28078,9 @@ pub(crate) static KAPE_FILE_SHORTCUTS_16: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Shortcuts*"),
+    file_path: Some(
+        "C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Shortcuts*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26875,7 +28100,9 @@ pub(crate) static KAPE_FILE_TOP_SITES_16: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Top Sites*"),
+    file_path: Some(
+        "C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Top Sites*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26915,7 +28142,9 @@ pub(crate) static KAPE_FILE_WEB_DATA_16: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Web Data*"),
+    file_path: Some(
+        "C:\\Documents and Settings\\%user%\\Application Data\\Supermium\\User Data\\*\\Web Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27035,7 +28264,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_14: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Supermium\\User Data\\*\\Extension Cookies"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Supermium\\User Data\\*\\Extension Cookies",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27195,7 +28426,9 @@ pub(crate) static KAPE_FILE_SUPERMIUM_NETWORK_AC: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Supermium\\User Data\\*\\Network Action Predictor"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Supermium\\User Data\\*\\Network Action Predictor",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27215,7 +28448,9 @@ pub(crate) static KAPE_FILE_SUPERMIUM_NETWORK_PE: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Supermium\\User Data\\*\\Network Persistent State"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Supermium\\User Data\\*\\Network Persistent State",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27275,7 +28510,9 @@ pub(crate) static KAPE_FILE_SUPERMIUM_REPORTING: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Supermium\\User Data\\*\\Reporting and NEL"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Supermium\\User Data\\*\\Reporting and NEL",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27555,7 +28792,9 @@ pub(crate) static KAPE_FILE_DOWNLOADMETADATA_12: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\UCBrowser\\User Data*\\*\\DownloadMetadata"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\UCBrowser\\User Data*\\*\\DownloadMetadata",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27575,7 +28814,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_15: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\UCBrowser\\User Data*\\*\\Extension Cookies"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\UCBrowser\\User Data*\\*\\Extension Cookies",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27735,7 +28976,9 @@ pub(crate) static KAPE_FILE_NETWORK_ACTION_PREDICTOR_17: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\UCBrowser\\User Data*\\*\\Network Action Predictor"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\UCBrowser\\User Data*\\*\\Network Action Predictor",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27755,7 +28998,9 @@ pub(crate) static KAPE_FILE_NETWORK_PERSISTENT_STATE_16: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\UCBrowser\\User Data*\\*\\Network Persistent State"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\UCBrowser\\User Data*\\*\\Network Persistent State",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27815,7 +29060,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_16: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\UCBrowser\\User Data*\\*\\Reporting and NEL"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\UCBrowser\\User Data*\\*\\Reporting and NEL",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28015,7 +29262,9 @@ pub(crate) static KAPE_FILE_NETWORK_PERSISTENT_STATE_17: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Vivaldi\\User Data\\*\\Network Persistent State"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Vivaldi\\User Data\\*\\Network Persistent State",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28115,7 +29364,9 @@ pub(crate) static KAPE_FILE_NETWORK_ACTION_PREDICTOR_18: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Vivaldi\\User Data\\*\\Network Action Predictor"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Vivaldi\\User Data\\*\\Network Action Predictor",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28375,7 +29626,9 @@ pub(crate) static KAPE_FILE_CURRENT_SESSION_17: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\WaveBrowser\\User Data\\*\\Current Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\WaveBrowser\\User Data\\*\\Current Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28415,7 +29668,9 @@ pub(crate) static KAPE_FILE_DOWNLOADMETADATA_14: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\WaveBrowser\\User Data\\*\\DownloadMetadata"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\WaveBrowser\\User Data\\*\\DownloadMetadata",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28435,7 +29690,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_16: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\WaveBrowser\\User Data\\*\\Extension Cookies"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\WaveBrowser\\User Data\\*\\Extension Cookies",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28595,7 +29852,9 @@ pub(crate) static KAPE_FILE_NETWORK_ACTION_PREDICTOR_19: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\WaveBrowser\\User Data\\*\\Network Action Predictor"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\WaveBrowser\\User Data\\*\\Network Action Predictor",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28615,7 +29874,9 @@ pub(crate) static KAPE_FILE_NETWORK_PERSISTENT_STATE_18: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\WaveBrowser\\User Data\\*\\Network Persistent State"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\WaveBrowser\\User Data\\*\\Network Persistent State",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28675,7 +29936,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_17: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\WaveBrowser\\User Data\\*\\Reporting and NEL"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\WaveBrowser\\User Data\\*\\Reporting and NEL",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28755,7 +30018,9 @@ pub(crate) static KAPE_FILE_SYNC_DATASYNCDATA_SQLITE3_11: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\WaveBrowser\\User Data\\*\\Sync DataSyncData.sqlite3"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\WaveBrowser\\User Data\\*\\Sync DataSyncData.sqlite3",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28875,7 +30140,9 @@ pub(crate) static KAPE_FILE_COOKIES_15: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Cookies*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Cookies*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28915,7 +30182,9 @@ pub(crate) static KAPE_FILE_FAVICONS_20: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Favicons*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Favicons*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28935,7 +30204,9 @@ pub(crate) static KAPE_FILE_HISTORY_20: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28955,7 +30226,9 @@ pub(crate) static KAPE_FILE_SESSIONS_19: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Sessions\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Sessions\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28975,7 +30248,9 @@ pub(crate) static KAPE_FILE_YA_PASSMAN_DATA: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Ya Passman Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Ya Passman Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -29015,7 +30290,9 @@ pub(crate) static KAPE_FILE_PREFERENCES_20: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Preferences"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -29035,7 +30312,9 @@ pub(crate) static KAPE_FILE_TOP_SITES_20: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Top Sites*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Top Sites*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -29055,7 +30334,9 @@ pub(crate) static KAPE_FILE_BOOKMARKS_19: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Bookmarks*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Bookmarks*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -29075,7 +30356,9 @@ pub(crate) static KAPE_FILE_VISITED_LINKS_20: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Visited Links"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Visited Links",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -29095,7 +30378,9 @@ pub(crate) static KAPE_FILE_WEB_DATA_20: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Web Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Web Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -29115,7 +30400,9 @@ pub(crate) static KAPE_FILE_YA_AUTOFILL_DATA: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Ya Autofill Data*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Ya Autofill Data*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -29135,7 +30422,9 @@ pub(crate) static KAPE_FILE_PASSMAN_LOGS: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Passman Logs*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Passman Logs*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -29155,7 +30444,9 @@ pub(crate) static KAPE_FILE_SHORTCUTS_19: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Shortcuts*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\*\\Shortcuts*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -29185,7 +30476,9 @@ pub(crate) static KAPE_FILE_EVENTLOGS_TKAPE: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EVIDENCEOFEXECUTION_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -29205,7 +30498,9 @@ pub(crate) static KAPE_FILE_EVIDENCEOFEXECUTION_TKAPE: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FILESYSTEM_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -29225,7 +30520,9 @@ pub(crate) static KAPE_FILE_FILESYSTEM_TKAPE: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LNKFILESANDJUMPLISTS_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -29245,7 +30542,9 @@ pub(crate) static KAPE_FILE_LNKFILESANDJUMPLISTS_TKAPE: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_POWERSHELLCONSOLE_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -29265,7 +30564,9 @@ pub(crate) static KAPE_FILE_POWERSHELLCONSOLE_TKAPE: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_RECYCLEBIN_INFOFILES_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -29285,7 +30586,9 @@ pub(crate) static KAPE_FILE_RECYCLEBIN_INFOFILES_TKAPE: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REGISTRYHIVES_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -29305,7 +30608,9 @@ pub(crate) static KAPE_FILE_REGISTRYHIVES_TKAPE: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SCHEDULEDTASKS_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -29325,7 +30630,9 @@ pub(crate) static KAPE_FILE_SCHEDULEDTASKS_TKAPE: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SRUM_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -29345,7 +30652,9 @@ pub(crate) static KAPE_FILE_SRUM_TKAPE: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_THUMBCACHE_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -29365,7 +30674,9 @@ pub(crate) static KAPE_FILE_THUMBCACHE_TKAPE: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_USBDEVICESLOGS_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -29385,7 +30696,9 @@ pub(crate) static KAPE_FILE_USBDEVICESLOGS_TKAPE: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWSINDEXSEARCH_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -29405,7 +30718,9 @@ pub(crate) static KAPE_FILE_WINDOWSINDEXSEARCH_TKAPE: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/!BasicCollection.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ANTIVIRUS_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -30445,7 +31760,9 @@ pub(crate) static KAPE_FILE_BOXDRIVE_USERFILES_TKAPE: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DROPBOX_USERFILES_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -30465,28 +31782,34 @@ pub(crate) static KAPE_FILE_DROPBOX_USERFILES_TKAPE: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_GOOGLEDRIVEBACKUPSYNC_USERFILES_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_googledrivebackupsync_userfiles_tkape",
-    name: "Google Drive Backup and Sync User Files",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("GoogleDriveBackupSync_UserFiles.tkape"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Google Drive Backup and Sync User Files — collected by KAPE CloudStorage_All target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape"],
-};
+pub(crate) static KAPE_FILE_GOOGLEDRIVEBACKUPSYNC_USERFILES_TKAPE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_googledrivebackupsync_userfiles_tkape",
+        name: "Google Drive Backup and Sync User Files",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("GoogleDriveBackupSync_UserFiles.tkape"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning:
+            "Google Drive Backup and Sync User Files — collected by KAPE CloudStorage_All target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_ONEDRIVE_USERFILES_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_onedrive_userfiles_tkape",
@@ -30505,7 +31828,9 @@ pub(crate) static KAPE_FILE_ONEDRIVE_USERFILES_TKAPE: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PCLOUDDATABASE_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -30525,7 +31850,9 @@ pub(crate) static KAPE_FILE_PCLOUDDATABASE_TKAPE: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SUGARSYNC_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -30545,28 +31872,33 @@ pub(crate) static KAPE_FILE_SUGARSYNC_TKAPE: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_CLOUDSTORAGE_METADATA_TKAPE_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_cloudstorage_metadata_tkape_2",
-    name: "CloudStorage Metadata",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("CloudStorage_Metadata.tkape"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "CloudStorage Metadata — collected by KAPE CloudStorage_All target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape"],
-};
+pub(crate) static KAPE_FILE_CLOUDSTORAGE_METADATA_TKAPE_2: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_cloudstorage_metadata_tkape_2",
+        name: "CloudStorage Metadata",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("CloudStorage_Metadata.tkape"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "CloudStorage Metadata — collected by KAPE CloudStorage_All target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_IDRIVE_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_idrive_tkape",
@@ -30585,7 +31917,9 @@ pub(crate) static KAPE_FILE_IDRIVE_TKAPE: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/CloudStorage_All.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_BOXDRIVE_METADATA_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -30945,7 +32279,9 @@ pub(crate) static KAPE_FILE_AMCACHE_TKAPE: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EvidenceOfExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EvidenceOfExecution.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_APPCOMPATPCA_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -30965,7 +32301,9 @@ pub(crate) static KAPE_FILE_APPCOMPATPCA_TKAPE: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EvidenceOfExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EvidenceOfExecution.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PREFETCH_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -30985,7 +32323,9 @@ pub(crate) static KAPE_FILE_PREFETCH_TKAPE: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EvidenceOfExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EvidenceOfExecution.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_RECENTFILECACHE_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -31005,7 +32345,9 @@ pub(crate) static KAPE_FILE_RECENTFILECACHE_TKAPE: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EvidenceOfExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EvidenceOfExecution.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYSCACHE_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -31025,7 +32367,9 @@ pub(crate) static KAPE_FILE_SYSCACHE_TKAPE: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EvidenceOfExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EvidenceOfExecution.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EXCHANGECLIENTACCESS_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -31608,25 +32952,28 @@ pub(crate) static KAPE_FILE_ANTIVIRUS_TKAPE_2: ArtifactDescriptor = ArtifactDesc
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/KapeTriage.tkape"],
 };
 
-pub(crate) static KAPE_FILE_CLOUDSTORAGE_METADATA_TKAPE_3: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_cloudstorage_metadata_tkape_3",
-    name: "CloudStorage_Metadata",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("CloudStorage_Metadata.tkape"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "CloudStorage_Metadata — collected by KAPE KapeTriage target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/KapeTriage.tkape"],
-};
+pub(crate) static KAPE_FILE_CLOUDSTORAGE_METADATA_TKAPE_3: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_cloudstorage_metadata_tkape_3",
+        name: "CloudStorage_Metadata",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("CloudStorage_Metadata.tkape"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "CloudStorage_Metadata — collected by KAPE KapeTriage target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/KapeTriage.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_EVENTLOGS_TKAPE_3: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_eventlogs_tkape_3",
@@ -31965,7 +33312,9 @@ pub(crate) static KAPE_FILE_IRCCLIENTS_TKAPE: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CISCOJABBER_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -31985,7 +33334,9 @@ pub(crate) static KAPE_FILE_CISCOJABBER_TKAPE: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DISCORD_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -32005,7 +33356,9 @@ pub(crate) static KAPE_FILE_DISCORD_TKAPE: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MATTERMOST_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -32025,7 +33378,9 @@ pub(crate) static KAPE_FILE_MATTERMOST_TKAPE: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MICROSOFTTEAMS_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -32045,7 +33400,9 @@ pub(crate) static KAPE_FILE_MICROSOFTTEAMS_TKAPE: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SIGNAL_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -32065,7 +33422,9 @@ pub(crate) static KAPE_FILE_SIGNAL_TKAPE: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SKYPE_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -32085,7 +33444,9 @@ pub(crate) static KAPE_FILE_SKYPE_TKAPE: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SLACK_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -32105,7 +33466,9 @@ pub(crate) static KAPE_FILE_SLACK_TKAPE: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TELEGRAM_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -32125,7 +33488,9 @@ pub(crate) static KAPE_FILE_TELEGRAM_TKAPE: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_VIBER_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -32145,7 +33510,9 @@ pub(crate) static KAPE_FILE_VIBER_TKAPE: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WHATSAPP_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -32165,7 +33532,9 @@ pub(crate) static KAPE_FILE_WHATSAPP_TKAPE: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MessagingClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EVENTLOGS_TKAPE_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -32245,7 +33614,9 @@ pub(crate) static KAPE_FILE_ADVANCEDIPSCANNER_TKAPE: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/NetworkScanner.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/NetworkScanner.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ADVANCEDPORTSCANNER_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -32265,7 +33636,9 @@ pub(crate) static KAPE_FILE_ADVANCEDPORTSCANNER_TKAPE: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/NetworkScanner.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/NetworkScanner.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SOFTPERFECTNETSCAN_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -32285,7 +33658,9 @@ pub(crate) static KAPE_FILE_SOFTPERFECTNETSCAN_TKAPE: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/NetworkScanner.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/NetworkScanner.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DC_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -32425,7 +33800,9 @@ pub(crate) static KAPE_FILE_CHOCOLATEY_TKAPE: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/PackageManagers.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/PackageManagers.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_AMCACHE_TKAPE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -32445,7 +33822,9 @@ pub(crate) static KAPE_FILE_AMCACHE_TKAPE_2: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_APPCOMPATPCA_TKAPE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -32465,7 +33844,9 @@ pub(crate) static KAPE_FILE_APPCOMPATPCA_TKAPE_2: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PREFETCH_TKAPE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -32485,7 +33866,9 @@ pub(crate) static KAPE_FILE_PREFETCH_TKAPE_2: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_RECENTFILECACHE_TKAPE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -32505,7 +33888,9 @@ pub(crate) static KAPE_FILE_RECENTFILECACHE_TKAPE_2: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYSCACHE_TKAPE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -32525,28 +33910,33 @@ pub(crate) static KAPE_FILE_SYSCACHE_TKAPE_2: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_POWERSHELLTRANSCRIPTS_TKAPE_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_powershelltranscripts_tkape_2",
-    name: "PowerShellTranscripts",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("PowerShellTranscripts.tkape"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "PowerShellTranscripts — collected by KAPE ProgramExecution target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape"],
-};
+pub(crate) static KAPE_FILE_POWERSHELLTRANSCRIPTS_TKAPE_2: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_powershelltranscripts_tkape_2",
+        name: "PowerShellTranscripts",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("PowerShellTranscripts.tkape"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "PowerShellTranscripts — collected by KAPE ProgramExecution target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_POWERSHELLCONSOLE_TKAPE_4: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_powershellconsole_tkape_4",
@@ -32565,7 +33955,9 @@ pub(crate) static KAPE_FILE_POWERSHELLCONSOLE_TKAPE_4: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WBEM_TKAPE_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -32585,7 +33977,9 @@ pub(crate) static KAPE_FILE_WBEM_TKAPE_3: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WER_TKAPE_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -32605,7 +33999,9 @@ pub(crate) static KAPE_FILE_WER_TKAPE_3: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWSTIMELINE_TKAPE_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -32625,7 +34021,9 @@ pub(crate) static KAPE_FILE_WINDOWSTIMELINE_TKAPE_3: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_JUMPLISTS_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -32645,7 +34043,9 @@ pub(crate) static KAPE_FILE_JUMPLISTS_TKAPE: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETCLRUSAGELOGS_TKAPE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -32665,7 +34065,9 @@ pub(crate) static KAPE_FILE_NETCLRUSAGELOGS_TKAPE_2: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ProgramExecution.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_RECYCLEBIN_INFOFILES_TKAPE_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -32725,7 +34127,9 @@ pub(crate) static KAPE_FILE_REGISTRYHIVESSYSTEM_TKAPE: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHives.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHives.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REGISTRYHIVESUSER_TKAPE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -32745,7 +34149,9 @@ pub(crate) static KAPE_FILE_REGISTRYHIVESUSER_TKAPE_2: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHives.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHives.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REGISTRYHIVESMSIXAPPS_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -32765,7 +34171,9 @@ pub(crate) static KAPE_FILE_REGISTRYHIVESMSIXAPPS_TKAPE: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHives.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHives.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ACTION1_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -33008,25 +34416,28 @@ pub(crate) static KAPE_FILE_MREMOTENG_TKAPE: ArtifactDescriptor = ArtifactDescri
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RemoteAdmin.tkape"],
 };
 
-pub(crate) static KAPE_FILE_NETMONITORFOREMPLOYEESPROFESSIONAL_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_netmonitorforemployeesprofessional_tkape",
-    name: "NetMonitor",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("NetMonitorforEmployeesProfessional.tkape"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "NetMonitor — collected by KAPE RemoteAdmin target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RemoteAdmin.tkape"],
-};
+pub(crate) static KAPE_FILE_NETMONITORFOREMPLOYEESPROFESSIONAL_TKAPE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_netmonitorforemployeesprofessional_tkape",
+        name: "NetMonitor",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("NetMonitorforEmployeesProfessional.tkape"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "NetMonitor — collected by KAPE RemoteAdmin target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RemoteAdmin.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_QUICKASSIST_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_quickassist_tkape",
@@ -33128,25 +34539,28 @@ pub(crate) static KAPE_FILE_REMCOS_TKAPE: ArtifactDescriptor = ArtifactDescripto
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RemoteAdmin.tkape"],
 };
 
-pub(crate) static KAPE_FILE_REMOTEMANIPULATORSYSTEM_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_remotemanipulatorsystem_tkape",
-    name: "Remote Manipulator System",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("RemoteManipulatorSystem.tkape"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Contains logs related to Remote Manipulator System\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RemoteAdmin.tkape"],
-};
+pub(crate) static KAPE_FILE_REMOTEMANIPULATORSYSTEM_TKAPE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_remotemanipulatorsystem_tkape",
+        name: "Remote Manipulator System",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("RemoteManipulatorSystem.tkape"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Contains logs related to Remote Manipulator System\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RemoteAdmin.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_REMOTEUTILITIES_APP_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_remoteutilities_app_tkape",
@@ -33628,25 +35042,28 @@ pub(crate) static KAPE_FILE_TODOSQLITE_DB_2: ArtifactDescriptor = ArtifactDescri
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
 };
 
-pub(crate) static KAPE_FILE_PROGRAMDATA_SCHEDULERSERVICE_SQLITE_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_programdata_schedulerservice_sqlite_2",
-    name: "Robo-FTP Jobs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Program Files\\Robo-FTP *\\ProgramData\\\"SchedulerService.sqlite\""),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Robo-FTP Jobs — collected by KAPE SQLiteDatabases target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
-};
+pub(crate) static KAPE_FILE_PROGRAMDATA_SCHEDULERSERVICE_SQLITE_2: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_programdata_schedulerservice_sqlite_2",
+        name: "Robo-FTP Jobs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Program Files\\Robo-FTP *\\ProgramData\\\"SchedulerService.sqlite\""),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Robo-FTP Jobs — collected by KAPE SQLiteDatabases target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_TERACOPY_HISTORY_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_teracopy_history_db",
@@ -33665,7 +35082,9 @@ pub(crate) static KAPE_FILE_TERACOPY_HISTORY_DB: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TERACOPY_MAIN_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -33685,7 +35104,9 @@ pub(crate) static KAPE_FILE_TERACOPY_MAIN_DB: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ROAMING_NOTION_NOTION_DB_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -33705,7 +35126,9 @@ pub(crate) static KAPE_FILE_ROAMING_NOTION_NOTION_DB_2: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_IDBS: ArtifactDescriptor = ArtifactDescriptor {
@@ -33725,7 +35148,9 @@ pub(crate) static KAPE_FILE_IDBS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FILECACHE_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -33745,7 +35170,9 @@ pub(crate) static KAPE_FILE_FILECACHE_DB: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_DBX: ArtifactDescriptor = ArtifactDescriptor {
@@ -33765,7 +35192,9 @@ pub(crate) static KAPE_FILE_CONFIG_DBX: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_HOME_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -33779,13 +35208,16 @@ pub(crate) static KAPE_FILE_HOME_DB: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"SQlite database which appears to keep track of the user's recent Dropbox activity\"",
+    meaning:
+        "\"SQlite database which appears to keep track of the user's recent Dropbox activity\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ICON_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -33825,7 +35257,9 @@ pub(crate) static KAPE_FILE_SYNC_HISTORY_DB: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYNC_NUCLEUS_SQLITE3: ArtifactDescriptor = ArtifactDescriptor {
@@ -33845,7 +35279,9 @@ pub(crate) static KAPE_FILE_SYNC_NUCLEUS_SQLITE3: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DROPBOX_HOST_DB_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -33955,7 +35391,9 @@ pub(crate) static KAPE_FILE_CLOUD_GRAPH_CLOUD_GRAPH_DB: ArtifactDescriptor = Art
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Drive\\*\\cloud_graph\\cloud_graph.db"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Drive\\*\\cloud_graph\\cloud_graph.db",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -33965,7 +35403,9 @@ pub(crate) static KAPE_FILE_CLOUD_GRAPH_CLOUD_GRAPH_DB: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHANGE_BUFFER: ArtifactDescriptor = ArtifactDescriptor {
@@ -34005,7 +35445,9 @@ pub(crate) static KAPE_FILE_SNAPSHOT_DB: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYNC_CONFIG_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -34025,7 +35467,9 @@ pub(crate) static KAPE_FILE_SYNC_CONFIG_DB: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FILEZILLA_SQLITE3_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34045,7 +35489,9 @@ pub(crate) static KAPE_FILE_FILEZILLA_SQLITE3_2: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_BOOKMARKS_20: ArtifactDescriptor = ArtifactDescriptor {
@@ -34345,7 +35791,9 @@ pub(crate) static KAPE_FILE_CHROME_BOOKMARKS_2: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_COOKIES_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34365,7 +35813,9 @@ pub(crate) static KAPE_FILE_CHROME_COOKIES_2: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_CURRENT_SESSI_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34375,7 +35825,9 @@ pub(crate) static KAPE_FILE_CHROME_CURRENT_SESSI_2: ArtifactDescriptor = Artifac
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34385,7 +35837,9 @@ pub(crate) static KAPE_FILE_CHROME_CURRENT_SESSI_2: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_CURRENT_TABS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34395,7 +35849,9 @@ pub(crate) static KAPE_FILE_CHROME_CURRENT_TABS_2: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34405,7 +35861,9 @@ pub(crate) static KAPE_FILE_CHROME_CURRENT_TABS_2: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DOWNLOAD_METADATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -34415,7 +35873,9 @@ pub(crate) static KAPE_FILE_DOWNLOAD_METADATA: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Download Metadata"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Download Metadata",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34425,7 +35885,9 @@ pub(crate) static KAPE_FILE_DOWNLOAD_METADATA: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EXTENSION_COOKIES_17: ArtifactDescriptor = ArtifactDescriptor {
@@ -34435,7 +35897,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_17: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Extension Cookies"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Extension Cookies",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34445,7 +35909,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_17: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_FAVICONS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34465,7 +35931,9 @@ pub(crate) static KAPE_FILE_CHROME_FAVICONS_2: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_HISTORY_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34485,7 +35953,9 @@ pub(crate) static KAPE_FILE_CHROME_HISTORY_2: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_LAST_SESSION_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34495,7 +35965,9 @@ pub(crate) static KAPE_FILE_CHROME_LAST_SESSION_2: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Last Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Last Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34505,7 +35977,9 @@ pub(crate) static KAPE_FILE_CHROME_LAST_SESSION_2: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_LAST_TABS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34525,7 +35999,9 @@ pub(crate) static KAPE_FILE_CHROME_LAST_TABS_2: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_LOGIN_DATA_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34545,7 +36021,9 @@ pub(crate) static KAPE_FILE_CHROME_LOGIN_DATA_2: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MEDIA_HISTORY_17: ArtifactDescriptor = ArtifactDescriptor {
@@ -34555,7 +36033,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_17: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Media History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Media History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34565,7 +36045,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_17: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORK_ACTION_PREDICTOR_21: ArtifactDescriptor = ArtifactDescriptor {
@@ -34575,7 +36057,9 @@ pub(crate) static KAPE_FILE_NETWORK_ACTION_PREDICTOR_21: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Network Action Predictor"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Network Action Predictor",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34585,7 +36069,9 @@ pub(crate) static KAPE_FILE_NETWORK_ACTION_PREDICTOR_21: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORK_PERSISTENT_STATE_20: ArtifactDescriptor = ArtifactDescriptor {
@@ -34595,7 +36081,9 @@ pub(crate) static KAPE_FILE_NETWORK_PERSISTENT_STATE_20: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Network Persistent State"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Network Persistent State",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34605,7 +36093,9 @@ pub(crate) static KAPE_FILE_NETWORK_PERSISTENT_STATE_20: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_PREFERENCES_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34625,7 +36115,9 @@ pub(crate) static KAPE_FILE_CHROME_PREFERENCES_2: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_QUOTAMANAGER_18: ArtifactDescriptor = ArtifactDescriptor {
@@ -34635,7 +36127,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_18: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\QuotaManager"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\QuotaManager",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34645,7 +36139,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_18: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REPORTING_AND_NEL_18: ArtifactDescriptor = ArtifactDescriptor {
@@ -34655,7 +36151,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_18: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Reporting and NEL"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Reporting and NEL",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34665,7 +36163,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_18: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_SHORTCUTS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34685,7 +36185,9 @@ pub(crate) static KAPE_FILE_CHROME_SHORTCUTS_2: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_TOP_SITES_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34705,7 +36207,9 @@ pub(crate) static KAPE_FILE_CHROME_TOP_SITES_2: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TRUST_TOKENS_17: ArtifactDescriptor = ArtifactDescriptor {
@@ -34715,7 +36219,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_17: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Trust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Trust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34725,7 +36231,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_17: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYNC_DATASYNCDATA_SQLITE3_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -34755,7 +36263,9 @@ pub(crate) static KAPE_FILE_CHROME_VISITED_LINKS_2: ArtifactDescriptor = Artifac
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Visited Links"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Visited Links",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34765,7 +36275,9 @@ pub(crate) static KAPE_FILE_CHROME_VISITED_LINKS_2: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_WEB_DATA_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34785,7 +36297,9 @@ pub(crate) static KAPE_FILE_CHROME_WEB_DATA_2: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_BOOKMARKS: ArtifactDescriptor = ArtifactDescriptor {
@@ -34805,7 +36319,9 @@ pub(crate) static KAPE_FILE_EDGE_BOOKMARKS: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_COLLECTIONSCOLLECTIONSSQLITE_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -34845,7 +36361,9 @@ pub(crate) static KAPE_FILE_EDGE_COOKIES: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_CURRENT_SESSION: ArtifactDescriptor = ArtifactDescriptor {
@@ -34855,7 +36373,9 @@ pub(crate) static KAPE_FILE_EDGE_CURRENT_SESSION: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Current Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Current Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34865,7 +36385,9 @@ pub(crate) static KAPE_FILE_EDGE_CURRENT_SESSION: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_CURRENT_TABS: ArtifactDescriptor = ArtifactDescriptor {
@@ -34875,7 +36397,9 @@ pub(crate) static KAPE_FILE_EDGE_CURRENT_TABS: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Current Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Current Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34885,7 +36409,9 @@ pub(crate) static KAPE_FILE_EDGE_CURRENT_TABS: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_FAVICONS: ArtifactDescriptor = ArtifactDescriptor {
@@ -34905,7 +36431,9 @@ pub(crate) static KAPE_FILE_EDGE_FAVICONS: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -34925,7 +36453,9 @@ pub(crate) static KAPE_FILE_EDGE_HISTORY: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_LAST_SESSION: ArtifactDescriptor = ArtifactDescriptor {
@@ -34935,7 +36465,9 @@ pub(crate) static KAPE_FILE_EDGE_LAST_SESSION: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Last Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Last Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34945,7 +36477,9 @@ pub(crate) static KAPE_FILE_EDGE_LAST_SESSION: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_LAST_TABS: ArtifactDescriptor = ArtifactDescriptor {
@@ -34965,7 +36499,9 @@ pub(crate) static KAPE_FILE_EDGE_LAST_TABS: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_LOGIN_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -34985,7 +36521,9 @@ pub(crate) static KAPE_FILE_EDGE_LOGIN_DATA: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_MEDIA_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -34995,7 +36533,9 @@ pub(crate) static KAPE_FILE_EDGE_MEDIA_HISTORY: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Media History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Media History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35005,7 +36545,9 @@ pub(crate) static KAPE_FILE_EDGE_MEDIA_HISTORY: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_NETWORK_ACTION: ArtifactDescriptor = ArtifactDescriptor {
@@ -35035,7 +36577,9 @@ pub(crate) static KAPE_FILE_EDGE_PREFERENCES: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Preferences"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35045,7 +36589,9 @@ pub(crate) static KAPE_FILE_EDGE_PREFERENCES: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_SHORTCUTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -35065,7 +36611,9 @@ pub(crate) static KAPE_FILE_EDGE_SHORTCUTS: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_TOP_SITES: ArtifactDescriptor = ArtifactDescriptor {
@@ -35085,7 +36633,9 @@ pub(crate) static KAPE_FILE_EDGE_TOP_SITES: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_SYNCDATA_DATABA: ArtifactDescriptor = ArtifactDescriptor {
@@ -35125,7 +36675,9 @@ pub(crate) static KAPE_FILE_BOOKMARKS_2_2: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_VISITED_LINKS: ArtifactDescriptor = ArtifactDescriptor {
@@ -35135,7 +36687,9 @@ pub(crate) static KAPE_FILE_EDGE_VISITED_LINKS: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Visited Links"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Edge\\User Data\\*\\Visited Links",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35145,7 +36699,9 @@ pub(crate) static KAPE_FILE_EDGE_VISITED_LINKS: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EDGE_WEB_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -35165,7 +36721,9 @@ pub(crate) static KAPE_FILE_EDGE_WEB_DATA: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ADDONS_SQLITE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -35175,7 +36733,9 @@ pub(crate) static KAPE_FILE_ADDONS_SQLITE_2: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\addons.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\addons.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35185,7 +36745,9 @@ pub(crate) static KAPE_FILE_ADDONS_SQLITE_2: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WEAVE_BOOKMARKS_SQLITE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -35215,7 +36777,9 @@ pub(crate) static KAPE_FILE_COOKIES_SQLITE_2: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\cookies.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\cookies.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35225,7 +36789,9 @@ pub(crate) static KAPE_FILE_COOKIES_SQLITE_2: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FIREFOX_COOKIES_SQLITE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -35255,7 +36821,9 @@ pub(crate) static KAPE_FILE_DOWNLOADS_SQLITE_2: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\downloads.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\downloads.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35265,7 +36833,9 @@ pub(crate) static KAPE_FILE_DOWNLOADS_SQLITE_2: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FAVICONS_SQLITE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -35275,7 +36845,9 @@ pub(crate) static KAPE_FILE_FAVICONS_SQLITE_2: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\favicons.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\favicons.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35285,7 +36857,9 @@ pub(crate) static KAPE_FILE_FAVICONS_SQLITE_2: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FORMHISTORY_SQLITE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -35295,7 +36869,9 @@ pub(crate) static KAPE_FILE_FORMHISTORY_SQLITE_2: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\formhistory.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\formhistory.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35305,7 +36881,9 @@ pub(crate) static KAPE_FILE_FORMHISTORY_SQLITE_2: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PERMISSIONS_SQLITE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -35315,7 +36893,9 @@ pub(crate) static KAPE_FILE_PERMISSIONS_SQLITE_2: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\permissions.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\permissions.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35325,7 +36905,9 @@ pub(crate) static KAPE_FILE_PERMISSIONS_SQLITE_2: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PLACES_SQLITE_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -35335,7 +36917,9 @@ pub(crate) static KAPE_FILE_PLACES_SQLITE_3: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\places.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\places.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35345,7 +36929,9 @@ pub(crate) static KAPE_FILE_PLACES_SQLITE_3: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PROTECTIONS_SQLITE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -35355,7 +36941,9 @@ pub(crate) static KAPE_FILE_PROTECTIONS_SQLITE_2: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\protections.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\protections.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35365,7 +36953,9 @@ pub(crate) static KAPE_FILE_PROTECTIONS_SQLITE_2: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SEARCH_SQLITE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -35375,7 +36965,9 @@ pub(crate) static KAPE_FILE_SEARCH_SQLITE_2: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\search.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\search.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35385,7 +36977,9 @@ pub(crate) static KAPE_FILE_SEARCH_SQLITE_2: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SIGNONS_SQLITE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -35395,7 +36989,9 @@ pub(crate) static KAPE_FILE_SIGNONS_SQLITE_2: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\signons.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\signons.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35405,7 +37001,9 @@ pub(crate) static KAPE_FILE_SIGNONS_SQLITE_2: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_STORAGE_SYNC_SQLITE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -35415,7 +37013,9 @@ pub(crate) static KAPE_FILE_STORAGE_SYNC_SQLITE_2: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\storage-sync.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\storage-sync.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35425,7 +37025,9 @@ pub(crate) static KAPE_FILE_STORAGE_SYNC_SQLITE_2: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WEBAPPSTORE_SQLITE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -35435,7 +37037,9 @@ pub(crate) static KAPE_FILE_WEBAPPSTORE_SQLITE_2: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\webappstore.sqlite*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\webappstore.sqlite*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35445,7 +37049,9 @@ pub(crate) static KAPE_FILE_WEBAPPSTORE_SQLITE_2: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NOTIFICATIONS_WPNDATABASE_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -35455,7 +37061,9 @@ pub(crate) static KAPE_FILE_NOTIFICATIONS_WPNDATABASE_DB: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\Notifications\\wpndatabase.db"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\Notifications\\wpndatabase.db",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35465,7 +37073,9 @@ pub(crate) static KAPE_FILE_NOTIFICATIONS_WPNDATABASE_DB: ArtifactDescriptor = A
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NOTIFICATIONS_APPDB_DAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -35475,7 +37085,9 @@ pub(crate) static KAPE_FILE_NOTIFICATIONS_APPDB_DAT: ArtifactDescriptor = Artifa
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\Notifications\\appdb.dat"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\Notifications\\appdb.dat",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35485,7 +37097,9 @@ pub(crate) static KAPE_FILE_NOTIFICATIONS_APPDB_DAT: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ACTIVITIESCACHE_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -35495,7 +37109,9 @@ pub(crate) static KAPE_FILE_ACTIVITIESCACHE_DB: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\ConnectedDevicesPlatform\\*\\ActivitiesCache.db*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\ConnectedDevicesPlatform\\*\\ActivitiesCache.db*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35505,28 +37121,33 @@ pub(crate) static KAPE_FILE_ACTIVITIESCACHE_DB: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_USOPRIVATE_UPDATESTORESTORE_DB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_usoprivate_updatestorestore_db",
-    name: "Update Store.db",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\ProgramData\\USOPrivate\\UpdateStorestore.db"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Update Store.db — collected by KAPE SQLiteDatabases target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
-};
+pub(crate) static KAPE_FILE_USOPRIVATE_UPDATESTORESTORE_DB: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_usoprivate_updatestorestore_db",
+        name: "Update Store.db",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\ProgramData\\USOPrivate\\UpdateStorestore.db"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Update Store.db — collected by KAPE SQLiteDatabases target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_REGEX_DB_DB_WAL_DB_SHM_2: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_regex_db_db_wal_db_shm_2",
@@ -35545,28 +37166,35 @@ pub(crate) static KAPE_FILE_REGEX_DB_DB_WAL_DB_SHM_2: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_DIAGNOSIS_EVENTTRANSCRIPT_EVENTTRANSCRIPT_DB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_diagnosis_eventtranscript_eventtranscript_db",
-    name: "EventTranscript.db",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\ProgramData\\Microsoft\\Diagnosis\\EventTranscript'EventTranscript.db*'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "EventTranscript.db — collected by KAPE SQLiteDatabases target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
-};
+pub(crate) static KAPE_FILE_DIAGNOSIS_EVENTTRANSCRIPT_EVENTTRANSCRIPT_DB: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_diagnosis_eventtranscript_eventtranscript_db",
+        name: "EventTranscript.db",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\ProgramData\\Microsoft\\Diagnosis\\EventTranscript'EventTranscript.db*'",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "EventTranscript.db — collected by KAPE SQLiteDatabases target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_EVENTTRANSCRIPT_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_eventtranscript_db",
@@ -35575,7 +37203,9 @@ pub(crate) static KAPE_FILE_EVENTTRANSCRIPT_DB: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Windows.old\\ProgramData\\Microsoft\\Diagnosis\\EventTranscript'EventTranscript.db*'"),
+    file_path: Some(
+        "C:\\Windows.old\\ProgramData\\Microsoft\\Diagnosis\\EventTranscript'EventTranscript.db*'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35585,7 +37215,9 @@ pub(crate) static KAPE_FILE_EVENTTRANSCRIPT_DB: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SQLiteDatabases.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WEBSERVERS_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -35745,7 +37377,9 @@ pub(crate) static KAPE_FILE_BITTORRENT_TKAPE: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TorrentClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TorrentClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_QBITTORRENT_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -35765,7 +37399,9 @@ pub(crate) static KAPE_FILE_QBITTORRENT_TKAPE: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TorrentClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TorrentClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_UTORRENT_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -35785,7 +37421,9 @@ pub(crate) static KAPE_FILE_UTORRENT_TKAPE: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TorrentClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/TorrentClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_USBDEVICESLOGS_TKAPE_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -35905,7 +37543,9 @@ pub(crate) static KAPE_FILE_NEWSBINPRO_TKAPE: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/UsenetClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/UsenetClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NEWSLEECHER_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -35925,7 +37565,9 @@ pub(crate) static KAPE_FILE_NEWSLEECHER_TKAPE: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/UsenetClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/UsenetClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NZBGET_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -35945,7 +37587,9 @@ pub(crate) static KAPE_FILE_NZBGET_TKAPE: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/UsenetClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/UsenetClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SABNBZD_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -35965,7 +37609,9 @@ pub(crate) static KAPE_FILE_SABNBZD_TKAPE: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/UsenetClients.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/UsenetClients.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_VMWAREINVENTORY_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -36288,25 +37934,26 @@ pub(crate) static KAPE_FILE_OPENSUSE_TKAPE: ArtifactDescriptor = ArtifactDescrip
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WSL.tkape"],
 };
 
-pub(crate) static KAPE_FILE_SUSELINUXENTERPRISESERVER_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_suselinuxenterpriseserver_tkape",
-    name: "SUSE Linux Enterprise Server",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("SUSELinuxEnterpriseServer.tkape"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "SUSE Linux Enterprise Server — collected by KAPE WSL target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WSL.tkape"],
-};
+pub(crate) static KAPE_FILE_SUSELINUXENTERPRISESERVER_TKAPE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_suselinuxenterpriseserver_tkape",
+        name: "SUSE Linux Enterprise Server",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("SUSELinuxEnterpriseServer.tkape"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "SUSE Linux Enterprise Server — collected by KAPE WSL target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WSL.tkape"],
+    };
 
 pub(crate) static KAPE_FILE_360SECUREBROWSER_TKAPE: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_360securebrowser_tkape",
@@ -36905,7 +38552,9 @@ pub(crate) static KAPE_FILE_C_ACCESS_LOG: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ApacheAccessLog.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ApacheAccessLog.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_W3SVC_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -37085,7 +38734,9 @@ pub(crate) static KAPE_FILE_LOG_ERRORLOG: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MSSQLErrorLog.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MSSQLErrorLog.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MS_SQL_ERRORLOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -37105,7 +38756,9 @@ pub(crate) static KAPE_FILE_MS_SQL_ERRORLOGS: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MSSQLErrorLog.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/MSSQLErrorLog.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DESKTOPCENTRAL_SERVER_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -37125,7 +38778,9 @@ pub(crate) static KAPE_FILE_DESKTOPCENTRAL_SERVER_LOGS: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ManageEngineLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ManageEngineLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ADSELFSERVICE_PLUS_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -37139,13 +38794,16 @@ pub(crate) static KAPE_FILE_ADSELFSERVICE_PLUS_LOGS: ArtifactDescriptor = Artifa
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "ManageEngine ADSelfService Plus Log Files — collected by KAPE ManageEngineLogs target",
+    meaning:
+        "ManageEngine ADSelfService Plus Log Files — collected by KAPE ManageEngineLogs target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ManageEngineLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ManageEngineLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOG_LOG_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -37428,45 +39086,47 @@ pub(crate) static KAPE_FILE_FREENET_NODE: ArtifactDescriptor = ArtifactDescripto
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Freenet.tkape"],
 };
 
-pub(crate) static KAPE_FILE_FREENET_COMPLETED_LIST_DOWNLOADS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_freenet_completed_list_downloads",
-    name: "Freenet",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Freenet\\'*completed.list.downloads'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Freenet — collected by KAPE Freenet target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Freenet.tkape"],
-};
+pub(crate) static KAPE_FILE_FREENET_COMPLETED_LIST_DOWNLOADS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_freenet_completed_list_downloads",
+        name: "Freenet",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Freenet\\'*completed.list.downloads'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Freenet — collected by KAPE Freenet target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Freenet.tkape"],
+    };
 
-pub(crate) static KAPE_FILE_FREENET_COMPLETED_LIST_UPLOADS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_freenet_completed_list_uploads",
-    name: "Freenet",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Freenet\\'*completed.list.uploads'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Freenet — collected by KAPE Freenet target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Freenet.tkape"],
-};
+pub(crate) static KAPE_FILE_FREENET_COMPLETED_LIST_UPLOADS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_freenet_completed_list_uploads",
+        name: "Freenet",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Freenet\\'*completed.list.uploads'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Freenet — collected by KAPE Freenet target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Freenet.tkape"],
+    };
 
 pub(crate) static KAPE_FILE_FREENET_BAK: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_freenet_bak",
@@ -37519,7 +39179,8 @@ pub(crate) static KAPE_FILE_FROSTWIRE_TORRENT_DATA: ArtifactDescriptor = Artifac
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Locates files downloaded that land in the default location as specified by FrostWire\"",
+    meaning:
+        "\"Locates files downloaded that land in the default location as specified by FrostWire\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -37719,7 +39380,8 @@ pub(crate) static KAPE_FILE_NICOTINE_LOGS: ArtifactDescriptor = ArtifactDescript
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Locates Nicotine++ chat logs, room logs, transfer logs, and debug logs (if enabled)\"",
+    meaning:
+        "\"Locates Nicotine++ chat logs, room logs, transfer logs, and debug logs (if enabled)\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -37828,25 +39490,28 @@ pub(crate) static KAPE_FILE_NICOTINE_BUDDYFILEINDEX_DB: ArtifactDescriptor = Art
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Nicotine++.tkape"],
 };
 
-pub(crate) static KAPE_FILE_ROAMING_NICOTINE_BUDDYWORDINDEX_DB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_roaming_nicotine_buddywordindex_db",
-    name: "Nicotine++ Buddywordindex.db",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%User%\\AppData\\Roaming\\nicotine'buddywordindex.db'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Unknown what this is for at this time\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Nicotine++.tkape"],
-};
+pub(crate) static KAPE_FILE_ROAMING_NICOTINE_BUDDYWORDINDEX_DB: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_roaming_nicotine_buddywordindex_db",
+        name: "Nicotine++ Buddywordindex.db",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Users\\%User%\\AppData\\Roaming\\nicotine'buddywordindex.db'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Unknown what this is for at this time\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Nicotine++.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_NICOTINE_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_nicotine_config",
@@ -37888,45 +39553,51 @@ pub(crate) static KAPE_FILE_NICOTINE_USERSHARES: ArtifactDescriptor = ArtifactDe
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Nicotine++.tkape"],
 };
 
-pub(crate) static KAPE_FILE_ROAMING_NICOTINE_DOWNLOADS_JSON: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_roaming_nicotine_downloads_json",
-    name: "Nicotine++ Downloads.json",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%User%\\AppData\\Roaming\\nicotine'downloads.json*'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Locates downloads.json\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Nicotine++.tkape"],
-};
+pub(crate) static KAPE_FILE_ROAMING_NICOTINE_DOWNLOADS_JSON: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_roaming_nicotine_downloads_json",
+        name: "Nicotine++ Downloads.json",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Users\\%User%\\AppData\\Roaming\\nicotine'downloads.json*'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Locates downloads.json\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Nicotine++.tkape",
+        ],
+    };
 
-pub(crate) static KAPE_FILE_ROAMING_NICOTINE_UPLOADS_JSON: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_roaming_nicotine_uploads_json",
-    name: "Nicotine++ Uploads.json",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%User%\\AppData\\Roaming\\nicotine'uploads.json*'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "\"Locates uploads.json\"",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Nicotine++.tkape"],
-};
+pub(crate) static KAPE_FILE_ROAMING_NICOTINE_UPLOADS_JSON: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_roaming_nicotine_uploads_json",
+        name: "Nicotine++ Uploads.json",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Users\\%User%\\AppData\\Roaming\\nicotine'uploads.json*'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Locates uploads.json\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Nicotine++.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_LOGS_SABNZBD_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_logs_sabnzbd_log",
@@ -38485,7 +40156,9 @@ pub(crate) static KAPE_FILE_WINDOWS_NTDS: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ActiveDirectoryNTDS.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ActiveDirectoryNTDS.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWS_SYSVOL: ArtifactDescriptor = ArtifactDescriptor {
@@ -38639,7 +40312,8 @@ pub(crate) static KAPE_FILE_WINDOWS_SYSTEMAPPS: ArtifactDescriptor = ArtifactDes
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Locates all the system AppX package directories which were installed by the system.\"",
+    meaning:
+        "\"Locates all the system AppX package directories which were installed by the system.\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -38675,7 +40349,9 @@ pub(crate) static KAPE_FILE_PACKAGES_STATEREPOSITORY_SRD: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\ProgramData\\Microsoft\\Windows\\AppRepository\\Packages\\StateRepository-*.srd"),
+    file_path: Some(
+        "C:\\ProgramData\\Microsoft\\Windows\\AppRepository\\Packages\\StateRepository-*.srd",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -38725,7 +40401,9 @@ pub(crate) static KAPE_FILE_CONFIG_APPEVENT_EVT: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ApplicationEvents.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ApplicationEvents.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_APPLICATION_EVENT_LO: ArtifactDescriptor = ArtifactDescriptor {
@@ -38745,7 +40423,9 @@ pub(crate) static KAPE_FILE_APPLICATION_EVENT_LO: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ApplicationEvents.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ApplicationEvents.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOGS_APPLICATION_EVTX: ArtifactDescriptor = ArtifactDescriptor {
@@ -38765,7 +40445,9 @@ pub(crate) static KAPE_FILE_LOGS_APPLICATION_EVTX: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ApplicationEvents.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ApplicationEvents.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOGS_APPLICATION_EVTX_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -38785,7 +40467,9 @@ pub(crate) static KAPE_FILE_LOGS_APPLICATION_EVTX_2: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ApplicationEvents.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ApplicationEvents.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_BOOT_BCD: ArtifactDescriptor = ArtifactDescriptor {
@@ -39005,7 +40689,9 @@ pub(crate) static KAPE_FILE_ENCAPSULATIONLOGGING: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EncapsulationLogging.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EncapsulationLogging.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PROGRAMS_ENCAPSULATIONLOGGING_HVE_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -39065,7 +40751,9 @@ pub(crate) static KAPE_FILE_LOGS_SYSTEM_EVTX: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventLogs-RDP.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventLogs-RDP.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EVENT_LOGS_WIN7: ArtifactDescriptor = ArtifactDescriptor {
@@ -39085,7 +40773,9 @@ pub(crate) static KAPE_FILE_EVENT_LOGS_WIN7: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventLogs-RDP.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventLogs-RDP.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOGS_SECURITY_EVTX: ArtifactDescriptor = ArtifactDescriptor {
@@ -39105,7 +40795,9 @@ pub(crate) static KAPE_FILE_LOGS_SECURITY_EVTX: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventLogs-RDP.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventLogs-RDP.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOGS_SECURITY_EVTX_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -39125,7 +40817,9 @@ pub(crate) static KAPE_FILE_LOGS_SECURITY_EVTX_2: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventLogs-RDP.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventLogs-RDP.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOGS_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPCLIENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -39365,7 +41059,9 @@ pub(crate) static KAPE_FILE_LOGFILES_ETL: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WDI_TRACE_LOGS_1: ArtifactDescriptor = ArtifactDescriptor {
@@ -39385,7 +41081,9 @@ pub(crate) static KAPE_FILE_WDI_TRACE_LOGS_1: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WDI: ArtifactDescriptor = ArtifactDescriptor {
@@ -39405,7 +41103,9 @@ pub(crate) static KAPE_FILE_WDI: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WDI_TRACE_LOGS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -39425,7 +41125,9 @@ pub(crate) static KAPE_FILE_WDI_TRACE_LOGS_2: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOGFILES_WMI: ArtifactDescriptor = ArtifactDescriptor {
@@ -39445,7 +41147,9 @@ pub(crate) static KAPE_FILE_LOGFILES_WMI: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WMI_TRACE_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -39465,7 +41169,9 @@ pub(crate) static KAPE_FILE_WMI_TRACE_LOGS: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYSTEM32_SLEEPSTUDY: ArtifactDescriptor = ArtifactDescriptor {
@@ -39485,7 +41191,9 @@ pub(crate) static KAPE_FILE_SYSTEM32_SLEEPSTUDY: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SLEEPSTUDY_TRACE_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -39505,28 +41213,35 @@ pub(crate) static KAPE_FILE_SLEEPSTUDY_TRACE_LOG: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_POWEREFFICIENCY_DIAGNOSTICS_ENERGY_NTKL_ETL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_powerefficiency_diagnostics_energy_ntkl_etl",
-    name: "Energy-NTKL Trace Logs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\ProgramData\\Microsoft\\Windows\\PowerEfficiency Diagnostics\\energy-ntkl.etl"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Energy-NTKL Trace Logs — collected by KAPE EventTraceLogs target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape"],
-};
+pub(crate) static KAPE_FILE_POWEREFFICIENCY_DIAGNOSTICS_ENERGY_NTKL_ETL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_powerefficiency_diagnostics_energy_ntkl_etl",
+        name: "Energy-NTKL Trace Logs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\ProgramData\\Microsoft\\Windows\\PowerEfficiency Diagnostics\\energy-ntkl.etl",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Energy-NTKL Trace Logs — collected by KAPE EventTraceLogs target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTraceLogs.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_LOGS_ETL: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_logs_etl",
@@ -39575,7 +41290,9 @@ pub(crate) static KAPE_FILE_EVENTTRANSCRIPT_DB_2: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Windows.old\\ProgramData\\Microsoft\\Diagnosis\\EventTranscript'EventTranscript.db*'"),
+    file_path: Some(
+        "C:\\Windows.old\\ProgramData\\Microsoft\\Diagnosis\\EventTranscript'EventTranscript.db*'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -39585,7 +41302,9 @@ pub(crate) static KAPE_FILE_EVENTTRANSCRIPT_DB_2: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTranscriptDB.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTranscriptDB.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TEMP_DIAGNOSTICS: ArtifactDescriptor = ArtifactDescriptor {
@@ -39605,7 +41324,9 @@ pub(crate) static KAPE_FILE_TEMP_DIAGNOSTICS: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTranscriptDB.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/EventTranscriptDB.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOGGING_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -39625,7 +41346,9 @@ pub(crate) static KAPE_FILE_LOGGING_LOG: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ExchangeClientAccess.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ExchangeClientAccess.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_B_A_ZA_Z0_9_8_B_COMPILED: ArtifactDescriptor = ArtifactDescriptor {
@@ -39735,7 +41458,9 @@ pub(crate) static KAPE_FILE_LOGS_LOG_6: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Program Files\\Microsoft\\Exchange Server\\*\\TransportRoles\\Logs\\'*.log'"),
+    file_path: Some(
+        "C:\\Program Files\\Microsoft\\Exchange Server\\*\\TransportRoles\\Logs\\'*.log'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -39745,7 +41470,9 @@ pub(crate) static KAPE_FILE_LOGS_LOG_6: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ExchangeTransport.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ExchangeTransport.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYSTEM32_GROUPPOLICY: ArtifactDescriptor = ArtifactDescriptor {
@@ -39839,7 +41566,8 @@ pub(crate) static KAPE_FILE_GROUPPOLICY_POL: ArtifactDescriptor = ArtifactDescri
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Local Group Policy Files - Registry Policy Files — collected by KAPE GroupPolicy target",
+    meaning:
+        "Local Group Policy Files - Registry Policy Files — collected by KAPE GroupPolicy target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -39859,7 +41587,8 @@ pub(crate) static KAPE_FILE_LOCAL_GROUP_POLICY_F: ArtifactDescriptor = ArtifactD
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Local Group Policy Files - Registry Policy Files — collected by KAPE GroupPolicy target",
+    meaning:
+        "Local Group Policy Files - Registry Policy Files — collected by KAPE GroupPolicy target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -39879,7 +41608,8 @@ pub(crate) static KAPE_FILE_SCRIPTS: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Local Group Policy Files - Startup/Shutdown Scripts — collected by KAPE GroupPolicy target",
+    meaning:
+        "Local Group Policy Files - Startup/Shutdown Scripts — collected by KAPE GroupPolicy target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -39899,7 +41629,8 @@ pub(crate) static KAPE_FILE_SCRIPTS_2: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Local Group Policy Files - Startup/Shutdown Scripts — collected by KAPE GroupPolicy target",
+    meaning:
+        "Local Group Policy Files - Startup/Shutdown Scripts — collected by KAPE GroupPolicy target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -39965,7 +41696,9 @@ pub(crate) static KAPE_FILE_CONFIG_ADMINISTRATION_CONFIG: ArtifactDescriptor = A
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/IISConfiguration.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/IISConfiguration.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_REDIRECTION_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
@@ -40035,7 +41768,9 @@ pub(crate) static KAPE_FILE_RECENT_AUTOMATICDESTINATIONS: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\AutomaticDestinations\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\AutomaticDestinations\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40055,7 +41790,9 @@ pub(crate) static KAPE_FILE_RECENT_CUSTOMDESTINATIONS: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\CustomDestinations\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\CustomDestinations\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40085,7 +41822,9 @@ pub(crate) static KAPE_FILE_WINDOWS_RECENT: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_OFFICE_RECENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -40099,13 +41838,16 @@ pub(crate) static KAPE_FILE_OFFICE_RECENT: ArtifactDescriptor = ArtifactDescript
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "LNK Files from Microsoft Office Recent — collected by KAPE LNKFilesAndJumpLists target",
+    meaning:
+        "LNK Files from Microsoft Office Recent — collected by KAPE LNKFilesAndJumpLists target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_START_MENU_PROGRAMS_LNK: ArtifactDescriptor = ArtifactDescriptor {
@@ -40115,7 +41857,9 @@ pub(crate) static KAPE_FILE_START_MENU_PROGRAMS_LNK: ArtifactDescriptor = Artifa
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs'*.LNK'"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs'*.LNK'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40125,7 +41869,9 @@ pub(crate) static KAPE_FILE_START_MENU_PROGRAMS_LNK: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_USER_RECENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -40145,7 +41891,9 @@ pub(crate) static KAPE_FILE_USER_RECENT: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DESKTOP_LNK: ArtifactDescriptor = ArtifactDescriptor {
@@ -40165,7 +41913,9 @@ pub(crate) static KAPE_FILE_DESKTOP_LNK: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DESKTOP_LNK_FILES: ArtifactDescriptor = ArtifactDescriptor {
@@ -40185,7 +41935,9 @@ pub(crate) static KAPE_FILE_DESKTOP_LNK_FILES: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_RP_LNK: ArtifactDescriptor = ArtifactDescriptor {
@@ -40205,7 +41957,9 @@ pub(crate) static KAPE_FILE_RP_LNK: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PROGRAMS_LNK: ArtifactDescriptor = ArtifactDescriptor {
@@ -40225,7 +41979,9 @@ pub(crate) static KAPE_FILE_PROGRAMS_LNK: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/LNKFilesAndJumpLists.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_BASH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -40459,7 +42215,8 @@ pub(crate) static KAPE_FILE_MINIDUMP_DMP: ArtifactDescriptor = ArtifactDescripto
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/small-memory-dump\"",
+    meaning:
+        "\"https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/small-memory-dump\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -40479,7 +42236,8 @@ pub(crate) static KAPE_FILE_SMALL_MEMORY_DUMP_DI: ArtifactDescriptor = ArtifactD
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/small-memory-dump\"",
+    meaning:
+        "\"https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/small-memory-dump\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -40525,7 +42283,9 @@ pub(crate) static KAPE_FILE_CLR_LOG: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/NETCLRUsageLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/NETCLRUsageLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NET_CLR_USAGELOGS_SY: ArtifactDescriptor = ArtifactDescriptor {
@@ -40535,7 +42295,9 @@ pub(crate) static KAPE_FILE_NET_CLR_USAGELOGS_SY: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Windows*\\System32\\config\\systemprofile\\AppData\\Local\\Microsoft\\CLR_*\\'*.log'"),
+    file_path: Some(
+        "C:\\Windows*\\System32\\config\\systemprofile\\AppData\\Local\\Microsoft\\CLR_*\\'*.log'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40545,7 +42307,9 @@ pub(crate) static KAPE_FILE_NET_CLR_USAGELOGS_SY: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/NETCLRUsageLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/NETCLRUsageLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOCALSTATE_TABSTATE_BIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -40645,7 +42409,9 @@ pub(crate) static KAPE_FILE_MICROSOFT_WORD: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OfficeAutosave.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OfficeAutosave.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MICROSOFT_EXCEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -40665,7 +42431,9 @@ pub(crate) static KAPE_FILE_MICROSOFT_EXCEL: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OfficeAutosave.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OfficeAutosave.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MICROSOFT_POWERPOINT: ArtifactDescriptor = ArtifactDescriptor {
@@ -40685,7 +42453,9 @@ pub(crate) static KAPE_FILE_MICROSOFT_POWERPOINT: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OfficeAutosave.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OfficeAutosave.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MICROSOFT_PUBLISHER: ArtifactDescriptor = ArtifactDescriptor {
@@ -40705,7 +42475,9 @@ pub(crate) static KAPE_FILE_MICROSOFT_PUBLISHER: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OfficeAutosave.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OfficeAutosave.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DIAGNOSTICS_PCW_DEBUGREPORT_XML: ArtifactDescriptor = ArtifactDescriptor {
@@ -40765,7 +42537,9 @@ pub(crate) static KAPE_FILE_OFFICEFILECACHE: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OfficeDocumentCache.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/OfficeDocumentCache.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_C_PERFLOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -40995,7 +42769,9 @@ pub(crate) static KAPE_FILE_NOTIFICATIONS_APPDB_DAT_2: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\Notifications\\appdb.dat"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\Notifications\\appdb.dat",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -41005,28 +42781,35 @@ pub(crate) static KAPE_FILE_NOTIFICATIONS_APPDB_DAT_2: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/PushNotification.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/PushNotification.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_NOTIFICATIONS_WPNDATABASE_DB_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_notifications_wpndatabase_db_2",
-    name: "WNS",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\Notifications\\wpndatabase.db"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "WNS — collected by KAPE PushNotification target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/PushNotification.tkape"],
-};
+pub(crate) static KAPE_FILE_NOTIFICATIONS_WPNDATABASE_DB_2: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_notifications_wpndatabase_db_2",
+        name: "WNS",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\Notifications\\wpndatabase.db",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "WNS — collected by KAPE PushNotification target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/PushNotification.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_TEMP_QUICKASSIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_temp_quickassist",
@@ -41075,7 +42858,9 @@ pub(crate) static KAPE_FILE_TERMINAL_SERVER_CLIENT_CACHE: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Terminal Server Client\\Cache\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Terminal Server Client\\Cache\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -41128,25 +42913,30 @@ pub(crate) static KAPE_FILE_RDP_CACHE_FILES: ArtifactDescriptor = ArtifactDescri
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RDPCache.tkape"],
 };
 
-pub(crate) static KAPE_FILE_PACKAGES_MICROSOFT_REMOTEDESKTOP_8WEKYB3D8BBWE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_packages_microsoft_remotedesktop_8wekyb3d8bbwe",
-    name: "RDP Jumplist Files",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Packages\\Microsoft.RemoteDesktop_8wekyb3d8bbwe\\"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "RDP Jumplist Files — collected by KAPE RDPJumplist target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RDPJumplist.tkape"],
-};
+pub(crate) static KAPE_FILE_PACKAGES_MICROSOFT_REMOTEDESKTOP_8WEKYB3D8BBWE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_packages_microsoft_remotedesktop_8wekyb3d8bbwe",
+        name: "RDP Jumplist Files",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Users\\%user%\\AppData\\Local\\Packages\\Microsoft.RemoteDesktop_8wekyb3d8bbwe\\",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "RDP Jumplist Files — collected by KAPE RDPJumplist target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RDPJumplist.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_LOGS_MICROSOFT_WINDOWS_TERMINALSERVICES_REMOTECONN_3: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_logs_microsoft_windows_terminalservices_remoteconn_3",
@@ -41228,14 +43018,17 @@ pub(crate) static KAPE_FILE_LOCALSESSIONMANAGER: ArtifactDescriptor = ArtifactDe
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RDPLogs.tkape"],
 };
 
-pub(crate) static KAPE_FILE_LOGS_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPCLIENT_3: ArtifactDescriptor = ArtifactDescriptor {
+pub(crate) static KAPE_FILE_LOGS_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPCLIENT_3:
+    ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_logs_microsoft_windows_terminalservices_rdpclient_3",
     name: "RDPClient Event Logs",
     artifact_type: ArtifactType::File,
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Windows\\System32\\winevt\\logs\\Microsoft-Windows-TerminalServices-RDPClient*"),
+    file_path: Some(
+        "C:\\Windows\\System32\\winevt\\logs\\Microsoft-Windows-TerminalServices-RDPClient*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -41268,14 +43061,17 @@ pub(crate) static KAPE_FILE_RDPCLIENT_EVENT_LOGS: ArtifactDescriptor = ArtifactD
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RDPLogs.tkape"],
 };
 
-pub(crate) static KAPE_FILE_LOGS_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_RDPCO_3: ArtifactDescriptor = ArtifactDescriptor {
+pub(crate) static KAPE_FILE_LOGS_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_RDPCO_3:
+    ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_logs_microsoft_windows_remotedesktopservices_rdpco_3",
     name: "RDPCoreTS Event Logs",
     artifact_type: ArtifactType::File,
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Windows\\System32\\winevt\\logs\\Microsoft-Windows-RemoteDesktopServices-RdpCoreTS*"),
+    file_path: Some(
+        "C:\\Windows\\System32\\winevt\\logs\\Microsoft-Windows-RemoteDesktopServices-RdpCoreTS*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -41325,7 +43121,9 @@ pub(crate) static KAPE_FILE_PROGRAMS_RECENTFILECACHE_BCF: ArtifactDescriptor = A
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecentFileCache.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecentFileCache.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_RECENTFILECACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -41345,7 +43143,9 @@ pub(crate) static KAPE_FILE_RECENTFILECACHE: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecentFileCache.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecentFileCache.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWS_RECENT_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -41365,7 +43165,9 @@ pub(crate) static KAPE_FILE_WINDOWS_RECENT_2: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecentFolders.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecentFolders.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_OFFICE_RECENT_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -41385,7 +43187,9 @@ pub(crate) static KAPE_FILE_OFFICE_RECENT_2: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecentFolders.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecentFolders.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_RECYCLE_BIN_R: ArtifactDescriptor = ArtifactDescriptor {
@@ -41405,7 +43209,9 @@ pub(crate) static KAPE_FILE_RECYCLE_BIN_R: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecycleBin_DataFiles.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecycleBin_DataFiles.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_R: ArtifactDescriptor = ArtifactDescriptor {
@@ -41425,7 +43231,9 @@ pub(crate) static KAPE_FILE_R: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecycleBin_DataFiles.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecycleBin_DataFiles.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_RECYCLE_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -41445,7 +43253,9 @@ pub(crate) static KAPE_FILE_RECYCLE_D: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecycleBin_DataFiles.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecycleBin_DataFiles.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_RECYCLE_BIN_I: ArtifactDescriptor = ArtifactDescriptor {
@@ -41465,7 +43275,9 @@ pub(crate) static KAPE_FILE_RECYCLE_BIN_I: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecycleBin_InfoFiles.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecycleBin_InfoFiles.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_RECYCLE_INFO2: ArtifactDescriptor = ArtifactDescriptor {
@@ -41485,7 +43297,9 @@ pub(crate) static KAPE_FILE_RECYCLE_INFO2: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecycleBin_InfoFiles.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RecycleBin_InfoFiles.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_HELIUM_REGISTRY_DAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -41625,7 +43439,9 @@ pub(crate) static KAPE_FILE_CONFIG_BBI: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_BBI_REGISTRY_HIVE: ArtifactDescriptor = ArtifactDescriptor {
@@ -41645,7 +43461,9 @@ pub(crate) static KAPE_FILE_BBI_REGISTRY_HIVE: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_BBI_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -41665,7 +43483,9 @@ pub(crate) static KAPE_FILE_CONFIG_BBI_LOG: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_BBI_REGISTRY_TRANSAC: ArtifactDescriptor = ArtifactDescriptor {
@@ -41685,7 +43505,9 @@ pub(crate) static KAPE_FILE_BBI_REGISTRY_TRANSAC: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_BCD_TEMPLATE: ArtifactDescriptor = ArtifactDescriptor {
@@ -41705,7 +43527,9 @@ pub(crate) static KAPE_FILE_CONFIG_BCD_TEMPLATE: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_BCD_TEMPLATE_REGISTR: ArtifactDescriptor = ArtifactDescriptor {
@@ -41725,7 +43549,9 @@ pub(crate) static KAPE_FILE_BCD_TEMPLATE_REGISTR: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_BCD_TEMPLATE_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -41739,13 +43565,16 @@ pub(crate) static KAPE_FILE_CONFIG_BCD_TEMPLATE_LOG: ArtifactDescriptor = Artifa
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "BCD-Template registry transaction files — collected by KAPE RegistryHivesOther target",
+    meaning:
+        "BCD-Template registry transaction files — collected by KAPE RegistryHivesOther target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_BCD_TEMPLATE_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -41759,13 +43588,16 @@ pub(crate) static KAPE_FILE_CONFIG_BCD_TEMPLATE_LOG_2: ArtifactDescriptor = Arti
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "BCD-Template registry transaction files — collected by KAPE RegistryHivesOther target",
+    meaning:
+        "BCD-Template registry transaction files — collected by KAPE RegistryHivesOther target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_COMPONENTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -41785,7 +43617,9 @@ pub(crate) static KAPE_FILE_CONFIG_COMPONENTS: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_COMPONENTS_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
@@ -41805,7 +43639,9 @@ pub(crate) static KAPE_FILE_COMPONENTS_REGISTRY: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_COMPONENTS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -41825,7 +43661,9 @@ pub(crate) static KAPE_FILE_CONFIG_COMPONENTS_LOG: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_COMPONENTS_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -41845,7 +43683,9 @@ pub(crate) static KAPE_FILE_CONFIG_COMPONENTS_LOG_2: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_DRIVERS: ArtifactDescriptor = ArtifactDescriptor {
@@ -41865,7 +43705,9 @@ pub(crate) static KAPE_FILE_CONFIG_DRIVERS: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DRIVERS_REGISTRY_HIV: ArtifactDescriptor = ArtifactDescriptor {
@@ -41885,7 +43727,9 @@ pub(crate) static KAPE_FILE_DRIVERS_REGISTRY_HIV: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_DRIVERS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -41905,7 +43749,9 @@ pub(crate) static KAPE_FILE_CONFIG_DRIVERS_LOG: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DRIVERS_REGISTRY_TRA: ArtifactDescriptor = ArtifactDescriptor {
@@ -41925,7 +43771,9 @@ pub(crate) static KAPE_FILE_DRIVERS_REGISTRY_TRA: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_ELAM: ArtifactDescriptor = ArtifactDescriptor {
@@ -41945,7 +43793,9 @@ pub(crate) static KAPE_FILE_CONFIG_ELAM: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ELAM_REGISTRY_HIVE: ArtifactDescriptor = ArtifactDescriptor {
@@ -41965,7 +43815,9 @@ pub(crate) static KAPE_FILE_ELAM_REGISTRY_HIVE: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_ELAM_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -41985,7 +43837,9 @@ pub(crate) static KAPE_FILE_CONFIG_ELAM_LOG: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_ELAM_REGISTRY_TRANSA: ArtifactDescriptor = ArtifactDescriptor {
@@ -42005,7 +43859,9 @@ pub(crate) static KAPE_FILE_ELAM_REGISTRY_TRANSA: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_USERDIFF: ArtifactDescriptor = ArtifactDescriptor {
@@ -42025,7 +43881,9 @@ pub(crate) static KAPE_FILE_CONFIG_USERDIFF: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_USERDIFF_REGISTRY_HI: ArtifactDescriptor = ArtifactDescriptor {
@@ -42045,7 +43903,9 @@ pub(crate) static KAPE_FILE_USERDIFF_REGISTRY_HI: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_USERDIFF_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -42065,7 +43925,9 @@ pub(crate) static KAPE_FILE_CONFIG_USERDIFF_LOG: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_USERDIFF_REGISTRY_TR: ArtifactDescriptor = ArtifactDescriptor {
@@ -42085,7 +43947,9 @@ pub(crate) static KAPE_FILE_USERDIFF_REGISTRY_TR: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_VSMIDK: ArtifactDescriptor = ArtifactDescriptor {
@@ -42105,7 +43969,9 @@ pub(crate) static KAPE_FILE_CONFIG_VSMIDK: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_VSMIDK_REGISTRY_HIVE: ArtifactDescriptor = ArtifactDescriptor {
@@ -42125,7 +43991,9 @@ pub(crate) static KAPE_FILE_VSMIDK_REGISTRY_HIVE: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_VSMIDK_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -42145,7 +44013,9 @@ pub(crate) static KAPE_FILE_CONFIG_VSMIDK_LOG: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_VSMIDK_REGISTRY_TRAN: ArtifactDescriptor = ArtifactDescriptor {
@@ -42165,7 +44035,9 @@ pub(crate) static KAPE_FILE_VSMIDK_REGISTRY_TRAN: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesOther.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_SAM_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -42185,7 +44057,9 @@ pub(crate) static KAPE_FILE_CONFIG_SAM_LOG: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SAM_REGISTRY_TRANSAC: ArtifactDescriptor = ArtifactDescriptor {
@@ -42205,7 +44079,9 @@ pub(crate) static KAPE_FILE_SAM_REGISTRY_TRANSAC: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_SECURITY_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -42225,7 +44101,9 @@ pub(crate) static KAPE_FILE_CONFIG_SECURITY_LOG: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SECURITY_REGISTRY_TR: ArtifactDescriptor = ArtifactDescriptor {
@@ -42245,7 +44123,9 @@ pub(crate) static KAPE_FILE_SECURITY_REGISTRY_TR: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_SOFTWARE_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -42265,7 +44145,9 @@ pub(crate) static KAPE_FILE_CONFIG_SOFTWARE_LOG: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SOFTWARE_REGISTRY_TR: ArtifactDescriptor = ArtifactDescriptor {
@@ -42285,7 +44167,9 @@ pub(crate) static KAPE_FILE_SOFTWARE_REGISTRY_TR: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_SYSTEM_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -42305,7 +44189,9 @@ pub(crate) static KAPE_FILE_CONFIG_SYSTEM_LOG: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYSTEM_REGISTRY_TRAN: ArtifactDescriptor = ArtifactDescriptor {
@@ -42325,7 +44211,9 @@ pub(crate) static KAPE_FILE_SYSTEM_REGISTRY_TRAN: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_SAM: ArtifactDescriptor = ArtifactDescriptor {
@@ -42345,7 +44233,9 @@ pub(crate) static KAPE_FILE_CONFIG_SAM: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SAM_REGISTRY_HIVE: ArtifactDescriptor = ArtifactDescriptor {
@@ -42365,7 +44255,9 @@ pub(crate) static KAPE_FILE_SAM_REGISTRY_HIVE: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
@@ -42385,7 +44277,9 @@ pub(crate) static KAPE_FILE_CONFIG_SECURITY: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SECURITY_REGISTRY_HI: ArtifactDescriptor = ArtifactDescriptor {
@@ -42405,7 +44299,9 @@ pub(crate) static KAPE_FILE_SECURITY_REGISTRY_HI: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_SOFTWARE: ArtifactDescriptor = ArtifactDescriptor {
@@ -42425,7 +44321,9 @@ pub(crate) static KAPE_FILE_CONFIG_SOFTWARE: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SOFTWARE_REGISTRY_HI: ArtifactDescriptor = ArtifactDescriptor {
@@ -42445,7 +44343,9 @@ pub(crate) static KAPE_FILE_SOFTWARE_REGISTRY_HI: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
@@ -42465,7 +44365,9 @@ pub(crate) static KAPE_FILE_CONFIG_SYSTEM: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYSTEM_REGISTRY_HIVE: ArtifactDescriptor = ArtifactDescriptor {
@@ -42485,7 +44387,9 @@ pub(crate) static KAPE_FILE_SYSTEM_REGISTRY_HIVE: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REGBACK_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -42505,7 +44409,9 @@ pub(crate) static KAPE_FILE_REGBACK_LOG: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REGBACK_REGISTRY_TRA: ArtifactDescriptor = ArtifactDescriptor {
@@ -42525,7 +44431,9 @@ pub(crate) static KAPE_FILE_REGBACK_REGISTRY_TRA: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REGBACK_SAM: ArtifactDescriptor = ArtifactDescriptor {
@@ -42545,7 +44453,9 @@ pub(crate) static KAPE_FILE_REGBACK_SAM: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SAM_REGISTRY_HIVE_RE: ArtifactDescriptor = ArtifactDescriptor {
@@ -42565,7 +44475,9 @@ pub(crate) static KAPE_FILE_SAM_REGISTRY_HIVE_RE: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REGBACK_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
@@ -42585,7 +44497,9 @@ pub(crate) static KAPE_FILE_REGBACK_SECURITY: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REGBACK_SECURITY_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -42605,7 +44519,9 @@ pub(crate) static KAPE_FILE_REGBACK_SECURITY_2: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REGBACK_SOFTWARE: ArtifactDescriptor = ArtifactDescriptor {
@@ -42625,7 +44541,9 @@ pub(crate) static KAPE_FILE_REGBACK_SOFTWARE: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REGBACK_SOFTWARE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -42645,7 +44563,9 @@ pub(crate) static KAPE_FILE_REGBACK_SOFTWARE_2: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REGBACK_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
@@ -42665,7 +44585,9 @@ pub(crate) static KAPE_FILE_REGBACK_SYSTEM: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REGBACK_SYSTEM_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -42685,7 +44607,9 @@ pub(crate) static KAPE_FILE_REGBACK_SYSTEM_2: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REGBACK_SYSTEM1: ArtifactDescriptor = ArtifactDescriptor {
@@ -42705,7 +44629,9 @@ pub(crate) static KAPE_FILE_REGBACK_SYSTEM1: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REGBACK_SYSTEM1_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -42725,7 +44651,9 @@ pub(crate) static KAPE_FILE_REGBACK_SYSTEM1_2: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYSTEMPROFILE_NTUSER_DAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -42745,7 +44673,9 @@ pub(crate) static KAPE_FILE_SYSTEMPROFILE_NTUSER_DAT: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYSTEM_PROFILE_REGIS: ArtifactDescriptor = ArtifactDescriptor {
@@ -42765,7 +44695,9 @@ pub(crate) static KAPE_FILE_SYSTEM_PROFILE_REGIS: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYSTEMPROFILE_NTUSER_DAT_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -42779,13 +44711,16 @@ pub(crate) static KAPE_FILE_SYSTEMPROFILE_NTUSER_DAT_LOG: ArtifactDescriptor = A
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "System Profile registry transaction files — collected by KAPE RegistryHivesSystem target",
+    meaning:
+        "System Profile registry transaction files — collected by KAPE RegistryHivesSystem target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYSTEMPROFILE_NTUSER_DAT_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -42825,7 +44760,9 @@ pub(crate) static KAPE_FILE_LOCALSERVICE_NTUSER_DAT: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOCAL_SERVICE_REGIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -42845,7 +44782,9 @@ pub(crate) static KAPE_FILE_LOCAL_SERVICE_REGIST: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOCALSERVICE_NTUSER_DAT_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -42859,13 +44798,16 @@ pub(crate) static KAPE_FILE_LOCALSERVICE_NTUSER_DAT_LOG: ArtifactDescriptor = Ar
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Local Service registry transaction files — collected by KAPE RegistryHivesSystem target",
+    meaning:
+        "Local Service registry transaction files — collected by KAPE RegistryHivesSystem target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOCALSERVICE_NTUSER_DAT_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -42905,7 +44847,9 @@ pub(crate) static KAPE_FILE_NETWORKSERVICE_NTUSER_DAT: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORK_SERVICE_REGI: ArtifactDescriptor = ArtifactDescriptor {
@@ -42925,7 +44869,9 @@ pub(crate) static KAPE_FILE_NETWORK_SERVICE_REGI: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORKSERVICE_NTUSER_DAT_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -42979,13 +44925,16 @@ pub(crate) static KAPE_FILE_SNAPSHOT_REGISTRY: ArtifactDescriptor = ArtifactDesc
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "System Restore Points Registry Hives (XP) — collected by KAPE RegistryHivesSystem target",
+    meaning:
+        "System Restore Points Registry Hives (XP) — collected by KAPE RegistryHivesSystem target",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_USER_NTUSER_DAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -43005,7 +44954,9 @@ pub(crate) static KAPE_FILE_USER_NTUSER_DAT: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NTUSER_DAT_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
@@ -43025,7 +44976,9 @@ pub(crate) static KAPE_FILE_NTUSER_DAT_REGISTRY: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_USER_NTUSER_DAT_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -43045,7 +44998,9 @@ pub(crate) static KAPE_FILE_USER_NTUSER_DAT_LOG: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_DEFAULT: ArtifactDescriptor = ArtifactDescriptor {
@@ -43065,7 +45020,9 @@ pub(crate) static KAPE_FILE_CONFIG_DEFAULT: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NTUSER_DAT_DEFAULT_R: ArtifactDescriptor = ArtifactDescriptor {
@@ -43085,7 +45042,9 @@ pub(crate) static KAPE_FILE_NTUSER_DAT_DEFAULT_R: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CONFIG_DEFAULT_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -43105,7 +45064,9 @@ pub(crate) static KAPE_FILE_CONFIG_DEFAULT_LOG: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NTUSER_DAT_DEFAULT_T: ArtifactDescriptor = ArtifactDescriptor {
@@ -43125,7 +45086,9 @@ pub(crate) static KAPE_FILE_NTUSER_DAT_DEFAULT_T: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWS_USRCLASS_DAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -43145,7 +45108,9 @@ pub(crate) static KAPE_FILE_WINDOWS_USRCLASS_DAT: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWS_USRCLASS_DAT_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -43165,7 +45130,9 @@ pub(crate) static KAPE_FILE_WINDOWS_USRCLASS_DAT_LOG: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesUser.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_C_NTUSER_DAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -43185,7 +45152,9 @@ pub(crate) static KAPE_FILE_C_NTUSER_DAT: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_C_NTUSER_DAT_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -43205,7 +45174,9 @@ pub(crate) static KAPE_FILE_C_NTUSER_DAT_LOG: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_C_DEFAULT: ArtifactDescriptor = ArtifactDescriptor {
@@ -43225,7 +45196,9 @@ pub(crate) static KAPE_FILE_C_DEFAULT: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_C_DEFAULT_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -43245,7 +45218,9 @@ pub(crate) static KAPE_FILE_C_DEFAULT_LOG: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_C_USRCLASS_DAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -43265,7 +45240,9 @@ pub(crate) static KAPE_FILE_C_USRCLASS_DAT: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_C_USRCLASS_DAT_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -43285,7 +45262,9 @@ pub(crate) static KAPE_FILE_C_USRCLASS_DAT_LOG: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_C_LNK: ArtifactDescriptor = ArtifactDescriptor {
@@ -43305,7 +45284,9 @@ pub(crate) static KAPE_FILE_C_LNK: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MICROSOFT_WORD_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -43325,7 +45306,9 @@ pub(crate) static KAPE_FILE_MICROSOFT_WORD_2: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MICROSOFT_EXCEL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -43345,7 +45328,9 @@ pub(crate) static KAPE_FILE_MICROSOFT_EXCEL_2: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MICROSOFT_POWERPOINT_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -43365,7 +45350,9 @@ pub(crate) static KAPE_FILE_MICROSOFT_POWERPOINT_2: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MICROSOFT_PUBLISHER_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -43385,7 +45372,9 @@ pub(crate) static KAPE_FILE_MICROSOFT_PUBLISHER_2: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PUBLISHER_AUTOSAVE_L: ArtifactDescriptor = ArtifactDescriptor {
@@ -43405,7 +45394,9 @@ pub(crate) static KAPE_FILE_PUBLISHER_AUTOSAVE_L: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_OFFICEFILECACHE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -43425,7 +45416,9 @@ pub(crate) static KAPE_FILE_OFFICEFILECACHE_2: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_OFFICE_DOCUMENT_CACH: ArtifactDescriptor = ArtifactDescriptor {
@@ -43445,7 +45438,9 @@ pub(crate) static KAPE_FILE_OFFICE_DOCUMENT_CACH: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_BOOKMARKS_21: ArtifactDescriptor = ArtifactDescriptor {
@@ -43465,7 +45460,9 @@ pub(crate) static KAPE_FILE_BOOKMARKS_21: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_BOOKMARKS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -43485,7 +45482,9 @@ pub(crate) static KAPE_FILE_CHROME_BOOKMARKS_3: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_COOKIES_17: ArtifactDescriptor = ArtifactDescriptor {
@@ -43505,7 +45504,9 @@ pub(crate) static KAPE_FILE_COOKIES_17: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_COOKIES_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -43525,7 +45526,9 @@ pub(crate) static KAPE_FILE_CHROME_COOKIES_3: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CURRENT_SESSION_19: ArtifactDescriptor = ArtifactDescriptor {
@@ -43535,7 +45538,9 @@ pub(crate) static KAPE_FILE_CURRENT_SESSION_19: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -43545,7 +45550,9 @@ pub(crate) static KAPE_FILE_CURRENT_SESSION_19: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_CURRENT_SESSI_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -43555,7 +45562,9 @@ pub(crate) static KAPE_FILE_CHROME_CURRENT_SESSI_3: ArtifactDescriptor = Artifac
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -43565,7 +45574,9 @@ pub(crate) static KAPE_FILE_CHROME_CURRENT_SESSI_3: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CURRENT_TABS_19: ArtifactDescriptor = ArtifactDescriptor {
@@ -43575,7 +45586,9 @@ pub(crate) static KAPE_FILE_CURRENT_TABS_19: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -43585,7 +45598,9 @@ pub(crate) static KAPE_FILE_CURRENT_TABS_19: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_CURRENT_TABS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -43595,7 +45610,9 @@ pub(crate) static KAPE_FILE_CHROME_CURRENT_TABS_3: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Tabs"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Current Tabs",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -43605,7 +45622,9 @@ pub(crate) static KAPE_FILE_CHROME_CURRENT_TABS_3: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DOWNLOAD_METADATA_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -43615,7 +45634,9 @@ pub(crate) static KAPE_FILE_DOWNLOAD_METADATA_2: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Download Metadata"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Download Metadata",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -43625,7 +45646,9 @@ pub(crate) static KAPE_FILE_DOWNLOAD_METADATA_2: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_DOWNLOAD_META: ArtifactDescriptor = ArtifactDescriptor {
@@ -43635,7 +45658,9 @@ pub(crate) static KAPE_FILE_CHROME_DOWNLOAD_META: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Download Metadata"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Download Metadata",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -43645,7 +45670,9 @@ pub(crate) static KAPE_FILE_CHROME_DOWNLOAD_META: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_EXTENSION_COOKIES_18: ArtifactDescriptor = ArtifactDescriptor {
@@ -43655,7 +45682,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_18: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Extension Cookies"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Extension Cookies",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -43665,7 +45694,9 @@ pub(crate) static KAPE_FILE_EXTENSION_COOKIES_18: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_EXTENSION_COO: ArtifactDescriptor = ArtifactDescriptor {
@@ -43675,7 +45706,9 @@ pub(crate) static KAPE_FILE_CHROME_EXTENSION_COO: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Extension Cookies"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Extension Cookies",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -43685,7 +45718,9 @@ pub(crate) static KAPE_FILE_CHROME_EXTENSION_COO: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FAVICONS_22: ArtifactDescriptor = ArtifactDescriptor {
@@ -43705,7 +45740,9 @@ pub(crate) static KAPE_FILE_FAVICONS_22: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_FAVICONS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -43725,7 +45762,9 @@ pub(crate) static KAPE_FILE_CHROME_FAVICONS_3: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_HISTORY_22: ArtifactDescriptor = ArtifactDescriptor {
@@ -43745,7 +45784,9 @@ pub(crate) static KAPE_FILE_HISTORY_22: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_HISTORY_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -43765,7 +45806,9 @@ pub(crate) static KAPE_FILE_CHROME_HISTORY_3: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LAST_SESSION_18: ArtifactDescriptor = ArtifactDescriptor {
@@ -43775,7 +45818,9 @@ pub(crate) static KAPE_FILE_LAST_SESSION_18: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Last Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Last Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -43785,7 +45830,9 @@ pub(crate) static KAPE_FILE_LAST_SESSION_18: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_LAST_SESSION_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -43795,7 +45842,9 @@ pub(crate) static KAPE_FILE_CHROME_LAST_SESSION_3: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Last Session"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Last Session",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -43805,7 +45854,9 @@ pub(crate) static KAPE_FILE_CHROME_LAST_SESSION_3: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LAST_TABS_18: ArtifactDescriptor = ArtifactDescriptor {
@@ -43825,7 +45876,9 @@ pub(crate) static KAPE_FILE_LAST_TABS_18: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_LAST_TABS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -43845,7 +45898,9 @@ pub(crate) static KAPE_FILE_CHROME_LAST_TABS_3: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SESSIONS_20: ArtifactDescriptor = ArtifactDescriptor {
@@ -43865,7 +45920,9 @@ pub(crate) static KAPE_FILE_SESSIONS_20: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_SESSIONS_FOLD: ArtifactDescriptor = ArtifactDescriptor {
@@ -43885,7 +45942,9 @@ pub(crate) static KAPE_FILE_CHROME_SESSIONS_FOLD: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LOGIN_DATA_21: ArtifactDescriptor = ArtifactDescriptor {
@@ -43905,7 +45964,9 @@ pub(crate) static KAPE_FILE_LOGIN_DATA_21: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_LOGIN_DATA_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -43925,7 +45986,9 @@ pub(crate) static KAPE_FILE_CHROME_LOGIN_DATA_3: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_MEDIA_HISTORY_18: ArtifactDescriptor = ArtifactDescriptor {
@@ -43935,7 +45998,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_18: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Media History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Media History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -43945,7 +46010,9 @@ pub(crate) static KAPE_FILE_MEDIA_HISTORY_18: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_MEDIA_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -43955,7 +46022,9 @@ pub(crate) static KAPE_FILE_CHROME_MEDIA_HISTORY: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Media History*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Media History*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -43965,7 +46034,9 @@ pub(crate) static KAPE_FILE_CHROME_MEDIA_HISTORY: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORK_ACTION_PREDICTOR_22: ArtifactDescriptor = ArtifactDescriptor {
@@ -43975,7 +46046,9 @@ pub(crate) static KAPE_FILE_NETWORK_ACTION_PREDICTOR_22: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Network Action Predictor"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Network Action Predictor",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -43985,7 +46058,9 @@ pub(crate) static KAPE_FILE_NETWORK_ACTION_PREDICTOR_22: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_NETWORK_ACTIO: ArtifactDescriptor = ArtifactDescriptor {
@@ -43995,7 +46070,9 @@ pub(crate) static KAPE_FILE_CHROME_NETWORK_ACTIO: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Network Action Predictor"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Network Action Predictor",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -44005,7 +46082,9 @@ pub(crate) static KAPE_FILE_CHROME_NETWORK_ACTIO: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NETWORK_PERSISTENT_STATE_21: ArtifactDescriptor = ArtifactDescriptor {
@@ -44015,7 +46094,9 @@ pub(crate) static KAPE_FILE_NETWORK_PERSISTENT_STATE_21: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Network Persistent State"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Network Persistent State",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -44025,7 +46106,9 @@ pub(crate) static KAPE_FILE_NETWORK_PERSISTENT_STATE_21: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_NETWORK_PERSI: ArtifactDescriptor = ArtifactDescriptor {
@@ -44035,7 +46118,9 @@ pub(crate) static KAPE_FILE_CHROME_NETWORK_PERSI: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Network Persistent State"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Network Persistent State",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -44045,7 +46130,9 @@ pub(crate) static KAPE_FILE_CHROME_NETWORK_PERSI: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PREFERENCES_22: ArtifactDescriptor = ArtifactDescriptor {
@@ -44065,7 +46152,9 @@ pub(crate) static KAPE_FILE_PREFERENCES_22: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_PREFERENCES_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -44085,7 +46174,9 @@ pub(crate) static KAPE_FILE_CHROME_PREFERENCES_3: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_QUOTAMANAGER_19: ArtifactDescriptor = ArtifactDescriptor {
@@ -44095,7 +46186,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_19: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\QuotaManager"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\QuotaManager",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -44105,7 +46198,9 @@ pub(crate) static KAPE_FILE_QUOTAMANAGER_19: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_QUOTA_MANAGER: ArtifactDescriptor = ArtifactDescriptor {
@@ -44115,7 +46210,9 @@ pub(crate) static KAPE_FILE_CHROME_QUOTA_MANAGER: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\QuotaManager"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\QuotaManager",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -44125,7 +46222,9 @@ pub(crate) static KAPE_FILE_CHROME_QUOTA_MANAGER: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_REPORTING_AND_NEL_19: ArtifactDescriptor = ArtifactDescriptor {
@@ -44135,7 +46234,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_19: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Reporting and NEL"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Reporting and NEL",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -44145,7 +46246,9 @@ pub(crate) static KAPE_FILE_REPORTING_AND_NEL_19: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_REPORTING_AND: ArtifactDescriptor = ArtifactDescriptor {
@@ -44155,7 +46258,9 @@ pub(crate) static KAPE_FILE_CHROME_REPORTING_AND: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Reporting and NEL"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Reporting and NEL",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -44165,7 +46270,9 @@ pub(crate) static KAPE_FILE_CHROME_REPORTING_AND: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SHORTCUTS_21: ArtifactDescriptor = ArtifactDescriptor {
@@ -44185,7 +46292,9 @@ pub(crate) static KAPE_FILE_SHORTCUTS_21: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_SHORTCUTS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -44205,7 +46314,9 @@ pub(crate) static KAPE_FILE_CHROME_SHORTCUTS_3: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TOP_SITES_22: ArtifactDescriptor = ArtifactDescriptor {
@@ -44225,7 +46336,9 @@ pub(crate) static KAPE_FILE_TOP_SITES_22: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_TOP_SITES_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -44245,7 +46358,9 @@ pub(crate) static KAPE_FILE_CHROME_TOP_SITES_3: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TRUST_TOKENS_18: ArtifactDescriptor = ArtifactDescriptor {
@@ -44255,7 +46370,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_18: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Trust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Trust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -44265,7 +46382,9 @@ pub(crate) static KAPE_FILE_TRUST_TOKENS_18: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_TRUST_TOKENS: ArtifactDescriptor = ArtifactDescriptor {
@@ -44275,7 +46394,9 @@ pub(crate) static KAPE_FILE_CHROME_TRUST_TOKENS: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Trust Tokens*"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Trust Tokens*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -44285,7 +46406,9 @@ pub(crate) static KAPE_FILE_CHROME_TRUST_TOKENS: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYNC_DATASYNCDATA_SQLITE3_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -44335,7 +46458,9 @@ pub(crate) static KAPE_FILE_VISITED_LINKS_22: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Visited Links"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Visited Links",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -44345,7 +46470,9 @@ pub(crate) static KAPE_FILE_VISITED_LINKS_22: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_VISITED_LINKS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -44355,7 +46482,9 @@ pub(crate) static KAPE_FILE_CHROME_VISITED_LINKS_3: ArtifactDescriptor = Artifac
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Visited Links"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Google\\Chrome\\User Data\\*\\Visited Links",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -44365,7 +46494,9 @@ pub(crate) static KAPE_FILE_CHROME_VISITED_LINKS_3: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WEB_DATA_22: ArtifactDescriptor = ArtifactDescriptor {
@@ -44385,7 +46516,9 @@ pub(crate) static KAPE_FILE_WEB_DATA_22: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CHROME_WEB_DATA_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -44405,7 +46538,9 @@ pub(crate) static KAPE_FILE_CHROME_WEB_DATA_3: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_PROTECT_18: ArtifactDescriptor = ArtifactDescriptor {
@@ -44425,7 +46560,9 @@ pub(crate) static KAPE_FILE_PROTECT_18: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWS_PROTECT_FOLD: ArtifactDescriptor = ArtifactDescriptor {
@@ -44445,28 +46582,35 @@ pub(crate) static KAPE_FILE_WINDOWS_PROTECT_FOLD: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_PACKAGES_MICROSOFT_MICROSOFTEDGE_8WEKYB3D8BBWE_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_packages_microsoft_microsoftedge_8wekyb3d8bbwe_2",
-    name: "Edge folder",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Packages\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\\"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Edge folder — collected by KAPE RoamingProfile target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
-};
+pub(crate) static KAPE_FILE_PACKAGES_MICROSOFT_MICROSOFTEDGE_8WEKYB3D8BBWE_2: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_packages_microsoft_microsoftedge_8wekyb3d8bbwe_2",
+        name: "Edge folder",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Users\\%user%\\AppData\\Local\\Packages\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\\",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Edge folder — collected by KAPE RoamingProfile target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_EDGE_FOLDER: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_edge_folder",
@@ -44475,7 +46619,9 @@ pub(crate) static KAPE_FILE_EDGE_FOLDER: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Packages\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Packages\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -44485,7 +46631,9 @@ pub(crate) static KAPE_FILE_EDGE_FOLDER: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_C_AMCACHE_HVE: ArtifactDescriptor = ArtifactDescriptor {
@@ -44505,7 +46653,9 @@ pub(crate) static KAPE_FILE_C_AMCACHE_HVE: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_C_AMCACHE_HVE_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -44525,7 +46675,9 @@ pub(crate) static KAPE_FILE_C_AMCACHE_HVE_LOG: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWS_RECENT_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -44545,7 +46697,9 @@ pub(crate) static KAPE_FILE_WINDOWS_RECENT_3: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LNK_FILES_FROM_RECEN: ArtifactDescriptor = ArtifactDescriptor {
@@ -44565,7 +46719,9 @@ pub(crate) static KAPE_FILE_LNK_FILES_FROM_RECEN: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_OFFICE_RECENT_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -44585,7 +46741,9 @@ pub(crate) static KAPE_FILE_OFFICE_RECENT_3: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_LNK_FILES_FROM_MICRO: ArtifactDescriptor = ArtifactDescriptor {
@@ -44605,7 +46763,9 @@ pub(crate) static KAPE_FILE_LNK_FILES_FROM_MICRO: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DESKTOP_LNK_FILES_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -44625,7 +46785,9 @@ pub(crate) static KAPE_FILE_DESKTOP_LNK_FILES_2: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RoamingProfile.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CCM_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -44645,7 +46807,9 @@ pub(crate) static KAPE_FILE_CCM_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SCCMClientLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SCCMClientLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CUSTOM_SDB: ArtifactDescriptor = ArtifactDescriptor {
@@ -44859,7 +47023,8 @@ pub(crate) static KAPE_FILE_LOGFILES_SUM: ArtifactDescriptor = ArtifactDescripto
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "\"Grabs Current.mdb, SystemIdentity.mdb, [GUID].mdb and associated ESE db log files\"",
+    meaning:
+        "\"Grabs Current.mdb, SystemIdentity.mdb, [GUID].mdb and associated ESE db log files\"",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -44885,7 +47050,9 @@ pub(crate) static KAPE_FILE_TASKS_JOB: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_AT_JOB: ArtifactDescriptor = ArtifactDescriptor {
@@ -44905,7 +47072,9 @@ pub(crate) static KAPE_FILE_AT_JOB: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWS_SCHEDLGU_TXT: ArtifactDescriptor = ArtifactDescriptor {
@@ -44925,7 +47094,9 @@ pub(crate) static KAPE_FILE_WINDOWS_SCHEDLGU_TXT: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_AT_SCHEDLGU_TXT: ArtifactDescriptor = ArtifactDescriptor {
@@ -44945,7 +47116,9 @@ pub(crate) static KAPE_FILE_AT_SCHEDLGU_TXT: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYSTEM32_TASKS: ArtifactDescriptor = ArtifactDescriptor {
@@ -44965,7 +47138,9 @@ pub(crate) static KAPE_FILE_SYSTEM32_TASKS: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYSWOW64_TASKS: ArtifactDescriptor = ArtifactDescriptor {
@@ -44985,7 +47160,9 @@ pub(crate) static KAPE_FILE_SYSWOW64_TASKS: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_XML: ArtifactDescriptor = ArtifactDescriptor {
@@ -45005,7 +47182,9 @@ pub(crate) static KAPE_FILE_XML: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_POWERSHELL_SCHEDULEDJOBS: ArtifactDescriptor = ArtifactDescriptor {
@@ -45015,7 +47194,9 @@ pub(crate) static KAPE_FILE_POWERSHELL_SCHEDULEDJOBS: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\PowerShell\\ScheduledJobs\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\PowerShell\\ScheduledJobs\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -45025,7 +47206,9 @@ pub(crate) static KAPE_FILE_POWERSHELL_SCHEDULEDJOBS: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ScheduledTasks.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_OUTPUT: ArtifactDescriptor = ArtifactDescriptor {
@@ -45145,7 +47328,9 @@ pub(crate) static KAPE_FILE_SYSTEM32_CATROOT: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SignatureCatalog.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SignatureCatalog.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SIGNATURECATALOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -45165,7 +47350,9 @@ pub(crate) static KAPE_FILE_SIGNATURECATALOG: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SignatureCatalog.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/SignatureCatalog.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_TEMPSTATE_PNG: ArtifactDescriptor = ArtifactDescriptor {
@@ -45275,7 +47462,9 @@ pub(crate) static KAPE_FILE_PROGRAMS_STARTUP: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -45285,7 +47474,9 @@ pub(crate) static KAPE_FILE_PROGRAMS_STARTUP: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/StartupFolders.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/StartupFolders.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SYSTEM_WIDE_STARTUP: ArtifactDescriptor = ArtifactDescriptor {
@@ -45305,7 +47496,9 @@ pub(crate) static KAPE_FILE_SYSTEM_WIDE_STARTUP: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/StartupFolders.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/StartupFolders.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_STARTUPINFO_XML: ArtifactDescriptor = ArtifactDescriptor {
@@ -45348,45 +47541,47 @@ pub(crate) static KAPE_FILE_STARTUPINFO_XML_FILE: ArtifactDescriptor = ArtifactD
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/StartupInfo.tkape"],
 };
 
-pub(crate) static KAPE_FILE_SYSTEM_VOLUME_INFORMATION_SYSCACHE_HVE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_system_volume_information_syscache_hve",
-    name: "Syscache",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\System Volume Information\\'Syscache.hve'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Syscache — collected by KAPE Syscache target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Syscache.tkape"],
-};
+pub(crate) static KAPE_FILE_SYSTEM_VOLUME_INFORMATION_SYSCACHE_HVE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_system_volume_information_syscache_hve",
+        name: "Syscache",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\System Volume Information\\'Syscache.hve'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Syscache — collected by KAPE Syscache target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Syscache.tkape"],
+    };
 
-pub(crate) static KAPE_FILE_SYSTEM_VOLUME_INFORMATION_SYSCACHE_HVE_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_system_volume_information_syscache_hve_log",
-    name: "Syscache transaction files",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\System Volume Information\\'Syscache.hve.LOG*'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Syscache transaction files — collected by KAPE Syscache target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Syscache.tkape"],
-};
+pub(crate) static KAPE_FILE_SYSTEM_VOLUME_INFORMATION_SYSCACHE_HVE_LOG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_system_volume_information_syscache_hve_log",
+        name: "Syscache transaction files",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\System Volume Information\\'Syscache.hve.LOG*'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Syscache transaction files — collected by KAPE Syscache target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Syscache.tkape"],
+    };
 
 pub(crate) static KAPE_FILE_EXPLORER_THUMBCACHE_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_explorer_thumbcache_db",
@@ -45395,7 +47590,9 @@ pub(crate) static KAPE_FILE_EXPLORER_THUMBCACHE_DB: ArtifactDescriptor = Artifac
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\Explorer\\'thumbcache_*.db'"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Local\\Microsoft\\Windows\\Explorer\\'thumbcache_*.db'",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -45425,7 +47622,9 @@ pub(crate) static KAPE_FILE_WINDOWS_SETUPAPI_LOG: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/USBDevicesLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/USBDevicesLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_INF_SETUPAPI_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -45445,7 +47644,9 @@ pub(crate) static KAPE_FILE_INF_SETUPAPI_LOG: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/USBDevicesLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/USBDevicesLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_SETUPAPI_LOG_WIN7: ArtifactDescriptor = ArtifactDescriptor {
@@ -45465,7 +47666,9 @@ pub(crate) static KAPE_FILE_SETUPAPI_LOG_WIN7: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/USBDevicesLogs.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/USBDevicesLogs.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_USERS_USER: ArtifactDescriptor = ArtifactDescriptor {
@@ -47465,7 +49668,9 @@ pub(crate) static KAPE_FILE_COREAIPLATFORM_00_UKP: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsCopilotRecall.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsCopilotRecall.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_FIREWALL_PFIREWALL: ArtifactDescriptor = ArtifactDescriptor {
@@ -47485,7 +49690,9 @@ pub(crate) static KAPE_FILE_FIREWALL_PFIREWALL: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsFirewall.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsFirewall.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_WINDOWS_FIREWALL_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -47505,7 +49712,9 @@ pub(crate) static KAPE_FILE_WINDOWS_FIREWALL_LOG: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsFirewall.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsFirewall.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_CRYPTO_KEYS: ArtifactDescriptor = ArtifactDescriptor {
@@ -47515,7 +49724,9 @@ pub(crate) static KAPE_FILE_CRYPTO_KEYS: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Windows\\ServiceProfiles\\LocalService\\AppData\\Roaming\\Microsoft\\Crypto\\Keys\\"),
+    file_path: Some(
+        "C:\\Windows\\ServiceProfiles\\LocalService\\AppData\\Roaming\\Microsoft\\Crypto\\Keys\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -47985,7 +50196,9 @@ pub(crate) static KAPE_FILE_APPLICATIONS_WINDOWS: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsIndexSearch.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsIndexSearch.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_APPLICATIONS_S_1: ArtifactDescriptor = ArtifactDescriptor {
@@ -47995,7 +50208,9 @@ pub(crate) static KAPE_FILE_APPLICATIONS_S_1: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Search\\Data\\Applications\\S-1*\\"),
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Microsoft\\Search\\Data\\Applications\\S-1*\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -48005,7 +50220,9 @@ pub(crate) static KAPE_FILE_APPLICATIONS_S_1: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsIndexSearch.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsIndexSearch.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_S_1_GATHERLOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -48035,7 +50252,9 @@ pub(crate) static KAPE_FILE_WINDOWS_GATHERLOGS: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("C:\\programdata\\microsoft\\search\\data\\applications\\windows\\GatherLogs\\"),
+    file_path: Some(
+        "C:\\programdata\\microsoft\\search\\data\\applications\\windows\\GatherLogs\\",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -48045,7 +50264,9 @@ pub(crate) static KAPE_FILE_WINDOWS_GATHERLOGS: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsIndexSearch.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsIndexSearch.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_DRIVERS_ETC: ArtifactDescriptor = ArtifactDescriptor {
@@ -48065,7 +50286,9 @@ pub(crate) static KAPE_FILE_DRIVERS_ETC: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsNetwork.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsNetwork.tkape",
+    ],
 };
 
 pub(crate) static KAPE_FILE_NOTIFICATIONS_WPNDATABASE_DB_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -48328,25 +50551,30 @@ pub(crate) static KAPE_FILE_LEGACY_RBS_FILES_REL: ArtifactDescriptor = ArtifactD
     sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsTelemetryDiagnosticsLegacy.tkape"],
 };
 
-pub(crate) static KAPE_FILE_CONNECTEDDEVICESPLATFORM_ACTIVITIESCACHE_DB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_connecteddevicesplatform_activitiescache_db",
-    name: "ActivitiesCache.db",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\ConnectedDevicesPlatform\\ActivitiesCache.db*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "ActivitiesCache.db — collected by KAPE WindowsTimeline target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsTimeline.tkape"],
-};
+pub(crate) static KAPE_FILE_CONNECTEDDEVICESPLATFORM_ACTIVITIESCACHE_DB: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_connecteddevicesplatform_activitiescache_db",
+        name: "ActivitiesCache.db",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Users\\%user%\\AppData\\Local\\ConnectedDevicesPlatform\\ActivitiesCache.db*",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "ActivitiesCache.db — collected by KAPE WindowsTimeline target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsTimeline.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_SYSTEM_ETL: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_system_etl",
@@ -48365,28 +50593,33 @@ pub(crate) static KAPE_FILE_SYSTEM_ETL: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsUpdate.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsUpdate.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_WINDOWSUPDATE_WINDOWSUPDATE_ETL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_windowsupdate_windowsupdate_etl",
-    name: "Windows Update logs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\Logs\\WindowsUpdate\\'WindowsUpdate*.etl'"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Update logs — collected by KAPE WindowsUpdate target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsUpdate.tkape"],
-};
+pub(crate) static KAPE_FILE_WINDOWSUPDATE_WINDOWSUPDATE_ETL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_windowsupdate_windowsupdate_etl",
+        name: "Windows Update logs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Windows\\Logs\\WindowsUpdate\\'WindowsUpdate*.etl'"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Update logs — collected by KAPE WindowsUpdate target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsUpdate.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_CBS_CBS_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_cbs_cbs_log",
@@ -48405,28 +50638,33 @@ pub(crate) static KAPE_FILE_CBS_CBS_LOG: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsUpdate.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsUpdate.tkape",
+    ],
 };
 
-pub(crate) static KAPE_FILE_SOFTWAREDISTRIBUTION_DATASTORE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "kape_file_softwaredistribution_datastore",
-    name: "Windows Update History",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("C:\\Windows\\SoftwareDistribution\\DataStore"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Update History — collected by KAPE WindowsUpdate target",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsUpdate.tkape"],
-};
+pub(crate) static KAPE_FILE_SOFTWAREDISTRIBUTION_DATASTORE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_softwaredistribution_datastore",
+        name: "Windows Update History",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("C:\\Windows\\SoftwareDistribution\\DataStore"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Update History — collected by KAPE WindowsUpdate target",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/WindowsUpdate.tkape",
+        ],
+    };
 
 pub(crate) static KAPE_FILE_C_SYSTEM_VOLUME_INFORMATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "kape_file_c_system_volume_information",
@@ -48445,7 +50683,9 @@ pub(crate) static KAPE_FILE_C_SYSTEM_VOLUME_INFORMATION: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/XPRestorePoints.tkape"],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/XPRestorePoints.tkape",
+    ],
 };
 
 // ── Generated entries (2422) ─────────────────────────────────────────────────

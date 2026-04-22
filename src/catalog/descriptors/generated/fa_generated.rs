@@ -4,9 +4,8 @@
 // Do not edit manually — re-run `cargo run -p ingest` to regenerate.
 #![allow(clippy::too_many_lines)]
 
-use forensicnomicon::catalog::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, HiveTarget, OsScope,
-    TriagePriority,
+use super::super::super::types::{
+    ArtifactDescriptor, ArtifactType, DataScope, Decoder, HiveTarget, OsScope, TriagePriority,
 };
 pub(crate) static FA_FILE_PARITY_AGENT_CACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_parity_agent_cache",
@@ -25,7 +24,7 @@ pub(crate) static FA_FILE_PARITY_AGENT_CACHE: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_QUARANTINE: ArtifactDescriptor = ArtifactDescriptor {
@@ -45,7 +44,7 @@ pub(crate) static FA_FILE_QUARANTINE: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_QUARANTINE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -65,7 +64,7 @@ pub(crate) static FA_FILE_QUARANTINE_2: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_QUARANTINE_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -85,7 +84,7 @@ pub(crate) static FA_FILE_QUARANTINE_3: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CS_REGISTRY_BASE: ArtifactDescriptor = ArtifactDescriptor {
@@ -105,7 +104,7 @@ pub(crate) static FA_FILE_CS_REGISTRY_BASE: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_QUARANTINE_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -125,7 +124,7 @@ pub(crate) static FA_FILE_QUARANTINE_4: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -145,7 +144,7 @@ pub(crate) static FA_FILE_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_QUARANTINE_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -155,7 +154,9 @@ pub(crate) static FA_FILE_QUARANTINE_5: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Microsoft\\Microsoft Antimalware\\Quarantine\\**"),
+    file_path: Some(
+        "%%environ_allusersappdata%%\\Microsoft\\Microsoft Antimalware\\Quarantine\\**",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -165,7 +166,7 @@ pub(crate) static FA_FILE_QUARANTINE_5: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_QUARANTINE_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -185,7 +186,7 @@ pub(crate) static FA_FILE_QUARANTINE_6: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SUPPORT_MPDETECTION_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -195,7 +196,9 @@ pub(crate) static FA_FILE_SUPPORT_MPDETECTION_LOG: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Microsoft\\Windows AntiMalware\\Support\\MPDetection-*.log"),
+    file_path: Some(
+        "%%environ_allusersappdata%%\\Microsoft\\Windows AntiMalware\\Support\\MPDetection-*.log",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -205,7 +208,7 @@ pub(crate) static FA_FILE_SUPPORT_MPDETECTION_LOG: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SUPPORT_MPLOG_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -215,7 +218,9 @@ pub(crate) static FA_FILE_SUPPORT_MPLOG_LOG: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Microsoft\\Windows AntiMalware\\Support\\MPLog-*.log"),
+    file_path: Some(
+        "%%environ_allusersappdata%%\\Microsoft\\Windows AntiMalware\\Support\\MPLog-*.log",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -225,7 +230,7 @@ pub(crate) static FA_FILE_SUPPORT_MPLOG_LOG: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DETECTIONHISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -245,7 +250,7 @@ pub(crate) static FA_FILE_DETECTIONHISTORY: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SUPPORT_MPDETECTION_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -255,7 +260,9 @@ pub(crate) static FA_FILE_SUPPORT_MPDETECTION_LOG_2: ArtifactDescriptor = Artifa
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Microsoft\\Windows Defender\\Support\\MPDetection-*.log"),
+    file_path: Some(
+        "%%environ_allusersappdata%%\\Microsoft\\Windows Defender\\Support\\MPDetection-*.log",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -265,7 +272,7 @@ pub(crate) static FA_FILE_SUPPORT_MPDETECTION_LOG_2: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SUPPORT_MPLOG_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -275,7 +282,9 @@ pub(crate) static FA_FILE_SUPPORT_MPLOG_LOG_2: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Microsoft\\Windows Defender\\Support\\MPLog-*.log"),
+    file_path: Some(
+        "%%environ_allusersappdata%%\\Microsoft\\Windows Defender\\Support\\MPLog-*.log",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -285,7 +294,7 @@ pub(crate) static FA_FILE_SUPPORT_MPLOG_LOG_2: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_TEMP_MPCMDRUN_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -295,7 +304,9 @@ pub(crate) static FA_FILE_TEMP_MPCMDRUN_LOG: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_systemroot%%\\ServiceProfiles\\LocalService\\AppData\\Local\\Temp\\MpCmdRun.log"),
+    file_path: Some(
+        "%%environ_systemroot%%\\ServiceProfiles\\LocalService\\AppData\\Local\\Temp\\MpCmdRun.log",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -305,7 +316,7 @@ pub(crate) static FA_FILE_TEMP_MPCMDRUN_LOG: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_TEMP_MPCMDRUN_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -325,7 +336,7 @@ pub(crate) static FA_FILE_TEMP_MPCMDRUN_LOG_2: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_USERS_TEMP_MPCMDRUN_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -345,7 +356,7 @@ pub(crate) static FA_FILE_USERS_TEMP_MPCMDRUN_LOG: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_: ArtifactDescriptor = ArtifactDescriptor {
@@ -365,7 +376,7 @@ pub(crate) static FA_FILE_: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_EXCLUSIONS_PATHS: ArtifactDescriptor = ArtifactDescriptor {
@@ -593,7 +604,7 @@ pub(crate) static FA_FILE_SANTA: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SANTA_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -613,7 +624,7 @@ pub(crate) static FA_FILE_SANTA_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGS_SOPHOS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -633,7 +644,7 @@ pub(crate) static FA_FILE_LOGS_SOPHOS_LOG: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -653,7 +664,7 @@ pub(crate) static FA_FILE_LOGS_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_INFECTED: ArtifactDescriptor = ArtifactDescriptor {
@@ -673,7 +684,7 @@ pub(crate) static FA_FILE_INFECTED: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_INFECTED_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -693,7 +704,7 @@ pub(crate) static FA_FILE_INFECTED_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -703,7 +714,9 @@ pub(crate) static FA_FILE_LOGS_LOG: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Symantec\\Symantec Endpoint Protection\\*\\Data\\Logs\\*.log"),
+    file_path: Some(
+        "%%environ_allusersappdata%%\\Symantec\\Symantec Endpoint Protection\\*\\Data\\Logs\\*.log",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -713,7 +726,7 @@ pub(crate) static FA_FILE_LOGS_LOG: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_AV_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -733,7 +746,7 @@ pub(crate) static FA_FILE_AV_LOG: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_AV_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -743,7 +756,9 @@ pub(crate) static FA_FILE_AV_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Symantec\\Symantec Endpoint Protection\\Logs\\AV\\*.log"),
+    file_path: Some(
+        "%%environ_allusersappdata%%\\Symantec\\Symantec Endpoint Protection\\Logs\\AV\\*.log",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -753,7 +768,7 @@ pub(crate) static FA_FILE_AV_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGS_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -773,7 +788,7 @@ pub(crate) static FA_FILE_LOGS_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_5_VBN: ArtifactDescriptor = ArtifactDescriptor {
@@ -783,7 +798,9 @@ pub(crate) static FA_FILE_5_VBN: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Symantec\\Symantec Endpoint Protection\\**5\\*.vbn"),
+    file_path: Some(
+        "%%environ_allusersappdata%%\\Symantec\\Symantec Endpoint Protection\\**5\\*.vbn",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -793,7 +810,7 @@ pub(crate) static FA_FILE_5_VBN: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_QUARANTINE_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -803,7 +820,9 @@ pub(crate) static FA_FILE_QUARANTINE_7: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Symantec\\Symantec Endpoint Protection\\Quarantine\\**"),
+    file_path: Some(
+        "%%environ_allusersappdata%%\\Symantec\\Symantec Endpoint Protection\\Quarantine\\**",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -813,7 +832,7 @@ pub(crate) static FA_FILE_QUARANTINE_7: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_QUARANTINE_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -833,7 +852,7 @@ pub(crate) static FA_FILE_QUARANTINE_8: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CCSUBSDK: ArtifactDescriptor = ArtifactDescriptor {
@@ -853,7 +872,7 @@ pub(crate) static FA_FILE_CCSUBSDK: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_EVOLUTION: ArtifactDescriptor = ArtifactDescriptor {
@@ -873,7 +892,7 @@ pub(crate) static FA_FILE_EVOLUTION: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_EVOLUTION_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -893,7 +912,7 @@ pub(crate) static FA_FILE_EVOLUTION_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_EVOLUTION_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -913,7 +932,7 @@ pub(crate) static FA_FILE_EVOLUTION_3: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WORD: ArtifactDescriptor = ArtifactDescriptor {
@@ -996,25 +1015,26 @@ pub(crate) static FA_FILE_PUBLISHER: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://forensics.wiki/windows#microsoft-office-autosave"],
 };
 
-pub(crate) static FA_FILE_PREFERENCES_COM_MICROSOFT_OFFICE_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_com_microsoft_office_plist",
-    name: "MicrosoftOfficeMRU",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Preferences/com.microsoft.office.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Microsoft Office Most Recently Used",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/mac4n6/macMRU-Parser"],
-};
+pub(crate) static FA_FILE_PREFERENCES_COM_MICROSOFT_OFFICE_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_com_microsoft_office_plist",
+        name: "MicrosoftOfficeMRU",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Preferences/com.microsoft.office.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Microsoft Office Most Recently Used",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/mac4n6/macMRU-Parser"],
+    };
 
 pub(crate) static FA_FILE_PREFERENCES_COM_MICROSOFT_SECUREBOOKMARKS_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_preferences_com_microsoft_securebookmarks_plist",
@@ -1213,7 +1233,7 @@ pub(crate) static FA_FILE_LOG_ERRORLOG: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_ERRORLOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -1233,7 +1253,7 @@ pub(crate) static FA_FILE_LOG_ERRORLOG_2: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_THUNDERBIRD: ArtifactDescriptor = ArtifactDescriptor {
@@ -1253,7 +1273,7 @@ pub(crate) static FA_FILE_THUNDERBIRD: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DROPBOX_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -1563,7 +1583,9 @@ pub(crate) static FA_FILE_USER_DEFAULT_SNAPSHOT_DB_2: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Drive/user_default/snapshot.db"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Drive/user_default/snapshot.db",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -1583,7 +1605,9 @@ pub(crate) static FA_FILE_USER_DEFAULT_SYNC_CONFIG_DB_2: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Drive/user_default/sync_config.db"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Drive/user_default/sync_config.db",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -1603,7 +1627,9 @@ pub(crate) static FA_FILE_USER_DEFAULT_SYNC_CONFIG_LOG_2: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Drive/user_default/sync_config.log*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Drive/user_default/sync_config.log*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -1616,74 +1642,31 @@ pub(crate) static FA_FILE_USER_DEFAULT_SYNC_CONFIG_LOG_2: ArtifactDescriptor = A
     sources: &["https://forensics.wiki/google_drive"],
 };
 
-pub(crate) static FA_FILE_LOGS_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_logs_log",
-    name: "SkyDriveClient",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\SkyDrive\\logs\\*.log"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Microsoft Sky Drive cloud storage client artifacts.
+pub(crate) static FA_FILE_SETTINGS_APPLICATIONSETTINGS_XML: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_settings_applicationsettings_xml",
+        name: "SkyDriveClient",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%%users.localappdata%%\\Microsoft\\SkyDrive\\settings\\ApplicationSettings.xml",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Microsoft Sky Drive cloud storage client artifacts.
 
 Note that Sky Drive was renamed to One Drive.
 ",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/one_drive#sky-drive-client"],
-};
-
-pub(crate) static FA_FILE_LOGS_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_logs_log_2",
-    name: "SkyDriveClient",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\SkyDrive\\setup\\logs\\*.log"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Microsoft Sky Drive cloud storage client artifacts.
-
-Note that Sky Drive was renamed to One Drive.
-",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/one_drive#sky-drive-client"],
-};
-
-pub(crate) static FA_FILE_SETTINGS_APPLICATIONSETTINGS_XML: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_settings_applicationsettings_xml",
-    name: "SkyDriveClient",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\SkyDrive\\settings\\ApplicationSettings.xml"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Microsoft Sky Drive cloud storage client artifacts.
-
-Note that Sky Drive was renamed to One Drive.
-",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/one_drive#sky-drive-client"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/one_drive#sky-drive-client"],
+    };
 
 pub(crate) static FA_FILE_SETTINGS_DAT: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_settings_dat",
@@ -1731,105 +1714,110 @@ Note that Sky Drive was renamed to One Drive.
     sources: &["https://forensics.wiki/one_drive#sky-drive-client"],
 };
 
-pub(crate) static FA_FILE_JUPYTER_JUPYTER_NOTEBOOK_CONFIG_PY: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_jupyter_jupyter_notebook_config_py",
-    name: "JupyterConfigFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/.jupyter/jupyter_notebook_config.py"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Jupyter notebook configuration file",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_JUPYTER_JUPYTER_NOTEBOOK_CONFIG_PY: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_jupyter_jupyter_notebook_config_py",
+        name: "JupyterConfigFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/.jupyter/jupyter_notebook_config.py"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Jupyter notebook configuration file",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
-pub(crate) static FA_FILE_JUPYTER_JUPYTER_NOTEBOOK_CONFIG_PY_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_jupyter_jupyter_notebook_config_py_2",
-    name: "JupyterConfigFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/etc/jupyter/jupyter_notebook_config.py"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Jupyter notebook configuration file",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_JUPYTER_JUPYTER_NOTEBOOK_CONFIG_PY_2: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_jupyter_jupyter_notebook_config_py_2",
+        name: "JupyterConfigFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/etc/jupyter/jupyter_notebook_config.py"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Jupyter notebook configuration file",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
-pub(crate) static FA_FILE_JUPYTER_JUPYTER_NOTEBOOK_CONFIG_PY_3: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_jupyter_jupyter_notebook_config_py_3",
-    name: "JupyterConfigFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/private/etc/jupyter/jupyter_notebook_config.py"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Jupyter notebook configuration file",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_JUPYTER_JUPYTER_NOTEBOOK_CONFIG_PY_3: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_jupyter_jupyter_notebook_config_py_3",
+        name: "JupyterConfigFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/private/etc/jupyter/jupyter_notebook_config.py"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Jupyter notebook configuration file",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
-pub(crate) static FA_FILE_JUPYTER_JUPYTER_NOTEBOOK_CONFIG_PY_4: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_jupyter_jupyter_notebook_config_py_4",
-    name: "JupyterConfigFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/user/local/etc/jupyter/jupyter_notebook_config.py"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Jupyter notebook configuration file",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_JUPYTER_JUPYTER_NOTEBOOK_CONFIG_PY_4: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_jupyter_jupyter_notebook_config_py_4",
+        name: "JupyterConfigFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/user/local/etc/jupyter/jupyter_notebook_config.py"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Jupyter notebook configuration file",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
-pub(crate) static FA_FILE_JUPYTER_JUPYTER_NOTEBOOK_CONFIG_PY_5: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_jupyter_jupyter_notebook_config_py_5",
-    name: "JupyterConfigFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%environ_programdata%%\\jupyter\\jupyter_notebook_config.py"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Jupyter notebook configuration file",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_JUPYTER_JUPYTER_NOTEBOOK_CONFIG_PY_5: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_jupyter_jupyter_notebook_config_py_5",
+        name: "JupyterConfigFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%environ_programdata%%\\jupyter\\jupyter_notebook_config.py"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Jupyter notebook configuration file",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
 pub(crate) static FA_FILE_ETC_EXPORTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_etc_exports",
@@ -1848,7 +1836,7 @@ pub(crate) static FA_FILE_ETC_EXPORTS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_EXPORTS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -1868,7 +1856,7 @@ pub(crate) static FA_FILE_ETC_EXPORTS_2: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_EXPORTS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -1888,7 +1876,7 @@ pub(crate) static FA_FILE_ETC_EXPORTS_3: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONF_REDIS_WINDOWS_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -1908,7 +1896,7 @@ pub(crate) static FA_FILE_CONF_REDIS_WINDOWS_CONF: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONF_REDIS_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -1928,7 +1916,7 @@ pub(crate) static FA_FILE_CONF_REDIS_CONF: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_REDIS_REDIS_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -1948,7 +1936,7 @@ pub(crate) static FA_FILE_REDIS_REDIS_CONF: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_REDIS_REDIS_CONF_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -1968,7 +1956,7 @@ pub(crate) static FA_FILE_REDIS_REDIS_CONF_2: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_REDIS_REDIS_CONF_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -1988,7 +1976,7 @@ pub(crate) static FA_FILE_REDIS_REDIS_CONF_3: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SAMBA_SMB_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -2008,7 +1996,7 @@ pub(crate) static FA_FILE_SAMBA_SMB_CONF: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SSH_SSHD_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2028,7 +2016,7 @@ pub(crate) static FA_FILE_SSH_SSHD_CONFIG: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SSH_SSHD_CONFIG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -2048,7 +2036,7 @@ pub(crate) static FA_FILE_SSH_SSHD_CONFIG_2: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SSH_SSHD_CONFIG_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -2068,7 +2056,7 @@ pub(crate) static FA_FILE_SSH_SSHD_CONFIG_3: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SSH_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2088,7 +2076,7 @@ pub(crate) static FA_FILE_SSH_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTAINERD_CONFIG_TOML: ArtifactDescriptor = ArtifactDescriptor {
@@ -2108,48 +2096,50 @@ pub(crate) static FA_FILE_CONTAINERD_CONFIG_TOML: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
-pub(crate) static FA_FILE_IO_CONTAINERD_METADATA_V1_BOLT_META_DB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_io_containerd_metadata_v1_bolt_meta_db",
-    name: "ContainerdConfig",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/lib/containerd/io.containerd.metadata.v1.bolt/meta.db"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "containerd configuration files",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_IO_CONTAINERD_METADATA_V1_BOLT_META_DB: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_io_containerd_metadata_v1_bolt_meta_db",
+        name: "ContainerdConfig",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/var/lib/containerd/io.containerd.metadata.v1.bolt/meta.db"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "containerd configuration files",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
-pub(crate) static FA_FILE_IO_CONTAINERD_SNAPSHOTTER_V1_OVERLAYFS_METADATA_DB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_io_containerd_snapshotter_v1_overlayfs_metadata_db",
-    name: "ContainerdConfig",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/metadata.db"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "containerd configuration files",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_IO_CONTAINERD_SNAPSHOTTER_V1_OVERLAYFS_METADATA_DB: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_io_containerd_snapshotter_v1_overlayfs_metadata_db",
+        name: "ContainerdConfig",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/metadata.db"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "containerd configuration files",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
 pub(crate) static FA_FILE_CONFIG_JSON: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_config_json",
@@ -2168,7 +2158,7 @@ pub(crate) static FA_FILE_CONFIG_JSON: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_OPTIONS_JSON: ArtifactDescriptor = ArtifactDescriptor {
@@ -2188,7 +2178,7 @@ pub(crate) static FA_FILE_OPTIONS_JSON: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_JSON: ArtifactDescriptor = ArtifactDescriptor {
@@ -2208,7 +2198,7 @@ pub(crate) static FA_FILE_LOG_JSON: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_DAEMON_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2228,7 +2218,7 @@ pub(crate) static FA_FILE_LOG_DAEMON_LOG: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_DAEMON_LOG_GZ: ArtifactDescriptor = ArtifactDescriptor {
@@ -2248,7 +2238,7 @@ pub(crate) static FA_FILE_LOG_DAEMON_LOG_GZ: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_SYSLOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2268,7 +2258,7 @@ pub(crate) static FA_FILE_LOG_SYSLOG: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_MESSAGE: ArtifactDescriptor = ArtifactDescriptor {
@@ -2288,7 +2278,7 @@ pub(crate) static FA_FILE_LOG_MESSAGE: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ELASTICSEARCH_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2308,7 +2298,7 @@ pub(crate) static FA_FILE_ELASTICSEARCH_ACCESS_LOG: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ELASTICSEARCH_AUDIT_JSON: ArtifactDescriptor = ArtifactDescriptor {
@@ -2328,7 +2318,9 @@ pub(crate) static FA_FILE_ELASTICSEARCH_AUDIT_JSON: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://www.elastic.co/guide/en/elasticsearch/reference/current/audit-log-output.html"],
+    sources: &[
+        "https://www.elastic.co/guide/en/elasticsearch/reference/current/audit-log-output.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ELASTICSEARCH_AUDIT_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2348,7 +2340,9 @@ pub(crate) static FA_FILE_ELASTICSEARCH_AUDIT_LOG: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://www.elastic.co/guide/en/elasticsearch/reference/current/audit-log-output.html"],
+    sources: &[
+        "https://www.elastic.co/guide/en/elasticsearch/reference/current/audit-log-output.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ELASTICSEARCH_GC_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2408,7 +2402,7 @@ pub(crate) static FA_FILE_ELASTICSEARCH_LOG: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ELASTICSEARCH_JSON: ArtifactDescriptor = ArtifactDescriptor {
@@ -2428,7 +2422,7 @@ pub(crate) static FA_FILE_ELASTICSEARCH_JSON: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ELASTICSEARCH_JSON_GZ: ArtifactDescriptor = ArtifactDescriptor {
@@ -2448,7 +2442,7 @@ pub(crate) static FA_FILE_ELASTICSEARCH_JSON_GZ: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ELASTICSEARCH_SERVER_JSON: ArtifactDescriptor = ArtifactDescriptor {
@@ -2628,7 +2622,7 @@ pub(crate) static FA_FILE_MONGODB_MONGOD_LOG: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_MY_CNF: ArtifactDescriptor = ArtifactDescriptor {
@@ -2648,7 +2642,7 @@ pub(crate) static FA_FILE_ETC_MY_CNF: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_MYSQL_CONF_D_MYSQLD_CNF: ArtifactDescriptor = ArtifactDescriptor {
@@ -2668,7 +2662,7 @@ pub(crate) static FA_FILE_MYSQL_CONF_D_MYSQLD_CNF: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_MYSQL_MYSQL_IBD: ArtifactDescriptor = ArtifactDescriptor {
@@ -2688,7 +2682,9 @@ pub(crate) static FA_FILE_MYSQL_MYSQL_IBD: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://dev.mysql.com/doc/refman/8.0/en/data-dictionary-transactional-storage.html"],
+    sources: &[
+        "https://dev.mysql.com/doc/refman/8.0/en/data-dictionary-transactional-storage.html",
+    ],
 };
 
 pub(crate) static FA_FILE_MYSQL: ArtifactDescriptor = ArtifactDescriptor {
@@ -2708,27 +2704,10 @@ pub(crate) static FA_FILE_MYSQL: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://dev.mysql.com/doc/refman/8.0/en/data-directory.html", "https://dev.mysql.com/doc/refman/8.0/en/innodb-architecture.html"],
-};
-
-pub(crate) static FA_FILE_: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_",
-    name: "MySQLDataDirectory",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/lib/mysql/*/*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "MySQL data directory.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://dev.mysql.com/doc/refman/8.0/en/data-directory.html", "https://dev.mysql.com/doc/refman/8.0/en/innodb-architecture.html"],
+    sources: &[
+        "https://dev.mysql.com/doc/refman/8.0/en/data-directory.html",
+        "https://dev.mysql.com/doc/refman/8.0/en/innodb-architecture.html",
+    ],
 };
 
 pub(crate) static FA_FILE_MYSQL_ERROR_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2748,7 +2727,7 @@ pub(crate) static FA_FILE_MYSQL_ERROR_LOG: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_MYSQL_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2768,7 +2747,7 @@ pub(crate) static FA_FILE_LOG_MYSQL_LOG: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2788,7 +2767,7 @@ pub(crate) static FA_FILE_LOG_LOG: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_OPENSEARCH_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2848,7 +2827,11 @@ pub(crate) static FA_FILE_POSTGRESQL_CONF: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://www.postgresql.org/docs/current/runtime-config-file-locations.html", "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/", "https://wiki.debian.org/PostgreSql"],
+    sources: &[
+        "https://www.postgresql.org/docs/current/runtime-config-file-locations.html",
+        "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/",
+        "https://wiki.debian.org/PostgreSql",
+    ],
 };
 
 pub(crate) static FA_FILE_PG_HBA_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -2868,7 +2851,11 @@ pub(crate) static FA_FILE_PG_HBA_CONF: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://www.postgresql.org/docs/current/runtime-config-file-locations.html", "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/", "https://wiki.debian.org/PostgreSql"],
+    sources: &[
+        "https://www.postgresql.org/docs/current/runtime-config-file-locations.html",
+        "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/",
+        "https://wiki.debian.org/PostgreSql",
+    ],
 };
 
 pub(crate) static FA_FILE_PG_IDENT_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -2888,7 +2875,11 @@ pub(crate) static FA_FILE_PG_IDENT_CONF: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://www.postgresql.org/docs/current/runtime-config-file-locations.html", "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/", "https://wiki.debian.org/PostgreSql"],
+    sources: &[
+        "https://www.postgresql.org/docs/current/runtime-config-file-locations.html",
+        "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/",
+        "https://wiki.debian.org/PostgreSql",
+    ],
 };
 
 pub(crate) static FA_FILE_PGSQL_POSTGRESQL_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -2908,7 +2899,11 @@ pub(crate) static FA_FILE_PGSQL_POSTGRESQL_CONF: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://www.postgresql.org/docs/current/runtime-config-file-locations.html", "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/", "https://wiki.debian.org/PostgreSql"],
+    sources: &[
+        "https://www.postgresql.org/docs/current/runtime-config-file-locations.html",
+        "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/",
+        "https://wiki.debian.org/PostgreSql",
+    ],
 };
 
 pub(crate) static FA_FILE_PGSQL_PG_HBA_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -2928,7 +2923,11 @@ pub(crate) static FA_FILE_PGSQL_PG_HBA_CONF: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://www.postgresql.org/docs/current/runtime-config-file-locations.html", "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/", "https://wiki.debian.org/PostgreSql"],
+    sources: &[
+        "https://www.postgresql.org/docs/current/runtime-config-file-locations.html",
+        "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/",
+        "https://wiki.debian.org/PostgreSql",
+    ],
 };
 
 pub(crate) static FA_FILE_PGSQL_PG_IDENT_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -2948,7 +2947,11 @@ pub(crate) static FA_FILE_PGSQL_PG_IDENT_CONF: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://www.postgresql.org/docs/current/runtime-config-file-locations.html", "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/", "https://wiki.debian.org/PostgreSql"],
+    sources: &[
+        "https://www.postgresql.org/docs/current/runtime-config-file-locations.html",
+        "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/",
+        "https://wiki.debian.org/PostgreSql",
+    ],
 };
 
 pub(crate) static FA_FILE_DATA_POSTGRESQL_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -2968,7 +2971,11 @@ pub(crate) static FA_FILE_DATA_POSTGRESQL_CONF: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://www.postgresql.org/docs/current/runtime-config-file-locations.html", "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/", "https://wiki.debian.org/PostgreSql"],
+    sources: &[
+        "https://www.postgresql.org/docs/current/runtime-config-file-locations.html",
+        "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/",
+        "https://wiki.debian.org/PostgreSql",
+    ],
 };
 
 pub(crate) static FA_FILE_DATA_PG_HBA_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -2988,7 +2995,11 @@ pub(crate) static FA_FILE_DATA_PG_HBA_CONF: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://www.postgresql.org/docs/current/runtime-config-file-locations.html", "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/", "https://wiki.debian.org/PostgreSql"],
+    sources: &[
+        "https://www.postgresql.org/docs/current/runtime-config-file-locations.html",
+        "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/",
+        "https://wiki.debian.org/PostgreSql",
+    ],
 };
 
 pub(crate) static FA_FILE_DATA_PG_IDENT_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -3008,7 +3019,11 @@ pub(crate) static FA_FILE_DATA_PG_IDENT_CONF: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://www.postgresql.org/docs/current/runtime-config-file-locations.html", "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/", "https://wiki.debian.org/PostgreSql"],
+    sources: &[
+        "https://www.postgresql.org/docs/current/runtime-config-file-locations.html",
+        "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/",
+        "https://wiki.debian.org/PostgreSql",
+    ],
 };
 
 pub(crate) static FA_FILE_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -3028,7 +3043,11 @@ pub(crate) static FA_FILE_DATA: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://www.postgresql.org/docs/current/storage-file-layout.html", "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/", "https://wiki.debian.org/PostgreSql"],
+    sources: &[
+        "https://www.postgresql.org/docs/current/storage-file-layout.html",
+        "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/",
+        "https://wiki.debian.org/PostgreSql",
+    ],
 };
 
 pub(crate) static FA_FILE_DATA_OLD: ArtifactDescriptor = ArtifactDescriptor {
@@ -3048,7 +3067,11 @@ pub(crate) static FA_FILE_DATA_OLD: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://www.postgresql.org/docs/current/storage-file-layout.html", "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/", "https://wiki.debian.org/PostgreSql"],
+    sources: &[
+        "https://www.postgresql.org/docs/current/storage-file-layout.html",
+        "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/",
+        "https://wiki.debian.org/PostgreSql",
+    ],
 };
 
 pub(crate) static FA_FILE__2: ArtifactDescriptor = ArtifactDescriptor {
@@ -3068,7 +3091,11 @@ pub(crate) static FA_FILE__2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://www.postgresql.org/docs/current/storage-file-layout.html", "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/", "https://wiki.debian.org/PostgreSql"],
+    sources: &[
+        "https://www.postgresql.org/docs/current/storage-file-layout.html",
+        "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/",
+        "https://wiki.debian.org/PostgreSql",
+    ],
 };
 
 pub(crate) static FA_FILE__3: ArtifactDescriptor = ArtifactDescriptor {
@@ -3088,7 +3115,11 @@ pub(crate) static FA_FILE__3: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://www.postgresql.org/docs/current/storage-file-layout.html", "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/", "https://wiki.debian.org/PostgreSql"],
+    sources: &[
+        "https://www.postgresql.org/docs/current/storage-file-layout.html",
+        "https://docs.fedoraproject.org/en-US/quick-docs/postgresql/",
+        "https://wiki.debian.org/PostgreSql",
+    ],
 };
 
 pub(crate) static FA_FILE_POSTGRESQL_POSTGRESQL_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3348,7 +3379,7 @@ pub(crate) static FA_FILE_REDIS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_INIT_D_REDIS: ArtifactDescriptor = ArtifactDescriptor {
@@ -3368,7 +3399,7 @@ pub(crate) static FA_FILE_INIT_D_REDIS: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_REDIS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -3388,7 +3419,7 @@ pub(crate) static FA_FILE_REDIS_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE__4: ArtifactDescriptor = ArtifactDescriptor {
@@ -3408,7 +3439,7 @@ pub(crate) static FA_FILE__4: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_REDIS_REDIS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3428,7 +3459,7 @@ pub(crate) static FA_FILE_REDIS_REDIS_LOG: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_REDIS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3448,7 +3479,7 @@ pub(crate) static FA_FILE_LOG_REDIS_LOG: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONFIG_V2_JSON: ArtifactDescriptor = ArtifactDescriptor {
@@ -3468,27 +3499,7 @@ pub(crate) static FA_FILE_CONFIG_V2_JSON: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_CONFIG_JSON: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_config_json",
-    name: "DockerContainerConfig",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/lib/docker/containers/*/config.json"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Docker container configuration files",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_JSON_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3508,7 +3519,7 @@ pub(crate) static FA_FILE_JSON_LOG: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_ESXAPIADAPTER_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3528,7 +3539,7 @@ pub(crate) static FA_FILE_LOG_ESXAPIADAPTER_LOG: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_ATTESTD_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3548,7 +3559,7 @@ pub(crate) static FA_FILE_LOG_ATTESTD_LOG: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_AUTH_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3568,7 +3579,7 @@ pub(crate) static FA_FILE_LOG_AUTH_LOG: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_HOSTD_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3588,7 +3599,7 @@ pub(crate) static FA_FILE_LOG_HOSTD_LOG: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_KMXD_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3608,7 +3619,7 @@ pub(crate) static FA_FILE_LOG_KMXD_LOG: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_LOADESX_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3628,7 +3639,7 @@ pub(crate) static FA_FILE_LOG_LOADESX_LOG: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_SHELL_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3648,7 +3659,7 @@ pub(crate) static FA_FILE_LOG_SHELL_LOG: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3688,7 +3699,7 @@ pub(crate) static FA_FILE_LOG_SYSLOG_LOG: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_ESXTOKEND_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3708,7 +3719,7 @@ pub(crate) static FA_FILE_LOG_ESXTOKEND_LOG: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_KMXA_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3728,7 +3739,7 @@ pub(crate) static FA_FILE_LOG_KMXA_LOG: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_VMKERNEL_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3748,7 +3759,7 @@ pub(crate) static FA_FILE_LOG_VMKERNEL_LOG: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_VMKSUMMARYLOG_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3768,7 +3779,7 @@ pub(crate) static FA_FILE_LOG_VMKSUMMARYLOG_LOG: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_VMKWARNING_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3788,7 +3799,7 @@ pub(crate) static FA_FILE_LOG_VMKWARNING_LOG: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_VXPA_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3808,27 +3819,7 @@ pub(crate) static FA_FILE_LOG_VXPA_LOG: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_LOGS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_logs",
-    name: "vSphereClientLogsDirectory",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/log/vmware/vsphere-ui/logs/*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "vSphere Client Logs Directory",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.monitoring.doc/GUID-7E10C58F-16EA-44AB-8AA0-8D4A66399879.html"],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ENVIRON_SYSTEMDRIVE_LOGFILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -3914,26 +3905,6 @@ Note that this currently does not include the $J alternate data stream name.
     sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/file_systems/NTFS.html"],
 };
 
-pub(crate) static FA_FILE_LOGS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_logs",
-    name: "HadoopAppLogs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/hadoop/logs/*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Location where Hadoop application logs are stored",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
-
 pub(crate) static FA_FILE_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_container",
     name: "HadoopAppLogs",
@@ -3951,27 +3922,7 @@ pub(crate) static FA_FILE_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_LOGS_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_logs_2",
-    name: "HadoopAppLogs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/**2/hadoop/logs/*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Location where Hadoop application logs are stored",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTAINER_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -3991,7 +3942,7 @@ pub(crate) static FA_FILE_CONTAINER_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APPLICATION_APPLICATION: ArtifactDescriptor = ArtifactDescriptor {
@@ -4001,7 +3952,9 @@ pub(crate) static FA_FILE_APPLICATION_APPLICATION: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/hadoop/*/yarn/system/rmstore/FSRMStateRoot/RMAppRoot/application_*/application_*"),
+    file_path: Some(
+        "/hadoop/*/yarn/system/rmstore/FSRMStateRoot/RMAppRoot/application_*/application_*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -4011,7 +3964,7 @@ pub(crate) static FA_FILE_APPLICATION_APPLICATION: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APPLICATION_APPLICATION_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -4021,7 +3974,9 @@ pub(crate) static FA_FILE_APPLICATION_APPLICATION_2: ArtifactDescriptor = Artifa
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/hadoop/yarn/system/rmstore/FSRMStateRoot/RMAppRoot/application_*/application_*"),
+    file_path: Some(
+        "/hadoop/yarn/system/rmstore/FSRMStateRoot/RMAppRoot/application_*/application_*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -4031,7 +3986,7 @@ pub(crate) static FA_FILE_APPLICATION_APPLICATION_2: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APPLICATION_APPLICATION_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -4041,7 +3996,9 @@ pub(crate) static FA_FILE_APPLICATION_APPLICATION_3: ArtifactDescriptor = Artifa
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/**2/hadoop/*/yarn/system/rmstore/FSRMStateRoot/RMAppRoot/application_*/application_*"),
+    file_path: Some(
+        "/**2/hadoop/*/yarn/system/rmstore/FSRMStateRoot/RMAppRoot/application_*/application_*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -4051,7 +4008,7 @@ pub(crate) static FA_FILE_APPLICATION_APPLICATION_3: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APPLICATION_APPLICATION_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -4061,7 +4018,9 @@ pub(crate) static FA_FILE_APPLICATION_APPLICATION_4: ArtifactDescriptor = Artifa
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/**2/hadoop/yarn/system/rmstore/FSRMStateRoot/RMAppRoot/application_*/application_*"),
+    file_path: Some(
+        "/**2/hadoop/yarn/system/rmstore/FSRMStateRoot/RMAppRoot/application_*/application_*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -4071,7 +4030,7 @@ pub(crate) static FA_FILE_APPLICATION_APPLICATION_4: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LEVELDB_TIMELINE_STORE_LDB: ArtifactDescriptor = ArtifactDescriptor {
@@ -4091,7 +4050,7 @@ pub(crate) static FA_FILE_LEVELDB_TIMELINE_STORE_LDB: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LEVELDB_TIMELINE_STORE_LDB_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -4111,7 +4070,7 @@ pub(crate) static FA_FILE_LEVELDB_TIMELINE_STORE_LDB_2: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LEVELDB_TIMELINE_STORE_LDB_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -4131,7 +4090,7 @@ pub(crate) static FA_FILE_LEVELDB_TIMELINE_STORE_LDB_3: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LEVELDB_TIMELINE_STORE_LDB_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -4151,7 +4110,7 @@ pub(crate) static FA_FILE_LEVELDB_TIMELINE_STORE_LDB_4: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
@@ -4282,26 +4241,6 @@ pub(crate) static FA_FILE_SETUP: ArtifactDescriptor = ArtifactDescriptor {
     key_path: "",
     value_name: None,
     file_path: Some("%%environ_allusersappdata%%\\Siemens\\Automation\\Logfiles\\Setup\\*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Siemens WinCC software logs.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://cache.industry.siemens.com/dl/files/865/109757865/att_963121/v5/109757865_WinCC_Diagnostics_en.pdf"],
-};
-
-pub(crate) static FA_FILE_LOGS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_logs",
-    name: "WindowsSiemensWinCCLogFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Siemens\\Logs\\*"),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -4590,7 +4529,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_SITE_PACKAGES_EGG_INFO: ArtifactDescriptor = ArtifactDescriptor {
@@ -4619,7 +4561,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_PIP_EGG: ArtifactDescriptor = ArtifactDescriptor {
@@ -4648,7 +4593,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_PIP_EGG_INFO: ArtifactDescriptor = ArtifactDescriptor {
@@ -4677,7 +4625,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_DIST_PACKAGES_EGG: ArtifactDescriptor = ArtifactDescriptor {
@@ -4706,7 +4657,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_DIST_PACKAGES_EGG_INFO: ArtifactDescriptor = ArtifactDescriptor {
@@ -4735,7 +4689,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_SITE_PACKAGES_EGG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -4764,7 +4721,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_SITE_PACKAGES_EGG_INFO_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -4793,7 +4753,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_DIST_PACKAGES_EGG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -4822,7 +4785,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_DIST_PACKAGES_EGG_INFO_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -4851,7 +4817,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_SITE_PACKAGES_EGG_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -4880,7 +4849,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_SITE_PACKAGES_EGG_INFO_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -4909,7 +4881,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_DIST_PACKAGES_EGG_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -4938,7 +4913,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_DIST_PACKAGES_EGG_INFO_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -4967,7 +4945,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_SITE_PACKAGES_EGG_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -4996,7 +4977,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_SITE_PACKAGES_EGG_INFO_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -5025,7 +5009,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_DIST_PACKAGES_EGG_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -5054,7 +5041,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_DIST_PACKAGES_EGG_INFO_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -5083,7 +5073,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_SITE_PACKAGES_EGG_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -5112,7 +5105,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_SITE_PACKAGES_EGG_INFO_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -5141,7 +5137,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_PYSHARED_EGG: ArtifactDescriptor = ArtifactDescriptor {
@@ -5170,7 +5169,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_PYSHARED_EGG_INFO: ArtifactDescriptor = ArtifactDescriptor {
@@ -5199,7 +5201,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG: ArtifactDescriptor = ArtifactDescriptor {
@@ -5228,7 +5233,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_INFO: ArtifactDescriptor = ArtifactDescriptor {
@@ -5257,7 +5265,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -5286,7 +5297,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_INFO_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -5315,7 +5329,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -5344,7 +5361,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_INFO_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -5373,7 +5393,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -5402,7 +5425,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_INFO_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -5431,7 +5457,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -5460,7 +5489,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_INFO_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -5489,7 +5521,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -5518,7 +5553,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_INFO_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -5547,7 +5585,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -5576,7 +5617,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_INFO_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -5605,7 +5649,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -5634,7 +5681,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_INFO_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -5663,7 +5713,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -5692,7 +5745,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_INFO_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -5721,7 +5777,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -5750,7 +5809,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_INFO_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -5779,7 +5841,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -5808,7 +5873,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_EGG_INFO_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -5837,7 +5905,10 @@ PEP-0370 describes a default install location for per-user modules.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://pythonhosted.org/setuptools/formats.html", "https://www.python.org/dev/peps/pep-0370/"],
+    sources: &[
+        "https://pythonhosted.org/setuptools/formats.html",
+        "https://www.python.org/dev/peps/pep-0370/",
+    ],
 };
 
 pub(crate) static FA_FILE_PYTHON_WHEELS_WHL: ArtifactDescriptor = ArtifactDescriptor {
@@ -5863,7 +5934,10 @@ should mostly be discoverable as dist-info entries.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://wheel.readthedocs.org/en/latest/", "http://pip.readthedocs.org/en/stable/reference/pip_install/"],
+    sources: &[
+        "https://wheel.readthedocs.org/en/latest/",
+        "http://pip.readthedocs.org/en/stable/reference/pip_install/",
+    ],
 };
 
 pub(crate) static FA_FILE_WHEELS_WHL: ArtifactDescriptor = ArtifactDescriptor {
@@ -5889,7 +5963,10 @@ should mostly be discoverable as dist-info entries.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://wheel.readthedocs.org/en/latest/", "http://pip.readthedocs.org/en/stable/reference/pip_install/"],
+    sources: &[
+        "https://wheel.readthedocs.org/en/latest/",
+        "http://pip.readthedocs.org/en/stable/reference/pip_install/",
+    ],
 };
 
 pub(crate) static FA_FILE_2_GEMSPEC: ArtifactDescriptor = ArtifactDescriptor {
@@ -5969,7 +6046,7 @@ pub(crate) static FA_FILE_ATTACHMENTS_NOINDEX: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -5989,27 +6066,7 @@ pub(crate) static FA_FILE_CACHE: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_LOGS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_logs",
-    name: "SignalApplicationContent",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/.var/app/org.signal.Signal/*/logs/*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Signal Application Content and Configuration",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ORG_SIGNAL_SIGNAL_CONFIG_JSON: ArtifactDescriptor = ArtifactDescriptor {
@@ -6029,7 +6086,7 @@ pub(crate) static FA_FILE_ORG_SIGNAL_SIGNAL_CONFIG_JSON: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ORG_SIGNAL_SIGNAL_DB_SQLITE: ArtifactDescriptor = ArtifactDescriptor {
@@ -6049,7 +6106,7 @@ pub(crate) static FA_FILE_ORG_SIGNAL_SIGNAL_DB_SQLITE: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CHATSYNC: ArtifactDescriptor = ArtifactDescriptor {
@@ -6092,45 +6149,26 @@ pub(crate) static FA_FILE_MAIN_DB: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#skype"],
 };
 
-pub(crate) static FA_FILE_PREFERENCES_COM_SKYPE_SKYPE_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_com_skype_skype_plist",
-    name: "SkypePreferences",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Preferences/com.skype.skype.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Skype Preferences and Recent Searches",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#skype"],
-};
-
-pub(crate) static FA_FILE_: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_",
-    name: "SkypeUserProfile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Skype/*/*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Skype User profile",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#skype"],
-};
+pub(crate) static FA_FILE_PREFERENCES_COM_SKYPE_SKYPE_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_com_skype_skype_plist",
+        name: "SkypePreferences",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Preferences/com.skype.skype.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Skype Preferences and Recent Searches",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#skype"],
+    };
 
 pub(crate) static FA_FILE_XCHATLOGS_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_xchatlogs_log",
@@ -6152,46 +6190,6 @@ pub(crate) static FA_FILE_XCHATLOGS_LOG: ArtifactDescriptor = ArtifactDescriptor
     sources: &["http://xchat.org/faq/#q222"],
 };
 
-pub(crate) static FA_FILE_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_log",
-    name: "XChatLogs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/.xchat2/xchatlogs/*/*.log"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "XChat Log Files",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["http://xchat.org/faq/#q222"],
-};
-
-pub(crate) static FA_FILE_CACHE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_cache",
-    name: "JavaCacheFiles",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/.java/deployment/cache/**"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Java Plug-in cache.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &[],
-};
-
 pub(crate) static FA_FILE_CACHE_2: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_cache_2",
     name: "JavaCacheFiles",
@@ -6209,7 +6207,7 @@ pub(crate) static FA_FILE_CACHE_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CACHE_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -6229,7 +6227,7 @@ pub(crate) static FA_FILE_CACHE_3: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CACHE_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -6249,7 +6247,7 @@ pub(crate) static FA_FILE_CACHE_4: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DS_STORE_APP_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -7375,28 +7373,29 @@ The files are typically only present on the control-plane node.
     sources: &["https://kubernetes.io/docs/setup/best-practices/certificates/"],
 };
 
-pub(crate) static FA_FILE_KUBERNETES_CONTROLLER_MANAGER_CONF: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_kubernetes_controller_manager_conf",
-    name: "KubernetesCertificates",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/etc/kubernetes/controller-manager.conf"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Certificate files that are used for a Kubernetes cluster.
+pub(crate) static FA_FILE_KUBERNETES_CONTROLLER_MANAGER_CONF: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_kubernetes_controller_manager_conf",
+        name: "KubernetesCertificates",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/etc/kubernetes/controller-manager.conf"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Certificate files that are used for a Kubernetes cluster.
 
 The files are typically only present on the control-plane node.
 ",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://kubernetes.io/docs/setup/best-practices/certificates/"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://kubernetes.io/docs/setup/best-practices/certificates/"],
+    };
 
 pub(crate) static FA_FILE_KUBERNETES_KUBELET_CONF: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_kubernetes_kubelet_conf",
@@ -7470,7 +7469,11 @@ resourcees and also deleted components.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/", "https://github.com/etcd-io/etcd", "https://github.com/etcd-io/etcd/tree/main/tools/etcd-dump-db"],
+    sources: &[
+        "https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/",
+        "https://github.com/etcd-io/etcd",
+        "https://github.com/etcd-io/etcd/tree/main/tools/etcd-dump-db",
+    ],
 };
 
 pub(crate) static FA_FILE_KUBELET_CONFIG_YAML: ArtifactDescriptor = ArtifactDescriptor {
@@ -7490,7 +7493,10 @@ pub(crate) static FA_FILE_KUBELET_CONFIG_YAML: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/", "https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/"],
+    sources: &[
+        "https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/",
+        "https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/",
+    ],
 };
 
 pub(crate) static FA_FILE_KUBERNETES_KUBELET_CONF_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -7510,7 +7516,10 @@ pub(crate) static FA_FILE_KUBERNETES_KUBELET_CONF_2: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/", "https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/"],
+    sources: &[
+        "https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/",
+        "https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/",
+    ],
 };
 
 pub(crate) static FA_FILE_MANIFESTS_YAML: ArtifactDescriptor = ArtifactDescriptor {
@@ -7533,93 +7542,50 @@ The manifest contains the Pods specification.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
-pub(crate) static FA_FILE_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_log",
-    name: "KubernetesKubeletPodLogs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/log/pods/*/*/*.log"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Location where the log data of (Kubernetes) Pods can be found.
+pub(crate) static FA_CURRENTVERSION_PROFILELIST_PROFILESDIRECTORY: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_currentversion_profilelist_profilesdirectory",
+        name: "AllUsersProfileEnvironmentVariable",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path: "Software\\Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\ProfilesDirectory",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "The %AllUsersProfile% environment variable.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["http://support.microsoft.com/kb//214653"],
+    };
 
-The path's name would contain the following elements:
-'/var/log/pods/<namespace>_<pod_name>_<pod_id>/<container_name>/<num>.log'
-Includes also redirected stdout, stderr and (if applicable) stdin of container executions.
-",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/kubernetes/kubernetes/pull/74441", "https://kubernetes.io/docs/concepts/cluster-administration/logging/"],
-};
-
-pub(crate) static FA_FILE_LOG_SYSLOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_log_syslog",
-    name: "KubernetesLogs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/log/syslog*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Log files that contain information about the Kubernetes installation of a node.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_CURRENTVERSION_PROFILELIST_PROFILESDIRECTORY: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_currentversion_profilelist_profilesdirectory",
-    name: "AllUsersProfileEnvironmentVariable",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "Software\\Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\ProfilesDirectory",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "The %AllUsersProfile% environment variable.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["http://support.microsoft.com/kb//214653"],
-};
-
-pub(crate) static FA_CURRENTVERSION_PROFILELIST_ALLUSERSPROFILE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_currentversion_profilelist_allusersprofile",
-    name: "AllUsersProfileEnvironmentVariable",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "Software\\Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\AllUsersProfile",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "The %AllUsersProfile% environment variable.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["http://support.microsoft.com/kb//214653"],
-};
+pub(crate) static FA_CURRENTVERSION_PROFILELIST_ALLUSERSPROFILE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_currentversion_profilelist_allusersprofile",
+        name: "AllUsersProfileEnvironmentVariable",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path: "Software\\Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\AllUsersProfile",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "The %AllUsersProfile% environment variable.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["http://support.microsoft.com/kb//214653"],
+    };
 
 pub(crate) static FA_FILE_ETC_ENTERPRISE_RELEASE: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_etc_enterprise_release",
@@ -7642,7 +7608,7 @@ Behaviour' section.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_LSB_RELEASE: ArtifactDescriptor = ArtifactDescriptor {
@@ -7666,7 +7632,7 @@ Behaviour' section.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_ORACLE_RELEASE: ArtifactDescriptor = ArtifactDescriptor {
@@ -7690,7 +7656,7 @@ Behaviour' section.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_REDHAT_RELEASE: ArtifactDescriptor = ArtifactDescriptor {
@@ -7714,7 +7680,7 @@ Behaviour' section.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_SYSTEM_RELEASE: ArtifactDescriptor = ArtifactDescriptor {
@@ -7738,7 +7704,7 @@ Behaviour' section.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_ANACRONTAB: ArtifactDescriptor = ArtifactDescriptor {
@@ -7758,7 +7724,7 @@ pub(crate) static FA_FILE_ETC_ANACRONTAB: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CRON_DAILY: ArtifactDescriptor = ArtifactDescriptor {
@@ -7778,7 +7744,7 @@ pub(crate) static FA_FILE_CRON_DAILY: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CRON_HOURLY: ArtifactDescriptor = ArtifactDescriptor {
@@ -7798,7 +7764,7 @@ pub(crate) static FA_FILE_CRON_HOURLY: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CRON_MONTHLY: ArtifactDescriptor = ArtifactDescriptor {
@@ -7818,7 +7784,7 @@ pub(crate) static FA_FILE_CRON_MONTHLY: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CRON_WEEKLY: ArtifactDescriptor = ArtifactDescriptor {
@@ -7838,7 +7804,7 @@ pub(crate) static FA_FILE_CRON_WEEKLY: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ANACRON_CRON_DAILY: ArtifactDescriptor = ArtifactDescriptor {
@@ -7858,7 +7824,7 @@ pub(crate) static FA_FILE_ANACRON_CRON_DAILY: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ANACRON_CRON_HOURLY: ArtifactDescriptor = ArtifactDescriptor {
@@ -7878,7 +7844,7 @@ pub(crate) static FA_FILE_ANACRON_CRON_HOURLY: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ANACRON_CRON_MONTHLY: ArtifactDescriptor = ArtifactDescriptor {
@@ -7898,7 +7864,7 @@ pub(crate) static FA_FILE_ANACRON_CRON_MONTHLY: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ANACRON_CRON_WEEKLY: ArtifactDescriptor = ArtifactDescriptor {
@@ -7918,7 +7884,7 @@ pub(crate) static FA_FILE_ANACRON_CRON_WEEKLY: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_APTITUDE: ArtifactDescriptor = ArtifactDescriptor {
@@ -8078,7 +8044,10 @@ pub(crate) static FA_FILE_ETC_CRON_ALLOW: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://manpages.ubuntu.com/manpages/saucy/man5/at.allow.5.html", "http://manpages.ubuntu.com/manpages/precise/en/man1/crontab.1.html"],
+    sources: &[
+        "http://manpages.ubuntu.com/manpages/saucy/man5/at.allow.5.html",
+        "http://manpages.ubuntu.com/manpages/precise/en/man1/crontab.1.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ETC_CRON_DENY: ArtifactDescriptor = ArtifactDescriptor {
@@ -8098,7 +8067,10 @@ pub(crate) static FA_FILE_ETC_CRON_DENY: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://manpages.ubuntu.com/manpages/saucy/man5/at.allow.5.html", "http://manpages.ubuntu.com/manpages/precise/en/man1/crontab.1.html"],
+    sources: &[
+        "http://manpages.ubuntu.com/manpages/saucy/man5/at.allow.5.html",
+        "http://manpages.ubuntu.com/manpages/precise/en/man1/crontab.1.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ETC_AT_ALLOW: ArtifactDescriptor = ArtifactDescriptor {
@@ -8118,7 +8090,10 @@ pub(crate) static FA_FILE_ETC_AT_ALLOW: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://manpages.ubuntu.com/manpages/saucy/man5/at.allow.5.html", "http://manpages.ubuntu.com/manpages/precise/en/man1/crontab.1.html"],
+    sources: &[
+        "http://manpages.ubuntu.com/manpages/saucy/man5/at.allow.5.html",
+        "http://manpages.ubuntu.com/manpages/precise/en/man1/crontab.1.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ETC_AT_DENY: ArtifactDescriptor = ArtifactDescriptor {
@@ -8138,7 +8113,10 @@ pub(crate) static FA_FILE_ETC_AT_DENY: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://manpages.ubuntu.com/manpages/saucy/man5/at.allow.5.html", "http://manpages.ubuntu.com/manpages/precise/en/man1/crontab.1.html"],
+    sources: &[
+        "http://manpages.ubuntu.com/manpages/saucy/man5/at.allow.5.html",
+        "http://manpages.ubuntu.com/manpages/precise/en/man1/crontab.1.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOG_DPKG_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -8158,7 +8136,7 @@ pub(crate) static FA_FILE_LOG_DPKG_LOG: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APT_HISTORY_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -8178,7 +8156,7 @@ pub(crate) static FA_FILE_APT_HISTORY_LOG: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APT_TERM_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -8198,7 +8176,7 @@ pub(crate) static FA_FILE_APT_TERM_LOG: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DPKG_STATUS: ArtifactDescriptor = ArtifactDescriptor {
@@ -8218,7 +8196,7 @@ pub(crate) static FA_FILE_DPKG_STATUS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_DEBIAN_VERSION: ArtifactDescriptor = ArtifactDescriptor {
@@ -8238,7 +8216,7 @@ pub(crate) static FA_FILE_ETC_DEBIAN_VERSION: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_RESOLV_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -8341,26 +8319,6 @@ pub(crate) static FA_FILE_TRACKER: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://wiki.gnome.org/Projects/Tracker/Documentation/GettingStarted"],
 };
 
-pub(crate) static FA_FILE_DATA: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_data",
-    name: "GnomeTracker",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/.local/share/tracker/data/*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Gnome Tracker database and backup files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://wiki.gnome.org/Projects/Tracker/Documentation/GettingStarted"],
-};
-
 pub(crate) static FA_FILE_SHARE_RECENTLY_USED_XBEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_share_recently_used_xbel",
     name: "GTKRecentlyUsedDatabase",
@@ -8378,7 +8336,7 @@ pub(crate) static FA_FILE_SHARE_RECENTLY_USED_XBEL: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_HOSTS_ALLOW: ArtifactDescriptor = ArtifactDescriptor {
@@ -8398,7 +8356,7 @@ pub(crate) static FA_FILE_ETC_HOSTS_ALLOW: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_HOSTS_DENY: ArtifactDescriptor = ArtifactDescriptor {
@@ -8418,7 +8376,7 @@ pub(crate) static FA_FILE_ETC_HOSTS_DENY: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_MODULES_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -8438,7 +8396,7 @@ pub(crate) static FA_FILE_ETC_MODULES_CONF: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_MODPROBE_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -8458,7 +8416,7 @@ pub(crate) static FA_FILE_MODPROBE_D: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_USERS_HOMEDIR_LESSHST: ArtifactDescriptor = ArtifactDescriptor {
@@ -8498,7 +8456,7 @@ pub(crate) static FA_FILE_AT: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SPOOL: ArtifactDescriptor = ArtifactDescriptor {
@@ -8518,7 +8476,7 @@ pub(crate) static FA_FILE_SPOOL: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ATSPOOL: ArtifactDescriptor = ArtifactDescriptor {
@@ -8538,7 +8496,7 @@ pub(crate) static FA_FILE_ATSPOOL: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
@@ -8558,7 +8516,7 @@ pub(crate) static FA_FILE_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_AUTH: ArtifactDescriptor = ArtifactDescriptor {
@@ -8578,7 +8536,7 @@ pub(crate) static FA_FILE_LOG_AUTH: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_SECURE: ArtifactDescriptor = ArtifactDescriptor {
@@ -8598,7 +8556,7 @@ pub(crate) static FA_FILE_LOG_SECURE: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_CA_CERTIFICATES_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -8618,7 +8576,7 @@ pub(crate) static FA_FILE_ETC_CA_CERTIFICATES_CONF: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CERTS_CA_CERTIFICATES_CRT: ArtifactDescriptor = ArtifactDescriptor {
@@ -8638,7 +8596,7 @@ pub(crate) static FA_FILE_CERTS_CA_CERTIFICATES_CRT: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CA_CERTIFICATES: ArtifactDescriptor = ArtifactDescriptor {
@@ -8658,7 +8616,7 @@ pub(crate) static FA_FILE_CA_CERTIFICATES: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CA_CERTIFICATES_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -8678,7 +8636,7 @@ pub(crate) static FA_FILE_CA_CERTIFICATES_2: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_CRON_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -8698,7 +8656,7 @@ pub(crate) static FA_FILE_LOG_CRON_LOG: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_CRONTAB: ArtifactDescriptor = ArtifactDescriptor {
@@ -8718,7 +8676,7 @@ pub(crate) static FA_FILE_ETC_CRONTAB: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CRON_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -8738,7 +8696,7 @@ pub(crate) static FA_FILE_CRON_D: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CRON: ArtifactDescriptor = ArtifactDescriptor {
@@ -8758,7 +8716,7 @@ pub(crate) static FA_FILE_CRON: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_DAEMON: ArtifactDescriptor = ArtifactDescriptor {
@@ -8778,7 +8736,7 @@ pub(crate) static FA_FILE_LOG_DAEMON: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DHCP_DHCP_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -8798,7 +8756,7 @@ pub(crate) static FA_FILE_DHCP_DHCP_CONF: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_CENTOS_RELEASE: ArtifactDescriptor = ArtifactDescriptor {
@@ -8818,67 +8776,7 @@ pub(crate) static FA_FILE_ETC_CENTOS_RELEASE: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_ETC_ENTERPRISE_RELEASE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_etc_enterprise_release",
-    name: "LinuxDistributionRelease",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/etc/enterprise-release"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Linux distribution release information of non-LSB compliant systems.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_ETC_ORACLE_RELEASE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_etc_oracle_release",
-    name: "LinuxDistributionRelease",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/etc/oracle-release"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Linux distribution release information of non-LSB compliant systems.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_ETC_REDHAT_RELEASE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_etc_redhat_release",
-    name: "LinuxDistributionRelease",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/etc/redhat-release"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Linux distribution release information of non-LSB compliant systems.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_ROCKY_RELEASE: ArtifactDescriptor = ArtifactDescriptor {
@@ -8898,7 +8796,7 @@ pub(crate) static FA_FILE_ETC_ROCKY_RELEASE: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_SUSE_RELEASE: ArtifactDescriptor = ArtifactDescriptor {
@@ -8918,27 +8816,7 @@ pub(crate) static FA_FILE_ETC_SUSE_RELEASE: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_ETC_SYSTEM_RELEASE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_etc_system_release",
-    name: "LinuxDistributionRelease",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/etc/system-release"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Linux distribution release information of non-LSB compliant systems.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_TABLES_DSDT: ArtifactDescriptor = ArtifactDescriptor {
@@ -9038,7 +8916,7 @@ pub(crate) static FA_FILE_ETC_HOSTNAME: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_IF_UP_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -9058,7 +8936,7 @@ pub(crate) static FA_FILE_IF_UP_D: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_IF_DOWN_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -9078,7 +8956,7 @@ pub(crate) static FA_FILE_IF_DOWN_D: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_BOOT_INITRAMFS: ArtifactDescriptor = ArtifactDescriptor {
@@ -9098,7 +8976,10 @@ pub(crate) static FA_FILE_BOOT_INITRAMFS: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["http://en.wikipedia.org/wiki/Initrd", "https://www.kernel.org/doc/Documentation/initrd.txt"],
+    sources: &[
+        "http://en.wikipedia.org/wiki/Initrd",
+        "https://www.kernel.org/doc/Documentation/initrd.txt",
+    ],
 };
 
 pub(crate) static FA_FILE_BOOT_INITRD: ArtifactDescriptor = ArtifactDescriptor {
@@ -9118,7 +8999,10 @@ pub(crate) static FA_FILE_BOOT_INITRD: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["http://en.wikipedia.org/wiki/Initrd", "https://www.kernel.org/doc/Documentation/initrd.txt"],
+    sources: &[
+        "http://en.wikipedia.org/wiki/Initrd",
+        "https://www.kernel.org/doc/Documentation/initrd.txt",
+    ],
 };
 
 pub(crate) static FA_FILE_ETC_ISSUE: ArtifactDescriptor = ArtifactDescriptor {
@@ -9198,7 +9082,7 @@ pub(crate) static FA_FILE_LOG_KERN: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_LASTLOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -9218,7 +9102,7 @@ pub(crate) static FA_FILE_LOG_LASTLOG: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_LD_SO_PRELOAD: ArtifactDescriptor = ArtifactDescriptor {
@@ -9318,27 +9202,7 @@ pub(crate) static FA_FILE_ETC_LOCALTIME: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_ETC_LSB_RELEASE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_etc_lsb_release",
-    name: "LinuxLSBRelease",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/etc/lsb-release"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Linux Standard Base (LSB) release information",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://linux.die.net/man/1/lsb_release"],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_MESSAGES: ArtifactDescriptor = ArtifactDescriptor {
@@ -9358,7 +9222,7 @@ pub(crate) static FA_FILE_LOG_MESSAGES: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONF_D_NAME_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -9378,48 +9242,59 @@ pub(crate) static FA_FILE_CONF_D_NAME_CONF: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://linux.die.net/man/5/networkmanager.conf", "https://man.archlinux.org/man/NetworkManager.conf.5.en#FILE_FORMAT"],
+    sources: &[
+        "https://linux.die.net/man/5/networkmanager.conf",
+        "https://man.archlinux.org/man/NetworkManager.conf.5.en#FILE_FORMAT",
+    ],
 };
 
-pub(crate) static FA_FILE_NETWORKMANAGER_NETWORKMANAGER_CONF: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_networkmanager_networkmanager_conf",
-    name: "LinuxNetworkManager",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/etc/NetworkManager/NetworkManager.conf"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Linux NetworkManager files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://linux.die.net/man/5/networkmanager.conf", "https://man.archlinux.org/man/NetworkManager.conf.5.en#FILE_FORMAT"],
-};
+pub(crate) static FA_FILE_NETWORKMANAGER_NETWORKMANAGER_CONF: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_networkmanager_networkmanager_conf",
+        name: "LinuxNetworkManager",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/etc/NetworkManager/NetworkManager.conf"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Linux NetworkManager files.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://linux.die.net/man/5/networkmanager.conf",
+            "https://man.archlinux.org/man/NetworkManager.conf.5.en#FILE_FORMAT",
+        ],
+    };
 
-pub(crate) static FA_FILE_NETWORKMANAGER_SYSTEM_CONNECTIONS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_networkmanager_system_connections",
-    name: "LinuxNetworkManager",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/etc/NetworkManager/system-connections"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Linux NetworkManager files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://linux.die.net/man/5/networkmanager.conf", "https://man.archlinux.org/man/NetworkManager.conf.5.en#FILE_FORMAT"],
-};
+pub(crate) static FA_FILE_NETWORKMANAGER_SYSTEM_CONNECTIONS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_networkmanager_system_connections",
+        name: "LinuxNetworkManager",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/etc/NetworkManager/system-connections"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Linux NetworkManager files.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://linux.die.net/man/5/networkmanager.conf",
+            "https://man.archlinux.org/man/NetworkManager.conf.5.en#FILE_FORMAT",
+        ],
+    };
 
 pub(crate) static FA_FILE_CONF_D_NAME_CONF_2: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_conf_d_name_conf_2",
@@ -9438,7 +9313,10 @@ pub(crate) static FA_FILE_CONF_D_NAME_CONF_2: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://linux.die.net/man/5/networkmanager.conf", "https://man.archlinux.org/man/NetworkManager.conf.5.en#FILE_FORMAT"],
+    sources: &[
+        "https://linux.die.net/man/5/networkmanager.conf",
+        "https://man.archlinux.org/man/NetworkManager.conf.5.en#FILE_FORMAT",
+    ],
 };
 
 pub(crate) static FA_FILE_CONF_D_NAME_CONF_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -9458,28 +9336,35 @@ pub(crate) static FA_FILE_CONF_D_NAME_CONF_3: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://linux.die.net/man/5/networkmanager.conf", "https://man.archlinux.org/man/NetworkManager.conf.5.en#FILE_FORMAT"],
+    sources: &[
+        "https://linux.die.net/man/5/networkmanager.conf",
+        "https://man.archlinux.org/man/NetworkManager.conf.5.en#FILE_FORMAT",
+    ],
 };
 
-pub(crate) static FA_FILE_NETWORKMANAGER_NETWORKMANAGER_INTERN_CONF: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_networkmanager_networkmanager_intern_conf",
-    name: "LinuxNetworkManager",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/lib/NetworkManager/NetworkManager-intern.conf"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Linux NetworkManager files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://linux.die.net/man/5/networkmanager.conf", "https://man.archlinux.org/man/NetworkManager.conf.5.en#FILE_FORMAT"],
-};
+pub(crate) static FA_FILE_NETWORKMANAGER_NETWORKMANAGER_INTERN_CONF: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_networkmanager_networkmanager_intern_conf",
+        name: "LinuxNetworkManager",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/var/lib/NetworkManager/NetworkManager-intern.conf"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Linux NetworkManager files.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://linux.die.net/man/5/networkmanager.conf",
+            "https://man.archlinux.org/man/NetworkManager.conf.5.en#FILE_FORMAT",
+        ],
+    };
 
 pub(crate) static FA_FILE_NETWORKMANAGER: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_networkmanager",
@@ -9498,7 +9383,10 @@ pub(crate) static FA_FILE_NETWORKMANAGER: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://linux.die.net/man/5/networkmanager.conf", "https://man.archlinux.org/man/NetworkManager.conf.5.en#FILE_FORMAT"],
+    sources: &[
+        "https://linux.die.net/man/5/networkmanager.conf",
+        "https://man.archlinux.org/man/NetworkManager.conf.5.en#FILE_FORMAT",
+    ],
 };
 
 pub(crate) static FA_FILE_ETC_PASSWD_CACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -9622,7 +9510,7 @@ username:password:uid:gid:full name:home directory:shell
     retention: None,
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_RSYSLOG_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -9722,7 +9610,7 @@ pub(crate) static FA_FILE_SUDO_IO: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SYSCTL_D_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -9843,26 +9731,6 @@ pub(crate) static FA_FILE_ETC_SYSCTL_CON: ArtifactDescriptor = ArtifactDescripto
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://man7.org/linux/man-pages/man5/sysctl.conf.5.html"],
-};
-
-pub(crate) static FA_FILE_LOG_SYSLOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_log_syslog",
-    name: "LinuxSysLogFiles",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/log/syslog*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Linux syslog log files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
 };
 
 pub(crate) static FA_FILE_SYSLOG_NG_SYSLOG_NG_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -11022,7 +10890,10 @@ pub(crate) static FA_FILE_ETC_RC_LOCAL: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["http://savannah.nongnu.org/projects/sysvinit", "http://docs.oracle.com/cd/E37670_01/E41138/html/ol_svcscripts.html"],
+    sources: &[
+        "http://savannah.nongnu.org/projects/sysvinit",
+        "http://docs.oracle.com/cd/E37670_01/E41138/html/ol_svcscripts.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ETC_RC_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -11042,7 +10913,10 @@ pub(crate) static FA_FILE_ETC_RC_D: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["http://savannah.nongnu.org/projects/sysvinit", "http://docs.oracle.com/cd/E37670_01/E41138/html/ol_svcscripts.html"],
+    sources: &[
+        "http://savannah.nongnu.org/projects/sysvinit",
+        "http://docs.oracle.com/cd/E37670_01/E41138/html/ol_svcscripts.html",
+    ],
 };
 
 pub(crate) static FA_FILE_RC_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -11062,7 +10936,10 @@ pub(crate) static FA_FILE_RC_D: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["http://savannah.nongnu.org/projects/sysvinit", "http://docs.oracle.com/cd/E37670_01/E41138/html/ol_svcscripts.html"],
+    sources: &[
+        "http://savannah.nongnu.org/projects/sysvinit",
+        "http://docs.oracle.com/cd/E37670_01/E41138/html/ol_svcscripts.html",
+    ],
 };
 
 pub(crate) static FA_FILE_RC_D_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -11082,7 +10959,10 @@ pub(crate) static FA_FILE_RC_D_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["http://savannah.nongnu.org/projects/sysvinit", "http://docs.oracle.com/cd/E37670_01/E41138/html/ol_svcscripts.html"],
+    sources: &[
+        "http://savannah.nongnu.org/projects/sysvinit",
+        "http://docs.oracle.com/cd/E37670_01/E41138/html/ol_svcscripts.html",
+    ],
 };
 
 pub(crate) static FA_FILE_INIT_D_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -11102,7 +10982,10 @@ pub(crate) static FA_FILE_INIT_D_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["http://savannah.nongnu.org/projects/sysvinit", "http://docs.oracle.com/cd/E37670_01/E41138/html/ol_svcscripts.html"],
+    sources: &[
+        "http://savannah.nongnu.org/projects/sysvinit",
+        "http://docs.oracle.com/cd/E37670_01/E41138/html/ol_svcscripts.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ETC_TIMEZONE: ArtifactDescriptor = ArtifactDescriptor {
@@ -11122,7 +11005,7 @@ pub(crate) static FA_FILE_ETC_TIMEZONE: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_RULES_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -11302,7 +11185,10 @@ pub(crate) static FA_FILE_MLOCATE_MLOCATE_DB: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://linux.die.net/man/1/locate", "https://linux.die.net/man/8/updatedb"],
+    sources: &[
+        "https://linux.die.net/man/1/locate",
+        "https://linux.die.net/man/8/updatedb",
+    ],
 };
 
 pub(crate) static FA_FILE_ETC_UPDATEDB_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -11322,7 +11208,10 @@ pub(crate) static FA_FILE_ETC_UPDATEDB_CONF: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://linux.die.net/man/1/locate", "https://linux.die.net/man/8/updatedb"],
+    sources: &[
+        "https://linux.die.net/man/1/locate",
+        "https://linux.die.net/man/8/updatedb",
+    ],
 };
 
 pub(crate) static FA_FILE_ETC_NETGROUP: ArtifactDescriptor = ArtifactDescriptor {
@@ -11342,7 +11231,7 @@ pub(crate) static FA_FILE_ETC_NETGROUP: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_NSSWITCH_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -11362,7 +11251,7 @@ pub(crate) static FA_FILE_ETC_NSSWITCH_CONF: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_PASSWD_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -11382,7 +11271,7 @@ pub(crate) static FA_FILE_ETC_PASSWD_2: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_SHADOW: ArtifactDescriptor = ArtifactDescriptor {
@@ -11402,7 +11291,7 @@ pub(crate) static FA_FILE_ETC_SHADOW: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SECURITY_ACCESS_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -11422,7 +11311,7 @@ pub(crate) static FA_FILE_SECURITY_ACCESS_CONF: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_K5LOGIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -11442,7 +11331,7 @@ pub(crate) static FA_FILE_ROOT_K5LOGIN: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_MYSQL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -11462,7 +11351,7 @@ pub(crate) static FA_FILE_MYSQL_HISTORY: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_MYSQL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -11482,7 +11371,7 @@ pub(crate) static FA_FILE_ROOT_MYSQL_HISTORY: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_USERS_HOMEDIR_MYSQL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -11502,7 +11391,7 @@ pub(crate) static FA_FILE_USERS_HOMEDIR_MYSQL_HISTORY: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_USERS_HOMEDIR_NANO_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -11542,7 +11431,7 @@ pub(crate) static FA_FILE_ETC_NETGROUP_2: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_NTP_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -11582,7 +11471,11 @@ pub(crate) static FA_FILE_VENDOR: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-pci", "https://www.kernel.org/doc/Documentation/filesystems/sysfs-pci.txt", "https://wiki.debian.org/HowToIdentifyADevice/PCI"],
+    sources: &[
+        "https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-pci",
+        "https://www.kernel.org/doc/Documentation/filesystems/sysfs-pci.txt",
+        "https://wiki.debian.org/HowToIdentifyADevice/PCI",
+    ],
 };
 
 pub(crate) static FA_FILE_DEVICE: ArtifactDescriptor = ArtifactDescriptor {
@@ -11602,7 +11495,11 @@ pub(crate) static FA_FILE_DEVICE: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-pci", "https://www.kernel.org/doc/Documentation/filesystems/sysfs-pci.txt", "https://wiki.debian.org/HowToIdentifyADevice/PCI"],
+    sources: &[
+        "https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-pci",
+        "https://www.kernel.org/doc/Documentation/filesystems/sysfs-pci.txt",
+        "https://wiki.debian.org/HowToIdentifyADevice/PCI",
+    ],
 };
 
 pub(crate) static FA_FILE_CLASS: ArtifactDescriptor = ArtifactDescriptor {
@@ -11622,7 +11519,11 @@ pub(crate) static FA_FILE_CLASS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-pci", "https://www.kernel.org/doc/Documentation/filesystems/sysfs-pci.txt", "https://wiki.debian.org/HowToIdentifyADevice/PCI"],
+    sources: &[
+        "https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-pci",
+        "https://www.kernel.org/doc/Documentation/filesystems/sysfs-pci.txt",
+        "https://wiki.debian.org/HowToIdentifyADevice/PCI",
+    ],
 };
 
 pub(crate) static FA_FILE_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
@@ -11642,7 +11543,11 @@ pub(crate) static FA_FILE_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-pci", "https://www.kernel.org/doc/Documentation/filesystems/sysfs-pci.txt", "https://wiki.debian.org/HowToIdentifyADevice/PCI"],
+    sources: &[
+        "https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-pci",
+        "https://www.kernel.org/doc/Documentation/filesystems/sysfs-pci.txt",
+        "https://wiki.debian.org/HowToIdentifyADevice/PCI",
+    ],
 };
 
 pub(crate) static FA_FILE_PSQL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -11662,7 +11567,7 @@ pub(crate) static FA_FILE_PSQL_HISTORY: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_PSQL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -11682,7 +11587,7 @@ pub(crate) static FA_FILE_ROOT_PSQL_HISTORY: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_POSTGRESQL_PSQL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -11702,7 +11607,7 @@ pub(crate) static FA_FILE_POSTGRESQL_PSQL_HISTORY: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_PGSQL_PSQL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -11722,7 +11627,7 @@ pub(crate) static FA_FILE_PGSQL_PSQL_HISTORY: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_USERS_HOMEDIR_PSQL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -11742,7 +11647,7 @@ pub(crate) static FA_FILE_USERS_HOMEDIR_PSQL_HISTORY: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_USERS_HOMEDIR_PYTHON_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -11762,7 +11667,7 @@ pub(crate) static FA_FILE_USERS_HOMEDIR_PYTHON_HISTORY: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_USERS_HOMEDIR_RHOSTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -11782,7 +11687,7 @@ pub(crate) static FA_FILE_USERS_HOMEDIR_RHOSTS: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SAMBA_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -11862,7 +11767,7 @@ pub(crate) static FA_FILE_USERS_HOMEDIR_SQLITE_HISTORY: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SSH_AUTHORIZED_KEYS: ArtifactDescriptor = ArtifactDescriptor {
@@ -11882,7 +11787,7 @@ pub(crate) static FA_FILE_SSH_AUTHORIZED_KEYS: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SSH_AUTHORIZED_KEYS2: ArtifactDescriptor = ArtifactDescriptor {
@@ -11902,7 +11807,7 @@ pub(crate) static FA_FILE_SSH_AUTHORIZED_KEYS2: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SSH_SSH_HOST_KEY_PUB: ArtifactDescriptor = ArtifactDescriptor {
@@ -11922,7 +11827,7 @@ pub(crate) static FA_FILE_SSH_SSH_HOST_KEY_PUB: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SSH_KNOWN_HOSTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -11942,7 +11847,7 @@ pub(crate) static FA_FILE_SSH_KNOWN_HOSTS: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SSH_KNOWN_HOSTS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -11962,7 +11867,7 @@ pub(crate) static FA_FILE_SSH_KNOWN_HOSTS_2: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_THUMBNAILS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -11982,7 +11887,7 @@ pub(crate) static FA_FILE_THUMBNAILS_3: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DEFAULT_UFW: ArtifactDescriptor = ArtifactDescriptor {
@@ -12002,7 +11907,7 @@ pub(crate) static FA_FILE_DEFAULT_UFW: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_UFW_SYSCTL_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -12022,7 +11927,7 @@ pub(crate) static FA_FILE_UFW_SYSCTL_CONF: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_UFW_RULES: ArtifactDescriptor = ArtifactDescriptor {
@@ -12042,7 +11947,7 @@ pub(crate) static FA_FILE_UFW_RULES: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APPLICATIONS_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -12062,7 +11967,7 @@ pub(crate) static FA_FILE_APPLICATIONS_D: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_UFW_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -12082,7 +11987,7 @@ pub(crate) static FA_FILE_LOG_UFW_LOG: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_USERS_HOMEDIR_VIMINFO: ArtifactDescriptor = ArtifactDescriptor {
@@ -12102,7 +12007,7 @@ pub(crate) static FA_FILE_USERS_HOMEDIR_VIMINFO: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_USERS_HOMEDIR_WGET_HSTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -12265,25 +12170,26 @@ pub(crate) static FA_FILE_KERNEL_RANDOMIZE_VA_SPACE: ArtifactDescriptor = Artifa
     sources: &["https://www.kernel.org/doc/Documentation/sysctl/kernel.txt"],
 };
 
-pub(crate) static FA_FILE_IPV4_ICMP_ECHO_IGNORE_BROADCASTS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_ipv4_icmp_echo_ignore_broadcasts",
-    name: "LinuxIgnoreICMPBroadcasts",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/proc/sys/net/ipv4/icmp_echo_ignore_broadcasts"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Whether the system ignores ICMP pings.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt"],
-};
+pub(crate) static FA_FILE_IPV4_ICMP_ECHO_IGNORE_BROADCASTS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_ipv4_icmp_echo_ignore_broadcasts",
+        name: "LinuxIgnoreICMPBroadcasts",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/proc/sys/net/ipv4/icmp_echo_ignore_broadcasts"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Whether the system ignores ICMP pings.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt"],
+    };
 
 pub(crate) static FA_FILE_KERNEL_BOOTLOADER_TYPE: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_kernel_bootloader_type",
@@ -12582,7 +12488,7 @@ pub(crate) static FA_FILE_NET_ARP: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_PROC_MOUNTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -12725,26 +12631,6 @@ pub(crate) static FA_FILE_IPV4_TCP_SYNCOOKIES: ArtifactDescriptor = ArtifactDesc
     sources: &["https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt"],
 };
 
-pub(crate) static FA_FILE_LOGS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_logs",
-    name: "ApacheKafkaLogFiles",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/opt/kafka/logs/*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Apache Kafka Log files",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
-
 pub(crate) static FA_FILE_LOGS_CONTROLLER_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_logs_controller_log",
     name: "ApacheKafkaLogFiles",
@@ -12762,7 +12648,7 @@ pub(crate) static FA_FILE_LOGS_CONTROLLER_LOG: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGS_KAFKA_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -12782,7 +12668,7 @@ pub(crate) static FA_FILE_LOGS_KAFKA_LOG: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGS_SERVER_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -12802,7 +12688,7 @@ pub(crate) static FA_FILE_LOGS_SERVER_LOG: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGS_STATE_CHANGE_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -12822,7 +12708,7 @@ pub(crate) static FA_FILE_LOGS_STATE_CHANGE_LOG: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_HAPROXY: ArtifactDescriptor = ArtifactDescriptor {
@@ -12842,7 +12728,10 @@ pub(crate) static FA_FILE_HAPROXY: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#8", "https://www.haproxy.com/blog/introduction-to-haproxy-logging/"],
+    sources: &[
+        "https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#8",
+        "https://www.haproxy.com/blog/introduction-to-haproxy-logging/",
+    ],
 };
 
 pub(crate) static FA_FILE_LOG_HAPROXY_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -12862,7 +12751,10 @@ pub(crate) static FA_FILE_LOG_HAPROXY_LOG: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#8", "https://www.haproxy.com/blog/introduction-to-haproxy-logging/"],
+    sources: &[
+        "https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#8",
+        "https://www.haproxy.com/blog/introduction-to-haproxy-logging/",
+    ],
 };
 
 pub(crate) static FA_FILE_LOG_HAPROXY_TRAFFIC_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -12882,7 +12774,10 @@ pub(crate) static FA_FILE_LOG_HAPROXY_TRAFFIC_LOG: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#8", "https://www.haproxy.com/blog/introduction-to-haproxy-logging/"],
+    sources: &[
+        "https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#8",
+        "https://www.haproxy.com/blog/introduction-to-haproxy-logging/",
+    ],
 };
 
 pub(crate) static FA_FILE_LOG_HAPROXY_ADMIN_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -12902,7 +12797,10 @@ pub(crate) static FA_FILE_LOG_HAPROXY_ADMIN_LOG: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#8", "https://www.haproxy.com/blog/introduction-to-haproxy-logging/"],
+    sources: &[
+        "https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#8",
+        "https://www.haproxy.com/blog/introduction-to-haproxy-logging/",
+    ],
 };
 
 pub(crate) static FA_FILE_JENKINS_JENKINS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -12982,7 +12880,7 @@ pub(crate) static FA_FILE_ADDRESSBOOK_ADDRESSBOOKIMAGES_SQLITEDB: ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ADDRESSBOOK_ADDRESSBOOKIMAGES_SQLITEDB_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -13002,28 +12900,33 @@ pub(crate) static FA_FILE_ADDRESSBOOK_ADDRESSBOOKIMAGES_SQLITEDB_2: ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
-pub(crate) static FA_FILE_SYSTEMCONFIGURATION_COM_APPLE_AIRPORT_PREFERENCES_PL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_systemconfiguration_com_apple_airport_preferences_pl",
-    name: "MacOSAirportPreferencesPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Airport (wireless networking) preferences property list (plist) file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/macos/NetworkSettings.html"],
-};
+pub(crate) static FA_FILE_SYSTEMCONFIGURATION_COM_APPLE_AIRPORT_PREFERENCES_PL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_systemconfiguration_com_apple_airport_preferences_pl",
+        name: "MacOSAirportPreferencesPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Airport (wireless networking) preferences property list (plist) file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://artifacts-kb.readthedocs.io/en/latest/sources/macos/NetworkSettings.html",
+        ],
+    };
 
 pub(crate) static FA_FILE_APPLEPUSHSERVICE_APS_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_applepushservice_aps_db",
@@ -13042,7 +12945,7 @@ pub(crate) static FA_FILE_APPLEPUSHSERVICE_APS_DB: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DB_APPLESETUPDONE: ArtifactDescriptor = ArtifactDescriptor {
@@ -13062,7 +12965,9 @@ pub(crate) static FA_FILE_DB_APPLESETUPDONE: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-settings-and-informations"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-settings-and-informations",
+    ],
 };
 
 pub(crate) static FA_FILE_DB_APPLESETUPDONE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -13082,7 +12987,9 @@ pub(crate) static FA_FILE_DB_APPLESETUPDONE_2: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-settings-and-informations"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-settings-and-informations",
+    ],
 };
 
 pub(crate) static FA_FILE_ASL_ASL: ArtifactDescriptor = ArtifactDescriptor {
@@ -13102,7 +13009,10 @@ pub(crate) static FA_FILE_ASL_ASL: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-logs", "https://support.apple.com/guide/console/reports-cnsl664be99a/mac"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-logs",
+        "https://support.apple.com/guide/console/reports-cnsl664be99a/mac",
+    ],
 };
 
 pub(crate) static FA_FILE_DIAGNOSTICMESSAGES_ASL: ArtifactDescriptor = ArtifactDescriptor {
@@ -13122,7 +13032,10 @@ pub(crate) static FA_FILE_DIAGNOSTICMESSAGES_ASL: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-logs", "https://support.apple.com/guide/console/reports-cnsl664be99a/mac"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-logs",
+        "https://support.apple.com/guide/console/reports-cnsl664be99a/mac",
+    ],
 };
 
 pub(crate) static FA_FILE_ASL_ASL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -13142,7 +13055,10 @@ pub(crate) static FA_FILE_ASL_ASL_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-logs", "https://support.apple.com/guide/console/reports-cnsl664be99a/mac"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-logs",
+        "https://support.apple.com/guide/console/reports-cnsl664be99a/mac",
+    ],
 };
 
 pub(crate) static FA_FILE_DIAGNOSTICMESSAGES_ASL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -13162,7 +13078,10 @@ pub(crate) static FA_FILE_DIAGNOSTICMESSAGES_ASL_2: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-logs", "https://support.apple.com/guide/console/reports-cnsl664be99a/mac"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-logs",
+        "https://support.apple.com/guide/console/reports-cnsl664be99a/mac",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -13182,7 +13101,7 @@ pub(crate) static FA_FILE_CACHE_DB: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_STRINGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -13202,7 +13121,7 @@ pub(crate) static FA_FILE_LPROJ_STRINGS: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_STRINGS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -13222,28 +13141,29 @@ pub(crate) static FA_FILE_LPROJ_STRINGS_2: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
-pub(crate) static FA_FILE_COM_APPLE_ASSETCACHE_ASSETINFO_DB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_com_apple_assetcache_assetinfo_db",
-    name: "MacOSAssetCacheInfoSQLiteDatabaseFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Library/Caches/com.apple.AssetCache/AssetInfo.db"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Asset cache information SQLite database file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_COM_APPLE_ASSETCACHE_ASSETINFO_DB: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_com_apple_assetcache_assetinfo_db",
+        name: "MacOSAssetCacheInfoSQLiteDatabaseFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/Library/Caches/com.apple.AssetCache/AssetInfo.db"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Asset cache information SQLite database file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
 pub(crate) static FA_FILE_DB_AUTH_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_db_auth_db",
@@ -13265,7 +13185,7 @@ Superscedes /etc/authorization seen Mac OS X 10.8 Mountain Lion and earlier vers
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DB_AUTH_DB_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -13288,7 +13208,7 @@ Superscedes /etc/authorization seen Mac OS X 10.8 Mountain Lion and earlier vers
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CALENDARS_CALENDAR_CACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -13308,48 +13228,52 @@ pub(crate) static FA_FILE_CALENDARS_CALENDAR_CACHE: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
-pub(crate) static FA_FILE_CALLHISTORYDB_CALLHISTORY_STOREDATA: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_callhistorydb_callhistory_storedata",
-    name: "MacOSCallHistoryCacheSQLiteDatabaseFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/CallHistoryDB/CallHistory.storedata"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Call history cache SQLite database file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_CALLHISTORYDB_CALLHISTORY_STOREDATA: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_callhistorydb_callhistory_storedata",
+        name: "MacOSCallHistoryCacheSQLiteDatabaseFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%%users.homedir%%/Library/Application Support/CallHistoryDB/CallHistory.storedata",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Call history cache SQLite database file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
-pub(crate) static FA_FILE_PREFERENCES_LSSHAREDFILELIST_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_lssharedfilelist_plist",
-    name: "MacOSApplicationsRecentItems",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Preferences/*.LSSharedFileList.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Recent Items application specific",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#recent-items"],
-};
+pub(crate) static FA_FILE_PREFERENCES_LSSHAREDFILELIST_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_lssharedfilelist_plist",
+        name: "MacOSApplicationsRecentItems",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Preferences/*.LSSharedFileList.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Recent Items application specific",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#recent-items"],
+    };
 
 pub(crate) static FA_FILE_JOBS: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_jobs",
@@ -13411,25 +13335,26 @@ pub(crate) static FA_FILE_AUDIT_0_9_0_9_2: ArtifactDescriptor = ArtifactDescript
     sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-logs"],
 };
 
-pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_BLUETOOTH_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_com_apple_bluetooth_plist",
-    name: "MacOSBluetoothPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Library/Preferences/com.apple.Bluetooth.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Bluetooth preferences and paired device information property list (plist) file",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences"],
-};
+pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_BLUETOOTH_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_com_apple_bluetooth_plist",
+        name: "MacOSBluetoothPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/Library/Preferences/com.apple.Bluetooth.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Bluetooth preferences and paired device information property list (plist) file",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences"],
+    };
 
 pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_codesignature_coderesources",
@@ -13448,7 +13373,7 @@ pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -13468,7 +13393,7 @@ pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_2: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -13488,7 +13413,7 @@ pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_3: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -13508,7 +13433,7 @@ pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_4: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -13528,7 +13453,7 @@ pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_5: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -13548,7 +13473,7 @@ pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_6: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -13568,7 +13493,7 @@ pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_7: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -13588,7 +13513,7 @@ pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_8: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -13598,7 +13523,9 @@ pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_9: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/System/Library/Filesystems/*/Encodings/*.kext/Contents/_CodeSignature/CodeResources"),
+    file_path: Some(
+        "/System/Library/Filesystems/*/Encodings/*.kext/Contents/_CodeSignature/CodeResources",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -13608,7 +13535,7 @@ pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_9: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -13628,7 +13555,7 @@ pub(crate) static FA_FILE_CODESIGNATURE_CODERESOURCES_10: ArtifactDescriptor = A
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_INFO_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -13648,7 +13575,7 @@ pub(crate) static FA_FILE_CONTENTS_INFO_PLIST: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -13668,7 +13595,7 @@ pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_2: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -13688,7 +13615,7 @@ pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_3: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -13708,7 +13635,7 @@ pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_4: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -13718,7 +13645,9 @@ pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_5: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/System/Library/Extensions/*.kext/Contents/PlugIns/*.kext/Contents/Info.plist"),
+    file_path: Some(
+        "/System/Library/Extensions/*.kext/Contents/PlugIns/*.kext/Contents/Info.plist",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -13728,7 +13657,7 @@ pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_5: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -13748,7 +13677,7 @@ pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_6: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -13768,7 +13697,7 @@ pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_7: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -13778,7 +13707,9 @@ pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_8: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/System/Library/Extensions/*.kext/Contents/Resources/*.bundle/Contents/Info.plist"),
+    file_path: Some(
+        "/System/Library/Extensions/*.kext/Contents/Resources/*.bundle/Contents/Info.plist",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -13788,7 +13719,7 @@ pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_8: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_KEXT_INFO_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -13808,7 +13739,7 @@ pub(crate) static FA_FILE_KEXT_INFO_PLIST: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -13828,7 +13759,7 @@ pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_9: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -13848,7 +13779,7 @@ pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_10: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_RESOURCES_INFO_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -13868,7 +13799,7 @@ pub(crate) static FA_FILE_RESOURCES_INFO_PLIST: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -13888,7 +13819,7 @@ pub(crate) static FA_FILE_CONTENTS_INFO_PLIST_11: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -13908,7 +13839,7 @@ pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -13928,7 +13859,7 @@ pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_2: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -13948,7 +13879,7 @@ pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_3: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -13958,7 +13889,9 @@ pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_4: ArtifactDescriptor = Artifac
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/System/Library/Extensions/*.kext/Contents/PlugIns/*.kext/Contents/version.plist"),
+    file_path: Some(
+        "/System/Library/Extensions/*.kext/Contents/PlugIns/*.kext/Contents/version.plist",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -13968,7 +13901,7 @@ pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_4: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -13988,7 +13921,7 @@ pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_5: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -14008,7 +13941,7 @@ pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_6: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -14018,7 +13951,9 @@ pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_7: ArtifactDescriptor = Artifac
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/System/Library/Extensions/*.kext/Contents/Resources/*.bundle/Contents/version.plist"),
+    file_path: Some(
+        "/System/Library/Extensions/*.kext/Contents/Resources/*.bundle/Contents/version.plist",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -14028,7 +13963,7 @@ pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_7: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -14048,7 +13983,7 @@ pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_8: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_KEXT_VERSION_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -14068,7 +14003,7 @@ pub(crate) static FA_FILE_KEXT_VERSION_PLIST: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -14088,7 +14023,7 @@ pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_9: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -14108,7 +14043,7 @@ pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_10: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_RESOURCES_VERSION_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -14128,7 +14063,7 @@ pub(crate) static FA_FILE_RESOURCES_VERSION_PLIST: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -14148,7 +14083,7 @@ pub(crate) static FA_FILE_CONTENTS_VERSION_PLIST_11: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DIAGNOSTICREPORTS_CORE_ANALYTICS: ArtifactDescriptor = ArtifactDescriptor {
@@ -14209,26 +14144,6 @@ pub(crate) static FA_FILE_AGGREGATES_2: ArtifactDescriptor = ArtifactDescriptor 
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensics.wiki/mac_os_x#diagnostic-reports", "https://www.crowdstrike.com/blog/i-know-what-you-did-last-month-a-new-artifact-of-execution-on-macos-10-13/"],
-};
-
-pub(crate) static FA_FILE_ETC_CRONTAB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_etc_crontab",
-    name: "MacOSCronTabs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/etc/crontab"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Cron tabs",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc"],
 };
 
 pub(crate) static FA_FILE_ETC_CRONTAB_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -14351,28 +14266,29 @@ pub(crate) static FA_FILE_TABS_5: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc"],
 };
 
-pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_DOCK_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_com_apple_dock_plist",
-    name: "MacOSDockConfigurationPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Preferences/com.apple.Dock.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Dock configuration property list (plist) file.
+pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_DOCK_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_com_apple_dock_plist",
+        name: "MacOSDockConfigurationPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Preferences/com.apple.Dock.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Dock configuration property list (plist) file.
 
 This property list contains information about the configuration of a user's Dock.
 ",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#preferences"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#preferences"],
+    };
 
 pub(crate) static FA_FILE_DEFAULT_SQLINDEX: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_default_sqlindex",
@@ -14391,7 +14307,7 @@ pub(crate) static FA_FILE_DEFAULT_SQLINDEX: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DEFAULT_SQLINDEX_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -14411,30 +14327,32 @@ pub(crate) static FA_FILE_DEFAULT_SQLINDEX_2: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
-pub(crate) static FA_FILE_DUETACTIVITYSCHEDULER_DUETACTIVITYSCHEDULERCLASSC_DB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_duetactivityscheduler_duetactivityschedulerclassc_db",
-    name: "MacOSDuetActivitySchedulerSQLiteDatabaseFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/private/var/db/DuetActivityScheduler/DuetActivitySchedulerClassC.db"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Duet activity scheduler database.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_DUETACTIVITYSCHEDULER_DUETACTIVITYSCHEDULERCLASSC_DB: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_duetactivityscheduler_duetactivityschedulerclassc_db",
+        name: "MacOSDuetActivitySchedulerSQLiteDatabaseFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/private/var/db/DuetActivityScheduler/DuetActivitySchedulerClassC.db"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Duet activity scheduler database.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
-pub(crate) static FA_FILE_DUETACTIVITYSCHEDULER_DUETACTIVITYSCHEDULERCLASSC_DB_2: ArtifactDescriptor = ArtifactDescriptor {
+pub(crate) static FA_FILE_DUETACTIVITYSCHEDULER_DUETACTIVITYSCHEDULERCLASSC_DB_2:
+    ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_duetactivityscheduler_duetactivityschedulerclassc_db_2",
     name: "MacOSDuetActivitySchedulerSQLiteDatabaseFile",
     artifact_type: ArtifactType::File,
@@ -14451,7 +14369,7 @@ pub(crate) static FA_FILE_DUETACTIVITYSCHEDULER_DUETACTIVITYSCHEDULERCLASSC_DB_2
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_PEOPLE_INTERACTIONC_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -14471,7 +14389,7 @@ pub(crate) static FA_FILE_PEOPLE_INTERACTIONC_DB: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_PEOPLE_INTERACTIONC_DB_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -14491,7 +14409,7 @@ pub(crate) static FA_FILE_PEOPLE_INTERACTIONC_DB_2: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_KNOWLEDGE_KNOWLEDGEC_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -14571,7 +14489,7 @@ pub(crate) static FA_FILE_COREDUET_COREDUETD_DB: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COREDUET_COREDUETD_DB_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -14591,7 +14509,7 @@ pub(crate) static FA_FILE_COREDUET_COREDUETD_DB_2: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COREDUET_COREDUETD_DB_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -14611,7 +14529,7 @@ pub(crate) static FA_FILE_COREDUET_COREDUETD_DB_3: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COREDUET_COREDUETD_DB_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -14631,7 +14549,7 @@ pub(crate) static FA_FILE_COREDUET_COREDUETD_DB_4: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FSEVENTSD: ArtifactDescriptor = ArtifactDescriptor {
@@ -14691,7 +14609,7 @@ pub(crate) static FA_FILE_RESOURCES_GKOPAQUE_DB: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_RESOURCES_GKOPAQUE_DB_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -14711,31 +14629,32 @@ pub(crate) static FA_FILE_RESOURCES_GKOPAQUE_DB_2: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
-pub(crate) static FA_FILE_PREFERENCES_GLOBALPREFERENCES_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_globalpreferences_plist",
-    name: "MacOSGlobalPreferencesPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Library/Preferences/.GlobalPreferences.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Global preferences property list (plist) file.
+pub(crate) static FA_FILE_PREFERENCES_GLOBALPREFERENCES_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_globalpreferences_plist",
+        name: "MacOSGlobalPreferencesPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/Library/Preferences/.GlobalPreferences.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Global preferences property list (plist) file.
 
 This property list contains information about the system's locale and time zone.
 ",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences"],
-};
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences"],
+    };
 
 pub(crate) static FA_FILE_ACCOUNTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_accounts",
@@ -14754,28 +14673,29 @@ pub(crate) static FA_FILE_ACCOUNTS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
-pub(crate) static FA_FILE_PREFERENCES_MOBILEMEACCOUNTS_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_mobilemeaccounts_plist",
-    name: "MacOSiCloudPreferences",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Preferences/MobileMeAccounts.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "iCloud user preferences",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#preferences"],
-};
+pub(crate) static FA_FILE_PREFERENCES_MOBILEMEACCOUNTS_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_mobilemeaccounts_plist",
+        name: "MacOSiCloudPreferences",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Preferences/MobileMeAccounts.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "iCloud user preferences",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#preferences"],
+    };
 
 pub(crate) static FA_FILE_IDENTITYSERVICES_IDS_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_identityservices_ids_db",
@@ -14794,28 +14714,29 @@ pub(crate) static FA_FILE_IDENTITYSERVICES_IDS_DB: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
-pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_IPOD_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_com_apple_ipod_plist",
-    name: "MacOSiDevices",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Preferences/com.apple.iPod.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Attached iDevices",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#preferences"],
-};
+pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_IPOD_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_com_apple_ipod_plist",
+        name: "MacOSiDevices",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Preferences/com.apple.iPod.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Attached iDevices",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#preferences"],
+    };
 
 pub(crate) static FA_FILE_RECEIPTS_INSTALLHISTORY_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_receipts_installhistory_plist",
@@ -14894,7 +14815,7 @@ pub(crate) static FA_FILE_LPROJ_ITXIB: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_INFO_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -14924,7 +14845,9 @@ pub(crate) static FA_FILE_MANIFEST_PLIST: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/MobileSync/Backup/*/Manifest.plist"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/MobileSync/Backup/*/Manifest.plist",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -14944,7 +14867,9 @@ pub(crate) static FA_FILE_MANIFEST_MDBD: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/MobileSync/Backup/*/Manifest.mdbd"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/MobileSync/Backup/*/Manifest.mdbd",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -14984,7 +14909,9 @@ pub(crate) static FA_FILE_STATUS_PLIST: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/MobileSync/Backup/*/Status.plist"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/MobileSync/Backup/*/Status.plist",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15037,45 +14964,26 @@ pub(crate) static FA_FILE_EXTENSIONS_2: ArtifactDescriptor = ArtifactDescriptor 
     sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#kernel-extension"],
 };
 
-pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_HITOOLBOX_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_com_apple_hitoolbox_plist",
-    name: "MacOSKeyboardLayoutPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Library/Preferences/com.apple.HIToolbox.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Keyboard layout property list (plist) file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_LOG_LASTLOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_log_lastlog",
-    name: "MacOSLastlogFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/private/var/log/lastlog"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Lastlog file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_HITOOLBOX_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_com_apple_hitoolbox_plist",
+        name: "MacOSKeyboardLayoutPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/Library/Preferences/com.apple.HIToolbox.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Keyboard layout property list (plist) file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
 pub(crate) static FA_FILE_LOG_LASTLOG_2: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_log_lastlog_2",
@@ -15094,7 +15002,7 @@ pub(crate) static FA_FILE_LOG_LASTLOG_2: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LAUNCHAGENTS_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -15217,45 +15125,30 @@ pub(crate) static FA_FILE_LAUNCHDAEMONS_PLIST_3: ArtifactDescriptor = ArtifactDe
     sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#autorun-locations"],
 };
 
-pub(crate) static FA_FILE_LOGS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_logs",
-    name: "MacOSLogFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Library/Logs/*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Miscellaneous system log files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#logs"],
-};
-
-pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_LOGINWINDOW_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_com_apple_loginwindow_plist",
-    name: "MacOSLoginWindowPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Library/Preferences/com.apple.loginwindow.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Log-in window information property list (plist) file",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences", "https://taomm.org/PDFs/vol1/CH%200x02%20Persistence.pdf", "https://developer.apple.com/documentation/devicemanagement/loginwindowscripts"],
-};
+pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_LOGINWINDOW_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_com_apple_loginwindow_plist",
+        name: "MacOSLoginWindowPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/Library/Preferences/com.apple.loginwindow.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Log-in window information property list (plist) file",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &[
+            "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences",
+            "https://taomm.org/PDFs/vol1/CH%200x02%20Persistence.pdf",
+            "https://developer.apple.com/documentation/devicemanagement/loginwindowscripts",
+        ],
+    };
 
 pub(crate) static FA_FILE_PREFERENCES_LOGINWINDOW_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_preferences_loginwindow_plist",
@@ -15274,88 +15167,114 @@ pub(crate) static FA_FILE_PREFERENCES_LOGINWINDOW_PLIST: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences", "https://taomm.org/PDFs/vol1/CH%200x02%20Persistence.pdf", "https://developer.apple.com/documentation/devicemanagement/loginwindowscripts"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences",
+        "https://taomm.org/PDFs/vol1/CH%200x02%20Persistence.pdf",
+        "https://developer.apple.com/documentation/devicemanagement/loginwindowscripts",
+    ],
 };
 
-pub(crate) static FA_FILE_BYHOST_COM_APPLE_LOGINWINDOW_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_byhost_com_apple_loginwindow_plist",
-    name: "MacOSLoginWindowPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Preferences/ByHost/com.apple.loginwindow.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Log-in window information property list (plist) file",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences", "https://taomm.org/PDFs/vol1/CH%200x02%20Persistence.pdf", "https://developer.apple.com/documentation/devicemanagement/loginwindowscripts"],
-};
+pub(crate) static FA_FILE_BYHOST_COM_APPLE_LOGINWINDOW_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_byhost_com_apple_loginwindow_plist",
+        name: "MacOSLoginWindowPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Preferences/ByHost/com.apple.loginwindow.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Log-in window information property list (plist) file",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &[
+            "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences",
+            "https://taomm.org/PDFs/vol1/CH%200x02%20Persistence.pdf",
+            "https://developer.apple.com/documentation/devicemanagement/loginwindowscripts",
+        ],
+    };
 
-pub(crate) static FA_FILE_BYHOST_COM_APPLE_LOGINWINDOW_PLIST_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_byhost_com_apple_loginwindow_plist_2",
-    name: "MacOSLoginWindowPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Preferences/ByHost/com.apple.loginwindow.*.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Log-in window information property list (plist) file",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences", "https://taomm.org/PDFs/vol1/CH%200x02%20Persistence.pdf", "https://developer.apple.com/documentation/devicemanagement/loginwindowscripts"],
-};
+pub(crate) static FA_FILE_BYHOST_COM_APPLE_LOGINWINDOW_PLIST_2: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_byhost_com_apple_loginwindow_plist_2",
+        name: "MacOSLoginWindowPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%%users.homedir%%/Library/Preferences/ByHost/com.apple.loginwindow.*.plist",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Log-in window information property list (plist) file",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &[
+            "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences",
+            "https://taomm.org/PDFs/vol1/CH%200x02%20Persistence.pdf",
+            "https://developer.apple.com/documentation/devicemanagement/loginwindowscripts",
+        ],
+    };
 
-pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_LOGINWINDOW_PLIST_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_com_apple_loginwindow_plist_2",
-    name: "MacOSLoginWindowPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/root/Library/Preferences/com.apple.loginwindow.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Log-in window information property list (plist) file",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences", "https://taomm.org/PDFs/vol1/CH%200x02%20Persistence.pdf", "https://developer.apple.com/documentation/devicemanagement/loginwindowscripts"],
-};
+pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_LOGINWINDOW_PLIST_2: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_com_apple_loginwindow_plist_2",
+        name: "MacOSLoginWindowPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/var/root/Library/Preferences/com.apple.loginwindow.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Log-in window information property list (plist) file",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &[
+            "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences",
+            "https://taomm.org/PDFs/vol1/CH%200x02%20Persistence.pdf",
+            "https://developer.apple.com/documentation/devicemanagement/loginwindowscripts",
+        ],
+    };
 
-pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_LOGINWINDOW_PLIST_3: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_com_apple_loginwindow_plist_3",
-    name: "MacOSLoginWindowPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/private/var/root/Library/Preferences/com.apple.loginwindow.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Log-in window information property list (plist) file",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences", "https://taomm.org/PDFs/vol1/CH%200x02%20Persistence.pdf", "https://developer.apple.com/documentation/devicemanagement/loginwindowscripts"],
-};
+pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_LOGINWINDOW_PLIST_3: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_com_apple_loginwindow_plist_3",
+        name: "MacOSLoginWindowPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/private/var/root/Library/Preferences/com.apple.loginwindow.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Log-in window information property list (plist) file",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &[
+            "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences",
+            "https://taomm.org/PDFs/vol1/CH%200x02%20Persistence.pdf",
+            "https://developer.apple.com/documentation/devicemanagement/loginwindowscripts",
+        ],
+    };
 
 pub(crate) static FA_FILE_MAILDATA_ACCOUNTS_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_maildata_accounts_plist",
@@ -15424,7 +15343,9 @@ pub(crate) static FA_FILE_MAIL_DOWNLOADS: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Containers/com.apple.mail/Data/Library/Mail Downloads/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Containers/com.apple.mail/Data/Library/Mail Downloads/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15497,25 +15418,26 @@ pub(crate) static FA_FILE_V_0_9: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#mail"],
 };
 
-pub(crate) static FA_FILE_MAILDATA_OPENEDATTACHMENTSV2_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_maildata_openedattachmentsv2_plist",
-    name: "MacOSMailOpenedAttachments",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Mail/V[0-9]/MailData/OpenedAttachmentsV2.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Mail Opened Attachments",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#mail"],
-};
+pub(crate) static FA_FILE_MAILDATA_OPENEDATTACHMENTSV2_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_maildata_openedattachmentsv2_plist",
+        name: "MacOSMailOpenedAttachments",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Mail/V[0-9]/MailData/OpenedAttachmentsV2.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Mail Opened Attachments",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#mail"],
+    };
 
 pub(crate) static FA_FILE_POP: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_pop",
@@ -15537,45 +15459,49 @@ pub(crate) static FA_FILE_POP: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#mail"],
 };
 
-pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_MAIL_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_com_apple_mail_plist",
-    name: "MacOSMailPreferences",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Preferences/com.apple.Mail.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Mail Preferences",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#mail"],
-};
+pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_MAIL_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_com_apple_mail_plist",
+        name: "MacOSMailPreferences",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Preferences/com.apple.Mail.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Mail Preferences",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#mail"],
+    };
 
-pub(crate) static FA_FILE_ADDRESSBOOK_MAILRECENTS_V4_ABCDMR: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_addressbook_mailrecents_v4_abcdmr",
-    name: "MacOSMailRecentContacts",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/AddressBook/MailRecents-v4.abcdmr"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Mail Recent Contacts",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#mail"],
-};
+pub(crate) static FA_FILE_ADDRESSBOOK_MAILRECENTS_V4_ABCDMR: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_addressbook_mailrecents_v4_abcdmr",
+        name: "MacOSMailRecentContacts",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%%users.homedir%%/Library/Application Support/AddressBook/MailRecents-v4.abcdmr",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Mail Recent Contacts",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#mail"],
+    };
 
 pub(crate) static FA_FILE_SIGNATURES: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_signatures",
@@ -15614,7 +15540,7 @@ pub(crate) static FA_FILE_MESSAGES_CHAT_DB: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORKD_NETUSAGE_SQLITE: ArtifactDescriptor = ArtifactDescriptor {
@@ -15634,7 +15560,7 @@ pub(crate) static FA_FILE_NETWORKD_NETUSAGE_SQLITE: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORKD_NETUSAGE_SQLITE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -15654,7 +15580,7 @@ pub(crate) static FA_FILE_NETWORKD_NETUSAGE_SQLITE_2: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NOTES_NOTESV_STOREDATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -15664,7 +15590,9 @@ pub(crate) static FA_FILE_NOTES_NOTESV_STOREDATA: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Containers/com.apple.Notes/Data/Library/Notes/NotesV*.storedata"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Containers/com.apple.Notes/Data/Library/Notes/NotesV*.storedata",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15674,7 +15602,7 @@ pub(crate) static FA_FILE_NOTES_NOTESV_STOREDATA: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NOTIFICATIONCENTER_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -15694,7 +15622,7 @@ pub(crate) static FA_FILE_NOTIFICATIONCENTER_DB: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DB_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -15714,7 +15642,7 @@ pub(crate) static FA_FILE_DB_DB: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DB2_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -15734,7 +15662,7 @@ pub(crate) static FA_FILE_DB2_DB: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DB_DB_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -15754,7 +15682,7 @@ pub(crate) static FA_FILE_DB_DB_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DB2_DB_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -15774,7 +15702,7 @@ pub(crate) static FA_FILE_DB2_DB_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DAILY_LOCAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -15794,7 +15722,11 @@ pub(crate) static FA_FILE_DAILY_LOCAL: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_DEFAULTS_PERIODIC_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -15814,7 +15746,11 @@ pub(crate) static FA_FILE_DEFAULTS_PERIODIC_CONF: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_MONTHLY_LOCAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -15834,7 +15770,11 @@ pub(crate) static FA_FILE_MONTHLY_LOCAL: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_PERIODIC_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -15854,7 +15794,11 @@ pub(crate) static FA_FILE_PERIODIC_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_ETC_PERIODIC_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -15874,7 +15818,11 @@ pub(crate) static FA_FILE_ETC_PERIODIC_CONF: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_ETC_PERIODIC_CONF_LOCAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -15894,7 +15842,11 @@ pub(crate) static FA_FILE_ETC_PERIODIC_CONF_LOCAL: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_DAILY: ArtifactDescriptor = ArtifactDescriptor {
@@ -15914,7 +15866,11 @@ pub(crate) static FA_FILE_DAILY: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_MONTHLY: ArtifactDescriptor = ArtifactDescriptor {
@@ -15934,7 +15890,11 @@ pub(crate) static FA_FILE_MONTHLY: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_WEEKLY: ArtifactDescriptor = ArtifactDescriptor {
@@ -15954,7 +15914,11 @@ pub(crate) static FA_FILE_WEEKLY: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_WEEKLY_LOCAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -15974,7 +15938,11 @@ pub(crate) static FA_FILE_WEEKLY_LOCAL: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_DAILY_LOCAL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -15994,7 +15962,11 @@ pub(crate) static FA_FILE_DAILY_LOCAL_2: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_DEFAULTS_PERIODIC_CONF_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -16014,7 +15986,11 @@ pub(crate) static FA_FILE_DEFAULTS_PERIODIC_CONF_2: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_MONTHLY_LOCAL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -16034,7 +16010,11 @@ pub(crate) static FA_FILE_MONTHLY_LOCAL_2: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_PERIODIC_2_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -16054,7 +16034,11 @@ pub(crate) static FA_FILE_PERIODIC_2_2: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_ETC_PERIODIC_CONF_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -16074,7 +16058,11 @@ pub(crate) static FA_FILE_ETC_PERIODIC_CONF_2: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_ETC_PERIODIC_CONF_LOCAL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -16094,7 +16082,11 @@ pub(crate) static FA_FILE_ETC_PERIODIC_CONF_LOCAL_2: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_DAILY_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -16114,7 +16106,11 @@ pub(crate) static FA_FILE_DAILY_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_MONTHLY_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -16134,7 +16130,11 @@ pub(crate) static FA_FILE_MONTHLY_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_WEEKLY_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -16154,7 +16154,11 @@ pub(crate) static FA_FILE_WEEKLY_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_WEEKLY_LOCAL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -16174,7 +16178,11 @@ pub(crate) static FA_FILE_WEEKLY_LOCAL_2: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
 pub(crate) static FA_FILE_PERIODIC_2_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -16194,37 +16202,47 @@ pub(crate) static FA_FILE_PERIODIC_2_3: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc", "https://www.freebsd.org/cgi/man.cgi?periodic", "https://www.freebsd.org/cgi/man.cgi?periodic.conf"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-info-misc",
+        "https://www.freebsd.org/cgi/man.cgi?periodic",
+        "https://www.freebsd.org/cgi/man.cgi?periodic.conf",
+    ],
 };
 
-pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_LAUNCHSERVICES_QUARANTINEEVENT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_com_apple_launchservices_quarantineevent",
-    name: "MacOSQuarantineEventsSQLiteDatabaseFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Preferences/com.apple.LaunchServices.QuarantineEvents"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Quarantine events SQLite database file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#preferences"],
-};
+pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_LAUNCHSERVICES_QUARANTINEEVENT: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_com_apple_launchservices_quarantineevent",
+        name: "MacOSQuarantineEventsSQLiteDatabaseFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%%users.homedir%%/Library/Preferences/com.apple.LaunchServices.QuarantineEvents",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Quarantine events SQLite database file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#preferences"],
+    };
 
-pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_LAUNCHSERVICES_QUARANTINEEVENT_2: ArtifactDescriptor = ArtifactDescriptor {
+pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_LAUNCHSERVICES_QUARANTINEEVENT_2:
+    ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_preferences_com_apple_launchservices_quarantineevent_2",
     name: "MacOSQuarantineEventsSQLiteDatabaseFile",
     artifact_type: ArtifactType::File,
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16237,25 +16255,26 @@ pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_LAUNCHSERVICES_QUARANTINEEVENT_2
     sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#preferences"],
 };
 
-pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_RECENTITEMS_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_com_apple_recentitems_plist",
-    name: "MacOSRecentItemsPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Preferences/com.apple.recentitems.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Recent items property list (plist) file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#recent-items"],
-};
+pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_RECENTITEMS_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_com_apple_recentitems_plist",
+        name: "MacOSRecentItemsPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Preferences/com.apple.recentitems.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Recent items property list (plist) file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#recent-items"],
+    };
 
 pub(crate) static FA_FILE_CLIENTCACHES: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_clientcaches",
@@ -16434,7 +16453,7 @@ pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -16454,7 +16473,7 @@ pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_2: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -16464,7 +16483,9 @@ pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_3: ArtifactDescriptor = Artifa
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/System/Library/CoreServices/*.app/Contents/Resources/*.lproj/InfoPlist.strings"),
+    file_path: Some(
+        "/System/Library/CoreServices/*.app/Contents/Resources/*.lproj/InfoPlist.strings",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16474,7 +16495,7 @@ pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_3: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -16494,7 +16515,7 @@ pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_4: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -16514,7 +16535,7 @@ pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_5: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_RESOURCES_INFOPLIST_STRINGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -16534,7 +16555,7 @@ pub(crate) static FA_FILE_RESOURCES_INFOPLIST_STRINGS: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -16544,7 +16565,9 @@ pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_6: ArtifactDescriptor = Artifa
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/System/Library/Extensions/*.kext/Contents/Resources/*.lproj/InfoPlist.strings"),
+    file_path: Some(
+        "/System/Library/Extensions/*.kext/Contents/Resources/*.lproj/InfoPlist.strings",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16554,7 +16577,7 @@ pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_6: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -16564,7 +16587,9 @@ pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_7: ArtifactDescriptor = Artifa
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/System/Library/Filesystems/*/*.kext/Contents/Resources/*.lproj/InfoPlist.strings"),
+    file_path: Some(
+        "/System/Library/Filesystems/*/*.kext/Contents/Resources/*.lproj/InfoPlist.strings",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16574,7 +16599,7 @@ pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_7: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -16594,7 +16619,7 @@ pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_8: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -16614,7 +16639,7 @@ pub(crate) static FA_FILE_LPROJ_INFOPLIST_STRINGS_9: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -16624,7 +16649,9 @@ pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS: ArtifactDescriptor = Artifa
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/System/Library/CoreServices/*.app/Contents/Resources/*.lproj/Localizable.strings"),
+    file_path: Some(
+        "/System/Library/CoreServices/*.app/Contents/Resources/*.lproj/Localizable.strings",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16634,7 +16661,7 @@ pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -16644,7 +16671,9 @@ pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_2: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/System/Library/Extensions/*.kext/Contents/Resources/*.lproj/Localizable.strings"),
+    file_path: Some(
+        "/System/Library/Extensions/*.kext/Contents/Resources/*.lproj/Localizable.strings",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16654,7 +16683,7 @@ pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_2: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -16674,7 +16703,7 @@ pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_3: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -16694,7 +16723,7 @@ pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_4: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -16704,7 +16733,9 @@ pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_5: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/System/Library/PreferencePanes/*.prefPane/Contents/Resources/*.lproj/Localizable.strings"),
+    file_path: Some(
+        "/System/Library/PreferencePanes/*.prefPane/Contents/Resources/*.lproj/Localizable.strings",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16714,7 +16745,7 @@ pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_5: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -16734,7 +16765,7 @@ pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_6: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -16754,7 +16785,7 @@ pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_7: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -16764,7 +16795,9 @@ pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_8: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("/System/Library/SystemProfiler/*/Contents/Resources/*.lproj/Localizable.strings"),
+    file_path: Some(
+        "/System/Library/SystemProfiler/*/Contents/Resources/*.lproj/Localizable.strings",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16774,7 +16807,7 @@ pub(crate) static FA_FILE_LPROJ_LOCALIZABLE_STRINGS_8: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_SIDEBARLISTS_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -16840,7 +16873,7 @@ pub(crate) static FA_FILE_ASSISTANT_SIRIANALYTICS_DB: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SUGGESTIONS_ENTITIES_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -16860,7 +16893,7 @@ pub(crate) static FA_FILE_SUGGESTIONS_ENTITIES_DB: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SUGGESTIONS_ENTITIES_DB_WAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -16880,7 +16913,7 @@ pub(crate) static FA_FILE_SUGGESTIONS_ENTITIES_DB_WAL: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_PENDING_QUEUE_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -16900,7 +16933,7 @@ pub(crate) static FA_FILE_PENDING_QUEUE_DB: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_PENDING_QUEUE_DB_WAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -16920,7 +16953,7 @@ pub(crate) static FA_FILE_PENDING_QUEUE_DB_WAL: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SUGGESTIONS_SNIPPETS_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -16940,7 +16973,7 @@ pub(crate) static FA_FILE_SUGGESTIONS_SNIPPETS_DB: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SUGGESTIONS_SNIPPETS_DB_WAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -16960,7 +16993,7 @@ pub(crate) static FA_FILE_SUGGESTIONS_SNIPPETS_DB_WAL: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_VM_SLEEPIMAGE: ArtifactDescriptor = ArtifactDescriptor {
@@ -17003,25 +17036,26 @@ pub(crate) static FA_FILE_VM_SLEEPIMAGE_2: ArtifactDescriptor = ArtifactDescript
     sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#sleep.2fhibernate-and-swap-image-file"],
 };
 
-pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_SOFTWAREUPDATE_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_com_apple_softwareupdate_plist",
-    name: "MacOSSoftwareUpdatePreferencesPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Library/Preferences/com.apple.SoftwareUpdate.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Software update preferences property list (plist) files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#software-installation"],
-};
+pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_SOFTWAREUPDATE_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_com_apple_softwareupdate_plist",
+        name: "MacOSSoftwareUpdatePreferencesPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/Library/Preferences/com.apple.SoftwareUpdate.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Software update preferences property list (plist) files.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#software-installation"],
+    };
 
 pub(crate) static FA_FILE_STORE_V1_VOLUMECONFIG_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_store_v1_volumeconfig_plist",
@@ -17040,28 +17074,29 @@ pub(crate) static FA_FILE_STORE_V1_VOLUMECONFIG_PLIST: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
-pub(crate) static FA_FILE_SPOTLIGHT_V100_VOLUMECONFIGURATION_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_spotlight_v100_volumeconfiguration_plist",
-    name: "MacOSSpotlightVolumeConfigurationPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/.Spotlight-V100/VolumeConfiguration.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Spotlight volume configuration plist file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_SPOTLIGHT_V100_VOLUMECONFIGURATION_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_spotlight_v100_volumeconfiguration_plist",
+        name: "MacOSSpotlightVolumeConfigurationPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/.Spotlight-V100/VolumeConfiguration.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Spotlight volume configuration plist file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
 pub(crate) static FA_FILE_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_plist",
@@ -17143,45 +17178,26 @@ pub(crate) static FA_FILE_VM_SWAPFILE_0_9_2: ArtifactDescriptor = ArtifactDescri
     sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#sleep.2fhibernate-and-swap-image-file"],
 };
 
-pub(crate) static FA_FILE_SYSTEMCONFIGURATION_PREFERENCES_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_systemconfiguration_preferences_plist",
-    name: "MacOSSystemConfigurationPreferencesPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Library/Preferences/SystemConfiguration/preferences.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "System configuration preferences property list (plist) file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_log",
-    name: "MacOSSystemLogFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/private/var/log/*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "System log file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-logs"],
-};
+pub(crate) static FA_FILE_SYSTEMCONFIGURATION_PREFERENCES_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_systemconfiguration_preferences_plist",
+        name: "MacOSSystemConfigurationPreferencesPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/Library/Preferences/SystemConfiguration/preferences.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "System configuration preferences property list (plist) file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
 pub(crate) static FA_FILE_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_log_2",
@@ -17220,7 +17236,7 @@ pub(crate) static FA_FILE_DB_SYSTEMPOLICY: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_DB_SYSTEMPOLICY_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -17240,7 +17256,7 @@ pub(crate) static FA_FILE_DB_SYSTEMPOLICY_2: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_PLIST_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -17323,45 +17339,47 @@ pub(crate) static FA_FILE_COM_APPLE_TCC_TCC_DB_2: ArtifactDescriptor = ArtifactD
     sources: &["https://forensics.wiki/tcc_database"],
 };
 
-pub(crate) static FA_FILE_KEYBOARDSERVICES_TEXTREPLACEMENTS_DB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_keyboardservices_textreplacements_db",
-    name: "MacOSTextReplacementsSQLiteDatabaseFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/KeyboardServices/TextReplacements.db"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Text replacements SQLite database file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_KEYBOARDSERVICES_TEXTREPLACEMENTS_DB: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_keyboardservices_textreplacements_db",
+        name: "MacOSTextReplacementsSQLiteDatabaseFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/KeyboardServices/TextReplacements.db"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Text replacements SQLite database file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
-pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_TIMEMACHINE_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_com_apple_timemachine_plist",
-    name: "MacOSTimeMachinePlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/Library/Preferences/com.apple.TimeMachine.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Time Machine information property list (plist) file",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences"],
-};
+pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_TIMEMACHINE_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_com_apple_timemachine_plist",
+        name: "MacOSTimeMachinePlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/Library/Preferences/com.apple.TimeMachine.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Time Machine information property list (plist) file",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-preferences"],
+    };
 
 pub(crate) static FA_FILE_DIAGNOSTICS_TRACEV3: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_diagnostics_tracev3",
@@ -17391,26 +17409,6 @@ pub(crate) static FA_FILE_TRACEV3: ArtifactDescriptor = ArtifactDescriptor {
     key_path: "",
     value_name: None,
     file_path: Some("/private/var/db/diagnostics/*/*.tracev3"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Apple Unified Logging and Activity Tracing",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/mac4n6/Presentations/blob/master/Logs%20Unite!%20-%20Forensic%20Analysis%20of%20Apple%20Unified%20Logs/LogsUnite.pdf"],
-};
-
-pub(crate) static FA_FILE_: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_",
-    name: "MacOSUnifiedLogging",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/private/var/db/uuidtext/*/*"),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17463,46 +17461,6 @@ pub(crate) static FA_FILE_TRACEV3_2: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://github.com/mac4n6/Presentations/blob/master/Logs%20Unite!%20-%20Forensic%20Analysis%20of%20Apple%20Unified%20Logs/LogsUnite.pdf"],
 };
 
-pub(crate) static FA_FILE__2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file__2",
-    name: "MacOSUnifiedLogging",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/db/uuidtext/*/*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Apple Unified Logging and Activity Tracing",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/mac4n6/Presentations/blob/master/Logs%20Unite!%20-%20Forensic%20Analysis%20of%20Apple%20Unified%20Logs/LogsUnite.pdf"],
-};
-
-pub(crate) static FA_FILE_LOGS_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_logs_log",
-    name: "MacOSUserApplicationLogFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Logs/*.log"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "User applications log files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#logs"],
-};
-
 pub(crate) static FA_FILE_DOCK_DESKTOPPICTURE_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_dock_desktoppicture_db",
     name: "MacOSUserDockDesktopPictureSQLiteDatabaseFile",
@@ -17520,28 +17478,29 @@ pub(crate) static FA_FILE_DOCK_DESKTOPPICTURE_DB: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
-pub(crate) static FA_FILE_PREFERENCES_GLOBALPREFERENCES_PLIST_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_globalpreferences_plist_2",
-    name: "MacOSUserGlobalPreferencesPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Preferences/.GlobalPreferences.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "User global preferences property list (plist) file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#preferences"],
-};
+pub(crate) static FA_FILE_PREFERENCES_GLOBALPREFERENCES_PLIST_2: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_globalpreferences_plist_2",
+        name: "MacOSUserGlobalPreferencesPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Preferences/.GlobalPreferences.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "User global preferences property list (plist) file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#preferences"],
+    };
 
 pub(crate) static FA_FILE_KEYCHAINS_KEYCHAIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_keychains_keychain",
@@ -17580,7 +17539,7 @@ pub(crate) static FA_FILE_OCSPCACHE_SQLITE3: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_USER_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -17600,7 +17559,7 @@ pub(crate) static FA_FILE_USER_DB: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_KEYCHAIN_2_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -17620,28 +17579,32 @@ pub(crate) static FA_FILE_KEYCHAIN_2_DB: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
-pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_LOGINITEMS_PLIST: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences_com_apple_loginitems_plist",
-    name: "MacOSUserLoginItemsPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Preferences/com.apple.loginitems.plist"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "User login items property list (plist) file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#autorun-locations-2", "https://objective-see.org/blog/blog_0x31.html"],
-};
+pub(crate) static FA_FILE_PREFERENCES_COM_APPLE_LOGINITEMS_PLIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_preferences_com_apple_loginitems_plist",
+        name: "MacOSUserLoginItemsPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Preferences/com.apple.loginitems.plist"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "User login items property list (plist) file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &[
+            "https://forensics.wiki/mac_os_x_10.9_artifacts_location#autorun-locations-2",
+            "https://objective-see.org/blog/blog_0x31.html",
+        ],
+    };
 
 pub(crate) static FA_FILE_COM_APPLE_BACKGROUNDTASKMANAGEMENTAGENT_BACKGROUNDIT: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_com_apple_backgroundtaskmanagementagent_backgroundit",
@@ -17663,27 +17626,34 @@ pub(crate) static FA_FILE_COM_APPLE_BACKGROUNDTASKMANAGEMENTAGENT_BACKGROUNDIT: 
     sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#autorun-locations-2", "https://objective-see.org/blog/blog_0x31.html"],
 };
 
-pub(crate) static FA_FILE_COM_APPLE_BACKGROUNDTASKMANAGEMENT_BACKGROUNDITEMS_V: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_com_apple_backgroundtaskmanagement_backgrounditems_v",
-    name: "MacOSUserLoginItemsPlistFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v*.btm"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "User login items property list (plist) file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#autorun-locations-2", "https://objective-see.org/blog/blog_0x31.html"],
-};
+pub(crate) static FA_FILE_COM_APPLE_BACKGROUNDTASKMANAGEMENT_BACKGROUNDITEMS_V: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_com_apple_backgroundtaskmanagement_backgrounditems_v",
+        name: "MacOSUserLoginItemsPlistFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v*.btm",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "User login items property list (plist) file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &[
+            "https://forensics.wiki/mac_os_x_10.9_artifacts_location#autorun-locations-2",
+            "https://objective-see.org/blog/blog_0x31.html",
+        ],
+    };
 
-pub(crate) static FA_FILE_COM_APPLE_BACKGROUNDTASKMANAGEMENT_BACKGROUNDITEMS_V_2: ArtifactDescriptor = ArtifactDescriptor {
+pub(crate) static FA_FILE_COM_APPLE_BACKGROUNDTASKMANAGEMENT_BACKGROUNDITEMS_V_2:
+    ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_com_apple_backgroundtaskmanagement_backgrounditems_v_2",
     name: "MacOSUserLoginItemsPlistFile",
     artifact_type: ArtifactType::File,
@@ -17700,7 +17670,10 @@ pub(crate) static FA_FILE_COM_APPLE_BACKGROUNDTASKMANAGEMENT_BACKGROUNDITEMS_V_2
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#autorun-locations-2", "https://objective-see.org/blog/blog_0x31.html"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#autorun-locations-2",
+        "https://objective-see.org/blog/blog_0x31.html",
+    ],
 };
 
 pub(crate) static FA_FILE_USERS_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -17720,7 +17693,9 @@ pub(crate) static FA_FILE_USERS_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-settings-and-informations"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-settings-and-informations",
+    ],
 };
 
 pub(crate) static FA_FILE_USERS_PLIST_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -17740,7 +17715,9 @@ pub(crate) static FA_FILE_USERS_PLIST_2: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-settings-and-informations"],
+    sources: &[
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#system-settings-and-informations",
+    ],
 };
 
 pub(crate) static FA_FILE_PREFERENCES: ArtifactDescriptor = ArtifactDescriptor {
@@ -17886,7 +17863,7 @@ pub(crate) static FA_FILE_PASSES_PASSES23_SQLITE: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_AWDD_PERSISTENT_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -17906,7 +17883,7 @@ pub(crate) static FA_FILE_AWDD_PERSISTENT_DB: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_AWDD_PERSISTENT_DB_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -17926,28 +17903,31 @@ pub(crate) static FA_FILE_AWDD_PERSISTENT_DB_2: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
-pub(crate) static FA_FILE_IOS_DEVICE_LOGS_IOS_DEVICE_LOGS_DB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_ios_device_logs_ios_device_logs_db",
-    name: "MacOSXcodeiOSDeviceLogsSQLiteDatabaseFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Developer/Xcode/iOS Device Logs/iOS Device Logs *.db"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Xcode iOS Device Logs SQLite database file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_IOS_DEVICE_LOGS_IOS_DEVICE_LOGS_DB: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_ios_device_logs_ios_device_logs_db",
+        name: "MacOSXcodeiOSDeviceLogsSQLiteDatabaseFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%%users.homedir%%/Library/Developer/Xcode/iOS Device Logs/iOS Device Logs *.db",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Xcode iOS Device Logs SQLite database file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
 pub(crate) static FA_FILE_USERS_HOMEDIR_BASH_LOGOUT: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_users_homedir_bash_logout",
@@ -18096,7 +18076,9 @@ pub(crate) static FA_FILE_BASH_LOGOUT: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Packages\\*\\LocalState\\rootfs\\home\\*\\.bash_logout"),
+    file_path: Some(
+        "%%users.localappdata%%\\Packages\\*\\LocalState\\rootfs\\home\\*\\.bash_logout",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18116,7 +18098,9 @@ pub(crate) static FA_FILE_BASH_PROFILE: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Packages\\*\\LocalState\\rootfs\\home\\*\\.bash_profile"),
+    file_path: Some(
+        "%%users.localappdata%%\\Packages\\*\\LocalState\\rootfs\\home\\*\\.bash_profile",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18176,7 +18160,9 @@ pub(crate) static FA_FILE_BASH_HISTORY: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Packages\\*\\LocalState\\rootfs\\home\\*\\.bash_history"),
+    file_path: Some(
+        "%%users.localappdata%%\\Packages\\*\\LocalState\\rootfs\\home\\*\\.bash_history",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18236,7 +18222,9 @@ pub(crate) static FA_FILE_SH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Packages\\*\\LocalState\\rootfs\\home\\*\\.sh_history"),
+    file_path: Some(
+        "%%users.localappdata%%\\Packages\\*\\LocalState\\rootfs\\home\\*\\.sh_history",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -18606,7 +18594,7 @@ pub(crate) static FA_FILE_ROOT_BASH_LOGOUT: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_BASH_PROFILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -18626,7 +18614,7 @@ pub(crate) static FA_FILE_ROOT_BASH_PROFILE: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_BASHRC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18646,7 +18634,7 @@ pub(crate) static FA_FILE_ROOT_BASHRC: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_CSHRC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18666,7 +18654,7 @@ pub(crate) static FA_FILE_ROOT_CSHRC: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_KSH: ArtifactDescriptor = ArtifactDescriptor {
@@ -18686,7 +18674,7 @@ pub(crate) static FA_FILE_ROOT_KSH: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FISH_CONFIG_FISH_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -18706,7 +18694,7 @@ pub(crate) static FA_FILE_FISH_CONFIG_FISH_3: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_LOGOUT: ArtifactDescriptor = ArtifactDescriptor {
@@ -18726,7 +18714,7 @@ pub(crate) static FA_FILE_ROOT_LOGOUT: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_PROFILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -18746,7 +18734,7 @@ pub(crate) static FA_FILE_ROOT_PROFILE: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_TCSH: ArtifactDescriptor = ArtifactDescriptor {
@@ -18766,7 +18754,7 @@ pub(crate) static FA_FILE_ROOT_TCSH: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_ZLOGIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -18786,7 +18774,7 @@ pub(crate) static FA_FILE_ROOT_ZLOGIN: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_ZLOGOUT: ArtifactDescriptor = ArtifactDescriptor {
@@ -18806,7 +18794,7 @@ pub(crate) static FA_FILE_ROOT_ZLOGOUT: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_ZPROFILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -18826,7 +18814,7 @@ pub(crate) static FA_FILE_ROOT_ZPROFILE: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_BASH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -18846,7 +18834,7 @@ pub(crate) static FA_FILE_ROOT_BASH_HISTORY: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FISH_FISH_HISTORY_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -18866,7 +18854,7 @@ pub(crate) static FA_FILE_FISH_FISH_HISTORY_2: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_SH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -18886,7 +18874,7 @@ pub(crate) static FA_FILE_ROOT_SH_HISTORY: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_ZHISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -18906,7 +18894,7 @@ pub(crate) static FA_FILE_ROOT_ZHISTORY: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ROOT_ZSH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -18926,7 +18914,7 @@ pub(crate) static FA_FILE_ROOT_ZSH_HISTORY: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_USERS_HOMEDIR_LOGOUT: ArtifactDescriptor = ArtifactDescriptor {
@@ -18946,7 +18934,7 @@ pub(crate) static FA_FILE_USERS_HOMEDIR_LOGOUT: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGOUT: ArtifactDescriptor = ArtifactDescriptor {
@@ -18966,7 +18954,7 @@ pub(crate) static FA_FILE_LOGOUT: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_USERS_HOMEDIR_PROFILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -18986,7 +18974,7 @@ pub(crate) static FA_FILE_USERS_HOMEDIR_PROFILE: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_PROFILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -19006,7 +18994,7 @@ pub(crate) static FA_FILE_ETC_PROFILE: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_PROFILE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -19026,7 +19014,7 @@ pub(crate) static FA_FILE_ETC_PROFILE_2: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_PROFILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -19046,7 +19034,7 @@ pub(crate) static FA_FILE_PROFILE: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_USERS_HOMEDIR_TCSH: ArtifactDescriptor = ArtifactDescriptor {
@@ -19556,7 +19544,9 @@ pub(crate) static FA_FILE_ZSH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Packages\\*\\LocalState\\rootfs\\home\\*\\.zsh_history"),
+    file_path: Some(
+        "%%users.localappdata%%\\Packages\\*\\LocalState\\rootfs\\home\\*\\.zsh_history",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19576,7 +19566,9 @@ pub(crate) static FA_FILE_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Apache Software Foundation\\Tomcat*\\logs\\**\\access_log*"),
+    file_path: Some(
+        "%%environ_allusersappdata%%\\Apache Software Foundation\\Tomcat*\\logs\\**\\access_log*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19586,7 +19578,10 @@ pub(crate) static FA_FILE_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -19596,7 +19591,9 @@ pub(crate) static FA_FILE_LOGS_ACCESS_LOG: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Apache Software Foundation\\Tomcat*\\logs\\access_log*"),
+    file_path: Some(
+        "%%environ_allusersappdata%%\\Apache Software Foundation\\Tomcat*\\logs\\access_log*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19606,7 +19603,10 @@ pub(crate) static FA_FILE_LOGS_ACCESS_LOG: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CATALINA_OUT: ArtifactDescriptor = ArtifactDescriptor {
@@ -19616,7 +19616,9 @@ pub(crate) static FA_FILE_CATALINA_OUT: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Apache Software Foundation\\Tomcat*\\logs\\**\\catalina.out"),
+    file_path: Some(
+        "%%environ_allusersappdata%%\\Apache Software Foundation\\Tomcat*\\logs\\**\\catalina.out",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19626,7 +19628,10 @@ pub(crate) static FA_FILE_CATALINA_OUT: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_CATALINA_OUT: ArtifactDescriptor = ArtifactDescriptor {
@@ -19636,7 +19641,9 @@ pub(crate) static FA_FILE_LOGS_CATALINA_OUT: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Apache Software Foundation\\Tomcat*\\logs\\catalina.out"),
+    file_path: Some(
+        "%%environ_allusersappdata%%\\Apache Software Foundation\\Tomcat*\\logs\\catalina.out",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19646,7 +19653,10 @@ pub(crate) static FA_FILE_LOGS_CATALINA_OUT: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ACCESS_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -19656,7 +19666,9 @@ pub(crate) static FA_FILE_ACCESS_LOG_2: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_programfiles%%\\Apache Software Foundation\\Tomcat*\\logs\\**\\access_log*"),
+    file_path: Some(
+        "%%environ_programfiles%%\\Apache Software Foundation\\Tomcat*\\logs\\**\\access_log*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19666,7 +19678,10 @@ pub(crate) static FA_FILE_ACCESS_LOG_2: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_ACCESS_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -19676,7 +19691,9 @@ pub(crate) static FA_FILE_LOGS_ACCESS_LOG_2: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_programfiles%%\\Apache Software Foundation\\Tomcat*\\logs\\access_log*"),
+    file_path: Some(
+        "%%environ_programfiles%%\\Apache Software Foundation\\Tomcat*\\logs\\access_log*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19686,7 +19703,10 @@ pub(crate) static FA_FILE_LOGS_ACCESS_LOG_2: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CATALINA_OUT_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -19696,7 +19716,9 @@ pub(crate) static FA_FILE_CATALINA_OUT_2: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_programfiles%%\\Apache Software Foundation\\Tomcat*\\logs\\**\\catalina.out"),
+    file_path: Some(
+        "%%environ_programfiles%%\\Apache Software Foundation\\Tomcat*\\logs\\**\\catalina.out",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19706,7 +19728,10 @@ pub(crate) static FA_FILE_CATALINA_OUT_2: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_CATALINA_OUT_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -19716,7 +19741,9 @@ pub(crate) static FA_FILE_LOGS_CATALINA_OUT_2: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_programfiles%%\\Apache Software Foundation\\Tomcat*\\logs\\catalina.out"),
+    file_path: Some(
+        "%%environ_programfiles%%\\Apache Software Foundation\\Tomcat*\\logs\\catalina.out",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19726,7 +19753,10 @@ pub(crate) static FA_FILE_LOGS_CATALINA_OUT_2: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ACCESS_LOG_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -19736,7 +19766,9 @@ pub(crate) static FA_FILE_ACCESS_LOG_3: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_programfilesx86%%\\Apache Software Foundation\\Tomcat*\\logs\\**\\access_log*"),
+    file_path: Some(
+        "%%environ_programfilesx86%%\\Apache Software Foundation\\Tomcat*\\logs\\**\\access_log*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19746,7 +19778,10 @@ pub(crate) static FA_FILE_ACCESS_LOG_3: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_ACCESS_LOG_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -19756,7 +19791,9 @@ pub(crate) static FA_FILE_LOGS_ACCESS_LOG_3: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_programfilesx86%%\\Apache Software Foundation\\Tomcat*\\logs\\access_log*"),
+    file_path: Some(
+        "%%environ_programfilesx86%%\\Apache Software Foundation\\Tomcat*\\logs\\access_log*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19766,7 +19803,10 @@ pub(crate) static FA_FILE_LOGS_ACCESS_LOG_3: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CATALINA_OUT_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -19776,7 +19816,9 @@ pub(crate) static FA_FILE_CATALINA_OUT_3: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_programfilesx86%%\\Apache Software Foundation\\Tomcat*\\logs\\**\\catalina.out"),
+    file_path: Some(
+        "%%environ_programfilesx86%%\\Apache Software Foundation\\Tomcat*\\logs\\**\\catalina.out",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19786,7 +19828,10 @@ pub(crate) static FA_FILE_CATALINA_OUT_3: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_CATALINA_OUT_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -19796,7 +19841,9 @@ pub(crate) static FA_FILE_LOGS_CATALINA_OUT_3: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_programfilesx86%%\\Apache Software Foundation\\Tomcat*\\logs\\catalina.out"),
+    file_path: Some(
+        "%%environ_programfilesx86%%\\Apache Software Foundation\\Tomcat*\\logs\\catalina.out",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19806,7 +19853,10 @@ pub(crate) static FA_FILE_LOGS_CATALINA_OUT_3: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ACCESS_LOG_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -19826,7 +19876,10 @@ pub(crate) static FA_FILE_ACCESS_LOG_4: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_ACCESS_LOG_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -19846,7 +19899,10 @@ pub(crate) static FA_FILE_LOGS_ACCESS_LOG_4: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CATALINA_OUT_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -19866,7 +19922,10 @@ pub(crate) static FA_FILE_CATALINA_OUT_4: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_CATALINA_OUT_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -19886,7 +19945,10 @@ pub(crate) static FA_FILE_LOGS_CATALINA_OUT_4: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ACCESS_LOG_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -19906,7 +19968,10 @@ pub(crate) static FA_FILE_ACCESS_LOG_5: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_ACCESS_LOG_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -19926,7 +19991,10 @@ pub(crate) static FA_FILE_LOGS_ACCESS_LOG_5: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CATALINA_OUT_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -19946,7 +20014,10 @@ pub(crate) static FA_FILE_CATALINA_OUT_5: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_CATALINA_OUT_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -19966,7 +20037,10 @@ pub(crate) static FA_FILE_LOGS_CATALINA_OUT_5: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ACCESS_LOG_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -19986,7 +20060,10 @@ pub(crate) static FA_FILE_ACCESS_LOG_6: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_ACCESS_LOG_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -20006,7 +20083,10 @@ pub(crate) static FA_FILE_LOGS_ACCESS_LOG_6: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CATALINA_OUT_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -20026,7 +20106,10 @@ pub(crate) static FA_FILE_CATALINA_OUT_6: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_CATALINA_OUT_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -20046,7 +20129,10 @@ pub(crate) static FA_FILE_LOGS_CATALINA_OUT_6: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ACCESS_LOG_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -20066,7 +20152,10 @@ pub(crate) static FA_FILE_ACCESS_LOG_7: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_ACCESS_LOG_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -20086,7 +20175,10 @@ pub(crate) static FA_FILE_LOGS_ACCESS_LOG_7: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CATALINA_OUT_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -20106,7 +20198,10 @@ pub(crate) static FA_FILE_CATALINA_OUT_7: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_CATALINA_OUT_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -20126,7 +20221,10 @@ pub(crate) static FA_FILE_LOGS_CATALINA_OUT_7: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ACCESS_LOG_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -20146,7 +20244,10 @@ pub(crate) static FA_FILE_ACCESS_LOG_8: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_ACCESS_LOG_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -20166,7 +20267,10 @@ pub(crate) static FA_FILE_LOGS_ACCESS_LOG_8: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CATALINA_OUT_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -20186,7 +20290,10 @@ pub(crate) static FA_FILE_CATALINA_OUT_8: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_CATALINA_OUT_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -20206,7 +20313,10 @@ pub(crate) static FA_FILE_LOGS_CATALINA_OUT_8: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ACCESS_LOG_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -20226,7 +20336,10 @@ pub(crate) static FA_FILE_ACCESS_LOG_9: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_ACCESS_LOG_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -20246,7 +20359,10 @@ pub(crate) static FA_FILE_LOGS_ACCESS_LOG_9: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CATALINA_OUT_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -20266,7 +20382,10 @@ pub(crate) static FA_FILE_CATALINA_OUT_9: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_CATALINA_OUT_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -20286,7 +20405,10 @@ pub(crate) static FA_FILE_LOGS_CATALINA_OUT_9: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ACCESS_LOG_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -20306,7 +20428,10 @@ pub(crate) static FA_FILE_ACCESS_LOG_10: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_ACCESS_LOG_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -20326,7 +20451,10 @@ pub(crate) static FA_FILE_LOGS_ACCESS_LOG_10: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CATALINA_OUT_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -20346,7 +20474,10 @@ pub(crate) static FA_FILE_CATALINA_OUT_10: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_LOGS_CATALINA_OUT_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -20366,7 +20497,10 @@ pub(crate) static FA_FILE_LOGS_CATALINA_OUT_10: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging", "https://tomcat.apache.org/tomcat-8.0-doc/logging.html"],
+    sources: &[
+        "https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Access_Logging",
+        "https://tomcat.apache.org/tomcat-8.0-doc/logging.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CONF_TOMCAT_USERS_XML: ArtifactDescriptor = ArtifactDescriptor {
@@ -20606,7 +20740,7 @@ pub(crate) static FA_FILE_ETC_GROUP: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_GROUP_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -20626,7 +20760,7 @@ pub(crate) static FA_FILE_ETC_GROUP_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_HOSTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -20646,7 +20780,7 @@ pub(crate) static FA_FILE_ETC_HOSTS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_HOSTS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -20666,27 +20800,7 @@ pub(crate) static FA_FILE_ETC_HOSTS_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_ETC_LOCALTIME: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_etc_localtime",
-    name: "UnixLocalTimeConfigurationFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/etc/localtime"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Unix local time zone configuration file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_LOCALTIME_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -20706,67 +20820,7 @@ pub(crate) static FA_FILE_ETC_LOCALTIME_2: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_ETC_PASSWD: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_etc_passwd",
-    name: "UnixPasswdFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/etc/passwd"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Unix passwd file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_ETC_PASSWD_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_etc_passwd_2",
-    name: "UnixPasswdFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/private/etc/passwd"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Unix passwd file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_ETC_SHADOW: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_etc_shadow",
-    name: "UnixShadowFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/etc/shadow"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Unix shadow file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_SHADOW_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -20786,7 +20840,7 @@ pub(crate) static FA_FILE_ETC_SHADOW_2: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_SHADOW_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -20846,7 +20900,7 @@ pub(crate) static FA_FILE_ETC_SUDOERS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_SUDOERS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -20866,67 +20920,7 @@ pub(crate) static FA_FILE_ETC_SUDOERS_2: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_LOG_BTMP: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_log_btmp",
-    name: "UnixUtmpFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/log/btmp"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Utmp login record files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/libyal/dtformats/blob/main/documentation/Utmp%20login%20records%20format.asciidoc"],
-};
-
-pub(crate) static FA_FILE_LOG_WTMP: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_log_wtmp",
-    name: "UnixUtmpFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/log/wtmp"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Utmp login record files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/libyal/dtformats/blob/main/documentation/Utmp%20login%20records%20format.asciidoc"],
-};
-
-pub(crate) static FA_FILE_RUN_UTMP: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_run_utmp",
-    name: "UnixUtmpFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/run/utmp"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Utmp login record files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/libyal/dtformats/blob/main/documentation/Utmp%20login%20records%20format.asciidoc"],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOG_BTMP_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -20937,26 +20931,6 @@ pub(crate) static FA_FILE_LOG_BTMP_2: ArtifactDescriptor = ArtifactDescriptor {
     key_path: "",
     value_name: None,
     file_path: Some("/private/var/log/btmp"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Utmp login record files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/libyal/dtformats/blob/main/documentation/Utmp%20login%20records%20format.asciidoc"],
-};
-
-pub(crate) static FA_FILE_LOG_WTMP_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_log_wtmp_2",
-    name: "UnixUtmpFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/private/var/log/wtmp"),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21052,7 +21026,11 @@ virtual file system.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://developer.chrome.com/apps/fileSystem", "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem", "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/"],
+    sources: &[
+        "https://developer.chrome.com/apps/fileSystem",
+        "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem",
+        "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/",
+    ],
 };
 
 pub(crate) static FA_FILE_FILE_SYSTEM_5_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -21078,7 +21056,11 @@ virtual file system.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://developer.chrome.com/apps/fileSystem", "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem", "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/"],
+    sources: &[
+        "https://developer.chrome.com/apps/fileSystem",
+        "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem",
+        "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/",
+    ],
 };
 
 pub(crate) static FA_FILE_FILE_SYSTEM_5_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -21104,7 +21086,11 @@ virtual file system.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://developer.chrome.com/apps/fileSystem", "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem", "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/"],
+    sources: &[
+        "https://developer.chrome.com/apps/fileSystem",
+        "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem",
+        "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/",
+    ],
 };
 
 pub(crate) static FA_FILE_FILE_SYSTEM_5_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -21130,7 +21116,11 @@ virtual file system.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://developer.chrome.com/apps/fileSystem", "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem", "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/"],
+    sources: &[
+        "https://developer.chrome.com/apps/fileSystem",
+        "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem",
+        "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/",
+    ],
 };
 
 pub(crate) static FA_FILE_FILE_SYSTEM_5_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -21156,7 +21146,11 @@ virtual file system.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://developer.chrome.com/apps/fileSystem", "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem", "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/"],
+    sources: &[
+        "https://developer.chrome.com/apps/fileSystem",
+        "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem",
+        "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/",
+    ],
 };
 
 pub(crate) static FA_FILE_FILE_SYSTEM_5_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -21182,7 +21176,11 @@ virtual file system.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://developer.chrome.com/apps/fileSystem", "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem", "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/"],
+    sources: &[
+        "https://developer.chrome.com/apps/fileSystem",
+        "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem",
+        "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/",
+    ],
 };
 
 pub(crate) static FA_FILE_FILE_SYSTEM_5_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -21208,7 +21206,11 @@ virtual file system.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://developer.chrome.com/apps/fileSystem", "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem", "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/"],
+    sources: &[
+        "https://developer.chrome.com/apps/fileSystem",
+        "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem",
+        "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/",
+    ],
 };
 
 pub(crate) static FA_FILE_FILE_SYSTEM_5_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -21234,7 +21236,11 @@ virtual file system.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://developer.chrome.com/apps/fileSystem", "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem", "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/"],
+    sources: &[
+        "https://developer.chrome.com/apps/fileSystem",
+        "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem",
+        "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/",
+    ],
 };
 
 pub(crate) static FA_FILE_FILE_SYSTEM_5_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -21244,7 +21250,9 @@ pub(crate) static FA_FILE_FILE_SYSTEM_5_9: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/File System/**5"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/File System/**5",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21260,7 +21268,11 @@ virtual file system.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://developer.chrome.com/apps/fileSystem", "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem", "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/"],
+    sources: &[
+        "https://developer.chrome.com/apps/fileSystem",
+        "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem",
+        "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/",
+    ],
 };
 
 pub(crate) static FA_FILE_FILE_SYSTEM_5_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -21312,7 +21324,11 @@ virtual file system.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://developer.chrome.com/apps/fileSystem", "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem", "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/"],
+    sources: &[
+        "https://developer.chrome.com/apps/fileSystem",
+        "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem",
+        "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/",
+    ],
 };
 
 pub(crate) static FA_FILE_FILE_SYSTEM_5_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -21322,7 +21338,9 @@ pub(crate) static FA_FILE_FILE_SYSTEM_5_12: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/File System/**5"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/File System/**5",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21338,7 +21356,11 @@ virtual file system.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://developer.chrome.com/apps/fileSystem", "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem", "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/"],
+    sources: &[
+        "https://developer.chrome.com/apps/fileSystem",
+        "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem",
+        "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/",
+    ],
 };
 
 pub(crate) static FA_FILE_FILE_SYSTEM_5_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -21348,7 +21370,9 @@ pub(crate) static FA_FILE_FILE_SYSTEM_5_13: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/File System/**5"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/File System/**5",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21364,7 +21388,11 @@ virtual file system.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://developer.chrome.com/apps/fileSystem", "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem", "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/"],
+    sources: &[
+        "https://developer.chrome.com/apps/fileSystem",
+        "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem",
+        "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/",
+    ],
 };
 
 pub(crate) static FA_FILE_FILE_SYSTEM_5_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -21374,7 +21402,9 @@ pub(crate) static FA_FILE_FILE_SYSTEM_5_14: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/File System/**5"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/File System/**5",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21390,7 +21420,11 @@ virtual file system.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://developer.chrome.com/apps/fileSystem", "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem", "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/"],
+    sources: &[
+        "https://developer.chrome.com/apps/fileSystem",
+        "https://developer.mozilla.org/en-US/docs/Web/API/FileSystem",
+        "https://dfir.blog/deciphering-browser-hieroglyphics-leveldb-filesystem/",
+    ],
 };
 
 pub(crate) static FA_FILE_INDEXEDDB_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -21632,7 +21666,9 @@ pub(crate) static FA_FILE_INDEXEDDB_5_9: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/IndexedDB/**5"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/IndexedDB/**5",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21719,7 +21755,9 @@ pub(crate) static FA_FILE_INDEXEDDB_5_12: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/IndexedDB/**5"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/IndexedDB/**5",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21748,7 +21786,9 @@ pub(crate) static FA_FILE_INDEXEDDB_5_13: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/IndexedDB/**5"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/IndexedDB/**5",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -21822,7 +21862,7 @@ Existing .sqlite files are kept (not moved to leveldb), so it is possible for a 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOCAL_STORAGE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -21848,7 +21888,7 @@ Existing .sqlite files are kept (not moved to leveldb), so it is possible for a 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOCAL_STORAGE_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -21874,7 +21914,7 @@ Existing .sqlite files are kept (not moved to leveldb), so it is possible for a 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOCAL_STORAGE_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -21900,7 +21940,7 @@ Existing .sqlite files are kept (not moved to leveldb), so it is possible for a 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOCAL_STORAGE_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -21926,7 +21966,7 @@ Existing .sqlite files are kept (not moved to leveldb), so it is possible for a 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOCAL_STORAGE_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -21952,7 +21992,7 @@ Existing .sqlite files are kept (not moved to leveldb), so it is possible for a 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOCAL_STORAGE_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -21978,7 +22018,7 @@ Existing .sqlite files are kept (not moved to leveldb), so it is possible for a 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOCAL_STORAGE_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -22004,7 +22044,7 @@ Existing .sqlite files are kept (not moved to leveldb), so it is possible for a 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOCAL_STORAGE_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -22030,7 +22070,7 @@ Existing .sqlite files are kept (not moved to leveldb), so it is possible for a 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOCAL_STORAGE_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -22056,7 +22096,7 @@ Existing .sqlite files are kept (not moved to leveldb), so it is possible for a 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOCAL_STORAGE_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -22082,7 +22122,7 @@ Existing .sqlite files are kept (not moved to leveldb), so it is possible for a 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOCAL_STORAGE_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -22108,7 +22148,7 @@ Existing .sqlite files are kept (not moved to leveldb), so it is possible for a 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOCAL_STORAGE_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -22134,7 +22174,7 @@ Existing .sqlite files are kept (not moved to leveldb), so it is possible for a 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOCAL_STORAGE_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -22160,7 +22200,7 @@ Existing .sqlite files are kept (not moved to leveldb), so it is possible for a 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_PLATFORM_NOTIFICATIONS: ArtifactDescriptor = ArtifactDescriptor {
@@ -22170,7 +22210,9 @@ pub(crate) static FA_FILE_PLATFORM_NOTIFICATIONS: ArtifactDescriptor = ArtifactD
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Platform Notifications/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Platform Notifications/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22184,7 +22226,7 @@ database, which in turn holds platform notification data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_PLATFORM_NOTIFICATIONS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -22208,7 +22250,7 @@ database, which in turn holds platform notification data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_PLATFORM_NOTIFICATIONS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -22218,7 +22260,9 @@ pub(crate) static FA_FILE_PLATFORM_NOTIFICATIONS_3: ArtifactDescriptor = Artifac
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome\\User Data\\*\\Platform Notifications\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome\\User Data\\*\\Platform Notifications\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22232,27 +22276,7 @@ database, which in turn holds platform notification data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_PREFERENCES: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_preferences",
-    name: "ChromePreferences",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Chromium/*/Preferences"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Chrome Preferences file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#configuration"],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SECURE_PREFERENCES: ArtifactDescriptor = ArtifactDescriptor {
@@ -22282,7 +22306,9 @@ pub(crate) static FA_FILE_PREFERENCES_2: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Preferences"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22302,7 +22328,9 @@ pub(crate) static FA_FILE_SECURE_PREFERENCES_2: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Secure Preferences"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Secure Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22322,7 +22350,9 @@ pub(crate) static FA_FILE_PREFERENCES_3: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Preferences"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22342,7 +22372,9 @@ pub(crate) static FA_FILE_SECURE_PREFERENCES_3: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Secure Preferences"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Secure Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22382,7 +22414,9 @@ pub(crate) static FA_FILE_SECURE_PREFERENCES_4: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Secure Preferences"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Secure Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22402,7 +22436,9 @@ pub(crate) static FA_FILE_PREFERENCES_5: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/Preferences"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22462,7 +22498,9 @@ pub(crate) static FA_FILE_SECURE_PREFERENCES_6: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Secure Preferences"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Secure Preferences",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22719,7 +22757,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSION_STORAGE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -22729,7 +22767,9 @@ pub(crate) static FA_FILE_SESSION_STORAGE_2: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Session Storage/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Session Storage/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22746,7 +22786,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSION_STORAGE_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -22756,7 +22796,9 @@ pub(crate) static FA_FILE_SESSION_STORAGE_3: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Session Storage/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Session Storage/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22773,7 +22815,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSION_STORAGE_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -22783,7 +22825,9 @@ pub(crate) static FA_FILE_SESSION_STORAGE_4: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Session Storage/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Session Storage/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22800,7 +22844,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_SESSION: ArtifactDescriptor = ArtifactDescriptor {
@@ -22827,7 +22871,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_TABS: ArtifactDescriptor = ArtifactDescriptor {
@@ -22854,7 +22898,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_SESSION_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -22864,7 +22908,9 @@ pub(crate) static FA_FILE_SESSIONS_SESSION_2: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Sessions/Session_*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Sessions/Session_*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22881,7 +22927,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_TABS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -22891,7 +22937,9 @@ pub(crate) static FA_FILE_SESSIONS_TABS_2: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Sessions/Tabs_*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Sessions/Tabs_*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22908,7 +22956,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_SESSION_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -22918,7 +22966,9 @@ pub(crate) static FA_FILE_SESSIONS_SESSION_3: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Sessions/Session_*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Sessions/Session_*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22935,7 +22985,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_TABS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -22945,7 +22995,9 @@ pub(crate) static FA_FILE_SESSIONS_TABS_3: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Sessions/Tabs_*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Sessions/Tabs_*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22962,7 +23014,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_SESSION_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -22972,7 +23024,9 @@ pub(crate) static FA_FILE_SESSIONS_SESSION_4: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Sessions/Session_*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Sessions/Session_*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -22989,7 +23043,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_TABS_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -22999,7 +23053,9 @@ pub(crate) static FA_FILE_SESSIONS_TABS_4: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Sessions/Tabs_*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Sessions/Tabs_*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23016,7 +23072,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSION_STORAGE_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -23043,7 +23099,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSION_STORAGE_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -23070,7 +23126,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSION_STORAGE_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -23097,7 +23153,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSION_STORAGE_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -23124,7 +23180,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSION_STORAGE_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -23134,7 +23190,9 @@ pub(crate) static FA_FILE_SESSION_STORAGE_9: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Session Storage/*"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Session Storage/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23151,7 +23209,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSION_STORAGE_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -23178,7 +23236,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_SESSION_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -23205,7 +23263,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_TABS_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -23232,7 +23290,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_SESSION_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -23259,7 +23317,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_TABS_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -23286,7 +23344,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_SESSION_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -23313,7 +23371,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_SESSION_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -23340,7 +23398,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_TABS_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -23367,7 +23425,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_TABS_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -23394,7 +23452,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_SESSION_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -23404,7 +23462,9 @@ pub(crate) static FA_FILE_SESSIONS_SESSION_9: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Sessions/Session_*"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Sessions/Session_*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23421,7 +23481,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_TABS_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -23431,7 +23491,9 @@ pub(crate) static FA_FILE_SESSIONS_TABS_9: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Sessions/Tabs_*"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Sessions/Tabs_*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23448,7 +23510,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_SESSION_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -23475,7 +23537,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_TABS_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -23502,7 +23564,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSION_STORAGE_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -23529,7 +23591,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSION_STORAGE_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -23556,7 +23618,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSION_STORAGE_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -23583,7 +23645,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSION_STORAGE_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -23610,7 +23672,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_SESSION_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -23637,7 +23699,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_TABS_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -23664,7 +23726,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_SESSION_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -23674,7 +23736,9 @@ pub(crate) static FA_FILE_SESSIONS_SESSION_12: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Sessions\\Session_*"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Sessions\\Session_*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -23691,7 +23755,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_TABS_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -23718,7 +23782,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_SESSION_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -23745,7 +23809,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_TABS_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -23772,7 +23836,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_SESSION_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -23799,7 +23863,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SESSIONS_TABS_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -23826,67 +23890,7 @@ database, which in turn holds the Session Storage data.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_CACHE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_cache",
-    name: "ChromiumBasedBrowsersCache",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.appdata%%\\Brave\\*\\Application Cache\\Cache\\*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Caches of multiple Chromium-based browsers (Google Chrome, Brave, Chromium,
-Yandex, Opera, Edge, EdgeBeta).
-
-Canary uses \"Chrome SxS\" on windows.
-
-* Disk cache (or Cache)
-* Media cache
-* Application cache
-* GPU shader cache
-* PNaCl translation cache
-",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/ChromeCache.html"],
-};
-
-pub(crate) static FA_FILE_CACHE_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_cache_2",
-    name: "ChromiumBasedBrowsersCache",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.appdata%%\\Brave\\*\\Cache\\*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Caches of multiple Chromium-based browsers (Google Chrome, Brave, Chromium,
-Yandex, Opera, Edge, EdgeBeta).
-
-Canary uses \"Chrome SxS\" on windows.
-
-* Disk cache (or Cache)
-* Media cache
-* Application cache
-* GPU shader cache
-* PNaCl translation cache
-",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/ChromeCache.html"],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CACHE_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -23957,66 +23961,6 @@ pub(crate) static FA_FILE_MEDIA_CACHE: ArtifactDescriptor = ArtifactDescriptor {
     key_path: "",
     value_name: None,
     file_path: Some("%%users.appdata%%\\Brave\\*\\Media Cache\\*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Caches of multiple Chromium-based browsers (Google Chrome, Brave, Chromium,
-Yandex, Opera, Edge, EdgeBeta).
-
-Canary uses \"Chrome SxS\" on windows.
-
-* Disk cache (or Cache)
-* Media cache
-* Application cache
-* GPU shader cache
-* PNaCl translation cache
-",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/ChromeCache.html"],
-};
-
-pub(crate) static FA_FILE_CACHE_3: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_cache_3",
-    name: "ChromiumBasedBrowsersCache",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.appdata%%\\Opera Software\\Opera Stable\\*\\Application Cache\\Cache\\*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Caches of multiple Chromium-based browsers (Google Chrome, Brave, Chromium,
-Yandex, Opera, Edge, EdgeBeta).
-
-Canary uses \"Chrome SxS\" on windows.
-
-* Disk cache (or Cache)
-* Media cache
-* Application cache
-* GPU shader cache
-* PNaCl translation cache
-",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/ChromeCache.html"],
-};
-
-pub(crate) static FA_FILE_CACHE_4: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_cache_4",
-    name: "ChromiumBasedBrowsersCache",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.appdata%%\\Opera Software\\Opera Stable\\*\\Cache\\*"),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24196,7 +24140,9 @@ pub(crate) static FA_FILE_CACHE_DATA_3: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\Cache\\Cache_Data\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\Cache\\Cache_Data\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24226,7 +24172,9 @@ pub(crate) static FA_FILE_GPUCACHE_3: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\GPUCache\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\GPUCache\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24256,7 +24204,9 @@ pub(crate) static FA_FILE_MEDIA_CACHE_3: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\Media Cache\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\Media Cache\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24586,7 +24536,9 @@ pub(crate) static FA_FILE_CACHE_11: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Application Cache\\Cache\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Application Cache\\Cache\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24646,7 +24598,9 @@ pub(crate) static FA_FILE_CACHE_DATA_6: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Cache\\Cache_Data\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Cache\\Cache_Data\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24736,7 +24690,9 @@ pub(crate) static FA_FILE_CACHE_13: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome\\User Data\\*\\Application Cache\\Cache\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome\\User Data\\*\\Application Cache\\Cache\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24886,7 +24842,9 @@ pub(crate) static FA_FILE_CACHE_15: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Edge Beta\\User Data\\*\\Application Cache\\Cache\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\Microsoft\\Edge Beta\\User Data\\*\\Application Cache\\Cache\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -24946,7 +24904,9 @@ pub(crate) static FA_FILE_CACHE_DATA_8: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Edge Beta\\User Data\\*\\Cache\\Cache_Data\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\Microsoft\\Edge Beta\\User Data\\*\\Cache\\Cache_Data\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -25036,7 +24996,9 @@ pub(crate) static FA_FILE_CACHE_17: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Edge\\User Data\\*\\Application Cache\\Cache\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\Microsoft\\Edge\\User Data\\*\\Application Cache\\Cache\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -25216,7 +25178,9 @@ pub(crate) static FA_FILE_CACHE_19: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Yandex\\YandexBrowser\\User Data\\*\\Application Cache\\Cache\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\Yandex\\YandexBrowser\\User Data\\*\\Application Cache\\Cache\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -25276,7 +25240,9 @@ pub(crate) static FA_FILE_CACHE_DATA_11: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Yandex\\YandexBrowser\\User Data\\*\\Cache\\Cache_Data\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\Yandex\\YandexBrowser\\User Data\\*\\Cache\\Cache_Data\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -25516,7 +25482,9 @@ pub(crate) static FA_FILE_CACHE_25: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/BraveSoftware/Brave-Browser/*/Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/BraveSoftware/Brave-Browser/*/Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -25546,7 +25514,9 @@ pub(crate) static FA_FILE_CACHE_26: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/BraveSoftware/Brave-Browser/Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/BraveSoftware/Brave-Browser/Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -25576,7 +25546,9 @@ pub(crate) static FA_FILE_GPUCACHE_11: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/BraveSoftware/Brave-Browser/*/GPUCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/BraveSoftware/Brave-Browser/*/GPUCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -25606,7 +25578,9 @@ pub(crate) static FA_FILE_MEDIA_CACHE_11: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/BraveSoftware/Brave-Browser/*/Media Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/BraveSoftware/Brave-Browser/*/Media Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -25696,7 +25670,9 @@ pub(crate) static FA_FILE_CACHE_27: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Chromium/*/Application Cache/Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Chromium/*/Application Cache/Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -25846,7 +25822,9 @@ pub(crate) static FA_FILE_PNACLTRANSLATIONCACHE_2: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Chromium/PnaclTranslationCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Chromium/PnaclTranslationCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -25906,7 +25884,9 @@ pub(crate) static FA_FILE_CACHE_30: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/*/Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/*/Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -25936,7 +25916,9 @@ pub(crate) static FA_FILE_CACHE_31: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -25966,7 +25948,9 @@ pub(crate) static FA_FILE_GPUCACHE_13: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/*/GPUCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/*/GPUCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -25996,7 +25980,9 @@ pub(crate) static FA_FILE_MEDIA_CACHE_13: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/*/Media Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/*/Media Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26056,7 +26042,9 @@ pub(crate) static FA_FILE_APPLICATION_CACHE_4: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Application Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Application Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26086,7 +26074,9 @@ pub(crate) static FA_FILE_CACHE_32: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Application Cache/Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Application Cache/Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26176,7 +26166,9 @@ pub(crate) static FA_FILE_APPLICATION_CACHE_5: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Application Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Application Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26296,7 +26288,9 @@ pub(crate) static FA_FILE_GPUCACHE_14: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/GPUCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/GPUCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26326,7 +26320,9 @@ pub(crate) static FA_FILE_MEDIA_CACHE_14: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Media Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Media Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26356,7 +26352,9 @@ pub(crate) static FA_FILE_PNACLTRANSLATIONCACHE_4: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/PnaclTranslationCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/PnaclTranslationCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26386,7 +26384,9 @@ pub(crate) static FA_FILE_APPLICATION_CACHE_6: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Application Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Application Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26506,7 +26506,9 @@ pub(crate) static FA_FILE_GPUCACHE_15: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/GPUCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/GPUCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26536,7 +26538,9 @@ pub(crate) static FA_FILE_MEDIA_CACHE_15: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Media Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Media Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26656,7 +26660,9 @@ pub(crate) static FA_FILE_PNACLTRANSLATIONCACHE_6: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/PnaclTranslationCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/PnaclTranslationCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26686,7 +26692,9 @@ pub(crate) static FA_FILE_APPLICATION_CACHE_7: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Microsoft Edge/*/Application Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Microsoft Edge/*/Application Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26716,7 +26724,9 @@ pub(crate) static FA_FILE_APPLICATION_CACHE_8: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/*/Application Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/*/Application Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26806,7 +26816,9 @@ pub(crate) static FA_FILE_GPUCACHE_17: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/*/GPUCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/*/GPUCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26836,7 +26848,9 @@ pub(crate) static FA_FILE_MEDIA_CACHE_17: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/*/Media Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/*/Media Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -26866,7 +26880,9 @@ pub(crate) static FA_FILE_PNACLTRANSLATIONCACHE_7: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/PnaclTranslationCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/PnaclTranslationCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27016,7 +27032,9 @@ pub(crate) static FA_FILE_PNACLTRANSLATIONCACHE_8: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Microsoft Edge/PnaclTranslationCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Microsoft Edge/PnaclTranslationCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27046,7 +27064,9 @@ pub(crate) static FA_FILE_APPLICATION_CACHE_9: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Yandex/YandexBrowser/*/Application Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Yandex/YandexBrowser/*/Application Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27136,7 +27156,9 @@ pub(crate) static FA_FILE_GPUCACHE_19: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Yandex/YandexBrowser/*/GPUCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Yandex/YandexBrowser/*/GPUCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27166,7 +27188,9 @@ pub(crate) static FA_FILE_MEDIA_CACHE_19: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Yandex/YandexBrowser/*/Media Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Yandex/YandexBrowser/*/Media Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27676,7 +27700,9 @@ pub(crate) static FA_FILE_PNACLTRANSLATIONCACHE_12: ArtifactDescriptor = Artifac
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Caches/Google/Chrome Canary/PnaclTranslationCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Caches/Google/Chrome Canary/PnaclTranslationCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27826,7 +27852,9 @@ pub(crate) static FA_FILE_CACHE_55: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.cache/chrome-remote-desktop/chrome-config/google-chrome/*/Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/.cache/chrome-remote-desktop/chrome-config/google-chrome/*/Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -27856,7 +27884,9 @@ pub(crate) static FA_FILE_CACHE_56: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.cache/chrome-remote-desktop/chrome-config/google-chrome/Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/.cache/chrome-remote-desktop/chrome-config/google-chrome/Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28036,7 +28066,9 @@ pub(crate) static FA_FILE_CACHE_DATA_15: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.cache/chrome-remote-desktop/chrome-profile/*/Cache/Cache_Data/*"),
+    file_path: Some(
+        "%%users.homedir%%/.cache/chrome-remote-desktop/chrome-profile/*/Cache/Cache_Data/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28066,7 +28098,9 @@ pub(crate) static FA_FILE_MEDIA_CACHE_25: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.cache/chrome-remote-desktop/chrome-profile/*/Media Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/.cache/chrome-remote-desktop/chrome-profile/*/Media Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28096,7 +28130,9 @@ pub(crate) static FA_FILE_PNACLTRANSLATIONCACHE_15: ArtifactDescriptor = Artifac
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.cache/chrome-remote-desktop/chrome-profile/PnaclTranslationCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/.cache/chrome-remote-desktop/chrome-profile/PnaclTranslationCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28636,7 +28672,9 @@ pub(crate) static FA_FILE_PNACLTRANSLATIONCACHE_18: ArtifactDescriptor = Artifac
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/BraveSoftware/Brave-Browser/PnaclTranslationCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/.config/BraveSoftware/Brave-Browser/PnaclTranslationCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28696,7 +28734,9 @@ pub(crate) static FA_FILE_CACHE_65: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28726,7 +28766,9 @@ pub(crate) static FA_FILE_CACHE_66: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28786,7 +28828,9 @@ pub(crate) static FA_FILE_GPUCACHE_22: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/GPUCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/GPUCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28876,7 +28920,9 @@ pub(crate) static FA_FILE_APPLICATION_CACHE_13: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Application Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Application Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -28966,7 +29012,9 @@ pub(crate) static FA_FILE_CACHE_DATA_21: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Cache/Cache_Data/*"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Cache/Cache_Data/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -29026,7 +29074,9 @@ pub(crate) static FA_FILE_MEDIA_CACHE_30: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Media Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Media Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -29056,7 +29106,9 @@ pub(crate) static FA_FILE_PNACLTRANSLATIONCACHE_20: ArtifactDescriptor = Artifac
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/PnaclTranslationCache/*"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/PnaclTranslationCache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -30466,7 +30518,9 @@ pub(crate) static FA_FILE_NETWORK_COOKIES: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\Network\\Cookies"),
+    file_path: Some(
+        "%%users.localappdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\Network\\Cookies",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -30478,7 +30532,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -30500,7 +30554,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -30522,7 +30576,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -30544,7 +30598,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -30566,7 +30620,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -30588,7 +30642,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -30610,7 +30664,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -30632,7 +30686,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -30654,7 +30708,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -30664,7 +30718,9 @@ pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_3: ArtifactDescriptor = Artifa
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Network\\Cookies-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Network\\Cookies-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -30676,7 +30732,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -30698,7 +30754,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -30720,7 +30776,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -30742,7 +30798,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -30752,7 +30808,9 @@ pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_4: ArtifactDescriptor = Artifa
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome\\User Data\\*\\Network\\Cookies-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome\\User Data\\*\\Network\\Cookies-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -30764,7 +30822,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -30786,7 +30844,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -30808,7 +30866,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -30830,7 +30888,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -30840,7 +30898,9 @@ pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_5: ArtifactDescriptor = Artifa
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Edge\\User Data\\*\\Network\\Cookies-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Microsoft\\Edge\\User Data\\*\\Network\\Cookies-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -30852,7 +30912,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -30874,7 +30934,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -30896,7 +30956,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -30918,7 +30978,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -30940,7 +31000,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -30950,7 +31010,9 @@ pub(crate) static FA_FILE_COOKIES_6: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/Cookies"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/Cookies",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -30962,7 +31024,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -30984,7 +31046,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -31006,7 +31068,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -31028,7 +31090,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -31050,7 +31112,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -31060,7 +31122,9 @@ pub(crate) static FA_FILE_COOKIES_JOURNAL_7: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Cookies-journal"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Cookies-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -31072,7 +31136,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -31082,7 +31146,9 @@ pub(crate) static FA_FILE_NETWORK_COOKIES_8: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Network/Cookies"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Network/Cookies",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -31094,7 +31160,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -31104,7 +31170,9 @@ pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_8: ArtifactDescriptor = Artifa
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Network/Cookies-journal"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Network/Cookies-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -31116,7 +31184,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -31138,7 +31206,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -31160,7 +31228,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -31182,7 +31250,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -31204,7 +31272,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -31226,7 +31294,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -31248,7 +31316,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -31270,7 +31338,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -31292,7 +31360,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -31314,7 +31382,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -31336,7 +31404,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -31358,7 +31426,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -31380,7 +31448,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -31402,7 +31470,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -31424,7 +31492,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -31446,7 +31514,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -31468,7 +31536,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -31490,7 +31558,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -31512,7 +31580,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_OPERA_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -31534,7 +31602,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_OPERA_COOKIES_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -31556,7 +31624,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -31578,7 +31646,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -31600,7 +31668,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -31622,7 +31690,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -31632,7 +31700,9 @@ pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_13: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Chromium/*/Network/Cookies-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Chromium/*/Network/Cookies-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -31644,7 +31714,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -31666,7 +31736,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -31676,7 +31746,9 @@ pub(crate) static FA_FILE_COOKIES_JOURNAL_14: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Cookies-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Cookies-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -31688,7 +31760,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -31698,7 +31770,9 @@ pub(crate) static FA_FILE_NETWORK_COOKIES_14: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Network/Cookies"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Network/Cookies",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -31710,7 +31784,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -31732,7 +31806,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -31754,7 +31828,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -31764,7 +31838,9 @@ pub(crate) static FA_FILE_COOKIES_JOURNAL_15: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Cookies-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Cookies-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -31776,7 +31852,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -31786,7 +31862,9 @@ pub(crate) static FA_FILE_NETWORK_COOKIES_15: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Network/Cookies"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Network/Cookies",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -31798,7 +31876,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -31820,7 +31898,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -31842,7 +31920,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_COOKIES_JOURNAL_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -31852,7 +31930,9 @@ pub(crate) static FA_FILE_COOKIES_JOURNAL_16: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Cookies-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Cookies-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -31864,7 +31944,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -31874,7 +31954,9 @@ pub(crate) static FA_FILE_NETWORK_COOKIES_16: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Cookies"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Cookies",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -31886,7 +31968,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -31896,7 +31978,9 @@ pub(crate) static FA_FILE_NETWORK_COOKIES_JOURNAL_16: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Cookies-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Cookies-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -31908,7 +31992,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -31952,7 +32036,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -31962,7 +32049,9 @@ pub(crate) static FA_FILE_EXTENSIONS_10_3: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Extensions/**10"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Extensions/**10",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -31974,7 +32063,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -31984,7 +32076,9 @@ pub(crate) static FA_FILE_EXTENSIONS_10_4: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Extensions/**10"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Extensions/**10",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -31996,7 +32090,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -32006,7 +32103,9 @@ pub(crate) static FA_FILE_EXTENSIONS_10_5: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Extensions/**10"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Extensions/**10",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -32018,7 +32117,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -32028,7 +32130,9 @@ pub(crate) static FA_FILE_EXTENSIONS_10_6: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/*/Extensions/**10"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/*/Extensions/**10",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -32040,7 +32144,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -32050,7 +32157,9 @@ pub(crate) static FA_FILE_EXTENSIONS_10_7: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Microsoft Edge/*/Extensions/**10"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Microsoft Edge/*/Extensions/**10",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -32062,7 +32171,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -32072,7 +32184,9 @@ pub(crate) static FA_FILE_EXTENSIONS_10_8: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Yandex/YandexBrowser/*/Extensions/**10"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Yandex/YandexBrowser/*/Extensions/**10",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -32084,7 +32198,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -32094,7 +32211,9 @@ pub(crate) static FA_FILE_EXTENSIONS_10_9: ArtifactDescriptor = ArtifactDescript
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/*/Extensions/**10"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/*/Extensions/**10",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -32106,7 +32225,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -32128,7 +32250,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -32160,7 +32285,9 @@ pub(crate) static FA_FILE_EXTENSIONS_10_12: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Extensions/**10"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Extensions/**10",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -32172,7 +32299,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -32194,7 +32324,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -32216,7 +32349,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -32238,7 +32374,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -32260,7 +32399,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_17: ArtifactDescriptor = ArtifactDescriptor {
@@ -32282,7 +32424,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_18: ArtifactDescriptor = ArtifactDescriptor {
@@ -32304,7 +32449,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_19: ArtifactDescriptor = ArtifactDescriptor {
@@ -32326,7 +32474,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_20: ArtifactDescriptor = ArtifactDescriptor {
@@ -32348,7 +32499,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_21: ArtifactDescriptor = ArtifactDescriptor {
@@ -32370,7 +32524,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_22: ArtifactDescriptor = ArtifactDescriptor {
@@ -32392,7 +32549,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_23: ArtifactDescriptor = ArtifactDescriptor {
@@ -32414,7 +32574,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_24: ArtifactDescriptor = ArtifactDescriptor {
@@ -32436,7 +32599,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_25: ArtifactDescriptor = ArtifactDescriptor {
@@ -32458,7 +32624,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_26: ArtifactDescriptor = ArtifactDescriptor {
@@ -32480,7 +32649,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_27: ArtifactDescriptor = ArtifactDescriptor {
@@ -32502,7 +32674,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSIONS_10_28: ArtifactDescriptor = ArtifactDescriptor {
@@ -32512,7 +32687,9 @@ pub(crate) static FA_FILE_EXTENSIONS_10_28: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Yandex\\YandexBrowser\\User Data\\*\\Extensions\\**10"),
+    file_path: Some(
+        "%%users.localappdata%%\\Yandex\\YandexBrowser\\User Data\\*\\Extensions\\**10",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -32524,7 +32701,10 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extensions"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extensions",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY: ArtifactDescriptor = ArtifactDescriptor {
@@ -32568,7 +32748,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -32578,7 +32761,9 @@ pub(crate) static FA_FILE_EXTENSION_ACTIVITY_3: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Extension Activity"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Extension Activity",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -32590,7 +32775,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -32600,7 +32788,9 @@ pub(crate) static FA_FILE_EXTENSION_ACTIVITY_4: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Extension Activity"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Extension Activity",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -32612,7 +32802,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -32622,7 +32815,9 @@ pub(crate) static FA_FILE_EXTENSION_ACTIVITY_5: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Extension Activity"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Extension Activity",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -32634,7 +32829,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -32644,7 +32842,9 @@ pub(crate) static FA_FILE_EXTENSION_ACTIVITY_6: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/*/Extension Activity"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/*/Extension Activity",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -32656,7 +32856,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -32666,7 +32869,9 @@ pub(crate) static FA_FILE_EXTENSION_ACTIVITY_7: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Microsoft Edge/*/Extension Activity"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Microsoft Edge/*/Extension Activity",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -32678,7 +32883,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -32688,7 +32896,9 @@ pub(crate) static FA_FILE_EXTENSION_ACTIVITY_8: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Yandex/YandexBrowser/*/Extension Activity"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Yandex/YandexBrowser/*/Extension Activity",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -32700,7 +32910,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -32744,7 +32957,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -32776,7 +32992,9 @@ pub(crate) static FA_FILE_EXTENSION_ACTIVITY_12: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Extension Activity"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Extension Activity",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -32788,7 +33006,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -32810,7 +33031,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -32832,7 +33056,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -32854,7 +33081,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -32876,7 +33106,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_17: ArtifactDescriptor = ArtifactDescriptor {
@@ -32898,7 +33131,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_18: ArtifactDescriptor = ArtifactDescriptor {
@@ -32920,7 +33156,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_19: ArtifactDescriptor = ArtifactDescriptor {
@@ -32942,7 +33181,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_20: ArtifactDescriptor = ArtifactDescriptor {
@@ -32964,7 +33206,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_21: ArtifactDescriptor = ArtifactDescriptor {
@@ -32986,7 +33231,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_22: ArtifactDescriptor = ArtifactDescriptor {
@@ -33008,7 +33256,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_23: ArtifactDescriptor = ArtifactDescriptor {
@@ -33030,7 +33281,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_24: ArtifactDescriptor = ArtifactDescriptor {
@@ -33052,7 +33306,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_25: ArtifactDescriptor = ArtifactDescriptor {
@@ -33074,7 +33331,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_26: ArtifactDescriptor = ArtifactDescriptor {
@@ -33084,7 +33344,9 @@ pub(crate) static FA_FILE_EXTENSION_ACTIVITY_26: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Edge Beta\\User Data\\*\\Extension Activity"),
+    file_path: Some(
+        "%%users.localappdata%%\\Microsoft\\Edge Beta\\User Data\\*\\Extension Activity",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -33096,7 +33358,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_27: ArtifactDescriptor = ArtifactDescriptor {
@@ -33118,7 +33383,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_EXTENSION_ACTIVITY_28: ArtifactDescriptor = ArtifactDescriptor {
@@ -33128,7 +33396,9 @@ pub(crate) static FA_FILE_EXTENSION_ACTIVITY_28: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Yandex\\YandexBrowser\\User Data\\*\\Extension Activity"),
+    file_path: Some(
+        "%%users.localappdata%%\\Yandex\\YandexBrowser\\User Data\\*\\Extension Activity",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -33140,7 +33410,10 @@ such as Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome#chromium-based-browsers", "https://forensics.wiki/google_chrome#extension-activity-database"],
+    sources: &[
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+        "https://forensics.wiki/google_chrome#extension-activity-database",
+    ],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS: ArtifactDescriptor = ArtifactDescriptor {
@@ -33150,7 +33423,9 @@ pub(crate) static FA_FILE_NETWORK_FAVICONS: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\Network\\Favicons"),
+    file_path: Some(
+        "%%users.localappdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\Network\\Favicons",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -33162,7 +33437,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -33184,7 +33459,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS: ArtifactDescriptor = ArtifactDescriptor {
@@ -33206,7 +33481,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -33228,7 +33503,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -33250,7 +33525,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -33272,7 +33547,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -33294,7 +33569,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -33316,7 +33591,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -33338,7 +33613,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -33348,7 +33623,9 @@ pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_3: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Network\\Favicons-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Network\\Favicons-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -33360,7 +33637,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -33382,7 +33659,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -33404,7 +33681,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -33426,7 +33703,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -33436,7 +33713,9 @@ pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_4: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome\\User Data\\*\\Network\\Favicons-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome\\User Data\\*\\Network\\Favicons-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -33448,7 +33727,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -33470,7 +33749,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -33492,7 +33771,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -33514,7 +33793,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -33524,7 +33803,9 @@ pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_5: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Edge\\User Data\\*\\Network\\Favicons-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Microsoft\\Edge\\User Data\\*\\Network\\Favicons-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -33536,7 +33817,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -33558,7 +33839,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -33580,7 +33861,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -33602,7 +33883,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -33624,7 +33905,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -33634,7 +33915,9 @@ pub(crate) static FA_FILE_FAVICONS_6: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/Favicons"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/Favicons",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -33646,7 +33929,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -33668,7 +33951,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -33690,7 +33973,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -33712,7 +33995,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -33734,7 +34017,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -33744,7 +34027,9 @@ pub(crate) static FA_FILE_FAVICONS_JOURNAL_7: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Favicons-journal"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Favicons-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -33756,7 +34041,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -33766,7 +34051,9 @@ pub(crate) static FA_FILE_NETWORK_FAVICONS_8: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Network/Favicons"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Network/Favicons",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -33778,7 +34065,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -33788,7 +34075,9 @@ pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_8: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Network/Favicons-journal"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Network/Favicons-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -33800,7 +34089,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -33822,7 +34111,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -33844,7 +34133,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -33866,7 +34155,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -33888,7 +34177,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -33910,7 +34199,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -33932,7 +34221,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -33954,7 +34243,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -33976,7 +34265,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -33998,7 +34287,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -34020,7 +34309,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -34042,7 +34331,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -34064,7 +34353,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -34086,7 +34375,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -34108,7 +34397,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -34130,7 +34419,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -34152,7 +34441,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -34174,7 +34463,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -34196,7 +34485,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_OPERA_FAVICONS: ArtifactDescriptor = ArtifactDescriptor {
@@ -34218,7 +34507,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_OPERA_FAVICONS_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -34240,7 +34529,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -34262,7 +34551,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -34284,7 +34573,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -34306,7 +34595,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -34316,7 +34605,9 @@ pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_13: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Chromium/*/Network/Favicons-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Chromium/*/Network/Favicons-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34328,7 +34619,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -34350,7 +34641,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -34360,7 +34651,9 @@ pub(crate) static FA_FILE_FAVICONS_JOURNAL_14: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Favicons-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Favicons-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34372,7 +34665,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -34382,7 +34675,9 @@ pub(crate) static FA_FILE_NETWORK_FAVICONS_14: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Network/Favicons"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Network/Favicons",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34394,7 +34689,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -34416,7 +34711,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -34426,7 +34721,9 @@ pub(crate) static FA_FILE_FAVICONS_15: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Favicons"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Favicons",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34438,7 +34735,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -34448,7 +34745,9 @@ pub(crate) static FA_FILE_FAVICONS_JOURNAL_15: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Favicons-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Favicons-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34460,7 +34759,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -34470,7 +34769,9 @@ pub(crate) static FA_FILE_NETWORK_FAVICONS_15: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Network/Favicons"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Network/Favicons",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34482,7 +34783,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -34504,7 +34805,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -34526,7 +34827,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_FAVICONS_JOURNAL_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -34536,7 +34837,9 @@ pub(crate) static FA_FILE_FAVICONS_JOURNAL_16: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Favicons-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Favicons-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34548,7 +34851,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -34558,7 +34861,9 @@ pub(crate) static FA_FILE_NETWORK_FAVICONS_16: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Favicons"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Favicons",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34570,7 +34875,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -34580,7 +34885,9 @@ pub(crate) static FA_FILE_NETWORK_FAVICONS_JOURNAL_16: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Favicons-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Favicons-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34592,7 +34899,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -34646,7 +34953,9 @@ pub(crate) static FA_FILE_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/BraveSoftware/Brave-Browser/*/History"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/BraveSoftware/Brave-Browser/*/History",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34658,7 +34967,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -34702,7 +35014,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34712,7 +35027,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_2: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Chromium/*/Archived History-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Chromium/*/Archived History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34724,7 +35041,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34746,7 +35066,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -34768,7 +35091,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -34778,7 +35104,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_3: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Archived History"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Archived History",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34790,7 +35118,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -34834,7 +35165,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -34844,7 +35178,9 @@ pub(crate) static FA_FILE_HISTORY_JOURNAL_3: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/History-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34856,7 +35192,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -34866,7 +35205,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_4: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Archived History"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Archived History",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34878,7 +35219,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -34922,7 +35266,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -34932,7 +35279,9 @@ pub(crate) static FA_FILE_HISTORY_JOURNAL_4: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/History-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34944,7 +35293,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -34954,7 +35306,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_5: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Archived History"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Archived History",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34966,7 +35320,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -34976,7 +35333,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_5: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Archived History-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Archived History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -34988,7 +35347,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -35010,7 +35372,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -35020,7 +35385,9 @@ pub(crate) static FA_FILE_HISTORY_JOURNAL_5: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/History-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35032,7 +35399,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -35042,7 +35412,9 @@ pub(crate) static FA_FILE_HISTORY_6: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/Snapshots/*/*/History"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/Snapshots/*/*/History",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35054,7 +35426,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -35064,7 +35439,9 @@ pub(crate) static FA_FILE_HISTORY_JOURNAL_6: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/Snapshots/*/*/History-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/Snapshots/*/*/History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35076,7 +35453,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -35086,7 +35466,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_6: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/*/Archived History"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/*/Archived History",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35098,7 +35480,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -35142,7 +35527,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -35152,7 +35540,9 @@ pub(crate) static FA_FILE_HISTORY_JOURNAL_7: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/*/History-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Microsoft Edge Beta/*/History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35164,7 +35554,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -35174,7 +35567,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_7: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Microsoft Edge/*/Archived History"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Microsoft Edge/*/Archived History",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35186,7 +35581,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -35196,7 +35594,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_7: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Microsoft Edge/*/Archived History-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Microsoft Edge/*/Archived History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35208,7 +35608,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -35230,7 +35633,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -35240,7 +35646,9 @@ pub(crate) static FA_FILE_HISTORY_JOURNAL_8: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Microsoft Edge/*/History-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Microsoft Edge/*/History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35252,7 +35660,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -35262,7 +35673,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_8: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Yandex/YandexBrowser/*/Archived History"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Yandex/YandexBrowser/*/Archived History",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35274,7 +35687,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -35318,7 +35734,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -35328,7 +35747,9 @@ pub(crate) static FA_FILE_HISTORY_JOURNAL_9: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Yandex/YandexBrowser/*/History-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Yandex/YandexBrowser/*/History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35340,7 +35761,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -35350,7 +35774,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_9: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/*/Archived History"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/*/Archived History",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35362,7 +35788,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -35394,7 +35823,9 @@ pub(crate) static FA_FILE_HISTORY_10: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/*/History"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/*/History",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35406,7 +35837,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -35416,7 +35850,9 @@ pub(crate) static FA_FILE_HISTORY_JOURNAL_10: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/*/History-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/com.operasoftware.Opera/*/History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35428,7 +35864,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -35450,7 +35889,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -35460,7 +35902,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_10: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/BraveSoftware/Brave-Browser/*/Archived History-journal"),
+    file_path: Some(
+        "%%users.homedir%%/.config/BraveSoftware/Brave-Browser/*/Archived History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35472,7 +35916,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -35494,7 +35941,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -35516,7 +35966,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -35570,7 +36023,9 @@ pub(crate) static FA_FILE_HISTORY_12: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/History"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/History",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35582,7 +36037,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -35614,7 +36072,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_12: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Archived History"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Archived History",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35626,7 +36086,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -35636,7 +36099,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_12: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Archived History-journal"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Archived History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35648,7 +36113,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -35670,7 +36138,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -35680,7 +36151,9 @@ pub(crate) static FA_FILE_HISTORY_JOURNAL_13: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/History-journal"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -35692,7 +36165,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -35714,7 +36190,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -35736,7 +36215,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -35758,7 +36240,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -35780,7 +36265,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -35802,7 +36290,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -35824,7 +36315,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -35846,7 +36340,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -35868,7 +36365,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -35890,7 +36390,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -35912,7 +36415,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -35934,7 +36440,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -35956,7 +36465,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -35978,7 +36490,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -36000,7 +36515,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_17: ArtifactDescriptor = ArtifactDescriptor {
@@ -36022,7 +36540,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_17: ArtifactDescriptor = ArtifactDescriptor {
@@ -36044,7 +36565,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_18: ArtifactDescriptor = ArtifactDescriptor {
@@ -36066,7 +36590,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_18: ArtifactDescriptor = ArtifactDescriptor {
@@ -36088,7 +36615,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_17: ArtifactDescriptor = ArtifactDescriptor {
@@ -36110,7 +36640,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_17: ArtifactDescriptor = ArtifactDescriptor {
@@ -36132,7 +36665,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_19: ArtifactDescriptor = ArtifactDescriptor {
@@ -36154,7 +36690,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_19: ArtifactDescriptor = ArtifactDescriptor {
@@ -36176,7 +36715,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_18: ArtifactDescriptor = ArtifactDescriptor {
@@ -36198,7 +36740,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_18: ArtifactDescriptor = ArtifactDescriptor {
@@ -36220,7 +36765,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_20: ArtifactDescriptor = ArtifactDescriptor {
@@ -36242,7 +36790,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_20: ArtifactDescriptor = ArtifactDescriptor {
@@ -36264,7 +36815,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_19: ArtifactDescriptor = ArtifactDescriptor {
@@ -36286,7 +36840,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_19: ArtifactDescriptor = ArtifactDescriptor {
@@ -36308,7 +36865,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_21: ArtifactDescriptor = ArtifactDescriptor {
@@ -36330,7 +36890,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_21: ArtifactDescriptor = ArtifactDescriptor {
@@ -36352,7 +36915,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_20: ArtifactDescriptor = ArtifactDescriptor {
@@ -36374,7 +36940,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_20: ArtifactDescriptor = ArtifactDescriptor {
@@ -36396,7 +36965,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_22: ArtifactDescriptor = ArtifactDescriptor {
@@ -36418,7 +36990,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_22: ArtifactDescriptor = ArtifactDescriptor {
@@ -36440,7 +37015,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_21: ArtifactDescriptor = ArtifactDescriptor {
@@ -36462,7 +37040,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_21: ArtifactDescriptor = ArtifactDescriptor {
@@ -36484,7 +37065,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_23: ArtifactDescriptor = ArtifactDescriptor {
@@ -36506,7 +37090,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_23: ArtifactDescriptor = ArtifactDescriptor {
@@ -36528,7 +37115,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_24: ArtifactDescriptor = ArtifactDescriptor {
@@ -36550,7 +37140,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_24: ArtifactDescriptor = ArtifactDescriptor {
@@ -36560,7 +37153,9 @@ pub(crate) static FA_FILE_HISTORY_JOURNAL_24: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.appdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\History-journal"),
+    file_path: Some(
+        "%%users.appdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -36572,7 +37167,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_22: ArtifactDescriptor = ArtifactDescriptor {
@@ -36594,7 +37192,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_22: ArtifactDescriptor = ArtifactDescriptor {
@@ -36616,7 +37217,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_25: ArtifactDescriptor = ArtifactDescriptor {
@@ -36638,7 +37242,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_25: ArtifactDescriptor = ArtifactDescriptor {
@@ -36660,7 +37267,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_23: ArtifactDescriptor = ArtifactDescriptor {
@@ -36682,7 +37292,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_23: ArtifactDescriptor = ArtifactDescriptor {
@@ -36704,7 +37317,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_26: ArtifactDescriptor = ArtifactDescriptor {
@@ -36726,7 +37342,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_26: ArtifactDescriptor = ArtifactDescriptor {
@@ -36748,7 +37367,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_24: ArtifactDescriptor = ArtifactDescriptor {
@@ -36770,7 +37392,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_24: ArtifactDescriptor = ArtifactDescriptor {
@@ -36792,7 +37417,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_27: ArtifactDescriptor = ArtifactDescriptor {
@@ -36814,7 +37442,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_27: ArtifactDescriptor = ArtifactDescriptor {
@@ -36836,7 +37467,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_25: ArtifactDescriptor = ArtifactDescriptor {
@@ -36858,7 +37492,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_25: ArtifactDescriptor = ArtifactDescriptor {
@@ -36868,7 +37505,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_25: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Archived History-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Archived History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -36880,7 +37519,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_28: ArtifactDescriptor = ArtifactDescriptor {
@@ -36902,7 +37544,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_28: ArtifactDescriptor = ArtifactDescriptor {
@@ -36924,7 +37569,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_26: ArtifactDescriptor = ArtifactDescriptor {
@@ -36946,7 +37594,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_26: ArtifactDescriptor = ArtifactDescriptor {
@@ -36956,7 +37607,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_26: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome\\User Data\\*\\Archived History-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome\\User Data\\*\\Archived History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -36968,7 +37621,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_29: ArtifactDescriptor = ArtifactDescriptor {
@@ -36990,7 +37646,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_29: ArtifactDescriptor = ArtifactDescriptor {
@@ -37012,7 +37671,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_30: ArtifactDescriptor = ArtifactDescriptor {
@@ -37034,7 +37696,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_30: ArtifactDescriptor = ArtifactDescriptor {
@@ -37044,7 +37709,9 @@ pub(crate) static FA_FILE_HISTORY_JOURNAL_30: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome\\User Data\\Snapshots\\*\\*\\History-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome\\User Data\\Snapshots\\*\\*\\History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -37056,7 +37723,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_27: ArtifactDescriptor = ArtifactDescriptor {
@@ -37078,7 +37748,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_27: ArtifactDescriptor = ArtifactDescriptor {
@@ -37088,7 +37761,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_27: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Edge Beta\\User Data\\*\\Archived History-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Microsoft\\Edge Beta\\User Data\\*\\Archived History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -37100,7 +37775,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_31: ArtifactDescriptor = ArtifactDescriptor {
@@ -37122,7 +37800,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_31: ArtifactDescriptor = ArtifactDescriptor {
@@ -37144,7 +37825,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_28: ArtifactDescriptor = ArtifactDescriptor {
@@ -37166,7 +37850,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_28: ArtifactDescriptor = ArtifactDescriptor {
@@ -37176,7 +37863,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_28: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Edge\\User Data\\*\\Archived History-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Microsoft\\Edge\\User Data\\*\\Archived History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -37188,7 +37877,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_32: ArtifactDescriptor = ArtifactDescriptor {
@@ -37210,7 +37902,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_32: ArtifactDescriptor = ArtifactDescriptor {
@@ -37232,7 +37927,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_29: ArtifactDescriptor = ArtifactDescriptor {
@@ -37242,7 +37940,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_29: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Yandex\\YandexBrowser\\User Data\\*\\Archived History"),
+    file_path: Some(
+        "%%users.localappdata%%\\Yandex\\YandexBrowser\\User Data\\*\\Archived History",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -37254,7 +37954,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_29: ArtifactDescriptor = ArtifactDescriptor {
@@ -37264,7 +37967,9 @@ pub(crate) static FA_FILE_ARCHIVED_HISTORY_JOURNAL_29: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Yandex\\YandexBrowser\\User Data\\*\\Archived History-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Yandex\\YandexBrowser\\User Data\\*\\Archived History-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -37276,7 +37981,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_33: ArtifactDescriptor = ArtifactDescriptor {
@@ -37298,7 +38006,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_HISTORY_JOURNAL_33: ArtifactDescriptor = ArtifactDescriptor {
@@ -37320,7 +38031,10 @@ Google Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://forensics.wiki/google_chrome", "https://forensics.wiki/google_chrome#chromium-based-browsers"],
+    sources: &[
+        "https://forensics.wiki/google_chrome",
+        "https://forensics.wiki/google_chrome#chromium-based-browsers",
+    ],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -37330,7 +38044,9 @@ pub(crate) static FA_FILE_NETWORK_LOGIN_DATA: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\Network\\Login Data"),
+    file_path: Some(
+        "%%users.localappdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\Network\\Login Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -37342,7 +38058,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -37364,7 +38080,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -37386,7 +38102,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -37408,7 +38124,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -37430,7 +38146,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -37452,7 +38168,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -37474,7 +38190,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -37496,7 +38212,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -37506,7 +38222,9 @@ pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_3: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Network\\Login Data"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Network\\Login Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -37518,7 +38236,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -37528,7 +38246,9 @@ pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_3: ArtifactDescriptor = Art
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Network\\Login Data-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Network\\Login Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -37540,7 +38260,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -37562,7 +38282,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -37584,7 +38304,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -37606,7 +38326,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -37616,7 +38336,9 @@ pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_4: ArtifactDescriptor = Art
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome\\User Data\\*\\Network\\Login Data-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome\\User Data\\*\\Network\\Login Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -37628,7 +38350,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -37650,7 +38372,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -37672,7 +38394,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -37694,7 +38416,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -37704,7 +38426,9 @@ pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_5: ArtifactDescriptor = Art
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Edge\\User Data\\*\\Network\\Login Data-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Microsoft\\Edge\\User Data\\*\\Network\\Login Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -37716,7 +38440,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -37738,7 +38462,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -37760,7 +38484,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -37782,7 +38506,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -37804,7 +38528,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -37814,7 +38538,9 @@ pub(crate) static FA_FILE_LOGIN_DATA_6: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/Login Data"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/Login Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -37826,7 +38552,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -37848,7 +38574,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -37870,7 +38596,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -37892,7 +38618,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -37914,7 +38640,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -37924,7 +38650,9 @@ pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_7: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Login Data-journal"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Login Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -37936,7 +38664,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -37946,7 +38674,9 @@ pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_8: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Network/Login Data"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Network/Login Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -37958,7 +38688,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -37980,7 +38710,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -38002,7 +38732,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -38024,7 +38754,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -38046,7 +38776,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -38068,7 +38798,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -38090,7 +38820,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -38112,7 +38842,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -38134,7 +38864,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -38156,7 +38886,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -38178,7 +38908,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -38200,7 +38930,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -38222,7 +38952,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -38232,7 +38962,9 @@ pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_11: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/google-chrome-unstable/*/Network/Login Data-journal"),
+    file_path: Some(
+        "%%users.homedir%%/.config/google-chrome-unstable/*/Network/Login Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -38244,7 +38976,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -38266,7 +38998,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -38288,7 +39020,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -38310,7 +39042,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -38332,7 +39064,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -38354,7 +39086,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -38376,7 +39108,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_OPERA_LOGIN_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -38398,7 +39130,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_OPERA_LOGIN_DATA_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -38420,7 +39152,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -38442,7 +39174,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -38464,7 +39196,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -38486,7 +39218,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -38496,7 +39228,9 @@ pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_13: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Chromium/*/Network/Login Data-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Chromium/*/Network/Login Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -38508,7 +39242,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -38518,7 +39252,9 @@ pub(crate) static FA_FILE_LOGIN_DATA_14: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Login Data"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Login Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -38530,7 +39266,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -38540,7 +39276,9 @@ pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_14: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Login Data-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Login Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -38552,7 +39290,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -38562,7 +39300,9 @@ pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_14: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Network/Login Data"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Network/Login Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -38574,7 +39314,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -38596,7 +39336,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -38606,7 +39346,9 @@ pub(crate) static FA_FILE_LOGIN_DATA_15: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Login Data"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Login Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -38618,7 +39360,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -38628,7 +39370,9 @@ pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_15: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Login Data-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Login Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -38640,7 +39384,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -38650,7 +39394,9 @@ pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_15: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Network/Login Data"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Network/Login Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -38662,7 +39408,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -38684,7 +39430,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -38706,7 +39452,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -38716,7 +39462,9 @@ pub(crate) static FA_FILE_LOGIN_DATA_JOURNAL_16: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Login Data-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Login Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -38728,7 +39476,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -38738,7 +39486,9 @@ pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_16: ArtifactDescriptor = ArtifactDe
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Login Data"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Login Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -38750,7 +39500,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -38760,7 +39510,9 @@ pub(crate) static FA_FILE_NETWORK_LOGIN_DATA_JOURNAL_16: ArtifactDescriptor = Ar
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Login Data-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Login Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -38772,7 +39524,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -38782,7 +39534,9 @@ pub(crate) static FA_FILE_NETWORK_WEB_DATA: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\Network\\Web Data"),
+    file_path: Some(
+        "%%users.localappdata%%\\BraveSoftware\\Brave-Browser\\User Data\\*\\Network\\Web Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -38794,7 +39548,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -38816,7 +39570,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -38838,7 +39592,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -38860,7 +39614,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -38882,7 +39636,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -38904,7 +39658,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -38926,7 +39680,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -38948,7 +39702,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -38970,7 +39724,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -38980,7 +39734,9 @@ pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_3: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Network\\Web Data-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome SxS\\User Data\\*\\Network\\Web Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -38992,7 +39748,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -39014,7 +39770,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -39036,7 +39792,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -39058,7 +39814,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -39068,7 +39824,9 @@ pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_4: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Google\\Chrome\\User Data\\*\\Network\\Web Data-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Google\\Chrome\\User Data\\*\\Network\\Web Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -39080,7 +39838,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -39102,7 +39860,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -39124,7 +39882,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -39146,7 +39904,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -39156,7 +39914,9 @@ pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_5: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Edge\\User Data\\*\\Network\\Web Data-journal"),
+    file_path: Some(
+        "%%users.localappdata%%\\Microsoft\\Edge\\User Data\\*\\Network\\Web Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -39168,7 +39928,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -39190,7 +39950,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -39212,7 +39972,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -39234,7 +39994,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -39256,7 +40016,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -39266,7 +40026,9 @@ pub(crate) static FA_FILE_WEB_DATA_6: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/Web Data"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-config/google-chrome/*/Web Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -39278,7 +40040,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -39300,7 +40062,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -39322,7 +40084,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -39344,7 +40106,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -39366,7 +40128,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -39376,7 +40138,9 @@ pub(crate) static FA_FILE_WEB_DATA_JOURNAL_7: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Web Data-journal"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Web Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -39388,7 +40152,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -39398,7 +40162,9 @@ pub(crate) static FA_FILE_NETWORK_WEB_DATA_8: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Network/Web Data"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Network/Web Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -39410,7 +40176,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -39420,7 +40186,9 @@ pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_8: ArtifactDescriptor = Artif
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Network/Web Data-journal"),
+    file_path: Some(
+        "%%users.homedir%%/.config/chrome-remote-desktop/chrome-profile/*/Network/Web Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -39432,7 +40200,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -39454,7 +40222,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -39476,7 +40244,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -39498,7 +40266,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -39520,7 +40288,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -39542,7 +40310,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL_9: ArtifactDescriptor = ArtifactDescriptor {
@@ -39564,7 +40332,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -39586,7 +40354,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -39608,7 +40376,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -39630,7 +40398,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL_10: ArtifactDescriptor = ArtifactDescriptor {
@@ -39652,7 +40420,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -39674,7 +40442,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -39696,7 +40464,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -39718,7 +40486,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL_11: ArtifactDescriptor = ArtifactDescriptor {
@@ -39740,7 +40508,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -39762,7 +40530,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -39784,7 +40552,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -39806,7 +40574,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL_12: ArtifactDescriptor = ArtifactDescriptor {
@@ -39828,7 +40596,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_OPERA_WEB_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -39850,7 +40618,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_OPERA_WEB_DATA_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -39872,7 +40640,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -39894,7 +40662,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -39916,7 +40684,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -39938,7 +40706,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_13: ArtifactDescriptor = ArtifactDescriptor {
@@ -39948,7 +40716,9 @@ pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_13: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Chromium/*/Network/Web Data-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Chromium/*/Network/Web Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -39960,7 +40730,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -39982,7 +40752,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -39992,7 +40762,9 @@ pub(crate) static FA_FILE_WEB_DATA_JOURNAL_14: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Web Data-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Web Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40004,7 +40776,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -40014,7 +40786,9 @@ pub(crate) static FA_FILE_NETWORK_WEB_DATA_14: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Network/Web Data"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Beta/*/Network/Web Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40026,7 +40800,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_14: ArtifactDescriptor = ArtifactDescriptor {
@@ -40048,7 +40822,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -40058,7 +40832,9 @@ pub(crate) static FA_FILE_WEB_DATA_15: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Web Data"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Web Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40070,7 +40846,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -40080,7 +40856,9 @@ pub(crate) static FA_FILE_WEB_DATA_JOURNAL_15: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Web Data-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Web Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40092,7 +40870,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -40102,7 +40880,9 @@ pub(crate) static FA_FILE_NETWORK_WEB_DATA_15: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Network/Web Data"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome Canary/*/Network/Web Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40114,7 +40894,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_15: ArtifactDescriptor = ArtifactDescriptor {
@@ -40136,7 +40916,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -40158,7 +40938,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WEB_DATA_JOURNAL_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -40168,7 +40948,9 @@ pub(crate) static FA_FILE_WEB_DATA_JOURNAL_16: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Web Data-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Web Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40180,7 +40962,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -40190,7 +40972,9 @@ pub(crate) static FA_FILE_NETWORK_WEB_DATA_16: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Web Data"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Web Data",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40202,7 +40986,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_16: ArtifactDescriptor = ArtifactDescriptor {
@@ -40212,7 +40996,9 @@ pub(crate) static FA_FILE_NETWORK_WEB_DATA_JOURNAL_16: ArtifactDescriptor = Arti
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Web Data-journal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Google/Chrome/*/Network/Web Data-journal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40224,7 +41010,7 @@ Chrome, Brave, Chromium, Yandex, Opera, Edge, EdgeBeta.
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CACHE_83: ArtifactDescriptor = ArtifactDescriptor {
@@ -40244,7 +41030,9 @@ pub(crate) static FA_FILE_CACHE_83: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE2: ArtifactDescriptor = ArtifactDescriptor {
@@ -40264,7 +41052,9 @@ pub(crate) static FA_FILE_CACHE2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_DOOMED: ArtifactDescriptor = ArtifactDescriptor {
@@ -40284,7 +41074,9 @@ pub(crate) static FA_FILE_DOOMED: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ENTRIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -40304,7 +41096,9 @@ pub(crate) static FA_FILE_ENTRIES: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE_84: ArtifactDescriptor = ArtifactDescriptor {
@@ -40324,7 +41118,9 @@ pub(crate) static FA_FILE_CACHE_84: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE2_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -40344,7 +41140,9 @@ pub(crate) static FA_FILE_CACHE2_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_DOOMED_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -40354,7 +41152,9 @@ pub(crate) static FA_FILE_DOOMED_2: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Caches/Firefox/Profiles/*.default-*/cache2/doomed/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Caches/Firefox/Profiles/*.default-*/cache2/doomed/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40364,7 +41164,9 @@ pub(crate) static FA_FILE_DOOMED_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ENTRIES_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -40374,7 +41176,9 @@ pub(crate) static FA_FILE_ENTRIES_2: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Caches/Firefox/Profiles/*.default-*/cache2/entries/*"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Caches/Firefox/Profiles/*.default-*/cache2/entries/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40384,7 +41188,9 @@ pub(crate) static FA_FILE_ENTRIES_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE_85: ArtifactDescriptor = ArtifactDescriptor {
@@ -40404,7 +41210,9 @@ pub(crate) static FA_FILE_CACHE_85: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE_86: ArtifactDescriptor = ArtifactDescriptor {
@@ -40424,7 +41232,9 @@ pub(crate) static FA_FILE_CACHE_86: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE2_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -40444,7 +41254,9 @@ pub(crate) static FA_FILE_CACHE2_3: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_DOOMED_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -40464,7 +41276,9 @@ pub(crate) static FA_FILE_DOOMED_3: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ENTRIES_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -40484,7 +41298,9 @@ pub(crate) static FA_FILE_ENTRIES_3: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE_87: ArtifactDescriptor = ArtifactDescriptor {
@@ -40504,7 +41320,9 @@ pub(crate) static FA_FILE_CACHE_87: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE2_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -40524,7 +41342,9 @@ pub(crate) static FA_FILE_CACHE2_4: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_DOOMED_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -40544,7 +41364,9 @@ pub(crate) static FA_FILE_DOOMED_4: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ENTRIES_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -40564,7 +41386,9 @@ pub(crate) static FA_FILE_ENTRIES_4: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE_88: ArtifactDescriptor = ArtifactDescriptor {
@@ -40574,7 +41398,9 @@ pub(crate) static FA_FILE_CACHE_88: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default/Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default/Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40584,7 +41410,9 @@ pub(crate) static FA_FILE_CACHE_88: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE2_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -40594,7 +41422,9 @@ pub(crate) static FA_FILE_CACHE2_5: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default/cache2/*"),
+    file_path: Some(
+        "%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default/cache2/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40604,7 +41434,9 @@ pub(crate) static FA_FILE_CACHE2_5: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_DOOMED_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -40614,7 +41446,9 @@ pub(crate) static FA_FILE_DOOMED_5: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default/cache2/doomed/*"),
+    file_path: Some(
+        "%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default/cache2/doomed/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40624,7 +41458,9 @@ pub(crate) static FA_FILE_DOOMED_5: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ENTRIES_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -40634,7 +41470,9 @@ pub(crate) static FA_FILE_ENTRIES_5: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default/cache2/entries/*"),
+    file_path: Some(
+        "%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default/cache2/entries/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40644,7 +41482,9 @@ pub(crate) static FA_FILE_ENTRIES_5: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE_89: ArtifactDescriptor = ArtifactDescriptor {
@@ -40654,7 +41494,9 @@ pub(crate) static FA_FILE_CACHE_89: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default-*/Cache/*"),
+    file_path: Some(
+        "%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default-*/Cache/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40664,7 +41506,9 @@ pub(crate) static FA_FILE_CACHE_89: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE2_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -40674,7 +41518,9 @@ pub(crate) static FA_FILE_CACHE2_6: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default-*/cache2/*"),
+    file_path: Some(
+        "%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default-*/cache2/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40684,7 +41530,9 @@ pub(crate) static FA_FILE_CACHE2_6: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_DOOMED_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -40694,7 +41542,9 @@ pub(crate) static FA_FILE_DOOMED_6: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default-*/cache2/doomed/*"),
+    file_path: Some(
+        "%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default-*/cache2/doomed/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40704,7 +41554,9 @@ pub(crate) static FA_FILE_DOOMED_6: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ENTRIES_6: ArtifactDescriptor = ArtifactDescriptor {
@@ -40714,7 +41566,9 @@ pub(crate) static FA_FILE_ENTRIES_6: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default-*/cache2/entries/*"),
+    file_path: Some(
+        "%%users.homedir%%/snap/firefox/common/.cache/mozilla/firefox/*.default-*/cache2/entries/*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40724,7 +41578,9 @@ pub(crate) static FA_FILE_ENTRIES_6: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE_90: ArtifactDescriptor = ArtifactDescriptor {
@@ -40744,7 +41600,9 @@ pub(crate) static FA_FILE_CACHE_90: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE2_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -40764,7 +41622,9 @@ pub(crate) static FA_FILE_CACHE2_7: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_DOOMED_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -40774,7 +41634,9 @@ pub(crate) static FA_FILE_DOOMED_7: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Mozilla\\Firefox\\Profiles\\*.default\\cache2\\doomed\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\Mozilla\\Firefox\\Profiles\\*.default\\cache2\\doomed\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40784,7 +41646,9 @@ pub(crate) static FA_FILE_DOOMED_7: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ENTRIES_7: ArtifactDescriptor = ArtifactDescriptor {
@@ -40794,7 +41658,9 @@ pub(crate) static FA_FILE_ENTRIES_7: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Mozilla\\Firefox\\Profiles\\*.default\\cache2\\entries\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\Mozilla\\Firefox\\Profiles\\*.default\\cache2\\entries\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40804,7 +41670,9 @@ pub(crate) static FA_FILE_ENTRIES_7: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE_91: ArtifactDescriptor = ArtifactDescriptor {
@@ -40824,7 +41692,9 @@ pub(crate) static FA_FILE_CACHE_91: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_CACHE2_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -40844,7 +41714,9 @@ pub(crate) static FA_FILE_CACHE2_8: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_DOOMED_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -40854,7 +41726,9 @@ pub(crate) static FA_FILE_DOOMED_8: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Mozilla\\Firefox\\Profiles\\*.default-*\\cache2\\doomed\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\Mozilla\\Firefox\\Profiles\\*.default-*\\cache2\\doomed\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40864,7 +41738,9 @@ pub(crate) static FA_FILE_DOOMED_8: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_ENTRIES_8: ArtifactDescriptor = ArtifactDescriptor {
@@ -40874,7 +41750,9 @@ pub(crate) static FA_FILE_ENTRIES_8: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Mozilla\\Firefox\\Profiles\\*.default-*\\cache2\\entries\\*"),
+    file_path: Some(
+        "%%users.localappdata%%\\Mozilla\\Firefox\\Profiles\\*.default-*\\cache2\\entries\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40884,7 +41762,9 @@ pub(crate) static FA_FILE_ENTRIES_8: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/webbrowser/FirefoxCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_COOKIES_SQLITE: ArtifactDescriptor = ArtifactDescriptor {
@@ -40894,7 +41774,9 @@ pub(crate) static FA_FILE_COOKIES_SQLITE: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Firefox/Profiles/*/cookies.sqlite"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Firefox/Profiles/*/cookies.sqlite",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -40914,7 +41796,9 @@ pub(crate) static FA_FILE_COOKIES_SQLITE_WAL: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Firefox/Profiles/*/cookies.sqlite-wal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Firefox/Profiles/*/cookies.sqlite-wal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -41074,7 +41958,9 @@ pub(crate) static FA_FILE_DOWNLOADS_SQLITE: ArtifactDescriptor = ArtifactDescrip
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Firefox/Profiles/*/downloads.sqlite"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Firefox/Profiles/*/downloads.sqlite",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -41094,7 +41980,9 @@ pub(crate) static FA_FILE_DOWNLOADS_SQLITE_WAL: ArtifactDescriptor = ArtifactDes
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Firefox/Profiles/*/downloads.sqlite-wal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Firefox/Profiles/*/downloads.sqlite-wal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -41234,7 +42122,9 @@ pub(crate) static FA_FILE_PLACES_SQLITE: ArtifactDescriptor = ArtifactDescriptor
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Firefox/Profiles/*/places.sqlite"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Firefox/Profiles/*/places.sqlite",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -41254,7 +42144,9 @@ pub(crate) static FA_FILE_PLACES_SQLITE_WAL: ArtifactDescriptor = ArtifactDescri
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Application Support/Firefox/Profiles/*/places.sqlite-wal"),
+    file_path: Some(
+        "%%users.homedir%%/Library/Application Support/Firefox/Profiles/*/places.sqlite-wal",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -41684,7 +42576,11 @@ pub(crate) static FA_EXPLORER_BROWSER_HELPER_OBJECTS: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "http://regenerus.com/malware-common-loadpoints/", "https://code.google.com/p/regripper/wiki/ASEPs"],
+    sources: &[
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "http://regenerus.com/malware-common-loadpoints/",
+        "https://code.google.com/p/regripper/wiki/ASEPs",
+    ],
 };
 
 pub(crate) static FA_EXPLORER_BROWSER_HELPER_OBJECTS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -41705,102 +42601,6 @@ pub(crate) static FA_EXPLORER_BROWSER_HELPER_OBJECTS_2: ArtifactDescriptor = Art
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "http://regenerus.com/malware-common-loadpoints/", "https://code.google.com/p/regripper/wiki/ASEPs"],
-};
-
-pub(crate) static FA_FILE_: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_",
-    name: "InternetExplorerCache",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Windows\\Temporary Internet Files\\Content.IE5\\*\\*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Microsoft Internet Explorer (MSIE) browser cache.
-
-* MSIE 4 - 9 Temporary Internet files.
-* MSIE 10 INetCache files.
-",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/internet_explorer"],
-};
-
-pub(crate) static FA_FILE__2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file__2",
-    name: "InternetExplorerCache",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Windows\\Temporary Internet Files\\Low\\Content.IE5\\*\\*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Microsoft Internet Explorer (MSIE) browser cache.
-
-* MSIE 4 - 9 Temporary Internet files.
-* MSIE 10 INetCache files.
-",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/internet_explorer"],
-};
-
-pub(crate) static FA_FILE__3: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file__3",
-    name: "InternetExplorerCache",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Windows\\INetCache\\IE\\*\\*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Microsoft Internet Explorer (MSIE) browser cache.
-
-* MSIE 4 - 9 Temporary Internet files.
-* MSIE 10 INetCache files.
-",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/internet_explorer"],
-};
-
-pub(crate) static FA_FILE__4: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file__4",
-    name: "InternetExplorerCache",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Windows\\INetCache\\Low\\*\\*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Microsoft Internet Explorer (MSIE) browser cache.
-
-* MSIE 4 - 9 Temporary Internet files.
-* MSIE 10 INetCache files.
-",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/internet_explorer"],
 };
 
 pub(crate) static FA_FILE_COOKIES_INDEX_DAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -41860,7 +42660,8 @@ pub(crate) static FA_FILE_WEBCACHE_WEBCACHEV_DAT: ArtifactDescriptor = ArtifactD
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Microsoft Internet Explorer (MSIE) 10 browser history database file (WebCacheV*.dat).",
+    meaning:
+        "Microsoft Internet Explorer (MSIE) 10 browser history database file (WebCacheV*.dat).",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -41916,7 +42717,9 @@ pub(crate) static FA_FILE_INDEX_DAT: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Windows\\History\\History.IE5\\*\\index.dat"),
+    file_path: Some(
+        "%%users.localappdata%%\\Microsoft\\Windows\\History\\History.IE5\\*\\index.dat",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -41956,7 +42759,9 @@ pub(crate) static FA_FILE_INDEX_DAT_2: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Windows\\History\\Low\\History.IE5\\*\\index.dat"),
+    file_path: Some(
+        "%%users.localappdata%%\\Microsoft\\Windows\\History\\Low\\History.IE5\\*\\index.dat",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -41976,7 +42781,9 @@ pub(crate) static FA_FILE_HISTORY_IE5_INDEX_DAT_2: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Windows\\History\\Low\\History.IE5\\index.dat"),
+    file_path: Some(
+        "%%users.localappdata%%\\Microsoft\\Windows\\History\\Low\\History.IE5\\index.dat",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -42213,25 +43020,26 @@ pub(crate) static FA_FILE_SAFARI_AUTOFILLCORRECTIONS_DB: ArtifactDescriptor = Ar
     sources: &["https://forensics.wiki/apple_safari"],
 };
 
-pub(crate) static FA_FILE_SAFARI_AUTOFILLCORRECTIONS_DB_WAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_safari_autofillcorrections_db_wal",
-    name: "SafariAutoFillCorrectionsSQLiteDatabaseFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Safari/AutoFillCorrections.db-wal"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Safari browser auto-fill corrections SQLite database file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/apple_safari"],
-};
+pub(crate) static FA_FILE_SAFARI_AUTOFILLCORRECTIONS_DB_WAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_safari_autofillcorrections_db_wal",
+        name: "SafariAutoFillCorrectionsSQLiteDatabaseFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Safari/AutoFillCorrections.db-wal"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Safari browser auto-fill corrections SQLite database file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/apple_safari"],
+    };
 
 pub(crate) static FA_FILE_COM_APPLE_SAFARI_CACHE_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_com_apple_safari_cache_db",
@@ -42333,45 +43141,47 @@ pub(crate) static FA_FILE_SAFARI_CACHE_DB: ArtifactDescriptor = ArtifactDescript
     sources: &["https://forensics.wiki/apple_safari"],
 };
 
-pub(crate) static FA_FILE_SAFARI_CLOUDAUTOFILLCORRECTIONS_DB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_safari_cloudautofillcorrections_db",
-    name: "SafariCloudAutoFillCorrectionsSQLiteDatabaseFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Safari/CloudAutoFillCorrections.db"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Safari browser cloud auto-fill corrections SQLite database file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/apple_safari"],
-};
+pub(crate) static FA_FILE_SAFARI_CLOUDAUTOFILLCORRECTIONS_DB: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_safari_cloudautofillcorrections_db",
+        name: "SafariCloudAutoFillCorrectionsSQLiteDatabaseFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Safari/CloudAutoFillCorrections.db"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Safari browser cloud auto-fill corrections SQLite database file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/apple_safari"],
+    };
 
-pub(crate) static FA_FILE_SAFARI_CLOUDAUTOFILLCORRECTIONS_DB_WAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_safari_cloudautofillcorrections_db_wal",
-    name: "SafariCloudAutoFillCorrectionsSQLiteDatabaseFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Safari/CloudAutoFillCorrections.db-wal"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Safari browser cloud auto-fill corrections SQLite database file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/apple_safari"],
-};
+pub(crate) static FA_FILE_SAFARI_CLOUDAUTOFILLCORRECTIONS_DB_WAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_safari_cloudautofillcorrections_db_wal",
+        name: "SafariCloudAutoFillCorrectionsSQLiteDatabaseFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Safari/CloudAutoFillCorrections.db-wal"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Safari browser cloud auto-fill corrections SQLite database file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/apple_safari"],
+    };
 
 pub(crate) static FA_FILE_COOKIES_COOKIES_BINARYCOOKIES: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_cookies_cookies_binarycookies",
@@ -42465,26 +43275,6 @@ pub(crate) static FA_FILE_SAFARI_DOWNLOADS_PLIST_3: ArtifactDescriptor = Artifac
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
     meaning: "Safari downloads history (Downloads.plist) property list (plist) file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/apple_safari/"],
-};
-
-pub(crate) static FA_FILE_EXTENSIONS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_extensions",
-    name: "SafariExtensions",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Safari/Extensions/**"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Safari browser extensions.",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -42653,25 +43443,26 @@ pub(crate) static FA_FILE_SAFARI_PERSITEPREFERENCES_DB: ArtifactDescriptor = Art
     sources: &["https://forensics.wiki/apple_safari"],
 };
 
-pub(crate) static FA_FILE_SAFARI_PERSITEPREFERENCES_DB_WAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_safari_persitepreferences_db_wal",
-    name: "SafariPerSitePreferencesSQLiteDatabaseFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Safari/PerSitePreferences.db-wal"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Safari browser per site preferences SQLite database file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/apple_safari"],
-};
+pub(crate) static FA_FILE_SAFARI_PERSITEPREFERENCES_DB_WAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_safari_persitepreferences_db_wal",
+        name: "SafariPerSitePreferencesSQLiteDatabaseFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.homedir%%/Library/Safari/PerSitePreferences.db-wal"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Safari browser per site preferences SQLite database file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/apple_safari"],
+    };
 
 pub(crate) static FA_FILE_TABSNAPSHOTS_METADATA_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_tabsnapshots_metadata_db",
@@ -42693,45 +43484,51 @@ pub(crate) static FA_FILE_TABSNAPSHOTS_METADATA_DB: ArtifactDescriptor = Artifac
     sources: &["https://forensics.wiki/apple_safari"],
 };
 
-pub(crate) static FA_FILE_TOUCH_ICONS_CACHE_TOUCHICONCACHESETTINGS_DB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_touch_icons_cache_touchiconcachesettings_db",
-    name: "SafariTouchIconCacheSettingsSQLiteDatabaseFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Safari/Touch Icons Cache/TouchIconCacheSettings.db"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Safari browser touch icon cache settings SQLite database file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/apple_safari"],
-};
+pub(crate) static FA_FILE_TOUCH_ICONS_CACHE_TOUCHICONCACHESETTINGS_DB: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_touch_icons_cache_touchiconcachesettings_db",
+        name: "SafariTouchIconCacheSettingsSQLiteDatabaseFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%%users.homedir%%/Library/Safari/Touch Icons Cache/TouchIconCacheSettings.db",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Safari browser touch icon cache settings SQLite database file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/apple_safari"],
+    };
 
-pub(crate) static FA_FILE_TOUCH_ICONS_CACHE_TOUCHICONCACHESETTINGS_DB_WAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_touch_icons_cache_touchiconcachesettings_db_wal",
-    name: "SafariTouchIconCacheSettingsSQLiteDatabaseFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.homedir%%/Library/Safari/Touch Icons Cache/TouchIconCacheSettings.db-wal"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Safari browser touch icon cache settings SQLite database file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/apple_safari"],
-};
+pub(crate) static FA_FILE_TOUCH_ICONS_CACHE_TOUCHICONCACHESETTINGS_DB_WAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_touch_icons_cache_touchiconcachesettings_db_wal",
+        name: "SafariTouchIconCacheSettingsSQLiteDatabaseFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%%users.homedir%%/Library/Safari/Touch Icons Cache/TouchIconCacheSettings.db-wal",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Safari browser touch icon cache settings SQLite database file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/apple_safari"],
+    };
 
 pub(crate) static FA_FILE_DATABASE_DATABASE_SQLITE3: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_database_database_sqlite3",
@@ -42750,7 +43547,7 @@ pub(crate) static FA_FILE_DATABASE_DATABASE_SQLITE3: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APACHE_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -42770,7 +43567,7 @@ pub(crate) static FA_FILE_APACHE_ACCESS_LOG: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APACHE_ACCESS_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -42790,7 +43587,7 @@ pub(crate) static FA_FILE_APACHE_ACCESS_LOG_2: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APACHE2_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -42810,7 +43607,7 @@ pub(crate) static FA_FILE_APACHE2_ACCESS_LOG: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APACHE2_ACCESS_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -42830,48 +43627,50 @@ pub(crate) static FA_FILE_APACHE2_ACCESS_LOG_2: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
-pub(crate) static FA_FILE_APACHE2_OTHER_VHOSTS_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_apache2_other_vhosts_access_log",
-    name: "ApacheAccessLogs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/log/apache2/other_vhosts_access_log*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Location where Apache access logs are stored",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_APACHE2_OTHER_VHOSTS_ACCESS_LOG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_apache2_other_vhosts_access_log",
+        name: "ApacheAccessLogs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/var/log/apache2/other_vhosts_access_log*"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Location where Apache access logs are stored",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
-pub(crate) static FA_FILE_APACHE2_OTHER_VHOSTS_ACCESS_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_apache2_other_vhosts_access_log_2",
-    name: "ApacheAccessLogs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/var/log/apache2/other_vhosts_access.log*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Location where Apache access logs are stored",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_APACHE2_OTHER_VHOSTS_ACCESS_LOG_2: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_apache2_other_vhosts_access_log_2",
+        name: "ApacheAccessLogs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/var/log/apache2/other_vhosts_access.log*"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Location where Apache access logs are stored",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
 pub(crate) static FA_FILE_HTTPD_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_httpd_access_log",
@@ -42890,7 +43689,7 @@ pub(crate) static FA_FILE_HTTPD_ACCESS_LOG: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_HTTPD_ACCESS_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -42910,27 +43709,7 @@ pub(crate) static FA_FILE_HTTPD_ACCESS_LOG_2: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_LOGS_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_logs_access_log",
-    name: "ApacheAccessLogs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%environ_systemdrive%%\\**6\\logs\\access.log*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Location where Apache access logs are stored",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APACHE2_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -42950,7 +43729,7 @@ pub(crate) static FA_FILE_APACHE2_CONF: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_HTTPD_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -42970,27 +43749,7 @@ pub(crate) static FA_FILE_HTTPD_CONF: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_CONF_D_CONF: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_conf_d_conf",
-    name: "ApacheConfigurationFolder",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/etc/httpd/conf.d/*.conf"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Location where Apache keeps configuration files",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CONF_MODULES_D_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -43010,28 +43769,29 @@ pub(crate) static FA_FILE_CONF_MODULES_D_CONF: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
-pub(crate) static FA_FILE_SITES_AVAILABLE_000_DEFAULT_CONF: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_sites_available_000_default_conf",
-    name: "ApacheDefaultSiteConfigurationFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("/etc/apache2/sites-available/000-default.conf"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Location where Apache keeps the default site configuration file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_SITES_AVAILABLE_000_DEFAULT_CONF: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_sites_available_000_default_conf",
+        name: "ApacheDefaultSiteConfigurationFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("/etc/apache2/sites-available/000-default.conf"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Location where Apache keeps the default site configuration file.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
 pub(crate) static FA_FILE_APACHE_ERROR: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_apache_error",
@@ -43050,7 +43810,7 @@ pub(crate) static FA_FILE_APACHE_ERROR: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APACHE_ERROR_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -43070,7 +43830,7 @@ pub(crate) static FA_FILE_APACHE_ERROR_LOG: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APACHE2_ERROR: ArtifactDescriptor = ArtifactDescriptor {
@@ -43090,7 +43850,7 @@ pub(crate) static FA_FILE_APACHE2_ERROR: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APACHE2_ERROR_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -43110,7 +43870,7 @@ pub(crate) static FA_FILE_APACHE2_ERROR_LOG: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_HTTPD_ERROR: ArtifactDescriptor = ArtifactDescriptor {
@@ -43130,7 +43890,7 @@ pub(crate) static FA_FILE_HTTPD_ERROR: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_HTTPD_ERROR_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -43150,7 +43910,7 @@ pub(crate) static FA_FILE_HTTPD_ERROR_LOG: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGS_ERROR_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -43170,7 +43930,7 @@ pub(crate) static FA_FILE_LOGS_ERROR_LOG: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NGINX_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -43190,27 +43950,7 @@ pub(crate) static FA_FILE_NGINX_ACCESS_LOG: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_LOGS_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_logs_log",
-    name: "NginxAccessLogs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%environ_systemdrive%%\\nginx\\logs\\*.log*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Location where nginx access logs are stored",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NGINX_ERROR_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -43230,7 +43970,7 @@ pub(crate) static FA_FILE_NGINX_ERROR_LOG: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WP_CONFIG_PHP: ArtifactDescriptor = ArtifactDescriptor {
@@ -43250,7 +43990,7 @@ pub(crate) static FA_FILE_WP_CONFIG_PHP: ArtifactDescriptor = ArtifactDescriptor
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WWW_WP_CONFIG_PHP: ArtifactDescriptor = ArtifactDescriptor {
@@ -43270,7 +44010,7 @@ pub(crate) static FA_FILE_WWW_WP_CONFIG_PHP: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WP_CONFIG_PHP_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -43290,7 +44030,7 @@ pub(crate) static FA_FILE_WP_CONFIG_PHP_2: ArtifactDescriptor = ArtifactDescript
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WWW_WP_CONFIG_PHP_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -43310,7 +44050,7 @@ pub(crate) static FA_FILE_WWW_WP_CONFIG_PHP_2: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_WP_WP_CONFIG_PHP: ArtifactDescriptor = ArtifactDescriptor {
@@ -43330,7 +44070,7 @@ pub(crate) static FA_FILE_WP_WP_CONFIG_PHP: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGFILES_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -43350,7 +44090,7 @@ pub(crate) static FA_FILE_LOGFILES_LOG: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_W3SVC_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -43370,7 +44110,7 @@ pub(crate) static FA_FILE_W3SVC_LOG: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_W3SVC_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -43380,7 +44120,9 @@ pub(crate) static FA_FILE_W3SVC_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_systemdrive%%\\Resources\\Directory\\*\\LogFiles\\Web\\W3SVC*\\*.log"),
+    file_path: Some(
+        "%%environ_systemdrive%%\\Resources\\Directory\\*\\LogFiles\\Web\\W3SVC*\\*.log",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -43390,7 +44132,7 @@ pub(crate) static FA_FILE_W3SVC_LOG_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_W3SVC_LOG_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -43410,7 +44152,7 @@ pub(crate) static FA_FILE_W3SVC_LOG_3: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_DESKTOP_COMPONENTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -43418,7 +44160,8 @@ pub(crate) static FA_DESKTOP_COMPONENTS: ArtifactDescriptor = ArtifactDescriptor
     name: "WindowsActiveDesktop",
     artifact_type: ArtifactType::RegistryKey,
     hive: None,
-    key_path: "HKEY_USERS\\%%users.sid%%\\Software\\Microsoft\\Internet Explorer\\Desktop\\Components\\*",
+    key_path:
+        "HKEY_USERS\\%%users.sid%%\\Software\\Microsoft\\Internet Explorer\\Desktop\\Components\\*",
     value_name: None,
     file_path: None,
     scope: DataScope::System,
@@ -43533,85 +44276,89 @@ pub(crate) static FA_FILE_SYSTEM32_NTDS_DIT: ArtifactDescriptor = ArtifactDescri
     sources: &["https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc772829(v=ws.10)"],
 };
 
-pub(crate) static FA_WINDOWS_CE_SERVICES_AUTOSTARTONCONNECT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_windows_ce_services_autostartonconnect",
-    name: "WindowsActiveSyncAutoStart",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "Software\\Microsoft\\Windows CE Services\\AutoStartOnConnect\\*",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows ActiveSync AutoStart entries",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2"],
-};
+pub(crate) static FA_WINDOWS_CE_SERVICES_AUTOSTARTONCONNECT: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_windows_ce_services_autostartonconnect",
+        name: "WindowsActiveSyncAutoStart",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path: "Software\\Microsoft\\Windows CE Services\\AutoStartOnConnect\\*",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows ActiveSync AutoStart entries",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2"],
+    };
 
-pub(crate) static FA_WINDOWS_CE_SERVICES_AUTOSTARTONDISCONNECT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_windows_ce_services_autostartondisconnect",
-    name: "WindowsActiveSyncAutoStart",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "Software\\Microsoft\\Windows CE Services\\AutoStartOnDisconnect\\*",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows ActiveSync AutoStart entries",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2"],
-};
+pub(crate) static FA_WINDOWS_CE_SERVICES_AUTOSTARTONDISCONNECT: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_windows_ce_services_autostartondisconnect",
+        name: "WindowsActiveSyncAutoStart",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path: "Software\\Microsoft\\Windows CE Services\\AutoStartOnDisconnect\\*",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows ActiveSync AutoStart entries",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2"],
+    };
 
-pub(crate) static FA_WINDOWS_CE_SERVICES_AUTOSTARTONCONNECT_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_windows_ce_services_autostartonconnect_2",
-    name: "WindowsActiveSyncAutoStart",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "Software\\Wow6432Node\\Microsoft\\Windows CE Services\\AutoStartOnConnect\\*",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows ActiveSync AutoStart entries",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2"],
-};
+pub(crate) static FA_WINDOWS_CE_SERVICES_AUTOSTARTONCONNECT_2: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_windows_ce_services_autostartonconnect_2",
+        name: "WindowsActiveSyncAutoStart",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path: "Software\\Wow6432Node\\Microsoft\\Windows CE Services\\AutoStartOnConnect\\*",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows ActiveSync AutoStart entries",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2"],
+    };
 
-pub(crate) static FA_WINDOWS_CE_SERVICES_AUTOSTARTONDISCONNECT_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_windows_ce_services_autostartondisconnect_2",
-    name: "WindowsActiveSyncAutoStart",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "Software\\Wow6432Node\\Microsoft\\Windows CE Services\\AutoStartOnDisconnect\\*",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows ActiveSync AutoStart entries",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2"],
-};
+pub(crate) static FA_WINDOWS_CE_SERVICES_AUTOSTARTONDISCONNECT_2: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_windows_ce_services_autostartondisconnect_2",
+        name: "WindowsActiveSyncAutoStart",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path: "Software\\Wow6432Node\\Microsoft\\Windows CE Services\\AutoStartOnDisconnect\\*",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows ActiveSync AutoStart entries",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2"],
+    };
 
 pub(crate) static FA_FILE_L_USERS_USERNAME_ACTIVITIESCACHE_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_l_users_username_activitiescache_db",
@@ -43730,7 +44477,11 @@ pub(crate) static FA_CURRENTVERSION_APP_PATHS: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/keydet89/RegRipper2.8/blob/master/plugins/apppaths.pl", "http://www.hexacorn.com/blog/2013/01/19/beyond-good-ol-run-key-part-3/", "https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx"],
+    sources: &[
+        "https://github.com/keydet89/RegRipper2.8/blob/master/plugins/apppaths.pl",
+        "http://www.hexacorn.com/blog/2013/01/19/beyond-good-ol-run-key-part-3/",
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx",
+    ],
 };
 
 pub(crate) static FA_CURRENTVERSION_APP_PATHS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -43750,7 +44501,11 @@ pub(crate) static FA_CURRENTVERSION_APP_PATHS_2: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/keydet89/RegRipper2.8/blob/master/plugins/apppaths.pl", "http://www.hexacorn.com/blog/2013/01/19/beyond-good-ol-run-key-part-3/", "https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx"],
+    sources: &[
+        "https://github.com/keydet89/RegRipper2.8/blob/master/plugins/apppaths.pl",
+        "http://www.hexacorn.com/blog/2013/01/19/beyond-good-ol-run-key-part-3/",
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx",
+    ],
 };
 
 pub(crate) static FA_FILE_APPPATCH_DRVMAIN_SDB: ArtifactDescriptor = ArtifactDescriptor {
@@ -44184,25 +44939,26 @@ pub(crate) static FA_FILE_V1_0_WINAPPXRT_DLL: ArtifactDescriptor = ArtifactDescr
     sources: &["http://www.hexacorn.com/blog/2014/08/31/beyond-good-ol-run-key-part-17/"],
 };
 
-pub(crate) static FA_FILE_ENVIRON_SYSTEMDRIVE_AUTOEXEC_BAT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_environ_systemdrive_autoexec_bat",
-    name: "WindowsAutoexecBat",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%environ_systemdrive%%\\autoexec.bat"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows autoexec.bat file",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_ENVIRON_SYSTEMDRIVE_AUTOEXEC_BAT: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_environ_systemdrive_autoexec_bat",
+        name: "WindowsAutoexecBat",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%environ_systemdrive%%\\autoexec.bat"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows autoexec.bat file",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
 pub(crate) static FA_FILE_ENVIRON_WINDIR_AUTOEXEC_NT: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_environ_windir_autoexec_nt",
@@ -44221,7 +44977,7 @@ pub(crate) static FA_FILE_ENVIRON_WINDIR_AUTOEXEC_NT: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_CURRENTVERSION_AUTOEXCLUSIONLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -44244,25 +45000,26 @@ pub(crate) static FA_CURRENTVERSION_AUTOEXCLUSIONLIST: ArtifactDescriptor = Arti
     sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/bb204634(v=vs.85).aspx"],
 };
 
-pub(crate) static FA_FILE_ENVIRON_SYSTEMDRIVE_AUTORUN_INF: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_environ_systemdrive_autorun_inf",
-    name: "WindowsAutorun",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%environ_systemdrive%%\\autorun.inf"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Filebased Tests.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_ENVIRON_SYSTEMDRIVE_AUTORUN_INF: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_environ_systemdrive_autorun_inf",
+        name: "WindowsAutorun",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%environ_systemdrive%%\\autorun.inf"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Filebased Tests.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::High,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
 pub(crate) static FA_CURRENTVERSION_TIME_ZONES: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_currentversion_time_zones",
@@ -44281,7 +45038,9 @@ pub(crate) static FA_CURRENTVERSION_TIME_ZONES: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://github.com/libyal/winreg-kb/blob/main/documentation/Time%20zone%20keys.asciidoc"],
+    sources: &[
+        "https://github.com/libyal/winreg-kb/blob/main/documentation/Time%20zone%20keys.asciidoc",
+    ],
 };
 
 pub(crate) static FA_BAM_USERSETTINGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -45357,13 +46116,17 @@ pub(crate) static FA_FILE_INTERNET_EXPLORER_SXS_DLL: ArtifactDescriptor = Artifa
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Common files associated with search order hijacking and other file placement attacks.",
+    meaning:
+        "Common files associated with search order hijacking and other file placement attacks.",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf", "https://www.mandiant.com/blog/fxsst/"],
+    sources: &[
+        "http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf",
+        "https://www.mandiant.com/blog/fxsst/",
+    ],
 };
 
 pub(crate) static FA_FILE_INTERNET_EXPLORER_SXS_DLL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -45377,74 +46140,93 @@ pub(crate) static FA_FILE_INTERNET_EXPLORER_SXS_DLL_2: ArtifactDescriptor = Arti
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Common files associated with search order hijacking and other file placement attacks.",
+    meaning:
+        "Common files associated with search order hijacking and other file placement attacks.",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf", "https://www.mandiant.com/blog/fxsst/"],
+    sources: &[
+        "http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf",
+        "https://www.mandiant.com/blog/fxsst/",
+    ],
 };
 
-pub(crate) static FA_FILE_ENVIRON_SYSTEMDRIVE_EXPLORER_EXE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_environ_systemdrive_explorer_exe",
-    name: "WindowsCommonFilePlacementAttacks",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%environ_systemdrive%%\\explorer.exe"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Common files associated with search order hijacking and other file placement attacks.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf", "https://www.mandiant.com/blog/fxsst/"],
-};
+pub(crate) static FA_FILE_ENVIRON_SYSTEMDRIVE_EXPLORER_EXE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_environ_systemdrive_explorer_exe",
+        name: "WindowsCommonFilePlacementAttacks",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%environ_systemdrive%%\\explorer.exe"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning:
+            "Common files associated with search order hijacking and other file placement attacks.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf",
+            "https://www.mandiant.com/blog/fxsst/",
+        ],
+    };
 
-pub(crate) static FA_FILE_ENVIRON_SYSTEMDRIVE_PROGRAM_EXE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_environ_systemdrive_program_exe",
-    name: "WindowsCommonFilePlacementAttacks",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%environ_systemdrive%%\\program.exe"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Common files associated with search order hijacking and other file placement attacks.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf", "https://www.mandiant.com/blog/fxsst/"],
-};
+pub(crate) static FA_FILE_ENVIRON_SYSTEMDRIVE_PROGRAM_EXE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_environ_systemdrive_program_exe",
+        name: "WindowsCommonFilePlacementAttacks",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%environ_systemdrive%%\\program.exe"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning:
+            "Common files associated with search order hijacking and other file placement attacks.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf",
+            "https://www.mandiant.com/blog/fxsst/",
+        ],
+    };
 
-pub(crate) static FA_FILE_ENVIRON_SYSTEMROOT_LINKINFO_DLL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_environ_systemroot_linkinfo_dll",
-    name: "WindowsCommonFilePlacementAttacks",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%environ_systemroot%%\\linkinfo.dll"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Common files associated with search order hijacking and other file placement attacks.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf", "https://www.mandiant.com/blog/fxsst/"],
-};
+pub(crate) static FA_FILE_ENVIRON_SYSTEMROOT_LINKINFO_DLL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_environ_systemroot_linkinfo_dll",
+        name: "WindowsCommonFilePlacementAttacks",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%environ_systemroot%%\\linkinfo.dll"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning:
+            "Common files associated with search order hijacking and other file placement attacks.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf",
+            "https://www.mandiant.com/blog/fxsst/",
+        ],
+    };
 
 pub(crate) static FA_FILE_ENVIRON_SYSTEMROOT_NTSHRUI_DLL: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_environ_systemroot_ntshrui_dll",
@@ -45457,13 +46239,17 @@ pub(crate) static FA_FILE_ENVIRON_SYSTEMROOT_NTSHRUI_DLL: ArtifactDescriptor = A
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Common files associated with search order hijacking and other file placement attacks.",
+    meaning:
+        "Common files associated with search order hijacking and other file placement attacks.",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf", "https://www.mandiant.com/blog/fxsst/"],
+    sources: &[
+        "http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf",
+        "https://www.mandiant.com/blog/fxsst/",
+    ],
 };
 
 pub(crate) static FA_FILE_SYSTEM32_OCI_DLL: ArtifactDescriptor = ArtifactDescriptor {
@@ -45477,13 +46263,17 @@ pub(crate) static FA_FILE_SYSTEM32_OCI_DLL: ArtifactDescriptor = ArtifactDescrip
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Common files associated with search order hijacking and other file placement attacks.",
+    meaning:
+        "Common files associated with search order hijacking and other file placement attacks.",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf", "https://www.mandiant.com/blog/fxsst/"],
+    sources: &[
+        "http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf",
+        "https://www.mandiant.com/blog/fxsst/",
+    ],
 };
 
 pub(crate) static FA_FILE_SYSPREP_CRYPTBASE_DLL: ArtifactDescriptor = ArtifactDescriptor {
@@ -45497,13 +46287,17 @@ pub(crate) static FA_FILE_SYSPREP_CRYPTBASE_DLL: ArtifactDescriptor = ArtifactDe
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Common files associated with search order hijacking and other file placement attacks.",
+    meaning:
+        "Common files associated with search order hijacking and other file placement attacks.",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf", "https://www.mandiant.com/blog/fxsst/"],
+    sources: &[
+        "http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf",
+        "https://www.mandiant.com/blog/fxsst/",
+    ],
 };
 
 pub(crate) static FA_FILE_SYSWOW64_OCI_DLL: ArtifactDescriptor = ArtifactDescriptor {
@@ -45517,13 +46311,17 @@ pub(crate) static FA_FILE_SYSWOW64_OCI_DLL: ArtifactDescriptor = ArtifactDescrip
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Common files associated with search order hijacking and other file placement attacks.",
+    meaning:
+        "Common files associated with search order hijacking and other file placement attacks.",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf", "https://www.mandiant.com/blog/fxsst/"],
+    sources: &[
+        "http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf",
+        "https://www.mandiant.com/blog/fxsst/",
+    ],
 };
 
 pub(crate) static FA_FILE_SYSPREP_CRYPTBASE_DLL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -45537,13 +46335,17 @@ pub(crate) static FA_FILE_SYSPREP_CRYPTBASE_DLL_2: ArtifactDescriptor = Artifact
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Common files associated with search order hijacking and other file placement attacks.",
+    meaning:
+        "Common files associated with search order hijacking and other file placement attacks.",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf", "https://www.mandiant.com/blog/fxsst/"],
+    sources: &[
+        "http://web.cs.ucdavis.edu/~su/publications/issta10-loading.pdf",
+        "https://www.mandiant.com/blog/fxsst/",
+    ],
 };
 
 pub(crate) static FA_FILE_ENVIRON_SYSTEMDRIVE_CONFIG_SYS: ArtifactDescriptor = ArtifactDescriptor {
@@ -45563,7 +46365,7 @@ pub(crate) static FA_FILE_ENVIRON_SYSTEMDRIVE_CONFIG_SYS: ArtifactDescriptor = A
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ENVIRON_WINDIR_CONFIG_NT: ArtifactDescriptor = ArtifactDescriptor {
@@ -45583,7 +46385,7 @@ pub(crate) static FA_FILE_ENVIRON_WINDIR_CONFIG_NT: ArtifactDescriptor = Artifac
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_CURRENTVERSION_CONTROL_PANEL_CPLS: ArtifactDescriptor = ArtifactDescriptor {
@@ -45603,7 +46405,11 @@ pub(crate) static FA_CURRENTVERSION_CONTROL_PANEL_CPLS: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/hh127454(v=vs.85).aspx", "http://www.geoffchappell.com/studies/windows/shell/shell32/classes/controlpanel.htm", "https://msdn.microsoft.com/en-us/library/windows/desktop/ms683844(v=vs.85).aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/hh127454(v=vs.85).aspx",
+        "http://www.geoffchappell.com/studies/windows/shell/shell32/classes/controlpanel.htm",
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/ms683844(v=vs.85).aspx",
+    ],
 };
 
 pub(crate) static FA_CURRENTVERSION_CONTROL_PANEL_CPLS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -45623,7 +46429,11 @@ pub(crate) static FA_CURRENTVERSION_CONTROL_PANEL_CPLS_2: ArtifactDescriptor = A
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/hh127454(v=vs.85).aspx", "http://www.geoffchappell.com/studies/windows/shell/shell32/classes/controlpanel.htm", "https://msdn.microsoft.com/en-us/library/windows/desktop/ms683844(v=vs.85).aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/hh127454(v=vs.85).aspx",
+        "http://www.geoffchappell.com/studies/windows/shell/shell32/classes/controlpanel.htm",
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/ms683844(v=vs.85).aspx",
+    ],
 };
 
 pub(crate) static FA_CURRENTVERSION_CONTROL_PANEL_CPLS_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -45843,7 +46653,9 @@ pub(crate) static FA_FILE_CRASHDUMPS_2: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_systemroot%%\\System32\\config\\systemprofile\\AppData\\Local\\CrashDumps\\**"),
+    file_path: Some(
+        "%%environ_systemroot%%\\System32\\config\\systemprofile\\AppData\\Local\\CrashDumps\\**",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -45869,7 +46681,9 @@ pub(crate) static FA_FILE_TEMP_DMP_2: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_systemroot%%\\System32\\config\\systemprofile\\AppData\\Local\\Temp\\*.dmp"),
+    file_path: Some(
+        "%%environ_systemroot%%\\System32\\config\\systemprofile\\AppData\\Local\\Temp\\*.dmp",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -46129,7 +46943,9 @@ pub(crate) static FA_FILE_METADATA_3: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.userprofile%%\\AppData\\LocalLow\\Microsoft\\CryptnetUrlCache\\MetaData\\*"),
+    file_path: Some(
+        "%%users.userprofile%%\\AppData\\LocalLow\\Microsoft\\CryptnetUrlCache\\MetaData\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -46204,7 +47020,9 @@ pub(crate) static FA_FILE_CONTENT_3: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.userprofile%%\\AppData\\LocalLow\\Microsoft\\CryptnetUrlCache\\Content\\*"),
+    file_path: Some(
+        "%%users.userprofile%%\\AppData\\LocalLow\\Microsoft\\CryptnetUrlCache\\Content\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -46469,7 +47287,9 @@ pub(crate) static FA_FILE_SHUTDOWNLOGGER_ETL: ArtifactDescriptor = ArtifactDescr
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Microsoft\\Diagnosis\\ETLLogs\\ShutdownLogger\\*.etl"),
+    file_path: Some(
+        "%%environ_allusersappdata%%\\Microsoft\\Diagnosis\\ETLLogs\\ShutdownLogger\\*.etl",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -46609,7 +47429,9 @@ pub(crate) static FA_FILE_LOCALSTATE_ETL: ArtifactDescriptor = ArtifactDescripto
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%users.localappdata%%\\Packages\\Microsoft.Windows.Photos_*\\LocalState\\*.etl"),
+    file_path: Some(
+        "%%users.localappdata%%\\Packages\\Microsoft.Windows.Photos_*\\LocalState\\*.etl",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -46849,7 +47671,9 @@ pub(crate) static FA_FILE_ETL_2: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_systemroot%%\\System32\\WDI\\{86432a0b-3c7d-4ddf-a89c-172faa90485d}\\*\\*.etl"),
+    file_path: Some(
+        "%%environ_systemroot%%\\System32\\WDI\\{86432a0b-3c7d-4ddf-a89c-172faa90485d}\\*\\*.etl",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -46867,7 +47691,8 @@ pub(crate) static FA_AUTOPLAYHANDLERS_HANDLERS: ArtifactDescriptor = ArtifactDes
     name: "WindowsExplorerAutoplayHandlers",
     artifact_type: ArtifactType::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
-    key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\Handlers\\*",
+    key_path:
+        "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\Handlers\\*",
     value_name: None,
     file_path: None,
     scope: DataScope::System,
@@ -46879,7 +47704,10 @@ pub(crate) static FA_AUTOPLAYHANDLERS_HANDLERS: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://msdn.microsoft.com/en-us/library/windows/desktop/aa468474.aspx"],
+    sources: &[
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/aa468474.aspx",
+    ],
 };
 
 pub(crate) static FA_EXPLORER_COMMONPLACES_NAMESPACE: ArtifactDescriptor = ArtifactDescriptor {
@@ -47139,7 +47967,10 @@ pub(crate) static FA_EXPLORER_CONTROLPANEL_NAMESPACE: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/hh127450(v=vs.85).aspx", "http://www.geoffchappell.com/studies/windows/shell/shell32/classes/controlpanel.htm"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/hh127450(v=vs.85).aspx",
+        "http://www.geoffchappell.com/studies/windows/shell/shell32/classes/controlpanel.htm",
+    ],
 };
 
 pub(crate) static FA_EXPLORER_CONTROLPANEL_NAMESPACE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -47242,25 +48073,30 @@ pub(crate) static FA_CONTROLPANEL_NAMESPACE_DELEGATEFOLDERS_3: ArtifactDescripto
     sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/hh127450(v=vs.85).aspx", "http://www.geoffchappell.com/studies/windows/shell/shell32/classes/controlpanel.htm"],
 };
 
-pub(crate) static FA_EXPLORER_CONTROLPANELWOW64_NAMESPACE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_explorer_controlpanelwow64_namespace",
-    name: "WindowsExplorerNamespaceControlPanel",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ControlPanelWOW64\\NameSpace",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "CLSIDs listed here are used to populate the Control Panel items.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/hh127450(v=vs.85).aspx", "http://www.geoffchappell.com/studies/windows/shell/shell32/classes/controlpanel.htm"],
-};
+pub(crate) static FA_EXPLORER_CONTROLPANELWOW64_NAMESPACE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_explorer_controlpanelwow64_namespace",
+        name: "WindowsExplorerNamespaceControlPanel",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path:
+            "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ControlPanelWOW64\\NameSpace",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "CLSIDs listed here are used to populate the Control Panel items.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://msdn.microsoft.com/en-us/library/windows/desktop/hh127450(v=vs.85).aspx",
+            "http://www.geoffchappell.com/studies/windows/shell/shell32/classes/controlpanel.htm",
+        ],
+    };
 
 pub(crate) static FA_EXPLORER_CONTROLPANELWOW64_NAMESPACE_2: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_explorer_controlpanelwow64_namespace_2",
@@ -48002,25 +48838,31 @@ pub(crate) static FA_MYCOMPUTER_NAMESPACE_DELEGATEFOLDERS_6: ArtifactDescriptor 
     sources: &["http://www.geoffchappell.com/studies/windows/shell/shell32/classes/mycomputer.htm", "http://www.howtogeek.com/168081/how-to-remove-the-folders-from-my-computer-in-windows-8.1/", "http://answers.microsoft.com/en-us/windows/forum/windows8_1-files/how-to-remove-these-folders-from-windows-81/777c4ba3-7853-453e-bfa0-9a0f4245b9e1?db=5"],
 };
 
-pub(crate) static FA_EXPLORER_NETWORKNEIGHBORHOOD_NAMESPACE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_explorer_networkneighborhood_namespace",
-    name: "WindowsExplorerNamespaceNetworkNeighborhood",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\NetworkNeighborhood\\NameSpace",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "CLSIDs listed here are used to populate the Network Neighborhood items.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["http://www.geoffchappell.com/studies/windows/shell/shell32/classes/regfolder.htm", "http://www.lavasoft.com/mylavasoft/rogues/secretservice", "http://www.wikihow.com/Manually-Remove-Macatte-Malware"],
-};
+pub(crate) static FA_EXPLORER_NETWORKNEIGHBORHOOD_NAMESPACE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_explorer_networkneighborhood_namespace",
+        name: "WindowsExplorerNamespaceNetworkNeighborhood",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path:
+            "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\NetworkNeighborhood\\NameSpace",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "CLSIDs listed here are used to populate the Network Neighborhood items.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "http://www.geoffchappell.com/studies/windows/shell/shell32/classes/regfolder.htm",
+            "http://www.lavasoft.com/mylavasoft/rogues/secretservice",
+            "http://www.wikihow.com/Manually-Remove-Macatte-Malware",
+        ],
+    };
 
 pub(crate) static FA_EXPLORER_NETWORKNEIGHBORHOOD_NAMESPACE_2: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_explorer_networkneighborhood_namespace_2",
@@ -48519,7 +49361,7 @@ pub(crate) static FA_FILE_SCRIPTS_PSSCRIPTS_INI: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SCRIPTS_SCRIPTS_INI: ArtifactDescriptor = ArtifactDescriptor {
@@ -48539,7 +49381,7 @@ pub(crate) static FA_FILE_SCRIPTS_SCRIPTS_INI: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGOFF: ArtifactDescriptor = ArtifactDescriptor {
@@ -48559,7 +49401,7 @@ pub(crate) static FA_FILE_LOGOFF: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGON: ArtifactDescriptor = ArtifactDescriptor {
@@ -48579,7 +49421,7 @@ pub(crate) static FA_FILE_LOGON: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SCRIPTS_PSSCRIPTS_INI_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -48589,7 +49431,9 @@ pub(crate) static FA_FILE_SCRIPTS_PSSCRIPTS_INI_2: ArtifactDescriptor = Artifact
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_systemroot%%\\System32\\GroupPolicy\\Machine\\Scripts\\psscripts.ini"),
+    file_path: Some(
+        "%%environ_systemroot%%\\System32\\GroupPolicy\\Machine\\Scripts\\psscripts.ini",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -48599,7 +49443,7 @@ pub(crate) static FA_FILE_SCRIPTS_PSSCRIPTS_INI_2: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SCRIPTS_SCRIPTS_INI_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -48619,7 +49463,7 @@ pub(crate) static FA_FILE_SCRIPTS_SCRIPTS_INI_2: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SHUTDOWN: ArtifactDescriptor = ArtifactDescriptor {
@@ -48639,7 +49483,7 @@ pub(crate) static FA_FILE_SHUTDOWN: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_STARTUP: ArtifactDescriptor = ArtifactDescriptor {
@@ -48659,7 +49503,7 @@ pub(crate) static FA_FILE_STARTUP: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_AUTHORIZEDAPPLICATIONS_LIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -48792,7 +49636,8 @@ pub(crate) static FA_GLOBALLYOPENPORTS_LIST: ArtifactDescriptor = ArtifactDescri
     name: "WindowsFirewallGloballyOpenPorts",
     artifact_type: ArtifactType::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
-    key_path: "Software\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\GloballyOpenPorts\\List\\*",
+    key_path:
+        "Software\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\GloballyOpenPorts\\List\\*",
     value_name: None,
     file_path: None,
     scope: DataScope::System,
@@ -48809,7 +49654,10 @@ to specific applications.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://qaforce.wordpress.com/2009/10/06/windows-firewall-registry-keys/", "https://github.com/steeve85/Malwares/wiki/Registry"],
+    sources: &[
+        "https://qaforce.wordpress.com/2009/10/06/windows-firewall-registry-keys/",
+        "https://github.com/steeve85/Malwares/wiki/Registry",
+    ],
 };
 
 pub(crate) static FA_GLOBALLYOPENPORTS_LIST_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -48949,7 +49797,7 @@ pub(crate) static FA_FILE_DATABASE_HCDATA_EDB: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ETC_LMHOSTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -48969,27 +49817,7 @@ pub(crate) static FA_FILE_ETC_LMHOSTS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_ETC_HOSTS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_etc_hosts",
-    name: "WindowsHostsFiles",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%environ_systemroot%%\\System32\\Drivers\\etc\\hosts"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "The Windows hosts and lmhosts file.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SYSTEM32_MAGNIFIER_EXE: ArtifactDescriptor = ArtifactDescriptor {
@@ -49009,7 +49837,7 @@ pub(crate) static FA_FILE_SYSTEM32_MAGNIFIER_EXE: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SYSTEM32_SETHC_EXE: ArtifactDescriptor = ArtifactDescriptor {
@@ -49029,7 +49857,7 @@ pub(crate) static FA_FILE_SYSTEM32_SETHC_EXE: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SYSTEM32_UTILMAN_EXE: ArtifactDescriptor = ArtifactDescriptor {
@@ -49049,7 +49877,7 @@ pub(crate) static FA_FILE_SYSTEM32_UTILMAN_EXE: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_CURRENTVERSION_EXPLORER_MAP_NETWORK_DRIVE_MRU: ArtifactDescriptor = ArtifactDescriptor {
@@ -49069,7 +49897,7 @@ pub(crate) static FA_CURRENTVERSION_EXPLORER_MAP_NETWORK_DRIVE_MRU: ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_AC_INETCACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -49089,7 +49917,9 @@ pub(crate) static FA_FILE_AC_INETCACHE: ArtifactDescriptor = ArtifactDescriptor 
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://www.forensicmag.com/article/2012/09/microsoft-windows-8-forensic-first-look"],
+    sources: &[
+        "http://www.forensicmag.com/article/2012/09/microsoft-windows-8-forensic-first-look",
+    ],
 };
 
 pub(crate) static FA_FILE_AC_INETCOOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -49109,7 +49939,9 @@ pub(crate) static FA_FILE_AC_INETCOOKIES: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://www.forensicmag.com/article/2012/09/microsoft-windows-8-forensic-first-look"],
+    sources: &[
+        "http://www.forensicmag.com/article/2012/09/microsoft-windows-8-forensic-first-look",
+    ],
 };
 
 pub(crate) static FA_FILE_AC_INETHISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -49129,7 +49961,9 @@ pub(crate) static FA_FILE_AC_INETHISTORY: ArtifactDescriptor = ArtifactDescripto
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["http://www.forensicmag.com/article/2012/09/microsoft-windows-8-forensic-first-look"],
+    sources: &[
+        "http://www.forensicmag.com/article/2012/09/microsoft-windows-8-forensic-first-look",
+    ],
 };
 
 pub(crate) static FA_FILE_WINDOWS_ROAMINGTILES: ArtifactDescriptor = ArtifactDescriptor {
@@ -49149,7 +49983,9 @@ pub(crate) static FA_FILE_WINDOWS_ROAMINGTILES: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://www.forensicmag.com/article/2012/09/microsoft-windows-8-forensic-first-look"],
+    sources: &[
+        "http://www.forensicmag.com/article/2012/09/microsoft-windows-8-forensic-first-look",
+    ],
 };
 
 pub(crate) static FA_SYSTEM_MOUNTEDDEVICES: ArtifactDescriptor = ArtifactDescriptor {
@@ -49169,7 +50005,9 @@ pub(crate) static FA_SYSTEM_MOUNTEDDEVICES: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://winreg-kb.readthedocs.io/en/latest/sources/system-keys/Mounted-devices.html"],
+    sources: &[
+        "https://winreg-kb.readthedocs.io/en/latest/sources/system-keys/Mounted-devices.html",
+    ],
 };
 
 pub(crate) static FA_MSDTC_MTXOCI: ArtifactDescriptor = ArtifactDescriptor {
@@ -49229,7 +50067,11 @@ pub(crate) static FA_CURRENTVERSION_DRIVERS32: ArtifactDescriptor = ArtifactDesc
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://support.microsoft.com/en-us/kb/126054", "https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2"],
+    sources: &[
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://support.microsoft.com/en-us/kb/126054",
+        "https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2",
+    ],
 };
 
 pub(crate) static FA_CURRENTVERSION_DRIVERS32_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -49237,7 +50079,8 @@ pub(crate) static FA_CURRENTVERSION_DRIVERS32_2: ArtifactDescriptor = ArtifactDe
     name: "WindowsMultiMediaDrivers",
     artifact_type: ArtifactType::RegistryKey,
     hive: None,
-    key_path: "HKEY_USERS\\%%users.sid%%\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Drivers32\\*",
+    key_path:
+        "HKEY_USERS\\%%users.sid%%\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Drivers32\\*",
     value_name: None,
     file_path: None,
     scope: DataScope::System,
@@ -49249,7 +50092,11 @@ pub(crate) static FA_CURRENTVERSION_DRIVERS32_2: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://support.microsoft.com/en-us/kb/126054", "https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2"],
+    sources: &[
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://support.microsoft.com/en-us/kb/126054",
+        "https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2",
+    ],
 };
 
 pub(crate) static FA_CURRENTVERSION_DRIVERS32_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -49269,7 +50116,11 @@ pub(crate) static FA_CURRENTVERSION_DRIVERS32_3: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &["http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://support.microsoft.com/en-us/kb/126054", "https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2"],
+    sources: &[
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://support.microsoft.com/en-us/kb/126054",
+        "https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2",
+    ],
 };
 
 pub(crate) static FA_CURRENTVERSION_DRIVERS32_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -49609,7 +50460,7 @@ pub(crate) static FA_FILE_NOTIFICATIONS_WPNDATABASE_DB: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_NOTIFICATIONS_WPNDATABASE_DB_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -49629,27 +50480,7 @@ pub(crate) static FA_FILE_NOTIFICATIONS_WPNDATABASE_DB_2: ArtifactDescriptor = A
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
-};
-
-pub(crate) static FA_FILE_CACHE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_cache",
-    name: "WindowsRDPClientBitmapCache",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.localappdata%%\\Microsoft\\Terminal Server Client\\Cache\\*.*"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Artifacts of RDP connection contents",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/windows#rdp-bitmap-cache"],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_PROGRAMS_RECENTFILECACHE_BCF: ArtifactDescriptor = ArtifactDescriptor {
@@ -49669,7 +50500,9 @@ pub(crate) static FA_FILE_PROGRAMS_RECENTFILECACHE_BCF: ArtifactDescriptor = Art
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/windows/RecentFileCache.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/windows/RecentFileCache.html",
+    ],
 };
 
 pub(crate) static FA_FILE_RECYCLE_BIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -49821,7 +50654,12 @@ on the system, not all SIDs.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx", "https://support.microsoft.com/en-us/kb/137367", "http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://technet.microsoft.com/en-us/magazine/ee851671.aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx",
+        "https://support.microsoft.com/en-us/kb/137367",
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://technet.microsoft.com/en-us/magazine/ee851671.aspx",
+    ],
 };
 
 pub(crate) static FA_CURRENTVERSION_RUN: ArtifactDescriptor = ArtifactDescriptor {
@@ -49845,7 +50683,12 @@ on the system, not all SIDs.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx", "https://support.microsoft.com/en-us/kb/137367", "http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://technet.microsoft.com/en-us/magazine/ee851671.aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx",
+        "https://support.microsoft.com/en-us/kb/137367",
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://technet.microsoft.com/en-us/magazine/ee851671.aspx",
+    ],
 };
 
 pub(crate) static FA_CURRENTVERSION_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -49869,7 +50712,12 @@ on the system, not all SIDs.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx", "https://support.microsoft.com/en-us/kb/137367", "http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://technet.microsoft.com/en-us/magazine/ee851671.aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx",
+        "https://support.microsoft.com/en-us/kb/137367",
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://technet.microsoft.com/en-us/magazine/ee851671.aspx",
+    ],
 };
 
 pub(crate) static FA_RUNONCE_SETUP: ArtifactDescriptor = ArtifactDescriptor {
@@ -49893,7 +50741,12 @@ on the system, not all SIDs.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx", "https://support.microsoft.com/en-us/kb/137367", "http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://technet.microsoft.com/en-us/magazine/ee851671.aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx",
+        "https://support.microsoft.com/en-us/kb/137367",
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://technet.microsoft.com/en-us/magazine/ee851671.aspx",
+    ],
 };
 
 pub(crate) static FA_CURRENTVERSION_RUNONCEEX: ArtifactDescriptor = ArtifactDescriptor {
@@ -49917,7 +50770,12 @@ on the system, not all SIDs.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx", "https://support.microsoft.com/en-us/kb/137367", "http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://technet.microsoft.com/en-us/magazine/ee851671.aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx",
+        "https://support.microsoft.com/en-us/kb/137367",
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://technet.microsoft.com/en-us/magazine/ee851671.aspx",
+    ],
 };
 
 pub(crate) static FA_CURRENTVERSION_RUN_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -49941,7 +50799,12 @@ on the system, not all SIDs.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx", "https://support.microsoft.com/en-us/kb/137367", "http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://technet.microsoft.com/en-us/magazine/ee851671.aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx",
+        "https://support.microsoft.com/en-us/kb/137367",
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://technet.microsoft.com/en-us/magazine/ee851671.aspx",
+    ],
 };
 
 pub(crate) static FA_CURRENTVERSION_RUNONCE_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -49965,7 +50828,12 @@ on the system, not all SIDs.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx", "https://support.microsoft.com/en-us/kb/137367", "http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://technet.microsoft.com/en-us/magazine/ee851671.aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx",
+        "https://support.microsoft.com/en-us/kb/137367",
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://technet.microsoft.com/en-us/magazine/ee851671.aspx",
+    ],
 };
 
 pub(crate) static FA_RUNONCE_SETUP_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -49989,7 +50857,12 @@ on the system, not all SIDs.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx", "https://support.microsoft.com/en-us/kb/137367", "http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://technet.microsoft.com/en-us/magazine/ee851671.aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx",
+        "https://support.microsoft.com/en-us/kb/137367",
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://technet.microsoft.com/en-us/magazine/ee851671.aspx",
+    ],
 };
 
 pub(crate) static FA_CURRENTVERSION_RUNONCEEX_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -50013,7 +50886,12 @@ on the system, not all SIDs.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx", "https://support.microsoft.com/en-us/kb/137367", "http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://technet.microsoft.com/en-us/magazine/ee851671.aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx",
+        "https://support.microsoft.com/en-us/kb/137367",
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://technet.microsoft.com/en-us/magazine/ee851671.aspx",
+    ],
 };
 
 pub(crate) static FA_EXPLORER_RUN_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -50021,7 +50899,8 @@ pub(crate) static FA_EXPLORER_RUN_2: ArtifactDescriptor = ArtifactDescriptor {
     name: "WindowsRunKeys",
     artifact_type: ArtifactType::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
-    key_path: "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\\*",
+    key_path:
+        "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\\*",
     value_name: None,
     file_path: None,
     scope: DataScope::System,
@@ -50037,7 +50916,12 @@ on the system, not all SIDs.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx", "https://support.microsoft.com/en-us/kb/137367", "http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://technet.microsoft.com/en-us/magazine/ee851671.aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx",
+        "https://support.microsoft.com/en-us/kb/137367",
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://technet.microsoft.com/en-us/magazine/ee851671.aspx",
+    ],
 };
 
 pub(crate) static FA_EXPLORER_RUN_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -50085,7 +50969,12 @@ on the system, not all SIDs.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx", "https://support.microsoft.com/en-us/kb/137367", "http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://technet.microsoft.com/en-us/magazine/ee851671.aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx",
+        "https://support.microsoft.com/en-us/kb/137367",
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://technet.microsoft.com/en-us/magazine/ee851671.aspx",
+    ],
 };
 
 pub(crate) static FA_CURRENTVERSION_RUNONCE_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -50109,7 +50998,12 @@ on the system, not all SIDs.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx", "https://support.microsoft.com/en-us/kb/137367", "http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://technet.microsoft.com/en-us/magazine/ee851671.aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx",
+        "https://support.microsoft.com/en-us/kb/137367",
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://technet.microsoft.com/en-us/magazine/ee851671.aspx",
+    ],
 };
 
 pub(crate) static FA_RUNONCE_SETUP_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -50117,7 +51011,8 @@ pub(crate) static FA_RUNONCE_SETUP_3: ArtifactDescriptor = ArtifactDescriptor {
     name: "WindowsRunKeys",
     artifact_type: ArtifactType::RegistryKey,
     hive: None,
-    key_path: "HKEY_USERS\\%%users.sid%%\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\\Setup\\*",
+    key_path:
+        "HKEY_USERS\\%%users.sid%%\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\\Setup\\*",
     value_name: None,
     file_path: None,
     scope: DataScope::System,
@@ -50133,7 +51028,12 @@ on the system, not all SIDs.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx", "https://support.microsoft.com/en-us/kb/137367", "http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://technet.microsoft.com/en-us/magazine/ee851671.aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx",
+        "https://support.microsoft.com/en-us/kb/137367",
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://technet.microsoft.com/en-us/magazine/ee851671.aspx",
+    ],
 };
 
 pub(crate) static FA_CURRENTVERSION_RUNONCEEX_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -50141,7 +51041,8 @@ pub(crate) static FA_CURRENTVERSION_RUNONCEEX_3: ArtifactDescriptor = ArtifactDe
     name: "WindowsRunKeys",
     artifact_type: ArtifactType::RegistryKey,
     hive: None,
-    key_path: "HKEY_USERS\\%%users.sid%%\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\*",
+    key_path:
+        "HKEY_USERS\\%%users.sid%%\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\*",
     value_name: None,
     file_path: None,
     scope: DataScope::System,
@@ -50157,7 +51058,12 @@ on the system, not all SIDs.
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx", "https://support.microsoft.com/en-us/kb/137367", "http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://technet.microsoft.com/en-us/magazine/ee851671.aspx"],
+    sources: &[
+        "https://msdn.microsoft.com/en-us/library/windows/desktop/aa376977%28v=vs.85%29.aspx",
+        "https://support.microsoft.com/en-us/kb/137367",
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "https://technet.microsoft.com/en-us/magazine/ee851671.aspx",
+    ],
 };
 
 pub(crate) static FA_EXPLORER_RUN_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -50507,7 +51413,9 @@ pub(crate) static FA_FILE_WINDOWS_WINDOWS_EDB: ArtifactDescriptor = ArtifactDesc
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersappdata%%\\Microsoft\\Search\\Data\\Applications\\Windows\\Windows.edb"),
+    file_path: Some(
+        "%%environ_allusersappdata%%\\Microsoft\\Search\\Data\\Applications\\Windows\\Windows.edb",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -50557,7 +51465,7 @@ pub(crate) static FA_FILE_DATABASE_SECEDIT_SDB: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_TEMPLATES_SPSECUPD_SDB: ArtifactDescriptor = ArtifactDescriptor {
@@ -50577,7 +51485,7 @@ pub(crate) static FA_FILE_TEMPLATES_SPSECUPD_SDB: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_CURRENTCONTROLSET_SERVICES: ArtifactDescriptor = ArtifactDescriptor {
@@ -50597,7 +51505,9 @@ pub(crate) static FA_CURRENTCONTROLSET_SERVICES: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/windows/ServicesAndDrivers.html"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/windows/ServicesAndDrivers.html",
+    ],
 };
 
 pub(crate) static FA_EXPLORER_SHAREDTASKSCHEDULER: ArtifactDescriptor = ArtifactDescriptor {
@@ -50617,7 +51527,10 @@ pub(crate) static FA_EXPLORER_SHAREDTASKSCHEDULER: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "http://www.bleepingcomputer.com/tutorials/windows-program-automatic-startup-locations/"],
+    sources: &[
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "http://www.bleepingcomputer.com/tutorials/windows-program-automatic-startup-locations/",
+    ],
 };
 
 pub(crate) static FA_EXPLORER_SHAREDTASKSCHEDULER_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -50657,7 +51570,11 @@ pub(crate) static FA_EXPLORER_SHELLEXECUTEHOOKS: ArtifactDescriptor = ArtifactDe
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "http://regenerus.com/malware-common-loadpoints/", "https://code.google.com/p/regripper/wiki/ASEPs"],
+    sources: &[
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "http://regenerus.com/malware-common-loadpoints/",
+        "https://code.google.com/p/regripper/wiki/ASEPs",
+    ],
 };
 
 pub(crate) static FA_EXPLORER_SHELLEXECUTEHOOKS_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -50665,7 +51582,8 @@ pub(crate) static FA_EXPLORER_SHELLEXECUTEHOOKS_2: ArtifactDescriptor = Artifact
     name: "WindowsShellExecuteHooks",
     artifact_type: ArtifactType::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
-    key_path: "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ShellExecuteHooks\\*",
+    key_path:
+        "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ShellExecuteHooks\\*",
     value_name: None,
     file_path: None,
     scope: DataScope::System,
@@ -50677,48 +51595,59 @@ pub(crate) static FA_EXPLORER_SHELLEXECUTEHOOKS_2: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &["http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "http://regenerus.com/malware-common-loadpoints/", "https://code.google.com/p/regripper/wiki/ASEPs"],
+    sources: &[
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "http://regenerus.com/malware-common-loadpoints/",
+        "https://code.google.com/p/regripper/wiki/ASEPs",
+    ],
 };
 
-pub(crate) static FA_CURRENTVERSION_SHELL_EXTENSIONS_APPROVED: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_currentversion_shell_extensions_approved",
-    name: "WindowsShellExtensions",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Approved extensions to the Windows Shell (explorer.exe).",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/cc144110(v=vs.85).aspx"],
-};
+pub(crate) static FA_CURRENTVERSION_SHELL_EXTENSIONS_APPROVED: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_currentversion_shell_extensions_approved",
+        name: "WindowsShellExtensions",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Approved extensions to the Windows Shell (explorer.exe).",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://msdn.microsoft.com/en-us/library/windows/desktop/cc144110(v=vs.85).aspx",
+        ],
+    };
 
-pub(crate) static FA_CURRENTVERSION_SHELL_EXTENSIONS_APPROVED_2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_currentversion_shell_extensions_approved_2",
-    name: "WindowsShellExtensions",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Approved extensions to the Windows Shell (explorer.exe).",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://msdn.microsoft.com/en-us/library/windows/desktop/cc144110(v=vs.85).aspx"],
-};
+pub(crate) static FA_CURRENTVERSION_SHELL_EXTENSIONS_APPROVED_2: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_currentversion_shell_extensions_approved_2",
+        name: "WindowsShellExtensions",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path:
+            "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Approved extensions to the Windows Shell (explorer.exe).",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://msdn.microsoft.com/en-us/library/windows/desktop/cc144110(v=vs.85).aspx",
+        ],
+    };
 
 pub(crate) static FA_CURRENTVERSION_SHELL_EXTENSIONS_APPROVED_3: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_currentversion_shell_extensions_approved_3",
@@ -51660,25 +52589,30 @@ settings to trigger on these actions.
     sources: &["http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "http://www.codeguru.com/cpp/com-tech/shell/article.php/c4515/Logging-the-Shell-Activity.htm", "http://www.trendmicro.com/vinfo/us/threat-encyclopedia/archive/malware/troj_qoolaid.r"],
 };
 
-pub(crate) static FA_EXPLORER_SHELLICONOVERLAYIDENTIFIERS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_explorer_shelliconoverlayidentifiers",
-    name: "WindowsShellIconOverlayIdentifiers",
-    artifact_type: ArtifactType::RegistryKey,
-    hive: Some(HiveTarget::HklmSoftware),
-    key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ShellIconOverlayIdentifiers\\*",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Called to display custom icons.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "https://msdn.microsoft.com/en-us/library/windows/desktop/hh127455(v=vs.85).aspx"],
-};
+pub(crate) static FA_EXPLORER_SHELLICONOVERLAYIDENTIFIERS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_explorer_shelliconoverlayidentifiers",
+        name: "WindowsShellIconOverlayIdentifiers",
+        artifact_type: ArtifactType::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path:
+            "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ShellIconOverlayIdentifiers\\*",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Called to display custom icons.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+            "https://msdn.microsoft.com/en-us/library/windows/desktop/hh127455(v=vs.85).aspx",
+        ],
+    };
 
 pub(crate) static FA_EXPLORER_SHELLICONOVERLAYIDENTIFIERS_2: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_explorer_shelliconoverlayidentifiers_2",
@@ -51780,45 +52714,49 @@ pub(crate) static FA_WINDOWS_CURRENTVERSION_SHELLSERVICEOBJECTDELAYLOAD_2: Artif
     sources: &["http://www.microsoft.com/security/portal/threat/encyclopedia/Entry.aspx?Name=TrojanClicker:Win32/Zirit.X#tab=2"],
 };
 
-pub(crate) static FA_FILE_MESSAGESTORE_SMSINTERCEPTSTORE_DB: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_messagestore_smsinterceptstore_db",
-    name: "WindowsSmsRouterInterceptStoreDatabaseFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%environ_programdata%%\\Microsoft\\SmsRouter\\MessageStore\\SmsInterceptStore.db"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows SmsRouter intercept store database file (SmsInterceptStore.db)",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &[],
-};
+pub(crate) static FA_FILE_MESSAGESTORE_SMSINTERCEPTSTORE_DB: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_messagestore_smsinterceptstore_db",
+        name: "WindowsSmsRouterInterceptStoreDatabaseFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%%environ_programdata%%\\Microsoft\\SmsRouter\\MessageStore\\SmsInterceptStore.db",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows SmsRouter intercept store database file (SmsInterceptStore.db)",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/forensicartifacts/artifacts"],
+    };
 
-pub(crate) static FA_FILE_ENVIRON_SYSTEMROOT_SETUPAPI_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_environ_systemroot_setupapi_log",
-    name: "WindowsSetupApiLogs",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%environ_systemroot%%\\setupapi.log"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows setup API logs.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://forensics.wiki/setup_api_logs"],
-};
+pub(crate) static FA_FILE_ENVIRON_SYSTEMROOT_SETUPAPI_LOG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_environ_systemroot_setupapi_log",
+        name: "WindowsSetupApiLogs",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%environ_systemroot%%\\setupapi.log"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows setup API logs.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://forensics.wiki/setup_api_logs"],
+    };
 
 pub(crate) static FA_FILE_INF_SETUPAPI_APP_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_inf_setupapi_app_log",
@@ -51897,7 +52835,7 @@ pub(crate) static FA_FILE_APPREPOSITORY_STATEREPOSITORY_DEPLOYMENT_SRD: Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_APPREPOSITORY_STATEREPOSITORY_MACHINE_SRD: ArtifactDescriptor = ArtifactDescriptor {
@@ -51917,7 +52855,7 @@ pub(crate) static FA_FILE_APPREPOSITORY_STATEREPOSITORY_MACHINE_SRD: ArtifactDes
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_STARTUP_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -51927,7 +52865,9 @@ pub(crate) static FA_FILE_STARTUP_2: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%%environ_allusersprofile%%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\*"),
+    file_path: Some(
+        "%%environ_allusersprofile%%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\*",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -51937,7 +52877,7 @@ pub(crate) static FA_FILE_STARTUP_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_STARTUP_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -51957,7 +52897,7 @@ pub(crate) static FA_FILE_STARTUP_3: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_STARTUP_4: ArtifactDescriptor = ArtifactDescriptor {
@@ -51977,7 +52917,7 @@ pub(crate) static FA_FILE_STARTUP_4: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_STARTUP_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -51997,7 +52937,7 @@ pub(crate) static FA_FILE_STARTUP_5: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_PREFETCH_AG_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -52057,7 +52997,7 @@ pub(crate) static FA_FILE_ENVIRON_SYSTEMDRIVE_SYSTEM_INI: ArtifactDescriptor = A
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ENVIRON_WINDIR_WIN_INI: ArtifactDescriptor = ArtifactDescriptor {
@@ -52077,7 +53017,7 @@ pub(crate) static FA_FILE_ENVIRON_WINDIR_WIN_INI: ArtifactDescriptor = ArtifactD
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ENVIRON_WINDIR_WININIT_INI: ArtifactDescriptor = ArtifactDescriptor {
@@ -52097,7 +53037,7 @@ pub(crate) static FA_FILE_ENVIRON_WINDIR_WININIT_INI: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_REGBACK_SAM: ArtifactDescriptor = ArtifactDescriptor {
@@ -52456,25 +53396,28 @@ These files have been observed to be typically 0 byte in size.
     sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/windows/RegistryFiles.html"],
 };
 
-pub(crate) static FA_FILE_SYSTEM_VOLUME_INFORMATION_SYSCACHE_HVE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_system_volume_information_syscache_hve",
-    name: "WindowsSystemRegistryFiles",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%environ_systemdrive%%\\System Volume Information\\Syscache.hve"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows system Registry files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/windows/RegistryFiles.html"],
-};
+pub(crate) static FA_FILE_SYSTEM_VOLUME_INFORMATION_SYSCACHE_HVE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_system_volume_information_syscache_hve",
+        name: "WindowsSystemRegistryFiles",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%environ_systemdrive%%\\System Volume Information\\Syscache.hve"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows system Registry files.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &[
+            "https://artifacts-kb.readthedocs.io/en/latest/sources/windows/RegistryFiles.html",
+        ],
+    };
 
 pub(crate) static FA_FILE_CONFIG_SAM: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_config_sam",
@@ -52860,7 +53803,7 @@ pub(crate) static FA_FILE_TEMP: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_TEMP_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -52880,7 +53823,7 @@ pub(crate) static FA_FILE_TEMP_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_TEMP_3: ArtifactDescriptor = ArtifactDescriptor {
@@ -52900,7 +53843,7 @@ pub(crate) static FA_FILE_TEMP_3: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_CURRENTVERSION_RUNONCE_5: ArtifactDescriptor = ArtifactDescriptor {
@@ -53180,7 +54123,10 @@ pub(crate) static FA_EXPLORER_MYCOMPUTER_BACKUPPATH: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "http://www.liutilities.com/products/registrybooster/tweaklibrary/tweaks/11118/"],
+    sources: &[
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "http://www.liutilities.com/products/registrybooster/tweaklibrary/tweaks/11118/",
+    ],
 };
 
 pub(crate) static FA_EXPLORER_MYCOMPUTER_CHKDSKPATH: ArtifactDescriptor = ArtifactDescriptor {
@@ -53200,7 +54146,10 @@ pub(crate) static FA_EXPLORER_MYCOMPUTER_CHKDSKPATH: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "http://www.liutilities.com/products/registrybooster/tweaklibrary/tweaks/11118/"],
+    sources: &[
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "http://www.liutilities.com/products/registrybooster/tweaklibrary/tweaks/11118/",
+    ],
 };
 
 pub(crate) static FA_EXPLORER_MYCOMPUTER_CLEANUPPATH: ArtifactDescriptor = ArtifactDescriptor {
@@ -53220,7 +54169,10 @@ pub(crate) static FA_EXPLORER_MYCOMPUTER_CLEANUPPATH: ArtifactDescriptor = Artif
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "http://www.liutilities.com/products/registrybooster/tweaklibrary/tweaks/11118/"],
+    sources: &[
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "http://www.liutilities.com/products/registrybooster/tweaklibrary/tweaks/11118/",
+    ],
 };
 
 pub(crate) static FA_EXPLORER_MYCOMPUTER_DEFRAGPATH: ArtifactDescriptor = ArtifactDescriptor {
@@ -53240,7 +54192,10 @@ pub(crate) static FA_EXPLORER_MYCOMPUTER_DEFRAGPATH: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &["http://gladiator-antivirus.com/forum/index.php?showtopic=24610", "http://www.liutilities.com/products/registrybooster/tweaklibrary/tweaks/11118/"],
+    sources: &[
+        "http://gladiator-antivirus.com/forum/index.php?showtopic=24610",
+        "http://www.liutilities.com/products/registrybooster/tweaklibrary/tweaks/11118/",
+    ],
 };
 
 pub(crate) static FA_FILE_DATABASE_VEDATAMODEL_EDB: ArtifactDescriptor = ArtifactDescriptor {
@@ -53311,7 +54266,8 @@ pub(crate) static FA_UNINSTALL_3: ArtifactDescriptor = ArtifactDescriptor {
     name: "WindowsUninstallKeys",
     artifact_type: ArtifactType::RegistryKey,
     hive: None,
-    key_path: "HKEY_USERS\\%%users.sid%%\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*\\*",
+    key_path:
+        "HKEY_USERS\\%%users.sid%%\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*\\*",
     value_name: None,
     file_path: None,
     scope: DataScope::System,
@@ -53363,7 +54319,7 @@ pub(crate) static FA_FILE_DATASTORE_DATASTORE_EDB: ArtifactDescriptor = Artifact
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SYSTEM_ETL_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -53406,25 +54362,28 @@ pub(crate) static FA_FILE_CBS_CBS_LOG: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-logs"],
 };
 
-pub(crate) static FA_FILE_WINDOWSUPDATE_WINDOWSUPDATE_ETL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_windowsupdate_windowsupdate_etl",
-    name: "WindowsUpdateLogFile",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%environ_systemroot%%\\Logs\\WindowsUpdate\\WindowsUpdate*.etl"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Update log files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-logs"],
-};
+pub(crate) static FA_FILE_WINDOWSUPDATE_WINDOWSUPDATE_ETL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_windowsupdate_windowsupdate_etl",
+        name: "WindowsUpdateLogFile",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%environ_systemroot%%\\Logs\\WindowsUpdate\\WindowsUpdate*.etl"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Update log files.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &[
+            "https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-logs",
+        ],
+    };
 
 pub(crate) static FA_FILE_UPDATESTORE_STORE_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_updatestore_store_db",
@@ -53443,7 +54402,7 @@ pub(crate) static FA_FILE_UPDATESTORE_STORE_DB: ArtifactDescriptor = ArtifactDes
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_SUM_MDB: ArtifactDescriptor = ArtifactDescriptor {
@@ -53530,7 +54489,7 @@ pub(crate) static FA_FILE_RECENT: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_RECENT_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -53550,7 +54509,7 @@ pub(crate) static FA_FILE_RECENT_2: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_USERS_USERPROFILE_NTUSER_DAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -53613,65 +54572,74 @@ pub(crate) static FA_FILE_WINDOWS_USRCLASS_DAT: ArtifactDescriptor = ArtifactDes
     sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/windows/RegistryFiles.html"],
 };
 
-pub(crate) static FA_FILE_USERS_USERPROFILE_NTUSER_DAT_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_users_userprofile_ntuser_dat_log",
-    name: "WindowsUserRegistryTransactionLogFiles",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.userprofile%%\\NTUSER.DAT.LOG"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows user Registry transaction log files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/windows/RegistryFiles.html"],
-};
+pub(crate) static FA_FILE_USERS_USERPROFILE_NTUSER_DAT_LOG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_users_userprofile_ntuser_dat_log",
+        name: "WindowsUserRegistryTransactionLogFiles",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.userprofile%%\\NTUSER.DAT.LOG"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows user Registry transaction log files.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &[
+            "https://artifacts-kb.readthedocs.io/en/latest/sources/windows/RegistryFiles.html",
+        ],
+    };
 
-pub(crate) static FA_FILE_USERS_USERPROFILE_NTUSER_DAT_LOG1: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_users_userprofile_ntuser_dat_log1",
-    name: "WindowsUserRegistryTransactionLogFiles",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.userprofile%%\\NTUSER.DAT.LOG1"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows user Registry transaction log files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/windows/RegistryFiles.html"],
-};
+pub(crate) static FA_FILE_USERS_USERPROFILE_NTUSER_DAT_LOG1: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_users_userprofile_ntuser_dat_log1",
+        name: "WindowsUserRegistryTransactionLogFiles",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.userprofile%%\\NTUSER.DAT.LOG1"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows user Registry transaction log files.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &[
+            "https://artifacts-kb.readthedocs.io/en/latest/sources/windows/RegistryFiles.html",
+        ],
+    };
 
-pub(crate) static FA_FILE_USERS_USERPROFILE_NTUSER_DAT_LOG2: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_users_userprofile_ntuser_dat_log2",
-    name: "WindowsUserRegistryTransactionLogFiles",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%users.userprofile%%\\NTUSER.DAT.LOG2"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows user Registry transaction log files.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/windows/RegistryFiles.html"],
-};
+pub(crate) static FA_FILE_USERS_USERPROFILE_NTUSER_DAT_LOG2: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_users_userprofile_ntuser_dat_log2",
+        name: "WindowsUserRegistryTransactionLogFiles",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some("%%users.userprofile%%\\NTUSER.DAT.LOG2"),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows user Registry transaction log files.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &[
+            "https://artifacts-kb.readthedocs.io/en/latest/sources/windows/RegistryFiles.html",
+        ],
+    };
 
 pub(crate) static FA_FILE_WINDOWS_USRCLASS_DAT_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_windows_usrclass_dat_log",
@@ -53750,7 +54718,7 @@ pub(crate) static FA_EXPLORER_SHELL_FOLDERS: ArtifactDescriptor = ArtifactDescri
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_USERS_SID_ENVIRONMENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -53770,7 +54738,7 @@ pub(crate) static FA_USERS_SID_ENVIRONMENT: ArtifactDescriptor = ArtifactDescrip
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_USERS_SID_VOLATILE_ENVIRONMENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -53790,7 +54758,7 @@ pub(crate) static FA_USERS_SID_VOLATILE_ENVIRONMENT: ArtifactDescriptor = Artifa
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_CACHESTORAGE_CACHESTORAGE_EDB: ArtifactDescriptor = ArtifactDescriptor {
@@ -53810,7 +54778,7 @@ pub(crate) static FA_FILE_CACHESTORAGE_CACHESTORAGE_EDB: ArtifactDescriptor = Ar
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_ALTERNATESHELLS_AVAILABLESHELLS: ArtifactDescriptor = ArtifactDescriptor {
@@ -53857,7 +54825,7 @@ pub(crate) static FA_FILE_ENVIRON_WINDIR_WINSTART_BAT: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_ENVIRON_WINDIR_DOSSTART_BAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -53877,7 +54845,7 @@ pub(crate) static FA_FILE_ENVIRON_WINDIR_DOSSTART_BAT: ArtifactDescriptor = Arti
     retention: None,
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_EXPLORER_WORDWHEELQUERY: ArtifactDescriptor = ArtifactDescriptor {
@@ -53897,7 +54865,7 @@ pub(crate) static FA_EXPLORER_WORDWHEELQUERY: ArtifactDescriptor = ArtifactDescr
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[],
+    sources: &["https://github.com/forensicartifacts/artifacts"],
 };
 
 pub(crate) static FA_FILE_LOGS_APPLICATION_EVTX: ArtifactDescriptor = ArtifactDescriptor {
@@ -53960,25 +54928,28 @@ pub(crate) static FA_FILE_LOGS_MICROSOFT_WINDOWS_POWERSHELL_4OPERATIONAL_EVTX: A
     sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/windows/EventLog.html"],
 };
 
-pub(crate) static FA_FILE_LOGS_POWERSHELLCORE_OPERATIONAL_EVTX: ArtifactDescriptor = ArtifactDescriptor {
-    id: "fa_file_logs_powershellcore_operational_evtx",
-    name: "WindowsXMLEventLogPowerShell",
-    artifact_type: ArtifactType::File,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%%environ_systemroot%%\\System32\\winevt\\Logs\\PowerShellCore Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "PowerShell Windows XML Event Logs.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/windows/EventLog.html"],
-};
+pub(crate) static FA_FILE_LOGS_POWERSHELLCORE_OPERATIONAL_EVTX: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "fa_file_logs_powershellcore_operational_evtx",
+        name: "WindowsXMLEventLogPowerShell",
+        artifact_type: ArtifactType::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%%environ_systemroot%%\\System32\\winevt\\Logs\\PowerShellCore Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "PowerShell Windows XML Event Logs.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://artifacts-kb.readthedocs.io/en/latest/sources/windows/EventLog.html"],
+    };
 
 pub(crate) static FA_FILE_LOGS_WINDOWS_POWERSHELL_EVTX: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_logs_windows_powershell_evtx",

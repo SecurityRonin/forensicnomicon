@@ -4,9 +4,8 @@
 // Do not edit manually — re-run `cargo run -p ingest` to regenerate.
 #![allow(clippy::too_many_lines)]
 
-use forensicnomicon::catalog::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, HiveTarget, OsScope,
-    TriagePriority,
+use super::super::super::types::{
+    ArtifactDescriptor, ArtifactType, DataScope, Decoder, OsScope, TriagePriority,
 };
 pub(crate) static EVTX_APPLICATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_application",
@@ -215,7 +214,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LSA_PERFORMANCE: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-LSA\\Performance.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-LSA\\Performance.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -288,25 +289,28 @@ pub(crate) static EVTX_UAC_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_APPV_CLIENT_STREAMINGUX_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_appv_client_streamingux_debug",
-    name: "Microsoft-AppV-Client-Streamingux/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-AppV-Client-Streamingux\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-AppV-Client-Streamingux/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_APPV_CLIENT_STREAMINGUX_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_appv_client_streamingux_debug",
+        name: "Microsoft-AppV-Client-Streamingux/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-AppV-Client-Streamingux\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-AppV-Client-Streamingux/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_admin",
@@ -368,25 +372,28 @@ pub(crate) static EVTX_MICROSOFT_APPV_CLIENT_DEBUG: ArtifactDescriptor = Artifac
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_APPV_SHAREDPERFORMANCE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_appv_sharedperformance_analytic",
-    name: "Microsoft-AppV-SharedPerformance/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-AppV-SharedPerformance\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-AppV-SharedPerformance/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_APPV_SHAREDPERFORMANCE_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_appv_sharedperformance_analytic",
+        name: "Microsoft-AppV-SharedPerformance/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-AppV-SharedPerformance\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-AppV-SharedPerformance/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_CLIENT_LICENSE_FLEXIBLE_PLATFORM_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_client_license_flexible_platform_admin",
@@ -428,85 +435,97 @@ pub(crate) static EVTX_MICROSOFT_CLIENT_LICENSING_PLATFORM_DIAGNOSTIC: ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_CLIENT_LICENSING_PLATFORM_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_client_licensing_platform_admin",
-    name: "Microsoft-Client-Licensing-Platform/Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Client-Licensing-Platform\\Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Client-Licensing-Platform/Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_CLIENT_LICENSING_PLATFORM_ADMIN: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_client_licensing_platform_admin",
+        name: "Microsoft-Client-Licensing-Platform/Admin",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Client-Licensing-Platform\\Admin.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Client-Licensing-Platform/Admin'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_STORE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_store_operational",
-    name: "Microsoft-Windows-Store/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Store\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Store/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_STORE_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_store_operational",
+        name: "Microsoft-Windows-Store/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Store\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Store/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_WEBPLATSTORAGE_SERVER: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_webplatstorage_server",
-    name: "Microsoft-Windows-WebPlatStorage-Server",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-WebPlatStorage-Server.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-WebPlatStorage-Server'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_WEBPLATSTORAGE_SERVER: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_webplatstorage_server",
+        name: "Microsoft-Windows-WebPlatStorage-Server",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-WebPlatStorage-Server.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-WebPlatStorage-Server'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_INDEXEDDB_SERVER: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_indexeddb_server",
-    name: "Microsoft-Windows-IndexedDB-Server",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IndexedDB-Server.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IndexedDB-Server'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_INDEXEDDB_SERVER: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_indexeddb_server",
+        name: "Microsoft-Windows-IndexedDB-Server",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IndexedDB-Server.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IndexedDB-Server'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_IEDVTOOL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_iedvtool_diagnostic",
@@ -588,65 +607,74 @@ pub(crate) static EVTX_MICROSOFT_PEF_WFP_MESSAGEPROVIDER_OPERATIONAL: ArtifactDe
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_PERFTRACK_IEFRAME_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_perftrack_ieframe_diagnostic",
-    name: "Microsoft-PerfTrack-IEFRAME/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-PerfTrack-IEFRAME\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-PerfTrack-IEFRAME/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_PERFTRACK_IEFRAME_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_perftrack_ieframe_diagnostic",
+        name: "Microsoft-PerfTrack-IEFRAME/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-PerfTrack-IEFRAME\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-PerfTrack-IEFRAME/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_PERFTRACK_MSHTML_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_perftrack_mshtml_diagnostic",
-    name: "Microsoft-PerfTrack-MSHTML/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-PerfTrack-MSHTML\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-PerfTrack-MSHTML/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_PERFTRACK_MSHTML_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_perftrack_mshtml_diagnostic",
+        name: "Microsoft-PerfTrack-MSHTML/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-PerfTrack-MSHTML\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-PerfTrack-MSHTML/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_SERVERCORE_SHELLLAUNCHER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_servercore_shelllauncher_debug",
-    name: "Microsoft-ServerCore-ShellLauncher/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-ServerCore-ShellLauncher\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-ServerCore-ShellLauncher/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_SERVERCORE_SHELLLAUNCHER_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_servercore_shelllauncher_debug",
+        name: "Microsoft-ServerCore-ShellLauncher/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-ServerCore-ShellLauncher\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-ServerCore-ShellLauncher/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_SYSTEM_DIAGNOSTICS_DIAGNOSTICINVOKER_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_system_diagnostics_diagnosticinvoker_operatio",
@@ -755,7 +783,9 @@ pub(crate) static EVTX_MICROSOFT_WS_LICENSING_DIAGNOSTIC: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-WS-Licensing\\Diagnostic.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-WS-Licensing\\Diagnostic.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -875,7 +905,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AAD_OPERATIONAL: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AAD\\Operational.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AAD\\Operational.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -908,65 +940,74 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ADSI_DEBUG: ArtifactDescriptor = Artifa
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_API_TRACING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_api_tracing_operational",
-    name: "Microsoft-Windows-API-Tracing/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-API-Tracing\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-API-Tracing/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_API_TRACING_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_api_tracing_operational",
+        name: "Microsoft-Windows-API-Tracing/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-API-Tracing\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-API-Tracing/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_ASN1_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_asn1_operational",
-    name: "Microsoft-Windows-ASN1/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ASN1\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-ASN1/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_ASN1_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_asn1_operational",
+        name: "Microsoft-Windows-ASN1/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ASN1\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-ASN1/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_ATAPORT_SATA_LPM: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ataport_sata_lpm",
-    name: "Microsoft-Windows-ATAPort/SATA-LPM",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ATAPort\\SATA-LPM.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-ATAPort/SATA-LPM'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_ATAPORT_SATA_LPM: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ataport_sata_lpm",
+        name: "Microsoft-Windows-ATAPort/SATA-LPM",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ATAPort\\SATA-LPM.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-ATAPort/SATA-LPM'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ATAPORT_GENERAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ataport_general",
@@ -975,7 +1016,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ATAPORT_GENERAL: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ATAPort\\General.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ATAPort\\General.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -1048,45 +1091,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ACCELLIB_ACCELCX_OPERATIONAL: ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_ACTIONQUEUE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_actionqueue_analytic",
-    name: "Microsoft-Windows-ActionQueue/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ActionQueue\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-ActionQueue/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_ACTIONQUEUE_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_actionqueue_analytic",
+        name: "Microsoft-Windows-ActionQueue/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ActionQueue\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-ActionQueue/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_ALTTAB_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_alttab_diagnostic",
-    name: "Microsoft-Windows-AltTab/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AltTab\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-AltTab/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_ALTTAB_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_alttab_diagnostic",
+        name: "Microsoft-Windows-AltTab/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AltTab\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-AltTab/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ANYTIME_UPGRADE_EVENTS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_anytime_upgrade_events_operational",
@@ -1128,45 +1177,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ANYTIME_UPGRADE_ANALYTIC: ArtifactDescr
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_APPHOST_INTERNAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_apphost_internal",
-    name: "Microsoft-Windows-AppHost/Internal",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppHost\\Internal.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-AppHost/Internal'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_APPHOST_INTERNAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_apphost_internal",
+        name: "Microsoft-Windows-AppHost/Internal",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppHost\\Internal.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-AppHost/Internal'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_APPHOST_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_apphost_diagnostic",
-    name: "Microsoft-Windows-AppHost/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppHost\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-AppHost/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_APPHOST_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_apphost_diagnostic",
+        name: "Microsoft-Windows-AppHost/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppHost\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-AppHost/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_APPTRACING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_apptracing",
@@ -1188,45 +1243,51 @@ pub(crate) static EVTX_APPTRACING: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_APPID_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_appid_operational",
-    name: "Microsoft-Windows-AppID/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppID\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-AppID/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_APPID_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_appid_operational",
+        name: "Microsoft-Windows-AppID/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppID\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-AppID/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_EXE_AND_DLL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_applocker_exe_and_dll",
-    name: "Microsoft-Windows-AppLocker/EXE and DLL",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppLocker\\EXE and DLL.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-AppLocker/EXE and DLL'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_EXE_AND_DLL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_applocker_exe_and_dll",
+        name: "Microsoft-Windows-AppLocker/EXE and DLL",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppLocker\\EXE and DLL.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-AppLocker/EXE and DLL'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_MSI_AND_SCRIPT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_applocker_msi_and_script",
@@ -1288,25 +1349,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_PACKAGED_APP_DEPLOYMENT: Arti
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_VERBOSE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_applocker_verbose",
-    name: "Microsoft-Windows-AppLocker/Verbose",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppLocker\\Verbose.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-AppLocker/Verbose'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_VERBOSE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_applocker_verbose",
+        name: "Microsoft-Windows-AppLocker/Verbose",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppLocker\\Verbose.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-AppLocker/Verbose'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIVACY_AUDITING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_privacy_auditing_operational",
@@ -1348,45 +1412,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_ANALYTIC: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_appmodel_runtime_admin",
-    name: "Microsoft-Windows-AppModel-Runtime/Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppModel-Runtime\\Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-AppModel-Runtime/Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_ADMIN: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_appmodel_runtime_admin",
+        name: "Microsoft-Windows-AppModel-Runtime/Admin",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppModel-Runtime\\Admin.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-AppModel-Runtime/Admin'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_appmodel_runtime_debug",
-    name: "Microsoft-Windows-AppModel-Runtime/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppModel-Runtime\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-AppModel-Runtime/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_appmodel_runtime_debug",
+        name: "Microsoft-Windows-AppModel-Runtime/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppModel-Runtime\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-AppModel-Runtime/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_DIAGNOSTICS: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_appmodel_runtime_diagnostics",
@@ -1408,25 +1478,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_DIAGNOSTICS: ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_STATE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_appmodel_state_debug",
-    name: "Microsoft-Windows-AppModel-State/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppModel-State\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-AppModel-State/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_STATE_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_appmodel_state_debug",
+        name: "Microsoft-Windows-AppModel-State/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppModel-State\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-AppModel-State/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_STATE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_appmodel_state_diagnostic",
@@ -1468,25 +1541,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPSRUPROV: ArtifactDescriptor = Artifa
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_APPXDEPLOYMENTUNDOCKEDDEH_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_appxdeploymentundockeddeh_operational",
-    name: "AppxDeploymentUndockedDeh/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\AppxDeploymentUndockedDeh\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'AppxDeploymentUndockedDeh/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_APPXDEPLOYMENTUNDOCKEDDEH_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_appxdeploymentundockeddeh_operational",
+        name: "AppxDeploymentUndockedDeh/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\AppxDeploymentUndockedDeh\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'AppxDeploymentUndockedDeh/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_appxdeploymentserver_operational",
@@ -1668,26 +1744,6 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_COMPAT: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_COMPAT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_application_experience_program_compat",
-    name: "Microsoft-Windows-Application-Experience/Program-Compatibility-Assistant",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Application-Experience\\Program-Compatibility-Assistant.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Application-Experience/Program-Compatibility-Assistant'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_TELEME: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_application_experience_program_teleme",
     name: "Microsoft-Windows-Application-Experience/Program-Telemetry",
@@ -1780,66 +1836,6 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_COMPATIBILITY: A
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
     meaning: "Windows Event Log channel 'Microsoft-Windows-Application-Experience/Compatibility-Infrastructure-Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
-pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_INVENT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_application_experience_program_invent",
-    name: "Microsoft-Windows-Application-Experience/Program-Inventory/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Application-Experience\\Program-Inventory\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Application-Experience/Program-Inventory/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
-pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_COMPAT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_application_experience_program_compat",
-    name: "Microsoft-Windows-Application-Experience/Program-Compatibility-Troubleshooter",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Application-Experience\\Program-Compatibility-Troubleshooter.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Application-Experience/Program-Compatibility-Troubleshooter'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
-pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_COMPAT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_application_experience_program_compat",
-    name: "Microsoft-Windows-Application-Experience/Program-Compatibility-Assistant/Trace",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Application-Experience\\Program-Compatibility-Assistant\\Trace.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Application-Experience/Program-Compatibility-Assistant/Trace'.",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -1988,25 +1984,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXPACKAGING_PERFORMANCE: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_ASSIGNEDACCESS_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_assignedaccess_admin",
-    name: "Microsoft-Windows-AssignedAccess/Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AssignedAccess\\Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-AssignedAccess/Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_ASSIGNEDACCESS_ADMIN: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_assignedaccess_admin",
+        name: "Microsoft-Windows-AssignedAccess/Admin",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AssignedAccess\\Admin.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-AssignedAccess/Admin'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ASSIGNEDACCESS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_assignedaccess_operational",
@@ -2068,45 +2067,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ASYNCHRONOUSCAUSALITY_CAUSALITY: Artifa
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_audio_operational",
-    name: "Microsoft-Windows-Audio/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Audio\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Audio/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_audio_operational",
+        name: "Microsoft-Windows-Audio/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Audio\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Audio/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_CAPTUREMONITOR: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_audio_capturemonitor",
-    name: "Microsoft-Windows-Audio/CaptureMonitor",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Audio\\CaptureMonitor.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Audio/CaptureMonitor'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_CAPTUREMONITOR: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_audio_capturemonitor",
+        name: "Microsoft-Windows-Audio/CaptureMonitor",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Audio\\CaptureMonitor.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Audio/CaptureMonitor'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_performance",
@@ -2128,65 +2133,74 @@ pub(crate) static EVTX_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_PLAYBACKMANAGER: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_audio_playbackmanager",
-    name: "Microsoft-Windows-Audio/PlaybackManager",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Audio\\PlaybackManager.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Audio/PlaybackManager'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_PLAYBACKMANAGER: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_audio_playbackmanager",
+        name: "Microsoft-Windows-Audio/PlaybackManager",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Audio\\PlaybackManager.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Audio/PlaybackManager'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_GLITCHDETECTION: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_audio_glitchdetection",
-    name: "Microsoft-Windows-Audio/GlitchDetection",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Audio\\GlitchDetection.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Audio/GlitchDetection'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_GLITCHDETECTION: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_audio_glitchdetection",
+        name: "Microsoft-Windows-Audio/GlitchDetection",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Audio\\GlitchDetection.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Audio/GlitchDetection'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_INFORMATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_audio_informational",
-    name: "Microsoft-Windows-Audio/Informational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Audio\\Informational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Audio/Informational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_INFORMATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_audio_informational",
+        name: "Microsoft-Windows-Audio/Informational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Audio\\Informational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Audio/Informational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIT_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_audit_analytic",
@@ -2248,25 +2262,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_PROTECTED_USER_CLIENT: A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_AXINSTALLSERVICE_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_axinstallservice_log",
-    name: "Microsoft-Windows-AxInstallService/Log",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AxInstallService\\Log.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-AxInstallService/Log'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_AXINSTALLSERVICE_LOG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_axinstallservice_log",
+        name: "Microsoft-Windows-AxInstallService/Log",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AxInstallService\\Log.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-AxInstallService/Log'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHPORT_HCI: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_bth_bthport_hci",
@@ -2275,7 +2292,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHPORT_HCI: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BTH-BTHPORT\\HCI.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BTH-BTHPORT\\HCI.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -2288,85 +2307,97 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHPORT_HCI: ArtifactDescriptor = A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHPORT_L2CAP: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_bth_bthport_l2cap",
-    name: "Microsoft-Windows-BTH-BTHPORT/L2CAP",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BTH-BTHPORT\\L2CAP.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-BTH-BTHPORT/L2CAP'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHPORT_L2CAP: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_bth_bthport_l2cap",
+        name: "Microsoft-Windows-BTH-BTHPORT/L2CAP",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BTH-BTHPORT\\L2CAP.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-BTH-BTHPORT/L2CAP'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_bth_bthusb_operational",
-    name: "Microsoft-Windows-BTH-BTHUSB/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BTH-BTHUSB\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-BTH-BTHUSB/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_bth_bthusb_operational",
+        name: "Microsoft-Windows-BTH-BTHUSB/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BTH-BTHUSB\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-BTH-BTHUSB/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_bth_bthusb_diagnostic",
-    name: "Microsoft-Windows-BTH-BTHUSB/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BTH-BTHUSB\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-BTH-BTHUSB/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_bth_bthusb_diagnostic",
+        name: "Microsoft-Windows-BTH-BTHUSB/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BTH-BTHUSB\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-BTH-BTHUSB/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_bth_bthusb_performance",
-    name: "Microsoft-Windows-BTH-BTHUSB/Performance",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BTH-BTHUSB\\Performance.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-BTH-BTHUSB/Performance'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_PERFORMANCE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_bth_bthusb_performance",
+        name: "Microsoft-Windows-BTH-BTHUSB/Performance",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BTH-BTHUSB\\Performance.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-BTH-BTHUSB/Performance'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKGROUNDTRANSFER_CONTENTPREFETCHER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_backgroundtransfer_contentprefetcher",
@@ -2388,45 +2419,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKGROUNDTRANSFER_CONTENTPREFETCHER: A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKUP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_backup_operational",
-    name: "Microsoft-Windows-Backup/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Backup\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Backup/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKUP_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_backup_operational",
+        name: "Microsoft-Windows-Backup/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Backup\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Backup/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_BFE_IPSEC_CONNECTIONS_OPERATIONAL_LOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_bfe_ipsec_connections_operational_log",
-    name: "BFE IPsec Connections Operational Log",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\BFE IPsec Connections Operational Log.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'BFE IPsec Connections Operational Log'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_BFE_IPSEC_CONNECTIONS_OPERATIONAL_LOG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_bfe_ipsec_connections_operational_log",
+        name: "BFE IPsec Connections Operational Log",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\BFE IPsec Connections Operational Log.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'BFE IPsec Connections Operational Log'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_BFE_IPSEC_CONNECTIONS_RESOURCE_FLOWS_OPERATIONAL_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_bfe_ipsec_connections_resource_flows_operational_log",
@@ -2468,65 +2505,74 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BASE_FILTERING_ENGINE_RESOURCE_FLOWS: A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_BATTERY_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_battery_diagnostic",
-    name: "Microsoft-Windows-Battery/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Battery\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Battery/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_BATTERY_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_battery_diagnostic",
+        name: "Microsoft-Windows-Battery/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Battery\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Battery/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_BIOMETRICS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_biometrics_operational",
-    name: "Microsoft-Windows-Biometrics/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Biometrics\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Biometrics/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_BIOMETRICS_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_biometrics_operational",
+        name: "Microsoft-Windows-Biometrics/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Biometrics\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Biometrics/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_BIOMETRICS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_biometrics_analytic",
-    name: "Microsoft-Windows-Biometrics/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Biometrics\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Biometrics/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_BIOMETRICS_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_biometrics_analytic",
+        name: "Microsoft-Windows-Biometrics/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Biometrics\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Biometrics/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MANAGEMENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_management",
@@ -2548,25 +2594,28 @@ pub(crate) static EVTX_MANAGEMENT: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_TRACING: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_bitlocker_tracing",
-    name: "Microsoft-Windows-BitLocker/Tracing",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BitLocker\\Tracing.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-BitLocker/Tracing'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_TRACING: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_bitlocker_tracing",
+        name: "Microsoft-Windows-BitLocker/Tracing",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BitLocker\\Tracing.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-BitLocker/Tracing'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_DRIVEPREPARATIONTOOL_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_bitlocker_drivepreparationtool_admin",
@@ -2628,45 +2677,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_DRIVER_PERFORMANCE_OPERATIO: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_CLIENT_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_bits_client_analytic",
-    name: "Microsoft-Windows-Bits-Client/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Bits-Client\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Bits-Client/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_CLIENT_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_bits_client_analytic",
+        name: "Microsoft-Windows-Bits-Client/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Bits-Client\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Bits-Client/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::High,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_CLIENT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_bits_client_operational",
-    name: "Microsoft-Windows-Bits-Client/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Bits-Client\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Bits-Client/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_CLIENT_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_bits_client_operational",
+        name: "Microsoft-Windows-Bits-Client/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Bits-Client\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Bits-Client/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::High,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_COMPACTSERVER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_bits_compactserver_operational",
@@ -2788,25 +2843,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_POLICY_OPERATIONAL: ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_branchcache_operational",
-    name: "Microsoft-Windows-BranchCache/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BranchCache\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-BranchCache/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHE_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_branchcache_operational",
+        name: "Microsoft-Windows-BranchCache/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BranchCache\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-BranchCache/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHECLIENTEVENTPROVIDER_DIAGNO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_branchcacheclienteventprovider_diagno",
@@ -2888,25 +2946,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHESMB_OPERATIONAL: ArtifactDes
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHESMB_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_branchcachesmb_analytic",
-    name: "Microsoft-Windows-BranchCacheSMB/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BranchCacheSMB\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-BranchCacheSMB/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHESMB_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_branchcachesmb_analytic",
+        name: "Microsoft-Windows-BranchCacheSMB/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-BranchCacheSMB\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-BranchCacheSMB/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKGROUNDTASKINFRASTRUCTURE_DIAGNOST: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_backgroundtaskinfrastructure_diagnost",
@@ -2948,45 +3009,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKGROUNDTASKINFRASTRUCTURE_OPERATIO: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_REGSVR32_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_regsvr32_operational",
-    name: "Microsoft-Windows-Regsvr32/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Regsvr32\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Regsvr32/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_REGSVR32_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_regsvr32_operational",
+        name: "Microsoft-Windows-Regsvr32/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Regsvr32\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Regsvr32/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CAPI2_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_capi2_operational",
-    name: "Microsoft-Windows-CAPI2/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CAPI2\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-CAPI2/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CAPI2_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_capi2_operational",
+        name: "Microsoft-Windows-CAPI2/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CAPI2\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-CAPI2/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CAPI2_CATALOG_DATABASE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_capi2_catalog_database_debug",
@@ -3008,85 +3075,97 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CAPI2_CATALOG_DATABASE_DEBUG: ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CDROM_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_cdrom_operational",
-    name: "Microsoft-Windows-CDROM/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CDROM\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-CDROM/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CDROM_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_cdrom_operational",
+        name: "Microsoft-Windows-CDROM/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CDROM\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-CDROM/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_CREATEINSTANCE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_runtime_createinstance",
-    name: "Microsoft-Windows-Runtime/CreateInstance",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Runtime\\CreateInstance.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Runtime/CreateInstance'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_CREATEINSTANCE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_runtime_createinstance",
+        name: "Microsoft-Windows-Runtime/CreateInstance",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Runtime\\CreateInstance.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Runtime/CreateInstance'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_CREATEINSTANCE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_com_createinstance",
-    name: "Microsoft-Windows-COM/CreateInstance",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-COM\\CreateInstance.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-COM/CreateInstance'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_CREATEINSTANCE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_com_createinstance",
+        name: "Microsoft-Windows-COM/CreateInstance",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-COM\\CreateInstance.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-COM/CreateInstance'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_EXTENSIONCATALOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_com_extensioncatalog",
-    name: "Microsoft-Windows-COM/ExtensionCatalog",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-COM\\ExtensionCatalog.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-COM/ExtensionCatalog'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_EXTENSIONCATALOG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_com_extensioncatalog",
+        name: "Microsoft-Windows-COM/ExtensionCatalog",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-COM\\ExtensionCatalog.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-COM/ExtensionCatalog'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_CALL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_com_call",
@@ -3108,25 +3187,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_CALL: ArtifactDescriptor = Artifact
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_FREEUNUSEDLIBRARY: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_com_freeunusedlibrary",
-    name: "Microsoft-Windows-COM/FreeUnusedLibrary",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-COM\\FreeUnusedLibrary.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-COM/FreeUnusedLibrary'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_FREEUNUSEDLIBRARY: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_com_freeunusedlibrary",
+        name: "Microsoft-Windows-COM/FreeUnusedLibrary",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-COM\\FreeUnusedLibrary.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-COM/FreeUnusedLibrary'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OLE_CLIPBOARD: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ole_clipboard",
@@ -3168,25 +3250,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_APARTMENTUNINITIALIZE: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_APARTMENTINITIALIZE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_com_apartmentinitialize",
-    name: "Microsoft-Windows-COM/ApartmentInitialize",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-COM\\ApartmentInitialize.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-COM/ApartmentInitialize'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_APARTMENTINITIALIZE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_com_apartmentinitialize",
+        name: "Microsoft-Windows-COM/ApartmentInitialize",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-COM\\ApartmentInitialize.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-COM/ApartmentInitialize'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_RUNDOWNINSTRUMENTATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_com_rundowninstrumentation",
@@ -3228,25 +3313,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_ANALYTIC: ArtifactDescriptor = Arti
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_TRACING: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_comruntime_tracing",
-    name: "Microsoft-Windows-COMRuntime/Tracing",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-COMRuntime\\Tracing.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-COMRuntime/Tracing'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_TRACING: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_comruntime_tracing",
+        name: "Microsoft-Windows-COMRuntime/Tracing",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-COMRuntime\\Tracing.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-COMRuntime/Tracing'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_MESSAGEPROCESSING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_comruntime_messageprocessing",
@@ -3268,65 +3356,74 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_MESSAGEPROCESSING: ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_ACTIVATIONS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_comruntime_activations",
-    name: "Microsoft-Windows-COMRuntime/Activations",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-COMRuntime\\Activations.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-COMRuntime/Activations'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_ACTIVATIONS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_comruntime_activations",
+        name: "Microsoft-Windows-COMRuntime/Activations",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-COMRuntime\\Activations.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-COMRuntime/Activations'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CALCULATOR_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_calculator_diagnostic",
-    name: "Microsoft-Windows-Calculator/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Calculator\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Calculator/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CALCULATOR_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_calculator_diagnostic",
+        name: "Microsoft-Windows-Calculator/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Calculator\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Calculator/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CALCULATOR_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_calculator_debug",
-    name: "Microsoft-Windows-Calculator/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Calculator\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Calculator/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CALCULATOR_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_calculator_debug",
+        name: "Microsoft-Windows-Calculator/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Calculator\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Calculator/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_OPERATION_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_operation_log",
@@ -3428,25 +3525,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICESCLIENT_LIFECYCLE_U: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CLEANMGR_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_cleanmgr_diagnostic",
-    name: "Microsoft-Windows-Cleanmgr/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Cleanmgr\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Cleanmgr/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CLEANMGR_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_cleanmgr_diagnostic",
+        name: "Microsoft-Windows-Cleanmgr/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Cleanmgr\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Cleanmgr/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLEARTYPETEXTTUNER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_cleartypetexttuner_diagnostic",
@@ -3548,45 +3648,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORAGEWIZARD_ANALYTIC: ArtifactDe
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_cloudstore_operational",
-    name: "Microsoft-Windows-CloudStore/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CloudStore\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-CloudStore/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_cloudstore_operational",
+        name: "Microsoft-Windows-CloudStore/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CloudStore\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-CloudStore/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_cloudstore_debug",
-    name: "Microsoft-Windows-CloudStore/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CloudStore\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-CloudStore/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_cloudstore_debug",
+        name: "Microsoft-Windows-CloudStore/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CloudStore\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-CloudStore/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_INITIALIZATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_cloudstore_initialization",
@@ -3608,25 +3714,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_INITIALIZATION: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CMISETUP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_cmisetup_analytic",
-    name: "Microsoft-Windows-CmiSetup/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CmiSetup\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-CmiSetup/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CMISETUP_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_cmisetup_analytic",
+        name: "Microsoft-Windows-CmiSetup/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CmiSetup\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-CmiSetup/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CODEINTEGRITY_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_codeintegrity_operational",
@@ -3648,25 +3757,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CODEINTEGRITY_OPERATIONAL: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CODEINTEGRITY_VERBOSE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_codeintegrity_verbose",
-    name: "Microsoft-Windows-CodeIntegrity/Verbose",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CodeIntegrity\\Verbose.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-CodeIntegrity/Verbose'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CODEINTEGRITY_VERBOSE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_codeintegrity_verbose",
+        name: "Microsoft-Windows-CodeIntegrity/Verbose",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CodeIntegrity\\Verbose.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-CodeIntegrity/Verbose'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_ANALYTICAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_analytical",
@@ -3728,25 +3840,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COMPAT_APPRAISER_OPERATIONAL: ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CONNECTED_SEARCH_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_connected_search_debug",
-    name: "Microsoft-Windows-Connected-Search/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Connected-Search\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Connected-Search/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CONNECTED_SEARCH_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_connected_search_debug",
+        name: "Microsoft-Windows-Connected-Search/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Connected-Search\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Connected-Search/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CONNECTED_SEARCH_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_connected_search_operational",
@@ -3888,25 +4003,28 @@ pub(crate) static EVTX_SMSROUTER_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDes
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_COREWINDOW_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_corewindow_analytic",
-    name: "Microsoft-Windows-CoreWindow/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CoreWindow\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-CoreWindow/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_COREWINDOW_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_corewindow_analytic",
+        name: "Microsoft-Windows-CoreWindow/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CoreWindow\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-CoreWindow/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CORRUPTEDFILERECOVERY_CLIENT_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_corruptedfilerecovery_client_operatio",
@@ -3948,85 +4066,97 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CORRUPTEDFILERECOVERY_SERVER_OPERATIO: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CRASHDUMP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_crashdump_analytic",
-    name: "Microsoft-Windows-Crashdump/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crashdump\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Crashdump/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CRASHDUMP_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_crashdump_analytic",
+        name: "Microsoft-Windows-Crashdump/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crashdump\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Crashdump/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CRASHDUMP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_crashdump_operational",
-    name: "Microsoft-Windows-Crashdump/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crashdump\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Crashdump/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CRASHDUMP_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_crashdump_operational",
+        name: "Microsoft-Windows-Crashdump/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crashdump\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Crashdump/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDPROVHOST_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_credprovhost_debug",
-    name: "Microsoft-Windows-CredProvHost/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CredProvHost\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-CredProvHost/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDPROVHOST_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_credprovhost_debug",
+        name: "Microsoft-Windows-CredProvHost/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CredProvHost\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-CredProvHost/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDUI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_credui_diagnostic",
-    name: "Microsoft-Windows-CredUI/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CredUI\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-CredUI/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDUI_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_credui_diagnostic",
+        name: "Microsoft-Windows-CredUI/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CredUI\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-CredUI/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDENTIALPROVIDERS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_credentialproviders_debug",
@@ -4048,45 +4178,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDENTIALPROVIDERS_DEBUG: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_BCRYPT_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_crypto_bcrypt_analytic",
-    name: "Microsoft-Windows-Crypto-BCrypt/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-BCrypt\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-BCrypt/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_BCRYPT_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_crypto_bcrypt_analytic",
+        name: "Microsoft-Windows-Crypto-BCrypt/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-BCrypt\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-BCrypt/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_CNG_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_crypto_cng_analytic",
-    name: "Microsoft-Windows-Crypto-CNG/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-CNG\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-CNG/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_CNG_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_crypto_cng_analytic",
+        name: "Microsoft-Windows-Crypto-CNG/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-CNG\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-CNG/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DPAPI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_crypto_dpapi_operational",
@@ -4128,45 +4264,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DPAPI_BACKUPKEYSVC: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DPAPI_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_crypto_dpapi_debug",
-    name: "Microsoft-Windows-Crypto-DPAPI/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-DPAPI\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-DPAPI/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DPAPI_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_crypto_dpapi_debug",
+        name: "Microsoft-Windows-Crypto-DPAPI/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-DPAPI\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-DPAPI/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DSSENH_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_crypto_dssenh_analytic",
-    name: "Microsoft-Windows-Crypto-DSSEnh/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-DSSEnh\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-DSSEnh/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DSSENH_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_crypto_dssenh_analytic",
+        name: "Microsoft-Windows-Crypto-DSSEnh/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-DSSEnh\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-DSSEnh/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_NCRYPT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_crypto_ncrypt_operational",
@@ -4188,165 +4330,189 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_NCRYPT_OPERATIONAL: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_NCRYPT_CERTINUSE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_crypto_ncrypt_certinuse",
-    name: "Microsoft-Windows-Crypto-NCrypt/CertInUse",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-NCrypt\\CertInUse.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-NCrypt/CertInUse'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_NCRYPT_CERTINUSE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_crypto_ncrypt_certinuse",
+        name: "Microsoft-Windows-Crypto-NCrypt/CertInUse",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-NCrypt\\CertInUse.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-NCrypt/CertInUse'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_NCRYPT_KEYMGMT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_crypto_ncrypt_keymgmt",
-    name: "Microsoft-Windows-Crypto-NCrypt/KeyMgmt",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-NCrypt\\KeyMgmt.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-NCrypt/KeyMgmt'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_NCRYPT_KEYMGMT: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_crypto_ncrypt_keymgmt",
+        name: "Microsoft-Windows-Crypto-NCrypt/KeyMgmt",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-NCrypt\\KeyMgmt.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-NCrypt/KeyMgmt'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_RNG_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_crypto_rng_analytic",
-    name: "Microsoft-Windows-Crypto-RNG/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-RNG\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-RNG/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_RNG_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_crypto_rng_analytic",
+        name: "Microsoft-Windows-Crypto-RNG/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-RNG\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-RNG/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_RSAENH_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_crypto_rsaenh_analytic",
-    name: "Microsoft-Windows-Crypto-RSAEnh/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-RSAEnh\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-RSAEnh/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_RSAENH_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_crypto_rsaenh_analytic",
+        name: "Microsoft-Windows-Crypto-RSAEnh/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Crypto-RSAEnh\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Crypto-RSAEnh/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_D3D10LEVEL9_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_d3d10level9_analytic",
-    name: "Microsoft-Windows-D3D10Level9/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-D3D10Level9\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-D3D10Level9/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_D3D10LEVEL9_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_d3d10level9_analytic",
+        name: "Microsoft-Windows-D3D10Level9/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-D3D10Level9\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-D3D10Level9/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_D3D10LEVEL9_PERFTIMING: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_d3d10level9_perftiming",
-    name: "Microsoft-Windows-D3D10Level9/PerfTiming",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-D3D10Level9\\PerfTiming.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-D3D10Level9/PerfTiming'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_D3D10LEVEL9_PERFTIMING: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_d3d10level9_perftiming",
+        name: "Microsoft-Windows-D3D10Level9/PerfTiming",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-D3D10Level9\\PerfTiming.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-D3D10Level9/PerfTiming'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D9_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_direct3d9_analytic",
-    name: "Microsoft-Windows-Direct3D9/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D9\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D9/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D9_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_direct3d9_analytic",
+        name: "Microsoft-Windows-Direct3D9/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D9\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D9/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DAL_PROVIDER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dal_provider_analytic",
-    name: "Microsoft-Windows-DAL-Provider/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DAL-Provider\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DAL-Provider/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DAL_PROVIDER_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dal_provider_analytic",
+        name: "Microsoft-Windows-DAL-Provider/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DAL-Provider\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DAL-Provider/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DAL_PROVIDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dal_provider_operational",
@@ -4375,7 +4541,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DCLOCATOR_DEBUG: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DCLocator\\Debug.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DCLocator\\Debug.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -4388,25 +4556,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DCLOCATOR_DEBUG: ArtifactDescriptor = A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DDISPLAY_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ddisplay_analytic",
-    name: "Microsoft-Windows-DDisplay/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DDisplay\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DDisplay/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DDISPLAY_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ddisplay_analytic",
+        name: "Microsoft-Windows-DDisplay/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DDisplay\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DDisplay/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_SERVER_EVENTS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dhcp_server_events_operational",
@@ -4488,25 +4659,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_CLIENT_EVENTS_OPERATIONAL: Artifac
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DLNA_NAMESPACE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dlna_namespace_analytic",
-    name: "Microsoft-Windows-DLNA-Namespace/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DLNA-Namespace\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DLNA-Namespace/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DLNA_NAMESPACE_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dlna_namespace_analytic",
+        name: "Microsoft-Windows-DLNA-Namespace/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DLNA-Namespace\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DLNA-Namespace/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DNS_CLIENT_EVENTS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dns_client_events_operational",
@@ -4535,7 +4709,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DSC_OPERATIONAL: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DSC\\Operational.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DSC\\Operational.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -4608,25 +4784,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DUI_DIAGNOSTIC: ArtifactDescriptor = Ar
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DUSER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_duser_diagnostic",
-    name: "Microsoft-Windows-DUSER/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DUSER\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DUSER/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DUSER_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_duser_diagnostic",
+        name: "Microsoft-Windows-DUSER/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DUSER\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DUSER/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_DVD_NAVIGATOR: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_dvd_navigator",
@@ -4728,25 +4907,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DATA_PDF_DEBUG: ArtifactDescriptor = Ar
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DATAINTEGRITYSCAN_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dataintegrityscan_admin",
-    name: "Microsoft-Windows-DataIntegrityScan/Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DataIntegrityScan\\Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DataIntegrityScan/Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DATAINTEGRITYSCAN_ADMIN: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dataintegrityscan_admin",
+        name: "Microsoft-Windows-DataIntegrityScan/Admin",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DataIntegrityScan\\Admin.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DataIntegrityScan/Admin'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DATAINTEGRITYSCAN_CRASHRECOVERY: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dataintegrityscan_crashrecovery",
@@ -4808,25 +4990,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_DIAGNOSTIC: ArtifactDescr
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_SCRUBBING: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_deduplication_scrubbing",
-    name: "Microsoft-Windows-Deduplication/Scrubbing",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Deduplication\\Scrubbing.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Deduplication/Scrubbing'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_SCRUBBING: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_deduplication_scrubbing",
+        name: "Microsoft-Windows-Deduplication/Scrubbing",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Deduplication\\Scrubbing.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Deduplication/Scrubbing'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_deduplication_performance",
@@ -4848,45 +5033,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_PERFORMANCE: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DEFRAG_CORE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_defrag_core_debug",
-    name: "Microsoft-Windows-Defrag-Core/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Defrag-Core\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Defrag-Core/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DEFRAG_CORE_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_defrag_core_debug",
+        name: "Microsoft-Windows-Defrag-Core/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Defrag-Core\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Defrag-Core/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DEPLORCH_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_deplorch_analytic",
-    name: "Microsoft-Windows-Deplorch/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Deplorch\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Deplorch/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DEPLORCH_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_deplorch_analytic",
+        name: "Microsoft-Windows-Deplorch/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Deplorch\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Deplorch/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEPLOYMENT_SERVICES_DIAGNOSTICS_OPERA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_deployment_services_diagnostics_opera",
@@ -5008,25 +5199,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICECONFIDENCE_ANALYTIC: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEGUARD_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_deviceguard_operational",
-    name: "Microsoft-Windows-DeviceGuard/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DeviceGuard\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DeviceGuard/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEGUARD_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_deviceguard_operational",
+        name: "Microsoft-Windows-DeviceGuard/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DeviceGuard\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DeviceGuard/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_AUTOPILOT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_autopilot",
@@ -5060,26 +5254,6 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEMANAGEMENT_ENTERPRISE_DIAGNOSTI: 
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
     meaning: "Windows Event Log channel 'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEMANAGEMENT_ENTERPRISE_DIAGNOSTI: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_devicemanagement_enterprise_diagnosti",
-    name: "Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider\\Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Admin'.",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -5168,105 +5342,120 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_ANALYTIC: ArtifactDe
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESYNC_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_devicesync_analytic",
-    name: "Microsoft-Windows-DeviceSync/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DeviceSync\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DeviceSync/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESYNC_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_devicesync_analytic",
+        name: "Microsoft-Windows-DeviceSync/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DeviceSync\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DeviceSync/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESYNC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_devicesync_operational",
-    name: "Microsoft-Windows-DeviceSync/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DeviceSync\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DeviceSync/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESYNC_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_devicesync_operational",
+        name: "Microsoft-Windows-DeviceSync/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DeviceSync\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DeviceSync/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_DEVICE_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_device_update_agent_operational_channel",
-    name: "Device Update Agent operational channel",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Device Update Agent operational channel.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Device Update Agent operational channel'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_DEVICE_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_device_update_agent_operational_channel",
+        name: "Device Update Agent operational channel",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Device Update Agent operational channel.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Device Update Agent operational channel'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEUX_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_deviceux_performance",
-    name: "Microsoft-Windows-DeviceUx/Performance",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DeviceUx\\Performance.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DeviceUx/Performance'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEUX_PERFORMANCE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_deviceux_performance",
+        name: "Microsoft-Windows-DeviceUx/Performance",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DeviceUx\\Performance.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DeviceUx/Performance'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEUX_INFORMATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_deviceux_informational",
-    name: "Microsoft-Windows-DeviceUx/Informational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DeviceUx\\Informational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DeviceUx/Informational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEUX_INFORMATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_deviceux_informational",
+        name: "Microsoft-Windows-DeviceUx/Informational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DeviceUx\\Informational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DeviceUx/Informational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICES_BACKGROUND_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_devices_background_operational",
@@ -5348,25 +5537,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_CLIENT_EVENTS_ADMIN: ArtifactDescr
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCPNAP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dhcpnap_operational",
-    name: "Microsoft-Windows-DHCPNap/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DHCPNap\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DHCPNap/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCPNAP_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dhcpnap_operational",
+        name: "Microsoft-Windows-DHCPNap/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DHCPNap\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DHCPNap/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCPNAP_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dhcpnap_admin",
@@ -5428,25 +5620,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_ADVANCEDTASKMANAGER_ANALYTI: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_diagnosis_dps_analytic",
-    name: "Microsoft-Windows-Diagnosis-DPS/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-DPS\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-DPS/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_diagnosis_dps_analytic",
+        name: "Microsoft-Windows-Diagnosis-DPS/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-DPS\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-DPS/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_dps_operational",
@@ -5468,45 +5663,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_OPERATIONAL: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_diagnosis_dps_debug",
-    name: "Microsoft-Windows-Diagnosis-DPS/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-DPS\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-DPS/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_diagnosis_dps_debug",
+        name: "Microsoft-Windows-Diagnosis-DPS/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-DPS\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-DPS/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_diagnosis_msde_debug",
-    name: "Microsoft-Windows-Diagnosis-MSDE/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-MSDE\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-MSDE/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDE_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_diagnosis_msde_debug",
+        name: "Microsoft-Windows-Diagnosis-MSDE/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-MSDE\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-MSDE/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_msdt_operational",
@@ -5528,25 +5729,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDT_OPERATIONAL: ArtifactDes
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDT_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_diagnosis_msdt_debug",
-    name: "Microsoft-Windows-Diagnosis-MSDT/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-MSDT\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-MSDT/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDT_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_diagnosis_msdt_debug",
+        name: "Microsoft-Windows-Diagnosis-MSDT/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-MSDT\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-MSDT/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_pcw_operational",
@@ -5568,45 +5772,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_OPERATIONAL: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_diagnosis_pcw_analytic",
-    name: "Microsoft-Windows-Diagnosis-PCW/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-PCW\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-PCW/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_diagnosis_pcw_analytic",
+        name: "Microsoft-Windows-Diagnosis-PCW/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-PCW\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-PCW/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_diagnosis_pcw_debug",
-    name: "Microsoft-Windows-Diagnosis-PCW/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-PCW\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-PCW/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_diagnosis_pcw_debug",
+        name: "Microsoft-Windows-Diagnosis-PCW/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-PCW\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-PCW/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PLA_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_pla_operational",
@@ -5628,25 +5838,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PLA_OPERATIONAL: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PLA_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_diagnosis_pla_debug",
-    name: "Microsoft-Windows-Diagnosis-PLA/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-PLA\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-PLA/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PLA_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_diagnosis_pla_debug",
+        name: "Microsoft-Windows-Diagnosis-PLA/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-PLA\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-PLA/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PERFHOST_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_perfhost_analytic",
@@ -5788,26 +6001,6 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTEDDIAGNOSTICSPROVIDER: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTEDDIAGNOSTICSPROVIDER: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_diagnosis_scripteddiagnosticsprovider",
-    name: "Microsoft-Windows-Diagnosis-ScriptedDiagnosticsProvider/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-ScriptedDiagnosticsProvider\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-ScriptedDiagnosticsProvider/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_TASKMANAGER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_taskmanager_debug",
     name: "Microsoft-Windows-Diagnosis-TaskManager/Debug",
@@ -5828,45 +6021,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_TASKMANAGER_DEBUG: ArtifactDe
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_WDC_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_diagnosis_wdc_analytic",
-    name: "Microsoft-Windows-Diagnosis-WDC/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-WDC\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-WDC/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_WDC_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_diagnosis_wdc_analytic",
+        name: "Microsoft-Windows-Diagnosis-WDC/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-WDC\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-WDC/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_WDI_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_diagnosis_wdi_debug",
-    name: "Microsoft-Windows-Diagnosis-WDI/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-WDI\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-WDI/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_WDI_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_diagnosis_wdi_debug",
+        name: "Microsoft-Windows-Diagnosis-WDI/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Diagnosis-WDI\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Diagnosis-WDI/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_NETWORKING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnostics_networking_operational",
@@ -5968,165 +6167,189 @@ pub(crate) static EVTX_DIAGNOSTIC_LOOPBACK: ArtifactDescriptor = ArtifactDescrip
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D10_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_direct3d10_analytic",
-    name: "Microsoft-Windows-Direct3D10/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D10\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D10/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D10_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_direct3d10_analytic",
+        name: "Microsoft-Windows-Direct3D10/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D10\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D10/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D10_1_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_direct3d10_1_analytic",
-    name: "Microsoft-Windows-Direct3D10_1/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D10_1\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D10_1/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D10_1_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_direct3d10_1_analytic",
+        name: "Microsoft-Windows-Direct3D10_1/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D10_1\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D10_1/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D11_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_direct3d11_analytic",
-    name: "Microsoft-Windows-Direct3D11/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D11\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D11/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D11_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_direct3d11_analytic",
+        name: "Microsoft-Windows-Direct3D11/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D11\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D11/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D11_PERFTIMING: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_direct3d11_perftiming",
-    name: "Microsoft-Windows-Direct3D11/PerfTiming",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D11\\PerfTiming.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D11/PerfTiming'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D11_PERFTIMING: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_direct3d11_perftiming",
+        name: "Microsoft-Windows-Direct3D11/PerfTiming",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D11\\PerfTiming.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D11/PerfTiming'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D11_LOGGING: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_direct3d11_logging",
-    name: "Microsoft-Windows-Direct3D11/Logging",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D11\\Logging.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D11/Logging'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D11_LOGGING: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_direct3d11_logging",
+        name: "Microsoft-Windows-Direct3D11/Logging",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D11\\Logging.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D11/Logging'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_direct3d12_analytic",
-    name: "Microsoft-Windows-Direct3D12/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D12\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D12/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_direct3d12_analytic",
+        name: "Microsoft-Windows-Direct3D12/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D12\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D12/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_LOGGING: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_direct3d12_logging",
-    name: "Microsoft-Windows-Direct3D12/Logging",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D12\\Logging.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D12/Logging'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_LOGGING: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_direct3d12_logging",
+        name: "Microsoft-Windows-Direct3D12/Logging",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D12\\Logging.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D12/Logging'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_PERFTIMING: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_direct3d12_perftiming",
-    name: "Microsoft-Windows-Direct3D12/PerfTiming",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D12\\PerfTiming.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D12/PerfTiming'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_PERFTIMING: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_direct3d12_perftiming",
+        name: "Microsoft-Windows-Direct3D12/PerfTiming",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Direct3D12\\PerfTiming.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Direct3D12/PerfTiming'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3DSHADERCACHE_DEFAULT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_direct3dshadercache_default",
@@ -6155,7 +6378,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DAMM_DIAGNOSTIC: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DAMM\\Diagnostic.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DAMM\\Diagnostic.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -6268,25 +6493,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTSHOW_KERNELSUPPORT_PERFORMANCE: A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTSOUND_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_directsound_debug",
-    name: "Microsoft-Windows-DirectSound/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DirectSound\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DirectSound/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTSOUND_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_directsound_debug",
+        name: "Microsoft-Windows-DirectSound/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DirectSound\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DirectSound/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTWRITE_FONTCACHE_TRACING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_directwrite_fontcache_tracing",
@@ -6308,25 +6536,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTWRITE_FONTCACHE_TRACING: Artifact
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTWRITE_TRACING: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_directwrite_tracing",
-    name: "Microsoft-Windows-DirectWrite/Tracing",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DirectWrite\\Tracing.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DirectWrite/Tracing'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTWRITE_TRACING: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_directwrite_tracing",
+        name: "Microsoft-Windows-DirectWrite/Tracing",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DirectWrite\\Tracing.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DirectWrite/Tracing'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTORYSERVICES_DEPLOYMENT_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_directoryservices_deployment_operatio",
@@ -6348,65 +6579,74 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTORYSERVICES_DEPLOYMENT_OPERATIO: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DISK_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_disk_operational",
-    name: "Microsoft-Windows-Disk/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Disk\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Disk/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DISK_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_disk_operational",
+        name: "Microsoft-Windows-Disk/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Disk\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Disk/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_DISK_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_storage_disk_analytic",
-    name: "Microsoft-Windows-Storage-Disk/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Storage-Disk\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Storage-Disk/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_DISK_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_storage_disk_analytic",
+        name: "Microsoft-Windows-Storage-Disk/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Storage-Disk\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Storage-Disk/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_DISK_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_storage_disk_diagnose",
-    name: "Microsoft-Windows-Storage-Disk/Diagnose",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Storage-Disk\\Diagnose.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Storage-Disk/Diagnose'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_DISK_DIAGNOSE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_storage_disk_diagnose",
+        name: "Microsoft-Windows-Storage-Disk/Diagnose",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Storage-Disk\\Diagnose.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Storage-Disk/Diagnose'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISKDIAGNOSTIC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diskdiagnostic_operational",
@@ -6468,25 +6708,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISKDIAGNOSTICRESOLVER_OPERATIONAL: Art
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_API_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dism_api_analytic",
-    name: "Microsoft-Windows-Dism-Api/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dism-Api\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Dism-Api/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_API_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dism_api_analytic",
+        name: "Microsoft-Windows-Dism-Api/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dism-Api\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Dism-Api/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_API_INTERNALANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dism_api_internalanalytic",
@@ -6508,25 +6751,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_API_INTERNALANALYTIC: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_CLI_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dism_cli_analytic",
-    name: "Microsoft-Windows-Dism-Cli/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dism-Cli\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Dism-Cli/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_CLI_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dism_cli_analytic",
+        name: "Microsoft-Windows-Dism-Cli/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dism-Cli\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Dism-Cli/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISPLAYCOLORCALIBRATION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_displaycolorcalibration_operational",
@@ -6588,25 +6834,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISPLAYSWITCH_DIAGNOSTIC: ArtifactDescr
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DOT3MM_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dot3mm_diagnostic",
-    name: "Microsoft-Windows-Dot3MM/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dot3MM\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Dot3MM/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DOT3MM_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dot3mm_diagnostic",
+        name: "Microsoft-Windows-Dot3MM/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dot3MM\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Dot3MM/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DRIVERFRAMEWORKS_USERMODE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_driverframeworks_usermode_operational",
@@ -6628,25 +6877,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DRIVERFRAMEWORKS_USERMODE_OPERATIONAL: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_POWER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_power_diagnostic",
-    name: "Microsoft-Windows-Kernel-Power/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Power\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Power/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_POWER_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_power_diagnostic",
+        name: "Microsoft-Windows-Kernel-Power/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Power\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Power/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_DIRVER_PROXY_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_dirver_proxy_performance",
@@ -6688,45 +6940,51 @@ pub(crate) static EVTX_DRIVER_PROXY_OPERATIONAL: ArtifactDescriptor = ArtifactDe
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_DUC_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_duc_update_agent_operational_channel",
-    name: "Duc Update Agent operational channel",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Duc Update Agent operational channel.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Duc Update Agent operational channel'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_DUC_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_duc_update_agent_operational_channel",
+        name: "Duc Update Agent operational channel",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Duc Update Agent operational channel.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Duc Update Agent operational channel'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_API_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dwm_api_diagnostic",
-    name: "Microsoft-Windows-Dwm-API/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dwm-API\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Dwm-API/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_API_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dwm_api_diagnostic",
+        name: "Microsoft-Windows-Dwm-API/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dwm-API\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Dwm-API/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_COMPOSITOR_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dwm_compositor_diagnostic",
@@ -6748,125 +7006,143 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_COMPOSITOR_DIAGNOSTIC: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_CORE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dwm_core_diagnostic",
-    name: "Microsoft-Windows-Dwm-Core/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dwm-Core\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Dwm-Core/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_CORE_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dwm_core_diagnostic",
+        name: "Microsoft-Windows-Dwm-Core/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dwm-Core\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Dwm-Core/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_DWM_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dwm_dwm_diagnostic",
-    name: "Microsoft-Windows-Dwm-Dwm/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dwm-Dwm\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Dwm-Dwm/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_DWM_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dwm_dwm_diagnostic",
+        name: "Microsoft-Windows-Dwm-Dwm/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dwm-Dwm\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Dwm-Dwm/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_REDIR_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dwm_redir_diagnostic",
-    name: "Microsoft-Windows-Dwm-Redir/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dwm-Redir\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Dwm-Redir/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_REDIR_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dwm_redir_diagnostic",
+        name: "Microsoft-Windows-Dwm-Redir/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dwm-Redir\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Dwm-Redir/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_UDWM_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dwm_udwm_diagnostic",
-    name: "Microsoft-Windows-Dwm-Udwm/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dwm-Udwm\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Dwm-Udwm/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_UDWM_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dwm_udwm_diagnostic",
+        name: "Microsoft-Windows-Dwm-Udwm/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Dwm-Udwm\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Dwm-Udwm/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dxgkrnl_diagnostic",
-    name: "Microsoft-Windows-DxgKrnl/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DxgKrnl\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DxgKrnl/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dxgkrnl_diagnostic",
+        name: "Microsoft-Windows-DxgKrnl/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DxgKrnl\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DxgKrnl/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dxgkrnl_performance",
-    name: "Microsoft-Windows-DxgKrnl/Performance",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DxgKrnl\\Performance.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DxgKrnl/Performance'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_PERFORMANCE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dxgkrnl_performance",
+        name: "Microsoft-Windows-DxgKrnl/Performance",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DxgKrnl\\Performance.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DxgKrnl/Performance'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_POWER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dxgkrnl_power",
@@ -6908,45 +7184,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_ADMIN: ArtifactDescriptor = Art
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dxgkrnl_operational",
-    name: "Microsoft-Windows-DxgKrnl-Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DxgKrnl-Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DxgKrnl-Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dxgkrnl_operational",
+        name: "Microsoft-Windows-DxgKrnl-Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DxgKrnl-Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DxgKrnl-Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_CONTENTION: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_dxgkrnl_contention",
-    name: "Microsoft-Windows-DxgKrnl/Contention",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DxgKrnl\\Contention.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-DxgKrnl/Contention'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_CONTENTION: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_dxgkrnl_contention",
+        name: "Microsoft-Windows-DxgKrnl/Contention",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DxgKrnl\\Contention.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-DxgKrnl/Contention'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXPTASKRINGTONE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dxptaskringtone_analytic",
@@ -7068,25 +7350,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INFORMATION_PROTECTION_AUDIT_TCB_CHAN: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_EDP_AUDIT_TCB_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_edp_audit_tcb_channel",
-    name: "Microsoft Windows EDP Audit TCB Channel",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft Windows EDP Audit TCB Channel.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft Windows EDP Audit TCB Channel'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_EDP_AUDIT_TCB_CHANNEL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_edp_audit_tcb_channel",
+        name: "Microsoft Windows EDP Audit TCB Channel",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft Windows EDP Audit TCB Channel.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft Windows EDP Audit TCB Channel'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EFS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_efs_debug",
@@ -7115,7 +7400,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EFS_OPERATIONAL: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-EFS\\Operational.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-EFS\\Operational.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -7215,7 +7502,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ESE_OPERATIONAL: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ESE\\Operational.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ESE\\Operational.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -7228,45 +7517,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ESE_OPERATIONAL: ArtifactDescriptor = A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_eaphost_operational",
-    name: "Microsoft-Windows-EapHost/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-EapHost\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-EapHost/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_eaphost_operational",
+        name: "Microsoft-Windows-EapHost/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-EapHost\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-EapHost/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_eaphost_analytic",
-    name: "Microsoft-Windows-EapHost/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-EapHost\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-EapHost/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_eaphost_analytic",
+        name: "Microsoft-Windows-EapHost/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-EapHost\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-EapHost/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_eaphost_debug",
@@ -7308,25 +7603,28 @@ pub(crate) static EVTX_OPERATIONAL_CHANNEL: ArtifactDescriptor = ArtifactDescrip
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_EASEOFACCESS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_easeofaccess_diagnostic",
-    name: "Microsoft-Windows-EaseOfAccess/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-EaseOfAccess\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-EaseOfAccess/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_EASEOFACCESS_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_easeofaccess_diagnostic",
+        name: "Microsoft-Windows-EaseOfAccess/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-EaseOfAccess\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-EaseOfAccess/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EMBEDDEDAPPLAUNCHER_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_embeddedapplauncher_admin",
@@ -7688,25 +7986,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_CONFIGMANAGER_DEBUG: Artifa
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_CORE_WHC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_filehistory_core_whc",
-    name: "Microsoft-Windows-FileHistory-Core/WHC",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-FileHistory-Core\\WHC.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-FileHistory-Core/WHC'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_CORE_WHC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_filehistory_core_whc",
+        name: "Microsoft-Windows-FileHistory-Core/WHC",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-FileHistory-Core\\WHC.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-FileHistory-Core/WHC'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_ENGINE_BACKUPLOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_filehistory_engine_backuplog",
@@ -7888,25 +8189,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEMANAGERDATAMODEL_OPERATIONAL: Artif
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_FIREWALL_CPL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_firewall_cpl_diagnostic",
-    name: "Microsoft-Windows-Firewall-CPL/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Firewall-CPL\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Firewall-CPL/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_FIREWALL_CPL_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_firewall_cpl_diagnostic",
+        name: "Microsoft-Windows-Firewall-CPL/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Firewall-CPL\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Firewall-CPL/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_SETUP_SPLASH_WINDOW_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_setup_splash_window_performance",
@@ -7968,25 +8272,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FUNCTIONDISCOVERYHOST_TRACING: Artifact
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_GENERICROAMING_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_genericroaming_admin",
-    name: "Microsoft-Windows-GenericRoaming/Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-GenericRoaming\\Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-GenericRoaming/Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_GENERICROAMING_ADMIN: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_genericroaming_admin",
+        name: "Microsoft-Windows-GenericRoaming/Admin",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-GenericRoaming\\Admin.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-GenericRoaming/Admin'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_GETTINGSTARTED_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_gettingstarted_diagnostic",
@@ -8008,25 +8315,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GETTINGSTARTED_DIAGNOSTIC: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_FONTGROUPS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_fontgroups_diagnostic",
-    name: "Microsoft-Windows-FontGroups/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-FontGroups\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-FontGroups/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_FONTGROUPS_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_fontgroups_diagnostic",
+        name: "Microsoft-Windows-FontGroups/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-FontGroups\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-FontGroups/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_GLOBALIZATION_API_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_globalization_api_analytic_channel",
@@ -8048,25 +8358,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GLOBALIZATION_API_ANALYTIC_CHANNEL: Art
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_GROUPPOLICY_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_grouppolicy_operational",
-    name: "Microsoft-Windows-GroupPolicy/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-GroupPolicy\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-GroupPolicy/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_GROUPPOLICY_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_grouppolicy_operational",
+        name: "Microsoft-Windows-GroupPolicy/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-GroupPolicy\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-GroupPolicy/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HAL_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_hal_debug",
@@ -8088,25 +8401,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HAL_DEBUG: ArtifactDescriptor = Artifac
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_HEALTHCENTER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_healthcenter_debug",
-    name: "Microsoft-Windows-HealthCenter/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-HealthCenter\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-HealthCenter/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_HEALTHCENTER_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_healthcenter_debug",
+        name: "Microsoft-Windows-HealthCenter/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-HealthCenter\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-HealthCenter/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HEALTHCENTER_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_healthcenter_performance",
@@ -8168,45 +8484,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HELLOFORBUSINESS_OPERATIONAL: ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_HELLOFORBUSINESS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_helloforbusiness_debug",
-    name: "Microsoft-Windows-HelloForBusiness/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-HelloForBusiness\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-HelloForBusiness/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_HELLOFORBUSINESS_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_helloforbusiness_debug",
+        name: "Microsoft-Windows-HelloForBusiness/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-HelloForBusiness\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-HelloForBusiness/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_HELP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_help_operational",
-    name: "Microsoft-Windows-Help/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Help\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Help/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_HELP_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_help_operational",
+        name: "Microsoft-Windows-Help/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Help\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Help/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_CONTROL_PANEL_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_homegroup_control_panel_operational",
@@ -8328,65 +8650,74 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_PROVIDER_SERVICE_PERFORMANC: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSTART_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_hotstart_diagnostic",
-    name: "Microsoft-Windows-HotStart/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-HotStart\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-HotStart/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSTART_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_hotstart_diagnostic",
+        name: "Microsoft-Windows-HotStart/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-HotStart\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-HotStart/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSPOTAUTH_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_hotspotauth_analytic",
-    name: "Microsoft-Windows-HotspotAuth/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-HotspotAuth\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-HotspotAuth/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSPOTAUTH_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_hotspotauth_analytic",
+        name: "Microsoft-Windows-HotspotAuth/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-HotspotAuth\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-HotspotAuth/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSPOTAUTH_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_hotspotauth_operational",
-    name: "Microsoft-Windows-HotspotAuth/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-HotspotAuth\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-HotspotAuth/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSPOTAUTH_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_hotspotauth_operational",
+        name: "Microsoft-Windows-HotspotAuth/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-HotspotAuth\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-HotspotAuth/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_HTTP_LOG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_http_log_channel",
@@ -8428,85 +8759,97 @@ pub(crate) static EVTX_HTTP_SERVICE_CHANNEL: ArtifactDescriptor = ArtifactDescri
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_COMPUTE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_hyper_v_compute_analytic",
-    name: "Microsoft-Windows-Hyper-V-Compute-Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Hyper-V-Compute-Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Hyper-V-Compute-Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_COMPUTE_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_hyper_v_compute_analytic",
+        name: "Microsoft-Windows-Hyper-V-Compute-Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Hyper-V-Compute-Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Hyper-V-Compute-Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_COMPUTE_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_hyper_v_compute_admin",
-    name: "Microsoft-Windows-Hyper-V-Compute-Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Hyper-V-Compute-Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Hyper-V-Compute-Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_COMPUTE_ADMIN: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_hyper_v_compute_admin",
+        name: "Microsoft-Windows-Hyper-V-Compute-Admin",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Hyper-V-Compute-Admin.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Hyper-V-Compute-Admin'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_HYPER_V_GUEST_DRIVERS_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_hyper_v_guest_drivers_admin",
-    name: "Microsoft-Hyper-V-Guest-Drivers-Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Hyper-V-Guest-Drivers-Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Hyper-V-Guest-Drivers-Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_HYPER_V_GUEST_DRIVERS_ADMIN: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_hyper_v_guest_drivers_admin",
+        name: "Microsoft-Hyper-V-Guest-Drivers-Admin",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Hyper-V-Guest-Drivers-Admin.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Hyper-V-Guest-Drivers-Admin'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_HYPER_V_GUEST_DRIVERS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_hyper_v_guest_drivers_analytic",
-    name: "Microsoft-Hyper-V-Guest-Drivers-Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Hyper-V-Guest-Drivers-Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Hyper-V-Guest-Drivers-Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_HYPER_V_GUEST_DRIVERS_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_hyper_v_guest_drivers_analytic",
+        name: "Microsoft-Hyper-V-Guest-Drivers-Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Hyper-V-Guest-Drivers-Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Hyper-V-Guest-Drivers-Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_GUEST_DRIVERS_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_hyper_v_guest_drivers_admin",
@@ -8588,25 +8931,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_HYPERVISOR_OPERATIONAL: Artifac
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_HYPERVISOR_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_hyper_v_hypervisor_admin",
-    name: "Microsoft-Windows-Hyper-V-Hypervisor-Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Hyper-V-Hypervisor-Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Hyper-V-Hypervisor-Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_HYPERVISOR_ADMIN: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_hyper_v_hypervisor_admin",
+        name: "Microsoft-Windows-Hyper-V-Hypervisor-Admin",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Hyper-V-Hypervisor-Admin.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Hyper-V-Hypervisor-Admin'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_KMCL_CHILD_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_hyper_v_kmcl_child_analytic",
@@ -8648,45 +8994,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_NETVSC_DIAGNOSTIC: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_VID_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_hyper_v_vid_analytic",
-    name: "Microsoft-Windows-Hyper-V-VID-Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Hyper-V-VID-Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Hyper-V-VID-Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_VID_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_hyper_v_vid_analytic",
+        name: "Microsoft-Windows-Hyper-V-VID-Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Hyper-V-VID-Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Hyper-V-VID-Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_VID_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_hyper_v_vid_admin",
-    name: "Microsoft-Windows-Hyper-V-VID-Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Hyper-V-VID-Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Hyper-V-VID-Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_VID_ADMIN: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_hyper_v_vid_admin",
+        name: "Microsoft-Windows-Hyper-V-VID-Admin",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Hyper-V-VID-Admin.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Hyper-V-VID-Admin'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IE_SMARTSCREEN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ie_smartscreen",
@@ -8708,25 +9060,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IE_SMARTSCREEN: ArtifactDescriptor = Ar
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_iis_configuration_debug",
-    name: "Microsoft-Windows-IIS-Configuration/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IIS-Configuration\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IIS-Configuration/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_iis_configuration_debug",
+        name: "Microsoft-Windows-IIS-Configuration/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IIS-Configuration\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IIS-Configuration/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_iis_configuration_analytic",
@@ -8808,25 +9163,28 @@ pub(crate) static EVTX_IIS_DIAGNOSTICS_CHANNEL: ArtifactDescriptor = ArtifactDes
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_BROKER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ime_broker_analytic",
-    name: "Microsoft-Windows-IME-Broker/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-Broker\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IME-Broker/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_BROKER_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ime_broker_analytic",
+        name: "Microsoft-Windows-IME-Broker/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-Broker\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IME-Broker/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_CANDIDATEUI_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ime_candidateui_analytic",
@@ -8888,145 +9246,166 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_CUSTOMERFEEDBACKMANAGERUI_ANALYTI: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPAPI_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ime_jpapi_analytic",
-    name: "Microsoft-Windows-IME-JPAPI/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-JPAPI\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IME-JPAPI/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPAPI_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ime_jpapi_analytic",
+        name: "Microsoft-Windows-IME-JPAPI/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-JPAPI\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IME-JPAPI/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPLMP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ime_jplmp_analytic",
-    name: "Microsoft-Windows-IME-JPLMP/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-JPLMP\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IME-JPLMP/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPLMP_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ime_jplmp_analytic",
+        name: "Microsoft-Windows-IME-JPLMP/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-JPLMP\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IME-JPLMP/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPPRED_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ime_jppred_analytic",
-    name: "Microsoft-Windows-IME-JPPRED/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-JPPRED\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IME-JPPRED/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPPRED_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ime_jppred_analytic",
+        name: "Microsoft-Windows-IME-JPPRED/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-JPPRED\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IME-JPPRED/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPSETTING_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ime_jpsetting_analytic",
-    name: "Microsoft-Windows-IME-JPSetting/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-JPSetting\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IME-JPSetting/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPSETTING_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ime_jpsetting_analytic",
+        name: "Microsoft-Windows-IME-JPSetting/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-JPSetting\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IME-JPSetting/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPTIP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ime_jptip_analytic",
-    name: "Microsoft-Windows-IME-JPTIP/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-JPTIP\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IME-JPTIP/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPTIP_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ime_jptip_analytic",
+        name: "Microsoft-Windows-IME-JPTIP/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-JPTIP\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IME-JPTIP/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_KRAPI_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ime_krapi_analytic",
-    name: "Microsoft-Windows-IME-KRAPI/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-KRAPI\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IME-KRAPI/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_KRAPI_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ime_krapi_analytic",
+        name: "Microsoft-Windows-IME-KRAPI/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-KRAPI\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IME-KRAPI/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_KRTIP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ime_krtip_analytic",
-    name: "Microsoft-Windows-IME-KRTIP/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-KRTIP\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IME-KRTIP/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_KRTIP_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ime_krtip_analytic",
+        name: "Microsoft-Windows-IME-KRTIP/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-KRTIP\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IME-KRTIP/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_OEDCOMPILER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ime_oedcompiler_analytic",
@@ -9048,45 +9427,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_OEDCOMPILER_ANALYTIC: ArtifactDescr
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_ROAMING_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ime_roaming_analytic",
-    name: "Microsoft-Windows-IME-Roaming/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-Roaming\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IME-Roaming/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_ROAMING_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ime_roaming_analytic",
+        name: "Microsoft-Windows-IME-Roaming/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-Roaming\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IME-Roaming/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCCORE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ime_sccore_analytic",
-    name: "Microsoft-Windows-IME-SCCORE/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-SCCORE\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IME-SCCORE/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCCORE_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ime_sccore_analytic",
+        name: "Microsoft-Windows-IME-SCCORE/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-SCCORE\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IME-SCCORE/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCDICCOMPILER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ime_scdiccompiler_analytic",
@@ -9108,145 +9493,166 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCDICCOMPILER_ANALYTIC: ArtifactDes
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCTIP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ime_sctip_analytic",
-    name: "Microsoft-Windows-IME-SCTIP/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-SCTIP\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IME-SCTIP/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCTIP_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ime_sctip_analytic",
+        name: "Microsoft-Windows-IME-SCTIP/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-SCTIP\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IME-SCTIP/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_TCCORE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ime_tccore_analytic",
-    name: "Microsoft-Windows-IME-TCCORE/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-TCCORE\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IME-TCCORE/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_TCCORE_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ime_tccore_analytic",
+        name: "Microsoft-Windows-IME-TCCORE/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-TCCORE\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IME-TCCORE/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_TCTIP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ime_tctip_analytic",
-    name: "Microsoft-Windows-IME-TCTIP/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-TCTIP\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IME-TCTIP/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_TCTIP_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ime_tctip_analytic",
+        name: "Microsoft-Windows-IME-TCTIP/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-TCTIP\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IME-TCTIP/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_TIP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ime_tip_analytic",
-    name: "Microsoft-Windows-IME-TIP/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-TIP\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IME-TIP/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_TIP_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ime_tip_analytic",
+        name: "Microsoft-Windows-IME-TIP/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IME-TIP\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IME-TIP/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IPBUSENUM_TRACING: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ipbusenum_tracing",
-    name: "Microsoft-Windows-IPBusEnum/Tracing",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IPBusEnum\\Tracing.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IPBusEnum/Tracing'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IPBUSENUM_TRACING: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ipbusenum_tracing",
+        name: "Microsoft-Windows-IPBusEnum/Tracing",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IPBusEnum\\Tracing.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IPBusEnum/Tracing'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IPNAT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ipnat_diagnostic",
-    name: "Microsoft-Windows-IPNAT/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IPNAT\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IPNAT/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IPNAT_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ipnat_diagnostic",
+        name: "Microsoft-Windows-IPNAT/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IPNAT\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IPNAT/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IPSEC_SRV_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ipsec_srv_diagnostic",
-    name: "Microsoft-Windows-IPSEC-SRV/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IPSEC-SRV\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IPSEC-SRV/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IPSEC_SRV_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ipsec_srv_diagnostic",
+        name: "Microsoft-Windows-IPSEC-SRV/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IPSEC-SRV\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IPSEC-SRV/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_debug_channel",
@@ -9268,65 +9674,74 @@ pub(crate) static EVTX_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IDCTRLS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_idctrls_operational",
-    name: "Microsoft-Windows-IdCtrls/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IdCtrls\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IdCtrls/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IDCTRLS_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_idctrls_operational",
+        name: "Microsoft-Windows-IdCtrls/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IdCtrls\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IdCtrls/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_IDCTRLS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_idctrls_analytic",
-    name: "Microsoft-Windows-IdCtrls/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IdCtrls\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-IdCtrls/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_IDCTRLS_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_idctrls_analytic",
+        name: "Microsoft-Windows-IdCtrls/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-IdCtrls\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-IdCtrls/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINAPI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_twinapi_diagnostic",
-    name: "Microsoft-Windows-TWinAPI/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TWinAPI\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TWinAPI/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINAPI_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_twinapi_diagnostic",
+        name: "Microsoft-Windows-TWinAPI/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TWinAPI\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-TWinAPI/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COREAPPLICATION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_coreapplication_operational",
@@ -9368,65 +9783,74 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COREAPPLICATION_DIAGNOSTIC: ArtifactDes
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_COREAPPLICATION_TRACING: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_coreapplication_tracing",
-    name: "Microsoft-Windows-CoreApplication/Tracing",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CoreApplication\\Tracing.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-CoreApplication/Tracing'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_COREAPPLICATION_TRACING: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_coreapplication_tracing",
+        name: "Microsoft-Windows-CoreApplication/Tracing",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CoreApplication\\Tracing.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-CoreApplication/Tracing'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINUI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_twinui_diagnostic",
-    name: "Microsoft-Windows-TWinUI/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TWinUI\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TWinUI/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINUI_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_twinui_diagnostic",
+        name: "Microsoft-Windows-TWinUI/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TWinUI\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-TWinUI/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINUI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_twinui_operational",
-    name: "Microsoft-Windows-TWinUI/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TWinUI\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TWinUI/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINUI_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_twinui_operational",
+        name: "Microsoft-Windows-TWinUI/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TWinUI\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-TWinUI/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_INDIRECTDISPLAYS_CLASSEXTENSION_EVENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_indirectdisplays_classextension_event",
@@ -9468,25 +9892,28 @@ pub(crate) static EVTX_THIS_IS_THE_ANALYTIC_CHANNEL_TO_WHICH_INTERNAL_ANALYTIC: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_INPUTSWITCH_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_inputswitch_diagnostic",
-    name: "Microsoft-Windows-InputSwitch/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-InputSwitch\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-InputSwitch/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_INPUTSWITCH_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_inputswitch_diagnostic",
+        name: "Microsoft-Windows-InputSwitch/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-InputSwitch\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-InputSwitch/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_THIS_IS_THE_ANALYTIC_CHANNEL_FOR_WINDOWS_INSTALL_UX_PER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_this_is_the_analytic_channel_for_windows_install_ux_per",
@@ -9568,45 +9995,51 @@ pub(crate) static EVTX_IPHLPSVC_ETW_DEBUG_CHANNEL: ArtifactDescriptor = Artifact
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KDSSVC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kdssvc_operational",
-    name: "Microsoft-Windows-KdsSvc/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-KdsSvc\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-KdsSvc/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KDSSVC_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kdssvc_operational",
+        name: "Microsoft-Windows-KdsSvc/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-KdsSvc\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-KdsSvc/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_ACPI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_acpi_diagnostic",
-    name: "Microsoft-Windows-Kernel-Acpi/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Acpi\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Acpi/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_ACPI_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_acpi_diagnostic",
+        name: "Microsoft-Windows-Kernel-Acpi/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Acpi\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Acpi/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPCOMPAT_GENERAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_appcompat_general",
@@ -9648,45 +10081,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPCOMPAT_PERFORMANCE: ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOT_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_boot_analytic",
-    name: "Microsoft-Windows-Kernel-Boot/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Boot\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Boot/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOT_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_boot_analytic",
+        name: "Microsoft-Windows-Kernel-Boot/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Boot\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Boot/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_boot_operational",
-    name: "Microsoft-Windows-Kernel-Boot/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Boot\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Boot/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOT_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_boot_operational",
+        name: "Microsoft-Windows-Kernel-Boot/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Boot\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Boot/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOTDIAGNOSTICS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_bootdiagnostics_diagnostic",
@@ -9748,45 +10187,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_CPU_STARVATION_OPERATIONAL: Arti
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_DISK_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_disk_analytic",
-    name: "Microsoft-Windows-Kernel-Disk/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Disk\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Disk/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_DISK_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_disk_analytic",
+        name: "Microsoft-Windows-Kernel-Disk/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Disk\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Disk/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_DUMP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_dump_operational",
-    name: "Microsoft-Windows-Kernel-Dump/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Dump\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Dump/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_DUMP_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_dump_operational",
+        name: "Microsoft-Windows-Kernel-Dump/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Dump\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Dump/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_EVENTTRACING_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_eventtracing_admin",
@@ -9828,45 +10273,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_EVENTTRACING_ANALYTIC: ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_FILE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_file_analytic",
-    name: "Microsoft-Windows-Kernel-File/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-File\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-File/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_FILE_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_file_analytic",
+        name: "Microsoft-Windows-Kernel-File/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-File\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-File/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_IO_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_io_operational",
-    name: "Microsoft-Windows-Kernel-IO/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-IO\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-IO/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_IO_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_io_operational",
+        name: "Microsoft-Windows-Kernel-IO/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-IO\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-IO/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_IOTRACE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_iotrace_diagnostic",
@@ -9928,65 +10379,74 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_LIVEDUMP_OPERATIONAL: ArtifactDe
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_MEMORY_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_memory_analytic",
-    name: "Microsoft-Windows-Kernel-Memory/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Memory\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Memory/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_MEMORY_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_memory_analytic",
+        name: "Microsoft-Windows-Kernel-Memory/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Memory\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Memory/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_NETWORK_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_network_analytic",
-    name: "Microsoft-Windows-Kernel-Network/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Network\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Network/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_NETWORK_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_network_analytic",
+        name: "Microsoft-Windows-Kernel-Network/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Network\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Network/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PEP_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_pep_diagnostic",
-    name: "Microsoft-Windows-Kernel-Pep/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Pep\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Pep/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PEP_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_pep_diagnostic",
+        name: "Microsoft-Windows-Kernel-Pep/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Pep\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Pep/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_BOOT_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_boot_diagnostic_channel",
@@ -10008,25 +10468,28 @@ pub(crate) static EVTX_BOOT_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = ArtifactDes
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PNP_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_pnp_diagnostic",
-    name: "Microsoft-Windows-Kernel-PnP/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-PnP\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-PnP/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PNP_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_pnp_diagnostic",
+        name: "Microsoft-Windows-Kernel-PnP/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-PnP\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-PnP/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_DRIVER_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_driver_diagnostic_channel",
@@ -10048,25 +10511,28 @@ pub(crate) static EVTX_DRIVER_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_DEVICE_ENUMERATION_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_device_enumeration_diagnostic_channel",
-    name: "Device Enumeration Diagnostic Channel",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Device Enumeration Diagnostic Channel.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Device Enumeration Diagnostic Channel'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_DEVICE_ENUMERATION_DIAGNOSTIC_CHANNEL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_device_enumeration_diagnostic_channel",
+        name: "Device Enumeration Diagnostic Channel",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Device Enumeration Diagnostic Channel.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Device Enumeration Diagnostic Channel'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_CONFIGURATION_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_configuration_diagnostic_channel",
@@ -10248,45 +10714,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PREFETCH_DIAGNOSTIC: ArtifactDes
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PRM_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_prm_operational",
-    name: "Microsoft-Windows-Kernel-Prm/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Prm\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Prm/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PRM_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_prm_operational",
+        name: "Microsoft-Windows-Kernel-Prm/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Prm\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Prm/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PROCESS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_process_analytic",
-    name: "Microsoft-Windows-Kernel-Process/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Process\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Process/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PROCESS_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_process_analytic",
+        name: "Microsoft-Windows-Kernel-Process/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Process\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Process/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PROCESSOR_POWER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_processor_power_diagnostic",
@@ -10348,25 +10820,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_REGISTRY_PERFORMANCE: ArtifactDe
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_SHIMENGINE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_shimengine_debug",
-    name: "Microsoft-Windows-Kernel-ShimEngine/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-ShimEngine\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-ShimEngine/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_SHIMENGINE_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_shimengine_debug",
+        name: "Microsoft-Windows-Kernel-ShimEngine/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-ShimEngine\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-ShimEngine/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_SHIMENGINE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_shimengine_operational",
@@ -10448,85 +10923,97 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_STOREMGR_OPERATIONAL: ArtifactDe
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WDI_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_wdi_analytic",
-    name: "Microsoft-Windows-Kernel-WDI/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-WDI\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-WDI/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WDI_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_wdi_analytic",
+        name: "Microsoft-Windows-Kernel-WDI/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-WDI\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-WDI/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WDI_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_wdi_debug",
-    name: "Microsoft-Windows-Kernel-WDI/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-WDI\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-WDI/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WDI_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_wdi_debug",
+        name: "Microsoft-Windows-Kernel-WDI/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-WDI\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-WDI/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WDI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_wdi_operational",
-    name: "Microsoft-Windows-Kernel-WDI/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-WDI\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-WDI/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WDI_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_wdi_operational",
+        name: "Microsoft-Windows-Kernel-WDI/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-WDI\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-WDI/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA_ERRORS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_whea_errors",
-    name: "Microsoft-Windows-Kernel-WHEA/Errors",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-WHEA\\Errors.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-WHEA/Errors'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA_ERRORS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_whea_errors",
+        name: "Microsoft-Windows-Kernel-WHEA/Errors",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-WHEA\\Errors.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-WHEA/Errors'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_whea",
@@ -10548,45 +11035,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA: ArtifactDescriptor = Artif
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_whea_operational",
-    name: "Microsoft-Windows-Kernel-WHEA/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-WHEA\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-WHEA/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_whea_operational",
+        name: "Microsoft-Windows-Kernel-WHEA/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-WHEA\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-WHEA/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_XDV_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_xdv_analytic",
-    name: "Microsoft-Windows-Kernel-XDV/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-XDV\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-XDV/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_XDV_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_xdv_analytic",
+        name: "Microsoft-Windows-Kernel-XDV/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-XDV\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-XDV/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_WINDOWS_KS_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_windows_ks_channel",
@@ -10608,25 +11101,28 @@ pub(crate) static EVTX_WINDOWS_KS_CHANNEL: ArtifactDescriptor = ArtifactDescript
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KEYBOARDFILTER_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_keyboardfilter_admin",
-    name: "Microsoft-Windows-KeyboardFilter/Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-KeyboardFilter\\Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-KeyboardFilter/Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KEYBOARDFILTER_ADMIN: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_keyboardfilter_admin",
+        name: "Microsoft-Windows-KeyboardFilter/Admin",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-KeyboardFilter\\Admin.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-KeyboardFilter/Admin'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KEYBOARDFILTER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_keyboardfilter_operational",
@@ -10688,26 +11184,6 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KNOWN_FOLDERS_OPERATIONAL: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KNOWN_FOLDERS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_known_folders_operational",
-    name: "Microsoft-Windows-Known Folders Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Known Folders Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Known Folders Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
 pub(crate) static EVTX_MICROSOFT_WINDOWS_WLAN_AUTOCONFIG_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_wlan_autoconfig_operational",
     name: "Microsoft-Windows-WLAN-AutoConfig/Operational",
@@ -10748,65 +11224,74 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_WIRED_AUTOCONFIG_OPERATIONAL: ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_L2NACP_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_l2nacp_diagnostic",
-    name: "Microsoft-Windows-L2NACP/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-L2NACP\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-L2NACP/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_L2NACP_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_l2nacp_diagnostic",
+        name: "Microsoft-Windows-L2NACP/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-L2NACP\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-L2NACP/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_LAPS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_laps_operational",
-    name: "Microsoft-Windows-LAPS/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-LAPS\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-LAPS/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_LAPS_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_laps_operational",
+        name: "Microsoft-Windows-LAPS/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-LAPS\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-LAPS/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_LDAP_CLIENT_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ldap_client_debug",
-    name: "Microsoft-Windows-LDAP-Client/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-LDAP-Client\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-LDAP-Client/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_LDAP_CLIENT_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ldap_client_debug",
+        name: "Microsoft-Windows-LDAP-Client/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-LDAP-Client\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-LDAP-Client/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LUA_CONSENTUI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_lua_consentui_diagnostic",
@@ -10868,25 +11353,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LANGUAGEPACKSETUP_ANALYTIC: ArtifactDes
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_LANGUAGEPACKSETUP_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_languagepacksetup_debug",
-    name: "Microsoft-Windows-LanguagePackSetup/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-LanguagePackSetup\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-LanguagePackSetup/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_LANGUAGEPACKSETUP_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_languagepacksetup_debug",
+        name: "Microsoft-Windows-LanguagePackSetup/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-LanguagePackSetup\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-LanguagePackSetup/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MAJOR_STATE_CONFIGURATION_CHANGE_THAT_CAN_HELP_DEBUG_AD: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_major_state_configuration_change_that_can_help_debug_ad",
@@ -10975,7 +11463,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LIVEID_ANALYTIC: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-LiveId\\Analytic.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-LiveId\\Analytic.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -10988,25 +11478,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LIVEID_ANALYTIC: ArtifactDescriptor = A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_LIVEID_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_liveid_operational",
-    name: "Microsoft-Windows-LiveId/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-LiveId\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-LiveId/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_LIVEID_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_liveid_operational",
+        name: "Microsoft-Windows-LiveId/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-LiveId\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-LiveId/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_AUTOMATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_automation",
@@ -11108,25 +11601,28 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_PIPELINE: ArtifactDescriptor = ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MEDIA_FOUNDATION_CONTENTPROTECTION: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_media_foundation_contentprotection",
-    name: "Media Foundation ContentProtection",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Media Foundation ContentProtection.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Media Foundation ContentProtection'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MEDIA_FOUNDATION_CONTENTPROTECTION: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_media_foundation_contentprotection",
+        name: "Media Foundation ContentProtection",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Media Foundation ContentProtection.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Media Foundation ContentProtection'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MEDIA_FOUNDATION_ASYNCWRAPPER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_media_foundation_asyncwrapper",
@@ -11308,85 +11804,97 @@ pub(crate) static EVTX_MUXENCODE: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_MPS_CLNT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_mps_clnt_diagnostic",
-    name: "Microsoft-Windows-MPS-CLNT/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MPS-CLNT\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-MPS-CLNT/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_MPS_CLNT_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_mps_clnt_diagnostic",
+        name: "Microsoft-Windows-MPS-CLNT/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MPS-CLNT\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-MPS-CLNT/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_MPS_DRV_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_mps_drv_diagnostic",
-    name: "Microsoft-Windows-MPS-DRV/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MPS-DRV\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-MPS-DRV/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_MPS_DRV_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_mps_drv_diagnostic",
+        name: "Microsoft-Windows-MPS-DRV/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MPS-DRV\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-MPS-DRV/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_MPS_SRV_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_mps_srv_diagnostic",
-    name: "Microsoft-Windows-MPS-SRV/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MPS-SRV\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-MPS-SRV/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_MPS_SRV_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_mps_srv_diagnostic",
+        name: "Microsoft-Windows-MPS-SRV/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MPS-SRV\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-MPS-SRV/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_MSFTEDIT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_msftedit_diagnostic",
-    name: "Microsoft-Windows-MSFTEDIT/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MSFTEDIT\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-MSFTEDIT/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_MSFTEDIT_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_msftedit_diagnostic",
+        name: "Microsoft-Windows-MSFTEDIT/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MSFTEDIT\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-MSFTEDIT/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_WINDOWS_MSMPEG2ADEC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_windows_msmpeg2adec_channel",
@@ -11468,65 +11976,74 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSPAINT_DEBUG: ArtifactDescriptor = Art
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_MSPAINT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_mspaint_diagnostic",
-    name: "Microsoft-Windows-MSPaint/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MSPaint\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-MSPaint/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_MSPAINT_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_mspaint_diagnostic",
+        name: "Microsoft-Windows-MSPaint/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MSPaint\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-MSPaint/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHV_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_msshav_shv_diagnostic",
-    name: "Microsoft-Windows-MSSHAV-SHV/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MSSHAV-SHV\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-MSSHAV-SHV/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHV_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_msshav_shv_diagnostic",
+        name: "Microsoft-Windows-MSSHAV-SHV/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MSSHAV-SHV\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-MSSHAV-SHV/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHV_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_msshav_shv_operational",
-    name: "Microsoft-Windows-MSSHAV-SHV/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MSSHAV-SHV\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-MSSHAV-SHV/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHV_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_msshav_shv_operational",
+        name: "Microsoft-Windows-MSSHAV-SHV/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MSSHAV-SHV\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-MSSHAV-SHV/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHVCNFG_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_msshav_shvcnfg_diagnostic",
@@ -11555,7 +12072,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_OPERATIONAL: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MUI\\Operational.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MUI\\Operational.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -11668,65 +12187,74 @@ pub(crate) static EVTX_PLAYREADY_PERFORMANCE: ArtifactDescriptor = ArtifactDescr
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_DMR: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_media_streaming_dmr",
-    name: "Microsoft-Windows-Media-Streaming/DMR",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Media-Streaming\\DMR.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Media-Streaming/DMR'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_DMR: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_media_streaming_dmr",
+        name: "Microsoft-Windows-Media-Streaming/DMR",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Media-Streaming\\DMR.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Media-Streaming/DMR'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_DMC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_media_streaming_dmc",
-    name: "Microsoft-Windows-Media-Streaming/DMC",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Media-Streaming\\DMC.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Media-Streaming/DMC'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_DMC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_media_streaming_dmc",
+        name: "Microsoft-Windows-Media-Streaming/DMC",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Media-Streaming\\DMC.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Media-Streaming/DMC'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_MDE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_media_streaming_mde",
-    name: "Microsoft-Windows-Media-Streaming/MDE",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Media-Streaming\\MDE.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Media-Streaming/MDE'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_MDE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_media_streaming_mde",
+        name: "Microsoft-Windows-Media-Streaming/MDE",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Media-Streaming\\MDE.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Media-Streaming/MDE'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MEDIA_FOUNDATION_MEDIAENGINE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_media_foundation_mediaengine",
@@ -12148,26 +12676,6 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_PARSER_TA: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_PARSER_TA: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_mobile_broadband_experience_parser_ta",
-    name: "Microsoft-Windows-Mobile-Broadband-Experience-Parser-Task/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Mobile-Broadband-Experience-Parser-Task\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Mobile-Broadband-Experience-Parser-Task/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_SMSAPI_AN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mobile_broadband_experience_smsapi_an",
     name: "Microsoft-Windows-Mobile-Broadband-Experience-SmsApi/Analytic",
@@ -12220,26 +12728,6 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_SMSROUTER: 
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
     meaning: "Windows Event Log channel 'Microsoft-Windows-Mobile-Broadband-Experience-SmsRouter/Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
-pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_SMSROUTER: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_mobile_broadband_experience_smsrouter",
-    name: "Microsoft-Windows-Mobile-Broadband-Experience-SmsRouter/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Mobile-Broadband-Experience-SmsRouter\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Mobile-Broadband-Experience-SmsRouter/Analytic'.",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -12308,45 +12796,51 @@ pub(crate) static EVTX_MANAGEMENTSERVICE: ArtifactDescriptor = ArtifactDescripto
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_MOSHOST_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_moshost_operational",
-    name: "Microsoft-Windows-MosHost/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MosHost\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-MosHost/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_MOSHOST_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_moshost_operational",
+        name: "Microsoft-Windows-MosHost/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MosHost\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-MosHost/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_MOSHOST_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_moshost_performance",
-    name: "Microsoft-Windows-MosHost/Performance",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MosHost\\Performance.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-MosHost/Performance'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_MOSHOST_PERFORMANCE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_moshost_performance",
+        name: "Microsoft-Windows-MosHost/Performance",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-MosHost\\Performance.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-MosHost/Performance'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_NOTIFICATION_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_notification_channel",
@@ -12408,25 +12902,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NCSI_ANALYTIC: ArtifactDescriptor = Art
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NCSI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ncsi_operational",
-    name: "Microsoft-Windows-NCSI/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NCSI\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-NCSI/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NCSI_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ncsi_operational",
+        name: "Microsoft-Windows-NCSI/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NCSI\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-NCSI/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_PACKETCAPTURE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ndis_packetcapture_diagnostic",
@@ -12455,7 +12952,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_DIAGNOSTIC: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NDIS\\Diagnostic.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NDIS\\Diagnostic.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -12468,25 +12967,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_DIAGNOSTIC: ArtifactDescriptor = A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ndis_operational",
-    name: "Microsoft-Windows-NDIS/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NDIS\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-NDIS/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ndis_operational",
+        name: "Microsoft-Windows-NDIS/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NDIS\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-NDIS/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_PROTECTEDUSERFAILURES: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_authentication_protecteduserfailures",
@@ -12528,45 +13030,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_AUTHENTICATIONPOLICYFA: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NTLM_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ntlm_operational",
-    name: "Microsoft-Windows-NTLM/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NTLM\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-NTLM/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NTLM_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ntlm_operational",
+        name: "Microsoft-Windows-NTLM/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NTLM\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-NTLM/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NWIFI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_nwifi_diagnostic",
-    name: "Microsoft-Windows-NWiFi/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NWiFi\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-NWiFi/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NWIFI_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_nwifi_diagnostic",
+        name: "Microsoft-Windows-NWiFi/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NWiFi\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-NWiFi/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NARRATOR_INPROC_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_narrator_inproc_diagnostic",
@@ -12588,45 +13096,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NARRATOR_INPROC_DIAGNOSTIC: ArtifactDes
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NARRATOR_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_narrator_diagnostic",
-    name: "Microsoft-Windows-Narrator/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Narrator\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Narrator/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NARRATOR_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_narrator_diagnostic",
+        name: "Microsoft-Windows-Narrator/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Narrator\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Narrator/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NCASVC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ncasvc_operational",
-    name: "Microsoft-Windows-Ncasvc/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Ncasvc\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Ncasvc/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NCASVC_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ncasvc_operational",
+        name: "Microsoft-Windows-Ncasvc/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Ncasvc\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Ncasvc/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NCDAUTOSETUP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ncdautosetup_operational",
@@ -12648,25 +13162,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NCDAUTOSETUP_OPERATIONAL: ArtifactDescr
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NCDAUTOSETUP_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ncdautosetup_diagnostic",
-    name: "Microsoft-Windows-NcdAutoSetup/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NcdAutoSetup\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-NcdAutoSetup/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NCDAUTOSETUP_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ncdautosetup_diagnostic",
+        name: "Microsoft-Windows-NcdAutoSetup/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NcdAutoSetup\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-NcdAutoSetup/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NDISIMPLATFORM_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ndisimplatform_operational",
@@ -12708,25 +13225,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NDU_DIAGNOSTIC: ArtifactDescriptor = Ar
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NETSHELL_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_netshell_performance",
-    name: "Microsoft-Windows-NetShell/Performance",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NetShell\\Performance.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-NetShell/Performance'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NETSHELL_PERFORMANCE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_netshell_performance",
+        name: "Microsoft-Windows-NetShell/Performance",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NetShell\\Performance.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-NetShell/Performance'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_CONNECTION_BROKER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_network_connection_broker",
@@ -12768,25 +13288,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_DATAUSAGE_ANALYTIC: ArtifactDes
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_EXECUTION_CONTEXT_OPERATIONAL_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_execution_context_operational_channel",
-    name: "Execution Context Operational Channel",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Execution Context Operational Channel.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Execution Context Operational Channel'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_EXECUTION_CONTEXT_OPERATIONAL_CHANNEL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_execution_context_operational_channel",
+        name: "Execution Context Operational Channel",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Execution Context Operational Channel.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Execution Context Operational Channel'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_SETUP_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_network_setup_diagnostic",
@@ -12988,45 +13511,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROVISIONING_OPERATIONAL: Artifa
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKSECURITY_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_networksecurity_debug",
-    name: "Microsoft-Windows-NetworkSecurity/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NetworkSecurity\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-NetworkSecurity/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKSECURITY_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_networksecurity_debug",
+        name: "Microsoft-Windows-NetworkSecurity/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NetworkSecurity\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-NetworkSecurity/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Critical,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKSTATUS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_networkstatus_analytic",
-    name: "Microsoft-Windows-NetworkStatus/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NetworkStatus\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-NetworkStatus/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKSTATUS_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_networkstatus_analytic",
+        name: "Microsoft-Windows-NetworkStatus/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NetworkStatus\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-NetworkStatus/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKING_CORRELATION_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_networking_correlation_diagnostic",
@@ -13068,85 +13597,97 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKING_REALTIMECOMMUNICATION_TRAC: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NLASVC_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_nlasvc_diagnostic",
-    name: "Microsoft-Windows-NlaSvc/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NlaSvc\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-NlaSvc/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NLASVC_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_nlasvc_diagnostic",
+        name: "Microsoft-Windows-NlaSvc/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NlaSvc\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-NlaSvc/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NLASVC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_nlasvc_operational",
-    name: "Microsoft-Windows-NlaSvc/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NlaSvc\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-NlaSvc/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NLASVC_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_nlasvc_operational",
+        name: "Microsoft-Windows-NlaSvc/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NlaSvc\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-NlaSvc/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ntfs_performance",
-    name: "Microsoft-Windows-Ntfs/Performance",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Ntfs\\Performance.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Ntfs/Performance'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_PERFORMANCE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ntfs_performance",
+        name: "Microsoft-Windows-Ntfs/Performance",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Ntfs\\Performance.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Ntfs/Performance'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_ntfs_operational",
-    name: "Microsoft-Windows-Ntfs/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Ntfs\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Ntfs/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_ntfs_operational",
+        name: "Microsoft-Windows-Ntfs/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Ntfs\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Ntfs/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_WHC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ntfs_whc",
@@ -13168,45 +13709,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_WHC: ArtifactDescriptor = Artifact
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NVDIMMN_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_nvdimmn_diagnostic",
-    name: "Microsoft-Windows-NvdimmN/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NvdimmN\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-NvdimmN/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NVDIMMN_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_nvdimmn_diagnostic",
+        name: "Microsoft-Windows-NvdimmN/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NvdimmN\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-NvdimmN/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_NVDIMMN_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_nvdimmn_operational",
-    name: "Microsoft-Windows-NvdimmN/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NvdimmN\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-NvdimmN/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_NVDIMMN_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_nvdimmn_operational",
+        name: "Microsoft-Windows-NvdimmN/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NvdimmN\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-NvdimmN/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_NVMEDISK_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storage_nvmedisk_analytic",
@@ -13308,25 +13855,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OLE_CLIPBOARD_DIAGNOSTICS: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_OLEACC_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_oleacc_diagnostic",
-    name: "Microsoft-Windows-OLEACC/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-OLEACC\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-OLEACC/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_OLEACC_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_oleacc_diagnostic",
+        name: "Microsoft-Windows-OLEACC/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-OLEACC\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-OLEACC/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OLEACC_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_oleacc_debug",
@@ -13468,25 +14018,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_PLUGINS_DIAGNOSTIC: Artifa
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_oobe_machine_diagnostic",
-    name: "Microsoft-Windows-OOBE-Machine/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-OOBE-Machine\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-OOBE-Machine/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_oobe_machine_diagnostic",
+        name: "Microsoft-Windows-OOBE-Machine/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-OOBE-Machine\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-OOBE-Machine/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_SETUP: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_setup",
@@ -13508,25 +14061,28 @@ pub(crate) static EVTX_SETUP: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_OCP_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_ocp_update_agent_operational_channel",
-    name: "Ocp Update Agent operational channel",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Ocp Update Agent operational channel.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Ocp Update Agent operational channel'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_OCP_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_ocp_update_agent_operational_channel",
+        name: "Ocp Update Agent operational channel",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Ocp Update Agent operational channel.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Ocp Update Agent operational channel'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OFFLINEFILES_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_offlinefiles_operational",
@@ -13548,25 +14104,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OFFLINEFILES_OPERATIONAL: ArtifactDescr
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_OFFLINEFILES_SYNCLOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_offlinefiles_synclog",
-    name: "Microsoft-Windows-OfflineFiles/SyncLog",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-OfflineFiles\\SyncLog.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-OfflineFiles/SyncLog'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_OFFLINEFILES_SYNCLOG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_offlinefiles_synclog",
+        name: "Microsoft-Windows-OfflineFiles/SyncLog",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-OfflineFiles\\SyncLog.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-OfflineFiles/SyncLog'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEBACKUP_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_onebackup_debug",
@@ -13575,7 +14134,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEBACKUP_DEBUG: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-OneBackup\\Debug.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-OneBackup\\Debug.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -13595,7 +14156,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEX_DIAGNOSTIC: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-OneX\\Diagnostic.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-OneX\\Diagnostic.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -13608,45 +14171,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEX_DIAGNOSTIC: ArtifactDescriptor = A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEX_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_onex_operational",
-    name: "Microsoft-Windows-OneX/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-OneX\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-OneX/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEX_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_onex_operational",
+        name: "Microsoft-Windows-OneX/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-OneX\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-OneX/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBELDR_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_oobeldr_analytic",
-    name: "Microsoft-Windows-OobeLdr/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-OobeLdr\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-OobeLdr/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBELDR_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_oobeldr_analytic",
+        name: "Microsoft-Windows-OobeLdr/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-OobeLdr\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-OobeLdr/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OTPCREDENTIALPROVIDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_otpcredentialprovider_operational",
@@ -13708,25 +14277,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PCI_DIAGNOSTIC: ArtifactDescriptor = Ar
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PDC_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_kernel_pdc_diagnostic",
-    name: "Microsoft-Windows-Kernel-Pdc/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Pdc\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Pdc/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PDC_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_kernel_pdc_diagnostic",
+        name: "Microsoft-Windows-Kernel-Pdc/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-Pdc\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Kernel-Pdc/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_GLCND_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_glcnd_debug",
@@ -13768,25 +14340,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GLCND_ADMIN: ArtifactDescriptor = Artif
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_GLCND_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_glcnd_diagnostic",
-    name: "Microsoft-Windows-glcnd/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-glcnd\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-glcnd/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_GLCND_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_glcnd_diagnostic",
+        name: "Microsoft-Windows-glcnd/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-glcnd\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-glcnd/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PACKAGESTATEROAMING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_packagestateroaming_operational",
@@ -13908,45 +14483,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PARENTALCONTROLS_TELEMETRY_AUDITING: Ar
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_partition_diagnostic",
-    name: "Microsoft-Windows-Partition/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Partition\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Partition/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_partition_diagnostic",
+        name: "Microsoft-Windows-Partition/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Partition\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Partition/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_partition_analytic",
-    name: "Microsoft-Windows-Partition/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Partition\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Partition/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_partition_analytic",
+        name: "Microsoft-Windows-Partition/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Partition\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Partition/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_partition_debug",
@@ -13955,7 +14536,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_DEBUG: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Partition\\Debug.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Partition\\Debug.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -14308,105 +14891,120 @@ pub(crate) static EVTX_WINDOWS_WMPHOTO_CHANNEL: ArtifactDescriptor = ArtifactDes
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_PHOTOACQ_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_photoacq_analytic",
-    name: "Microsoft-Windows-PhotoAcq/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PhotoAcq\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-PhotoAcq/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_PHOTOACQ_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_photoacq_analytic",
+        name: "Microsoft-Windows-PhotoAcq/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PhotoAcq\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-PhotoAcq/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_PLAYTOMANAGER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_playtomanager_analytic",
-    name: "Microsoft-Windows-PlayToManager/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PlayToManager\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-PlayToManager/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_PLAYTOMANAGER_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_playtomanager_analytic",
+        name: "Microsoft-Windows-PlayToManager/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PlayToManager\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-PlayToManager/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_pmemdisk_analytic",
-    name: "Microsoft-Windows-PmemDisk/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PmemDisk\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-PmemDisk/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_pmemdisk_analytic",
+        name: "Microsoft-Windows-PmemDisk/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PmemDisk\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-PmemDisk/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_pmemdisk_diagnostic",
-    name: "Microsoft-Windows-PmemDisk/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PmemDisk\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-PmemDisk/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_pmemdisk_diagnostic",
+        name: "Microsoft-Windows-PmemDisk/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PmemDisk\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-PmemDisk/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_pmemdisk_operational",
-    name: "Microsoft-Windows-PmemDisk/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PmemDisk\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-PmemDisk/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_pmemdisk_operational",
+        name: "Microsoft-Windows-PmemDisk/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PmemDisk\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-PmemDisk/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PORTABLEDEVICESTATUSPROVIDER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_portabledevicestatusprovider_analytic",
@@ -14468,45 +15066,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWER_METER_POLLING_DIAGNOSTIC: Artifac
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERCFG_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_powercfg_diagnostic",
-    name: "Microsoft-Windows-PowerCfg/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PowerCfg\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-PowerCfg/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERCFG_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_powercfg_diagnostic",
+        name: "Microsoft-Windows-PowerCfg/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PowerCfg\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-PowerCfg/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERCPL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_powercpl_diagnostic",
-    name: "Microsoft-Windows-PowerCpl/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PowerCpl\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-PowerCpl/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERCPL_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_powercpl_diagnostic",
+        name: "Microsoft-Windows-PowerCpl/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PowerCpl\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-PowerCpl/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_DESIREDSTATECONFIGURATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_powershell_desiredstateconfiguration",
@@ -14528,85 +15132,74 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_DESIREDSTATECONFIGURATION: A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_DESIREDSTATECONFIGURATION: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_powershell_desiredstateconfiguration",
-    name: "Microsoft-Windows-PowerShell-DesiredStateConfiguration-FileDownloadManager/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PowerShell-DesiredStateConfiguration-FileDownloadManager\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-PowerShell-DesiredStateConfiguration-FileDownloadManager/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_powershell_operational",
+        name: "Microsoft-Windows-PowerShell/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PowerShell\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-PowerShell/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::High,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_powershell_operational",
-    name: "Microsoft-Windows-PowerShell/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PowerShell\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-PowerShell/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_powershell_analytic",
+        name: "Microsoft-Windows-PowerShell/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PowerShell\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-PowerShell/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::High,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_powershell_analytic",
-    name: "Microsoft-Windows-PowerShell/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PowerShell\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-PowerShell/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
-pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_powershell_debug",
-    name: "Microsoft-Windows-PowerShell/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PowerShell\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-PowerShell/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_powershell_debug",
+        name: "Microsoft-Windows-PowerShell/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PowerShell\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-PowerShell/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::High,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIRESOURCES_DEPLOYMENT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_priresources_deployment_diagnostic",
@@ -14688,45 +15281,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKLOCATIONWIZARD_OPERATIONAL: Arti
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTDIALOGS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_printdialogs_analytic",
-    name: "Microsoft-Windows-PrintDialogs/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PrintDialogs\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-PrintDialogs/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTDIALOGS_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_printdialogs_analytic",
+        name: "Microsoft-Windows-PrintDialogs/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PrintDialogs\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-PrintDialogs/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTDIALOGS3D_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_printdialogs3d_analytic",
-    name: "Microsoft-Windows-PrintDialogs3D/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PrintDialogs3D\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-PrintDialogs3D/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTDIALOGS3D_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_printdialogs3d_analytic",
+        name: "Microsoft-Windows-PrintDialogs3D/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PrintDialogs3D\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-PrintDialogs3D/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTSPOOLER_CORE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_printspooler_core_analytic",
@@ -14748,25 +15347,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTSPOOLER_CORE_ANALYTIC: ArtifactDes
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTSPOOLER_CORE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_printspooler_core_debug",
-    name: "Microsoft-Windows-PrintSpooler/Core-Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PrintSpooler\\Core-Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-PrintSpooler/Core-Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTSPOOLER_CORE_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_printspooler_core_debug",
+        name: "Microsoft-Windows-PrintSpooler/Core-Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PrintSpooler\\Core-Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-PrintSpooler/Core-Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIVACY_AUDITING_PERMISSIVELEARNINGMO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_privacy_auditing_permissivelearningmo",
@@ -14820,26 +15422,6 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PROGRAM_COMPATIBILITY_ASSISTANT_OPERA: 
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
     meaning: "Windows Event Log channel 'Microsoft-Windows-Program-Compatibility-Assistant/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
-pub(crate) static EVTX_AUTOPILOT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_autopilot",
-    name: "AutoPilot",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\AutoPilot.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'AutoPilot'.",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -15008,25 +15590,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_PLATFORM_ADMIN: Artif
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_PACER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_qos_pacer_diagnostic",
-    name: "Microsoft-Windows-QoS-Pacer/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-QoS-Pacer\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-QoS-Pacer/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_PACER_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_qos_pacer_diagnostic",
+        name: "Microsoft-Windows-QoS-Pacer/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-QoS-Pacer\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-QoS-Pacer/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_PACER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_qos_pacer_debug",
@@ -15035,7 +15620,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_PACER_DEBUG: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-QoS-Pacer\\Debug.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-QoS-Pacer\\Debug.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15055,7 +15642,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_QWAVE_DEBUG: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-QoS-qWAVE\\Debug.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-QoS-qWAVE\\Debug.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -15148,25 +15737,28 @@ pub(crate) static EVTX_RTWORKQUEUE_THREADING: ArtifactDescriptor = ArtifactDescr
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_RADIOMANAGER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_radiomanager_analytic",
-    name: "Microsoft-Windows-RadioManager/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-RadioManager\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-RadioManager/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_RADIOMANAGER_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_radiomanager_analytic",
+        name: "Microsoft-Windows-RadioManager/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-RadioManager\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-RadioManager/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RAS_NDISWANPACKETCAPTURE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ras_ndiswanpacketcapture_diagnostic",
@@ -15188,25 +15780,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RAS_NDISWANPACKETCAPTURE_DIAGNOSTIC: Ar
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_REFS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_refs_operational",
-    name: "Microsoft-Windows-ReFS/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ReFS\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-ReFS/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_REFS_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_refs_operational",
+        name: "Microsoft-Windows-ReFS/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ReFS\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-ReFS/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REFSDEDUPSVC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_refsdedupsvc_operational",
@@ -15228,25 +15823,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REFSDEDUPSVC_OPERATIONAL: ArtifactDescr
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_READYBOOST_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_readyboost_analytic",
-    name: "Microsoft-Windows-ReadyBoost/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ReadyBoost\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-ReadyBoost/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_READYBOOST_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_readyboost_analytic",
+        name: "Microsoft-Windows-ReadyBoost/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ReadyBoost\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-ReadyBoost/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_READYBOOSTDRIVER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_readyboostdriver_analytic",
@@ -15288,25 +15886,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_READYBOOSTDRIVER_OPERATIONAL: ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_RECOVERY_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_recovery_operational",
-    name: "Microsoft-Windows-Recovery/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Recovery\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Recovery/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_RECOVERY_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_recovery_operational",
+        name: "Microsoft-Windows-Recovery/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Recovery\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Recovery/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RELIABILITYANALYSISCOMPONENT_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_reliabilityanalysiscomponent_operatio",
@@ -15408,25 +16009,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEASSISTANCE_TRACING: ArtifactDescr
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEASSISTANCE_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_remoteassistance_admin",
-    name: "Microsoft-Windows-RemoteAssistance/Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-RemoteAssistance\\Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-RemoteAssistance/Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEASSISTANCE_ADMIN: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_remoteassistance_admin",
+        name: "Microsoft-Windows-RemoteAssistance/Admin",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-RemoteAssistance\\Admin.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-RemoteAssistance/Admin'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEASSISTANCE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_remoteassistance_operational",
@@ -15908,45 +16512,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WEB_HTTP_TRACING: ArtifactDescr
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WEBAPI_TRACING: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_runtime_webapi_tracing",
-    name: "Microsoft-Windows-Runtime-WebAPI/Tracing",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Runtime-WebAPI\\Tracing.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Runtime-WebAPI/Tracing'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WEBAPI_TRACING: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_runtime_webapi_tracing",
+        name: "Microsoft-Windows-Runtime-WebAPI/Tracing",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Runtime-WebAPI\\Tracing.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Runtime-WebAPI/Tracing'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SENSE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_sense_operational",
-    name: "Microsoft-Windows-SENSE/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SENSE\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SENSE/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SENSE_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_sense_operational",
+        name: "Microsoft-Windows-SENSE/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SENSE\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SENSE/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_HELPERCLASSDIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smbclient_helperclassdiagnostic",
@@ -15968,45 +16578,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_HELPERCLASSDIAGNOSTIC: Artifa
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smbclient_diagnostic",
-    name: "Microsoft-Windows-SMBClient/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBClient\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SMBClient/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smbclient_diagnostic",
+        name: "Microsoft-Windows-SMBClient/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBClient\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SMBClient/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_XPERFANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smbclient_xperfanalytic",
-    name: "Microsoft-Windows-SMBClient/XPerfAnalytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBClient\\XPerfAnalytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SMBClient/XPerfAnalytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_XPERFANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smbclient_xperfanalytic",
+        name: "Microsoft-Windows-SMBClient/XPerfAnalytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBClient\\XPerfAnalytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SMBClient/XPerfAnalytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_OBJECTSTATEDIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smbclient_objectstatediagnostic",
@@ -16028,65 +16644,74 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_OBJECTSTATEDIAGNOSTIC: Artifa
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smbclient_operational",
-    name: "Microsoft-Windows-SMBClient/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBClient\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SMBClient/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smbclient_operational",
+        name: "Microsoft-Windows-SMBClient/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBClient\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SMBClient/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_CONNECTIVITY: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smbclient_connectivity",
-    name: "Microsoft-Windows-SMBClient/Connectivity",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBClient\\Connectivity.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SMBClient/Connectivity'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_CONNECTIVITY: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smbclient_connectivity",
+        name: "Microsoft-Windows-SMBClient/Connectivity",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBClient\\Connectivity.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SMBClient/Connectivity'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smbclient_security",
-    name: "Microsoft-Windows-SMBClient/Security",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBClient\\Security.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SMBClient/Security'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_SECURITY: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smbclient_security",
+        name: "Microsoft-Windows-SMBClient/Security",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBClient\\Security.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SMBClient/Security'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Critical,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smbclient_audit",
@@ -16095,7 +16720,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_AUDIT: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBClient\\Audit.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBClient\\Audit.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16108,25 +16735,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_AUDIT: ArtifactDescriptor = A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smbdirect_operational",
-    name: "Microsoft-Windows-SMBDirect/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBDirect\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SMBDirect/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smbdirect_operational",
+        name: "Microsoft-Windows-SMBDirect/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBDirect\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SMBDirect/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smbdirect_admin",
@@ -16135,7 +16765,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_ADMIN: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBDirect\\Admin.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBDirect\\Admin.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16155,7 +16787,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_DEBUG: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBDirect\\Debug.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBDirect\\Debug.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16168,165 +16802,189 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_DEBUG: ArtifactDescriptor = A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_CONNECTIVITY: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smbdirect_connectivity",
-    name: "Microsoft-Windows-SMBDirect/Connectivity",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBDirect\\Connectivity.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SMBDirect/Connectivity'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_CONNECTIVITY: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smbdirect_connectivity",
+        name: "Microsoft-Windows-SMBDirect/Connectivity",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBDirect\\Connectivity.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SMBDirect/Connectivity'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_NETMON: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smbdirect_netmon",
-    name: "Microsoft-Windows-SMBDirect/Netmon",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBDirect\\Netmon.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SMBDirect/Netmon'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_NETMON: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smbdirect_netmon",
+        name: "Microsoft-Windows-SMBDirect/Netmon",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBDirect\\Netmon.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SMBDirect/Netmon'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smbserver_performance",
-    name: "Microsoft-Windows-SMBServer/Performance",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBServer\\Performance.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SMBServer/Performance'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_PERFORMANCE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smbserver_performance",
+        name: "Microsoft-Windows-SMBServer/Performance",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBServer\\Performance.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SMBServer/Performance'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smbserver_analytic",
-    name: "Microsoft-Windows-SMBServer/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBServer\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SMBServer/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smbserver_analytic",
+        name: "Microsoft-Windows-SMBServer/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBServer\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SMBServer/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smbserver_security",
-    name: "Microsoft-Windows-SMBServer/Security",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBServer\\Security.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SMBServer/Security'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_SECURITY: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smbserver_security",
+        name: "Microsoft-Windows-SMBServer/Security",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBServer\\Security.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SMBServer/Security'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Critical,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smbserver_operational",
-    name: "Microsoft-Windows-SMBServer/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBServer\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SMBServer/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smbserver_operational",
+        name: "Microsoft-Windows-SMBServer/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBServer\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SMBServer/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_CONNECTIVITY: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smbserver_connectivity",
-    name: "Microsoft-Windows-SMBServer/Connectivity",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBServer\\Connectivity.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SMBServer/Connectivity'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_CONNECTIVITY: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smbserver_connectivity",
+        name: "Microsoft-Windows-SMBServer/Connectivity",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBServer\\Connectivity.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SMBServer/Connectivity'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smbserver_diagnostic",
-    name: "Microsoft-Windows-SMBServer/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBServer\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SMBServer/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smbserver_diagnostic",
+        name: "Microsoft-Windows-SMBServer/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBServer\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SMBServer/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smbserver_audit",
@@ -16335,7 +16993,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_AUDIT: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBServer\\Audit.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBServer\\Audit.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16348,25 +17008,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_AUDIT: ArtifactDescriptor = A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBWITNESSCLIENT_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smbwitnessclient_admin",
-    name: "Microsoft-Windows-SMBWitnessClient/Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBWitnessClient\\Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SMBWitnessClient/Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBWITNESSCLIENT_ADMIN: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smbwitnessclient_admin",
+        name: "Microsoft-Windows-SMBWitnessClient/Admin",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBWitnessClient\\Admin.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SMBWitnessClient/Admin'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_WITNESSCLIENTADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_witnessclientadmin",
@@ -16408,25 +17071,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBWITNESSCLIENT_INFORMATIONAL: Artifac
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SCHANNEL_EVENTS_PERF: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_schannel_events_perf",
-    name: "Microsoft-Windows-Schannel-Events/Perf",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Schannel-Events\\Perf.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Schannel-Events/Perf'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SCHANNEL_EVENTS_PERF: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_schannel_events_perf",
+        name: "Microsoft-Windows-Schannel-Events/Perf",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Schannel-Events\\Perf.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Schannel-Events/Perf'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_scmbus_analytic",
@@ -16435,7 +17101,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_ANALYTIC: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ScmBus\\Analytic.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ScmBus\\Analytic.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16455,7 +17123,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_DIAGNOSE: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ScmBus\\Diagnose.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ScmBus\\Diagnose.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16468,85 +17138,97 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_DIAGNOSE: ArtifactDescriptor = A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_CERTIFICATION: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_scmbus_certification",
-    name: "Microsoft-Windows-ScmBus/Certification",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ScmBus\\Certification.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-ScmBus/Certification'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_CERTIFICATION: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_scmbus_certification",
+        name: "Microsoft-Windows-ScmBus/Certification",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ScmBus\\Certification.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-ScmBus/Certification'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_scmdisk0101_analytic",
-    name: "Microsoft-Windows-ScmDisk0101/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ScmDisk0101\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-ScmDisk0101/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_scmdisk0101_analytic",
+        name: "Microsoft-Windows-ScmDisk0101/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ScmDisk0101\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-ScmDisk0101/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_scmdisk0101_diagnostic",
-    name: "Microsoft-Windows-ScmDisk0101/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ScmDisk0101\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-ScmDisk0101/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_scmdisk0101_diagnostic",
+        name: "Microsoft-Windows-ScmDisk0101/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ScmDisk0101\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-ScmDisk0101/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_scmdisk0101_operational",
-    name: "Microsoft-Windows-ScmDisk0101/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ScmDisk0101\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-ScmDisk0101/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_scmdisk0101_operational",
+        name: "Microsoft-Windows-ScmDisk0101/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ScmDisk0101\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-ScmDisk0101/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SDBUS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_sdbus_analytic",
@@ -16595,7 +17277,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SDSTOR_ANALYTIC: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Sdstor\\Analytic.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Sdstor\\Analytic.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -16608,25 +17292,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SDSTOR_ANALYTIC: ArtifactDescriptor = A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SEARCH_CORE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_search_core_diagnostic",
-    name: "Microsoft-Windows-Search-Core/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Search-Core\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Search-Core/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SEARCH_CORE_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_search_core_diagnostic",
+        name: "Microsoft-Windows-Search-Core/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Search-Core\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Search-Core/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SEARCH_PROTOCOLHANDLERS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_search_protocolhandlers_diagnostic",
@@ -16988,25 +17675,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_ANALYTIC: ArtifactDescr
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_PERF: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_security_spp_perf",
-    name: "Microsoft-Windows-Security-SPP/Perf",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Security-SPP\\Perf.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Security-SPP/Perf'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_PERF: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_security_spp_perf",
+        name: "Microsoft-Windows-Security-SPP/Perf",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Security-SPP\\Perf.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Security-SPP/Perf'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Critical,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_USERCONSENTVERIFIER_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_userconsentverifier_audit",
@@ -17108,45 +17798,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITYMITIGATIONSBROKER_ADMIN: Artifa
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SENDTO_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_sendto_diagnostic",
-    name: "Microsoft-Windows-SendTo/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SendTo\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SendTo/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SENDTO_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_sendto_diagnostic",
+        name: "Microsoft-Windows-SendTo/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SendTo\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SendTo/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SENSEIR_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_senseir_operational",
-    name: "Microsoft-Windows-SenseIR/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SenseIR\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SenseIR/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SENSEIR_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_senseir_operational",
+        name: "Microsoft-Windows-SenseIR/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SenseIR\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SenseIR/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVER_FOR_NFS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_server_for_nfs_operational",
@@ -17248,25 +17944,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICES_SVCHOST_DIAGNOSTIC: ArtifactDe
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICES_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_services_diagnostic",
-    name: "Microsoft-Windows-Services/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Services\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Services/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICES_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_services_diagnostic",
+        name: "Microsoft-Windows-Services/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Services\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Services/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICING_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_servicing_debug",
@@ -17275,7 +17974,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICING_DEBUG: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Servicing\\Debug.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Servicing\\Debug.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -17308,85 +18009,97 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_AZURE_OPERATIONAL: Artifact
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_AZURE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_settingsync_azure_debug",
-    name: "Microsoft-Windows-SettingSync-Azure/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SettingSync-Azure\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SettingSync-Azure/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_AZURE_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_settingsync_azure_debug",
+        name: "Microsoft-Windows-SettingSync-Azure/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SettingSync-Azure\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SettingSync-Azure/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_settingsync_operational",
-    name: "Microsoft-Windows-SettingSync/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SettingSync\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SettingSync/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_settingsync_operational",
+        name: "Microsoft-Windows-SettingSync/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SettingSync\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SettingSync/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_settingsync_debug",
-    name: "Microsoft-Windows-SettingSync/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SettingSync\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SettingSync/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_settingsync_debug",
+        name: "Microsoft-Windows-SettingSync/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SettingSync\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SettingSync/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_settingsync_analytic",
-    name: "Microsoft-Windows-SettingSync/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SettingSync\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SettingSync/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_settingsync_analytic",
+        name: "Microsoft-Windows-SettingSync/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SettingSync\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SettingSync/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_ONEDRIVE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_settingsync_onedrive_analytic",
@@ -17448,85 +18161,97 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUP_ANALYTIC: ArtifactDescriptor = Ar
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPCL_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_setupcl_analytic",
-    name: "Microsoft-Windows-SetupCl/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SetupCl\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SetupCl/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPCL_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_setupcl_analytic",
+        name: "Microsoft-Windows-SetupCl/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SetupCl\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SetupCl/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPPLATFORM_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_setupplatform_analytic",
-    name: "Microsoft-Windows-SetupPlatform/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SetupPlatform\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SetupPlatform/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPPLATFORM_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_setupplatform_analytic",
+        name: "Microsoft-Windows-SetupPlatform/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SetupPlatform\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SetupPlatform/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPQUEUE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_setupqueue_analytic",
-    name: "Microsoft-Windows-SetupQueue/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SetupQueue\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SetupQueue/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPQUEUE_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_setupqueue_analytic",
+        name: "Microsoft-Windows-SetupQueue/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SetupQueue\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SetupQueue/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPUGC_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_setupugc_analytic",
-    name: "Microsoft-Windows-SetupUGC/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SetupUGC\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SetupUGC/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPUGC_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_setupugc_analytic",
+        name: "Microsoft-Windows-SetupUGC/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SetupUGC\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SetupUGC/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHAREMEDIA_CONTROLPANEL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_sharemedia_controlpanel_diagnostic",
@@ -17788,45 +18513,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CONNECTEDACCOUNTSTATE_ACTIONCEN: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_shell_core_diagnostic",
-    name: "Microsoft-Windows-Shell-Core/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Shell-Core\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Shell-Core/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_shell_core_diagnostic",
+        name: "Microsoft-Windows-Shell-Core/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Shell-Core\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Shell-Core/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_shell_core_operational",
-    name: "Microsoft-Windows-Shell-Core/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Shell-Core\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Shell-Core/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_shell_core_operational",
+        name: "Microsoft-Windows-Shell-Core/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Shell-Core\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Shell-Core/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_LOGONTASKSCHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_core_logontaskschannel",
@@ -17848,45 +18579,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_LOGONTASKSCHANNEL: ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_APPDEFAULTS: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_shell_core_appdefaults",
-    name: "Microsoft-Windows-Shell-Core/AppDefaults",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Shell-Core\\AppDefaults.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Shell-Core/AppDefaults'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_APPDEFAULTS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_shell_core_appdefaults",
+        name: "Microsoft-Windows-Shell-Core/AppDefaults",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Shell-Core\\AppDefaults.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Shell-Core/AppDefaults'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_ACTIONCENTER: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_shell_core_actioncenter",
-    name: "Microsoft-Windows-Shell-Core/ActionCenter",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Shell-Core\\ActionCenter.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Shell-Core/ActionCenter'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_ACTIONCENTER: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_shell_core_actioncenter",
+        name: "Microsoft-Windows-Shell-Core/ActionCenter",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Shell-Core\\ActionCenter.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Shell-Core/ActionCenter'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_DEFAULTPROGRAMS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_defaultprograms_diagnostic",
@@ -17948,25 +18685,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_OPENWITH_DIAGNOSTIC: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_SEARCH_URIHANDLER: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_shell_search_urihandler",
-    name: "Microsoft-Windows-Shell-Search-UriHandler",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Shell-Search-UriHandler.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Shell-Search-UriHandler'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_SEARCH_URIHANDLER: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_shell_search_urihandler",
+        name: "Microsoft-Windows-Shell-Search-UriHandler",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Shell-Search-UriHandler.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Shell-Search-UriHandler'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_SHWEBSVC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_shwebsvc",
@@ -18048,65 +18788,74 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELLCOMMON_STARTLAYOUTPOPULATION_DIA: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SHSVCS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_shsvcs_diagnostic",
-    name: "Microsoft-Windows-Shsvcs/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Shsvcs\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Shsvcs/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SHSVCS_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_shsvcs_diagnostic",
+        name: "Microsoft-Windows-Shsvcs/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Shsvcs\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Shsvcs/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SIDEBAR_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_sidebar_diagnostic",
-    name: "Microsoft-Windows-Sidebar/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Sidebar\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Sidebar/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SIDEBAR_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_sidebar_diagnostic",
+        name: "Microsoft-Windows-Sidebar/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Sidebar\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Sidebar/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SLEEPSTUDY_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_sleepstudy_diagnostic",
-    name: "Microsoft-Windows-SleepStudy/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SleepStudy\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SleepStudy/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SLEEPSTUDY_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_sleepstudy_diagnostic",
+        name: "Microsoft-Windows-SleepStudy/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SleepStudy\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SleepStudy/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_AUDIT_AUTHENTICATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smartcard_audit_authentication",
@@ -18188,25 +18937,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_TPM_VCARD_MODULE_OPERATIONA: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTSCREEN_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_smartscreen_debug",
-    name: "Microsoft-Windows-SmartScreen/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SmartScreen\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SmartScreen/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTSCREEN_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_smartscreen_debug",
+        name: "Microsoft-Windows-SmartScreen/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SmartScreen\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SmartScreen/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBHASHGENERATION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smbhashgeneration_operational",
@@ -18368,25 +19120,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SPELL_CHECKING_HOST_ANALYTIC_CHANNEL: A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SRUMON_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_srumon_diagnostic",
-    name: "Microsoft-Windows-SruMon/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SruMon\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SruMon/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SRUMON_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_srumon_diagnostic",
+        name: "Microsoft-Windows-SruMon/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SruMon\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SruMon/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SRUMTELEMETRY: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_srumtelemetry",
@@ -18428,25 +19183,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STATEREPOSITORY_OPERATIONAL: ArtifactDe
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_STATEREPOSITORY_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_staterepository_debug",
-    name: "Microsoft-Windows-StateRepository/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-StateRepository\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-StateRepository/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_STATEREPOSITORY_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_staterepository_debug",
+        name: "Microsoft-Windows-StateRepository/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-StateRepository\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-StateRepository/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STATEREPOSITORY_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_staterepository_diagnostic",
@@ -18468,85 +19226,97 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STATEREPOSITORY_DIAGNOSTIC: ArtifactDes
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_STICKYNOTES_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_stickynotes_debug",
-    name: "Microsoft-Windows-StickyNotes/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-StickyNotes\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-StickyNotes/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_STICKYNOTES_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_stickynotes_debug",
+        name: "Microsoft-Windows-StickyNotes/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-StickyNotes\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-StickyNotes/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_STICKYNOTES_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_stickynotes_admin",
-    name: "Microsoft-Windows-StickyNotes/Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-StickyNotes\\Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-StickyNotes/Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_STICKYNOTES_ADMIN: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_stickynotes_admin",
+        name: "Microsoft-Windows-StickyNotes/Admin",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-StickyNotes\\Admin.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-StickyNotes/Admin'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_STICKYNOTES_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_stickynotes_diagnostic",
-    name: "Microsoft-Windows-StickyNotes/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-StickyNotes\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-StickyNotes/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_STICKYNOTES_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_stickynotes_diagnostic",
+        name: "Microsoft-Windows-StickyNotes/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-StickyNotes\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-StickyNotes/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_STORDIAG_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_stordiag_operational",
-    name: "Microsoft-Windows-StorDiag/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-StorDiag\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-StorDiag/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_STORDIAG_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_stordiag_operational",
+        name: "Microsoft-Windows-StorDiag/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-StorDiag\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-StorDiag/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_CLASSPNP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storage_classpnp_analytic",
@@ -18608,25 +19378,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_CLASSPNP_OPERATIONAL: ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_STORPORT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_storport_operational",
-    name: "Microsoft-Windows-StorPort/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-StorPort\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-StorPort/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_STORPORT_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_storport_operational",
+        name: "Microsoft-Windows-StorPort/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-StorPort\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-StorPort/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storage_storport_diagnose",
@@ -18688,25 +19461,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_OPERATIONAL: ArtifactD
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_HEALTH: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_storage_storport_health",
-    name: "Microsoft-Windows-Storage-Storport/Health",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Storage-Storport\\Health.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Storage-Storport/Health'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_HEALTH: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_storage_storport_health",
+        name: "Microsoft-Windows-Storage-Storport/Health",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Storage-Storport\\Health.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Storage-Storport/Health'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_TIERING_HEAT_MEASUREMENT_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_tiering_heat_measurement_channel",
@@ -18728,25 +19504,28 @@ pub(crate) static EVTX_TIERING_HEAT_MEASUREMENT_CHANNEL: ArtifactDescriptor = Ar
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_TIERING_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_storage_tiering_admin",
-    name: "Microsoft-Windows-Storage-Tiering/Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Storage-Tiering\\Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Storage-Tiering/Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_TIERING_ADMIN: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_storage_tiering_admin",
+        name: "Microsoft-Windows-Storage-Tiering/Admin",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Storage-Tiering\\Admin.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Storage-Tiering/Admin'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_PARTUTIL_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storagemanagement_partutil_operationa",
@@ -18768,25 +19547,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_PARTUTIL_OPERATIONA: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_storagemanagement_debug",
-    name: "Microsoft-Windows-StorageManagement/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-StorageManagement\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-StorageManagement/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_storagemanagement_debug",
+        name: "Microsoft-Windows-StorageManagement/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-StorageManagement\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-StorageManagement/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storagemanagement_operational",
@@ -19028,65 +19810,74 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEVOLUME_OPERATIONAL: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_STORSVC_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_storsvc_diagnostic",
-    name: "Microsoft-Windows-Storsvc/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Storsvc\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Storsvc/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_STORSVC_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_storsvc_diagnostic",
+        name: "Microsoft-Windows-Storsvc/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Storsvc\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Storsvc/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SUBSYS_CSR_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_subsys_csr_operational",
-    name: "Microsoft-Windows-Subsys-Csr/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Subsys-Csr\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Subsys-Csr/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SUBSYS_CSR_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_subsys_csr_operational",
+        name: "Microsoft-Windows-Subsys-Csr/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Subsys-Csr\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Subsys-Csr/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SUBSYS_SMSS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_subsys_smss_operational",
-    name: "Microsoft-Windows-Subsys-SMSS/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Subsys-SMSS\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Subsys-SMSS/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SUBSYS_SMSS_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_subsys_smss_operational",
+        name: "Microsoft-Windows-Subsys-SMSS/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Subsys-SMSS\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Subsys-SMSS/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SUDO_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_sudo_admin",
@@ -19108,85 +19899,97 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SUDO_ADMIN: ArtifactDescriptor = Artifa
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SUPERFETCH_AGMCLOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_superfetch_agmclog",
-    name: "Microsoft-Windows-Superfetch/AgmcLog",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Superfetch\\AgmcLog.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Superfetch/AgmcLog'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SUPERFETCH_AGMCLOG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_superfetch_agmclog",
+        name: "Microsoft-Windows-Superfetch/AgmcLog",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Superfetch\\AgmcLog.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Superfetch/AgmcLog'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MEMORY_COOLING_OPERATIONAL_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_memory_cooling_operational_channel",
-    name: "Memory cooling operational channel",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Memory cooling operational channel.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Memory cooling operational channel'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MEMORY_COOLING_OPERATIONAL_CHANNEL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_memory_cooling_operational_channel",
+        name: "Memory cooling operational channel",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Memory cooling operational channel.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Memory cooling operational channel'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SUPERFETCH_PFAPLOG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_superfetch_pfaplog",
-    name: "Microsoft-Windows-Superfetch/PfApLog",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Superfetch\\PfApLog.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Superfetch/PfApLog'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SUPERFETCH_PFAPLOG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_superfetch_pfaplog",
+        name: "Microsoft-Windows-Superfetch/PfApLog",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Superfetch\\PfApLog.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Superfetch/PfApLog'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSPREP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_sysprep_analytic",
-    name: "Microsoft-Windows-Sysprep/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Sysprep\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-Sysprep/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSPREP_ANALYTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_sysprep_analytic",
+        name: "Microsoft-Windows-Sysprep/Analytic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Sysprep\\Analytic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-Sysprep/Analytic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEM_PROFILE_HARDWAREID_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_system_profile_hardwareid_diagnostic",
@@ -19268,25 +20071,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGS_DIAGNOSTIC: ArtifactDesc
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_systemsettings_debug",
-    name: "Microsoft-Windows-SystemSettings/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SystemSettings\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-SystemSettings/Debug'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::High,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGS_DEBUG: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_systemsettings_debug",
+        name: "Microsoft-Windows-SystemSettings/Debug",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SystemSettings\\Debug.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-SystemSettings/Debug'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::High,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_systemsettings_operational",
@@ -19408,25 +20214,28 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSV2_INFORMATIONAL: Artifac
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TCPIP_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_tcpip_diagnostic",
-    name: "Microsoft-Windows-TCPIP/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TCPIP\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TCPIP/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_TCPIP_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_tcpip_diagnostic",
+        name: "Microsoft-Windows-TCPIP/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TCPIP\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-TCPIP/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_UIMANAGER_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_uimanager_channel",
@@ -19448,65 +20257,74 @@ pub(crate) static EVTX_UIMANAGER_CHANNEL: ArtifactDescriptor = ArtifactDescripto
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TSF_MSCTF_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_tsf_msctf_diagnostic",
-    name: "Microsoft-Windows-TSF-msctf/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TSF-msctf\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TSF-msctf/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_TSF_MSCTF_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_tsf_msctf_diagnostic",
+        name: "Microsoft-Windows-TSF-msctf/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TSF-msctf\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-TSF-msctf/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TSF_MSUTB_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_tsf_msutb_diagnostic",
-    name: "Microsoft-Windows-TSF-msutb/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TSF-msutb\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TSF-msutb/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_TSF_MSUTB_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_tsf_msutb_diagnostic",
+        name: "Microsoft-Windows-TSF-msutb/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TSF-msutb\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-TSF-msutb/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TZSYNC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_tzsync_operational",
-    name: "Microsoft-Windows-TZSync/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TZSync\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TZSync/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_TZSYNC_OPERATIONAL: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_tzsync_operational",
+        name: "Microsoft-Windows-TZSync/Operational",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TZSync\\Operational.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-TZSync/Operational'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TZSYNC_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_tzsync_analytic",
@@ -19515,7 +20333,9 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TZSYNC_ANALYTIC: ArtifactDescriptor = A
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TZSync\\Analytic.evtx"),
+    file_path: Some(
+        "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TZSync\\Analytic.evtx",
+    ),
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
@@ -19648,25 +20468,28 @@ pub(crate) static EVTX_MAINTENANCE: ArtifactDescriptor = ArtifactDescriptor {
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TASKBARCPL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_taskbarcpl_diagnostic",
-    name: "Microsoft-Windows-TaskbarCPL/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TaskbarCPL\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TaskbarCPL/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_TASKBARCPL_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_taskbarcpl_diagnostic",
+        name: "Microsoft-Windows-TaskbarCPL/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TaskbarCPL\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-TaskbarCPL/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TENANTRESTRICTIONS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_tenantrestrictions_operational",
@@ -19868,46 +20691,6 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_LOCALSESSIONMANAGER: A
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_LOCALSESSIONMANAGER: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_terminalservices_localsessionmanager",
-    name: "Microsoft-Windows-TerminalServices-LocalSessionManager/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TerminalServices-LocalSessionManager\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TerminalServices-LocalSessionManager/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_LOCALSESSIONMANAGER: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_terminalservices_localsessionmanager",
-    name: "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TerminalServices-LocalSessionManager\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TerminalServices-LocalSessionManager/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_MEDIAREDIRECTION_ANA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_mediaredirection_ana",
     name: "Microsoft-Windows-TerminalServices-MediaRedirection/Analytic",
@@ -19988,66 +20771,6 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_REMOTECONNECTIONMANA: 
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_REMOTECONNECTIONMANA: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_terminalservices_remoteconnectionmana",
-    name: "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TerminalServices-RemoteConnectionManager\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TerminalServices-RemoteConnectionManager/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_REMOTECONNECTIONMANA: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_terminalservices_remoteconnectionmana",
-    name: "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TerminalServices-RemoteConnectionManager\\Operational.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_REMOTECONNECTIONMANA: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_terminalservices_remoteconnectionmana",
-    name: "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TerminalServices-RemoteConnectionManager\\Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TerminalServices-RemoteConnectionManager/Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_SESSIONBROKER_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_sessionbroker_client",
     name: "Microsoft-Windows-TerminalServices-SessionBroker-Client/Operational",
@@ -20060,66 +20783,6 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_SESSIONBROKER_CLIENT: 
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
     meaning: "Windows Event Log channel 'Microsoft-Windows-TerminalServices-SessionBroker-Client/Operational'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_SESSIONBROKER_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_terminalservices_sessionbroker_client",
-    name: "Microsoft-Windows-TerminalServices-SessionBroker-Client/Admin",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TerminalServices-SessionBroker-Client\\Admin.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TerminalServices-SessionBroker-Client/Admin'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_SESSIONBROKER_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_terminalservices_sessionbroker_client",
-    name: "Microsoft-Windows-TerminalServices-SessionBroker-Client/Analytic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TerminalServices-SessionBroker-Client\\Analytic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TerminalServices-SessionBroker-Client/Analytic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
-
-pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_SESSIONBROKER_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_terminalservices_sessionbroker_client",
-    name: "Microsoft-Windows-TerminalServices-SessionBroker-Client/Debug",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TerminalServices-SessionBroker-Client\\Debug.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-TerminalServices-SessionBroker-Client/Debug'.",
     mitre_techniques: &[],
     fields: &[],
     retention: None,
@@ -20168,45 +20831,51 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TETHERING_STATION_ANALYTIC: ArtifactDes
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
 };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_THEMECPL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_themecpl_diagnostic",
-    name: "Microsoft-Windows-ThemeCPL/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ThemeCPL\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-ThemeCPL/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_THEMECPL_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_themecpl_diagnostic",
+        name: "Microsoft-Windows-ThemeCPL/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ThemeCPL\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-ThemeCPL/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
-pub(crate) static EVTX_MICROSOFT_WINDOWS_THEMEUI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
-    id: "evtx_microsoft_windows_themeui_diagnostic",
-    name: "Microsoft-Windows-ThemeUI/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
-    hive: None,
-    key_path: "",
-    value_name: None,
-    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ThemeUI\\Diagnostic.evtx"),
-    scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Windows Event Log channel 'Microsoft-Windows-ThemeUI/Diagnostic'.",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
-};
+pub(crate) static EVTX_MICROSOFT_WINDOWS_THEMEUI_DIAGNOSTIC: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "evtx_microsoft_windows_themeui_diagnostic",
+        name: "Microsoft-Windows-ThemeUI/Diagnostic",
+        artifact_type: ArtifactType::EventLog,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-ThemeUI\\Diagnostic.evtx",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows Event Log channel 'Microsoft-Windows-ThemeUI/Diagnostic'.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Low,
+        related_artifacts: &[],
+        sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_THREAT_INTELLIGENCE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_threat_intelligence_analytic",
