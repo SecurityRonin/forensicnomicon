@@ -404,3 +404,4 @@ All static indicators and catalog types work without any feature flag. The `serd
 ## Used by
 
 - [`RapidTriage`](https://github.com/SecurityRonin/RapidTriage) — live incident response triage tool
+- [`blazehash`](https://github.com/SecurityRonin/blazehash) — high-speed forensic hash verification
