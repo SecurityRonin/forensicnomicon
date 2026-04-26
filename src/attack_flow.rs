@@ -1242,4 +1242,527 @@ mod tests {
             }
         }
     }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // RED tests: all 35 remaining CTID corpus flows (must fail until GREEN)
+
+    /// All 40 corpus flows must be present (5 existing + 35 new).
+    #[test]
+    fn all_ctid_flows_present() {
+        assert!(
+            all_flows().len() >= 40,
+            "expected at least 40 CTID flows, got {}",
+            all_flows().len()
+        );
+    }
+
+    #[test]
+    fn ctid_cisa_aa22_138b_vmware_workspace_alt_flow_exists() {
+        flow_by_id("cisa_aa22_138b_vmware_workspace_alt")
+            .expect("flow \"cisa_aa22_138b_vmware_workspace_alt\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_cisa_aa22_138b_vmware_workspace_alt_has_t1203() {
+        let f = flow_by_id("cisa_aa22_138b_vmware_workspace_alt")
+            .expect("flow \"cisa_aa22_138b_vmware_workspace_alt\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1203"),
+            "cisa_aa22_138b_vmware_workspace_alt must contain T1203"
+        );
+    }
+
+    #[test]
+    fn ctid_cisa_aa22_138b_vmware_workspace_ta1_flow_exists() {
+        flow_by_id("cisa_aa22_138b_vmware_workspace_ta1")
+            .expect("flow \"cisa_aa22_138b_vmware_workspace_ta1\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_cisa_aa22_138b_vmware_workspace_ta1_has_t1071_001() {
+        let f = flow_by_id("cisa_aa22_138b_vmware_workspace_ta1")
+            .expect("flow \"cisa_aa22_138b_vmware_workspace_ta1\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1071.001"),
+            "cisa_aa22_138b_vmware_workspace_ta1 must contain T1071.001"
+        );
+    }
+
+    #[test]
+    fn ctid_cisa_aa22_138b_vmware_workspace_ta2_flow_exists() {
+        flow_by_id("cisa_aa22_138b_vmware_workspace_ta2")
+            .expect("flow \"cisa_aa22_138b_vmware_workspace_ta2\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_cisa_aa22_138b_vmware_workspace_ta2_has_t1071_001() {
+        let f = flow_by_id("cisa_aa22_138b_vmware_workspace_ta2")
+            .expect("flow \"cisa_aa22_138b_vmware_workspace_ta2\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1071.001"),
+            "cisa_aa22_138b_vmware_workspace_ta2 must contain T1071.001"
+        );
+    }
+
+    #[test]
+    fn ctid_cisa_iranian_apt_flow_exists() {
+        flow_by_id("cisa_iranian_apt")
+            .expect("flow \"cisa_iranian_apt\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_cisa_iranian_apt_has_t1190() {
+        let f = flow_by_id("cisa_iranian_apt")
+            .expect("flow \"cisa_iranian_apt\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1190"),
+            "cisa_iranian_apt must contain T1190"
+        );
+    }
+
+    #[test]
+    fn ctid_conti_cisa_alert_flow_exists() {
+        flow_by_id("conti_cisa_alert")
+            .expect("flow \"conti_cisa_alert\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_conti_cisa_alert_has_t1598_004() {
+        let f = flow_by_id("conti_cisa_alert")
+            .expect("flow \"conti_cisa_alert\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1598.004"),
+            "conti_cisa_alert must contain T1598.004"
+        );
+    }
+
+    #[test]
+    fn ctid_conti_pwc_flow_exists() {
+        flow_by_id("conti_pwc")
+            .expect("flow \"conti_pwc\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_conti_pwc_has_t1566_001() {
+        let f = flow_by_id("conti_pwc")
+            .expect("flow \"conti_pwc\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1566.001"),
+            "conti_pwc must contain T1566.001"
+        );
+    }
+
+    #[test]
+    fn ctid_equifax_breach_flow_exists() {
+        flow_by_id("equifax_breach")
+            .expect("flow \"equifax_breach\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_equifax_breach_has_t1595_002() {
+        let f = flow_by_id("equifax_breach")
+            .expect("flow \"equifax_breach\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1595.002"),
+            "equifax_breach must contain T1595.002"
+        );
+    }
+
+    #[test]
+    fn ctid_example_attack_tree_flow_exists() {
+        flow_by_id("example_attack_tree")
+            .expect("flow \"example_attack_tree\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_fin13_case_1_flow_exists() {
+        flow_by_id("fin13_case_1")
+            .expect("flow \"fin13_case_1\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_fin13_case_1_has_t1595_002() {
+        let f = flow_by_id("fin13_case_1")
+            .expect("flow \"fin13_case_1\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1595.002"),
+            "fin13_case_1 must contain T1595.002"
+        );
+    }
+
+    #[test]
+    fn ctid_fin13_case_2_flow_exists() {
+        flow_by_id("fin13_case_2")
+            .expect("flow \"fin13_case_2\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_fin13_case_2_has_t1190() {
+        let f = flow_by_id("fin13_case_2")
+            .expect("flow \"fin13_case_2\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1190"),
+            "fin13_case_2 must contain T1190"
+        );
+    }
+
+    #[test]
+    fn ctid_gootloader_flow_exists() {
+        flow_by_id("gootloader")
+            .expect("flow \"gootloader\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_gootloader_has_t1584() {
+        let f = flow_by_id("gootloader")
+            .expect("flow \"gootloader\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1584"),
+            "gootloader must contain T1584"
+        );
+    }
+
+    #[test]
+    fn ctid_hancitor_dll_flow_exists() {
+        flow_by_id("hancitor_dll")
+            .expect("flow \"hancitor_dll\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_hancitor_dll_has_t1566_002() {
+        let f = flow_by_id("hancitor_dll")
+            .expect("flow \"hancitor_dll\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1566.002"),
+            "hancitor_dll must contain T1566.002"
+        );
+    }
+
+    #[test]
+    fn ctid_ivanti_vulnerabilities_flow_exists() {
+        flow_by_id("ivanti_vulnerabilities")
+            .expect("flow \"ivanti_vulnerabilities\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_ivanti_vulnerabilities_has_t1190() {
+        let f = flow_by_id("ivanti_vulnerabilities")
+            .expect("flow \"ivanti_vulnerabilities\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1190"),
+            "ivanti_vulnerabilities must contain T1190"
+        );
+    }
+
+    #[test]
+    fn ctid_jp_morgan_breach_flow_exists() {
+        flow_by_id("jp_morgan_breach")
+            .expect("flow \"jp_morgan_breach\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_jp_morgan_breach_has_t1566() {
+        let f = flow_by_id("jp_morgan_breach")
+            .expect("flow \"jp_morgan_breach\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1566"),
+            "jp_morgan_breach must contain T1566"
+        );
+    }
+
+    #[test]
+    fn ctid_mitre_nerve_flow_exists() {
+        flow_by_id("mitre_nerve")
+            .expect("flow \"mitre_nerve\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_mitre_nerve_has_t1190() {
+        let f = flow_by_id("mitre_nerve")
+            .expect("flow \"mitre_nerve\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1190"),
+            "mitre_nerve must contain T1190"
+        );
+    }
+
+    #[test]
+    fn ctid_maastricht_university_ransomware_flow_exists() {
+        flow_by_id("maastricht_university_ransomware")
+            .expect("flow \"maastricht_university_ransomware\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_maastricht_university_ransomware_has_t1566_001() {
+        let f = flow_by_id("maastricht_university_ransomware")
+            .expect("flow \"maastricht_university_ransomware\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1566.001"),
+            "maastricht_university_ransomware must contain T1566.001"
+        );
+    }
+
+    #[test]
+    fn ctid_mac_malware_steals_crypto_flow_exists() {
+        flow_by_id("mac_malware_steals_crypto")
+            .expect("flow \"mac_malware_steals_crypto\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_mac_malware_steals_crypto_has_t1059_006() {
+        let f = flow_by_id("mac_malware_steals_crypto")
+            .expect("flow \"mac_malware_steals_crypto\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1059.006"),
+            "mac_malware_steals_crypto must contain T1059.006"
+        );
+    }
+
+    #[test]
+    fn ctid_marriott_breach_flow_exists() {
+        flow_by_id("marriott_breach")
+            .expect("flow \"marriott_breach\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_marriott_breach_has_t1566() {
+        let f = flow_by_id("marriott_breach")
+            .expect("flow \"marriott_breach\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1566"),
+            "marriott_breach must contain T1566"
+        );
+    }
+
+    #[test]
+    fn ctid_muddy_water_flow_exists() {
+        flow_by_id("muddy_water")
+            .expect("flow \"muddy_water\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_muddy_water_has_t1566_001() {
+        let f = flow_by_id("muddy_water")
+            .expect("flow \"muddy_water\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1566.001"),
+            "muddy_water must contain T1566.001"
+        );
+    }
+
+    #[test]
+    fn ctid_notpetya_flow_exists() {
+        flow_by_id("notpetya")
+            .expect("flow \"notpetya\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_notpetya_has_t1593() {
+        let f = flow_by_id("notpetya")
+            .expect("flow \"notpetya\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1593"),
+            "notpetya must contain T1593"
+        );
+    }
+
+    #[test]
+    fn ctid_oceanlotus_flow_exists() {
+        flow_by_id("oceanlotus")
+            .expect("flow \"oceanlotus\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_oceanlotus_has_t1566_001() {
+        let f = flow_by_id("oceanlotus")
+            .expect("flow \"oceanlotus\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1566.001"),
+            "oceanlotus must contain T1566.001"
+        );
+    }
+
+    #[test]
+    fn ctid_openclaw_flow_exists() {
+        flow_by_id("openclaw")
+            .expect("flow \"openclaw\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_revil_flow_exists() {
+        flow_by_id("revil")
+            .expect("flow \"revil\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_revil_has_t1189() {
+        let f = flow_by_id("revil")
+            .expect("flow \"revil\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1189"),
+            "revil must contain T1189"
+        );
+    }
+
+    #[test]
+    fn ctid_ragnar_locker_flow_exists() {
+        flow_by_id("ragnar_locker")
+            .expect("flow \"ragnar_locker\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_ragnar_locker_has_t1078() {
+        let f = flow_by_id("ragnar_locker")
+            .expect("flow \"ragnar_locker\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1078"),
+            "ragnar_locker must contain T1078"
+        );
+    }
+
+    #[test]
+    fn ctid_swift_heist_flow_exists() {
+        flow_by_id("swift_heist")
+            .expect("flow \"swift_heist\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_swift_heist_has_t1190() {
+        let f = flow_by_id("swift_heist")
+            .expect("flow \"swift_heist\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1190"),
+            "swift_heist must contain T1190"
+        );
+    }
+
+    #[test]
+    fn ctid_searchawesome_adware_flow_exists() {
+        flow_by_id("searchawesome_adware")
+            .expect("flow \"searchawesome_adware\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_searchawesome_adware_has_t1204_002() {
+        let f = flow_by_id("searchawesome_adware")
+            .expect("flow \"searchawesome_adware\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1204.002"),
+            "searchawesome_adware must contain T1204.002"
+        );
+    }
+
+    #[test]
+    fn ctid_shamoon_flow_exists() {
+        flow_by_id("shamoon")
+            .expect("flow \"shamoon\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_shamoon_has_t1105() {
+        let f = flow_by_id("shamoon")
+            .expect("flow \"shamoon\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1105"),
+            "shamoon must contain T1105"
+        );
+    }
+
+    #[test]
+    fn ctid_sony_malware_flow_exists() {
+        flow_by_id("sony_malware")
+            .expect("flow \"sony_malware\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_sony_malware_has_t1105() {
+        let f = flow_by_id("sony_malware")
+            .expect("flow \"sony_malware\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1105"),
+            "sony_malware must contain T1105"
+        );
+    }
+
+    #[test]
+    fn ctid_target_breach_flow_exists() {
+        flow_by_id("target_breach")
+            .expect("flow \"target_breach\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_target_breach_has_t1593_002() {
+        let f = flow_by_id("target_breach")
+            .expect("flow \"target_breach\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1593.002"),
+            "target_breach must contain T1593.002"
+        );
+    }
+
+    #[test]
+    fn ctid_tesla_kubernetes_breach_flow_exists() {
+        flow_by_id("tesla_kubernetes_breach")
+            .expect("flow \"tesla_kubernetes_breach\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_tesla_kubernetes_breach_has_t1133() {
+        let f = flow_by_id("tesla_kubernetes_breach")
+            .expect("flow \"tesla_kubernetes_breach\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1133"),
+            "tesla_kubernetes_breach must contain T1133"
+        );
+    }
+
+    #[test]
+    fn ctid_toolshell_vulnerability_in_sharepoint_flow_exists() {
+        flow_by_id("toolshell_vulnerability_in_sharepoint")
+            .expect("flow \"toolshell_vulnerability_in_sharepoint\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_turla_carbon_emulation_plan_flow_exists() {
+        flow_by_id("turla_carbon_emulation_plan")
+            .expect("flow \"turla_carbon_emulation_plan\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_turla_snake_emulation_plan_flow_exists() {
+        flow_by_id("turla_snake_emulation_plan")
+            .expect("flow \"turla_snake_emulation_plan\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_uber_breach_flow_exists() {
+        flow_by_id("uber_breach")
+            .expect("flow \"uber_breach\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_uber_breach_has_t1586() {
+        let f = flow_by_id("uber_breach")
+            .expect("flow \"uber_breach\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1586"),
+            "uber_breach must contain T1586"
+        );
+    }
+
+    #[test]
+    fn ctid_whispergate_flow_exists() {
+        flow_by_id("whispergate")
+            .expect("flow \"whispergate\" must exist (CTID corpus)");
+    }
+
+    #[test]
+    fn ctid_whispergate_has_t1078() {
+        let f = flow_by_id("whispergate")
+            .expect("flow \"whispergate\" must exist");
+        assert!(
+            f.actions.iter().any(|a| a.technique_id == "T1078"),
+            "whispergate must contain T1078"
+        );
+    }
 }
