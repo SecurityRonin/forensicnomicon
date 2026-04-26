@@ -175,6 +175,11 @@ pub const RECON_PATTERNS: &[&str] = &[
     "quser",
     "query user",
     "wmic useraccount",
+    "wmic os get",
+    "wmic computersystem",
+    "wmic cpu",
+    "Get-WmiObject",
+    "gwmi ",
     "Get-ADUser",
     "Get-ADComputer",
     "Get-ADGroupMember",
@@ -505,6 +510,24 @@ mod tests {
     #[test]
     fn detects_systeminfo() {
         assert!(is_recon_command("systeminfo"));
+    }
+    #[test]
+    fn detects_wmic_os_get() {
+        assert!(is_recon_command("wmic os get Caption,Version,BuildNumber"));
+    }
+    #[test]
+    fn detects_wmic_computersystem() {
+        assert!(is_recon_command("wmic computersystem get Name,Domain"));
+    }
+    #[test]
+    fn detects_get_wmiobject_recon() {
+        assert!(is_recon_command("Get-WmiObject Win32_ComputerSystem"));
+    }
+    #[test]
+    fn detects_gwmi_shorthand() {
+        assert!(is_recon_command(
+            "gwmi Win32_OperatingSystem | Select Caption"
+        ));
     }
     #[test]
     fn does_not_flag_notepad_as_recon() {
