@@ -76,8 +76,8 @@ pub fn is_linux_lolbin(name: &str) -> bool {
 /// Returns `true` if `name` is a LOLBin on either Windows or Linux (case-insensitive).
 ///
 /// Convenience wrapper that calls [`is_windows_lolbin`] and [`is_linux_lolbin`].
-pub fn is_lolbin(_name: &str) -> bool {
-    todo!()
+pub fn is_lolbin(name: &str) -> bool {
+    is_windows_lolbin(name) || is_linux_lolbin(name)
 }
 
 #[cfg(test)]

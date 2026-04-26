@@ -103,18 +103,68 @@ pub fn is_timestomp_indicator(s: &str) -> bool {
         .any(|t| lower.contains(&t.to_ascii_lowercase()))
 }
 
-pub const SECURE_DELETE_TOOLS: &[&str] = &[];
-pub const SHADOW_COPY_DELETION_PATTERNS: &[&str] = &[];
+/// Secure file deletion tool names.
+///
+/// Sources:
+/// - MITRE ATT&CK T1485 — Data Destruction:
+///   <https://attack.mitre.org/techniques/T1485/>
+/// - MITRE ATT&CK T1070.004 — Indicator Removal: File Deletion:
+///   <https://attack.mitre.org/techniques/T1070/004/>
+pub const SECURE_DELETE_TOOLS: &[&str] = &[
+    "sdelete",
+    "sdelete64",
+    "sdelete.exe",
+    "sdelete64.exe",
+    "eraser",
+    "eraser.exe",
+    "freeraser",
+    "cipher",
+    "dban",
+    "nwipe",
+    "bleachbit",
+    "bleachbit.exe",
+    "wipe",
+    "secure-delete",
+    "sfill",
+    "smem",
+    "sswap",
+];
+
+/// Command substrings indicative of Volume Shadow Copy / backup destruction.
+///
+/// Sources:
+/// - MITRE ATT&CK T1490 — Inhibit System Recovery:
+///   <https://attack.mitre.org/techniques/T1490/>
+/// - Coveware — "Ransomware attack anatomy: Pre-encryption tactics" (2024):
+///   <https://www.coveware.com/blog/ransomware-attack-anatomy-pre-encryption-tactics>
+pub const SHADOW_COPY_DELETION_PATTERNS: &[&str] = &[
+    "vssadmin delete shadows",
+    "vssadmin resize shadowstorage",
+    "wmic shadowcopy delete",
+    "wmic shadowcopy where",
+    "Get-WmiObject Win32_Shadowcopy",
+    "bcdedit /set recoveryenabled no",
+    "bcdedit /set bootstatuspolicy ignoreallfailures",
+    "wbadmin delete catalog",
+    "wbadmin delete backup",
+    "diskshadow /s",
+];
 
 /// Returns `true` if `name` matches a known secure-delete tool (case-insensitive exact match).
-pub fn is_secure_delete_tool(_name: &str) -> bool {
-    todo!()
+pub fn is_secure_delete_tool(name: &str) -> bool {
+    let lower = name.to_ascii_lowercase();
+    SECURE_DELETE_TOOLS
+        .iter()
+        .any(|t| t.to_ascii_lowercase() == lower)
 }
 
 /// Returns `true` if `cmd` contains a Volume Shadow Copy / backup destruction pattern
 /// (case-insensitive substring match).
-pub fn is_shadow_copy_deletion_command(_cmd: &str) -> bool {
-    todo!()
+pub fn is_shadow_copy_deletion_command(cmd: &str) -> bool {
+    let lower = cmd.to_ascii_lowercase();
+    SHADOW_COPY_DELETION_PATTERNS
+        .iter()
+        .any(|p| lower.contains(&p.to_ascii_lowercase()))
 }
 
 #[cfg(test)]
@@ -312,7 +362,9 @@ mod tests {
     }
     #[test]
     fn detects_wbadmin_delete_catalog() {
-        assert!(is_shadow_copy_deletion_command("wbadmin delete catalog -quiet"));
+        assert!(is_shadow_copy_deletion_command(
+            "wbadmin delete catalog -quiet"
+        ));
     }
     #[test]
     fn does_not_flag_vssadmin_list() {

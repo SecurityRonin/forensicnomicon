@@ -50,13 +50,52 @@ pub fn is_suspicious_temp_path(path: &str) -> bool {
 }
 
 /// Returns `true` if `path` is a known attacker staging location beyond `/tmp` and `%TEMP%`.
-pub fn is_suspicious_staging_path(_path: &str) -> bool {
-    todo!()
+///
+/// Sources:
+/// - Red Canary — "Staging directories" dropper research (C:\Users\Public\, C:\ProgramData\):
+///   <https://redcanary.com/blog/threat-intelligence/staging-directories/>
+/// - MITRE ATT&CK T1036.005 — Match Legitimate Name or Location:
+///   <https://attack.mitre.org/techniques/T1036/005/>
+/// - SANS FOR508 — common attacker staging paths
+pub fn is_suspicious_staging_path(path: &str) -> bool {
+    let lower = path.to_ascii_lowercase();
+    lower.contains("\\temp\\")
+        || lower.contains("\\tmp\\")
+        || lower.contains("/tmp/")
+        || lower.contains("/dev/shm/")
+        || lower.contains("\\appdata\\local\\temp")
+        || lower.contains("%temp%")
+        || lower.contains("%tmp%")
+        || lower.contains("\\users\\public\\")
+        || lower.contains("\\programdata\\")
+        || lower.contains("c:\\perflogs\\")
+        || lower.contains("\\windows\\tasks\\")
+        || lower.contains("\\recycler\\")
+        || lower.contains("\\$recycle.bin\\")
+        || lower.contains("c:\\intel\\")
+        || lower.contains("c:\\dell\\")
+        || lower.contains("\\windows\\debug\\")
 }
 
 /// Returns `true` if `path` falls in a directory commonly abused for DLL hijacking.
-pub fn is_hijackable_dll_path(_path: &str) -> bool {
-    todo!()
+///
+/// Sources:
+/// - MITRE ATT&CK T1574.001 — DLL Search Order Hijacking:
+///   <https://attack.mitre.org/techniques/T1574/001/>
+/// - SANS — "Defense Spotlight: Finding DLL Hijack Attempts":
+///   <https://www.sans.org/blog/defense-spotlight-finding-dll-hijack-attempts/>
+/// - Mandiant — "DLL Side-Loading: A Thorn in the Side of the Anti-Virus Industry":
+///   <https://www.mandiant.com/resources/blog/dll-side-loading-thorn-in-side-of-anti-virus-industry>
+pub fn is_hijackable_dll_path(path: &str) -> bool {
+    let lower = path.to_ascii_lowercase();
+    lower.contains("\\current directory\\")
+        || (lower.contains("\\users\\") && lower.ends_with(".dll"))
+        || (lower.contains("\\appdata\\") && lower.ends_with(".dll"))
+        || (lower.contains("\\downloads\\") && lower.ends_with(".dll"))
+        || (lower.contains("\\desktop\\") && lower.ends_with(".dll"))
+        || (lower.contains("\\temp\\") && lower.ends_with(".dll"))
+        || (lower.contains("c:\\programdata\\") && lower.ends_with(".dll"))
+        || (lower.contains("c:\\users\\public\\") && lower.ends_with(".dll"))
 }
 
 #[cfg(test)]
@@ -193,11 +232,15 @@ mod tests {
     }
     #[test]
     fn does_not_flag_program_files() {
-        assert!(!is_suspicious_staging_path(r"C:\Program Files\MyApp\app.exe"));
+        assert!(!is_suspicious_staging_path(
+            r"C:\Program Files\MyApp\app.exe"
+        ));
     }
     #[test]
     fn does_not_flag_system32_staging() {
-        assert!(!is_suspicious_staging_path(r"C:\Windows\System32\svchost.exe"));
+        assert!(!is_suspicious_staging_path(
+            r"C:\Windows\System32\svchost.exe"
+        ));
     }
     #[test]
     fn empty_string_not_staging_path() {
@@ -219,7 +262,9 @@ mod tests {
     }
     #[test]
     fn flags_dll_in_downloads() {
-        assert!(is_hijackable_dll_path(r"C:\Users\victim\Downloads\dbghelp.dll"));
+        assert!(is_hijackable_dll_path(
+            r"C:\Users\victim\Downloads\dbghelp.dll"
+        ));
     }
     #[test]
     fn flags_dll_in_programdata() {
@@ -235,7 +280,9 @@ mod tests {
     }
     #[test]
     fn does_not_flag_exe_in_appdata() {
-        assert!(!is_hijackable_dll_path(r"C:\Users\victim\AppData\Local\app.exe"));
+        assert!(!is_hijackable_dll_path(
+            r"C:\Users\victim\AppData\Local\app.exe"
+        ));
     }
     #[test]
     fn empty_string_not_hijackable() {

@@ -41,17 +41,52 @@ pub fn is_suspicious_port(port: u16) -> bool {
     SUSPICIOUS_PORTS.contains(&port)
 }
 
-pub const C2_FRAMEWORK_PORTS: &[u16] = &[];
-pub const DATABASE_PORTS: &[u16] = &[];
+/// Ports specifically associated with C2 frameworks (Cobalt Strike, Metasploit,
+/// Empire, Havoc, Sliver, Brute Ratel).
+pub const C2_FRAMEWORK_PORTS: &[u16] = &[
+    4444,  // Metasploit default listener
+    4445,  // Metasploit variant
+    50050, // Cobalt Strike teamserver
+    31337, // Back Orifice / eleet
+    8443,  // Empire / CS HTTPS C2
+    60000, // Havoc C2 default
+    5001,  // Sliver mTLS default
+    5002,  // Sliver WireGuard default
+    8888,  // Brute Ratel C4 / common
+    7777,  // common C2
+    9999,  // common C2
+    2222,  // Sliver HTTP(S) variant
+];
+
+/// Ports used for outbound database connections — lateral movement indicator when
+/// seen on non-database hosts.
+pub const DATABASE_PORTS: &[u16] = &[
+    1433,  // Microsoft SQL Server
+    1434,  // MSSQL Browser
+    3306,  // MySQL / MariaDB
+    5432,  // PostgreSQL
+    27017, // MongoDB
+    27018, // MongoDB shard
+    6379,  // Redis
+    6380,  // Redis TLS
+    1521,  // Oracle DB
+    1830,  // Oracle TNS variant
+    5984,  // CouchDB
+    8086,  // InfluxDB
+    9200,  // Elasticsearch HTTP
+    9300,  // Elasticsearch transport
+];
 
 /// Returns `true` if `port` is a known C2 framework port.
-pub fn is_c2_port(_port: u16) -> bool {
-    todo!()
+pub fn is_c2_port(port: u16) -> bool {
+    C2_FRAMEWORK_PORTS.contains(&port)
 }
 
 /// Returns `true` if `port` is a well-known database server port.
-pub fn is_database_port(_port: u16) -> bool {
-    todo!()
+///
+/// Seeing this on a non-database host is a lateral-movement indicator.
+pub fn is_database_port(port: u16) -> bool {
+    DATABASE_PORTS.contains(&port)
 }
 
 #[cfg(test)]

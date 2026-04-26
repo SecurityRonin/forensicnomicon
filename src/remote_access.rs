@@ -147,11 +147,60 @@ pub fn identify_remote_access_tool(path: &str) -> Option<&'static str> {
     }
 }
 
-pub const KNOWN_RAT_NAMES: &[&str] = &[];
+/// Names of malicious Remote Access Trojans (RATs) / backdoors.
+///
+/// Sources:
+/// - MITRE ATT&CK T1219 — Remote Access Software (malicious RAT use):
+///   <https://attack.mitre.org/techniques/T1219/>
+/// - ANY.RUN — "Top RATs" malware tracker:
+///   <https://any.run/malware-trends/njrat>
+/// - Recorded Future — Annual threat intelligence report (RAT prevalence):
+///   <https://www.recordedfuture.com/research/2024-annual-report>
+pub const KNOWN_RAT_NAMES: &[&str] = &[
+    "njrat",
+    "njrat.exe",
+    "darkcomet",
+    "darkcomet.exe",
+    "quasar",
+    "quasar.exe",
+    "quasarrat",
+    "remcos",
+    "remcos.exe",
+    "remcosrat",
+    "asyncrat",
+    "asyncrat.exe",
+    "nanocore",
+    "nanocore.exe",
+    "netwire",
+    "netwirerc",
+    "xtreme",
+    "xtremeRAT",
+    "adwind",
+    "jrat",
+    "strrat",
+    "dcrat",
+    "dcrat.exe",
+    "ratx",
+    "gh0st",
+    "gh0strat",
+    "luminosity",
+    "luminositylink",
+    "warzone",
+    "warzonerat",
+    "ave maria",
+    "avemaria",
+    "revenge",
+    "revengerat",
+    "agent tesla",
+    "agentTesla",
+];
 
 /// Returns `true` if `name` matches a known malicious RAT / backdoor name (case-insensitive).
-pub fn is_known_rat_name(_name: &str) -> bool {
-    todo!()
+pub fn is_known_rat_name(name: &str) -> bool {
+    let lower = name.to_ascii_lowercase();
+    KNOWN_RAT_NAMES
+        .iter()
+        .any(|t| t.to_ascii_lowercase() == lower)
 }
 
 #[cfg(test)]

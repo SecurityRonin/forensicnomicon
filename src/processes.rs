@@ -53,17 +53,76 @@ pub fn is_known_malware_process(name: &str) -> bool {
         .any(|t| t.to_ascii_lowercase() == lower)
 }
 
-pub const CREDENTIAL_ACCESS_TOOLS: &[&str] = &[];
-pub const LSASS_ACCESS_TOOLS: &[&str] = &[];
+/// Well-known credential access / password harvesting tool names.
+///
+/// Sources:
+/// - MITRE ATT&CK T1003 — OS Credential Dumping:
+///   <https://attack.mitre.org/techniques/T1003/>
+/// - Mandiant — "Mimikatz Overview, Defenses and Detection" (Mar 2021):
+///   <https://www.mandiant.com/resources/blog/mimikatz-detections>
+pub const CREDENTIAL_ACCESS_TOOLS: &[&str] = &[
+    "mimikatz",
+    "mimikatz.exe",
+    "pypykatz",
+    "pypykatz.exe",
+    "wce",
+    "wce.exe",
+    "gsecdump",
+    "gsecdump.exe",
+    "fgdump",
+    "fgdump.exe",
+    "pwdump",
+    "pwdump7",
+    "pwdump7.exe",
+    "secretsdump",
+    "impacket-secretsdump",
+    "invoke-mimikatz",
+    "crackmapexec",
+    "cme",
+    "lsassy",
+    "procdump",
+    "procdump64",
+    "procdump.exe",
+    "procdump64.exe",
+];
+
+/// Process names and DLLs known to access the LSASS process memory.
+///
+/// Sources:
+/// - MITRE ATT&CK T1003.001 — LSASS Memory:
+///   <https://attack.mitre.org/techniques/T1003/001/>
+/// - Elastic Security — "Credential Access via LSASS" detection rule:
+///   <https://www.elastic.co/guide/en/security/current/credential-access-via-lsass-memory-dump.html>
+/// - Microsoft — Windows Defender credential guard and LSASS protection
+pub const LSASS_ACCESS_TOOLS: &[&str] = &[
+    "procdump",
+    "procdump64",
+    "procdump.exe",
+    "procdump64.exe",
+    "comsvcs.dll",
+    "werfault.exe",
+    "sqldumper.exe",
+    "lsassy",
+    "nanodump",
+    "handlekatz",
+    "rdrleakdiag.exe",
+    "out-minidump",
+];
 
 /// Returns `true` if `name` matches a known credential-access tool (case-insensitive).
-pub fn is_credential_access_tool(_name: &str) -> bool {
-    todo!()
+pub fn is_credential_access_tool(name: &str) -> bool {
+    let lower = name.to_ascii_lowercase();
+    CREDENTIAL_ACCESS_TOOLS
+        .iter()
+        .any(|t| t.to_ascii_lowercase() == lower)
 }
 
 /// Returns `true` if `name` matches a tool known to access LSASS memory (case-insensitive).
-pub fn is_lsass_access_tool(_name: &str) -> bool {
-    todo!()
+pub fn is_lsass_access_tool(name: &str) -> bool {
+    let lower = name.to_ascii_lowercase();
+    LSASS_ACCESS_TOOLS
+        .iter()
+        .any(|t| t.to_ascii_lowercase() == lower)
 }
 
 #[cfg(test)]

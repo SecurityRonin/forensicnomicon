@@ -110,7 +110,11 @@ static BLACK_BASTA_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "Command and Scripting Interpreter: PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[4],
     },
     // [4] DLL Search Order Hijacking loads C2 beacon
@@ -277,7 +281,11 @@ static COBALT_KITTY_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[2, 3],
     },
     // [2] Decode/deobfuscate payloads
@@ -866,7 +874,6 @@ static BUMBLBEE_ROUND2_ACTIONS: &[FlowAction] = &[
     },
 ];
 
-
 // ═══════════════════════════════════════════════════════════════════════════════
 // NEW FLOWS FROM CTID CORPUS
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1166,7 +1173,11 @@ static CISA_IRANIAN_APT_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[2],
     },
     // [2] T1562.001
@@ -1310,7 +1321,11 @@ static CISA_IRANIAN_APT_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[20],
     },
     // [20] T1018
@@ -2209,7 +2224,11 @@ static FIN13_CASE_1_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[28],
     },
     // [28] T1505.003
@@ -2519,7 +2538,11 @@ static GOOTLOADER_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[6],
     },
     // [6] T1053.005
@@ -2567,7 +2590,11 @@ static GOOTLOADER_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[12],
     },
     // [12] T1562.001
@@ -2607,7 +2634,11 @@ static GOOTLOADER_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[17],
     },
     // [17] T1059.001
@@ -2615,7 +2646,11 @@ static GOOTLOADER_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[18],
     },
     // [18] T1555
@@ -2687,7 +2722,11 @@ static GOOTLOADER_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[28],
     },
     // [27] T1555
@@ -2711,7 +2750,11 @@ static GOOTLOADER_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[32],
     },
     // [30] T1562.001
@@ -2878,7 +2921,11 @@ static HANCITOR_DLL_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[14],
     },
     // [14] T1105
@@ -2942,7 +2989,11 @@ static HANCITOR_DLL_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[22],
     },
     // [22] T1595.001
@@ -3960,7 +4011,11 @@ static MUDDY_WATER_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[18],
     },
     // [17] T1547.001
@@ -3992,7 +4047,11 @@ static MUDDY_WATER_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[22, 23],
     },
     // [21] T1140
@@ -4048,7 +4107,11 @@ static MUDDY_WATER_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[],
     },
 ];
@@ -4708,7 +4771,11 @@ static REVIL_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[15],
     },
     // [15] T1490
@@ -4827,7 +4894,11 @@ static RAGNAR_LOCKER_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[5],
     },
     // [4] T1484.001
@@ -6592,7 +6663,11 @@ static WHISPERGATE_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[4],
     },
     // [4] T1105
@@ -6656,7 +6731,11 @@ static WHISPERGATE_ACTIONS: &[FlowAction] = &[
         technique_id: "T1059.001",
         tactic: "execution",
         name: "PowerShell",
-        artifact_ids: &["powershell_history", "evtx_powershell", "psreadline_history"],
+        artifact_ids: &[
+            "powershell_history",
+            "evtx_powershell",
+            "psreadline_history",
+        ],
         leads_to: &[12],
     },
     // [12] T1055.001
@@ -6716,7 +6795,6 @@ static WHISPERGATE_ACTIONS: &[FlowAction] = &[
         leads_to: &[],
     },
 ];
-
 
 /// All available attack flow scenarios, sourced from the CTID Attack Flow corpus.
 static ATTACK_FLOWS: &[AttackFlow] = &[
@@ -7061,8 +7139,16 @@ pub fn flows_for_technique(technique_id: &str) -> Vec<&'static AttackFlow> {
 }
 
 /// Returns `true` if the given ATT&CK technique ID appears in any flow in the CTID corpus.
-pub fn is_technique_in_known_campaign(_technique_id: &str) -> bool {
-    todo!()
+///
+/// Useful for quickly checking whether a detected technique has been observed
+/// in a real adversary campaign documented in the CTID Attack Flow library.
+pub fn is_technique_in_known_campaign(technique_id: &str) -> bool {
+    let lower = technique_id.to_ascii_lowercase();
+    ATTACK_FLOWS.iter().any(|flow| {
+        flow.actions
+            .iter()
+            .any(|a| a.technique_id.to_ascii_lowercase() == lower)
+    })
 }
 
 #[cfg(test)]
@@ -7102,7 +7188,11 @@ mod tests {
     #[test]
     fn every_flow_has_nonempty_description() {
         for flow in ATTACK_FLOWS {
-            assert!(!flow.description.is_empty(), "flow '{}' has empty description", flow.id);
+            assert!(
+                !flow.description.is_empty(),
+                "flow '{}' has empty description",
+                flow.id
+            );
         }
     }
 
@@ -7126,8 +7216,15 @@ mod tests {
     fn artifacts_in_flow_are_in_catalog() {
         // Only check curated IDs — generated IDs may differ across ingest runs.
         // We accept the artifact either in the catalog or as a known generated ID.
-        let curated_prefixes = ["evtx_", "kape_", "fa_", "browsers_", "velociraptor_",
-                                 "nirsoft_", "regedit_"];
+        let curated_prefixes = [
+            "evtx_",
+            "kape_",
+            "fa_",
+            "browsers_",
+            "velociraptor_",
+            "nirsoft_",
+            "regedit_",
+        ];
         for flow in ATTACK_FLOWS {
             for artifact_id in artifacts_in_flow(flow.id) {
                 let in_catalog = CATALOG.by_id(artifact_id).is_some();
@@ -7148,7 +7245,11 @@ mod tests {
             let ids = artifacts_in_flow(flow.id);
             let mut seen = std::collections::HashSet::new();
             for id in &ids {
-                assert!(seen.insert(id), "duplicate artifact '{id}' in flow '{}'", flow.id);
+                assert!(
+                    seen.insert(id),
+                    "duplicate artifact '{id}' in flow '{}'",
+                    flow.id
+                );
             }
         }
     }
@@ -7223,14 +7324,17 @@ mod tests {
     fn ctid_black_basta_ransomware_flow_exists() {
         let f = flow_by_id("black_basta_ransomware")
             .expect("flow 'black_basta_ransomware' must exist (CTID corpus)");
-        assert!(f.name.contains("Black Basta"), "name should contain 'Black Basta'");
+        assert!(
+            f.name.contains("Black Basta"),
+            "name should contain 'Black Basta'"
+        );
     }
 
     /// Black Basta must have its first real technique T1566.001 (spearphishing attachment).
     #[test]
     fn ctid_black_basta_has_t1566_001() {
-        let f = flow_by_id("black_basta_ransomware")
-            .expect("flow 'black_basta_ransomware' must exist");
+        let f =
+            flow_by_id("black_basta_ransomware").expect("flow 'black_basta_ransomware' must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1566.001"),
             "black_basta_ransomware must contain T1566.001 (Spearphishing Attachment)"
@@ -7240,8 +7344,8 @@ mod tests {
     /// Black Basta must have T1486 (ransomware encryption).
     #[test]
     fn ctid_black_basta_has_t1486() {
-        let f = flow_by_id("black_basta_ransomware")
-            .expect("flow 'black_basta_ransomware' must exist");
+        let f =
+            flow_by_id("black_basta_ransomware").expect("flow 'black_basta_ransomware' must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1486"),
             "black_basta_ransomware must contain T1486 (Data Encrypted for Impact)"
@@ -7253,14 +7357,17 @@ mod tests {
     fn ctid_cobalt_kitty_campaign_flow_exists() {
         let f = flow_by_id("cobalt_kitty_campaign")
             .expect("flow 'cobalt_kitty_campaign' must exist (CTID corpus)");
-        assert!(f.name.contains("Cobalt Kitty"), "name should contain 'Cobalt Kitty'");
+        assert!(
+            f.name.contains("Cobalt Kitty"),
+            "name should contain 'Cobalt Kitty'"
+        );
     }
 
     /// Cobalt Kitty must have T1566.002 (spearphishing link — its initial access).
     #[test]
     fn ctid_cobalt_kitty_has_t1566_002() {
-        let f = flow_by_id("cobalt_kitty_campaign")
-            .expect("flow 'cobalt_kitty_campaign' must exist");
+        let f =
+            flow_by_id("cobalt_kitty_campaign").expect("flow 'cobalt_kitty_campaign' must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1566.002"),
             "cobalt_kitty_campaign must contain T1566.002 (Spearphishing Link)"
@@ -7272,7 +7379,10 @@ mod tests {
     fn ctid_solarwinds_supply_chain_flow_exists() {
         let f = flow_by_id("solarwinds_supply_chain")
             .expect("flow 'solarwinds_supply_chain' must exist (CTID corpus)");
-        assert!(f.name.contains("SolarWinds"), "name should contain 'SolarWinds'");
+        assert!(
+            f.name.contains("SolarWinds"),
+            "name should contain 'SolarWinds'"
+        );
     }
 
     /// SolarWinds must have T1195.002 (supply chain compromise — its hallmark technique).
@@ -7297,8 +7407,7 @@ mod tests {
     /// Conti must have T1486 (ransomware encryption).
     #[test]
     fn ctid_conti_ransomware_has_t1486() {
-        let f = flow_by_id("conti_ransomware")
-            .expect("flow 'conti_ransomware' must exist");
+        let f = flow_by_id("conti_ransomware").expect("flow 'conti_ransomware' must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1486"),
             "conti_ransomware must contain T1486 (Data Encrypted for Impact)"
@@ -7308,16 +7417,18 @@ mod tests {
     /// BumbleBee Round 2 flow from CTID corpus must exist.
     #[test]
     fn ctid_bumblbee_round2_flow_exists() {
-        let f = flow_by_id("bumblbee_round2")
-            .expect("flow 'bumblbee_round2' must exist (CTID corpus)");
-        assert!(f.name.contains("BumbleBee"), "name should contain 'BumbleBee'");
+        let f =
+            flow_by_id("bumblbee_round2").expect("flow 'bumblbee_round2' must exist (CTID corpus)");
+        assert!(
+            f.name.contains("BumbleBee"),
+            "name should contain 'BumbleBee'"
+        );
     }
 
     /// BumbleBee must have T1003.001 (LSASS credential dumping).
     #[test]
     fn ctid_bumblbee_round2_has_t1003_001() {
-        let f = flow_by_id("bumblbee_round2")
-            .expect("flow 'bumblbee_round2' must exist");
+        let f = flow_by_id("bumblbee_round2").expect("flow 'bumblbee_round2' must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1003.001"),
             "bumblbee_round2 must contain T1003.001 (LSASS Memory)"
@@ -7340,7 +7451,8 @@ mod tests {
                     assert!(
                         !action.technique_id.is_empty(),
                         "flow '{}' has an action with empty technique_id: '{}'",
-                        id, action.name
+                        id,
+                        action.name
                     );
                 }
             }
@@ -7410,14 +7522,12 @@ mod tests {
 
     #[test]
     fn ctid_cisa_iranian_apt_flow_exists() {
-        flow_by_id("cisa_iranian_apt")
-            .expect("flow \"cisa_iranian_apt\" must exist (CTID corpus)");
+        flow_by_id("cisa_iranian_apt").expect("flow \"cisa_iranian_apt\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_cisa_iranian_apt_has_t1190() {
-        let f = flow_by_id("cisa_iranian_apt")
-            .expect("flow \"cisa_iranian_apt\" must exist");
+        let f = flow_by_id("cisa_iranian_apt").expect("flow \"cisa_iranian_apt\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1190"),
             "cisa_iranian_apt must contain T1190"
@@ -7426,14 +7536,12 @@ mod tests {
 
     #[test]
     fn ctid_conti_cisa_alert_flow_exists() {
-        flow_by_id("conti_cisa_alert")
-            .expect("flow \"conti_cisa_alert\" must exist (CTID corpus)");
+        flow_by_id("conti_cisa_alert").expect("flow \"conti_cisa_alert\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_conti_cisa_alert_has_t1598_004() {
-        let f = flow_by_id("conti_cisa_alert")
-            .expect("flow \"conti_cisa_alert\" must exist");
+        let f = flow_by_id("conti_cisa_alert").expect("flow \"conti_cisa_alert\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1598.004"),
             "conti_cisa_alert must contain T1598.004"
@@ -7442,14 +7550,12 @@ mod tests {
 
     #[test]
     fn ctid_conti_pwc_flow_exists() {
-        flow_by_id("conti_pwc")
-            .expect("flow \"conti_pwc\" must exist (CTID corpus)");
+        flow_by_id("conti_pwc").expect("flow \"conti_pwc\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_conti_pwc_has_t1566_001() {
-        let f = flow_by_id("conti_pwc")
-            .expect("flow \"conti_pwc\" must exist");
+        let f = flow_by_id("conti_pwc").expect("flow \"conti_pwc\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1566.001"),
             "conti_pwc must contain T1566.001"
@@ -7458,14 +7564,12 @@ mod tests {
 
     #[test]
     fn ctid_equifax_breach_flow_exists() {
-        flow_by_id("equifax_breach")
-            .expect("flow \"equifax_breach\" must exist (CTID corpus)");
+        flow_by_id("equifax_breach").expect("flow \"equifax_breach\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_equifax_breach_has_t1595_002() {
-        let f = flow_by_id("equifax_breach")
-            .expect("flow \"equifax_breach\" must exist");
+        let f = flow_by_id("equifax_breach").expect("flow \"equifax_breach\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1595.002"),
             "equifax_breach must contain T1595.002"
@@ -7480,14 +7584,12 @@ mod tests {
 
     #[test]
     fn ctid_fin13_case_1_flow_exists() {
-        flow_by_id("fin13_case_1")
-            .expect("flow \"fin13_case_1\" must exist (CTID corpus)");
+        flow_by_id("fin13_case_1").expect("flow \"fin13_case_1\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_fin13_case_1_has_t1595_002() {
-        let f = flow_by_id("fin13_case_1")
-            .expect("flow \"fin13_case_1\" must exist");
+        let f = flow_by_id("fin13_case_1").expect("flow \"fin13_case_1\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1595.002"),
             "fin13_case_1 must contain T1595.002"
@@ -7496,14 +7598,12 @@ mod tests {
 
     #[test]
     fn ctid_fin13_case_2_flow_exists() {
-        flow_by_id("fin13_case_2")
-            .expect("flow \"fin13_case_2\" must exist (CTID corpus)");
+        flow_by_id("fin13_case_2").expect("flow \"fin13_case_2\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_fin13_case_2_has_t1190() {
-        let f = flow_by_id("fin13_case_2")
-            .expect("flow \"fin13_case_2\" must exist");
+        let f = flow_by_id("fin13_case_2").expect("flow \"fin13_case_2\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1190"),
             "fin13_case_2 must contain T1190"
@@ -7512,14 +7612,12 @@ mod tests {
 
     #[test]
     fn ctid_gootloader_flow_exists() {
-        flow_by_id("gootloader")
-            .expect("flow \"gootloader\" must exist (CTID corpus)");
+        flow_by_id("gootloader").expect("flow \"gootloader\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_gootloader_has_t1584() {
-        let f = flow_by_id("gootloader")
-            .expect("flow \"gootloader\" must exist");
+        let f = flow_by_id("gootloader").expect("flow \"gootloader\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1584"),
             "gootloader must contain T1584"
@@ -7528,14 +7626,12 @@ mod tests {
 
     #[test]
     fn ctid_hancitor_dll_flow_exists() {
-        flow_by_id("hancitor_dll")
-            .expect("flow \"hancitor_dll\" must exist (CTID corpus)");
+        flow_by_id("hancitor_dll").expect("flow \"hancitor_dll\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_hancitor_dll_has_t1566_002() {
-        let f = flow_by_id("hancitor_dll")
-            .expect("flow \"hancitor_dll\" must exist");
+        let f = flow_by_id("hancitor_dll").expect("flow \"hancitor_dll\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1566.002"),
             "hancitor_dll must contain T1566.002"
@@ -7560,14 +7656,12 @@ mod tests {
 
     #[test]
     fn ctid_jp_morgan_breach_flow_exists() {
-        flow_by_id("jp_morgan_breach")
-            .expect("flow \"jp_morgan_breach\" must exist (CTID corpus)");
+        flow_by_id("jp_morgan_breach").expect("flow \"jp_morgan_breach\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_jp_morgan_breach_has_t1566() {
-        let f = flow_by_id("jp_morgan_breach")
-            .expect("flow \"jp_morgan_breach\" must exist");
+        let f = flow_by_id("jp_morgan_breach").expect("flow \"jp_morgan_breach\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1566"),
             "jp_morgan_breach must contain T1566"
@@ -7576,14 +7670,12 @@ mod tests {
 
     #[test]
     fn ctid_mitre_nerve_flow_exists() {
-        flow_by_id("mitre_nerve")
-            .expect("flow \"mitre_nerve\" must exist (CTID corpus)");
+        flow_by_id("mitre_nerve").expect("flow \"mitre_nerve\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_mitre_nerve_has_t1190() {
-        let f = flow_by_id("mitre_nerve")
-            .expect("flow \"mitre_nerve\" must exist");
+        let f = flow_by_id("mitre_nerve").expect("flow \"mitre_nerve\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1190"),
             "mitre_nerve must contain T1190"
@@ -7624,14 +7716,12 @@ mod tests {
 
     #[test]
     fn ctid_marriott_breach_flow_exists() {
-        flow_by_id("marriott_breach")
-            .expect("flow \"marriott_breach\" must exist (CTID corpus)");
+        flow_by_id("marriott_breach").expect("flow \"marriott_breach\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_marriott_breach_has_t1566() {
-        let f = flow_by_id("marriott_breach")
-            .expect("flow \"marriott_breach\" must exist");
+        let f = flow_by_id("marriott_breach").expect("flow \"marriott_breach\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1566"),
             "marriott_breach must contain T1566"
@@ -7640,14 +7730,12 @@ mod tests {
 
     #[test]
     fn ctid_muddy_water_flow_exists() {
-        flow_by_id("muddy_water")
-            .expect("flow \"muddy_water\" must exist (CTID corpus)");
+        flow_by_id("muddy_water").expect("flow \"muddy_water\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_muddy_water_has_t1566_001() {
-        let f = flow_by_id("muddy_water")
-            .expect("flow \"muddy_water\" must exist");
+        let f = flow_by_id("muddy_water").expect("flow \"muddy_water\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1566.001"),
             "muddy_water must contain T1566.001"
@@ -7656,14 +7744,12 @@ mod tests {
 
     #[test]
     fn ctid_notpetya_flow_exists() {
-        flow_by_id("notpetya")
-            .expect("flow \"notpetya\" must exist (CTID corpus)");
+        flow_by_id("notpetya").expect("flow \"notpetya\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_notpetya_has_t1593() {
-        let f = flow_by_id("notpetya")
-            .expect("flow \"notpetya\" must exist");
+        let f = flow_by_id("notpetya").expect("flow \"notpetya\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1593"),
             "notpetya must contain T1593"
@@ -7672,14 +7758,12 @@ mod tests {
 
     #[test]
     fn ctid_oceanlotus_flow_exists() {
-        flow_by_id("oceanlotus")
-            .expect("flow \"oceanlotus\" must exist (CTID corpus)");
+        flow_by_id("oceanlotus").expect("flow \"oceanlotus\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_oceanlotus_has_t1566_001() {
-        let f = flow_by_id("oceanlotus")
-            .expect("flow \"oceanlotus\" must exist");
+        let f = flow_by_id("oceanlotus").expect("flow \"oceanlotus\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1566.001"),
             "oceanlotus must contain T1566.001"
@@ -7688,20 +7772,17 @@ mod tests {
 
     #[test]
     fn ctid_openclaw_flow_exists() {
-        flow_by_id("openclaw")
-            .expect("flow \"openclaw\" must exist (CTID corpus)");
+        flow_by_id("openclaw").expect("flow \"openclaw\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_revil_flow_exists() {
-        flow_by_id("revil")
-            .expect("flow \"revil\" must exist (CTID corpus)");
+        flow_by_id("revil").expect("flow \"revil\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_revil_has_t1189() {
-        let f = flow_by_id("revil")
-            .expect("flow \"revil\" must exist");
+        let f = flow_by_id("revil").expect("flow \"revil\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1189"),
             "revil must contain T1189"
@@ -7710,14 +7791,12 @@ mod tests {
 
     #[test]
     fn ctid_ragnar_locker_flow_exists() {
-        flow_by_id("ragnar_locker")
-            .expect("flow \"ragnar_locker\" must exist (CTID corpus)");
+        flow_by_id("ragnar_locker").expect("flow \"ragnar_locker\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_ragnar_locker_has_t1078() {
-        let f = flow_by_id("ragnar_locker")
-            .expect("flow \"ragnar_locker\" must exist");
+        let f = flow_by_id("ragnar_locker").expect("flow \"ragnar_locker\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1078"),
             "ragnar_locker must contain T1078"
@@ -7726,14 +7805,12 @@ mod tests {
 
     #[test]
     fn ctid_swift_heist_flow_exists() {
-        flow_by_id("swift_heist")
-            .expect("flow \"swift_heist\" must exist (CTID corpus)");
+        flow_by_id("swift_heist").expect("flow \"swift_heist\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_swift_heist_has_t1190() {
-        let f = flow_by_id("swift_heist")
-            .expect("flow \"swift_heist\" must exist");
+        let f = flow_by_id("swift_heist").expect("flow \"swift_heist\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1190"),
             "swift_heist must contain T1190"
@@ -7748,8 +7825,8 @@ mod tests {
 
     #[test]
     fn ctid_searchawesome_adware_has_t1204_002() {
-        let f = flow_by_id("searchawesome_adware")
-            .expect("flow \"searchawesome_adware\" must exist");
+        let f =
+            flow_by_id("searchawesome_adware").expect("flow \"searchawesome_adware\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1204.002"),
             "searchawesome_adware must contain T1204.002"
@@ -7758,14 +7835,12 @@ mod tests {
 
     #[test]
     fn ctid_shamoon_flow_exists() {
-        flow_by_id("shamoon")
-            .expect("flow \"shamoon\" must exist (CTID corpus)");
+        flow_by_id("shamoon").expect("flow \"shamoon\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_shamoon_has_t1105() {
-        let f = flow_by_id("shamoon")
-            .expect("flow \"shamoon\" must exist");
+        let f = flow_by_id("shamoon").expect("flow \"shamoon\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1105"),
             "shamoon must contain T1105"
@@ -7774,14 +7849,12 @@ mod tests {
 
     #[test]
     fn ctid_sony_malware_flow_exists() {
-        flow_by_id("sony_malware")
-            .expect("flow \"sony_malware\" must exist (CTID corpus)");
+        flow_by_id("sony_malware").expect("flow \"sony_malware\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_sony_malware_has_t1105() {
-        let f = flow_by_id("sony_malware")
-            .expect("flow \"sony_malware\" must exist");
+        let f = flow_by_id("sony_malware").expect("flow \"sony_malware\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1105"),
             "sony_malware must contain T1105"
@@ -7790,14 +7863,12 @@ mod tests {
 
     #[test]
     fn ctid_target_breach_flow_exists() {
-        flow_by_id("target_breach")
-            .expect("flow \"target_breach\" must exist (CTID corpus)");
+        flow_by_id("target_breach").expect("flow \"target_breach\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_target_breach_has_t1593_002() {
-        let f = flow_by_id("target_breach")
-            .expect("flow \"target_breach\" must exist");
+        let f = flow_by_id("target_breach").expect("flow \"target_breach\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1593.002"),
             "target_breach must contain T1593.002"
@@ -7840,14 +7911,12 @@ mod tests {
 
     #[test]
     fn ctid_uber_breach_flow_exists() {
-        flow_by_id("uber_breach")
-            .expect("flow \"uber_breach\" must exist (CTID corpus)");
+        flow_by_id("uber_breach").expect("flow \"uber_breach\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_uber_breach_has_t1586() {
-        let f = flow_by_id("uber_breach")
-            .expect("flow \"uber_breach\" must exist");
+        let f = flow_by_id("uber_breach").expect("flow \"uber_breach\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1586"),
             "uber_breach must contain T1586"
@@ -7856,14 +7925,12 @@ mod tests {
 
     #[test]
     fn ctid_whispergate_flow_exists() {
-        flow_by_id("whispergate")
-            .expect("flow \"whispergate\" must exist (CTID corpus)");
+        flow_by_id("whispergate").expect("flow \"whispergate\" must exist (CTID corpus)");
     }
 
     #[test]
     fn ctid_whispergate_has_t1078() {
-        let f = flow_by_id("whispergate")
-            .expect("flow \"whispergate\" must exist");
+        let f = flow_by_id("whispergate").expect("flow \"whispergate\" must exist");
         assert!(
             f.actions.iter().any(|a| a.technique_id == "T1078"),
             "whispergate must contain T1078"

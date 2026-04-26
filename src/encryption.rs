@@ -111,13 +111,70 @@ pub fn is_encryption_tool_path(path: &str) -> bool {
     all_encryption_paths().any(|entry| lower.contains(&entry.to_ascii_lowercase()))
 }
 
-pub const RANSOMWARE_EXTENSIONS: &[&str] = &[];
+/// File extensions associated with known ransomware families.
+///
+/// Sources:
+/// - MITRE ATT&CK T1486 — Data Encrypted for Impact:
+///   <https://attack.mitre.org/techniques/T1486/>
+/// - ID Ransomware — crowdsourced ransomware extension database:
+///   <https://id-ransomware.malwarehunterteam.com/>
+/// - Coveware — Quarterly Ransomware Reports documenting prevalent families:
+///   <https://www.coveware.com/ransomware-quarterly-reports>
+pub const RANSOMWARE_EXTENSIONS: &[&str] = &[
+    ".wcry",   // WannaCry
+    ".wnry",   // WannaCry
+    ".wncry",  // WannaCry
+    ".locky",  // Locky
+    ".zepto",  // Locky variant
+    ".odin",   // Locky variant
+    ".cerber", // Cerber
+    ".cerber2",
+    ".cerber3",
+    ".locked",
+    ".encrypted",
+    ".crypt",
+    ".crypz",
+    ".cryp1",
+    ".crinf",
+    ".r5a",
+    ".XData",
+    ".cobra", // Dharma
+    ".dharma",
+    ".phobos", // Phobos
+    ".ryuk",   // Ryuk
+    ".conti",  // Conti
+    ".hive",   // Hive
+    ".BlackCat",
+    ".alphv", // BlackCat/ALPHV
+    ".revil", // REvil/Sodinokibi
+    ".sodinokibi",
+    ".darkside",
+    ".chaos",
+    ".zeppelin",
+    ".paymen45",
+    ".eking", // Phobos variant
+    ".acute", // Phobos variant
+    ".scarab",
+    ".globe",
+    ".stampado",
+    ".kr3",
+    ".crypted",
+    ".enc",
+    ".fucked",
+];
 
 /// Returns `true` if `ext` matches a known ransomware file extension (case-insensitive).
 ///
 /// Pass the extension with or without a leading dot (`.wcry` or `wcry`).
-pub fn is_ransomware_extension(_ext: &str) -> bool {
-    todo!()
+pub fn is_ransomware_extension(ext: &str) -> bool {
+    let normalized = if ext.starts_with('.') {
+        ext.to_ascii_lowercase()
+    } else {
+        format!(".{}", ext.to_ascii_lowercase())
+    };
+    RANSOMWARE_EXTENSIONS
+        .iter()
+        .any(|e| e.to_ascii_lowercase() == normalized)
 }
 
 #[cfg(test)]

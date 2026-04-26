@@ -108,35 +108,137 @@ pub fn is_download_tool_usage(cmd: &str) -> bool {
         .any(|p| lower.contains(&p.to_ascii_lowercase()))
 }
 
-pub const WMI_ABUSE_PATTERNS: &[&str] = &[];
-pub const CREDENTIAL_DUMP_PATTERNS: &[&str] = &[];
-pub const RECON_PATTERNS: &[&str] = &[];
-pub const LATERAL_MOVEMENT_PATTERNS: &[&str] = &[];
-pub const DEFENSE_EVASION_PATTERNS: &[&str] = &[];
+pub const WMI_ABUSE_PATTERNS: &[&str] = &[
+    "wmic process call create",
+    "Invoke-WMIMethod",
+    "Invoke-CimMethod",
+    "Get-WmiObject",
+    "gwmi ",
+    "wmic os get",
+    "wmic computersystem",
+    "wmic shadowcopy",
+    "wmic /node:",
+    "[wmiclass]",
+];
+
+pub const CREDENTIAL_DUMP_PATTERNS: &[&str] = &[
+    "procdump -ma",
+    "procdump64 -ma",
+    "sekurlsa::",
+    "lsadump::",
+    "kerberos::",
+    "MiniDump",
+    "comsvcs.dll",
+    "Invoke-Mimikatz",
+    "pypykatz",
+    "wce -w",
+    "gsecdump",
+    "fgdump",
+    "pwdump",
+    "Out-Minidump",
+    "ntds.dit",
+    "vaultcmd /listcreds",
+];
+
+pub const RECON_PATTERNS: &[&str] = &[
+    "net user",
+    "net group",
+    "net localgroup",
+    "net accounts",
+    "whoami",
+    "ipconfig",
+    "arp -a",
+    "arp -n",
+    "systeminfo",
+    "hostname",
+    "nltest",
+    "nslookup",
+    "route print",
+    "netstat",
+    "tasklist",
+    "quser",
+    "query user",
+    "wmic useraccount",
+    "Get-ADUser",
+    "Get-ADComputer",
+    "Get-ADGroupMember",
+];
+
+pub const LATERAL_MOVEMENT_PATTERNS: &[&str] = &[
+    "psexec",
+    "psexec64",
+    "wmiexec",
+    "smbexec",
+    "dcomexec",
+    "atexec",
+    "Enter-PSSession",
+    "Invoke-Command -ComputerName",
+    "New-PSSession",
+    "winrm invoke",
+    "sc \\\\",
+    "at \\\\",
+    "schtasks /create /s",
+    "net use \\\\",
+    "mmc \\\\",
+];
+
+pub const DEFENSE_EVASION_PATTERNS: &[&str] = &[
+    "vssadmin delete shadows",
+    "vssadmin resize shadowstorage",
+    "bcdedit /set recoveryenabled no",
+    "bcdedit /set bootstatuspolicy ignoreallfailures",
+    "wmic shadowcopy delete",
+    "Get-WmiObject Win32_Shadowcopy | Remove",
+    "Set-MpPreference -DisableRealtimeMonitoring",
+    "Set-MpPreference -DisableAntiSpyware",
+    "Set-MpPreference -DisableAntiVirus",
+    "Add-MpPreference -ExclusionPath",
+    "netsh advfirewall set allprofiles state off",
+    "netsh firewall set opmode mode=disable",
+    "net stop \"windows defender",
+    "sc stop WinDefend",
+    "DisableAntiSpyware",
+    "wevtutil sl /e:false",
+];
 
 /// Returns `true` if `cmd` contains a WMI-based execution or abuse pattern (case-insensitive).
-pub fn is_wmi_abuse(_cmd: &str) -> bool {
-    todo!()
+pub fn is_wmi_abuse(cmd: &str) -> bool {
+    let lower = cmd.to_ascii_lowercase();
+    WMI_ABUSE_PATTERNS
+        .iter()
+        .any(|p| lower.contains(&p.to_ascii_lowercase()))
 }
 
 /// Returns `true` if `cmd` contains a credential-dumping pattern (case-insensitive).
-pub fn is_credential_dumping_command(_cmd: &str) -> bool {
-    todo!()
+pub fn is_credential_dumping_command(cmd: &str) -> bool {
+    let lower = cmd.to_ascii_lowercase();
+    CREDENTIAL_DUMP_PATTERNS
+        .iter()
+        .any(|p| lower.contains(&p.to_ascii_lowercase()))
 }
 
 /// Returns `true` if `cmd` contains a discovery/reconnaissance pattern (case-insensitive).
-pub fn is_recon_command(_cmd: &str) -> bool {
-    todo!()
+pub fn is_recon_command(cmd: &str) -> bool {
+    let lower = cmd.to_ascii_lowercase();
+    RECON_PATTERNS
+        .iter()
+        .any(|p| lower.contains(&p.to_ascii_lowercase()))
 }
 
 /// Returns `true` if `cmd` contains a lateral-movement pattern (case-insensitive).
-pub fn is_lateral_movement_command(_cmd: &str) -> bool {
-    todo!()
+pub fn is_lateral_movement_command(cmd: &str) -> bool {
+    let lower = cmd.to_ascii_lowercase();
+    LATERAL_MOVEMENT_PATTERNS
+        .iter()
+        .any(|p| lower.contains(&p.to_ascii_lowercase()))
 }
 
 /// Returns `true` if `cmd` contains a defense-evasion pattern (case-insensitive).
-pub fn is_defense_evasion_command(_cmd: &str) -> bool {
-    todo!()
+pub fn is_defense_evasion_command(cmd: &str) -> bool {
+    let lower = cmd.to_ascii_lowercase();
+    DEFENSE_EVASION_PATTERNS
+        .iter()
+        .any(|p| lower.contains(&p.to_ascii_lowercase()))
 }
 
 #[cfg(test)]
@@ -276,15 +378,21 @@ mod tests {
     }
     #[test]
     fn detects_wmic_process_call_create() {
-        assert!(is_wmi_abuse("wmic process call create \"cmd.exe /c whoami\""));
+        assert!(is_wmi_abuse(
+            "wmic process call create \"cmd.exe /c whoami\""
+        ));
     }
     #[test]
     fn detects_invoke_wmimethod() {
-        assert!(is_wmi_abuse("Invoke-WMIMethod -Class Win32_Process -Name Create"));
+        assert!(is_wmi_abuse(
+            "Invoke-WMIMethod -Class Win32_Process -Name Create"
+        ));
     }
     #[test]
     fn detects_get_wmiobject_shadowcopy() {
-        assert!(is_wmi_abuse("Get-WmiObject Win32_ShadowCopy | Remove-WmiObject"));
+        assert!(is_wmi_abuse(
+            "Get-WmiObject Win32_ShadowCopy | Remove-WmiObject"
+        ));
     }
     #[test]
     fn wmi_is_case_insensitive() {
@@ -310,7 +418,9 @@ mod tests {
     }
     #[test]
     fn detects_procdump_ma_lsass() {
-        assert!(is_credential_dumping_command("procdump -ma lsass.exe lsass.dmp"));
+        assert!(is_credential_dumping_command(
+            "procdump -ma lsass.exe lsass.dmp"
+        ));
     }
     #[test]
     fn detects_sekurlsa_logonpasswords() {
@@ -392,7 +502,9 @@ mod tests {
     }
     #[test]
     fn detects_enter_pssession() {
-        assert!(is_lateral_movement_command("Enter-PSSession -ComputerName dc01"));
+        assert!(is_lateral_movement_command(
+            "Enter-PSSession -ComputerName dc01"
+        ));
     }
     #[test]
     fn detects_smbexec() {
@@ -424,7 +536,9 @@ mod tests {
     }
     #[test]
     fn detects_bcdedit_recovery() {
-        assert!(is_defense_evasion_command("bcdedit /set recoveryenabled no"));
+        assert!(is_defense_evasion_command(
+            "bcdedit /set recoveryenabled no"
+        ));
     }
     #[test]
     fn detects_set_mppreference_disable() {
