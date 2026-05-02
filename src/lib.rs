@@ -119,15 +119,15 @@
 //! WMI repository, or BITS database parsers should stay in separate companion crates.
 
 pub mod antiforensics;
-pub mod attack_flow;
 pub mod antiforensics_aware;
-pub mod mitre;
+pub mod attack_flow;
 pub mod catalog;
 pub mod chainsaw;
 pub mod dependencies;
 pub mod eventids;
 pub mod evidence;
 pub mod forensicartifacts;
+pub mod mitre;
 pub mod navigator;
 pub mod playbooks;
 pub mod plugin;
@@ -140,6 +140,7 @@ pub mod volatility;
 pub mod yara;
 pub use catalog as artifact;
 pub mod commands;
+pub mod abusable_sites;
 pub mod encryption;
 pub mod handbook;
 pub mod lolbins;

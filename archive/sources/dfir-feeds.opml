@@ -43,5 +43,33 @@
       <outline type="rss" text="BleepingComputer" title="BleepingComputer" xmlUrl="https://www.bleepingcomputer.com/feed/" htmlUrl="https://www.bleepingcomputer.com/"/>
       <outline type="rss" text="Dark Reading" title="Dark Reading" xmlUrl="https://www.darkreading.com/rss/all.xml" htmlUrl="https://www.darkreading.com/"/>
     </outline>
+    <outline text="Living Off the Land Datasets" title="Living Off the Land Datasets">
+      <!-- GitHub commit atom feeds — one entry per new binary/driver/tool added to dataset -->
+      <!-- LOLBAS_WINDOWS in lolbins.rs -->
+      <outline type="rss" text="LOLBAS Project (Windows)" title="LOLBAS Project (Windows)" xmlUrl="https://github.com/LOLBAS-Project/LOLBAS/commits/master.atom" htmlUrl="https://lolbas-project.github.io/"/>
+      <!-- LOLBAS_LINUX in lolbins.rs -->
+      <outline type="rss" text="GTFOBins (Linux)" title="GTFOBins (Linux)" xmlUrl="https://github.com/GTFOBins/GTFOBins.github.io/commits/master.atom" htmlUrl="https://gtfobins.github.io/"/>
+      <!-- LOLBAS_MACOS in lolbins.rs -->
+      <outline type="rss" text="LOOBins (macOS)" title="LOOBins (macOS)" xmlUrl="https://github.com/infosecB/LOOBins/commits/main.atom" htmlUrl="https://loobins.io/"/>
+      <!-- NEW loldrivers.rs — BYOVD vulnerable/malicious kernel drivers -->
+      <outline type="rss" text="LOLDrivers (BYOVD)" title="LOLDrivers (BYOVD)" xmlUrl="https://github.com/magicsword-io/LOLDrivers/commits/main.atom" htmlUrl="https://www.loldrivers.io/"/>
+      <!-- remote_access.rs extension — RMM tool network-level C2 indicators -->
+      <outline type="rss" text="LOFL Project (RMM C2 indicators)" title="LOFL Project (RMM C2 indicators)" xmlUrl="https://github.com/LOFL-Project/LOFL-Project.github.io/commits/main.atom" htmlUrl="https://lofl-project.github.io/"/>
+      <!-- NEW abusable_sites.rs — cloud services abused as C2 dropzones (no canonical GitHub found) -->
+      <!-- LOTS Project: https://lots-project.com/ — scraped via scripts/scrape_lots.py -->
+    </outline>
+    <outline text="Threat Intelligence Feeds" title="Threat Intelligence Feeds">
+      <!-- abuse.ch suite — actively maintained, machine-readable threat intel -->
+      <!-- URLhaus: daily CSV at https://urlhaus.abuse.ch/downloads/csv_recent/ -->
+      <!-- synced via scripts/sync_urlhaus.py → archive/sources/urlhaus_domains.json -->
+      <outline type="rss" text="abuse.ch blog" title="abuse.ch blog" xmlUrl="https://abuse.ch/blog/feed/" htmlUrl="https://abuse.ch/"/>
+      <outline type="rss" text="URLhaus" title="URLhaus — malware distribution URLs" xmlUrl="https://urlhaus.abuse.ch/rss/" htmlUrl="https://urlhaus.abuse.ch/"/>
+      <outline type="rss" text="MalwareBazaar" title="MalwareBazaar — malware samples" xmlUrl="https://bazaar.abuse.ch/rss/" htmlUrl="https://bazaar.abuse.ch/"/>
+      <outline type="rss" text="ThreatFox" title="ThreatFox — IOC sharing" xmlUrl="https://threatfox.abuse.ch/rss/" htmlUrl="https://threatfox.abuse.ch/"/>
+      <!-- Cisco Umbrella 1M popularity list: daily snapshot, useful as baseline whitelist -->
+      <!-- https://s3-us-west-1.amazonaws.com/umbrella-static/top-1m.csv.zip -->
+      <!-- MISP taxonomies: https://github.com/MISP/misp-taxonomies — circl:threat-type, enisa:threats -->
+      <outline type="rss" text="MISP taxonomies" title="MISP taxonomies" xmlUrl="https://github.com/MISP/misp-taxonomies/commits/main.atom" htmlUrl="https://www.misp-project.org/"/>
+    </outline>
   </body>
 </opml>
