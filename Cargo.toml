@@ -1,5 +1,5 @@
 [workspace]
-members = [".", "crates/fcatalog", "crates/ingest", "crates/fnquery"]
+members = [".", "crates/fcatalog", "crates/ingest", "crates/4n6query"]
 
 [package]
 name = "forensicnomicon"
