@@ -1684,50 +1684,8 @@ pub fn is_lolbas_windows_wmi(class: &str) -> bool {
         .any(|w| w.to_ascii_lowercase() == lower)
 }
 
-/// Deprecated alias — use [`is_lolbas_windows_mmc`] instead.
-#[deprecated(since = "0.0.0", note = "use is_lolbas_windows_mmc")]
-pub fn is_lofl_windows_mmc(name: &str) -> bool {
-    is_lolbas_windows_mmc(name)
-}
-
-/// Deprecated alias — use [`is_lolbas_windows_wmi`] instead.
-#[deprecated(since = "0.0.0", note = "use is_lolbas_windows_wmi")]
-pub fn is_lofl_windows_wmi(class: &str) -> bool {
-    is_lolbas_windows_wmi(class)
-}
-
-// ── Deprecated aliases — use LOLBAS_* and is_lolbas_* instead ───────────────
-
-#[deprecated(since = "0.0.0", note = "use LOLBAS_WINDOWS")]
-pub const WINDOWS_LOLBINS: &[&str] = LOLBAS_WINDOWS;
-#[deprecated(since = "0.0.0", note = "use LOLBAS_LINUX")]
-pub const LINUX_LOLBINS: &[&str] = LOLBAS_LINUX;
-#[deprecated(since = "0.0.0", note = "use LOLBAS_MACOS")]
-pub const MACOS_LOLBINS: &[&str] = LOLBAS_MACOS;
-#[deprecated(since = "0.0.0", note = "use LOLBAS_WINDOWS_MMC")]
-pub const LOFL_WINDOWS_MMC: &[&str] = LOLBAS_WINDOWS_MMC;
-#[deprecated(since = "0.0.0", note = "use LOLBAS_WINDOWS_WMI")]
-pub const LOFL_WINDOWS_WMI: &[&str] = LOLBAS_WINDOWS_WMI;
-
-#[deprecated(since = "0.0.0", note = "use is_lolbas_windows")]
-pub fn is_windows_lolbin(name: &str) -> bool {
-    is_lolbas_windows(name)
-}
-#[deprecated(since = "0.0.0", note = "use is_lolbas_linux")]
-pub fn is_linux_lolbin(name: &str) -> bool {
-    is_lolbas_linux(name)
-}
-#[deprecated(since = "0.0.0", note = "use is_lolbas_macos")]
-pub fn is_macos_lolbin(name: &str) -> bool {
-    is_lolbas_macos(name)
-}
-#[deprecated(since = "0.0.0", note = "use is_lolbas")]
-pub fn is_lolbin(name: &str) -> bool {
-    is_lolbas(name)
-}
 
 #[cfg(test)]
-#[allow(deprecated)]
 mod tests {
     use super::*;
 
