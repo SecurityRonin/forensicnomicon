@@ -1730,8 +1730,20 @@ mod tests {
         assert!(is_lofl_windows_wmi("win32_process"));
     }
 
-    // LOLBAS_WINDOWS_CMDLETS — native PS cmdlets are LOL (not LOFL)
-    // Native PS ships with the OS; LOFL = third-party admin tools.
+    // LOLBAS_WINDOWS_CMDLETS — unified: native PS cmdlets + PS aliases + LOFL admin cmdlets
+    // The distinction (LOL vs LOFL, cmdlet vs alias) is academic from a detection
+    // standpoint: PSReadLine history and AMSI capture all forms identically.
+    // Just as LOLBAS_WINDOWS merges LOL+LOFL binaries, this merges all PS indicators.
+    #[test]
+    fn lolbas_windows_cmdlets_exists() {
+        assert!(!LOLBAS_WINDOWS_CMDLETS.is_empty());
+    }
+    #[test]
+    fn lolbas_windows_cmdlets_contains_lofl_admin_cmdlet() {
+        // LOFL admin module cmdlets are included in the merged constant
+        assert!(LOLBAS_WINDOWS_CMDLETS.contains(&"Invoke-Command"));
+        assert!(LOLBAS_WINDOWS_CMDLETS.contains(&"Get-ADUser"));
+    }
     #[test]
     fn lolbas_windows_cmdlets_contains_invoke_webrequest() {
         assert!(LOLBAS_WINDOWS_CMDLETS.contains(&"Invoke-WebRequest"));
@@ -1772,43 +1784,62 @@ mod tests {
     fn lolbas_windows_cmdlets_contains_register_objectevent() {
         assert!(LOLBAS_WINDOWS_CMDLETS.contains(&"Register-ObjectEvent"));
     }
-    // LOLBAS_WINDOWS_PS_ALIASES — PS aliases for native LOL cmdlets
+    // PS aliases are merged into LOLBAS_WINDOWS_CMDLETS — no separate constant
     #[test]
-    fn lolbas_windows_ps_aliases_exists() {
-        assert!(!LOLBAS_WINDOWS_PS_ALIASES.is_empty());
+    fn lolbas_windows_cmdlets_contains_iex_alias() {
+        // iex → Invoke-Expression; citation: https://github.com/PowerShell/PowerShell/blob/master/src/System.Management.Automation/engine/InitialSessionState.cs
+        assert!(LOLBAS_WINDOWS_CMDLETS.contains(&"iex"));
     }
     #[test]
-    fn lolbas_windows_ps_aliases_contains_iex() {
-        assert!(LOLBAS_WINDOWS_PS_ALIASES.contains(&"iex"));
+    fn lolbas_windows_cmdlets_contains_iwr_alias() {
+        assert!(LOLBAS_WINDOWS_CMDLETS.contains(&"iwr"));
     }
     #[test]
-    fn lolbas_windows_ps_aliases_contains_iwr() {
-        assert!(LOLBAS_WINDOWS_PS_ALIASES.contains(&"iwr"));
+    fn lolbas_windows_cmdlets_contains_irm_alias() {
+        assert!(LOLBAS_WINDOWS_CMDLETS.contains(&"irm"));
     }
     #[test]
-    fn lolbas_windows_ps_aliases_contains_irm() {
-        assert!(LOLBAS_WINDOWS_PS_ALIASES.contains(&"irm"));
+    fn lolbas_windows_cmdlets_contains_wget_ps_alias() {
+        // wget → Invoke-WebRequest in PS 5.x; removed in PS 7
+        assert!(LOLBAS_WINDOWS_CMDLETS.contains(&"wget"));
     }
     #[test]
-    fn lolbas_windows_ps_aliases_contains_wget_ps_alias() {
-        // wget is a PS 5.x built-in alias for Invoke-WebRequest (distinct from /usr/bin/wget)
-        assert!(LOLBAS_WINDOWS_PS_ALIASES.contains(&"wget"));
+    fn lolbas_windows_cmdlets_contains_curl_ps_alias() {
+        // curl → Invoke-WebRequest in PS 5.x; removed in PS 7
+        assert!(LOLBAS_WINDOWS_CMDLETS.contains(&"curl"));
     }
     #[test]
-    fn lolbas_windows_ps_aliases_contains_curl_ps_alias() {
-        // curl is a PS 5.x built-in alias for Invoke-WebRequest (removed in PS 7)
-        assert!(LOLBAS_WINDOWS_PS_ALIASES.contains(&"curl"));
+    fn lolbas_windows_cmdlets_contains_icm_alias() {
+        // icm → Invoke-Command
+        assert!(LOLBAS_WINDOWS_CMDLETS.contains(&"icm"));
     }
     #[test]
-    fn is_lolbas_windows_ps_alias_detects_iex() {
-        assert!(is_lolbas_windows_ps_alias("iex"));
+    fn lolbas_windows_cmdlets_contains_gwmi_alias() {
+        // gwmi → Get-WmiObject (PS 5.x); widely seen in attack telemetry
+        assert!(LOLBAS_WINDOWS_CMDLETS.contains(&"gwmi"));
     }
     #[test]
-    fn is_lolbas_windows_ps_alias_case_insensitive() {
-        assert!(is_lolbas_windows_ps_alias("IEX"));
+    fn is_lolbas_windows_cmdlet_detects_iex_alias() {
+        assert!(is_lolbas_windows_cmdlet("iex"));
     }
     #[test]
-    fn is_lolbas_windows_ps_alias_rejects_unknown() {
-        assert!(!is_lolbas_windows_ps_alias("notanalias"));
+    fn is_lolbas_windows_cmdlet_detects_invoke_webrequest() {
+        assert!(is_lolbas_windows_cmdlet("Invoke-WebRequest"));
+    }
+    #[test]
+    fn is_lolbas_windows_cmdlet_case_insensitive_alias() {
+        assert!(is_lolbas_windows_cmdlet("IEX"));
+        assert!(is_lolbas_windows_cmdlet("IWR"));
+    }
+    #[test]
+    fn is_lolbas_windows_cmdlet_rejects_unknown() {
+        assert!(!is_lolbas_windows_cmdlet("NotARealCmdlet-XYZ"));
+    }
+    // Deprecated LOFL_WINDOWS_CMDLETS still points to LOLBAS_WINDOWS_CMDLETS
+    #[test]
+    #[allow(deprecated)]
+    fn lofl_windows_cmdlets_deprecated_alias_still_works() {
+        assert!(LOFL_WINDOWS_CMDLETS.contains(&"Get-ADUser"));
+        assert!(is_lofl_windows_cmdlet("Get-ADUser"));
     }
 }
