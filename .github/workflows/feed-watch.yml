@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   poll:
@@ -26,23 +25,18 @@ jobs:
       - name: Refresh feed snapshot
         run: python3 scripts/check_feed_updates.py
 
-      - name: Create update PR
-        uses: peter-evans/create-pull-request@v7
-        with:
-          commit-message: "chore: refresh source inventory"
-          title: "chore: refresh source inventory"
-          body: |
-            Automated refresh of the DFIR source inventory and subscribed feed state.
-
-            Updated files:
-            - `archive/sources/source-inventory.json`
-            - `archive/sources/source-inventory.md`
-            - `archive/sources/feed-state.json`
-            - `archive/sources/feed-report.md`
-          branch: automation/feed-watch
-          delete-branch: true
-          add-paths: |
-            archive/sources/source-inventory.json
-            archive/sources/source-inventory.md
-            archive/sources/feed-state.json
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            archive/sources/source-inventory.json \
+            archive/sources/source-inventory.md \
+            archive/sources/feed-state.json \
             archive/sources/feed-report.md
+          if git diff --cached --quiet; then
+            echo "No changes — feed is up to date."
+          else
+            git commit -m "chore: refresh source inventory [skip ci]"
+            git push
+          fi
