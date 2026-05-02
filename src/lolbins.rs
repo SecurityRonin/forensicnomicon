@@ -745,6 +745,119 @@ pub const LOLBAS_MACOS: &[&str] = &[
     "SetFile",       // HFS+ metadata modification
     "softwareupdate",// Trigger software updates / enumerate available updates
     "log",           // macOS Unified Log streaming — surveillance and anti-forensics awareness
+
+    // ── macOS LOFL — foreign tools (Homebrew / pip / npm / cargo / other) ──
+    // First catalog of macOS LOFL binaries: research/macos-lofl-catalog.yaml
+    // These are developer/DevOps tools universally installed on Mac enterprise
+    // systems; rarely blocked by EDR/allowlisting; high offensive capability.
+
+    // Cloud CLIs — direct API access to cloud credentials and resources
+    "aws",          // AWS CLI — credential exfil, S3 staging, IAM enumeration
+    "az",           // Azure CLI — credential access, storage exfil, AAD recon
+    "gcloud",       // Google Cloud CLI — GCS exfil, IAM privilege escalation
+    "gh",           // GitHub CLI — token access, repo exfil, Actions abuse
+    "heroku",       // Heroku CLI — dyno shell, env var exfil
+    "vault",        // HashiCorp Vault CLI — secret extraction, token abuse
+    "consul",       // HashiCorp Consul — service mesh recon, KV store access
+    "step",         // Smallstep CLI — PKI abuse, certificate issuance
+    "teleport",     // Teleport CLI — privileged access proxy abuse
+
+    // Container / orchestration — escape and lateral movement
+    "docker",       // Container runtime — breakout via privileged containers
+    "kubectl",      // Kubernetes CLI — secret extraction, pod exec, RBAC abuse
+    "helm",         // Kubernetes package manager — deploy malicious charts
+    "k9s",          // Kubernetes TUI — cluster recon, pod shell access
+    "lazydocker",   // Docker TUI — container management, image abuse
+    "packer",       // HashiCorp Packer — backdoored image creation
+
+    // Language runtimes — arbitrary code execution without shell
+    "python3",      // Python REPL — code exec, C extension loading, network
+    "node",         // Node.js — eval-based exec, npm script abuse
+    "ruby",         // Ruby interpreter — shell escape, Gem abuse
+    "go",           // Go toolchain — compile/exec on-device, CGO abuse
+    "php",          // PHP CLI — eval exec, webshell staging
+    "perl",         // Perl interpreter — shell exec, regex DoS
+
+    // Package managers — supply chain and dependency confusion attacks
+    "brew",         // Homebrew — malicious tap installation, formula abuse
+    "pip3",         // Python packages — supply chain, code exec via setup.py
+    "npm",          // Node packages — postinstall scripts, typosquatting
+    "yarn",         // Yarn — same supply chain vectors as npm
+    "cargo",        // Rust crates — build scripts execute arbitrary code
+    "pipx",         // Python app installer — isolated env exec
+
+    // IaC / DevOps — infrastructure manipulation
+    "terraform",    // IaC — cloud resource creation, credential in state files
+    "ansible",      // Configuration management — mass remote exec via playbooks
+    "vagrant",      // VM management — guest exec, shared folder traversal
+    "act",          // Local GitHub Actions runner — workflow-based code exec
+
+    // Database clients — data exfiltration via query
+    "psql",         // PostgreSQL client — data exfil, pg_read_file abuse
+    "mysql",        // MySQL client — data exfil, LOAD DATA INFILE
+    "redis-cli",    // Redis client — config rewrite, RCE via SLAVEOF
+    "mongosh",      // MongoDB shell — data exfil, JS eval execution
+
+    // Network tools — reconnaissance and C2 channels
+    "nmap",         // Port scanner — network recon, OS fingerprinting
+    "socat",        // Network relay — reverse shells, port forwarding
+    "mitmproxy",    // MITM proxy — credential interception, traffic analysis
+    "tshark",       // CLI packet capture — credential harvesting, recon
+    "masscan",      // Fast port scanner — large-scale network recon
+    "dnsmasq",      // DNS/DHCP server — DNS poisoning, traffic redirection
+    "httpie",       // HTTP client — API abuse, credential testing
+
+    // Tunneling / proxy — C2 channel establishment
+    "ngrok",        // Reverse tunnel — C2 over HTTPS/TCP bypassing firewalls
+    "cloudflared",  // Cloudflare Tunnel — C2 via trusted CDN infrastructure
+    "chisel",       // TCP/UDP tunnel over HTTP — firewall bypass
+    "sshuttle",     // VPN over SSH — network pivoting
+    "proxychains-ng", // Proxy chains — traffic routing for evasion
+    "tailscale",    // WireGuard mesh VPN — covert C2 network
+    "wireguard-tools", // WireGuard CLI — encrypted tunnel setup
+
+    // Security / offensive tools — direct attack capability
+    "sqlmap",       // SQL injection automation — database takeover
+    "john",         // John the Ripper — password cracking
+    "hashcat",      // GPU password cracking — credential recovery
+    "frida",        // Dynamic instrumentation — process injection, hook bypass
+    "radare2",      // Reverse engineering — binary analysis, patch
+    "gdb",          // GNU debugger — process memory dump, shellcode injection
+
+    // Build tools — code compilation and execution
+    "cmake",        // Build system — compile malicious C code on-device
+    "gradle",       // Java build tool — task execution, dependency abuse
+    "maven",        // Java package manager — plugin code exec
+    "bazel",        // Google build — remote execution abuse
+
+    // Credential management — secret access
+    "1password-cli",  // 1Password CLI — Keychain/vault secret extraction
+    "bitwarden-cli",  // Bitwarden CLI — password vault access
+
+    // Encryption / signing — evidence tampering, covert channels
+    "openssl",      // TLS toolkit — self-signed C2 certs, data encryption
+    "gpg",          // GnuPG — encrypted C2, payload concealment
+    "age",          // Modern encryption — payload concealment, key management
+    "minisign",     // Signature tool — artifact signing for trust bypass
+
+    // File transfer / sync — data staging and exfiltration
+    "rclone",       // Cloud sync — mass exfiltration to cloud storage
+    "rsync",        // File sync — lateral movement, data staging
+    "wget",         // HTTP downloader — payload delivery
+    "aria2c",       // Multi-protocol downloader — parallel payload staging
+    "restic",       // Backup tool — encrypted data exfiltration
+
+    // Scripting / automation
+    "jq",           // JSON processor — credential extraction from API responses
+    "expect",       // Automation tool — interactive process exploitation
+    "screen",       // Terminal multiplexer — persistent session, SUID abuse
+    "tmux",         // Terminal multiplexer — session hijacking, persistence
+    "imagemagick",  // Image processing — CVE exploit history, server-side
+    "ffmpeg",       // Media processing — covert channel via media encoding
+
+    // macOS-specific utilities
+    "duti",         // File association — handler hijacking for persistence
+    "trash",        // Move to Trash CLI — evidence staging before deletion
 ];
 
 /// Returns `true` if `name` matches a known Windows LOLBAS binary (case-insensitive).
