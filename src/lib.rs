@@ -144,6 +144,11 @@ pub mod abusable_sites;
 pub mod encryption;
 pub mod handbook;
 pub mod lolbins;
+pub use lolbins::{
+    lolbas_entry, lolbas_names, LolbasEntry, UC_ARCHIVE, UC_BYPASS, UC_CREDENTIALS,
+    UC_DECODE, UC_DEFENSE_EVASION, UC_DOWNLOAD, UC_EXECUTE, UC_NETWORK, UC_PERSIST,
+    UC_PROXY, UC_RECON, UC_UPLOAD,
+};
 pub mod no_std_compat;
 pub mod paths;
 pub mod pca;

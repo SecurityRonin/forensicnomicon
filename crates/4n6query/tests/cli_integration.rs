@@ -115,6 +115,8 @@ fn lolbas_lookup_json_output_is_valid_json() {
     let v: serde_json::Value = serde_json::from_str(text).expect("output is not valid JSON");
     assert_eq!(v["name"], "certutil.exe");
     assert_eq!(v["platform"], "windows");
+    assert!(v["mitre_techniques"].is_array());
+    assert!(v["use_cases"].is_number());
 }
 
 // ---------------------------------------------------------------------------
@@ -242,7 +244,7 @@ fn dump_json_lolbas_windows_contains_certutil() {
     let text = std::str::from_utf8(&output).unwrap();
     let v: serde_json::Value = serde_json::from_str(text).unwrap();
     let windows = v["lolbas_windows"].as_array().unwrap();
-    assert!(windows.iter().any(|e| e.as_str() == Some("certutil.exe")));
+    assert!(windows.iter().any(|e| e["name"].as_str() == Some("certutil.exe")));
 }
 
 #[test]

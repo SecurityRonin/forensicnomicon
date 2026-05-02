@@ -13,9 +13,8 @@ use forensicnomicon::abusable_sites::{
     abusable_site_info, BlockingRisk, SiteCategory, ABUSABLE_SITES,
 };
 use forensicnomicon::lolbins::{
-    is_lolbas_linux, is_lolbas_macos, is_lolbas_windows, is_lolbas_windows_cmdlet,
-    is_lolbas_windows_mmc, is_lolbas_windows_wmi, LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS,
-    LOLBAS_WINDOWS_CMDLETS, LOLBAS_WINDOWS_MMC, LOLBAS_WINDOWS_WMI,
+    lolbas_entry, LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS, LOLBAS_WINDOWS_CMDLETS,
+    LOLBAS_WINDOWS_MMC, LOLBAS_WINDOWS_WMI,
 };
 use std::process;
 
@@ -140,42 +139,48 @@ fn run_lolbas(action: LolbasAction) -> i32 {
 }
 
 fn lolbas_lookup(name: &str, platform: Platform, format: Option<Format>) -> i32 {
-    let (dataset, checker): (&[&str], fn(&str) -> bool) = match platform {
-        Platform::Windows => (LOLBAS_WINDOWS, is_lolbas_windows),
-        Platform::Linux => (LOLBAS_LINUX, is_lolbas_linux),
-        Platform::Macos => (LOLBAS_MACOS, is_lolbas_macos),
-        Platform::WindowsCmdlet => (LOLBAS_WINDOWS_CMDLETS, is_lolbas_windows_cmdlet),
-        Platform::WindowsMmc => (LOLBAS_WINDOWS_MMC, is_lolbas_windows_mmc),
-        Platform::WindowsWmi => (LOLBAS_WINDOWS_WMI, is_lolbas_windows_wmi),
+    let dataset = match platform {
+        Platform::Windows => LOLBAS_WINDOWS,
+        Platform::Linux => LOLBAS_LINUX,
+        Platform::Macos => LOLBAS_MACOS,
+        Platform::WindowsCmdlet => LOLBAS_WINDOWS_CMDLETS,
+        Platform::WindowsMmc => LOLBAS_WINDOWS_MMC,
+        Platform::WindowsWmi => LOLBAS_WINDOWS_WMI,
     };
-    let _ = checker; // used via dataset lookup; fn pointer kept for future --all-platforms
 
-    let name_lower = name.to_lowercase();
-    let found = dataset
-        .iter()
-        .find(|&&entry| entry.to_lowercase() == name_lower);
-
-    if let Some(&matched) = found {
+    if let Some(entry) = lolbas_entry(dataset, name) {
         let platform_label = platform_label(platform);
         match format {
             Some(Format::Json) => {
                 let v = serde_json::json!({
-                    "name": matched,
+                    "name": entry.name,
                     "platform": platform_label,
+                    "mitre_techniques": entry.mitre_techniques,
+                    "use_cases": entry.use_cases,
+                    "description": entry.description,
                     "found": true
                 });
                 println!("{}", serde_json::to_string_pretty(&v).unwrap());
             }
             Some(Format::Yaml) => {
                 let v = serde_json::json!({
-                    "name": matched,
+                    "name": entry.name,
                     "platform": platform_label,
+                    "mitre_techniques": entry.mitre_techniques,
+                    "use_cases": entry.use_cases,
+                    "description": entry.description,
                     "found": true
                 });
                 print!("{}", serde_yaml::to_string(&v).unwrap());
             }
             None => {
-                println!("FOUND  {matched}  [{platform_label}]");
+                println!("FOUND  {}  [{}]", entry.name, platform_label);
+                if !entry.description.is_empty() {
+                    println!("       {}", entry.description);
+                }
+                if !entry.mitre_techniques.is_empty() {
+                    println!("       MITRE: {}", entry.mitre_techniques.join(", "));
+                }
                 println!(
                     "       LOL/LOFL binary catalogued in forensicnomicon {}",
                     env!("CARGO_PKG_VERSION")
