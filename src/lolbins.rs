@@ -27,8 +27,8 @@
 //! | [`LOLBAS_LINUX`] | Process name (no extension) | auditd `execve`, eBPF, EDR |
 //! | [`LOLBAS_MACOS`] | Process name (no extension) | macOS ESF / Endpoint Security, audit.log |
 //! | [`LOLBAS_WINDOWS_CMDLETS`] | PowerShell cmdlet name or alias | ScriptBlock log (Event 4104), PSReadLine history, AMSI |
-//! | [`LOFL_WINDOWS_MMC`] | `.msc` filename | LNK files, UserAssist MRU, Jump Lists |
-//! | [`LOFL_WINDOWS_WMI`] | WMI class name | WMI Activity log (Event 5861), `Get-CimInstance` |
+//! | [`LOLBAS_WINDOWS_MMC`] | `.msc` filename | LNK files, UserAssist MRU, Jump Lists |
+//! | [`LOLBAS_WINDOWS_WMI`] | WMI class name | WMI Activity log (Event 5861), `Get-CimInstance` |
 //!
 //! # Upstream sources
 //!
@@ -46,14 +46,14 @@
 //!
 //! ```rust
 //! use forensicnomicon::lolbins::{is_lolbas, is_lolbas_windows, is_lolbas_macos};
-//! use forensicnomicon::lolbins::{is_lolbas_windows_cmdlet, is_lofl_windows_wmi};
+//! use forensicnomicon::lolbins::{is_lolbas_windows_cmdlet, is_lolbas_windows_wmi};
 //!
 //! assert!(is_lolbas("certutil.exe"));        // Windows LOLBAS
 //! assert!(is_lolbas("bash"));                // Linux GTFOBins
 //! assert!(is_lolbas("osascript"));           // macOS LOOBins
 //! assert!(is_lolbas("kubectl"));             // macOS LOFL (also Linux GTFOBins)
 //! assert!(is_lolbas_windows_cmdlet("Invoke-Command")); // PowerShell LOFL
-//! assert!(is_lofl_windows_wmi("Win32_Process"));     // WMI LOFL
+//! assert!(is_lolbas_windows_wmi("Win32_Process"));   // WMI LOLBAS
 //! ```
 //!
 //! # macOS LOFL catalog — first-of-its-kind research
@@ -82,36 +82,145 @@
 /// process telemetry, Prefetch, and AmCache. Unified here as a single lookup
 /// table, mirroring how GTFOBins already unifies LOL + LOFL for Linux.
 pub const LOLBAS_WINDOWS: &[&str] = &[
-    // ── LOLBAS Project — native Windows binaries ─────────────────────────
-    "certutil.exe",
+    // ── T1218 — Signed Binary Proxy Execution <https://attack.mitre.org/techniques/T1218/> ──
+    // T1218.001 — InstallUtil <https://attack.mitre.org/techniques/T1218/001/>
+    "installutil.exe",
+    // T1218.003 — CMSTP <https://attack.mitre.org/techniques/T1218/003/>
+    "cmstp.exe",
+    // T1218.004 — InstallUtil (also: Regasm, Regsvcs) <https://attack.mitre.org/techniques/T1218/004/>
+    "regasm.exe",
+    "regsvcs.exe",
+    // T1218.005 — Mshta / WScript / CScript <https://attack.mitre.org/techniques/T1218/005/>
     "mshta.exe",
     "wscript.exe",
     "cscript.exe",
-    "regsvr32.exe",
-    "rundll32.exe",
+    // T1218.007 — Msiexec <https://attack.mitre.org/techniques/T1218/007/>
     "msiexec.exe",
-    "bitsadmin.exe",
-    "msbuild.exe",
-    "installutil.exe",
-    "regasm.exe",
-    "regsvcs.exe",
-    "cmstp.exe",
+    // T1218.008 — Odbcconf <https://attack.mitre.org/techniques/T1218/008/>
     "odbcconf.exe",
-    "mavinject.exe",
+    // T1218.009 — Regsvcs / Regasm <https://attack.mitre.org/techniques/T1218/009/>
+    // (already listed above under T1218.004)
+    // T1218.010 — Regsvr32 <https://attack.mitre.org/techniques/T1218/010/>
+    "regsvr32.exe",
+    // T1218.011 — Rundll32 / PresentationHost <https://attack.mitre.org/techniques/T1218/011/>
+    "rundll32.exe",
+    "presentationhost.exe",
     "ieexec.exe",
     "xwizard.exe",
-    "presentationhost.exe",
     "msdeploy.exe",
-    "wmic.exe",
+
+    // ── T1105 — Ingress Tool Transfer <https://attack.mitre.org/techniques/T1105/> ──
+    // T1027 — Obfuscated Files or Information <https://attack.mitre.org/techniques/T1027/>
+    // (certutil also covers T1218.001, T1140, T1105)
+    "certutil.exe",
+
+    // ── T1197 — BITS Jobs <https://attack.mitre.org/techniques/T1197/> ──
+    "bitsadmin.exe",
+
+    // ── T1059.003 — Windows Command Shell <https://attack.mitre.org/techniques/T1059/003/> ──
+    "cmd.exe",
     "powershell.exe",
     "pwsh.exe",
 
-    // ── LOFL Project — third-party Windows admin tool binaries ────────────
+    // ── T1047 — Windows Management Instrumentation <https://attack.mitre.org/techniques/T1047/> ──
+    "wmic.exe",
+    "wbemtest.exe",
+
+    // ── T1003 — OS Credential Dumping <https://attack.mitre.org/techniques/T1003/> ──
+    "ntdsutil.exe",
+
+    // ── T1055 — Process Injection <https://attack.mitre.org/techniques/T1055/> ──
+    "mavinject.exe",
+
+    // ── T1053.005 — Scheduled Task/Job <https://attack.mitre.org/techniques/T1053/005/> ──
+    "schtasks.exe",
+    "at.exe",
+
+    // ── T1021.001 — Remote Desktop Protocol <https://attack.mitre.org/techniques/T1021/001/> ──
+    "mstsc.exe",
+
+    // ── T1021.002 — SMB/Windows Admin Shares <https://attack.mitre.org/techniques/T1021/002/> ──
+    "net.exe",
+    "net1.exe",
+
+    // ── T1021.004 — SSH <https://attack.mitre.org/techniques/T1021/004/> ──
+    "ssh.exe",
+    "scp.exe",
+    "sftp.exe",
+
+    // ── T1548.002 — Bypass UAC <https://attack.mitre.org/techniques/T1548/002/> ──
+    "eventvwr.exe",
+    "fodhelper.exe",
+    "sdclt.exe",
+    "computerdefaults.exe",
+
+    // ── T1070 — Indicator Removal <https://attack.mitre.org/techniques/T1070/> ──
+    "wevtutil.exe",
+    "fsutil.exe",
+    "cipher.exe",
+
+    // ── T1112 — Modify Registry <https://attack.mitre.org/techniques/T1112/> ──
+    "reg.exe",
+    "regedit.exe",
+    "regini.exe",
+
+    // ── T1140 — Deobfuscate/Decode Files or Information <https://attack.mitre.org/techniques/T1140/> ──
+    "expand.exe",
+    "extrac32.exe",
+
+    // ── T1560.001 — Archive via Utility <https://attack.mitre.org/techniques/T1560/001/> ──
+    "makecab.exe",
+    "compact.exe",
+    "tar.exe",
+
+    // ── T1569.002 — Service Execution <https://attack.mitre.org/techniques/T1569/002/> ──
+    "sc.exe",
+
+    // ── T1134 — Access Token Manipulation <https://attack.mitre.org/techniques/T1134/> ──
+    "runas.exe",
+
+    // ── T1016 — System Network Configuration Discovery <https://attack.mitre.org/techniques/T1016/> ──
+    "ipconfig.exe",
+    "arp.exe",
+    "netstat.exe",
+    "route.exe",
+    "nslookup.exe",
+    "ping.exe",
+    "tracert.exe",
+
+    // ── T1057 — Process Discovery <https://attack.mitre.org/techniques/T1057/> ──
+    "tasklist.exe",
+    "taskkill.exe",
+
+    // ── T1082 — System Information Discovery <https://attack.mitre.org/techniques/T1082/> ──
+    "systeminfo.exe",
+    "msinfo32.exe",
+
+    // ── T1083 — File and Directory Discovery <https://attack.mitre.org/techniques/T1083/> ──
+    "where.exe",
+    "attrib.exe",
+    "tree.exe",
+
+    // ── T1124 — System Time Discovery <https://attack.mitre.org/techniques/T1124/> ──
+    "w32tm.exe",
+
+    // ── T1080 — Taint Shared Content <https://attack.mitre.org/techniques/T1080/> ──
+    "xcopy.exe",
+    "robocopy.exe",
+
+    // ── T1562.001 — Disable/Modify Security Tools <https://attack.mitre.org/techniques/T1562/001/> ──
+    "netsh.exe",
+
+    // ── T1218 (MSBuild) — T1127.001 <https://attack.mitre.org/techniques/T1127/001/> ──
+    "msbuild.exe",
+
+    // ── LOFL Project — third-party Windows admin tool binaries ────────────────
+    // T1569.002 — Service Execution (PsExec) <https://attack.mitre.org/techniques/T1569/002/>
+    "psexec.exe",
     // Sysinternals / Microsoft tooling
     "AccessEnum.exe",
     "adexplorer.exe",
     "adrestore.exe",
-    "psexec.exe",
     "psfile.exe",
     "psgetsid.exe",
     "psinfo.exe",
@@ -125,9 +234,9 @@ pub const LOLBAS_WINDOWS: &[&str] = &[
     "psshutdown.exe",
     "pssuspend.exe",
     "sdelete.exe",
+    // T1021.001 — RDP remote management
     "RDCMan.exe",
     // Windows built-in admin binaries (not in LOLBAS Project)
-    "at.exe",
     "csvde.exe",
     "cusrmgr.exe",
     "dcdiag.exe",
@@ -159,16 +268,11 @@ pub const LOLBAS_WINDOWS: &[&str] = &[
     "manage-bde.exe",
     "mofcomp.exe",
     "msg.exe",
-    "msinfo32.exe",
     "msra.exe",
-    "mstsc.exe",
     "ndkping.exe",
-    "net.exe",
     "netdom.exe",
-    "netsh.exe",
     "nlb.exe",
     "nltest.exe",
-    "nslookup.exe",
     "portqry.exe",
     "printui.exe",
     "qappsrv.exe",
@@ -176,18 +280,12 @@ pub const LOLBAS_WINDOWS: &[&str] = &[
     "query.exe",
     "quser.exe",
     "qwinsta.exe",
-    "reg.exe",
-    "regedit.exe",
-    "regini.exe",
     "rendom.exe",
     "repadmin.exe",
     "reset.exe",
     "rmtshare.exe",
     "rpcdump.exe",
     "rwinsta.exe",
-    "sc.exe",
-    "schtasks.exe",
-    "scp.exe",
     "ServerManager.exe",
     "setspn.exe",
     "setx.exe",
@@ -197,19 +295,12 @@ pub const LOLBAS_WINDOWS: &[&str] = &[
     "sqlcmd.exe",
     "srvcheck.exe",
     "srvinfo.exe",
-    "ssh.exe",
-    "systeminfo.exe",
     "takeown.exe",
-    "taskkill.exe",
-    "tasklist.exe",
     "tsdiscon.exe",
     "tskill.exe",
     "typeperf.exe",
     "volrest.exe",
-    "w32tm.exe",
     "waitfor.exe",
-    "wbemtest.exe",
-    "wevtutil.exe",
     "winrs.exe",
     // LOFL scripts (.vbs/.cmd — appear in Prefetch and Script Block logs)
     "ospp.vbs",
@@ -236,6 +327,25 @@ pub const LOLBAS_WINDOWS: &[&str] = &[
 ///
 /// All 478 entries sourced directly from the GTFOBins GitHub repository
 /// (github.com/GTFOBins/GTFOBins.github.io, `_gtfobins/` directory listing).
+///
+/// # ATT&CK technique coverage (representative mappings — not exhaustive per entry)
+///
+/// | Technique | Representative entries |
+/// |-----------|----------------------|
+/// | T1059.004 Unix Shell | bash, sh, dash, zsh, ksh, fish, python, python3, perl, ruby, lua, awk, gawk |
+/// | T1105 Ingress Tool Transfer | curl, wget, nc, netcat, ncat, socat, scp, rsync, tftp, ftp, aria2c |
+/// | T1548.001 Setuid/Setgid | find, cp, mv, chmod, chown, tee, dd |
+/// | T1218 LOLBin Proxy Exec | env, xargs, find, perl, python3, ruby, awk |
+/// | T1055 Process Injection | gdb, strace (ptrace-based) |
+/// | T1070 Indicator Removal | shred |
+/// | T1003 Credential Dumping | strings, gcore |
+/// | T1016 Network Discovery | ip, ifconfig, netstat, ss, arp, nmap |
+/// | T1082 System Info | uname, hostname, id, whoami, ps, top, lsof |
+/// | T1083 File Discovery | ls, find, locate, tree |
+/// | T1560 Archive | tar, zip, gzip, bzip2, xz, 7z |
+/// | T1140 Decode | base64, xxd, openssl |
+/// | T1046 Network Scan | nmap, masscan, nc, ping |
+/// | T1552.004 Private Keys | openssl, ssh-keygen, gpg |
 pub const LOLBAS_LINUX: &[&str] = &[
     "7z",
     "aa-exec",
@@ -740,6 +850,33 @@ pub const LOLBAS_LINUX: &[&str] = &[
 ///   <https://www.sentinelone.com/labs/20-common-tools-techniques-used-by-macos-threat-actors-malware/>
 ///
 /// All entries confirmed in the LOOBins dataset (commit verified 2026-05-02).
+///
+/// # ATT&CK technique coverage (representative mappings)
+///
+/// | Technique | Representative entries |
+/// |-----------|----------------------|
+/// | T1059.002 AppleScript | osascript |
+/// | T1059.004 Unix Shell | bash, sh, zsh, python3, perl, ruby, awk |
+/// | T1105 Ingress Tool Transfer | curl, wget, nc, socat, scp, nscurl, tftp |
+/// | T1548.001 Setuid | find, cp, tee, dd |
+/// | T1553.001 Code Signing | codesign, spctl |
+/// | T1553.004 Trust Bypass | security |
+/// | T1562.001 Disable AV | launchctl (unload MRTd), defaults |
+/// | T1543.004 Launch Daemon | launchctl, plutil |
+/// | T1036 Masquerading | ditto, cp |
+/// | T1070 Indicator Removal | rm, diskutil |
+/// | T1016 Network Config | networksetup, ifconfig, netstat, ipconfig, arp, nslookup |
+/// | T1082 System Info | system_profiler, sysctl, sw_vers, uname, hostname, id, whoami |
+/// | T1083 File Discovery | ls, find, mdfind, locate |
+/// | T1560 Archive | tar, zip, ditto, hdiutil |
+/// | T1003.001 Keychain | security (dump-keychain) |
+/// | T1539 Cookie Theft | sqlite3 (browser DBs) |
+/// | T1490 Inhibit Recovery | diskutil, hdiutil |
+/// | T1078 Valid Accounts | dscl, id, groups, finger |
+/// | T1021.004 SSH | ssh, scp |
+/// | T1135 Network Shares | mount, df |
+/// | T1053.003 Cron | crontab |
+/// | T1543.001 Launch Agent | launchctl, plutil, PlistBuddy |
 pub const LOLBAS_MACOS: &[&str] = &[
     // Execution / scripting
     "osascript",   // AppleScript + JXA execution, credential phishing, lateral movement via RAE
@@ -1357,102 +1494,163 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[&str] = &[
     "curl",     // Invoke-WebRequest (PS5.x only — removed in PS7 to avoid shadowing /usr/bin/curl)
 ];
 
-/// Windows LOFL MMC snap-ins (`.msc` files).
+/// Windows LOLBAS MMC snap-ins (`.msc` files).
 ///
 /// MMC snap-ins appear in LNK/shortcut files, UserAssist registry entries,
 /// Jump Lists, and Recent file MRUs — not in process telemetry directly.
+/// All entries map to T1218.014 — System Binary Proxy Execution: MMC
+/// <https://attack.mitre.org/techniques/T1218/014/>
+///
 /// Sourced from the LOFL Project: <https://lofl-project.github.io/>
-pub const LOFL_WINDOWS_MMC: &[&str] = &[
-    "AdRmsAdmin.msc",
-    "adsiedit.msc",
-    "azman.msc",
-    "certlm.msc",
-    "certmgr.msc",
-    "certsrv.msc",
-    "certtmpl.msc",
-    "CluAdmin.msc",
-    "comexp.msc",
-    "compmgmt.msc",
-    "devmgmt.msc",
-    "DevModeRunAsUserConfig.msc",
-    "dfsmgmt.msc",
-    "dhcpmgmt.msc",
-    "diskmgmt.msc",
-    "dnsmgmt.msc",
-    "domain.msc",
-    "dsa.msc",
-    "dssite.msc",
-    "eventvwr.msc",
-    "fsmgmt.msc",
-    "fsrm.msc",
-    "fxsadmin.msc",
-    "gpedit.msc",
-    "gpmc.msc",
-    "gpme.msc",
-    "gptedit.msc",
-    "iis.msc",
-    "iis6.msc",
-    "ipsecsnp.msc",
-    "ipsmsnap.msc",
-    "lsdiag.msc",
-    "lusrmgr.msc",
-    "Microsoft.IdentityServer.msc",
-    "nfsmgmt.msc",
-    "nps.msc",
-    "ocsp.msc",
-    "perfmon.msc",
-    "pkiview.msc",
-    "printmanagement.msc",
-    "RAMgmtUI.msc",
-    "remoteprograms.msc",
-    "rrasmgmt.msc",
-    "rsop.msc",
-    "schmmgmt.msc",
-    "secpol.msc",
-    "services.msc",
-    "SQLServerManager15.msc",
-    "SQLServerManager16.msc",
-    "tapimgmt.msc",
-    "taskschd.msc",
-    "tpm.msc",
-    "tsadmin.msc",
-    "tsconfig.msc",
-    "tsgateway.msc",
-    "virtmgmt.msc",
-    "wbadmin.msc",
-    "WdsMgmt.msc",
-    "WF.msc",
-    "winsmgmt.msc",
-    "WmiMgmt.msc",
-    "wsecedit.msc",
-    "wsus.msc",
+pub const LOLBAS_WINDOWS_MMC: &[&str] = &[
+    // T1218.014 — MMC Signed Binary Proxy Execution <https://attack.mitre.org/techniques/T1218/014/>
+    // All .msc files are loaded by mmc.exe; adversaries use them to proxy
+    // execution, enumerate sensitive config, and escalate privileges.
+
+    // Security / certificate management
+    "AdRmsAdmin.msc",               // Active Directory Rights Management Services
+    "azman.msc",                    // Authorization Manager — RBAC policy inspection
+    "certlm.msc",                   // Local Machine certificate store
+    "certmgr.msc",                  // Personal certificate store
+    "certsrv.msc",                  // Certificate Authority management — PKI recon
+    "certtmpl.msc",                 // Certificate Templates — template abuse for privesc
+    "ipsecsnp.msc",                 // IPsec security policy
+    "ipsmsnap.msc",                 // IP Security Monitor
+    "Microsoft.IdentityServer.msc", // AD FS Identity Server
+    "ocsp.msc",                     // Online Certificate Status Protocol responder
+    "pkiview.msc",                  // PKI View — full CA chain enumeration
+    "secpol.msc",                   // Local Security Policy — audit policy, user rights
+    "tpm.msc",                      // TPM Management
+    "wsecedit.msc",                 // Security Configuration Editor
+
+    // Active Directory / directory services
+    "adsiedit.msc",                 // ADSI Edit — low-level AD object manipulation
+    "domain.msc",                   // Active Directory Domains and Trusts
+    "dsa.msc",                      // Active Directory Users and Computers
+    "dssite.msc",                   // Active Directory Sites and Services
+    "schmmgmt.msc",                 // Active Directory Schema — schema enumeration
+
+    // Computer / device management
+    "comexp.msc",                   // Component Services (COM+) — COM object registration
+    "compmgmt.msc",                 // Computer Management — unified admin console
+    "devmgmt.msc",                  // Device Manager — driver enumeration, device info
+    "DevModeRunAsUserConfig.msc",   // Developer mode user config
+    "diskmgmt.msc",                 // Disk Management — partition/volume enumeration
+    "lusrmgr.msc",                  // Local Users and Groups — user/group enumeration
+
+    // Group Policy
+    "gpedit.msc",                   // Local Group Policy Editor — policy modification
+    "gpmc.msc",                     // Group Policy Management Console
+    "gpme.msc",                     // Group Policy Management Editor
+    "gptedit.msc",                  // Group Policy Template Editor
+    "rsop.msc",                     // Resultant Set of Policy — effective policy recon
+
+    // Network / infrastructure
+    "CluAdmin.msc",                 // Failover Cluster Manager
+    "dfsmgmt.msc",                  // DFS Management — share enumeration
+    "dhcpmgmt.msc",                 // DHCP Server Management
+    "dnsmgmt.msc",                  // DNS Server Management
+    "nfsmgmt.msc",                  // NFS Management
+    "nps.msc",                      // Network Policy Server (RADIUS)
+    "RAMgmtUI.msc",                 // Remote Access Management
+    "rrasmgmt.msc",                 // Routing and Remote Access
+    "tapimgmt.msc",                 // Telephony (TAPI)
+    "winsmgmt.msc",                 // WINS Server Management
+
+    // Storage
+    "fsmgmt.msc",                   // Shared Folders — network share enumeration
+    "fsrm.msc",                     // File Server Resource Manager
+    "wbadmin.msc",                  // Windows Server Backup
+    "WdsMgmt.msc",                  // Windows Deployment Services
+
+    // Performance / monitoring
+    "lsdiag.msc",                   // Remote Desktop Licensing Diagnostics
+    "perfmon.msc",                  // Performance Monitor — process/resource telemetry
+
+    // IIS / web / print / fax
+    "fxsadmin.msc",                 // Fax Service Manager
+    "iis.msc",                      // IIS Manager (IIS 6 compat)
+    "iis6.msc",                     // IIS 6 Manager
+    "printmanagement.msc",          // Print Management
+    "remoteprograms.msc",           // RemoteApp Programs
+
+    // Services / event log / scheduler
+    "eventvwr.msc",                 // Event Viewer — log inspection and UAC bypass vector
+    "services.msc",                 // Services — service enumeration and manipulation
+    "taskschd.msc",                 // Task Scheduler — scheduled task persistence
+
+    // Virtualization / SQL
+    "virtmgmt.msc",                 // Hyper-V Manager
+    "SQLServerManager15.msc",       // SQL Server 2019 Configuration Manager
+    "SQLServerManager16.msc",       // SQL Server 2022 Configuration Manager
+
+    // Terminal Services / RDS
+    "tsadmin.msc",                  // Remote Desktop Services Manager
+    "tsconfig.msc",                 // RD Session Host Configuration
+    "tsgateway.msc",                // RD Gateway Manager
+
+    // Firewall / WMI / WSUS
+    "WF.msc",                       // Windows Firewall with Advanced Security
+    "WmiMgmt.msc",                  // WMI Control — WMI namespace permissions
+    "wsus.msc",                     // Windows Server Update Services
 ];
 
-/// Windows LOFL WMI class names — abused in WMI-based attacks.
+/// Windows LOLBAS WMI class names — abused in WMI-based attacks.
 ///
 /// These appear as strings inside WMI queries logged in the
 /// Microsoft-Windows-WMI-Activity/Operational log (Event 5861) and in
 /// PowerShell ScriptBlock logs when accessed via `Get-CimInstance` or
-/// `Get-WmiObject`. Sourced from the LOFL Project:
-/// <https://lofl-project.github.io/>
-pub const LOFL_WINDOWS_WMI: &[&str] = &[
-    "CIM_DataFile",
-    "CIM_Directory",
-    "CIM_LogicalFile",
-    "MSFT_DNSClientCache",
-    "MSFT_MTProcess",
-    "MSFT_NetFirewallRule",
-    "StdRegProv",
-    "Win32_DfsNode",
-    "Win32_Environment",
-    "Win32_NTLogEvent",
-    "Win32_OperatingSystem",
-    "Win32_Process",
-    "Win32_Product",
-    "Win32_QuickFixEngineering",
-    "Win32_Service",
-    "Win32_ShadowCopy",
-    "Win32_SystemDriver",
+/// `Get-WmiObject`.
+///
+/// All entries map to T1047 — Windows Management Instrumentation
+/// <https://attack.mitre.org/techniques/T1047/>
+///
+/// Sourced from the LOFL Project: <https://lofl-project.github.io/>
+pub const LOLBAS_WINDOWS_WMI: &[&str] = &[
+    // T1047 — WMI Execution / Process creation
+    // <https://attack.mitre.org/techniques/T1047/>
+    "Win32_Process",            // Create/terminate processes — primary WMI execution vector
+    "Win32_ProcessStartup",     // Process startup configuration for WMI-launched processes
+
+    // T1546.003 — WMI Event Subscription persistence
+    // <https://attack.mitre.org/techniques/T1546/003/>
+    "__EventFilter",            // WMI event filter — subscribe to system events
+    "__EventConsumer",          // WMI event consumer — base class for action on event
+    "__FilterToConsumerBinding", // Binds filter to consumer — completes subscription chain
+    "ActiveScriptEventConsumer", // Run VBScript/JScript on WMI event — fileless persistence
+    "CommandLineEventConsumer",  // Run executable on WMI event — persistence and execution
+
+    // T1082 — System Information Discovery / T1016 — Network Config Discovery
+    // <https://attack.mitre.org/techniques/T1082/> <https://attack.mitre.org/techniques/T1016/>
+    "Win32_ComputerSystem",     // Hostname, domain, RAM, architecture — system fingerprint
+    "Win32_OperatingSystem",    // OS version, install date, last boot — system enumeration
+    "Win32_Environment",        // Environment variable enumeration
+    "Win32_NTLogEvent",         // Event log query via WMI
+    "Win32_QuickFixEngineering", // Installed hotfix/patch enumeration
+    "CIM_DataFile",             // File system query by attribute — file discovery
+    "CIM_Directory",            // Directory enumeration via WMI
+    "CIM_LogicalFile",          // Logical file metadata query
+    "MSFT_DNSClientCache",      // DNS cache inspection — network reconnaissance
+    "MSFT_MTProcess",           // Modern process telemetry
+    "MSFT_NetFirewallRule",     // Firewall rule enumeration — T1562.004 discovery
+    "Win32_DfsNode",            // DFS namespace enumeration — share discovery
+
+    // T1543.003 / T1489 — Service manipulation
+    // <https://attack.mitre.org/techniques/T1543/003/>
+    "Win32_Service",            // Service enumeration, start/stop, persistence
+    "Win32_SystemDriver",       // Kernel driver enumeration — rootkit/AV detection
+
+    // T1003 — Credential Dumping (VSS deletion)
+    // <https://attack.mitre.org/techniques/T1003/>
+    "Win32_ShadowCopy",         // VSS snapshot deletion — anti-recovery (T1490)
+
+    // T1518 — Software Discovery
+    // <https://attack.mitre.org/techniques/T1518/>
+    "Win32_Product",            // Installed software enumeration
+
+    // T1552 — Unsecured Credentials / Registry queries
+    // <https://attack.mitre.org/techniques/T1552/>
+    "StdRegProv",               // Registry read/write via WMI — credential and config access
 ];
 
 /// Returns `true` if `name` matches a known Windows PowerShell cmdlet or alias
@@ -1466,24 +1664,36 @@ pub fn is_lolbas_windows_cmdlet(name: &str) -> bool {
 }
 
 
-/// Returns `true` if `name` matches a known Windows LOFL MMC snap-in
+/// Returns `true` if `name` matches a known Windows LOLBAS MMC snap-in
 /// (case-insensitive, `.msc` suffix required). Check against LNK files,
 /// UserAssist, and Recent MRUs.
-pub fn is_lofl_windows_mmc(name: &str) -> bool {
+pub fn is_lolbas_windows_mmc(name: &str) -> bool {
     let lower = name.to_ascii_lowercase();
-    LOFL_WINDOWS_MMC
+    LOLBAS_WINDOWS_MMC
         .iter()
         .any(|m| m.to_ascii_lowercase() == lower)
 }
 
-/// Returns `true` if `class` matches a known Windows LOFL WMI class name
+/// Returns `true` if `class` matches a known Windows LOLBAS WMI class name
 /// (case-insensitive). Check against WMI Activity Event 5861 and
 /// PowerShell Get-CimInstance / Get-WmiObject calls.
-pub fn is_lofl_windows_wmi(class: &str) -> bool {
+pub fn is_lolbas_windows_wmi(class: &str) -> bool {
     let lower = class.to_ascii_lowercase();
-    LOFL_WINDOWS_WMI
+    LOLBAS_WINDOWS_WMI
         .iter()
         .any(|w| w.to_ascii_lowercase() == lower)
+}
+
+/// Deprecated alias — use [`is_lolbas_windows_mmc`] instead.
+#[deprecated(since = "0.0.0", note = "use is_lolbas_windows_mmc")]
+pub fn is_lofl_windows_mmc(name: &str) -> bool {
+    is_lolbas_windows_mmc(name)
+}
+
+/// Deprecated alias — use [`is_lolbas_windows_wmi`] instead.
+#[deprecated(since = "0.0.0", note = "use is_lolbas_windows_wmi")]
+pub fn is_lofl_windows_wmi(class: &str) -> bool {
+    is_lolbas_windows_wmi(class)
 }
 
 // ── Deprecated aliases — use LOLBAS_* and is_lolbas_* instead ───────────────
@@ -1494,6 +1704,10 @@ pub const WINDOWS_LOLBINS: &[&str] = LOLBAS_WINDOWS;
 pub const LINUX_LOLBINS: &[&str] = LOLBAS_LINUX;
 #[deprecated(since = "0.0.0", note = "use LOLBAS_MACOS")]
 pub const MACOS_LOLBINS: &[&str] = LOLBAS_MACOS;
+#[deprecated(since = "0.0.0", note = "use LOLBAS_WINDOWS_MMC")]
+pub const LOFL_WINDOWS_MMC: &[&str] = LOLBAS_WINDOWS_MMC;
+#[deprecated(since = "0.0.0", note = "use LOLBAS_WINDOWS_WMI")]
+pub const LOFL_WINDOWS_WMI: &[&str] = LOLBAS_WINDOWS_WMI;
 
 #[deprecated(since = "0.0.0", note = "use is_lolbas_windows")]
 pub fn is_windows_lolbin(name: &str) -> bool {
@@ -1850,47 +2064,47 @@ mod tests {
     fn is_lolbas_windows_detects_psexec_uppercase() {
         assert!(is_lolbas_windows("PSEXEC.EXE"));
     }
-    // LOFL_WINDOWS_MMC
+    // LOLBAS_WINDOWS_MMC
     #[test]
-    fn lofl_windows_mmc_exists() {
-        assert!(!LOFL_WINDOWS_MMC.is_empty());
+    fn lolbas_windows_mmc_exists() {
+        assert!(!LOLBAS_WINDOWS_MMC.is_empty());
     }
     #[test]
-    fn lofl_windows_mmc_contains_compmgmt() {
-        assert!(LOFL_WINDOWS_MMC.contains(&"compmgmt.msc"));
+    fn lolbas_windows_mmc_contains_compmgmt() {
+        assert!(LOLBAS_WINDOWS_MMC.contains(&"compmgmt.msc"));
     }
     #[test]
-    fn lofl_windows_mmc_contains_eventvwr() {
-        assert!(LOFL_WINDOWS_MMC.contains(&"eventvwr.msc"));
+    fn lolbas_windows_mmc_contains_eventvwr() {
+        assert!(LOLBAS_WINDOWS_MMC.contains(&"eventvwr.msc"));
     }
     #[test]
-    fn is_lofl_windows_mmc_detects_compmgmt() {
-        assert!(is_lofl_windows_mmc("compmgmt.msc"));
+    fn is_lolbas_windows_mmc_detects_compmgmt() {
+        assert!(is_lolbas_windows_mmc("compmgmt.msc"));
     }
     #[test]
-    fn is_lofl_windows_mmc_case_insensitive() {
-        assert!(is_lofl_windows_mmc("COMPMGMT.MSC"));
+    fn is_lolbas_windows_mmc_case_insensitive() {
+        assert!(is_lolbas_windows_mmc("COMPMGMT.MSC"));
     }
-    // LOFL_WINDOWS_WMI
+    // LOLBAS_WINDOWS_WMI
     #[test]
-    fn lofl_windows_wmi_exists() {
-        assert!(!LOFL_WINDOWS_WMI.is_empty());
-    }
-    #[test]
-    fn lofl_windows_wmi_contains_win32_process() {
-        assert!(LOFL_WINDOWS_WMI.contains(&"Win32_Process"));
+    fn lolbas_windows_wmi_exists() {
+        assert!(!LOLBAS_WINDOWS_WMI.is_empty());
     }
     #[test]
-    fn lofl_windows_wmi_contains_win32_shadowcopy() {
-        assert!(LOFL_WINDOWS_WMI.contains(&"Win32_ShadowCopy"));
+    fn lolbas_windows_wmi_contains_win32_process() {
+        assert!(LOLBAS_WINDOWS_WMI.contains(&"Win32_Process"));
     }
     #[test]
-    fn is_lofl_windows_wmi_detects_win32_process() {
-        assert!(is_lofl_windows_wmi("Win32_Process"));
+    fn lolbas_windows_wmi_contains_win32_shadowcopy() {
+        assert!(LOLBAS_WINDOWS_WMI.contains(&"Win32_ShadowCopy"));
     }
     #[test]
-    fn is_lofl_windows_wmi_case_insensitive() {
-        assert!(is_lofl_windows_wmi("win32_process"));
+    fn is_lolbas_windows_wmi_detects_win32_process() {
+        assert!(is_lolbas_windows_wmi("Win32_Process"));
+    }
+    #[test]
+    fn is_lolbas_windows_wmi_case_insensitive() {
+        assert!(is_lolbas_windows_wmi("win32_process"));
     }
 
     // LOLBAS_WINDOWS_CMDLETS — unified: native PS cmdlets + PS aliases + LOFL admin cmdlets

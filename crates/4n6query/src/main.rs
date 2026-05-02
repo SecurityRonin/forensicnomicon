@@ -14,8 +14,8 @@ use forensicnomicon::abusable_sites::{
 };
 use forensicnomicon::lolbins::{
     is_lolbas_linux, is_lolbas_macos, is_lolbas_windows, is_lolbas_windows_cmdlet,
-    is_lofl_windows_mmc, is_lofl_windows_wmi, LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS,
-    LOLBAS_WINDOWS_CMDLETS, LOFL_WINDOWS_MMC, LOFL_WINDOWS_WMI,
+    is_lolbas_windows_mmc, is_lolbas_windows_wmi, LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS,
+    LOLBAS_WINDOWS_CMDLETS, LOLBAS_WINDOWS_MMC, LOLBAS_WINDOWS_WMI,
 };
 use std::process;
 
@@ -145,8 +145,8 @@ fn lolbas_lookup(name: &str, platform: Platform, format: Option<Format>) -> i32 
         Platform::Linux => (LOLBAS_LINUX, is_lolbas_linux),
         Platform::Macos => (LOLBAS_MACOS, is_lolbas_macos),
         Platform::WindowsCmdlet => (LOLBAS_WINDOWS_CMDLETS, is_lolbas_windows_cmdlet),
-        Platform::WindowsMmc => (LOFL_WINDOWS_MMC, is_lofl_windows_mmc),
-        Platform::WindowsWmi => (LOFL_WINDOWS_WMI, is_lofl_windows_wmi),
+        Platform::WindowsMmc => (LOLBAS_WINDOWS_MMC, is_lolbas_windows_mmc),
+        Platform::WindowsWmi => (LOLBAS_WINDOWS_WMI, is_lolbas_windows_wmi),
     };
     let _ = checker; // used via dataset lookup; fn pointer kept for future --all-platforms
 
@@ -316,11 +316,11 @@ fn run_dump(format: Format, dataset: Dataset) -> i32 {
         );
         obj.insert(
             "lolbas_windows_mmc".into(),
-            serde_json::to_value(LOFL_WINDOWS_MMC).unwrap(),
+            serde_json::to_value(LOLBAS_WINDOWS_MMC).unwrap(),
         );
         obj.insert(
             "lolbas_windows_wmi".into(),
-            serde_json::to_value(LOFL_WINDOWS_WMI).unwrap(),
+            serde_json::to_value(LOLBAS_WINDOWS_WMI).unwrap(),
         );
     }
 
