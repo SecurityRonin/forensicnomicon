@@ -55,12 +55,12 @@ fn lolbas_lookup_macos_osascript_exits_zero() {
 }
 
 #[test]
-fn lolbas_lookup_windows_cmdlet_invoke_webrequest() {
+fn lolbas_lookup_windows_cmdlet_invoke_command() {
     fnquery()
-        .args(["lolbas", "lookup", "windows-cmdlet", "Invoke-WebRequest"])
+        .args(["lolbas", "lookup", "windows-cmdlet", "Invoke-Command"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("Invoke-WebRequest"));
+        .stdout(predicate::str::contains("Invoke-Command"));
 }
 
 #[test]

@@ -37,39 +37,36 @@
 //! - T1566.002 — Phishing: Spearphishing Link (abuse of trusted sharing URLs):
 //!   <https://attack.mitre.org/techniques/T1566/002/>
 
-/// Cloud services, CDNs, and online platforms systematically abused by
-/// attackers for phishing, C2, payload delivery, and data exfiltration.
-///
-/// # Design
-///
-/// This module provides a **static, zero-allocation** lookup table of domains
-/// that are legitimately trusted by enterprises but routinely weaponised by
-/// threat actors.  The key insight — borrowed from web proxy vendor taxonomy —
-/// is that the *legitimate category* of a site determines *why* it is hard to
-/// block, while the *abuse tags* describe what attackers actually do with it.
-///
-/// The `blocking_risk` field encodes the organisational cost of blocking the
-/// domain outright.  High-risk sites (GitHub, AWS) are the most attractive to
-/// attackers precisely because defenders cannot block them without crippling
-/// business operations.
-///
-/// # Sources
-///
-/// - LOTS Project (Living Off Trusted Sites) — static HTML catalog:
-///   <https://lots-project.com/> (scraped via `scripts/scrape_lots.py`)
-/// - URLhaus / abuse.ch — active malware distribution URLs:
-///   <https://urlhaus.abuse.ch/> (synced via `scripts/sync_urlhaus.py`)
-/// - MISP taxonomies — `circl:threat-type`, `enisa:threats`:
-///   <https://github.com/MISP/misp-taxonomies>
-/// - MITRE ATT&CK T1102 (Web Service), T1567 (Exfil Over Web Service),
-///   T1583/T1584 (Acquire/Compromise Infrastructure):
-///   <https://attack.mitre.org/techniques/T1102/>
+//! ## Design
+//!
+//! This module provides a **static, zero-allocation** lookup table of domains
+//! that are legitimately trusted by enterprises but routinely weaponised by
+//! threat actors.  The key insight — borrowed from web proxy vendor taxonomy —
+//! is that the *legitimate category* of a site determines *why* it is hard to
+//! block, while the *abuse tags* describe what attackers actually do with it.
+//!
+//! The `blocking_risk` field encodes the organisational cost of blocking the
+//! domain outright.  High-risk sites (GitHub, AWS) are the most attractive to
+//! attackers precisely because defenders cannot block them without crippling
+//! business operations.
+//!
+//! ## Sources
+//!
+//! - LOTS Project (Living Off Trusted Sites) — static HTML catalog:
+//!   <https://lots-project.com/> (scraped via `scripts/scrape_lots.py`)
+//! - URLhaus / abuse.ch — active malware distribution URLs:
+//!   <https://urlhaus.abuse.ch/> (synced via `scripts/sync_urlhaus.py`)
+//! - MISP taxonomies — `circl:threat-type`, `enisa:threats`:
+//!   <https://github.com/MISP/misp-taxonomies>
+//! - MITRE ATT&CK T1102 (Web Service), T1567 (Exfil Over Web Service),
+//!   T1583/T1584 (Acquire/Compromise Infrastructure):
+//!   <https://attack.mitre.org/techniques/T1102/>
 
 // ---------------------------------------------------------------------------
 // Abuse tag bitfield — composable via bitwise OR
 // ---------------------------------------------------------------------------
 
-/// The site is used to host or deliver phishing pages / credential harvesters.
+/// The site is used to host or deliver phishing pages or credential harvesters.
 pub const TAG_PHISHING: u8 = 0x01;
 
 /// The site is used as a C2 (command-and-control) channel or beacon endpoint.
