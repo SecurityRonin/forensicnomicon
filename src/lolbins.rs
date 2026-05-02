@@ -2170,4 +2170,62 @@ mod tests {
     fn is_lolbas_windows_cmdlet_rejects_unknown() {
         assert!(!is_lolbas_windows_cmdlet("NotARealCmdlet-XYZ"));
     }
+
+    // ── LolbasEntry struct — RED tests ────────────────────────────────────────
+    // These tests will fail to compile until LolbasEntry, UC_* constants,
+    // lolbas_entry(), and lolbas_names() are added.
+
+    #[test]
+    fn lolbas_entry_certutil_is_some() {
+        assert!(lolbas_entry(LOLBAS_WINDOWS, "certutil.exe").is_some());
+    }
+
+    #[test]
+    fn lolbas_entry_certutil_has_download_flag() {
+        let entry = lolbas_entry(LOLBAS_WINDOWS, "certutil.exe").unwrap();
+        assert!(entry.use_cases & UC_DOWNLOAD != 0);
+    }
+
+    #[test]
+    fn lolbas_entry_certutil_has_mitre_techniques() {
+        let entry = lolbas_entry(LOLBAS_WINDOWS, "certutil.exe").unwrap();
+        assert!(!entry.mitre_techniques.is_empty());
+        assert!(entry.mitre_techniques.contains(&"T1105"));
+    }
+
+    #[test]
+    fn lolbas_names_windows_contains_certutil() {
+        assert!(lolbas_names(LOLBAS_WINDOWS).any(|n| n == "certutil.exe"));
+    }
+
+    #[test]
+    fn lolbas_entry_linux_curl_is_some() {
+        assert!(lolbas_entry(LOLBAS_LINUX, "curl").is_some());
+    }
+
+    #[test]
+    fn lolbas_entry_macos_osascript_is_some() {
+        assert!(lolbas_entry(LOLBAS_MACOS, "osascript").is_some());
+    }
+
+    #[test]
+    fn lolbas_entry_cmdlet_iex_is_some() {
+        assert!(lolbas_entry(LOLBAS_WINDOWS_CMDLETS, "iex").is_some());
+    }
+
+    #[test]
+    fn lolbas_entry_cmdlet_iex_has_execute_flag() {
+        let entry = lolbas_entry(LOLBAS_WINDOWS_CMDLETS, "iex").unwrap();
+        assert!(entry.use_cases & UC_EXECUTE != 0);
+    }
+
+    #[test]
+    fn lolbas_entry_mmc_gpedit_is_some() {
+        assert!(lolbas_entry(LOLBAS_WINDOWS_MMC, "gpedit.msc").is_some());
+    }
+
+    #[test]
+    fn lolbas_entry_wmi_win32_process_is_some() {
+        assert!(lolbas_entry(LOLBAS_WINDOWS_WMI, "Win32_Process").is_some());
+    }
 }
