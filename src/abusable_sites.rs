@@ -95,6 +95,11 @@ pub const TAG_EXPLOIT: u8 = 0x10;
 ///
 /// This is the reason the domain is trusted and therefore hard to block.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(
+    feature = "serde",
+    derive(serde::Serialize, serde::Deserialize),
+    serde(rename_all = "snake_case")
+)]
 pub enum SiteCategory {
     /// Source-code hosting and version control (GitHub, GitLab, Bitbucket).
     CodeRepository,
@@ -123,6 +128,11 @@ pub enum SiteCategory {
 /// Attackers deliberately choose high-risk sites because defenders cannot
 /// block them without crippling legitimate business workflows.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(
+    feature = "serde",
+    derive(serde::Serialize, serde::Deserialize),
+    serde(rename_all = "snake_case")
+)]
 pub enum BlockingRisk {
     /// Blocking causes no meaningful disruption; domain has few legitimate uses.
     Low,
@@ -148,6 +158,7 @@ pub enum BlockingRisk {
 /// to the caller; [`is_abusable_site`] performs exact case-insensitive lookup
 /// while [`abusable_site_info`] returns the full record.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
 pub struct AbusableSite {
     /// Bare domain or wildcard pattern (no scheme, no trailing slash).
     pub domain: &'static str,
