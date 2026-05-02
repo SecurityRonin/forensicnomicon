@@ -1,0 +1,22 @@
+[package]
+name = "fnquery"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "4n6query — DFIR CLI for the forensicnomicon catalog: lookup LOL/LOFL binaries, abusable sites, and dump machine-readable JSON/YAML"
+license = "Apache-2.0"
+repository = "https://github.com/SecurityRonin/forensicnomicon"
+
+[[bin]]
+name = "4n6query"
+path = "src/main.rs"
+
+[dependencies]
+forensicnomicon = { path = "../..", features = ["serde"] }
+clap = { version = "4", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+
+[dev-dependencies]
+assert_cmd = "2"
+predicates = "3"
