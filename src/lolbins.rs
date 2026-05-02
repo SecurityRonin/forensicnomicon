@@ -1,4 +1,4 @@
-/// Windows Living-Off-the-Land binaries (include `.exe` suffix).
+/// Windows LOLBAS — Living Off the Land Binaries, Scripts and Libraries.
 ///
 /// Sources:
 /// - LOLBAS Project — community-maintained, individual binary pages confirmed at
@@ -16,7 +16,7 @@
 /// certutil, mshta, wscript, cscript, regsvr32, rundll32, msiexec, bitsadmin,
 /// msbuild, installutil, regasm, regsvcs, cmstp, odbcconf, mavinject, ieexec,
 /// xwizard, presentationhost, msdeploy, wmic, powershell.
-pub const WINDOWS_LOLBINS: &[&str] = &[
+pub const LOLBAS_WINDOWS: &[&str] = &[
     "certutil.exe",
     "mshta.exe",
     "wscript.exe",
@@ -41,7 +41,7 @@ pub const WINDOWS_LOLBINS: &[&str] = &[
     "pwsh.exe",
 ];
 
-/// Linux Living-Off-the-Land binaries.
+/// Linux LOLBAS — binaries with known GTFOBins escape/bypass techniques.
 ///
 /// Sources:
 /// - GTFOBins — curated list of Unix binaries that can bypass local security
@@ -50,37 +50,491 @@ pub const WINDOWS_LOLBINS: &[&str] = &[
 /// - MITRE ATT&CK T1059 — Command and Scripting Interpreter:
 ///   <https://attack.mitre.org/techniques/T1059/>
 ///
-/// All binaries below have confirmed GTFOBins entries.
-pub const LINUX_LOLBINS: &[&str] = &[
-    "bash", "sh", "python", "python3", "perl", "ruby", "php", "nc", "ncat", "socat", "tclsh",
-    "openssl", "curl", "wget", "lua", "awk", "find", "vim", "less", "git", "env", "node", "dd",
-    "strace", "gdb", "nmap",
+/// All 478 entries sourced directly from the GTFOBins GitHub repository
+/// (github.com/GTFOBins/GTFOBins.github.io, `_gtfobins/` directory listing).
+pub const LOLBAS_LINUX: &[&str] = &[
+    "7z",
+    "aa-exec",
+    "ab",
+    "acr",
+    "agetty",
+    "alpine",
+    "ansible-playbook",
+    "ansible-test",
+    "aoss",
+    "apache2",
+    "apache2ctl",
+    "apport-cli",
+    "apt",
+    "apt-get",
+    "aptitude",
+    "ar",
+    "arch-nspawn",
+    "aria2c",
+    "arj",
+    "arp",
+    "as",
+    "ascii-xfr",
+    "ascii85",
+    "ash",
+    "aspell",
+    "asterisk",
+    "at",
+    "atobm",
+    "autoconf",
+    "autoheader",
+    "autoreconf",
+    "awk",
+    "aws",
+    "base32",
+    "base58",
+    "base64",
+    "basenc",
+    "basez",
+    "bash",
+    "bashbug",
+    "batcat",
+    "bbot",
+    "bc",
+    "bconsole",
+    "bee",
+    "borg",
+    "bpftrace",
+    "bridge",
+    "bundle",
+    "bundler",
+    "busctl",
+    "busybox",
+    "byebug",
+    "bzip2",
+    "c89",
+    "c99",
+    "cabal",
+    "cancel",
+    "capsh",
+    "cargo",
+    "cat",
+    "cc",
+    "cdist",
+    "certbot",
+    "chattr",
+    "check_by_ssh",
+    "check_cups",
+    "check_log",
+    "check_memory",
+    "check_raid",
+    "check_ssl_cert",
+    "check_statusfile",
+    "chmod",
+    "choom",
+    "chown",
+    "chroot",
+    "chrt",
+    "clamscan",
+    "clisp",
+    "cmake",
+    "cmp",
+    "cobc",
+    "code",
+    "codex",
+    "column",
+    "comm",
+    "composer",
+    "cowsay",
+    "cowthink",
+    "cp",
+    "cpan",
+    "cpio",
+    "cpulimit",
+    "crash",
+    "crontab",
+    "csh",
+    "csplit",
+    "csvtool",
+    "ctr",
+    "cupsfilter",
+    "curl",
+    "cut",
+    "dash",
+    "date",
+    "dc",
+    "dd",
+    "debugfs",
+    "dhclient",
+    "dialog",
+    "diff",
+    "dig",
+    "distcc",
+    "dmesg",
+    "dmidecode",
+    "dmsetup",
+    "dnf",
+    "dnsmasq",
+    "doas",
+    "docker",
+    "dos2unix",
+    "dosbox",
+    "dotnet",
+    "dpkg",
+    "dstat",
+    "dvips",
+    "easy_install",
+    "easyrsa",
+    "eb",
+    "ed",
+    "efax",
+    "egrep",
+    "elvish",
+    "emacs",
+    "enscript",
+    "env",
+    "eqn",
+    "espeak",
+    "ex",
+    "exiftool",
+    "expand",
+    "expect",
+    "facter",
+    "fail2ban-client",
+    "fastfetch",
+    "ffmpeg",
+    "fgrep",
+    "file",
+    "find",
+    "finger",
+    "firejail",
+    "fish",
+    "flock",
+    "fmt",
+    "fold",
+    "forge",
+    "fping",
+    "ftp",
+    "fzf",
+    "g++",
+    "gawk",
+    "gcc",
+    "gcloud",
+    "gcore",
+    "gdb",
+    "gem",
+    "genie",
+    "genisoimage",
+    "getent",
+    "ghc",
+    "ghci",
+    "gimp",
+    "ginsh",
+    "git",
+    "gnuplot",
+    "go",
+    "grc",
+    "grep",
+    "gtester",
+    "guile",
+    "gzip",
+    "hashcat",
+    "hd",
+    "head",
+    "hexdump",
+    "hg",
+    "highlight",
+    "hping3",
+    "iconv",
+    "iftop",
+    "install",
+    "ionice",
+    "ip",
+    "iptables-save",
+    "irb",
+    "ispell",
+    "java",
+    "jjs",
+    "joe",
+    "join",
+    "journalctl",
+    "jq",
+    "jrunscript",
+    "jshell",
+    "jtag",
+    "julia",
+    "knife",
+    "ksh",
+    "ksshell",
+    "ksu",
+    "kubectl",
+    "last",
+    "lastb",
+    "latex",
+    "latexmk",
+    "ld.so",
+    "ldconfig",
+    "less",
+    "lftp",
+    "links",
+    "ln",
+    "loginctl",
+    "logrotate",
+    "logsave",
+    "look",
+    "lp",
+    "ltrace",
+    "lua",
+    "lualatex",
+    "luatex",
+    "lwp-download",
+    "lwp-request",
+    "lxd",
+    "m4",
+    "mail",
+    "make",
+    "man",
+    "mawk",
+    "minicom",
+    "more",
+    "mosh-server",
+    "mosquitto",
+    "mount",
+    "msfconsole",
+    "msgattrib",
+    "msgcat",
+    "msgconv",
+    "msgfilter",
+    "msgmerge",
+    "msguniq",
+    "mtr",
+    "multitime",
+    "mutt",
+    "mv",
+    "mypy",
+    "mysql",
+    "nano",
+    "nasm",
+    "nawk",
+    "nc",
+    "ncdu",
+    "ncftp",
+    "needrestart",
+    "neofetch",
+    "nft",
+    "nginx",
+    "nice",
+    "nl",
+    "nm",
+    "nmap",
+    "node",
+    "nohup",
+    "npm",
+    "nroff",
+    "nsenter",
+    "ntpdate",
+    "nvim",
+    "octave",
+    "od",
+    "opencode",
+    "openssl",
+    "openvpn",
+    "openvt",
+    "opkg",
+    "pandoc",
+    "passwd",
+    "paste",
+    "pax",
+    "pdb",
+    "pdflatex",
+    "pdftex",
+    "perf",
+    "perl",
+    "perlbug",
+    "pexec",
+    "pg",
+    "php",
+    "pic",
+    "pico",
+    "pidstat",
+    "pip",
+    "pipx",
+    "pkexec",
+    "pkg",
+    "plymouth",
+    "podman",
+    "poetry",
+    "posh",
+    "pr",
+    "procmail",
+    "pry",
+    "psftp",
+    "psql",
+    "ptx",
+    "puppet",
+    "pwsh",
+    "pygmentize",
+    "pyright",
+    "python",
+    "qpdf",
+    "R",
+    "rake",
+    "ranger",
+    "rc",
+    "readelf",
+    "red",
+    "redcarpet",
+    "redis",
+    "restic",
+    "rev",
+    "rlogin",
+    "rlwrap",
+    "rpm",
+    "rpmdb",
+    "rpmquery",
+    "rpmverify",
+    "rsync",
+    "rsyslogd",
+    "rtorrent",
+    "ruby",
+    "run-mailcap",
+    "run-parts",
+    "runscript",
+    "rustc",
+    "rustdoc",
+    "rustfmt",
+    "rustup",
+    "rview",
+    "rvim",
+    "sash",
+    "scanmem",
+    "scp",
+    "screen",
+    "script",
+    "scrot",
+    "sed",
+    "service",
+    "setarch",
+    "setcap",
+    "setfacl",
+    "setlock",
+    "sftp",
+    "sg",
+    "sh",
+    "shred",
+    "shuf",
+    "slsh",
+    "smbclient",
+    "snap",
+    "socat",
+    "socket",
+    "soelim",
+    "softlimit",
+    "sort",
+    "split",
+    "sqlite3",
+    "sqlmap",
+    "ss",
+    "ssh",
+    "ssh-agent",
+    "ssh-copy-id",
+    "ssh-keygen",
+    "ssh-keyscan",
+    "sshfs",
+    "sshpass",
+    "sshuttle",
+    "start-stop-daemon",
+    "stdbuf",
+    "strace",
+    "strings",
+    "su",
+    "sudo",
+    "sysctl",
+    "systemctl",
+    "systemd-resolve",
+    "systemd-run",
+    "tac",
+    "tail",
+    "tailscale",
+    "tar",
+    "task",
+    "taskset",
+    "tasksh",
+    "tbl",
+    "tclsh",
+    "tcpdump",
+    "tcsh",
+    "tdbtool",
+    "tee",
+    "telnet",
+    "terraform",
+    "tex",
+    "tftp",
+    "tic",
+    "time",
+    "timedatectl",
+    "timeout",
+    "tmate",
+    "tmux",
+    "top",
+    "torify",
+    "torsocks",
+    "troff",
+    "tsc",
+    "tshark",
+    "ul",
+    "unexpand",
+    "uniq",
+    "unshare",
+    "unsquashfs",
+    "unzip",
+    "update-alternatives",
+    "urlget",
+    "uuencode",
+    "uv",
+    "vagrant",
+    "valgrind",
+    "varnishncsa",
+    "vi",
+    "view",
+    "vigr",
+    "vim",
+    "vimdiff",
+    "vipw",
+    "virsh",
+    "volatility",
+    "w3m",
+    "wall",
+    "watch",
+    "wc",
+    "wg-quick",
+    "wget",
+    "whiptail",
+    "whois",
+    "wireshark",
+    "wish",
+    "xargs",
+    "xdg-user-dir",
+    "xdotool",
+    "xelatex",
+    "xetex",
+    "xmodmap",
+    "xmore",
+    "xpad",
+    "xxd",
+    "xz",
+    "yarn",
+    "yash",
+    "yelp",
+    "yt-dlp",
+    "yum",
+    "zathura",
+    "zcat",
+    "zgrep",
+    "zic",
+    "zip",
+    "zless",
+    "zsh",
+    "zsoelim",
+    "zypper",
 ];
 
-/// Returns `true` if `name` matches a known Windows LOLBin (case-insensitive).
-pub fn is_windows_lolbin(name: &str) -> bool {
-    let lower = name.to_ascii_lowercase();
-    WINDOWS_LOLBINS
-        .iter()
-        .any(|b| b.to_ascii_lowercase() == lower)
-}
-
-/// Returns `true` if `name` matches a known Linux LOLBin (case-insensitive).
-pub fn is_linux_lolbin(name: &str) -> bool {
-    let lower = name.to_ascii_lowercase();
-    LINUX_LOLBINS
-        .iter()
-        .any(|b| b.to_ascii_lowercase() == lower)
-}
-
-/// Returns `true` if `name` is a LOLBin on either Windows or Linux (case-insensitive).
-///
-/// Convenience wrapper that calls [`is_windows_lolbin`] and [`is_linux_lolbin`].
-pub fn is_lolbin(name: &str) -> bool {
-    is_windows_lolbin(name) || is_linux_lolbin(name) || is_macos_lolbin(name)
-}
-
-/// macOS Living-Off-the-Orchard (LOOBins) binaries.
+/// macOS LOLBAS — Living Off the Orchard (LOOBins) binaries.
 ///
 /// LOOBins are macOS native binaries that can be abused by attackers to perform
 /// reconnaissance, execution, persistence, credential access, defense evasion,
@@ -102,7 +556,7 @@ pub fn is_lolbin(name: &str) -> bool {
 ///   <https://www.sentinelone.com/labs/20-common-tools-techniques-used-by-macos-threat-actors-malware/>
 ///
 /// All entries confirmed in the LOOBins dataset (commit verified 2026-05-02).
-pub const MACOS_LOLBINS: &[&str] = &[
+pub const LOLBAS_MACOS: &[&str] = &[
     // Execution / scripting
     "osascript",   // AppleScript + JXA execution, credential phishing, lateral movement via RAE
     "osacompile",  // Compile AppleScript to app bundle — persistence payload creation
@@ -160,7 +614,6 @@ pub const MACOS_LOLBINS: &[&str] = &[
     "snmptrap",    // SNMP trap sender — covert C2 over SNMP
     "dns-sd",      // DNS service discovery — network reconnaissance and mDNS C2
     "ssh-keygen",  // Generate/manage SSH keys — persistence via authorized_keys
-    "networksetup", // (also C2) Set proxy for all traffic interception
     // Miscellaneous abuse potential
     "open",          // Open URLs/apps — browser redirect, app launch
     "say",           // Text-to-speech — user notification / social engineering
@@ -175,206 +628,257 @@ pub const MACOS_LOLBINS: &[&str] = &[
     "log",           // macOS Unified Log streaming — surveillance and anti-forensics awareness
 ];
 
-/// Returns `true` if `name` matches a known macOS LOOBin (case-insensitive).
-///
-/// Matches against the last path component if a full path is given, or the
-/// bare binary name. For example, both `"osascript"` and `"/usr/bin/osascript"`
-/// return `true`.
-pub fn is_macos_lolbin(name: &str) -> bool {
-    // Accept either a full path (/usr/bin/osascript) or bare name (osascript)
-    let basename = name.rsplit('/').next().unwrap_or(name);
-    let lower = basename.to_ascii_lowercase();
-    MACOS_LOLBINS
+/// Returns `true` if `name` matches a known Windows LOLBAS binary (case-insensitive).
+pub fn is_lolbas_windows(name: &str) -> bool {
+    let lower = name.to_ascii_lowercase();
+    LOLBAS_WINDOWS
         .iter()
         .any(|b| b.to_ascii_lowercase() == lower)
 }
 
+/// Returns `true` if `name` matches a known Linux LOLBAS binary (case-insensitive).
+///
+/// The Linux LOLBAS dataset is sourced from GTFOBins — all 478 entries.
+pub fn is_lolbas_linux(name: &str) -> bool {
+    let lower = name.to_ascii_lowercase();
+    LOLBAS_LINUX
+        .iter()
+        .any(|b| b.to_ascii_lowercase() == lower)
+}
+
+/// Returns `true` if `name` matches a known macOS LOLBAS binary (case-insensitive).
+///
+/// Matches against the last path component if a full path is given, or the
+/// bare binary name. For example, both `"osascript"` and `"/usr/bin/osascript"`
+/// return `true`.
+pub fn is_lolbas_macos(name: &str) -> bool {
+    // Accept either a full path (/usr/bin/osascript) or bare name (osascript)
+    let basename = name.rsplit('/').next().unwrap_or(name);
+    let lower = basename.to_ascii_lowercase();
+    LOLBAS_MACOS
+        .iter()
+        .any(|b| b.to_ascii_lowercase() == lower)
+}
+
+/// Returns `true` if `name` is a LOLBAS binary on Windows, Linux, or macOS (case-insensitive).
+///
+/// Convenience wrapper over [`is_lolbas_windows`], [`is_lolbas_linux`], and [`is_lolbas_macos`].
+pub fn is_lolbas(name: &str) -> bool {
+    is_lolbas_windows(name) || is_lolbas_linux(name) || is_lolbas_macos(name)
+}
+
+// ── Deprecated aliases — use LOLBAS_* and is_lolbas_* instead ───────────────
+
+#[deprecated(since = "0.0.0", note = "use LOLBAS_WINDOWS")]
+pub const WINDOWS_LOLBINS: &[&str] = LOLBAS_WINDOWS;
+#[deprecated(since = "0.0.0", note = "use LOLBAS_LINUX")]
+pub const LINUX_LOLBINS: &[&str] = LOLBAS_LINUX;
+#[deprecated(since = "0.0.0", note = "use LOLBAS_MACOS")]
+pub const MACOS_LOLBINS: &[&str] = LOLBAS_MACOS;
+
+#[deprecated(since = "0.0.0", note = "use is_lolbas_windows")]
+pub fn is_windows_lolbin(name: &str) -> bool {
+    is_lolbas_windows(name)
+}
+#[deprecated(since = "0.0.0", note = "use is_lolbas_linux")]
+pub fn is_linux_lolbin(name: &str) -> bool {
+    is_lolbas_linux(name)
+}
+#[deprecated(since = "0.0.0", note = "use is_lolbas_macos")]
+pub fn is_macos_lolbin(name: &str) -> bool {
+    is_lolbas_macos(name)
+}
+#[deprecated(since = "0.0.0", note = "use is_lolbas")]
+pub fn is_lolbin(name: &str) -> bool {
+    is_lolbas(name)
+}
+
 #[cfg(test)]
+#[allow(deprecated)]
 mod tests {
     use super::*;
 
     // ── MACOS_LOLBINS RED tests ───────────────────────────────────────────────
     #[test]
     fn macos_lolbins_is_nonempty() {
-        assert!(!MACOS_LOLBINS.is_empty());
+        assert!(!LOLBAS_MACOS.is_empty());
     }
 
     #[test]
     fn macos_lolbins_contains_osascript() {
-        assert!(MACOS_LOLBINS.contains(&"osascript"));
+        assert!(LOLBAS_MACOS.contains(&"osascript"));
     }
 
     #[test]
     fn macos_lolbins_contains_launchctl() {
-        assert!(MACOS_LOLBINS.contains(&"launchctl"));
+        assert!(LOLBAS_MACOS.contains(&"launchctl"));
     }
 
     #[test]
     fn macos_lolbins_contains_security() {
-        assert!(MACOS_LOLBINS.contains(&"security"));
+        assert!(LOLBAS_MACOS.contains(&"security"));
     }
 
     #[test]
     fn macos_lolbins_contains_sqlite3() {
-        assert!(MACOS_LOLBINS.contains(&"sqlite3"));
+        assert!(LOLBAS_MACOS.contains(&"sqlite3"));
     }
 
     #[test]
     fn macos_lolbins_contains_tccutil() {
-        assert!(MACOS_LOLBINS.contains(&"tccutil"));
+        assert!(LOLBAS_MACOS.contains(&"tccutil"));
     }
 
     #[test]
     fn macos_lolbins_contains_networksetup() {
-        assert!(MACOS_LOLBINS.contains(&"networksetup"));
+        assert!(LOLBAS_MACOS.contains(&"networksetup"));
     }
 
     #[test]
     fn detects_osascript_exact() {
-        assert!(is_macos_lolbin("osascript"));
+        assert!(is_lolbas_macos("osascript"));
     }
 
     #[test]
     fn detects_osascript_uppercase() {
-        assert!(is_macos_lolbin("OSASCRIPT"));
+        assert!(is_lolbas_macos("OSASCRIPT"));
     }
 
     #[test]
     fn detects_security_mixed_case() {
-        assert!(is_macos_lolbin("Security"));
+        assert!(is_lolbas_macos("Security"));
     }
 
     #[test]
     fn does_not_flag_finder() {
-        assert!(!is_macos_lolbin("Finder"));
+        assert!(!is_lolbas_macos("Finder"));
     }
 
     #[test]
     fn empty_string_not_macos_lolbin() {
-        assert!(!is_macos_lolbin(""));
+        assert!(!is_lolbas_macos(""));
     }
 
     #[test]
-    fn is_lolbin_detects_macos_osascript() {
-        assert!(is_lolbin("osascript"));
+    fn is_lolbas_detects_macos_osascript() {
+        assert!(is_lolbas("osascript"));
     }
 
     #[test]
-    fn is_lolbin_detects_macos_launchctl() {
-        assert!(is_lolbin("launchctl"));
+    fn is_lolbas_detects_macos_launchctl() {
+        assert!(is_lolbas("launchctl"));
     }
 
     #[test]
     fn windows_lolbins_contains_certutil() {
-        assert!(WINDOWS_LOLBINS.contains(&"certutil.exe"));
+        assert!(LOLBAS_WINDOWS.contains(&"certutil.exe"));
     }
 
     #[test]
     fn windows_lolbins_contains_mshta() {
-        assert!(WINDOWS_LOLBINS.contains(&"mshta.exe"));
+        assert!(LOLBAS_WINDOWS.contains(&"mshta.exe"));
     }
 
     #[test]
     fn windows_lolbins_contains_powershell() {
-        assert!(WINDOWS_LOLBINS.contains(&"powershell.exe"));
+        assert!(LOLBAS_WINDOWS.contains(&"powershell.exe"));
     }
 
     #[test]
     fn linux_lolbins_contains_nc() {
-        assert!(LINUX_LOLBINS.contains(&"nc"));
+        assert!(LOLBAS_LINUX.contains(&"nc"));
     }
 
     #[test]
     fn linux_lolbins_contains_python3() {
-        assert!(LINUX_LOLBINS.contains(&"python3"));
+        // python3 is not in GTFOBins; python is — test the canonical name
+        assert!(LOLBAS_LINUX.contains(&"python"));
     }
 
     #[test]
     fn detects_certutil_exact() {
-        assert!(is_windows_lolbin("certutil.exe"));
+        assert!(is_lolbas_windows("certutil.exe"));
     }
 
     #[test]
     fn detects_certutil_uppercase() {
-        assert!(is_windows_lolbin("CERTUTIL.EXE"));
+        assert!(is_lolbas_windows("CERTUTIL.EXE"));
     }
 
     #[test]
     fn detects_mshta_mixed_case() {
-        assert!(is_windows_lolbin("Mshta.Exe"));
+        assert!(is_lolbas_windows("Mshta.Exe"));
     }
 
     #[test]
     fn does_not_flag_notepad() {
-        assert!(!is_windows_lolbin("notepad.exe"));
+        assert!(!is_lolbas_windows("notepad.exe"));
     }
 
     #[test]
     fn empty_string_not_windows_lolbin() {
-        assert!(!is_windows_lolbin(""));
+        assert!(!is_lolbas_windows(""));
     }
 
     #[test]
     fn detects_bash() {
-        assert!(is_linux_lolbin("bash"));
+        assert!(is_lolbas_linux("bash"));
     }
 
     #[test]
     fn detects_socat_uppercase() {
-        assert!(is_linux_lolbin("SOCAT"));
+        assert!(is_lolbas_linux("SOCAT"));
     }
 
     #[test]
     fn detects_python3() {
-        assert!(is_linux_lolbin("python3"));
+        // python3 is not a GTFOBins entry; python is
+        assert!(is_lolbas_linux("python"));
     }
 
     #[test]
-    fn does_not_flag_grep() {
-        assert!(!is_linux_lolbin("grep"));
+    fn does_not_flag_grep_as_missing() {
+        // grep IS in GTFOBins — confirm it's detected
+        assert!(is_lolbas_linux("grep"));
     }
 
     #[test]
     fn empty_string_not_linux_lolbin() {
-        assert!(!is_linux_lolbin(""));
+        assert!(!is_lolbas_linux(""));
     }
 
-    // --- is_lolbin (unified) ---
+    // --- is_lolbas (unified) ---
     #[test]
     fn lolbin_detects_windows_certutil() {
-        assert!(is_lolbin("certutil.exe"));
+        assert!(is_lolbas("certutil.exe"));
     }
     #[test]
     fn lolbin_detects_linux_nc() {
-        assert!(is_lolbin("nc"));
+        assert!(is_lolbas("nc"));
     }
     #[test]
     fn lolbin_detects_powershell() {
-        assert!(is_lolbin("powershell.exe"));
+        assert!(is_lolbas("powershell.exe"));
     }
     #[test]
     fn lolbin_detects_bash() {
-        assert!(is_lolbin("bash"));
+        assert!(is_lolbas("bash"));
     }
     #[test]
     fn lolbin_does_not_flag_notepad() {
-        assert!(!is_lolbin("notepad.exe"));
-    }
-    #[test]
-    fn lolbin_does_not_flag_grep() {
-        assert!(!is_lolbin("grep"));
+        assert!(!is_lolbas("notepad.exe"));
     }
     #[test]
     fn lolbin_case_insensitive_windows() {
-        assert!(is_lolbin("MSHTA.EXE"));
+        assert!(is_lolbas("MSHTA.EXE"));
     }
     #[test]
     fn lolbin_case_insensitive_linux() {
-        assert!(is_lolbin("PYTHON3"));
+        assert!(is_lolbas("PYTHON"));
     }
     #[test]
     fn empty_string_not_lolbin() {
-        assert!(!is_lolbin(""));
+        assert!(!is_lolbas(""));
     }
 
     // ── LOLBAS rename + GTFOBins expansion (RED) ─────────────────────────────

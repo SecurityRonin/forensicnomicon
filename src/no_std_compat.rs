@@ -15,7 +15,7 @@
 //! | Module | Public surface |
 //! |---|---|
 //! | [`crate::ports`] | `SUSPICIOUS_PORTS`, `is_suspicious_port` |
-//! | [`crate::lolbins`] | `WINDOWS_LOLBINS`, `LINUX_LOLBINS`, `is_windows_lolbin`, `is_linux_lolbin` |
+//! | [`crate::lolbins`] | `LOLBAS_WINDOWS`, `LOLBAS_LINUX`, `LOLBAS_MACOS`, `is_lolbas_windows`, `is_lolbas_linux`, `is_lolbas_macos`, `is_lolbas` |
 //! | [`crate::persistence`] | `WINDOWS_RUN_KEYS`, `LINUX_PERSISTENCE_PATHS`, `is_persistence_key` |
 //! | [`crate::antiforensics`] | `ANTIFORENSICS_TOOLS`, `is_antiforensics_tool` |
 //! | [`crate::paths`] | `WINDOWS_ARTIFACT_PATHS`, `LINUX_ARTIFACT_PATHS` |
@@ -71,21 +71,21 @@ mod tests {
         );
     }
 
-    /// `is_windows_lolbin` / `is_linux_lolbin` use only `&[&'static str]` and
+    /// `is_lolbas_windows` / `is_lolbas_linux` use only `&[&'static str]` and
     /// `str::to_ascii_lowercase` — both are `core` operations.
     #[test]
     fn lolbins_has_no_std_compatible_api() {
         assert!(
-            crate::lolbins::is_windows_lolbin("certutil.exe"),
-            "certutil.exe must be a Windows LOLBin"
+            crate::lolbins::is_lolbas_windows("certutil.exe"),
+            "certutil.exe must be a Windows LOLBAS binary"
         );
         assert!(
-            crate::lolbins::is_linux_lolbin("bash"),
-            "bash must be a Linux LOLBin"
+            crate::lolbins::is_lolbas_linux("bash"),
+            "bash must be a Linux LOLBAS binary"
         );
         assert!(
-            !crate::lolbins::is_windows_lolbin("notepad.exe"),
-            "notepad.exe must not be a LOLBin"
+            !crate::lolbins::is_lolbas_windows("notepad.exe"),
+            "notepad.exe must not be a LOLBAS binary"
         );
     }
 
