@@ -364,6 +364,12 @@ pub(super) fn decode_artifact(
             fields.insert(0, ("program", ArtifactValue::Text(rot13(name))));
             (fields, ts)
         }
+
+        Decoder::EseDatabase => {
+            // ESE/JET database files are binary; surface raw bytes as hex for now.
+            let hex = raw.iter().map(|b| format!("{b:02x}")).collect::<String>();
+            (vec![("value", ArtifactValue::Text(hex))], None)
+        }
     };
 
     Ok(make_record(descriptor, name, fields, timestamp))

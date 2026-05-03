@@ -1777,6 +1777,55 @@ pub static ARTIFACT_PROFILES: &[ArtifactProfile] = &[
         volatility: VolatilityClass::Persistent,
         volatility_rationale: "ProfileList registry persists until profile deletion",
     },
+    ArtifactProfile {
+        id: "linux_lsof_output",
+        evidence_strength: EvidenceStrength::Definitive,
+        evidence_caveats: &["Live-response only; deleted files visible only while process holds fd open"],
+        volatility: VolatilityClass::Volatile,
+        volatility_rationale: "Process state; lost on process exit or system reboot",
+    },
+    ArtifactProfile {
+        id: "linux_ss_output",
+        evidence_strength: EvidenceStrength::Definitive,
+        evidence_caveats: &["Live-response only; C2 connections disappear on session teardown"],
+        volatility: VolatilityClass::Volatile,
+        volatility_rationale: "Socket table exists only while connections are active",
+    },
+    ArtifactProfile {
+        id: "linux_chkrootkit_output",
+        evidence_strength: EvidenceStrength::Corroborative,
+        evidence_caveats: &["Rootkit may subvert chkrootkit itself; corroborate with memory forensics"],
+        volatility: VolatilityClass::Volatile,
+        volatility_rationale: "Assessment output; not persisted unless explicitly saved",
+    },
+    ArtifactProfile {
+        id: "linux_dmesg_log",
+        evidence_strength: EvidenceStrength::Strong,
+        evidence_caveats: &["Kernel ring buffer wraps; grab early in live response"],
+        volatility: VolatilityClass::Volatile,
+        volatility_rationale: "Ring buffer — overwritten as kernel emits new messages",
+    },
+    ArtifactProfile {
+        id: "linux_proc_kallsyms",
+        evidence_strength: EvidenceStrength::Definitive,
+        evidence_caveats: &["Requires root; compare against expected module symbols to find injected code"],
+        volatility: VolatilityClass::Volatile,
+        volatility_rationale: "Reflects live kernel symbol table; changes if modules loaded/unloaded",
+    },
+    ArtifactProfile {
+        id: "linux_proc_net_tcp",
+        evidence_strength: EvidenceStrength::Definitive,
+        evidence_caveats: &["Live socket table; grab immediately — C2 connections close on detection"],
+        volatility: VolatilityClass::Volatile,
+        volatility_rationale: "Kernel socket table; entries vanish on connection close",
+    },
+    ArtifactProfile {
+        id: "amcache_driver",
+        evidence_strength: EvidenceStrength::Strong,
+        evidence_caveats: &["Records driver load time, not execution time; SHA1 hash allows reputation lookup"],
+        volatility: VolatilityClass::Persistent,
+        volatility_rationale: "Amcache hive persists on disk; survives reboot",
+    },
 ];
 
 /// Returns the combined profile for a given artifact ID, or `None` if unknown.

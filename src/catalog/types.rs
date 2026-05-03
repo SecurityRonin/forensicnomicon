@@ -18,6 +18,10 @@ pub enum ArtifactType {
     EventLog,
     /// A region of process/physical memory.
     MemoryRegion,
+    /// Output from a live-response assessment tool (lsof, ss, chkrootkit, etc.).
+    Assessment,
+    /// A structured database file (ESE/SQLite/etc.).
+    DatabaseEntry,
 }
 
 /// Which Windows registry hive an artifact lives in.
@@ -140,6 +144,8 @@ pub enum Decoder {
     /// ROT13-decode the *name*, then parse the binary *value* using field
     /// descriptors. Combined output has "program" plus all binary fields.
     Rot13NameWithBinaryValue(&'static [BinaryField]),
+    /// Extensible Storage Engine (ESE/JET Blue) database format.
+    EseDatabase,
 }
 
 // ── Field schema (describes output fields) ───────────────────────────────────
