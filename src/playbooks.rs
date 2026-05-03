@@ -738,19 +738,18 @@ mod tests {
     }
 
     #[test]
-    fn playbook_by_id_works() {
-        let pb = playbook_by_id("lateral_movement_rdp")
-            .expect("lateral_movement_rdp playbook must exist");
+    fn path_by_id_works() {
+        let pb = path_by_id("lateral_movement").expect("lateral_movement path must exist");
         assert!(!pb.steps.is_empty());
         assert!(!pb.tactics_covered.is_empty());
     }
 
     #[test]
-    fn playbooks_for_trigger_rdp() {
-        let pbs = playbooks_for_trigger("rdp_client_servers");
+    fn paths_for_trigger_rdp() {
+        let pbs = paths_for_trigger("rdp_client_servers");
         assert!(
             !pbs.is_empty(),
-            "Should find playbooks triggered by rdp_client_servers"
+            "Should find paths triggered by rdp_client_servers"
         );
     }
 
@@ -819,12 +818,20 @@ mod tests {
     // ── scenario playbooks ────────────────────────────────────────────────────
 
     #[test]
-    fn five_scenario_playbooks_defined() {
-        let scenarios = scenario_playbooks();
+    fn playbooks_contains_only_five_scenarios() {
         assert_eq!(
-            scenarios.len(),
+            PLAYBOOKS.len(),
             5,
-            "Expected 5 scenario playbooks: ransomware, data_breach, bec, insider, supply_chain"
+            "PLAYBOOKS must contain exactly the 5 scenario checklists"
+        );
+    }
+
+    #[test]
+    fn investigation_paths_contains_six_artifact_triggered() {
+        assert_eq!(
+            INVESTIGATION_PATHS.len(),
+            6,
+            "INVESTIGATION_PATHS must contain the 6 artifact-triggered paths"
         );
     }
 
@@ -864,11 +871,11 @@ mod tests {
 
     #[test]
     fn scenario_playbooks_steps_all_valid_catalog_ids() {
-        for pb in scenario_playbooks() {
+        for pb in PLAYBOOKS {
             for step in pb.steps {
                 assert!(
                     CATALOG.by_id(step.artifact_id).is_some(),
-                    "scenario playbook '{}' step references unknown artifact: {}",
+                    "playbook '{}' step references unknown artifact: {}",
                     pb.id,
                     step.artifact_id
                 );
@@ -877,8 +884,40 @@ mod tests {
     }
 
     #[test]
-    fn total_playbooks_is_eleven() {
-        // 6 artifact-triggered + 5 scenario = 11
-        assert_eq!(PLAYBOOKS.len(), 11, "Expected 11 total playbooks");
+    fn investigation_paths_steps_all_valid_catalog_ids() {
+        for path in INVESTIGATION_PATHS {
+            for step in path.steps {
+                assert!(
+                    CATALOG.by_id(step.artifact_id).is_some(),
+                    "investigation path '{}' step references unknown artifact: {}",
+                    path.id,
+                    step.artifact_id
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn lateral_movement_is_investigation_path_not_playbook() {
+        assert!(
+            INVESTIGATION_PATHS.iter().any(|p| p.id == "lateral_movement"),
+            "lateral_movement must be in INVESTIGATION_PATHS"
+        );
+        assert!(
+            !PLAYBOOKS.iter().any(|p| p.id == "lateral_movement"),
+            "lateral_movement must NOT be in PLAYBOOKS"
+        );
+    }
+
+    #[test]
+    fn persistence_is_investigation_path_not_playbook() {
+        assert!(
+            INVESTIGATION_PATHS.iter().any(|p| p.id == "persistence"),
+            "persistence must be in INVESTIGATION_PATHS (not persistence_hunt)"
+        );
+        assert!(
+            !PLAYBOOKS.iter().any(|p| p.id == "persistence"),
+            "persistence must NOT be in PLAYBOOKS"
+        );
     }
 }
