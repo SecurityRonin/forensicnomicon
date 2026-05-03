@@ -53,6 +53,7 @@
     .dot-violet  { background:#a78bfa; }
     .dot-amber   { background:#fbbf24; }
     .dot-cyan    { background:#22d3ee; }
+    .dot-rose    { background:#fb7185; }
     .card h3 { font-size:11px; font-weight:600; color:#e2e8f0; }
     .card ul { list-style:none; }
     .card li { font-size:10px; color:#94a3b8; padding:2px 0; line-height:1.5; }
@@ -598,6 +599,280 @@
       <li>• unlocks: [&amp;str] — investigation branching signal</li>
       <li>• attack_flow — 35 CTID campaign graphs (one level above)</li>
       <li>• ArtifactProfile — evidence strength + RFC 3227 volatility</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ====================================================
+     DIAGRAM 3: Data Schema (the 5 typed layers)
+     ==================================================== -->
+<p class="section-label">Data schema — 5 typed layers</p>
+<div class="diagram-card">
+<svg viewBox="0 0 1010 615" width="1010" height="615" xmlns="http://www.w3.org/2000/svg"
+     font-family="'JetBrains Mono', monospace">
+
+  <defs>
+    <marker id="arr-schema" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <polygon points="0 0, 9 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <marker id="arr-schema-violet" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <polygon points="0 0, 9 3.5, 0 7" fill="#a78bfa"/>
+    </marker>
+    <pattern id="schema-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1010" height="615" fill="url(#schema-grid)"/>
+
+  <!-- ============================================================
+       ARROWS — drawn first so boxes mask them
+       ============================================================ -->
+
+  <!-- InvestigationStep.artifact_id → ArtifactDescriptor -->
+  <line x1="302" y1="228" x2="354" y2="218" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-schema)"/>
+  <rect x="290" y="193" width="74" height="13" rx="2" fill="#0f172a"/>
+  <text x="327" y="202" fill="#22d3ee" font-size="8" text-anchor="middle">artifact_id</text>
+
+  <!-- InvestigationStep.unlocks[] → ArtifactDescriptor (dashed loop) -->
+  <path d="M 302,316 L 330,316 L 330,430 L 355,430" fill="none" stroke="#22d3ee" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-schema)"/>
+  <rect x="303" y="330" width="52" height="13" rx="2" fill="#0f172a"/>
+  <text x="329" y="340" fill="#22d3ee" font-size="7.5" text-anchor="middle">unlocks[]</text>
+
+  <!-- ArtifactProfile.id → ArtifactDescriptor (right side) -->
+  <path d="M 692,302 L 662,302 L 662,278 L 642,278" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-schema)"/>
+  <rect x="645" y="288" width="22" height="13" rx="2" fill="#0f172a"/>
+  <text x="656" y="297" fill="#fbbf24" font-size="8" text-anchor="middle">.id</text>
+
+  <!-- ============================================================
+       LEFT COLUMN: InvestigationPath (outer container)
+       ============================================================ -->
+
+  <!-- Opaque backing for InvestigationPath outer -->
+  <rect x="22" y="50" width="293" height="335" rx="8" fill="#0f172a"/>
+  <!-- InvestigationPath outer (dashed container — it holds InvestigationStep) -->
+  <rect x="22" y="50" width="293" height="335" rx="8" fill="rgba(8,51,68,0.25)" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="6,3"/>
+
+  <!-- InvestigationPath header -->
+  <text x="168" y="72" fill="#22d3ee" font-size="12" font-weight="700" text-anchor="middle">InvestigationPath</text>
+  <text x="168" y="87" fill="#64748b" font-size="8.5" text-anchor="middle">INVESTIGATION_PATHS · PLAYBOOKS</text>
+
+  <!-- InvestigationPath fields -->
+  <text x="35" y="108" fill="#94a3b8" font-size="9">  id<tspan fill="#475569">: &amp;'static str</tspan></text>
+  <text x="35" y="124" fill="#94a3b8" font-size="9">  name<tspan fill="#475569">: &amp;'static str</tspan></text>
+  <text x="35" y="140" fill="#94a3b8" font-size="9">  trigger<tspan fill="#475569">: &amp;'static str</tspan></text>
+  <text x="35" y="156" fill="#94a3b8" font-size="9">  tactics_covered<tspan fill="#475569">: &amp;[&amp;str]</tspan></text>
+  <text x="35" y="172" fill="#22d3ee" font-size="9">  steps<tspan fill="#475569">: &amp;[InvestigationStep]  ↓</tspan></text>
+
+  <!-- InvestigationStep nested box -->
+  <rect x="37" y="188" width="265" height="182" rx="6" fill="#0f172a"/>
+  <rect x="37" y="188" width="265" height="182" rx="6" fill="rgba(8,51,68,0.5)" stroke="#22d3ee" stroke-width="1.5"/>
+
+  <text x="168" y="207" fill="#22d3ee" font-size="11" font-weight="600" text-anchor="middle">InvestigationStep</text>
+
+  <text x="50" y="225" fill="#22d3ee" font-size="9">  artifact_id<tspan fill="#475569">: &amp;'static str</tspan></text>
+  <text x="50" y="241" fill="#94a3b8" font-size="9">  tactic<tspan fill="#475569">: &amp;'static str   </tspan><tspan fill="#475569" font-size="8">("TA0008")</tspan></text>
+  <text x="50" y="257" fill="#94a3b8" font-size="9">  rationale<tspan fill="#475569">: &amp;'static str</tspan></text>
+  <text x="50" y="273" fill="#94a3b8" font-size="9">  look_for<tspan fill="#475569">: &amp;'static str</tspan></text>
+  <text x="50" y="289" fill="#22d3ee" font-size="9">  unlocks<tspan fill="#475569">: &amp;[&amp;str]</tspan></text>
+  <line x1="50" y1="300" x2="290" y2="300" stroke="#1e3a52" stroke-width="0.5"/>
+  <text x="168" y="314" fill="#334155" font-size="8" text-anchor="middle">artifact_id + unlocks[] → ArtifactDescriptor.id</text>
+  <text x="168" y="328" fill="#334155" font-size="8" text-anchor="middle">6 ATT&amp;CK paths · 5 scenario playbooks</text>
+  <text x="168" y="342" fill="#334155" font-size="8" text-anchor="middle">22 + 11 paths/playbooks · RFC 3227 triage order</text>
+  <text x="168" y="360" fill="#334155" font-size="8" text-anchor="middle">tactic: TA-prefixed ATT&amp;CK pillar ID per step</text>
+
+  <!-- InvestigationPath bottom padding -->
+  <text x="168" y="372" fill="#334155" font-size="8" text-anchor="middle">InvestigationPath::ALL  ·  scenario_playbooks()</text>
+
+  <!-- ============================================================
+       CENTER: ArtifactDescriptor (the hub)
+       ============================================================ -->
+
+  <rect x="355" y="50" width="285" height="350" rx="8" fill="#0f172a"/>
+  <rect x="355" y="50" width="285" height="350" rx="8" fill="rgba(76,29,149,0.4)" stroke="#a78bfa" stroke-width="2"/>
+
+  <text x="497" y="72" fill="#a78bfa" font-size="13" font-weight="700" text-anchor="middle">ArtifactDescriptor</text>
+  <text x="497" y="88" fill="#7c3aed" font-size="8.5" text-anchor="middle">CATALOG — StaticCatalog — 6,554 entries</text>
+
+  <!-- Divider -->
+  <line x1="368" y1="96" x2="627" y2="96" stroke="#4c1d95" stroke-width="0.5"/>
+
+  <!-- Fields — two columns of tightly spaced lines -->
+  <text x="368" y="113" fill="#c4b5fd" font-size="9">  id<tspan fill="#64748b">: &amp;'static str</tspan></text>
+  <text x="368" y="129" fill="#94a3b8" font-size="9">  name<tspan fill="#64748b">: &amp;'static str</tspan></text>
+  <text x="368" y="145" fill="#94a3b8" font-size="9">  meaning<tspan fill="#64748b">: &amp;'static str</tspan></text>
+  <text x="368" y="161" fill="#94a3b8" font-size="9">  triage_priority<tspan fill="#64748b">: TriagePriority</tspan></text>
+  <text x="368" y="177" fill="#94a3b8" font-size="9">  os_scope<tspan fill="#64748b">: OsScope</tspan></text>
+  <text x="368" y="193" fill="#94a3b8" font-size="9">  key_path<tspan fill="#64748b">: &amp;'static str</tspan></text>
+  <text x="368" y="209" fill="#94a3b8" font-size="9">  file_path<tspan fill="#64748b">: &amp;'static str</tspan></text>
+  <text x="368" y="225" fill="#94a3b8" font-size="9">  mitre_techniques<tspan fill="#64748b">: &amp;[&amp;str]</tspan></text>
+  <text x="368" y="241" fill="#94a3b8" font-size="9">  sources<tspan fill="#64748b">: &amp;[&amp;str]</tspan></text>
+  <text x="368" y="257" fill="#94a3b8" font-size="9">  related<tspan fill="#64748b">: &amp;[&amp;str]</tspan></text>
+  <text x="368" y="273" fill="#94a3b8" font-size="9">  decoder<tspan fill="#64748b">: Option&lt;Decoder&gt;</tspan></text>
+  <text x="368" y="289" fill="#94a3b8" font-size="9">  carving_sig<tspan fill="#64748b">: Option&lt;&amp;[u8]&gt;</tspan></text>
+
+  <!-- Enum annotations -->
+  <line x1="368" y1="300" x2="627" y2="300" stroke="#4c1d95" stroke-width="0.5"/>
+  <text x="368" y="316" fill="#6d28d9" font-size="8">  enum TriagePriority: Critical | High | Medium | Low</text>
+  <text x="368" y="331" fill="#6d28d9" font-size="8">  enum OsScope: Windows | Linux | macOS | Multi | All</text>
+  <text x="368" y="346" fill="#6d28d9" font-size="8">  enum Decoder: Rot13Name | FiletimeAt{} | BinaryRecord</text>
+  <text x="368" y="361" fill="#6d28d9" font-size="8">               MruListEx | MultiSz | EseDatabase | ...</text>
+  <!-- Catalog note -->
+  <line x1="368" y1="372" x2="627" y2="372" stroke="#4c1d95" stroke-width="0.5"/>
+  <text x="497" y="387" fill="#4c1d95" font-size="8" text-anchor="middle">361 hand-curated · 6,193 generated from 7 corpora</text>
+  <text x="497" y="399" fill="#4c1d95" font-size="8" text-anchor="middle">KAPE · ForensicArtifacts · EVTX · Velociraptor · RECmd</text>
+
+  <!-- ============================================================
+       RIGHT TOP: AbusableSite
+       ============================================================ -->
+
+  <rect x="692" y="50" width="285" height="190" rx="8" fill="#0f172a"/>
+  <rect x="692" y="50" width="285" height="190" rx="8" fill="rgba(136,19,55,0.4)" stroke="#fb7185" stroke-width="1.5"/>
+
+  <text x="834" y="72" fill="#fb7185" font-size="12" font-weight="700" text-anchor="middle">AbusableSite</text>
+  <text x="834" y="87" fill="#9f1239" font-size="8.5" text-anchor="middle">ABUSABLE_SITES: &amp;[AbusableSite]</text>
+
+  <line x1="705" y1="95" x2="964" y2="95" stroke="#7f1d1d" stroke-width="0.5"/>
+
+  <text x="705" y="112" fill="#94a3b8" font-size="9">  domain<tspan fill="#64748b">: &amp;'static str</tspan></text>
+  <text x="705" y="128" fill="#94a3b8" font-size="9">  category<tspan fill="#64748b">: SiteCategory</tspan></text>
+  <text x="705" y="144" fill="#94a3b8" font-size="9">  blocking_risk<tspan fill="#64748b">: BlockingRisk</tspan></text>
+  <text x="705" y="160" fill="#94a3b8" font-size="9">  mitre_technique<tspan fill="#64748b">: &amp;'static str</tspan></text>
+  <text x="705" y="176" fill="#94a3b8" font-size="9">  description<tspan fill="#64748b">: &amp;'static str</tspan></text>
+
+  <line x1="705" y1="184" x2="964" y2="184" stroke="#7f1d1d" stroke-width="0.5"/>
+  <text x="705" y="198" fill="#7f1d1d" font-size="8">  BlockingRisk: High | Medium | Low</text>
+  <text x="705" y="213" fill="#7f1d1d" font-size="8">  SiteCategory: CodeRepo | CloudStorage | Cdn | ...</text>
+  <text x="705" y="228" fill="#7f1d1d" font-size="8">  54 sites · LOTS Project + FileSecIO + manual</text>
+
+  <!-- ============================================================
+       RIGHT MID: ArtifactProfile
+       ============================================================ -->
+
+  <rect x="692" y="260" width="285" height="195" rx="8" fill="#0f172a"/>
+  <rect x="692" y="260" width="285" height="195" rx="8" fill="rgba(120,53,15,0.35)" stroke="#fbbf24" stroke-width="1.5"/>
+
+  <text x="834" y="282" fill="#fbbf24" font-size="12" font-weight="700" text-anchor="middle">ArtifactProfile</text>
+  <text x="834" y="297" fill="#92400e" font-size="8.5" text-anchor="middle">ARTIFACT_PROFILES: &amp;[ArtifactProfile]</text>
+
+  <line x1="705" y1="305" x2="964" y2="305" stroke="#78350f" stroke-width="0.5"/>
+
+  <text x="705" y="322" fill="#fbbf24" font-size="9">  id<tspan fill="#64748b">: &amp;'static str</tspan><tspan fill="#92400e" font-size="8">  → ArtifactDescriptor</tspan></text>
+  <text x="705" y="338" fill="#94a3b8" font-size="9">  evidence_strength<tspan fill="#64748b">: EvidenceStrength</tspan></text>
+  <text x="705" y="354" fill="#94a3b8" font-size="9">  evidence_caveats<tspan fill="#64748b">: &amp;[&amp;str]</tspan></text>
+  <text x="705" y="370" fill="#94a3b8" font-size="9">  volatility<tspan fill="#64748b">: VolatilityClass</tspan></text>
+
+  <line x1="705" y1="380" x2="964" y2="380" stroke="#78350f" stroke-width="0.5"/>
+  <text x="705" y="395" fill="#78350f" font-size="8">  EvidenceStrength: Definitive|Strong|Moderate|</text>
+  <text x="705" y="408" fill="#78350f" font-size="8">                   Circumstantial|Unreliable</text>
+  <text x="705" y="422" fill="#78350f" font-size="8">  VolatilityClass: LiveMemory|...|Residual</text>
+  <text x="705" y="437" fill="#78350f" font-size="8">  evidence_for() · volatility_for() · RFC 3227</text>
+  <text x="705" y="450" fill="#78350f" font-size="8">  acquisition_order() — most volatile first</text>
+
+  <!-- ============================================================
+       BOTTOM CENTER: LolbasEntry
+       ============================================================ -->
+
+  <rect x="355" y="420" width="285" height="180" rx="8" fill="#0f172a"/>
+  <rect x="355" y="420" width="285" height="180" rx="8" fill="rgba(6,78,59,0.4)" stroke="#34d399" stroke-width="1.5"/>
+
+  <text x="497" y="442" fill="#34d399" font-size="12" font-weight="700" text-anchor="middle">LolbasEntry</text>
+  <text x="497" y="457" fill="#065f46" font-size="8.5" text-anchor="middle">LOLBAS_WINDOWS · _LINUX · _MACOS · _CMDLETS · _MMC · _WMI</text>
+
+  <line x1="368" y1="465" x2="627" y2="465" stroke="#064e3b" stroke-width="0.5"/>
+
+  <text x="368" y="482" fill="#94a3b8" font-size="9">  name<tspan fill="#64748b">: &amp;'static str</tspan></text>
+  <text x="368" y="498" fill="#94a3b8" font-size="9">  use_cases<tspan fill="#64748b">: u16  </tspan><tspan fill="#065f46" font-size="8">(UC_* bitmask)</tspan></text>
+  <text x="368" y="514" fill="#94a3b8" font-size="9">  mitre_techniques<tspan fill="#64748b">: &amp;[&amp;str]</tspan></text>
+  <text x="368" y="530" fill="#94a3b8" font-size="9">  platforms<tspan fill="#64748b">: Platform</tspan></text>
+
+  <line x1="368" y1="540" x2="627" y2="540" stroke="#064e3b" stroke-width="0.5"/>
+  <text x="368" y="554" fill="#065f46" font-size="8">  UC_EXECUTE | UC_DOWNLOAD | UC_PROXY | UC_BYPASS |</text>
+  <text x="368" y="567" fill="#065f46" font-size="8">  UC_CREDENTIALS | UC_RECON | UC_PERSIST | UC_NETWORK</text>
+  <text x="368" y="580" fill="#065f46" font-size="8">  187 Windows · 478 Linux · 141 macOS · 187+ cmdlets</text>
+  <text x="368" y="594" fill="#065f46" font-size="8">  lolbas_entry(name) · is_lolbin(name) · lolbas_names()</text>
+
+  <!-- ============================================================
+       BOTTOM RIGHT: Legend
+       ============================================================ -->
+
+  <rect x="692" y="475" width="285" height="128" rx="8" fill="#0f172a"/>
+  <rect x="692" y="475" width="285" height="128" rx="8" fill="rgba(15,23,42,0.8)" stroke="#1e293b" stroke-width="1"/>
+
+  <text x="705" y="494" fill="#e2e8f0" font-size="10" font-weight="600">Legend</text>
+
+  <rect x="705" y="502" width="14" height="10" rx="2" fill="rgba(76,29,149,0.4)" stroke="#a78bfa" stroke-width="1"/>
+  <text x="724" y="511" fill="#94a3b8" font-size="8.5">ArtifactDescriptor — central hub (catalog)</text>
+
+  <rect x="705" y="518" width="14" height="10" rx="2" fill="rgba(8,51,68,0.5)" stroke="#22d3ee" stroke-width="1"/>
+  <text x="724" y="527" fill="#94a3b8" font-size="8.5">InvestigationPath + Step — investigation layer</text>
+
+  <rect x="705" y="534" width="14" height="10" rx="2" fill="rgba(120,53,15,0.35)" stroke="#fbbf24" stroke-width="1"/>
+  <text x="724" y="543" fill="#94a3b8" font-size="8.5">ArtifactProfile — evidence + volatility enrichment</text>
+
+  <rect x="705" y="550" width="14" height="10" rx="2" fill="rgba(136,19,55,0.4)" stroke="#fb7185" stroke-width="1"/>
+  <text x="724" y="559" fill="#94a3b8" font-size="8.5">AbusableSite — threat intel catalog</text>
+
+  <rect x="705" y="566" width="14" height="10" rx="2" fill="rgba(6,78,59,0.4)" stroke="#34d399" stroke-width="1"/>
+  <text x="724" y="575" fill="#94a3b8" font-size="8.5">LolbasEntry — LOL/LOFL binary catalog</text>
+
+  <line x1="705" y1="583" x2="745" y2="583" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <text x="751" y="587" fill="#94a3b8" font-size="8.5">artifact_id FK reference (compile-time &amp;str)</text>
+
+  <line x1="705" y1="596" x2="745" y2="596" stroke="#64748b" stroke-width="1" stroke-dasharray="2,2"/>
+  <text x="751" y="600" fill="#94a3b8" font-size="8.5">zero runtime cost — all data in const/static</text>
+
+</svg>
+</div>
+
+<div class="cards">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-dot dot-violet"></div>
+      <h3>ArtifactDescriptor — the hub</h3>
+    </div>
+    <ul>
+      <li>• 6,554 entries: 361 hand-curated + 6,193 generated</li>
+      <li>• Generated from 7 corpora: KAPE (2,422), ForensicArtifacts (2,545), EVTX (995), Velociraptor (122), RECmd (44), browsers (37), NirSoft (22)</li>
+      <li>• 12-field struct: id, name, meaning, triage_priority, os_scope, key_path, file_path, mitre_techniques, sources, related, decoder, carving_sig</li>
+      <li>• All data in &amp;'static — zero heap allocation, no_std compatible</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-dot dot-cyan"></div>
+      <h3>InvestigationPath + Step</h3>
+    </div>
+    <ul>
+      <li>• INVESTIGATION_PATHS (6) — ATT&amp;CK-tactic chains: lateral_movement, credential_harvesting, persistence, data_exfiltration, execution_trace, defense_evasion</li>
+      <li>• PLAYBOOKS (5) — scenario checklists: ransomware, data_breach, bec, insider, supply_chain</li>
+      <li>• InvestigationStep.artifact_id is a &amp;'static str FK into CATALOG</li>
+      <li>• unlocks: &amp;[&amp;str] — branching: one step unlocks N follow-on artifacts</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-dot dot-emerald"></div>
+      <h3>LolbasEntry + AbusableSite</h3>
+    </div>
+    <ul>
+      <li>• LolbasEntry: 6 parallel catalogs (Windows, Linux, macOS, Cmdlets, MMC, WMI) — 187/478/141/187+/63/30 entries</li>
+      <li>• use_cases: u16 bitmask — UC_EXECUTE | UC_DOWNLOAD | UC_PROXY | UC_BYPASS | UC_CREDENTIALS | UC_RECON | UC_PERSIST | UC_NETWORK</li>
+      <li>• AbusableSite: 54 sites · SiteCategory + BlockingRisk enums</li>
+      <li>• Parallel catalogs — no compile-time FK to ArtifactDescriptor; share MITRE technique strings</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-dot dot-amber"></div>
+      <h3>ArtifactProfile — enrichment</h3>
+    </div>
+    <ul>
+      <li>• id: &amp;'static str FK into CATALOG — single source of truth for both evidence + volatility</li>
+      <li>• EvidenceStrength: Definitive | Strong | Moderate | Circumstantial | Unreliable</li>
+      <li>• VolatilityClass: LiveMemory | KernelOS | UserProcess | SystemConfig | Residual</li>
+      <li>• evidence_for(id) · volatility_for(id) · acquisition_order() (RFC 3227)</li>
     </ul>
   </div>
 </div>
