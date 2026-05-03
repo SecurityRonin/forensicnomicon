@@ -2,6 +2,7 @@
 //!
 //! These tests run the compiled binary via assert_cmd and verify:
 //! - `lolbas lookup <platform> <name>` finds known LOL binaries and exits 0
+//! - `lolbas lookup <name>` (no platform) searches all six catalogs
 //! - `lolbas lookup <platform> <unknown>` exits non-zero with a clear message
 //! - `sites lookup <domain>` finds known abusable sites
 //! - `dump --format json` produces a valid JSON object with expected top-level keys
@@ -96,6 +97,64 @@ fn lolbas_lookup_unknown_binary_prints_not_found() {
         .assert()
         .failure()
         .stderr(predicate::str::contains("not found").or(predicate::str::contains("Not found")));
+}
+
+// ---------------------------------------------------------------------------
+// lolbas lookup — platform-agnostic (no platform arg)
+// ---------------------------------------------------------------------------
+
+#[test]
+fn lolbas_lookup_no_platform_certutil_exits_zero() {
+    fnquery()
+        .args(["lolbas", "lookup", "certutil.exe"])
+        .assert()
+        .success();
+}
+
+#[test]
+fn lolbas_lookup_no_platform_certutil_prints_windows() {
+    fnquery()
+        .args(["lolbas", "lookup", "certutil.exe"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("windows").or(predicate::str::contains("certutil.exe")));
+}
+
+#[test]
+fn lolbas_lookup_no_platform_curl_found_on_linux_and_macos() {
+    // curl is in GTFOBins (linux) and LOOBins (macos) — should find multiple platforms
+    fnquery()
+        .args(["lolbas", "lookup", "curl"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("curl"));
+}
+
+#[test]
+fn lolbas_lookup_no_platform_unknown_exits_nonzero() {
+    fnquery()
+        .args(["lolbas", "lookup", "xyzzy_no_such_binary_99999"])
+        .assert()
+        .failure();
+}
+
+#[test]
+fn lolbas_lookup_no_platform_json_is_array_with_platform_field() {
+    let output = fnquery()
+        .args(["lolbas", "lookup", "certutil.exe", "--format", "json"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let text = std::str::from_utf8(&output).unwrap();
+    let v: serde_json::Value = serde_json::from_str(text).expect("not valid JSON");
+    assert!(v.is_array(), "expected JSON array for multi-platform lookup");
+    let arr = v.as_array().unwrap();
+    assert!(!arr.is_empty());
+    // Each entry has a platform field
+    assert!(arr[0]["platform"].is_string(), "missing platform field");
+    assert!(arr[0]["name"].is_string(), "missing name field");
 }
 
 // ---------------------------------------------------------------------------
