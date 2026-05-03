@@ -27,11 +27,13 @@ pub struct ArtifactProfile {
     pub volatility_rationale: &'static str,
 }
 
-/// Merged profile table (236 entries, one per catalog artifact).
+/// One entry per catalog artifact combining evidence strength and volatility class.
 ///
-/// Combines all entries from the legacy evidence and volatility tables.
-/// For artifacts that appeared in only one of the legacy tables, the missing
-/// dimension is filled with a conservative default.
+/// Each profile captures two dimensions for triage and collection planning:
+/// - `evidence_strength` / `evidence_caveats` — how strongly the artifact
+///   implicates activity and what caveats apply to that assessment
+/// - `volatility` — how quickly the artifact is lost and therefore how urgently
+///   it must be acquired (RFC 3227 ordering)
 pub static ARTIFACT_PROFILES: &[ArtifactProfile] = &[
     ArtifactProfile {
         id: "amcache_app_file",
