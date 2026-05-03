@@ -82,6 +82,7 @@ _SKIP_TITLES = frozenset({
     "URLhaus",
     "MalwareBazaar",
     "ThreatFox",
+    "abuse.ch blog",  # abuse.ch suite hub — IOC feeds, not artifact walkthroughs
     # Taxonomy commits — not blog posts
     "MISP taxonomies",
     # LOL datasets — use fetch_*.py scripts for full current state
@@ -92,6 +93,16 @@ _SKIP_TITLES = frozenset({
     "LOFL Project (RMM C2 indicators)",
     # YouTube — handled separately via --youtube-api-key flag
     # Without key: first-page Atom only (15 videos); with key: full channel history
+})
+
+# Blog platforms that have no WordPress REST API.
+# For these, xmlUrl is the only viable source — do NOT attempt WP API fallback.
+_XMLURL_ONLY_PLATFORMS = frozenset({
+    "ghost.io",        # Ghost CMS (dfir.blog, salt4n6.com, etc.)
+    "squarespace.com", # Squarespace (mac4n6.com)
+    "hubspot.com",     # HubSpot (binalyze.com)
+    "jekyll",          # Jekyll static sites (andreafortuna.org, dfir.science)
+    "hugo",            # Hugo static sites
 })
 
 # Atom XML namespace
@@ -395,6 +406,19 @@ def classify_blog_source(html_url: str) -> str:
         return "squarespace"
     # WordPress can't be detected from the URL alone without an HTTP probe
     return "unknown"
+
+
+def _should_try_wordpress(entries: list, xml_url: str) -> bool:
+    """Return True iff the WordPress REST API fallback should be attempted.
+
+    Logic:
+    - If xmlUrl already returned entries: the feed is working → no WP needed.
+    - If xmlUrl returned nothing AND xml_url is non-empty: try WP as fallback.
+    - If there is no xml_url at all: no useful WP endpoint can be guessed.
+    """
+    if not xml_url:
+        return False
+    return len(entries) == 0
 
 
 # ─── artifact co-occurrence extraction ────────────────────────────────────────
@@ -933,8 +957,8 @@ def main(argv: list[str] | None = None) -> int:
                 if text:
                     entries = parse_rss_xml(text)
 
-            if not entries or len(entries) >= 20:
-                # xml_url gave nothing or a full page — try WordPress for pagination
+            if _should_try_wordpress(entries, xml_url):
+                # xmlUrl returned nothing — try WordPress REST API as fallback
                 wp_entries = fetch_wordpress_archive(html_url, max_pages=args.max_pages)
                 if wp_entries:
                     entries = wp_entries
