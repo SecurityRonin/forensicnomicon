@@ -424,8 +424,29 @@ fn catalog_search(keyword: &str, format: Option<Format>) -> i32 {
 }
 
 fn catalog_show(id: &str, format: Option<Format>) -> i32 {
-    match CATALOG.by_id(id) {
-        Some(d) => {
+    // Exact ID match
+    if let Some(d) = CATALOG.by_id(id) {
+        match format {
+            Some(Format::Json) => {
+                println!("{}", serde_json::to_string_pretty(&descriptor_to_json(d)).unwrap());
+            }
+            Some(Format::Yaml) => {
+                print!("{}", serde_yaml::to_string(&descriptor_to_json(d)).unwrap());
+            }
+            None => print_descriptor_human(d),
+        }
+        return 0;
+    }
+
+    // Fallback: keyword search — unambiguous single hit → show it; multiple → suggest
+    let hits = CATALOG.filter_by_keyword(id);
+    match hits.len() {
+        0 => {
+            eprintln!("Not found: no artifact with id or keyword '{id}'");
+            1
+        }
+        1 => {
+            let d = hits[0];
             match format {
                 Some(Format::Json) => {
                     println!("{}", serde_json::to_string_pretty(&descriptor_to_json(d)).unwrap());
@@ -437,8 +458,14 @@ fn catalog_show(id: &str, format: Option<Format>) -> i32 {
             }
             0
         }
-        None => {
-            eprintln!("Not found: no artifact with id '{id}'");
+        n => {
+            eprintln!("Ambiguous: '{id}' matches {n} artifacts. Use `catalog search {id}` to list them, then `catalog show <id>` with the exact ID.");
+            for h in &hits[..hits.len().min(5)] {
+                eprintln!("  {}", h.id);
+            }
+            if n > 5 {
+                eprintln!("  … and {} more", n - 5);
+            }
             1
         }
     }
