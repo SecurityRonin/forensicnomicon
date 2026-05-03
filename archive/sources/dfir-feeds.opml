@@ -107,7 +107,8 @@
       <!-- Cisco Talos — threat research, malware campaigns, vulnerability analysis; Cloudflare-protected (GH Actions may pass) -->
       <!-- Feed URL confirmed via browser: https://blog.talosintelligence.com/rss/ -->
       <outline type="rss" text="Cisco Talos Blog" title="Cisco Talos Blog" xmlUrl="https://blog.talosintelligence.com/rss/" htmlUrl="https://blog.talosintelligence.com/"/>
-      <!-- SANS blog has no RSS feed — JavaScript SPA, no alternate link, no /feed/ endpoint -->
+      <!-- SANS blog — no RSS; Remix SSR embeds JSON in page (949 posts, 80 pages). Scraped via parse_sans_blog_html(). -->
+      <outline type="web" text="SANS Blog" title="SANS Blog" htmlUrl="https://www.sans.org/blog"/>
     </outline>
     <outline text="Vendor DFIR Blogs" title="Vendor DFIR Blogs">
       <!-- Binalyze — DFIR platform vendor; acquisition techniques, triage workflows -->
