@@ -69,6 +69,30 @@ ATOM_NS = {"atom": "http://www.w3.org/2005/Atom"}
 # 403/429/5xx may be transient; only 404 and 410 are permanent.
 _GONE_CODES = frozenset({404, 410})
 
+# Sources whose new entries are tracked in feed-state.json but must NOT be
+# appended to pending-review.md.  These are either:
+#   - IOC feeds (URLhaus/MalwareBazaar/ThreatFox) — machine-readable threat intel,
+#     not artifact documentation; reviewed via dedicated sync scripts instead
+#   - LOL dataset commit feeds — one entry per binary added; handled by the
+#     dedicated fetch_*.py scripts (fetch_lolbas.py, fetch_gtfobins.py, etc.)
+#   - MISP taxonomy commits — tooling/CI changes, not artifact docs
+#
+# Match against FeedSnapshot.title (= OPML text/title attribute).
+_NO_PENDING_REVIEW: frozenset[str] = frozenset({
+    # IOC feeds
+    "URLhaus",
+    "MalwareBazaar",
+    "ThreatFox",
+    # LOL dataset commit feeds
+    "LOLBAS Project (Windows)",
+    "GTFOBins (Linux)",
+    "LOOBins (macOS)",
+    "LOLDrivers (BYOVD)",
+    "LOFL Project (RMM C2 indicators)",
+    # Taxonomy / tooling commits
+    "MISP Taxonomies",
+})
+
 
 @dataclass
 class FeedEntry:
@@ -308,6 +332,17 @@ def write_report(path: str, snapshots: list[FeedSnapshot], previous: dict[str, d
     return new_entries_all
 
 
+def filter_pending_entries(
+    entries: list[tuple[str, str, str]],
+) -> list[tuple[str, str, str]]:
+    """Remove entries whose source title is in _NO_PENDING_REVIEW.
+
+    Keeps feed-state.json complete (all feeds tracked) while preventing
+    IOC feeds and LOL dataset commit feeds from flooding pending-review.md.
+    """
+    return [(src, title, url) for src, title, url in entries if src not in _NO_PENDING_REVIEW]
+
+
 def load_reviewed_urls(pending_path: str) -> set[str]:
     """Return URLs already present in pending-review.md (reviewed or not)."""
     if not os.path.exists(pending_path):
@@ -464,9 +499,13 @@ def main() -> int:
     write_state(args.state, snapshots)
     new_entries = write_report(args.report, snapshots, previous)
 
+    # Filter out IOC feeds and LOL dataset commits before writing pending-review.md.
+    # feed-state.json already received the full snapshot above.
+    pending_entries = filter_pending_entries(new_entries)
+
     # Fix 1: HEAD-check new URLs before appending
     validate = not args.no_validate
-    appended, broken = append_pending_review(args.pending, new_entries, validate=validate)
+    appended, broken = append_pending_review(args.pending, pending_entries, validate=validate)
 
     print(
         f"checked {len(snapshots)} feeds; "

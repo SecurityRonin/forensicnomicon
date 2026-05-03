@@ -101,16 +101,15 @@
     <outline text="Vendor and Intel Blogs" title="Vendor and Intel Blogs">
       <!-- CrowdStrike — threat intelligence, adversary tracking, incident case studies -->
       <outline type="rss" text="CrowdStrike blog" title="CrowdStrike blog" xmlUrl="https://www.crowdstrike.com/blog/feed/" htmlUrl="https://www.crowdstrike.com/blog/"/>
-      <!-- Broadcom (VMware Carbon Black) — endpoint threat research, behavioral IOCs -->
-      <outline type="rss" text="VMware Carbon Black" title="VMware Carbon Black" xmlUrl="https://www.carbonblack.com/feed/" htmlUrl="https://www.carbonblack.com/"/>
+      <!-- VMware Carbon Black blog was discontinued post-Broadcom acquisition (2024); carbonblack.com redirects to broadcom.com product page with no feed -->
       <!-- Malwarebytes Labs — malware family analysis, threat campaigns, IOC reporting -->
       <outline type="rss" text="Malwarebytes Labs" title="Malwarebytes Labs" xmlUrl="https://blog.malwarebytes.com/feed/" htmlUrl="https://blog.malwarebytes.com/"/>
       <!-- Brian Krebs — investigative journalism; breach reporting, cybercrime ecosystem -->
       <outline type="rss" text="Krebs on Security" title="Krebs on Security" xmlUrl="https://krebsonsecurity.com/feed/" htmlUrl="https://krebsonsecurity.com/"/>
       <!-- BleepingComputer — security news; ransomware, vulnerability disclosure, malware campaigns -->
       <outline type="rss" text="BleepingComputer" title="BleepingComputer" xmlUrl="https://www.bleepingcomputer.com/feed/" htmlUrl="https://www.bleepingcomputer.com/"/>
-      <!-- Dark Reading — security industry news; attack trends, defense coverage -->
-      <outline type="rss" text="Dark Reading" title="Dark Reading" xmlUrl="https://www.darkreading.com/rss/all.xml" htmlUrl="https://www.darkreading.com/"/>
+      <!-- Dark Reading — security industry news; attack trends, defense coverage; /rss/all.xml 404s, /rss.xml confirmed 200 -->
+      <outline type="rss" text="Dark Reading" title="Dark Reading" xmlUrl="https://www.darkreading.com/rss.xml" htmlUrl="https://www.darkreading.com/"/>
     </outline>
     <outline text="Living Off the Land Datasets" title="Living Off the Land Datasets">
       <!-- GitHub commit atom feeds — one entry per new binary/driver/tool added to dataset -->
