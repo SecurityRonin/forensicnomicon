@@ -33,12 +33,12 @@ forensicnomicon is the only Rust library that covers all six upstream datasets:
 
 | Constant | Entries | Upstream source |
 |----------|---------|----------------|
-| `LOLBAS_WINDOWS` | ~160 | [LOLBAS Project](https://lolbas-project.github.io/) (native binaries) + [LOFL Project](https://lofl-project.github.io/) (admin tools) |
-| `LOLBAS_LINUX` | 478 | [GTFOBins](https://gtfobins.github.io/) — complete, unified LOL + LOFL |
-| `LOLBAS_MACOS` | ~141 | [LOOBins](https://loobins.io/) (~61 native) + macOS LOFL catalog (~80, first catalog anywhere) |
-| `LOLBAS_WINDOWS_CMDLETS` | ~271 | [LOFL Project](https://lofl-project.github.io/) + native PS attack cmdlets + PS aliases (Event 4104 / PSReadLine) |
+| `LOLBAS_WINDOWS` | 178 | [LOLBAS Project](https://lolbas-project.github.io/) (native binaries) + [LOFL Project](https://lofl-project.github.io/) (admin tools) |
+| `LOLBAS_MACOS` | 139 | [LOOBins](https://loobins.io/) (~61 native) + macOS LOFL catalog (~78, first catalog anywhere) |
+| `LOLBAS_LINUX` | 479 | [GTFOBins](https://gtfobins.github.io/) — complete, unified LOL + LOFL |
+| `LOLBAS_WINDOWS_CMDLETS` | 289 | [LOFL Project](https://lofl-project.github.io/) + native PS attack cmdlets + PS aliases (Event 4104 / PSReadLine) |
 | `LOLBAS_WINDOWS_MMC` | 63 | [LOFL Project](https://lofl-project.github.io/) — MMC snap-ins (.msc, LNK/UserAssist) |
-| `LOLBAS_WINDOWS_WMI` | 24 | [LOFL Project](https://lofl-project.github.io/) — WMI classes (Event 5861) |
+| `LOLBAS_WINDOWS_WMI` | 30 | [LOFL Project](https://lofl-project.github.io/) — WMI classes (Event 5861) |
 
 Each constant is a `&[LolbasEntry]` — every entry carries a name, MITRE technique IDs, a `use_cases` bitmask, and a description. Each constant maps to a different **artifact type and detection source**:
 
@@ -488,9 +488,10 @@ let rs  = CATALOG.record_signatures("userassist_exe");
 $ cargo install --path crates/4n6query
 ```
 
-Look up any LOL/LOFL binary, cmdlet, MMC snap-in, or WMI class across any supported platform:
+Look up any LOL/LOFL binary, abusable site, or catalog artifact — and search the full 6,548-artifact catalog from the command line:
 
 ```
+# LOL/LOFL binary lookup
 $ 4n6query lolbas lookup windows certutil.exe
 FOUND  certutil.exe  [windows]
        Encode/decode files and download payloads via certificate utility.
@@ -506,14 +507,23 @@ $ 4n6query lolbas lookup macos osascript
 $ 4n6query lolbas lookup windows certutil.exe --format json
 $ 4n6query lolbas lookup windows-cmdlet iex --format yaml
 
-# Look up an abusable domain
+# Abusable domain lookup
 $ 4n6query sites lookup raw.githubusercontent.com
 $ 4n6query sites lookup api.telegram.org --format json
+
+# Full artifact catalog search
+$ 4n6query catalog search prefetch
+$ 4n6query catalog search "dpapi" --format json
+$ 4n6query catalog show userassist_exe
+$ 4n6query catalog mitre T1547.001
+$ 4n6query catalog triage                         # Critical artifacts first
+$ 4n6query catalog list                           # All 6,548 artifact IDs
 
 # Dump entire datasets for SIEM/SOAR integration
 $ 4n6query dump --format json
 $ 4n6query dump --format yaml --dataset lolbas
 $ 4n6query dump --format json --dataset sites
+$ 4n6query dump --format json --dataset catalog
 ```
 
 Supported platforms: `windows`, `linux`, `macos`, `windows-cmdlet`, `windows-mmc`, `windows-wmi`.

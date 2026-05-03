@@ -310,6 +310,257 @@ fn dump_json_dataset_sites_only_has_sites_key() {
 }
 
 // ---------------------------------------------------------------------------
+// catalog search
+// ---------------------------------------------------------------------------
+
+#[test]
+fn catalog_search_prefetch_exits_zero() {
+    fnquery()
+        .args(["catalog", "search", "prefetch"])
+        .assert()
+        .success();
+}
+
+#[test]
+fn catalog_search_prefetch_contains_result() {
+    fnquery()
+        .args(["catalog", "search", "prefetch"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("prefetch").or(predicate::str::contains("Prefetch")));
+}
+
+#[test]
+fn catalog_search_unknown_artifact_exits_nonzero() {
+    fnquery()
+        .args(["catalog", "search", "xyzzy_no_such_artifact_99999"])
+        .assert()
+        .failure();
+}
+
+#[test]
+fn catalog_search_json_output_is_array() {
+    let output = fnquery()
+        .args(["catalog", "search", "prefetch", "--format", "json"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let text = std::str::from_utf8(&output).unwrap();
+    let v: serde_json::Value = serde_json::from_str(text).expect("not valid JSON");
+    assert!(v.is_array(), "expected JSON array");
+    assert!(!v.as_array().unwrap().is_empty(), "expected non-empty array");
+}
+
+#[test]
+fn catalog_search_json_entries_have_expected_fields() {
+    let output = fnquery()
+        .args(["catalog", "search", "userassist", "--format", "json"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let text = std::str::from_utf8(&output).unwrap();
+    let v: serde_json::Value = serde_json::from_str(text).unwrap();
+    let arr = v.as_array().unwrap();
+    let first = &arr[0];
+    assert!(first["id"].is_string(), "missing id field");
+    assert!(first["name"].is_string(), "missing name field");
+    assert!(first["meaning"].is_string(), "missing meaning field");
+    assert!(first["triage_priority"].is_string(), "missing triage_priority");
+    assert!(first["mitre_techniques"].is_array(), "missing mitre_techniques");
+}
+
+// ---------------------------------------------------------------------------
+// catalog show
+// ---------------------------------------------------------------------------
+
+#[test]
+fn catalog_show_userassist_exits_zero() {
+    fnquery()
+        .args(["catalog", "show", "userassist_exe"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("userassist_exe").or(predicate::str::contains("UserAssist")));
+}
+
+#[test]
+fn catalog_show_unknown_id_exits_nonzero() {
+    fnquery()
+        .args(["catalog", "show", "xyzzy_no_such_id_99999"])
+        .assert()
+        .failure();
+}
+
+#[test]
+fn catalog_show_json_output_is_object_with_id() {
+    let output = fnquery()
+        .args(["catalog", "show", "userassist_exe", "--format", "json"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let text = std::str::from_utf8(&output).unwrap();
+    let v: serde_json::Value = serde_json::from_str(text).expect("not valid JSON");
+    assert!(v.is_object(), "expected JSON object");
+    assert_eq!(v["id"], "userassist_exe");
+}
+
+// ---------------------------------------------------------------------------
+// catalog mitre
+// ---------------------------------------------------------------------------
+
+#[test]
+fn catalog_mitre_t1547_exits_zero() {
+    fnquery()
+        .args(["catalog", "mitre", "T1547.001"])
+        .assert()
+        .success();
+}
+
+#[test]
+fn catalog_mitre_t1547_contains_results() {
+    fnquery()
+        .args(["catalog", "mitre", "T1547.001"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("T1547.001").or(predicate::str::is_match("[a-z_]+").unwrap()));
+}
+
+#[test]
+fn catalog_mitre_unknown_technique_exits_nonzero() {
+    fnquery()
+        .args(["catalog", "mitre", "T9999.999"])
+        .assert()
+        .failure();
+}
+
+#[test]
+fn catalog_mitre_json_output_is_array() {
+    let output = fnquery()
+        .args(["catalog", "mitre", "T1547.001", "--format", "json"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let text = std::str::from_utf8(&output).unwrap();
+    let v: serde_json::Value = serde_json::from_str(text).expect("not valid JSON");
+    assert!(v.is_array());
+    assert!(!v.as_array().unwrap().is_empty());
+}
+
+// ---------------------------------------------------------------------------
+// catalog triage
+// ---------------------------------------------------------------------------
+
+#[test]
+fn catalog_triage_exits_zero() {
+    fnquery()
+        .args(["catalog", "triage"])
+        .assert()
+        .success();
+}
+
+#[test]
+fn catalog_triage_stdout_contains_critical() {
+    fnquery()
+        .args(["catalog", "triage"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("critical").or(predicate::str::contains("Critical")));
+}
+
+#[test]
+fn catalog_triage_json_is_sorted_critical_first() {
+    let output = fnquery()
+        .args(["catalog", "triage", "--format", "json"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let text = std::str::from_utf8(&output).unwrap();
+    let v: serde_json::Value = serde_json::from_str(text).expect("not valid JSON");
+    let arr = v.as_array().unwrap();
+    assert!(!arr.is_empty());
+    // First entry must be critical
+    assert_eq!(arr[0]["triage_priority"], "critical");
+}
+
+// ---------------------------------------------------------------------------
+// catalog list
+// ---------------------------------------------------------------------------
+
+#[test]
+fn catalog_list_exits_zero() {
+    fnquery()
+        .args(["catalog", "list"])
+        .assert()
+        .success();
+}
+
+#[test]
+fn catalog_list_contains_userassist() {
+    fnquery()
+        .args(["catalog", "list"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("userassist_exe"));
+}
+
+#[test]
+fn catalog_list_json_has_many_entries() {
+    let output = fnquery()
+        .args(["catalog", "list", "--format", "json"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let text = std::str::from_utf8(&output).unwrap();
+    let v: serde_json::Value = serde_json::from_str(text).expect("not valid JSON");
+    let arr = v.as_array().unwrap();
+    assert!(arr.len() > 1000, "expected 6,548 entries, got {}", arr.len());
+}
+
+// ---------------------------------------------------------------------------
+// dump --dataset catalog
+// ---------------------------------------------------------------------------
+
+#[test]
+fn dump_json_dataset_catalog_has_catalog_key() {
+    let output = fnquery()
+        .args(["dump", "--format", "json", "--dataset", "catalog"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let text = std::str::from_utf8(&output).unwrap();
+    let v: serde_json::Value = serde_json::from_str(text).unwrap();
+    assert!(v["catalog"].is_array(), "missing catalog key");
+    assert!(v.get("lolbas_windows").is_none(), "should not have lolbas_windows");
+}
+
+#[test]
+fn dump_json_dataset_all_has_catalog_key() {
+    let output = fnquery()
+        .args(["dump", "--format", "json", "--dataset", "all"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let text = std::str::from_utf8(&output).unwrap();
+    let v: serde_json::Value = serde_json::from_str(text).unwrap();
+    assert!(v["catalog"].is_array(), "missing catalog key in all dump");
+}
+
+// ---------------------------------------------------------------------------
 // help
 // ---------------------------------------------------------------------------
 
@@ -331,4 +582,9 @@ fn sites_help_exits_zero() {
 #[test]
 fn dump_help_exits_zero() {
     fnquery().args(["dump", "--help"]).assert().success();
+}
+
+#[test]
+fn catalog_help_exits_zero() {
+    fnquery().args(["catalog", "--help"]).assert().success();
 }
