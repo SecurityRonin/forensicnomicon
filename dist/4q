@@ -1,0 +1,4 @@
+#!/bin/sh
+# 4q — short alias for 4n6query
+# Installed alongside 4n6query in the same directory.
+exec "$(dirname "$0")/4n6query" "$@"

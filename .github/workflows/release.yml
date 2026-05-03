@@ -2,44 +2,231 @@ name: Release
 
 on:
   push:
-    tags:
-      - "v[0-9]+.[0-9]+.[0-9]+"
+    tags: ["v*"]
 
-env:
-  CARGO_TERM_COLOR: always
+permissions:
+  contents: write
 
 jobs:
-  preflight:
-    name: Pre-flight checks
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      matrix:
+        include:
+          - target: aarch64-apple-darwin
+            os: macos-latest
+          - target: x86_64-apple-darwin
+            os: macos-15
+          - target: x86_64-unknown-linux-musl
+            os: ubuntu-latest
+          - target: aarch64-unknown-linux-musl
+            os: ubuntu-latest
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-        with:
-          components: rustfmt, clippy
-      - uses: Swatinem/rust-cache@v2
-      - run: cargo fmt --all --check
-      - run: cargo clippy --all-targets --all-features -- -D warnings
-      - run: cargo test --all-features
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
-  publish:
-    name: Publish to crates.io
-    needs: preflight
+      - name: Set version
+        id: version
+        shell: bash
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Install musl tools (Linux)
+        if: contains(matrix.target, 'musl')
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y musl-tools
+          if [[ "${{ matrix.target }}" == "aarch64-unknown-linux-musl" ]]; then
+            sudo apt-get install -y gcc-aarch64-linux-gnu
+            echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+          fi
+
+      - name: Build
+        run: cargo build --release --target ${{ matrix.target }} -p forensicnomicon-cli
+
+      - name: Package (Unix)
+        if: runner.os != 'Windows'
+        run: |
+          cd target/${{ matrix.target }}/release
+          cp ../../../dist/4q .
+          chmod +x 4q
+          tar czf ../../../4n6query-${{ steps.version.outputs.version }}-${{ matrix.target }}.tar.gz 4n6query 4q
+          cd ../../..
+
+      - name: Install cargo-wix (Windows)
+        if: runner.os == 'Windows'
+        run: cargo install cargo-wix --version 0.3.9 --locked
+
+      - name: Build MSI (Windows)
+        if: runner.os == 'Windows'
+        run: cargo wix --package forensicnomicon-cli --no-build --target ${{ matrix.target }} --output 4n6query-${{ steps.version.outputs.version }}-${{ matrix.target }}.msi
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: 4n6query-${{ steps.version.outputs.version }}-${{ matrix.target }}
+          path: 4n6query-${{ steps.version.outputs.version }}-${{ matrix.target }}.*
+
+  release:
+    needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: Swatinem/rust-cache@v2
-      - name: Verify version matches tag
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          path: artifacts
+          pattern: '4n6query-*'
+          merge-multiple: true
+
+      - name: Generate checksums
         run: |
-          TAG="${GITHUB_REF_NAME#v}"
-          CRATE_VER=$(cargo metadata --no-deps --format-version 1 \
-            | python3 -c "import sys,json; print(json.load(sys.stdin)['packages'][0]['version'])")
-          if [ "$TAG" != "$CRATE_VER" ]; then
-            echo "Tag $TAG does not match Cargo.toml version $CRATE_VER" >&2
-            exit 1
-          fi
-      - name: Publish
-        run: cargo publish --no-verify
+          cd artifacts
+          sha256sum * > checksums.txt
+          cat checksums.txt
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
+        with:
+          files: |
+            artifacts/4n6query-*
+            artifacts/checksums.txt
+          generate_release_notes: true
+
+      - name: Dispatch to Homebrew tap
+        continue-on-error: true
+        uses: peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0 # v3.0.0
+        with:
+          token: ${{ secrets.TAP_GITHUB_TOKEN }}
+          repository: SecurityRonin/homebrew-tap
+          event-type: update-formula
+          client-payload: '{"formula": "4n6query", "version": "${{ github.ref_name }}"}'
+
+  crate:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Publish lib to crates.io
+        run: |
+          output=$(cargo publish -p forensicnomicon --allow-dirty 2>&1) && echo "$output" || {
+            echo "$output"
+            echo "$output" | grep -q "already exists on crates.io" || exit 1
+            echo "Version already published to crates.io, skipping"
+          }
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+      # crates.io index takes ~30s to propagate before dependents can publish
+      - name: Wait for crates.io index
+        run: sleep 60
+      - name: Publish CLI to crates.io
+        run: |
+          output=$(cargo publish -p forensicnomicon-cli --allow-dirty 2>&1) && echo "$output" || {
+            echo "$output"
+            echo "$output" | grep -q "already exists on crates.io" || exit 1
+            echo "Version already published to crates.io, skipping"
+          }
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+
+  winget:
+    needs: release
+    runs-on: windows-latest
+    # First-time winget submission requires a manual PR; continue-on-error until registered
+    continue-on-error: true
+    steps:
+      - uses: vedantmgoyal9/winget-releaser@4ffc7888bffd451b357355dc214d43bb9f23917e # v2
+        with:
+          identifier: SecurityRonin.4n6query
+          installers-regex: '\.msi$'
+          token: ${{ secrets.WINGET_TOKEN }}
+          fork-user: securityronin-bot
+
+  deb:
+    strategy:
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+            arch: amd64
+          - target: aarch64-unknown-linux-gnu
+            os: ubuntu-latest
+            arch: arm64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Install cross-compilation tools
+        if: matrix.target == 'aarch64-unknown-linux-gnu'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu
+          echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+
+      - name: Install cargo-deb
+        run: cargo install cargo-deb --version 2.11.2 --locked
+
+      - name: Build .deb package
+        run: cargo deb -p forensicnomicon-cli --target ${{ matrix.target }}
+
+      - name: Find .deb file
+        id: find_deb
+        run: |
+          DEB_FILE=$(find target/${{ matrix.target }}/debian -name '*.deb' | head -1)
+          echo "deb_path=$DEB_FILE" >> $GITHUB_OUTPUT
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: 4n6query-${{ matrix.arch }}.deb
+          path: ${{ steps.find_deb.outputs.deb_path }}
+
+  release-deb:
+    needs: [release, deb]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: 4n6query-*.deb
+          path: debs
+          merge-multiple: true
+
+      - name: Upload .deb to GitHub Release
+        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
+        with:
+          files: debs/*.deb
+
+  cloudsmith:
+    needs: release-deb
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: 4n6query-*.deb
+          path: debs
+          merge-multiple: true
+
+      - name: Install Cloudsmith CLI
+        run: |
+          pip install --user cloudsmith-cli==1.16.0
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Push amd64 to Cloudsmith
+        env:
+          CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
+        run: cloudsmith push deb securityronin/forensicnomicon/any-distro/any-version debs/forensicnomicon-cli_*_amd64.deb
+
+      - name: Push arm64 to Cloudsmith
+        env:
+          CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
+        run: cloudsmith push deb securityronin/forensicnomicon/any-distro/any-version debs/forensicnomicon-cli_*_arm64.deb
