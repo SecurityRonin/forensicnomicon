@@ -26,20 +26,28 @@ from xml.etree import ElementTree
 
 AGGREGATORS: list[dict] = [
     {
-        "name": "AboutDFIR",
-        "url": "https://aboutdfir.com/",
+        "name": "AboutDFIR — Blogs",
+        "url": "https://aboutdfir.com/reading/blogs/",
+    },
+    {
+        "name": "AboutDFIR — Tools & Resources",
+        "url": "https://aboutdfir.com/toolsandresources/",
+    },
+    {
+        "name": "DFIR Diva — Websites & Blogs",
+        "url": "https://dfirdiva.com/websites-blogs/",
+    },
+    {
+        "name": "This Week In 4n6 — Resources",
+        "url": "https://thisweekin4n6.com/resources/",
+    },
+    {
+        "name": "Forensic Focus — Articles",
+        "url": "https://www.forensicfocus.com/articles/",
     },
     {
         "name": "DFIR Training — Blogs",
-        "url": "https://www.dfir.training/dfir-training-categories-k2/itemlist/category/9-blogs",
-    },
-    {
-        "name": "This Week In 4n6",
-        "url": "https://thisweekin4n6.com/",
-    },
-    {
-        "name": "Forensic Focus — Blogs",
-        "url": "https://www.forensicfocus.com/blogs/",
+        "url": "https://www.dfir.training/index.php?option=com_k2&view=itemlist&task=category&id=9",
     },
     {
         "name": "The DFIR Report — Resources",
@@ -60,17 +68,33 @@ _FEED_CANDIDATES = [
 
 # Domains/patterns that are NOT blogs
 _NON_BLOG_DOMAINS = {
+    # Social / content platforms
     "twitter.com", "x.com", "facebook.com", "linkedin.com",
     "youtube.com", "youtu.be", "instagram.com", "reddit.com",
+    # Code hosting
     "github.com", "gitlab.com", "bitbucket.org",
+    # Vendor / cloud
     "amazon.com", "aws.amazon.com", "microsoft.com", "google.com",
+    "cloudflare.com",
+    # Threat intel / reference
     "attack.mitre.org", "mitre.org",
     "nirsoft.net",
     "virustotal.com", "shodan.io",
     "cve.mitre.org", "nvd.nist.gov",
+    # Academic
     "doi.org", "arxiv.org",
+    # Paste / gist
     "pastebin.com", "gist.github.com",
+    # Community / chat
     "slack.com", "discord.com", "discord.gg",
+    # Crowdfunding / support — nav links, not blogs
+    "buymeacoffee.com", "patreon.com", "ko-fi.com", "gofundme.com",
+    # CMS footer noise
+    "wordpress.com", "blogger.com", "typepad.com",
+    # Link aggregators / directories
+    "feedspot.com", "feedly.com", "inoreader.com",
+    # Job boards / news
+    "indeed.com", "glassdoor.com", "hacker.news", "news.ycombinator.com",
 }
 
 _NON_BLOG_EXTENSIONS = {".pdf", ".zip", ".docx", ".pptx", ".xlsx", ".exe", ".png", ".jpg"}

@@ -41,6 +41,21 @@
       <outline type="rss" text="This Week In 4n6" title="This Week In 4n6" xmlUrl="https://thisweekin4n6.wordpress.com/feed/" htmlUrl="https://thisweekin4n6.com/"/>
       <outline type="rss" text="The Sleuth Kit updates" title="The Sleuth Kit updates" xmlUrl="https://www.sleuthkit.org/rss.xml" htmlUrl="https://www.sleuthkit.org/"/>
       <outline type="rss" text="Amped Software blog" title="Amped Software blog" xmlUrl="https://blog.ampedsoftware.com/feed/" htmlUrl="https://blog.ampedsoftware.com/"/>
+      <!-- RSS feeds confirmed working by probe 2026-05-04 -->
+      <!-- Didier Stevens — malware analysis tools (oledump, pdf-parser, base64dump, cut-bytes); deeply technical -->
+      <outline type="rss" text="Didier Stevens Blog" title="Didier Stevens Blog" xmlUrl="https://blog.didierstevens.com/feed/" htmlUrl="https://blog.didierstevens.com/"/>
+      <!-- Hexordia — Jessica Hyde; mobile forensics, Android triage, forensic training CTFs -->
+      <outline type="rss" text="Hexordia" title="Hexordia" xmlUrl="https://www.hexordia.com/blog?format=rss" htmlUrl="https://www.hexordia.com/blog/"/>
+      <!-- Hexacorn (Adam) — Windows malware persistence, registry internals, LOLBin research -->
+      <outline type="rss" text="Hexacorn" title="Hexacorn" xmlUrl="https://www.hexacorn.com/blog/feed/" htmlUrl="https://www.hexacorn.com/blog/"/>
+      <!-- The DFIR Spot — timelining, ESXi forensics, Windows scheduled tasks -->
+      <outline type="rss" text="The DFIR Spot" title="The DFIR Spot" xmlUrl="https://www.thedfirspot.com/blog-feed.xml" htmlUrl="https://www.thedfirspot.com/"/>
+      <!-- 4n6k (Dan Pullega) — Forensics Quickies; Windows deep dives, low-frequency high-quality -->
+      <outline type="rss" text="4n6k" title="4n6k" xmlUrl="https://www.4n6k.com/feeds/posts/default" htmlUrl="https://www.4n6k.com/"/>
+      <!-- Embee Research — malware analysis, DNS pivoting, infrastructure analysis, CyberChef -->
+      <outline type="rss" text="Embee Research" title="Embee Research" xmlUrl="https://embee-research.ghost.io/rss/" htmlUrl="https://embee-research.ghost.io/"/>
+      <!-- Digital Forensics Tips — OSINT, domain research, practical tutorials; Blogger-hosted -->
+      <outline type="rss" text="Digital Forensics Tips" title="Digital Forensics Tips" xmlUrl="https://www.digitalforensicstips.com/feeds/posts/default" htmlUrl="https://www.digitalforensicstips.com/"/>
     </outline>
     <outline text="Vendor DFIR Blogs" title="Vendor DFIR Blogs">
       <!-- RSS feeds confirmed working by probe 2026-05-03 -->
