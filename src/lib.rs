@@ -1,5 +1,10 @@
 //! forensicnomicon — the comprehensive DFIR artifact catalog.
 //!
+//! **See also:**
+//! [Architecture & knowledge schema](../architecture.html) |
+//! [Search widget](../search.html) |
+//! [Source on GitHub](https://github.com/SecurityRonin/forensicnomicon)
+//!
 //! **6,548 forensic artifacts**, each enriched beyond just a path.
 //! Other registries tell you where an artifact lives. forensicnomicon tells
 //! you what it means, how to decode it, how reliable it is as evidence,
@@ -46,8 +51,8 @@
 //!
 //! ## Enrichments — investigation
 //!
-//! - [`playbooks`] — six directed investigation paths (lateral movement, credential
-//!   harvesting, persistence, exfiltration, execution, defense evasion)
+//! - [`playbooks`] — `INVESTIGATION_PATHS` (6 ATT&CK-tactic artifact chains) +
+//!   `PLAYBOOKS` (5 scenario checklists: ransomware, data_breach, bec, insider, supply_chain)
 //! - [`evidence`] — evidence strength ratings (`Unreliable` → `Definitive`) with analyst caveats
 //! - [`volatility`] — RFC 3227 Order of Volatility; use [`volatility::acquisition_order`]
 //! - [`temporal`] — temporal correlation hints for timeline and timestomp detection
