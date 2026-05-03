@@ -5,19 +5,15 @@ extract artifact findings for the forensicnomicon catalog.
 
 ## Steps
 
-1. Read `archive/sources/pending-review.md` — collect all `- [ ]`, `- [!]`, and `- [~]` items
+1. Read `archive/sources/pending-review.md` — collect all `- [ ]` and `- [!]` items
 2. If none pending: report "Nothing pending" and stop
 3. For each unchecked item (batch at most 10 per session):
-   a. **`[~]` items (full rescan):** Treat exactly like a `[ ]` item — full review
-      for artifact gaps, LOLBins, MITRE techniques, AND co-occurrence extraction
-      for the `related` field. These were reviewed before with weaker tooling;
-      now rescan completely afresh as if seeing for the first time.
-   b. **`[!]` items (broken URL):** Before giving up, search the source domain for
+   a. **`[!]` items (broken URL):** Before giving up, search the source domain for
       the article title using WebSearch (`site:<domain> "<title>"`). If a working
       URL is found, replace the URL in the line and treat it as a normal `[ ]` item.
       If no working URL found, mark `[x]` with a note "<!-- dead link, no mirror found -->"
       and skip fetching.
-   c. **`[ ]` items:** Use `mcp__plugin_context-mode_context-mode__ctx_fetch_and_index`
+   b. **`[ ]` items:** Use `mcp__plugin_context-mode_context-mode__ctx_fetch_and_index`
       to fetch the URL
    c. Use `ctx_search` to extract:
       - Windows registry key paths containing GUIDs
@@ -82,8 +78,7 @@ authoritative source — hardcoded lists are a poor substitute.
 
 | Marker | Meaning | Action |
 |--------|---------|--------|
-| `[ ]`  | Unreviewed, URL assumed valid | Full review — gaps + related |
-| `[~]`  | Rescan pending — full review | Treat as `[ ]`: gaps + related + LOLBins + MITRE, mark `[x]` |
+| `[ ]`  | Unreviewed | Full review — gaps + related + LOLBins + MITRE |
 | `[!]`  | URL returned 404/410 at accumulation time | Search for mirror before giving up |
 | `[→]`  | Reviewed — TDD task created | Skip |
 | `[x]`  | Reviewed — complete | Skip |

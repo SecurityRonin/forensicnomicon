@@ -1,5 +1,5 @@
 """
-RED tests for scripts/backfill_archives.py
+Tests for scripts/backfill_archives.py
 
 Tests cover the pure-logic functions (no real HTTP):
   - parse_blogger_feed(xml_text)       → list[tuple[str,str,str]]
@@ -8,7 +8,7 @@ Tests cover the pure-logic functions (no real HTTP):
   - load_seen_urls(feed_state_path, pending_path) → set[str]
   - dedup_entries(entries, seen_urls)  → list[tuple[str,str,str]]
   - classify_blog_source(html_url)     → str  ("blogger"|"wordpress"|"atom"|"squarespace"|"unknown")
-  - extract_related_artifacts(text)    → list[str]  (artifact IDs found in text)
+  - rescan_reviewed_entries(path)      → int  (rewrites [x] → [ ])
 """
 
 import json
@@ -209,6 +209,40 @@ class TestClassifyBlogSource(unittest.TestCase):
     def test_unknown_for_generic_site(self):
         result = ba.classify_blog_source("https://example.com/")
         self.assertEqual(result, "unknown")
+
+
+class TestRescanReviewedEntries(unittest.TestCase):
+    """rescan_reviewed_entries() rewrites [x] → [ ] — no distinct [~] marker needed."""
+
+    def _write_pending(self, tmp_path, content):
+        with open(tmp_path, "w") as f:
+            f.write(content)
+
+    def test_reviewed_becomes_unreviewed(self):
+        import tempfile
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False) as f:
+            f.write("- [x] https://example.com/post1 <!-- reviewed -->\n")
+            tmp = f.name
+        count = ba.rescan_reviewed_entries(tmp)
+        with open(tmp) as f:
+            lines = f.readlines()
+        self.assertEqual(count, 1)
+        self.assertTrue(lines[0].startswith("- [ ] "), f"expected [ ], got: {lines[0]!r}")
+
+    def test_task_created_entries_unchanged(self):
+        import tempfile
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False) as f:
+            f.write("- [→] https://example.com/post2\n")
+            tmp = f.name
+        count = ba.rescan_reviewed_entries(tmp)
+        with open(tmp) as f:
+            content = f.read()
+        self.assertEqual(count, 0)
+        self.assertIn("[→]", content)
+
+    def test_missing_file_returns_zero(self):
+        count = ba.rescan_reviewed_entries("/nonexistent/path/pending.md")
+        self.assertEqual(count, 0)
 
 
 

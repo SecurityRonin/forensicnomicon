@@ -83,8 +83,8 @@ class TestArtifactPhrasesInSkill(unittest.TestCase):
             "skill must not tell Claude to run the keyword scanner on fetched content"
         )
 
-    def test_rescan_tilde_means_full_review_not_related_only(self):
-        """[~] items must be treated as full reviews — not restricted to related-field only."""
+    def test_no_tilde_marker_in_skill(self):
+        """[~] marker is removed — rescan writes [ ] directly, no distinct marker needed."""
         skill_path = os.path.join(
             os.path.dirname(__file__), "..", "..",
             ".claude", "commands", "review-dfir-feeds.md"
@@ -92,8 +92,8 @@ class TestArtifactPhrasesInSkill(unittest.TestCase):
         with open(skill_path) as f:
             content = f.read()
         self.assertNotIn(
-            "related-field pass only", content,
-            "[~] must not restrict to related-field; it is a full rescan"
+            "[~]", content,
+            "skill must not reference [~]; rescan_reviewed_entries() writes [ ] directly"
         )
 
 

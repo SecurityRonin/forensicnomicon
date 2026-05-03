@@ -99,78 +99,6 @@ _SKIP_TITLES = frozenset({
 # Atom XML namespace
 _ATOM_NS = "http://www.w3.org/2005/Atom"
 
-# ─── artifact co-occurrence map ───────────────────────────────────────────────
-# Maps phrases that appear in blog prose → catalog artifact IDs.
-# Used by extract_related_artifacts() to populate the `related` field.
-# Keep entries lowercase; matching is case-insensitive.
-_ARTIFACT_PHRASES: list[tuple[str, str]] = [
-    # Execution artifacts
-    ("shimcache", "shimcache"),
-    ("appcompatcache", "shimcache"),
-    ("appcompat cache", "shimcache"),
-    ("prefetch", "prefetch_dir"),
-    ("userassist", "userassist_exe"),
-    ("user assist", "userassist_exe"),
-    ("amcache", "amcache_hve"),
-    ("muicache", "muicache"),
-    ("bam ", "bam_dam"),
-    ("dam ", "bam_dam"),
-    # Registry
-    ("run key", "run_key"),
-    ("runonce", "run_key"),
-    ("hklm\\software\\microsoft\\windows\\currentversion\\run", "run_key"),
-    # File system
-    ("\\$mft", "mft_file"),
-    ("$mft", "mft_file"),
-    ("mft record", "mft_file"),
-    ("usnjrnl", "usnjrnl"),
-    ("usnjournal", "usnjrnl"),
-    ("\\$usnjrnl", "usnjrnl"),
-    ("logfile", "logfile_ntfs"),
-    ("\\$logfile", "logfile_ntfs"),
-    # Link / LNK
-    ("lnk file", "lnk_file"),
-    ("shell link", "lnk_file"),
-    ("shortcut file", "lnk_file"),
-    # Event logs
-    ("evtx", "evtx_security"),
-    ("event log", "evtx_security"),
-    ("windows event log", "evtx_security"),
-    ("security.evtx", "evtx_security"),
-    ("system.evtx", "evtx_system"),
-    ("application.evtx", "evtx_application"),
-    # Network
-    ("dns cache", "dns_cache"),
-    ("arp cache", "arp_cache"),
-    ("netstat", "netstat_snapshot"),
-    # Browser
-    ("browser history", "chrome_history"),
-    ("chrome history", "chrome_history"),
-    ("firefox history", "firefox_places"),
-    # SRUM / WMI
-    ("srum", "srudb"),
-    ("srudb", "srudb"),
-    ("wmi", "wmi_repository"),
-    # Scheduled tasks
-    ("scheduled task", "scheduled_tasks_xml"),
-    # Memory
-    ("lsass", "lsass_dump"),
-    ("memory dump", "memory_raw"),
-    ("pagefile", "pagefile_sys"),
-    ("hibernation", "hiberfil_sys"),
-    # macOS
-    ("spotlight", "macos_spotlight_store"),
-    ("fsevents", "macos_fsevents"),
-    ("unified log", "macos_unified_log"),
-    ("biome", "macos_biome"),
-    ("btm", "fa_file_com_apple_backgroundtaskmanagement_backgrounditems_v"),
-    ("background task management", "fa_file_com_apple_backgroundtaskmanagement_backgrounditems_v"),
-    # Remote access
-    ("rdp", "evtx_rdp_auth"),
-    ("remote desktop", "evtx_rdp_auth"),
-]
-
-
 # ─── pure parsing functions ────────────────────────────────────────────────────
 
 def parse_blogger_feed(xml_text: str) -> list[tuple[str, str, str]]:
@@ -398,28 +326,6 @@ def check_related_gaps(artifact_id: str, co_occurring_ids: list[str]) -> list[st
         if aid != artifact_id and aid not in already_related
     ]
     return gaps
-
-
-def extract_related_artifacts(text: str) -> list[str]:
-    """
-    Scan blog post text for known artifact names/phrases and return
-    a deduplicated list of catalog artifact IDs.
-
-    This is the primary source for the `related` field in ArtifactDescriptor:
-    when a post discusses ShimCache and Prefetch together, both appear in
-    each other's related lists.
-    """
-    if not text:
-        return []
-
-    text_lower = text.lower()
-    found: set[str] = set()
-
-    for phrase, artifact_id in _ARTIFACT_PHRASES:
-        if phrase in text_lower:
-            found.add(artifact_id)
-
-    return sorted(found)
 
 
 # ─── HTTP helpers ──────────────────────────────────────────────────────────────
@@ -673,6 +579,40 @@ def today_str() -> str:
     return datetime.now(tz=timezone.utc).strftime("%Y-%m-%d")
 
 
+def rescan_reviewed_entries(pending_path: str) -> int:
+    """
+    Re-queue all [x] entries as [ ] for a full rescan.
+
+    A reviewed post yields the same knowledge however many times it is read.
+    Re-queuing as [ ] (not a distinct [~] marker) keeps the skill simple:
+    all pending items get the same full review regardless of origin.
+
+    Returns the count of entries re-queued.
+    """
+    if not os.path.exists(pending_path):
+        return 0
+
+    reviewed_re = re.compile(r"^- \[x\] (.*)")
+    requeued = 0
+
+    with open(pending_path) as f:
+        lines = f.readlines()
+
+    new_lines = []
+    for line in lines:
+        m = reviewed_re.match(line)
+        if m:
+            new_lines.append(f"- [ ] {m.group(1)}\n")
+            requeued += 1
+        else:
+            new_lines.append(line)
+
+    with open(pending_path, "w") as f:
+        f.writelines(new_lines)
+
+    return requeued
+
+
 def append_to_pending(
     pending_path: str,
     entries: list[tuple[str, str, str]],
@@ -765,12 +705,28 @@ def _build_arg_parser():
         default=os.environ.get("YOUTUBE_API_KEY", ""),
         help="YouTube Data API v3 key for full channel history (env: YOUTUBE_API_KEY)",
     )
+    p.add_argument(
+        "--rescan",
+        action="store_true",
+        help=(
+            "Re-queue all [x] entries as [~] (rescan pending) so Claude can "
+            "re-examine them with improved comprehension for related-field gaps. "
+            "Does not affect [ ], [→], or [!] entries."
+        ),
+    )
     return p
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = _build_arg_parser()
     args = parser.parse_args(argv)
+
+    # Rescan mode: re-queue [x] entries as [~] then exit — no new fetching
+    if args.rescan:
+        n = rescan_reviewed_entries(args.pending)
+        print(f"Re-queued {n} reviewed [x] entries as [~] (rescan pending)")
+        print("Run /review-dfir-feeds to process them (related-field pass only)")
+        return 0
 
     sources = read_opml(args.opml)
     seen = load_seen_urls(args.state, args.pending)
