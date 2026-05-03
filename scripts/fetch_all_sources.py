@@ -154,6 +154,34 @@ def parse_wordpress_posts(json_text: str) -> list[tuple[str, str, str]]:
     return entries
 
 
+def parse_github_commits(json_text: str) -> list[tuple[str, str, str]]:
+    """Parse GitHub REST API commits response. Returns (title, url, date).
+
+    title = first line of commit message (multi-line stripped).
+    url   = html_url (commit page, fetchable for artifact signal).
+    date  = YYYY-MM-DD from commit.author.date.
+    """
+    try:
+        data = json.loads(json_text)
+    except (json.JSONDecodeError, ValueError):
+        return []
+
+    entries = []
+    for item in data:
+        try:
+            message = item["commit"]["message"]
+            title = message.splitlines()[0].strip()
+            url = item["html_url"]
+            raw_date = item["commit"]["author"]["date"]  # 2024-04-01T08:00:00Z
+            date = raw_date[:10]
+            if title and url:
+                entries.append((title, url, date))
+        except (KeyError, IndexError):
+            continue
+
+    return entries
+
+
 def parse_atom_feed(xml_text: str) -> list[tuple[str, str, str]]:
     """Parse a generic Atom feed (GitHub commits, YouTube). Returns (title, url, date)."""
     try:
@@ -471,13 +499,51 @@ def fetch_youtube_transcript(video_id: str) -> str | None:
 
 def fetch_atom_first_page(feed_url: str) -> list[tuple[str, str, str]]:
     """
-    Fetch just the first page of a generic Atom feed (GitHub, YouTube).
+    Fetch just the first page of a generic Atom feed (YouTube, etc.).
     For LOL datasets, use fetch_*.py scripts for full current state instead.
     """
     text = _fetch(feed_url)
     if not text:
         return []
     return parse_atom_feed(text)
+
+
+def fetch_github_commits(repo_url: str, max_pages: int = 100) -> list[tuple[str, str, str]]:
+    """
+    Fetch full commit history for a GitHub repo via the REST API.
+
+    repo_url: any github.com URL for the repo (e.g. https://github.com/owner/repo
+              or https://github.com/owner/repo/commits/main.atom)
+    Uses GITHUB_TOKEN env var if set (5000 req/hr vs 60 req/hr unauthenticated).
+
+    Each commit page returns up to 100 commits. Paginates until empty page or max_pages.
+    """
+    # Extract owner/repo from any github.com URL
+    m = re.search(r"github\.com/([^/]+/[^/]+)", repo_url)
+    if not m:
+        return []
+    owner_repo = m.group(1).split("/commits")[0].rstrip("/")
+
+    token = os.environ.get("GITHUB_TOKEN", "")
+    headers = {"Accept": "application/vnd.github+json"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+
+    all_entries: list[tuple[str, str, str]] = []
+    for page in range(1, max_pages + 1):
+        api_url = f"https://api.github.com/repos/{owner_repo}/commits?per_page=100&page={page}"
+        req = urllib.request.Request(api_url, headers=headers)
+        try:
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                text = resp.read().decode("utf-8", errors="replace")
+        except (urllib.error.URLError, OSError):
+            break
+        entries = parse_github_commits(text)
+        if not entries:
+            break
+        all_entries.extend(entries)
+
+    return all_entries
 
 
 def fetch_youtube_channel(channel_id: str, api_key: str, max_results: int = 5000) -> list[tuple[str, str, str]]:
@@ -752,8 +818,7 @@ def main(argv: list[str] | None = None) -> int:
         if platform == "blogger":
             entries = fetch_blogger_archive(xml_url, max_pages=args.max_pages)
         elif platform == "github":
-            # GitHub Atom: first page only — LOL datasets use fetch_*.py
-            entries = fetch_atom_first_page(xml_url)
+            entries = fetch_github_commits(xml_url)
         elif "youtube.com/feeds" in xml_url:
             # YouTube channel feed
             yt_key = getattr(args, "youtube_api_key", "")
