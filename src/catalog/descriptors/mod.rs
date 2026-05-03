@@ -1175,6 +1175,229 @@ pub(crate) static DIR_ENTRY_FIELDS: &[FieldSchema] = &[FieldSchema {
     is_uid_component: true,
 }];
 
+/// LNK / Shell Link field schema.
+///
+/// Documents the MS-SHLLINK fields that matter most forensically:
+/// - `arguments` — LNK StringData.Arguments; the primary weaponisation indicator;
+///   legitimate LNKs are empty, malicious ones carry PowerShell/stager payloads
+/// - `drive_type` — LinkInfo.DriveType (FIXED/REMOVABLE/REMOTE/CDROM); combined
+///   with `volume_serial_number` links the LNK to USB or MountPoints2 artifacts
+/// - `mft_record_number` — 48-bit NTFS record from BEEF0004 (low 32 + high 16 bits);
+///   enables independent file identity verification after path changes or deletion
+///
+/// Source: https://github.com/kacos2000/Jumplist-Browser
+///         https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-shllink/
+pub(crate) static LNK_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "target_path",
+        value_type: ValueType::Text,
+        description: "Resolved target path (LocalBasePath + CommonPathSuffix from LinkInfo)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "created_time",
+        value_type: ValueType::Timestamp,
+        description: "LNK header CreationTime (FILETIME, UTC) — when target file was created",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "accessed_time",
+        value_type: ValueType::Timestamp,
+        description: "LNK header AccessTime (FILETIME, UTC) — last access of target file",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "modified_time",
+        value_type: ValueType::Timestamp,
+        description: "LNK header WriteTime (FILETIME, UTC) — last modification of target file",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "arguments",
+        value_type: ValueType::Text,
+        description: "StringData.Arguments — empty for legitimate LNKs; \
+                      PowerShell/encoded payloads indicate weaponised LNK",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "working_dir",
+        value_type: ValueType::Text,
+        description: "StringData.WorkingDir — execution working directory",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "drive_type",
+        value_type: ValueType::Text,
+        description: "LinkInfo.DriveType: FIXED/REMOVABLE/REMOTE/CDROM/RAMDISK; \
+                      REMOVABLE links to USB artifacts; REMOTE indicates lateral movement",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "volume_serial_number",
+        value_type: ValueType::Text,
+        description: "LinkInfo.VolumeSerialNumber — disk identity; \
+                      cross-reference with MountPoints2 and USB enumeration keys",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "net_share_name",
+        value_type: ValueType::Text,
+        description: "CommonNetworkRelativeLink.NetName — UNC share path \
+                      when DriveType=REMOTE; identifies lateral movement source host",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "file_size",
+        value_type: ValueType::Integer,
+        description: "LNK header FileSize (UInt32, low 32 bits only — truncates for >4 GB targets)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "mft_record_number",
+        value_type: ValueType::Integer,
+        description: "BEEF0004 MFT record number (48-bit: low 32 bits at +0x12, \
+                      high 16 bits at +0x16); pivot to $MFT/$UsnJrnl for full timeline",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "mft_sequence_number",
+        value_type: ValueType::Integer,
+        description: "BEEF0004 MFT sequence number (UInt16 at +0x18); \
+                      detects MFT record reuse (file deleted then slot reused)",
+        is_uid_component: false,
+    },
+];
+
+/// AutomaticDestinations (.automaticDestinations-ms) DestList entry field schema.
+///
+/// Each DestList entry embeds a full LNK record. Key forensic fields:
+/// - `mru_rank` — entry position in DestList stream (0 = most recently accessed)
+/// - `file_size_64bit` — BEEF0004 reconstructs the full 64-bit target file size
+///   (LNK header only stores the low 32 bits, truncating files >4 GB)
+/// - `mft_record_number` — 48-bit MFT record number for $MFT/$UsnJrnl pivoting
+/// - `app_id_hash` — 8-byte CRC64 that identifies the application;
+///   resolved via HKCU\...\Search\JumplistData or AppIdlist.csv
+///
+/// Source: https://github.com/kacos2000/Jumplist-Browser
+///         https://www.hexacorn.com/blog/2013/04/30/jumplists-file-names-and-appid-calculator/
+pub(crate) static JUMP_LIST_AUTO_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "app_id_hash",
+        value_type: ValueType::Text,
+        description: "8-byte CRC64 AppID hash (filename stem of .automaticDestinations-ms); \
+                      resolved via JumplistData registry key or AppIdlist.csv",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "mru_rank",
+        value_type: ValueType::Integer,
+        description: "DestList entry order (0 = most recently accessed); \
+                      reconstructs file access chronology per application",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "pin_status",
+        value_type: ValueType::Text,
+        description: "Pin Entry field — whether item is pinned and its pinned order",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "quick_access_order",
+        value_type: ValueType::Integer,
+        description: "Quick Access position (item order in Windows Quick Access folder)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "lnk_target_path",
+        value_type: ValueType::Text,
+        description: "Embedded LNK target path (LocalBasePath + CommonPathSuffix)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "accessed_time",
+        value_type: ValueType::Timestamp,
+        description: "Embedded LNK header AccessTime (FILETIME, UTC)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "modified_time",
+        value_type: ValueType::Timestamp,
+        description: "Embedded LNK header WriteTime (FILETIME, UTC)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "file_size_64bit",
+        value_type: ValueType::Integer,
+        description:
+            "Full 64-bit target file size (BEEF0004 high 32 bits + LNK header low 32 bits); \
+                      critical for files >4 GB where LNK header alone truncates",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "mft_record_number",
+        value_type: ValueType::Integer,
+        description: "BEEF0004 48-bit MFT record number (low 32 + high 16 bits); \
+                      pivot to $MFT or $UsnJrnl for timestomping or rename-chain analysis",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "mft_sequence_number",
+        value_type: ValueType::Integer,
+        description: "BEEF0004 MFT sequence number — detects MFT record reuse",
+        is_uid_component: false,
+    },
+];
+
+/// CustomDestinations (.customDestinations-ms) entry field schema.
+///
+/// Each entry is an embedded LNK record within a named group. Key fields:
+/// - `group_name` — jump list group title (e.g. "Tasks", "Recent", "Pinned")
+/// - `arguments` — LNK StringData.Arguments; empty for legitimate entries;
+///   malicious entries may carry encoded payloads or C2 URLs
+///
+/// Source: https://github.com/kacos2000/Jumplist-Browser
+///         https://github.com/kacos2000/Jumplist-Browser/blob/master/CustomDestinations-ms.md
+pub(crate) static JUMP_LIST_CUSTOM_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "group_name",
+        value_type: ValueType::Text,
+        description: "Jump list group title (e.g. 'Tasks', 'Recent', 'Pinned', \
+                      or empty for unnamed Tasks groups)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "entry_order",
+        value_type: ValueType::Integer,
+        description: "Position of this entry within its group (MRU ordering)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "lnk_target_path",
+        value_type: ValueType::Text,
+        description: "Embedded LNK target path (LocalBasePath + CommonPathSuffix)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "arguments",
+        value_type: ValueType::Text,
+        description: "LNK StringData.Arguments — primary weaponisation indicator; \
+                      legitimate entries are empty; malicious entries carry payloads",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "working_dir",
+        value_type: ValueType::Text,
+        description: "LNK StringData.WorkingDir — execution working directory",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "accessed_time",
+        value_type: ValueType::Timestamp,
+        description: "Embedded LNK header AccessTime (FILETIME, UTC)",
+        is_uid_component: false,
+    },
+];
+
 /// Generic "file path" for single-file artifacts.
 pub(crate) static FILE_PATH_FIELDS: &[FieldSchema] = &[FieldSchema {
     name: "path",
@@ -3765,10 +3988,14 @@ pub static LNK_FILES: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::User,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Shell Link (.lnk) files record target path, MAC timestamps, volume serial, and \
-              NetBIOS host — evidence of file access even after target deletion. T1547.009.",
-    mitre_techniques: &["T1547.009", "T1070.004"],
-    fields: DIR_ENTRY_FIELDS,
+    meaning: "Shell Link (.lnk) files record target path, MAC timestamps, volume serial, \
+              and NetBIOS host — evidence of file access even after target deletion. \
+              BEEF0004 extension (Win8+) adds 48-bit MFT record, full 64-bit file size, \
+              reparse point tags (cloud sync markers), and OS version hint. \
+              StringData.Arguments is the primary indicator of weaponised LNKs (T1204.002). \
+              DriveType (FIXED/REMOVABLE/REMOTE) identifies source medium.",
+    mitre_techniques: &["T1547.009", "T1070.004", "T1204.002"],
+    fields: LNK_FIELDS,
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &["jump_list_auto", "mru_recent_docs"],
@@ -3777,6 +4004,8 @@ pub static LNK_FILES: ArtifactDescriptor = ArtifactDescriptor {
         "https://attack.mitre.org/techniques/T1070/004/",
         "https://github.com/EricZimmerman/LECmd",
         "https://github.com/EricZimmerman/Lnk",
+        "https://github.com/kacos2000/Jumplist-Browser",
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-shllink/",
     ],
 };
 
@@ -3791,18 +4020,26 @@ pub static JUMP_LIST_AUTO: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::User,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "OLE Compound Document storing per-AppID MRU lists; reveals recently opened files \
-              for each application including timestamps and target metadata.",
+    meaning: "OLE Compound Document per application; DestList stream records MRU-ordered \
+              file access with embedded LNK entries. Filename stem is a CRC64 AppID hash \
+              resolved via HKCU\\...\\Search\\JumplistData or AppIdlist.csv. \
+              DestList entries include BEEF0004 extension: 48-bit MFT record number, \
+              full 64-bit file size (LNK header truncates at 4 GB), reparse tags \
+              (cloud sync/WSL), and OS-version hint identifying which Windows version \
+              created the entry (useful for roaming profiles). Also tracks Pin Entry order \
+              and Quick Access position for pinned items.",
     mitre_techniques: &["T1547.009", "T1070.004"],
-    fields: DIR_ENTRY_FIELDS,
+    fields: JUMP_LIST_AUTO_FIELDS,
     retention: None,
     triage_priority: TriagePriority::High,
-    related_artifacts: &["lnk_files", "mru_recent_docs"],
+    related_artifacts: &["lnk_files", "mru_recent_docs", "jump_list_appid_registry"],
     sources: &[
         "https://attack.mitre.org/techniques/T1547/009/",
         "https://attack.mitre.org/techniques/T1070/004/",
         "https://github.com/EricZimmerman/JLECmd",
         "https://github.com/EricZimmerman/JumpList",
+        "https://github.com/kacos2000/Jumplist-Browser",
+        "https://www.hexacorn.com/blog/2013/04/30/jumplists-file-names-and-appid-calculator/",
     ],
 };
 
@@ -3817,10 +4054,16 @@ pub static JUMP_LIST_CUSTOM: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::User,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Application-pinned and custom jump list entries; may persist after file deletion, \
-              revealing attacker-pinned tools or exfiltrated document access.",
-    mitre_techniques: &["T1547.009", "T1070.004"],
-    fields: DIR_ENTRY_FIELDS,
+    meaning: "Application-defined jump list groups (Tasks/Recent/Pinned) stored as a \
+              sequence of embedded LNK records separated by group markers (0xAB FB BF BA). \
+              May persist after file deletion, revealing attacker-pinned tools or \
+              exfiltrated document access. StringData.Arguments in each embedded LNK \
+              is the primary weaponisation indicator — legitimate entries are empty, \
+              malicious entries carry PowerShell commands, encoded payloads, or C2 URLs. \
+              Group 'Tasks' entries are application-defined and often reveal \
+              installed capabilities (e.g. browser private mode, admin tools).",
+    mitre_techniques: &["T1547.009", "T1070.004", "T1204.002"],
+    fields: JUMP_LIST_CUSTOM_FIELDS,
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &["lnk_files", "jump_list_auto"],
@@ -3829,6 +4072,8 @@ pub static JUMP_LIST_CUSTOM: ArtifactDescriptor = ArtifactDescriptor {
         "https://attack.mitre.org/techniques/T1070/004/",
         "https://github.com/EricZimmerman/JLECmd",
         "https://github.com/EricZimmerman/JumpList",
+        "https://github.com/kacos2000/Jumplist-Browser",
+        "https://github.com/kacos2000/Jumplist-Browser/blob/master/CustomDestinations-ms.md",
     ],
 };
 
@@ -4740,6 +4985,108 @@ pub static LINUX_APT_HOOKS: ArtifactDescriptor = ArtifactDescriptor {
 };
 
 // ── Batch H — Jump List / LNK / Prefetch / SRUM tables / EVTX channels ──────
+
+/// JumplistData registry key — AppID hash → application name index.
+///
+/// Stores CRC64 AppID hashes with their corresponding application display names.
+/// Without this key, AutomaticDestinations filenames (e.g. `db53b23fd1edbd46.automaticDestinations-ms`)
+/// cannot be resolved to human-readable application names without an external AppIdlist.csv lookup.
+///
+/// Source: https://github.com/kacos2000/Jumplist-Browser
+///         https://www.hexacorn.com/blog/2013/04/30/jumplists-file-names-and-appid-calculator/
+pub static JUMP_LIST_APPID_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "jump_list_appid_registry",
+    name: "JumplistData — AppID Hash Registry Index",
+    artifact_type: ArtifactType::RegistryKey,
+    hive: Some(HiveTarget::NtUser),
+    // Source: https://github.com/kacos2000/Jumplist-Browser README (confirmed via tool)
+    key_path: r"Software\Microsoft\Windows\CurrentVersion\Search\JumplistData",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::User,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Maps 8-byte CRC64 AppID hashes to application display names. \
+              AutomaticDestinations filenames use the AppID hash as the stem \
+              (e.g. db53b23fd1edbd46 = WINZIP64). Without this key, filename-to-app \
+              resolution requires an external lookup database. \
+              Presence or absence of an AppID confirms whether an application has \
+              ever been run on the system — useful for anti-forensics detection \
+              (attacker may delete jump list files but forget this index key).",
+    mitre_techniques: &["T1547.009", "T1070.004"],
+    fields: &[
+        FieldSchema {
+            name: "app_id_hash",
+            value_type: ValueType::Text,
+            description: "8-byte CRC64 hash (registry value name); \
+                          matches the filename stem of .automaticDestinations-ms files",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "app_name",
+            value_type: ValueType::Text,
+            description: "Application display name (registry value data)",
+            is_uid_component: false,
+        },
+    ],
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["jump_list_auto", "jump_list_custom"],
+    sources: &[
+        "https://github.com/kacos2000/Jumplist-Browser",
+        "https://www.hexacorn.com/blog/2013/04/30/jumplists-file-names-and-appid-calculator/",
+        "https://attack.mitre.org/techniques/T1547/009/",
+    ],
+};
+
+/// Taskband Favorites — taskbar pinned application order.
+///
+/// Stores a binary blob encoding the order of pinned taskbar items. Attackers may
+/// pin malicious tools to the taskbar to ensure they survive reboots and are
+/// visually accessible, or to establish user trust by mimicking legitimate apps.
+///
+/// Source: https://github.com/kacos2000/Jumplist-Browser README (confirmed via tool)
+pub static TASKBAND_FAVORITES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "taskband_favorites",
+    name: "Taskband Favorites — Taskbar Pinned Applications",
+    artifact_type: ArtifactType::RegistryKey,
+    hive: Some(HiveTarget::NtUser),
+    // Source: https://github.com/kacos2000/Jumplist-Browser README
+    key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband",
+    value_name: Some("Favorites"),
+    file_path: None,
+    scope: DataScope::User,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Binary blob (REG_BINARY) encoding taskbar-pinned application order. \
+              Contains embedded Shell Link (LNK) data for each pinned item. \
+              FavoritesResolve value (same key) stores the resolved path for each entry. \
+              Attackers may pin malicious tools here to survive reboots, \
+              or to mimic legitimate application icons. \
+              Changes to this key indicate a user (or malware) pinned/unpinned an application.",
+    mitre_techniques: &["T1547.009"],
+    fields: &[
+        FieldSchema {
+            name: "entry_order",
+            value_type: ValueType::Integer,
+            description: "Position of pinned item in taskbar order (0-based)",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "lnk_target",
+            value_type: ValueType::Text,
+            description: "Embedded LNK target path for the pinned application",
+            is_uid_component: true,
+        },
+    ],
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["jump_list_auto", "lnk_files"],
+    sources: &[
+        "https://github.com/kacos2000/Jumplist-Browser",
+        "https://attack.mitre.org/techniques/T1547/009/",
+    ],
+};
 
 pub static JUMP_LIST_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     id: "jump_list_system",
@@ -6637,6 +6984,8 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     LNK_FILES,
     JUMP_LIST_AUTO,
     JUMP_LIST_CUSTOM,
+    JUMP_LIST_APPID_REGISTRY,
+    TASKBAND_FAVORITES,
     EVTX_DIR,
     MFT_FILE,
     USN_JOURNAL,
