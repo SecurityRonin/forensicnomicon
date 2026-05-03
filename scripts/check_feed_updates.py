@@ -31,6 +31,19 @@ Review them weekly inside Claude Code:
 Mark items done by changing `- [ ]` → `- [x]` (reviewed, no gaps) or
 `- [→]` (reviewed, TDD tasks created).  Already-present URLs are never
 re-added regardless of status.
+
+URL validation
+--------------
+Fix 1 (new entries): each newly discovered URL is HEAD-checked before it is
+  written to pending-review.md.  URLs that return HTTP 404 or 410 are written
+  as `[!]` (broken at discovery time) instead of `[ ]`.
+
+Fix 2 (review skill): the `/review-dfir-feeds` skill instruction handles `[!]`
+  items by searching the source domain for the article title before giving up.
+
+Fix 3 (revalidation): pass `--revalidate-pending` to HEAD-check all existing
+  `[ ]` entries in pending-review.md and mark newly-gone URLs as `[!]`.  Safe
+  to run at any time; only 404/410 responses trigger a status change.
 """
 
 from __future__ import annotations
@@ -49,8 +62,12 @@ from datetime import datetime, timezone
 from typing import Iterable
 
 
-USER_AGENT = "forensic-catalog-feed-watcher/0.2 (+https://github.com/SecurityRonin/forensicnomicon)"
+USER_AGENT = "forensic-catalog-feed-watcher/0.3 (+https://github.com/SecurityRonin/forensicnomicon)"
 ATOM_NS = {"atom": "http://www.w3.org/2005/Atom"}
+
+# HTTP status codes that definitively mean the URL is gone.
+# 403/429/5xx may be transient; only 404 and 410 are permanent.
+_GONE_CODES = frozenset({404, 410})
 
 
 @dataclass
@@ -79,6 +96,31 @@ def fetch(url: str) -> bytes:
         raise RuntimeError(f"HTTP {exc.code}") from exc
     except urllib.error.URLError as exc:
         raise RuntimeError(str(exc.reason)) from exc
+
+
+def head_check(url: str, timeout: int = 15) -> tuple[str, str]:
+    """HEAD-check a URL and return (status, note).
+
+    Returns:
+        ("gone", "HTTP 404") — definitively deleted (404 or 410)
+        ("ok",   "HTTP 200") — reachable
+        ("skip", reason)     — transient error or non-gone HTTP code;
+                               do NOT mark as broken
+    """
+    try:
+        req = urllib.request.Request(
+            url, method="HEAD", headers={"User-Agent": USER_AGENT}
+        )
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return "ok", f"HTTP {resp.getcode()}"
+    except urllib.error.HTTPError as exc:
+        if exc.code in _GONE_CODES:
+            return "gone", f"HTTP {exc.code}"
+        # 403 Forbidden, 429 Rate Limited, 5xx server errors → transient
+        return "skip", f"HTTP {exc.code}"
+    except Exception as exc:
+        # DNS failure, timeout, SSL error, etc. → treat as transient
+        return "skip", str(exc)
 
 
 def iter_feed_outlines(opml_path: str) -> Iterable[dict[str, str]]:
@@ -279,31 +321,93 @@ def load_reviewed_urls(pending_path: str) -> set[str]:
     return urls
 
 
-def append_pending_review(pending_path: str, new_entries: list[tuple[str, str, str]]) -> int:
+def append_pending_review(
+    pending_path: str,
+    new_entries: list[tuple[str, str, str]],
+    validate: bool = True,
+) -> tuple[int, int]:
     """Append newly detected posts to pending-review.md.
 
     Only posts whose URL is not already in the file are appended.
-    Returns the number of posts actually appended.
+    When *validate* is True (default), each URL is HEAD-checked:
+      - HTTP 404/410 → written as ``[!]`` with a ``<!-- 404 on DATE -->`` annotation
+      - reachable / transient error → written as ``[ ]`` (normal)
+
+    Returns (appended_count, broken_count).
     """
     if not new_entries:
-        return 0
+        return 0, 0
 
     existing_urls = load_reviewed_urls(pending_path)
     to_add = [(src, title, url) for src, title, url in new_entries if url not in existing_urls]
     if not to_add:
-        return 0
+        return 0, 0
 
+    broken = 0
     header_needed = not os.path.exists(pending_path)
     with open(pending_path, "a", encoding="utf-8") as fh:
         if header_needed:
             fh.write("# DFIR Feed — Pending Review\n\n")
             fh.write("New posts detected by Feed Watch that may contain artifact findings.\n")
-            fh.write("Mark `[x]` when reviewed, `[→]` when artifact tasks were created.\n\n")
+            fh.write("Mark `[x]` when reviewed, `[→]` when artifact tasks were created.\n")
+            fh.write("Mark `[!]` entries are 404/410 at discovery time — see retry instructions below.\n\n")
         fh.write(f"\n## {today_str()}\n\n")
         for src, title, url in to_add:
-            fh.write(f"- [ ] [{title}]({url}) — {src}\n")
+            if validate:
+                status, note = head_check(url)
+            else:
+                status = "ok"
+            if status == "gone":
+                fh.write(f"- [!] [{title}]({url}) — {src} <!-- {note} on {today_str()} -->\n")
+                broken += 1
+            else:
+                fh.write(f"- [ ] [{title}]({url}) — {src}\n")
 
-    return len(to_add)
+    return len(to_add), broken
+
+
+def revalidate_pending_urls(pending_path: str) -> tuple[int, int]:
+    """HEAD-check all ``[ ]`` entries in pending-review.md.
+
+    For each ``[ ]`` line whose URL returns HTTP 404 or 410, rewrite the line
+    as ``[!]`` with a ``<!-- 404 on DATE -->`` annotation.
+
+    Returns (checked_count, newly_broken_count).
+    """
+    if not os.path.exists(pending_path):
+        return 0, 0
+
+    with open(pending_path, "r", encoding="utf-8") as fh:
+        lines = fh.readlines()
+
+    # Pattern: - [ ] [title](url) — source
+    pending_re = re.compile(r"^- \[ \] \[([^\]]*)\]\(([^)]+)\)(.*)")
+    checked = 0
+    newly_broken = 0
+    new_lines: list[str] = []
+    today = today_str()
+
+    for line in lines:
+        m = pending_re.match(line)
+        if not m:
+            new_lines.append(line)
+            continue
+        title, url, rest = m.group(1), m.group(2), m.group(3)
+        status, note = head_check(url)
+        checked += 1
+        if status == "gone":
+            # Replace [ ] with [!] and append annotation
+            rest_stripped = rest.rstrip("\n")
+            new_lines.append(f"- [!] [{title}]({url}){rest_stripped} <!-- {note} on {today} -->\n")
+            newly_broken += 1
+        else:
+            new_lines.append(line)
+
+    if newly_broken > 0:
+        with open(pending_path, "w", encoding="utf-8") as fh:
+            fh.writelines(new_lines)
+
+    return checked, newly_broken
 
 
 def main() -> int:
@@ -313,7 +417,24 @@ def main() -> int:
     parser.add_argument("--report", default="archive/sources/feed-report.md")
     parser.add_argument("--pending", default="archive/sources/pending-review.md")
     parser.add_argument("--limit", type=int, default=10, help="max entries retained per feed")
+    parser.add_argument(
+        "--no-validate",
+        action="store_true",
+        help="skip HEAD-check for new URLs (faster; disables fix 1)",
+    )
+    parser.add_argument(
+        "--revalidate-pending",
+        action="store_true",
+        help="HEAD-check all [ ] entries in pending-review.md and mark 404s as [!] (fix 3)",
+    )
     args = parser.parse_args()
+
+    # Fix 3: revalidate existing pending items if requested
+    if args.revalidate_pending:
+        checked, broken = revalidate_pending_urls(args.pending)
+        print(f"revalidated {checked} pending URLs; {broken} newly marked [!]")
+        if not args.opml:
+            return 0
 
     previous = load_previous(args.state)
     snapshots: list[FeedSnapshot] = []
@@ -342,11 +463,16 @@ def main() -> int:
     os.makedirs(os.path.dirname(args.state), exist_ok=True)
     write_state(args.state, snapshots)
     new_entries = write_report(args.report, snapshots, previous)
-    appended = append_pending_review(args.pending, new_entries)
+
+    # Fix 1: HEAD-check new URLs before appending
+    validate = not args.no_validate
+    appended, broken = append_pending_review(args.pending, new_entries, validate=validate)
+
     print(
         f"checked {len(snapshots)} feeds; "
         f"detected {len(new_entries)} new entries; "
         f"appended {appended} to pending-review"
+        + (f" ({broken} marked [!] — URL already gone)" if broken else "")
     )
     return 0
 
