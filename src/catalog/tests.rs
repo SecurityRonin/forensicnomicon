@@ -3904,3 +3904,171 @@ mod batch_i_tests {
         assert!(d.mitre_techniques.contains(&"T1068"));
     }
 }
+
+// ── JumpList / LNK enrichment from kacos2000/Jumplist-Browser ────────────────
+// Source: https://github.com/kacos2000/Jumplist-Browser
+// Key forensic additions: BEEF0004 extension (48-bit MFT record, 64-bit file
+// size, OS type hint), DestList MRU rank, per-entry Arguments field,
+// AppID hash registry index (JumplistData), TaskBand pinned items.
+mod tests_jump_list_enrichment {
+    use super::*;
+
+    // ── JUMP_LIST_AUTO field enrichment ───────────────────────────────────────
+
+    #[test]
+    fn jump_list_auto_has_mft_record_field() {
+        // BEEF0004 extension provides 48-bit MFT record number split across
+        // two sub-fields (low 32 bits + high 16 bits). Needed to pivot from
+        // jump list entry to $MFT for timestomping analysis.
+        let field_names: Vec<&str> = JUMP_LIST_AUTO.fields.iter().map(|f| f.name).collect();
+        assert!(
+            field_names.contains(&"mft_record_number"),
+            "jump_list_auto fields must include mft_record_number (48-bit from BEEF0004); \
+             got: {field_names:?}"
+        );
+    }
+
+    #[test]
+    fn jump_list_auto_has_file_size_64bit_field() {
+        // LNK header has 32-bit FileSize (truncates for files >4 GB).
+        // BEEF0004 adds high 32 bits to reconstruct the full 64-bit size.
+        // Critical for large file identification in data-exfiltration cases.
+        let field_names: Vec<&str> = JUMP_LIST_AUTO.fields.iter().map(|f| f.name).collect();
+        assert!(
+            field_names.contains(&"file_size_64bit"),
+            "jump_list_auto fields must include file_size_64bit (BEEF0004 reconstruction); \
+             got: {field_names:?}"
+        );
+    }
+
+    #[test]
+    fn jump_list_auto_has_mru_rank_field() {
+        // DestList entry order = MRU ranking. The most recently accessed file
+        // is rank 0. Analysts need this to reconstruct access chronology.
+        let field_names: Vec<&str> = JUMP_LIST_AUTO.fields.iter().map(|f| f.name).collect();
+        assert!(
+            field_names.contains(&"mru_rank"),
+            "jump_list_auto fields must include mru_rank (DestList entry order); \
+             got: {field_names:?}"
+        );
+    }
+
+    #[test]
+    fn jump_list_auto_cites_kacos2000() {
+        // kacos2000/Jumplist-Browser is the most detailed public reference for
+        // DestList entry structure and BEEF0004 field-level documentation.
+        assert!(
+            JUMP_LIST_AUTO
+                .sources
+                .iter()
+                .any(|s| s.contains("kacos2000")),
+            "jump_list_auto must cite github.com/kacos2000/Jumplist-Browser; \
+             got: {:?}",
+            JUMP_LIST_AUTO.sources
+        );
+    }
+
+    // ── JUMP_LIST_CUSTOM field enrichment ─────────────────────────────────────
+
+    #[test]
+    fn jump_list_custom_has_group_name_field() {
+        // CustomDestinations files organise entries into named groups
+        // (e.g. "Tasks", "Recent", "Pinned"). Group name is essential context.
+        let field_names: Vec<&str> = JUMP_LIST_CUSTOM.fields.iter().map(|f| f.name).collect();
+        assert!(
+            field_names.contains(&"group_name"),
+            "jump_list_custom fields must include group_name (jump list category); \
+             got: {field_names:?}"
+        );
+    }
+
+    #[test]
+    fn jump_list_custom_has_arguments_field() {
+        // The embedded LNK StringData section carries command-line Arguments.
+        // Attackers weaponise LNKs by adding malicious arguments; this field
+        // is the primary indicator of a weaponised jump list entry.
+        let field_names: Vec<&str> = JUMP_LIST_CUSTOM.fields.iter().map(|f| f.name).collect();
+        assert!(
+            field_names.contains(&"arguments"),
+            "jump_list_custom fields must include arguments (LNK StringData — weaponisation \
+             indicator); got: {field_names:?}"
+        );
+    }
+
+    // ── LNK_FILES field enrichment ────────────────────────────────────────────
+
+    #[test]
+    fn lnk_files_has_arguments_field() {
+        // LNK StringData.Arguments is the primary indicator of weaponisation.
+        // A normal LNK has empty arguments; a malicious one may carry
+        // PowerShell commands, encoded payloads, or stager URLs.
+        let field_names: Vec<&str> = LNK_FILES.fields.iter().map(|f| f.name).collect();
+        assert!(
+            field_names.contains(&"arguments"),
+            "lnk_files fields must include arguments (StringData — primary weaponisation \
+             indicator); got: {field_names:?}"
+        );
+    }
+
+    #[test]
+    fn lnk_files_has_drive_type_field() {
+        // LinkInfo.DriveType distinguishes FIXED/REMOVABLE/REMOTE source media.
+        // Combined with VolumeSerialNumber, links LNK to USB artifacts and
+        // MountPoints2 to reconstruct source device.
+        let field_names: Vec<&str> = LNK_FILES.fields.iter().map(|f| f.name).collect();
+        assert!(
+            field_names.contains(&"drive_type"),
+            "lnk_files fields must include drive_type (source media type); \
+             got: {field_names:?}"
+        );
+    }
+
+    #[test]
+    fn lnk_files_has_mft_record_field() {
+        // BEEF0004 extension provides 48-bit MFT record number. Allows
+        // independent verification of target file identity even after path
+        // changes or deletion (pivot to $MFT/$UsnJrnl).
+        let field_names: Vec<&str> = LNK_FILES.fields.iter().map(|f| f.name).collect();
+        assert!(
+            field_names.contains(&"mft_record_number"),
+            "lnk_files fields must include mft_record_number (48-bit from BEEF0004); \
+             got: {field_names:?}"
+        );
+    }
+
+    #[test]
+    fn lnk_files_cites_kacos2000() {
+        assert!(
+            LNK_FILES.sources.iter().any(|s| s.contains("kacos2000")),
+            "lnk_files must cite github.com/kacos2000/Jumplist-Browser for BEEF0004 field docs; \
+             got: {:?}",
+            LNK_FILES.sources
+        );
+    }
+
+    // ── New artifacts ─────────────────────────────────────────────────────────
+
+    #[test]
+    fn jump_list_appid_registry_exists() {
+        // HKCU\Software\Microsoft\Windows\CurrentVersion\Search\JumplistData
+        // maps 8-byte CRC64 AppID hashes to application display names.
+        // Required to resolve AppID filenames back to human-readable app names
+        // without consulting an external AppID lookup database.
+        assert!(
+            CATALOG.by_id("jump_list_appid_registry").is_some(),
+            "jump_list_appid_registry artifact must exist in catalog"
+        );
+    }
+
+    #[test]
+    fn taskband_favorites_exists() {
+        // HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband\Favorites
+        // stores taskbar-pinned application order as a binary blob.
+        // Reveals which applications were pinned and their taskbar position —
+        // attackers may pin malicious tools to ensure they survive reboots.
+        assert!(
+            CATALOG.by_id("taskband_favorites").is_some(),
+            "taskband_favorites artifact must exist in catalog"
+        );
+    }
+}
