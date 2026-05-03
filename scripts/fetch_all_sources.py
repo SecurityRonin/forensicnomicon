@@ -757,12 +757,15 @@ def read_opml(opml_path: str) -> list[dict]:
     root = tree.getroot()
     sources = []
     for outline in root.iter("outline"):
-        if outline.get("type") == "rss":
-            sources.append({
-                "title": outline.get("text", outline.get("title", "")),
-                "xml_url": outline.get("xmlUrl", ""),
-                "html_url": outline.get("htmlUrl", ""),
-            })
+        kind = outline.get("type", "")
+        if kind not in ("rss", "web"):
+            continue
+        sources.append({
+            "title": outline.get("text", outline.get("title", "")),
+            "xml_url": outline.get("xmlUrl", ""),
+            "html_url": outline.get("htmlUrl", ""),
+            "kind": kind,
+        })
     return sources
 
 
@@ -941,10 +944,30 @@ def main(argv: list[str] | None = None) -> int:
 
         print(f"[FETCH] {title} ...", end=" ", flush=True)
 
+        kind = src.get("kind", "rss")
         platform = classify_blog_source(html_url)
 
-        # Fetch based on platform
-        if platform == "blogger":
+        # Fetch based on source kind / platform
+        if kind == "web":
+            # Static HTML site with no RSS — scrape post links from the index page
+            html_text = _fetch(html_url)
+            entries = []
+            if html_text:
+                import re as _re
+                base = html_url.rstrip("/")
+                domain = html_url.split("/")[2]
+                # Extract same-domain /post/* or /blog/* or /articles/* links
+                hrefs = _re.findall(r'href=["\'](/(?:post|blog|articles)/[^"\'#?]+)["\']', html_text)
+                seen_paths: set[str] = set()
+                for href in hrefs:
+                    if href in seen_paths:
+                        continue
+                    seen_paths.add(href)
+                    full_url = f"https://{domain}{href}"
+                    # Use path slug as title placeholder; will be updated on review
+                    slug = href.rstrip("/").rsplit("/", 1)[-1].replace("-", " ").title()
+                    entries.append((slug, full_url, ""))
+        elif platform == "blogger":
             entries = fetch_blogger_archive(xml_url, max_pages=args.max_pages)
         elif platform == "github":
             entries = fetch_github_commits(xml_url)

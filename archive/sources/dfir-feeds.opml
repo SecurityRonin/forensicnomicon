@@ -31,7 +31,8 @@
       <outline type="rss" text="DoubleBlak" title="DoubleBlak" xmlUrl="https://www.doubleblak.com/blogRSS.xml" htmlUrl="https://www.doubleblak.com/"/>
       <!-- Windows forensics, CTF writeups, artifact deep dives -->
       <outline type="rss" text="The Binary Hick" title="The Binary Hick" xmlUrl="https://thebinaryhick.blog/feed/" htmlUrl="https://thebinaryhick.blog/"/>
-      <!-- forensicmike1.com removed 2026-05-04: /feed/ returns 404 to urllib (Python) and HTML to browsers; no working RSS -->
+      <!-- Static Hugo site (S3/CloudFront); no RSS — 14 posts scraped from homepage /post/* links -->
+      <outline type="web" text="forensicmike1" title="forensicmike1" htmlUrl="https://forensicmike1.com/"/>
       <!-- David Cowen — Sunday Funday artifact challenges; HECF live stream content -->
       <outline type="rss" text="HECF / Hacking Exposed Computer Forensics Blog" title="HECF / Hacking Exposed Computer Forensics Blog" xmlUrl="https://www.hecfblog.com/feeds/posts/default" htmlUrl="https://www.hecfblog.com/"/>
       <!-- Lesley Carhart (hacks4pancakes) — incident response, ICS/OT forensics, threat hunting -->
