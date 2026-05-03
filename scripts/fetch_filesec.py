@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Scrape filesec.io for file extensions exploited by attackers.
+"""Fetch entries from filesec.io for file extensions exploited by attackers.
 
 Source: https://filesec.io/
 
-For each extension listed on the index page the scraper follows the detail
+For each extension listed on the index page the script follows the detail
 page at https://filesec.io/<ext>/ and collects:
 
     extension     (str)   e.g. ".bat"
@@ -17,8 +17,8 @@ Output:
     archive/sources/filesec_extensions.json
 
 Example:
-    python3 scripts/scrape_filesec.py
-    python3 scripts/scrape_filesec.py --dry-run
+    python3 scripts/fetch_filesec.py
+    python3 scripts/fetch_filesec.py --dry-run
 """
 
 from __future__ import annotations
@@ -37,7 +37,7 @@ from html.parser import HTMLParser
 
 
 USER_AGENT = (
-    "forensic-catalog-filesec-scraper/0.1 "
+    "forensic-catalog-filesec-fetcher/0.1 "
     "(+https://github.com/SecurityRonin/forensic-catalog)"
 )
 BASE_URL = "https://filesec.io/"
@@ -444,7 +444,7 @@ def main() -> int:
         print(json.dumps(entries, indent=2, ensure_ascii=False))
         return 0
 
-    # Full scrape.
+    # Full fetch.
     entries = []
     total = len(stubs)
     for i, stub in enumerate(stubs, start=1):

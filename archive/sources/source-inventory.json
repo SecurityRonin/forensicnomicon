@@ -1010,28 +1010,36 @@
     {
       "id": "gtfobins",
       "title": "GTFOBins",
-      "category": "primary-reference",
+      "category": "upstream",
       "kind": "knowledge-base",
       "html_url": "https://gtfobins.github.io/",
       "feed_url": "",
-      "update_strategy": "manual-review",
-      "notes": "Unix GTFOBins reference.",
+      "update_strategy": "fetch",
+      "notes": "Unix/Linux GTFOBins — authoritative catalog of Unix binaries with shell-escape and bypass techniques. Upstream for LOLBAS_LINUX. YAML data in _gtfobins/. Fetched via GitHub API.",
       "sources": [
-        "manual"
-      ]
+        "upstream"
+      ],
+      "github_url": "https://github.com/GTFOBins/GTFOBins.github.io",
+      "api_url": "",
+      "fetch_script": "scripts/fetch_gtfobins.py",
+      "output": "archive/sources/gtfobins_linux.json"
     },
     {
       "id": "lolbas",
       "title": "LOLBAS Project",
-      "category": "primary-reference",
+      "category": "upstream",
       "kind": "knowledge-base",
       "html_url": "https://lolbas-project.github.io/",
       "feed_url": "",
-      "update_strategy": "manual-review",
-      "notes": "Windows LOLBAS reference.",
+      "update_strategy": "fetch",
+      "notes": "Windows LOLBAS Project — authoritative catalog of LOL/LOFL binaries, scripts, and libraries. Upstream for LOLBAS_WINDOWS. JSON API available. Fetched directly.",
       "sources": [
-        "manual"
-      ]
+        "upstream"
+      ],
+      "github_url": "https://github.com/LOLBAS-Project/LOLBAS",
+      "api_url": "https://lolbas-project.github.io/api/lolbas.json",
+      "fetch_script": "scripts/fetch_lolbas.py",
+      "output": "archive/sources/lolbas_windows.json"
     },
     {
       "id": "microsoft-learn",
@@ -1096,6 +1104,54 @@
       "notes": "Velociraptor artifact and VQL documentation.",
       "sources": [
         "manual"
+      ]
+    },
+    {
+      "id": "loobins",
+      "title": "LOOBins",
+      "category": "upstream",
+      "kind": "knowledge-base",
+      "html_url": "https://www.loobins.io/",
+      "github_url": "https://github.com/infosecB/LOOBins",
+      "api_url": "",
+      "fetch_script": "scripts/fetch_loobins.py",
+      "output": "archive/sources/loobins_macos.json",
+      "update_strategy": "fetch",
+      "notes": "LOOBins — Living Off the Orchard; macOS binaries abused in post-exploitation. Upstream for LOLBAS_MACOS. YAML files in LOOBins/. Fetched via GitHub API.",
+      "sources": [
+        "upstream"
+      ]
+    },
+    {
+      "id": "lofl-project",
+      "title": "LOFL Project",
+      "category": "upstream",
+      "kind": "knowledge-base",
+      "html_url": "https://lofl-project.github.io/",
+      "github_url": "https://github.com/lofl-project/lofl-project.github.io",
+      "api_url": "",
+      "fetch_script": "scripts/fetch_lofl.py",
+      "output": "archive/sources/lofl_windows.json",
+      "update_strategy": "fetch",
+      "notes": "LOFL Project — Living Off the Foreign Land; Windows binaries from third-party/vendor tools abused post-exploitation. Upstream for LOLBAS_WINDOWS (foreign-land subset). Fetched via GitHub API.",
+      "sources": [
+        "upstream"
+      ]
+    },
+    {
+      "id": "lots-project",
+      "title": "LOTS Project",
+      "category": "upstream",
+      "kind": "knowledge-base",
+      "html_url": "https://lots-project.com/",
+      "github_url": "https://github.com/SigmaHQ/lots-project",
+      "api_url": "",
+      "fetch_script": "scripts/fetch_lots.py",
+      "output": "archive/sources/lots_sites.json",
+      "update_strategy": "fetch",
+      "notes": "LOTS Project — Living Off Trusted Sites; cloud/CDN domains abused for C2, download, phishing, and exfil. Upstream for ABUSABLE_SITES. HTML table fetched from lots-project.com.",
+      "sources": [
+        "upstream"
       ]
     }
   ]

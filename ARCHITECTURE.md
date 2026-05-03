@@ -120,13 +120,26 @@ Use `lolbas_entry(catalog, name) -> Option<&LolbasEntry>` for case-insensitive n
 
 ### Upstream data sources
 
-| Dataset | Source | URL |
-|---------|--------|-----|
-| LOLBAS Project (Windows native) | Community | <https://lolbas-project.github.io/> |
-| LOFL Project (Windows admin tools, cmdlets, MMC, WMI) | Community | <https://lofl-project.github.io/> |
-| GTFOBins (Linux unified) | Community | <https://gtfobins.github.io/> |
-| LOOBins (macOS native) | infosecB | <https://loobins.io/> |
-| macOS LOFL catalog | **This repo** — first published | `research/macos-lofl-catalog.yaml` |
+All five community upstreams meet the formal **upstream policy** (see below). Each has a dedicated fetch script in `scripts/` that writes JSON to `archive/sources/`.
+
+| Dataset | Constant(s) | Fetch script | Source |
+|---------|-------------|-------------|--------|
+| LOLBAS Project | `LOLBAS_WINDOWS` | `scripts/fetch_lolbas.py` | LOLBAS Project — community-maintained Windows LOLBin catalog. JSON API: <https://lolbas-project.github.io/api/lolbas.json>. GitHub: <https://github.com/LOLBAS-Project/LOLBAS> |
+| LOFL Project | `LOLBAS_WINDOWS` (foreign-land subset), `LOLBAS_WINDOWS_CMDLETS`, `LOLBAS_WINDOWS_MMC`, `LOLBAS_WINDOWS_WMI` | `scripts/fetch_lofl.py` | LOFL Project — Living Off Foreign Land; Windows admin / third-party tool abuse. <https://lofl-project.github.io/>. GitHub: <https://github.com/lofl-project/lofl-project.github.io> |
+| GTFOBins | `LOLBAS_LINUX` | `scripts/fetch_gtfobins.py` | GTFOBins — Unix/Linux binary escape and bypass catalog. <https://gtfobins.github.io/>. GitHub: <https://github.com/GTFOBins/GTFOBins.github.io>. 479 entries as of 2025-Q4 |
+| LOOBins + macOS LOFL | `LOLBAS_MACOS` | `scripts/fetch_loobins.py` + research file | **macOS native (LOL):** LOOBins — <https://www.loobins.io/> · GitHub: <https://github.com/infosecB/LOOBins>. **macOS foreign-land (LOFL):** first published catalog — `research/macos-lofl-catalog.yaml`, 78 tools |
+| LOTS Project | `ABUSABLE_SITES` | `scripts/fetch_lots.py` | LOTS Project — Living Off Trusted Sites; cloud/CDN domains abused for C2/phishing/exfil. <https://lots-project.com/>. 175+ entries. GitHub: <https://github.com/SigmaHQ/lots-project> |
+
+### Upstream policy
+
+An external dataset qualifies as a **formal upstream** — with its own fetch script and citation trail — when it satisfies all four criteria:
+
+1. **Maintained:** Active commits / community contributions within the past 12 months.
+2. **Authoritative:** Curated by security researchers with peer review (PR process, issue tracker, academic or practitioner citation history).
+3. **Machine-Readable:** Stable, parseable format (JSON API, YAML files, HTML table with consistent structure).
+4. **Additive:** Entries that land in the upstream are a superset of, or complementary to, entries already in forensicnomicon — no contradictions or quality degradation.
+
+Upstreams are registered in `archive/sources/source-inventory.json` with `"update_strategy": "fetch"`. The fetch script writes to `archive/sources/<upstream>.json`; a human promotion step is required before entries enter the static Rust catalog.
 
 ---
 
@@ -148,7 +161,9 @@ Abuse behaviour is encoded as a composable `u8` bitfield of `TAG_*` constants:
 | `TAG_EXFIL` | T1567 |
 | `TAG_EXPLOIT` | (various) |
 
-Data sources: [LOTS Project](https://lots-project.com/) and [URLhaus / abuse.ch](https://urlhaus.abuse.ch/).
+Data sources:
+- [LOTS Project](https://lots-project.com/) (GitHub: [SigmaHQ/lots-project](https://github.com/SigmaHQ/lots-project)) — primary upstream; 175 entries; fetched by `scripts/fetch_lots.py`
+- [URLhaus / abuse.ch](https://urlhaus.abuse.ch/) — active malware URL feed; synced by `scripts/sync_urlhaus.py`
 
 ---
 

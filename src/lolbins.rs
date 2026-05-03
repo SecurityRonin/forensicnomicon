@@ -22,7 +22,7 @@
 //! # The six constants
 //!
 //! | Constant | Artifact type | Detection source |
-//! |----------|---------------|-----------------|
+//! |----------|---------------|----------------|
 //! | [`LOLBAS_WINDOWS`] | Process name (`.exe`), script (`.vbs`/`.cmd`) | Prefetch, Sysmon, EDR process telemetry |
 //! | [`LOLBAS_LINUX`] | Process name (no extension) | auditd `execve`, eBPF, EDR |
 //! | [`LOLBAS_MACOS`] | Process name (no extension) | macOS ESF / Endpoint Security, audit.log |
@@ -32,11 +32,13 @@
 //!
 //! # Upstream sources
 //!
-//! - LOLBAS Project (Windows native): <https://lolbas-project.github.io/>
-//! - LOFL Project (Windows admin tools + cmdlets + MMC + WMI): <https://lofl-project.github.io/>
-//! - GTFOBins (Linux unified): <https://gtfobins.github.io/>
-//! - LOOBins (macOS native): <https://loobins.io/>
-//! - macOS LOFL catalog (first published, this repo): `research/macos-lofl-catalog.yaml`
+//! | Upstream | Constant(s) | Source |
+//! |----------|-------------|---------|
+//! | LOLBAS Project | [`LOLBAS_WINDOWS`] | <https://lolbas-project.github.io/> · GitHub: <https://github.com/LOLBAS-Project/LOLBAS> |
+//! | LOFL Project | [`LOLBAS_WINDOWS`] (foreign-land subset), cmdlets, MMC, WMI | <https://lofl-project.github.io/> · GitHub: <https://github.com/lofl-project/lofl-project.github.io> |
+//! | LOOBins | [`LOLBAS_MACOS`] (native) | <https://www.loobins.io/> · GitHub: <https://github.com/infosecB/LOOBins> |
+//! | macOS LOFL catalog | [`LOLBAS_MACOS`] (foreign-land) | First published — `research/macos-lofl-catalog.yaml` |
+//! | GTFOBins | [`LOLBAS_LINUX`] | <https://gtfobins.github.io/> · GitHub: <https://github.com/GTFOBins/GTFOBins.github.io> |
 //!
 //! # Unified lookup
 //!
@@ -889,7 +891,7 @@ pub const LOLBAS_WINDOWS: &[LolbasEntry] = &[
 /// # ATT&CK technique coverage (representative mappings — not exhaustive per entry)
 ///
 /// | Technique | Representative entries |
-/// |-----------|----------------------|
+/// |-----------|---------------------|
 /// | T1059.004 Unix Shell | bash, sh, dash, zsh, ksh, fish, python, python3, perl, ruby, lua, awk, gawk |
 /// | T1105 Ingress Tool Transfer | curl, wget, nc, netcat, ncat, socat, scp, rsync, tftp, ftp, aria2c |
 /// | T1548.001 Setuid/Setgid | find, cp, mv, chmod, chown, tee, dd |
@@ -1412,7 +1414,7 @@ pub const LOLBAS_LINUX: &[LolbasEntry] = &[
 /// # ATT&CK technique coverage (representative mappings)
 ///
 /// | Technique | Representative entries |
-/// |-----------|----------------------|
+/// |-----------|---------------------|
 /// | T1059.002 AppleScript | osascript |
 /// | T1059.004 Unix Shell | bash, sh, zsh, python3, perl, ruby, awk |
 /// | T1105 Ingress Tool Transfer | curl, wget, nc, socat, scp, nscurl, tftp |

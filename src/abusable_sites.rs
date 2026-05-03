@@ -16,15 +16,13 @@
 //! `*.amazonaws.com`) requires a detection-and-alerting strategy instead.
 //! Use [`sites_above_risk`] to find domains in each risk tier.
 //!
-//! # Data sources
+//! # Upstream sources
 //!
-//! - LOTS Project (Living Off Trusted Sites) — community-maintained catalog of
-//!   domains abused by attackers: <https://lots-project.com/>
-//!   (scraped via `scripts/scrape_lots.py`)
-//! - URLhaus / abuse.ch — active malware distribution URLs with domain metadata:
-//!   <https://urlhaus.abuse.ch/> (synced via `scripts/sync_urlhaus.py`)
-//! - MISP taxonomies — `circl:threat-type` and `enisa:threats` for abuse tag
-//!   alignment: <https://github.com/MISP/misp-taxonomies>
+//! | Upstream | Source |
+//! |----------|---------|
+//! | LOTS Project (Living Off Trusted Sites) | <https://lots-project.com/> · GitHub: <https://github.com/SigmaHQ/lots-project> · 175+ entries as of 2025-Q4 |
+//! | URLhaus / abuse.ch | <https://urlhaus.abuse.ch/> · active malware distribution feed |
+//! | MISP taxonomies | <https://github.com/MISP/misp-taxonomies> · `circl:threat-type` / `enisa:threats` alignment |
 //!
 //! # ATT&CK coverage
 //!
@@ -52,15 +50,9 @@
 //!
 //! ## Sources
 //!
-//! - LOTS Project (Living Off Trusted Sites) — static HTML catalog:
-//!   <https://lots-project.com/> (scraped via `scripts/scrape_lots.py`)
-//! - URLhaus / abuse.ch — active malware distribution URLs:
-//!   <https://urlhaus.abuse.ch/> (synced via `scripts/sync_urlhaus.py`)
-//! - MISP taxonomies — `circl:threat-type`, `enisa:threats`:
-//!   <https://github.com/MISP/misp-taxonomies>
-//! - MITRE ATT&CK T1102 (Web Service), T1567 (Exfil Over Web Service),
-//!   T1583/T1584 (Acquire/Compromise Infrastructure):
-//!   <https://attack.mitre.org/techniques/T1102/>
+//! - [LOTS Project](https://lots-project.com/) — Living Off Trusted Sites; 175+ curated domains
+//! - [URLhaus / abuse.ch](https://urlhaus.abuse.ch/) — active malware distribution URLs
+//! - [MITRE ATT&CK](https://attack.mitre.org/techniques/T1102/) — T1102, T1567, T1105, T1566.002
 
 // ---------------------------------------------------------------------------
 // Abuse tag bitfield — composable via bitwise OR
@@ -539,9 +531,8 @@ pub const ABUSABLE_SITES: &[AbusableSite] = &[
     },
 
     // ╔══════════════════════════════════════════════════════════════════════╗
-    // ║  LOTS Project expansion — sourced from lots-project.com              ║
-    // ║  175 known entries; gaps against our 35-entry base catalog promoted  ║
-    // ║  here. Script: scripts/scrape_lots.py; upstream: lots-project.com   ║
+    // ║  LOTS Project expansion — sourced from https://lots-project.com/     ║
+    // ║  175 known entries; gaps against base catalog promoted here.         ║
     // ╚══════════════════════════════════════════════════════════════════════╝
 
     // ── Microsoft Graph API / OneDrive (Critical) ──────────────────────────

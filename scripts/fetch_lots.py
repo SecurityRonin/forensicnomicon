@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Scrape the Living Off Trusted Sites (LOTS) project for cloud/CDN domains abused by attackers.
+"""Fetch entries from the Living Off Trusted Sites (LOTS) project for cloud/CDN domains abused by attackers.
 
 Source: https://lots-project.com/
 
@@ -10,8 +10,8 @@ Produces:
         provider (str)   cloud/CDN service name, e.g. "Github"
 
 Example:
-    python3 scripts/scrape_lots.py
-    python3 scripts/scrape_lots.py --dry-run
+    python3 scripts/fetch_lots.py
+    python3 scripts/fetch_lots.py --dry-run
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ from html.parser import HTMLParser
 
 
 USER_AGENT = (
-    "forensic-catalog-lots-scraper/0.1 "
+    "forensic-catalog-lots-fetcher/0.1 "
     "(+https://github.com/SecurityRonin/forensic-catalog)"
 )
 LOTS_URL = "https://lots-project.com/"
@@ -234,10 +234,10 @@ def main() -> int:
     entries = parse_entries(html)
 
     if not entries:
-        print("error: no entries parsed — site structure may have changed", file=sys.stderr)
+        print("error: no entries fetched — site structure may have changed", file=sys.stderr)
         return 1
 
-    print(f"parsed {len(entries)} entries", file=sys.stderr)
+    print(f"fetched {len(entries)} entries", file=sys.stderr)
 
     if args.dry_run:
         print(json.dumps(entries[:5], indent=2, ensure_ascii=False))
