@@ -4,7 +4,12 @@ RED tests for scripts/discover_feeds.py
 Systematic blog discovery from DFIR aggregator sites.
 Pure-logic functions only — no HTTP in unit tests.
 """
+import os
+import sys
+
 import pytest
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 
 class TestNormalizeDomain:
