@@ -101,6 +101,13 @@
       <outline type="rss" text="Red Canary Blog" title="Red Canary Blog" xmlUrl="https://redcanary.com/blog/feed/" htmlUrl="https://redcanary.com/blog/"/>
       <!-- Palo Alto Unit 42 — threat intelligence; detailed malware campaigns with artifact/IOC coverage -->
       <outline type="rss" text="Palo Alto Unit 42" title="Palo Alto Unit 42" xmlUrl="https://unit42.paloaltonetworks.com/feed/" htmlUrl="https://unit42.paloaltonetworks.com/"/>
+      <!-- Mandiant / Google Cloud Threat Intelligence — APT attribution, malware analysis, incident case studies -->
+      <!-- FeedBurner relay; confirmed 200 OK via Python urllib -->
+      <outline type="rss" text="Mandiant Threat Intelligence" title="Mandiant Threat Intelligence" xmlUrl="https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v" htmlUrl="https://cloud.google.com/blog/topics/threat-intelligence"/>
+      <!-- Cisco Talos — threat research, malware campaigns, vulnerability analysis; Cloudflare-protected (GH Actions may pass) -->
+      <!-- Feed URL confirmed via browser: https://blog.talosintelligence.com/rss/ -->
+      <outline type="rss" text="Cisco Talos Blog" title="Cisco Talos Blog" xmlUrl="https://blog.talosintelligence.com/rss/" htmlUrl="https://blog.talosintelligence.com/"/>
+      <!-- SANS blog has no RSS feed — JavaScript SPA, no alternate link, no /feed/ endpoint -->
     </outline>
     <outline text="Vendor DFIR Blogs" title="Vendor DFIR Blogs">
       <!-- Binalyze — DFIR platform vendor; acquisition techniques, triage workflows -->
