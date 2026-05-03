@@ -46,6 +46,25 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 
+
+def _load_dotenv(path: str = ".env") -> None:
+    """Load KEY=VALUE pairs from .env into os.environ (stdlib only, no overwrite)."""
+    if not os.path.exists(path):
+        return
+    with open(path) as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, _, value = line.partition("=")
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key and key not in os.environ:
+                os.environ[key] = value
+
+
+_load_dotenv()
+
 # ─── constants ────────────────────────────────────────────────────────────────
 
 USER_AGENT = (
