@@ -106,8 +106,9 @@ pub static USERASSIST_EXE: ArtifactDescriptor = ArtifactDescriptor {
     name: "UserAssist (EXE)",
     artifact_type: ArtifactType::RegistryValue,
     hive: Some(HiveTarget::NtUser),
-    // Source: GUID {CEBFF5CD-ACE2-4F4F-9178-9926F41749EA} confirmed by Magnet Forensics
-    // artifact profile and SANS blog as the Win7+ executable-launch GUID.
+    // Source: https://www.magnetforensics.com/blog/artifact-profile-userassist/
+    // https://www.sans.org/blog/computer-forensic-artifacts-windows-7-userassist/
+    // GUID {CEBFF5CD-ACE2-4F4F-9178-9926F41749EA} = Win7+ executable-launch GUID.
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\Count",
     value_name: None, // enumerate all values
     file_path: None,
@@ -393,9 +394,10 @@ pub static USERASSIST_FOLDER: ArtifactDescriptor = ArtifactDescriptor {
     name: "UserAssist (Shortcut/LNK)",
     artifact_type: ArtifactType::RegistryValue,
     hive: Some(HiveTarget::NtUser),
-    // Source: GUID {F4E57C4B-2036-45F0-A9AB-443BCFE33D9F} confirmed by Magnet Forensics
-    // as the Win7+ shortcut-initiated launch GUID. Commonly (incorrectly) called
-    // "Folder GUID" in RegRipper and community tooling.
+    // Source: https://www.magnetforensics.com/blog/artifact-profile-userassist/
+    // https://www.sans.org/blog/computer-forensic-artifacts-windows-7-userassist/
+    // GUID {F4E57C4B-2036-45F0-A9AB-443BCFE33D9F} = Win7+ shortcut/LNK launch GUID.
+    // NOTE: Commonly (incorrectly) called "Folder GUID" in RegRipper and community tooling.
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{F4E57C4B-2036-45F0-A9AB-443BCFE33D9F}\Count",
     value_name: None,
     file_path: None,
@@ -481,8 +483,9 @@ pub static USERASSIST_XP_EXE: ArtifactDescriptor = ArtifactDescriptor {
     name: "UserAssist XP (App/File/Link)",
     artifact_type: ArtifactType::RegistryValue,
     hive: Some(HiveTarget::NtUser),
-    // Source: GUID {75048700-EF1F-11D0-9888-006097DEACF9} confirmed by Magnet Forensics
-    // artifact profile as the XP/2000 application, file, and link launch GUID.
+    // Source: https://www.magnetforensics.com/blog/artifact-profile-userassist/
+    // https://windowsir.blogspot.com/2004/02/userassist.html
+    // GUID {75048700-EF1F-11D0-9888-006097DEACF9} = XP/2000 app, file, and link launch GUID.
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{75048700-EF1F-11D0-9888-006097DEACF9}\Count",
     value_name: None,
     file_path: None,
@@ -515,8 +518,8 @@ pub static USERASSIST_XP_IE_FAVORITES: ArtifactDescriptor = ArtifactDescriptor {
     name: "UserAssist XP (IE Favorites/Toolbar)",
     artifact_type: ArtifactType::RegistryValue,
     hive: Some(HiveTarget::NtUser),
-    // Source: GUID {5E6AB780-7743-11CF-A12B-00AA004AE837} confirmed by Magnet Forensics
-    // artifact profile as the XP IE Favorites and toolbar GUID.
+    // Source: https://www.magnetforensics.com/blog/artifact-profile-userassist/
+    // GUID {5E6AB780-7743-11CF-A12B-00AA004AE837} = XP IE Favorites and toolbar GUID.
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{5E6AB780-7743-11CF-A12B-00AA004AE837}\Count",
     value_name: None,
     file_path: None,
@@ -548,8 +551,8 @@ pub static USERASSIST_XP_IE7: ArtifactDescriptor = ArtifactDescriptor {
     name: "UserAssist XP (IE7)",
     artifact_type: ArtifactType::RegistryValue,
     hive: Some(HiveTarget::NtUser),
-    // Source: GUID {0D6D4F41-2994-4BA0-8FEF-620E43CD2812} confirmed by Magnet Forensics
-    // artifact profile as the IE7-specific UserAssist GUID (XP + IE7 only).
+    // Source: https://www.magnetforensics.com/blog/artifact-profile-userassist/
+    // GUID {0D6D4F41-2994-4BA0-8FEF-620E43CD2812} = IE7-specific UserAssist GUID (XP + IE7 only).
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{0D6D4F41-2994-4BA0-8FEF-620E43CD2812}\Count",
     value_name: None,
     file_path: None,
