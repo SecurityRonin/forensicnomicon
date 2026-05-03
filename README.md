@@ -24,7 +24,7 @@ brew install SecurityRonin/tap/4n6query
 4n6query certutil.exe          # → LOLBAS entry, 3 ATT&CK techniques, use cases
 4n6query userassist            # → 5 artifact variants, decoded field schemas, triage priority
 4n6query T1547.001             # → all artifacts mapped to this technique
-4n6query --triage              # → your 6,551 artifacts ordered Critical → High → Medium → Low
+4n6query --triage              # → Critical + High priority artifacts to collect first
 ```
 
 If you're building DFIR tools in Rust, the same data is a zero-dependency library:
@@ -554,29 +554,6 @@ $ fnomicon search prefetch
 $ fnomicon show userassist_exe
 $ fnomicon triage
 ```
-
----
-
-## Mass-import pipeline
-
-The `crates/ingest` binary refreshes the generated entries from upstream sources. Run it when source corpora publish updates:
-
-```bash
-cargo run -p ingest -- --source all --output src/catalog/descriptors/generated/
-# Review the diff, then commit.
-```
-
-Individual sources: `--source kape`, `--source fa`, `--source evtx`, `--source velociraptor`, `--source regedit`, `--source browsers`, `--source nirsoft`.
-
----
-
-## Feature flags
-
-| Flag | Default | Purpose |
-|---|---|---|
-| `serde` | off | `Serialize` / `Deserialize` on all public types |
-
-All static indicators and catalog types work without any feature flag. The `serde` feature adds optional serialization at zero runtime cost when unused. Under this flag, `LolbasEntry` and `AbusableSite` both derive `serde::Serialize`, enabling direct JSON/YAML output as used by `4n6query`.
 
 ---
 

@@ -74,6 +74,10 @@
       <!-- NEW abusable_sites.rs — cloud services abused as C2 dropzones (no canonical GitHub found) -->
       <!-- LOTS Project: https://lots-project.com/ — scraped via scripts/scrape_lots.py -->
     </outline>
+    <outline text="Blue Team Field Notes" title="Blue Team Field Notes">
+      <!-- GitHub commit atom — one entry per new TTP entry added to the notebook -->
+      <outline type="rss" text="Blue_Team_Hunting_Field_Notes" title="Blue Team Hunting Field Notes (bitbug0x55AA)" xmlUrl="https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commits/main.atom" htmlUrl="https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes"/>
+    </outline>
     <outline text="Threat Intelligence Feeds" title="Threat Intelligence Feeds">
       <!-- abuse.ch suite — actively maintained, machine-readable threat intel -->
       <!-- URLhaus: daily CSV at https://urlhaus.abuse.ch/downloads/csv_recent/ -->
