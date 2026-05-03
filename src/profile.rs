@@ -1,7 +1,7 @@
 //! Combined artifact profile — evidence strength + volatility in one place.
 //!
-//! [`ARTIFACT_PROFILES`] is the single authoritative table that merges
-//! [`crate::evidence::EVIDENCE_TABLE`] and [`crate::volatility::VOLATILITY_TABLE`].
+//! [`ARTIFACT_PROFILES`] is the single authoritative table. Each entry captures
+//! evidence strength and volatility class for one artifact.
 //! Adding a new artifact requires only one edit here.
 //!
 //! Use [`profile_for`] for point-lookups, or iterate [`ARTIFACT_PROFILES`] for

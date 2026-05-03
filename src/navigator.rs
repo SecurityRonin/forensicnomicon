@@ -10,7 +10,7 @@ use std::collections::HashMap;
 /// Generate an ATT&CK Navigator layer JSON for the catalog.
 ///
 /// Returns a JSON string directly importable into the ATT&CK Navigator
-/// at https://mitre-attack.github.io/attack-navigator/
+/// at <https://mitre-attack.github.io/attack-navigator/>
 pub fn generate_navigator_layer(layer_name: &str) -> String {
     let coverage = technique_coverage();
 

@@ -114,7 +114,7 @@ pub fn is_download_tool_usage(cmd: &str) -> bool {
 /// almost exclusively seen in offensive tradecraft. Generic WMI queries (`Get-WmiObject`,
 /// `wmic os get`) are intentionally excluded — they are used routinely by administrators
 /// and would produce unacceptable false-positive rates. Shadow-copy deletion via WMI is
-/// covered by [`DEFENSE_EVASION_PATTERNS`] and [`SHADOW_COPY_DELETION_PATTERNS`].
+/// covered by [`DEFENSE_EVASION_PATTERNS`] and shadow-copy deletion patterns.
 ///
 /// Sources:
 /// - MITRE ATT&CK T1047 — Windows Management Instrumentation:

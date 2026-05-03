@@ -95,7 +95,7 @@ pub struct LolbasEntry {
     pub name: &'static str,
     /// MITRE ATT&CK technique IDs observed for this entry.
     pub mitre_techniques: &'static [&'static str],
-    /// OR-ed [`UC_*`] bitmask describing known abuse use-cases.
+    /// OR-ed `UC_*` bitmask describing known abuse use-cases.
     pub use_cases: u16,
     /// Brief one-line description of why this entry is catalogued.
     pub description: &'static str,

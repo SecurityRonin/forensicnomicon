@@ -17,7 +17,7 @@
 //! | Print Monitor DLLs | T1547.010 |
 //! | Windows Services (HKLM\\Services) | T1543.003 |
 //!
-//! Sources: Sysinternals Autoruns (https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns),
+//! Sources: Sysinternals Autoruns (<https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns>),
 //! Resplendence Registrar pre-loaded bookmarks, MITRE ATT&CK Enterprise, SigmaHQ,
 //! Hexacorn "Beyond good ol' Run key" series.
 
