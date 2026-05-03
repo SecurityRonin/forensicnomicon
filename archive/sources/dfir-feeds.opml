@@ -12,6 +12,8 @@
       <outline type="rss" text="Digital Forensics Stream" title="Digital Forensics Stream" xmlUrl="https://df-stream.com/feed/" htmlUrl="https://df-stream.com/"/>
       <outline type="rss" text="mac4n6" title="mac4n6" xmlUrl="https://www.mac4n6.com/blog?format=rss" htmlUrl="https://www.mac4n6.com/"/>
       <outline type="rss" text="binary foray" title="binary foray" xmlUrl="https://binaryforay.blogspot.com/feeds/posts/default" htmlUrl="https://binaryforay.blogspot.com/"/>
+      <!-- Jekyll Atom at feed.xml (feed/ 404s) — DFIR, malware analysis, Android/macOS/Windows artifacts -->
+      <outline type="rss" text="Andrea Fortuna" title="Andrea Fortuna — DFIR &amp; Malware Analysis" xmlUrl="https://andreafortuna.org/feed.xml" htmlUrl="https://andreafortuna.org/"/>
       <outline type="rss" text="Salt Forensics" title="Salt Forensics" xmlUrl="https://salt4n6.com/feed/" htmlUrl="https://salt4n6.com/"/>
       <outline type="rss" text="Cheeky4n6Monkey" title="Cheeky4n6Monkey" xmlUrl="https://cheeky4n6monkey.blogspot.com/feeds/posts/default" htmlUrl="https://cheeky4n6monkey.blogspot.com/"/>
       <outline type="rss" text="ThinkDFIR" title="ThinkDFIR" xmlUrl="https://thinkdfir.com/feed/" htmlUrl="https://thinkdfir.com/"/>
