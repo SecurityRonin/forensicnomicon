@@ -2908,4 +2908,52 @@ mod tests {
             .iter()
             .any(|e| e.name == "MSFT_NetFirewallProfile"));
     }
+
+    // ── LOLBAS_WINDOWS batch 2 — LOLBAS Project gaps (feed review 2026-05-03) ─
+    // Source: https://lolbas-project.github.io/api/lolbas.json
+    #[test]
+    fn lolbas_windows_contains_devtoolslauncher() {
+        // T1127 — Visual Studio DevTools Launcher; proxy execution of arbitrary binary
+        assert!(LOLBAS_WINDOWS.iter().any(|e| e.name == "Devtoolslauncher.exe"));
+    }
+    #[test]
+    fn lolbas_windows_contains_logger() {
+        // T1202 — Indirect Command Execution via RUN/RUNW parameters
+        assert!(LOLBAS_WINDOWS.iter().any(|e| e.name == "Logger.exe"));
+    }
+    #[test]
+    fn lolbas_windows_contains_nmcap() {
+        // T1040 — Network Monitor capture; saves circular .cap file across all adapters
+        assert!(LOLBAS_WINDOWS.iter().any(|e| e.name == "Nmcap.exe"));
+    }
+    #[test]
+    fn lolbas_windows_contains_workfolders() {
+        // T1218 — Work Folders binary executes control.exe from CWD via App Paths
+        assert!(LOLBAS_WINDOWS.iter().any(|e| e.name == "WorkFolders.exe"));
+    }
+    #[test]
+    fn lolbas_windows_contains_dxcap() {
+        // T1127 — DirectX diagnostic; launches xperf.exe or arbitrary binary as subprocess
+        assert!(LOLBAS_WINDOWS.iter().any(|e| e.name == "Dxcap.exe"));
+    }
+    #[test]
+    fn lolbas_windows_contains_write() {
+        // T1218 — WordPad launcher; App Paths HKCU\...\App Paths execution
+        assert!(LOLBAS_WINDOWS.iter().any(|e| e.name == "write.exe"));
+    }
+    #[test]
+    fn lolbas_windows_contains_odbcad32() {
+        // T1548.002 — ODBC Data Source Admin GUI; UAC bypass via Tracing browse dialog
+        assert!(LOLBAS_WINDOWS.iter().any(|e| e.name == "odbcad32.exe"));
+    }
+    #[test]
+    fn lolbas_windows_contains_sigverif() {
+        // T1218 — File Signature Verification; execute arbitrary binary via log file field
+        assert!(LOLBAS_WINDOWS.iter().any(|e| e.name == "Sigverif.exe"));
+    }
+    #[test]
+    fn lolbas_windows_contains_intellitrace() {
+        // T1127 — Visual Studio IntelliTrace CLI; proxy execution via VS command line
+        assert!(LOLBAS_WINDOWS.iter().any(|e| e.name == "IntelliTrace.exe"));
+    }
 }
