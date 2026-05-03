@@ -5,28 +5,51 @@
   </head>
   <body>
     <outline text="DFIR Blogs" title="DFIR Blogs">
+      <!-- Harlan Carvey — Windows registry/timeline forensics; one of the longest-running DFIR blogs -->
       <outline type="rss" text="Windows Incident Response" title="Windows Incident Response" xmlUrl="https://windowsir.blogspot.com/feeds/posts/default" htmlUrl="https://windowsir.blogspot.com/"/>
+      <!-- Ghost-hosted; Windows artifact deep dives (Prefetch, SRUM, ShimCache) -->
       <outline type="rss" text="dfir.blog" title="dfir.blog" xmlUrl="https://dfir.blog/rss/" htmlUrl="https://dfir.blog/"/>
+      <!-- Corey Harrell — Windows artifacts, threat hunting, malware triage -->
       <outline type="rss" text="Another Forensics Blog" title="Another Forensics Blog" xmlUrl="https://az4n6.blogspot.com/feeds/posts/default" htmlUrl="https://az4n6.blogspot.com/"/>
+      <!-- DFIR community resource hub — tool lists, blog directory, training links -->
       <outline type="rss" text="DFIR Diva" title="DFIR Diva" xmlUrl="https://dfirdiva.com/feed" htmlUrl="https://dfirdiva.com/"/>
+      <!-- David Cowen — digital forensics deep dives, Sunday Funday challenges, artifact research -->
       <outline type="rss" text="Digital Forensics Stream" title="Digital Forensics Stream" xmlUrl="https://df-stream.com/feed/" htmlUrl="https://df-stream.com/"/>
+      <!-- Sarah Edwards — macOS forensics; Apple Silicon artifacts, iOS/macOS artifact walkthrough -->
       <outline type="rss" text="mac4n6" title="mac4n6" xmlUrl="https://www.mac4n6.com/blog?format=rss" htmlUrl="https://www.mac4n6.com/"/>
+      <!-- Eric Zimmerman — EZ tools author; Windows artifact deep dives (ShimCache, Registry, MFT) -->
       <outline type="rss" text="binary foray" title="binary foray" xmlUrl="https://binaryforay.blogspot.com/feeds/posts/default" htmlUrl="https://binaryforay.blogspot.com/"/>
+      <!-- Andrea Fortuna — DFIR & malware analysis; Windows/Android artifacts, living-off-the-land -->
       <outline type="rss" text="Andrea Fortuna" title="Andrea Fortuna — DFIR &amp; Malware Analysis" xmlUrl="https://andreafortuna.org/feed.xml" htmlUrl="https://andreafortuna.org/"/>
+      <!-- Ghost-hosted; forensic case studies, artifact analysis, tool walkthroughs -->
       <outline type="rss" text="Salt Forensics" title="Salt Forensics" xmlUrl="https://salt4n6.com/feed/" htmlUrl="https://salt4n6.com/"/>
+      <!-- Mobile forensics focus — Android artifacts, GPS/mapping data, CTF writeups -->
       <outline type="rss" text="Cheeky4n6Monkey" title="Cheeky4n6Monkey" xmlUrl="https://cheeky4n6monkey.blogspot.com/feeds/posts/default" htmlUrl="https://cheeky4n6monkey.blogspot.com/"/>
+      <!-- Windows artifact research, DFIR methodology, timelining techniques -->
       <outline type="rss" text="ThinkDFIR" title="ThinkDFIR" xmlUrl="https://thinkdfir.com/feed/" htmlUrl="https://thinkdfir.com/"/>
+      <!-- Mark Woan — Windows forensics, custom forensic tooling and scripts -->
       <outline type="rss" text="DoubleBlak" title="DoubleBlak" xmlUrl="https://www.doubleblak.com/blogRSS.xml" htmlUrl="https://www.doubleblak.com/"/>
+      <!-- Windows forensics, CTF writeups, artifact deep dives -->
       <outline type="rss" text="The Binary Hick" title="The Binary Hick" xmlUrl="https://thebinaryhick.blog/feed/" htmlUrl="https://thebinaryhick.blog/"/>
+      <!-- Windows registry forensics, artifact analysis, incident response techniques -->
       <outline type="rss" text="forensicmike1" title="forensicmike1" xmlUrl="https://forensicmike1.com/feed/" htmlUrl="https://forensicmike1.com/"/>
+      <!-- David Cowen — Sunday Funday artifact challenges; HECF live stream content -->
       <outline type="rss" text="HECF / Hacking Exposed Computer Forensics Blog" title="HECF / Hacking Exposed Computer Forensics Blog" xmlUrl="https://www.hecfblog.com/feeds/posts/default" htmlUrl="https://www.hecfblog.com/"/>
+      <!-- Lesley Carhart (hacks4pancakes) — incident response, ICS/OT forensics, threat hunting -->
       <outline type="rss" text="tisiphone.net" title="tisiphone.net" xmlUrl="https://tisiphone.net/feed/" htmlUrl="https://tisiphone.net/"/>
+      <!-- Brett Shavers — forensic methodology, expert witness, DFIR training; site has WAF (feed via RSS) -->
       <outline type="rss" text="Smarter Forensics" title="Smarter Forensics" xmlUrl="https://smarterforensics.com/feed/" htmlUrl="https://smarterforensics.com/"/>
+      <!-- Alexis Brignoni — mobile forensics; iLEAPP/ALEAPP author, iOS/Android artifact analysis -->
       <outline type="rss" text="Initialization Vectors" title="Initialization Vectors" xmlUrl="https://abrignoni.blogspot.com/feeds/posts/default" htmlUrl="https://abrignoni.blogspot.com/"/>
+      <!-- Brett Shavers — DFIR methodology, digital forensics investigations, training; FeedBurner relay -->
       <outline type="rss" text="Brett Shavers" title="Brett Shavers" xmlUrl="https://feeds.feedburner.com/brettshavers/oSyq" htmlUrl="https://brettshavers.com/brett-s-blog"/>
+      <!-- Yogesh Khatri — macOS/iOS forensics; Apple Silicon artifacts, SQLite DBs, Apple Intelligence -->
       <outline type="rss" text="Yogesh Khatri's forensic blog" title="Yogesh Khatri's forensic blog" xmlUrl="https://www.swiftforensics.com/feeds/posts/default" htmlUrl="https://www.swiftforensics.com/"/>
+      <!-- Forensic Focus — industry news, product reviews, practitioner articles, job board -->
       <outline type="rss" text="Forensic Focus" title="Forensic Focus" xmlUrl="https://www.forensicfocus.com/rss/news2.php" htmlUrl="https://www.forensicfocus.com/"/>
+      <!-- John Lehr — image/video authentication forensics; photo/video artifact analysis -->
       <outline type="rss" text="Forensic Multimedia Analysis Blog" title="Forensic Multimedia Analysis Blog" xmlUrl="https://forensicphotoshop.blogspot.com/feeds/posts/default" htmlUrl="https://forensicphotoshop.blogspot.com/"/>
+      <!-- Magnet Forensics — artifact profiles, forensic tool updates, acquisition techniques -->
       <outline type="rss" text="Magnet Forensics" title="Magnet Forensics" xmlUrl="https://www.magnetforensics.com/feed/" htmlUrl="https://www.magnetforensics.com/"/>
       <!-- Real intrusion reports — TTPs, IOCs, timeline reconstructions. High artifact signal. -->
       <outline type="rss" text="The DFIR Report" title="The DFIR Report" xmlUrl="https://thedfirreport.com/feed/" htmlUrl="https://thedfirreport.com/"/>
@@ -34,45 +57,59 @@
       <outline type="rss" text="13cubed (YouTube)" title="13cubed (YouTube)" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q" htmlUrl="https://www.youtube.com/@13cubed"/>
       <!-- SANS Internet Storm Center — daily handler diaries, often artifact-relevant. -->
       <outline type="rss" text="SANS Internet Storm Center" title="SANS Internet Storm Center" xmlUrl="https://isc.sans.edu/rssfeed_full.xml" htmlUrl="https://isc.sans.edu/"/>
+      <!-- DFIR Training — training resource directory; new course/tool announcements -->
       <outline type="rss" text="DFIR Training" title="DFIR Training" xmlUrl="https://www.dfir.training/dfir-training-categories-k2/itemlist?format=feed" htmlUrl="https://www.dfir.training/"/>
+      <!-- MSAB — XRY mobile forensics vendor; acquisition technique updates, new device support -->
       <outline type="rss" text="MSAB" title="MSAB" xmlUrl="https://www.msab.com/feed/" htmlUrl="https://www.msab.com/"/>
+      <!-- AboutDFIR — community resource hub; tool announcements, blog aggregation -->
       <outline type="rss" text="AboutDFIR" title="AboutDFIR" xmlUrl="https://aboutdfir.com/feed/" htmlUrl="https://aboutdfir.com/"/>
+      <!-- Lee Whitfield — weekly DFIR news roundup, DFIR.Training awards -->
       <outline type="rss" text="Forensic 4cast" title="Forensic 4cast" xmlUrl="https://4cast.whitfields.org/?feed=rss2" htmlUrl="https://forensic4cast.com/"/>
+      <!-- Juliet Doering — weekly DFIR content digest; aggregates blog posts, papers, tools -->
       <outline type="rss" text="This Week In 4n6" title="This Week In 4n6" xmlUrl="https://thisweekin4n6.wordpress.com/feed/" htmlUrl="https://thisweekin4n6.com/"/>
+      <!-- Brian Carrier — The Sleuth Kit open-source forensic toolkit; release announcements -->
       <outline type="rss" text="The Sleuth Kit updates" title="The Sleuth Kit updates" xmlUrl="https://www.sleuthkit.org/rss.xml" htmlUrl="https://www.sleuthkit.org/"/>
+      <!-- Amped Software — image/video forensics tools; FIVE, DVR Examiner, Authenticate updates -->
       <outline type="rss" text="Amped Software blog" title="Amped Software blog" xmlUrl="https://blog.ampedsoftware.com/feed/" htmlUrl="https://blog.ampedsoftware.com/"/>
-      <!-- RSS feeds confirmed working by probe 2026-05-04 -->
       <!-- Didier Stevens — malware analysis tools (oledump, pdf-parser, base64dump, cut-bytes); deeply technical -->
       <outline type="rss" text="Didier Stevens Blog" title="Didier Stevens Blog" xmlUrl="https://blog.didierstevens.com/feed/" htmlUrl="https://blog.didierstevens.com/"/>
-      <!-- Hexordia — Jessica Hyde; mobile forensics, Android triage, forensic training CTFs -->
+      <!-- Jessica Hyde (Hexordia) — mobile forensics, Android triage, forensic training CTFs -->
       <outline type="rss" text="Hexordia" title="Hexordia" xmlUrl="https://www.hexordia.com/blog?format=rss" htmlUrl="https://www.hexordia.com/blog/"/>
       <!-- Hexacorn (Adam) — Windows malware persistence, registry internals, LOLBin research -->
       <outline type="rss" text="Hexacorn" title="Hexacorn" xmlUrl="https://www.hexacorn.com/blog/feed/" htmlUrl="https://www.hexacorn.com/blog/"/>
-      <!-- The DFIR Spot — timelining, ESXi forensics, Windows scheduled tasks -->
+      <!-- Windows timelining, ESXi forensics, scheduled tasks, artifact walkthroughs -->
       <outline type="rss" text="The DFIR Spot" title="The DFIR Spot" xmlUrl="https://www.thedfirspot.com/blog-feed.xml" htmlUrl="https://www.thedfirspot.com/"/>
-      <!-- 4n6k (Dan Pullega) — Forensics Quickies; Windows deep dives, low-frequency high-quality -->
+      <!-- Dan Pullega — "Forensics Quickies"; Windows deep dives, low-frequency high-quality -->
       <outline type="rss" text="4n6k" title="4n6k" xmlUrl="https://www.4n6k.com/feeds/posts/default" htmlUrl="https://www.4n6k.com/"/>
-      <!-- Embee Research — malware analysis, DNS pivoting, infrastructure analysis, CyberChef -->
+      <!-- Embee Research — malware analysis, DNS pivoting, infrastructure pivoting, CyberChef techniques -->
       <outline type="rss" text="Embee Research" title="Embee Research" xmlUrl="https://embee-research.ghost.io/rss/" htmlUrl="https://embee-research.ghost.io/"/>
-      <!-- Digital Forensics Tips — OSINT, domain research, practical tutorials; Blogger-hosted -->
+      <!-- OSINT, domain research, email forensics, practical investigation tutorials; Blogger-hosted -->
       <outline type="rss" text="Digital Forensics Tips" title="Digital Forensics Tips" xmlUrl="https://www.digitalforensicstips.com/feeds/posts/default" htmlUrl="https://www.digitalforensicstips.com/"/>
     </outline>
     <outline text="Vendor DFIR Blogs" title="Vendor DFIR Blogs">
-      <!-- RSS feeds confirmed working by probe 2026-05-03 -->
+      <!-- Binalyze — DFIR platform vendor; acquisition techniques, triage workflows -->
       <outline type="rss" text="Binalyze Blog" title="Binalyze Blog" xmlUrl="https://www.binalyze.com/blog/rss.xml" htmlUrl="https://www.binalyze.com/blog"/>
       <!-- Belkasoft's main site (belkasoft.com) has no feed; their WordPress blog does -->
       <outline type="rss" text="Belkasoft Blog" title="Belkasoft Blog" xmlUrl="https://belkasoft.wordpress.com/feed/" htmlUrl="https://belkasoft.wordpress.com/"/>
+      <!-- Forensafe / ArtiFast — Windows artifact parser vendor; artifact coverage notes -->
       <outline type="rss" text="Forensafe (ArtiFast) Blog" title="Forensafe (ArtiFast) Blog" xmlUrl="https://www.forensafe.com/rss.xml" htmlUrl="https://www.forensafe.com/"/>
+      <!-- Cellebrite — mobile forensics vendor; device support updates, acquisition research -->
       <outline type="rss" text="Cellebrite Blog" title="Cellebrite Blog" xmlUrl="https://cellebrite.com/en/feed/" htmlUrl="https://cellebrite.com/en/blog/"/>
-      <!-- DFIR Science — Dr. Joshua James; academic + practitioner content -->
+      <!-- Dr. Joshua James — academic DFIR research; iLEAPP, mobile forensics methodology -->
       <outline type="rss" text="DFIR Science" title="DFIR Science" xmlUrl="https://dfir.science/feed.xml" htmlUrl="https://dfir.science/"/>
     </outline>
     <outline text="Vendor and Intel Blogs" title="Vendor and Intel Blogs">
+      <!-- CrowdStrike — threat intelligence, adversary tracking, incident case studies -->
       <outline type="rss" text="CrowdStrike blog" title="CrowdStrike blog" xmlUrl="https://www.crowdstrike.com/blog/feed/" htmlUrl="https://www.crowdstrike.com/blog/"/>
+      <!-- Broadcom (VMware Carbon Black) — endpoint threat research, behavioral IOCs -->
       <outline type="rss" text="VMware Carbon Black" title="VMware Carbon Black" xmlUrl="https://www.carbonblack.com/feed/" htmlUrl="https://www.carbonblack.com/"/>
+      <!-- Malwarebytes Labs — malware family analysis, threat campaigns, IOC reporting -->
       <outline type="rss" text="Malwarebytes Labs" title="Malwarebytes Labs" xmlUrl="https://blog.malwarebytes.com/feed/" htmlUrl="https://blog.malwarebytes.com/"/>
+      <!-- Brian Krebs — investigative journalism; breach reporting, cybercrime ecosystem -->
       <outline type="rss" text="Krebs on Security" title="Krebs on Security" xmlUrl="https://krebsonsecurity.com/feed/" htmlUrl="https://krebsonsecurity.com/"/>
+      <!-- BleepingComputer — security news; ransomware, vulnerability disclosure, malware campaigns -->
       <outline type="rss" text="BleepingComputer" title="BleepingComputer" xmlUrl="https://www.bleepingcomputer.com/feed/" htmlUrl="https://www.bleepingcomputer.com/"/>
+      <!-- Dark Reading — security industry news; attack trends, defense coverage -->
       <outline type="rss" text="Dark Reading" title="Dark Reading" xmlUrl="https://www.darkreading.com/rss/all.xml" htmlUrl="https://www.darkreading.com/"/>
     </outline>
     <outline text="Living Off the Land Datasets" title="Living Off the Land Datasets">
@@ -98,13 +135,18 @@
       <!-- abuse.ch suite — actively maintained, machine-readable threat intel -->
       <!-- URLhaus: daily CSV at https://urlhaus.abuse.ch/downloads/csv_recent/ -->
       <!-- synced via scripts/sync_urlhaus.py → archive/sources/urlhaus_domains.json -->
+      <!-- abuse.ch blog — project news and methodology posts; IOC-adjacent, skipped in fetch_all_sources -->
       <outline type="rss" text="abuse.ch blog" title="abuse.ch blog" xmlUrl="https://abuse.ch/blog/feed/" htmlUrl="https://abuse.ch/"/>
+      <!-- URLhaus — malware distribution URLs; ~1000s of new entries/day; use CSV download not RSS -->
       <outline type="rss" text="URLhaus" title="URLhaus — malware distribution URLs" xmlUrl="https://urlhaus.abuse.ch/rss/" htmlUrl="https://urlhaus.abuse.ch/"/>
+      <!-- MalwareBazaar — malware samples with SHA256/YARA/family tags; high-volume IOC feed -->
       <outline type="rss" text="MalwareBazaar" title="MalwareBazaar — malware samples" xmlUrl="https://bazaar.abuse.ch/rss/" htmlUrl="https://bazaar.abuse.ch/"/>
+      <!-- ThreatFox — C2 IOCs (IP:port, domain, URL) with malware family tags -->
       <outline type="rss" text="ThreatFox" title="ThreatFox — IOC sharing" xmlUrl="https://threatfox.abuse.ch/rss/" htmlUrl="https://threatfox.abuse.ch/"/>
       <!-- Cisco Umbrella 1M popularity list: daily snapshot, useful as baseline whitelist -->
       <!-- https://s3-us-west-1.amazonaws.com/umbrella-static/top-1m.csv.zip -->
       <!-- MISP taxonomies: https://github.com/MISP/misp-taxonomies — circl:threat-type, enisa:threats -->
+      <!-- MISP taxonomies — taxonomy YAML commits; circl:threat-type, enisa:threats, tlp -->
       <outline type="rss" text="MISP taxonomies" title="MISP taxonomies" xmlUrl="https://github.com/MISP/misp-taxonomies/commits/main.atom" htmlUrl="https://www.misp-project.org/"/>
     </outline>
   </body>
