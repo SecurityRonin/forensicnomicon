@@ -18,8 +18,8 @@ pub enum ArtifactType {
     EventLog,
     /// A region of process/physical memory.
     MemoryRegion,
-    /// Output from a live-response assessment tool (lsof, ss, chkrootkit, etc.).
-    Assessment,
+    /// Output collected during live response from a running system (lsof, ss, chkrootkit, etc.).
+    LiveResponse,
     /// A structured database file (ESE/SQLite/etc.).
     DatabaseEntry,
 }
