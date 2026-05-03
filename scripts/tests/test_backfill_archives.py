@@ -211,36 +211,6 @@ class TestClassifyBlogSource(unittest.TestCase):
         self.assertEqual(result, "unknown")
 
 
-class TestExtractRelatedArtifacts(unittest.TestCase):
-    """
-    Blog posts co-mention artifacts — extract these as related-field candidates.
-    Known artifact names are matched against catalog IDs.
-    """
-
-    def test_shimcache_and_prefetch_cooccurrence(self):
-        text = "ShimCache and Prefetch both record program execution."
-        related = ba.extract_related_artifacts(text)
-        self.assertIn("shimcache", related)
-        self.assertIn("prefetch_dir", related)
-
-    def test_userassist_mentioned(self):
-        text = "UserAssist tracks GUI program launches in the registry."
-        related = ba.extract_related_artifacts(text)
-        self.assertTrue(any("userassist" in r for r in related))
-
-    def test_mft_mentioned(self):
-        text = "The $MFT records every file on the NTFS volume."
-        related = ba.extract_related_artifacts(text)
-        self.assertTrue(any("mft" in r for r in related))
-
-    def test_empty_text_returns_empty(self):
-        self.assertEqual(ba.extract_related_artifacts(""), [])
-
-    def test_no_false_positives_on_generic_text(self):
-        text = "This is a blog post about cloud security strategy."
-        related = ba.extract_related_artifacts(text)
-        self.assertEqual(related, [])
-
 
 if __name__ == "__main__":
     unittest.main()

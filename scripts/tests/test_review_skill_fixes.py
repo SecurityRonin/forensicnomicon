@@ -26,31 +26,27 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 
 class TestArtifactPhrasesInSkill(unittest.TestCase):
-    """Fix 1: _ARTIFACT_PHRASES must be importable and the skill must reference them."""
+    """Fix 1: No hardcoded phrase list — Claude uses own comprehension."""
 
-    def test_artifact_phrases_importable(self):
-        from backfill_archives import _ARTIFACT_PHRASES
-        self.assertIsInstance(_ARTIFACT_PHRASES, list)
-        self.assertGreater(len(_ARTIFACT_PHRASES), 10)
+    def test_no_hardcoded_artifact_phrases_list(self):
+        """_ARTIFACT_PHRASES must NOT exist — deleted as hardcoded YAGNI."""
+        import backfill_archives
+        self.assertFalse(
+            hasattr(backfill_archives, "_ARTIFACT_PHRASES"),
+            "_ARTIFACT_PHRASES must be deleted; Claude uses comprehension, not a keyword list"
+        )
 
-    def test_each_phrase_is_tuple_of_two_strings(self):
-        from backfill_archives import _ARTIFACT_PHRASES
-        for item in _ARTIFACT_PHRASES:
-            self.assertIsInstance(item, tuple, f"expected tuple, got {type(item)}")
-            self.assertEqual(len(item), 2, f"expected (phrase, artifact_id), got {item}")
-            phrase, artifact_id = item
-            self.assertIsInstance(phrase, str)
-            self.assertIsInstance(artifact_id, str)
+    def test_no_extract_related_artifacts_function(self):
+        """extract_related_artifacts() must NOT exist — it was a keyword scanner."""
+        import backfill_archives
+        self.assertFalse(
+            hasattr(backfill_archives, "extract_related_artifacts"),
+            "extract_related_artifacts() must be deleted; Claude reads content directly"
+        )
 
-    def test_shimcache_phrase_present(self):
-        from backfill_archives import _ARTIFACT_PHRASES
-        phrases = [p for p, _ in _ARTIFACT_PHRASES]
-        self.assertIn("shimcache", phrases)
-
-    def test_prefetch_phrase_present(self):
-        from backfill_archives import _ARTIFACT_PHRASES
-        phrases = [p for p, _ in _ARTIFACT_PHRASES]
-        self.assertIn("prefetch", phrases)
+    def test_rescan_reviewed_entries_importable(self):
+        from backfill_archives import rescan_reviewed_entries
+        self.assertTrue(callable(rescan_reviewed_entries))
 
     def test_skill_references_check_related_gaps(self):
         """The review skill must tell Claude to call check_related_gaps() programmatically."""
@@ -85,6 +81,19 @@ class TestArtifactPhrasesInSkill(unittest.TestCase):
         self.assertNotIn(
             "Pass it to `extract_related_artifacts()`", content,
             "skill must not tell Claude to run the keyword scanner on fetched content"
+        )
+
+    def test_rescan_tilde_means_full_review_not_related_only(self):
+        """[~] items must be treated as full reviews — not restricted to related-field only."""
+        skill_path = os.path.join(
+            os.path.dirname(__file__), "..", "..",
+            ".claude", "commands", "review-dfir-feeds.md"
+        )
+        with open(skill_path) as f:
+            content = f.read()
+        self.assertNotIn(
+            "related-field pass only", content,
+            "[~] must not restrict to related-field; it is a full rescan"
         )
 
 
@@ -157,18 +166,14 @@ class TestYouTubeTranscript(unittest.TestCase):
             self.assertGreater(len(result), 50,
                                "transcript should contain meaningful text")
 
-    def test_transcript_passes_to_extract_related(self):
-        """If a transcript is available, extract_related_artifacts() can use it."""
-        from backfill_archives import fetch_youtube_transcript, extract_related_artifacts
+    def test_transcript_contains_dfir_terms_when_available(self):
+        """Transcript text is readable prose — Claude uses it directly, no keyword scan."""
+        from backfill_archives import fetch_youtube_transcript
         result = fetch_youtube_transcript("_3PiX4OT9pE")
         if result is not None:
-            related = extract_related_artifacts(result)
-            self.assertIsInstance(related, list)
-            # A Prefetch video should mention prefetch
-            self.assertTrue(
-                any("prefetch" in r for r in related),
-                f"Prefetch video transcript should mention prefetch artifact, got: {related}"
-            )
+            # A Prefetch video should contain the word "prefetch" for Claude to read
+            self.assertIn("prefetch", result.lower(),
+                          "Prefetch video transcript should contain 'prefetch'")
 
 
 if __name__ == "__main__":
