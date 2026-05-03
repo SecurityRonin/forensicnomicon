@@ -764,6 +764,114 @@ pub const LOLBAS_WINDOWS: &[LolbasEntry] = &[
     LolbasEntry { name: "TpmVscMgr.exe", mitre_techniques: &["T1082"], use_cases: UC_RECON, description: "" },
     LolbasEntry { name: "uptime.exe", mitre_techniques: &["T1082"], use_cases: UC_RECON, description: "" },
     LolbasEntry { name: "WinAppDeployCmd.exe", mitre_techniques: &["T1218"], use_cases: UC_EXECUTE | UC_BYPASS, description: "" },
+    // ── LOLBAS Project gaps (sourced from lolbas-project.github.io/api/lolbas.json) ──
+    // T1218 — Signed Binary Proxy Execution
+    LolbasEntry {
+        name: "addinutil.exe",
+        mitre_techniques: &["T1218"],
+        use_cases: UC_EXECUTE | UC_BYPASS,
+        description: "Microsoft .NET Add-In Utility; executes arbitrary .NET add-in manifests to bypass allowlisting.",
+    },
+    LolbasEntry {
+        name: "certoc.exe",
+        mitre_techniques: &["T1105", "T1218"],
+        use_cases: UC_DOWNLOAD | UC_EXECUTE | UC_BYPASS,
+        description: "Certificate Operations; downloads files and loads arbitrary DLLs via certificate management interface.",
+    },
+    LolbasEntry {
+        name: "cmdl32.exe",
+        mitre_techniques: &["T1105"],
+        use_cases: UC_DOWNLOAD,
+        description: "Windows VPN client INF file parser; abused to download arbitrary files via INF ServiceName field.",
+    },
+    LolbasEntry {
+        name: "infdefaultinstall.exe",
+        mitre_techniques: &["T1218"],
+        use_cases: UC_EXECUTE | UC_BYPASS,
+        description: "Windows Setup API INF installer; executes arbitrary INF scripts to bypass allowlisting.",
+    },
+    LolbasEntry {
+        name: "MpCmdRun.exe",
+        mitre_techniques: &["T1218", "T1562.001"],
+        use_cases: UC_DOWNLOAD | UC_EXECUTE | UC_BYPASS,
+        description: "Windows Defender CLI; downloads payloads via -DownloadFile, executes arbitrary DLLs.",
+    },
+    LolbasEntry {
+        name: "pcwrun.exe",
+        mitre_techniques: &["T1218"],
+        use_cases: UC_EXECUTE | UC_BYPASS,
+        description: "Program Compatibility Wizard runner; proxy execution of arbitrary binaries via compatibility shim.",
+    },
+    LolbasEntry {
+        name: "rasautou.exe",
+        mitre_techniques: &["T1218"],
+        use_cases: UC_EXECUTE | UC_BYPASS,
+        description: "Windows Remote Access AutoDial manager; loads arbitrary DLLs via -d and -p arguments.",
+    },
+    LolbasEntry {
+        name: "SyncAppvPublishingServer.exe",
+        mitre_techniques: &["T1218"],
+        use_cases: UC_EXECUTE | UC_BYPASS,
+        description: "App-V publishing server sync; executes arbitrary PowerShell through sync script parameter.",
+    },
+    LolbasEntry {
+        name: "wsreset.exe",
+        mitre_techniques: &["T1218", "T1548.002"],
+        use_cases: UC_EXECUTE | UC_BYPASS,
+        description: "Windows Store cache reset; UAC bypass via COM elevation hijack (auto-elevated, no prompt).",
+    },
+    // T1003 — OS Credential Dumping / T1490 — Inhibit System Recovery
+    LolbasEntry {
+        name: "diskshadow.exe",
+        mitre_techniques: &["T1003.003", "T1490"],
+        use_cases: UC_EXECUTE | UC_CREDENTIALS | UC_DEFENSE_EVASION,
+        description: "Windows Server Backup shadow copy utility; extracts NTDS.dit from VSS snapshot; delete shadow copies.",
+    },
+    LolbasEntry {
+        name: "esentutl.exe",
+        mitre_techniques: &["T1048", "T1560.001"],
+        use_cases: UC_UPLOAD | UC_ARCHIVE | UC_CREDENTIALS,
+        description: "Extensible Storage Engine utility; copies locked files including NTDS.dit; file transfer via /cp.",
+    }, // Note: UC_UPLOAD used for data staging/transfer (closest to exfil semantics)
+    LolbasEntry {
+        name: "rdrleakdiag.exe",
+        mitre_techniques: &["T1003.001"],
+        use_cases: UC_CREDENTIALS,
+        description: "RDR Leak Diagnostics; creates full minidumps of LSASS process without SeDebugPrivilege check.",
+    },
+    LolbasEntry {
+        name: "tttracer.exe",
+        mitre_techniques: &["T1218", "T1003"],
+        use_cases: UC_EXECUTE | UC_CREDENTIALS,
+        description: "Time Travel Debugging tracer; dumps process memory and executes with elevated context.",
+    },
+    // T1105 — Ingress Tool Transfer
+    LolbasEntry {
+        name: "desktopimgdownldr.exe",
+        mitre_techniques: &["T1105"],
+        use_cases: UC_DOWNLOAD,
+        description: "Desktop Image Downloader (SetupSQM); downloads arbitrary files disguised as desktop wallpaper.",
+    },
+    // T1040 — Network Sniffing
+    LolbasEntry {
+        name: "pktmon.exe",
+        mitre_techniques: &["T1040"],
+        use_cases: UC_NETWORK | UC_RECON,
+        description: "Windows Packet Monitor; in-box network packet capture without third-party tools.",
+    },
+    // T1059.001 — PowerShell / T1072 — Software Deployment Tools
+    LolbasEntry {
+        name: "wt.exe",
+        mitre_techniques: &["T1059.001"],
+        use_cases: UC_EXECUTE,
+        description: "Windows Terminal; spawns arbitrary shells and profiles; used to obscure parent process chain.",
+    },
+    LolbasEntry {
+        name: "winget.exe",
+        mitre_techniques: &["T1072", "T1218"],
+        use_cases: UC_EXECUTE | UC_DOWNLOAD | UC_BYPASS,
+        description: "Windows Package Manager; installs and executes arbitrary packages from attacker-controlled manifests.",
+    },
 ];
 
 /// Linux LOLBAS — binaries with known GTFOBins escape/bypass techniques.
@@ -2050,6 +2158,51 @@ pub const LOLBAS_WINDOWS_WMI: &[LolbasEntry] = &[
 
     // T1552 — Unsecured Credentials / Registry queries
     LolbasEntry { name: "StdRegProv", mitre_techniques: &["T1552", "T1112"], use_cases: UC_CREDENTIALS | UC_PERSIST, description: "Registry read/write via WMI; credential and config access." },
+
+    // ── WMI expansion — recon + firewall control ──────────────────────────────
+    // Source: WMIFilter (github.com/mattifestation/WMIFilter), ATT&CK T1047
+    // T1018 — Remote System Discovery
+    LolbasEntry {
+        name: "Win32_PingStatus",
+        mitre_techniques: &["T1018"],
+        use_cases: UC_RECON | UC_NETWORK,
+        description: "ICMP ping via WMI; remote host discovery without native ping binary.",
+    },
+    // T1083 — File and Directory Discovery
+    LolbasEntry {
+        name: "Win32_LogicalDisk",
+        mitre_techniques: &["T1083", "T1082"],
+        use_cases: UC_RECON,
+        description: "Logical drive enumeration; identify data staging candidates.",
+    },
+    // T1087.001 — Account Discovery: Local Account
+    LolbasEntry {
+        name: "Win32_UserAccount",
+        mitre_techniques: &["T1087.001"],
+        use_cases: UC_RECON,
+        description: "Local user account enumeration via WMI.",
+    },
+    // T1016 — System Network Configuration Discovery
+    LolbasEntry {
+        name: "Win32_NetworkAdapterConfiguration",
+        mitre_techniques: &["T1016"],
+        use_cases: UC_RECON | UC_NETWORK,
+        description: "Network adapter IP/DNS/gateway config; network recon via WMI.",
+    },
+    // T1518.001 — Security Software Discovery
+    LolbasEntry {
+        name: "AntiVirusProduct",
+        mitre_techniques: &["T1518.001"],
+        use_cases: UC_RECON,
+        description: "Security product enumeration via SecurityCenter2 namespace; AV detection.",
+    },
+    // T1562.004 — Impair Defenses: Disable or Modify System Firewall
+    LolbasEntry {
+        name: "MSFT_NetFirewallProfile",
+        mitre_techniques: &["T1562.004"],
+        use_cases: UC_RECON | UC_DEFENSE_EVASION,
+        description: "Firewall profile enumeration and disable via WMI; impair network defenses.",
+    },
 ];
 
 /// Returns `true` if `name` matches a known Windows PowerShell cmdlet or alias

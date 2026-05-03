@@ -537,6 +537,176 @@ pub const ABUSABLE_SITES: &[AbusableSite] = &[
         blocking_risk: BlockingRisk::Low,
         mitre_techniques: &["T1566.002"],
     },
+
+    // ╔══════════════════════════════════════════════════════════════════════╗
+    // ║  LOTS Project expansion — sourced from lots-project.com              ║
+    // ║  175 known entries; gaps against our 35-entry base catalog promoted  ║
+    // ║  here. Script: scripts/scrape_lots.py; upstream: lots-project.com   ║
+    // ╚══════════════════════════════════════════════════════════════════════╝
+
+    // ── Microsoft Graph API / OneDrive (Critical) ──────────────────────────
+    // Source: https://lots-project.com/
+    // ATT&CK: T1071.001 (C2 via HTTPS), T1530 (data from cloud storage)
+    AbusableSite {
+        domain: "graph.microsoft.com",
+        provider: "Microsoft",
+        legitimate_category: SiteCategory::CloudStorage,
+        abuse_tags: TAG_C2 | TAG_EXFIL | TAG_DOWNLOAD,
+        blocking_risk: BlockingRisk::Critical,
+        mitre_techniques: &["T1071.001", "T1530", "T1567.002"],
+    },
+    AbusableSite {
+        domain: "onedrive.live.com",
+        provider: "Microsoft OneDrive",
+        legitimate_category: SiteCategory::CloudStorage,
+        abuse_tags: TAG_PHISHING | TAG_DOWNLOAD | TAG_EXFIL,
+        blocking_risk: BlockingRisk::Critical,
+        mitre_techniques: &["T1105", "T1567.002", "T1566.002"],
+    },
+
+    // ── Cloudflare Quick Tunnels (Critical) ───────────────────────────────
+    // T1090.003 — Multi-hop Proxy; zero-config C2 tunnels through Cloudflare
+    AbusableSite {
+        domain: "*.trycloudflare.com",
+        provider: "Cloudflare",
+        legitimate_category: SiteCategory::CloudHosting,
+        abuse_tags: TAG_C2 | TAG_DOWNLOAD | TAG_PHISHING,
+        blocking_risk: BlockingRisk::Critical,
+        mitre_techniques: &["T1090.003", "T1102", "T1105"],
+    },
+
+    // ── Netlify (Critical CDN/hosting) ────────────────────────────────────
+    // T1102/T1583.006 — phishing pages and payload CDN delivery
+    AbusableSite {
+        domain: "*.netlify.app",
+        provider: "Netlify",
+        legitimate_category: SiteCategory::CloudHosting,
+        abuse_tags: TAG_PHISHING | TAG_C2 | TAG_DOWNLOAD,
+        blocking_risk: BlockingRisk::Critical,
+        mitre_techniques: &["T1102", "T1105", "T1583.006"],
+    },
+
+    // ── ngrok (High) ──────────────────────────────────────────────────────
+    // T1090.003 — NAT-piercing tunnels; dominant Red Team and malware C2 relay
+    AbusableSite {
+        domain: "*.ngrok.io",
+        provider: "ngrok",
+        legitimate_category: SiteCategory::Other,
+        abuse_tags: TAG_C2 | TAG_DOWNLOAD,
+        blocking_risk: BlockingRisk::High,
+        mitre_techniques: &["T1090.003", "T1102"],
+    },
+    AbusableSite {
+        domain: "*.ngrok-free.app",
+        provider: "ngrok",
+        legitimate_category: SiteCategory::Other,
+        abuse_tags: TAG_C2 | TAG_DOWNLOAD,
+        blocking_risk: BlockingRisk::High,
+        mitre_techniques: &["T1090.003", "T1102"],
+    },
+
+    // ── Box (High) ────────────────────────────────────────────────────────
+    // T1567.002 — Exfiltration to Cloud Storage
+    AbusableSite {
+        domain: "*.box.com",
+        provider: "Box",
+        legitimate_category: SiteCategory::CloudStorage,
+        abuse_tags: TAG_PHISHING | TAG_EXFIL | TAG_DOWNLOAD,
+        blocking_risk: BlockingRisk::High,
+        mitre_techniques: &["T1567.002", "T1105", "T1566.002"],
+    },
+
+    // ── Gitee (High) ──────────────────────────────────────────────────────
+    // T1102 — dead-drop resolver; used by APT groups (Lazarus, APT41) as C2
+    AbusableSite {
+        domain: "gitee.com",
+        provider: "Gitee",
+        legitimate_category: SiteCategory::CodeRepository,
+        abuse_tags: TAG_C2 | TAG_DOWNLOAD,
+        blocking_risk: BlockingRisk::High,
+        mitre_techniques: &["T1102", "T1105", "T1583.001"],
+    },
+
+    // ── Anonymous file hosts (High) ───────────────────────────────────────
+    // T1105 — Ingress Tool Transfer; widely seen in commodity malware delivery
+    AbusableSite {
+        domain: "transfer.sh",
+        provider: "transfer.sh",
+        legitimate_category: SiteCategory::CloudStorage,
+        abuse_tags: TAG_DOWNLOAD | TAG_EXFIL,
+        blocking_risk: BlockingRisk::High,
+        mitre_techniques: &["T1105", "T1567.002"],
+    },
+    AbusableSite {
+        domain: "file.io",
+        provider: "file.io",
+        legitimate_category: SiteCategory::CloudStorage,
+        abuse_tags: TAG_DOWNLOAD | TAG_EXFIL,
+        blocking_risk: BlockingRisk::High,
+        mitre_techniques: &["T1105", "T1567.002"],
+    },
+    AbusableSite {
+        domain: "4shared.com",
+        provider: "4shared",
+        legitimate_category: SiteCategory::CloudStorage,
+        abuse_tags: TAG_DOWNLOAD | TAG_PHISHING,
+        blocking_risk: BlockingRisk::High,
+        mitre_techniques: &["T1105", "T1566.002"],
+    },
+    AbusableSite {
+        domain: "mediafire.com",
+        provider: "MediaFire",
+        legitimate_category: SiteCategory::CloudStorage,
+        abuse_tags: TAG_DOWNLOAD | TAG_PHISHING,
+        blocking_risk: BlockingRisk::High,
+        mitre_techniques: &["T1105", "T1566.002"],
+    },
+
+    // ── Webhook / serverless relay (Medium) ───────────────────────────────
+    // T1041/T1071 — exfil via webhook; C2 relay through legitimate platforms
+    AbusableSite {
+        domain: "webhook.site",
+        provider: "webhook.site",
+        legitimate_category: SiteCategory::Other,
+        abuse_tags: TAG_C2 | TAG_EXFIL,
+        blocking_risk: BlockingRisk::Medium,
+        mitre_techniques: &["T1041", "T1071.001"],
+    },
+    AbusableSite {
+        domain: "*.pipedream.net",
+        provider: "Pipedream",
+        legitimate_category: SiteCategory::Other,
+        abuse_tags: TAG_C2 | TAG_EXFIL,
+        blocking_risk: BlockingRisk::Medium,
+        mitre_techniques: &["T1041", "T1102"],
+    },
+
+    // ── IP geolocation / victim-filter APIs (Medium) ──────────────────────
+    // T1016/T1590 — network discovery; used in malware check-in/geo-filter
+    AbusableSite {
+        domain: "ipinfo.io",
+        provider: "ipinfo.io",
+        legitimate_category: SiteCategory::Other,
+        abuse_tags: TAG_C2,
+        blocking_risk: BlockingRisk::Medium,
+        mitre_techniques: &["T1016", "T1590.005"],
+    },
+    AbusableSite {
+        domain: "api.ipify.org",
+        provider: "ipify",
+        legitimate_category: SiteCategory::Other,
+        abuse_tags: TAG_C2,
+        blocking_risk: BlockingRisk::Medium,
+        mitre_techniques: &["T1016"],
+    },
+    AbusableSite {
+        domain: "checkip.amazonaws.com",
+        provider: "Amazon Web Services",
+        legitimate_category: SiteCategory::Other,
+        abuse_tags: TAG_C2,
+        blocking_risk: BlockingRisk::Medium,
+        mitre_techniques: &["T1016"],
+    },
 ];
 
 // ---------------------------------------------------------------------------
