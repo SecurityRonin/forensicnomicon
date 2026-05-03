@@ -333,5 +333,74 @@ class TestPendingFileLock(unittest.TestCase):
 
 
 
+class TestParseRssXml(unittest.TestCase):
+    """parse_rss_xml(text) — unified RSS/Atom parser used by xml-first strategy."""
+
+    def test_parses_blogger_atom_feed(self):
+        entries = ba.parse_rss_xml(BLOGGER_FEED_XML)
+        self.assertEqual(len(entries), 2)
+        title, url, date = entries[0]
+        self.assertEqual(title, "ShimCache and AppCompatCache")
+        self.assertIn("windowsir.blogspot.com", url)
+        self.assertEqual(date, "2024-01-15")
+
+    def test_parses_generic_atom_feed(self):
+        entries = ba.parse_rss_xml(GITHUB_ATOM_XML)
+        self.assertEqual(len(entries), 1)
+        title, url, date = entries[0]
+        self.assertEqual(title, "Create certutil.yml")
+        self.assertIn("github.com", url)
+
+    def test_empty_text_returns_empty_list(self):
+        self.assertEqual(ba.parse_rss_xml(""), [])
+
+    def test_invalid_xml_returns_empty_list(self):
+        self.assertEqual(ba.parse_rss_xml("not xml at all"), [])
+
+    def test_ghost_rss_feed(self):
+        """Ghost blogs emit RSS 2.0 (not Atom) — parse_rss_xml must handle it."""
+        ghost_rss = textwrap.dedent("""\
+        <?xml version="1.0" encoding="UTF-8"?>
+        <rss version="2.0">
+          <channel>
+            <title>dfir.blog</title>
+            <item>
+              <title>SRUM Database Forensics</title>
+              <link>https://dfir.blog/srum-database/</link>
+              <pubDate>Fri, 10 Feb 2024 09:00:00 +0000</pubDate>
+            </item>
+            <item>
+              <title>Prefetch Analysis</title>
+              <link>https://dfir.blog/prefetch-analysis/</link>
+              <pubDate>Sun, 20 Jan 2024 09:00:00 +0000</pubDate>
+            </item>
+          </channel>
+        </rss>
+        """)
+        entries = ba.parse_rss_xml(ghost_rss)
+        self.assertEqual(len(entries), 2)
+        title, url, date = entries[0]
+        self.assertEqual(title, "SRUM Database Forensics")
+        self.assertEqual(url, "https://dfir.blog/srum-database/")
+        self.assertEqual(date, "2024-02-10")
+
+    def test_rss_pubdate_parsed_to_ymd(self):
+        """RSS 2.0 <pubDate> uses RFC 2822 format — must be normalised to YYYY-MM-DD."""
+        rss = textwrap.dedent("""\
+        <?xml version="1.0" encoding="UTF-8"?>
+        <rss version="2.0"><channel>
+          <item>
+            <title>Post</title>
+            <link>https://example.com/post</link>
+            <pubDate>Mon, 01 Apr 2024 12:00:00 GMT</pubDate>
+          </item>
+        </channel></rss>
+        """)
+        entries = ba.parse_rss_xml(rss)
+        self.assertEqual(len(entries), 1)
+        _, _, date = entries[0]
+        self.assertRegex(date, r"\d{4}-\d{2}-\d{2}")
+
+
 if __name__ == "__main__":
     unittest.main()
