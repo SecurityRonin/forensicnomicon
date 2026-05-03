@@ -84,21 +84,37 @@ pub(crate) static USERASSIST_FIELDS: &[FieldSchema] = &[
 
 /// UserAssist EXE entries (NTUSER.DAT).
 ///
-/// GUID: `{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}`
+/// GUID: `{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}` — application/executable launches (.exe files).
 /// Key: `Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count`
 /// Decoder: ROT13 the value name + parse 72-byte binary value.
+///
+/// # Forensic caveats
+///
+/// - **Non-zero Focus Time** is the strongest indicator of actual interactive execution.
+/// - **Zero Focus Time + non-zero Run Count** is ambiguous: shell preloading or click attempts
+///   that failed to launch may register a Run Count without any Focus Time.
+/// - Focus Time is cumulative and includes AFK time while the window remains in focus.
+/// - GUI-only: command-line invocations and background processes do not appear here.
+/// - The key can be cleared by the user or malware; absence is not proof of non-execution.
+///
+/// Sources:
+/// - GUID confirmed: <https://www.magnetforensics.com/blog/artifact-profile-userassist/>
+/// - GUID confirmed: <https://www.sans.org/blog/computer-forensic-artifacts-windows-7-userassist/>
+/// - Key path structure: <https://windowsir.blogspot.com/2004/02/userassist.html>
 pub static USERASSIST_EXE: ArtifactDescriptor = ArtifactDescriptor {
     id: "userassist_exe",
     name: "UserAssist (EXE)",
     artifact_type: ArtifactType::RegistryValue,
     hive: Some(HiveTarget::NtUser),
+    // Source: GUID {CEBFF5CD-ACE2-4F4F-9178-9926F41749EA} confirmed by Magnet Forensics
+    // artifact profile and SANS blog as the Win7+ executable-launch GUID.
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\Count",
     value_name: None, // enumerate all values
     file_path: None,
     scope: DataScope::User,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Rot13NameWithBinaryValue(USERASSIST_BINARY_FIELDS),
-    meaning: "Program execution history with launch counts and timestamps",
+    meaning: "Interactive program execution history: launch counts, last execution timestamp, and focus duration. Non-zero Focus Time confirms interactive use; zero Focus Time with non-zero Run Count may indicate shell preloading.",
     mitre_techniques: &["T1059", "T1204.002"],
     fields: USERASSIST_FIELDS,
     retention: None,
@@ -360,17 +376,26 @@ pub static IFEO_DEBUGGER: ArtifactDescriptor = ArtifactDescriptor {
 ///
 /// GUID: `{F4E57C4B-2036-45F0-A9AB-443BCFE33D9F}`
 ///
-/// Historically called the "Folder GUID" in DFIR tooling, but per the Magnet
-/// Forensics artifact profile this key tracks **launches initiated via shortcuts
-/// (.lnk files)** — e.g. Start Menu items, Desktop shortcuts. The "Folder"
-/// label is a community misnomer that spread through RegRipper and blog posts.
+/// Historically called the "Folder GUID" in DFIR tooling (RegRipper and many
+/// blog posts), but per the Magnet Forensics artifact profile this key tracks
+/// **launches initiated via shortcuts (.lnk files)** — e.g. Start Menu items,
+/// Desktop shortcuts, taskbar pinned items. The "Folder" label is a community
+/// misnomer. Corrected naming source:
+/// <https://www.magnetforensics.com/blog/artifact-profile-userassist/>
 ///
-/// Source: <https://www.magnetforensics.com/blog/artifact-profile-userassist/>
+/// # Forensic note
+///
+/// Shortcut (.lnk) interactions can register an entry **without actual execution**
+/// if the target fails to launch. Always verify against Prefetch or AmCache.
+/// LNK-based persistence (T1547.009) will appear in this GUID, not `{CEBFF5CD-...}`.
 pub static USERASSIST_FOLDER: ArtifactDescriptor = ArtifactDescriptor {
     id: "userassist_folder",
     name: "UserAssist (Shortcut/LNK)",
     artifact_type: ArtifactType::RegistryValue,
     hive: Some(HiveTarget::NtUser),
+    // Source: GUID {F4E57C4B-2036-45F0-A9AB-443BCFE33D9F} confirmed by Magnet Forensics
+    // as the Win7+ shortcut-initiated launch GUID. Commonly (incorrectly) called
+    // "Folder GUID" in RegRipper and community tooling.
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{F4E57C4B-2036-45F0-A9AB-443BCFE33D9F}\Count",
     value_name: None,
     file_path: None,
@@ -456,6 +481,8 @@ pub static USERASSIST_XP_EXE: ArtifactDescriptor = ArtifactDescriptor {
     name: "UserAssist XP (App/File/Link)",
     artifact_type: ArtifactType::RegistryValue,
     hive: Some(HiveTarget::NtUser),
+    // Source: GUID {75048700-EF1F-11D0-9888-006097DEACF9} confirmed by Magnet Forensics
+    // artifact profile as the XP/2000 application, file, and link launch GUID.
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{75048700-EF1F-11D0-9888-006097DEACF9}\Count",
     value_name: None,
     file_path: None,
@@ -488,6 +515,8 @@ pub static USERASSIST_XP_IE_FAVORITES: ArtifactDescriptor = ArtifactDescriptor {
     name: "UserAssist XP (IE Favorites/Toolbar)",
     artifact_type: ArtifactType::RegistryValue,
     hive: Some(HiveTarget::NtUser),
+    // Source: GUID {5E6AB780-7743-11CF-A12B-00AA004AE837} confirmed by Magnet Forensics
+    // artifact profile as the XP IE Favorites and toolbar GUID.
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{5E6AB780-7743-11CF-A12B-00AA004AE837}\Count",
     value_name: None,
     file_path: None,
@@ -519,6 +548,8 @@ pub static USERASSIST_XP_IE7: ArtifactDescriptor = ArtifactDescriptor {
     name: "UserAssist XP (IE7)",
     artifact_type: ArtifactType::RegistryValue,
     hive: Some(HiveTarget::NtUser),
+    // Source: GUID {0D6D4F41-2994-4BA0-8FEF-620E43CD2812} confirmed by Magnet Forensics
+    // artifact profile as the IE7-specific UserAssist GUID (XP + IE7 only).
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{0D6D4F41-2994-4BA0-8FEF-620E43CD2812}\Count",
     value_name: None,
     file_path: None,
