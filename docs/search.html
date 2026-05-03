@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>forensicnomicon — Artifact Search</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #020617;
+      color: #e2e8f0;
+      font-family: 'JetBrains Mono', 'Fira Mono', 'Cascadia Code', monospace;
+      min-height: 100vh;
+      padding: 24px 20px 48px;
+    }
+    a { color: #34d399; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header { text-align: center; margin-bottom: 24px; }
+    h1 { font-size: 20px; font-weight: 700; color: #f1f5f9; margin-bottom: 6px; }
+    .subtitle { font-size: 12px; color: #64748b; }
+
+    nav { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; font-size: 12px; }
+    nav a { color: #94a3b8; }
+
+    .controls {
+      max-width: 900px; margin: 0 auto 20px;
+      display: grid;
+      grid-template-columns: 1fr repeat(3, auto);
+      gap: 8px;
+      align-items: center;
+    }
+    input, select {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #e2e8f0;
+      font-family: inherit;
+      font-size: 13px;
+      padding: 8px 12px;
+      border-radius: 4px;
+      outline: none;
+    }
+    input:focus, select:focus { border-color: #34d399; }
+    input[type="search"] { width: 100%; }
+    select { cursor: pointer; }
+
+    .stats { max-width: 900px; margin: 0 auto 12px; font-size: 11px; color: #475569; }
+
+    table {
+      max-width: 900px; margin: 0 auto;
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    th {
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 1px solid #1e293b;
+      color: #64748b;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 10px;
+    }
+    td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #0f172a;
+      vertical-align: top;
+    }
+    tr:hover td { background: #0f172a; }
+
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+    .badge-critical { background: #450a0a; color: #fca5a5; }
+    .badge-high     { background: #431407; color: #fdba74; }
+    .badge-medium   { background: #422006; color: #fde68a; }
+    .badge-low      { background: #052e16; color: #86efac; }
+    .badge-platform { background: #0f172a; color: #7dd3fc; border: 1px solid #1e3a5f; }
+
+    .mitre-tag {
+      display: inline-block;
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 2px;
+      background: #1e1b4b;
+      color: #a5b4fc;
+      margin: 1px;
+    }
+
+    .empty { text-align: center; color: #475569; padding: 40px; }
+    .loading { text-align: center; color: #475569; padding: 40px; }
+
+    @media (max-width: 600px) {
+      .controls { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>forensicnomicon</h1>
+  <p class="subtitle">DFIR artifact catalog · LOLBins · Abusable sites</p>
+</header>
+
+<nav>
+  <a href="forensicnomicon/index.html">API docs</a>
+  <a href="architecture.html">Architecture</a>
+  <a href="https://github.com/SecurityRonin/forensicnomicon">GitHub</a>
+</nav>
+
+<div class="controls">
+  <input type="search" id="search" placeholder="Search artifacts, LOLBins, sites, MITRE IDs…" autocomplete="off" />
+  <select id="platform">
+    <option value="">All platforms</option>
+    <option value="windows">Windows</option>
+    <option value="linux">Linux</option>
+    <option value="macos">macOS</option>
+  </select>
+  <select id="triage">
+    <option value="">All triage</option>
+    <option value="Critical">Critical</option>
+    <option value="High">High</option>
+    <option value="Medium">Medium</option>
+    <option value="Low">Low</option>
+  </select>
+  <select id="mitre">
+    <option value="">All MITRE</option>
+  </select>
+</div>
+
+<div class="stats" id="stats">Loading…</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name / ID</th>
+      <th>Type</th>
+      <th>Platform</th>
+      <th>Triage</th>
+      <th>MITRE</th>
+    </tr>
+  </thead>
+  <tbody id="results"></tbody>
+</table>
+
+<script>
+// ── data loading ─────────────────────────────────────────────────────────────
+
+let ALL_ROWS = [];  // flat array of row objects for the table
+
+async function loadData() {
+  const resp = await fetch('data.json');
+  if (!resp.ok) throw new Error(`data.json: ${resp.status}`);
+  const data = await resp.json();
+  return data;
+}
+
+function buildRows(data) {
+  const rows = [];
+
+  // LOLBins — all platforms
+  const lolbas_sets = [
+    { key: 'lolbas_windows',  platform: 'windows',  type: 'LOLBin' },
+    { key: 'lolbas_linux',    platform: 'linux',    type: 'LOLBin' },
+    { key: 'lolbas_macos',    platform: 'macos',    type: 'LOLBin' },
+    { key: 'lolbas_windows_cmdlets', platform: 'windows', type: 'PS Cmdlet' },
+    { key: 'lolbas_windows_mmc',     platform: 'windows', type: 'MMC Snap-in' },
+    { key: 'lolbas_windows_wmi',     platform: 'windows', type: 'WMI Class' },
+  ];
+  for (const { key, platform, type } of lolbas_sets) {
+    for (const entry of (data[key] || [])) {
+      rows.push({
+        id:       entry.name || '',
+        name:     entry.name || '',
+        type,
+        platform,
+        triage:   '',
+        mitre:    entry.mitre_techniques || [],
+        meaning:  entry.description || '',
+        _raw:     entry.name?.toLowerCase() + ' ' + (entry.mitre_techniques||[]).join(' '),
+      });
+    }
+  }
+
+  // Abusable sites
+  for (const site of (data.abusable_sites || [])) {
+    rows.push({
+      id:      site.domain || '',
+      name:    site.domain || '',
+      type:    'Abusable Site',
+      platform: 'all',
+      triage:  site.risk || '',
+      mitre:   site.mitre_techniques || [],
+      meaning: site.description || site.why_abusable || '',
+      _raw:    (site.domain||'') + ' ' + (site.mitre_techniques||[]).join(' '),
+    });
+  }
+
+  // Catalog artifacts
+  for (const artifact of (data.catalog || [])) {
+    const platform = (artifact.os_scope || []).join(',').toLowerCase() || 'all';
+    rows.push({
+      id:      artifact.id || '',
+      name:    artifact.name || '',
+      type:    'Artifact',
+      platform,
+      triage:  artifact.triage_priority || '',
+      mitre:   artifact.mitre_techniques || [],
+      meaning: artifact.meaning || '',
+      _raw:    [artifact.id, artifact.name, artifact.meaning,
+                ...(artifact.mitre_techniques||[])].join(' ').toLowerCase(),
+    });
+  }
+
+  return rows;
+}
+
+function buildMitreOptions(rows) {
+  const techniques = new Set();
+  for (const r of rows) for (const t of r.mitre) techniques.add(t);
+  const sorted = [...techniques].sort();
+  const sel = document.getElementById('mitre');
+  for (const t of sorted) {
+    const opt = document.createElement('option');
+    opt.value = t; opt.textContent = t;
+    sel.appendChild(opt);
+  }
+}
+
+// ── filtering ─────────────────────────────────────────────────────────────────
+
+function triageBadgeClass(triage) {
+  switch ((triage || '').toLowerCase()) {
+    case 'critical': return 'badge-critical';
+    case 'high':     return 'badge-high';
+    case 'medium':   return 'badge-medium';
+    case 'low':      return 'badge-low';
+    default:         return 'badge-low';
+  }
+}
+
+function escape(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function renderRows(filtered) {
+  const tbody = document.getElementById('results');
+  const stats = document.getElementById('stats');
+  stats.textContent = `${filtered.length.toLocaleString()} results`;
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" class="empty">No matches</td></tr>';
+    return;
+  }
+
+  const PAGE = 200;
+  const slice = filtered.slice(0, PAGE);
+  const more = filtered.length > PAGE ? filtered.length - PAGE : 0;
+
+  tbody.innerHTML = slice.map(r => {
+    const mitreTags = r.mitre.slice(0, 5).map(t =>
+      `<span class="mitre-tag">${escape(t)}</span>`).join('');
+
+    const platformBadge = r.platform && r.platform !== 'all'
+      ? r.platform.split(',').map(p =>
+          `<span class="badge badge-platform">${escape(p.trim())}</span>`
+        ).join(' ')
+      : '';
+
+    const triageBadge = r.triage
+      ? `<span class="badge ${triageBadgeClass(r.triage)}">${escape(r.triage)}</span>`
+      : '';
+
+    const nameCell = r.id !== r.name
+      ? `<strong>${escape(r.name)}</strong><br/><span style="color:#64748b;font-size:10px">${escape(r.id)}</span>`
+      : `<strong>${escape(r.name)}</strong>`;
+
+    return `<tr>
+      <td>${nameCell}${r.meaning ? `<br/><span style="color:#64748b;font-size:10px">${escape(r.meaning.slice(0, 80))}${r.meaning.length > 80 ? '…' : ''}</span>` : ''}</td>
+      <td><span style="color:#94a3b8">${escape(r.type)}</span></td>
+      <td>${platformBadge}</td>
+      <td>${triageBadge}</td>
+      <td>${mitreTags}</td>
+    </tr>`;
+  }).join('');
+
+  if (more > 0) {
+    tbody.innerHTML += `<tr><td colspan="5" class="empty">${more.toLocaleString()} more — refine your search</td></tr>`;
+  }
+}
+
+function filter() {
+  const q     = document.getElementById('search').value.toLowerCase().trim();
+  const plat  = document.getElementById('platform').value.toLowerCase();
+  const triage = document.getElementById('triage').value;
+  const mitre = document.getElementById('mitre').value;
+
+  let rows = ALL_ROWS;
+
+  if (q) {
+    const terms = q.split(/\s+/);
+    rows = rows.filter(r => terms.every(t => r._raw.includes(t)));
+  }
+  if (plat) {
+    rows = rows.filter(r => r.platform.includes(plat));
+  }
+  if (triage) {
+    rows = rows.filter(r => r.triage === triage);
+  }
+  if (mitre) {
+    rows = rows.filter(r => r.mitre.includes(mitre));
+  }
+
+  renderRows(rows);
+}
+
+// ── init ──────────────────────────────────────────────────────────────────────
+
+document.getElementById('results').innerHTML =
+  '<tr><td colspan="5" class="loading">Loading data…</td></tr>';
+
+loadData().then(data => {
+  ALL_ROWS = buildRows(data);
+  buildMitreOptions(ALL_ROWS);
+  renderRows(ALL_ROWS);
+
+  for (const id of ['search', 'platform', 'triage', 'mitre']) {
+    document.getElementById(id).addEventListener('input', filter);
+  }
+}).catch(err => {
+  document.getElementById('results').innerHTML =
+    `<tr><td colspan="5" class="empty">Failed to load data: ${err.message}</td></tr>`;
+  document.getElementById('stats').textContent = 'Error';
+});
+</script>
+
+</body>
+</html>

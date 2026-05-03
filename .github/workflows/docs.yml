@@ -30,8 +30,16 @@ jobs:
         run: |
           echo '<meta http-equiv="refresh" content="0;url=forensicnomicon/">' \
             > target/doc/index.html
+      - name: Build CLI binary
+        run: cargo build -p forensicnomicon-cli --release
+      - name: Generate data.json for search widget
+        run: |
+          ./target/release/4n6query dump --format json --dataset all \
+            > target/doc/data.json
       - name: Copy static docs
-        run: cp docs/architecture.html target/doc/architecture.html
+        run: |
+          cp docs/architecture.html target/doc/architecture.html
+          cp docs/search.html target/doc/search.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: target/doc
