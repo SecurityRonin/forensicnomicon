@@ -7,7 +7,7 @@ Generated from:
 
 Category counts:
 - directory: 3
-- feed: 35
+- feed: 50
 - knowledge-base: 36
 - practitioner-blog: 1
 - primary-reference: 9
@@ -23,17 +23,27 @@ Category counts:
 
 ## feed
 
+- 13cubed (YouTube): https://www.youtube.com/@13cubed
+  update: `rss`; kind: `rss-feed`; sources: `opml`
 - AboutDFIR: https://aboutdfir.com/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
+- abuse.ch blog: https://abuse.ch/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Amped Software blog: https://blog.ampedsoftware.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Another Forensics Blog: https://az4n6.blogspot.com/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
+- Belkasoft Blog: https://belkasoft.wordpress.com/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
+- Binalyze Blog: https://www.binalyze.com/blog
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - binary foray: https://binaryforay.blogspot.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - BleepingComputer: https://www.bleepingcomputer.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Brett Shavers: https://brettshavers.com/brett-s-blog
+  update: `rss`; kind: `rss-feed`; sources: `opml`
+- Cellebrite Blog: https://cellebrite.com/en/blog/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Cheeky4n6Monkey: https://cheeky4n6monkey.blogspot.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
@@ -43,6 +53,8 @@ Category counts:
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - DFIR Diva: https://dfirdiva.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
+- DFIR Science: https://dfir.science/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
 - DFIR Training: https://www.dfir.training/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - dfir.blog: https://dfir.blog/
@@ -50,6 +62,8 @@ Category counts:
 - Digital Forensics Stream: https://df-stream.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - DoubleBlak: https://www.doubleblak.com/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
+- Forensafe (ArtiFast) Blog: https://www.forensafe.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Forensic 4cast: https://forensic4cast.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
@@ -65,15 +79,27 @@ Category counts:
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Krebs on Security: https://krebsonsecurity.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
+- LOFL Project (RMM C2 indicators): https://lofl-project.github.io/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
+- LOLDrivers (BYOVD): https://www.loldrivers.io/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
+- LOOBins (macOS): https://loobins.io/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
 - mac4n6: https://www.mac4n6.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Magnet Forensics: https://www.magnetforensics.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
+- MalwareBazaar — malware samples: https://bazaar.abuse.ch/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
 - Malwarebytes Labs: https://blog.malwarebytes.com/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
+- MISP taxonomies: https://www.misp-project.org/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - MSAB: https://www.msab.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Salt Forensics: https://salt4n6.com/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
+- SANS Internet Storm Center: https://isc.sans.edu/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Smarter Forensics: https://smarterforensics.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
@@ -85,7 +111,11 @@ Category counts:
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - This Week In 4n6: https://thisweekin4n6.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
+- ThreatFox — IOC sharing: https://threatfox.abuse.ch/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
 - tisiphone.net: https://tisiphone.net/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
+- URLhaus — malware distribution URLs: https://urlhaus.abuse.ch/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - VMware Carbon Black: https://www.carbonblack.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
@@ -96,8 +126,8 @@ Category counts:
 
 ## knowledge-base
 
-- Blue Team Hunting Field Notes: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes
-  update: `manual-review`; kind: `github-repository`; sources: `manual`
+- Blue Team Hunting Field Notes (bitbug0x55AA): https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes
+  update: `rss`; kind: `github-repository`; sources: `manual, opml`
 - Chainsaw detections: https://github.com/WithSecureLabs/chainsaw
   update: `manual-review`; kind: `github-repository`; sources: `manual`
 - Eric Zimmerman AmcacheParser: https://github.com/EricZimmerman/AmcacheParser
@@ -172,7 +202,7 @@ Category counts:
 ## practitioner-blog
 
 - The DFIR Report: https://thedfirreport.com/
-  update: `manual-review`; kind: `blog`; sources: `manual`
+  update: `rss`; kind: `blog`; sources: `manual, opml`
 
 ## primary-reference
 
@@ -180,10 +210,10 @@ Category counts:
   update: `manual-review`; kind: `documentation`; sources: `manual`
 - Eric Zimmerman documentation: https://ericzimmerman.github.io/#!index.md
   update: `manual-review`; kind: `documentation`; sources: `manual`
-- GTFOBins: https://gtfobins.github.io/
-  update: `manual-review`; kind: `knowledge-base`; sources: `manual`
-- LOLBAS Project: https://lolbas-project.github.io/
-  update: `manual-review`; kind: `knowledge-base`; sources: `manual`
+- GTFOBins (Linux): https://gtfobins.github.io/
+  update: `rss`; kind: `knowledge-base`; sources: `manual, opml`
+- LOLBAS Project (Windows): https://lolbas-project.github.io/
+  update: `rss`; kind: `knowledge-base`; sources: `manual, opml`
 - Microsoft Learn: https://learn.microsoft.com/
   update: `manual-review`; kind: `documentation`; sources: `manual`
 - MITRE ATT&CK: https://attack.mitre.org/

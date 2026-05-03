@@ -4,7 +4,7 @@
     "directories": "archive/sources/catalog-directories.json",
     "manual": "archive/sources/manual-sources.json"
   },
-  "total_sources": 84,
+  "total_sources": 99,
   "sources": [
     {
       "id": "aboutdfir-blogs",
@@ -46,12 +46,38 @@
       ]
     },
     {
+      "id": "13cubed-youtube",
+      "title": "13cubed (YouTube)",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://www.youtube.com/@13cubed",
+      "feed_url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
       "id": "aboutdfir",
       "title": "AboutDFIR",
       "category": "feed",
       "kind": "rss-feed",
       "html_url": "https://aboutdfir.com/",
       "feed_url": "https://aboutdfir.com/feed/",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
+      "id": "abuse-ch-blog",
+      "title": "abuse.ch blog",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://abuse.ch/",
+      "feed_url": "https://abuse.ch/blog/feed/",
       "update_strategy": "rss",
       "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [
@@ -78,6 +104,32 @@
       "kind": "rss-feed",
       "html_url": "https://az4n6.blogspot.com/",
       "feed_url": "https://az4n6.blogspot.com/feeds/posts/default",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
+      "id": "belkasoft-blog",
+      "title": "Belkasoft Blog",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://belkasoft.wordpress.com/",
+      "feed_url": "https://belkasoft.wordpress.com/feed/",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
+      "id": "binalyze-blog",
+      "title": "Binalyze Blog",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://www.binalyze.com/blog",
+      "feed_url": "https://www.binalyze.com/blog/rss.xml",
       "update_strategy": "rss",
       "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [
@@ -117,6 +169,19 @@
       "kind": "rss-feed",
       "html_url": "https://brettshavers.com/brett-s-blog",
       "feed_url": "https://feeds.feedburner.com/brettshavers/oSyq",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
+      "id": "cellebrite-blog",
+      "title": "Cellebrite Blog",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://cellebrite.com/en/blog/",
+      "feed_url": "https://cellebrite.com/en/feed/",
       "update_strategy": "rss",
       "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [
@@ -176,6 +241,19 @@
       ]
     },
     {
+      "id": "dfir-science",
+      "title": "DFIR Science",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://dfir.science/",
+      "feed_url": "https://dfir.science/feed.xml",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
       "id": "dfir-training",
       "title": "DFIR Training",
       "category": "feed",
@@ -221,6 +299,19 @@
       "kind": "rss-feed",
       "html_url": "https://www.doubleblak.com/",
       "feed_url": "https://www.doubleblak.com/blogRSS.xml",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
+      "id": "forensafe-artifast-blog",
+      "title": "Forensafe (ArtiFast) Blog",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://www.forensafe.com/",
+      "feed_url": "https://www.forensafe.com/rss.xml",
       "update_strategy": "rss",
       "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [
@@ -319,6 +410,45 @@
       ]
     },
     {
+      "id": "lofl-project-rmm-c2-indicators",
+      "title": "LOFL Project (RMM C2 indicators)",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://lofl-project.github.io/",
+      "feed_url": "https://github.com/LOFL-Project/LOFL-Project.github.io/commits/main.atom",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
+      "id": "loldrivers-byovd",
+      "title": "LOLDrivers (BYOVD)",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://www.loldrivers.io/",
+      "feed_url": "https://github.com/magicsword-io/LOLDrivers/commits/main.atom",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
+      "id": "loobins-macos",
+      "title": "LOOBins (macOS)",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://loobins.io/",
+      "feed_url": "https://github.com/infosecB/LOOBins/commits/main.atom",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
       "id": "mac4n6",
       "title": "mac4n6",
       "category": "feed",
@@ -345,12 +475,38 @@
       ]
     },
     {
+      "id": "malwarebazaar-malware-samples",
+      "title": "MalwareBazaar — malware samples",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://bazaar.abuse.ch/",
+      "feed_url": "https://bazaar.abuse.ch/rss/",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
       "id": "malwarebytes-labs",
       "title": "Malwarebytes Labs",
       "category": "feed",
       "kind": "rss-feed",
       "html_url": "https://blog.malwarebytes.com/",
       "feed_url": "https://blog.malwarebytes.com/feed/",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
+      "id": "misp-taxonomies",
+      "title": "MISP taxonomies",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://www.misp-project.org/",
+      "feed_url": "https://github.com/MISP/misp-taxonomies/commits/main.atom",
       "update_strategy": "rss",
       "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [
@@ -377,6 +533,19 @@
       "kind": "rss-feed",
       "html_url": "https://salt4n6.com/",
       "feed_url": "https://salt4n6.com/feed/",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
+      "id": "sans-internet-storm-center",
+      "title": "SANS Internet Storm Center",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://isc.sans.edu/",
+      "feed_url": "https://isc.sans.edu/rssfeed_full.xml",
       "update_strategy": "rss",
       "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [
@@ -449,12 +618,38 @@
       ]
     },
     {
+      "id": "threatfox-ioc-sharing",
+      "title": "ThreatFox — IOC sharing",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://threatfox.abuse.ch/",
+      "feed_url": "https://threatfox.abuse.ch/rss/",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
       "id": "tisiphone-net",
       "title": "tisiphone.net",
       "category": "feed",
       "kind": "rss-feed",
       "html_url": "https://tisiphone.net/",
       "feed_url": "https://tisiphone.net/feed/",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
+      "id": "urlhaus-malware-distribution-urls",
+      "title": "URLhaus — malware distribution URLs",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://urlhaus.abuse.ch/",
+      "feed_url": "https://urlhaus.abuse.ch/rss/",
       "update_strategy": "rss",
       "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [
@@ -501,16 +696,17 @@
       ]
     },
     {
-      "id": "blue-team-hunting-field-notes",
-      "title": "Blue Team Hunting Field Notes",
+      "id": "blue-team-hunting-field-notes-bitbug0x55aa",
+      "title": "Blue Team Hunting Field Notes (bitbug0x55AA)",
       "category": "knowledge-base",
       "kind": "github-repository",
       "html_url": "https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes",
-      "feed_url": "",
-      "update_strategy": "manual-review",
+      "feed_url": "https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commits/main.atom",
+      "update_strategy": "rss",
       "notes": "Windows event references, artifact maps, detection rules, and DFIR field notes.",
       "sources": [
-        "manual"
+        "manual",
+        "opml"
       ]
     },
     {
@@ -969,16 +1165,17 @@
       ]
     },
     {
-      "id": "dfir-report",
+      "id": "the-dfir-report",
       "title": "The DFIR Report",
       "category": "practitioner-blog",
       "kind": "blog",
       "html_url": "https://thedfirreport.com/",
-      "feed_url": "",
-      "update_strategy": "manual-review",
-      "notes": "Incident case studies and intrusion-analysis writeups.",
+      "feed_url": "https://thedfirreport.com/feed/",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [
-        "manual"
+        "manual",
+        "opml"
       ]
     },
     {
@@ -1008,38 +1205,32 @@
       ]
     },
     {
-      "id": "gtfobins",
-      "title": "GTFOBins",
-      "category": "upstream",
+      "id": "gtfobins-linux",
+      "title": "GTFOBins (Linux)",
+      "category": "primary-reference",
       "kind": "knowledge-base",
       "html_url": "https://gtfobins.github.io/",
-      "feed_url": "",
-      "update_strategy": "fetch",
-      "notes": "Unix/Linux GTFOBins — authoritative catalog of Unix binaries with shell-escape and bypass techniques. Upstream for LOLBAS_LINUX. YAML data in _gtfobins/. Fetched via GitHub API.",
+      "feed_url": "https://github.com/GTFOBins/GTFOBins.github.io/commits/master.atom",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [
-        "upstream"
-      ],
-      "github_url": "https://github.com/GTFOBins/GTFOBins.github.io",
-      "api_url": "",
-      "fetch_script": "scripts/fetch_gtfobins.py",
-      "output": "archive/sources/gtfobins_linux.json"
+        "manual",
+        "opml"
+      ]
     },
     {
-      "id": "lolbas",
-      "title": "LOLBAS Project",
-      "category": "upstream",
+      "id": "lolbas-project-windows",
+      "title": "LOLBAS Project (Windows)",
+      "category": "primary-reference",
       "kind": "knowledge-base",
       "html_url": "https://lolbas-project.github.io/",
-      "feed_url": "",
-      "update_strategy": "fetch",
-      "notes": "Windows LOLBAS Project — authoritative catalog of LOL/LOFL binaries, scripts, and libraries. Upstream for LOLBAS_WINDOWS. JSON API available. Fetched directly.",
+      "feed_url": "https://github.com/LOLBAS-Project/LOLBAS/commits/master.atom",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [
-        "upstream"
-      ],
-      "github_url": "https://github.com/LOLBAS-Project/LOLBAS",
-      "api_url": "https://lolbas-project.github.io/api/lolbas.json",
-      "fetch_script": "scripts/fetch_lolbas.py",
-      "output": "archive/sources/lolbas_windows.json"
+        "manual",
+        "opml"
+      ]
     },
     {
       "id": "microsoft-learn",
@@ -1104,54 +1295,6 @@
       "notes": "Velociraptor artifact and VQL documentation.",
       "sources": [
         "manual"
-      ]
-    },
-    {
-      "id": "loobins",
-      "title": "LOOBins",
-      "category": "upstream",
-      "kind": "knowledge-base",
-      "html_url": "https://www.loobins.io/",
-      "github_url": "https://github.com/infosecB/LOOBins",
-      "api_url": "",
-      "fetch_script": "scripts/fetch_loobins.py",
-      "output": "archive/sources/loobins_macos.json",
-      "update_strategy": "fetch",
-      "notes": "LOOBins — Living Off the Orchard; macOS binaries abused in post-exploitation. Upstream for LOLBAS_MACOS. YAML files in LOOBins/. Fetched via GitHub API.",
-      "sources": [
-        "upstream"
-      ]
-    },
-    {
-      "id": "lofl-project",
-      "title": "LOFL Project",
-      "category": "upstream",
-      "kind": "knowledge-base",
-      "html_url": "https://lofl-project.github.io/",
-      "github_url": "https://github.com/lofl-project/lofl-project.github.io",
-      "api_url": "",
-      "fetch_script": "scripts/fetch_lofl.py",
-      "output": "archive/sources/lofl_windows.json",
-      "update_strategy": "fetch",
-      "notes": "LOFL Project — Living Off the Foreign Land; Windows binaries from third-party/vendor tools abused post-exploitation. Upstream for LOLBAS_WINDOWS (foreign-land subset). Fetched via GitHub API.",
-      "sources": [
-        "upstream"
-      ]
-    },
-    {
-      "id": "lots-project",
-      "title": "LOTS Project",
-      "category": "upstream",
-      "kind": "knowledge-base",
-      "html_url": "https://lots-project.com/",
-      "github_url": "https://github.com/SigmaHQ/lots-project",
-      "api_url": "",
-      "fetch_script": "scripts/fetch_lots.py",
-      "output": "archive/sources/lots_sites.json",
-      "update_strategy": "fetch",
-      "notes": "LOTS Project — Living Off Trusted Sites; cloud/CDN domains abused for C2, download, phishing, and exfil. Upstream for ABUSABLE_SITES. HTML table fetched from lots-project.com.",
-      "sources": [
-        "upstream"
       ]
     }
   ]
