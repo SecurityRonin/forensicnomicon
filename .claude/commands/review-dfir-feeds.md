@@ -49,13 +49,13 @@ When reading a post, ask: which artifacts does this investigation use
 2. Note which artifacts appear *together in the same investigation context*
    (e.g. "ShimCache and Prefetch both showed calc.exe at the same timestamp")
 3. For each co-occurring pair (A, B): run
-   `python -c "from scripts.backfill_archives import check_related_gaps; print(check_related_gaps('A', ['B']))"`
+   `python -c "from scripts.fetch_all_posts import check_related_gaps; print(check_related_gaps('A', ['B']))"`
    to check if the link already exists in the catalog's `related` array
 4. If missing: flag as a low-priority enrichment task
 
 **For YouTube entries:** the URL is `youtube.com/watch?v=VIDEO_ID`. Run:
 ```
-python -c "from scripts.backfill_archives import fetch_youtube_transcript; print(fetch_youtube_transcript('VIDEO_ID')[:500])"
+python -c "from scripts.fetch_all_posts import fetch_youtube_transcript; print(fetch_youtube_transcript('VIDEO_ID')[:500])"
 ```
 This fetches the spoken transcript (via youtube-transcript-api), which
 contains far more artifact signal than the HTML page. Read the transcript

@@ -30,22 +30,22 @@ class TestArtifactPhrasesInSkill(unittest.TestCase):
 
     def test_no_hardcoded_artifact_phrases_list(self):
         """_ARTIFACT_PHRASES must NOT exist — deleted as hardcoded YAGNI."""
-        import backfill_archives
+        import fetch_all_posts
         self.assertFalse(
-            hasattr(backfill_archives, "_ARTIFACT_PHRASES"),
+            hasattr(fetch_all_posts, "_ARTIFACT_PHRASES"),
             "_ARTIFACT_PHRASES must be deleted; Claude uses comprehension, not a keyword list"
         )
 
     def test_no_extract_related_artifacts_function(self):
         """extract_related_artifacts() must NOT exist — it was a keyword scanner."""
-        import backfill_archives
+        import fetch_all_posts
         self.assertFalse(
-            hasattr(backfill_archives, "extract_related_artifacts"),
+            hasattr(fetch_all_posts, "extract_related_artifacts"),
             "extract_related_artifacts() must be deleted; Claude reads content directly"
         )
 
     def test_rescan_reviewed_entries_importable(self):
-        from backfill_archives import rescan_reviewed_entries
+        from fetch_all_posts import rescan_reviewed_entries
         self.assertTrue(callable(rescan_reviewed_entries))
 
     def test_skill_references_check_related_gaps(self):
@@ -101,17 +101,17 @@ class TestRelatedGapDetection(unittest.TestCase):
     """Fix 2: check_related_gaps() finds missing related[] links."""
 
     def test_function_importable(self):
-        from backfill_archives import check_related_gaps
+        from fetch_all_posts import check_related_gaps
         self.assertTrue(callable(check_related_gaps))
 
     def test_returns_list(self):
-        from backfill_archives import check_related_gaps
+        from fetch_all_posts import check_related_gaps
         result = check_related_gaps("shimcache", ["prefetch_dir", "amcache_hve"])
         self.assertIsInstance(result, list)
 
     def test_returns_missing_related(self):
         """shimcache's related[] probably doesn't contain prefetch_dir — flag it."""
-        from backfill_archives import check_related_gaps
+        from fetch_all_posts import check_related_gaps
         # We can't know the exact catalog state, but we can verify the function
         # returns only strings (artifact IDs) or empty list
         result = check_related_gaps("shimcache", ["prefetch_dir", "amcache_hve"])
@@ -119,18 +119,18 @@ class TestRelatedGapDetection(unittest.TestCase):
             self.assertIsInstance(item, str)
 
     def test_unknown_artifact_returns_empty(self):
-        from backfill_archives import check_related_gaps
+        from fetch_all_posts import check_related_gaps
         result = check_related_gaps("this_does_not_exist_xyz", ["prefetch_dir"])
         self.assertEqual(result, [])
 
     def test_empty_co_occurring_returns_empty(self):
-        from backfill_archives import check_related_gaps
+        from fetch_all_posts import check_related_gaps
         result = check_related_gaps("shimcache", [])
         self.assertEqual(result, [])
 
     def test_already_related_not_returned(self):
         """If artifact A already lists B in related[], B must not appear in gaps."""
-        from backfill_archives import check_related_gaps
+        from fetch_all_posts import check_related_gaps
         # Find a pair that IS already related in the catalog and verify no false gap
         # Use mft_file which should already relate to usnjrnl
         result = check_related_gaps("mft_file", ["mft_file"])  # self-reference = always absent
@@ -142,11 +142,11 @@ class TestYouTubeTranscript(unittest.TestCase):
     """Fix 3: fetch_youtube_transcript() returns text or None."""
 
     def test_function_importable(self):
-        from backfill_archives import fetch_youtube_transcript
+        from fetch_all_posts import fetch_youtube_transcript
         self.assertTrue(callable(fetch_youtube_transcript))
 
     def test_returns_str_or_none(self):
-        from backfill_archives import fetch_youtube_transcript
+        from fetch_all_posts import fetch_youtube_transcript
         # Use a well-known 13cubed video with subtitles
         # "Windows Forensics: Prefetch" — UCy8ntxFEudOCRZYT1f7ya9Q
         # Video ID: _3PiX4OT9pE (short video, has captions)
@@ -155,12 +155,12 @@ class TestYouTubeTranscript(unittest.TestCase):
                         f"expected str or None, got {type(result)}")
 
     def test_nonexistent_video_returns_none(self):
-        from backfill_archives import fetch_youtube_transcript
+        from fetch_all_posts import fetch_youtube_transcript
         result = fetch_youtube_transcript("AAAAAAAAAAAAAAAA_DOES_NOT_EXIST")
         self.assertIsNone(result)
 
     def test_transcript_contains_text_when_available(self):
-        from backfill_archives import fetch_youtube_transcript
+        from fetch_all_posts import fetch_youtube_transcript
         result = fetch_youtube_transcript("_3PiX4OT9pE")
         if result is not None:
             self.assertGreater(len(result), 50,
@@ -168,7 +168,7 @@ class TestYouTubeTranscript(unittest.TestCase):
 
     def test_transcript_contains_dfir_terms_when_available(self):
         """Transcript text is readable prose — Claude uses it directly, no keyword scan."""
-        from backfill_archives import fetch_youtube_transcript
+        from fetch_all_posts import fetch_youtube_transcript
         result = fetch_youtube_transcript("_3PiX4OT9pE")
         if result is not None:
             # A Prefetch video should contain the word "prefetch" for Claude to read
