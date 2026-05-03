@@ -66,7 +66,7 @@ pub fn covered_technique_count() -> usize {
 ///
 /// Each returned [`AttackTechnique`] has `tactic` set to `"unknown"` because
 /// the catalog stores technique IDs only, not tactic context. Use
-/// [`crate::attack::lookup_attack_for_rule_name`] or the ATT&CK STIX bundle
+/// [`crate::mitre::lookup_attack_for_rule_name`] or the ATT&CK STIX bundle
 /// to resolve tactic context for specific techniques.
 pub fn covered_techniques() -> Vec<AttackTechnique> {
     let mut techniques: Vec<&'static str> = technique_coverage().into_keys().collect();

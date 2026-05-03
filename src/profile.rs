@@ -29,7 +29,7 @@ pub struct ArtifactProfile {
 
 /// Merged profile table (236 entries, one per catalog artifact).
 ///
-/// Combines all entries from `EVIDENCE_TABLE` and `VOLATILITY_TABLE`.
+/// Combines all entries from the legacy evidence and volatility tables.
 /// For artifacts that appeared in only one of the legacy tables, the missing
 /// dimension is filled with a conservative default.
 pub static ARTIFACT_PROFILES: &[ArtifactProfile] = &[
