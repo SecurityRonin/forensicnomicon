@@ -354,14 +354,21 @@ pub static IFEO_DEBUGGER: ArtifactDescriptor = ArtifactDescriptor {
     ],
 };
 
-// ── UserAssist (Folder GUID) ─────────────────────────────────────────────────
+// ── UserAssist (Shortcut/LNK GUID) ───────────────────────────────────────────
 
-/// UserAssist Folder GUID entries (NTUSER.DAT).
+/// UserAssist Shortcut GUID entries (NTUSER.DAT) — Win7+.
 ///
-/// GUID: `{F4E57C4B-2036-45F0-A9AB-443BCFE33D9F}` — records folder access.
+/// GUID: `{F4E57C4B-2036-45F0-A9AB-443BCFE33D9F}`
+///
+/// Historically called the "Folder GUID" in DFIR tooling, but per the Magnet
+/// Forensics artifact profile this key tracks **launches initiated via shortcuts
+/// (.lnk files)** — e.g. Start Menu items, Desktop shortcuts. The "Folder"
+/// label is a community misnomer that spread through RegRipper and blog posts.
+///
+/// Source: <https://www.magnetforensics.com/blog/artifact-profile-userassist/>
 pub static USERASSIST_FOLDER: ArtifactDescriptor = ArtifactDescriptor {
     id: "userassist_folder",
-    name: "UserAssist (Folder)",
+    name: "UserAssist (Shortcut/LNK)",
     artifact_type: ArtifactType::RegistryValue,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{F4E57C4B-2036-45F0-A9AB-443BCFE33D9F}\Count",
@@ -370,18 +377,163 @@ pub static USERASSIST_FOLDER: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::User,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Rot13NameWithBinaryValue(USERASSIST_BINARY_FIELDS),
-    meaning: "Folder navigation history with access counts and timestamps",
-    mitre_techniques: &["T1083"],
+    meaning: "Shortcut-initiated launch history (.lnk files, Start Menu, Desktop) with run counts and timestamps",
+    mitre_techniques: &["T1547.009", "T1204.002"],
     fields: USERASSIST_FIELDS,
     retention: None,
     triage_priority: TriagePriority::High,
-    related_artifacts: &[],
+    related_artifacts: &["userassist_exe"],
     sources: &[
-        "https://attack.mitre.org/techniques/T1083/",
+        "https://attack.mitre.org/techniques/T1547/009/",
+        "https://attack.mitre.org/techniques/T1204/002/",
+        "https://www.magnetforensics.com/blog/artifact-profile-userassist/",
         "https://www.sans.org/blog/computer-forensic-artifacts-windows-7-userassist/",
         "https://windowsir.blogspot.com/2004/02/userassist.html",
         "http://windowsir.blogspot.com/2007/09/more-on-userassist-keys.html",
+    ],
+};
+
+// ── UserAssist XP-era GUIDs (pre-Vista) ──────────────────────────────────────
+
+/// UserAssist XP-era 16-byte binary record field schema.
+///
+/// Windows XP UserAssist values are 16 bytes, not the 72-byte Win7+ format.
+/// Layout: [4 bytes session/pad][4 bytes run count][8 bytes FILETIME].
+pub(crate) static USERASSIST_XP_BINARY_FIELDS: &[BinaryField] = &[
+    BinaryField {
+        name: "session_id",
+        offset: 0,
+        field_type: BinaryFieldType::U32Le,
+        description: "Session counter or padding (XP-era, often zero)",
+    },
+    BinaryField {
+        name: "run_count",
+        offset: 4,
+        field_type: BinaryFieldType::U32Le,
+        description: "Number of times the item was launched (little-endian DWORD)",
+    },
+    BinaryField {
+        name: "last_run_time",
+        offset: 8,
+        field_type: BinaryFieldType::FiletimeLe,
+        description: "FILETIME of last launch (100-nanosecond intervals since 1601-01-01 UTC)",
+    },
+];
+
+/// UserAssist XP-era field schema (decoded output).
+pub(crate) static USERASSIST_XP_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "program",
+        value_type: ValueType::Text,
+        description: "ROT13-decoded path or item name",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "run_count",
+        value_type: ValueType::UnsignedInt,
+        description: "Number of times the item was launched",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "last_run_time",
+        value_type: ValueType::Timestamp,
+        description: "Timestamp of most recent launch",
+        is_uid_component: false,
+    },
+];
+
+/// UserAssist XP EXE GUID (NTUSER.DAT) — Windows XP / 2000.
+///
+/// GUID: `{75048700-EF1F-11D0-9888-006097DEACF9}`
+///
+/// Tracks applications, files, links, and other objects accessed on
+/// Windows XP/2000. The Win7+ replacement is `{CEBFF5CD-...}`.
+/// Binary values are 16 bytes (no focus time/count fields).
+///
+/// Source: <https://www.magnetforensics.com/blog/artifact-profile-userassist/>
+pub static USERASSIST_XP_EXE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "userassist_xp_exe",
+    name: "UserAssist XP (App/File/Link)",
+    artifact_type: ArtifactType::RegistryValue,
+    hive: Some(HiveTarget::NtUser),
+    key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{75048700-EF1F-11D0-9888-006097DEACF9}\Count",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::User,
+    os_scope: OsScope::All, // present on XP/2000; may appear on upgraded systems
+    decoder: Decoder::Rot13NameWithBinaryValue(USERASSIST_XP_BINARY_FIELDS),
+    meaning: "Pre-Vista application, file, and link launch history (16-byte record; no focus time fields)",
+    mitre_techniques: &["T1059", "T1204.002"],
+    fields: USERASSIST_XP_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["userassist_exe"],
+    sources: &[
         "https://www.magnetforensics.com/blog/artifact-profile-userassist/",
+        "https://windowsir.blogspot.com/2004/02/userassist.html",
+        "http://windowsir.blogspot.com/2007/09/more-on-userassist-keys.html",
+        "https://attack.mitre.org/techniques/T1059/",
+    ],
+};
+
+/// UserAssist XP IE Favorites GUID (NTUSER.DAT) — Windows XP.
+///
+/// GUID: `{5E6AB780-7743-11CF-A12B-00AA004AE837}`
+///
+/// Tracks IE Favorites and IE toolbar objects on Windows XP.
+///
+/// Source: <https://www.magnetforensics.com/blog/artifact-profile-userassist/>
+pub static USERASSIST_XP_IE_FAVORITES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "userassist_xp_ie_favorites",
+    name: "UserAssist XP (IE Favorites/Toolbar)",
+    artifact_type: ArtifactType::RegistryValue,
+    hive: Some(HiveTarget::NtUser),
+    key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{5E6AB780-7743-11CF-A12B-00AA004AE837}\Count",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::User,
+    os_scope: OsScope::All, // XP-era; may appear on upgraded systems
+    decoder: Decoder::Rot13NameWithBinaryValue(USERASSIST_XP_BINARY_FIELDS),
+    meaning: "Pre-Vista Internet Explorer Favorites and toolbar object access history",
+    mitre_techniques: &["T1071.001"],
+    fields: USERASSIST_XP_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &["userassist_xp_exe", "typed_urls"],
+    sources: &[
+        "https://www.magnetforensics.com/blog/artifact-profile-userassist/",
+        "https://windowsir.blogspot.com/2004/02/userassist.html",
+        "https://attack.mitre.org/techniques/T1071/001/",
+    ],
+};
+
+/// UserAssist XP IE7-specific GUID (NTUSER.DAT) — Windows XP with IE7.
+///
+/// GUID: `{0D6D4F41-2994-4BA0-8FEF-620E43CD2812}`
+///
+/// Appears only on Windows XP systems with Internet Explorer 7 installed.
+///
+/// Source: <https://www.magnetforensics.com/blog/artifact-profile-userassist/>
+pub static USERASSIST_XP_IE7: ArtifactDescriptor = ArtifactDescriptor {
+    id: "userassist_xp_ie7",
+    name: "UserAssist XP (IE7)",
+    artifact_type: ArtifactType::RegistryValue,
+    hive: Some(HiveTarget::NtUser),
+    key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{0D6D4F41-2994-4BA0-8FEF-620E43CD2812}\Count",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::User,
+    os_scope: OsScope::All, // XP + IE7 only
+    decoder: Decoder::Rot13NameWithBinaryValue(USERASSIST_XP_BINARY_FIELDS),
+    meaning: "IE7-specific UserAssist tracking on Windows XP (present only when IE7 was installed)",
+    mitre_techniques: &["T1071.001"],
+    fields: USERASSIST_XP_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &["userassist_xp_exe", "userassist_xp_ie_favorites"],
+    sources: &[
+        "https://www.magnetforensics.com/blog/artifact-profile-userassist/",
+        "https://windowsir.blogspot.com/2004/02/userassist.html",
     ],
 };
 
@@ -6012,6 +6164,9 @@ pub static MEM_USER_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     USERASSIST_EXE,
     USERASSIST_FOLDER,
+    USERASSIST_XP_EXE,
+    USERASSIST_XP_IE_FAVORITES,
+    USERASSIST_XP_IE7,
     RUN_KEY_HKLM_RUN,
     RUN_KEY_HKCU_RUN,
     RUN_KEY_HKCU_RUNONCE,
