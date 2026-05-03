@@ -73,9 +73,8 @@ _SKIP_TITLES = frozenset({
     "LOLDrivers (BYOVD)",
     "LOFL Project (RMM C2 indicators)",
     "Blue_Team_Hunting_Field_Notes",
-    # YouTube — Atom feed = last 15 videos only; full history needs YouTube Data API
-    # Remove when YouTube API key is configured (see --youtube-api-key flag TODO)
-    "13cubed (YouTube)",
+    # YouTube — handled separately via --youtube-api-key flag
+    # Without key: first-page Atom only (15 videos); with key: full channel history
 })
 
 # Atom XML namespace
@@ -479,6 +478,75 @@ def fetch_atom_first_page(feed_url: str) -> list[tuple[str, str, str]]:
     return parse_atom_feed(text)
 
 
+def fetch_youtube_channel(channel_id: str, api_key: str, max_results: int = 5000) -> list[tuple[str, str, str]]:
+    """
+    Fetch full video history for a YouTube channel via YouTube Data API v3.
+
+    Costs ~1 quota unit per 50 videos. Daily quota: 10,000 units.
+    A channel with 500 videos costs ~10 units total.
+
+    Args:
+        channel_id: The channel ID from the YouTube URL or OPML xmlUrl param.
+        api_key: YouTube Data API v3 key from console.cloud.google.com.
+        max_results: Safety cap (default 5000).
+
+    Returns:
+        List of (title, url, date) tuples, newest-first.
+    """
+    # Step 1: get the channel's uploads playlist ID
+    channel_url = (
+        "https://www.googleapis.com/youtube/v3/channels"
+        f"?part=contentDetails&id={channel_id}&key={api_key}"
+    )
+    text = _fetch(channel_url)
+    if not text:
+        return []
+    try:
+        data = json.loads(text)
+        uploads_playlist = (
+            data["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
+        )
+    except (KeyError, IndexError, json.JSONDecodeError) as exc:
+        print(f"  [WARN] YouTube channel lookup failed: {exc}", file=sys.stderr)
+        return []
+
+    # Step 2: paginate through the uploads playlist
+    entries: list[tuple[str, str, str]] = []
+    page_token = ""
+
+    while len(entries) < max_results:
+        playlist_url = (
+            "https://www.googleapis.com/youtube/v3/playlistItems"
+            f"?part=snippet&playlistId={uploads_playlist}"
+            f"&maxResults=50&key={api_key}"
+        )
+        if page_token:
+            playlist_url += f"&pageToken={page_token}"
+
+        text = _fetch(playlist_url)
+        if not text:
+            break
+        try:
+            page = json.loads(text)
+        except json.JSONDecodeError:
+            break
+
+        for item in page.get("items", []):
+            snippet = item.get("snippet", {})
+            title = snippet.get("title", "")
+            video_id = snippet.get("resourceId", {}).get("videoId", "")
+            published = snippet.get("publishedAt", "")[:10]
+            if video_id and title != "Private video" and title != "Deleted video":
+                url = f"https://www.youtube.com/watch?v={video_id}"
+                entries.append((title, url, published))
+
+        page_token = page.get("nextPageToken", "")
+        if not page_token:
+            break
+
+    return entries
+
+
 # ─── OPML reader ──────────────────────────────────────────────────────────────
 
 def read_opml(opml_path: str) -> list[dict]:
@@ -592,6 +660,11 @@ def _build_arg_parser():
         default=50,
         help="Max pagination pages per source (default: 50)",
     )
+    p.add_argument(
+        "--youtube-api-key",
+        default=os.environ.get("YOUTUBE_API_KEY", ""),
+        help="YouTube Data API v3 key for full channel history (env: YOUTUBE_API_KEY)",
+    )
     return p
 
 
@@ -629,6 +702,17 @@ def main(argv: list[str] | None = None) -> int:
         elif platform == "github":
             # GitHub Atom: first page only — LOL datasets use fetch_*.py
             entries = fetch_atom_first_page(xml_url)
+        elif "youtube.com/feeds" in xml_url:
+            # YouTube channel feed
+            yt_key = getattr(args, "youtube_api_key", "")
+            channel_id_match = re.search(r"channel_id=([A-Za-z0-9_-]+)", xml_url)
+            if yt_key and channel_id_match:
+                channel_id = channel_id_match.group(1)
+                entries = fetch_youtube_channel(channel_id, yt_key)
+            else:
+                if not yt_key:
+                    print("[no API key — fetching first page only]", end=" ", flush=True)
+                entries = fetch_atom_first_page(xml_url)
         else:
             # Attempt WordPress REST API (works for most custom domains too)
             entries = fetch_wordpress_archive(html_url, max_pages=args.max_pages)
