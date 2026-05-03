@@ -33,6 +33,7 @@ use forensicnomicon::lolbins::{
     lolbas_entry, LolbasEntry, LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS, LOLBAS_WINDOWS_CMDLETS,
     LOLBAS_WINDOWS_MMC, LOLBAS_WINDOWS_WMI,
 };
+use forensicnomicon::playbooks::{playbook_by_id, InvestigationPath, PLAYBOOKS};
 use std::process;
 
 // ---------------------------------------------------------------------------
@@ -80,6 +81,12 @@ struct Cli {
     /// privilege-escalation
     #[arg(long = "type", value_name = "TACTIC")]
     tactic: Option<String>,
+
+    /// List investigation playbooks, or show steps for a specific playbook ID.
+    /// Without a value: list all 6 playbooks.
+    /// With a value: show the full step-by-step investigation path.
+    #[arg(long, value_name = "PLAYBOOK_ID", num_args = 0..=1, default_missing_value = "")]
+    playbook: Option<String>,
 
     #[command(subcommand)]
     command: Option<Commands>,
@@ -152,11 +159,14 @@ fn main() {
         }
     } else if cli.triage {
         run_triage(cli.format, cli.scenario.as_deref(), cli.tactic.as_deref())
+    } else if let Some(pb_arg) = cli.playbook {
+        run_playbook(&pb_arg, cli.format)
     } else if let Some(term) = cli.term {
         run_query(&term, cli.platform, cli.format)
     } else {
         eprintln!("Usage: 4n6query <term> [--platform <p>] [--format json|yaml]");
         eprintln!("       4n6query --triage");
+        eprintln!("       4n6query --playbook [<id>]");
         eprintln!("       4n6query dump [--dataset all|lolbas|sites|catalog]");
         eprintln!("       4n6query --help");
         1
@@ -212,6 +222,17 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
         vec![]
     };
 
+    // 4. Relevant playbooks: any playbook that mentions a matched artifact in its steps.
+    let playbook_hits: Vec<&InvestigationPath> = if !artifact_hits.is_empty() {
+        let hit_ids: Vec<&str> = artifact_hits.iter().map(|d| d.id).collect();
+        PLAYBOOKS
+            .iter()
+            .filter(|pb| pb.steps.iter().any(|s| hit_ids.contains(&s.artifact_id)))
+            .collect()
+    } else {
+        vec![]
+    };
+
     if lolbas_hits.is_empty() && site_hit.is_none() && artifact_hits.is_empty() {
         eprintln!(
             "Not found: '{term}' — no matches in LOLBins, abusable sites, or artifact catalog"
@@ -239,6 +260,13 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
                     .map(|d| descriptor_to_json(d))
                     .collect();
                 obj.insert("artifacts".into(), serde_json::Value::Array(arr));
+            }
+            if !playbook_hits.is_empty() {
+                let arr: Vec<_> = playbook_hits
+                    .iter()
+                    .map(|pb| playbook_to_json(pb))
+                    .collect();
+                obj.insert("playbooks".into(), serde_json::Value::Array(arr));
             }
             let val = serde_json::Value::Object(obj);
             match format {
@@ -283,6 +311,14 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
                     if !d.meaning.is_empty() {
                         println!("          {}", d.meaning);
                     }
+                }
+            }
+            if !playbook_hits.is_empty() {
+                println!();
+                println!("Playbooks:");
+                for pb in &playbook_hits {
+                    println!("  {}  —  {}", pb.id, pb.name);
+                    println!("    Run: 4n6query --playbook {}", pb.id);
                 }
             }
         }
@@ -539,6 +575,113 @@ fn risk_label(r: BlockingRisk) -> &'static str {
         BlockingRisk::High => "high",
         BlockingRisk::Critical => "critical",
     }
+}
+
+// ---------------------------------------------------------------------------
+// Playbook
+// ---------------------------------------------------------------------------
+
+fn run_playbook(id_arg: &str, format: Format) -> i32 {
+    if id_arg.is_empty() {
+        // List all playbooks
+        match format {
+            Format::Json => {
+                let arr: Vec<serde_json::Value> = PLAYBOOKS.iter().map(playbook_to_json).collect();
+                println!("{}", serde_json::to_string_pretty(&arr).unwrap());
+            }
+            Format::Yaml => {
+                for pb in PLAYBOOKS {
+                    println!("- id: {}", pb.id);
+                    println!("  name: {}", pb.name);
+                    println!("  description: {}", pb.description);
+                    println!("  steps: {}", pb.steps.len());
+                    println!();
+                }
+            }
+            Format::Human => {
+                println!("Investigation Playbooks ({}):", PLAYBOOKS.len());
+                println!();
+                for pb in PLAYBOOKS {
+                    println!("  {:30}  {}", pb.id, pb.name);
+                    println!("    {}", pb.description);
+                    println!(
+                        "    Steps: {}  |  Tactics: {}",
+                        pb.steps.len(),
+                        pb.tactics_covered.join(", ")
+                    );
+                    println!();
+                }
+                println!("Run: 4n6query --playbook <id>  to see full step-by-step path");
+            }
+        }
+        return 0;
+    }
+
+    // Show specific playbook
+    match playbook_by_id(id_arg) {
+        None => {
+            eprintln!("Not found: playbook '{id_arg}'");
+            eprintln!("Run: 4n6query --playbook  to list available playbooks");
+            1
+        }
+        Some(pb) => {
+            match format {
+                Format::Json => {
+                    println!(
+                        "{}",
+                        serde_json::to_string_pretty(&playbook_to_json(pb)).unwrap()
+                    );
+                }
+                Format::Yaml => {
+                    println!("id: {}", pb.id);
+                    println!("name: {}", pb.name);
+                    println!("description: {}", pb.description);
+                    println!("tactics_covered: [{}]", pb.tactics_covered.join(", "));
+                    println!("steps:");
+                    for (i, step) in pb.steps.iter().enumerate() {
+                        println!("  - step: {}", i + 1);
+                        println!("    artifact_id: {}", step.artifact_id);
+                        println!("    rationale: {}", step.rationale);
+                        println!("    look_for: {}", step.look_for);
+                        if !step.unlocks.is_empty() {
+                            println!("    unlocks: [{}]", step.unlocks.join(", "));
+                        }
+                    }
+                }
+                Format::Human => {
+                    println!("Playbook: {} — {}", pb.id, pb.name);
+                    println!("{}", pb.description);
+                    println!("Tactics: {}", pb.tactics_covered.join(", "));
+                    println!();
+                    for (i, step) in pb.steps.iter().enumerate() {
+                        println!("Step {}: {}", i + 1, step.artifact_id);
+                        println!("  Why:      {}", step.rationale);
+                        println!("  Look for: {}", step.look_for);
+                        if !step.unlocks.is_empty() {
+                            println!("  Unlocks:  {}", step.unlocks.join(", "));
+                        }
+                        println!();
+                    }
+                }
+            }
+            0
+        }
+    }
+}
+
+fn playbook_to_json(pb: &InvestigationPath) -> serde_json::Value {
+    serde_json::json!({
+        "id": pb.id,
+        "name": pb.name,
+        "description": pb.description,
+        "tactics_covered": pb.tactics_covered,
+        "steps": pb.steps.iter().map(|s| serde_json::json!({
+            "artifact_id": s.artifact_id,
+            "rationale": s.rationale,
+            "look_for": s.look_for,
+            "unlocks": s.unlocks,
+        })).collect::<Vec<_>>(),
+    })
 }
 
 fn category_label(c: SiteCategory) -> &'static str {
