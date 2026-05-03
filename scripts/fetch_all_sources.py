@@ -213,6 +213,69 @@ def parse_atom_feed(xml_text: str) -> list[tuple[str, str, str]]:
     return entries
 
 
+def parse_rss_xml(xml_text: str) -> list[tuple[str, str, str]]:
+    """Unified Atom + RSS 2.0 parser for any feed delivered via xmlUrl.
+
+    Tries Atom namespace first (covers Blogger, GitHub, YouTube, most Jekyll/Hugo
+    blogs). Falls back to RSS 2.0 <item> parsing for Ghost, Squarespace, and other
+    platforms that emit standard RSS instead of Atom.
+
+    Returns list of (title, url, date YYYY-MM-DD).
+    """
+    if not xml_text:
+        return []
+    try:
+        root = ET.fromstring(xml_text)
+    except ET.ParseError:
+        return []
+
+    # Atom feed: root tag contains Atom namespace
+    if _ATOM_NS in (root.tag or ""):
+        return parse_atom_feed(xml_text)  # already handles Atom
+
+    # Blogger Atom: may also be parsed the same way
+    ns = _ATOM_NS
+    if root.findall(f"{{{ns}}}entry"):
+        return parse_atom_feed(xml_text)
+
+    # RSS 2.0: <rss> or <feed> root with <channel><item>
+    return _parse_rss2(root)
+
+
+def _parse_rss2(root: ET.Element) -> list[tuple[str, str, str]]:
+    """Parse RSS 2.0 <channel><item> structure."""
+    import email.utils
+
+    entries = []
+    # Handle both <rss><channel> and bare <channel>
+    channels = root.findall("channel") or ([root] if root.tag == "channel" else [])
+    for channel in channels:
+        for item in channel.findall("item"):
+            title_el = item.find("title")
+            title = (title_el.text or "").strip() if title_el is not None else ""
+
+            link_el = item.find("link")
+            url = (link_el.text or "").strip() if link_el is not None else ""
+
+            date = ""
+            pubdate_el = item.find("pubDate")
+            if pubdate_el is not None and pubdate_el.text:
+                raw = pubdate_el.text.strip()
+                try:
+                    # RFC 2822: "Mon, 01 Apr 2024 12:00:00 GMT"
+                    dt = email.utils.parsedate_to_datetime(raw)
+                    date = dt.strftime("%Y-%m-%d")
+                except Exception:
+                    # Best-effort fallback
+                    if len(raw) >= 10:
+                        date = raw[:10]
+
+            if url:
+                entries.append((title, url, date))
+
+    return entries
+
+
 def _parse_atom_date(entry: ET.Element, ns: str) -> str:
     """Extract YYYY-MM-DD from <published> or <updated>."""
     for tag in (f"{{{ns}}}published", f"{{{ns}}}updated"):
@@ -802,8 +865,7 @@ def _build_arg_parser():
         "--rescan",
         action="store_true",
         help=(
-            "Re-queue all [x] entries as [~] (rescan pending) so Claude can "
-            "re-examine them with improved comprehension for related-field gaps. "
+            "Re-queue all [x] entries as [ ] so they are re-reviewed in full. "
             "Does not affect [ ], [→], or [!] entries."
         ),
     )
@@ -817,8 +879,8 @@ def main(argv: list[str] | None = None) -> int:
     # Rescan mode: re-queue [x] entries as [~] then exit — no new fetching
     if args.rescan:
         n = rescan_reviewed_entries(args.pending)
-        print(f"Re-queued {n} reviewed [x] entries as [~] (rescan pending)")
-        print("Run /review-dfir-feeds to process them (related-field pass only)")
+        print(f"Re-queued {n} reviewed [x] entries as [ ]")
+        print("Run /review-dfir-feeds to process them")
         return 0
 
     sources = read_opml(args.opml)
@@ -862,15 +924,20 @@ def main(argv: list[str] | None = None) -> int:
                     print("[no API key — fetching first page only]", end=" ", flush=True)
                 entries = fetch_atom_first_page(xml_url)
         else:
-            # Attempt WordPress REST API (works for most custom domains too)
-            entries = fetch_wordpress_archive(html_url, max_pages=args.max_pages)
-            if not entries:
-                # Fallback: parse the XML feed as Atom
+            # Strategy: try the OPML xmlUrl first (works for Ghost, Squarespace,
+            # Hugo, Jekyll, etc.).  Only fall back to WordPress REST API pagination
+            # if the feed is missing or returns a small page (≤20 items = paginated).
+            entries = []
+            if xml_url:
                 text = _fetch(xml_url)
                 if text:
-                    entries = parse_blogger_feed(text) or parse_atom_feed(text)
-                else:
-                    entries = []
+                    entries = parse_rss_xml(text)
+
+            if not entries or len(entries) >= 20:
+                # xml_url gave nothing or a full page — try WordPress for pagination
+                wp_entries = fetch_wordpress_archive(html_url, max_pages=args.max_pages)
+                if wp_entries:
+                    entries = wp_entries
 
         new = [e for e in entries if e[1] not in seen]
         # Update seen so we don't re-add within the same run
