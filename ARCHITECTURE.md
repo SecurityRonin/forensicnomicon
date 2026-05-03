@@ -48,7 +48,7 @@ These modules add forensic context on top of raw indicator data.
 | `antiforensics_aware` | Per-artifact anti-forensic tampering risk model |
 | `version_history` | Artifact format / location changes across OS versions |
 | `dependencies` | Artifact dependency graph for collection planning |
-| `playbooks` | Six directed investigation paths |
+| `playbooks` | `INVESTIGATION_PATHS` (6 ATT&CK-tactic artifact chains) + `PLAYBOOKS` (5 scenario checklists) |
 | `mitre` | Shared `AttackTechnique` type; YARA rule name prefix lookup |
 | `attack_flow` | Campaign graph layer: 5 pre-built adversary scenarios |
 | `sigma` | Sigma rule cross-references per artifact |
@@ -167,6 +167,115 @@ Data sources:
 
 ---
 
+## Knowledge schema
+
+Every piece of forensic knowledge in this crate is typed. The full hierarchy:
+
+### Artifact catalog — `ArtifactDescriptor`
+
+```
+ArtifactDescriptor
+├── id: &str                      — machine ID, snake_case (e.g. "userassist_exe")
+├── name: &str                    — display name ("UserAssist (Exe)")
+├── meaning: &str                 — one-line forensic significance
+├── artifact_type: ArtifactType   — RegistryKey | File | EventLog | Memory | ...
+├── os_scope: &[OsScope]          — [Windows], [Linux], [MacOS], or multi
+├── triage_priority: TriagePriority — Critical > High > Medium > Low
+├── mitre_techniques: &[&str]     — ["T1547.001", "T1204.002", ...]
+├── sources: &[&str]              — authoritative URLs (must be real https:// links)
+├── key_path: Option<&str>        — registry path (with GUID inline-cited)
+├── file_path: Option<&str>       — filesystem path
+├── field_schema: Option<&[FieldDef]>  — structured field definitions for decoding
+└── related: &[&str]              — co-occurring artifact IDs (investigation graph)
+```
+
+`CATALOG` provides query methods: `by_id`, `by_mitre`, `by_triage`, `search_keyword`, `iter`.
+
+### Investigation paths — `InvestigationPath` + `InvestigationStep`
+
+Two statics share the same `InvestigationPath` type:
+
+- **`INVESTIGATION_PATHS`** (6 entries) — artifact-triggered chains. Each path fires when a
+  specific artifact is found and guides the analyst through the corroborating evidence chain.
+- **`PLAYBOOKS`** (5 entries) — incident-type checklists. RFC 3227 order: most volatile first.
+
+```
+InvestigationPath
+├── id: &str                  — machine ID ("lateral_movement", "ransomware")
+├── name: &str                — display name
+├── description: &str         — scope of this path / what incident type it targets
+├── trigger: &str             — artifact ID that fires this path (INVESTIGATION_PATHS)
+├── tactics_covered: &[&str]  — TA-prefixed ATT&CK tactic IDs covered end-to-end
+└── steps: &[InvestigationStep]
+
+InvestigationStep
+├── artifact_id: &str   — catalog artifact to examine at this step
+├── tactic: &str        — primary ATT&CK pillar for this step (e.g. "TA0008")
+├── rationale: &str     — why this artifact matters at this point in the investigation
+├── look_for: &str      — what specific indicators or anomalies to extract
+└── unlocks: &[&str]    — artifact IDs that become relevant if a hit is found here
+```
+
+`tactic` uses ATT&CK tactic IDs (TA####), not tactic names, so SIEM/SOAR consumers can
+filter steps by pillar without string matching. The step-level tactic is the *primary* pillar;
+a step may implicate multiple tactics in practice (e.g. lateral movement evidence in Prefetch
+also corroborates execution).
+
+Helper functions:
+
+```rust
+// INVESTIGATION_PATHS
+path_by_id("lateral_movement")          -> Option<&InvestigationPath>
+paths_for_trigger("rdp_client_servers") -> Vec<&InvestigationPath>
+paths_for_artifact("evtx_security")     -> Vec<&InvestigationPath>
+
+// PLAYBOOKS
+playbook_by_id("ransomware")            -> Option<&InvestigationPath>
+scenario_playbooks()                    -> &'static [InvestigationPath]
+
+// Both
+all_for_artifact("prefetch_file")       -> Vec<&InvestigationPath>  // PLAYBOOKS + PATHS
+```
+
+### LOLBin entries — `LolbasEntry`
+
+```
+LolbasEntry
+├── name: &str                       — canonical name ("certutil.exe", "curl")
+├── mitre_techniques: &'static [&str] — ATT&CK technique IDs
+├── use_cases: u16                   — OR-ed UC_* bitmask
+└── description: &str                — one-line abuse significance
+```
+
+Six static catalogs: `LOLBAS_WINDOWS`, `LOLBAS_LINUX`, `LOLBAS_MACOS`,
+`LOLBAS_WINDOWS_CMDLETS`, `LOLBAS_WINDOWS_MMC`, `LOLBAS_WINDOWS_WMI`.
+
+### Abusable sites — `AbusableSite`
+
+```
+AbusableSite
+├── domain: &str
+├── category: SiteCategory      — CodeRepository | CloudStorage | Cdn | ...
+├── blocking_risk: BlockingRisk — Critical | High | Medium | Low
+├── mitre_techniques: &[&str]
+└── notes: &str
+```
+
+### Artifact profile — `ArtifactProfile`
+
+```
+ArtifactProfile
+├── id: &str
+├── evidence_strength: EvidenceStrength  — Definitive | Strong | Corroborative | Weak
+├── evidence_caveats: &str               — analyst warnings (e.g. "clock skew possible")
+└── volatility: VolatilityClass          — Residual | Persistent | Volatile | LiveOnly
+```
+
+`ARTIFACT_PROFILES` is the single source of truth for RFC 3227 ordering.
+`evidence_for(id)` and `volatility_for(id)` both return `Option<&ArtifactProfile>`.
+
+---
+
 ## Data-flow: raw bytes to ArtifactRecord
 
 ```mermaid
@@ -225,14 +334,14 @@ cargo run -p ingest -- --source all --output src/catalog/descriptors/generated/
 
 Sources: KAPE targets, ForensicArtifacts YAML, EVTX/ETW channel list, Velociraptor artifact YAML, RECmd batch files, browser paths, NirSoft tool list.
 
-`crates/fcatalog` — the `fnomicon` CLI binary for interactive catalog exploration.
-
-`crates/4n6query` (package: `forensicnomicon-cli`) — the `4n6query` DFIR query binary. Looks up LOL/LOFL entries across all six catalogs, abusable sites, and dumps machine-readable JSON/YAML snapshots for SIEM/SOAR integration. Requires the `serde` feature of the library crate (declared in its `Cargo.toml`). Supported subcommands:
+`crates/4n6query` (package: `forensicnomicon-cli`) — the `4n6query` DFIR query binary. Requires the `serde` feature. Universal entry point: a single `<term>` argument searches LOLBins, abusable sites, catalog artifacts, and MITRE techniques in one pass.
 
 ```
-4n6query lolbas lookup <platform> <name> [--format json|yaml]
-4n6query sites lookup <domain>           [--format json|yaml]
-4n6query dump --format json|yaml         [--dataset all|lolbas|sites]
+4n6query <term>                      # search all datasets (binary, domain, keyword, T1234)
+4n6query <term> --platform windows   # restrict LOLBin search to one platform
+4n6query --triage [--scenario X] [--type Y]  # critical-first artifact list
+4n6query --playbook [<id>]           # list playbooks, or show steps for one
+4n6query dump --format json|yaml --dataset all|lolbas|sites|catalog
 ```
 
 Platforms: `windows`, `linux`, `macos`, `windows-cmdlet`, `windows-mmc`, `windows-wmi`.
