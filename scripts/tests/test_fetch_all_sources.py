@@ -271,6 +271,67 @@ class TestRescanReviewedEntries(unittest.TestCase):
         self.assertEqual(count, 0)
 
 
+class TestPendingFileLock(unittest.TestCase):
+    """locked_write(path, transform_fn) serializes concurrent read-modify-writes."""
+
+    def setUp(self):
+        import tempfile
+        self.tmp = tempfile.mkdtemp()
+        self.path = os.path.join(self.tmp, "pending-review.md")
+        with open(self.path, "w") as f:
+            f.write("- [ ] https://example.com/post1\n")
+
+    def test_locked_write_applies_transform(self):
+        """transform_fn receives current content, returns new content."""
+        ba.locked_write(self.path, lambda c: c + "- [ ] https://example.com/post2\n")
+        with open(self.path) as f:
+            content = f.read()
+        self.assertIn("post1", content)
+        self.assertIn("post2", content)
+
+    def test_locked_write_is_atomic(self):
+        """Two concurrent locked_write calls both apply without losing data."""
+        import threading
+        results = []
+
+        def append(url):
+            ba.locked_write(self.path, lambda c: c + f"- [ ] {url}\n")
+            results.append(url)
+
+        t1 = threading.Thread(target=append, args=("https://a.com/1",))
+        t2 = threading.Thread(target=append, args=("https://b.com/2",))
+        t1.start(); t2.start()
+        t1.join(); t2.join()
+
+        with open(self.path) as f:
+            content = f.read()
+        self.assertIn("https://a.com/1", content)
+        self.assertIn("https://b.com/2", content)
+
+    def test_lock_file_cleaned_up_after_write(self):
+        """Lock file must not linger after locked_write completes."""
+        lock_path = self.path + ".lock"
+        ba.locked_write(self.path, lambda c: c)
+        self.assertFalse(os.path.exists(lock_path),
+                         "stale lockfile left behind after write")
+
+    def test_stale_lock_from_dead_pid_is_stolen(self):
+        """A lockfile containing a dead PID must not block forever."""
+        lock_path = self.path + ".lock"
+        # Write a lockfile with PID 1 (init/launchd — never our process)
+        # On all platforms PID 1 exists but is not our process, so it's
+        # effectively "dead" from our perspective for stealing purposes.
+        # Use a guaranteed-dead PID instead: 99999999
+        with open(lock_path, "w") as f:
+            f.write("99999999")
+        # Should complete without hanging
+        ba.locked_write(self.path, lambda c: c + "- [ ] https://example.com/stolen\n")
+        with open(self.path) as f:
+            content = f.read()
+        self.assertIn("stolen", content)
+        self.assertFalse(os.path.exists(lock_path))
+
+
 
 if __name__ == "__main__":
     unittest.main()
