@@ -27,6 +27,12 @@
       <outline type="rss" text="Forensic Focus" title="Forensic Focus" xmlUrl="https://www.forensicfocus.com/rss/news2.php" htmlUrl="https://www.forensicfocus.com/"/>
       <outline type="rss" text="Forensic Multimedia Analysis Blog" title="Forensic Multimedia Analysis Blog" xmlUrl="https://forensicphotoshop.blogspot.com/feeds/posts/default" htmlUrl="https://forensicphotoshop.blogspot.com/"/>
       <outline type="rss" text="Magnet Forensics" title="Magnet Forensics" xmlUrl="https://www.magnetforensics.com/feed/" htmlUrl="https://www.magnetforensics.com/"/>
+      <!-- Real intrusion reports — TTPs, IOCs, timeline reconstructions. High artifact signal. -->
+      <outline type="rss" text="The DFIR Report" title="The DFIR Report" xmlUrl="https://thedfirreport.com/feed/" htmlUrl="https://thedfirreport.com/"/>
+      <!-- 13cubed (Richard Davis) — Windows forensics deep dives. YouTube-first, no blog RSS. -->
+      <outline type="rss" text="13cubed (YouTube)" title="13cubed (YouTube)" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q" htmlUrl="https://www.youtube.com/@13cubed"/>
+      <!-- SANS Internet Storm Center — daily handler diaries, often artifact-relevant. -->
+      <outline type="rss" text="SANS Internet Storm Center" title="SANS Internet Storm Center" xmlUrl="https://isc.sans.edu/rssfeed_full.xml" htmlUrl="https://isc.sans.edu/"/>
       <outline type="rss" text="DFIR Training" title="DFIR Training" xmlUrl="https://www.dfir.training/dfir-training-categories-k2/itemlist?format=feed" htmlUrl="https://www.dfir.training/"/>
       <outline type="rss" text="MSAB" title="MSAB" xmlUrl="https://www.msab.com/feed/" htmlUrl="https://www.msab.com/"/>
       <outline type="rss" text="AboutDFIR" title="AboutDFIR" xmlUrl="https://aboutdfir.com/feed/" htmlUrl="https://aboutdfir.com/"/>

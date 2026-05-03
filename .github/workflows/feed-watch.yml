@@ -33,7 +33,8 @@ jobs:
             archive/sources/source-inventory.json \
             archive/sources/source-inventory.md \
             archive/sources/feed-state.json \
-            archive/sources/feed-report.md
+            archive/sources/feed-report.md \
+            archive/sources/pending-review.md
           if git diff --cached --quiet; then
             echo "No changes — feed is up to date."
           else
