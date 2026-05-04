@@ -1890,73 +1890,125 @@ pub(crate) static MFT_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "mft_record_number",
         value_type: ValueType::Integer,
-        description: "Unique 48-bit record number within the $MFT",
+        description: "Unique 48-bit record number within the $MFT (NTFS 3.1: explicit at header 0x2A; pre-3.1: inferred from file offset)",
         is_uid_component: true,
     },
     FieldSchema {
         name: "sequence_number",
         value_type: ValueType::Integer,
-        description: "Reuse counter — incremented each time a record is deallocated",
+        description: "Reuse counter (uint16 at header 0x10) — incremented each time a record slot is deallocated; stale references detectable",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        // MFT record header offset 0x08, uint64.
+        // Increments on every modification — chronological anchor independent of timestamps.
+        // Source: https://github.com/kacos2000/MFT_Browser
+        name: "lsn",
+        value_type: ValueType::UnsignedInt,
+        description: "$LogFile Sequence Number (uint64 at 0x08); monotonically increasing modification counter; links to $LogFile transaction",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        // MFT record header offset 0x12, uint16.
+        // Count > 1 means multiple $FILE_NAME attributes (directory entries) point here.
+        // Anti-forensic technique: hard links to malicious executables in benign locations.
+        // Source: https://github.com/kacos2000/MFT_Browser
+        name: "hard_link_count",
+        value_type: ValueType::UnsignedInt,
+        description: "Number of $FILE_NAME attributes (uint16 at 0x12); > 1 indicates hard links — each is a separate directory entry",
         is_uid_component: false,
     },
     FieldSchema {
         name: "si_created",
         value_type: ValueType::Timestamp,
-        description: "$STANDARD_INFORMATION created time (spoofable by user-mode tools)",
+        description: "$STANDARD_INFORMATION created time (SI offset +0; spoofable via SetFileTime API — compare with FN timestamp)",
         is_uid_component: false,
     },
     FieldSchema {
         name: "si_modified",
         value_type: ValueType::Timestamp,
-        description: "$STANDARD_INFORMATION last-modified time",
+        description: "$STANDARD_INFORMATION last-modified time (SI offset +8; spoofable)",
         is_uid_component: false,
     },
     FieldSchema {
         name: "si_changed",
         value_type: ValueType::Timestamp,
-        description: "$STANDARD_INFORMATION MFT-record-changed time",
+        description: "$STANDARD_INFORMATION MFT-record-changed time (SI offset +16; requires raw volume write to forge)",
         is_uid_component: false,
     },
     FieldSchema {
         name: "si_accessed",
         value_type: ValueType::Timestamp,
-        description: "$STANDARD_INFORMATION last-accessed time",
+        description: "$STANDARD_INFORMATION last-accessed time (SI offset +24; often disabled on modern Windows)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        // $SI NTFS 3.1 extension at offset +64, 8 bytes.
+        // Links this record to $UsnJrnl:$J — resolves operation type and flags.
+        // Source: https://github.com/kacos2000/MFT_Browser
+        name: "usn",
+        value_type: ValueType::UnsignedInt,
+        description: "Update Sequence Number from $STANDARD_INFORMATION offset +64; links MFT record to its $UsnJrnl:$J change entry",
         is_uid_component: false,
     },
     FieldSchema {
         name: "fn_created",
         value_type: ValueType::Timestamp,
-        description: "$FILE_NAME created time — harder to spoof without kernel access",
+        description: "$FILE_NAME created time (FN offset +8); kernel-maintained, requires raw volume write to falsify",
         is_uid_component: false,
     },
     FieldSchema {
         name: "fn_modified",
         value_type: ValueType::Timestamp,
-        description: "$FILE_NAME last-modified time",
+        description: "$FILE_NAME last-modified time (FN offset +16); kernel-maintained",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        // Completes the 8-timestamp dual-MACE set exposed by MFT_Browser.
+        // Source: https://github.com/kacos2000/MFT_Browser
+        name: "fn_changed",
+        value_type: ValueType::Timestamp,
+        description: "$FILE_NAME MFT-record-changed time (FN offset +24); kernel-maintained",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        // Source: https://github.com/kacos2000/MFT_Browser
+        name: "fn_accessed",
+        value_type: ValueType::Timestamp,
+        description: "$FILE_NAME last-accessed time (FN offset +32); kernel-maintained",
         is_uid_component: false,
     },
     FieldSchema {
         name: "filename",
         value_type: ValueType::Text,
-        description: "File or directory name from $FILE_NAME attribute",
+        description: "UTF-16LE filename from $FILE_NAME (offset +66); namespace: 0=POSIX, 1=Win32, 2=DOS, 3=Win32&DOS",
         is_uid_component: true,
     },
     FieldSchema {
         name: "parent_mft_record",
         value_type: ValueType::Integer,
-        description: "MFT record number of the parent directory",
+        description: "48-bit MFT record number of the parent directory (FN offset +0)",
         is_uid_component: false,
     },
     FieldSchema {
         name: "file_size",
         value_type: ValueType::Integer,
-        description: "Logical file size in bytes from $STANDARD_INFORMATION",
+        description: "Logical (real) file size in bytes from $FILE_NAME offset +48",
         is_uid_component: false,
     },
     FieldSchema {
         name: "flags",
         value_type: ValueType::UnsignedInt,
-        description: "Entry flags bitmask: IN_USE (0x01), IS_DIRECTORY (0x02)",
+        description: "Allocation status flags (header 0x16): bit 15=In Use, bit 14=Is Directory, bit 13=In $Extend",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        // Physical size = 1024 or 4096 bytes. Logical = header 0x18.
+        // Slack = physical - logical. May contain remnants of prior attribute data.
+        // Source: https://github.com/kacos2000/MFT_Browser
+        name: "record_slack",
+        value_type: ValueType::UnsignedInt,
+        description: "PhysicalSize - LogicalSize (bytes); residual space may contain prior attribute remnants from shrunk metadata",
         is_uid_component: false,
     },
 ];
@@ -2016,8 +2068,10 @@ pub static MFT: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/MFTECmd",
         // MFT forensic overview — 13cubed
         "https://www.13cubed.com/downloads/Windows_Forensic_Analysis_Poster.pdf",
-        // NTFS $MFT forensics reference
-        "https://www.kazamiya.net/files/MFT_Forensics.pdf",
+        // kacos2000/MFT_Browser: authoritative field offsets for all NTFS attributes,
+        // LSN (0x08), hard link count (0x12), record slack, USN in $SI (+64),
+        // 8-timestamp dual MACE set ($SI + $FN), $Object_ID UUID creation time
+        "https://github.com/kacos2000/MFT_Browser",
     ],
 };
 
@@ -4147,14 +4201,26 @@ pub static MFT_FILE: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Primary NTFS metadata file containing timestamps, attributes, parent-child relationships, and deleted-entry evidence for every file record on the volume.",
-    mitre_techniques: &["T1070.004", "T1083"],
-    fields: DIR_ENTRY_FIELDS,
+    meaning: "Complete NTFS filesystem map. Every file record contains 8 timestamps: 4 from \
+              $STANDARD_INFORMATION (SI, user-space writable via SetFileTime) and 4 from \
+              $FILE_NAME (FN, kernel-maintained — harder to forge). SI/FN divergence is the \
+              primary timestomping indicator (T1070.006). Record slack (PhysicalSize - LogicalSize) \
+              may contain prior attribute remnants. LSN links each record to its $LogFile \
+              transaction for chronological ordering. Unallocated records (flag bit 15 = 0) \
+              persist until overwritten — primary deleted-file recovery source.",
+    mitre_techniques: &["T1070.006", "T1070.004", "T1083", "T1564.001"],
+    fields: MFT_FIELDS,
     retention: None,
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &["usn_journal", "recycle_bin", "prefetch_file"],
+    related_artifacts: &["usnjrnl", "usn_journal", "recycle_bin", "prefetch_file", "logfile_ntfs"],
     sources: &[
+        "https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table",
         "https://github.com/EricZimmerman/MFTECmd",
+        // kacos2000/MFT_Browser: authoritative field offsets for all NTFS attributes,
+        // LSN (0x08), hard link count (0x12), record slack, USN in $SI (+64),
+        // 8-timestamp dual MACE set ($SI + $FN), $Object_ID UUID creation time
+        "https://github.com/kacos2000/MFT_Browser",
+        "https://www.sans.org/blog/windows-file-system-forensics-ntfs-master-file-table/",
     ],
 };
 
@@ -5194,43 +5260,78 @@ pub static LNK_FILES_OFFICE: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static PREFETCH_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "executable_name",
-        description: "Name of the prefetched executable (up to 29 chars)",
+        description: "Name of the prefetched executable (up to 29 UTF-16 chars from SCCA header offset 0x10)",
         value_type: ValueType::Text,
         is_uid_component: true,
     },
     FieldSchema {
+        // SCCA header offset 0x0000: u32 LE.
+        // Selects correct timestamp-array and run-count offsets.
+        // Source: https://github.com/kacos2000/Prefetch-Browser
+        name: "format_version",
+        description: "SCCA format version: 17=XP/2003, 23=Vista/7, 26=Win8, 30/31=Win10/11",
+        value_type: ValueType::UnsignedInt,
+        is_uid_component: false,
+    },
+    FieldSchema {
         name: "run_count",
-        description: "Number of times the executable has run",
+        description: "Cumulative execution count (offset varies by format_version)",
         value_type: ValueType::UnsignedInt,
         is_uid_component: false,
     },
     FieldSchema {
         name: "last_run_time",
-        description: "Most recent execution timestamp (FILETIME)",
+        description: "Most recent execution timestamp (FILETIME UTC, 100ns precision)",
         value_type: ValueType::Timestamp,
         is_uid_component: false,
     },
     FieldSchema {
         name: "previous_run_times",
-        description: "Up to 7 prior execution timestamps (Win 8+)",
+        description: "Up to 7 prior execution timestamps (FILETIME array, v26/30/31 only)",
         value_type: ValueType::Text,
         is_uid_component: false,
     },
     FieldSchema {
         name: "volume_path",
-        description: "Volume device path at time of execution",
+        description: "Volume device path string (e.g. \\DEVICE\\HARDDISKVOLUME3) from Volumes Information block",
         value_type: ValueType::Text,
+        is_uid_component: false,
+    },
+    FieldSchema {
+        // Volumes Information block per-volume FILETIME at relative offset +8.
+        // Pivot: matches $MFT $Volume_Information creation time for origin identification.
+        // Source: https://github.com/kacos2000/Prefetch-Browser
+        name: "volume_creation_time",
+        description: "FILETIME (UTC) when the source volume was created; pivot to $MFT $Volume_Information",
+        value_type: ValueType::Timestamp,
+        is_uid_component: false,
+    },
+    FieldSchema {
+        // Volumes Information block per-volume u32 at relative offset +0x10.
+        // Source: https://github.com/kacos2000/Prefetch-Browser
+        name: "volume_serial_number",
+        description: "u32 volume serial number from Volumes Information; corroborates $VOLUME_INFORMATION in $MFT",
+        value_type: ValueType::UnsignedInt,
         is_uid_component: false,
     },
     FieldSchema {
         name: "referenced_files",
-        description: "DLLs and files loaded during first 10 seconds",
+        description: "Full device paths of DLLs and files loaded during first 10 seconds of execution",
         value_type: ValueType::Text,
         is_uid_component: false,
     },
     FieldSchema {
+        // File Metrics entry field. Present only when entry flag bit 0x100 is set.
+        // 48-bit value: upper 48 bits of the NTFS FileReference u64.
+        // Source: https://github.com/kacos2000/Prefetch-Browser
+        name: "mft_record_number",
+        description: "48-bit MFT record number of a referenced file (File Metrics flag 0x100); pivot to $MFT for timestomping detection",
+        value_type: ValueType::UnsignedInt,
+        is_uid_component: false,
+    },
+    FieldSchema {
         name: "prefetch_hash",
-        description: "8-hex path hash appended to filename",
+        description: "8-hex SCCA path hash at header offset 0x4C (LE u32 of full executable device path)",
         value_type: ValueType::Text,
         is_uid_component: true,
     },
@@ -5268,6 +5369,11 @@ pub static PREFETCH_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.magnetforensics.com/blog/forensic-analysis-of-prefetch-files-in-windows/",
         "https://github.com/EricZimmerman/PECmd",
         "https://github.com/EricZimmerman/Prefetch",
+        // kacos2000/Prefetch-Browser: MAM compressed wrapper, Volumes Information block,
+        // File Metrics MFT reference flag 0x100, per-version SCCA field offsets
+        "https://github.com/kacos2000/Prefetch-Browser",
+        // libscca: authoritative SCCA format specification (all versions)
+        "https://github.com/libyal/libscca/blob/main/documentation/Windows%20Prefetch%20File%20(PF)%20format.asciidoc",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/06_Tool_Command_Vault/6.02_Windows_DFIR_Master_Notes.md",
     ],
