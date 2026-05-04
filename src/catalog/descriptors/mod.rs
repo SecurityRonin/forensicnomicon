@@ -2068,6 +2068,9 @@ pub static MFT: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/MFTECmd",
         // MFT forensic overview — 13cubed
         "https://www.13cubed.com/downloads/Windows_Forensic_Analysis_Poster.pdf",
+        // Kazamiya MFT_Forensics.pdf — Japanese academic MFT analysis paper;
+        // original URL 404 as of 2026-05-04 (www.kazamiya.net down)
+        "https://web.archive.org/web/20210228/https://www.kazamiya.net/files/MFT_Forensics.pdf",
         // kacos2000/MFT_Browser: authoritative field offsets for all NTFS attributes,
         // LSN (0x08), hard link count (0x12), record slack, USN in $SI (+64),
         // 8-timestamp dual MACE set ($SI + $FN), $Object_ID UUID creation time
