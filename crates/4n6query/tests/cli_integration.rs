@@ -483,6 +483,92 @@ fn triage_scenario_and_type_combined() {
     assert_eq!(out.code, 0);
 }
 
+// ── --triage --priority ──────────────────────────────────────────────────────
+
+#[test]
+fn triage_priority_critical_exits_zero() {
+    let out = run(&["--triage", "--priority", "critical"]);
+    assert_eq!(out.code, 0, "stderr: {}", out.stderr);
+}
+
+#[test]
+fn triage_priority_critical_only_contains_critical_entries() {
+    let out = run(&["--triage", "--priority", "critical", "--format", "json"]);
+    assert_eq!(out.code, 0);
+    let val: serde_json::Value = serde_json::from_str(&out.stdout).unwrap();
+    let arr = val["artifacts"].as_array().unwrap();
+    assert!(!arr.is_empty(), "--priority critical must return some artifacts");
+    for entry in arr {
+        assert_eq!(
+            entry["triage_priority"], "critical",
+            "--priority critical must not include non-critical entries"
+        );
+    }
+}
+
+#[test]
+fn triage_priority_high_only_contains_high_entries() {
+    let out = run(&["--triage", "--priority", "high", "--format", "json"]);
+    assert_eq!(out.code, 0);
+    let val: serde_json::Value = serde_json::from_str(&out.stdout).unwrap();
+    let arr = val["artifacts"].as_array().unwrap();
+    assert!(!arr.is_empty(), "--priority high must return some artifacts");
+    for entry in arr {
+        assert_eq!(
+            entry["triage_priority"], "high",
+            "--priority high must not include non-high entries"
+        );
+    }
+}
+
+#[test]
+fn triage_priority_critical_high_returns_both() {
+    let out = run(&["--triage", "--priority", "critical,high", "--format", "json"]);
+    assert_eq!(out.code, 0);
+    let val: serde_json::Value = serde_json::from_str(&out.stdout).unwrap();
+    let arr = val["artifacts"].as_array().unwrap();
+    let has_critical = arr.iter().any(|e| e["triage_priority"] == "critical");
+    let has_high = arr.iter().any(|e| e["triage_priority"] == "high");
+    assert!(has_critical, "critical,high must include critical entries");
+    assert!(has_high, "critical,high must include high entries");
+    for entry in arr {
+        let p = entry["triage_priority"].as_str().unwrap();
+        assert!(
+            p == "critical" || p == "high",
+            "--priority critical,high must not include medium/low entries, got: {p}"
+        );
+    }
+}
+
+#[test]
+fn triage_priority_unknown_value_exits_nonzero() {
+    let out = run(&["--triage", "--priority", "extreme"]);
+    assert_ne!(out.code, 0, "unknown --priority value must exit nonzero");
+}
+
+#[test]
+fn triage_priority_composes_with_scenario() {
+    // AND logic: critical artifacts that also appear in the ransomware scenario
+    let out = run(&[
+        "--triage",
+        "--priority",
+        "critical",
+        "--scenario",
+        "ransomware",
+        "--format",
+        "json",
+    ]);
+    assert_eq!(out.code, 0, "stderr: {}", out.stderr);
+    let val: serde_json::Value = serde_json::from_str(&out.stdout).unwrap();
+    let arr = val["artifacts"].as_array().unwrap();
+    for entry in arr {
+        assert_eq!(
+            entry["triage_priority"], "critical",
+            "--priority critical --scenario must only return critical entries"
+        );
+    }
+}
+
 // ── --playbook ───────────────────────────────────────────────────────────────
 
 #[test]
