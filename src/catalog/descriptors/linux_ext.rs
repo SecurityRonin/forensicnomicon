@@ -212,7 +212,7 @@ pub(crate) static LINUX_FAIL2BAN_LOG: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["linux_auth_log", "linux_secure_log"],
     sources: &[
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
+        "https://www.fail2ban.org/wiki/index.php/Main_Page",
         "https://linux.die.net/man/8/fail2ban",
     ],
 };
@@ -238,7 +238,6 @@ pub(crate) static LINUX_DPKG_LOG: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["linux_apt_hooks"],
     sources: &[
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
         "https://linux.die.net/man/1/dpkg",
     ],
 };
@@ -263,7 +262,6 @@ pub(crate) static LINUX_RPM_DB: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["linux_messages_log"],
     sources: &[
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
         "https://linux.die.net/man/8/rpm",
     ],
 };
@@ -423,8 +421,10 @@ pub(crate) static LINUX_PROC_MODULES: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Critical,
     related_artifacts: &["linux_modprobe_d", "linux_journal_dir"],
     sources: &[
-        "https://www.sans.org/blog/linux-persistence-mechanisms/",
-        "https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/",
+        // proc_modules(5) — dedicated man page for /proc/modules format and fields
+        "https://man7.org/linux/man-pages/man5/proc_modules.5.html",
+        // Volatility Phalanx 2 analysis: linux_lsmod vs /proc/modules to detect hidden LKM rootkits
+        "https://volatility-labs.blogspot.com/2012/10/phalanx-2-revealed-using-volatility-to.html",
     ],
 };
 
@@ -557,7 +557,6 @@ pub(crate) static LINUX_SNAP_PACKAGES: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["linux_dpkg_log"],
     sources: &[
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
         "https://snapcraft.io/docs/snap-format",
     ],
 };
@@ -604,8 +603,10 @@ pub(crate) static LINUX_KERN_LOG: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["linux_dmesg_log", "linux_proc_modules", "linux_syslog"],
     sources: &[
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
-        "https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/",
+        // syslog(3) — kernel logging facility LOG_KERN feeds kern.log
+        "https://man7.org/linux/man-pages/man3/syslog.3.html",
+        // Elastic sequel: syslog/kern messages used to detect LKM rootkit persistence events
+        "https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms",
     ],
 };
 

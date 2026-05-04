@@ -3515,8 +3515,10 @@ pub static LINUX_PAM_D: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &[
-        "https://www.sans.org/blog/linux-persistence-mechanisms/",
-        "https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/",
+        // PAM backdoor: replaces pam_unix.so to exfiltrate credentials via DNS
+        "https://x-c3ll.github.io/posts/PAM-backdoor-DNS/",
+        // T1556.003 coverage in Elastic persistence primer (PAM modification section)
+        "https://www.elastic.co/security-labs/primer-on-persistence-mechanisms",
     ],
 };
 
@@ -3543,8 +3545,9 @@ pub static LINUX_SUDOERS_D: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &[
-        "https://www.sans.org/blog/linux-persistence-mechanisms/",
-        "https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/",
+        // T1548.003 sudoers abuse section with NOPASSWD drop-in coverage
+        "https://www.elastic.co/security-labs/primer-on-persistence-mechanisms",
+        "https://linux.die.net/man/5/sudoers",
     ],
 };
 
@@ -3570,8 +3573,10 @@ pub static LINUX_MODULES_LOAD_D: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &[
-        "https://www.sans.org/blog/linux-persistence-mechanisms/",
-        "https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/",
+        // Official systemd man page for modules-load.d format and directory precedence
+        "https://www.freedesktop.org/software/systemd/man/modules-load.d.html",
+        // Kernel module loading security — kernel.modules_disabled and LKM threat model
+        "https://linux-audit.com/increase-kernel-integrity-with-disabled-linux-kernel-modules-loading/",
     ],
 };
 
@@ -3597,8 +3602,10 @@ pub static LINUX_MOTD_D: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &[
-        "https://www.sans.org/blog/linux-persistence-mechanisms/",
-        "https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/",
+        // T1037.004 MOTD persistence — /etc/update-motd.d/ section with auditd/osquery detection
+        "https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms",
+        // pberba Part 2, Section 10: motd scripts via pam_motd (Debian/Ubuntu)
+        "https://pberba.github.io/security/2022/02/06/linux-threat-hunting-for-persistence-initialization-scripts-and-shell-configuration/",
     ],
 };
 
@@ -3625,8 +3632,10 @@ pub static LINUX_UDEV_RULES_D: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &[
-        "https://www.sans.org/blog/linux-persistence-mechanisms/",
-        "https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/",
+        // T1546 udev rules persistence — RUN+= directive, three sub-methods, detection rules
+        "https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms",
+        // Official freedesktop udev rules syntax reference
+        "https://www.freedesktop.org/software/systemd/man/udev_rules.html",
     ],
 };
 
@@ -3656,7 +3665,6 @@ pub static LINUX_BASH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &[
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
         "https://bromiley.medium.com/torvalds-tuesday-bash-history-in-linux-forensics-7cc4c9b4db9f",
     ],
 };
@@ -3680,7 +3688,6 @@ pub static LINUX_ZSH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &[
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
         "https://bromiley.medium.com/torvalds-tuesday-bash-history-in-linux-forensics-7cc4c9b4db9f",
     ],
 };
@@ -3709,7 +3716,6 @@ pub static LINUX_WTMP: ArtifactDescriptor = ArtifactDescriptor {
     related_artifacts: &[],
     sources: &[
         "https://linux.die.net/man/5/wtmp",
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
         "https://bromiley.medium.com/torvalds-tuesday-logon-history-in-the-tmp-files-83530b2acc28",
         "https://sandflysecurity.com/blog/using-linux-utmpdump-for-forensics-and-detecting-log-file-tampering",
     ],
@@ -3791,7 +3797,6 @@ pub static LINUX_AUTH_LOG: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &[
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
         "https://sandflysecurity.com/blog/using-linux-utmpdump-for-forensics-and-detecting-log-file-tampering",
     ],
 };
@@ -3818,10 +3823,7 @@ pub static LINUX_JOURNAL_DIR: ArtifactDescriptor = ArtifactDescriptor {
     retention: Some("50MB or 1 month default; configurable in journald.conf"),
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
-        "https://systemd.io/JOURNAL_NATIVE_PROTOCOL/",
-    ],
+    sources: &["https://systemd.io/JOURNAL_NATIVE_PROTOCOL/"],
 };
 
 // ── Linux credential artifacts ────────────────────────────────────────────
@@ -3958,10 +3960,7 @@ pub static LINUX_GNUPG_PRIVATE: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
-        "https://gnupg.org/documentation/manuals/gnupg/GPG-Configuration-Options.html",
-    ],
+    sources: &["https://gnupg.org/documentation/manuals/gnupg/GPG-Configuration-Options.html"],
 };
 
 /// `~/.aws/credentials` — AWS access key material (T1552.001).
@@ -4712,10 +4711,7 @@ pub static LINUX_GNOME_KEYRING: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
-    sources: &[
-        "https://wiki.gnome.org/Projects/GnomeKeyring",
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
-    ],
+    sources: &["https://wiki.gnome.org/Projects/GnomeKeyring"],
 };
 
 pub static LINUX_KDE_KWALLET: ArtifactDescriptor = ArtifactDescriptor {
@@ -4736,10 +4732,7 @@ pub static LINUX_KDE_KWALLET: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
-    sources: &[
-        "https://userbase.kde.org/KWallet",
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
-    ],
+    sources: &["https://userbase.kde.org/KWallet"],
 };
 
 pub static LINUX_CHROME_LOGIN_LINUX: ArtifactDescriptor = ArtifactDescriptor {
@@ -4760,10 +4753,7 @@ pub static LINUX_CHROME_LOGIN_LINUX: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
-    sources: &[
-        "https://github.com/AlessandroZ/LaZagne",
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
-    ],
+    sources: &["https://github.com/AlessandroZ/LaZagne"],
 };
 
 pub static LINUX_FIREFOX_LOGINS_LINUX: ArtifactDescriptor = ArtifactDescriptor {
@@ -4785,10 +4775,7 @@ pub static LINUX_FIREFOX_LOGINS_LINUX: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
-    sources: &[
-        "https://github.com/AlessandroZ/LaZagne",
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
-    ],
+    sources: &["https://github.com/AlessandroZ/LaZagne"],
 };
 
 pub static LINUX_UTMP: ArtifactDescriptor = ArtifactDescriptor {
@@ -4811,7 +4798,6 @@ pub static LINUX_UTMP: ArtifactDescriptor = ArtifactDescriptor {
     related_artifacts: &[],
     sources: &[
         "https://linux.die.net/man/5/utmp",
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
         "https://bromiley.medium.com/torvalds-tuesday-logon-history-in-the-tmp-files-83530b2acc28",
         "https://sandflysecurity.com/blog/using-linux-utmpdump-for-forensics-and-detecting-log-file-tampering",
     ],
@@ -4907,10 +4893,7 @@ pub static LINUX_GIT_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
-    sources: &[
-        "https://git-scm.com/docs/git-credential-store",
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
-    ],
+    sources: &["https://git-scm.com/docs/git-credential-store"],
 };
 
 pub static LINUX_NETRC: ArtifactDescriptor = ArtifactDescriptor {
@@ -4931,10 +4914,7 @@ pub static LINUX_NETRC: ArtifactDescriptor = ArtifactDescriptor {
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
-    sources: &[
-        "https://linux.die.net/man/5/netrc",
-        "https://www.sans.org/blog/linux-forensics-artifacts/",
-    ],
+    sources: &["https://linux.die.net/man/5/netrc"],
 };
 
 // ── Batch G — LinuxPersist-sourced persistence artifacts ─────────────────────
