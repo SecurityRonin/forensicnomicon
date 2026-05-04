@@ -129,6 +129,76 @@ mod catalog_integrity {
                 .join("\n")
         );
     }
+
+    /// The pberba "systemd-timers-cron" post documents cron and systemd timer
+    /// persistence.  It must NOT appear in sources[] of artifacts that are
+    /// unrelated to those mechanisms (PAM, sudoers, udev, MOTD, kernel module
+    /// boot config).  Those artifacts were incorrectly assigned that citation
+    /// by bulk sibling-borrowing.
+    #[test]
+    fn cron_post_only_on_cron_and_systemd_artifacts() {
+        const CRON_POST: &str =
+            "pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron";
+        // Artifact IDs where the cron post is a legitimate citation.
+        // linux_at_queue uses `at` (T1053.001) — same scheduled-task family as
+        // cron (T1053.003) and systemd timers (T1053.006); pberba covers all three.
+        const ALLOWED: &[&str] = &[
+            "linux_crontab_system",
+            "linux_cron_d",
+            "linux_cron_periodic",
+            "linux_user_crontab",
+            "linux_anacrontab",
+            "linux_systemd_system_unit",
+            "linux_systemd_user_unit",
+            "linux_systemd_timer",
+            "linux_at_queue",
+        ];
+        let mut violations: Vec<(&str, &str)> = Vec::new();
+        for d in CATALOG.list() {
+            for src in d.sources {
+                if src.contains(CRON_POST) && !ALLOWED.contains(&d.id) {
+                    violations.push((d.id, src));
+                }
+            }
+        }
+        assert!(
+            violations.is_empty(),
+            "pberba cron/systemd post cited in non-cron artifact ({} violation{}):\n{}",
+            violations.len(),
+            if violations.len() == 1 { "" } else { "s" },
+            violations
+                .iter()
+                .map(|(id, url)| format!("  {id}: {url}"))
+                .collect::<Vec<_>>()
+                .join("\n")
+        );
+    }
+
+    /// The SANS "/blog/linux-forensics-artifacts/" URL returns HTTP 404.
+    /// It must not appear in any sources[] array.
+    #[test]
+    fn no_sans_linux_forensics_artifacts_404_url() {
+        const BROKEN: &str = "sans.org/blog/linux-forensics-artifacts/";
+        let mut violations: Vec<(&str, &str)> = Vec::new();
+        for d in CATALOG.list() {
+            for src in d.sources {
+                if src.contains(BROKEN) {
+                    violations.push((d.id, src));
+                }
+            }
+        }
+        assert!(
+            violations.is_empty(),
+            "broken SANS URL (HTTP 404) in sources[] ({} violation{}):\n{}",
+            violations.len(),
+            if violations.len() == 1 { "" } else { "s" },
+            violations
+                .iter()
+                .map(|(id, url)| format!("  {id}: {url}"))
+                .collect::<Vec<_>>()
+                .join("\n")
+        );
+    }
 }
 
 #[cfg(test)]
