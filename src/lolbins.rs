@@ -7994,4 +7994,28 @@ mod tests {
         // T1127 — Visual Studio IntelliTrace CLI; proxy execution via VS command line
         assert!(LOLBAS_WINDOWS.iter().any(|e| e.name == "IntelliTrace.exe"));
     }
+    // ── DSCourier LOLBin entries (Source: https://github.com/DylanDavis1/DSCourier) ──
+    #[test]
+    fn lolbas_windows_contains_configuration_remoting_server() {
+        // T1559.001/T1218 — WinGet DSC COM server; invoked by DSCourier to bypass winget.exe
+        assert!(LOLBAS_WINDOWS
+            .iter()
+            .any(|e| e.name == "ConfigurationRemotingServer.exe"));
+    }
+    #[test]
+    fn lolbas_windows_contains_windows_package_manager_server() {
+        // T1218/T1559.001 — WinGet DCOM broker; Microsoft-signed proxy for package installs
+        assert!(LOLBAS_WINDOWS
+            .iter()
+            .any(|e| e.name == "WindowsPackageManagerServer.exe"));
+    }
+    #[test]
+    fn winget_entry_mentions_com_api() {
+        // DSCourier technique — COM API bypass note must be on the winget entry
+        let entry = LOLBAS_WINDOWS.iter().find(|e| e.name == "winget.exe").unwrap();
+        assert!(
+            entry.description.contains("COM") || entry.description.contains("DSC"),
+            "winget.exe description should mention COM API / DSC bypass (DSCourier technique)"
+        );
+    }
 }
