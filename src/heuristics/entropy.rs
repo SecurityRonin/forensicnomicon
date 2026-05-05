@@ -15,8 +15,23 @@ pub const MAX_BYTE_ENTROPY: f32 = 8.0;
 /// Maximum is 8.0 (uniform distribution over all 256 byte values).
 /// Uses 256-bucket frequency counting — zero deps, no allocator needed beyond the stack array.
 #[must_use]
-pub fn byte_entropy(_data: &[u8]) -> f32 {
-    todo!()
+pub fn byte_entropy(data: &[u8]) -> f32 {
+    if data.is_empty() {
+        return 0.0;
+    }
+    let mut counts = [0u32; 256];
+    for &b in data {
+        counts[b as usize] += 1;
+    }
+    let len = data.len() as f32;
+    let mut entropy = 0.0f32;
+    for &count in &counts {
+        if count > 0 {
+            let p = count as f32 / len;
+            entropy -= p * p.log2();
+        }
+    }
+    entropy
 }
 
 /// Returns `true` if the buffer's entropy exceeds HIGH_ENTROPY_THRESHOLD.

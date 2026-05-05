@@ -5,16 +5,25 @@
 /// Each element is `(hit: bool, weight: u8)`. Returns the sum of weights
 /// for true indicators, clamped to 100.
 #[must_use]
-pub fn indicator_score(_indicators: &[(bool, u8)]) -> u8 {
-    todo!()
+pub fn indicator_score(indicators: &[(bool, u8)]) -> u8 {
+    let sum: u32 = indicators
+        .iter()
+        .filter(|(hit, _)| *hit)
+        .map(|(_, w)| u32::from(*w))
+        .sum();
+    sum.min(100) as u8
 }
 
 /// Probabilistic confidence combination: `P(A∨B) = 1 − (1−A)(1−B)`.
 ///
 /// Inputs and output are 0–100 (percent). Independent evidence.
 #[must_use]
-pub fn combine_confidence(_c1: u8, _c2: u8) -> u8 {
-    todo!()
+pub fn combine_confidence(c1: u8, c2: u8) -> u8 {
+    // work in f32: convert percent → probability, combine, convert back
+    let p1 = f32::from(c1) / 100.0;
+    let p2 = f32::from(c2) / 100.0;
+    let combined = 1.0 - (1.0 - p1) * (1.0 - p2);
+    (combined * 100.0).round() as u8
 }
 
 /// Returns `true` if `score` meets or exceeds `threshold`.
@@ -27,8 +36,12 @@ pub fn exceeds_threshold(score: u8, threshold: u8) -> bool {
 ///
 /// Empty slice returns 0. Single element returns that element.
 #[must_use]
-pub fn combine_all_confidence(_confidences: &[u8]) -> u8 {
-    todo!()
+pub fn combine_all_confidence(confidences: &[u8]) -> u8 {
+    match confidences {
+        [] => 0,
+        [single] => *single,
+        [first, rest @ ..] => rest.iter().fold(*first, |acc, &c| combine_confidence(acc, c)),
+    }
 }
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
