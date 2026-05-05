@@ -16,7 +16,10 @@
 pub mod entropy;
 pub mod memory;
 pub mod network;
+pub mod paths;
+pub mod process;
 pub mod scoring;
+pub mod srum;
 pub mod timestamps;
 
 // ── Temporal: born-before-OS-install ──────────────────────────────────────────
