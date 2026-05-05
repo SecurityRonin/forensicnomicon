@@ -1846,3 +1846,100 @@ pub static ARTIFACT_PROFILES: &[ArtifactProfile] = &[
 pub fn profile_for(artifact_id: &str) -> Option<&'static ArtifactProfile> {
     ARTIFACT_PROFILES.iter().find(|p| p.id == artifact_id)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn browser_chrome_history_profile_exists() {
+        let p = profile_for("browser_chrome_history");
+        assert!(p.is_some(), "browser_chrome_history profile must exist");
+        let p = p.unwrap();
+        assert_eq!(p.evidence_strength, EvidenceStrength::Corroborative);
+        assert_eq!(p.volatility, VolatilityClass::ActivityDriven);
+    }
+
+    #[test]
+    fn browser_chrome_cookies_profile_exists() {
+        let p = profile_for("browser_chrome_cookies");
+        assert!(p.is_some(), "browser_chrome_cookies profile must exist");
+        assert_eq!(p.unwrap().evidence_strength, EvidenceStrength::Corroborative);
+    }
+
+    #[test]
+    fn browser_chrome_downloads_profile_exists() {
+        let p = profile_for("browser_chrome_downloads");
+        assert!(p.is_some(), "browser_chrome_downloads profile must exist");
+        assert_eq!(p.unwrap().evidence_strength, EvidenceStrength::Strong);
+    }
+
+    #[test]
+    fn browser_chrome_bookmarks_profile_exists() {
+        let p = profile_for("browser_chrome_bookmarks");
+        assert!(p.is_some());
+        assert_eq!(p.unwrap().evidence_strength, EvidenceStrength::Circumstantial);
+    }
+
+    #[test]
+    fn browser_chrome_extensions_profile_exists() {
+        let p = profile_for("browser_chrome_extensions");
+        assert!(p.is_some());
+        assert_eq!(p.unwrap().evidence_strength, EvidenceStrength::Corroborative);
+    }
+
+    #[test]
+    fn browser_chrome_login_data_profile_exists() {
+        let p = profile_for("browser_chrome_login_data_v2");
+        assert!(p.is_some());
+        assert_eq!(p.unwrap().evidence_strength, EvidenceStrength::Strong);
+    }
+
+    #[test]
+    fn browser_chrome_autofill_profile_exists() {
+        let p = profile_for("browser_chrome_autofill");
+        assert!(p.is_some());
+        assert_eq!(p.unwrap().evidence_strength, EvidenceStrength::Corroborative);
+    }
+
+    #[test]
+    fn browser_chrome_cache_profile_exists() {
+        let p = profile_for("browser_chrome_cache");
+        assert!(p.is_some());
+        assert_eq!(p.unwrap().volatility, VolatilityClass::RotatingBuffer);
+    }
+
+    #[test]
+    fn browser_chrome_session_profile_exists() {
+        let p = profile_for("browser_chrome_session");
+        assert!(p.is_some());
+        assert_eq!(p.unwrap().volatility, VolatilityClass::Volatile);
+    }
+
+    #[test]
+    fn browser_firefox_history_profile_exists() {
+        let p = profile_for("browser_firefox_history");
+        assert!(p.is_some());
+        assert_eq!(p.unwrap().evidence_strength, EvidenceStrength::Corroborative);
+    }
+
+    #[test]
+    fn browser_firefox_cookies_profile_exists() {
+        let p = profile_for("browser_firefox_cookies");
+        assert!(p.is_some());
+    }
+
+    #[test]
+    fn browser_firefox_downloads_profile_exists() {
+        let p = profile_for("browser_firefox_downloads");
+        assert!(p.is_some());
+        assert_eq!(p.unwrap().evidence_strength, EvidenceStrength::Strong);
+    }
+
+    #[test]
+    fn browser_safari_history_profile_exists() {
+        let p = profile_for("browser_safari_history");
+        assert!(p.is_some());
+        assert_eq!(p.unwrap().evidence_strength, EvidenceStrength::Corroborative);
+    }
+}
