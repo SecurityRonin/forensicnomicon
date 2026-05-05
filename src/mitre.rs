@@ -2048,7 +2048,7 @@ static ATTACK_PREFIXES: &[(&str, &str, &str, &str)] = &[
         "Command and Scripting Interpreter: Python",
     ),
     (
-        "go_",
+        "golang_",
         "T1059",
         "execution",
         "Command and Scripting Interpreter",
@@ -2066,31 +2066,7 @@ static ATTACK_PREFIXES: &[(&str, &str, &str, &str)] = &[
         "Command and Scripting Interpreter",
     ),
     (
-        "java_",
-        "T1059",
-        "execution",
-        "Command and Scripting Interpreter",
-    ),
-    (
         "dotnet_",
-        "T1059",
-        "execution",
-        "Command and Scripting Interpreter",
-    ),
-    (
-        "nodejs_",
-        "T1059.007",
-        "execution",
-        "Command and Scripting Interpreter: JavaScript",
-    ),
-    (
-        "perl_",
-        "T1059",
-        "execution",
-        "Command and Scripting Interpreter",
-    ),
-    (
-        "ruby_",
         "T1059",
         "execution",
         "Command and Scripting Interpreter",
@@ -2114,20 +2090,11 @@ static ATTACK_PREFIXES: &[(&str, &str, &str, &str)] = &[
         "Command and Scripting Interpreter",
     ),
     // ── Network / Reconnaissance ───────────────────────────────────────
-    ("scan_", "T1046", "discovery", "Network Service Discovery"),
     (
         "portscan_",
         "T1046",
         "discovery",
         "Network Service Discovery",
-    ),
-    ("recon_", "T1595", "reconnaissance", "Active Scanning"),
-    ("enum_", "T1087", "discovery", "Account Discovery"),
-    (
-        "discovery_",
-        "T1083",
-        "discovery",
-        "File and Directory Discovery",
     ),
     ("sniffer_", "T1040", "credential-access", "Network Sniffing"),
     (
@@ -2153,18 +2120,6 @@ static ATTACK_PREFIXES: &[(&str, &str, &str, &str)] = &[
         "T1557",
         "credential-access",
         "Adversary-in-the-Middle",
-    ),
-    (
-        "osint_",
-        "T1589",
-        "reconnaissance",
-        "Gather Victim Identity Information",
-    ),
-    (
-        "harvest_",
-        "T1589",
-        "reconnaissance",
-        "Gather Victim Identity Information",
     ),
     ("nmap_", "T1046", "discovery", "Network Service Discovery"),
     (
@@ -2204,20 +2159,12 @@ static ATTACK_PREFIXES: &[(&str, &str, &str, &str)] = &[
         "Adversary-in-the-Middle: LLMNR/NBT-NS Poisoning",
     ),
     // ── Windows registry / system ──────────────────────────────────────
-    ("reg_", "T1112", "defense-evasion", "Modify Registry"),
     (
         "kerberos_",
         "T1558",
         "credential-access",
         "Steal or Forge Kerberos Tickets",
     ),
-    (
-        "event_",
-        "T1070.001",
-        "defense-evasion",
-        "Indicator Removal: Clear Windows Event Logs",
-    ),
-    ("prefetch_", "T1070", "defense-evasion", "Indicator Removal"),
     (
         "namedpipe_",
         "T1559.001",
