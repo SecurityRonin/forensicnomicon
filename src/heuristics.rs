@@ -163,4 +163,281 @@ mod tests {
     fn hour_23_is_outside_working_hours() {
         assert!(is_hour_outside_working_hours(23));
     }
+
+    // ── SI/FN timestomp (group 1) ─────────────────────────────────────────────
+
+    #[test]
+    fn si_before_fn_threshold_is_one_second() {
+        assert_eq!(SI_PRECEDES_FN_THRESHOLD_NS, 1_000_000_000i64);
+    }
+
+    #[test]
+    fn si_two_seconds_before_fn_is_timestomp() {
+        let fn_born = 1_700_000_000_000_000_000i64;
+        let si_born = fn_born - 2 * SI_PRECEDES_FN_THRESHOLD_NS;
+        assert!(is_si_before_fn(si_born, fn_born));
+    }
+
+    #[test]
+    fn si_after_fn_is_not_timestomp() {
+        let fn_born = 1_700_000_000_000_000_000i64;
+        let si_born = fn_born + SI_PRECEDES_FN_THRESHOLD_NS;
+        assert!(!is_si_before_fn(si_born, fn_born));
+    }
+
+    #[test]
+    fn si_equal_fn_is_not_timestomp() {
+        let ts = 1_700_000_000_000_000_000i64;
+        assert!(!is_si_before_fn(ts, ts));
+    }
+
+    #[test]
+    fn si_exactly_at_threshold_is_not_timestomp() {
+        let fn_born = 1_700_000_000_000_000_000i64;
+        let si_born = fn_born - SI_PRECEDES_FN_THRESHOLD_NS;
+        assert!(!is_si_before_fn(si_born, fn_born));
+    }
+
+    // ── Null/wiped timestamp (group 2) ───────────────────────────────────────
+
+    #[test]
+    fn null_timestamp_window_is_one_day() {
+        assert_eq!(NULL_TIMESTAMP_WINDOW_NS, 86_400_000_000_000i64);
+    }
+
+    #[test]
+    fn zero_timestamp_is_null() {
+        assert!(is_null_timestamp(0));
+    }
+
+    #[test]
+    fn negative_timestamp_is_null() {
+        assert!(is_null_timestamp(-1));
+    }
+
+    #[test]
+    fn timestamp_within_one_day_of_epoch_is_null() {
+        assert!(is_null_timestamp(NULL_TIMESTAMP_WINDOW_NS - 1));
+    }
+
+    #[test]
+    fn timestamp_exactly_at_one_day_is_not_null() {
+        assert!(!is_null_timestamp(NULL_TIMESTAMP_WINDOW_NS));
+    }
+
+    #[test]
+    fn modern_timestamp_is_not_null() {
+        // 2024-01-01 in ns
+        assert!(!is_null_timestamp(1_704_067_200_000_000_000i64));
+    }
+
+    // ── Rapid-access / burst (group 3) ───────────────────────────────────────
+
+    #[test]
+    fn rapid_access_threshold_is_one_second() {
+        assert_eq!(RAPID_ACCESS_THRESHOLD_NS, 1_000_000_000i64);
+    }
+
+    #[test]
+    fn two_events_half_second_apart_are_rapid() {
+        assert!(is_rapid_sequence(0, 500_000_000));
+    }
+
+    #[test]
+    fn two_events_two_seconds_apart_are_not_rapid() {
+        assert!(!is_rapid_sequence(0, 2_000_000_000));
+    }
+
+    #[test]
+    fn rapid_sequence_with_reversed_order() {
+        assert!(is_rapid_sequence(500_000_000, 0));
+    }
+
+    #[test]
+    fn burst_access_all_rapid_returns_true() {
+        let ts = [0i64, 100_000_000, 200_000_000, 300_000_000];
+        assert!(is_burst_access(&ts));
+    }
+
+    #[test]
+    fn burst_access_one_slow_gap_returns_false() {
+        let ts = [0i64, 100_000_000, 2_000_000_000, 2_100_000_000];
+        assert!(!is_burst_access(&ts));
+    }
+
+    #[test]
+    fn burst_access_empty_returns_false() {
+        assert!(!is_burst_access(&[]));
+    }
+
+    #[test]
+    fn burst_access_single_element_returns_false() {
+        assert!(!is_burst_access(&[42]));
+    }
+
+    // ── Network port heuristics (group 4) ────────────────────────────────────
+
+    #[test]
+    fn ephemeral_port_boundary_correct() {
+        assert_eq!(MIN_EPHEMERAL_PORT, 49152u16);
+    }
+
+    #[test]
+    fn port_49152_is_ephemeral() {
+        assert!(is_ephemeral_port(49152));
+    }
+
+    #[test]
+    fn port_49151_is_not_ephemeral() {
+        assert!(!is_ephemeral_port(49151));
+    }
+
+    #[test]
+    fn port_65535_is_ephemeral() {
+        assert!(is_ephemeral_port(65535));
+    }
+
+    #[test]
+    fn known_miner_port_3333_detected() {
+        assert!(is_miner_port(3333));
+    }
+
+    #[test]
+    fn known_miner_port_14444_detected() {
+        assert!(is_miner_port(14444));
+    }
+
+    #[test]
+    fn non_miner_port_80_not_detected() {
+        assert!(!is_miner_port(80));
+    }
+
+    #[test]
+    fn tunnel_port_9050_tor_detected() {
+        assert!(is_common_tunnel_port(9050));
+    }
+
+    #[test]
+    fn tunnel_port_1080_socks_detected() {
+        assert!(is_common_tunnel_port(1080));
+    }
+
+    #[test]
+    fn non_tunnel_port_443_not_detected() {
+        assert!(!is_common_tunnel_port(443));
+    }
+
+    // ── UID/GID boundaries (group 5) ─────────────────────────────────────────
+
+    #[test]
+    fn max_system_uid_is_999() {
+        assert_eq!(MAX_SYSTEM_UID, 999u32);
+    }
+
+    #[test]
+    fn root_uid_0_is_system() {
+        assert!(is_system_uid(0));
+    }
+
+    #[test]
+    fn uid_999_is_system() {
+        assert!(is_system_uid(999));
+    }
+
+    #[test]
+    fn uid_1000_is_user() {
+        assert!(is_user_uid(1000));
+        assert!(!is_system_uid(1000));
+    }
+
+    #[test]
+    fn uid_999_is_not_user() {
+        assert!(!is_user_uid(999));
+    }
+
+    // ── C2 beacon regularity (group 6) ───────────────────────────────────────
+
+    #[test]
+    fn beacon_jitter_ppt_is_25() {
+        assert_eq!(BEACON_JITTER_PPT, 25u64);
+    }
+
+    #[test]
+    fn perfectly_regular_intervals_detected() {
+        // 60s intervals, no jitter
+        let iv = [60_000_000_000i64; 5];
+        assert!(is_regular_interval(&iv));
+    }
+
+    #[test]
+    fn intervals_within_jitter_detected_as_regular() {
+        // median = 60s; 2% jitter well within 2.5%
+        let base = 60_000_000_000i64;
+        let jitter = base / 50; // 2%
+        let iv = [base - jitter, base, base + jitter, base, base - jitter / 2];
+        assert!(is_regular_interval(&iv));
+    }
+
+    #[test]
+    fn irregular_intervals_not_detected_as_beacon() {
+        let iv = [60_000_000_000i64, 120_000_000_000, 30_000_000_000, 90_000_000_000, 60_000_000_000];
+        assert!(!is_regular_interval(&iv));
+    }
+
+    #[test]
+    fn fewer_than_three_intervals_returns_false() {
+        assert!(!is_regular_interval(&[60_000_000_000i64, 60_000_000_000]));
+    }
+
+    #[test]
+    fn empty_intervals_returns_false() {
+        assert!(!is_regular_interval(&[]));
+    }
+
+    #[test]
+    fn negative_interval_returns_false() {
+        assert!(!is_regular_interval(&[60_000_000_000i64, -1, 60_000_000_000]));
+    }
+
+    // ── File size heuristics (group 7) ───────────────────────────────────────
+
+    #[test]
+    fn min_meaningful_file_bytes_is_4() {
+        assert_eq!(MIN_MEANINGFUL_FILE_BYTES, 4u64);
+    }
+
+    #[test]
+    fn large_file_threshold_is_1_gib() {
+        assert_eq!(LARGE_FILE_THRESHOLD_BYTES, 1_073_741_824u64);
+    }
+
+    #[test]
+    fn zero_byte_file_is_hollow() {
+        assert!(is_hollow_file(0));
+    }
+
+    #[test]
+    fn three_byte_file_is_hollow() {
+        assert!(is_hollow_file(3));
+    }
+
+    #[test]
+    fn four_byte_file_is_not_hollow() {
+        assert!(!is_hollow_file(4));
+    }
+
+    #[test]
+    fn one_gib_file_is_potential_container() {
+        assert!(is_potential_container(1_073_741_824));
+    }
+
+    #[test]
+    fn two_gib_file_is_potential_container() {
+        assert!(is_potential_container(2_147_483_648));
+    }
+
+    #[test]
+    fn small_file_is_not_potential_container() {
+        assert!(!is_potential_container(1_000_000));
+    }
 }
