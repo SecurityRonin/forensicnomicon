@@ -4824,3 +4824,169 @@ mod tests_recycle_bin_enrichment {
         );
     }
 }
+
+#[cfg(test)]
+mod tests_batch_i_presence {
+    use super::*;
+
+    #[test]
+    fn catalog_has_cbs_log() {
+        assert!(
+            CATALOG.by_id("cbs_log").is_some(),
+            "CBS_LOG missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_pfro_log() {
+        assert!(
+            CATALOG.by_id("pfro_log").is_some(),
+            "PFRO_LOG missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_setuperr_log() {
+        assert!(
+            CATALOG.by_id("setuperr_log").is_some(),
+            "SETUPERR_LOG missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_setupapi_upgrade_log() {
+        assert!(
+            CATALOG.by_id("setupapi_upgrade_log").is_some(),
+            "SETUPAPI_UPGRADE_LOG missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_wer_reports_user() {
+        assert!(
+            CATALOG.by_id("wer_reports_user").is_some(),
+            "WER_REPORTS_USER missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_wer_reports_system() {
+        assert!(
+            CATALOG.by_id("wer_reports_system").is_some(),
+            "WER_REPORTS_SYSTEM missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_evtx_application() {
+        assert!(
+            CATALOG.by_id("evtx_application").is_some(),
+            "EVTX_APPLICATION missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_evtx_dns_client() {
+        assert!(
+            CATALOG.by_id("evtx_dns_client").is_some(),
+            "EVTX_DNS_CLIENT missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_evtx_terminal_services() {
+        assert!(
+            CATALOG.by_id("evtx_terminal_services").is_some(),
+            "EVTX_TERMINAL_SERVICES missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_linux_kern_log() {
+        assert!(
+            CATALOG.by_id("linux_kern_log").is_some(),
+            "LINUX_KERN_LOG missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_linux_dmesg() {
+        assert!(
+            CATALOG.by_id("linux_dmesg").is_some(),
+            "LINUX_DMESG missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_linux_proc_net_tcp() {
+        assert!(
+            CATALOG.by_id("linux_proc_net_tcp").is_some(),
+            "LINUX_PROC_NET_TCP missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_linux_proc_net_unix() {
+        assert!(
+            CATALOG.by_id("linux_proc_net_unix").is_some(),
+            "LINUX_PROC_NET_UNIX missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_linux_boot_log() {
+        assert!(
+            CATALOG.by_id("linux_boot_log").is_some(),
+            "LINUX_BOOT_LOG missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_linux_faillog() {
+        assert!(
+            CATALOG.by_id("linux_faillog").is_some(),
+            "LINUX_FAILLOG missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_appx_packages_user() {
+        assert!(
+            CATALOG.by_id("appx_packages_user").is_some(),
+            "APPX_PACKAGES_USER missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_appx_install_log() {
+        assert!(
+            CATALOG.by_id("appx_install_log").is_some(),
+            "APPX_INSTALL_LOG missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_diagnostic_data_dir() {
+        assert!(
+            CATALOG.by_id("diagnostic_data_dir").is_some(),
+            "DIAGNOSTIC_DATA_DIR missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_has_windows_update_session() {
+        assert!(
+            CATALOG.by_id("windows_update_session").is_some(),
+            "WINDOWS_UPDATE_SESSION missing from catalog"
+        );
+    }
+
+    #[test]
+    fn catalog_count_includes_batch_i() {
+        assert_eq!(
+            CATALOG.list().len(),
+            6605,
+            "catalog must have 6605 entries after batch I (+15 new)"
+        );
+    }
+}
