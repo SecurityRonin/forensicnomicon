@@ -21,6 +21,7 @@ pub const WINDOWS_MASQUERADE_TARGETS: &[&str] = &[
     "wermgr.exe",
     "services.exe",
     "winlogon.exe",
+    "wininit.exe",
     "smss.exe",
     "taskhost.exe",
     "taskhostw.exe",
