@@ -6,32 +6,44 @@
 /// Ranges: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16.
 #[must_use]
 pub fn is_private_ipv4(ip: [u8; 4]) -> bool {
-    todo!("RED — not yet implemented")
+    // 10.0.0.0/8
+    if ip[0] == 10 {
+        return true;
+    }
+    // 172.16.0.0/12 — second octet 16..=31
+    if ip[0] == 172 && ip[1] >= 16 && ip[1] <= 31 {
+        return true;
+    }
+    // 192.168.0.0/16
+    if ip[0] == 192 && ip[1] == 168 {
+        return true;
+    }
+    false
 }
 
 /// Returns `true` if the IPv4 address is loopback (127.0.0.0/8).
 #[must_use]
 pub fn is_loopback_ipv4(ip: [u8; 4]) -> bool {
-    todo!("RED — not yet implemented")
+    ip[0] == 127
 }
 
 /// Returns `true` if the IPv4 address is link-local (169.254.0.0/16).
 #[must_use]
 pub fn is_link_local_ipv4(ip: [u8; 4]) -> bool {
-    todo!("RED — not yet implemented")
+    ip[0] == 169 && ip[1] == 254
 }
 
 /// Returns `true` if the IPv4 address is multicast (224.0.0.0/4).
 #[must_use]
 pub fn is_multicast_ipv4(ip: [u8; 4]) -> bool {
-    todo!("RED — not yet implemented")
+    ip[0] >= 224 && ip[0] <= 239
 }
 
 /// Returns `true` if the address is public (not private, loopback, link-local, or multicast).
 /// Public IPv4 addresses reaching external infrastructure indicate potential C2/exfil.
 #[must_use]
 pub fn is_public_ipv4(ip: [u8; 4]) -> bool {
-    todo!("RED — not yet implemented")
+    !is_private_ipv4(ip) && !is_loopback_ipv4(ip) && !is_link_local_ipv4(ip) && !is_multicast_ipv4(ip)
 }
 
 // ── IPv6 classification ───────────────────────────────────────────────────────
@@ -39,19 +51,19 @@ pub fn is_public_ipv4(ip: [u8; 4]) -> bool {
 /// Returns `true` if the IPv6 address is in the private ULA range (fc00::/7).
 #[must_use]
 pub fn is_private_ipv6(ip: [u8; 16]) -> bool {
-    todo!("RED — not yet implemented")
+    ip[0] & 0xFE == 0xFC
 }
 
 /// Returns `true` if the IPv6 address is an IPv4-mapped address (::ffff:x.x.x.x).
 #[must_use]
 pub fn is_ipv4_mapped_v6(ip: [u8; 16]) -> bool {
-    todo!("RED — not yet implemented")
+    ip[..10] == [0u8; 10] && ip[10] == 0xFF && ip[11] == 0xFF
 }
 
 /// Returns `true` if the IPv6 address is loopback (::1).
 #[must_use]
 pub fn is_loopback_ipv6(ip: [u8; 16]) -> bool {
-    todo!("RED — not yet implemented")
+    ip[..15] == [0u8; 15] && ip[15] == 1
 }
 
 // ── DGA (Domain Generation Algorithm) detection ───────────────────────────────
@@ -70,13 +82,42 @@ pub const DGA_MIN_CONSONANT_RUN: u8 = 4;
 /// Returns 0 if there are no alphabetic characters.
 #[must_use]
 pub fn vowel_ratio_ppt(s: &str) -> u32 {
-    todo!("RED — not yet implemented")
+    let mut alpha: u32 = 0;
+    let mut vowels: u32 = 0;
+    for c in s.chars() {
+        if c.is_ascii_alphabetic() {
+            alpha += 1;
+            if matches!(c.to_ascii_lowercase(), 'a' | 'e' | 'i' | 'o' | 'u') {
+                vowels += 1;
+            }
+        }
+    }
+    if alpha == 0 {
+        return 0;
+    }
+    vowels * 1000 / alpha
 }
 
 /// Returns the length of the longest consecutive consonant run in `s`.
 #[must_use]
 pub fn consonant_run_max(s: &str) -> u8 {
-    todo!("RED — not yet implemented")
+    let mut max_run: u8 = 0;
+    let mut cur_run: u8 = 0;
+    for c in s.chars() {
+        if c.is_ascii_alphabetic() {
+            if !matches!(c.to_ascii_lowercase(), 'a' | 'e' | 'i' | 'o' | 'u') {
+                cur_run = cur_run.saturating_add(1);
+                if cur_run > max_run {
+                    max_run = cur_run;
+                }
+            } else {
+                cur_run = 0;
+            }
+        } else {
+            cur_run = 0;
+        }
+    }
+    max_run
 }
 
 /// Returns `true` if the subdomain looks like a DGA-generated name:
@@ -85,7 +126,9 @@ pub fn consonant_run_max(s: &str) -> u8 {
 /// - consonant_run_max >= DGA_MIN_CONSONANT_RUN
 #[must_use]
 pub fn is_likely_dga(subdomain: &str) -> bool {
-    todo!("RED — not yet implemented")
+    subdomain.len() >= DGA_MIN_LENGTH
+        && vowel_ratio_ppt(subdomain) < DGA_MAX_VOWEL_RATIO_PPT
+        && consonant_run_max(subdomain) >= DGA_MIN_CONSONANT_RUN
 }
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
