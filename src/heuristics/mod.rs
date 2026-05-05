@@ -14,6 +14,7 @@
 //! `serde`, or I/O belongs in a higher layer (e.g., `rt-correlation`).
 
 pub mod entropy;
+pub mod network;
 pub mod scoring;
 
 // ── Temporal: born-before-OS-install ──────────────────────────────────────────
