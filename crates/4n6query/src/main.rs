@@ -24,6 +24,8 @@
 //! 4n6query dump --format yaml
 //! ```
 
+mod tui;
+
 use clap::{Parser, Subcommand, ValueEnum};
 use forensicnomicon::abusable_sites::{
     abusable_site_info, BlockingRisk, SiteCategory, ABUSABLE_SITES,
@@ -176,6 +178,9 @@ fn main() {
         run_playbook(&pb_arg, cli.format)
     } else if let Some(term) = cli.term {
         run_query(&term, cli.platform, cli.format)
+    } else if std::io::IsTerminal::is_terminal(&std::io::stdout()) {
+        // No args, stdout is a TTY → launch the interactive navigator
+        tui::run()
     } else {
         eprintln!("Usage: 4n6query <term> [--platform <p>] [--format json|yaml]");
         eprintln!("       4n6query --triage");
