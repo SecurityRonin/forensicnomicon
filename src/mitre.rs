@@ -211,4 +211,234 @@ mod tests {
             );
         }
     }
+
+    // ── Long-tail prefix tests (RED: all fail until entries are added) ──────
+
+    #[test]
+    fn malware_archetypes_are_mapped() {
+        let cases = [
+            ("trojan_zeus",        "T1204"),
+            ("spyware_pegasus",    "T1113"),
+            ("spy_agent",          "T1113"),
+            ("adware_fireball",    "T1176"),
+            ("banker_emotet",      "T1185"),
+            ("packer_upx",         "T1027.002"),
+            ("clickfraud_adrozek", "T1496"),
+            ("worm_wannacry",      "T1570"),
+            ("virus_bifrost",      "T1203"),
+            ("dialer_premium",     "T1571"),
+            ("downloader_upatre",  "T1105"),
+            ("infostealer_vidar",  "T1552"),
+            ("formgrab_zeus",      "T1056.003"),
+            ("stalkerware_spyic",  "T1125"),
+            ("clipper_cryptobot",  "T1115"),
+            ("cryptominer_xmrig",  "T1496"),
+            ("cryptojack_coinhive","T1496"),
+        ];
+        for (rule, expected_id) in cases {
+            let r = lookup_attack_for_rule_name(rule)
+                .unwrap_or_else(|| panic!("prefix for '{rule}' returned None"));
+            assert_eq!(r.technique_id, expected_id, "wrong id for '{rule}'");
+        }
+    }
+
+    #[test]
+    fn credential_attacks_are_mapped() {
+        let cases = [
+            ("lsass_dump",          "T1003.001"),
+            ("samdump_hive",        "T1003.002"),
+            ("ntds_extract",        "T1003.003"),
+            ("dcsync_attack",       "T1003.006"),
+            ("kerberoast_spn",      "T1558.003"),
+            ("goldenticket_forge",  "T1558.001"),
+            ("silverticket_forge",  "T1558.002"),
+            ("passhash_relay",      "T1550.002"),
+            ("brute_force_rdp",     "T1110"),
+            ("spray_password",      "T1110.003"),
+            ("credstuff_combo",     "T1110.004"),
+            ("pwsteal_pony",        "T1555"),
+            ("cookiesteal_chrome",  "T1539"),
+            ("mimikatz_sekurlsa",   "T1003"),
+        ];
+        for (rule, expected_id) in cases {
+            let r = lookup_attack_for_rule_name(rule)
+                .unwrap_or_else(|| panic!("prefix for '{rule}' returned None"));
+            assert_eq!(r.technique_id, expected_id, "wrong id for '{rule}'");
+        }
+    }
+
+    #[test]
+    fn lateral_movement_prefixes_are_mapped() {
+        let cases = [
+            ("rdp_scanner",   "T1021.001"),
+            ("vnc_hijack",    "T1021.005"),
+            ("smb_relay",     "T1021.002"),
+            ("lateral_psexec","T1570"),
+        ];
+        for (rule, expected_id) in cases {
+            let r = lookup_attack_for_rule_name(rule)
+                .unwrap_or_else(|| panic!("prefix for '{rule}' returned None"));
+            assert_eq!(r.technique_id, expected_id, "wrong id for '{rule}'");
+        }
+    }
+
+    #[test]
+    fn defense_evasion_prefixes_are_mapped() {
+        let cases = [
+            ("obfusc_xor",          "T1027"),
+            ("packed_pe",           "T1027.002"),
+            ("antidebug_isdebugged","T1622"),
+            ("antivm_cpuid",        "T1497"),
+            ("antisandbox_sleep",   "T1497"),
+            ("timestomp_mace",      "T1070.006"),
+            ("logclear_evtx",       "T1070.001"),
+            ("uacbypass_fodhelper", "T1548.002"),
+            ("dllhijack_phantom",   "T1574.001"),
+            ("dllsideload_teams",   "T1574.002"),
+            ("antiforensic_wipe",   "T1070"),
+        ];
+        for (rule, expected_id) in cases {
+            let r = lookup_attack_for_rule_name(rule)
+                .unwrap_or_else(|| panic!("prefix for '{rule}' returned None"));
+            assert_eq!(r.technique_id, expected_id, "wrong id for '{rule}'");
+        }
+    }
+
+    #[test]
+    fn process_injection_variants_are_mapped() {
+        let cases = [
+            ("prochollow_svchost",  "T1055.012"),
+            ("reflective_dll",      "T1055.001"),
+            ("threadhijack_remote", "T1055.003"),
+            ("atom_bombing",        "T1055"),
+        ];
+        for (rule, expected_id) in cases {
+            let r = lookup_attack_for_rule_name(rule)
+                .unwrap_or_else(|| panic!("prefix for '{rule}' returned None"));
+            assert_eq!(r.technique_id, expected_id, "wrong id for '{rule}'");
+        }
+    }
+
+    #[test]
+    fn persistence_mechanisms_are_mapped() {
+        let cases = [
+            ("bootkit_necurs",   "T1542.003"),
+            ("mbr_infector",     "T1542.003"),
+            ("uefi_lojax",       "T1542.001"),
+            ("schtask_persist",  "T1053.005"),
+            ("cron_persist",     "T1053.003"),
+            ("regpersist_run",   "T1547.001"),
+            ("service_hollow",   "T1543.003"),
+        ];
+        for (rule, expected_id) in cases {
+            let r = lookup_attack_for_rule_name(rule)
+                .unwrap_or_else(|| panic!("prefix for '{rule}' returned None"));
+            assert_eq!(r.technique_id, expected_id, "wrong id for '{rule}'");
+        }
+    }
+
+    #[test]
+    fn c2_network_prefixes_are_mapped() {
+        let cases = [
+            ("c2_http",              "T1071"),
+            ("beacon_cobalt",        "T1071"),
+            ("dnstunnel_iodine",     "T1071.004"),
+            ("dga_conficker",        "T1568.002"),
+            ("fastflux_storm",       "T1568.001"),
+            ("proxy_socks5",         "T1090"),
+            ("tunnel_ssh",           "T1572"),
+            ("icmptunnel_ping",      "T1095"),
+            ("domainfronting_cdn",   "T1090.004"),
+            ("p2p_botnet",           "T1090"),
+        ];
+        for (rule, expected_id) in cases {
+            let r = lookup_attack_for_rule_name(rule)
+                .unwrap_or_else(|| panic!("prefix for '{rule}' returned None"));
+            assert_eq!(r.technique_id, expected_id, "wrong id for '{rule}'");
+        }
+    }
+
+    #[test]
+    fn collection_prefixes_are_mapped() {
+        let cases = [
+            ("screenshot_grab",  "T1113"),
+            ("audiocap_record",  "T1123"),
+            ("webcam_capture",   "T1125"),
+            ("exfil_ftp",        "T1041"),
+            ("keylog_hook",      "T1056.001"),
+        ];
+        for (rule, expected_id) in cases {
+            let r = lookup_attack_for_rule_name(rule)
+                .unwrap_or_else(|| panic!("prefix for '{rule}' returned None"));
+            assert_eq!(r.technique_id, expected_id, "wrong id for '{rule}'");
+        }
+    }
+
+    #[test]
+    fn scripting_execution_prefixes_are_mapped() {
+        let cases = [
+            ("macro_office",    "T1137"),
+            ("vba_shellcode",   "T1059.005"),
+            ("jscript_rat",     "T1059.007"),
+            ("wmi_exec",        "T1047"),
+            ("lnk_shortcut",    "T1204.002"),
+            ("iso_smuggle",     "T1553.005"),
+            ("dde_office",      "T1559.002"),
+        ];
+        for (rule, expected_id) in cases {
+            let r = lookup_attack_for_rule_name(rule)
+                .unwrap_or_else(|| panic!("prefix for '{rule}' returned None"));
+            assert_eq!(r.technique_id, expected_id, "wrong id for '{rule}'");
+        }
+    }
+
+    #[test]
+    fn initial_access_exploitation_prefixes_are_mapped() {
+        let cases = [
+            ("exploitkit_angler",       "T1189"),
+            ("drivebydownload_zeroday", "T1189"),
+            ("heapspray_ie",            "T1203"),
+            ("rce_log4j",               "T1203"),
+            ("lpe_kernel",              "T1068"),
+            ("phish_spear",             "T1566"),
+            ("watering_hole",           "T1189"),
+        ];
+        for (rule, expected_id) in cases {
+            let r = lookup_attack_for_rule_name(rule)
+                .unwrap_or_else(|| panic!("prefix for '{rule}' returned None"));
+            assert_eq!(r.technique_id, expected_id, "wrong id for '{rule}'");
+        }
+    }
+
+    #[test]
+    fn impact_prefixes_are_mapped() {
+        let cases = [
+            ("dos_synflood",    "T1499"),
+            ("ddos_amplify",    "T1498"),
+            ("vss_delete",      "T1490"),
+            ("shadow_wipe",     "T1490"),
+        ];
+        for (rule, expected_id) in cases {
+            let r = lookup_attack_for_rule_name(rule)
+                .unwrap_or_else(|| panic!("prefix for '{rule}' returned None"));
+            assert_eq!(r.technique_id, expected_id, "wrong id for '{rule}'");
+        }
+    }
+
+    #[test]
+    fn named_tool_prefixes_are_mapped() {
+        let cases = [
+            ("cobaltstrike_beacon", "T1219"),
+            ("meterpreter_shell",   "T1219"),
+            ("sliver_implant",      "T1219"),
+            ("empire_stager",       "T1059.001"),
+            ("impacket_secretsdump","T1021"),
+            ("metasploit_msfvenom", "T1203"),
+        ];
+        for (rule, expected_id) in cases {
+            let r = lookup_attack_for_rule_name(rule)
+                .unwrap_or_else(|| panic!("prefix for '{rule}' returned None"));
+            assert_eq!(r.technique_id, expected_id, "wrong id for '{rule}'");
+        }
+    }
 }
