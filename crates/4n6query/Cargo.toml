@@ -27,6 +27,7 @@ serde_yaml = "0.9"
 ratatui = "0.29"
 crossterm = "0.28"
 toml = "0.8"
+dirs = "5"
 
 [dev-dependencies]
 assert_cmd = "2"
