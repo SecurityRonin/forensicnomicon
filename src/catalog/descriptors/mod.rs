@@ -6349,6 +6349,130 @@ pub static WINSCP_SAVED_SESSIONS: ArtifactDescriptor = ArtifactDescriptor {
     ],
 };
 
+/// WinSCP portable configuration file — lateral movement & exfil staging evidence.
+///
+/// `WinSCP.ini` is a text-format INI file written by WinSCP at session close.
+/// For the **portable** version it sits next to `WinSCP.exe`; for the installed
+/// version it is at `%APPDATA%\WinSCP.ini`. Unlike the registry artifact
+/// (`winscp_saved_sessions`), this file is written **unconditionally** — even if
+/// the user never explicitly saved a session, WinSCP records every host connected
+/// to in `[Configuration\CDCache]`.
+///
+/// Key forensic properties:
+/// - `[Configuration\CDCache]` — `user@host=<hex path>` entries survive session
+///   deletion; host list is the most reliable lateral-movement indicator
+/// - `[Configuration\History\LocalTarget]` — local paths where files were saved
+///   from the remote system (exfil staging directories)
+/// - `[Configuration\Interface\Commander\LocalPanel] LastPath` — last open local
+///   directory; often points directly to exfil staging folder
+/// - `[Sessions\*]` — saved sessions with hostname, username, and reversible
+///   XOR-obfuscated password; only present if user explicitly saved the session
+///
+/// Tip: `.ini` mtime − Prefetch last-run-time ≈ session duration.
+///
+/// # Sources
+/// - <https://az4n6.blogspot.com/2020/02/detecting-laterial-movment-with-winscp.html>
+///   Full CDCache / LocalTarget / LastPath / Sessions field analysis; SRUM pivot
+/// - <https://github.com/winscp/winscp/blob/master/source/core/Security.cpp>
+///   Password obfuscation algorithm (XOR, reversible without key)
+pub(crate) static WINSCP_INI_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "connected_hosts",
+        value_type: ValueType::Text,
+        description: "user@host entries from [Configuration\\CDCache]; \
+            recorded for every connection regardless of whether the session was saved; \
+            hex-encoded path suffix is last-accessed path on remote host",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "local_target_dirs",
+        value_type: ValueType::Text,
+        description: "[Configuration\\History\\LocalTarget] — local directories \
+            where remote files were saved; directly identifies exfil staging paths \
+            even if files were subsequently deleted",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "last_local_path",
+        value_type: ValueType::Text,
+        description: "[Configuration\\Interface\\Commander\\LocalPanel] LastPath — \
+            last local directory open at session close; often the exfil staging folder",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "session_hostname",
+        value_type: ValueType::Text,
+        description: "[Sessions\\<name>] HostName — target host of a saved session; \
+            only present if user explicitly saved the session workspace",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "session_username",
+        value_type: ValueType::Text,
+        description: "[Sessions\\<name>] UserName — account used for the saved session",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "session_password",
+        value_type: ValueType::Text,
+        description: "[Sessions\\<name>] Password — XOR-obfuscated credential; \
+            reversible without a key per github.com/winscp/winscp source/core/Security.cpp; \
+            only present in saved sessions",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "local_directory",
+        value_type: ValueType::Text,
+        description: "[Sessions\\<name>] LocalDirectory — local panel path at last save; \
+            corroborates local_target_dirs",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "remote_directory",
+        value_type: ValueType::Text,
+        description: "[Sessions\\<name>] RemoteDirectory — last accessed path on the \
+            remote host; pivot to logs on the target system",
+        is_uid_component: false,
+    },
+];
+
+pub(crate) static WINSCP_INI: ArtifactDescriptor = ArtifactDescriptor {
+    id: "winscp_ini",
+    name: "WinSCP INI Configuration File",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("WinSCP.ini"),
+    scope: DataScope::User,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "WinSCP portable configuration file. Records all hosts connected to \
+        ([Configuration\\CDCache]) even without an explicit session save — making it \
+        the primary indicator of WinSCP-based lateral movement. Also records local \
+        directories where remote files were saved ([Configuration\\History\\LocalTarget]), \
+        revealing exfil staging paths. If sessions were saved, contains target hostnames, \
+        usernames, and reversible obfuscated passwords. The file is updated at session \
+        close: .ini last-modified vs. WinSCP.exe Prefetch run-time approximates session \
+        duration. Correlate with SRUM network-usage table for bytes transferred.",
+    mitre_techniques: &["T1021.004", "T1048", "T1560"],
+    fields: WINSCP_INI_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[
+        "winscp_saved_sessions",
+        "srum_network_usage",
+        "prefetch_file",
+    ],
+    sources: &[
+        // Source: CDCache / LocalTarget / LastPath field analysis; SRUM pivot
+        "https://az4n6.blogspot.com/2020/02/detecting-laterial-movment-with-winscp.html",
+        // Source: XOR password obfuscation algorithm (reversible without key)
+        "https://github.com/winscp/winscp/blob/master/source/core/Security.cpp",
+        "https://winscp.net/eng/docs/ui_pref_storage",
+    ],
+};
+
 pub(crate) static WINRAR_HISTORY_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "operation",
@@ -7250,6 +7374,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     NETWORKLIST_PROFILES,
     PUTTY_SESSIONS,
     WINSCP_SAVED_SESSIONS,
+    WINSCP_INI,
     WINRAR_HISTORY,
     // Batch J — Blue Team field-note and artifact-map coverage
     NETWORK_INTERFACES,
