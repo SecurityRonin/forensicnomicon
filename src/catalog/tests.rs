@@ -5152,3 +5152,163 @@ mod tests_quicklook_install_date {
         );
     }
 }
+
+// ── winscp_ini lateral-movement descriptor ────────────────────────────────────
+
+#[cfg(test)]
+mod tests_winscp_ini {
+    use super::*;
+
+    #[test]
+    fn winscp_ini_exists() {
+        assert!(
+            CATALOG.by_id("winscp_ini").is_some(),
+            "catalog must contain 'winscp_ini'"
+        );
+    }
+
+    #[test]
+    fn winscp_ini_is_file_artifact() {
+        let d = CATALOG.by_id("winscp_ini").unwrap();
+        assert_eq!(
+            d.artifact_type,
+            ArtifactType::File,
+            "winscp_ini must be a File artifact"
+        );
+    }
+
+    #[test]
+    fn winscp_ini_file_path_contains_winscp_ini() {
+        let d = CATALOG.by_id("winscp_ini").unwrap();
+        let fp = d.file_path.unwrap_or("");
+        assert!(
+            fp.contains("WinSCP.ini") || fp.contains("winscp.ini"),
+            "file_path must reference WinSCP.ini; got: {fp}"
+        );
+    }
+
+    #[test]
+    fn winscp_ini_triage_is_high() {
+        let d = CATALOG.by_id("winscp_ini").unwrap();
+        assert_eq!(
+            d.triage_priority,
+            TriagePriority::High,
+            "winscp_ini triage must be High (lateral movement evidence)"
+        );
+    }
+
+    #[test]
+    fn winscp_ini_has_connected_hosts_field() {
+        let d = CATALOG.by_id("winscp_ini").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "connected_hosts"),
+            "winscp_ini fields must include 'connected_hosts' \
+            ([Configuration\\CDCache] — all hosts connected to, even without saving session)"
+        );
+    }
+
+    #[test]
+    fn winscp_ini_has_local_target_dirs_field() {
+        let d = CATALOG.by_id("winscp_ini").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "local_target_dirs"),
+            "winscp_ini fields must include 'local_target_dirs' \
+            ([Configuration\\History\\LocalTarget] — exfil staging directories)"
+        );
+    }
+
+    #[test]
+    fn winscp_ini_has_last_local_path_field() {
+        let d = CATALOG.by_id("winscp_ini").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "last_local_path"),
+            "winscp_ini fields must include 'last_local_path' \
+            ([Configuration\\Interface\\Commander\\LocalPanel] LastPath)"
+        );
+    }
+
+    #[test]
+    fn winscp_ini_has_session_hostname_field() {
+        let d = CATALOG.by_id("winscp_ini").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "session_hostname"),
+            "winscp_ini fields must include 'session_hostname' \
+            ([Sessions\\*] HostName — only present if session was saved)"
+        );
+    }
+
+    #[test]
+    fn winscp_ini_has_session_password_field() {
+        let d = CATALOG.by_id("winscp_ini").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "session_password"),
+            "winscp_ini fields must include 'session_password' \
+            (obfuscated, reversible — XOR-based, see winscp/winscp Security.cpp)"
+        );
+    }
+
+    #[test]
+    fn winscp_ini_has_exfil_mitre() {
+        let d = CATALOG.by_id("winscp_ini").unwrap();
+        assert!(
+            d.mitre_techniques.contains(&"T1048"),
+            "winscp_ini mitre_techniques must include T1048 \
+            (Exfiltration Over Alternative Protocol); got: {:?}",
+            d.mitre_techniques
+        );
+    }
+
+    #[test]
+    fn winscp_ini_has_lateral_movement_mitre() {
+        let d = CATALOG.by_id("winscp_ini").unwrap();
+        assert!(
+            d.mitre_techniques.contains(&"T1021.004"),
+            "winscp_ini mitre_techniques must include T1021.004 (SSH lateral movement); \
+            got: {:?}",
+            d.mitre_techniques
+        );
+    }
+
+    #[test]
+    fn winscp_ini_cites_az4n6_lateral_movement() {
+        let d = CATALOG.by_id("winscp_ini").unwrap();
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("az4n6") && s.contains("winscp")),
+            "winscp_ini must cite az4n6 WinSCP lateral movement post; sources: {:?}",
+            d.sources
+        );
+    }
+
+    #[test]
+    fn winscp_ini_related_includes_winscp_saved_sessions() {
+        let d = CATALOG.by_id("winscp_ini").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"winscp_saved_sessions"),
+            "winscp_ini related_artifacts must include 'winscp_saved_sessions'"
+        );
+    }
+
+    #[test]
+    fn winscp_ini_related_includes_srum() {
+        let d = CATALOG.by_id("winscp_ini").unwrap();
+        assert!(
+            d.related_artifacts
+                .iter()
+                .any(|r| r.contains("srum")),
+            "winscp_ini related_artifacts must include a srum artifact \
+            (SRUM confirms bytes transferred via WinSCP); got: {:?}",
+            d.related_artifacts
+        );
+    }
+
+    #[test]
+    fn catalog_count_includes_winscp_ini() {
+        assert_eq!(
+            CATALOG.list().len(),
+            6608,
+            "catalog must have 6608 entries after adding winscp_ini"
+        );
+    }
+}
