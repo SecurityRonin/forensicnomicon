@@ -7,27 +7,27 @@ Mark `[x]` when reviewed, `[→]` when artifact tasks were created.
 ## 2026-05-03
 
 - [x] [LNK Files](https://windowsir.blogspot.com/2026/03/lnk-files.html) — Windows Incident Response
-- [ ] [Links](https://windowsir.blogspot.com/2026/03/links.html) — Windows Incident Response
+- [x] [Links](https://windowsir.blogspot.com/2026/03/links.html) — Windows Incident Response
 - [ ] [Devices](https://windowsir.blogspot.com/2026/02/devices.html) — Windows Incident Response <!-- 404 on 2026-05-03 -->
 - [x] [Views on AI & the Anthropic Report](https://windowsir.blogspot.com/2026/01/views-on-ai-anthropic-report.html) — Windows Incident Response
 - [x] [What's on your clipboard?](https://windowsir.blogspot.com/2026/01/whats-on-your-clipboard.html) — Windows Incident Response
-- [ ] [Questions I've Been Asked](https://windowsir.blogspot.com/2026/01/questions-ive-been-asked.html) — Windows Incident Response
+- [x] [Questions I've Been Asked](https://windowsir.blogspot.com/2026/01/questions-ive-been-asked.html) — Windows Incident Response
 - [x] [Windows Defender Support Logs](https://windowsir.blogspot.com/2026/01/windows-defender-support-logs.html) — Windows Incident Response
-- [ ] [Grab Bag](https://windowsir.blogspot.com/2026/01/grab-bag.html) — Windows Incident Response
+- [x] [Grab Bag](https://windowsir.blogspot.com/2026/01/grab-bag.html) — Windows Incident Response
 - [x] [Question on Open Source Tools](https://windowsir.blogspot.com/2025/12/question-on-open-source-tools.html) — Windows Incident Response
 - [x] [Perspectives on Cybersecurity](https://windowsir.blogspot.com/2025/12/perspectives-on-cybersecurity.html) — Windows Incident Response
-- [ ] [Detecting Lateral Movement with WinSCP](https://az4n6.blogspot.com/2020/02/detecting-laterial-movment-with-winscp.html) — Another Forensics Blog
-- [ ] [Triage Collection and Timeline Generation with KAPE](https://az4n6.blogspot.com/2019/08/triage-collection-and-timeline.html) — Another Forensics Blog
+- [→] [Detecting Lateral Movement with WinSCP](https://az4n6.blogspot.com/2020/02/detecting-laterial-movment-with-winscp.html) — Another Forensics Blog <!-- task #18: winscp_ini fields (CDCache, LocalTarget, LastPath) -->
+- [x] [Triage Collection and Timeline Generation with KAPE](https://az4n6.blogspot.com/2019/08/triage-collection-and-timeline.html) — Another Forensics Blog
 - [x] [Malicious PowerShell in the Registry: Persistence](https://az4n6.blogspot.com/2018/06/malicious-powershell-in-registry.html) — Another Forensics Blog
 - [x] [Mounting an APFS image in Linux](https://az4n6.blogspot.com/2018/01/mounting-apfs-image-in-linux.html) — Another Forensics Blog
 - [x] [How to mount Mac APFS images in Windows](https://az4n6.blogspot.com/2018/01/how-to-mount-mac-apfs-images-in-windows.html) — Another Forensics Blog
-- [ ] [Finding and Decoding Malicious PowerShell Scripts](https://az4n6.blogspot.com/2017/10/finding-and-decoding-malicious.html) — Another Forensics Blog
+- [x] [Finding and Decoding Malicious PowerShell Scripts](https://az4n6.blogspot.com/2017/10/finding-and-decoding-malicious.html) — Another Forensics Blog
 - [x] [Onion Peeler: Batch Tor Lookup Program](https://az4n6.blogspot.com/2017/02/onion-peeler-batch-tor-lookup-program.html) — Another Forensics Blog
-- [ ] [When Windows Lies](https://az4n6.blogspot.com/2017/02/when-windows-lies.html) — Another Forensics Blog
-- [ ] [Quicklook thumbnails.data parser](https://az4n6.blogspot.com/2016/10/quicklook-thumbnailsdata-parser.html) — Another Forensics Blog
+- [→] [When Windows Lies](https://az4n6.blogspot.com/2017/02/when-windows-lies.html) — Another Forensics Blog <!-- task #17: windows_install_date artifact, Feature Update 1607 resets InstallDate -->
+- [→] [Quicklook thumbnails.data parser](https://az4n6.blogspot.com/2016/10/quicklook-thumbnailsdata-parser.html) — Another Forensics Blog <!-- task #16: quicklook_thumbnails macOS descriptor -->
 - [x] [Mac Live Imaging: Functionality Versus Speed](https://az4n6.blogspot.com/2016/09/mac-live-imaging-functionality-versus.html) — Another Forensics Blog
-- [ ] [KAPE 0.9.2.0 released!](https://binaryforay.blogspot.com/2020/05/kape-0920-released.html) — binary foray
-- [ ] [KAPE 0.8.7.0 released!](https://binaryforay.blogspot.com/2019/08/kape-0870-released.html) — binary foray
+- [x] [KAPE 0.9.2.0 released!](https://binaryforay.blogspot.com/2020/05/kape-0920-released.html) — binary foray
+- [x] [KAPE 0.8.7.0 released!](https://binaryforay.blogspot.com/2019/08/kape-0870-released.html) — binary foray
 - [ ] [KAPE 0.8.6.1 released](https://binaryforay.blogspot.com/2019/08/kape-0861-released.html) — binary foray
 - [ ] [Introducing EvtxECmd!!](https://binaryforay.blogspot.com/2019/04/introducing-evtxecmd.html) — binary foray
 - [ ] [KAPE 0.8.3.0 released](https://binaryforay.blogspot.com/2019/03/kape-0830-released.html) — binary foray
