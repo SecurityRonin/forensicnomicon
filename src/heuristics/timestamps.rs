@@ -65,6 +65,31 @@ pub fn is_foreign_file(born_ns: i64, modified_ns: i64) -> bool {
     born_ns > modified_ns
 }
 
+/// Maximum plausible clock skew between two NTP-synced hosts (Unix nanoseconds).
+///
+/// Windows domain members sync via W32tm; Kerberos requires clocks within 5 minutes of
+/// the domain controller, but typical drift is well under 1 second. Cross-host timestamps
+/// (files copied over a network share, logs from a different machine) may differ by up
+/// to this amount due to hardware clock differences and NTP polling intervals.
+///
+/// Use this constant with `is_future_timestamp` to avoid false positives on legitimately
+/// synced systems: `is_future_timestamp(ts_ns, now_ns + CLOCK_SKEW_TOLERANCE_NS)`.
+pub const CLOCK_SKEW_TOLERANCE_NS: i64 = 1_000_000_000; // 1 second
+
+/// Returns `true` if a timestamp is in the future by more than `CLOCK_SKEW_TOLERANCE_NS`.
+///
+/// Unlike `is_future_timestamp`, this allows for typical NTP drift between hosts.
+/// Use this when comparing timestamps across systems (e.g., a file's NTFS timestamp
+/// vs. a log timestamp from a different machine).
+///
+/// # Parameters
+/// - `ts_ns`: timestamp to check, as Unix nanoseconds
+/// - `now_ns`: current wall-clock time, as Unix nanoseconds
+#[must_use]
+pub fn is_future_timestamp_beyond_skew(ts_ns: i64, now_ns: i64) -> bool {
+    ts_ns > now_ns + CLOCK_SKEW_TOLERANCE_NS
+}
+
 /// Returns `true` if a timestamp is in the future relative to `now_ns`.
 ///
 /// Future timestamps indicate clock skew, deliberate manipulation, or a
@@ -236,5 +261,52 @@ mod tests {
         let now_ns = 1_700_000_000_000_000_000i64;
         let ts_ns = now_ns + 86_400_000_000_000i64; // 1 day ahead
         assert!(is_future_timestamp(ts_ns, now_ns));
+    }
+
+    // ── CLOCK_SKEW_TOLERANCE_NS ───────────────────────────────────────────────
+
+    #[test]
+    fn clock_skew_tolerance_is_one_second() {
+        assert_eq!(CLOCK_SKEW_TOLERANCE_NS, 1_000_000_000i64);
+    }
+
+    // ── is_future_timestamp_beyond_skew ──────────────────────────────────────
+
+    #[test]
+    fn beyond_skew_one_ns_over_tolerance_is_future() {
+        let now_ns = 1_700_000_000_000_000_000i64;
+        let ts_ns = now_ns + CLOCK_SKEW_TOLERANCE_NS + 1;
+        assert!(is_future_timestamp_beyond_skew(ts_ns, now_ns));
+    }
+
+    #[test]
+    fn beyond_skew_exactly_at_tolerance_is_not_future() {
+        // ts == now + tolerance → NOT flagged (within acceptable skew)
+        let now_ns = 1_700_000_000_000_000_000i64;
+        let ts_ns = now_ns + CLOCK_SKEW_TOLERANCE_NS;
+        assert!(!is_future_timestamp_beyond_skew(ts_ns, now_ns));
+    }
+
+    #[test]
+    fn beyond_skew_one_ns_under_tolerance_is_not_future() {
+        // Sub-second future delta → allowed
+        let now_ns = 1_700_000_000_000_000_000i64;
+        let ts_ns = now_ns + CLOCK_SKEW_TOLERANCE_NS - 1;
+        assert!(!is_future_timestamp_beyond_skew(ts_ns, now_ns));
+    }
+
+    #[test]
+    fn beyond_skew_in_past_is_not_future() {
+        let now_ns = 1_700_000_000_000_000_000i64;
+        let ts_ns = now_ns - 1_000_000_000; // 1 second ago
+        assert!(!is_future_timestamp_beyond_skew(ts_ns, now_ns));
+    }
+
+    #[test]
+    fn beyond_skew_five_seconds_ahead_is_flagged() {
+        // 5s ahead is well beyond normal NTP tolerance → suspicious
+        let now_ns = 1_700_000_000_000_000_000i64;
+        let ts_ns = now_ns + 5_000_000_000i64;
+        assert!(is_future_timestamp_beyond_skew(ts_ns, now_ns));
     }
 }
