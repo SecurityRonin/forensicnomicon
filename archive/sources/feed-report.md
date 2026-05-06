@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-05-05T08:47:04Z
+Generated: 2026-05-06T06:14:57Z
 
 ## Windows Incident Response
 
@@ -60,7 +60,7 @@ Generated: 2026-05-05T08:47:04Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-05-04T22:00:00+00:00 — [When the AI lies to its own logs in a world of internal LLMs and autonomous agents](https://andreafortuna.org/2026/05/04/when-ai-lies-to-its-own-logs-forensic-readiness/)
+- 2026-05-06T00:00:00+00:00 — [Cloud forensics and the jurisdictional labyrinth of cross-border evidence acquisition](https://andreafortuna.org/2026/05/06/cloud-forensics-jurisdictional-labyrinth/)
 
 ## Salt Forensics
 
@@ -157,9 +157,9 @@ Generated: 2026-05-05T08:47:04Z
 - Site: https://brettshavers.com/brett-s-blog
 - Feed: https://feeds.feedburner.com/brettshavers/oSyq
 - Entries checked: 3
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-05T14:22:55-07:00 — [Your Digital Forensics Degree Is Already Outdated. Now What?](https://brettshavers.com/brett-s-blog/entry/your-digital-forensics-degree-is-already-outdated-now-what)
 
 ## Yogesh Khatri's forensic blog
 
@@ -211,51 +211,92 @@ Generated: 2026-05-05T08:47:04Z
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-05-03T18:24:53+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
-- 2026-04-24T09:44:12+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
-- 2026-03-22T00:50:58+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
-- 2026-04-23T00:04:55+00:00 — [Tracking Program Execution with a Little Known Registry Key](https://www.youtube.com/watch?v=yoFkF-NHZvo)
-- 2026-04-21T09:59:54+00:00 — [The Truth About Windows Explorer Timestamps](https://www.youtube.com/watch?v=PdyVkmhMcOA)
-- 2026-05-01T22:55:06+00:00 — [Major Update to 13Cubed Courses: Chaos at Cobalt](https://www.youtube.com/watch?v=CzF6DFhSfHw)
-- 2026-04-30T06:35:14+00:00 — [13Cubed AMA - Answering Your Questions!](https://www.youtube.com/watch?v=duz5BoZUly8)
-- 2026-04-22T18:55:48+00:00 — [The Easy Way to Analyze Linux Memory](https://www.youtube.com/watch?v=W40gdWNdwUI)
-- 2026-04-13T16:01:10+00:00 — [Will AI Replace Digital Forensics Experts?](https://www.youtube.com/watch?v=lvkBtIhvThk)
-- 2026-04-28T19:45:58+00:00 — [Behind the Book: Threat Hunting macOS with Jaron Bradley](https://www.youtube.com/watch?v=8Uj2NbWnU6M)
+- No new entries detected
 
 ## SANS Internet Storm Center
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-05-06T02:00:03+00:00 — [ISC Stormcast For Wednesday, May 6th, 2026 https://isc.sans.edu/podcastdetail/9920, (Wed, May 6th)](https://isc.sans.edu/diary/rss/32960)
+- 2026-05-05T14:37:01+00:00 — [Cleartext Passwords in MS Edge&#x3f; In 2026&#x3f;, (Mon, May 4th)](https://isc.sans.edu/diary/rss/32954)
+- 2026-05-05T11:39:45+00:00 — [SSL.com rotates their root certificate today, (Tue, May 5th)](https://isc.sans.edu/diary/rss/32956)
 
-## DFIR Training
+## DFIR Training Blog
 
-- Site: https://www.dfir.training/
-- Feed: https://www.dfir.training/dfir-training-categories-k2/itemlist?format=feed
-- Status: error: HTTP 404
+- Site: https://www.dfir.training/blog
+- Feed: https://www.dfir.training/blog
+- Entries checked: 10
+- New since last snapshot: 10
+
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [In-PersonOn-site](https://www.dfir.training/training/all-in-person-events)
+- unknown date — [Live OnlineInstructor-led](https://www.dfir.training/training/live-online-training)
+- unknown date — [WebinarsLive sessions](https://www.dfir.training/all-upcoming-webinars)
+- unknown date — [On-DemandSelf-paced](https://www.dfir.training/training/ondemand)
+- unknown date — [ProviderTraining Orgs](https://www.dfir.training/training/providers)
+- unknown date — [TopicsSubject areas](https://www.dfir.training/training/topics)
+- unknown date — [Events by LocationIn-person locations](https://www.dfir.training/training/events-location)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Library](https://www.dfir.training/resources)
 
 ## MSAB
 
 - Site: https://www.msab.com/
 - Feed: https://www.msab.com/feed/
-- Status: error: mismatched tag: line 93, column 2
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-04-28T05:00:00+00:00 — [MSAB Interim Report – Q1 2026](https://www.msab.com/updates/msab-interim-report-q1-2026/)
+- 2026-04-21T11:00:00+00:00 — [MSAB publishes Annual Report for 2025](https://www.msab.com/updates/msab-publishes-annual-report-for-2025/)
+- 2026-04-14T05:00:00+00:00 — [Invitation to the Presentation of MSAB’s Interim Report January-March 2026](https://www.msab.com/updates/invitation-to-the-presentation-of-msabs-interim-report-january-march-2026/)
+- 2026-04-07T07:00:00+00:00 — [NOTICE OF ANNUAL GENERAL MEETING IN MICRO SYSTEMATION AB (publ)](https://www.msab.com/updates/notice-of-annual-general-meeting-in-micro-systemation-ab-publ-3/)
+- 2026-03-26T12:30:45+00:00 — [Q1 2026 Major Release is now available](https://www.msab.com/updates/q1-2026-major-release-is-now-available/)
+- 2026-03-24T06:00:00+00:00 — [Invitation to MSAB’s Capital Markets Day on May 7th, 2026](https://www.msab.com/updates/invitation-to-msabs-capital-markets-day-on-may-7th-2026/)
+- 2026-02-05T12:30:18+00:00 — [XRY 11.3.1: Market-first GPS device support.](https://www.msab.com/updates/xry-11-3-1-market-first-gps-device-support/)
+- 2026-01-27T06:00:00+00:00 — [Year-end report 2025](https://www.msab.com/updates/year-end-report-2025/)
+- 2026-01-16T07:00:00+00:00 — [MSAB Announces the Appointment of Mårten Blixt as New Chief Revenue Officer (CRO)](https://www.msab.com/updates/msab-announces-the-appointment-of-marten-blixt-as-new-chief-revenue-officer-cro/)
+- 2025-12-19T07:00:00+00:00 — [Nomination Committee appointed for MSAB’s Annual General Meeting 2026](https://www.msab.com/updates/nomination-committee-appointed-for-msabs-annual-general-meeting-2026/)
 
 ## AboutDFIR
 
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
-- Status: error: mismatched tag: line 93, column 2
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-05-05T11:29:37+00:00 — [InfoSec News Nuggets 05/05/2026](https://aboutdfir.com/infosec-news-nuggets-05-05-2026/)
+- 2026-05-04T11:59:39+00:00 — [InfoSec News Nuggets 05/04/2026](https://aboutdfir.com/infosec-news-nuggets-05-04-2026/)
+- 2026-05-01T11:59:32+00:00 — [InfoSec News Nuggets 05/01/2026](https://aboutdfir.com/infosec-news-nuggets-05-01-2026/)
+- 2026-04-30T12:17:25+00:00 — [InfoSec News Nuggets 04/30/2026](https://aboutdfir.com/infosec-news-nuggets-04-30-2026/)
+- 2026-04-29T11:23:11+00:00 — [InfoSec News Nuggets 04/29/2026](https://aboutdfir.com/infosec-news-nuggets-04-29-2026/)
+- 2026-04-28T11:27:14+00:00 — [InfoSec News Nuggets 04/28/2026](https://aboutdfir.com/infosec-news-nuggets-04-28-2026/)
+- 2026-04-27T11:36:33+00:00 — [InfoSec News Nuggets 04/27/2026](https://aboutdfir.com/infosec-news-nuggets-04-27-2026/)
+- 2026-04-24T10:38:50+00:00 — [InfoSec News Nuggets 04/24/2026](https://aboutdfir.com/infosec-news-nuggets-04-24-2026/)
+- 2026-04-23T11:35:43+00:00 — [InfoSec News Nuggets 04/23/2026](https://aboutdfir.com/infosec-news-nuggets-04-23-2026/)
+- 2026-04-22T12:18:10+00:00 — [InfoSec News Nuggets 04/22/2026](https://aboutdfir.com/infosec-news-nuggets-04-22-2026/)
 
 ## Forensic 4cast
 
-- Site: https://forensic4cast.com/
-- Feed: https://4cast.whitfields.org/?feed=rss2
-- Status: error: [Errno 8] nodename nor servname provided, or not known
+- Site: https://forensic4cast.com/blog/
+- Feed: https://forensic4cast.com/feed/
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2024-01-30T22:23:33+00:00 — [All Good Things…](https://forensic4cast.com/2024/01/all-good-things/)
+- 2023-05-14T17:33:15+00:00 — [Forensic 4:cast Awards 2023 – Voting is now open!](https://forensic4cast.com/2023/05/forensic-4cast-awards-2023-voting-is-now-open/)
+- 2023-02-18T17:47:32+00:00 — [Forensic 4:cast Awards 2023 – Nominations are now open!](https://forensic4cast.com/2023/02/forensic-4cast-awards-2023-nominations-are-now-open/)
+- 2022-09-12T17:59:35+00:00 — [Moving On](https://forensic4cast.com/2022/09/moving-on/)
+- 2022-06-28T16:39:16+00:00 — [2022 Forensic 4:cast Awards – Voting is now OPEN](https://forensic4cast.com/2022/06/2022-forensic-4cast-awards-voting-is-now-open/)
+- 2022-06-18T12:44:36+00:00 — [Forensic 4:cast Awards – Update](https://forensic4cast.com/2022/06/forensic-4cast-awards-update/)
+- 2022-03-16T22:37:00+00:00 — [The Strength of a Tree](https://forensic4cast.com/2022/03/trees/)
+- 2022-02-02T23:52:00+00:00 — [Mac Randomization in Windows](https://forensic4cast.com/2022/02/mac-randomization-in-windows/)
+- 2021-08-05T02:50:33+00:00 — [We Didn’t Start DFIR](https://forensic4cast.com/2021/08/we-didnt-start-dfir/)
+- 2021-07-26T16:00:00+00:00 — [2022 Forensic 4:cast Awards – Nominations are Open!](https://forensic4cast.com/2021/07/2022-forensic-4cast-awards-nominations-are-open/)
 
 ## This Week In 4n6
 
@@ -279,7 +320,19 @@ Generated: 2026-05-05T08:47:04Z
 
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
-- Status: error: mismatched tag: line 93, column 2
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-04-24T13:30:00+00:00 — [Learn from the Experts at Amped Connect U.S. 2026](https://blog.ampedsoftware.com/2026/04/24/learn-from-the-experts-at-amped-connect-u-s-2026)
+- 2026-04-16T13:30:00+00:00 — [Fifty Shades of Fake: Deepfakes, AI Enhancement, and Media Authenticity](https://blog.ampedsoftware.com/2026/04/16/fifty-shades-of-fake)
+- 2026-04-01T13:30:00+00:00 — [Amped DVRConv and Engine Update 40286](https://blog.ampedsoftware.com/2026/04/01/dvrconv-and-engine-update-40286)
+- 2026-03-25T14:30:00+00:00 — [Amped Replay Update 40205: Magnify and Spotlight Improvements, Bookmarks Updates and More!](https://blog.ampedsoftware.com/2026/03/25/amped-replay-update-40205)
+- 2026-03-11T14:30:00+00:00 — [Authenticate Update 40165: Faster and Updated Deepfake Detection, Improved Geometrical Analysis, New Inspector Panel, and more!](https://blog.ampedsoftware.com/2026/03/11/authenticate-update-40165)
+- 2026-02-18T14:30:00+00:00 — [Amped FIVE Update 39780: Playback Control Options, TIME File Improvements, Video Duration Control when Removing Frames, Updates to Resize and Aspect Ratio, and Much More](https://blog.ampedsoftware.com/2026/02/18/amped-five-update-39780)
+- 2026-02-10T14:30:00+00:00 — [2026 Digital Forensics Conference Guide: See Amped’s Video Forensics Tools Live](https://blog.ampedsoftware.com/2026/02/10/2026-digital-forensics-conference-guide)
+- 2026-01-21T14:51:21+00:00 — [Assisted Video Redaction in Amped Replay: Redacting Faces, People, Vehicles, and Plates](https://blog.ampedsoftware.com/2026/01/21/assisted-video-redaction)
+- 2025-12-18T14:30:00+00:00 — [Amped: Software and Much More](https://blog.ampedsoftware.com/2025/12/18/amped-software-and-much-more)
+- 2025-12-16T14:30:00+00:00 — [How to Upgrade Your Video Evidence Skills in 2026: Amped Image and Video Forensics Training Courses](https://blog.ampedsoftware.com/2025/12/16/amped-digital-forensics-training-courses-2026)
 
 ## Didier Stevens Blog
 
@@ -295,9 +348,9 @@ Generated: 2026-05-05T08:47:04Z
 - Site: https://www.hexordia.com/blog/
 - Feed: https://www.hexordia.com/blog?format=rss
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-05T18:22:54+00:00 — [MachO Execution Shims - containermanagerd - iOS](https://www.hexordia.com/blog/ios-mach-o-execution-shims-containerd)
 
 ## Hexacorn
 
@@ -358,9 +411,10 @@ Generated: 2026-05-05T08:47:04Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-05-05T06:30:00+00:00 — [How to store and manage metadata in macOS](https://eclecticlight.co/2026/05/05/how-to-store-and-manage-metadata-in-macos/)
+- 2026-05-05T18:23:15+00:00 — [Apple has released an update to XProtect for all macOS](https://eclecticlight.co/2026/05/05/apple-has-released-an-update-to-xprotect-for-all-macos-31/)
+- 2026-05-05T11:30:00+00:00 — [Hero or hooligan: Perseus 1](https://eclecticlight.co/2026/05/05/hero-or-hooligan-perseus-1/)
 
 ## JPCERT/CC
 
@@ -412,9 +466,9 @@ Generated: 2026-05-05T08:47:04Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-05T23:00:33+00:00 — [Copy Fail: What You Need to Know About the Most Severe Linux Threat in Years](https://unit42.paloaltonetworks.com/cve-2026-31431-copy-fail/)
 
 ## Mandiant Threat Intelligence
 
@@ -430,9 +484,10 @@ Generated: 2026-05-05T08:47:04Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-05-05T10:00:30+00:00 — [UAT-8302 and its box full of malware](https://blog.talosintelligence.com/uat-8302/)
+- 2026-05-05T10:00:18+00:00 — [CloudZ RAT potentially steals OTP messages using Pheno plugin](https://blog.talosintelligence.com/cloudz-pheno-infostealer/)
 
 ## SANS Blog
 
@@ -472,9 +527,9 @@ Generated: 2026-05-05T08:47:04Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-05T05:03:40+00:00 — [The Three Ways Mobile Security Teams Are Flying Blind — And How to Fix It](https://cellebrite.com/en/blog/mobile-security-testing-alternatives-ios-blind-spot/)
+- No new entries detected
 
 ## DFIR Science
 
@@ -490,18 +545,18 @@ Generated: 2026-05-05T08:47:04Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-05T00:00:00-05:00 — [CrowdStrike Launches Falcon OverWatch for Defender](https://www.crowdstrike.com/en-us/blog/crowdstrike-launches-falcon-overwatch-for-defender/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-05T11:39:11+00:00 — [Update WhatsApp now: Two new flaws could expose you to malicious files](https://www.malwarebytes.com/blog/news/2026/05/update-whatsapp-now-two-new-flaws-could-expose-you-to-malicious-files)
 
 ## Krebs on Security
 
@@ -517,18 +572,31 @@ Generated: 2026-05-05T08:47:04Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 10
 
-- No new entries detected
+- 2026-05-05T18:01:39-04:00 — [New stealthy Quasar Linux malware targets software developers](https://www.bleepingcomputer.com/news/security/new-stealthy-quasar-linux-malware-targets-software-developers/)
+- 2026-05-05T17:20:23-04:00 — [Instructure hacker claims data theft from 8,800 schools, universities](https://www.bleepingcomputer.com/news/security/instructure-hacker-claims-data-theft-from-8-800-schools-universities/)
+- 2026-05-05T15:21:18-04:00 — [DAEMON Tools trojanized in supply-chain attack to deploy backdoor](https://www.bleepingcomputer.com/news/security/daemon-tools-trojanized-in-supply-chain-attack-to-deploy-backdoor/)
+- 2026-05-05T13:34:09-04:00 — [Student hacked Taiwan high-speed rail to trigger emergency brakes](https://www.bleepingcomputer.com/news/security/student-hacked-taiwan-high-speed-rail-to-trigger-emergency-brakes/)
+- 2026-05-05T10:39:53-04:00 — [FTC to ban data broker Kochava from selling Americans’ location data](https://www.bleepingcomputer.com/news/security/ftc-to-ban-data-broker-kochava-from-selling-americans-location-data/)
+- 2026-05-05T10:00:10-04:00 — [The EOL Blind Spot in Your CVE Feed: What SCA Tools Miss](https://www.bleepingcomputer.com/news/security/the-eol-blind-spot-in-your-cve-feed-what-sca-tools-miss/)
+- 2026-05-05T09:03:46-04:00 — [Vimeo data breach exposes personal information of 119,000 people](https://www.bleepingcomputer.com/news/security/vimeo-data-breach-exposes-personal-information-of-119-000-people/)
+- 2026-05-05T07:24:48-04:00 — [Google now offers up to $1.5 million for some Android exploits](https://www.bleepingcomputer.com/news/security/google-now-offers-up-to-15-million-for-some-android-exploits/)
+- 2026-05-05T06:13:17-04:00 — [Karakurt extortion gang ‘cold case’ negotiator gets 8.5 years in prison](https://www.bleepingcomputer.com/news/security/karakurt-extortion-gang-negotiator-sentenced-to-85-years-in-prison/)
+- 2026-05-05T06:03:52-04:00 — [CloudZ malware abuses Microsoft Phone Link to steal SMS and OTPs](https://www.bleepingcomputer.com/news/security/cloudz-malware-abuses-microsoft-phone-link-to-steal-sms-and-otps/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 5
 
-- No new entries detected
+- 2026-05-06T05:30:00+00:00 — [Middle East Cyber Battle Field Broadens — Especially in UAE](https://www.darkreading.com/cyberattacks-data-breaches/middle-east-cyber-battle-field-broadens-uae)
+- 2026-05-05T20:40:11+00:00 — [Trellix Source Code Breach Highlights Growing Supply Chain Threats](https://www.darkreading.com/cyberattacks-data-breaches/trellix-source-code-breach-supply-chain-threats)
+- 2026-05-05T14:57:51+00:00 — [Microsoft Edge Stores Passwords in Process Memory, Posing Enterprise Risk](https://www.darkreading.com/cyber-risk/microsoft-edge-passwords-enterprise-risk)
+- 2026-05-05T11:56:15+00:00 — [How the Story of a USB Penetration Test Went Viral](https://www.darkreading.com/cyberattacks-data-breaches/how-story-usb-penetration-test-went-viral)
+- 2026-05-04T21:38:06+00:00 — [Physical Cargo Theft Gets a Boost From Cybercriminals](https://www.darkreading.com/cyber-risk/physical-cargo-theft-cybercriminals)
 
 ## LOLBAS Project (Windows)
 
@@ -597,24 +665,6 @@ Generated: 2026-05-05T08:47:04Z
 
 - Site: https://abuse.ch/
 - Feed: https://abuse.ch/blog/feed/
-- Status: error: HTTP 404
-
-## URLhaus
-
-- Site: https://urlhaus.abuse.ch/
-- Feed: https://urlhaus.abuse.ch/rss/
-- Status: error: HTTP 404
-
-## MalwareBazaar
-
-- Site: https://bazaar.abuse.ch/
-- Feed: https://bazaar.abuse.ch/rss/
-- Status: error: HTTP 404
-
-## ThreatFox
-
-- Site: https://threatfox.abuse.ch/
-- Feed: https://threatfox.abuse.ch/rss/
 - Status: error: HTTP 404
 
 ## MISP taxonomies

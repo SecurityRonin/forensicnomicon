@@ -13206,3 +13206,45 @@ Mark `[x]` when reviewed, `[→]` when artifact tasks were created.
 - [ ] [Using Veeam Metadata For Efficient Extraction Of Backup Artefacts 13](https://www.synacktiv.com/en/publications/using-veeam-metadata-for-efficient-extraction-of-backup-artefacts-13) — Synacktiv
 - [ ] [Whfb And Entra Id Say Hello To Your New Cache Flow](https://www.synacktiv.com/en/publications/whfb-and-entra-id-say-hello-to-your-new-cache-flow) — Synacktiv
 - [ ] [Windows Secrets Extraction A Summary](https://www.synacktiv.com/en/publications/windows-secrets-extraction-a-summary) — Synacktiv
+
+## 2026-05-06
+
+- [ ] [Cloud forensics and the jurisdictional labyrinth of cross-border evidence acquisition](https://andreafortuna.org/2026/05/06/cloud-forensics-jurisdictional-labyrinth/) — Andrea Fortuna
+- [ ] [Your Digital Forensics Degree Is Already Outdated. Now What?](https://brettshavers.com/brett-s-blog/entry/your-digital-forensics-degree-is-already-outdated-now-what) — Brett Shavers
+- [ ] [ISC Stormcast For Wednesday, May 6th, 2026 https://isc.sans.edu/podcastdetail/9920, (Wed, May 6th)](https://isc.sans.edu/diary/rss/32960) — SANS Internet Storm Center
+- [ ] [Cleartext Passwords in MS Edge&#x3f; In 2026&#x3f;, (Mon, May 4th)](https://isc.sans.edu/diary/rss/32954) — SANS Internet Storm Center
+- [ ] [SSL.com rotates their root certificate today, (Tue, May 5th)](https://isc.sans.edu/diary/rss/32956) — SANS Internet Storm Center
+- [ ] [Training](https://www.dfir.training/training) — DFIR Training Blog
+- [ ] [In-PersonOn-site](https://www.dfir.training/training/all-in-person-events) — DFIR Training Blog
+- [ ] [Live OnlineInstructor-led](https://www.dfir.training/training/live-online-training) — DFIR Training Blog
+- [ ] [WebinarsLive sessions](https://www.dfir.training/all-upcoming-webinars) — DFIR Training Blog
+- [ ] [On-DemandSelf-paced](https://www.dfir.training/training/ondemand) — DFIR Training Blog
+- [ ] [ProviderTraining Orgs](https://www.dfir.training/training/providers) — DFIR Training Blog
+- [ ] [TopicsSubject areas](https://www.dfir.training/training/topics) — DFIR Training Blog
+- [ ] [Events by LocationIn-person locations](https://www.dfir.training/training/events-location) — DFIR Training Blog
+- [ ] [Tools](https://www.dfir.training/dfir-tools) — DFIR Training Blog
+- [ ] [Library](https://www.dfir.training/resources) — DFIR Training Blog
+- [ ] [InfoSec News Nuggets 05/05/2026](https://aboutdfir.com/infosec-news-nuggets-05-05-2026/) — AboutDFIR
+- [ ] [MachO Execution Shims - containermanagerd - iOS](https://www.hexordia.com/blog/ios-mach-o-execution-shims-containerd) — Hexordia
+- [ ] [Apple has released an update to XProtect for all macOS](https://eclecticlight.co/2026/05/05/apple-has-released-an-update-to-xprotect-for-all-macos-31/) — The Eclectic Light Company
+- [ ] [Hero or hooligan: Perseus 1](https://eclecticlight.co/2026/05/05/hero-or-hooligan-perseus-1/) — The Eclectic Light Company
+- [ ] [Copy Fail: What You Need to Know About the Most Severe Linux Threat in Years](https://unit42.paloaltonetworks.com/cve-2026-31431-copy-fail/) — Palo Alto Unit 42
+- [ ] [UAT-8302 and its box full of malware](https://blog.talosintelligence.com/uat-8302/) — Cisco Talos Blog
+- [ ] [CloudZ RAT potentially steals OTP messages using Pheno plugin](https://blog.talosintelligence.com/cloudz-pheno-infostealer/) — Cisco Talos Blog
+- [ ] [CrowdStrike Launches Falcon OverWatch for Defender](https://www.crowdstrike.com/en-us/blog/crowdstrike-launches-falcon-overwatch-for-defender/) — CrowdStrike blog
+- [ ] [Update WhatsApp now: Two new flaws could expose you to malicious files](https://www.malwarebytes.com/blog/news/2026/05/update-whatsapp-now-two-new-flaws-could-expose-you-to-malicious-files) — Malwarebytes Labs
+- [ ] [New stealthy Quasar Linux malware targets software developers](https://www.bleepingcomputer.com/news/security/new-stealthy-quasar-linux-malware-targets-software-developers/) — BleepingComputer
+- [ ] [Instructure hacker claims data theft from 8,800 schools, universities](https://www.bleepingcomputer.com/news/security/instructure-hacker-claims-data-theft-from-8-800-schools-universities/) — BleepingComputer
+- [ ] [DAEMON Tools trojanized in supply-chain attack to deploy backdoor](https://www.bleepingcomputer.com/news/security/daemon-tools-trojanized-in-supply-chain-attack-to-deploy-backdoor/) — BleepingComputer
+- [ ] [Student hacked Taiwan high-speed rail to trigger emergency brakes](https://www.bleepingcomputer.com/news/security/student-hacked-taiwan-high-speed-rail-to-trigger-emergency-brakes/) — BleepingComputer
+- [ ] [FTC to ban data broker Kochava from selling Americans’ location data](https://www.bleepingcomputer.com/news/security/ftc-to-ban-data-broker-kochava-from-selling-americans-location-data/) — BleepingComputer
+- [ ] [The EOL Blind Spot in Your CVE Feed: What SCA Tools Miss](https://www.bleepingcomputer.com/news/security/the-eol-blind-spot-in-your-cve-feed-what-sca-tools-miss/) — BleepingComputer
+- [ ] [Vimeo data breach exposes personal information of 119,000 people](https://www.bleepingcomputer.com/news/security/vimeo-data-breach-exposes-personal-information-of-119-000-people/) — BleepingComputer
+- [ ] [Google now offers up to $1.5 million for some Android exploits](https://www.bleepingcomputer.com/news/security/google-now-offers-up-to-15-million-for-some-android-exploits/) — BleepingComputer
+- [ ] [Karakurt extortion gang ‘cold case’ negotiator gets 8.5 years in prison](https://www.bleepingcomputer.com/news/security/karakurt-extortion-gang-negotiator-sentenced-to-85-years-in-prison/) — BleepingComputer
+- [ ] [CloudZ malware abuses Microsoft Phone Link to steal SMS and OTPs](https://www.bleepingcomputer.com/news/security/cloudz-malware-abuses-microsoft-phone-link-to-steal-sms-and-otps/) — BleepingComputer
+- [ ] [Middle East Cyber Battle Field Broadens — Especially in UAE](https://www.darkreading.com/cyberattacks-data-breaches/middle-east-cyber-battle-field-broadens-uae) — Dark Reading
+- [ ] [Trellix Source Code Breach Highlights Growing Supply Chain Threats](https://www.darkreading.com/cyberattacks-data-breaches/trellix-source-code-breach-supply-chain-threats) — Dark Reading
+- [ ] [Microsoft Edge Stores Passwords in Process Memory, Posing Enterprise Risk](https://www.darkreading.com/cyber-risk/microsoft-edge-passwords-enterprise-risk) — Dark Reading
+- [ ] [How the Story of a USB Penetration Test Went Viral](https://www.darkreading.com/cyberattacks-data-breaches/how-story-usb-penetration-test-went-viral) — Dark Reading
+- [ ] [Physical Cargo Theft Gets a Boost From Cybercriminals](https://www.darkreading.com/cyber-risk/physical-cargo-theft-cybercriminals) — Dark Reading

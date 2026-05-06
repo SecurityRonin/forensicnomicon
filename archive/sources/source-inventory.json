@@ -4,7 +4,7 @@
     "directories": "archive/sources/catalog-directories.json",
     "manual": "archive/sources/manual-sources.json"
   },
-  "total_sources": 115,
+  "total_sources": 111,
   "sources": [
     {
       "id": "aboutdfir-blogs",
@@ -306,19 +306,6 @@
       ]
     },
     {
-      "id": "dfir-training",
-      "title": "DFIR Training",
-      "category": "feed",
-      "kind": "rss-feed",
-      "html_url": "https://www.dfir.training/",
-      "feed_url": "https://www.dfir.training/dfir-training-categories-k2/itemlist?format=feed",
-      "update_strategy": "rss",
-      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
-      "sources": [
-        "opml"
-      ]
-    },
-    {
       "id": "dfir-blog",
       "title": "dfir.blog",
       "category": "feed",
@@ -414,8 +401,8 @@
       "title": "Forensic 4cast",
       "category": "feed",
       "kind": "rss-feed",
-      "html_url": "https://forensic4cast.com/",
-      "feed_url": "https://4cast.whitfields.org/?feed=rss2",
+      "html_url": "https://forensic4cast.com/blog/",
+      "feed_url": "https://forensic4cast.com/feed/",
       "update_strategy": "rss",
       "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [
@@ -611,19 +598,6 @@
       "kind": "rss-feed",
       "html_url": "https://www.magnetforensics.com/",
       "feed_url": "https://www.magnetforensics.com/feed/",
-      "update_strategy": "rss",
-      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
-      "sources": [
-        "opml"
-      ]
-    },
-    {
-      "id": "malwarebazaar-malware-samples",
-      "title": "MalwareBazaar — malware samples",
-      "category": "feed",
-      "kind": "rss-feed",
-      "html_url": "https://bazaar.abuse.ch/",
-      "feed_url": "https://bazaar.abuse.ch/rss/",
       "update_strategy": "rss",
       "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [
@@ -839,38 +813,12 @@
       ]
     },
     {
-      "id": "threatfox-ioc-sharing",
-      "title": "ThreatFox — IOC sharing",
-      "category": "feed",
-      "kind": "rss-feed",
-      "html_url": "https://threatfox.abuse.ch/",
-      "feed_url": "https://threatfox.abuse.ch/rss/",
-      "update_strategy": "rss",
-      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
-      "sources": [
-        "opml"
-      ]
-    },
-    {
       "id": "tisiphone-net",
       "title": "tisiphone.net",
       "category": "feed",
       "kind": "rss-feed",
       "html_url": "https://tisiphone.net/",
       "feed_url": "https://tisiphone.net/feed/",
-      "update_strategy": "rss",
-      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
-      "sources": [
-        "opml"
-      ]
-    },
-    {
-      "id": "urlhaus-malware-distribution-urls",
-      "title": "URLhaus — malware distribution URLs",
-      "category": "feed",
-      "kind": "rss-feed",
-      "html_url": "https://urlhaus.abuse.ch/",
-      "feed_url": "https://urlhaus.abuse.ch/rss/",
       "update_strategy": "rss",
       "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [

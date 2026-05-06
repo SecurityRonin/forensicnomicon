@@ -7,7 +7,7 @@ Generated from:
 
 Category counts:
 - directory: 3
-- feed: 66
+- feed: 62
 - knowledge-base: 36
 - practitioner-blog: 1
 - primary-reference: 9
@@ -63,8 +63,6 @@ Category counts:
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - DFIR Science: https://dfir.science/
   update: `rss`; kind: `rss-feed`; sources: `opml`
-- DFIR Training: https://www.dfir.training/
-  update: `rss`; kind: `rss-feed`; sources: `opml`
 - dfir.blog: https://dfir.blog/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Didier Stevens Blog: https://blog.didierstevens.com/
@@ -79,7 +77,7 @@ Category counts:
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Forensafe (ArtiFast) Blog: https://www.forensafe.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
-- Forensic 4cast: https://forensic4cast.com/
+- Forensic 4cast: https://forensic4cast.com/blog/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Forensic Focus: https://www.forensicfocus.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
@@ -110,8 +108,6 @@ Category counts:
 - mac4n6: https://www.mac4n6.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Magnet Forensics: https://www.magnetforensics.com/
-  update: `rss`; kind: `rss-feed`; sources: `opml`
-- MalwareBazaar — malware samples: https://bazaar.abuse.ch/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Malwarebytes Labs: https://blog.malwarebytes.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
@@ -145,11 +141,7 @@ Category counts:
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - This Week In 4n6: https://thisweekin4n6.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
-- ThreatFox — IOC sharing: https://threatfox.abuse.ch/
-  update: `rss`; kind: `rss-feed`; sources: `opml`
 - tisiphone.net: https://tisiphone.net/
-  update: `rss`; kind: `rss-feed`; sources: `opml`
-- URLhaus — malware distribution URLs: https://urlhaus.abuse.ch/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Windows Incident Response: https://windowsir.blogspot.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
