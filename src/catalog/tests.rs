@@ -4990,3 +4990,165 @@ mod tests_batch_i_presence {
         );
     }
 }
+
+// ── QuickLook / windows_install_date enrichment ───────────────────────────────
+
+#[cfg(test)]
+mod tests_quicklook_install_date {
+    use super::*;
+
+    // ── quicklook_thumbnails ──────────────────────────────────────────────────
+
+    #[test]
+    fn quicklook_thumbnails_exists() {
+        assert!(
+            CATALOG.by_id("quicklook_thumbnails").is_some(),
+            "catalog must contain 'quicklook_thumbnails'"
+        );
+    }
+
+    #[test]
+    fn quicklook_thumbnails_is_macos() {
+        let d = CATALOG.by_id("quicklook_thumbnails").unwrap();
+        assert_eq!(
+            d.os_scope,
+            OsScope::MacOS,
+            "quicklook_thumbnails must be MacOS scope"
+        );
+    }
+
+    #[test]
+    fn quicklook_thumbnails_path_contains_thumbnailcache() {
+        let d = CATALOG.by_id("quicklook_thumbnails").unwrap();
+        let fp = d.file_path.unwrap_or("");
+        assert!(
+            fp.contains("QuickLook.thumbnailcache") || fp.contains("thumbnailcache"),
+            "file_path must reference thumbnailcache; got: {fp}"
+        );
+    }
+
+    #[test]
+    fn quicklook_thumbnails_has_file_path_field() {
+        let d = CATALOG.by_id("quicklook_thumbnails").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "file_path"),
+            "quicklook_thumbnails fields must include 'file_path' (previewed file path from index.sqlite)"
+        );
+    }
+
+    #[test]
+    fn quicklook_thumbnails_has_last_hit_date_field() {
+        let d = CATALOG.by_id("quicklook_thumbnails").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "last_hit_date"),
+            "quicklook_thumbnails fields must include 'last_hit_date' (timestamp from index.sqlite)"
+        );
+    }
+
+    #[test]
+    fn quicklook_thumbnails_has_hit_count_field() {
+        let d = CATALOG.by_id("quicklook_thumbnails").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "hit_count"),
+            "quicklook_thumbnails fields must include 'hit_count' (times thumbnail was requested)"
+        );
+    }
+
+    #[test]
+    fn quicklook_thumbnails_triage_is_medium_or_higher() {
+        let d = CATALOG.by_id("quicklook_thumbnails").unwrap();
+        assert!(
+            matches!(
+                d.triage_priority,
+                TriagePriority::Medium | TriagePriority::High | TriagePriority::Critical
+            ),
+            "quicklook_thumbnails triage must be Medium or higher; got {:?}",
+            d.triage_priority
+        );
+    }
+
+    #[test]
+    fn quicklook_thumbnails_cites_az4n6() {
+        let d = CATALOG.by_id("quicklook_thumbnails").unwrap();
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("az4n6") && s.contains("quicklook")),
+            "quicklook_thumbnails must cite az4n6 quicklook post; sources: {:?}",
+            d.sources
+        );
+    }
+
+    // ── windows_install_date ──────────────────────────────────────────────────
+
+    #[test]
+    fn windows_install_date_exists() {
+        assert!(
+            CATALOG.by_id("windows_install_date").is_some(),
+            "catalog must contain 'windows_install_date'"
+        );
+    }
+
+    #[test]
+    fn windows_install_date_key_path_is_current_version() {
+        let d = CATALOG.by_id("windows_install_date").unwrap();
+        assert!(
+            d.key_path.contains("CurrentVersion"),
+            "key_path must reference CurrentVersion; got: {}",
+            d.key_path
+        );
+    }
+
+    #[test]
+    fn windows_install_date_has_install_date_field() {
+        let d = CATALOG.by_id("windows_install_date").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "install_date"),
+            "windows_install_date fields must include 'install_date' (REG_DWORD Unix epoch)"
+        );
+    }
+
+    #[test]
+    fn windows_install_date_meaning_mentions_feature_update() {
+        let d = CATALOG.by_id("windows_install_date").unwrap();
+        let meaning = d.meaning.to_lowercase();
+        assert!(
+            meaning.contains("feature update") || meaning.contains("1607"),
+            "meaning must warn about Feature Update reset; got: {}",
+            d.meaning
+        );
+    }
+
+    #[test]
+    fn windows_install_date_triage_is_low() {
+        let d = CATALOG.by_id("windows_install_date").unwrap();
+        assert_eq!(
+            d.triage_priority,
+            TriagePriority::Low,
+            "windows_install_date triage must be Low (unreliable without corroboration)"
+        );
+    }
+
+    #[test]
+    fn windows_install_date_cites_az4n6() {
+        let d = CATALOG.by_id("windows_install_date").unwrap();
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("az4n6") && s.contains("windows-lies")),
+            "windows_install_date must cite az4n6 'when-windows-lies' post; sources: {:?}",
+            d.sources
+        );
+    }
+
+    // ── count ─────────────────────────────────────────────────────────────────
+
+    #[test]
+    fn catalog_count_includes_quicklook_and_install_date() {
+        assert_eq!(
+            CATALOG.list().len(),
+            6607,
+            "catalog must have 6607 entries after adding quicklook_thumbnails + windows_install_date"
+        );
+    }
+}
