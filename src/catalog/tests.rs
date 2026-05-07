@@ -264,7 +264,7 @@ mod decode_tests {
     #[test]
     fn catalog_has_entries() {
         assert!(!CATALOG.list().is_empty());
-        assert_eq!(CATALOG.list().len(), 6608);
+        assert_eq!(CATALOG.list().len(), 6609);
     }
 
     #[test]
@@ -2597,7 +2597,7 @@ mod tests_batch_d {
     #[test]
     fn catalog_count_after_srum_network_connections() {
         // +1 from srum_network_connections
-        assert_eq!(CATALOG.list().len(), 6608);
+        assert_eq!(CATALOG.list().len(), 6609);
     }
 
     // ── EVTX channels ─────────────────────────────────────────────────────
@@ -3498,7 +3498,7 @@ mod phase2_registry_tests {
     #[test]
     fn catalog_count_includes_phase2() {
         // Updated to 354 after phase-2b file artifact additions
-        assert_eq!(CATALOG.list().len(), 6608);
+        assert_eq!(CATALOG.list().len(), 6609);
     }
 
     #[test]
@@ -3643,7 +3643,7 @@ mod phase2b_files_tests {
     fn catalog_count_includes_phase2b() {
         // phase2a adds 30 registry artifacts (284→314), phase2b adds 40 file artifacts (314→354)
         // Note: chrome_login_data was already present from Phase 1; not duplicated here.
-        assert_eq!(CATALOG.list().len(), 6608);
+        assert_eq!(CATALOG.list().len(), 6609);
     }
 
     #[test]
@@ -3946,7 +3946,7 @@ mod phase3_persistence_tests {
         // phase3 adds 7 net-new artifacts not already in catalog (354 → 361)
         // Note: winlogon_shell, winlogon_userinit, appinit_dlls, boot_execute,
         //       ifeo_debugger, netsh_helper_dlls, mountpoints2 were already present.
-        assert_eq!(CATALOG.list().len(), 6608);
+        assert_eq!(CATALOG.list().len(), 6609);
     }
 
     // ── Pre-existing artifacts verified present ───────────────────────────────
@@ -4985,8 +4985,8 @@ mod tests_batch_i_presence {
     fn catalog_count_includes_batch_i() {
         assert_eq!(
             CATALOG.list().len(),
-            6608,
-            "catalog must have 6608 entries after batch I + quicklook_thumbnails + windows_install_date + winscp_ini"
+            6609,
+            "catalog must have 6609 entries after batch I + quicklook_thumbnails + windows_install_date + winscp_ini + macos_wifi_intelligence"
         );
     }
 }
@@ -5147,8 +5147,8 @@ mod tests_quicklook_install_date {
     fn catalog_count_includes_quicklook_and_install_date() {
         assert_eq!(
             CATALOG.list().len(),
-            6608,
-            "catalog must have 6608 entries after adding quicklook_thumbnails + windows_install_date + winscp_ini"
+            6609,
+            "catalog must have 6609 entries after adding quicklook_thumbnails + windows_install_date + winscp_ini + macos_wifi_intelligence"
         );
     }
 }
@@ -5305,8 +5305,137 @@ mod tests_winscp_ini {
     fn catalog_count_includes_winscp_ini() {
         assert_eq!(
             CATALOG.list().len(),
-            6608,
-            "catalog must have 6608 entries after adding winscp_ini"
+            6609,
+            "catalog must have 6609 entries after adding winscp_ini + macos_wifi_intelligence"
+        );
+    }
+}
+
+// ── Apple Intelligence WiFi database ──────────────────────────────────────────
+
+#[cfg(test)]
+mod tests_macos_wifi_intelligence {
+    use super::*;
+
+    #[test]
+    fn macos_wifi_intelligence_exists() {
+        assert!(
+            CATALOG.by_id("macos_wifi_intelligence").is_some(),
+            "catalog must contain 'macos_wifi_intelligence'"
+        );
+    }
+
+    #[test]
+    fn macos_wifi_intelligence_is_macos() {
+        let d = CATALOG.by_id("macos_wifi_intelligence").unwrap();
+        assert_eq!(
+            d.os_scope,
+            OsScope::MacOS,
+            "macos_wifi_intelligence must be MacOS scope"
+        );
+    }
+
+    #[test]
+    fn macos_wifi_intelligence_is_database_entry() {
+        let d = CATALOG.by_id("macos_wifi_intelligence").unwrap();
+        assert_eq!(
+            d.artifact_type,
+            ArtifactType::DatabaseEntry,
+            "macos_wifi_intelligence must be DatabaseEntry (SQLite)"
+        );
+    }
+
+    #[test]
+    fn macos_wifi_intelligence_path_contains_intelligenceplatform() {
+        let d = CATALOG.by_id("macos_wifi_intelligence").unwrap();
+        let fp = d.file_path.unwrap_or("");
+        assert!(
+            fp.contains("IntelligencePlatform"),
+            "file_path must reference IntelligencePlatform; got: {fp}"
+        );
+    }
+
+    #[test]
+    fn macos_wifi_intelligence_path_contains_views_db() {
+        let d = CATALOG.by_id("macos_wifi_intelligence").unwrap();
+        let fp = d.file_path.unwrap_or("");
+        assert!(
+            fp.contains("views.db"),
+            "file_path must reference views.db; got: {fp}"
+        );
+    }
+
+    #[test]
+    fn macos_wifi_intelligence_has_ssid_field() {
+        let d = CATALOG.by_id("macos_wifi_intelligence").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "ssid"),
+            "macos_wifi_intelligence must have 'ssid' field"
+        );
+    }
+
+    #[test]
+    fn macos_wifi_intelligence_has_event_type_field() {
+        let d = CATALOG.by_id("macos_wifi_intelligence").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "event_type"),
+            "macos_wifi_intelligence must have 'event_type' field (connect/disconnect)"
+        );
+    }
+
+    #[test]
+    fn macos_wifi_intelligence_has_timestamp_field() {
+        let d = CATALOG.by_id("macos_wifi_intelligence").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "timestamp" && f.value_type == ValueType::Timestamp),
+            "macos_wifi_intelligence must have a Timestamp-typed 'timestamp' field"
+        );
+    }
+
+    #[test]
+    fn macos_wifi_intelligence_mitre_t1016() {
+        let d = CATALOG.by_id("macos_wifi_intelligence").unwrap();
+        assert!(
+            d.mitre_techniques.contains(&"T1016"),
+            "macos_wifi_intelligence must map to T1016 (System Network Configuration Discovery)"
+        );
+    }
+
+    #[test]
+    fn macos_wifi_intelligence_triage_medium() {
+        let d = CATALOG.by_id("macos_wifi_intelligence").unwrap();
+        assert_eq!(
+            d.triage_priority,
+            TriagePriority::Medium,
+            "macos_wifi_intelligence triage should be Medium"
+        );
+    }
+
+    #[test]
+    fn macos_wifi_intelligence_related_includes_wifi_plist() {
+        let d = CATALOG.by_id("macos_wifi_intelligence").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"macos_wifi_plist"),
+            "macos_wifi_intelligence should relate to macos_wifi_plist"
+        );
+    }
+
+    #[test]
+    fn macos_wifi_intelligence_cites_swiftforensics() {
+        let d = CATALOG.by_id("macos_wifi_intelligence").unwrap();
+        assert!(
+            d.sources.iter().any(|s| s.contains("swiftforensics.com")),
+            "macos_wifi_intelligence must cite swiftforensics.com as source"
+        );
+    }
+
+    #[test]
+    fn macos_wifi_intelligence_user_scope() {
+        let d = CATALOG.by_id("macos_wifi_intelligence").unwrap();
+        assert_eq!(
+            d.scope,
+            DataScope::User,
+            "macos_wifi_intelligence is per-user (under ~/Library)"
         );
     }
 }
