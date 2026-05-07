@@ -124,7 +124,6 @@ use std::io;
 pub struct RenderData {
     pub list_items: Vec<String>,
     pub detail_lines: Vec<String>,
-    pub entry_count: usize,
 }
 
 fn build_render_data(app: &app::App) -> RenderData {
@@ -231,11 +230,9 @@ fn build_render_data(app: &app::App) -> RenderData {
         vec!["Select an item to see details.".into()]
     };
 
-    let entry_count = list_items.len();
     RenderData {
         list_items,
         detail_lines,
-        entry_count,
     }
 }
 
