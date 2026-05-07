@@ -53,6 +53,7 @@ import email.utils
 import json
 import os
 import re
+import sys
 import time
 import urllib.error
 import urllib.request
@@ -60,6 +61,10 @@ import xml.etree.ElementTree as ET
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from typing import Iterable
+
+# Shared lockfile helper — same convention used by fetch_all_sources.py and review_loop.sh
+sys.path.insert(0, os.path.dirname(__file__))
+from pending_lock import locked_write  # noqa: E402
 
 
 USER_AGENT = "forensic-catalog-feed-watcher/0.3 (+https://github.com/SecurityRonin/forensicnomicon)"
@@ -361,43 +366,57 @@ def append_pending_review(
     new_entries: list[tuple[str, str, str]],
     validate: bool = True,
 ) -> tuple[int, int]:
-    """Append newly detected posts to pending-review.md.
+    """Append newly detected posts to pending-review.md under an exclusive lock.
 
     Only posts whose URL is not already in the file are appended.
     When *validate* is True (default), each URL is HEAD-checked:
       - HTTP 404/410 → written as ``[!]`` with a ``<!-- 404 on DATE -->`` annotation
       - reachable / transient error → written as ``[ ]`` (normal)
 
+    Uses ``locked_write()`` so concurrent writes from the agent review loop,
+    fetch_all_sources.py, or cron invocations cannot corrupt the file.
+
     Returns (appended_count, broken_count).
     """
     if not new_entries:
         return 0, 0
 
+    # Pre-check (without lock) to avoid taking the lock for nothing.
     existing_urls = load_reviewed_urls(pending_path)
     to_add = [(src, title, url) for src, title, url in new_entries if url not in existing_urls]
     if not to_add:
         return 0, 0
 
+    # HEAD-check before acquiring the lock — network I/O must not hold the lock.
     broken = 0
-    header_needed = not os.path.exists(pending_path)
-    with open(pending_path, "a", encoding="utf-8") as fh:
-        if header_needed:
-            fh.write("# DFIR Feed — Pending Review\n\n")
-            fh.write("New posts detected by Feed Watch that may contain artifact findings.\n")
-            fh.write("Mark `[x]` when reviewed, `[→]` when artifact tasks were created.\n")
-            fh.write("Mark `[!]` entries are 404/410 at discovery time — see retry instructions below.\n\n")
-        fh.write(f"\n## {today_str()}\n\n")
-        for src, title, url in to_add:
-            if validate:
-                status, note = head_check(url)
-            else:
-                status = "ok"
-            if status == "gone":
-                fh.write(f"- [!] [{title}]({url}) — {src} <!-- {note} on {today_str()} -->\n")
-                broken += 1
-            else:
-                fh.write(f"- [ ] [{title}]({url}) — {src}\n")
+    lines_to_append: list[str] = []
+    for src, title, url in to_add:
+        if validate:
+            status, note = head_check(url)
+        else:
+            status = "ok"
+        if status == "gone":
+            lines_to_append.append(
+                f"- [!] [{title}]({url}) — {src} <!-- {note} on {today_str()} -->\n"
+            )
+            broken += 1
+        else:
+            lines_to_append.append(f"- [ ] [{title}]({url}) — {src}\n")
 
+    section = f"\n## {today_str()}\n\n" + "".join(lines_to_append)
+
+    def _transform(content: str) -> str:
+        if not content:
+            header = (
+                "# DFIR Feed — Pending Review\n\n"
+                "New posts detected by Feed Watch that may contain artifact findings.\n"
+                "Mark `[x]` when reviewed, `[→]` when artifact tasks were created.\n"
+                "Mark `[!]` entries are 404/410 at discovery time — see retry instructions below.\n\n"
+            )
+            return header + section
+        return content.rstrip("\n") + "\n" + section
+
+    locked_write(pending_path, _transform)
     return len(to_add), broken
 
 

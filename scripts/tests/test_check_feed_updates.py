@@ -242,31 +242,43 @@ class TestAppendPendingReviewLocked(unittest.TestCase):
         self.assertIn("Stale Lock Post", content)
 
     def test_append_uses_shared_lock_convention(self):
-        """Lock path must be pending_path + '.lock' (same as fetch_all_sources)."""
-        # Verify by observing the lock is compatible with pending_lock.locked_write
-        # i.e. both use path + ".lock" as the lock file path
-        seen_lock = []
+        """Lock path must be pending_path + '.lock' — same convention as pending_lock.locked_write.
 
-        real_append = cfu.append_pending_review
+        We verify this by confirming that pending_lock.locked_write and
+        append_pending_review contend on the same lock: if we hold the lock
+        via pending_lock before calling append_pending_review in a thread, the
+        thread must block until we release it.
+        """
+        import threading
 
-        def spy_open(path, *args, **kwargs):
-            if path == self.lock_path:
-                seen_lock.append(path)
-            return original_open(path, *args, **kwargs)
+        # Acquire the lock ourselves
+        lock_path = self.path + ".lock"
+        fd = os.open(lock_path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+        os.write(fd, str(os.getpid()).encode())
+        os.close(fd)
 
-        original_open = open
-        import builtins
-        builtins.open = spy_open
-        try:
+        started = threading.Event()
+        finished = threading.Event()
+
+        def _append():
+            started.set()
             cfu.append_pending_review(
                 self.path,
-                [("Src", "Title", "https://example.com/x")],
+                [("Src", "Title", "https://example.com/lock-test")],
                 validate=False,
             )
-        finally:
-            builtins.open = original_open
+            finished.set()
 
-        self.assertTrue(
-            len(seen_lock) > 0 or os.path.exists(self.lock_path + ".acquired_check"),
-            "append_pending_review must use the .lock convention"
-        )
+        t = threading.Thread(target=_append)
+        t.start()
+        started.wait(timeout=2)
+
+        # Thread should be blocked — file must NOT be written yet
+        time.sleep(0.15)
+        self.assertFalse(finished.is_set(), "append must block while lock is held")
+
+        # Release the lock — thread should proceed
+        os.remove(lock_path)
+        finished.wait(timeout=5)
+        t.join(timeout=5)
+        self.assertTrue(finished.is_set(), "append must complete after lock released")
