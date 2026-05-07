@@ -1,4 +1,4 @@
-//! Cloud service artifact descriptors (Google Takeout, etc.).
+//! Cloud service artifact descriptors (Google Takeout, AWS CloudTrail, etc.).
 //!
 //! These artifacts represent data exported from cloud services via official
 //! takeout/export mechanisms. They are cross-platform (OsScope::All) since
@@ -195,5 +195,148 @@ Cross-reference with Records.json for raw coordinate and DetectedActivity detail
     related_artifacts: &["google_takeout_location_records"],
     sources: &[
         "https://cheeky4n6monkey.blogspot.com/2022/02/monkey-attempts-to-digest-some-google.html",
+    ],
+};
+
+// ── AWS CloudTrail IAM Events ───────────────────────────────────────────────
+
+/// Field schema for AWS CloudTrail IAM management events.
+/// Source: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html
+pub(crate) static AWS_CLOUDTRAIL_IAM_EVENTS_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "eventTime",
+        value_type: ValueType::Timestamp,
+        description: "UTC timestamp when the API call was made (ISO 8601)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "eventName",
+        value_type: ValueType::Text,
+        description: "IAM API action name (e.g. CreateUser, AddUserToGroup, RemoveUserFromGroup, \
+AttachUserPolicy, DetachUserPolicy, CreateAccessKey)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "eventSource",
+        value_type: ValueType::Text,
+        description: "AWS service that processed the request — always iam.amazonaws.com for IAM events",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "awsRegion",
+        value_type: ValueType::Text,
+        description: "Region where the event was logged — always us-east-1 for IAM (global service)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "sourceIPAddress",
+        value_type: ValueType::Text,
+        description: "IP address of the caller; may be an AWS service endpoint for service-linked actions",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "userIdentity",
+        value_type: ValueType::Json,
+        description: "Identity of the caller — includes type (Root/IAMUser/AssumedRole/FederatedUser), \
+ARN, accountId, accessKeyId, sessionContext",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "requestParameters",
+        value_type: ValueType::Json,
+        description: "Parameters sent with the API call (e.g. {\"userName\": \"...\", \"groupName\": \"...\"})",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "responseElements",
+        value_type: ValueType::Json,
+        description: "Response from the service (e.g. created user ARN, createDate); null on read-only calls",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "userAgent",
+        value_type: ValueType::Text,
+        description: "User agent string of the caller (e.g. aws-cli/2.x, console.amazonaws.com, Boto3)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "eventID",
+        value_type: ValueType::Guid,
+        description: "Unique GUID for this event record",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "eventType",
+        value_type: ValueType::Text,
+        description: "Event category — AwsApiCall for management events",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "errorCode",
+        value_type: ValueType::Text,
+        description: "AWS error code if the call failed (e.g. AccessDenied, EntityAlreadyExists); \
+absent on success",
+        is_uid_component: false,
+    },
+];
+
+/// AWS CloudTrail IAM management events — user, group, and policy changes
+/// logged to S3 in us-east-1.
+///
+/// IAM is a global AWS service; all IAM management events (CreateUser,
+/// AddUserToGroup, RemoveUserFromGroup, AttachUserPolicy, CreateAccessKey, etc.)
+/// are recorded in the us-east-1 region regardless of where the API call
+/// originates.
+///
+/// Empirical latency measurements (David Cowen, HECF Blog #810-#812, April 2025):
+///   - CreateUser: ~2 minutes
+///   - AddUserToGroup: ~2 minutes
+///   - RemoveUserFromGroup: ~1 min 45 sec
+/// All well within the 15-minute SLA and the 5-minute target for critical events.
+///
+/// Source: https://www.hecfblog.com/2025/04/daily-blog-810-testing-aws-log-latency.html
+/// Source: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html
+pub(crate) static AWS_CLOUDTRAIL_IAM_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "aws_cloudtrail_iam_events",
+    name: "AWS CloudTrail IAM Management Events",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("s3://<bucket>/AWSLogs/<account-id>/CloudTrail/us-east-1/<YYYY>/<MM>/<DD>/<account-id>_CloudTrail_us-east-1_<timestamp>_<random>.json.gz"),
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "AWS CloudTrail management events for IAM user, group, and policy changes. \
+IAM is a global service — all IAM events (CreateUser, DeleteUser, AddUserToGroup, \
+RemoveUserFromGroup, AttachUserPolicy, DetachUserPolicy, CreateAccessKey, DeleteAccessKey) \
+are logged exclusively in us-east-1 regardless of the caller's region. \
+Empirical log delivery latency (HECF Blog, April 2025): CreateUser ~2 min, \
+AddUserToGroup ~2 min, RemoveUserFromGroup ~1 min 45 sec — all within the \
+15-minute SLA and 5-minute critical-event target. \
+Key forensic fields: userIdentity (who did it), sourceIPAddress (from where), \
+requestParameters (what was changed), responseElements (result including new ARNs). \
+Cross-reference with GuardDuty findings and AWS Config change items for full IR picture.",
+    mitre_techniques: &[
+        "T1136.003", // Create Account: Cloud Account
+        "T1098.001", // Account Manipulation: Additional Cloud Credentials
+        "T1078.004", // Valid Accounts: Cloud Accounts
+    ],
+    fields: AWS_CLOUDTRAIL_IAM_EVENTS_FIELDS,
+    retention: Some("Configurable — default CloudTrail trail retains 90 days in S3; \
+organization trails and custom S3 lifecycle policies may extend or shorten"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["linux_aws_credentials"],
+    sources: &[
+        // Source: https://www.hecfblog.com/2025/04/daily-blog-810-testing-aws-log-latency.html (CreateUser ~2 min latency)
+        "https://www.hecfblog.com/2025/04/daily-blog-810-testing-aws-log-latency.html",
+        // Source: https://www.hecfblog.com/2025/04/daily-blog-811-testing-aws-log-latency.html (AddUserToGroup ~2 min latency)
+        "https://www.hecfblog.com/2025/04/daily-blog-811-testing-aws-log-latency.html",
+        // Source: https://www.hecfblog.com/2025/04/daily-blog-812-testing-aws-log-latency.html (RemoveUserFromGroup ~1:45 latency)
+        "https://www.hecfblog.com/2025/04/daily-blog-812-testing-aws-log-latency.html",
+        // Source: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html (event record schema)
+        "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html",
+        // Source: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-global-service-events (IAM events in us-east-1)
+        "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-global-service-events",
     ],
 };

@@ -13979,9 +13979,10 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,
     android_ext::SAMSUNG_GALLERY3D_LOG,
-    // ── Cloud services (Google Takeout) ─────────────────────────────────────
+    // ── Cloud services (Google Takeout, AWS CloudTrail) ────────────────────
     cloud_ext::GOOGLE_TAKEOUT_LOCATION_RECORDS,
     cloud_ext::GOOGLE_TAKEOUT_SEMANTIC_LOCATION_HISTORY,
+    cloud_ext::AWS_CLOUDTRAIL_IAM_EVENTS,
     // ── Vehicle infotainment (Honda Accord 2016) ─────────────────────────────
     vehicle_ext::HONDA_ACCORD_RECENTSTOPS,
     vehicle_ext::HONDA_ACCORD_CRM_ECO_LOGS,

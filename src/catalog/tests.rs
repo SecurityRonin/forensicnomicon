@@ -7219,7 +7219,10 @@ mod tests_aws_cloudtrail_iam_events {
     #[test]
     fn exists_in_catalog() {
         let d = CATALOG.by_id("aws_cloudtrail_iam_events");
-        assert!(d.is_some(), "aws_cloudtrail_iam_events must exist in catalog");
+        assert!(
+            d.is_some(),
+            "aws_cloudtrail_iam_events must exist in catalog"
+        );
     }
 
     #[test]
@@ -7281,12 +7284,30 @@ mod tests_aws_cloudtrail_iam_events {
     fn has_cloudtrail_fields() {
         let d = CATALOG.by_id("aws_cloudtrail_iam_events").unwrap();
         let field_names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
-        assert!(field_names.contains(&"eventTime"), "must have eventTime field");
-        assert!(field_names.contains(&"eventName"), "must have eventName field");
-        assert!(field_names.contains(&"eventSource"), "must have eventSource field");
-        assert!(field_names.contains(&"awsRegion"), "must have awsRegion field");
-        assert!(field_names.contains(&"sourceIPAddress"), "must have sourceIPAddress field");
-        assert!(field_names.contains(&"requestParameters"), "must have requestParameters field");
+        assert!(
+            field_names.contains(&"eventTime"),
+            "must have eventTime field"
+        );
+        assert!(
+            field_names.contains(&"eventName"),
+            "must have eventName field"
+        );
+        assert!(
+            field_names.contains(&"eventSource"),
+            "must have eventSource field"
+        );
+        assert!(
+            field_names.contains(&"awsRegion"),
+            "must have awsRegion field"
+        );
+        assert!(
+            field_names.contains(&"sourceIPAddress"),
+            "must have sourceIPAddress field"
+        );
+        assert!(
+            field_names.contains(&"requestParameters"),
+            "must have requestParameters field"
+        );
     }
 
     #[test]
