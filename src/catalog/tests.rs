@@ -264,7 +264,7 @@ mod decode_tests {
     #[test]
     fn catalog_has_entries() {
         assert!(!CATALOG.list().is_empty());
-        assert_eq!(CATALOG.list().len(), 6637);
+        assert_eq!(CATALOG.list().len(), 6638);
     }
 
     #[test]
@@ -2597,7 +2597,7 @@ mod tests_batch_d {
     #[test]
     fn catalog_count_after_srum_network_connections() {
         // +1 from srum_network_connections
-        assert_eq!(CATALOG.list().len(), 6637);
+        assert_eq!(CATALOG.list().len(), 6638);
     }
 
     // ── EVTX channels ─────────────────────────────────────────────────────
@@ -3498,7 +3498,7 @@ mod phase2_registry_tests {
     #[test]
     fn catalog_count_includes_phase2() {
         // Updated to 354 after phase-2b file artifact additions
-        assert_eq!(CATALOG.list().len(), 6637);
+        assert_eq!(CATALOG.list().len(), 6638);
     }
 
     #[test]
@@ -3643,7 +3643,7 @@ mod phase2b_files_tests {
     fn catalog_count_includes_phase2b() {
         // phase2a adds 30 registry artifacts (284→314), phase2b adds 40 file artifacts (314→354)
         // Note: chrome_login_data was already present from Phase 1; not duplicated here.
-        assert_eq!(CATALOG.list().len(), 6637);
+        assert_eq!(CATALOG.list().len(), 6638);
     }
 
     #[test]
@@ -3946,7 +3946,7 @@ mod phase3_persistence_tests {
         // phase3 adds 7 net-new artifacts not already in catalog (354 → 361)
         // Note: winlogon_shell, winlogon_userinit, appinit_dlls, boot_execute,
         //       ifeo_debugger, netsh_helper_dlls, mountpoints2 were already present.
-        assert_eq!(CATALOG.list().len(), 6637);
+        assert_eq!(CATALOG.list().len(), 6638);
     }
 
     // ── Pre-existing artifacts verified present ───────────────────────────────
@@ -4999,7 +4999,7 @@ mod tests_batch_i_presence {
     fn catalog_count_includes_batch_i() {
         assert_eq!(
             CATALOG.list().len(),
-            6637,
+            6638,
             "catalog count after batch I + quicklook + install_date + winscp + wifi + clipboard + unified_log + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -5258,7 +5258,7 @@ mod tests_quicklook_install_date {
     fn catalog_count_includes_quicklook_and_install_date() {
         assert_eq!(
             CATALOG.list().len(),
-            6637,
+            6638,
             "catalog count after quicklook + install_date + winscp + wifi + clipboard + unified_log + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -5416,7 +5416,7 @@ mod tests_winscp_ini {
     fn catalog_count_includes_winscp_ini() {
         assert_eq!(
             CATALOG.list().len(),
-            6637,
+            6638,
             "catalog count after winscp + wifi + clipboard + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -5672,7 +5672,7 @@ mod tests_windows_clipboard_history {
     fn catalog_count_includes_clipboard_history() {
         assert_eq!(
             CATALOG.list().len(),
-            6637,
+            6638,
             "catalog count after valley_rat + ntuser_man + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -8050,7 +8050,7 @@ mod tests_android_gboard_trainingcache {
 
     #[test]
     fn catalog_count_updated() {
-        assert_eq!(CATALOG.list().len(), 6637);
+        assert_eq!(CATALOG.list().len(), 6638);
     }
 }
 
@@ -8153,7 +8153,7 @@ mod tests_hyperv_guest_params {
     fn catalog_count_after_hyperv_guest_params() {
         assert_eq!(
             CATALOG.list().len(),
-            6637,
+            6638,
             "catalog count after hyperv_guest_params"
         );
     }
@@ -8346,7 +8346,7 @@ mod tests_registry_featureusage {
     fn catalog_count_after_registry_featureusage() {
         assert_eq!(
             CATALOG.list().len(),
-            6637,
+            6638,
             "catalog count after registry_featureusage"
         );
     }
@@ -8492,8 +8492,129 @@ mod tests_pca_general_db {
     fn catalog_count_after_pca_general_db() {
         assert_eq!(
             CATALOG.list().len(),
-            6637,
+            6638,
             "catalog count after pca_general_db"
+        );
+    }
+}
+
+mod tests_windows_hosts_file {
+    use super::*;
+
+    #[test]
+    fn windows_hosts_file_exists() {
+        assert!(
+            CATALOG.by_id("windows_hosts_file").is_some(),
+            "catalog must contain 'windows_hosts_file'"
+        );
+    }
+
+    #[test]
+    fn windows_hosts_file_is_file() {
+        let d = CATALOG.by_id("windows_hosts_file").unwrap();
+        assert_eq!(d.artifact_type, ArtifactType::File);
+    }
+
+    #[test]
+    fn windows_hosts_file_path() {
+        let d = CATALOG.by_id("windows_hosts_file").unwrap();
+        let p = d.file_path.unwrap_or("");
+        assert!(
+            p.eq_ignore_ascii_case(r"C:\Windows\System32\drivers\etc\hosts"),
+            "file_path must be C:\\Windows\\System32\\drivers\\etc\\hosts; got: {}",
+            p
+        );
+    }
+
+    #[test]
+    fn windows_hosts_file_scope_system() {
+        let d = CATALOG.by_id("windows_hosts_file").unwrap();
+        assert_eq!(d.scope, DataScope::System);
+    }
+
+    #[test]
+    fn windows_hosts_file_meaning_mentions_edr() {
+        let d = CATALOG.by_id("windows_hosts_file").unwrap();
+        let m = d.meaning.to_lowercase();
+        assert!(
+            m.contains("edr") || m.contains("c2") || m.contains("blackhole"),
+            "meaning must reference EDR-silencing / C2-blackhole abuse documented by Carvey 2024-01; got: {}",
+            d.meaning
+        );
+    }
+
+    #[test]
+    fn windows_hosts_file_meaning_mentions_resolution_order() {
+        let d = CATALOG.by_id("windows_hosts_file").unwrap();
+        let m = d.meaning.to_lowercase();
+        assert!(
+            m.contains("resolution") || m.contains("dns"),
+            "meaning must explain that hosts is consulted before DNS in MS host name resolution order; got: {}",
+            d.meaning
+        );
+    }
+
+    #[test]
+    fn windows_hosts_file_mitre_t1562_or_t1565() {
+        let d = CATALOG.by_id("windows_hosts_file").unwrap();
+        // T1562.001 Impair Defenses: Disable or Modify Tools (covers EDR silencing)
+        // T1565.001 Stored Data Manipulation also reasonable
+        assert!(
+            d.mitre_techniques.iter().any(|t| t.starts_with("T1562"))
+                || d.mitre_techniques.iter().any(|t| t.starts_with("T1565")),
+            "must map to T1562 (Impair Defenses) or T1565 (Data Manipulation); got: {:?}",
+            d.mitre_techniques
+        );
+    }
+
+    #[test]
+    fn windows_hosts_file_triage_high() {
+        let d = CATALOG.by_id("windows_hosts_file").unwrap();
+        assert_eq!(
+            d.triage_priority,
+            TriagePriority::High,
+            "tampered hosts file is concrete EDR/C2 evasion evidence — High triage"
+        );
+    }
+
+    #[test]
+    fn windows_hosts_file_cites_carvey_edrsilencer() {
+        let d = CATALOG.by_id("windows_hosts_file").unwrap();
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("windowsir.blogspot.com") && s.contains("edrsilencer")),
+            "must cite Carvey 2024-01 EDRSilencer post (documents hosts-file as EDR silencing alternative)"
+        );
+    }
+
+    #[test]
+    fn windows_hosts_file_cites_microsoft_resolution_order() {
+        let d = CATALOG.by_id("windows_hosts_file").unwrap();
+        assert!(
+            d.sources.iter().any(|s| {
+                s.contains("microsoft.com") && (s.contains("host-name") || s.contains("resolution"))
+            }),
+            "must cite Microsoft TCP/IP host name resolution order doc (Carvey reference for why hosts wins over DNS)"
+        );
+    }
+
+    #[test]
+    fn windows_hosts_file_os_scope_all() {
+        let d = CATALOG.by_id("windows_hosts_file").unwrap();
+        assert_eq!(
+            d.os_scope,
+            OsScope::All,
+            "hosts file path is stable across all Windows versions"
+        );
+    }
+
+    #[test]
+    fn catalog_count_after_windows_hosts_file() {
+        assert_eq!(
+            CATALOG.list().len(),
+            6638,
+            "catalog count after windows_hosts_file"
         );
     }
 }
