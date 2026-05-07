@@ -5141,6 +5141,48 @@ mod tests_quicklook_install_date {
         );
     }
 
+    #[test]
+    fn windows_install_date_meaning_mentions_systeminfo() {
+        let d = CATALOG.by_id("windows_install_date").unwrap();
+        let meaning = d.meaning.to_lowercase();
+        assert!(
+            meaning.contains("systeminfo"),
+            "meaning must warn that `systeminfo` command also shows the incorrect date; got: {}",
+            d.meaning
+        );
+    }
+
+    #[test]
+    fn windows_install_date_meaning_mentions_spoliation_risk() {
+        let d = CATALOG.by_id("windows_install_date").unwrap();
+        let meaning = d.meaning.to_lowercase();
+        assert!(
+            meaning.contains("spoliation"),
+            "meaning must warn about false spoliation conclusions; got: {}",
+            d.meaning
+        );
+    }
+
+    #[test]
+    fn windows_install_date_has_install_time_field() {
+        let d = CATALOG.by_id("windows_install_date").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "install_time"),
+            "windows_install_date fields must include 'install_time' (REG_QWORD FILETIME companion)"
+        );
+    }
+
+    #[test]
+    fn windows_install_date_meaning_mentions_clone_image_caveat() {
+        let d = CATALOG.by_id("windows_install_date").unwrap();
+        let meaning = d.meaning.to_lowercase();
+        assert!(
+            meaning.contains("clone") || meaning.contains("image"),
+            "meaning must note that corporate clones/images also produce misleading install dates; got: {}",
+            d.meaning
+        );
+    }
+
     // ── count ─────────────────────────────────────────────────────────────────
 
     #[test]
