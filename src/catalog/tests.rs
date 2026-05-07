@@ -264,7 +264,7 @@ mod decode_tests {
     #[test]
     fn catalog_has_entries() {
         assert!(!CATALOG.list().is_empty());
-        assert_eq!(CATALOG.list().len(), 6623);
+        assert_eq!(CATALOG.list().len(), 6624);
     }
 
     #[test]
@@ -2597,7 +2597,7 @@ mod tests_batch_d {
     #[test]
     fn catalog_count_after_srum_network_connections() {
         // +1 from srum_network_connections
-        assert_eq!(CATALOG.list().len(), 6623);
+        assert_eq!(CATALOG.list().len(), 6624);
     }
 
     // ── EVTX channels ─────────────────────────────────────────────────────
@@ -3498,7 +3498,7 @@ mod phase2_registry_tests {
     #[test]
     fn catalog_count_includes_phase2() {
         // Updated to 354 after phase-2b file artifact additions
-        assert_eq!(CATALOG.list().len(), 6623);
+        assert_eq!(CATALOG.list().len(), 6624);
     }
 
     #[test]
@@ -3643,7 +3643,7 @@ mod phase2b_files_tests {
     fn catalog_count_includes_phase2b() {
         // phase2a adds 30 registry artifacts (284→314), phase2b adds 40 file artifacts (314→354)
         // Note: chrome_login_data was already present from Phase 1; not duplicated here.
-        assert_eq!(CATALOG.list().len(), 6623);
+        assert_eq!(CATALOG.list().len(), 6624);
     }
 
     #[test]
@@ -3946,7 +3946,7 @@ mod phase3_persistence_tests {
         // phase3 adds 7 net-new artifacts not already in catalog (354 → 361)
         // Note: winlogon_shell, winlogon_userinit, appinit_dlls, boot_execute,
         //       ifeo_debugger, netsh_helper_dlls, mountpoints2 were already present.
-        assert_eq!(CATALOG.list().len(), 6623);
+        assert_eq!(CATALOG.list().len(), 6624);
     }
 
     // ── Pre-existing artifacts verified present ───────────────────────────────
@@ -7013,5 +7013,58 @@ mod tests_ios14_maps_history {
     fn scope_is_user() {
         let d = CATALOG.by_id("ios14_maps_history").unwrap();
         assert_eq!(d.scope, DataScope::User);
+    }
+}
+
+// ── Garmin nuvi Voice Log ──────────────────────────────────────────────────
+
+#[cfg(test)]
+mod tests_garmin_nuvi_voice_log {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("garmin_nuvi_voice_log").is_some(),
+            "catalog must contain 'garmin_nuvi_voice_log'"
+        );
+    }
+
+    #[test]
+    fn is_file_type() {
+        let d = CATALOG.by_id("garmin_nuvi_voice_log").unwrap();
+        assert_eq!(d.artifact_type, ArtifactType::File);
+    }
+
+    #[test]
+    fn is_all_scope() {
+        let d = CATALOG.by_id("garmin_nuvi_voice_log").unwrap();
+        assert_eq!(d.os_scope, OsScope::All);
+    }
+
+    #[test]
+    fn triage_is_high() {
+        let d = CATALOG.by_id("garmin_nuvi_voice_log").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::High);
+    }
+
+    #[test]
+    fn has_fields() {
+        let d = CATALOG.by_id("garmin_nuvi_voice_log").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(names.contains(&"timestamp"));
+        assert!(names.contains(&"voice_string"));
+    }
+
+    #[test]
+    fn file_path_set() {
+        let d = CATALOG.by_id("garmin_nuvi_voice_log").unwrap();
+        assert!(d.file_path.unwrap().contains("vpm_log_all"));
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("garmin_nuvi_voice_log").unwrap();
+        assert!(!d.sources.is_empty());
     }
 }
