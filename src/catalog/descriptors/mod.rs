@@ -13985,6 +13985,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     android_ext::SAMSUNG_GALLERY3D_TRASH,
     android_ext::SAMSUNG_GALLERY3D_LOG,
     android_ext::ANDROID_TOR_BROWSER_THUMBNAILS,
+    android_ext::ANDROID_GBOARD_TRAININGCACHE,
     // ── Cloud services (Google Takeout, AWS CloudTrail) ────────────────────
     cloud_ext::GOOGLE_TAKEOUT_LOCATION_RECORDS,
     cloud_ext::GOOGLE_TAKEOUT_SEMANTIC_LOCATION_HISTORY,

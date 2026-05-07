@@ -342,3 +342,113 @@ pub(crate) static ANDROID_TOR_BROWSER_THUMBNAILS: ArtifactDescriptor = ArtifactD
         "https://thebinaryhick.blog/2021/12/17/android-12-image-now-available/",
     ],
 };
+
+// ── Gboard Training Cache ───────────────────────────────────────────────────
+
+/// Field schema for Gboard training cache keystroke data.
+pub(crate) static ANDROID_GBOARD_TRAININGCACHE_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "app_package",
+        value_type: ValueType::Text,
+        // Source: https://www.swiftforensics.com/2021/01/gboard-has-some-interesting-data.html
+        description: "Package name of the application that had input focus when keystrokes \
+            were captured (e.g. com.whatsapp, com.google.android.gm)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "input_field",
+        value_type: ValueType::Text,
+        // Source: https://www.swiftforensics.com/2021/01/gboard-has-some-interesting-data.html
+        description: "Name of the input field within the application where text was entered \
+            (e.g. Email, Message, Search)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "timestamp",
+        value_type: ValueType::Timestamp,
+        // Source: https://www.swiftforensics.com/2021/01/gboard-has-some-interesting-data.html
+        description: "Timestamp of the input event recorded in the training_input_events_table \
+            or derived from f1 session identifier in tf_table",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "typed_text",
+        value_type: ValueType::Text,
+        // Source: https://www.swiftforensics.com/2021/01/gboard-has-some-interesting-data.html
+        description: "Reconstructed user-typed text extracted from protobuf _payload blobs \
+            or concatenated from individual keystroke entries in tf_table (f3 column)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "suggestions",
+        value_type: ValueType::Text,
+        // Source: https://www.swiftforensics.com/2021/01/gboard-has-some-interesting-data.html
+        description: "Spelling, grammar, contact name, or emoji suggestions offered by Gboard \
+            alongside the typed text",
+        is_uid_component: false,
+    },
+];
+
+/// Android Gboard (Google Keyboard) training cache — keystroke recovery.
+///
+/// Gboard caches user keystrokes in SQLite databases named `trainingcache*.db`
+/// within its app sandbox. Multiple database versions exist across Gboard
+/// releases:
+///
+/// - `trainingcache2.db` (v 8.x): `training_input_events_table` with columns
+///   for app package, field name, timestamp, and `_payload` (protobuf blob
+///   containing typed text and suggestions).
+/// - `trainingcache3.db` (v 10.x): `s_table` (app/field metadata) +
+///   `tf_table` (individual keystrokes — `f1` = session ID, `f3` = character,
+///   `f4` = keystroke order). Joinable to reconstruct full typed text.
+/// - `trainingcachev2.db`: alternate format with similar keystroke data.
+///
+/// Forensic significance: recovers text typed into apps that have since been
+/// deleted, messages from disappearing-message features (WhatsApp, Telegram),
+/// and data entered into web forms that are never stored locally. Password
+/// field input is excluded by the keyboard.
+///
+/// Tested on Pixel 3 (Android 10/11) and Josh Hickman's Android 10 image.
+/// Verified that Telegram and WhatsApp sent messages appear in the cache.
+///
+/// Source: https://www.swiftforensics.com/2021/01/gboard-has-some-interesting-data.html
+pub(crate) static ANDROID_GBOARD_TRAININGCACHE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "android_gboard_trainingcache",
+    name: "Android Gboard Training Cache (Keystroke Recovery)",
+    artifact_type: ArtifactType::DatabaseEntry,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Source: https://www.swiftforensics.com/2021/01/gboard-has-some-interesting-data.html
+    file_path: Some("/data/data/com.google.android.inputmethod.latin/databases/trainingcache*.db"),
+    scope: DataScope::User,
+    os_scope: OsScope::Android,
+    decoder: Decoder::Identity,
+    meaning: "Gboard keystroke training cache. Contains typed text from all apps including \
+        deleted apps and disappearing-message conversations (WhatsApp, Telegram verified). \
+        Data survives app uninstallation because it belongs to the Gboard sandbox, not the \
+        originating app. Key tables: training_input_events_table (trainingcache2.db) stores \
+        app package, input field name, timestamp, and protobuf _payload with full typed text; \
+        tf_table (trainingcache3.db) stores individual keystrokes with session ID (f1), \
+        character (f3), and order (f4) — joinable with s_table for app context. Password \
+        fields are excluded by the keyboard. Caches are periodically pruned and size-limited, \
+        so not all historical input is retained. Also captures text entered into web forms \
+        and online apps that store nothing locally. ALEAPP includes a parser for this artifact.",
+    mitre_techniques: &[
+        "T1056.001", // Input Capture: Keylogging
+        "T1005",     // Data from Local System
+    ],
+    fields: ANDROID_GBOARD_TRAININGCACHE_FIELDS,
+    retention: Some("Periodically pruned; size-limited; survives originating app deletion"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
+    sources: &[
+        // Source: https://www.swiftforensics.com/2021/01/gboard-has-some-interesting-data.html
+        // (Yogesh Khatri; original research on Gboard trainingcache*.db databases;
+        // tables, protobuf structure, keystroke reconstruction, and ALEAPP parser)
+        "https://www.swiftforensics.com/2021/01/gboard-has-some-interesting-data.html",
+        // Source: https://github.com/abrignoni/ALEAPP (ALEAPP framework containing
+        // the Gboard trainingcache parser module)
+        "https://github.com/abrignoni/ALEAPP",
+    ],
+};
