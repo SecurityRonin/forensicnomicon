@@ -1263,3 +1263,77 @@ LevelDB libraries.",
         "https://github.com/cclgroupltd/ccl_chrome_indexeddb",
     ],
 };
+
+// ── iOS Google Chat cacheV0.db ──────────────────────────────────────────────
+
+/// Field schema for the `cache` table in cacheV0.db.
+/// Source: https://abrignoni.blogspot.com/2024/02/what-is-cachev0db-and-why-are-there.html
+pub(crate) static IOS_GOOGLE_CHAT_CACHEV0_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "id",
+        value_type: ValueType::Integer,
+        // Source: https://abrignoni.blogspot.com/2024/02/what-is-cachev0db-and-why-are-there.html
+        description: "Auto-incrementing integer primary key, sequentially assigned starting at 1",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "data",
+        value_type: ValueType::Bytes,
+        // Source: https://abrignoni.blogspot.com/2024/02/what-is-cachev0db-and-why-are-there.html
+        description: "BLOB containing a thumbnail-resolution copy of an image rendered \
+            by the app interface — includes chat-shared images, user avatars, and \
+            images from deleted chats that no longer exist in the main image directory",
+        is_uid_component: false,
+    },
+];
+
+/// iOS Google Chat (Dynamite) image thumbnail cache database.
+///
+/// The `cacheV0.db` SQLite database is created by Google's image rendering
+/// pipeline (similar to Glide Image Manager Cache on Android). It contains a
+/// single `cache` table with `id` and `data` columns. Each `data` BLOB holds
+/// a reduced-resolution copy of every image the app has rendered in its UI,
+/// including user avatars and images from deleted chats.
+///
+/// Key forensic insight: images from deleted conversations persist in this
+/// database even after the source files are removed from the main chat image
+/// directory. Also observed in Google Voice on iOS.
+///
+/// Source: https://abrignoni.blogspot.com/2024/02/what-is-cachev0db-and-why-are-there.html
+pub(crate) static IOS_GOOGLE_CHAT_CACHEV0: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ios_google_chat_cachev0",
+    name: "iOS Google Chat Image Cache (cacheV0.db)",
+    artifact_type: ArtifactType::DatabaseEntry,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Source: https://abrignoni.blogspot.com/2024/02/what-is-cachev0db-and-why-are-there.html
+    file_path: Some(
+        "/private/var/mobile/Data/Application/<GUID>/Library/Caches/\
+         com.google.Dynamite/ImageFetcherCache/cacheV0.db",
+    ),
+    scope: DataScope::User,
+    os_scope: OsScope::IOS,
+    decoder: Decoder::Identity,
+    meaning: "Google Chat (Dynamite) image thumbnail cache on iOS. SQLite database with a \
+        single 'cache' table containing sequentially numbered BLOBs of every image the app \
+        has rendered in its UI. Includes chat-shared images, user avatars (not user-attributable), \
+        and critically, images from deleted chats that no longer exist in the main image \
+        directory. Functions similarly to Glide Image Manager Cache on Android. No direct \
+        foreign key links the cached images to chat message records — correlation requires \
+        visual comparison or hash matching. Also observed in Google Voice iOS app at a \
+        similar path under com.google.Voice.",
+    mitre_techniques: &["T1005"],
+    fields: IOS_GOOGLE_CHAT_CACHEV0_FIELDS,
+    retention: Some("Persists in SQLite until app data is cleared or app is uninstalled"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
+    sources: &[
+        // Source: https://abrignoni.blogspot.com/2024/02/what-is-cachev0db-and-why-are-there.html
+        // (original research by Alexis Brignoni and Heather Charpentier documenting
+        // cacheV0.db structure, deleted-image persistence, and iLEAPP parser)
+        "https://abrignoni.blogspot.com/2024/02/what-is-cachev0db-and-why-are-there.html",
+        // Source: https://github.com/abrignoni/iLEAPP (iLEAPP framework containing the Image CacheV0 parser)
+        "https://github.com/abrignoni/iLEAPP",
+    ],
+};

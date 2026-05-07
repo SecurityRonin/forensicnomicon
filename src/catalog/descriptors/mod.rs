@@ -13977,9 +13977,11 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::IOS14_MAPS_HISTORY,
     macos_ext::HEIC_IMAGE_FILE,
     macos_ext::UBER_IOS_LEVELDB,
+    macos_ext::IOS_GOOGLE_CHAT_CACHEV0,
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,
     android_ext::SAMSUNG_GALLERY3D_LOG,
+    android_ext::ANDROID_TOR_BROWSER_THUMBNAILS,
     // ── Cloud services (Google Takeout, AWS CloudTrail) ────────────────────
     cloud_ext::GOOGLE_TAKEOUT_LOCATION_RECORDS,
     cloud_ext::GOOGLE_TAKEOUT_SEMANTIC_LOCATION_HISTORY,

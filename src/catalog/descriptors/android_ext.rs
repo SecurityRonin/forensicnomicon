@@ -248,3 +248,97 @@ pub(crate) static SAMSUNG_GALLERY3D_LOG: ArtifactDescriptor = ArtifactDescriptor
         "https://cheeky4n6monkey.blogspot.com/2022/01/mike-monkey-dumpster-dive-into-samsung.html",
     ],
 };
+
+// ── Android Tor Browser Thumbnails ──────────────────────────────────────────
+
+/// Field schema for Tor Browser thumbnail files.
+/// Source: https://abrignoni.blogspot.com/2021/12/tor-thumbnails-what.html
+pub(crate) static ANDROID_TOR_BROWSER_THUMBNAILS_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "filename",
+        value_type: ValueType::Text,
+        // Source: https://abrignoni.blogspot.com/2021/12/tor-thumbnails-what.html
+        description:
+            "GUID-format filename with .0 extension (e.g. 8c7defaa-12b9-44f4-ae78-cc8850b92ab4.0) \
+            — each file corresponds to one opened Tor Browser tab",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "modified_time",
+        value_type: ValueType::Timestamp,
+        // Source: https://abrignoni.blogspot.com/2021/12/tor-thumbnails-what.html
+        description: "File system modified timestamp indicating when the tab thumbnail was \
+            last captured or updated",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "file_path",
+        value_type: ValueType::Text,
+        description: "Full file system path to the thumbnail file",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "image_format",
+        value_type: ValueType::Text,
+        // Source: https://abrignoni.blogspot.com/2021/12/tor-thumbnails-what.html
+        description: "RIFF container with WEBP VP8 payload — viewable in Chrome browser or \
+            convertible to PNG via PIL/Pillow",
+        is_uid_component: false,
+    },
+];
+
+/// Android Tor Browser tab thumbnail cache directory.
+///
+/// Tor Browser for Android (org.torproject.torbrowser) caches WEBP
+/// thumbnails of every opened tab in a `mozac_browser_thumbnails/thumbnails/`
+/// directory. Files are named with a GUID and `.0` extension. The thumbnails
+/// are in RIFF/WEBP VP8 format and can be opened with Chrome or converted to
+/// PNG for reporting.
+///
+/// This is significant because Tor Browser investigations typically yield
+/// only bookmarks — these thumbnails provide visual evidence of pages actually
+/// viewed in opened tabs.
+///
+/// Original discovery credited to Loicforensic@protonmail.com.
+/// Source: https://abrignoni.blogspot.com/2021/12/tor-thumbnails-what.html
+pub(crate) static ANDROID_TOR_BROWSER_THUMBNAILS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "android_tor_browser_thumbnails",
+    name: "Android Tor Browser Tab Thumbnails",
+    artifact_type: ArtifactType::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Two known paths; primary listed here, secondary in meaning.
+    // Source: https://abrignoni.blogspot.com/2021/12/tor-thumbnails-what.html
+    file_path: Some(
+        "/data/data/org.torproject.torbrowser/cache/mozac_browser_thumbnails/thumbnails/",
+    ),
+    scope: DataScope::User,
+    os_scope: OsScope::Android,
+    decoder: Decoder::Identity,
+    meaning: "Tor Browser for Android tab thumbnail cache. Contains RIFF/WEBP VP8 image \
+        files named in GUID format with .0 extension (e.g. 8c7defaa-12b9-44f4-ae78-cc8850b92ab4.0). \
+        Each file is a thumbnail screenshot of an opened tab. This is forensically significant \
+        because Tor Browser investigations typically yield only bookmarks — these thumbnails \
+        provide visual evidence of pages the user actually viewed. A secondary path exists at \
+        /data/user/0/org.torproject.torbrowser/cache/mozac_browser_thumbnails/thumbnails/ \
+        which may be a symlink or multi-user alias. Files can be viewed directly in Chrome or \
+        converted to PNG with PIL/Pillow for reporting. File modified timestamps indicate when \
+        the tab was last active. Tested against Josh Hickman's Android 12 test image.",
+    mitre_techniques: &["T1071.001"],
+    fields: ANDROID_TOR_BROWSER_THUMBNAILS_FIELDS,
+    retention: Some("Persists until Tor Browser cache is cleared or app is uninstalled"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
+    sources: &[
+        // Source: https://abrignoni.blogspot.com/2021/12/tor-thumbnails-what.html
+        // (original research by Alexis Brignoni; discovery by Loicforensic; thumbnail
+        // format, paths, ALEAPP parser, and Josh Hickman's Android 12 test image)
+        "https://abrignoni.blogspot.com/2021/12/tor-thumbnails-what.html",
+        // Source: https://github.com/abrignoni/ALEAPP (ALEAPP framework containing the Tor Thumbnails parser)
+        "https://github.com/abrignoni/ALEAPP",
+        // Source: https://thebinaryhick.blog/2021/12/17/android-12-image-now-available/
+        // (Josh Hickman's Android 12 test image used to validate the artifact)
+        "https://thebinaryhick.blog/2021/12/17/android-12-image-now-available/",
+    ],
+};

@@ -4985,7 +4985,7 @@ mod tests_batch_i_presence {
     fn catalog_count_includes_batch_i() {
         assert_eq!(
             CATALOG.list().len(),
-            6628,
+            6630,
             "catalog count after batch I + quicklook + install_date + winscp + wifi + clipboard + unified_log + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail"
         );
     }
@@ -5244,7 +5244,7 @@ mod tests_quicklook_install_date {
     fn catalog_count_includes_quicklook_and_install_date() {
         assert_eq!(
             CATALOG.list().len(),
-            6628,
+            6630,
             "catalog count after quicklook + install_date + winscp + wifi + clipboard + unified_log + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail"
         );
     }
@@ -5402,7 +5402,7 @@ mod tests_winscp_ini {
     fn catalog_count_includes_winscp_ini() {
         assert_eq!(
             CATALOG.list().len(),
-            6628,
+            6630,
             "catalog count after winscp + wifi + clipboard + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail"
         );
     }
@@ -5658,7 +5658,7 @@ mod tests_windows_clipboard_history {
     fn catalog_count_includes_clipboard_history() {
         assert_eq!(
             CATALOG.list().len(),
-            6628,
+            6630,
             "catalog count after valley_rat + ntuser_man + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail"
         );
     }
@@ -7629,10 +7629,7 @@ mod tests_android_tor_browser_thumbnails {
     fn meaning_mentions_tor_tabs() {
         let d = CATALOG.by_id("android_tor_browser_thumbnails").unwrap();
         let m = d.meaning.to_ascii_lowercase();
-        assert!(
-            m.contains("tab"),
-            "meaning must mention opened tabs"
-        );
+        assert!(m.contains("tab"), "meaning must mention opened tabs");
     }
 
     #[test]
