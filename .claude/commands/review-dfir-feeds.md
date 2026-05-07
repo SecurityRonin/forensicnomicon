@@ -1,92 +1,205 @@
 # /review-dfir-feeds
 
-Review unreviewed DFIR blog posts from `archive/sources/pending-review.md` and
-extract artifact findings for the forensicnomicon catalog.
+Read one unreviewed DFIR blog post from `archive/sources/pending-review.md`,
+deeply comprehend it, and **implement** all artifact knowledge into the
+forensicnomicon catalog via strict TDD. This is an implementation skill, not
+a gap-finder. Every session produces committed Rust code.
+
+## Core principle
+
+**Review = implement.** If a post teaches you something about a forensic
+artifact — a field schema, a registry path, a MITRE mapping, a triage
+rationale, a related artifact pair — that knowledge goes into the catalog
+*this session*, not a task list. The blog post is the primary source; the
+descriptor is the output.
+
+Process **one post per session**. Depth over throughput.
+
+---
 
 ## Steps
 
-1. Read `archive/sources/pending-review.md` — collect all `- [ ]` and `- [!]` items
-2. If none pending: report "Nothing pending" and stop
-3. For each unchecked item (batch at most 10 per session):
-   a. **`[!]` items (broken URL):** Before giving up, search the source domain for
-      the article title using WebSearch (`site:<domain> "<title>"`). If a working
-      URL is found, replace the URL in the line and treat it as a normal `[ ]` item.
-      If no working URL found, mark `[x]` with a note "<!-- dead link, no mirror found -->"
-      and skip fetching.
-   b. **`[ ]` items:** Use `mcp__plugin_context-mode_context-mode__ctx_fetch_and_index`
-      to fetch the URL
-   c. Use `ctx_search` to extract:
-      - Windows registry key paths containing GUIDs
-      - New LOLBins / LOLBAS entries not in `src/lolbins.rs`
-      - MITRE ATT&CK technique IDs
-      - Forensic artifact names (UserAssist, Prefetch, MFT, etc.)
-      - **Co-occurring artifact pairs** (e.g. post discusses ShimCache + Prefetch
-        together → both are `related` candidates for each other's descriptor)
-   d. For each finding: grep `src/catalog/descriptors/` and `src/lolbins.rs`
-      to check if already covered
-   e. For co-occurrences: check whether the `related` field in each descriptor
-      already lists the co-occurring artifact. If not, note it as a `related`
-      enrichment task (lower priority than new artifact gaps).
-   f. If gap found: create a TDD task with artifact ID, key_path/file, source URL
-   g. Mark item `[→]` (task created) or `[x]` (reviewed, no gaps)
-4. Write updated `pending-review.md` back with checkboxes updated
-5. Commit: `chore(feeds): mark N posts reviewed — M gaps found`
-6. Print findings table
+### 1. Select the next item
 
-## Co-occurrence extraction (for `related` field enrichment)
+Read `archive/sources/pending-review.md`. Take the **first** `- [ ]` or
+`- [!]` item only.
 
-**Use your own comprehension — not a keyword list.** You understand DFIR
-artifacts in context. A keyword matcher misses "the journal" (UsnJrnl),
-"the hive" (registry), "shadow copies" (VSS), and any artifact not on a
-predetermined list. You catch all of these.
+- **`[!]` (broken URL):** Search `site:<domain> "<title>"` via WebSearch.
+  If a working URL or archive.org mirror exists, update the URL and proceed.
+  If genuinely dead with no mirror, mark `[x] <!-- dead link, no mirror -->` and pick the next `[ ]` item.
 
-When reading a post, ask: which artifacts does this investigation use
-*together*? That co-occurrence is what the `related` field should encode.
+- **`[ ]`:** Proceed directly.
 
-**For each post:**
-1. Read the content and identify every forensic artifact mentioned —
-   by name, path, registry key, tool output, or implication
-2. Note which artifacts appear *together in the same investigation context*
-   (e.g. "ShimCache and Prefetch both showed calc.exe at the same timestamp")
-3. For each co-occurring pair (A, B): run
-   `python -c "from scripts.fetch_all_sources import check_related_gaps; print(check_related_gaps('A', ['B']))"`
-   to check if the link already exists in the catalog's `related` array
-4. If missing: flag as a low-priority enrichment task
+### 2. Fetch and fully read
 
-**For YouTube entries:** the URL is `youtube.com/watch?v=VIDEO_ID`. Run:
+Use `ctx_fetch_and_index(url, source="dfir-review")` to fetch the post.
+Then `ctx_search` to read it completely.
+
+For YouTube URLs (`youtube.com/watch?v=VIDEO_ID`):
+```python
+python -c "from scripts.fetch_all_sources import fetch_youtube_transcript; print(fetch_youtube_transcript('VIDEO_ID'))"
 ```
-python -c "from scripts.fetch_all_sources import fetch_youtube_transcript; print(fetch_youtube_transcript('VIDEO_ID')[:500])"
+
+Read every word. You are a DFIR analyst ingesting primary source material.
+
+### 3. Extract ALL artifact knowledge
+
+For each artifact mentioned (by name, path, registry key, GUID, tool output,
+or implication), extract:
+
+| Field | What to look for |
+|---|---|
+| `id` | canonical artifact identifier |
+| `key_path` / `file_path` | exact registry path or filesystem path |
+| `value_name` | registry value name if applicable |
+| `decoder` | encoding (FILETIME, DwordLe, Rot13, etc.) |
+| `fields[]` | field names, types, offsets, descriptions |
+| `meaning` | what this artifact proves forensically |
+| `mitre_techniques` | T-numbers mentioned or implied |
+| `triage_priority` | Critical/High/Medium/Low — infer from context |
+| `related_artifacts` | other artifacts used together in this investigation |
+| `sources` | this post's URL (must be https://) |
+
+Ask: which artifacts does this investigation use *together*? That's the
+`related` field. A post discussing ShimCache + Prefetch at the same timestamp
+means each should list the other in `related_artifacts`.
+
+### 4. Check against existing catalog
+
+For each artifact found:
+
+```bash
+grep -r '"<artifact_id>"' src/catalog/descriptors/
+grep -r '<ArtifactName>' src/lolbins.rs
 ```
-This fetches the spoken transcript (via youtube-transcript-api), which
-contains far more artifact signal than the HTML page. Read the transcript
-and apply the same comprehension-based analysis.
 
-The `related` field builds an investigation graph. Real cases are the
-authoritative source — hardcoded lists are a poor substitute.
+Three outcomes:
 
-## Finding extraction patterns
+**A. New artifact — not in catalog at all**
+→ Implement with full TDD (steps 5–7 below)
 
-| Look for | Example | Check against |
-|---|---|---|
-| Registry GUID key | `{CEBFF5CD-...}\Count` | `key_path` fields in descriptors |
-| LOLBin name | `certutil.exe`, `curl` | `LOLBAS_WINDOWS` / `LOLBAS_LINUX` / `LOLBAS_MACOS` |
-| ATT&CK ID | `T1547.001` | `mitre_techniques` in descriptors |
-| File artifact | `$MFT`, `Prefetch`, `SRUM` | catalog by `id` / `name` |
-| New GUID | not in any descriptor | new descriptor needed |
+**B. Existing artifact — post adds knowledge**
+→ Enrich with TDD: add/correct fields, sources, MITRE, related, meaning
+→ If only adding a source URL or related link (no schema change), a single
+  enrichment commit is acceptable; still run full test suite
 
-## URL status markers
+**C. Existing artifact — fully covered, nothing new**
+→ Note `[x]` — no code change needed
 
-| Marker | Meaning | Action |
-|--------|---------|--------|
-| `[ ]`  | Unreviewed | Full review — gaps + related + LOLBins + MITRE |
-| `[!]`  | URL returned 404/410 at accumulation time | Search for mirror before giving up |
-| `[→]`  | Reviewed — TDD task created | Skip |
-| `[x]`  | Reviewed — complete | Skip |
+### 5. RED — write failing tests
+
+For **new artifacts**, add to `src/catalog/tests.rs`:
+
+```rust
+#[cfg(test)]
+mod tests_<artifact_id> {
+    use super::*;
+
+    #[test]
+    fn <artifact_id>_exists() {
+        assert!(CATALOG.by_id("<artifact_id>").is_some());
+    }
+
+    #[test]
+    fn <artifact_id>_os_scope() { /* OsScope::Windows / MacOS / Linux / All */ }
+
+    #[test]
+    fn <artifact_id>_triage_priority() { /* Critical / High / Medium / Low */ }
+
+    #[test]
+    fn <artifact_id>_has_<key_field>_field() { /* most important field */ }
+
+    #[test]
+    fn <artifact_id>_cites_source() {
+        let d = CATALOG.by_id("<artifact_id>").unwrap();
+        assert!(d.sources.iter().any(|s| s.contains("<domain>")));
+    }
+
+    // ... cover every field the post documents
+}
+```
+
+Update the catalog count assertion in `tests.rs`:
+```rust
+assert_eq!(CATALOG.list().len(), <new_count>);
+```
+
+Run and confirm RED:
+```bash
+cargo test --lib -p forensicnomicon tests_<artifact_id> 2>&1 | grep -E "FAILED|error"
+```
+
+Commit RED:
+```bash
+git add src/catalog/tests.rs
+git commit -m "test(RED): <artifact_id> — <one-line description>"
+```
+
+### 6. GREEN — implement the descriptor
+
+Add the descriptor to the appropriate file in `src/catalog/descriptors/`:
+- Windows registry → `windows_registry_ext*.rs`
+- Windows files → `windows_files_ext.rs`
+- macOS → `macos_ext.rs`
+- Linux → `linux_ext.rs`
+- iOS/Android → `mobile_ext.rs` (create if needed)
+- EVTX channels → `windows_evtx_ext.rs`
+
+Register it in `src/catalog/descriptors/mod.rs` `CATALOG_ENTRIES`.
+
+Run and confirm GREEN:
+```bash
+cargo test --lib -p forensicnomicon tests_<artifact_id> 2>&1 | grep "test result"
+cargo test --lib -p forensicnomicon 2>&1 | grep "test result"  # no regressions
+```
+
+Commit GREEN:
+```bash
+cargo fmt --all
+git add src/catalog/descriptors/<file>.rs src/catalog/descriptors/mod.rs src/catalog/tests.rs
+git commit -m "feat(GREEN): <artifact_id> — <rich description of what was added>"
+```
+
+### 7. Mark and commit pending-review.md
+
+After all artifacts from the post are implemented:
+
+- Mark the post `[x]` if fully implemented
+- Mark `[→]` only if the post deserves a follow-up session (e.g. a multi-part
+  series where only part 1 was implemented)
+
+Update the file and commit:
+```bash
+git add archive/sources/pending-review.md
+git commit -m "chore(feeds): mark post reviewed — <N> artifact(s) implemented"
+```
+
+Push:
+```bash
+git push
+```
+
+### 8. Report
+
+Print a table:
+
+| Artifact | Action | Tests | Triage |
+|---|---|---|---|
+| `<id>` | new / enriched / covered | N | Critical/High/… |
+
+---
+
+## Accuracy standards (from CLAUDE.md)
+
+- Read every URL in `sources[]` before committing — do not cite without verifying
+- For GUID-keyed artifacts: add `// Source: <url>` comment on the `key_path`
+- `sources[]` is for researcher blogs/specs — not MITRE URLs (those go in `mitre_techniques`)
+- `// Source:` comments must contain `https://` — no vendor-name stubs
+- All `related_artifacts` IDs must exist in the catalog (`all_related_artifacts_exist` test enforces this)
 
 ## Rules
 
 - Never mark `[x]` for a URL you couldn't fetch — leave `[ ]` and note the error
-- For `[!]` items: try `site:<domain> "<title>"` WebSearch first; only mark `[x]` dead if no mirror found
-- Every proposed task needs: artifact ID, source URL, OS scope, key_path or file_path
-- All `// Source:` comments must be URLs, not vendor names
-- Verify findings against actual code before creating tasks
+- Never skip TDD — RED commit before any production code, GREEN after
+- Never add a `sources[]` entry without reading that URL
+- One post per session — do it properly or not at all
