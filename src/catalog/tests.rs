@@ -7839,3 +7839,80 @@ mod tests_onedrive_odl_logs {
         );
     }
 }
+
+// ── iOS Mobile Container Manager ────────────────────────────────────────────
+#[cfg(test)]
+mod tests_ios_mobile_container_manager {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("ios_mobile_container_manager").is_some(),
+            "ios_mobile_container_manager must exist in catalog"
+        );
+    }
+
+    #[test]
+    fn artifact_type_is_database() {
+        let d = CATALOG.by_id("ios_mobile_container_manager").unwrap();
+        assert_eq!(d.artifact_type, ArtifactType::DatabaseEntry);
+    }
+
+    #[test]
+    fn os_scope_is_ios() {
+        let d = CATALOG.by_id("ios_mobile_container_manager").unwrap();
+        assert_eq!(d.os_scope, OsScope::IOS);
+    }
+
+    #[test]
+    fn file_path_contains_containers_sqlite3() {
+        let d = CATALOG.by_id("ios_mobile_container_manager").unwrap();
+        let fp = d.file_path.unwrap();
+        assert!(
+            fp.contains("containers.sqlite3"),
+            "file_path must reference containers.sqlite3"
+        );
+    }
+
+    #[test]
+    fn meaning_mentions_app_groups() {
+        let d = CATALOG.by_id("ios_mobile_container_manager").unwrap();
+        let m = d.meaning.to_ascii_lowercase();
+        assert!(
+            m.contains("appgroup") || m.contains("app group") || m.contains("application group"),
+            "meaning must mention application groups"
+        );
+    }
+
+    #[test]
+    fn has_fields_for_tables() {
+        let d = CATALOG.by_id("ios_mobile_container_manager").unwrap();
+        let field_names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(
+            field_names.contains(&"bundle_id"),
+            "must have bundle_id field"
+        );
+    }
+
+    #[test]
+    fn has_swiftforensics_source() {
+        let d = CATALOG.by_id("ios_mobile_container_manager").unwrap();
+        assert!(
+            d.sources.iter().any(|s| s.contains("swiftforensics.com")),
+            "sources must include swiftforensics.com blog post"
+        );
+    }
+
+    #[test]
+    fn triage_priority_is_medium() {
+        let d = CATALOG.by_id("ios_mobile_container_manager").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Medium);
+    }
+
+    #[test]
+    fn scope_is_system() {
+        let d = CATALOG.by_id("ios_mobile_container_manager").unwrap();
+        assert_eq!(d.scope, DataScope::System);
+    }
+}
