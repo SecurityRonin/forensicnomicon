@@ -264,7 +264,7 @@ mod decode_tests {
     #[test]
     fn catalog_has_entries() {
         assert!(!CATALOG.list().is_empty());
-        assert_eq!(CATALOG.list().len(), 6613);
+        assert_eq!(CATALOG.list().len(), 6614);
     }
 
     #[test]
@@ -2597,7 +2597,7 @@ mod tests_batch_d {
     #[test]
     fn catalog_count_after_srum_network_connections() {
         // +1 from srum_network_connections
-        assert_eq!(CATALOG.list().len(), 6613);
+        assert_eq!(CATALOG.list().len(), 6614);
     }
 
     // ── EVTX channels ─────────────────────────────────────────────────────
@@ -3498,7 +3498,7 @@ mod phase2_registry_tests {
     #[test]
     fn catalog_count_includes_phase2() {
         // Updated to 354 after phase-2b file artifact additions
-        assert_eq!(CATALOG.list().len(), 6613);
+        assert_eq!(CATALOG.list().len(), 6614);
     }
 
     #[test]
@@ -3643,7 +3643,7 @@ mod phase2b_files_tests {
     fn catalog_count_includes_phase2b() {
         // phase2a adds 30 registry artifacts (284→314), phase2b adds 40 file artifacts (314→354)
         // Note: chrome_login_data was already present from Phase 1; not duplicated here.
-        assert_eq!(CATALOG.list().len(), 6613);
+        assert_eq!(CATALOG.list().len(), 6614);
     }
 
     #[test]
@@ -3946,7 +3946,7 @@ mod phase3_persistence_tests {
         // phase3 adds 7 net-new artifacts not already in catalog (354 → 361)
         // Note: winlogon_shell, winlogon_userinit, appinit_dlls, boot_execute,
         //       ifeo_debugger, netsh_helper_dlls, mountpoints2 were already present.
-        assert_eq!(CATALOG.list().len(), 6613);
+        assert_eq!(CATALOG.list().len(), 6614);
     }
 
     // ── Pre-existing artifacts verified present ───────────────────────────────
@@ -5929,6 +5929,89 @@ mod tests_ios_unified_log {
         assert!(
             d.related_artifacts.contains(&"macos_unified_log"),
             "ios_unified_log must relate to macos_unified_log"
+        );
+    }
+}
+
+#[cfg(test)]
+mod tests_apfs_container {
+    use super::*;
+
+    #[test]
+    fn apfs_container_exists() {
+        assert!(CATALOG.by_id("apfs_container").is_some());
+    }
+
+    #[test]
+    fn apfs_container_os_scope() {
+        let d = CATALOG.by_id("apfs_container").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn apfs_container_artifact_type() {
+        let d = CATALOG.by_id("apfs_container").unwrap();
+        assert_eq!(d.artifact_type, ArtifactType::File);
+    }
+
+    #[test]
+    fn apfs_container_scope() {
+        let d = CATALOG.by_id("apfs_container").unwrap();
+        assert_eq!(d.scope, DataScope::System);
+    }
+
+    #[test]
+    fn apfs_container_triage_priority() {
+        let d = CATALOG.by_id("apfs_container").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::High);
+    }
+
+    #[test]
+    fn apfs_container_has_fields() {
+        let d = CATALOG.by_id("apfs_container").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(names.contains(&"container_uuid"), "must have container_uuid field");
+        assert!(names.contains(&"volume_name"), "must have volume_name field");
+        assert!(names.contains(&"encryption_state"), "must have encryption_state field");
+    }
+
+    #[test]
+    fn apfs_container_has_mitre() {
+        let d = CATALOG.by_id("apfs_container").unwrap();
+        assert!(
+            d.mitre_techniques.contains(&"T1005"),
+            "apfs_container must map to T1005 (Data from Local System)"
+        );
+    }
+
+    #[test]
+    fn apfs_container_cites_az4n6() {
+        let d = CATALOG.by_id("apfs_container").unwrap();
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("az4n6.blogspot.com")),
+            "apfs_container must cite az4n6 blog; sources: {:?}",
+            d.sources
+        );
+    }
+
+    #[test]
+    fn apfs_container_cites_apfs_fuse() {
+        let d = CATALOG.by_id("apfs_container").unwrap();
+        assert!(
+            d.sources.iter().any(|s| s.contains("github.com/sgan81")),
+            "apfs_container must cite apfs-fuse repo; sources: {:?}",
+            d.sources
+        );
+    }
+
+    #[test]
+    fn apfs_container_relates_to_macos_fsevents() {
+        let d = CATALOG.by_id("apfs_container").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"macos_fsevents"),
+            "apfs_container must relate to macos_fsevents"
         );
     }
 }
