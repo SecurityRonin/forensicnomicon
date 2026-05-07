@@ -264,7 +264,7 @@ mod decode_tests {
     #[test]
     fn catalog_has_entries() {
         assert!(!CATALOG.list().is_empty());
-        assert_eq!(CATALOG.list().len(), 6627);
+        assert_eq!(CATALOG.list().len(), 6628);
     }
 
     #[test]
@@ -2597,7 +2597,7 @@ mod tests_batch_d {
     #[test]
     fn catalog_count_after_srum_network_connections() {
         // +1 from srum_network_connections
-        assert_eq!(CATALOG.list().len(), 6627);
+        assert_eq!(CATALOG.list().len(), 6628);
     }
 
     // ── EVTX channels ─────────────────────────────────────────────────────
@@ -3498,7 +3498,7 @@ mod phase2_registry_tests {
     #[test]
     fn catalog_count_includes_phase2() {
         // Updated to 354 after phase-2b file artifact additions
-        assert_eq!(CATALOG.list().len(), 6627);
+        assert_eq!(CATALOG.list().len(), 6628);
     }
 
     #[test]
@@ -3643,7 +3643,7 @@ mod phase2b_files_tests {
     fn catalog_count_includes_phase2b() {
         // phase2a adds 30 registry artifacts (284→314), phase2b adds 40 file artifacts (314→354)
         // Note: chrome_login_data was already present from Phase 1; not duplicated here.
-        assert_eq!(CATALOG.list().len(), 6627);
+        assert_eq!(CATALOG.list().len(), 6628);
     }
 
     #[test]
@@ -3946,7 +3946,7 @@ mod phase3_persistence_tests {
         // phase3 adds 7 net-new artifacts not already in catalog (354 → 361)
         // Note: winlogon_shell, winlogon_userinit, appinit_dlls, boot_execute,
         //       ifeo_debugger, netsh_helper_dlls, mountpoints2 were already present.
-        assert_eq!(CATALOG.list().len(), 6627);
+        assert_eq!(CATALOG.list().len(), 6628);
     }
 
     // ── Pre-existing artifacts verified present ───────────────────────────────
@@ -7349,5 +7349,145 @@ mod tests_aws_cloudtrail_iam_events {
             d.related_artifacts.contains(&"linux_aws_credentials"),
             "should relate to linux_aws_credentials"
         );
+    }
+
+    #[test]
+    fn has_consolelogin_latency_in_meaning() {
+        let d = CATALOG.by_id("aws_cloudtrail_iam_events").unwrap();
+        assert!(
+            d.meaning.contains("ConsoleLogin"),
+            "meaning should document ConsoleLogin latency from HECF Blog #808"
+        );
+    }
+
+    #[test]
+    fn has_createaccesskey_latency_in_meaning() {
+        let d = CATALOG.by_id("aws_cloudtrail_iam_events").unwrap();
+        assert!(
+            d.meaning.contains("CreateAccessKey ~90 sec"),
+            "meaning should document CreateAccessKey ~90 sec latency from HECF Blog #809"
+        );
+    }
+
+    #[test]
+    fn has_blog_808_809_sources() {
+        let d = CATALOG.by_id("aws_cloudtrail_iam_events").unwrap();
+        assert!(
+            d.sources.iter().any(|s| s.contains("daily-blog-808")),
+            "sources must include HECF Blog #808 (ConsoleLogin latency)"
+        );
+        assert!(
+            d.sources.iter().any(|s| s.contains("daily-blog-809")),
+            "sources must include HECF Blog #809 (CreateAccessKey latency)"
+        );
+    }
+}
+
+// ── Uber iOS LevelDB trip history ───────────────────────────────────────────
+
+#[cfg(test)]
+mod tests_uber_ios_leveldb {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("uber_ios_leveldb").is_some(),
+            "uber_ios_leveldb descriptor must exist"
+        );
+    }
+
+    #[test]
+    fn has_correct_os_scope() {
+        let d = CATALOG.by_id("uber_ios_leveldb").unwrap();
+        assert_eq!(d.os_scope, OsScope::IOS);
+    }
+
+    #[test]
+    fn has_correct_artifact_type() {
+        let d = CATALOG.by_id("uber_ios_leveldb").unwrap();
+        assert_eq!(d.artifact_type, ArtifactType::DatabaseEntry);
+    }
+
+    #[test]
+    fn has_correct_file_path() {
+        let d = CATALOG.by_id("uber_ios_leveldb").unwrap();
+        assert!(
+            d.file_path
+                .unwrap()
+                .contains("com.ubercab.UberClient/storagev2"),
+            "file_path must reference the Uber app storagev2 LevelDB directory"
+        );
+    }
+
+    #[test]
+    fn has_gps_fields() {
+        let d = CATALOG.by_id("uber_ios_leveldb").unwrap();
+        let field_names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(field_names.contains(&"latitude"), "must have latitude field");
+        assert!(
+            field_names.contains(&"longitude"),
+            "must have longitude field"
+        );
+        assert!(
+            field_names.contains(&"gps_time"),
+            "must have gps_time field"
+        );
+        assert!(
+            field_names.contains(&"horizontal_accuracy"),
+            "must have horizontal_accuracy field"
+        );
+        assert!(field_names.contains(&"speed"), "must have speed field");
+        assert!(field_names.contains(&"city"), "must have city field");
+    }
+
+    #[test]
+    fn has_trip_fields() {
+        let d = CATALOG.by_id("uber_ios_leveldb").unwrap();
+        let field_names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(
+            field_names.contains(&"active_trips"),
+            "must have active_trips field"
+        );
+        assert!(
+            field_names.contains(&"timestamp"),
+            "must have timestamp field"
+        );
+    }
+
+    #[test]
+    fn has_mitre_techniques() {
+        let d = CATALOG.by_id("uber_ios_leveldb").unwrap();
+        assert!(
+            d.mitre_techniques.contains(&"T1430"),
+            "should map to Location Tracking"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("uber_ios_leveldb").unwrap();
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("abrignoni.blogspot.com")),
+            "sources must include Brignoni blog post"
+        );
+        assert!(
+            d.sources.iter().any(|s| s.contains("github.com/abrignoni")),
+            "sources must include iLEAPP GitHub repo"
+        );
+    }
+
+    #[test]
+    fn triage_priority_is_high() {
+        let d = CATALOG.by_id("uber_ios_leveldb").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::High);
+    }
+
+    #[test]
+    fn scope_is_user() {
+        let d = CATALOG.by_id("uber_ios_leveldb").unwrap();
+        assert_eq!(d.scope, DataScope::User);
     }
 }
