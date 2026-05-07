@@ -636,6 +636,100 @@ pub(crate) static MACOS_WIFI_INTELLIGENCE: ArtifactDescriptor = ArtifactDescript
     ],
 };
 
+/// APFS (Apple File System) container — the default macOS filesystem since
+/// High Sierra (10.13). An APFS container is a whole-disk structure that holds
+/// one or more APFS volumes (typically "Macintosh HD" and "Macintosh HD - Data"
+/// on modern macOS). Each container has a UUID, checkpoint history, and
+/// space-sharing across volumes.
+///
+/// Forensic acquisition requires identifying the APFS container partition within
+/// a GPT layout. On a raw or E01 image, use `mmls` (Sleuthkit) to find the APFS
+/// partition offset (typically after the EFI System Partition), then calculate
+/// the byte offset (sector_offset * bytes_per_sector) for loopback mounting.
+///
+/// On Linux, the experimental `apfs-fuse` driver (sgan81/apfs-fuse) mounts APFS
+/// containers read-only. It supports encrypted volumes (prompts for password).
+/// Workflow: `ewfmount` (for E01) → `mmls` → `losetup -r -o <byte_offset>` →
+/// `apfs-fuse /dev/loop0 /mnt/apfs`.
+///
+/// APFS uses 4096-byte sectors (not the legacy 512-byte HFS+ sectors), which
+/// affects offset calculations. The container superblock ("NXSB") is at the
+/// start of the APFS partition.
+///
+/// # Sources
+/// - <https://az4n6.blogspot.com/2018/01/mounting-apfs-image-in-linux.html> —
+///   step-by-step APFS mounting on Linux with apfs-fuse, mmls offset calculation
+/// - <https://github.com/sgan81/apfs-fuse> — experimental Linux APFS driver
+// Source: https://developer.apple.com/documentation/foundation/file_system/about_apple_file_system
+pub(crate) static APFS_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
+    id: "apfs_container",
+    name: "APFS Container (Apple File System)",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Apple File System container — the whole-disk structure introduced in macOS \
+        10.13 (High Sierra) that holds one or more APFS volumes with space-sharing, \
+        snapshots, clones, and optional per-volume encryption. Forensic acquisition \
+        requires locating the APFS partition via GPT partition table analysis (mmls), \
+        calculating the byte offset (sector_offset * bytes_per_sector, typically 4096), \
+        and mounting with apfs-fuse on Linux or hdiutil/diskutil on macOS. The container \
+        superblock (magic 'NXSB') anchors all volume metadata. Encrypted volumes require \
+        the user password or recovery key. Critical for any macOS 10.13+ disk forensics — \
+        without proper APFS support, the primary data volume is inaccessible.",
+    mitre_techniques: &["T1005", "T1006"],
+    fields: &[
+        FieldSchema {
+            name: "container_uuid",
+            value_type: ValueType::Guid,
+            description: "UUID identifying the APFS container; unique per physical \
+                container instance",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "volume_name",
+            value_type: ValueType::Text,
+            description: "Name of each APFS volume within the container (e.g. \
+                'Macintosh HD', 'Preboot', 'Recovery')",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "encryption_state",
+            value_type: ValueType::Text,
+            description: "Per-volume encryption status (encrypted/unencrypted); \
+                encrypted volumes require password or recovery key for mounting",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "partition_offset_sectors",
+            value_type: ValueType::UnsignedInt,
+            description: "Starting sector offset of the APFS partition within the \
+                disk image GPT layout; multiply by bytes_per_sector for byte offset",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "bytes_per_sector",
+            value_type: ValueType::UnsignedInt,
+            description: "Sector size in bytes (typically 4096 for APFS, not 512); \
+                critical for correct offset calculation during acquisition",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Persistent; exists for lifetime of the volume"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_fsevents", "macos_spotlight_store"],
+    sources: &[
+        // Source: az4n6 — Linux APFS mounting workflow with mmls, losetup, apfs-fuse
+        "https://az4n6.blogspot.com/2018/01/mounting-apfs-image-in-linux.html",
+        // Source: sgan81 — experimental Linux APFS FUSE driver (read-only, encryption support)
+        "https://github.com/sgan81/apfs-fuse",
+    ],
+};
+
 // ── iOS artifacts ─────────────────────────────────────────────────────────────
 
 /// iOS Apple Unified Log — on-device AUL at `/private/var/db/diagnostics/`

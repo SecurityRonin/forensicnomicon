@@ -4985,8 +4985,8 @@ mod tests_batch_i_presence {
     fn catalog_count_includes_batch_i() {
         assert_eq!(
             CATALOG.list().len(),
-            6613,
-            "catalog must have 6613 entries after batch I + quicklook_thumbnails + windows_install_date + winscp_ini + macos_wifi_intelligence + windows_clipboard_history + ios_unified_log"
+            6614,
+            "catalog must have 6614 entries after batch I + quicklook_thumbnails + windows_install_date + winscp_ini + macos_wifi_intelligence + windows_clipboard_history + ios_unified_log + apfs_container"
         );
     }
 }
@@ -5147,8 +5147,8 @@ mod tests_quicklook_install_date {
     fn catalog_count_includes_quicklook_and_install_date() {
         assert_eq!(
             CATALOG.list().len(),
-            6613,
-            "catalog must have 6613 entries after adding quicklook_thumbnails + windows_install_date + winscp_ini + macos_wifi_intelligence + windows_clipboard_history + ios_unified_log"
+            6614,
+            "catalog must have 6614 entries after adding quicklook_thumbnails + windows_install_date + winscp_ini + macos_wifi_intelligence + windows_clipboard_history + ios_unified_log + apfs_container"
         );
     }
 }
@@ -5305,8 +5305,8 @@ mod tests_winscp_ini {
     fn catalog_count_includes_winscp_ini() {
         assert_eq!(
             CATALOG.list().len(),
-            6613,
-            "catalog must have 6613 entries after adding winscp_ini + macos_wifi_intelligence + windows_clipboard_history"
+            6614,
+            "catalog must have 6614 entries after adding winscp_ini + macos_wifi_intelligence + windows_clipboard_history + apfs_container"
         );
     }
 }
@@ -5561,8 +5561,8 @@ mod tests_windows_clipboard_history {
     fn catalog_count_includes_clipboard_history() {
         assert_eq!(
             CATALOG.list().len(),
-            6613,
-            "catalog must have 6613 entries after adding valley_rat_registry and ntuser_man_persistence"
+            6614,
+            "catalog must have 6614 entries after adding valley_rat_registry and ntuser_man_persistence + apfs_container"
         );
     }
 }
@@ -5970,9 +5970,18 @@ mod tests_apfs_container {
     fn apfs_container_has_fields() {
         let d = CATALOG.by_id("apfs_container").unwrap();
         let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
-        assert!(names.contains(&"container_uuid"), "must have container_uuid field");
-        assert!(names.contains(&"volume_name"), "must have volume_name field");
-        assert!(names.contains(&"encryption_state"), "must have encryption_state field");
+        assert!(
+            names.contains(&"container_uuid"),
+            "must have container_uuid field"
+        );
+        assert!(
+            names.contains(&"volume_name"),
+            "must have volume_name field"
+        );
+        assert!(
+            names.contains(&"encryption_state"),
+            "must have encryption_state field"
+        );
     }
 
     #[test]
@@ -5988,9 +5997,7 @@ mod tests_apfs_container {
     fn apfs_container_cites_az4n6() {
         let d = CATALOG.by_id("apfs_container").unwrap();
         assert!(
-            d.sources
-                .iter()
-                .any(|s| s.contains("az4n6.blogspot.com")),
+            d.sources.iter().any(|s| s.contains("az4n6.blogspot.com")),
             "apfs_container must cite az4n6 blog; sources: {:?}",
             d.sources
         );

@@ -7594,6 +7594,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::MACOS_DIAGNOSTIC_REPORTS,
     macos_ext::MACOS_QUICKLOOK_THUMBNAILS,
     macos_ext::MACOS_WIFI_INTELLIGENCE,
+    macos_ext::APFS_CONTAINER,
     // Extended Linux artifacts (linux_ext)
     linux_ext::LINUX_AUDITD_LOG,
     linux_ext::LINUX_AUDIT_RULES,
