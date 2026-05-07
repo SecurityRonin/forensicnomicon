@@ -335,10 +335,15 @@ pub(crate) static WINDOWS_INSTALL_DATE: ArtifactDescriptor = ArtifactDescriptor 
     meaning: "OS installation timestamp (REG_DWORD, Unix epoch seconds). \
         CAUTION: Windows Feature Updates (starting v.1607/Anniversary Update, 2016) \
         reset this value to the update date, not the original install. \
+        The `systeminfo` command also reflects this incorrect date. \
         Event logs are also wiped on Feature Update. \
-        Evidence reliability is Low without corroboration from CBS.log, \
-        Windows Update history (Software\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\Results), \
+        In civil/criminal cases a recent install date may suggest evidence spoliation, \
+        but Feature Updates produce the same pattern — do not conclude spoliation \
+        without corroborating CBS.log, Windows Update history \
+        (Software\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\Results), \
         or setupapi.upgrade.log. \
+        In corporate environments, OS clone/image deployments also produce \
+        misleading install dates (reflecting the original image build, not deployment). \
         Cross-validate: if InstallDate matches a known Feature Update KB date, \
         the original install date is unknown.",
     mitre_techniques: &[],
