@@ -5079,6 +5079,59 @@ mod tests_quicklook_install_date {
         );
     }
 
+    #[test]
+    fn quicklook_thumbnails_has_original_file_size_field() {
+        let d = CATALOG.by_id("quicklook_thumbnails").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "original_file_size"),
+            "quicklook_thumbnails fields must include 'original_file_size' (from version BLOB plist)"
+        );
+    }
+
+    #[test]
+    fn quicklook_thumbnails_has_original_last_modified_field() {
+        let d = CATALOG.by_id("quicklook_thumbnails").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "original_last_modified"),
+            "quicklook_thumbnails fields must include 'original_last_modified' (from version BLOB plist)"
+        );
+    }
+
+    #[test]
+    fn quicklook_thumbnails_cites_iacis_newcomer() {
+        let d = CATALOG.by_id("quicklook_thumbnails").unwrap();
+        assert!(
+            d.sources.iter().any(|s| s.contains("iacis.org")),
+            "quicklook_thumbnails must cite Sara Newcomer's IACIS white paper; sources: {:?}",
+            d.sources
+        );
+    }
+
+    #[test]
+    fn quicklook_thumbnails_index_sqlite_source_resolves() {
+        let d = CATALOG.by_id("quicklook_thumbnails").unwrap();
+        // The correct URL for the index.sqlite blog post is the May 2016 post
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("az4n6") && s.contains("2016/05")),
+            "quicklook_thumbnails must cite the May 2016 az4n6 post (2016/05/quicklook-python-parser); \
+             the 2016/01 URL is a dead link; sources: {:?}",
+            d.sources
+        );
+    }
+
+    #[test]
+    fn quicklook_thumbnails_meaning_mentions_removable_media() {
+        let d = CATALOG.by_id("quicklook_thumbnails").unwrap();
+        let meaning = d.meaning.to_lowercase();
+        assert!(
+            meaning.contains("removable") || meaning.contains("external") || meaning.contains("thumb drive"),
+            "meaning must note that QuickLook records files from removable/external media; got: {}",
+            d.meaning
+        );
+    }
+
     // ── windows_install_date ──────────────────────────────────────────────────
 
     #[test]
