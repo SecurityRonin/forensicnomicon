@@ -508,7 +508,8 @@ pub(crate) static MACOS_DIAGNOSTIC_REPORTS: ArtifactDescriptor = ArtifactDescrip
 /// # Sources
 /// - <https://az4n6.blogspot.com/2016/10/quicklook-thumbnailsdata-parser.html> — thumbnails.data
 ///   bitmap format, hex extraction via GIMP raw importer
-/// - <https://az4n6.blogspot.com/2016/01/quicklook-thumbnails-parser.html> — index.sqlite schema
+/// - <https://az4n6.blogspot.com/2016/05/quicklook-python-parser-all-your-blobs.html> — index.sqlite schema
+/// - <http://iacis.org/iis/2014/10_iis_2014_421-430.pdf> — Sara Newcomer's IACIS white paper
 pub(crate) static MACOS_QUICKLOOK_THUMBNAILS: ArtifactDescriptor = ArtifactDescriptor {
     id: "quicklook_thumbnails",
     name: "QuickLook Thumbnail Cache",
@@ -524,8 +525,11 @@ pub(crate) static MACOS_QUICKLOOK_THUMBNAILS: ArtifactDescriptor = ArtifactDescr
         thumbnail (Finder column/gallery view, Space-bar preview). Retains file_path and \
         last_hit_date even after the original file is deleted — stronger evidence of human \
         file access than MRU or accessed timestamps alone. hit_count indicates repeated access. \
-        The co-located thumbnails.data file contains raw RGB Alpha bitmaps without standard \
-        headers; images recoverable via hex offset analysis or GIMP raw import. \
+        The files table version BLOB contains a binary plist with the original file's size, \
+        last-modified date, and the QuickLook plugin that generated the thumbnail. \
+        Records files from removable media (e.g. USB thumb drives) and persist after the \
+        volume is ejected. The co-located thumbnails.data file contains raw RGB Alpha bitmaps \
+        without standard headers; images recoverable via hex offset analysis or GIMP raw import. \
         Directory path uses volatile NSURL temp folders — enumerate all \
         /private/var/folders/*/*/C/ subdirectories.",
     mitre_techniques: &["T1005", "T1083"],
@@ -558,6 +562,22 @@ pub(crate) static MACOS_QUICKLOOK_THUMBNAILS: ArtifactDescriptor = ArtifactDescr
                 pivot to mount history if file is on removable media",
             is_uid_component: false,
         },
+        // Source: version BLOB plist fields documented in
+        // https://az4n6.blogspot.com/2016/05/quicklook-python-parser-all-your-blobs.html
+        FieldSchema {
+            name: "original_file_size",
+            value_type: ValueType::UnsignedInt,
+            description: "Size in bytes of the original file at thumbnail generation time; \
+                extracted from the binary plist stored in the files table version BLOB",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "original_last_modified",
+            value_type: ValueType::Timestamp,
+            description: "Last-modified date of the original file (Cocoa epoch); \
+                extracted from the version BLOB plist — useful when the original file is deleted",
+            is_uid_component: false,
+        },
     ],
     retention: Some(
         "Cache cleared on logout/reboot rotation; survives across sessions \
@@ -568,8 +588,10 @@ pub(crate) static MACOS_QUICKLOOK_THUMBNAILS: ArtifactDescriptor = ArtifactDescr
     sources: &[
         // Source: thumbnails.data bitmap format, hex carving, GIMP raw import
         "https://az4n6.blogspot.com/2016/10/quicklook-thumbnailsdata-parser.html",
-        // Source: index.sqlite schema (file_path, last_hit_date, hit_count, volume_uuid)
-        "https://az4n6.blogspot.com/2016/01/quicklook-thumbnails-parser.html",
+        // Source: index.sqlite schema (file_path, last_hit_date, hit_count, volume_uuid, version BLOB)
+        "https://az4n6.blogspot.com/2016/05/quicklook-python-parser-all-your-blobs.html",
+        // Source: Sara Newcomer IACIS white paper — detailed QuickLook artifact analysis
+        "http://iacis.org/iis/2014/10_iis_2014_421-430.pdf",
     ],
 };
 

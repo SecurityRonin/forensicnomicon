@@ -5126,7 +5126,9 @@ mod tests_quicklook_install_date {
         let d = CATALOG.by_id("quicklook_thumbnails").unwrap();
         let meaning = d.meaning.to_lowercase();
         assert!(
-            meaning.contains("removable") || meaning.contains("external") || meaning.contains("thumb drive"),
+            meaning.contains("removable")
+                || meaning.contains("external")
+                || meaning.contains("thumb drive"),
             "meaning must note that QuickLook records files from removable/external media; got: {}",
             d.meaning
         );
