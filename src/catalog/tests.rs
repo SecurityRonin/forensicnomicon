@@ -7068,3 +7068,144 @@ mod tests_garmin_nuvi_voice_log {
         assert!(!d.sources.is_empty());
     }
 }
+
+// ── HEIC Image File ──────────────────────────────────────────────────────
+
+#[cfg(test)]
+mod tests_heic_image_file {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("heic_image_file").is_some(),
+            "catalog must contain 'heic_image_file'"
+        );
+    }
+
+    #[test]
+    fn is_file_type() {
+        let d = CATALOG.by_id("heic_image_file").unwrap();
+        assert_eq!(d.artifact_type, ArtifactType::File);
+    }
+
+    #[test]
+    fn os_scope_is_ios() {
+        let d = CATALOG.by_id("heic_image_file").unwrap();
+        assert_eq!(d.os_scope, OsScope::IOS);
+    }
+
+    #[test]
+    fn triage_is_medium() {
+        let d = CATALOG.by_id("heic_image_file").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Medium);
+    }
+
+    #[test]
+    fn has_fields() {
+        let d = CATALOG.by_id("heic_image_file").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(names.contains(&"major_brand"));
+        assert!(names.contains(&"compatible_brands"));
+        assert!(names.contains(&"handler_type"));
+        assert!(names.contains(&"item_count"));
+        assert!(names.contains(&"exif_gps_latitude"));
+        assert!(names.contains(&"exif_gps_longitude"));
+        assert!(names.contains(&"exif_datetime_original"));
+        assert!(names.contains(&"exif_camera_model"));
+    }
+
+    #[test]
+    fn file_path_set() {
+        let d = CATALOG.by_id("heic_image_file").unwrap();
+        assert!(d.file_path.unwrap().contains(".heic"));
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("heic_image_file").unwrap();
+        assert!(!d.sources.is_empty());
+        // Must cite the cheeky4n6monkey post
+        assert!(
+            d.sources.iter().any(|s| s.contains("cheeky4n6monkey")),
+            "sources must include cheeky4n6monkey HEIC blog post"
+        );
+    }
+
+    #[test]
+    fn meaning_mentions_heif() {
+        let d = CATALOG.by_id("heic_image_file").unwrap();
+        assert!(
+            d.meaning.to_ascii_lowercase().contains("heif")
+                || d.meaning.to_ascii_lowercase().contains("high efficiency"),
+            "meaning should reference HEIF/High Efficiency Image"
+        );
+    }
+}
+
+// ── LAN Turtle Loot ──────────────────────────────────────────────────────
+
+#[cfg(test)]
+mod tests_lan_turtle_loot {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("lan_turtle_loot").is_some(),
+            "catalog must contain 'lan_turtle_loot'"
+        );
+    }
+
+    #[test]
+    fn is_directory_type() {
+        let d = CATALOG.by_id("lan_turtle_loot").unwrap();
+        assert_eq!(d.artifact_type, ArtifactType::Directory);
+    }
+
+    #[test]
+    fn os_scope_is_linux() {
+        let d = CATALOG.by_id("lan_turtle_loot").unwrap();
+        assert_eq!(d.os_scope, OsScope::Linux);
+    }
+
+    #[test]
+    fn triage_is_critical() {
+        let d = CATALOG.by_id("lan_turtle_loot").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::Critical);
+    }
+
+    #[test]
+    fn has_fields() {
+        let d = CATALOG.by_id("lan_turtle_loot").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(names.contains(&"credential_type"));
+        assert!(names.contains(&"victim_hostname"));
+        assert!(names.contains(&"hash_value"));
+    }
+
+    #[test]
+    fn file_path_set() {
+        let d = CATALOG.by_id("lan_turtle_loot").unwrap();
+        assert!(d.file_path.unwrap().contains("/root/loot"));
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("lan_turtle_loot").unwrap();
+        assert!(!d.sources.is_empty());
+        assert!(
+            d.sources.iter().any(|s| s.contains("cheeky4n6monkey")),
+            "sources must include cheeky4n6monkey LAN Turtle blog post"
+        );
+    }
+
+    #[test]
+    fn has_mitre_techniques() {
+        let d = CATALOG.by_id("lan_turtle_loot").unwrap();
+        assert!(
+            d.mitre_techniques.contains(&"T1557.001"),
+            "should map to LLMNR/NBT-NS Poisoning"
+        );
+    }
+}
