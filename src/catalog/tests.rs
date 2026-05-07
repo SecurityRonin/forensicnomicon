@@ -4999,7 +4999,7 @@ mod tests_batch_i_presence {
     fn catalog_count_includes_batch_i() {
         assert_eq!(
             CATALOG.list().len(),
-            6636,
+            6637,
             "catalog count after batch I + quicklook + install_date + winscp + wifi + clipboard + unified_log + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -5258,7 +5258,7 @@ mod tests_quicklook_install_date {
     fn catalog_count_includes_quicklook_and_install_date() {
         assert_eq!(
             CATALOG.list().len(),
-            6636,
+            6637,
             "catalog count after quicklook + install_date + winscp + wifi + clipboard + unified_log + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -5416,7 +5416,7 @@ mod tests_winscp_ini {
     fn catalog_count_includes_winscp_ini() {
         assert_eq!(
             CATALOG.list().len(),
-            6636,
+            6637,
             "catalog count after winscp + wifi + clipboard + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -5672,7 +5672,7 @@ mod tests_windows_clipboard_history {
     fn catalog_count_includes_clipboard_history() {
         assert_eq!(
             CATALOG.list().len(),
-            6636,
+            6637,
             "catalog count after valley_rat + ntuser_man + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -8153,7 +8153,7 @@ mod tests_hyperv_guest_params {
     fn catalog_count_after_hyperv_guest_params() {
         assert_eq!(
             CATALOG.list().len(),
-            6636,
+            6637,
             "catalog count after hyperv_guest_params"
         );
     }
@@ -8313,7 +8313,9 @@ mod tests_registry_featureusage {
     fn registry_featureusage_cites_crowdstrike() {
         let d = CATALOG.by_id("registry_featureusage").unwrap();
         assert!(
-            d.sources.iter().any(|s| s.contains("crowdstrike.com") && s.contains("featureusage")),
+            d.sources
+                .iter()
+                .any(|s| s.contains("crowdstrike.com") && s.contains("featureusage")),
             "must cite CrowdStrike Jai Minton 2020 post"
         );
     }
@@ -8322,7 +8324,9 @@ mod tests_registry_featureusage {
     fn registry_featureusage_cites_windowsir() {
         let d = CATALOG.by_id("registry_featureusage").unwrap();
         assert!(
-            d.sources.iter().any(|s| s.contains("windowsir.blogspot.com") && s.contains("featureusage")),
+            d.sources
+                .iter()
+                .any(|s| s.contains("windowsir.blogspot.com") && s.contains("featureusage")),
             "must cite Carvey WindowsIR 2025-11 post"
         );
     }
@@ -8331,7 +8335,9 @@ mod tests_registry_featureusage {
     fn registry_featureusage_cites_regripper() {
         let d = CATALOG.by_id("registry_featureusage").unwrap();
         assert!(
-            d.sources.iter().any(|s| s.contains("RegRipper") && s.contains("featureusage")),
+            d.sources
+                .iter()
+                .any(|s| s.contains("RegRipper") && s.contains("featureusage")),
             "must cite RegRipper3.0 featureusage.pl plugin"
         );
     }

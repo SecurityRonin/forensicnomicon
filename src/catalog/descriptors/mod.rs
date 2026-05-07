@@ -245,11 +245,79 @@ pub static PCA_APPLAUNCH_DIC: ArtifactDescriptor = ArtifactDescriptor {
     fields: PCA_FIELDS_SCHEMA,
     retention: None,
     triage_priority: TriagePriority::High,
-    related_artifacts: &[],
+    related_artifacts: &["pca_general_db"],
     sources: &[
         "https://aboutdfir.com/new-windows-11-pro-22h2-evidence-of-execution-artifact/",
         "https://www.sygnia.co/blog/new-windows-11-pca-artifact/",
         "https://github.com/Psmths/windows-forensic-artifacts/blob/main/execution/program-compatibility-assistant.md",
+    ],
+};
+
+/// PCA `PcaGeneralDb0.txt` field schema — abnormal-exit records.
+pub(crate) static PCA_GENERAL_DB_FIELDS_SCHEMA: &[FieldSchema] = &[
+    FieldSchema {
+        name: "exe_path",
+        value_type: ValueType::Text,
+        description:
+            "Full path (often %programfiles% / %USERPROFILE%-style) of the process that exited",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "exit_code",
+        value_type: ValueType::Text,
+        description: "Hex Win32 NTSTATUS / process exit code (e.g. 0x2, 0x80) from the \
+                      \"Abnormal process exit with code 0xN\" record",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "timestamp",
+        value_type: ValueType::Text,
+        description: "Unix epoch seconds — Carvey 2024 parsed records use this format; \
+                      raw on-disk records embed FILETIME on Sygnia/AboutDFIR analysis",
+        is_uid_component: false,
+    },
+];
+
+/// Program Compatibility Assistant `PcaGeneralDb0.txt` (Win11 22H2+).
+///
+/// Sibling text-log file to `PcaAppLaunchDic`. Records lines of the form
+/// `<timestamp>|...|<exe_path> - Abnormal process exit with code 0xNN`.
+/// Per Carvey (2024-02-26): "there's nothing in either file that points to
+/// a specific user", so this artifact is `DataScope::System` even though
+/// the recorded executables may live under per-user paths.
+///
+/// Useful for:
+/// - Crash/abnormal-termination evidence for living-off-the-land binaries
+/// - Triage of malware that crashes during sandbox or AV interference
+/// - Long-lived "fossilized" evidence (Carvey: the file persists across
+///   uninstalls of the source app)
+pub static PCA_GENERAL_DB: ArtifactDescriptor = ArtifactDescriptor {
+    id: "pca_general_db",
+    name: "PCA PcaGeneralDb0.txt",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"C:\Windows\appcompat\pca\PcaGeneralDb0.txt"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win11_22H2,
+    decoder: Decoder::Identity,
+    meaning: "Program Compatibility Assistant abnormal-exit log — each record captures \
+              an executable path plus its abnormal process exit code (e.g. 0x2, 0x80). \
+              Sibling to PcaAppLaunchDic in C:\\Windows\\appcompat\\pca\\. \
+              No user attribution is recorded in the file itself, so analysts must correlate \
+              with EVTX / EDR telemetry to assign activity to a specific user.",
+    mitre_techniques: &["T1059", "T1204.002"],
+    fields: PCA_GENERAL_DB_FIELDS_SCHEMA,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["pca_applaunch_dic"],
+    // Source: Harlan Carvey, "PCAParse" (2024-02-26) — first public DFIR-side
+    // documentation of PcaGeneralDb0.txt's "Abnormal process exit with code 0xNN" format.
+    sources: &[
+        "https://windowsir.blogspot.com/2024/02/pcaparse.html",
+        "https://www.sygnia.co/blog/new-windows-11-pca-artifact/",
+        "https://aboutdfir.com/new-windows-11-pro-22h2-evidence-of-execution-artifact/",
     ],
 };
 
@@ -7325,6 +7393,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     TYPED_URLS,
     TYPED_URLS_TIME,
     PCA_APPLAUNCH_DIC,
+    PCA_GENERAL_DB,
     IFEO_DEBUGGER,
     SHELLBAGS_USER,
     AMCACHE_APP_FILE,
