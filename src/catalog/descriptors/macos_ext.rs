@@ -585,7 +585,7 @@ pub(crate) static MACOS_QUICKLOOK_THUMBNAILS: ArtifactDescriptor = ArtifactDescr
 /// sometimes spans a few months back.
 ///
 /// Parsers: mac_apt WIFI_INTELLIGENCE plugin, Velociraptor artifact exchange.
-// Source: http://www.swiftforensics.com/2025/01/new-wifi-database-from-apple.html
+// Source: https://www.swiftforensics.com/2025/01/new-wifi-database-from-apple.html
 pub(crate) static MACOS_WIFI_INTELLIGENCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_wifi_intelligence",
     name: "Apple Intelligence WiFi Context Events",
@@ -632,6 +632,6 @@ pub(crate) static MACOS_WIFI_INTELLIGENCE: ArtifactDescriptor = ArtifactDescript
     related_artifacts: &["macos_wifi_plist", "macos_knowledgec"],
     sources: &[
         // Source: Yogesh Khatri — discovery of wifiContextEvents table in views.db
-        "http://www.swiftforensics.com/2025/01/new-wifi-database-from-apple.html",
+        "https://www.swiftforensics.com/2025/01/new-wifi-database-from-apple.html",
     ],
 };
