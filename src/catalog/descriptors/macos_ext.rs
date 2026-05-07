@@ -656,7 +656,15 @@ pub(crate) static MACOS_WIFI_INTELLIGENCE: ArtifactDescriptor = ArtifactDescript
 /// affects offset calculations. The container superblock ("NXSB") is at the
 /// start of the APFS partition.
 ///
+/// On Windows, Paragon's "APFS for Windows" driver can mount APFS volumes
+/// natively once the image is presented as a SCSI device via Arsenal Image
+/// Mounter (sector size must be set to 4096). The Paragon driver auto-detects
+/// the APFS volume. This does NOT work for FileVault-encrypted disks — Arsenal
+/// only emulates a physical disk; decryption requires the actual APFS stack.
+///
 /// # Sources
+/// - <https://az4n6.blogspot.com/2018/01/how-to-mount-mac-apfs-images-in-windows.html> —
+///   Windows APFS mounting via Arsenal Image Mounter + Paragon APFS driver
 /// - <https://az4n6.blogspot.com/2018/01/mounting-apfs-image-in-linux.html> —
 ///   step-by-step APFS mounting on Linux with apfs-fuse, mmls offset calculation
 /// - <https://github.com/sgan81/apfs-fuse> — experimental Linux APFS driver
@@ -677,10 +685,13 @@ pub(crate) static APFS_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
         snapshots, clones, and optional per-volume encryption. Forensic acquisition \
         requires locating the APFS partition via GPT partition table analysis (mmls), \
         calculating the byte offset (sector_offset * bytes_per_sector, typically 4096), \
-        and mounting with apfs-fuse on Linux or hdiutil/diskutil on macOS. The container \
-        superblock (magic 'NXSB') anchors all volume metadata. Encrypted volumes require \
-        the user password or recovery key. Critical for any macOS 10.13+ disk forensics — \
-        without proper APFS support, the primary data volume is inaccessible.",
+        and mounting with apfs-fuse on Linux or hdiutil/diskutil on macOS. On Windows, \
+        Arsenal Image Mounter can present the image as a SCSI device (sector size 4096) \
+        so that Paragon APFS for Windows auto-detects and mounts the volume — but this \
+        does not work for FileVault-encrypted disks. The container superblock (magic \
+        'NXSB') anchors all volume metadata. Encrypted volumes require the user password \
+        or recovery key. Critical for any macOS 10.13+ disk forensics — without proper \
+        APFS support, the primary data volume is inaccessible.",
     mitre_techniques: &["T1005", "T1006"],
     fields: &[
         FieldSchema {
@@ -723,9 +734,13 @@ pub(crate) static APFS_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_fsevents", "macos_spotlight_store"],
     sources: &[
-        // Source: az4n6 — Linux APFS mounting workflow with mmls, losetup, apfs-fuse
+        // Source: https://az4n6.blogspot.com/2018/01/how-to-mount-mac-apfs-images-in-windows.html
+        // — Windows APFS mounting via Arsenal Image Mounter (SCSI, 4096 sectors) + Paragon driver
+        "https://az4n6.blogspot.com/2018/01/how-to-mount-mac-apfs-images-in-windows.html",
+        // Source: https://az4n6.blogspot.com/2018/01/mounting-apfs-image-in-linux.html
+        // — Linux APFS mounting workflow with mmls, losetup, apfs-fuse
         "https://az4n6.blogspot.com/2018/01/mounting-apfs-image-in-linux.html",
-        // Source: sgan81 — experimental Linux APFS FUSE driver (read-only, encryption support)
+        // Source: https://github.com/sgan81/apfs-fuse — experimental Linux APFS FUSE driver
         "https://github.com/sgan81/apfs-fuse",
     ],
 };
