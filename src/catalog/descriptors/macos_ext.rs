@@ -167,7 +167,7 @@ pub(crate) static MACOS_WIFI_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     ],
     retention: Some("Persistent; manually cleared or limited by OS"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["macos_unified_log"],
+    related_artifacts: &["macos_unified_log", "macos_wifi_intelligence"],
     sources: &["https://www.mac4n6.com/blog/2016/6/3/ode-to-the-network"],
 };
 
@@ -570,5 +570,68 @@ pub(crate) static MACOS_QUICKLOOK_THUMBNAILS: ArtifactDescriptor = ArtifactDescr
         "https://az4n6.blogspot.com/2016/10/quicklook-thumbnailsdata-parser.html",
         // Source: index.sqlite schema (file_path, last_hit_date, hit_count, volume_uuid)
         "https://az4n6.blogspot.com/2016/01/quicklook-thumbnails-parser.html",
+    ],
+};
+
+/// Apple Intelligence WiFi context events database.
+///
+/// macOS 15.1+ (Sequoia) on Apple Silicon (M1+) creates an IntelligencePlatform
+/// directory under ~/Library/. The `views.db` SQLite database contains a
+/// `wifiContextEvents` table that logs every WiFi connect and disconnect event
+/// with timestamps (Cocoa/NSDate epoch). The folder structure exists even on
+/// macOS 14+ devices without Apple Silicon, though the database may be empty.
+///
+/// Data is periodically emptied — typically contains the current month but
+/// sometimes spans a few months back.
+///
+/// Parsers: mac_apt WIFI_INTELLIGENCE plugin, Velociraptor artifact exchange.
+// Source: http://www.swiftforensics.com/2025/01/new-wifi-database-from-apple.html
+pub(crate) static MACOS_WIFI_INTELLIGENCE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_wifi_intelligence",
+    name: "Apple Intelligence WiFi Context Events",
+    artifact_type: ArtifactType::DatabaseEntry,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Source: http://www.swiftforensics.com/2025/01/new-wifi-database-from-apple.html
+    file_path: Some("/Users/*/Library/IntelligencePlatform/Artifacts/internal/views.db"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "SQLite database (table wifiContextEvents) logging every WiFi network connect \
+        and disconnect event with Cocoa/NSDate timestamps. Reveals network connection \
+        history including SSIDs and connection/disconnection timing. Complements the \
+        traditional com.apple.airport.preferences.plist which records known networks \
+        but not granular connect/disconnect events. Requires macOS 15.1+ (Sequoia) on \
+        Apple Silicon (M1+). Data is periodically emptied — typically covers the \
+        current month.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema {
+            name: "ssid",
+            value_type: ValueType::Text,
+            description: "WiFi network SSID for the connect/disconnect event",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "event_type",
+            value_type: ValueType::Text,
+            description: "Event type: connect or disconnect",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "timestamp",
+            value_type: ValueType::Timestamp,
+            description: "Cocoa/NSDate epoch timestamp (seconds since 2001-01-01); \
+                convert: unix_ts = cocoa_ts + 978307200",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Periodically emptied; typically current month, sometimes a few months"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_wifi_plist", "macos_knowledgec"],
+    sources: &[
+        // Source: Yogesh Khatri — discovery of wifiContextEvents table in views.db
+        "http://www.swiftforensics.com/2025/01/new-wifi-database-from-apple.html",
     ],
 };

@@ -5387,7 +5387,9 @@ mod tests_macos_wifi_intelligence {
     fn macos_wifi_intelligence_has_timestamp_field() {
         let d = CATALOG.by_id("macos_wifi_intelligence").unwrap();
         assert!(
-            d.fields.iter().any(|f| f.name == "timestamp" && f.value_type == ValueType::Timestamp),
+            d.fields
+                .iter()
+                .any(|f| f.name == "timestamp" && f.value_type == ValueType::Timestamp),
             "macos_wifi_intelligence must have a Timestamp-typed 'timestamp' field"
         );
     }
