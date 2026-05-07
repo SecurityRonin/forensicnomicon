@@ -288,12 +288,18 @@ absent on success",
 /// are recorded in the us-east-1 region regardless of where the API call
 /// originates.
 ///
-/// Empirical latency measurements (David Cowen, HECF Blog #810-#812, April 2025):
+/// Empirical latency measurements (David Cowen, HECF Blog #808-#812, April 2025):
+///   - ConsoleLogin: ~90 sec (region-specific — logged in the console login region)
+///   - CreateAccessKey: ~90 sec (IAM global — logged in us-east-1)
 ///   - CreateUser: ~2 minutes
 ///   - AddUserToGroup: ~2 minutes
 ///   - RemoveUserFromGroup: ~1 min 45 sec
 /// All well within the 15-minute SLA and the 5-minute target for critical events.
+/// Note: ConsoleLogin events are region-specific (logged in the region of the login
+/// URL), unlike IAM management events which are always in us-east-1.
 ///
+/// Source: https://www.hecfblog.com/2025/04/daily-blog-808-testing-aws-log-latency.html
+/// Source: https://www.hecfblog.com/2025/04/daily-blog-809-testing-aws-log-latency.html
 /// Source: https://www.hecfblog.com/2025/04/daily-blog-810-testing-aws-log-latency.html
 /// Source: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html
 pub(crate) static AWS_CLOUDTRAIL_IAM_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -311,9 +317,11 @@ pub(crate) static AWS_CLOUDTRAIL_IAM_EVENTS: ArtifactDescriptor = ArtifactDescri
 IAM is a global service — all IAM events (CreateUser, DeleteUser, AddUserToGroup, \
 RemoveUserFromGroup, AttachUserPolicy, DetachUserPolicy, CreateAccessKey, DeleteAccessKey) \
 are logged exclusively in us-east-1 regardless of the caller's region. \
-Empirical log delivery latency (HECF Blog, April 2025): CreateUser ~2 min, \
-AddUserToGroup ~2 min, RemoveUserFromGroup ~1 min 45 sec — all within the \
-15-minute SLA and 5-minute critical-event target. \
+ConsoleLogin events are region-specific (logged in the region of the login URL, not us-east-1). \
+Empirical log delivery latency (HECF Blog, April 2025): ConsoleLogin ~90 sec, \
+CreateAccessKey ~90 sec, CreateUser ~2 min, AddUserToGroup ~2 min, \
+RemoveUserFromGroup ~1 min 45 sec — all within the 15-minute SLA and 5-minute \
+critical-event target. \
 Key forensic fields: userIdentity (who did it), sourceIPAddress (from where), \
 requestParameters (what was changed), responseElements (result including new ARNs). \
 Cross-reference with GuardDuty findings and AWS Config change items for full IR picture.",
@@ -328,6 +336,10 @@ organization trails and custom S3 lifecycle policies may extend or shorten"),
     triage_priority: TriagePriority::Critical,
     related_artifacts: &["linux_aws_credentials"],
     sources: &[
+        // Source: https://www.hecfblog.com/2025/04/daily-blog-808-testing-aws-log-latency.html (ConsoleLogin ~90 sec latency, region-specific)
+        "https://www.hecfblog.com/2025/04/daily-blog-808-testing-aws-log-latency.html",
+        // Source: https://www.hecfblog.com/2025/04/daily-blog-809-testing-aws-log-latency.html (CreateAccessKey ~90 sec latency in us-east-1)
+        "https://www.hecfblog.com/2025/04/daily-blog-809-testing-aws-log-latency.html",
         // Source: https://www.hecfblog.com/2025/04/daily-blog-810-testing-aws-log-latency.html (CreateUser ~2 min latency)
         "https://www.hecfblog.com/2025/04/daily-blog-810-testing-aws-log-latency.html",
         // Source: https://www.hecfblog.com/2025/04/daily-blog-811-testing-aws-log-latency.html (AddUserToGroup ~2 min latency)

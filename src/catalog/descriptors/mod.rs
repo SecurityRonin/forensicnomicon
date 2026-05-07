@@ -13976,6 +13976,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::IOS_UNIFIED_LOG,
     macos_ext::IOS14_MAPS_HISTORY,
     macos_ext::HEIC_IMAGE_FILE,
+    macos_ext::UBER_IOS_LEVELDB,
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,
     android_ext::SAMSUNG_GALLERY3D_LOG,

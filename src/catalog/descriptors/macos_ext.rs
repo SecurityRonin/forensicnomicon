@@ -1133,3 +1133,133 @@ pub(crate) static IOS14_MAPS_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     ],
     related_artifacts: &[],
 };
+
+// ── Uber iOS LevelDB trip/location history ──────────────────────────────────
+
+/// Field schema for Uber iOS LevelDB location records.
+/// Source: https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/uberLeveldb.py
+pub(crate) static UBER_IOS_LEVELDB_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "timestamp",
+        value_type: ValueType::Timestamp,
+        // Source: https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/uberLeveldb.py
+        description: "Record timestamp from jsonConformingObject.meta.time_ms (epoch ms)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "city",
+        value_type: ValueType::Text,
+        description: "City name from the location metadata",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "speed",
+        value_type: ValueType::Text,
+        description: "Speed value from the location metadata",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "gps_time",
+        value_type: ValueType::Timestamp,
+        // Source: https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/uberLeveldb.py
+        description: "GPS fix timestamp from location.gps_time_ms (epoch ms)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "latitude",
+        value_type: ValueType::Text,
+        description: "GPS latitude coordinate",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "longitude",
+        value_type: ValueType::Text,
+        description: "GPS longitude coordinate",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "horizontal_accuracy",
+        value_type: ValueType::Text,
+        description: "Horizontal accuracy of the GPS fix in meters",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "ui_timestamp",
+        value_type: ValueType::Timestamp,
+        description: "UI state timestamp from ui_state.timestamp_ms (epoch ms)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "ui_metadata",
+        value_type: ValueType::Text,
+        description: "UI state metadata string",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "ui_scene",
+        value_type: ValueType::Text,
+        description: "UI scene identifier (e.g. ride request, in-trip, idle)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "active_trips",
+        value_type: ValueType::Text,
+        description: "Active trip information from the record data payload",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "record_sequence",
+        value_type: ValueType::Integer,
+        description: "LevelDB record sequence number",
+        is_uid_component: true,
+    },
+];
+
+/// Uber iOS app LevelDB location and trip history.
+///
+/// The Uber rider app (com.ubercab.UberClient) stores JSON-serialized location
+/// telemetry in a LevelDB database under the storagev2 directory. Each record
+/// contains GPS coordinates, speed, city, horizontal accuracy, timestamps, UI
+/// state, and active trip information. Parsed by iLEAPP's uberLeveldb module.
+///
+/// Source: https://abrignoni.blogspot.com/2024/04/new-parser-for-uber-app-geo-locatios-in.html
+/// Source: https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/uberLeveldb.py
+pub(crate) static UBER_IOS_LEVELDB: ArtifactDescriptor = ArtifactDescriptor {
+    id: "uber_ios_leveldb",
+    name: "Uber iOS LevelDB Location/Trip History",
+    artifact_type: ArtifactType::DatabaseEntry,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Source: https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/uberLeveldb.py
+    file_path: Some(
+        "/Data/Application/*/Library/Application Support/com.ubercab.UberClient/storagev2/*",
+    ),
+    scope: DataScope::User,
+    os_scope: OsScope::IOS,
+    decoder: Decoder::Identity,
+    meaning: "Uber iOS rider app LevelDB location and trip telemetry. Each JSON record \
+in the storagev2 LevelDB contains: GPS coordinates (latitude/longitude), speed, city, \
+horizontal accuracy, GPS fix timestamp, record timestamp, UI state (scene, metadata), \
+and active trip information. Records are JSON-serialized under the key path \
+jsonConformingObject.meta (timestamps, location) and jsonConformingObject.data \
+(active_trips, ui_state, app_type_value_map). Timestamps are epoch milliseconds. \
+Forensically valuable for establishing user location history, trip patterns, and \
+movement timelines. Parsed by iLEAPP uberLeveldb module using CCL Solutions' \
+LevelDB libraries.",
+    mitre_techniques: &[
+        "T1430", // Location Tracking (mobile)
+    ],
+    fields: UBER_IOS_LEVELDB_FIELDS,
+    retention: Some("Persists until app data is cleared or app is uninstalled"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[],
+    sources: &[
+        // Source: https://abrignoni.blogspot.com/2024/04/new-parser-for-uber-app-geo-locatios-in.html (original blog post announcing the parser)
+        "https://abrignoni.blogspot.com/2024/04/new-parser-for-uber-app-geo-locatios-in.html",
+        // Source: https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/uberLeveldb.py (iLEAPP parser source with path and field extraction)
+        "https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/uberLeveldb.py",
+        // Source: https://github.com/cclgroupltd/ccl_chrome_indexeddb (CCL LevelDB libraries used by the parser)
+        "https://github.com/cclgroupltd/ccl_chrome_indexeddb",
+    ],
+};
