@@ -5441,3 +5441,126 @@ mod tests_macos_wifi_intelligence {
         );
     }
 }
+
+// ── Windows Clipboard History ─────────────────────────────────────────────────
+
+#[cfg(test)]
+mod tests_windows_clipboard_history {
+    use super::*;
+
+    #[test]
+    fn windows_clipboard_history_exists() {
+        assert!(
+            CATALOG.by_id("windows_clipboard_history").is_some(),
+            "catalog must contain 'windows_clipboard_history'"
+        );
+    }
+
+    #[test]
+    fn windows_clipboard_history_is_windows() {
+        let d = CATALOG.by_id("windows_clipboard_history").unwrap();
+        assert_eq!(
+            d.os_scope,
+            OsScope::Win10Plus,
+            "windows_clipboard_history must be Win10Plus scope"
+        );
+    }
+
+    #[test]
+    fn windows_clipboard_history_is_registry() {
+        let d = CATALOG.by_id("windows_clipboard_history").unwrap();
+        assert_eq!(
+            d.artifact_type,
+            ArtifactType::RegistryKey,
+            "windows_clipboard_history must be RegistryKey type"
+        );
+    }
+
+    #[test]
+    fn windows_clipboard_history_key_path_contains_clipboard() {
+        let d = CATALOG.by_id("windows_clipboard_history").unwrap();
+        assert!(
+            d.key_path.contains("Clipboard"),
+            "key_path must reference Clipboard; got: {}",
+            d.key_path
+        );
+    }
+
+    #[test]
+    fn windows_clipboard_history_has_enable_field() {
+        let d = CATALOG.by_id("windows_clipboard_history").unwrap();
+        assert!(
+            d.fields
+                .iter()
+                .any(|f| f.name == "enable_clipboard_history"),
+            "windows_clipboard_history must have 'enable_clipboard_history' field"
+        );
+    }
+
+    #[test]
+    fn windows_clipboard_history_has_sync_field() {
+        let d = CATALOG.by_id("windows_clipboard_history").unwrap();
+        assert!(
+            d.fields
+                .iter()
+                .any(|f| f.name == "allow_cross_device_clipboard"),
+            "windows_clipboard_history must have 'allow_cross_device_clipboard' field"
+        );
+    }
+
+    #[test]
+    fn windows_clipboard_history_mitre_t1115() {
+        let d = CATALOG.by_id("windows_clipboard_history").unwrap();
+        assert!(
+            d.mitre_techniques.contains(&"T1115"),
+            "windows_clipboard_history must map to T1115 (Clipboard Data)"
+        );
+    }
+
+    #[test]
+    fn windows_clipboard_history_triage_medium() {
+        let d = CATALOG.by_id("windows_clipboard_history").unwrap();
+        assert_eq!(
+            d.triage_priority,
+            TriagePriority::Medium,
+            "windows_clipboard_history triage should be Medium"
+        );
+    }
+
+    #[test]
+    fn windows_clipboard_history_related_includes_timeline() {
+        let d = CATALOG.by_id("windows_clipboard_history").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"windows_timeline"),
+            "windows_clipboard_history should relate to windows_timeline"
+        );
+    }
+
+    #[test]
+    fn windows_clipboard_history_cites_windowsir() {
+        let d = CATALOG.by_id("windows_clipboard_history").unwrap();
+        assert!(
+            d.sources.iter().any(|s| s.contains("windowsir.blogspot.com")),
+            "windows_clipboard_history must cite windowsir.blogspot.com as source"
+        );
+    }
+
+    #[test]
+    fn windows_clipboard_history_user_scope() {
+        let d = CATALOG.by_id("windows_clipboard_history").unwrap();
+        assert_eq!(
+            d.scope,
+            DataScope::User,
+            "windows_clipboard_history is per-user (HKCU)"
+        );
+    }
+
+    #[test]
+    fn catalog_count_includes_clipboard_history() {
+        assert_eq!(
+            CATALOG.list().len(),
+            6610,
+            "catalog must have 6610 entries after adding windows_clipboard_history"
+        );
+    }
+}
