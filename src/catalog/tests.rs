@@ -264,7 +264,7 @@ mod decode_tests {
     #[test]
     fn catalog_has_entries() {
         assert!(!CATALOG.list().is_empty());
-        assert_eq!(CATALOG.list().len(), 6636);
+        assert_eq!(CATALOG.list().len(), 6637);
     }
 
     #[test]
@@ -2597,7 +2597,7 @@ mod tests_batch_d {
     #[test]
     fn catalog_count_after_srum_network_connections() {
         // +1 from srum_network_connections
-        assert_eq!(CATALOG.list().len(), 6636);
+        assert_eq!(CATALOG.list().len(), 6637);
     }
 
     // ── EVTX channels ─────────────────────────────────────────────────────
@@ -3498,7 +3498,7 @@ mod phase2_registry_tests {
     #[test]
     fn catalog_count_includes_phase2() {
         // Updated to 354 after phase-2b file artifact additions
-        assert_eq!(CATALOG.list().len(), 6636);
+        assert_eq!(CATALOG.list().len(), 6637);
     }
 
     #[test]
@@ -3643,7 +3643,7 @@ mod phase2b_files_tests {
     fn catalog_count_includes_phase2b() {
         // phase2a adds 30 registry artifacts (284→314), phase2b adds 40 file artifacts (314→354)
         // Note: chrome_login_data was already present from Phase 1; not duplicated here.
-        assert_eq!(CATALOG.list().len(), 6636);
+        assert_eq!(CATALOG.list().len(), 6637);
     }
 
     #[test]
@@ -3946,7 +3946,7 @@ mod phase3_persistence_tests {
         // phase3 adds 7 net-new artifacts not already in catalog (354 → 361)
         // Note: winlogon_shell, winlogon_userinit, appinit_dlls, boot_execute,
         //       ifeo_debugger, netsh_helper_dlls, mountpoints2 were already present.
-        assert_eq!(CATALOG.list().len(), 6636);
+        assert_eq!(CATALOG.list().len(), 6637);
     }
 
     // ── Pre-existing artifacts verified present ───────────────────────────────
@@ -8050,7 +8050,7 @@ mod tests_android_gboard_trainingcache {
 
     #[test]
     fn catalog_count_updated() {
-        assert_eq!(CATALOG.list().len(), 6636);
+        assert_eq!(CATALOG.list().len(), 6637);
     }
 }
 
@@ -8340,8 +8340,154 @@ mod tests_registry_featureusage {
     fn catalog_count_after_registry_featureusage() {
         assert_eq!(
             CATALOG.list().len(),
-            6636,
+            6637,
             "catalog count after registry_featureusage"
+        );
+    }
+}
+
+mod tests_pca_general_db {
+    use super::*;
+
+    #[test]
+    fn pca_general_db_exists() {
+        assert!(
+            CATALOG.by_id("pca_general_db").is_some(),
+            "catalog must contain 'pca_general_db'"
+        );
+    }
+
+    #[test]
+    fn pca_general_db_is_file() {
+        let d = CATALOG.by_id("pca_general_db").unwrap();
+        assert_eq!(d.artifact_type, ArtifactType::File);
+    }
+
+    #[test]
+    fn pca_general_db_path_under_appcompat_pca() {
+        let d = CATALOG.by_id("pca_general_db").unwrap();
+        let p = d.file_path.unwrap_or("");
+        assert!(
+            p.contains(r"Windows\appcompat\pca") && p.contains("PcaGeneralDb"),
+            "file_path must reference C:\\Windows\\appcompat\\pca\\PcaGeneralDb*; got: {}",
+            p
+        );
+    }
+
+    #[test]
+    fn pca_general_db_scope_system() {
+        let d = CATALOG.by_id("pca_general_db").unwrap();
+        assert_eq!(
+            d.scope,
+            DataScope::System,
+            "PcaGeneralDb is not user-keyed (Carvey: \"there's nothing in either file that points to a specific user\")"
+        );
+    }
+
+    #[test]
+    fn pca_general_db_os_scope_win11_22h2() {
+        let d = CATALOG.by_id("pca_general_db").unwrap();
+        assert_eq!(
+            d.os_scope,
+            OsScope::Win11_22H2,
+            "PCA log files were introduced in Windows 11 22H2 (same as PcaAppLaunchDic)"
+        );
+    }
+
+    #[test]
+    fn pca_general_db_meaning_mentions_abnormal_exit() {
+        let d = CATALOG.by_id("pca_general_db").unwrap();
+        let m = d.meaning.to_lowercase();
+        assert!(
+            m.contains("abnormal") && m.contains("exit"),
+            "meaning must describe abnormal-exit records (Carvey: \"Abnormal process exit with code 0x...\"); got: {}",
+            d.meaning
+        );
+    }
+
+    #[test]
+    fn pca_general_db_has_exe_path_field() {
+        let d = CATALOG.by_id("pca_general_db").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "exe_path"),
+            "fields must document exe_path"
+        );
+    }
+
+    #[test]
+    fn pca_general_db_has_exit_code_field() {
+        let d = CATALOG.by_id("pca_general_db").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "exit_code"),
+            "fields must document exit_code (hex Win32 NTSTATUS — e.g. 0x2, 0x80)"
+        );
+    }
+
+    #[test]
+    fn pca_general_db_has_timestamp_field() {
+        let d = CATALOG.by_id("pca_general_db").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "timestamp"),
+            "fields must document timestamp (Unix epoch in seconds, per Carvey/Sygnia)"
+        );
+    }
+
+    #[test]
+    fn pca_general_db_related_to_applaunch_dic() {
+        let d = CATALOG.by_id("pca_general_db").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"pca_applaunch_dic"),
+            "must relate to pca_applaunch_dic (sibling file in same folder)"
+        );
+    }
+
+    #[test]
+    fn pca_general_db_triage_high() {
+        let d = CATALOG.by_id("pca_general_db").unwrap();
+        assert_eq!(
+            d.triage_priority,
+            TriagePriority::High,
+            "execution evidence with abnormal-exit signal — High triage like sibling pca_applaunch_dic"
+        );
+    }
+
+    #[test]
+    fn pca_general_db_cites_carvey_pcaparse() {
+        let d = CATALOG.by_id("pca_general_db").unwrap();
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("windowsir.blogspot.com") && s.contains("pcaparse")),
+            "must cite Carvey WindowsIR 2024-02 PCAParse post (documents PcaGeneralDb0.txt fields)"
+        );
+    }
+
+    #[test]
+    fn pca_general_db_cites_sygnia() {
+        let d = CATALOG.by_id("pca_general_db").unwrap();
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("sygnia.co") && s.contains("pca")),
+            "must cite Sygnia Win11 PCA artifact write-up"
+        );
+    }
+
+    #[test]
+    fn pca_general_db_mitre_t1059_or_t1204() {
+        let d = CATALOG.by_id("pca_general_db").unwrap();
+        assert!(
+            d.mitre_techniques.contains(&"T1059") || d.mitre_techniques.contains(&"T1204.002"),
+            "must map to execution technique (T1059 or T1204.002), like pca_applaunch_dic"
+        );
+    }
+
+    #[test]
+    fn catalog_count_after_pca_general_db() {
+        assert_eq!(
+            CATALOG.list().len(),
+            6637,
+            "catalog count after pca_general_db"
         );
     }
 }
