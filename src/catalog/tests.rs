@@ -264,7 +264,7 @@ mod decode_tests {
     #[test]
     fn catalog_has_entries() {
         assert!(!CATALOG.list().is_empty());
-        assert_eq!(CATALOG.list().len(), 6614);
+        assert_eq!(CATALOG.list().len(), 6616);
     }
 
     #[test]
@@ -2597,7 +2597,7 @@ mod tests_batch_d {
     #[test]
     fn catalog_count_after_srum_network_connections() {
         // +1 from srum_network_connections
-        assert_eq!(CATALOG.list().len(), 6614);
+        assert_eq!(CATALOG.list().len(), 6616);
     }
 
     // ── EVTX channels ─────────────────────────────────────────────────────
@@ -3498,7 +3498,7 @@ mod phase2_registry_tests {
     #[test]
     fn catalog_count_includes_phase2() {
         // Updated to 354 after phase-2b file artifact additions
-        assert_eq!(CATALOG.list().len(), 6614);
+        assert_eq!(CATALOG.list().len(), 6616);
     }
 
     #[test]
@@ -3643,7 +3643,7 @@ mod phase2b_files_tests {
     fn catalog_count_includes_phase2b() {
         // phase2a adds 30 registry artifacts (284→314), phase2b adds 40 file artifacts (314→354)
         // Note: chrome_login_data was already present from Phase 1; not duplicated here.
-        assert_eq!(CATALOG.list().len(), 6614);
+        assert_eq!(CATALOG.list().len(), 6616);
     }
 
     #[test]
@@ -3946,7 +3946,7 @@ mod phase3_persistence_tests {
         // phase3 adds 7 net-new artifacts not already in catalog (354 → 361)
         // Note: winlogon_shell, winlogon_userinit, appinit_dlls, boot_execute,
         //       ifeo_debugger, netsh_helper_dlls, mountpoints2 were already present.
-        assert_eq!(CATALOG.list().len(), 6614);
+        assert_eq!(CATALOG.list().len(), 6616);
     }
 
     // ── Pre-existing artifacts verified present ───────────────────────────────
@@ -6280,6 +6280,151 @@ mod az4n6_mac_live_imaging_tests {
         assert!(
             d.meaning.contains("rdisk"),
             "apfs_container meaning must mention /dev/rdisk for faster raw device imaging"
+        );
+    }
+
+    // ── Google Takeout Location Records ─────────────────────────────────
+
+    #[test]
+    fn google_takeout_location_records_exists() {
+        let d = CATALOG.by_id("google_takeout_location_records").unwrap();
+        assert_eq!(d.name, "Google Takeout Location Records");
+        assert_eq!(d.artifact_type, ArtifactType::File);
+        assert_eq!(d.os_scope, OsScope::All);
+        assert_eq!(d.scope, DataScope::User);
+    }
+
+    #[test]
+    fn google_takeout_location_records_file_path() {
+        let d = CATALOG.by_id("google_takeout_location_records").unwrap();
+        let fp = d.file_path.unwrap();
+        assert!(
+            fp.contains("Records.json"),
+            "file_path must reference Records.json: {fp}"
+        );
+        assert!(
+            fp.contains("Location History"),
+            "file_path must reference Location History folder: {fp}"
+        );
+    }
+
+    #[test]
+    fn google_takeout_location_records_fields() {
+        let d = CATALOG.by_id("google_takeout_location_records").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(names.contains(&"latitudeE7"), "must have latitudeE7 field");
+        assert!(names.contains(&"longitudeE7"), "must have longitudeE7 field");
+        assert!(names.contains(&"timestamp"), "must have timestamp field");
+        assert!(names.contains(&"activity"), "must have activity field");
+        assert!(names.contains(&"source"), "must have source field");
+        assert!(names.contains(&"deviceTag"), "must have deviceTag field");
+        assert!(names.contains(&"accuracy"), "must have accuracy field");
+    }
+
+    #[test]
+    fn google_takeout_location_records_meaning_mentions_detected_activity() {
+        let d = CATALOG.by_id("google_takeout_location_records").unwrap();
+        assert!(
+            d.meaning.contains("DetectedActivity"),
+            "meaning must mention DetectedActivity classification: {}",
+            d.meaning
+        );
+    }
+
+    #[test]
+    fn google_takeout_location_records_meaning_mentions_activity_types() {
+        let d = CATALOG.by_id("google_takeout_location_records").unwrap();
+        assert!(
+            d.meaning.contains("STILL") && d.meaning.contains("IN_VEHICLE") && d.meaning.contains("ON_FOOT"),
+            "meaning must enumerate key DetectedActivity types: {}",
+            d.meaning
+        );
+    }
+
+    #[test]
+    fn google_takeout_location_records_triage() {
+        let d = CATALOG.by_id("google_takeout_location_records").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::High);
+    }
+
+    #[test]
+    fn google_takeout_location_records_sources() {
+        let d = CATALOG.by_id("google_takeout_location_records").unwrap();
+        assert!(
+            d.sources.iter().any(|s| s.contains("cheeky4n6monkey")),
+            "sources must cite the cheeky4n6monkey blog post"
+        );
+    }
+
+    // ── Google Takeout Semantic Location History ─────────────────────────
+
+    #[test]
+    fn google_takeout_semantic_location_history_exists() {
+        let d = CATALOG.by_id("google_takeout_semantic_location_history").unwrap();
+        assert_eq!(d.name, "Google Takeout Semantic Location History");
+        assert_eq!(d.artifact_type, ArtifactType::File);
+        assert_eq!(d.os_scope, OsScope::All);
+        assert_eq!(d.scope, DataScope::User);
+    }
+
+    #[test]
+    fn google_takeout_semantic_location_history_file_path() {
+        let d = CATALOG.by_id("google_takeout_semantic_location_history").unwrap();
+        let fp = d.file_path.unwrap();
+        assert!(
+            fp.contains("Semantic Location History"),
+            "file_path must reference Semantic Location History folder: {fp}"
+        );
+    }
+
+    #[test]
+    fn google_takeout_semantic_location_history_fields() {
+        let d = CATALOG.by_id("google_takeout_semantic_location_history").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(names.contains(&"placeVisit"), "must have placeVisit field");
+        assert!(names.contains(&"activitySegment"), "must have activitySegment field");
+    }
+
+    #[test]
+    fn google_takeout_semantic_location_history_meaning_mentions_place_visits() {
+        let d = CATALOG.by_id("google_takeout_semantic_location_history").unwrap();
+        assert!(
+            d.meaning.contains("place visit") || d.meaning.contains("placeVisit"),
+            "meaning must mention place visits: {}",
+            d.meaning
+        );
+    }
+
+    #[test]
+    fn google_takeout_semantic_location_history_triage() {
+        let d = CATALOG.by_id("google_takeout_semantic_location_history").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::High);
+    }
+
+    #[test]
+    fn google_takeout_semantic_location_history_sources() {
+        let d = CATALOG.by_id("google_takeout_semantic_location_history").unwrap();
+        assert!(
+            d.sources.iter().any(|s| s.contains("cheeky4n6monkey")),
+            "sources must cite the cheeky4n6monkey blog post"
+        );
+    }
+
+    #[test]
+    fn google_takeout_semantic_location_history_related() {
+        let d = CATALOG.by_id("google_takeout_semantic_location_history").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"google_takeout_location_records"),
+            "must cross-reference location_records"
+        );
+    }
+
+    #[test]
+    fn google_takeout_location_records_related() {
+        let d = CATALOG.by_id("google_takeout_location_records").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"google_takeout_semantic_location_history"),
+            "must cross-reference semantic_location_history"
         );
     }
 }
