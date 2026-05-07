@@ -4985,8 +4985,8 @@ mod tests_batch_i_presence {
     fn catalog_count_includes_batch_i() {
         assert_eq!(
             CATALOG.list().len(),
-            6614,
-            "catalog must have 6614 entries after batch I + quicklook_thumbnails + windows_install_date + winscp_ini + macos_wifi_intelligence + windows_clipboard_history + ios_unified_log + apfs_container"
+            6616,
+            "catalog must have 6616 entries after batch I + quicklook_thumbnails + windows_install_date + winscp_ini + macos_wifi_intelligence + windows_clipboard_history + ios_unified_log + apfs_container"
         );
     }
 }
@@ -5244,8 +5244,8 @@ mod tests_quicklook_install_date {
     fn catalog_count_includes_quicklook_and_install_date() {
         assert_eq!(
             CATALOG.list().len(),
-            6614,
-            "catalog must have 6614 entries after adding quicklook_thumbnails + windows_install_date + winscp_ini + macos_wifi_intelligence + windows_clipboard_history + ios_unified_log + apfs_container"
+            6616,
+            "catalog must have 6616 entries after adding quicklook_thumbnails + windows_install_date + winscp_ini + macos_wifi_intelligence + windows_clipboard_history + ios_unified_log + apfs_container"
         );
     }
 }
@@ -5402,8 +5402,8 @@ mod tests_winscp_ini {
     fn catalog_count_includes_winscp_ini() {
         assert_eq!(
             CATALOG.list().len(),
-            6614,
-            "catalog must have 6614 entries after adding winscp_ini + macos_wifi_intelligence + windows_clipboard_history + apfs_container"
+            6616,
+            "catalog must have 6616 entries after adding winscp_ini + macos_wifi_intelligence + windows_clipboard_history + apfs_container"
         );
     }
 }
@@ -5658,8 +5658,8 @@ mod tests_windows_clipboard_history {
     fn catalog_count_includes_clipboard_history() {
         assert_eq!(
             CATALOG.list().len(),
-            6614,
-            "catalog must have 6614 entries after adding valley_rat_registry and ntuser_man_persistence + apfs_container"
+            6616,
+            "catalog must have 6616 entries after adding valley_rat_registry and ntuser_man_persistence + apfs_container"
         );
     }
 }
@@ -6313,7 +6313,10 @@ mod az4n6_mac_live_imaging_tests {
         let d = CATALOG.by_id("google_takeout_location_records").unwrap();
         let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
         assert!(names.contains(&"latitudeE7"), "must have latitudeE7 field");
-        assert!(names.contains(&"longitudeE7"), "must have longitudeE7 field");
+        assert!(
+            names.contains(&"longitudeE7"),
+            "must have longitudeE7 field"
+        );
         assert!(names.contains(&"timestamp"), "must have timestamp field");
         assert!(names.contains(&"activity"), "must have activity field");
         assert!(names.contains(&"source"), "must have source field");
@@ -6335,7 +6338,9 @@ mod az4n6_mac_live_imaging_tests {
     fn google_takeout_location_records_meaning_mentions_activity_types() {
         let d = CATALOG.by_id("google_takeout_location_records").unwrap();
         assert!(
-            d.meaning.contains("STILL") && d.meaning.contains("IN_VEHICLE") && d.meaning.contains("ON_FOOT"),
+            d.meaning.contains("STILL")
+                && d.meaning.contains("IN_VEHICLE")
+                && d.meaning.contains("ON_FOOT"),
             "meaning must enumerate key DetectedActivity types: {}",
             d.meaning
         );
@@ -6360,7 +6365,9 @@ mod az4n6_mac_live_imaging_tests {
 
     #[test]
     fn google_takeout_semantic_location_history_exists() {
-        let d = CATALOG.by_id("google_takeout_semantic_location_history").unwrap();
+        let d = CATALOG
+            .by_id("google_takeout_semantic_location_history")
+            .unwrap();
         assert_eq!(d.name, "Google Takeout Semantic Location History");
         assert_eq!(d.artifact_type, ArtifactType::File);
         assert_eq!(d.os_scope, OsScope::All);
@@ -6369,7 +6376,9 @@ mod az4n6_mac_live_imaging_tests {
 
     #[test]
     fn google_takeout_semantic_location_history_file_path() {
-        let d = CATALOG.by_id("google_takeout_semantic_location_history").unwrap();
+        let d = CATALOG
+            .by_id("google_takeout_semantic_location_history")
+            .unwrap();
         let fp = d.file_path.unwrap();
         assert!(
             fp.contains("Semantic Location History"),
@@ -6379,15 +6388,22 @@ mod az4n6_mac_live_imaging_tests {
 
     #[test]
     fn google_takeout_semantic_location_history_fields() {
-        let d = CATALOG.by_id("google_takeout_semantic_location_history").unwrap();
+        let d = CATALOG
+            .by_id("google_takeout_semantic_location_history")
+            .unwrap();
         let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
         assert!(names.contains(&"placeVisit"), "must have placeVisit field");
-        assert!(names.contains(&"activitySegment"), "must have activitySegment field");
+        assert!(
+            names.contains(&"activitySegment"),
+            "must have activitySegment field"
+        );
     }
 
     #[test]
     fn google_takeout_semantic_location_history_meaning_mentions_place_visits() {
-        let d = CATALOG.by_id("google_takeout_semantic_location_history").unwrap();
+        let d = CATALOG
+            .by_id("google_takeout_semantic_location_history")
+            .unwrap();
         assert!(
             d.meaning.contains("place visit") || d.meaning.contains("placeVisit"),
             "meaning must mention place visits: {}",
@@ -6397,13 +6413,17 @@ mod az4n6_mac_live_imaging_tests {
 
     #[test]
     fn google_takeout_semantic_location_history_triage() {
-        let d = CATALOG.by_id("google_takeout_semantic_location_history").unwrap();
+        let d = CATALOG
+            .by_id("google_takeout_semantic_location_history")
+            .unwrap();
         assert_eq!(d.triage_priority, TriagePriority::High);
     }
 
     #[test]
     fn google_takeout_semantic_location_history_sources() {
-        let d = CATALOG.by_id("google_takeout_semantic_location_history").unwrap();
+        let d = CATALOG
+            .by_id("google_takeout_semantic_location_history")
+            .unwrap();
         assert!(
             d.sources.iter().any(|s| s.contains("cheeky4n6monkey")),
             "sources must cite the cheeky4n6monkey blog post"
@@ -6412,9 +6432,12 @@ mod az4n6_mac_live_imaging_tests {
 
     #[test]
     fn google_takeout_semantic_location_history_related() {
-        let d = CATALOG.by_id("google_takeout_semantic_location_history").unwrap();
+        let d = CATALOG
+            .by_id("google_takeout_semantic_location_history")
+            .unwrap();
         assert!(
-            d.related_artifacts.contains(&"google_takeout_location_records"),
+            d.related_artifacts
+                .contains(&"google_takeout_location_records"),
             "must cross-reference location_records"
         );
     }
@@ -6423,7 +6446,8 @@ mod az4n6_mac_live_imaging_tests {
     fn google_takeout_location_records_related() {
         let d = CATALOG.by_id("google_takeout_location_records").unwrap();
         assert!(
-            d.related_artifacts.contains(&"google_takeout_semantic_location_history"),
+            d.related_artifacts
+                .contains(&"google_takeout_semantic_location_history"),
             "must cross-reference semantic_location_history"
         );
     }
