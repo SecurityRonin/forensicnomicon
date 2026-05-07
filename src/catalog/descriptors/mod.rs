@@ -6,6 +6,7 @@
 
 #![allow(clippy::too_many_lines)]
 
+mod android_ext;
 mod browser_ext;
 mod cloud_ext;
 mod generated;
@@ -13971,6 +13972,9 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     browser_ext::BROWSER_SAFARI_HISTORY,
     // ── iOS ─────────────────────────────────────────────────────────────────
     macos_ext::IOS_UNIFIED_LOG,
+    // ── Android ─────────────────────────────────────────────────────────────
+    android_ext::SAMSUNG_GALLERY3D_TRASH,
+    android_ext::SAMSUNG_GALLERY3D_LOG,
     // ── Cloud services (Google Takeout) ─────────────────────────────────────
     cloud_ext::GOOGLE_TAKEOUT_LOCATION_RECORDS,
     cloud_ext::GOOGLE_TAKEOUT_SEMANTIC_LOCATION_HISTORY,

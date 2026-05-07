@@ -4985,8 +4985,8 @@ mod tests_batch_i_presence {
     fn catalog_count_includes_batch_i() {
         assert_eq!(
             CATALOG.list().len(),
-            6616,
-            "catalog must have 6616 entries after batch I + quicklook_thumbnails + windows_install_date + winscp_ini + macos_wifi_intelligence + windows_clipboard_history + ios_unified_log + apfs_container"
+            6618,
+            "catalog must have 6618 entries after batch I + quicklook_thumbnails + windows_install_date + winscp_ini + macos_wifi_intelligence + windows_clipboard_history + ios_unified_log + apfs_container + samsung_gallery3d"
         );
     }
 }
@@ -5244,8 +5244,8 @@ mod tests_quicklook_install_date {
     fn catalog_count_includes_quicklook_and_install_date() {
         assert_eq!(
             CATALOG.list().len(),
-            6616,
-            "catalog must have 6616 entries after adding quicklook_thumbnails + windows_install_date + winscp_ini + macos_wifi_intelligence + windows_clipboard_history + ios_unified_log + apfs_container"
+            6618,
+            "catalog must have 6618 entries after adding quicklook_thumbnails + windows_install_date + winscp_ini + macos_wifi_intelligence + windows_clipboard_history + ios_unified_log + apfs_container + samsung_gallery3d"
         );
     }
 }
@@ -5402,8 +5402,8 @@ mod tests_winscp_ini {
     fn catalog_count_includes_winscp_ini() {
         assert_eq!(
             CATALOG.list().len(),
-            6616,
-            "catalog must have 6616 entries after adding winscp_ini + macos_wifi_intelligence + windows_clipboard_history + apfs_container"
+            6618,
+            "catalog must have 6618 entries after adding winscp_ini + macos_wifi_intelligence + windows_clipboard_history + apfs_container + samsung_gallery3d"
         );
     }
 }
@@ -5658,8 +5658,8 @@ mod tests_windows_clipboard_history {
     fn catalog_count_includes_clipboard_history() {
         assert_eq!(
             CATALOG.list().len(),
-            6616,
-            "catalog must have 6616 entries after adding valley_rat_registry and ntuser_man_persistence + apfs_container"
+            6618,
+            "catalog must have 6618 entries after adding valley_rat_registry and ntuser_man_persistence + apfs_container + samsung_gallery3d"
         );
     }
 }
@@ -6538,11 +6538,7 @@ mod tests_samsung_gallery3d_trash {
     #[test]
     fn delete_time_is_timestamp_type() {
         let d = CATALOG.by_id("samsung_gallery3d_trash").unwrap();
-        let f = d
-            .fields
-            .iter()
-            .find(|f| f.name == "__deleteTime")
-            .unwrap();
+        let f = d.fields.iter().find(|f| f.name == "__deleteTime").unwrap();
         assert_eq!(
             f.value_type,
             ValueType::Timestamp,
@@ -6598,7 +6594,8 @@ mod tests_samsung_gallery3d_trash {
         let lc = d.meaning.to_ascii_lowercase();
         assert!(
             lc.contains("trash"),
-            "meaning must mention trash; got: {}", d.meaning
+            "meaning must mention trash; got: {}",
+            d.meaning
         );
     }
 
@@ -6606,9 +6603,7 @@ mod tests_samsung_gallery3d_trash {
     fn cites_cheeky4n6monkey() {
         let d = CATALOG.by_id("samsung_gallery3d_trash").unwrap();
         assert!(
-            d.sources
-                .iter()
-                .any(|s| s.contains("cheeky4n6monkey")),
+            d.sources.iter().any(|s| s.contains("cheeky4n6monkey")),
             "samsung_gallery3d_trash must cite cheeky4n6monkey blog; sources: {:?}",
             d.sources
         );
@@ -6717,7 +6712,8 @@ mod tests_samsung_gallery3d_log {
         let lc = d.meaning.to_ascii_lowercase();
         assert!(
             lc.contains("base64"),
-            "meaning must mention base64-encoded paths; got: {}", d.meaning
+            "meaning must mention base64-encoded paths; got: {}",
+            d.meaning
         );
     }
 
@@ -6726,7 +6722,8 @@ mod tests_samsung_gallery3d_log {
         let d = CATALOG.by_id("samsung_gallery3d_log").unwrap();
         assert!(
             d.meaning.contains("MOVE_TO_TRASH"),
-            "meaning must mention MOVE_TO_TRASH action; got: {}", d.meaning
+            "meaning must mention MOVE_TO_TRASH action; got: {}",
+            d.meaning
         );
     }
 
@@ -6734,9 +6731,7 @@ mod tests_samsung_gallery3d_log {
     fn cites_cheeky4n6monkey() {
         let d = CATALOG.by_id("samsung_gallery3d_log").unwrap();
         assert!(
-            d.sources
-                .iter()
-                .any(|s| s.contains("cheeky4n6monkey")),
+            d.sources.iter().any(|s| s.contains("cheeky4n6monkey")),
             "samsung_gallery3d_log must cite cheeky4n6monkey blog; sources: {:?}",
             d.sources
         );
