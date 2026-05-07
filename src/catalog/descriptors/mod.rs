@@ -13978,6 +13978,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::HEIC_IMAGE_FILE,
     macos_ext::UBER_IOS_LEVELDB,
     macos_ext::IOS_GOOGLE_CHAT_CACHEV0,
+    macos_ext::IOS_MOBILE_CONTAINER_MANAGER,
     macos_ext::MACOS_BTM_BACKGROUND_TASKS,
     windows_files_ext::ONEDRIVE_ODL_LOGS,
     // ── Android ─────────────────────────────────────────────────────────────

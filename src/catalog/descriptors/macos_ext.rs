@@ -1319,6 +1319,103 @@ pub(crate) static IOS_GOOGLE_CHAT_CACHEV0_FIELDS: &[FieldSchema] = &[
 ///
 /// Source: http://www.swiftforensics.com/2025/01/macapt-update-to-btm-processing.html
 /// Source: https://objective-see.org/blog/blog_0x31.html
+// ── iOS Mobile Container Manager ─────────────────────────────────────────────
+
+/// iOS containers.sqlite3 — maps apps to their extensions, AppGroups,
+/// and entitlements.
+///
+/// Located at `/private/var/root/Library/MobileContainerManager/containers.sqlite3`.
+/// Three main tables: `child_bundles` (extensions -> parent app), `code_signing_data`
+/// (binary plist BLOBs with `com.apple.security.application-groups` entitlements),
+/// and `containers` (base container info).
+///
+/// This is the authoritative mapping between iOS apps and their shared containers.
+/// Without it, correlating UUID-based AppGroup folders to their owning app requires
+/// reading individual `.com.apple.mobile_container_manager.metadata.plist` files
+/// from each UUID folder under:
+/// - `/private/var/containers/Shared/SystemGroup/<UUID>/`
+/// - `/private/var/mobile/Containers/Shared/AppGroup/<UUID>/`
+/// - `/private/var/mobile/Containers/Data/InternalDaemon/<UUID>/`
+/// - `/private/var/mobile/Containers/Data/PluginKitPlugin/<UUID>/`
+///
+/// Source: http://www.swiftforensics.com/2021/01/ios-application-groups-shared-data.html
+pub(crate) static IOS_MOBILE_CONTAINER_MANAGER: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ios_mobile_container_manager",
+    name: "iOS Mobile Container Manager (containers.sqlite3)",
+    artifact_type: ArtifactType::DatabaseEntry,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Source: http://www.swiftforensics.com/2021/01/ios-application-groups-shared-data.html
+    file_path: Some("/private/var/root/Library/MobileContainerManager/containers.sqlite3"),
+    scope: DataScope::System,
+    os_scope: OsScope::IOS,
+    decoder: Decoder::Identity,
+    meaning: "iOS Mobile Container Manager database mapping all installed apps to their \
+        extensions, AppGroups, SystemGroups, and entitlements. The child_bundles table links \
+        extensions to their parent app (e.g. com.apple.mobilenotes.SharingExtension -> \
+        com.apple.mobilenotes). The code_signing_data table contains binary plist BLOBs \
+        with com.apple.security.application-groups entitlements that identify shared \
+        container groups. This is the only authoritative source on iOS for programmatically \
+        resolving UUID-based shared container folders to their owning app — without it, \
+        analysts must manually inspect .com.apple.mobile_container_manager.metadata.plist \
+        files in each UUID folder. Critical for understanding data sharing between apps \
+        and their extensions, and for locating app-specific databases stored in shared \
+        AppGroup containers (e.g. the Notes database lives in group.com.apple.notes, not \
+        the app's sandbox). Cross-reference with applicationState.db for sandbox paths.",
+    mitre_techniques: &[
+        "T1005", // Data from Local System
+    ],
+    fields: IOS_CONTAINER_MANAGER_FIELDS,
+    retention: Some("Persists as long as apps are installed; updated on app install/uninstall"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
+    sources: &[
+        // Source: http://www.swiftforensics.com/2021/01/ios-application-groups-shared-data.html
+        // (Yogesh Khatri documenting containers.sqlite3 structure, child_bundles table,
+        // code_signing_data binary plist BLOBs, and AppGroup resolution methodology)
+        "http://www.swiftforensics.com/2021/01/ios-application-groups-shared-data.html",
+        // Source: https://github.com/ydkhatri/mac_apt (ios_apt APPS plugin implementing
+        // automated AppGroup/extension/entitlement resolution)
+        "https://github.com/ydkhatri/mac_apt",
+    ],
+};
+
+pub(crate) static IOS_CONTAINER_MANAGER_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "bundle_id",
+        value_type: ValueType::Text,
+        description: "App bundle identifier (e.g. com.apple.mobilenotes)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "extension_bundle_id",
+        value_type: ValueType::Text,
+        description: "Extension bundle identifier from child_bundles table",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "parent_bundle_id",
+        value_type: ValueType::Text,
+        description: "Parent app bundle identifier that owns the extension",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "app_groups",
+        value_type: ValueType::List,
+        description: "List of com.apple.security.application-groups from code_signing_data \
+            entitlements plist (e.g. group.com.apple.notes)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "system_groups",
+        value_type: ValueType::List,
+        description: "List of com.apple.security.system-groups from code_signing_data \
+            entitlements plist",
+        is_uid_component: false,
+    },
+];
+
 pub(crate) static MACOS_BTM_BACKGROUND_TASKS: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_btm_background_tasks",
     name: "macOS Background Task Management (BTM)",
