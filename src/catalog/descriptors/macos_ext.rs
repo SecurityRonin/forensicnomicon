@@ -1300,6 +1300,124 @@ pub(crate) static IOS_GOOGLE_CHAT_CACHEV0_FIELDS: &[FieldSchema] = &[
 /// directory. Also observed in Google Voice on iOS.
 ///
 /// Source: https://abrignoni.blogspot.com/2024/02/what-is-cachev0db-and-why-are-there.html
+// ── macOS BTM (Background Task Management) ──────────────────────────────────
+
+/// macOS Background Task Management database — login items, launch agents/daemons,
+/// and background tasks tracked since macOS 13 Ventura.
+///
+/// NSKeyedArchive binary plist containing per-user dictionaries of all registered
+/// background tasks. Each item has a `type` flag (agent=0x08, daemon=0x10,
+/// login item=0x04, app=0x02, user item=0x01, developer=0x20, spotlight=0x40,
+/// quicklook=0x800, curated=0x80000, legacy=0x10000) and a `disposition` flag
+/// (Enabled=0x01, Allowed=0x02, Hidden=0x04, Notified=0x08). When a user
+/// toggles an item OFF in System Settings > Login Items & Extensions, the
+/// Allowed bit (0x02) is cleared.
+///
+/// Multiple versioned .btm files may coexist (e.g. BackgroundItems-v9.btm from
+/// an older macOS and BackgroundItems-v13.btm from macOS 15). Older files are
+/// forensic snapshots of autostart state at that point in time.
+///
+/// Source: http://www.swiftforensics.com/2025/01/macapt-update-to-btm-processing.html
+/// Source: https://objective-see.org/blog/blog_0x31.html
+pub(crate) static MACOS_BTM_BACKGROUND_TASKS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_btm_background_tasks",
+    name: "macOS Background Task Management (BTM)",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Source: http://www.swiftforensics.com/2025/01/macapt-update-to-btm-processing.html
+    file_path: Some("/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v*.btm"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::MacOS13Plus,
+    decoder: Decoder::Identity,
+    meaning: "macOS Background Task Management database tracking login items, launch agents, \
+        launch daemons, and background tasks since macOS 13 Ventura. NSKeyedArchive binary \
+        plist with per-user dictionaries. Each item has a type flag (agent, daemon, login item, \
+        app, user item, developer, spotlight, quicklook, curated, legacy) and a disposition \
+        flag (Enabled, Allowed, Hidden, Notified). When a user disables an item in System \
+        Settings > Login Items & Extensions, the Allowed bit is cleared. Multiple versioned \
+        .btm files may coexist as forensic snapshots of prior autostart state. Key fields \
+        include container (parent app bundle), developer identity, executableModifiedDate, \
+        and AppArguments (full command line). Replaces the legacy backgrounditems.btm per-user \
+        plist used before Ventura.",
+    mitre_techniques: &[
+        "T1543.001", // Create or Modify System Process: Launch Agent
+        "T1543.004", // Create or Modify System Process: Launch Daemon
+        "T1547.015", // Boot or Logon Autostart Execution: Login Items
+    ],
+    fields: MACOS_BTM_FIELDS,
+    retention: Some(
+        "Persists until macOS upgrade creates a new versioned .btm file; \
+older versions remain on disk as forensic snapshots",
+    ),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_login_items_plist"],
+    sources: &[
+        // Source: http://www.swiftforensics.com/2025/01/macapt-update-to-btm-processing.html
+        // (Yogesh Khatri's mac_apt AUTOSTART plugin update documenting BTM type/disposition flags,
+        // versioned .btm files, and AppArguments parsing)
+        "http://www.swiftforensics.com/2025/01/macapt-update-to-btm-processing.html",
+        // Source: https://objective-see.org/blog/blog_0x31.html (Patrick Wardle's analysis of BTM)
+        "https://objective-see.org/blog/blog_0x31.html",
+        // Source: https://forensics.wiki/mac_os_x_10.9_artifacts_location#autorun-locations-2
+        "https://forensics.wiki/mac_os_x_10.9_artifacts_location#autorun-locations-2",
+    ],
+};
+
+pub(crate) static MACOS_BTM_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "item_type",
+        value_type: ValueType::Text,
+        description: "BTM item type flag: agent, daemon, login_item, app, user_item, \
+            developer, spotlight, quicklook, curated, legacy",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "disposition",
+        value_type: ValueType::Text,
+        description: "BTM disposition flags: Enabled(0x01), Allowed(0x02), Hidden(0x04), \
+            Notified(0x08); toggling OFF in System Settings clears Allowed bit",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "bundle_id",
+        value_type: ValueType::Text,
+        description: "Bundle identifier of the item (e.g. com.example.agent)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "container",
+        value_type: ValueType::Text,
+        description: "Parent app bundle containing this background task",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "developer",
+        value_type: ValueType::Text,
+        description: "Developer identity / team ID from code signature",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "executable_path",
+        value_type: ValueType::Text,
+        description: "Path to the executable binary",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "executable_modified_date",
+        value_type: ValueType::Timestamp,
+        description: "Modification timestamp of the executable binary",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "app_arguments",
+        value_type: ValueType::Text,
+        description: "Full command line arguments for the startup item",
+        is_uid_component: false,
+    },
+];
+
 pub(crate) static IOS_GOOGLE_CHAT_CACHEV0: ArtifactDescriptor = ArtifactDescriptor {
     id: "ios_google_chat_cachev0",
     name: "iOS Google Chat Image Cache (cacheV0.db)",
