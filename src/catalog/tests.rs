@@ -7754,3 +7754,88 @@ mod tests_macos_btm_background_tasks {
         assert_eq!(d.scope, DataScope::Mixed);
     }
 }
+
+// ── OneDrive ODL Logs ───────────────────────────────────────────────────────
+#[cfg(test)]
+mod tests_onedrive_odl_logs {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("onedrive_odl_logs").is_some(),
+            "onedrive_odl_logs must exist in catalog"
+        );
+    }
+
+    #[test]
+    fn artifact_type_is_file() {
+        let d = CATALOG.by_id("onedrive_odl_logs").unwrap();
+        assert_eq!(d.artifact_type, ArtifactType::File);
+    }
+
+    #[test]
+    fn os_scope_is_win10plus() {
+        let d = CATALOG.by_id("onedrive_odl_logs").unwrap();
+        assert_eq!(d.os_scope, OsScope::Win10Plus);
+    }
+
+    #[test]
+    fn file_path_contains_odl() {
+        let d = CATALOG.by_id("onedrive_odl_logs").unwrap();
+        let fp = d.file_path.unwrap();
+        assert!(
+            fp.contains(".odl") || fp.contains("OneDrive"),
+            "file_path must reference ODL log files"
+        );
+    }
+
+    #[test]
+    fn has_exfiltration_mitre_technique() {
+        let d = CATALOG.by_id("onedrive_odl_logs").unwrap();
+        assert!(
+            d.mitre_techniques.contains(&"T1567.002"),
+            "must map to T1567.002 (Exfiltration to Cloud Storage)"
+        );
+    }
+
+    #[test]
+    fn meaning_mentions_encryption_or_obfuscation() {
+        let d = CATALOG.by_id("onedrive_odl_logs").unwrap();
+        let m = d.meaning.to_ascii_lowercase();
+        assert!(
+            m.contains("obfuscat") || m.contains("encrypt"),
+            "meaning must mention obfuscation or encryption"
+        );
+    }
+
+    #[test]
+    fn has_swiftforensics_source() {
+        let d = CATALOG.by_id("onedrive_odl_logs").unwrap();
+        assert!(
+            d.sources.iter().any(|s| s.contains("swiftforensics.com")),
+            "sources must include swiftforensics.com blog posts"
+        );
+    }
+
+    #[test]
+    fn has_fields() {
+        let d = CATALOG.by_id("onedrive_odl_logs").unwrap();
+        assert!(!d.fields.is_empty(), "must have at least one field");
+    }
+
+    #[test]
+    fn triage_priority_is_high() {
+        let d = CATALOG.by_id("onedrive_odl_logs").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::High);
+    }
+
+    #[test]
+    fn related_to_onedrive_metadata() {
+        let d = CATALOG.by_id("onedrive_odl_logs").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"onedrive_metadata"),
+            "must be related to onedrive_metadata"
+        );
+    }
+}
