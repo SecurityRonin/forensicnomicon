@@ -1979,6 +1979,17 @@ pub static ARTIFACT_PROFILES: &[ArtifactProfile] = &[
         volatility: VolatilityClass::RotatingBuffer,
         volatility_rationale: "iOS aggressively rotates .tracev3 files; high-activity devices may retain only days of history",
     },
+    ArtifactProfile {
+        id: "lan_turtle_loot",
+        evidence_strength: EvidenceStrength::Definitive,
+        evidence_caveats: &[
+            "Requires physical access to the LAN Turtle device (SSH to 172.16.84.1 or flash imaging)",
+            "Loot files can be deleted by the attacker before seizure",
+            "Credential type depends on victim OS — NTLMv2 for Windows 7+, may vary for others",
+        ],
+        volatility: VolatilityClass::Persistent,
+        volatility_rationale: "Stored on 16 MB flash; persists until manually deleted or device is reflashed",
+    },
 ];
 
 /// Returns the combined profile for a given artifact ID, or `None` if unknown.

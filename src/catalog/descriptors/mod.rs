@@ -7657,6 +7657,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     linux_ext::LINUX_DMESG,
     linux_ext::LINUX_BOOT_LOG,
     linux_ext::LINUX_FAILLOG,
+    linux_ext::LAN_TURTLE_LOOT,
     // Batch I: Windows crash dump, WER, and miscellaneous artifacts
     windows_logs_ext::WINDOWS_CRASH_DUMP,
     windows_logs_ext::WINDOWS_MINIDUMP,
@@ -13974,6 +13975,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     // ── iOS ─────────────────────────────────────────────────────────────────
     macos_ext::IOS_UNIFIED_LOG,
     macos_ext::IOS14_MAPS_HISTORY,
+    macos_ext::HEIC_IMAGE_FILE,
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,
     android_ext::SAMSUNG_GALLERY3D_LOG,

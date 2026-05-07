@@ -888,6 +888,129 @@ pub(crate) static IOS_UNIFIED_LOG: ArtifactDescriptor = ArtifactDescriptor {
     ],
 };
 
+// ── HEIC Image File (iOS 11+ / macOS High Sierra+) ─────────────────────────
+
+/// HEIC (High Efficiency Image Container) files — `.heic` extension.
+///
+/// Introduced with iOS 11 and macOS High Sierra (10.13). Apple uses the HEIF
+/// (High Efficiency Image File Format) container with HEVC/H.265 compression
+/// for camera photos and Live Photos. The container is based on ISO Base Media
+/// File Format (ISO 14496-12, same family as QuickTime `.mov`).
+///
+/// File structure uses a box/atom hierarchy:
+/// - `ftyp` box: major_brand = `heic`, compatible_brands = `mif1`, `heic`
+/// - `meta` box: contains `hdlr` (handler_type `pict`), `iinf` (item count),
+///   `iloc` (item locations), `iprp` (item properties including EXIF)
+/// - `mdat` box: raw HEVC-compressed image data
+///
+/// EXIF metadata (GPS, camera model, timestamps) is preserved inside the
+/// container and extractable with ExifTool. A single HEIC can contain multiple
+/// images (e.g., Apple Live Photo = still + short video + audio).
+///
+/// Forensic value: HEIC files from iOS devices contain full EXIF including GPS
+/// coordinates, device model, lens info, and capture timestamps. Same metadata
+/// as JPEG but in a newer container that some legacy tools may not parse.
+///
+/// # Sources
+/// - <https://cheeky4n6monkey.blogspot.com/2017/10/monkey-takes-heic.html> —
+///   HEIC file structure walkthrough with hex analysis, ExifTool extraction
+/// - <https://nokiatech.github.io/heif/technical.html> — Nokia HEIF technical spec
+// Source: https://cheeky4n6monkey.blogspot.com/2017/10/monkey-takes-heic.html
+pub(crate) static HEIC_IMAGE_FILE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "heic_image_file",
+    name: "HEIC Image File (High Efficiency Image Container)",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Source: https://cheeky4n6monkey.blogspot.com/2017/10/monkey-takes-heic.html
+    // iOS default photo format since iOS 11; also on macOS High Sierra+
+    file_path: Some("/DCIM/**/*.heic"),
+    scope: DataScope::User,
+    os_scope: OsScope::IOS,
+    decoder: Decoder::Identity,
+    meaning: "High Efficiency Image File Format (HEIF) container using HEVC/H.265 \
+        compression, introduced in iOS 11 and macOS High Sierra (10.13). Based on \
+        ISO Base Media File Format (ISO 14496-12). The ftyp box identifies the \
+        major brand as 'heic'; the meta box contains hdlr (handler_type 'pict'), \
+        iinf (item inventory with entry count), iloc (byte offsets to media data), \
+        and iprp (item properties including embedded EXIF). A single HEIC file can \
+        contain multiple images (burst, Live Photo still + video + audio). EXIF \
+        metadata including GPS coordinates, camera model, lens info, and original \
+        capture timestamp is preserved and extractable with ExifTool. Approximately \
+        halves file size vs JPEG at equivalent quality. Some legacy forensic tools \
+        may not parse HEIC — convert to JPEG via sips (macOS) or ffmpeg for \
+        compatibility. For video, Apple uses HEVC in .mov containers with the same \
+        H.265 codec.",
+    mitre_techniques: &["T1005"],
+    fields: &[
+        FieldSchema {
+            name: "major_brand",
+            value_type: ValueType::Text,
+            // Source: https://cheeky4n6monkey.blogspot.com/2017/10/monkey-takes-heic.html
+            description: "ftyp box major brand identifier (typically 'heic' for Apple photos)",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "compatible_brands",
+            value_type: ValueType::Text,
+            // Source: https://cheeky4n6monkey.blogspot.com/2017/10/monkey-takes-heic.html
+            description: "ftyp box compatible brands list (e.g. 'mif1', 'heic')",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "handler_type",
+            value_type: ValueType::Text,
+            // Source: https://cheeky4n6monkey.blogspot.com/2017/10/monkey-takes-heic.html
+            description: "hdlr box handler type: 'pict' for still image, 'vide' for video",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "item_count",
+            value_type: ValueType::UnsignedInt,
+            // Source: https://cheeky4n6monkey.blogspot.com/2017/10/monkey-takes-heic.html
+            description: "Number of items stored in the container (iinf entry_count); \
+                > 1 indicates multi-image (Live Photo, burst)",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "exif_gps_latitude",
+            value_type: ValueType::Text,
+            description: "GPS latitude from embedded EXIF metadata (decimal degrees)",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "exif_gps_longitude",
+            value_type: ValueType::Text,
+            description: "GPS longitude from embedded EXIF metadata (decimal degrees)",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "exif_datetime_original",
+            value_type: ValueType::Timestamp,
+            description: "Original capture date/time from EXIF DateTimeOriginal tag",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "exif_camera_model",
+            value_type: ValueType::Text,
+            description: "Camera model from EXIF Model tag (e.g. 'iPhone 8 Plus')",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Persistent until user deletion; syncs via iCloud Photos"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_photos_db"],
+    sources: &[
+        // Source: https://cheeky4n6monkey.blogspot.com/2017/10/monkey-takes-heic.html
+        // — HEIC file structure hex walkthrough, ExifTool extraction, ffmpeg conversion
+        "https://cheeky4n6monkey.blogspot.com/2017/10/monkey-takes-heic.html",
+        // Source: https://nokiatech.github.io/heif/technical.html
+        // — Nokia/MPEG HEIF technical specification and box structure reference
+        "https://nokiatech.github.io/heif/technical.html",
+    ],
+};
+
 // ── iOS14 Apple Maps History (MapsSync_0.0.1) ────────────────────────────────
 
 /// Field schema for the ZHISTORYITEM + ZMIXINMAPITEM tables in MapsSync_0.0.1.

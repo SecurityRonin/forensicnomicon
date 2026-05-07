@@ -915,3 +915,95 @@ pub(crate) static LINUX_FAILLOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://man7.org/linux/man-pages/man8/faillog.8.html",
     ],
 };
+
+// ── Hak5 LAN Turtle Credential Loot ─────────────────────────────────────────
+
+/// Hak5 LAN Turtle credential loot directory (`/root/loot/`).
+///
+/// The LAN Turtle is a covert penetration testing device housed in a USB
+/// Ethernet adapter case (Realtek RTL8152, VID 0BDA / PID 8152) running
+/// OpenWrt Linux. The QuickCreds module runs Responder to capture LLMNR/
+/// NBT-NS credentials (typically NTLMv2 hashes) from the host it is plugged
+/// into. Captured credentials are saved to numbered subdirectories under
+/// `/root/loot/` on the device's 16 MB flash storage.
+///
+/// Forensic examination of a seized LAN Turtle device involves SSH'ing to
+/// 172.16.84.1 (default static IP on the USB Ethernet interface) or imaging
+/// the flash storage directly. The loot directory contains Responder output
+/// files with victim hostname, domain, username, and NTLMv2 hash.
+///
+/// On the victim Windows host, the LAN Turtle leaves standard USB device
+/// registry artifacts (SYSTEM hive: USB\VID_0BDA&PID_8152) and DHCP event
+/// log entries for the new network adapter.
+///
+/// # Sources
+/// - <https://cheeky4n6monkey.blogspot.com/2017/01/monkey-plays-lan-turtle.html> —
+///   LAN Turtle forensic examination, QuickCreds credential capture, host artifacts
+/// - <https://docs.hak5.org/lan-turtle/> — Hak5 LAN Turtle official documentation
+// Source: https://cheeky4n6monkey.blogspot.com/2017/01/monkey-plays-lan-turtle.html
+pub(crate) static LAN_TURTLE_LOOT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "lan_turtle_loot",
+    name: "Hak5 LAN Turtle Credential Loot",
+    artifact_type: ArtifactType::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Source: https://cheeky4n6monkey.blogspot.com/2017/01/monkey-plays-lan-turtle.html
+    // QuickCreds saves Responder output to numbered dirs in /root/loot/
+    file_path: Some("/root/loot/"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "Hak5 LAN Turtle credential loot directory on the device's OpenWrt Linux \
+        filesystem. The QuickCreds module uses Laurent Gaffie's Responder to perform \
+        LLMNR/NBT-NS poisoning and capture NTLMv2 credentials from the host machine \
+        the Turtle is plugged into. Credentials are stored in numbered subdirectories \
+        under /root/loot/. Each capture file contains victim hostname, domain, username, \
+        and NTLMv2 hash. The device identifies as a Realtek RTL8152 USB Ethernet \
+        adapter (VID 0BDA / PID 8152) and has a static IP of 172.16.84.1 on its USB \
+        interface. Credential capture completes in 30 seconds to a few minutes and \
+        works whether the victim screen is locked or not (user must be logged in). \
+        On the victim Windows host, evidence includes USB device registry entries \
+        (SYSTEM hive: USB\\VID_0BDA&PID_8152\\00E04C36150A) and DHCP event log entries \
+        for the Realtek USB FE Family Controller network adapter.",
+    mitre_techniques: &["T1557.001", "T1200", "T1056"],
+    fields: &[
+        FieldSchema {
+            name: "credential_type",
+            value_type: ValueType::Text,
+            // Source: https://cheeky4n6monkey.blogspot.com/2017/01/monkey-plays-lan-turtle.html
+            description: "Type of captured credential (e.g. NTLMv2, NTLMv1, HTTP Basic)",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "victim_hostname",
+            value_type: ValueType::Text,
+            // Source: https://cheeky4n6monkey.blogspot.com/2017/01/monkey-plays-lan-turtle.html
+            description: "Hostname of the victim machine that sent the credential",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "victim_username",
+            value_type: ValueType::Text,
+            description: "Username extracted from the credential response",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "hash_value",
+            value_type: ValueType::Text,
+            // Source: https://cheeky4n6monkey.blogspot.com/2017/01/monkey-plays-lan-turtle.html
+            description: "Captured NTLMv2 (or other) hash value; crackable with hashcat/john",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Persistent on 16 MB flash until manually deleted or reflashed"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &[
+        // Source: https://cheeky4n6monkey.blogspot.com/2017/01/monkey-plays-lan-turtle.html
+        // — LAN Turtle forensic examination walkthrough with QuickCreds and Responder
+        "https://cheeky4n6monkey.blogspot.com/2017/01/monkey-plays-lan-turtle.html",
+        // Source: https://docs.hak5.org/lan-turtle/ — official Hak5 LAN Turtle docs
+        "https://docs.hak5.org/lan-turtle/",
+    ],
+};
