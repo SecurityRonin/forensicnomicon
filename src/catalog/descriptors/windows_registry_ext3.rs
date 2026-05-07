@@ -367,3 +367,78 @@ pub(crate) static WINDOWS_INSTALL_DATE: ArtifactDescriptor = ArtifactDescriptor 
         "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-setup-log-files-and-event-logs",
     ],
 };
+
+/// Windows Clipboard History registry settings.
+///
+/// Windows 10 1809+ introduced a persistent clipboard history feature
+/// (Win+V) that stores the last 25 copied items, optionally synced across
+/// devices via Microsoft account. The feature is controlled by:
+///
+/// - `HKCU\Software\Microsoft\Clipboard\EnableClipboardHistory` (DWORD 1=on)
+/// - GPO: `HKLM\SOFTWARE\Policies\Microsoft\Windows\System\AllowClipboardHistory`
+/// - GPO: `HKLM\SOFTWARE\Policies\Microsoft\Windows\System\AllowCrossDeviceClipboard`
+///
+/// Clipboard history data is stored as JSON files under
+/// `%LOCALAPPDATA%\Microsoft\Windows\Clipboard\`.
+///
+/// Forensic significance: if enabled, the clipboard retains copied text,
+/// images, and HTML — potential exfiltration channel (especially with
+/// cross-device sync). Infostealers and clipboard hijackers (bitcoin
+/// address swappers) target this. The `ClipboardHistoryThief` tool
+/// demonstrates extraction of the full history buffer.
+///
+/// Windows Timeline (ActivitiesCache.db) Activity_Type 16 (CopyPaste)
+/// records clipboard text independently — cross-correlate both sources.
+///
+// Source: https://windowsir.blogspot.com/2026/01/whats-on-your-clipboard.html
+// Source: https://stackoverflow.com/questions/60802854/enabling-clipboard-history-in-windows-10
+pub(crate) static WINDOWS_CLIPBOARD_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "windows_clipboard_history",
+    name: "Windows Clipboard History Settings",
+    artifact_type: ArtifactType::RegistryKey,
+    hive: Some(HiveTarget::NtUser),
+    // Source: https://stackoverflow.com/questions/60802854/enabling-clipboard-history-in-windows-10
+    key_path: "HKCU\\Software\\Microsoft\\Clipboard",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::User,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::DwordLe,
+    meaning: "Controls Windows Clipboard History (Win+V). When EnableClipboardHistory=1, \
+              the OS retains the last 25 copied items (text, images, HTML) across \
+              application switches. Data persists in JSON files under \
+              %LOCALAPPDATA%\\Microsoft\\Windows\\Clipboard\\. \
+              If 'Sync across devices' is enabled, clipboard contents replicate to \
+              other devices via Microsoft account — a potential data exfiltration \
+              channel for insider threat cases. Infostealers and clipboard hijackers \
+              (e.g. bitcoin address swappers) exploit clipboard access (T1115). \
+              Cross-correlate with Windows Timeline Activity_Type 16 (CopyPaste) \
+              entries in ActivitiesCache.db for clipboard text content.",
+    mitre_techniques: &["T1115"],
+    fields: &[
+        FieldSchema {
+            name: "enable_clipboard_history",
+            value_type: ValueType::UnsignedInt,
+            description: "EnableClipboardHistory DWORD: 0=disabled (default), 1=enabled; \
+                controls whether Win+V clipboard history is active",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "allow_cross_device_clipboard",
+            value_type: ValueType::UnsignedInt,
+            description: "AllowCrossDeviceClipboard GPO DWORD at \
+                HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System; \
+                0=blocked, 1=allowed; controls clipboard sync across devices \
+                via Microsoft account",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Persistent until user clears history or disables feature"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["windows_timeline"],
+    sources: &[
+        // Source: Harlan Carvey analysis of clipboard history, ClipboardHistoryThief tool,
+        // and forensic implications of clipboard sync across devices
+        "https://windowsir.blogspot.com/2026/01/whats-on-your-clipboard.html",
+    ],
+};

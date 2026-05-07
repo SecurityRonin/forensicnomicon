@@ -7737,6 +7737,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     windows_registry_ext3::PRINT_MONITOR_DLLS,
     windows_registry_ext3::SERVICES_HKLM,
     windows_registry_ext3::WINDOWS_INSTALL_DATE,
+    windows_registry_ext3::WINDOWS_CLIPBOARD_HISTORY,
     // ── Generated artifact descriptors (mass-import pipeline) ────────────────
     // Total: 6187 generated entries
     // ── browsers_generated (37 entries) ────────────────────────────────────
