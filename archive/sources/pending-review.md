@@ -99,12 +99,12 @@ Mark `[x]` when reviewed, `[→]` when artifact tasks were created.
 - [x] [Malicious Ad for Homebrew Leads to MacSync Stealer, (Fri, May 1st)](https://isc.sans.edu/diary/rss/32942) — SANS Internet Storm Center
 - [x] [ISC Stormcast For Friday, May 1st, 2026 https://isc.sans.edu/podcastdetail/9914, (Fri, May 1st)](https://isc.sans.edu/diary/rss/32940) — SANS Internet Storm Center
 - [x] [ISC Stormcast For Thursday, April 30th, 2026 https://isc.sans.edu/podcastdetail/9912, (Thu, Apr 30th)](https://isc.sans.edu/diary/rss/32938) — SANS Internet Storm Center
-- [ ] [Danger of Libredtail &#x5b;Guest Diary&#x5d;, (Wed, Apr 29th)](https://isc.sans.edu/diary/rss/32936) — SANS Internet Storm Center
-- [ ] [Today's Odd Web Requests, (Wed, Apr 29th)](https://isc.sans.edu/diary/rss/32934) — SANS Internet Storm Center
+- [x] [Danger of Libredtail &#x5b;Guest Diary&#x5d;, (Wed, Apr 29th)](https://isc.sans.edu/diary/rss/32936) — SANS Internet Storm Center <!-- DShield honeypot cryptomining analysis; no new Windows artifact paths or LOLBins -->
+- [x] [Today's Odd Web Requests, (Wed, Apr 29th)](https://isc.sans.edu/diary/rss/32934) — SANS Internet Storm Center <!-- Broadcom API Gateway + Teltonika RMS recon probes; no artifact catalog gap -->
 - [x] [ISC Stormcast For Wednesday, April 29th, 2026 https://isc.sans.edu/podcastdetail/9910, (Wed, Apr 29th)](https://isc.sans.edu/diary/rss/32932) — SANS Internet Storm Center
-- [ ] [HTTP Requests with X-Vercel-Set-Bypass-Cookie Header, (Tue, Apr 28th)](https://isc.sans.edu/diary/rss/32930) — SANS Internet Storm Center
+- [x] [HTTP Requests with X-Vercel-Set-Bypass-Cookie Header, (Tue, Apr 28th)](https://isc.sans.edu/diary/rss/32930) — SANS Internet Storm Center <!-- Honeypot scan using X-Vercel-Set-Bypass-Cookie header; reconnaissance only, no artifact gap -->
 - [x] [ISC Stormcast For Tuesday, April 28th, 2026 https://isc.sans.edu/podcastdetail/9908, (Tue, Apr 28th)](https://isc.sans.edu/diary/rss/32928) — SANS Internet Storm Center
-- [ ] [TeamPCP Supply Chain Campaign: Update 008 - 26-Day Pause Ends with Three Concurrent Compromises (Checkmarx KICS, Bitwarden CLI Cascade, xinference PyPI), CanisterSprawl npm Worm Identified, and Tier 1 Coverage Returns, (Mon, Apr 27th)](https://isc.sans.edu/diary/rss/32926) — SANS Internet Storm Center
+- [x] [TeamPCP Supply Chain Campaign: Update 008 - 26-Day Pause Ends with Three Concurrent Compromises (Checkmarx KICS, Bitwarden CLI Cascade, xinference PyPI), CanisterSprawl npm Worm Identified, and Tier 1 Coverage Returns, (Mon, Apr 27th)](https://isc.sans.edu/diary/rss/32926) — SANS Internet Storm Center <!-- UNC6780/SANDCLOCK supply-chain npm/PyPI campaign; no Windows artifact paths or new LOLBins -->
 - [x] [ISC Stormcast For Friday, April 24th, 2026 https://isc.sans.edu/podcastdetail/9906, (Fri, Apr 24th)](https://isc.sans.edu/diary/rss/32924) — SANS Internet Storm Center
 - [x] [Inside the 2025 Gartner® DFIR Retainer Services Market Guide: A Service Provider's Perspective](https://www.binalyze.com/blog/inside-the-2025-gartner-dfir-retainer-services-market-guide-a-service-providers-perspective) — Binalyze Blog
 - [x] [Our Takeaways for Enterprises from the 2025 Gartner Market Guide for DFIR Retainer Services](https://www.binalyze.com/blog/key-takeaways-for-enterprises-from-the-2025-gartner-dfir-retainer-services-market-guide) — Binalyze Blog
@@ -159,10 +159,10 @@ Mark `[x]` when reviewed, `[→]` when artifact tasks were created.
 - [x] [Fix command syntax in tcpdump instructions](https://github.com/GTFOBins/GTFOBins.github.io/commit/c922862e18dc55edfb272ef1f296530f5f335c33) — GTFOBins (Linux)
 - [x] [Add back sqlite3 inherit](https://github.com/GTFOBins/GTFOBins.github.io/commit/869f965b285f5d42182ca48769892413cf833caa) — GTFOBins (Linux)
 - [x] [Fix sqlite3 quotes](https://github.com/GTFOBins/GTFOBins.github.io/commit/32283c756e6acb350ef567b09359aa6c1367c743) — GTFOBins (Linux)
-- [ ] [Merge #568](https://github.com/GTFOBins/GTFOBins.github.io/commit/890af27684e3c9a768f34178308aaf896980a08a) — GTFOBins (Linux)
-- [ ] [Convert and simplify bbot](https://github.com/GTFOBins/GTFOBins.github.io/commit/5f6782139dd8a2412319fb2067ff03b3955790bb) — GTFOBins (Linux)
+- [x] [Merge #568](https://github.com/GTFOBins/GTFOBins.github.io/commit/890af27684e3c9a768f34178308aaf896980a08a) — GTFOBins (Linux) <!-- bbot file-read capability; bbot already in LOLBAS_LINUX -->
+- [x] [Convert and simplify bbot](https://github.com/GTFOBins/GTFOBins.github.io/commit/5f6782139dd8a2412319fb2067ff03b3955790bb) — GTFOBins (Linux) <!-- bbot entry reformatted; bbot already in LOLBAS_LINUX -->
 - [x] [Sync with master](https://github.com/GTFOBins/GTFOBins.github.io/commit/4e26b0b72ce4968e1c3da8318cb1adb1d8c72313) — GTFOBins (Linux)
-- [ ] [Merge #567](https://github.com/GTFOBins/GTFOBins.github.io/commit/24c6ef53cf2c5885006e9681e771b350b7fd0947) — GTFOBins (Linux)
+- [x] [Merge #567](https://github.com/GTFOBins/GTFOBins.github.io/commit/24c6ef53cf2c5885006e9681e771b350b7fd0947) — GTFOBins (Linux) <!-- codex shell-escape capability; codex already in LOLBAS_LINUX -->
 - [x] [Fix codex](https://github.com/GTFOBins/GTFOBins.github.io/commit/da68f4cc293273a2e9724ad3befaa12fe6a368ea) — GTFOBins (Linux)
 - [x] [Add SEO improvements to Astro web UI (#253)](https://github.com/infosecB/LOOBins/commit/b1de45c5f6317876aa0036c2c25fb8c2b29291e1) — LOOBins (macOS)
 - [x] [chore: bump version to 2.0.14 [skip ci]](https://github.com/infosecB/LOOBins/commit/5c132925f31ba0a0a9b7d87a96f10c086a852120) — LOOBins (macOS)
@@ -185,9 +185,9 @@ Mark `[x]` when reviewed, `[→]` when artifact tasks were created.
 - [x] [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/afc47209b44428498a88523d5491eb5feb89e2e1) — LOLDrivers (BYOVD)
 - [x] [Merge pull request #333 from magicsword-io/MHaggis/add-devhost-malicious](https://github.com/magicsword-io/LOLDrivers/commit/e00b2e1728565ed2794fac2979a665ecb339655b) — LOLDrivers (BYOVD)
 - [x] [Migrate away from excessively expensive Azure Front Door](https://github.com/LOFL-Project/LOFL-Project.github.io/commit/6f4c65cef3c881eef3119dace33455546fcadc22) — LOFL Project (RMM C2 indicators)
-- [ ] [Applying update LOFLCAB@75b0aec1a3a2062bbc4647c90bb6837c…](https://github.com/LOFL-Project/LOFL-Project.github.io/commit/25c82a0393a7a751b3d9e2c4c2e2b3feed82a8c3) — LOFL Project (RMM C2 indicators)
-- [ ] [Applying update LOFLCAB@c9ecf2612d3a981de3f1445320716e40…](https://github.com/LOFL-Project/LOFL-Project.github.io/commit/35b20386e348b9d936302ea51dc2a0e727f46762) — LOFL Project (RMM C2 indicators)
-- [ ] [Applying update LOFLCAB@c9f7063e9733acb8d55931f1f37e63fe…](https://github.com/LOFL-Project/LOFL-Project.github.io/commit/db6836d2089b296057158bfbfebaed20812584bb) — LOFL Project (RMM C2 indicators)
+- [x] [Applying update LOFLCAB@75b0aec1a3a2062bbc4647c90bb6837c…](https://github.com/LOFL-Project/LOFL-Project.github.io/commit/25c82a0393a7a751b3d9e2c4c2e2b3feed82a8c3) — LOFL Project (RMM C2 indicators) <!-- rmtshare.exe, msg.exe, Set-DnsServerSetting, certutil.md updates — all already in catalog -->
+- [x] [Applying update LOFLCAB@c9ecf2612d3a981de3f1445320716e40…](https://github.com/LOFL-Project/LOFL-Project.github.io/commit/35b20386e348b9d936302ea51dc2a0e727f46762) — LOFL Project (RMM C2 indicators) <!-- MSFT_MTProcess WMI class; already in LOLBAS_WINDOWS_WMI -->
+- [x] [Applying update LOFLCAB@c9f7063e9733acb8d55931f1f37e63fe…](https://github.com/LOFL-Project/LOFL-Project.github.io/commit/db6836d2089b296057158bfbfebaed20812584bb) — LOFL Project (RMM C2 indicators) <!-- wbemtest.exe WMI GUI tool; already in LOLBAS_WINDOWS -->
 - [ ] [Applying update LOFLCAB@0ed7791b6ba7dd084c1b9bbc6b19f0da…](https://github.com/LOFL-Project/LOFL-Project.github.io/commit/1a282d9b39f186b11cf90594f59d132024dd850f) — LOFL Project (RMM C2 indicators)
 - [ ] [Applying update LOFLCAB@b871fa77e916ec17285ece195fda67a5…](https://github.com/LOFL-Project/LOFL-Project.github.io/commit/9e07515f4b6f1b9b68eae84a042df4d6896760a9) — LOFL Project (RMM C2 indicators)
 - [ ] [Applying update LOFLCAB@3bf50506f5fe87356e09a0072731e950…](https://github.com/LOFL-Project/LOFL-Project.github.io/commit/757db3903a0dcd99d78f1f4885bf51dec44a1f83) — LOFL Project (RMM C2 indicators)
