@@ -13250,3 +13250,53 @@ Mark `[x]` when reviewed, `[→]` when artifact tasks were created.
 - [ ] [Microsoft Edge Stores Passwords in Process Memory, Posing Enterprise Risk](https://www.darkreading.com/cyber-risk/microsoft-edge-passwords-enterprise-risk) — Dark Reading
 - [ ] [How the Story of a USB Penetration Test Went Viral](https://www.darkreading.com/cyberattacks-data-breaches/how-story-usb-penetration-test-went-viral) — Dark Reading
 - [ ] [Physical Cargo Theft Gets a Boost From Cybercriminals](https://www.darkreading.com/cyber-risk/physical-cargo-theft-cybercriminals) — Dark Reading
+
+## 2026-05-08
+
+- [ ] [AI is Eating Itself](https://brettshavers.com/brett-s-blog/entry/ai-is-eating-itself) — Brett Shavers
+- [ ] [DFIR In 2026 – AI ‘Button Pusher’ Forensics, Writing Courtroom Reports, Audio Breakthroughs And The Leica Geosystems Conference](https://www.forensicfocus.com/podcast/dfir-in-2026-ai-button-pusher-forensics-writing-courtroom-reports-audio-breakthroughs-and-the-leica-geosystems-conference/) — Forensic Focus
+- [ ] [Digital Forensics Round-Up, May 06 2026](https://www.forensicfocus.com/news/digital-forensics-round-up-may-06-2026/) — Forensic Focus
+- [ ] [Asking the right questions: How to get the most out of Intelligent Insights](https://www.magnetforensics.com/blog/asking-the-right-questions-how-to-get-the-most-out-of-intelligent-insights/) — Magnet Forensics
+- [ ] [ISC Stormcast For Friday, May 8th, 2026 https://isc.sans.edu/podcastdetail/9924, (Fri, May 8th)](https://isc.sans.edu/diary/rss/32966) — SANS Internet Storm Center
+- [ ] [ISC Stormcast For Thursday, May 7th, 2026 https://isc.sans.edu/podcastdetail/9922, (Thu, May 7th)](https://isc.sans.edu/diary/rss/32964) — SANS Internet Storm Center
+- [ ] [An Adaptive Cyber Analytics UI for Web Honeypot Logs &#x5b;Guest Diary&#x5d;, (Wed, May 6th)](https://isc.sans.edu/diary/rss/32962) — SANS Internet Storm Center
+- [ ] [MSAB Sets Long-term Financial Targets](https://www.msab.com/updates/msab-sets-long-term-financial-targets/) — MSAB
+- [ ] [InfoSec News Nuggets 05/07/2026](https://aboutdfir.com/infosec-news-nuggets-05-07-2026/) — AboutDFIR
+- [ ] [InfoSec News Nuggets 05/06/2026](https://aboutdfir.com/infosec-news-nuggets-05-06-2026/) — AboutDFIR
+- [ ] [1 little known secret of forfiles.exe, part 2](https://www.hexacorn.com/blog/2026/05/06/1-little-known-secret-of-forfiles-exe-part-2/) — Hexacorn
+- [ ] [On Reflection: Mirror play](https://eclecticlight.co/2026/05/07/on-reflection-mirror-play/) — The Eclectic Light Company
+- [ ] [How to make and roll back to a snapshot](https://eclecticlight.co/2026/05/07/how-to-make-and-roll-back-to-a-snapshot/) — The Eclectic Light Company
+- [ ] [Medium and message: miniature](https://eclecticlight.co/2026/05/06/medium-and-message-miniature/) — The Eclectic Light Company
+- [ ] [How macOS can ignore and hide metadata](https://eclecticlight.co/2026/05/06/how-macos-can-ignore-and-hide-metadata/) — The Eclectic Light Company
+- [ ] [Analyzing Google's Map cache](https://dfir.pubpub.org/pub/cikirl1f) — DFIR Review
+- [ ] [Traces of Edited Messages in Signal](https://dfir.pubpub.org/pub/9rhnzs35) — DFIR Review
+- [ ] [Spring cleaning your browser](https://redcanary.com/blog/security-operations/spring-cleaning-your-browser/) — Red Canary Blog
+- [ ] [Threat Brief: Exploitation of PAN-OS Captive Portal Zero-Day for Unauthenticated Remote Code Execution](https://unit42.paloaltonetworks.com/captive-portal-zero-day/) — Palo Alto Unit 42
+- [ ] [Unplug your way to better code](https://blog.talosintelligence.com/unplug-your-way-to-better-code/) — Cisco Talos Blog
+- [ ] [Insights into the clustering and reuse of phone numbers in scam emails](https://blog.talosintelligence.com/insights-into-the-clustering-and-reuse-of-phone-numbers-in-scam-emails/) — Cisco Talos Blog
+- [ ] [Cellebrite Government Cloud Achieves FedRAMP High Authorization](https://cellebrite.com/en/resources/press-releases/cellebrite-government-cloud-achieves-fedramp-high-authorization/) — Cellebrite Blog
+- [ ] [CrowdStrike Named a Leader in the First-Ever Gartner&reg; Magic Quadrant&trade; for Cyberthreat Intelligence Technologies](https://www.crowdstrike.com/en-us/blog/crowdstrike-named-leader-gartner-magic-quadrant-cyberthreat-intelligence/) — CrowdStrike blog
+- [ ] [Massive AI investment scam network spans 15,500 domains](https://www.malwarebytes.com/blog/news/2026/05/massive-ai-investment-scam-network-spans-15500-domains) — Malwarebytes Labs
+- [ ] [If a fake moustache can fool age checks, is the Online Safety Act working?](https://www.malwarebytes.com/blog/family-and-parenting/2026/05/if-a-fake-moustache-can-fool-age-checks-is-the-online-safety-act-working) — Malwarebytes Labs
+- [ ] [Google Chrome&#8217;s silent 4GB AI download problem](https://www.malwarebytes.com/blog/news/2026/05/google-chromes-silent-4gb-ai-download-problem) — Malwarebytes Labs
+- [ ] [Attackers adopt JavaScript runtime Bun to spread NWHStealer](https://www.malwarebytes.com/blog/threat-intel/2026/05/attackers-adopt-javascript-runtime-bun-to-spread-nwhstealer) — Malwarebytes Labs
+- [ ] [Millions of students&#8217; personal data stolen in major education breach](https://www.malwarebytes.com/blog/news/2026/05/millions-of-students-personal-data-stolen-in-major-education-cyberattack) — Malwarebytes Labs
+- [ ] [Canvas Breach Disrupts Schools & Colleges Nationwide](https://krebsonsecurity.com/2026/05/canvas-breach-disrupts-schools-colleges-nationwide/) — Krebs on Security
+- [ ] [Canvas login portals hacked in mass ShinyHunters extortion campaign](https://www.bleepingcomputer.com/news/security/canvas-login-portals-hacked-in-mass-shinyhunters-extortion-campaign/) — BleepingComputer
+- [ ] [New TCLBanker malware self-spreads over WhatsApp and Outlook](https://www.bleepingcomputer.com/news/security/new-tclbanker-malware-self-spreads-over-whatsapp-and-outlook/) — BleepingComputer
+- [ ] [New PCPJack worm steals credentials, cleans TeamPCP infections](https://www.bleepingcomputer.com/news/security/new-pcpjack-worm-steals-credentials-cleans-teampcp-infections/) — BleepingComputer
+- [ ] [Australia warns of ClickFix attacks pushing Vidar Stealer malware](https://www.bleepingcomputer.com/news/security/australia-warns-of-clickfix-attacks-pushing-vidar-stealer-malware/) — BleepingComputer
+- [ ] [Ivanti warns of new EPMM flaw exploited in zero-day attacks](https://www.bleepingcomputer.com/news/security/ivanti-warns-of-new-epmm-flaw-exploited-in-zero-day-attacks/) — BleepingComputer
+- [ ] [The Browser Is Breaking Your DLP: How Data Slips Past Modern Controls](https://www.bleepingcomputer.com/news/security/the-browser-is-breaking-your-dlp-how-data-slips-past-modern-controls/) — BleepingComputer
+- [ ] [Americans sentenced for running 'laptop farms' for North Korea](https://www.bleepingcomputer.com/news/security/americans-sentenced-for-running-laptop-farms-for-north-korea/) — BleepingComputer
+- [ ] [Crypto gang member gets 6.5 years for role in $230 million heist](https://www.bleepingcomputer.com/news/security/crypto-gang-member-gets-65-years-for-role-in-230-million-heist/) — BleepingComputer
+- [ ] [Webinar: Why modern attacks require both security and recovery](https://www.bleepingcomputer.com/news/security/webinar-why-modern-attacks-require-both-security-and-recovery/) — BleepingComputer
+- [ ] [Palo Alto Networks firewall zero-day exploited for nearly a month](https://www.bleepingcomputer.com/news/security/pan-os-firewall-rce-zero-day-exploited-in-attacks-since-april-9/) — BleepingComputer
+- [ ] [After Replacing TeamPCP Malware, 'PCPJack' Steals Cloud Secrets](https://www.darkreading.com/cloud-security/teampcp-malware-pcpjack-steals-cloud-secrets) — Dark Reading
+- [ ] [Has CISA Finally Found Its New Leader in Tom Parker?](https://www.darkreading.com/cybersecurity-operations/cisa-new-leader-tom-parker) — Dark Reading
+- [ ] ['TrustFall' Convention Exposes Claude Code Execution Risk](https://www.darkreading.com/application-security/trustfall-exposes-claude-code-execution-risk) — Dark Reading
+- [ ] [World's First AI-Driven Cyberattack Couldn't Breach OT Systems](https://www.darkreading.com/ics-ot-security/worlds-first-ai-driven-cyberattack-couldnt-breach-ot-systems) — Dark Reading
+- [ ] [Yet Another Way to Bypass Google Chrome's Encryption Protection](https://www.darkreading.com/endpoint-security/yet-another-way-bypass-google-chromes-encryption-protection) — Dark Reading
+- [ ] [Instructure Breach Exposes Schools' Vendor Dependence](https://www.darkreading.com/cyberattacks-data-breaches/instructure-breach-exposes-schools-vendor-dependence) — Dark Reading
+- [ ] [From Stuxnet to ChatGPT: 20 News Events That Shaped Cyber](https://www.darkreading.com/threat-intelligence/stuxnet-chatgpt-20-news-events-cyber) — Dark Reading
+- [ ] [Attacks Abuse Windows Phone Link to Steal Texts &amp; Bypass 2FA](https://www.darkreading.com/cyberattacks-data-breaches/attacks-abuse-windows-phone-link-texts-bypass-2fa) — Dark Reading
