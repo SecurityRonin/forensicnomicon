@@ -6099,6 +6099,9 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Primary security audit log. Key event IDs: 4624/4625 (logon success/fail), \
               4634/4647 (logoff), 4648 (explicit-cred logon), 4688/4689 (process create/exit), \
               4698/4702 (scheduled task create/modify), 4720/4732 (account create/group add), \
+              4616 (system time change — primary timestomping/clock-manipulation indicator; \
+              records user, previous time, new time, and process that changed the clock; \
+              back-dated logon records and impossible session durations are downstream symptoms), \
               5152 (WFP blocked a packet — pivot for EDR-silencer detection and inbound \
               recon/exploitation; source IP recorded but direction is usually inbound), \
               5379 (Credential Manager credential read — detects tools like CredentialsFileView harvesting stored passwords), \
@@ -6130,6 +6133,19 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
         //   block) as analyst pivot; called out as "may see connection
         //   attempts from other subnets, or from public IP addresses".
         "https://windowsir.blogspot.com/2023/08/events-ripper-updates.html",
+        // Source: https://windowsir.blogspot.com/2023/06/events-ripper-update.html
+        // — Carvey adds timechange.pl Events Ripper plugin for Event ID 4616
+        //   (Security-Auditing system time change). Investigation surfaced
+        //   back-dated Security Event Log records (logons in 2020 on a 2024
+        //   image) and negative session durations as downstream symptoms of
+        //   clock manipulation; 4616 is the host artifact that records who
+        //   changed the clock, from what to what, via which process.
+        "https://windowsir.blogspot.com/2023/06/events-ripper-update.html",
+        // Source: https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4616
+        // — Microsoft documents Event 4616 fields: SubjectUserSid,
+        //   SubjectUserName, SubjectDomainName, SubjectLogonId,
+        //   PreviousTime, NewTime, ProcessName, ProcessId.
+        "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4616",
     ],
 };
 
@@ -7939,6 +7955,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     // Group C: Additional EVTX channels (batch I)
     windows_evtx_ext::EVTX_DNS_CLIENT,
     windows_evtx_ext::EVTX_TERMINAL_SERVICES,
+    windows_evtx_ext::EVTX_APPLICATION_EXPERIENCE_TELEMETRY,
     // Extended macOS artifacts (macos_ext)
     macos_ext::MACOS_FSEVENTS,
     macos_ext::MACOS_SPOTLIGHT_STORE,

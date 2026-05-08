@@ -593,3 +593,79 @@ pub(crate) static EVTX_TERMINAL_SERVICES: ArtifactDescriptor = ArtifactDescripto
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
 };
+
+/// Microsoft-Windows-Application-Experience/Program-Telemetry — driver-block
+/// validation channel.
+///
+/// Per Carvey's "Events Ripper Update" (windowsir.blogspot.com, 2023-06-05),
+/// Event ID 875 records when Windows blocks a driver from loading via the
+/// Driver Block List / vulnerable-driver enforcement (HVCI / Microsoft
+/// Vulnerable Driver Blocklist). This is the validation pivot for EDR
+/// telemetry that shows a `sc.exe create` or driver-load attempt: EDR sees
+/// the command launched, but only Event 875 confirms whether the driver
+/// actually loaded or was blocked. Carvey added an `appissue.pl` plugin
+/// specifically for this — without it, analysts assume blocked driver-load
+/// attacks (BYOVD, T1068) succeeded when they did not.
+pub(crate) static EVTX_APPLICATION_EXPERIENCE_TELEMETRY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "evtx_application_experience_telemetry",
+    name: "Application-Experience Program-Telemetry Log (driver-block validation)",
+    artifact_type: ArtifactType::EventLog,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"%SystemRoot%\System32\winevt\Logs\Microsoft-Windows-Application-Experience%4Program-Telemetry.evtx"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "Windows Application-Experience / Program-Telemetry channel. Key Event ID: \
+              875 — driver blocked from loading by the Microsoft Vulnerable Driver Blocklist \
+              / Driver Block List / HVCI policy (T1068 BYOVD validation). When EDR shows a \
+              driver-load attempt or `sc.exe create type= kernel`, 875 is the host artifact \
+              that confirms whether the driver actually loaded or was blocked. Absence of an \
+              875 record alongside an EDR-observed driver-load command implies the driver \
+              successfully loaded. Pair with System.evtx 7045 (service installed) and \
+              CodeIntegrity (5038/3023/3033) for the full BYOVD chain.",
+    mitre_techniques: &["T1068", "T1543.003"],
+    fields: &[
+        FieldSchema {
+            name: "event_id",
+            value_type: ValueType::UnsignedInt,
+            description: "875 = driver blocked from loading",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "driver_path",
+            value_type: ValueType::Text,
+            description: "Path of the driver that was blocked from loading",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "timestamp",
+            value_type: ValueType::Timestamp,
+            description: "Event timestamp (UTC)",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Default 1 MB; rolls over on busy systems"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["evtx_system", "evtx_code_integrity", "evtx_security"],
+    sources: &[
+        // Source: https://windowsir.blogspot.com/2023/06/events-ripper-update_5.html
+        // — Carvey adds appissue.pl Events Ripper plugin for Event ID 875
+        //   (driver block) as validation pivot for EDR-observed driver-load
+        //   attempts; cites Josh's Twitter finding and
+        //   intelligentsystemsmonitoring.com/tag/event-875/ as channel
+        //   reference.
+        "https://windowsir.blogspot.com/2023/06/events-ripper-update_5.html",
+        // Source: https://intelligentsystemsmonitoring.com/tag/event-875/
+        // — Channel-level documentation that 875 in the
+        //   Application-Experience / Program-Telemetry log denotes a blocked
+        //   driver load.
+        "https://intelligentsystemsmonitoring.com/tag/event-875/",
+        // Source: https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/design/microsoft-recommended-driver-block-rules
+        // — Microsoft Vulnerable Driver Blocklist / Driver Block List policy
+        //   that produces these block events when HVCI / WDAC enforcement is
+        //   active.
+        "https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/design/microsoft-recommended-driver-block-rules",
+    ],
+};
