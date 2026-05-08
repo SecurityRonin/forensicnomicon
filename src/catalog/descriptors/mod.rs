@@ -6099,6 +6099,8 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
     meaning: "Primary security audit log. Key event IDs: 4624/4625 (logon success/fail), \
               4634/4647 (logoff), 4648 (explicit-cred logon), 4688/4689 (process create/exit), \
               4698/4702 (scheduled task create/modify), 4720/4732 (account create/group add), \
+              5152 (WFP blocked a packet — pivot for EDR-silencer detection and inbound \
+              recon/exploitation; source IP recorded but direction is usually inbound), \
               5379 (Credential Manager credential read — detects tools like CredentialsFileView harvesting stored passwords), \
               1102 (audit log cleared — high-priority anti-forensics indicator).",
     mitre_techniques: &["T1070.001", "T1059", "T1078", "T1555"],
@@ -6118,6 +6120,16 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.magnetforensics.com/blog/the-importance-of-powershell-logs-in-digital-forensics/",
         "https://github.com/EricZimmerman/evtx",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.3_Windows_Event_Core.md",
+        // Source: https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5152
+        // — Microsoft documents Event 5152 (Windows Filtering Platform blocked a
+        //   packet); fields include Process ID, Direction, Source/Destination
+        //   address+port, Protocol, Filter Run-Time ID, Layer Name+Run-Time ID.
+        "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5152",
+        // Source: https://windowsir.blogspot.com/2023/08/events-ripper-updates.html
+        // — Carvey adds filter.pl Events Ripper plugin for 5152 (WFP packet
+        //   block) as analyst pivot; called out as "may see connection
+        //   attempts from other subnets, or from public IP addresses".
+        "https://windowsir.blogspot.com/2023/08/events-ripper-updates.html",
     ],
 };
 
@@ -6134,6 +6146,8 @@ pub static EVTX_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     decoder: Decoder::Identity,
     meaning:
         "System-level events. Key IDs: 7045 (service installed), 7036 (service state change), \
+              7031 (Service Control Manager — service crash; analyst pivot for \
+              EDR/AV agent tamper attempts and failed persistence-via-service installs), \
               6005/6006 (event log start/stop — boot/shutdown boundary), \
               104 (System log cleared). Service installation (7045) is a primary \
               lateral-movement and persistence indicator. Attackers abuse sc.exe to create services \
@@ -6155,6 +6169,15 @@ pub static EVTX_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
         // — PowerShell-as-service abuse via 7045, misleading 7000/7009 errors,
         //   base64+gzip deobfuscation chain
         "https://az4n6.blogspot.com/2017/10/finding-and-decoding-malicious.html",
+        // Source: https://windowsir.blogspot.com/2023/08/events-ripper-updates.html
+        // — Carvey adds scm.pl Events Ripper plugin checking for SCM/7031
+        //   (service crash) as analyst pivot; explicitly excludes 7039 due
+        //   to noise.
+        "https://windowsir.blogspot.com/2023/08/events-ripper-updates.html",
+        // Source: https://www.manageengine.com/products/eventlog/kb/event-7031-service-crash-help.html
+        // — ManageEngine documents SCM Event ID 7031 service crash semantics
+        //   referenced by Carvey's scm.pl plugin.
+        "https://www.manageengine.com/products/eventlog/kb/event-7031-service-crash-help.html",
     ],
 };
 
@@ -6273,6 +6296,79 @@ pub static EVTX_SYSMON: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.thedfirspot.com/post/sysmon-when-visibility-is-key",
         "https://github.com/EricZimmerman/evtx",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.3_Windows_Event_Core.md",
+    ],
+};
+
+/// Microsoft-Windows-Windows Defender/Operational — Microsoft Defender AV
+/// telemetry channel (separate from Application.evtx).
+///
+/// Carvey ("Events Ripper Updates", windowsir.blogspot.com, 2023-08-02)
+/// added a `defender.pl` plugin that pivots on Event ID 2050 because it
+/// fingerprints exactly which file path + hash Defender shipped to the
+/// MAPS cloud — high-value DFIR pivot when the dropped binary has been
+/// deleted post-infection. Event 2051 is the negative pair (sample could
+/// not be uploaded). The 1116/1117 (malware detected/blocked) plus 5001
+/// (real-time protection disabled) and 5007 (config changed) IDs are
+/// the classic AV-disable + detection pivots.
+pub static EVTX_DEFENDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
+    id: "evtx_defender_operational",
+    name: "Microsoft-Windows-Windows Defender/Operational",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(
+        r"C:\Windows\System32\winevt\Logs\Microsoft-Windows-Windows Defender%4Operational.evtx",
+    ),
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning:
+        "Microsoft Defender AV operational telemetry (separate channel from Application.evtx). \
+              Key Event IDs: 1116 (malware detected — name, severity, file path, user context), \
+              1117 (malware action taken — quarantined/cleaned/removed), \
+              1118/1119 (action failed/critically failed — file still on disk), \
+              2050 (sample uploaded to MAPS cloud — file name and hash recorded; \
+              high-value DFIR pivot when the dropped binary has been deleted), \
+              2051 (sample could NOT be uploaded — sometimes indicates the \
+              sample was already exfiltrated/deleted before MAPS submission), \
+              5001 (real-time protection disabled — primary AV-tamper indicator), \
+              5004/5007 (real-time protection config / Defender config changed — \
+              attackers add path/process exclusions before dropping malware), \
+              5010 (scanning for malware disabled), 5012 (scanning for viruses disabled). \
+              Channel survives the dropped malware itself: 2050's file-hash record \
+              is often the only artifact left after the malware has been cleaned.",
+    mitre_techniques: &["T1562.001", "T1059", "T1027"],
+    fields: EVTX_FIELDS,
+    retention: Some("configurable; default ~1MB rolling per channel"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[
+        "evtx_security",
+        "evtx_application",
+        "evtx_application_msiinstaller",
+        "prefetch_file",
+    ],
+    sources: &[
+        // Source: https://windowsir.blogspot.com/2023/08/events-ripper-updates.html
+        // — Carvey adds defender.pl Events Ripper plugin for 2050 (sample
+        //   uploaded to MAPS) recording file path + hash; pairs with 2051
+        //   (cannot upload) from his earlier 2022 post.
+        "https://windowsir.blogspot.com/2023/08/events-ripper-updates.html",
+        // Source: https://windowsir.blogspot.com/2022/10/events-ripper.html
+        // — Carvey's earlier 2022 Events Ripper post introducing the 2051
+        //   "could not send sample" pivot referenced by the 2023-08 update.
+        "https://windowsir.blogspot.com/2022/10/events-ripper.html",
+        // Source: https://kirannr.com/2020/07/02/__trashed/
+        // — Kiran NR documents Defender Event 2050 ("Every time Windows
+        //   Defender AV...") records the file name and hash on every
+        //   MAPS submission, the basis for Carvey's defender.pl pivot.
+        "https://kirannr.com/2020/07/02/__trashed/",
+        // Source: https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/troubleshoot-microsoft-defender-antivirus
+        // — Microsoft documents the Microsoft-Windows-Windows Defender/Operational
+        //   channel and the canonical Defender event ID set (1116, 1117,
+        //   2050, 5001, 5007, etc.).
+        "https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/troubleshoot-microsoft-defender-antivirus",
+        "https://github.com/EricZimmerman/evtx",
     ],
 };
 
@@ -7763,6 +7859,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     EVTX_POWERSHELL,
     EVTX_APPLICATION_MSIINSTALLER,
     EVTX_SYSMON,
+    EVTX_DEFENDER_OPERATIONAL,
     // Batch macOS — persistence, execution, credentials, privacy
     MACOS_UNIFIED_LOG,
     MACOS_LAUNCH_AGENTS_USER,
