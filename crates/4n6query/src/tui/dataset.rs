@@ -3,10 +3,10 @@
 pub enum Dataset {
     Catalog = 0,
     Lolbas = 1,
-    WindowsCmdlets = 2,
-    WindowsMmc = 3,
-    WindowsWmi = 4,
-    AbusableSites = 5,
+    AbusableSites = 2,
+    WindowsCmdlets = 3,
+    WindowsMmc = 4,
+    WindowsWmi = 5,
     Playbooks = 6,
 }
 
@@ -15,10 +15,10 @@ impl Dataset {
         match idx {
             0 => Some(Self::Catalog),
             1 => Some(Self::Lolbas),
-            2 => Some(Self::WindowsCmdlets),
-            3 => Some(Self::WindowsMmc),
-            4 => Some(Self::WindowsWmi),
-            5 => Some(Self::AbusableSites),
+            2 => Some(Self::AbusableSites),
+            3 => Some(Self::WindowsCmdlets),
+            4 => Some(Self::WindowsMmc),
+            5 => Some(Self::WindowsWmi),
             6 => Some(Self::Playbooks),
             _ => None,
         }
@@ -28,10 +28,10 @@ impl Dataset {
         match self {
             Self::Catalog => "catalog",
             Self::Lolbas => "lolbas",
+            Self::AbusableSites => "abusable sites",
             Self::WindowsCmdlets => "cmdlets",
             Self::WindowsMmc => "mmc",
             Self::WindowsWmi => "wmi",
-            Self::AbusableSites => "abusable sites",
             Self::Playbooks => "playbooks",
         }
     }

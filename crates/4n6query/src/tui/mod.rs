@@ -351,7 +351,7 @@ mod tests {
 
     #[test]
     fn cmdlets_detail_not_placeholder() {
-        let rd = build_render_data(&make_app(2, "", 0));
+        let rd = build_render_data(&make_app(3, "", 0));
         let combined = rd.detail_lines.join("\n");
         assert!(
             !combined.contains("Select an item"),
@@ -361,7 +361,7 @@ mod tests {
 
     #[test]
     fn abusable_sites_detail_not_placeholder() {
-        let rd = build_render_data(&make_app(5, "", 0));
+        let rd = build_render_data(&make_app(2, "", 0));
         let combined = rd.detail_lines.join("\n");
         assert!(
             !combined.contains("Select an item"),
@@ -545,21 +545,21 @@ fn build_render_data(app: &app::App) -> RenderData {
                 LOLBAS_WINDOWS.iter().map(|e| e.name.to_string()).collect()
             }
         }
-        2 => LOLBAS_WINDOWS_CMDLETS
-            .iter()
-            .map(|e| e.name.to_string())
-            .collect(),
-        3 => LOLBAS_WINDOWS_MMC
-            .iter()
-            .map(|e| e.name.to_string())
-            .collect(),
-        4 => LOLBAS_WINDOWS_WMI
-            .iter()
-            .map(|e| e.name.to_string())
-            .collect(),
-        5 => ABUSABLE_SITES
+        2 => ABUSABLE_SITES
             .iter()
             .map(|s| s.domain.to_string())
+            .collect(),
+        3 => LOLBAS_WINDOWS_CMDLETS
+            .iter()
+            .map(|e| e.name.to_string())
+            .collect(),
+        4 => LOLBAS_WINDOWS_MMC
+            .iter()
+            .map(|e| e.name.to_string())
+            .collect(),
+        5 => LOLBAS_WINDOWS_WMI
+            .iter()
+            .map(|e| e.name.to_string())
             .collect(),
         6 => PLAYBOOKS.iter().map(|p| p.id.to_string()).collect(),
         _ => vec![],
@@ -666,19 +666,7 @@ fn build_render_data(app: &app::App) -> RenderData {
             });
             entry.map(lolbas_detail_lines).unwrap_or_else(|| vec!["Select an item.".into()])
         }
-        2 => selected_name
-            .and_then(|n| lolbas_entry(LOLBAS_WINDOWS_CMDLETS, n))
-            .map(lolbas_detail_lines)
-            .unwrap_or_else(|| vec!["Select an item.".into()]),
-        3 => selected_name
-            .and_then(|n| lolbas_entry(LOLBAS_WINDOWS_MMC, n))
-            .map(lolbas_detail_lines)
-            .unwrap_or_else(|| vec!["Select an item.".into()]),
-        4 => selected_name
-            .and_then(|n| lolbas_entry(LOLBAS_WINDOWS_WMI, n))
-            .map(lolbas_detail_lines)
-            .unwrap_or_else(|| vec!["Select an item.".into()]),
-        5 => {
+        2 => {
             let site = selected_name.and_then(|name| {
                 ABUSABLE_SITES.iter().find(|s| s.domain.eq_ignore_ascii_case(name))
             });
@@ -704,6 +692,18 @@ fn build_render_data(app: &app::App) -> RenderData {
                 None => vec!["Select an item.".into()],
             }
         }
+        3 => selected_name
+            .and_then(|n| lolbas_entry(LOLBAS_WINDOWS_CMDLETS, n))
+            .map(lolbas_detail_lines)
+            .unwrap_or_else(|| vec!["Select an item.".into()]),
+        4 => selected_name
+            .and_then(|n| lolbas_entry(LOLBAS_WINDOWS_MMC, n))
+            .map(lolbas_detail_lines)
+            .unwrap_or_else(|| vec!["Select an item.".into()]),
+        5 => selected_name
+            .and_then(|n| lolbas_entry(LOLBAS_WINDOWS_WMI, n))
+            .map(lolbas_detail_lines)
+            .unwrap_or_else(|| vec!["Select an item.".into()]),
         6 => {
             let pb = selected_name.and_then(|id| PLAYBOOKS.iter().find(|p| p.id == id));
             match pb {
