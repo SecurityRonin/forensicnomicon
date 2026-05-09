@@ -390,26 +390,39 @@ fn build_render_data(app: &app::App) -> RenderData {
             .filter(|d| catalog_passes(app, d))
             .map(|d| format!("{:<36} [{:?}]", d.id, d.triage_priority))
             .collect(),
-        1 => LOLBAS_WINDOWS.iter().map(|e| e.name.to_string()).collect(),
-        2 => LOLBAS_LINUX.iter().map(|e| e.name.to_string()).collect(),
-        3 => LOLBAS_MACOS.iter().map(|e| e.name.to_string()).collect(),
-        4 => LOLBAS_WINDOWS_CMDLETS
+        1 => {
+            // Merged cross-platform lolbas — platform filter selects source.
+            if app.platform_mask.is_empty() {
+                let mut v: Vec<String> =
+                    LOLBAS_WINDOWS.iter().map(|e| e.name.to_string()).collect();
+                v.extend(LOLBAS_LINUX.iter().map(|e| e.name.to_string()));
+                v.extend(LOLBAS_MACOS.iter().map(|e| e.name.to_string()));
+                v
+            } else if app.platform_mask.contains(Platform::MacOS) {
+                LOLBAS_MACOS.iter().map(|e| e.name.to_string()).collect()
+            } else if app.platform_mask.contains(Platform::Linux) {
+                LOLBAS_LINUX.iter().map(|e| e.name.to_string()).collect()
+            } else {
+                LOLBAS_WINDOWS.iter().map(|e| e.name.to_string()).collect()
+            }
+        }
+        2 => LOLBAS_WINDOWS_CMDLETS
             .iter()
             .map(|e| e.name.to_string())
             .collect(),
-        5 => LOLBAS_WINDOWS_MMC
+        3 => LOLBAS_WINDOWS_MMC
             .iter()
             .map(|e| e.name.to_string())
             .collect(),
-        6 => LOLBAS_WINDOWS_WMI
+        4 => LOLBAS_WINDOWS_WMI
             .iter()
             .map(|e| e.name.to_string())
             .collect(),
-        7 => ABUSABLE_SITES
+        5 => ABUSABLE_SITES
             .iter()
             .map(|s| s.domain.to_string())
             .collect(),
-        8 => PLAYBOOKS.iter().map(|p| p.id.to_string()).collect(),
+        6 => PLAYBOOKS.iter().map(|p| p.id.to_string()).collect(),
         _ => vec![],
     };
 
