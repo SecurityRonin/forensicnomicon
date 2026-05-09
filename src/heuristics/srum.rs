@@ -11,11 +11,13 @@ pub const EXFIL_BYTES_RATIO: u64 = 10;
 pub const EXFIL_VOLUME_BYTES: u64 = 100 * 1024 * 1024; // 100 MiB
 
 /// Returns `true` if background CPU cycles dominate foreground cycles by the
-/// dominance ratio threshold. Zero foreground cycles also returns `true`.
+/// dominance ratio threshold. Zero foreground cycles returns `true` only when
+/// background cycles are non-zero (idle processes are not flagged).
 #[must_use]
 pub fn is_background_cpu_dominant(background_cycles: u64, foreground_cycles: u64) -> bool {
-    foreground_cycles == 0
-        || background_cycles / foreground_cycles >= BACKGROUND_CPU_DOMINANCE_RATIO
+    background_cycles > 0
+        && (foreground_cycles == 0
+            || background_cycles / foreground_cycles >= BACKGROUND_CPU_DOMINANCE_RATIO)
 }
 
 /// Returns `true` if outbound bytes exceed inbound bytes by the exfil ratio threshold.
