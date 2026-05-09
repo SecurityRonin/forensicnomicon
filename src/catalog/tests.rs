@@ -9366,3 +9366,126 @@ mod tests_windows_clipboard_data_files {
         );
     }
 }
+
+// ── Windows Defender MpWppTracing-*.bin (Carvey "Windows Defender Support Logs" 2026-01) ──
+//
+// WPP (Windows software trace preprocessor) binary tracing files written by
+// Defender into C:\ProgramData\Microsoft\Windows Defender\Support\.
+// Naming convention: MpWppTracing-YYYYMMDD-HHMMSS-00000003-fffffffeffffffff.bin.
+// Distinct from text MPLog-*.log: the .bin files are WPP binary trace records
+// requiring a parser (e.g. Intrinsec/mplog_parser) — `strings` is the lazy fallback.
+// Carvey notes the post he was responding to called these "diagnostic" logs;
+// the descriptor uses the canonical "Support log" terminology.
+
+#[cfg(test)]
+mod tests_windows_defender_mpwpptracing {
+    use super::*;
+
+    #[test]
+    fn windows_defender_mpwpptracing_exists() {
+        assert!(
+            CATALOG.by_id("windows_defender_mpwpptracing").is_some(),
+            "catalog must contain 'windows_defender_mpwpptracing'"
+        );
+    }
+
+    #[test]
+    fn windows_defender_mpwpptracing_is_file() {
+        let d = CATALOG.by_id("windows_defender_mpwpptracing").unwrap();
+        assert_eq!(
+            d.artifact_type,
+            ArtifactType::File,
+            "MpWppTracing-*.bin is a file artifact"
+        );
+    }
+
+    #[test]
+    fn windows_defender_mpwpptracing_path_in_defender_support() {
+        let d = CATALOG.by_id("windows_defender_mpwpptracing").unwrap();
+        let path = d.file_path.unwrap_or("");
+        assert!(
+            path.contains(r"Microsoft\Windows Defender\Support"),
+            "file_path must point at Windows Defender\\Support folder, got {path}"
+        );
+        assert!(
+            path.contains("MpWppTracing"),
+            "file_path must reference MpWppTracing-*.bin naming convention, got {path}"
+        );
+    }
+
+    #[test]
+    fn windows_defender_mpwpptracing_system_scope() {
+        let d = CATALOG.by_id("windows_defender_mpwpptracing").unwrap();
+        assert_eq!(
+            d.scope,
+            DataScope::System,
+            "Defender support logs live in ProgramData (system scope)"
+        );
+    }
+
+    #[test]
+    fn windows_defender_mpwpptracing_meaning_mentions_wpp() {
+        let d = CATALOG.by_id("windows_defender_mpwpptracing").unwrap();
+        assert!(
+            d.meaning.to_lowercase().contains("wpp"),
+            "meaning must explain WPP binary trace format, got: {}",
+            d.meaning
+        );
+    }
+
+    #[test]
+    fn windows_defender_mpwpptracing_meaning_mentions_parser() {
+        let d = CATALOG.by_id("windows_defender_mpwpptracing").unwrap();
+        let m = d.meaning.to_lowercase();
+        assert!(
+            m.contains("mplog_parser") || m.contains("parser"),
+            "meaning must reference the need for a parser (e.g. mplog_parser), got: {}",
+            d.meaning
+        );
+    }
+
+    #[test]
+    fn windows_defender_mpwpptracing_cites_carvey_2026() {
+        let d = CATALOG.by_id("windows_defender_mpwpptracing").unwrap();
+        assert!(
+            d.sources.iter().any(|s| s
+                .contains("windowsir.blogspot.com/2026/01/windows-defender-support-logs.html")),
+            "must cite Carvey 2026-01 'Windows Defender Support Logs' as source"
+        );
+    }
+
+    #[test]
+    fn windows_defender_mpwpptracing_cites_mplog_parser() {
+        let d = CATALOG.by_id("windows_defender_mpwpptracing").unwrap();
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("github.com/Intrinsec/mplog_parser")),
+            "must cite the Intrinsec/mplog_parser repo (the parser Carvey identified)"
+        );
+    }
+
+    #[test]
+    fn windows_defender_mpwpptracing_related_includes_existing_defender_support() {
+        let d = CATALOG.by_id("windows_defender_mpwpptracing").unwrap();
+        assert!(
+            d.related_artifacts
+                .contains(&"kape_file_windows_defender_support"),
+            "must relate to the KAPE Defender Support collection target"
+        );
+    }
+}
+
+#[cfg(test)]
+mod tests_catalog_count_after_defender_support_logs {
+    use super::*;
+
+    #[test]
+    fn catalog_count_after_carvey_defender_support_logs_post() {
+        assert_eq!(
+            CATALOG.list().len(),
+            6648,
+            "catalog count after adding windows_defender_mpwpptracing"
+        );
+    }
+}
