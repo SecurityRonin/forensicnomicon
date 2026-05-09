@@ -77,12 +77,12 @@ pub fn handle_key(app: &mut App, event: KeyEvent, list_len: usize) -> bool {
         (KeyCode::Char('G'), KeyModifiers::NONE) | (KeyCode::End, KeyModifiers::NONE) => {
             app.move_to_bottom(list_len)
         }
-        (KeyCode::PageDown, KeyModifiers::NONE) | (KeyCode::Char('d'), KeyModifiers::CONTROL) => {
-            app.page_down(list_len, PAGE_SIZE)
-        }
-        (KeyCode::PageUp, KeyModifiers::NONE) | (KeyCode::Char('u'), KeyModifiers::CONTROL) => {
-            app.page_up(PAGE_SIZE)
-        }
+        (KeyCode::PageDown, KeyModifiers::NONE)
+        | (KeyCode::Char('d'), KeyModifiers::CONTROL)
+        | (KeyCode::Char('f'), KeyModifiers::CONTROL) => app.page_down(list_len, PAGE_SIZE),
+        (KeyCode::PageUp, KeyModifiers::NONE)
+        | (KeyCode::Char('u'), KeyModifiers::CONTROL)
+        | (KeyCode::Char('b'), KeyModifiers::CONTROL) => app.page_up(PAGE_SIZE),
 
         // ── Detail pane scroll ────────────────────────────────────────────
         (KeyCode::Char('J'), KeyModifiers::NONE) => {
