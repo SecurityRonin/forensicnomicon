@@ -101,6 +101,52 @@ mod tests {
         let t = load_theme();
         assert_ne!(t.crit_fg, ratatui::style::Color::Reset);
     }
+
+    // ── Platform mask filter ──────────────────────────────────────────────
+
+    #[test]
+    fn build_render_data_platform_mask_linux_reduces_results() {
+        use forensicnomicon::catalog::{Platform, PlatformMask};
+        let full = build_render_data(&make_app(0, "", 0)).list_items.len();
+        let mut a = make_app(0, "", 0);
+        a.platform_mask = PlatformMask::NONE.with(Platform::Linux);
+        let linux_count = build_render_data(&a).list_items.len();
+        assert!(
+            linux_count < full,
+            "Linux-only filter must reduce results: {} vs full {}",
+            linux_count,
+            full
+        );
+    }
+
+    #[test]
+    fn build_render_data_platform_mask_windows_reduces_results() {
+        use forensicnomicon::catalog::{Platform, PlatformMask};
+        let full = build_render_data(&make_app(0, "", 0)).list_items.len();
+        let mut a = make_app(0, "", 0);
+        a.platform_mask = PlatformMask::NONE.with(Platform::Windows);
+        let win_count = build_render_data(&a).list_items.len();
+        assert!(
+            win_count < full,
+            "Windows-only filter must reduce results: {} vs full {}",
+            win_count,
+            full
+        );
+    }
+
+    #[test]
+    fn build_render_data_platform_mask_none_shows_all_unfiltered() {
+        use forensicnomicon::catalog::PlatformMask;
+        let mut a = make_app(0, "", 0);
+        a.platform_mask = PlatformMask::NONE;
+        let rd = build_render_data(&a);
+        let expected = forensicnomicon::catalog::CATALOG.list().len();
+        assert_eq!(
+            rd.list_items.len(),
+            expected,
+            "empty mask must show full catalog"
+        );
+    }
 }
 
 use crossterm::{
@@ -110,7 +156,7 @@ use crossterm::{
 };
 use forensicnomicon::{
     abusable_sites::ABUSABLE_SITES,
-    catalog::CATALOG,
+    catalog::{Platform, CATALOG},
     lolbins::{
         LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS, LOLBAS_WINDOWS_CMDLETS, LOLBAS_WINDOWS_MMC,
         LOLBAS_WINDOWS_WMI,

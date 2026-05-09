@@ -398,6 +398,46 @@ mod tests {
         assert_eq!(line.spans[0].content, BLOCK_MISS.to_string());
     }
 
+    // ── Platform filter header indicators ────────────────────────────────
+
+    #[test]
+    fn header_shows_platform_label_when_windows_filter_active() {
+        use forensicnomicon::catalog::{Platform, PlatformMask};
+        let mut app = App::new();
+        app.platform_mask = PlatformMask::NONE.with(Platform::Windows);
+        let line = header_text(&app, default_theme());
+        let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
+        assert!(
+            text.contains("[Win]"),
+            "header must show [Win] when Windows filter active; got: {text}"
+        );
+    }
+
+    #[test]
+    fn header_shows_multiple_platform_labels_when_multi_filter_active() {
+        use forensicnomicon::catalog::{Platform, PlatformMask};
+        let mut app = App::new();
+        app.platform_mask = PlatformMask::NONE
+            .with(Platform::Windows)
+            .with(Platform::MacOS);
+        let line = header_text(&app, default_theme());
+        let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
+        assert!(text.contains("[Win]"), "must show [Win]; got: {text}");
+        assert!(text.contains("[Mac]"), "must show [Mac]; got: {text}");
+        assert!(!text.contains("[Lin]"), "must not show [Lin]; got: {text}");
+    }
+
+    #[test]
+    fn header_no_platform_brackets_when_mask_empty() {
+        let app = App::new();
+        let line = header_text(&app, default_theme());
+        let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
+        assert!(
+            !text.contains("[Win]") && !text.contains("[Mac]") && !text.contains("[Lin]"),
+            "no platform brackets when mask is empty; got: {text}"
+        );
+    }
+
     // ── draw (TestBackend smoke tests) ────────────────────────────────────
 
     #[test]

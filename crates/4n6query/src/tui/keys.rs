@@ -390,4 +390,54 @@ mod tests {
         handle_key(&mut a, ctrl_key('r'), 10);
         assert_eq!(a.preset_idx, 0, "preset should not change in search mode");
     }
+
+    // ── Platform filter (Alt-w/m/l) ───────────────────────────────────────
+
+    #[test]
+    fn alt_w_toggles_windows_platform() {
+        use forensicnomicon::catalog::Platform;
+        let mut a = app();
+        handle_key(&mut a, alt_key('w'), 10);
+        assert!(!a.platform_mask.is_empty(), "mask should be non-empty after toggle");
+        assert!(a.platform_mask.matches(Platform::Windows));
+        assert!(!a.platform_mask.matches(Platform::MacOS));
+    }
+
+    #[test]
+    fn alt_m_toggles_macos_platform() {
+        use forensicnomicon::catalog::Platform;
+        let mut a = app();
+        handle_key(&mut a, alt_key('m'), 10);
+        assert!(!a.platform_mask.is_empty());
+        assert!(a.platform_mask.matches(Platform::MacOS));
+        assert!(!a.platform_mask.matches(Platform::Windows));
+    }
+
+    #[test]
+    fn alt_l_toggles_linux_platform() {
+        use forensicnomicon::catalog::Platform;
+        let mut a = app();
+        handle_key(&mut a, alt_key('l'), 10);
+        assert!(!a.platform_mask.is_empty());
+        assert!(a.platform_mask.matches(Platform::Linux));
+    }
+
+    #[test]
+    fn alt_w_twice_clears_windows_filter() {
+        let mut a = app();
+        handle_key(&mut a, alt_key('w'), 10);
+        handle_key(&mut a, alt_key('w'), 10);
+        assert!(a.platform_mask.is_empty(), "second toggle should clear the filter");
+    }
+
+    #[test]
+    fn alt_w_and_alt_m_produces_two_platform_filter() {
+        use forensicnomicon::catalog::Platform;
+        let mut a = app();
+        handle_key(&mut a, alt_key('w'), 10);
+        handle_key(&mut a, alt_key('m'), 10);
+        assert!(a.platform_mask.matches(Platform::Windows));
+        assert!(a.platform_mask.matches(Platform::MacOS));
+        assert!(!a.platform_mask.matches(Platform::Linux));
+    }
 }
