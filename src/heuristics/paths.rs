@@ -72,6 +72,138 @@ pub fn is_suspicious_exec_path(path: &str) -> bool {
     SUSPICIOUS_EXEC_PREFIXES.iter().any(|p| path.contains(p))
 }
 
+// ── HKCU\Console value-name allowlist (Valley RAT) ─────────────────────────
+//
+// The legitimate `HKCU\Console` key normally contains only a small,
+// well-documented set of Console subsystem display values (FaceName,
+// FontSize, ColorTable*, CursorSize, WindowSize, ScreenColors, etc.). Per
+// Carvey's commentary on Valley RAT (Silver Fox campaign), the malware
+// abuses this exact key to store its configuration as binary blobs under
+// non-standard value names, and stores downloaded plugins under
+// `HKCU\Console\0\<md5_hash>` — a numeric subkey path that does not match
+// any documented Windows Console behavior.
+//
+// Source: https://windowsir.blogspot.com/2026/01/grab-bag.html
+// Source: https://www.cloudsek.com/blog/silver-fox-targeting-india-using-tax-themed-phishing-lures
+
+/// Documented value names that legitimately appear under `HKCU\Console`
+/// (and per-application Console subkeys reuse the same set).
+pub const CONSOLE_KNOWN_VALUE_NAMES: &[&str] = &[
+    "ColorTable00",
+    "ColorTable01",
+    "ColorTable02",
+    "ColorTable03",
+    "ColorTable04",
+    "ColorTable05",
+    "ColorTable06",
+    "ColorTable07",
+    "ColorTable08",
+    "ColorTable09",
+    "ColorTable10",
+    "ColorTable11",
+    "ColorTable12",
+    "ColorTable13",
+    "ColorTable14",
+    "ColorTable15",
+    "CtrlKeyShortcutsDisabled",
+    "CursorColor",
+    "CursorSize",
+    "CursorType",
+    "DefaultBackground",
+    "DefaultForeground",
+    "EnableColorSelection",
+    "ExtendedEditKey",
+    "ExtendedEditKeyCustom",
+    "FaceName",
+    "FilterOnPaste",
+    "FontFamily",
+    "FontSize",
+    "FontWeight",
+    "ForceV2",
+    "HistoryBufferSize",
+    "HistoryNoDup",
+    "InsertMode",
+    "LineSelection",
+    "LineWrap",
+    "LoadConIme",
+    "NumberOfHistoryBuffers",
+    "PopupColors",
+    "QuickEdit",
+    "ScreenBufferSize",
+    "ScreenColors",
+    "TerminalScrolling",
+    "TrimLeadingZeros",
+    "WindowAlpha",
+    "WindowPosition",
+    "WindowSize",
+    "WordDelimiters",
+];
+
+/// Returns `true` if the value name is NOT in the documented `HKCU\Console`
+/// allowlist — i.e. an unexpected value name that warrants investigation.
+///
+/// Comparison is case-insensitive (registry value names are case-insensitive
+/// on Windows). An empty value name (the default unnamed value) is also
+/// flagged: the legitimate Console key does not use it.
+#[must_use]
+pub fn is_suspicious_console_value_name(name: &str) -> bool {
+    if name.is_empty() {
+        return true;
+    }
+    !CONSOLE_KNOWN_VALUE_NAMES
+        .iter()
+        .any(|known| known.eq_ignore_ascii_case(name))
+}
+
+/// Returns `true` if the registry path is a non-standard subkey directly
+/// under `HKCU\Console` whose first segment is purely numeric (e.g.
+/// `HKCU\Console\0\<md5_hash>` — the Valley RAT plugin store).
+///
+/// The legitimate Console key holds per-application subkeys whose names
+/// are derived from the executable name (e.g. `cmd.exe` or
+/// `%SystemRoot%_System32_cmd.exe`); a bare integer subkey is unique to
+/// the Valley RAT layout. Comparison is case-insensitive (registry key
+/// paths are case-insensitive on Windows).
+#[must_use]
+pub fn is_suspicious_console_subkey(key_path: &str) -> bool {
+    const PREFIX: &str = "HKCU\\Console\\";
+    if key_path.len() <= PREFIX.len() {
+        return false;
+    }
+    if !key_path
+        .get(..PREFIX.len())
+        .is_some_and(|p| p.eq_ignore_ascii_case(PREFIX))
+    {
+        return false;
+    }
+    let tail = &key_path[PREFIX.len()..];
+    let first_segment = tail.split('\\').next().unwrap_or(tail);
+    !first_segment.is_empty() && first_segment.chars().all(|c| c.is_ascii_digit())
+}
+
+// ── NTUSER.MAN mandatory-profile persistence ───────────────────────────────
+//
+// Per DeceptIQ (27 Dec 2025) and Carvey's grab-bag commentary, the mere
+// existence of an `NTUSER.MAN` mandatory-profile hive is a high-confidence
+// indicator of compromise outside kiosk/shared-workstation deployments.
+// Windows loads `NTUSER.MAN` *instead of* `NTUSER.DAT`, so a planted
+// `.MAN` bypasses EDR registry callbacks entirely.
+//
+// Source: https://deceptiq.com/blog/ntuser-man-registry-persistence
+// Source: https://windowsir.blogspot.com/2026/01/grab-bag.html
+
+/// Returns `true` if the file path's basename is exactly `NTUSER.MAN`
+/// (case-insensitive — Windows file names are case-insensitive).
+///
+/// Caller is responsible for the kiosk/shared-workstation context check;
+/// in environments not using mandatory profiles, any hit warrants
+/// investigation.
+#[must_use]
+pub fn is_ntuser_man_path(path: &str) -> bool {
+    let base = path.rsplit(['/', '\\']).next().unwrap_or(path);
+    base.eq_ignore_ascii_case("NTUSER.MAN")
+}
+
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
 mod tests {
@@ -222,7 +354,9 @@ mod tests {
     fn console_arbitrary_blob_name_is_suspicious() {
         // Valley RAT writes config under non-standard value names
         assert!(is_suspicious_console_value_name("config"));
-        assert!(is_suspicious_console_value_name("d33f351a4aeea5e608853d1a56661059"));
+        assert!(is_suspicious_console_value_name(
+            "d33f351a4aeea5e608853d1a56661059"
+        ));
     }
 
     #[test]
