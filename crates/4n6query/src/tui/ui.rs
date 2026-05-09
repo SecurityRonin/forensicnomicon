@@ -14,7 +14,6 @@ use forensicnomicon::catalog::Platform;
 
 use crate::tui::app::{App, Focus, Mode, WinVersionFilter};
 use crate::tui::heatmap::{render_bar, tactic_mask, BLOCK_HIT, BLOCK_MISS};
-use crate::tui::presets::active as active_preset;
 use crate::tui::theme::Theme;
 
 /// Version string shown in the about modal.
@@ -32,9 +31,8 @@ pub fn pane_constraints(width: u16) -> [Constraint; 2] {
     }
 }
 
-/// Build the header line showing dataset + preset + search query.
+/// Build the header line showing dataset + active filters + search query.
 pub fn header_text<'a>(app: &'a App, theme: &'a Theme) -> Line<'a> {
-    let preset = active_preset(app.preset_idx);
     let dataset_label = crate::tui::dataset::Dataset::from_idx(app.dataset_idx)
         .map(|d| d.label())
         .unwrap_or("unknown");
@@ -48,12 +46,8 @@ pub fn header_text<'a>(app: &'a App, theme: &'a Theme) -> Line<'a> {
         Span::styled(dataset_label, Style::default().fg(theme.dataset_fg)),
         Span::raw(" │ "),
     ];
-    // Suppress "All" preset label when a platform filter is active — the
-    // platform badge ([Lin]/[Win]/…) already communicates the active scope.
-    if app.platform_mask.is_empty() || preset.label != "All" {
-        spans.push(Span::styled(preset.label, Style::default().fg(theme.header_fg)));
-    }
 
+    // Platform badge
     if !app.platform_mask.is_empty() {
         let label = if app.platform_mask.contains(Platform::Windows) {
             match app.win_version {
@@ -69,9 +63,16 @@ pub fn header_text<'a>(app: &'a App, theme: &'a Theme) -> Line<'a> {
             ""
         };
         if !label.is_empty() {
-            spans.push(Span::raw("  "));
             spans.push(Span::styled(label, Style::default().fg(theme.header_fg)));
         }
+    }
+
+    // Criticality badge
+    if let Some(badge) = app.crit_filter.badge() {
+        if !app.platform_mask.is_empty() {
+            spans.push(Span::raw(" "));
+        }
+        spans.push(Span::styled(badge, Style::default().fg(theme.header_fg)));
     }
 
     if !app.search_query.is_empty() || app.mode == Mode::Search {
@@ -106,7 +107,7 @@ pub fn hint_text<'a>(app: &'a App, theme: &'a Theme) -> Line<'a> {
         Mode::Search => " Esc: finish  ↑↓: navigate  Enter: confirm",
         Mode::About => " Esc/q: close  ↑↓/jk: scroll",
         Mode::Normal => {
-            " /: search  j/k: navigate  Tab: focus  Ctrl-R: preset  p: platform  ?: about  q: quit"
+            " /: search  j/k: navigate  Tab: focus  p: platform  c: criticality  ?: about  q: quit"
         }
     };
     Line::from(Span::styled(mode_hint, Style::default().fg(theme.hint_fg)))
@@ -275,7 +276,7 @@ fn draw_detail_pane(f: &mut Frame, app: &App, theme: &Theme, lines: &[String], a
 fn draw_about(f: &mut Frame, theme: &Theme, area: Rect) {
     // Centre a 60×18 modal
     let modal_w = 60u16.min(area.width.saturating_sub(4));
-    let modal_h = 21u16.min(area.height.saturating_sub(4));
+    let modal_h = 24u16.min(area.height.saturating_sub(4));
     let x = (area.width.saturating_sub(modal_w)) / 2;
     let y = (area.height.saturating_sub(modal_h)) / 2;
     let modal_area = Rect::new(x, y, modal_w, modal_h);
@@ -315,11 +316,15 @@ fn draw_about(f: &mut Frame, theme: &Theme, area: Rect) {
         Line::from("  j/k ↑↓   navigate list"),
         Line::from("  Tab      toggle list / detail focus"),
         Line::from("  h/l ←→   move focus left / right"),
-        Line::from("  Ctrl-R   cycle triage preset"),
+        Line::from("  p        cycle platform  (Win/W10/W11/Mac/Lin)"),
+        Line::from("  c        cycle criticality  (Crit/High/Med/All)"),
         Line::from("  Alt-1…9  jump to Nth result"),
-        Line::from("  p        cycle platform filter (Win/W10/W11/Mac/Lin)"),
         Line::from("  f        fullscreen detail pane"),
         Line::from("  q/Esc    quit / close modal"),
+        Line::from(""),
+        Line::from("  Mouse"),
+        Line::from("  scroll   navigate list"),
+        Line::from("  click    select item  |  header: toggle filters"),
     ];
 
     let para = Paragraph::new(text).block(block).wrap(Wrap { trim: false });
@@ -641,30 +646,26 @@ mod tests {
         .unwrap();
     }
 
-    // ── header "All" suppression (Option A) ──────────────────────────────
+    // ── header — no preset labels ─────────────────────────────────────────
 
     #[test]
-    fn header_shows_all_preset_label_when_no_platform_filter() {
-        let app = App::new(); // preset_idx=0 = "All", mask empty
+    fn header_never_shows_preset_labels() {
+        // Presets are gone; header must not contain preset-era text
+        let app = App::new();
         let line = header_text(&app, default_theme());
         let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
-        assert!(
-            text.contains("All"),
-            "header must show preset 'All' when no platform filter active; got: {text}"
-        );
+        assert!(!text.contains("Windows · CRIT"), "no preset label; got: {text}");
+        assert!(!text.contains("Linux · CRIT"), "no preset label; got: {text}");
     }
 
     #[test]
-    fn header_suppresses_all_label_when_platform_filter_active() {
-        use forensicnomicon::catalog::{Platform, PlatformMask};
-        let mut app = App::new(); // preset_idx=0 = "All"
-        app.platform_mask = PlatformMask::NONE.with(Platform::Linux);
+    fn header_clean_when_no_filters_active() {
+        let app = App::new();
         let line = header_text(&app, default_theme());
         let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
-        assert!(
-            !text.contains("All"),
-            "header must suppress 'All' when platform filter active; got: {text}"
-        );
+        // No filter badges when everything is at default
+        assert!(!text.contains("[Win]"), "no platform badge; got: {text}");
+        assert!(!text.contains("[Crit]"), "no crit badge; got: {text}");
     }
 
     // ── styled_line_for_item ──────────────────────────────────────────────

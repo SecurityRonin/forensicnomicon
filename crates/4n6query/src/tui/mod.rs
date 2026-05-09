@@ -3,7 +3,6 @@ pub mod dataset;
 pub mod guards;
 pub mod heatmap;
 pub mod keys;
-pub mod presets;
 pub mod search;
 pub mod theme;
 pub mod ui;
@@ -12,11 +11,10 @@ pub mod ui;
 mod tests {
     use super::*;
 
-    fn make_app(dataset: usize, query: &str, preset: usize) -> app::App {
+    fn make_app(dataset: usize, query: &str, _preset: usize) -> app::App {
         let mut a = app::App::new();
         a.switch_dataset(dataset);
         a.search_query = query.to_string();
-        a.preset_idx = preset;
         a
     }
 
@@ -42,16 +40,16 @@ mod tests {
     }
 
     #[test]
-    fn build_render_data_preset_windows_crit_filters() {
-        let a = make_app(0, "", 1); // preset 1 = Windows CRIT
+    fn build_render_data_windows_crit_filter_combo() {
+        use forensicnomicon::catalog::{Platform, PlatformMask};
+        let mut a = make_app(0, "", 0);
+        a.platform_mask = PlatformMask::NONE.with(Platform::Windows);
+        a.crit_filter = app::CritFilter::Critical;
         let rd = build_render_data(&a);
-        let full_count = {
-            let a2 = make_app(0, "", 0);
-            build_render_data(&a2).list_items.len()
-        };
+        let full_count = build_render_data(&make_app(0, "", 0)).list_items.len();
         assert!(
             rd.list_items.len() < full_count,
-            "Windows CRIT preset must filter catalog; got {} vs full {}",
+            "Windows+Critical must filter catalog; got {} vs full {}",
             rd.list_items.len(),
             full_count
         );
@@ -287,7 +285,7 @@ mod tests {
 
 use crate::tui::app::WinVersionFilter;
 use crossterm::{
-    event::{self, Event},
+    event::{self, EnableMouseCapture, DisableMouseCapture, Event},
     execute,
     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
 };
@@ -310,9 +308,11 @@ pub struct RenderData {
     pub detail_lines: Vec<String>,
 }
 
-/// Catalog filter predicate — factored out so the same logic can be used
-/// for both display-list construction and rich search-index construction.
-fn catalog_passes(app: &app::App, preset: &presets::Preset, d: &ArtifactDescriptor) -> bool {
+/// Catalog filter predicate — platform mask + criticality filter.
+///
+/// Factored out so the same logic is used for both display-list construction
+/// and rich search-index construction.
+fn catalog_passes(app: &app::App, d: &ArtifactDescriptor) -> bool {
     let platform_ok = if !app.platform_mask.is_empty() {
         if app.platform_mask.contains(Platform::Windows)
             && d.os_scope.platform() == Platform::Windows
@@ -331,22 +331,18 @@ fn catalog_passes(app: &app::App, preset: &presets::Preset, d: &ArtifactDescript
             app.platform_mask.matches(d.os_scope.platform())
         }
     } else {
-        preset
-            .os
-            .map_or(true, |os| os.platform() == d.os_scope.platform())
+        true
     };
-    platform_ok && (preset.priorities.is_empty() || preset.priorities.contains(&d.triage_priority))
+    platform_ok && app.crit_filter.passes(d.triage_priority)
 }
 
 fn build_render_data(app: &app::App) -> RenderData {
-    let preset = presets::active(app.preset_idx);
-
-    // Build the raw display list, applying preset filter for catalog (dataset 0).
+    // Build the raw display list applying platform + crit filters for catalog (dataset 0).
     let all_display: Vec<String> = match app.dataset_idx {
         0 => CATALOG
             .list()
             .iter()
-            .filter(|d| catalog_passes(app, preset, d))
+            .filter(|d| catalog_passes(app, d))
             .map(|d| format!("{:<36} [{:?}]", d.id, d.triage_priority))
             .collect(),
         1 => LOLBAS_WINDOWS.iter().map(|e| e.name.to_string()).collect(),
@@ -382,7 +378,7 @@ fn build_render_data(app: &app::App) -> RenderData {
             CATALOG
                 .list()
                 .iter()
-                .filter(|d| catalog_passes(app, preset, d))
+                .filter(|d| catalog_passes(app, d))
                 .enumerate()
                 .map(|(i, d)| {
                     let mut parts: Vec<&str> = vec![d.id, d.name, d.meaning];
@@ -496,7 +492,7 @@ fn run_inner() -> io::Result<()> {
     // Setup terminal
     enable_raw_mode()?;
     let mut stdout = io::stdout();
-    execute!(stdout, EnterAlternateScreen)?;
+    execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
 
@@ -512,17 +508,23 @@ fn run_inner() -> io::Result<()> {
         })?;
 
         if event::poll(std::time::Duration::from_millis(100))? {
-            if let Event::Key(key) = event::read()? {
-                if keys::handle_key(&mut app, key, rd.list_items.len()) {
-                    break;
+            match event::read()? {
+                Event::Key(key) => {
+                    if keys::handle_key(&mut app, key, rd.list_items.len()) {
+                        break;
+                    }
                 }
+                Event::Mouse(mouse) => {
+                    keys::handle_mouse(&mut app, mouse, rd.list_items.len());
+                }
+                _ => {}
             }
         }
     }
 
     // Restore terminal
     disable_raw_mode()?;
-    execute!(terminal.backend_mut(), LeaveAlternateScreen)?;
+    execute!(terminal.backend_mut(), LeaveAlternateScreen, DisableMouseCapture)?;
     terminal.show_cursor()?;
 
     Ok(())

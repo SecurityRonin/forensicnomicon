@@ -3,8 +3,49 @@
 /// All fields are public within the crate so `ui.rs` can read them
 /// without getters. All mutations go through the methods below so
 /// state transitions stay testable.
-use forensicnomicon::catalog::{Platform, PlatformMask};
+use forensicnomicon::catalog::{Platform, PlatformMask, TriagePriority};
 use std::time::Instant;
+
+/// Criticality filter — cycled with `c`.
+///
+/// Each level is a "≥ threshold" filter: `High` shows Critical + High, etc.
+/// Cycle: All → Critical → High → Medium → All.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum CritFilter {
+    All,
+    Critical,
+    High,
+    Medium,
+}
+
+impl CritFilter {
+    pub fn cycle(self) -> Self {
+        match self {
+            Self::All => Self::Critical,
+            Self::Critical => Self::High,
+            Self::High => Self::Medium,
+            Self::Medium => Self::All,
+        }
+    }
+
+    pub fn passes(self, priority: TriagePriority) -> bool {
+        match self {
+            Self::All => true,
+            Self::Critical => priority >= TriagePriority::Critical,
+            Self::High => priority >= TriagePriority::High,
+            Self::Medium => priority >= TriagePriority::Medium,
+        }
+    }
+
+    pub fn badge(self) -> Option<&'static str> {
+        match self {
+            Self::All => None,
+            Self::Critical => Some("[Crit]"),
+            Self::High => Some("[High]"),
+            Self::Medium => Some("[Med]"),
+        }
+    }
+}
 
 /// Windows version sub-filter — active only when `platform_mask` contains Windows.
 ///
@@ -73,8 +114,8 @@ pub struct App {
     pub flash: Option<Flash>,
     /// Active dataset index (0-based, maps to Dataset variants).
     pub dataset_idx: usize,
-    /// Active triage preset index (cycles via Ctrl-R).
-    pub preset_idx: usize,
+    /// Active criticality filter (cycles via `c`).
+    pub crit_filter: CritFilter,
     /// Active platform filter bitmask (0 = all platforms shown).
     pub platform_mask: PlatformMask,
     /// Windows version sub-filter — only meaningful when `platform_mask` contains Windows.
@@ -98,7 +139,7 @@ impl App {
             detail_fullscreen: false,
             flash: None,
             dataset_idx: 0,
-            preset_idx: 0,
+            crit_filter: CritFilter::All,
             platform_mask: PlatformMask::NONE,
             win_version: WinVersionFilter::All,
         }
@@ -243,12 +284,10 @@ impl App {
         }
     }
 
-    // ── Preset ────────────────────────────────────────────────────────────
+    // ── Criticality filter ────────────────────────────────────────────────
 
-    pub const PRESET_COUNT: usize = 5;
-
-    pub fn cycle_preset(&mut self) {
-        self.preset_idx = (self.preset_idx + 1) % Self::PRESET_COUNT;
+    pub fn cycle_crit_filter(&mut self) {
+        self.crit_filter = self.crit_filter.cycle();
         self.selected = 0;
         self.detail_scroll = 0;
     }
@@ -326,11 +365,6 @@ mod tests {
     #[test]
     fn new_app_dataset_is_zero() {
         assert_eq!(app().dataset_idx, 0);
-    }
-
-    #[test]
-    fn new_app_preset_is_zero() {
-        assert_eq!(app().preset_idx, 0);
     }
 
     // ── Navigation ────────────────────────────────────────────────────────
@@ -531,24 +565,6 @@ mod tests {
         let mut a = app();
         a.switch_dataset(99);
         assert_eq!(a.dataset_idx, 0);
-    }
-
-    // ── Preset cycling ────────────────────────────────────────────────────
-
-    #[test]
-    fn cycle_preset_increments() {
-        let mut a = app();
-        a.cycle_preset();
-        assert_eq!(a.preset_idx, 1);
-    }
-
-    #[test]
-    fn cycle_preset_wraps_around() {
-        let mut a = app();
-        for _ in 0..App::PRESET_COUNT {
-            a.cycle_preset();
-        }
-        assert_eq!(a.preset_idx, 0);
     }
 
     // ── Alt-N jump ────────────────────────────────────────────────────────

@@ -140,12 +140,12 @@ pub fn handle_key(app: &mut App, event: KeyEvent, list_len: usize) -> bool {
             }
         }
 
-        // ── Preset cycle (Ctrl-R) ─────────────────────────────────────────
-        (KeyCode::Char('r'), KeyModifiers::CONTROL) => {
+        // ── Criticality filter cycle (c) ──────────────────────────────────
+        (KeyCode::Char('c'), KeyModifiers::NONE) => {
             if let Some(r) = evaluate(&[Guard::NotInSearchMode], app, list_len) {
                 app.flash(r);
             } else {
-                app.cycle_preset();
+                app.cycle_crit_filter();
             }
         }
 
@@ -153,6 +153,42 @@ pub fn handle_key(app: &mut App, event: KeyEvent, list_len: usize) -> bool {
     }
 
     false
+}
+
+/// Handle a mouse event, mutating app state.
+///
+/// - Scroll wheel: navigate up/down in the list.
+/// - Left click on a list row (row ≥ 2): select that item.
+/// - Left click on the header row (row 0): left half → cycle platform, right half → cycle crit.
+pub fn handle_mouse(
+    app: &mut App,
+    mouse: crossterm::event::MouseEvent,
+    list_len: usize,
+) {
+    use crossterm::event::{MouseButton, MouseEventKind};
+    match mouse.kind {
+        MouseEventKind::ScrollDown => app.move_down(list_len),
+        MouseEventKind::ScrollUp => app.move_up(),
+        MouseEventKind::Down(MouseButton::Left) => {
+            if mouse.row == 0 {
+                // Header: column < 40 → platform badge, column ≥ 40 → crit badge.
+                // This approximates badge positions for typical dataset names
+                // (precise clicking uses the p / c keys instead).
+                if mouse.column < 40 {
+                    app.cycle_platform_filter();
+                } else {
+                    app.cycle_crit_filter();
+                }
+            } else if mouse.row >= 2 {
+                // Row 1 = top border, rows 2+ = list items.
+                let idx = mouse.row as usize - 2;
+                if idx < list_len {
+                    app.selected = idx;
+                }
+            }
+        }
+        _ => {}
+    }
 }
 
 #[cfg(test)]
@@ -397,27 +433,6 @@ mod tests {
         a.selected = 3;
         handle_key(&mut a, ctrl_key('b'), 100);
         assert_eq!(a.selected, 0);
-    }
-
-    // ── Preset cycle ──────────────────────────────────────────────────────
-
-    #[test]
-    fn ctrl_r_cycles_preset_in_normal_mode() {
-        let mut a = app();
-        handle_key(&mut a, ctrl_key('r'), 10);
-        assert_eq!(a.preset_idx, 1);
-    }
-
-    #[test]
-    fn ctrl_r_blocked_in_search_mode_by_guard() {
-        let mut a = app();
-        a.enter_search_mode();
-        // Ctrl-R in search mode: 'r' is Char key with CONTROL modifier
-        // The search mode handler only processes Char keys WITHOUT modifiers
-        // So Ctrl-R falls through to no-op in search mode (not a handled key)
-        // The preset does NOT change
-        handle_key(&mut a, ctrl_key('r'), 10);
-        assert_eq!(a.preset_idx, 0, "preset should not change in search mode");
     }
 
     // ── Platform filter cycle (p) ─────────────────────────────────────────
