@@ -33,6 +33,24 @@ pub fn is_exfil_volume(bytes_sent: u64) -> bool {
     bytes_sent >= EXFIL_VOLUME_BYTES
 }
 
+/// Minimum focus duration (ms) before zero user-input is considered anomalous.
+///
+/// Brief focus (e.g., a window flash) with no input is not suspicious. Only
+/// sustained focus-without-input warrants the automated_execution flag.
+pub const AUTOMATED_EXECUTION_FOCUS_THRESHOLD_MS: u64 = 60_000; // 1 minute
+
+/// Returns `true` if an app held focus for at least the threshold duration but
+/// received no user input — suggesting automated or scripted execution.
+///
+/// Legitimate interactive apps (browsers, editors) accumulate user input
+/// whenever they hold focus. A sustained focus period with zero input may
+/// indicate a process that called `SetForegroundWindow` without the user's
+/// involvement, or a fully automated tool masquerading as an interactive app.
+#[must_use]
+pub fn is_automated_execution(focus_time_ms: u64, user_input_time_ms: u64) -> bool {
+    focus_time_ms >= AUTOMATED_EXECUTION_FOCUS_THRESHOLD_MS && user_input_time_ms == 0
+}
+
 /// Minimum foreground cycles to consider a phantom-foreground anomaly meaningful.
 /// Avoids flagging processes with trivially brief (sub-quantization) foreground time.
 pub const PHANTOM_FOREGROUND_MIN_CYCLES: u64 = 1_000;
