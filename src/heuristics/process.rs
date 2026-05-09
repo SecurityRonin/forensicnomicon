@@ -186,6 +186,30 @@ pub fn is_comspec_in_registry_value(value: &str) -> bool {
     value.to_lowercase().contains("%comspec%")
 }
 
+/// Returns `true` if a service `ImagePath` / binPath string contains indicators
+/// of compression-stacked PowerShell obfuscation.
+///
+/// Attackers embed gzip-compressed, base64-encoded payloads directly in the
+/// `ImagePath` of a Windows service (visible in Event ID 7045 `Service File Name`
+/// field and in `HKLM\SYSTEM\CurrentControlSet\Services\<name>\ImagePath`).
+/// The giveaway strings are references to the .NET GZip or Deflate stream classes
+/// used to decompress the payload at runtime:
+///
+/// - `GzipStream` — the .NET `System.IO.Compression.GzipStream` class
+/// - `[IO.Compression.CompressionMode]` — the Deflate-mode enum reference
+///   (also appears as `[IO.Compression.GzipStream]` or similar)
+///
+/// Both patterns are documented as triage search terms by Mari DeGrazia in
+/// [*Finding and Decoding Malicious PowerShell Scripts*](https://az4n6.blogspot.com/2017/10/finding-and-decoding-malicious.html):
+/// "Look for 'Gzipstream' or '\[IO.Compression.CompressionMode\]::Decompress'
+/// for hints on what type of compression was used."
+///
+/// Comparison is case-insensitive.
+#[must_use]
+pub fn is_service_binpath_compression_obfuscated(_binpath: &str) -> bool {
+    false // RED: stub — implementation pending
+}
+
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
 mod tests {
@@ -447,5 +471,57 @@ mod tests {
     #[test]
     fn empty_value_not_flagged_comspec() {
         assert!(!is_comspec_in_registry_value(""));
+    }
+
+    // ── is_service_binpath_compression_obfuscated ─────────────────────────────
+
+    #[test]
+    fn binpath_gzipstream_detected() {
+        // Typical pattern: PS decoder uses System.IO.Compression.GzipStream inline.
+        // Per az4n6.blogspot.com/2017/10/finding-and-decoding-malicious.html:
+        // look for "Gzipstream" as a triage indicator.
+        let binpath = r"%COMSPEC% /b /c start /b /min powershell -nop -w hidden -enc JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAAgAFMAeQBzAHQAZQBtAC4ASQBPAC4ATQBlAG0AbwByAHkAUwB0AHIAZQBhAG0AKAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABJAE8ALgBDAG8AbQBwAHIAZQBzAHMAaQBvAG4ALgBHAHoAaQBwAFMAdAByAGUAYQBtACAAJABtACwAWwBJAE8ALgBDAG8AbQBwAHIAZQBzAHMAaQBvAG4ALgBDAG8AbQBwAHIAZQBzAHMAaQBvAG4ATQBvAGQAZQBdADoAOgBEAGUAYwBvAG0AcAByAGUAcwBzACkA";
+        assert!(is_service_binpath_compression_obfuscated(binpath));
+    }
+
+    #[test]
+    fn binpath_gzipstream_case_insensitive() {
+        // Mixed-case variant — registry data is not normalised.
+        let binpath = "%COMSPEC% /c powershell -enc ... GZIPStream ...";
+        assert!(is_service_binpath_compression_obfuscated(binpath));
+    }
+
+    #[test]
+    fn binpath_io_compression_compressionmode_detected() {
+        // Deflate-mode pattern: [IO.Compression.CompressionMode]::Decompress
+        // Per az4n6 post: look for "[IO.Compression.CompressionMode]::Decompress".
+        let binpath = r"%COMSPEC% /c powershell -nop [IO.Compression.CompressionMode]::Decompress";
+        assert!(is_service_binpath_compression_obfuscated(binpath));
+    }
+
+    #[test]
+    fn binpath_io_compression_gzipstream_class_detected() {
+        // Inline class reference: [IO.Compression.GzipStream]
+        let binpath = r"%COMSPEC% /c powershell -nop [IO.Compression.GzipStream]";
+        assert!(is_service_binpath_compression_obfuscated(binpath));
+    }
+
+    #[test]
+    fn binpath_plain_base64_only_not_compression_flagged() {
+        // Plain -EncodedCommand without any compression indicator is NOT flagged
+        // by this predicate (is_run_key_powershell_stager handles that case).
+        let binpath = "%COMSPEC% /b /c start /b /min powershell.exe -nop -w hidden -enc SQBFAFgA";
+        assert!(!is_service_binpath_compression_obfuscated(binpath));
+    }
+
+    #[test]
+    fn binpath_legitimate_service_not_flagged() {
+        let binpath = r"C:\Windows\System32\svchost.exe -k netsvcs";
+        assert!(!is_service_binpath_compression_obfuscated(binpath));
+    }
+
+    #[test]
+    fn binpath_empty_not_flagged_compression() {
+        assert!(!is_service_binpath_compression_obfuscated(""));
     }
 }
