@@ -450,15 +450,20 @@ pub(crate) static EVTX_DRIVER_FRAMEWORKS: ArtifactDescriptor = ArtifactDescripto
     scope: DataScope::System,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Records USB device connect (2003) and disconnect (2100) events at the driver framework level. Provides another timestamp source for USB forensics, often more precise than registry last-write times.",
+    meaning: "Records USB device connect (2003) and disconnect (2100) events at the driver framework level. Provides another timestamp source for USB forensics, often more precise than registry last-write times. CAVEAT: this channel is DISABLED BY DEFAULT on modern Windows (Win10/11) and \"doesn't provide much depth\" even when enabled — per Carvey 2026 it must be turned on proactively (wevtutil sl Microsoft-Windows-DriverFrameworks-UserMode/Operational /e:true) before an incident, otherwise post-hoc collection yields nothing. When empty, fall back to USBSTOR registry keys, EMDMgmt (ReadyBoost), setupapi.dev.log first-install timestamps, the Microsoft-Windows-Partition/Diagnostic channel, and MsiInstaller records in Application.evtx (for installs from removable media). Also note: smartphones and digital cameras typically enumerate via MTP/PTP rather than USBSTOR, so this channel and the classic USB registry pivots may both miss them entirely.",
     mitre_techniques: &["T1052.001"],
     fields: &[
         FieldSchema { name: "device_id", value_type: ValueType::Text, description: "USB device ID", is_uid_component: true },
     ],
-    retention: Some("Default 1 MB"),
+    retention: Some("Default 1 MB; channel DISABLED by default on Win10+"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["usb_stor_enum", "evtx_kernel_pnp"],
-    sources: &["https://www.sans.org/blog/windows-usb-forensics-part-2/"],
+    related_artifacts: &["usb_stor_enum", "evtx_kernel_pnp", "evtx_application_msiinstaller"],
+    sources: &[
+        "https://www.sans.org/blog/windows-usb-forensics-part-2/",
+        "https://windowsir.blogspot.com/2026/02/devices.html",
+        "https://windowsir.blogspot.com/2022/05/usb-devices-redux.html",
+        "https://blog.elcomsoft.com/2026/02/usb-device-forensics-on-windows-10-and-11/",
+    ],
 };
 
 pub(crate) static EVTX_LSA_PROTECTION: ArtifactDescriptor = ArtifactDescriptor {
