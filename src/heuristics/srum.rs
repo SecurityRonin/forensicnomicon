@@ -70,6 +70,42 @@ pub fn is_phantom_foreground(foreground_cycles: u64, focus_time_ms: u64) -> bool
     foreground_cycles >= PHANTOM_FOREGROUND_MIN_CYCLES && focus_time_ms == 0
 }
 
+// ── Beaconing constants ───────────────────────────────────────────────────────
+
+/// Minimum interval (seconds) to consider as a beacon interval.
+pub const BEACON_MIN_INTERVAL_SECS: i64 = 60;
+
+/// Maximum interval (seconds) to consider as a beacon interval.
+pub const BEACON_MAX_INTERVAL_SECS: i64 = 28_800;
+
+/// Minimum number of valid intervals required for beaconing detection.
+pub const BEACON_MIN_SAMPLES: usize = 5;
+
+/// Coefficient-of-variation threshold below which traffic is considered beaconing.
+pub const BEACON_COV_THRESHOLD: f64 = 0.15;
+
+// ── Stub implementations (RED phase — replaced in GREEN) ─────────────────────
+
+/// Returns `true` if the Windows executable path suggests malware staging.
+#[must_use]
+pub fn is_suspicious_path(_path: &str) -> bool {
+    false
+}
+
+/// Returns `true` if `binary_name` is within edit-distance 1–2 of a known
+/// Windows system binary AND `dir` is not a recognised system directory.
+#[must_use]
+pub fn is_process_masquerade(_binary_name: &str, _dir: &str) -> bool {
+    false
+}
+
+/// Returns `true` if `timestamps_secs` exhibits regular-interval beaconing
+/// consistent with C2 check-in traffic.
+#[must_use]
+pub fn is_beaconing(_timestamps_secs: &[i64]) -> bool {
+    false
+}
+
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
 mod tests {
@@ -199,5 +235,158 @@ mod tests {
     #[test]
     fn phantom_foreground_not_triggered_both_zero() {
         assert!(!is_phantom_foreground(0, 0));
+    }
+
+    // ── is_suspicious_path tests ──────────────────────────────────────────────
+
+    #[test]
+    fn suspicious_path_unc() {
+        assert!(is_suspicious_path(r"\\server\share\payload.exe"));
+    }
+
+    #[test]
+    fn suspicious_path_temp_dir() {
+        assert!(is_suspicious_path(r"C:\Users\User\AppData\Local\Temp\abc.exe"));
+    }
+
+    #[test]
+    fn suspicious_path_windows_temp() {
+        assert!(is_suspicious_path(r"C:\Windows\Temp\run.exe"));
+    }
+
+    #[test]
+    fn suspicious_path_downloads() {
+        assert!(is_suspicious_path(r"C:\Users\User\Downloads\tool.exe"));
+    }
+
+    #[test]
+    fn suspicious_path_double_ext_pdf_exe() {
+        assert!(is_suspicious_path(r"C:\Users\User\invoice.pdf.exe"));
+    }
+
+    #[test]
+    fn suspicious_path_root_depth_one() {
+        assert!(is_suspicious_path(r"C:\payload.exe"));
+    }
+
+    #[test]
+    fn suspicious_path_system32_not_flagged() {
+        assert!(!is_suspicious_path(r"C:\Windows\System32\svchost.exe"));
+    }
+
+    #[test]
+    fn suspicious_path_program_files_not_flagged() {
+        assert!(!is_suspicious_path(r"C:\Program Files\Vendor\app.exe"));
+    }
+
+    #[test]
+    fn suspicious_path_appdata_local_not_flagged() {
+        assert!(!is_suspicious_path(r"C:\Users\User\AppData\Local\MyApp\app.exe"));
+    }
+
+    #[test]
+    fn suspicious_path_empty_not_flagged() {
+        assert!(!is_suspicious_path(""));
+    }
+
+    // ── is_process_masquerade tests ───────────────────────────────────────────
+
+    #[test]
+    fn masquerade_svch0st_not_in_system32() {
+        assert!(is_process_masquerade("svch0st.exe", r"C:\Users\User\AppData\Local"));
+    }
+
+    #[test]
+    fn masquerade_lssas_exe() {
+        assert!(is_process_masquerade("lssas.exe", r"C:\Windows\Temp"));
+    }
+
+    #[test]
+    fn masquerade_exploler_exe() {
+        assert!(is_process_masquerade("exploler.exe", r"C:\Users\User"));
+    }
+
+    #[test]
+    fn masquerade_legitimate_svchost_in_system32() {
+        assert!(!is_process_masquerade("svchost.exe", r"C:\Windows\System32"));
+    }
+
+    #[test]
+    fn masquerade_legitimate_explorer_in_windows() {
+        assert!(!is_process_masquerade("explorer.exe", r"C:\Windows"));
+    }
+
+    #[test]
+    fn masquerade_unrelated_binary_not_flagged() {
+        assert!(!is_process_masquerade("myapp.exe", r"C:\Program Files\MyApp"));
+    }
+
+    #[test]
+    fn masquerade_distance_three_not_flagged() {
+        assert!(!is_process_masquerade("svchzzz.exe", r"C:\Users\User"));
+    }
+
+    #[test]
+    fn masquerade_exact_match_in_wrong_dir_not_flagged_by_this_fn() {
+        // exact match: distance = 0, our fn only fires on distance 1-2
+        assert!(!is_process_masquerade("svchost.exe", r"C:\Users\User"));
+    }
+
+    // ── is_beaconing tests ────────────────────────────────────────────────────
+
+    #[test]
+    fn beaconing_detected_regular_hourly() {
+        let ts: Vec<i64> = (0..10).map(|i| i * 3600).collect();
+        assert!(is_beaconing(&ts));
+    }
+
+    #[test]
+    fn beaconing_detected_five_minute_interval() {
+        let ts: Vec<i64> = (0..10).map(|i| i * 300).collect();
+        assert!(is_beaconing(&ts));
+    }
+
+    #[test]
+    fn beaconing_detected_with_small_jitter() {
+        // hourly ± 5s — CoV will be ~0.001, well below 0.15
+        let ts: Vec<i64> = (0..10).map(|i| i * 3600 + (i % 3) as i64 * 5).collect();
+        assert!(is_beaconing(&ts));
+    }
+
+    #[test]
+    fn beaconing_not_detected_too_few_points() {
+        // 5 timestamps = 4 intervals, need 5
+        let ts: Vec<i64> = (0..5).map(|i| i * 3600).collect();
+        assert!(!is_beaconing(&ts));
+    }
+
+    #[test]
+    fn beaconing_not_detected_irregular() {
+        let ts = vec![0i64, 100, 5000, 50000, 55000, 200000, 205000, 600000, 601000, 900000];
+        assert!(!is_beaconing(&ts));
+    }
+
+    #[test]
+    fn beaconing_not_detected_too_short_interval() {
+        // Every 30 seconds — below min
+        let ts: Vec<i64> = (0..10).map(|i| i * 30).collect();
+        assert!(!is_beaconing(&ts));
+    }
+
+    #[test]
+    fn beaconing_not_detected_too_long_interval() {
+        // Every 10 hours — above max
+        let ts: Vec<i64> = (0..10).map(|i| i * 36000).collect();
+        assert!(!is_beaconing(&ts));
+    }
+
+    #[test]
+    fn beaconing_not_detected_empty() {
+        assert!(!is_beaconing(&[]));
+    }
+
+    #[test]
+    fn beaconing_not_detected_single_point() {
+        assert!(!is_beaconing(&[3600]));
     }
 }
