@@ -59,6 +59,51 @@ pub fn is_elevated_token(elevation_type: u32) -> bool {
     elevation_type == TOKEN_ELEVATION_FULL
 }
 
+// ── Windows OpenSSH / WinSCP lateral movement heuristics ─────────────────────
+
+/// Domain string emitted by the Windows OpenSSH server (`sshd.exe`) in
+/// Event ID 4624 records.
+///
+/// Per [Mari DeGrazia, *Detecting Lateral Movement with WinSCP*](https://az4n6.blogspot.com/2020/02/detecting-laterial-movment-with-winscp.html):
+/// "The login is a type 5 with the account name sshd_1860 and the domain of
+/// VIRTUAL USERS, and the process of sshd.exe."  This domain is created
+/// automatically when OpenSSH Server is installed as a Windows optional
+/// feature (Win 10 1809+, Server 2019+).  Seeing it in a 4624 record
+/// identifies the logon as originating from an SSH client such as WinSCP.
+pub const OPENSSH_VIRTUAL_USERS_DOMAIN: &str = "VIRTUAL USERS";
+
+/// Returns `true` if `domain` matches the Windows OpenSSH server's synthetic
+/// `VIRTUAL USERS` logon domain (case-insensitive).
+///
+/// Presence of this domain in a 4624 record indicates the logon was
+/// authenticated by the Windows OpenSSH service rather than a normal
+/// Windows authentication provider — a high-confidence indicator of
+/// SSH-based lateral movement.
+#[must_use]
+pub fn is_openssh_virtual_users_domain(domain: &str) -> bool {
+    domain.eq_ignore_ascii_case(OPENSSH_VIRTUAL_USERS_DOMAIN)
+}
+
+/// Returns `true` if the combination of `logon_type`, `domain`, and
+/// `process_name` matches the Windows OpenSSH server pattern documented
+/// for WinSCP-based lateral movement:
+///
+/// - `logon_type` == 5 (`LOGON_SERVICE`) — the service-level logon emitted
+///   by `sshd.exe`
+/// - `domain` == `"VIRTUAL USERS"` (case-insensitive)
+/// - `process_name` == `"sshd.exe"` (case-insensitive)
+///
+/// All three must be true simultaneously; any partial match produces `false`.
+///
+/// # Source
+/// [Mari DeGrazia, *Detecting Lateral Movement with WinSCP*](https://az4n6.blogspot.com/2020/02/detecting-laterial-movment-with-winscp.html)
+#[must_use]
+pub fn is_winscp_ssh_service_logon(logon_type: u32, domain: &str, process_name: &str) -> bool {
+    logon_type == LOGON_SERVICE
+        && is_openssh_virtual_users_domain(domain)
+        && process_name.eq_ignore_ascii_case("sshd.exe")
+}
+
 // ── Linux process heuristics ────────────────────────────────────────────────
 
 /// Suspicious PID gap: gaps larger than this in a sorted /proc PID list
