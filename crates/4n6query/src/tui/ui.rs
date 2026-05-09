@@ -4,7 +4,7 @@
 /// Tests use ratatui TestBackend so no real terminal is required.
 use ratatui::{
     layout::{Constraint, Direction, Layout, Rect},
-    style::{Modifier, Style},
+    style::{Color, Modifier, Style},
     text::{Line, Span},
     widgets::{Block, Borders, Clear, List, ListItem, ListState, Paragraph, Wrap},
     Frame,
@@ -205,7 +205,7 @@ fn draw_detail_pane(f: &mut Frame, app: &App, theme: &Theme, lines: &[String], a
 fn draw_about(f: &mut Frame, theme: &Theme, area: Rect) {
     // Centre a 60×18 modal
     let modal_w = 60u16.min(area.width.saturating_sub(4));
-    let modal_h = 18u16.min(area.height.saturating_sub(4));
+    let modal_h = 19u16.min(area.height.saturating_sub(4));
     let x = (area.width.saturating_sub(modal_w)) / 2;
     let y = (area.height.saturating_sub(modal_h)) / 2;
     let modal_area = Rect::new(x, y, modal_w, modal_h);
@@ -224,6 +224,17 @@ fn draw_about(f: &mut Frame, theme: &Theme, area: Rect) {
             Style::default().add_modifier(Modifier::BOLD),
         )),
         Line::from(format!("  version {VERSION}")),
+        Line::from(vec![
+            Span::raw("  "),
+            Span::styled("4n6h4x0r", Style::default().add_modifier(Modifier::BOLD)),
+            Span::raw("  Security Ronin  "),
+            Span::styled(
+                "https://securityronin.com",
+                Style::default()
+                    .fg(Color::Cyan)
+                    .add_modifier(Modifier::UNDERLINED),
+            ),
+        ]),
         Line::from(""),
         Line::from("  DFIR artifact catalog + LOLBin navigator"),
         Line::from("  Offline. Zero I/O at runtime."),
