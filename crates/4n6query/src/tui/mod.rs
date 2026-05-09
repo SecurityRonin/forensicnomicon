@@ -30,13 +30,58 @@ mod tests {
     }
 
     #[test]
-    fn build_render_data_windows_lolbins_dataset() {
+    fn dataset_count_is_7() {
+        assert_eq!(app::App::DATASET_COUNT, 7, "3 platform lolbas datasets merged into 1");
+    }
+
+    #[test]
+    fn lolbas_dataset_no_platform_shows_all_three_sources() {
+        use forensicnomicon::lolbins::{LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS};
         let a = make_app(1, "", 0);
         let rd = build_render_data(&a);
-        assert!(
-            !rd.list_items.is_empty(),
-            "windows lolbins must be non-empty"
+        let combined = LOLBAS_WINDOWS.len() + LOLBAS_LINUX.len() + LOLBAS_MACOS.len();
+        assert_eq!(
+            rd.list_items.len(),
+            combined,
+            "no platform filter → all 3 lolbas sources combined"
         );
+    }
+
+    #[test]
+    fn lolbas_dataset_windows_platform_shows_only_win_lolbas() {
+        use forensicnomicon::catalog::{Platform, PlatformMask};
+        use forensicnomicon::lolbins::LOLBAS_WINDOWS;
+        let mut a = make_app(1, "", 0);
+        a.platform_mask = PlatformMask::NONE.with(Platform::Windows);
+        let rd = build_render_data(&a);
+        assert_eq!(rd.list_items.len(), LOLBAS_WINDOWS.len());
+    }
+
+    #[test]
+    fn lolbas_dataset_macos_platform_shows_only_macos_lolbas() {
+        use forensicnomicon::catalog::{Platform, PlatformMask};
+        use forensicnomicon::lolbins::LOLBAS_MACOS;
+        let mut a = make_app(1, "", 0);
+        a.platform_mask = PlatformMask::NONE.with(Platform::MacOS);
+        let rd = build_render_data(&a);
+        assert_eq!(rd.list_items.len(), LOLBAS_MACOS.len());
+    }
+
+    #[test]
+    fn lolbas_dataset_linux_platform_shows_only_linux_lolbas() {
+        use forensicnomicon::catalog::{Platform, PlatformMask};
+        use forensicnomicon::lolbins::LOLBAS_LINUX;
+        let mut a = make_app(1, "", 0);
+        a.platform_mask = PlatformMask::NONE.with(Platform::Linux);
+        let rd = build_render_data(&a);
+        assert_eq!(rd.list_items.len(), LOLBAS_LINUX.len());
+    }
+
+    #[test]
+    fn build_render_data_lolbas_dataset_is_non_empty() {
+        let a = make_app(1, "", 0);
+        let rd = build_render_data(&a);
+        assert!(!rd.list_items.is_empty(), "lolbas dataset must be non-empty");
     }
 
     #[test]
