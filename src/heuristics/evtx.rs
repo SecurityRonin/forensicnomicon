@@ -2,10 +2,120 @@
 //!
 //! Detection predicates for the technique described in Harlan Carvey's
 //! [*Hiding In The Windows Event Log*](https://windowsir.blogspot.com/2023/07/hiding-in-windows-event-log.html)
-//! (windowsir, 2023-07-08).
+//! (windowsir, 2023-07-08), which builds on Kaspersky's
+//! [*A new secret stash for fileless malware*](https://securelist.com/a-new-secret-stash-for-fileless-malware/106393/)
+//! (May 2022) and Tim Fowler's
+//! [*Windows Event Logs for Red Teams*](https://www.blackhillsinfosec.com/windows-event-logs-for-red-teams/)
+//! (BlackHillsInfoSec).
 //!
-//! RED-phase: tests reference predicates that do not yet exist; this file
-//! intentionally fails to compile until the GREEN-phase implementation lands.
+//! Threat actors abuse the Windows Event Log as a covert persistent storage
+//! channel because:
+//!
+//! 1. Of the ~400 `.evtx` files under `%SystemRoot%\System32\winevt\Logs`,
+//!    most analysts only collect the "Big Three" (Security, System, Application).
+//! 2. Low-volume or unpopulated channels (the post highlights *Key Management
+//!    Service*) make great repositories — anomalous record growth stands out
+//!    against an otherwise empty file.
+//! 3. Custom event sources can write any event ID; Carvey reports observing
+//!    multiple threat-actor tools that emit *every* record as event ID 0.
+//! 4. Identifying records solely by event ID is insufficient — `(provider,
+//!    event_id)` is the unique key, and an unfamiliar `(provider, id)` pair
+//!    appearing rarely is a pivot point an Events Ripper plugin could surface.
+//!
+//! All predicates here are pure functions over primitives — no I/O, no parsing,
+//! no `chrono`. EVTX file/record decoding lives in higher layers; this module
+//! only encodes the *anomaly thresholds*.
+
+// ── Event ID anomalies ────────────────────────────────────────────────────────
+
+/// Event IDs at or below this value are reserved/sentinel and rarely emitted by
+/// legitimate Windows providers as "normal" telemetry.
+///
+/// Per the post, multiple threat-actor tools emit *every* record as event
+/// ID 0 — a strong indicator of a custom event source registered for covert
+/// logging rather than legitimate Windows component telemetry.
+pub const RESERVED_EVENT_ID_MAX: u32 = 0;
+
+/// Returns `true` if the event ID is the sentinel value 0, which threat-actor
+/// tools have been observed to use as a catch-all ID for every record they
+/// write.
+///
+/// # Detection
+/// Per [Carvey 2023](https://windowsir.blogspot.com/2023/07/hiding-in-windows-event-log.html):
+/// "two of which use event ID 0 (zero) for *everything*, literally every
+/// record written, regardless of the message, is event ID 0."
+#[must_use]
+pub fn is_reserved_event_id(event_id: u32) -> bool {
+    event_id <= RESERVED_EVENT_ID_MAX
+}
+
+// ── Channel volume anomalies ──────────────────────────────────────────────────
+
+/// Maximum record count for an EVTX channel to be considered "low volume" —
+/// a candidate covert-storage host per the post.
+///
+/// The post identifies "Key Management Service" as an attractive repository
+/// because it is "enabled on the systems I have access to, [but] it's not
+/// populated on any of them." Channels normally carrying zero or a handful of
+/// records make even a single planted record stand out.
+pub const LOW_VOLUME_CHANNEL_MAX_RECORDS: u64 = 10;
+
+/// Returns `true` if a channel's record count is low enough that it would
+/// serve as a "decent persistent repository" per the post — i.e. one whose
+/// baseline volume is so low that any new record is suspicious.
+#[must_use]
+pub fn is_low_volume_channel(record_count: u64) -> bool {
+    record_count <= LOW_VOLUME_CHANNEL_MAX_RECORDS
+}
+
+// ── (Provider, EventID) pair frequency ────────────────────────────────────────
+
+/// Maximum occurrence count for a `(provider, event_id)` pair to be considered
+/// "rare" within a collection — a pivot worth investigating per the post's
+/// suggested Events Ripper plugin.
+///
+/// Carvey: "An Events Ripper plugin that listed all source/ID pairs and their
+/// frequency *might* provide a pivot point for the analyst."
+pub const RARE_SOURCE_ID_PAIR_MAX: u64 = 3;
+
+/// Returns `true` if a `(provider, event_id)` pair occurs rarely enough that
+/// it is a worthwhile pivot for the analyst.
+///
+/// The post stresses event IDs are not unique — `(provider, id)` is the real
+/// key. A pair seen only once or twice across an entire image is a candidate
+/// for hand-crafted custom logging.
+#[must_use]
+pub fn is_rare_source_id_pair(occurrence_count: u64) -> bool {
+    occurrence_count > 0 && occurrence_count <= RARE_SOURCE_ID_PAIR_MAX
+}
+
+// ── "Big Three" channel coverage ─────────────────────────────────────────────
+
+/// The three EVTX channels that the post calls out as the historical-and-still-
+/// over-collected default ("The Big Three"). Anything *outside* this set is
+/// where covert persistence is more likely to land unnoticed.
+pub const BIG_THREE_CHANNELS: &[&str] = &["Security", "System", "Application"];
+
+/// Returns `true` if `channel_name` is one of the historical "Big Three"
+/// (`Security`, `System`, `Application`).
+///
+/// Matching is case-insensitive against ASCII; locale-specific channel names
+/// are not normalized here — feed the canonical English name from the EVTX
+/// header.
+#[must_use]
+pub fn is_big_three_channel(channel_name: &str) -> bool {
+    BIG_THREE_CHANNELS
+        .iter()
+        .any(|c| c.eq_ignore_ascii_case(channel_name))
+}
+
+/// Returns `true` if the channel falls *outside* the Big Three — i.e. the kind
+/// of channel the post identifies as a likely covert-storage candidate because
+/// "responders and analysts aren't likely to look there."
+#[must_use]
+pub fn is_overlooked_channel(channel_name: &str) -> bool {
+    !is_big_three_channel(channel_name)
+}
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
