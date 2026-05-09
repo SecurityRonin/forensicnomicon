@@ -12,7 +12,7 @@ use ratatui::{
 
 use forensicnomicon::catalog::Platform;
 
-use crate::tui::app::{App, Focus, Mode};
+use crate::tui::app::{App, Focus, Mode, WinVersionFilter};
 use crate::tui::heatmap::{render_bar, tactic_mask, BLOCK_HIT, BLOCK_MISS};
 use crate::tui::presets::active as active_preset;
 use crate::tui::theme::Theme;
@@ -51,14 +51,22 @@ pub fn header_text<'a>(app: &'a App, theme: &'a Theme) -> Line<'a> {
     ];
 
     if !app.platform_mask.is_empty() {
-        spans.push(Span::raw("  "));
-        for &p in Platform::ALL {
-            if app.platform_mask.matches(p) {
-                spans.push(Span::styled(
-                    format!("[{}]", p.label()),
-                    Style::default().fg(theme.header_fg),
-                ));
+        let label = if app.platform_mask.contains(Platform::Windows) {
+            match app.win_version {
+                WinVersionFilter::All => "[Win]",
+                WinVersionFilter::Win10Plus => "[W10]",
+                WinVersionFilter::Win11Plus => "[W11]",
             }
+        } else if app.platform_mask.contains(Platform::MacOS) {
+            "[Mac]"
+        } else if app.platform_mask.contains(Platform::Linux) {
+            "[Lin]"
+        } else {
+            ""
+        };
+        if !label.is_empty() {
+            spans.push(Span::raw("  "));
+            spans.push(Span::styled(label, Style::default().fg(theme.header_fg)));
         }
     }
 
@@ -93,7 +101,7 @@ pub fn hint_text<'a>(app: &'a App, theme: &'a Theme) -> Line<'a> {
     let mode_hint = match app.mode {
         Mode::Search => " Esc: finish  ↑↓: navigate  Enter: confirm",
         Mode::About => " Esc/q: close  ↑↓/jk: scroll",
-        Mode::Normal => " /: search  j/k: navigate  Tab: focus  Ctrl-R: preset  ?: about  q: quit",
+        Mode::Normal => " /: search  j/k: navigate  Tab: focus  Ctrl-R: preset  p: platform  ?: about  q: quit",
     };
     Line::from(Span::styled(mode_hint, Style::default().fg(theme.hint_fg)))
 }
@@ -261,7 +269,7 @@ fn draw_about(f: &mut Frame, theme: &Theme, area: Rect) {
         Line::from("  h/l ←→   move focus left / right"),
         Line::from("  Ctrl-R   cycle triage preset"),
         Line::from("  Alt-1…9  jump to Nth result"),
-        Line::from("  Alt-w/m/l  platform filter (Win/Mac/Linux)"),
+        Line::from("  p        cycle platform filter (Win/W10/W11/Mac/Lin)"),
         Line::from("  f        fullscreen detail pane"),
         Line::from("  q/Esc    quit / close modal"),
     ];
@@ -416,16 +424,13 @@ mod tests {
     // ── Platform filter header indicators ────────────────────────────────
 
     #[test]
-    fn header_shows_platform_label_when_windows_filter_active() {
+    fn header_shows_win_when_windows_all_filter_active() {
         use forensicnomicon::catalog::{Platform, PlatformMask};
         let mut app = App::new();
         app.platform_mask = PlatformMask::NONE.with(Platform::Windows);
         let line = header_text(&app, default_theme());
         let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
-        assert!(
-            text.contains("[Win]"),
-            "header must show [Win] when Windows filter active; got: {text}"
-        );
+        assert!(text.contains("[Win]"), "header must show [Win]; got: {text}");
     }
 
     #[test]
@@ -454,17 +459,13 @@ mod tests {
     }
 
     #[test]
-    fn header_shows_multiple_platform_labels_when_multi_filter_active() {
+    fn header_shows_mac_when_macos_filter_active() {
         use forensicnomicon::catalog::{Platform, PlatformMask};
         let mut app = App::new();
-        app.platform_mask = PlatformMask::NONE
-            .with(Platform::Windows)
-            .with(Platform::MacOS);
+        app.platform_mask = PlatformMask::NONE.with(Platform::MacOS);
         let line = header_text(&app, default_theme());
         let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
-        assert!(text.contains("[Win]"), "must show [Win]; got: {text}");
-        assert!(text.contains("[Mac]"), "must show [Mac]; got: {text}");
-        assert!(!text.contains("[Lin]"), "must not show [Lin]; got: {text}");
+        assert!(text.contains("[Mac]"), "header must show [Mac]; got: {text}");
     }
 
     #[test]

@@ -197,9 +197,11 @@ use crossterm::{
     execute,
     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
 };
+use crate::tui::app::WinVersionFilter;
+
 use forensicnomicon::{
     abusable_sites::ABUSABLE_SITES,
-    catalog::CATALOG,
+    catalog::{OsScope, Platform, CATALOG},
     lolbins::{
         LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS, LOLBAS_WINDOWS_CMDLETS, LOLBAS_WINDOWS_MMC,
         LOLBAS_WINDOWS_WMI,
@@ -225,7 +227,23 @@ fn build_render_data(app: &app::App) -> RenderData {
             .iter()
             .filter(|d| {
                 let platform_ok = if !app.platform_mask.is_empty() {
-                    app.platform_mask.matches(d.os_scope.platform())
+                    use forensicnomicon::catalog::Platform;
+                    if app.platform_mask.contains(Platform::Windows)
+                        && d.os_scope.platform() == Platform::Windows
+                    {
+                        match app.win_version {
+                            WinVersionFilter::All => true,
+                            WinVersionFilter::Win10Plus => matches!(
+                                d.os_scope,
+                                OsScope::Win10Plus | OsScope::Win11Plus | OsScope::Win11_22H2
+                            ),
+                            WinVersionFilter::Win11Plus => {
+                                matches!(d.os_scope, OsScope::Win11Plus | OsScope::Win11_22H2)
+                            }
+                        }
+                    } else {
+                        app.platform_mask.matches(d.os_scope.platform())
+                    }
                 } else {
                     preset.os.map_or(true, |os| os.platform() == d.os_scope.platform())
                 };

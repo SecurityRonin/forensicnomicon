@@ -3,7 +3,21 @@
 /// All fields are public within the crate so `ui.rs` can read them
 /// without getters. All mutations go through the methods below so
 /// state transitions stay testable.
+use forensicnomicon::catalog::{Platform, PlatformMask};
 use std::time::Instant;
+
+/// Windows version sub-filter — active only when `platform_mask` contains Windows.
+///
+/// Alt-w cycles: off → [`All`] → [`Win10Plus`] → [`Win11Plus`] → off.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum WinVersionFilter {
+    /// All Windows versions (XP / 7 / 8 / 10 / 11).
+    All,
+    /// Windows 10 and later only.
+    Win10Plus,
+    /// Windows 11 and later only.
+    Win11Plus,
+}
 
 /// Which pane has keyboard focus.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -61,6 +75,10 @@ pub struct App {
     pub dataset_idx: usize,
     /// Active triage preset index (cycles via Ctrl-R).
     pub preset_idx: usize,
+    /// Active platform filter bitmask (0 = all platforms shown).
+    pub platform_mask: PlatformMask,
+    /// Windows version sub-filter — only meaningful when `platform_mask` contains Windows.
+    pub win_version: WinVersionFilter,
 }
 
 impl Default for App {
@@ -81,7 +99,36 @@ impl App {
             flash: None,
             dataset_idx: 0,
             preset_idx: 0,
+            platform_mask: PlatformMask::NONE,
+            win_version: WinVersionFilter::All,
         }
+    }
+
+    /// Advance the platform filter one step forward.
+    ///
+    /// Cycle: off → [Win] → [W10] → [W11] → [Mac] → [Lin] → off.
+    /// Only one platform is active at a time (no multi-select).
+    pub fn cycle_platform_filter(&mut self) {
+        if self.platform_mask.is_empty() {
+            self.platform_mask = self.platform_mask.with(Platform::Windows);
+            self.win_version = WinVersionFilter::All;
+        } else if self.platform_mask.contains(Platform::Windows) {
+            match self.win_version {
+                WinVersionFilter::All => self.win_version = WinVersionFilter::Win10Plus,
+                WinVersionFilter::Win10Plus => self.win_version = WinVersionFilter::Win11Plus,
+                WinVersionFilter::Win11Plus => {
+                    self.platform_mask = PlatformMask::NONE.with(Platform::MacOS);
+                    self.win_version = WinVersionFilter::All;
+                }
+            }
+        } else if self.platform_mask.contains(Platform::MacOS) {
+            self.platform_mask = PlatformMask::NONE.with(Platform::Linux);
+        } else {
+            self.platform_mask = PlatformMask::NONE;
+            self.win_version = WinVersionFilter::All;
+        }
+        self.selected = 0;
+        self.detail_scroll = 0;
     }
 
     // ── Navigation ────────────────────────────────────────────────────────

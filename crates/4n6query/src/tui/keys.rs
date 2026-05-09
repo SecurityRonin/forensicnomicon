@@ -8,7 +8,6 @@
 /// Disabled-reason messages live here, not in the UI. The UI just renders
 /// `app.flash` if one is set. This keeps rendering pure and testable.
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
-use forensicnomicon::catalog::Platform;
 
 use crate::tui::app::{App, Focus, Mode};
 use crate::tui::guards::{evaluate, Guard};
@@ -127,10 +126,9 @@ pub fn handle_key(app: &mut App, event: KeyEvent, list_len: usize) -> bool {
             }
         }
 
-        // ── Platform filter (Alt-w/m/l) ───────────────────────────────────
-        (KeyCode::Char('w'), KeyModifiers::ALT) => app.toggle_platform(Platform::Windows),
-        (KeyCode::Char('m'), KeyModifiers::ALT) => app.toggle_platform(Platform::MacOS),
-        (KeyCode::Char('l'), KeyModifiers::ALT) => app.toggle_platform(Platform::Linux),
+        // ── Platform filter cycle (p) ─────────────────────────────────────
+        // off → [Win] → [W10] → [W11] → [Mac] → [Lin] → off
+        (KeyCode::Char('p'), KeyModifiers::NONE) => app.cycle_platform_filter(),
 
         // ── Dataset cycle (d) ─────────────────────────────────────────────
         (KeyCode::Char('d'), KeyModifiers::NONE) => {
@@ -397,75 +395,65 @@ mod tests {
         assert_eq!(a.preset_idx, 0, "preset should not change in search mode");
     }
 
-    // ── Platform filter (Alt-w/m/l) ───────────────────────────────────────
+    // ── Platform filter cycle (p) ─────────────────────────────────────────
 
     #[test]
-    fn alt_w_toggles_windows_platform() {
+    fn p_once_activates_windows_all_filter() {
+        use crate::tui::app::WinVersionFilter;
         use forensicnomicon::catalog::Platform;
         let mut a = app();
-        handle_key(&mut a, alt_key('w'), 10);
-        assert!(!a.platform_mask.is_empty(), "mask should be non-empty after toggle");
-        assert!(a.platform_mask.matches(Platform::Windows));
-        assert!(!a.platform_mask.matches(Platform::MacOS));
-    }
-
-    #[test]
-    fn alt_m_toggles_macos_platform() {
-        use forensicnomicon::catalog::Platform;
-        let mut a = app();
-        handle_key(&mut a, alt_key('m'), 10);
+        handle_key(&mut a, key(KeyCode::Char('p')), 10);
         assert!(!a.platform_mask.is_empty());
-        assert!(a.platform_mask.matches(Platform::MacOS));
-        assert!(!a.platform_mask.matches(Platform::Windows));
+        assert!(a.platform_mask.contains(Platform::Windows));
+        assert_eq!(a.win_version, WinVersionFilter::All);
     }
 
     #[test]
-    fn alt_l_toggles_linux_platform() {
-        use forensicnomicon::catalog::Platform;
-        let mut a = app();
-        handle_key(&mut a, alt_key('l'), 10);
-        assert!(!a.platform_mask.is_empty());
-        assert!(a.platform_mask.matches(Platform::Linux));
-    }
-
-    #[test]
-    fn alt_w_twice_cycles_to_win10plus() {
+    fn p_twice_cycles_to_win10plus() {
         use crate::tui::app::WinVersionFilter;
         let mut a = app();
-        handle_key(&mut a, alt_key('w'), 10); // off → All Windows
-        handle_key(&mut a, alt_key('w'), 10); // All → Win10+
-        assert!(!a.platform_mask.is_empty(), "mask still active at Win10+");
+        handle_key(&mut a, key(KeyCode::Char('p')), 10);
+        handle_key(&mut a, key(KeyCode::Char('p')), 10);
         assert_eq!(a.win_version, WinVersionFilter::Win10Plus);
     }
 
     #[test]
-    fn alt_w_three_times_cycles_to_win11plus() {
+    fn p_three_times_cycles_to_win11plus() {
         use crate::tui::app::WinVersionFilter;
         let mut a = app();
-        handle_key(&mut a, alt_key('w'), 10); // off → All
-        handle_key(&mut a, alt_key('w'), 10); // All → Win10+
-        handle_key(&mut a, alt_key('w'), 10); // Win10+ → Win11+
+        for _ in 0..3 {
+            handle_key(&mut a, key(KeyCode::Char('p')), 10);
+        }
         assert_eq!(a.win_version, WinVersionFilter::Win11Plus);
     }
 
     #[test]
-    fn alt_w_four_times_cycles_back_to_off() {
+    fn p_four_times_cycles_to_macos() {
+        use forensicnomicon::catalog::Platform;
         let mut a = app();
-        handle_key(&mut a, alt_key('w'), 10); // off → All
-        handle_key(&mut a, alt_key('w'), 10); // All → Win10+
-        handle_key(&mut a, alt_key('w'), 10); // Win10+ → Win11+
-        handle_key(&mut a, alt_key('w'), 10); // Win11+ → off
-        assert!(a.platform_mask.is_empty(), "fourth press must clear filter");
+        for _ in 0..4 {
+            handle_key(&mut a, key(KeyCode::Char('p')), 10);
+        }
+        assert!(a.platform_mask.contains(Platform::MacOS));
+        assert!(!a.platform_mask.contains(Platform::Windows));
     }
 
     #[test]
-    fn alt_w_and_alt_m_produces_two_platform_filter() {
+    fn p_five_times_cycles_to_linux() {
         use forensicnomicon::catalog::Platform;
         let mut a = app();
-        handle_key(&mut a, alt_key('w'), 10);
-        handle_key(&mut a, alt_key('m'), 10);
-        assert!(a.platform_mask.contains(Platform::Windows));
-        assert!(a.platform_mask.contains(Platform::MacOS));
-        assert!(!a.platform_mask.contains(Platform::Linux));
+        for _ in 0..5 {
+            handle_key(&mut a, key(KeyCode::Char('p')), 10);
+        }
+        assert!(a.platform_mask.contains(Platform::Linux));
+    }
+
+    #[test]
+    fn p_six_times_cycles_back_to_off() {
+        let mut a = app();
+        for _ in 0..6 {
+            handle_key(&mut a, key(KeyCode::Char('p')), 10);
+        }
+        assert!(a.platform_mask.is_empty(), "sixth press must clear filter");
     }
 }
