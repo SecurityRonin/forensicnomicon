@@ -2,17 +2,19 @@
 
 // ── Zone.Identifier (Mark-of-the-Web) ─────────────────────────────────────
 
-pub const ZONE_LOCAL:      u32 = 0;
-pub const ZONE_INTRANET:   u32 = 1;
-pub const ZONE_TRUSTED:    u32 = 2;
-pub const ZONE_INTERNET:   u32 = 3;
+pub const ZONE_LOCAL: u32 = 0;
+pub const ZONE_INTRANET: u32 = 1;
+pub const ZONE_TRUSTED: u32 = 2;
+pub const ZONE_INTERNET: u32 = 3;
 pub const ZONE_RESTRICTED: u32 = 4;
 
 /// Returns `true` if the ZoneId indicates the file was downloaded from the internet
 /// or a restricted zone (ZoneId >= 3). Executables with this mark running without
 /// warning indicate MOTW bypass (T1553.005).
 #[must_use]
-pub fn is_internet_download(zone_id: u32) -> bool { zone_id >= ZONE_INTERNET }
+pub fn is_internet_download(zone_id: u32) -> bool {
+    zone_id >= ZONE_INTERNET
+}
 
 // ── File name anomalies ────────────────────────────────────────────────────
 
@@ -53,9 +55,15 @@ pub fn is_unc_path(path: &str) -> bool {
 
 /// Path prefixes associated with suspicious execution locations.
 pub const SUSPICIOUS_EXEC_PREFIXES: &[&str] = &[
-    "\\Temp\\", "\\tmp\\", "\\AppData\\Local\\Temp\\",
-    "\\Users\\Public\\", "\\ProgramData\\",
-    "/tmp/", "/dev/shm/", "/run/shm/", "/var/tmp/",
+    "\\Temp\\",
+    "\\tmp\\",
+    "\\AppData\\Local\\Temp\\",
+    "\\Users\\Public\\",
+    "\\ProgramData\\",
+    "/tmp/",
+    "/dev/shm/",
+    "/run/shm/",
+    "/var/tmp/",
 ];
 
 /// Returns `true` if the path contains a suspicious execution prefix.
@@ -169,7 +177,9 @@ mod tests {
 
     #[test]
     fn suspicious_exec_tmp_path() {
-        assert!(is_suspicious_exec_path(r"C:\Users\bob\AppData\Local\Temp\evil.exe"));
+        assert!(is_suspicious_exec_path(
+            r"C:\Users\bob\AppData\Local\Temp\evil.exe"
+        ));
     }
 
     #[test]
@@ -180,5 +190,118 @@ mod tests {
     #[test]
     fn normal_exec_path_not_suspicious() {
         assert!(!is_suspicious_exec_path(r"C:\Windows\System32\calc.exe"));
+    }
+
+    // ── HKCU\Console allowlist (Valley RAT detection) ──────────────────────
+    // Source: https://windowsir.blogspot.com/2026/01/grab-bag.html
+    // Source: https://www.cloudsek.com/blog/silver-fox-targeting-india-using-tax-themed-phishing-lures
+
+    #[test]
+    fn console_facename_is_known() {
+        assert!(!is_suspicious_console_value_name("FaceName"));
+    }
+
+    #[test]
+    fn console_fontsize_is_known() {
+        assert!(!is_suspicious_console_value_name("FontSize"));
+    }
+
+    #[test]
+    fn console_colortable00_is_known() {
+        assert!(!is_suspicious_console_value_name("ColorTable00"));
+    }
+
+    #[test]
+    fn console_known_value_case_insensitive() {
+        // Windows registry value names are case-insensitive
+        assert!(!is_suspicious_console_value_name("facename"));
+        assert!(!is_suspicious_console_value_name("FACENAME"));
+    }
+
+    #[test]
+    fn console_arbitrary_blob_name_is_suspicious() {
+        // Valley RAT writes config under non-standard value names
+        assert!(is_suspicious_console_value_name("config"));
+        assert!(is_suspicious_console_value_name("d33f351a4aeea5e608853d1a56661059"));
+    }
+
+    #[test]
+    fn console_empty_value_name_is_suspicious() {
+        // The default unnamed value is not used by the legitimate Console key
+        assert!(is_suspicious_console_value_name(""));
+    }
+
+    #[test]
+    fn console_numeric_subkey_is_suspicious() {
+        // HKCU\Console\0\<md5> is the Valley RAT plugin store path
+        assert!(is_suspicious_console_subkey(r"HKCU\Console\0"));
+        assert!(is_suspicious_console_subkey(
+            r"HKCU\Console\0\d33f351a4aeea5e608853d1a56661059"
+        ));
+    }
+
+    #[test]
+    fn console_app_subkey_not_suspicious() {
+        // Per-app Console subkeys (cmd.exe, etc.) are legitimate
+        assert!(!is_suspicious_console_subkey(r"HKCU\Console\cmd.exe"));
+        assert!(!is_suspicious_console_subkey(
+            r"HKCU\Console\%SystemRoot%_System32_cmd.exe"
+        ));
+    }
+
+    #[test]
+    fn console_root_key_not_flagged_as_subkey() {
+        // The root HKCU\Console key itself is not a subkey
+        assert!(!is_suspicious_console_subkey(r"HKCU\Console"));
+        assert!(!is_suspicious_console_subkey(r"HKCU\Console\"));
+    }
+
+    #[test]
+    fn console_subkey_check_case_insensitive() {
+        // Registry key paths are case-insensitive on Windows
+        assert!(is_suspicious_console_subkey(r"hkcu\console\0"));
+    }
+
+    #[test]
+    fn non_console_key_not_flagged() {
+        assert!(!is_suspicious_console_subkey(
+            r"HKCU\Software\Microsoft\Windows"
+        ));
+    }
+
+    // ── NTUSER.MAN mandatory-profile persistence ──────────────────────────
+    // Source: https://deceptiq.com/blog/ntuser-man-registry-persistence
+    // Source: https://windowsir.blogspot.com/2026/01/grab-bag.html
+
+    #[test]
+    fn ntuser_man_in_userprofile_detected() {
+        assert!(is_ntuser_man_path(r"C:\Users\bob\NTUSER.MAN"));
+    }
+
+    #[test]
+    fn ntuser_man_case_insensitive() {
+        // Windows file names are case-insensitive
+        assert!(is_ntuser_man_path(r"C:\Users\bob\ntuser.man"));
+        assert!(is_ntuser_man_path(r"C:\Users\bob\NtUser.Man"));
+    }
+
+    #[test]
+    fn ntuser_dat_not_flagged() {
+        // The legitimate per-user hive must not match
+        assert!(!is_ntuser_man_path(r"C:\Users\bob\NTUSER.DAT"));
+    }
+
+    #[test]
+    fn ntuser_man_on_unc_share_detected() {
+        // Roaming-profile-share placement is also a vector
+        assert!(is_ntuser_man_path(r"\\server\share\profile.v6\NTUSER.MAN"));
+    }
+
+    #[test]
+    fn ntuser_man_substring_in_other_filename_not_flagged() {
+        // Only the basename is matched — substrings elsewhere are not
+        assert!(!is_ntuser_man_path(
+            r"C:\Users\bob\notes\ntuser.man.backup.txt"
+        ));
     }
 }
