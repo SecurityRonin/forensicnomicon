@@ -284,6 +284,10 @@ impl App {
         }
     }
 
+    pub fn cycle_dataset(&mut self) {
+        self.switch_dataset((self.dataset_idx + 1) % Self::DATASET_COUNT);
+    }
+
     // ── Criticality filter ────────────────────────────────────────────────
 
     pub fn cycle_crit_filter(&mut self) {

@@ -171,10 +171,16 @@ pub fn handle_mouse(
         MouseEventKind::ScrollUp => app.move_up(),
         MouseEventKind::Down(MouseButton::Left) => {
             if mouse.row == 0 {
-                // Header: column < 40 → platform badge, column ≥ 40 → crit badge.
-                // This approximates badge positions for typical dataset names
-                // (precise clicking uses the p / c keys instead).
-                if mouse.column < 40 {
+                // Header zones (approximate — precise control uses p/c/d keys):
+                //   0–18  title " forensicnomicon │" — ignore
+                //  19–34  dataset label            — cycle dataset
+                //  35–46  platform badge           — cycle platform
+                //  ≥ 47   crit badge               — cycle crit
+                if mouse.column < 19 {
+                    // title area — ignore
+                } else if mouse.column < 35 {
+                    app.cycle_dataset();
+                } else if mouse.column < 47 {
                     app.cycle_platform_filter();
                 } else {
                     app.cycle_crit_filter();
