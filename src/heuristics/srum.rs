@@ -114,4 +114,26 @@ mod tests {
     fn exfil_volume_at_threshold() {
         assert!(is_exfil_volume(EXFIL_VOLUME_BYTES));
     }
+
+    // ── is_phantom_foreground tests ───────────────────────────────────────────
+
+    #[test]
+    fn phantom_foreground_triggered_when_fg_cycles_and_no_focus() {
+        assert!(is_phantom_foreground(1_000, 0));
+    }
+
+    #[test]
+    fn phantom_foreground_not_triggered_when_focus_present() {
+        assert!(!is_phantom_foreground(1_000, 30_000));
+    }
+
+    #[test]
+    fn phantom_foreground_not_triggered_below_min_cycles() {
+        assert!(!is_phantom_foreground(999, 0));
+    }
+
+    #[test]
+    fn phantom_foreground_not_triggered_both_zero() {
+        assert!(!is_phantom_foreground(0, 0));
+    }
 }
