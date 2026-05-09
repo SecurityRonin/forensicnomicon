@@ -429,6 +429,31 @@ mod tests {
     }
 
     #[test]
+    fn header_shows_w10_when_win10_filter_active() {
+        use crate::tui::app::WinVersionFilter;
+        use forensicnomicon::catalog::{Platform, PlatformMask};
+        let mut app = App::new();
+        app.platform_mask = PlatformMask::NONE.with(Platform::Windows);
+        app.win_version = WinVersionFilter::Win10Plus;
+        let line = header_text(&app, default_theme());
+        let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
+        assert!(text.contains("[W10]"), "header must show [W10]; got: {text}");
+        assert!(!text.contains("[Win]"), "must not show [Win] in W10 state; got: {text}");
+    }
+
+    #[test]
+    fn header_shows_w11_when_win11_filter_active() {
+        use crate::tui::app::WinVersionFilter;
+        use forensicnomicon::catalog::{Platform, PlatformMask};
+        let mut app = App::new();
+        app.platform_mask = PlatformMask::NONE.with(Platform::Windows);
+        app.win_version = WinVersionFilter::Win11Plus;
+        let line = header_text(&app, default_theme());
+        let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
+        assert!(text.contains("[W11]"), "header must show [W11]; got: {text}");
+    }
+
+    #[test]
     fn header_shows_multiple_platform_labels_when_multi_filter_active() {
         use forensicnomicon::catalog::{Platform, PlatformMask};
         let mut app = App::new();

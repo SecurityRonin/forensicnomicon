@@ -135,6 +135,49 @@ mod tests {
     }
 
     #[test]
+    fn build_render_data_win10_filter_shows_fewer_than_all_windows() {
+        use crate::tui::app::WinVersionFilter;
+        use forensicnomicon::catalog::{Platform, PlatformMask};
+        let win_all = {
+            let mut a = make_app(0, "", 0);
+            a.platform_mask = PlatformMask::NONE.with(Platform::Windows);
+            build_render_data(&a).list_items.len()
+        };
+        let mut a = make_app(0, "", 0);
+        a.platform_mask = PlatformMask::NONE.with(Platform::Windows);
+        a.win_version = WinVersionFilter::Win10Plus;
+        let win10_count = build_render_data(&a).list_items.len();
+        assert!(
+            win10_count < win_all,
+            "Win10+ must show fewer results than all-Windows: {} vs {}",
+            win10_count,
+            win_all
+        );
+    }
+
+    #[test]
+    fn build_render_data_win11_filter_shows_fewer_than_win10() {
+        use crate::tui::app::WinVersionFilter;
+        use forensicnomicon::catalog::{Platform, PlatformMask};
+        let win10_count = {
+            let mut a = make_app(0, "", 0);
+            a.platform_mask = PlatformMask::NONE.with(Platform::Windows);
+            a.win_version = WinVersionFilter::Win10Plus;
+            build_render_data(&a).list_items.len()
+        };
+        let mut a = make_app(0, "", 0);
+        a.platform_mask = PlatformMask::NONE.with(Platform::Windows);
+        a.win_version = WinVersionFilter::Win11Plus;
+        let win11_count = build_render_data(&a).list_items.len();
+        assert!(
+            win11_count < win10_count,
+            "Win11+ must show fewer results than Win10+: {} vs {}",
+            win11_count,
+            win10_count
+        );
+    }
+
+    #[test]
     fn build_render_data_platform_mask_none_shows_all_unfiltered() {
         use forensicnomicon::catalog::PlatformMask;
         let mut a = make_app(0, "", 0);

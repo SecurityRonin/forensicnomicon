@@ -429,11 +429,33 @@ mod tests {
     }
 
     #[test]
-    fn alt_w_twice_clears_windows_filter() {
+    fn alt_w_twice_cycles_to_win10plus() {
+        use crate::tui::app::WinVersionFilter;
         let mut a = app();
-        handle_key(&mut a, alt_key('w'), 10);
-        handle_key(&mut a, alt_key('w'), 10);
-        assert!(a.platform_mask.is_empty(), "second toggle should clear the filter");
+        handle_key(&mut a, alt_key('w'), 10); // off → All Windows
+        handle_key(&mut a, alt_key('w'), 10); // All → Win10+
+        assert!(!a.platform_mask.is_empty(), "mask still active at Win10+");
+        assert_eq!(a.win_version, WinVersionFilter::Win10Plus);
+    }
+
+    #[test]
+    fn alt_w_three_times_cycles_to_win11plus() {
+        use crate::tui::app::WinVersionFilter;
+        let mut a = app();
+        handle_key(&mut a, alt_key('w'), 10); // off → All
+        handle_key(&mut a, alt_key('w'), 10); // All → Win10+
+        handle_key(&mut a, alt_key('w'), 10); // Win10+ → Win11+
+        assert_eq!(a.win_version, WinVersionFilter::Win11Plus);
+    }
+
+    #[test]
+    fn alt_w_four_times_cycles_back_to_off() {
+        let mut a = app();
+        handle_key(&mut a, alt_key('w'), 10); // off → All
+        handle_key(&mut a, alt_key('w'), 10); // All → Win10+
+        handle_key(&mut a, alt_key('w'), 10); // Win10+ → Win11+
+        handle_key(&mut a, alt_key('w'), 10); // Win11+ → off
+        assert!(a.platform_mask.is_empty(), "fourth press must clear filter");
     }
 
     #[test]
@@ -442,8 +464,8 @@ mod tests {
         let mut a = app();
         handle_key(&mut a, alt_key('w'), 10);
         handle_key(&mut a, alt_key('m'), 10);
-        assert!(a.platform_mask.matches(Platform::Windows));
-        assert!(a.platform_mask.matches(Platform::MacOS));
-        assert!(!a.platform_mask.matches(Platform::Linux));
+        assert!(a.platform_mask.contains(Platform::Windows));
+        assert!(a.platform_mask.contains(Platform::MacOS));
+        assert!(!a.platform_mask.contains(Platform::Linux));
     }
 }

@@ -98,6 +98,134 @@ pub enum OsScope {
     Android,
 }
 
+/// High-level platform group — used for multi-select filtering.
+///
+/// Each variant maps to a set of [`OsScope`] variants via [`OsScope::platform`].
+/// Use a bitmask of `Platform` values (see [`PlatformMask`]) to express
+/// multi-platform filters such as "Windows + macOS".
+#[non_exhaustive]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum Platform {
+    Windows,
+    MacOS,
+    Linux,
+    IOS,
+    Android,
+}
+
+impl Platform {
+    /// Bit position for use with [`PlatformMask`].
+    #[must_use]
+    pub const fn bit(self) -> u8 {
+        match self {
+            Self::Windows => 0,
+            Self::MacOS => 1,
+            Self::Linux => 2,
+            Self::IOS => 3,
+            Self::Android => 4,
+        }
+    }
+
+    /// All platforms in a stable order.
+    pub const ALL: &'static [Platform] = &[
+        Self::Windows,
+        Self::MacOS,
+        Self::Linux,
+        Self::IOS,
+        Self::Android,
+    ];
+
+    /// Short display label.
+    #[must_use]
+    pub const fn label(self) -> &'static str {
+        match self {
+            Self::Windows => "Win",
+            Self::MacOS => "Mac",
+            Self::Linux => "Lin",
+            Self::IOS => "iOS",
+            Self::Android => "And",
+        }
+    }
+}
+
+impl OsScope {
+    /// Map this scope to its high-level [`Platform`] group.
+    #[must_use]
+    pub const fn platform(self) -> Platform {
+        match self {
+            Self::All
+            | Self::Win7Plus
+            | Self::Win8Plus
+            | Self::Win10Plus
+            | Self::Win11Plus
+            | Self::Win11_22H2 => Platform::Windows,
+            Self::MacOS | Self::MacOS12Plus | Self::MacOS13Plus | Self::MacOS14Plus => {
+                Platform::MacOS
+            }
+            Self::Linux | Self::LinuxSystemd | Self::LinuxDebian | Self::LinuxRhel => {
+                Platform::Linux
+            }
+            Self::IOS => Platform::IOS,
+            Self::Android => Platform::Android,
+        }
+    }
+}
+
+/// Bitmask of selected [`Platform`] values.
+///
+/// A value of `0` means "no filter — show all platforms".
+/// Each bit corresponds to `Platform::bit()`.
+///
+/// ```
+/// use forensicnomicon::catalog::types::{Platform, PlatformMask};
+/// let mask = PlatformMask::NONE.with(Platform::Windows).with(Platform::MacOS);
+/// assert!(mask.matches(Platform::Windows));
+/// assert!(mask.matches(Platform::MacOS));
+/// assert!(!mask.matches(Platform::Linux));
+/// ```
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub struct PlatformMask(pub u8);
+
+impl PlatformMask {
+    /// Empty mask — passes all platforms (no filter active).
+    pub const NONE: Self = Self(0);
+
+    /// Returns true if no filter is active (show all).
+    #[must_use]
+    pub const fn is_empty(self) -> bool {
+        self.0 == 0
+    }
+
+    /// Returns true if the given platform bit is explicitly set, ignoring whether mask is empty.
+    ///
+    /// Unlike [`matches`], this returns `false` when the mask is empty even though an empty
+    /// mask logically passes all platforms. Use this to check whether a specific platform
+    /// is actively selected (e.g. to render a filter indicator in the UI).
+    #[must_use]
+    pub const fn contains(self, p: Platform) -> bool {
+        (self.0 & (1 << p.bit())) != 0
+    }
+
+    /// Returns true if the given platform is selected, or if the mask is empty.
+    #[must_use]
+    pub const fn matches(self, p: Platform) -> bool {
+        self.is_empty() || (self.0 & (1 << p.bit())) != 0
+    }
+
+    /// Return a new mask with the given platform toggled.
+    #[must_use]
+    pub const fn toggle(self, p: Platform) -> Self {
+        Self(self.0 ^ (1 << p.bit()))
+    }
+
+    /// Return a new mask with the given platform added.
+    #[must_use]
+    pub const fn with(self, p: Platform) -> Self {
+        Self(self.0 | (1 << p.bit()))
+    }
+}
+
 // ── Binary field layout ──────────────────────────────────────────────────────
 
 /// Primitive type of a field inside a fixed-layout binary record.
