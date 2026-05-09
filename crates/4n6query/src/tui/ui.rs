@@ -47,8 +47,12 @@ pub fn header_text<'a>(app: &'a App, theme: &'a Theme) -> Line<'a> {
         Span::raw("│ "),
         Span::styled(dataset_label, Style::default().fg(theme.dataset_fg)),
         Span::raw(" │ "),
-        Span::styled(preset.label, Style::default().fg(theme.header_fg)),
     ];
+    // Suppress "All" preset label when a platform filter is active — the
+    // platform badge ([Lin]/[Win]/…) already communicates the active scope.
+    if app.platform_mask.is_empty() || preset.label != "All" {
+        spans.push(Span::styled(preset.label, Style::default().fg(theme.header_fg)));
+    }
 
     if !app.platform_mask.is_empty() {
         let label = if app.platform_mask.contains(Platform::Windows) {
@@ -106,6 +110,45 @@ pub fn hint_text<'a>(app: &'a App, theme: &'a Theme) -> Line<'a> {
         }
     };
     Line::from(Span::styled(mode_hint, Style::default().fg(theme.hint_fg)))
+}
+
+/// Build a styled `Line` for one list-item display string.
+///
+/// Applies priority colour to the whole row based on the `[Priority]` suffix
+/// that `build_render_data` appends. When `query` is non-empty and a
+/// case-insensitive substring match is found in the display string, wraps that
+/// substring in a yellow-background highlight span.
+pub fn styled_line_for_item<'a>(s: &'a str, query: &str, theme: &Theme) -> Line<'a> {
+    let priority_style = if s.contains("[Critical]") {
+        Style::default().fg(theme.crit_fg)
+    } else if s.contains("[High]") {
+        Style::default().fg(theme.high_fg)
+    } else if s.contains("[Medium]") {
+        Style::default().fg(theme.med_fg)
+    } else if s.contains("[Low]") {
+        Style::default().fg(theme.low_fg)
+    } else {
+        Style::default()
+    };
+
+    if query.is_empty() {
+        return Line::from(Span::styled(s, priority_style));
+    }
+
+    let lower_s = s.to_ascii_lowercase();
+    let lower_q = query.to_ascii_lowercase();
+    let hl_style = Style::default().bg(Color::Yellow).fg(Color::Black);
+
+    if let Some(pos) = lower_s.find(lower_q.as_str()) {
+        let end = pos + lower_q.len();
+        Line::from(vec![
+            Span::styled(&s[..pos], priority_style),
+            Span::styled(&s[pos..end], hl_style),
+            Span::styled(&s[end..], priority_style),
+        ])
+    } else {
+        Line::from(Span::styled(s, priority_style))
+    }
 }
 
 /// Render a 14-char ATT&CK tactic heatmap bar from a slice of technique IDs.
@@ -189,7 +232,10 @@ fn draw_list_pane(f: &mut Frame, app: &App, theme: &Theme, items: &[String], are
         .border_style(border_style)
         .title(format!(" {} results ", items.len()));
 
-    let list_items: Vec<ListItem> = items.iter().map(|s| ListItem::new(s.as_str())).collect();
+    let list_items: Vec<ListItem> = items
+        .iter()
+        .map(|s| ListItem::new(styled_line_for_item(s, &app.search_query, theme)))
+        .collect();
 
     let list = List::new(list_items).block(block).highlight_style(
         Style::default()
