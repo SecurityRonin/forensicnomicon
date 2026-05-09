@@ -374,6 +374,31 @@ mod tests {
         assert_eq!(a.focus, Focus::List);
     }
 
+    // ── Ctrl-F / Ctrl-B page navigation ──────────────────────────────────
+
+    #[test]
+    fn ctrl_f_pages_down() {
+        let mut a = app();
+        handle_key(&mut a, ctrl_key('f'), 100);
+        assert_eq!(a.selected, PAGE_SIZE);
+    }
+
+    #[test]
+    fn ctrl_b_pages_up() {
+        let mut a = app();
+        a.selected = 20;
+        handle_key(&mut a, ctrl_key('b'), 100);
+        assert_eq!(a.selected, 10);
+    }
+
+    #[test]
+    fn ctrl_b_clamps_at_zero() {
+        let mut a = app();
+        a.selected = 3;
+        handle_key(&mut a, ctrl_key('b'), 100);
+        assert_eq!(a.selected, 0);
+    }
+
     // ── Preset cycle ──────────────────────────────────────────────────────
 
     #[test]
