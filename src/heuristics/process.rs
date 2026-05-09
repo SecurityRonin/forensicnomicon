@@ -134,6 +134,58 @@ pub fn is_dangerous_capability(cap: u32) -> bool {
     DANGEROUS_CAPS.contains(&cap)
 }
 
+// ── Registry-value command-line heuristics ────────────────────────────────────
+
+/// Returns `true` if a Windows Run key value invokes PowerShell as a two-stage
+/// stager — either by passing `-enc`/`-EncodedCommand` with a base64 payload, or
+/// by calling `Get-ItemProperty`/`gp` to read the payload from a secondary
+/// registry key.
+///
+/// This is the persistence pattern documented in az4n6 "Malicious PowerShell in
+/// the Registry: Persistence" (2018-06-13): the Run key value holds a small
+/// PowerShell stub that reads a base64-encoded payload stored in a separate,
+/// non-standard registry key, then executes it via `-enc`.
+///
+/// The predicate is intentionally broad: both the two-key indirection pattern
+/// **and** direct `-enc` invocations are flagged, since both represent obfuscated
+/// PowerShell execution from autostart locations (T1547.001 + T1059.001 + T1027).
+///
+/// Comparison is case-insensitive.
+#[must_use]
+pub fn is_run_key_powershell_stager(cmd: &str) -> bool {
+    let lower = cmd.to_lowercase();
+    // Must involve PowerShell at all.
+    if !lower.contains("powershell") {
+        return false;
+    }
+    // Two-stage: reads payload from another registry key.
+    if lower.contains("get-itemproperty") || lower.contains("(gp ") || lower.contains("(gp\t") {
+        return true;
+    }
+    // Direct encoded payload: -enc or -encodedcommand flag present.
+    if lower.contains(" -enc ") || lower.contains(" -enc\t") || lower.contains("-encodedcommand") {
+        return true;
+    }
+    false
+}
+
+/// Returns `true` if a registry value's data string contains `%COMSPEC%`.
+///
+/// `%COMSPEC%` expands to the full path of `cmd.exe` at runtime. Attackers
+/// use this environment-variable form in registry persistence values (Run keys,
+/// `cmd.exe` AutoRun, etc.) to evade static string matching that looks for the
+/// literal path `C:\Windows\System32\cmd.exe`.
+///
+/// Documented as a triage search technique in az4n6 "Malicious PowerShell in
+/// the Registry: Persistence" (2018-06-13): searching all loaded hives for
+/// `%COMSPEC%` surfaces suspicious persistence entries.
+///
+/// Comparison is case-insensitive (registry value data is not case-normalised).
+#[must_use]
+pub fn is_comspec_in_registry_value(value: &str) -> bool {
+    value.to_lowercase().contains("%comspec%")
+}
+
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
 mod tests {
