@@ -134,6 +134,33 @@ mod tests {
         assert!(is_exfil_volume(EXFIL_VOLUME_BYTES));
     }
 
+    // ── is_automated_execution tests ─────────────────────────────────────────
+
+    #[test]
+    fn automated_execution_triggered_at_threshold_with_no_input() {
+        assert!(is_automated_execution(AUTOMATED_EXECUTION_FOCUS_THRESHOLD_MS, 0));
+    }
+
+    #[test]
+    fn automated_execution_triggered_above_threshold_with_no_input() {
+        assert!(is_automated_execution(AUTOMATED_EXECUTION_FOCUS_THRESHOLD_MS + 1, 0));
+    }
+
+    #[test]
+    fn automated_execution_not_triggered_below_threshold() {
+        assert!(!is_automated_execution(AUTOMATED_EXECUTION_FOCUS_THRESHOLD_MS - 1, 0));
+    }
+
+    #[test]
+    fn automated_execution_not_triggered_when_input_present() {
+        assert!(!is_automated_execution(AUTOMATED_EXECUTION_FOCUS_THRESHOLD_MS, 1));
+    }
+
+    #[test]
+    fn automated_execution_not_triggered_both_zero() {
+        assert!(!is_automated_execution(0, 0));
+    }
+
     // ── is_phantom_foreground tests ───────────────────────────────────────────
 
     #[test]
