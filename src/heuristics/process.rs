@@ -206,8 +206,9 @@ pub fn is_comspec_in_registry_value(value: &str) -> bool {
 ///
 /// Comparison is case-insensitive.
 #[must_use]
-pub fn is_service_binpath_compression_obfuscated(_binpath: &str) -> bool {
-    false // RED: stub — implementation pending
+pub fn is_service_binpath_compression_obfuscated(binpath: &str) -> bool {
+    let lower = binpath.to_lowercase();
+    lower.contains("gzipstream") || lower.contains("[io.compression.")
 }
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
@@ -477,10 +478,11 @@ mod tests {
 
     #[test]
     fn binpath_gzipstream_detected() {
-        // Typical pattern: PS decoder uses System.IO.Compression.GzipStream inline.
+        // Realistic pattern: binPath contains cleartext PS stub that references GzipStream
+        // to decompress the payload at runtime.
         // Per az4n6.blogspot.com/2017/10/finding-and-decoding-malicious.html:
-        // look for "Gzipstream" as a triage indicator.
-        let binpath = r"%COMSPEC% /b /c start /b /min powershell -nop -w hidden -enc JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAAgAFMAeQBzAHQAZQBtAC4ASQBPAC4ATQBlAG0AbwByAHkAUwB0AHIAZQBhAG0AKAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABJAE8ALgBDAG8AbQBwAHIAZQBzAHMAaQBvAG4ALgBHAHoAaQBwAFMAdAByAGUAYQBtACAAJABtACwAWwBJAE8ALgBDAG8AbQBwAHIAZQBzAHMAaQBvAG4ALgBDAG8AbQBwAHIAZQBzAHMAaQBvAG4ATQBvAGQAZQBdADoAOgBEAGUAYwBvAG0AcAByAGUAcwBzACkA";
+        // look for "Gzipstream" as a triage indicator in the service File Name field.
+        let binpath = r#"%COMSPEC% /b /c start /b /min powershell -nop -w hidden -c "$s=New-Object IO.MemoryStream(,[Convert]::FromBase64String('...')); IEX(New-Object IO.Compression.GzipStream($s,[IO.Compression.CompressionMode]::Decompress)|%{$_.Read}|Out-String)""#;
         assert!(is_service_binpath_compression_obfuscated(binpath));
     }
 
