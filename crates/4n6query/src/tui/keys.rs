@@ -481,4 +481,89 @@ mod tests {
         }
         assert!(a.platform_mask.is_empty(), "sixth press must clear filter");
     }
+
+    // ── c key — criticality filter ────────────────────────────────────────
+
+    #[test]
+    fn c_key_cycles_crit_filter_from_all_to_critical() {
+        use crate::tui::app::CritFilter;
+        let mut a = app();
+        assert_eq!(a.crit_filter, CritFilter::All);
+        handle_key(&mut a, key(KeyCode::Char('c')), 10);
+        assert_eq!(a.crit_filter, CritFilter::Critical);
+    }
+
+    #[test]
+    fn c_key_cycles_crit_filter_three_times() {
+        use crate::tui::app::CritFilter;
+        let mut a = app();
+        handle_key(&mut a, key(KeyCode::Char('c')), 10);
+        handle_key(&mut a, key(KeyCode::Char('c')), 10);
+        handle_key(&mut a, key(KeyCode::Char('c')), 10);
+        assert_eq!(a.crit_filter, CritFilter::Medium);
+    }
+
+    #[test]
+    fn c_key_not_dispatched_in_search_mode() {
+        use crate::tui::app::CritFilter;
+        let mut a = app();
+        a.enter_search_mode();
+        handle_key(&mut a, key(KeyCode::Char('c')), 10);
+        // In search mode 'c' pushes to query, does NOT cycle crit filter
+        assert_eq!(a.crit_filter, CritFilter::All, "crit filter must not change in search mode");
+        assert!(a.search_query.contains('c'), "c must be added to search query");
+    }
+
+    // ── mouse events ──────────────────────────────────────────────────────
+
+    #[test]
+    fn mouse_scroll_down_moves_down() {
+        use crossterm::event::{MouseButton, MouseEvent, MouseEventKind};
+        let mut a = app();
+        handle_mouse(
+            &mut a,
+            MouseEvent { kind: MouseEventKind::ScrollDown, column: 0, row: 5, modifiers: KeyModifiers::NONE },
+            10,
+        );
+        assert_eq!(a.selected, 1);
+    }
+
+    #[test]
+    fn mouse_scroll_up_moves_up() {
+        use crossterm::event::{MouseButton, MouseEvent, MouseEventKind};
+        let mut a = app();
+        a.selected = 5;
+        handle_mouse(
+            &mut a,
+            MouseEvent { kind: MouseEventKind::ScrollUp, column: 0, row: 5, modifiers: KeyModifiers::NONE },
+            10,
+        );
+        assert_eq!(a.selected, 4);
+    }
+
+    #[test]
+    fn mouse_left_click_list_row_selects_item() {
+        use crossterm::event::{MouseButton, MouseEvent, MouseEventKind};
+        let mut a = app();
+        // Row 0 = header, row 1 = top border, row 2 = item 0, row 4 = item 2
+        handle_mouse(
+            &mut a,
+            MouseEvent { kind: MouseEventKind::Down(MouseButton::Left), column: 10, row: 4, modifiers: KeyModifiers::NONE },
+            10,
+        );
+        assert_eq!(a.selected, 2);
+    }
+
+    #[test]
+    fn mouse_left_click_out_of_bounds_does_not_panic() {
+        use crossterm::event::{MouseButton, MouseEvent, MouseEventKind};
+        let mut a = app();
+        handle_mouse(
+            &mut a,
+            MouseEvent { kind: MouseEventKind::Down(MouseButton::Left), column: 10, row: 100, modifiers: KeyModifiers::NONE },
+            5, // only 5 items
+        );
+        // Must not panic, selection unchanged
+        assert_eq!(a.selected, 0);
+    }
 }

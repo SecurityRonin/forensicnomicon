@@ -620,4 +620,92 @@ mod tests {
         a.close_about();
         assert_eq!(a.mode, Mode::Normal);
     }
+
+    // ── CritFilter ────────────────────────────────────────────────────────
+
+    #[test]
+    fn crit_filter_all_cycles_to_critical() {
+        assert_eq!(CritFilter::All.cycle(), CritFilter::Critical);
+    }
+
+    #[test]
+    fn crit_filter_critical_cycles_to_high() {
+        assert_eq!(CritFilter::Critical.cycle(), CritFilter::High);
+    }
+
+    #[test]
+    fn crit_filter_high_cycles_to_medium() {
+        assert_eq!(CritFilter::High.cycle(), CritFilter::Medium);
+    }
+
+    #[test]
+    fn crit_filter_medium_cycles_to_all() {
+        assert_eq!(CritFilter::Medium.cycle(), CritFilter::All);
+    }
+
+    #[test]
+    fn crit_filter_all_passes_every_priority() {
+        use forensicnomicon::catalog::TriagePriority;
+        assert!(CritFilter::All.passes(TriagePriority::Low));
+        assert!(CritFilter::All.passes(TriagePriority::Medium));
+        assert!(CritFilter::All.passes(TriagePriority::High));
+        assert!(CritFilter::All.passes(TriagePriority::Critical));
+    }
+
+    #[test]
+    fn crit_filter_critical_passes_only_critical() {
+        use forensicnomicon::catalog::TriagePriority;
+        assert!(CritFilter::Critical.passes(TriagePriority::Critical));
+        assert!(!CritFilter::Critical.passes(TriagePriority::High));
+        assert!(!CritFilter::Critical.passes(TriagePriority::Medium));
+        assert!(!CritFilter::Critical.passes(TriagePriority::Low));
+    }
+
+    #[test]
+    fn crit_filter_high_passes_critical_and_high_only() {
+        use forensicnomicon::catalog::TriagePriority;
+        assert!(CritFilter::High.passes(TriagePriority::Critical));
+        assert!(CritFilter::High.passes(TriagePriority::High));
+        assert!(!CritFilter::High.passes(TriagePriority::Medium));
+        assert!(!CritFilter::High.passes(TriagePriority::Low));
+    }
+
+    #[test]
+    fn crit_filter_medium_excludes_only_low() {
+        use forensicnomicon::catalog::TriagePriority;
+        assert!(CritFilter::Medium.passes(TriagePriority::Critical));
+        assert!(CritFilter::Medium.passes(TriagePriority::High));
+        assert!(CritFilter::Medium.passes(TriagePriority::Medium));
+        assert!(!CritFilter::Medium.passes(TriagePriority::Low));
+    }
+
+    #[test]
+    fn new_app_crit_filter_is_all() {
+        assert_eq!(app().crit_filter, CritFilter::All);
+    }
+
+    #[test]
+    fn cycle_crit_filter_advances_from_all() {
+        let mut a = app();
+        a.cycle_crit_filter();
+        assert_eq!(a.crit_filter, CritFilter::Critical);
+    }
+
+    #[test]
+    fn cycle_crit_filter_full_cycle() {
+        let mut a = app();
+        a.cycle_crit_filter(); // All → Critical
+        a.cycle_crit_filter(); // Critical → High
+        a.cycle_crit_filter(); // High → Medium
+        a.cycle_crit_filter(); // Medium → All
+        assert_eq!(a.crit_filter, CritFilter::All);
+    }
+
+    #[test]
+    fn cycle_crit_filter_resets_selection() {
+        let mut a = app();
+        a.selected = 42;
+        a.cycle_crit_filter();
+        assert_eq!(a.selected, 0);
+    }
 }

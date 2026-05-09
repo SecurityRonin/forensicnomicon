@@ -232,6 +232,44 @@ mod tests {
         );
     }
 
+    // ── CritFilter integration ────────────────────────────────────────────
+
+    #[test]
+    fn build_render_data_crit_filter_critical_shows_only_critical() {
+        let mut a = make_app(0, "", 0);
+        a.crit_filter = app::CritFilter::Critical;
+        let rd = build_render_data(&a);
+        assert!(!rd.list_items.is_empty(), "must have some critical items");
+        for item in &rd.list_items {
+            assert!(item.contains("[Critical]"), "expected [Critical]: {item}");
+        }
+    }
+
+    #[test]
+    fn build_render_data_crit_filter_high_shows_critical_and_high_only() {
+        let mut a = make_app(0, "", 0);
+        a.crit_filter = app::CritFilter::High;
+        let rd = build_render_data(&a);
+        let full = build_render_data(&make_app(0, "", 0)).list_items.len();
+        assert!(!rd.list_items.is_empty());
+        assert!(rd.list_items.len() < full, "high filter must reduce results");
+        for item in &rd.list_items {
+            assert!(
+                item.contains("[Critical]") || item.contains("[High]"),
+                "expected Critical or High only: {item}"
+            );
+        }
+    }
+
+    #[test]
+    fn build_render_data_crit_filter_all_shows_full_catalog() {
+        let mut a = make_app(0, "", 0);
+        a.crit_filter = app::CritFilter::All;
+        let rd = build_render_data(&a);
+        let expected = forensicnomicon::catalog::CATALOG.list().len();
+        assert_eq!(rd.list_items.len(), expected, "All filter must show full catalog");
+    }
+
     #[test]
     fn build_render_data_platform_mask_none_shows_all_unfiltered() {
         use forensicnomicon::catalog::PlatformMask;

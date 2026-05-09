@@ -532,6 +532,49 @@ mod tests {
         );
     }
 
+    // ── CritFilter header badges ──────────────────────────────────────────
+
+    #[test]
+    fn header_shows_crit_badge_when_filter_critical() {
+        use crate::tui::app::CritFilter;
+        let mut app = App::new();
+        app.crit_filter = CritFilter::Critical;
+        let line = header_text(&app, default_theme());
+        let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
+        assert!(text.contains("[Crit]"), "header must show [Crit]; got: {text}");
+    }
+
+    #[test]
+    fn header_shows_high_badge_when_filter_high() {
+        use crate::tui::app::CritFilter;
+        let mut app = App::new();
+        app.crit_filter = CritFilter::High;
+        let line = header_text(&app, default_theme());
+        let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
+        assert!(text.contains("[High]"), "header must show [High]; got: {text}");
+    }
+
+    #[test]
+    fn header_shows_med_badge_when_filter_medium() {
+        use crate::tui::app::CritFilter;
+        let mut app = App::new();
+        app.crit_filter = CritFilter::Medium;
+        let line = header_text(&app, default_theme());
+        let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
+        assert!(text.contains("[Med]"), "header must show [Med]; got: {text}");
+    }
+
+    #[test]
+    fn header_no_crit_badge_when_filter_all() {
+        let app = App::new();
+        let line = header_text(&app, default_theme());
+        let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
+        assert!(
+            !text.contains("[Crit]") && !text.contains("[High]") && !text.contains("[Med]"),
+            "no crit badge when filter is All; got: {text}"
+        );
+    }
+
     #[test]
     fn header_no_platform_brackets_when_mask_empty() {
         let app = App::new();
