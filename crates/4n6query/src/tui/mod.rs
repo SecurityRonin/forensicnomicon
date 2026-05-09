@@ -326,6 +326,68 @@ mod tests {
             "empty mask must show full catalog"
         );
     }
+
+    // ── non-catalog detail panes ──────────────────────────────────────────
+
+    #[test]
+    fn lolbas_detail_not_placeholder() {
+        let rd = build_render_data(&make_app(1, "", 0));
+        let combined = rd.detail_lines.join("\n");
+        assert!(
+            !combined.contains("Select an item"),
+            "lolbas detail must show entry info, not placeholder; got: {combined}"
+        );
+    }
+
+    #[test]
+    fn lolbas_detail_contains_mitre_technique() {
+        let rd = build_render_data(&make_app(1, "", 0));
+        let combined = rd.detail_lines.join("\n");
+        assert!(
+            combined.contains("T1"),
+            "lolbas detail must contain a MITRE technique; got: {combined}"
+        );
+    }
+
+    #[test]
+    fn cmdlets_detail_not_placeholder() {
+        let rd = build_render_data(&make_app(2, "", 0));
+        let combined = rd.detail_lines.join("\n");
+        assert!(
+            !combined.contains("Select an item"),
+            "cmdlets detail must show entry info; got: {combined}"
+        );
+    }
+
+    #[test]
+    fn abusable_sites_detail_not_placeholder() {
+        let rd = build_render_data(&make_app(5, "", 0));
+        let combined = rd.detail_lines.join("\n");
+        assert!(
+            !combined.contains("Select an item"),
+            "abusable sites detail must show entry info; got: {combined}"
+        );
+    }
+
+    #[test]
+    fn playbooks_detail_not_placeholder() {
+        let rd = build_render_data(&make_app(6, "", 0));
+        let combined = rd.detail_lines.join("\n");
+        assert!(
+            !combined.contains("Select an item"),
+            "playbooks detail must show entry info; got: {combined}"
+        );
+    }
+
+    #[test]
+    fn playbooks_detail_contains_step_info() {
+        let rd = build_render_data(&make_app(6, "", 0));
+        let combined = rd.detail_lines.join("\n");
+        assert!(
+            combined.to_lowercase().contains("step"),
+            "playbooks detail must mention steps; got: {combined}"
+        );
+    }
 }
 
 use crate::tui::app::WinVersionFilter;
