@@ -101,7 +101,9 @@ pub fn hint_text<'a>(app: &'a App, theme: &'a Theme) -> Line<'a> {
     let mode_hint = match app.mode {
         Mode::Search => " Esc: finish  ↑↓: navigate  Enter: confirm",
         Mode::About => " Esc/q: close  ↑↓/jk: scroll",
-        Mode::Normal => " /: search  j/k: navigate  Tab: focus  Ctrl-R: preset  p: platform  ?: about  q: quit",
+        Mode::Normal => {
+            " /: search  j/k: navigate  Tab: focus  Ctrl-R: preset  p: platform  ?: about  q: quit"
+        }
     };
     Line::from(Span::styled(mode_hint, Style::default().fg(theme.hint_fg)))
 }
@@ -284,6 +286,7 @@ mod tests {
     use crate::tui::app::App;
     use crate::tui::theme::ALL_THEMES;
     use ratatui::backend::TestBackend;
+    use ratatui::style::Color;
     use ratatui::Terminal;
 
     fn terminal(w: u16, h: u16) -> Terminal<TestBackend> {
@@ -430,7 +433,10 @@ mod tests {
         app.platform_mask = PlatformMask::NONE.with(Platform::Windows);
         let line = header_text(&app, default_theme());
         let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
-        assert!(text.contains("[Win]"), "header must show [Win]; got: {text}");
+        assert!(
+            text.contains("[Win]"),
+            "header must show [Win]; got: {text}"
+        );
     }
 
     #[test]
@@ -442,8 +448,14 @@ mod tests {
         app.win_version = WinVersionFilter::Win10Plus;
         let line = header_text(&app, default_theme());
         let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
-        assert!(text.contains("[W10]"), "header must show [W10]; got: {text}");
-        assert!(!text.contains("[Win]"), "must not show [Win] in W10 state; got: {text}");
+        assert!(
+            text.contains("[W10]"),
+            "header must show [W10]; got: {text}"
+        );
+        assert!(
+            !text.contains("[Win]"),
+            "must not show [Win] in W10 state; got: {text}"
+        );
     }
 
     #[test]
@@ -455,7 +467,10 @@ mod tests {
         app.win_version = WinVersionFilter::Win11Plus;
         let line = header_text(&app, default_theme());
         let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
-        assert!(text.contains("[W11]"), "header must show [W11]; got: {text}");
+        assert!(
+            text.contains("[W11]"),
+            "header must show [W11]; got: {text}"
+        );
     }
 
     #[test]
@@ -465,7 +480,10 @@ mod tests {
         app.platform_mask = PlatformMask::NONE.with(Platform::MacOS);
         let line = header_text(&app, default_theme());
         let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
-        assert!(text.contains("[Mac]"), "header must show [Mac]; got: {text}");
+        assert!(
+            text.contains("[Mac]"),
+            "header must show [Mac]; got: {text}"
+        );
     }
 
     #[test]
@@ -532,5 +550,151 @@ mod tests {
             draw(f, &app, default_theme(), &[], &[]);
         })
         .unwrap();
+    }
+
+    // ── header "All" suppression (Option A) ──────────────────────────────
+
+    #[test]
+    fn header_shows_all_preset_label_when_no_platform_filter() {
+        let app = App::new(); // preset_idx=0 = "All", mask empty
+        let line = header_text(&app, default_theme());
+        let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
+        assert!(
+            text.contains("All"),
+            "header must show preset 'All' when no platform filter active; got: {text}"
+        );
+    }
+
+    #[test]
+    fn header_suppresses_all_label_when_platform_filter_active() {
+        use forensicnomicon::catalog::{Platform, PlatformMask};
+        let mut app = App::new(); // preset_idx=0 = "All"
+        app.platform_mask = PlatformMask::NONE.with(Platform::Linux);
+        let line = header_text(&app, default_theme());
+        let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
+        assert!(
+            !text.contains("All"),
+            "header must suppress 'All' when platform filter active; got: {text}"
+        );
+    }
+
+    // ── styled_line_for_item ──────────────────────────────────────────────
+
+    #[test]
+    fn styled_line_critical_item_has_crit_fg() {
+        let theme = default_theme();
+        let line = styled_line_for_item(
+            "prefetch_file                        [Critical]",
+            "",
+            theme,
+        );
+        let has_crit_fg = line.spans.iter().any(|s| s.style.fg == Some(theme.crit_fg));
+        assert!(has_crit_fg, "critical item must apply crit_fg");
+    }
+
+    #[test]
+    fn styled_line_high_item_has_high_fg() {
+        let theme = default_theme();
+        let line = styled_line_for_item("run_key_hklm                         [High]", "", theme);
+        let has_high_fg = line.spans.iter().any(|s| s.style.fg == Some(theme.high_fg));
+        assert!(has_high_fg, "high item must apply high_fg");
+    }
+
+    #[test]
+    fn styled_line_medium_item_has_med_fg() {
+        let theme = default_theme();
+        let line = styled_line_for_item("some_artifact                        [Medium]", "", theme);
+        let has_med_fg = line.spans.iter().any(|s| s.style.fg == Some(theme.med_fg));
+        assert!(has_med_fg, "medium item must apply med_fg");
+    }
+
+    #[test]
+    fn styled_line_low_item_has_low_fg() {
+        let theme = default_theme();
+        let line = styled_line_for_item("some_artifact                        [Low]", "", theme);
+        let has_low_fg = line.spans.iter().any(|s| s.style.fg == Some(theme.low_fg));
+        assert!(has_low_fg, "low item must apply low_fg");
+    }
+
+    #[test]
+    fn styled_line_plain_item_has_no_priority_fg() {
+        let theme = default_theme();
+        let line = styled_line_for_item("some_plain_item", "", theme);
+        let has_priority_fg = line.spans.iter().any(|s| {
+            matches!(
+                s.style.fg,
+                Some(c) if c == theme.crit_fg || c == theme.high_fg
+                        || c == theme.med_fg  || c == theme.low_fg
+            )
+        });
+        assert!(!has_priority_fg, "plain item must not have priority fg");
+    }
+
+    #[test]
+    fn styled_line_highlights_query_match_with_yellow_bg() {
+        let theme = default_theme();
+        let line = styled_line_for_item(
+            "prefetch_file                        [Critical]",
+            "prefetch",
+            theme,
+        );
+        let has_yellow_bg = line.spans.iter().any(|s| s.style.bg == Some(Color::Yellow));
+        assert!(has_yellow_bg, "matching query must produce yellow-bg highlight span");
+    }
+
+    #[test]
+    fn styled_line_highlighted_span_text_equals_query() {
+        let theme = default_theme();
+        let line = styled_line_for_item(
+            "prefetch_file                        [Critical]",
+            "prefetch",
+            theme,
+        );
+        let hl = line
+            .spans
+            .iter()
+            .find(|s| s.style.bg == Some(Color::Yellow));
+        assert!(hl.is_some(), "must have a highlighted span");
+        assert_eq!(
+            hl.unwrap().content.as_ref(),
+            "prefetch",
+            "highlighted span must contain the query text"
+        );
+    }
+
+    #[test]
+    fn styled_line_no_highlight_when_query_empty() {
+        let theme = default_theme();
+        let line = styled_line_for_item(
+            "prefetch_file                        [Critical]",
+            "",
+            theme,
+        );
+        let has_yellow_bg = line.spans.iter().any(|s| s.style.bg == Some(Color::Yellow));
+        assert!(!has_yellow_bg, "no yellow bg when query is empty");
+    }
+
+    #[test]
+    fn styled_line_no_highlight_when_query_not_in_display() {
+        let theme = default_theme();
+        let line = styled_line_for_item(
+            "some_artifact                        [Critical]",
+            "lateral",
+            theme,
+        );
+        let has_yellow_bg = line.spans.iter().any(|s| s.style.bg == Some(Color::Yellow));
+        assert!(!has_yellow_bg, "no yellow bg when query not in display string");
+    }
+
+    #[test]
+    fn styled_line_highlight_is_case_insensitive() {
+        let theme = default_theme();
+        let line = styled_line_for_item(
+            "prefetch_file                        [Critical]",
+            "PREFETCH",
+            theme,
+        );
+        let has_yellow_bg = line.spans.iter().any(|s| s.style.bg == Some(Color::Yellow));
+        assert!(has_yellow_bg, "highlight must be case-insensitive");
     }
 }
