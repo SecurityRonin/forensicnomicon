@@ -388,6 +388,34 @@ mod tests {
             "playbooks detail must mention steps; got: {combined}"
         );
     }
+
+    // ── dataset ordering: abusable sites must be idx 2 (adjacent to lolbas) ─
+
+    #[test]
+    fn abusable_sites_is_at_idx_2() {
+        use forensicnomicon::abusable_sites::ABUSABLE_SITES;
+        let rd = build_render_data(&make_app(2, "", 0));
+        let first_domain = ABUSABLE_SITES[0].domain;
+        assert!(
+            rd.list_items.iter().any(|s| s.as_str() == first_domain),
+            "dataset idx 2 must be abusable sites; '{}' not in list: {:?}",
+            first_domain,
+            &rd.list_items[..rd.list_items.len().min(3)]
+        );
+    }
+
+    #[test]
+    fn cmdlets_is_at_idx_3() {
+        use forensicnomicon::lolbins::LOLBAS_WINDOWS_CMDLETS;
+        let rd = build_render_data(&make_app(3, "", 0));
+        let first = LOLBAS_WINDOWS_CMDLETS[0].name;
+        assert!(
+            rd.list_items.iter().any(|s| s.as_str() == first),
+            "dataset idx 3 must be cmdlets; '{}' not in list: {:?}",
+            first,
+            &rd.list_items[..rd.list_items.len().min(3)]
+        );
+    }
 }
 
 use crate::tui::app::WinVersionFilter;
