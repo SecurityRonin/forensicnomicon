@@ -84,26 +84,235 @@ pub const BEACON_MIN_SAMPLES: usize = 5;
 /// Coefficient-of-variation threshold below which traffic is considered beaconing.
 pub const BEACON_COV_THRESHOLD: f64 = 0.15;
 
-// ── Stub implementations (RED phase — replaced in GREEN) ─────────────────────
+// ── Known safe path prefixes (not flagged) ────────────────────────────────────
+
+const SAFE_PATH_PREFIXES: &[&str] = &[
+    r"c:\windows\system32\",
+    r"c:\windows\syswow64\",
+    r"c:\windows\winsxs\",
+    r"c:\windows\sysnative\",
+    r"c:\program files\",
+    r"c:\program files (x86)\",
+];
+
+// Document extensions that trigger double-extension detection when followed by
+// an executable extension.
+const DOC_EXTENSIONS: &[&str] = &[
+    ".pdf.", ".docx.", ".xlsx.", ".doc.", ".xls.", ".pptx.", ".txt.", ".jpg.", ".png.",
+];
+
+const EXEC_EXTENSIONS: &[&str] = &[".exe", ".dll", ".bat", ".ps1", ".vbs", ".js"];
 
 /// Returns `true` if the Windows executable path suggests malware staging.
+///
+/// Flags paths that:
+/// - Are UNC paths (`\\`)
+/// - Contain `\temp\` or `\tmp\`
+/// - Contain `\downloads\`
+/// - Contain `\windows\temp\`
+/// - Have a double extension (document ext followed by executable ext)
+/// - Are only one directory deep from a drive root (e.g. `C:\payload.exe`)
+///
+/// Does NOT flag paths under `System32`, `Program Files`, or bare `AppData\Local`
+/// (without `\Temp\`).
 #[must_use]
-pub fn is_suspicious_path(_path: &str) -> bool {
+pub fn is_suspicious_path(path: &str) -> bool {
+    if path.is_empty() {
+        return false;
+    }
+
+    let lower = path.to_lowercase();
+
+    // Safe prefixes short-circuit — these are never flagged.
+    // AppData\Local without Temp is safe; Temp is caught below by \temp\ check.
+    for prefix in SAFE_PATH_PREFIXES {
+        if lower.starts_with(prefix) {
+            return false;
+        }
+    }
+
+    // UNC path
+    if lower.starts_with(r"\\") {
+        return true;
+    }
+
+    // Suspicious directory components
+    if lower.contains(r"\temp\")
+        || lower.contains(r"\tmp\")
+        || lower.contains(r"\downloads\")
+        || lower.contains(r"\windows\temp\")
+    {
+        return true;
+    }
+
+    // Double extension: doc-type extension followed by exec extension at end
+    for doc_ext in DOC_EXTENSIONS {
+        if lower.contains(doc_ext) {
+            for exec_ext in EXEC_EXTENSIONS {
+                if lower.ends_with(exec_ext) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    // Single-depth from drive root: exactly one backslash total
+    // e.g. "C:\payload.exe" — only the drive separator backslash
+    if lower.chars().filter(|&c| c == '\\').count() == 1 {
+        return true;
+    }
+
     false
+}
+
+// ── Process masquerade ────────────────────────────────────────────────────────
+
+const SYSTEM_BINARIES: &[&str] = &[
+    "svchost.exe",
+    "lsass.exe",
+    "services.exe",
+    "csrss.exe",
+    "winlogon.exe",
+    "explorer.exe",
+    "cmd.exe",
+    "powershell.exe",
+    "rundll32.exe",
+    "regsvr32.exe",
+    "msiexec.exe",
+    "werfault.exe",
+    "conhost.exe",
+    "dllhost.exe",
+    "taskhost.exe",
+    "smss.exe",
+    "wininit.exe",
+    "spoolsv.exe",
+    "taskhostw.exe",
+    "sihost.exe",
+];
+
+const SYSTEM_DIRS: &[&str] = &[
+    r"\\windows\\system32",
+    r"\\windows\\syswow64",
+    r"\\windows\\winsxs",
+    r"\\windows\\sysnative",
+];
+
+/// Inline Levenshtein distance (no external crate).
+fn levenshtein(a: &str, b: &str) -> usize {
+    let a: Vec<char> = a.chars().collect();
+    let b: Vec<char> = b.chars().collect();
+    let m = a.len();
+    let n = b.len();
+    let mut dp = vec![vec![0usize; n + 1]; m + 1];
+    for i in 0..=m {
+        dp[i][0] = i;
+    }
+    for j in 0..=n {
+        dp[0][j] = j;
+    }
+    for i in 1..=m {
+        for j in 1..=n {
+            dp[i][j] = if a[i - 1] == b[j - 1] {
+                dp[i - 1][j - 1]
+            } else {
+                1 + dp[i - 1][j - 1].min(dp[i - 1][j]).min(dp[i][j - 1])
+            };
+        }
+    }
+    dp[m][n]
 }
 
 /// Returns `true` if `binary_name` is within edit-distance 1–2 of a known
 /// Windows system binary AND `dir` is not a recognised system directory.
+///
+/// An exact match (distance 0) in a wrong directory is not flagged here;
+/// use `is_suspicious_path` for that pattern.
 #[must_use]
-pub fn is_process_masquerade(_binary_name: &str, _dir: &str) -> bool {
+pub fn is_process_masquerade(binary_name: &str, dir: &str) -> bool {
+    let dir_lower = dir.to_lowercase();
+    // Replace single backslash with double for consistent matching against SYSTEM_DIRS
+    // which use escaped double-backslash strings. We normalise to lowercase and compare
+    // the raw string content.
+    let dir_norm = dir_lower.replace('\\', "\\\\");
+
+    // If dir is a system directory, never flag.
+    for sys_dir in SYSTEM_DIRS {
+        if dir_norm.contains(sys_dir) {
+            return false;
+        }
+    }
+    // Also handle the common single-backslash form directly.
+    let dir_lower_single = dir.to_lowercase();
+    let sys_dirs_single = &[
+        r"\windows\system32",
+        r"\windows\syswow64",
+        r"\windows\winsxs",
+        r"\windows\sysnative",
+    ];
+    for sys_dir in sys_dirs_single {
+        if dir_lower_single.contains(sys_dir) {
+            return false;
+        }
+    }
+
+    let bin_lower = binary_name.to_lowercase();
+
+    // If the binary is an exact match for any known system binary, it's not a
+    // masquerade (distance 0).  The wrong-directory case is handled elsewhere.
+    for &known in SYSTEM_BINARIES {
+        if bin_lower == known {
+            return false;
+        }
+    }
+
+    for &known in SYSTEM_BINARIES {
+        let dist = levenshtein(&bin_lower, known);
+        if dist >= 1 && dist <= 2 {
+            return true;
+        }
+    }
     false
 }
 
 /// Returns `true` if `timestamps_secs` exhibits regular-interval beaconing
 /// consistent with C2 check-in traffic.
+///
+/// Algorithm:
+/// 1. Require at least 6 timestamps (5 intervals).
+/// 2. Compute consecutive intervals.
+/// 3. Keep only intervals in `[BEACON_MIN_INTERVAL_SECS, BEACON_MAX_INTERVAL_SECS]`.
+/// 4. Require at least `BEACON_MIN_SAMPLES` valid intervals.
+/// 5. Compute coefficient of variation (stddev / mean).
+/// 6. Return `true` if CoV < `BEACON_COV_THRESHOLD`.
 #[must_use]
-pub fn is_beaconing(_timestamps_secs: &[i64]) -> bool {
-    false
+pub fn is_beaconing(timestamps_secs: &[i64]) -> bool {
+    if timestamps_secs.len() < 2 {
+        return false;
+    }
+
+    let intervals: Vec<f64> = timestamps_secs
+        .windows(2)
+        .map(|w| (w[1] - w[0]) as f64)
+        .filter(|&iv| {
+            iv >= BEACON_MIN_INTERVAL_SECS as f64 && iv <= BEACON_MAX_INTERVAL_SECS as f64
+        })
+        .collect();
+
+    if intervals.len() < BEACON_MIN_SAMPLES {
+        return false;
+    }
+
+    let mean = intervals.iter().sum::<f64>() / intervals.len() as f64;
+    if mean == 0.0 {
+        return false;
+    }
+
+    let variance =
+        intervals.iter().map(|&iv| (iv - mean).powi(2)).sum::<f64>() / intervals.len() as f64;
+    let stddev = variance.sqrt();
+    let cov = stddev / mean;
+
+    cov < BEACON_COV_THRESHOLD
 }
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
