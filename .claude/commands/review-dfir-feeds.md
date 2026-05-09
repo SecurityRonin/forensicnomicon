@@ -47,6 +47,23 @@ Read every word. You are a DFIR analyst ingesting primary source material.
 For each artifact mentioned (by name, path, registry key, GUID, tool output,
 or implication), extract:
 
+> **Also extract heuristics.** After cataloging artifacts, ask: *"What anomaly
+> threshold, behavioral signal, or detection predicate does this post teach?"*
+> These go into `src/heuristics/` as pure-predicate functions.
+>
+> Examples of heuristic knowledge:
+> - "Event record IDs with gaps indicate deleted records" → `fn is_evtx_record_gap(prev: u64, curr: u64) -> bool`
+> - "Prefetch timestamps within 2 seconds of each other indicate batch execution" → threshold constant
+> - "NTLM auth from a non-domain-joined workstation name" → predicate on workstation name pattern
+> - "High-entropy payload in EventData field" → threshold in `entropy.rs`
+> - "Service binary path contains a temp directory" → path predicate in `paths.rs`
+>
+> Heuristics live in `src/heuristics/{timestamps,paths,process,network,entropy,srum,memory}.rs`.
+> Add a new file (e.g. `evtx.rs`) if needed. Each function must:
+> - Take only primitive types (`u64`, `i64`, `u32`, `&str`, `&[u8]`)
+> - Have zero I/O or external dependencies
+> - Be annotated `#[must_use]` with a doc comment explaining the detection rationale
+
 | Field | What to look for |
 |---|---|
 | `id` | canonical artifact identifier |
@@ -85,6 +102,27 @@ Three outcomes:
 
 **C. Existing artifact — fully covered, nothing new**
 → Note `[x]` — no code change needed
+
+### 4b. Implement heuristics (if any)
+
+If the post teaches a detection threshold or anomaly predicate:
+
+1. Add the function/constant to the appropriate `src/heuristics/<module>.rs`
+2. Add a `#[test]` in the same file verifying the boundary case (e.g. gap of 0 → false, gap of 1 → true)
+3. Commit alongside the GREEN commit for the related artifact (or standalone if no descriptor change)
+
+```rust
+/// Returns `true` if the two consecutive event record IDs indicate a gap
+/// (records were deleted). Normal sequential logs have `curr == prev + 1`.
+///
+/// # Detection
+/// Gaps in Security.evtx record IDs (T1070.001 — clear event log) can result
+/// from partial deletion via `wevtutil cl` or direct binary patching.
+#[must_use]
+pub fn is_evtx_record_gap(prev_record_id: u64, curr_record_id: u64) -> bool {
+    curr_record_id > prev_record_id + 1
+}
+```
 
 ### 5. RED — write failing tests
 
