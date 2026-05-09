@@ -539,7 +539,7 @@ mod tests {
 
     #[test]
     fn mouse_scroll_down_moves_down() {
-        use crossterm::event::{MouseButton, MouseEvent, MouseEventKind};
+        use crossterm::event::{MouseEvent, MouseEventKind};
         let mut a = app();
         handle_mouse(
             &mut a,
@@ -551,7 +551,7 @@ mod tests {
 
     #[test]
     fn mouse_scroll_up_moves_up() {
-        use crossterm::event::{MouseButton, MouseEvent, MouseEventKind};
+        use crossterm::event::{MouseEvent, MouseEventKind};
         let mut a = app();
         a.selected = 5;
         handle_mouse(
