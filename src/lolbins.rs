@@ -8034,4 +8034,26 @@ mod tests {
             "winget.exe description should mention COM API / DSC bypass (DSCourier technique)"
         );
     }
+    // ── DFIR Report: Apache ActiveMQ → LockBit (feed review 2026-05-09) ──
+    // Source: https://thedfirreport.com/2026/02/23/apache-activemq-exploit-leads-to-lockbit-ransomware/
+    #[test]
+    fn lolbas_windows_contains_systemsettingsadminflows() {
+        // T1562.001 — legitimate Windows binary used to disable Windows Defender settings
+        // Sigma rule: 47a69e6a-7829-4014-817b-148846e51f55 (Antivirus Disabling via SystemSettingsAdminFlows)
+        assert!(LOLBAS_WINDOWS
+            .iter()
+            .any(|e| e.name == "SystemSettingsAdminFlows.exe"));
+    }
+    #[test]
+    fn systemsettingsadminflows_has_defense_evasion_use_case() {
+        // Must carry UC_DEFENSE_EVASION — the sole observed abuse is Defender disable
+        let entry = LOLBAS_WINDOWS
+            .iter()
+            .find(|e| e.name == "SystemSettingsAdminFlows.exe")
+            .unwrap();
+        assert!(
+            entry.use_cases & UC_DEFENSE_EVASION != 0,
+            "SystemSettingsAdminFlows.exe must carry UC_DEFENSE_EVASION"
+        );
+    }
 }
