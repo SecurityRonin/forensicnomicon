@@ -10,6 +10,8 @@ use ratatui::{
     Frame,
 };
 
+use forensicnomicon::catalog::Platform;
+
 use crate::tui::app::{App, Focus, Mode};
 use crate::tui::heatmap::{render_bar, tactic_mask, BLOCK_HIT, BLOCK_MISS};
 use crate::tui::presets::active as active_preset;
@@ -47,6 +49,18 @@ pub fn header_text<'a>(app: &'a App, theme: &'a Theme) -> Line<'a> {
         Span::raw(" │ "),
         Span::styled(preset.label, Style::default().fg(theme.header_fg)),
     ];
+
+    if !app.platform_mask.is_empty() {
+        spans.push(Span::raw("  "));
+        for &p in Platform::ALL {
+            if app.platform_mask.matches(p) {
+                spans.push(Span::styled(
+                    format!("[{}]", p.label()),
+                    Style::default().fg(theme.header_fg),
+                ));
+            }
+        }
+    }
 
     if !app.search_query.is_empty() || app.mode == Mode::Search {
         spans.push(Span::raw("  /"));
@@ -205,7 +219,7 @@ fn draw_detail_pane(f: &mut Frame, app: &App, theme: &Theme, lines: &[String], a
 fn draw_about(f: &mut Frame, theme: &Theme, area: Rect) {
     // Centre a 60×18 modal
     let modal_w = 60u16.min(area.width.saturating_sub(4));
-    let modal_h = 19u16.min(area.height.saturating_sub(4));
+    let modal_h = 21u16.min(area.height.saturating_sub(4));
     let x = (area.width.saturating_sub(modal_w)) / 2;
     let y = (area.height.saturating_sub(modal_h)) / 2;
     let modal_area = Rect::new(x, y, modal_w, modal_h);
@@ -247,6 +261,7 @@ fn draw_about(f: &mut Frame, theme: &Theme, area: Rect) {
         Line::from("  h/l ←→   move focus left / right"),
         Line::from("  Ctrl-R   cycle triage preset"),
         Line::from("  Alt-1…9  jump to Nth result"),
+        Line::from("  Alt-w/m/l  platform filter (Win/Mac/Linux)"),
         Line::from("  f        fullscreen detail pane"),
         Line::from("  q/Esc    quit / close modal"),
     ];

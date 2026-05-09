@@ -156,7 +156,7 @@ use crossterm::{
 };
 use forensicnomicon::{
     abusable_sites::ABUSABLE_SITES,
-    catalog::{Platform, CATALOG},
+    catalog::CATALOG,
     lolbins::{
         LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS, LOLBAS_WINDOWS_CMDLETS, LOLBAS_WINDOWS_MMC,
         LOLBAS_WINDOWS_WMI,
@@ -181,7 +181,12 @@ fn build_render_data(app: &app::App) -> RenderData {
             .list()
             .iter()
             .filter(|d| {
-                preset.os.map_or(true, |os| d.os_scope == os)
+                let platform_ok = if !app.platform_mask.is_empty() {
+                    app.platform_mask.matches(d.os_scope.platform())
+                } else {
+                    preset.os.map_or(true, |os| os.platform() == d.os_scope.platform())
+                };
+                platform_ok
                     && (preset.priorities.is_empty()
                         || preset.priorities.contains(&d.triage_priority))
             })

@@ -8,6 +8,7 @@
 /// Disabled-reason messages live here, not in the UI. The UI just renders
 /// `app.flash` if one is set. This keeps rendering pure and testable.
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
+use forensicnomicon::catalog::Platform;
 
 use crate::tui::app::{App, Focus, Mode};
 use crate::tui::guards::{evaluate, Guard};
@@ -125,6 +126,11 @@ pub fn handle_key(app: &mut App, event: KeyEvent, list_len: usize) -> bool {
                 app.alt_jump(n, list_len);
             }
         }
+
+        // ── Platform filter (Alt-w/m/l) ───────────────────────────────────
+        (KeyCode::Char('w'), KeyModifiers::ALT) => app.toggle_platform(Platform::Windows),
+        (KeyCode::Char('m'), KeyModifiers::ALT) => app.toggle_platform(Platform::MacOS),
+        (KeyCode::Char('l'), KeyModifiers::ALT) => app.toggle_platform(Platform::Linux),
 
         // ── Dataset cycle (d) ─────────────────────────────────────────────
         (KeyCode::Char('d'), KeyModifiers::NONE) => {
