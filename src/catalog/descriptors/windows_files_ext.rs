@@ -1675,3 +1675,89 @@ pub(crate) static WINDOWS_CLIPBOARD_DATA_FILES: ArtifactDescriptor = ArtifactDes
         "https://github.com/netero1010/ClipboardHistoryThief",
     ],
 };
+
+/// Windows Defender MpWppTracing-*.bin support log files.
+///
+/// Defender writes WPP (Windows software trace preprocessor) binary trace files
+/// into `C:\ProgramData\Microsoft\Windows Defender\Support\` with the naming
+/// convention `MpWppTracing-YYYYMMDD-HHMMSS-00000003-fffffffeffffffff.bin`.
+/// The trailing 64-bit hex pair is the WPP keyword/level mask. Despite the
+/// `.bin` extension and what some posts call them ("diagnostic logs"), the
+/// canonical Microsoft term is "support log" — these are WPP traces, not ETL,
+/// and not the same as the text `MPLog-*.log` files (covered by
+/// `fa_file_support_mplog_log_2`) in the same folder.
+///
+/// `strings` extracts string fragments but loses structure. The Intrinsec
+/// `mplog_parser` Python tool (https://github.com/Intrinsec/mplog_parser) is
+/// the community parser Carvey identifies in his 2026-01 post — it decodes
+/// the WPP records into something analyst-readable.
+///
+/// Carvey reports having pulled these from endpoints during IR but not yet
+/// surfacing incident-relevant content from them — meaning their evidentiary
+/// value is opportunistic (process scans, real-time protection state, signature
+/// updates, threat detections at WPP keyword level) rather than a reliable
+/// every-incident anchor.
+pub(crate) static WINDOWS_DEFENDER_MPWPPTRACING: ArtifactDescriptor = ArtifactDescriptor {
+    id: "windows_defender_mpwpptracing",
+    name: "Windows Defender Support Logs (MpWppTracing-*.bin, WPP traces)",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"C:\ProgramData\Microsoft\Windows Defender\Support\MpWppTracing-*.bin"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "WPP (Windows software trace preprocessor) binary trace files written by \
+        Defender into C:\\ProgramData\\Microsoft\\Windows Defender\\Support\\. Naming \
+        convention: MpWppTracing-YYYYMMDD-HHMMSS-00000003-fffffffeffffffff.bin where the \
+        leading timestamp is the file rotation/creation time (UTC) and the trailing 64-bit \
+        hex pair is the WPP keyword/level mask. Despite some community posts calling these \
+        'diagnostic logs', Microsoft's canonical term is 'support log'. Distinct from the \
+        text MPLog-*.log file in the same folder (text logger, not WPP). `strings` is the \
+        crude fallback; the Intrinsec mplog_parser Python tool decodes the WPP records into \
+        readable form. Opportunistic evidence value: Defender internal traces of process \
+        scans, real-time protection state changes, signature updates, and threat detection \
+        at the WPP keyword level — not always populated with incident-relevant content.",
+    mitre_techniques: &[],
+    fields: &[
+        FieldSchema {
+            name: "filename_timestamp",
+            value_type: ValueType::Timestamp,
+            description: "YYYYMMDD-HHMMSS portion of the filename — UTC file rotation time \
+                set at WPP session start. Anchors when the trace session began.",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "wpp_keyword_mask",
+            value_type: ValueType::Text,
+            description: "Trailing 64-bit hex pair (e.g. 00000003-fffffffeffffffff) encoding \
+                the WPP keyword/level mask the session was opened with. 00000003 + \
+                fffffffeffffffff is the standard Defender support trace mask.",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "wpp_records",
+            value_type: ValueType::Bytes,
+            description: "Binary WPP trace records — provider GUID, message ID, and arg \
+                blob per record. Requires a TMF (trace message format) decoder or the \
+                Intrinsec mplog_parser to render readable.",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Rotated by Defender; older files persist until folder cleanup or reimage"),
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &[
+        "kape_file_windows_defender_support",
+        "fa_file_support_mplog_log_2",
+        "windows_defender_disabled_av",
+    ],
+    sources: &[
+        // Source: Carvey 2026-01 — primary post identifying the file, naming convention,
+        // and pointing to mplog_parser as the community parser
+        "https://windowsir.blogspot.com/2026/01/windows-defender-support-logs.html",
+        // Source: Intrinsec mplog_parser — the Python parser Carvey identifies for
+        // decoding the WPP binary records
+        "https://github.com/Intrinsec/mplog_parser",
+    ],
+};
