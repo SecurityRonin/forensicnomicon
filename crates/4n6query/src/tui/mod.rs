@@ -430,6 +430,62 @@ mod tests {
     // ── dataset ordering: abusable sites must be idx 2 (adjacent to lolbas) ─
 
     #[test]
+    fn malware_profiles_is_at_idx_7() {
+        use forensicnomicon::threat_intel::profiles::ALL_PROFILES;
+        let rd = build_render_data(&make_app(7, "", 0));
+        assert!(
+            !rd.list_items.is_empty(),
+            "dataset idx 7 must be malware profiles (non-empty list)"
+        );
+        let first_id = ALL_PROFILES[0].id;
+        assert!(
+            rd.list_items.iter().any(|s| s.contains(first_id)),
+            "malware profiles list must contain '{}'; got: {:?}",
+            first_id,
+            &rd.list_items[..rd.list_items.len().min(3)]
+        );
+    }
+
+    #[test]
+    fn malware_profile_detail_contains_family_info() {
+        let rd = build_render_data(&make_app(7, "", 0));
+        assert!(!rd.detail_lines.is_empty(), "malware profile detail must be non-empty");
+        let combined = rd.detail_lines.join("\n").to_lowercase();
+        assert!(
+            combined.contains("class") || combined.contains("mitre") || combined.contains("family"),
+            "malware profile detail must contain class/mitre/family info; got: {combined}"
+        );
+    }
+
+    #[test]
+    fn attack_flows_is_at_idx_8() {
+        use forensicnomicon::attack_flow::all_flows;
+        let rd = build_render_data(&make_app(8, "", 0));
+        assert!(
+            !rd.list_items.is_empty(),
+            "dataset idx 8 must be attack flows (non-empty list)"
+        );
+        let first_id = all_flows()[0].id;
+        assert!(
+            rd.list_items.iter().any(|s| s.contains(first_id)),
+            "attack flows list must contain '{}'; got: {:?}",
+            first_id,
+            &rd.list_items[..rd.list_items.len().min(3)]
+        );
+    }
+
+    #[test]
+    fn attack_flow_detail_contains_step_count() {
+        let rd = build_render_data(&make_app(8, "", 0));
+        assert!(!rd.detail_lines.is_empty(), "attack flow detail must be non-empty");
+        let combined = rd.detail_lines.join("\n").to_lowercase();
+        assert!(
+            combined.contains("step") || combined.contains("action") || combined.contains("technique"),
+            "attack flow detail must contain step/action/technique info; got: {combined}"
+        );
+    }
+
+    #[test]
     fn abusable_sites_is_at_idx_2() {
         use forensicnomicon::abusable_sites::ABUSABLE_SITES;
         let rd = build_render_data(&make_app(2, "", 0));

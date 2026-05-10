@@ -8,6 +8,8 @@ pub enum Dataset {
     WindowsMmc = 4,
     WindowsWmi = 5,
     Playbooks = 6,
+    MalwareProfiles = 7,
+    AttackFlow = 8,
 }
 
 impl Dataset {
@@ -20,6 +22,8 @@ impl Dataset {
             4 => Some(Self::WindowsMmc),
             5 => Some(Self::WindowsWmi),
             6 => Some(Self::Playbooks),
+            7 => Some(Self::MalwareProfiles),
+            8 => Some(Self::AttackFlow),
             _ => None,
         }
     }
@@ -33,6 +37,8 @@ impl Dataset {
             Self::WindowsMmc => "mmc",
             Self::WindowsWmi => "wmi",
             Self::Playbooks => "playbooks",
+            Self::MalwareProfiles => "malware profiles",
+            Self::AttackFlow => "attack flows",
         }
     }
 }
