@@ -131,7 +131,7 @@ pub fn handle_key(app: &mut App, event: KeyEvent, list_len: usize) -> bool {
         (KeyCode::Char('p'), KeyModifiers::NONE) => app.cycle_platform_filter(),
 
         // ── Dataset cycle (d) ─────────────────────────────────────────────
-        (KeyCode::Char('d'), KeyModifiers::NONE) => {
+        (KeyCode::Char('t'), KeyModifiers::NONE) => {
             if let Some(r) = evaluate(&[Guard::NotInSearchMode], app, list_len) {
                 app.flash(r);
             } else {
@@ -374,10 +374,8 @@ mod tests {
         let mut a = app();
         a.enter_search_mode();
         let before_ds = a.dataset_idx;
-        handle_key(&mut a, key(KeyCode::Char('d')), 10);
-        // In search mode, 'd' would go through search path as char input
-        // Actually in search mode, 'd' is handled as a char push, not dataset switch
-        // The search mode path adds 'd' to query; dataset guard is only in normal mode
+        handle_key(&mut a, key(KeyCode::Char('t')), 10);
+        // In search mode, 't' goes through search path as char input, not dataset switch
         assert_eq!(
             a.dataset_idx, before_ds,
             "dataset should not change in search mode"

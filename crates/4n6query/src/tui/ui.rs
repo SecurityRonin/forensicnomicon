@@ -107,7 +107,7 @@ pub fn hint_text<'a>(app: &'a App, theme: &'a Theme) -> Line<'a> {
         Mode::Search => " Esc: finish  ↑↓: navigate  Enter: confirm",
         Mode::About => " Esc/q: close  ↑↓/jk: scroll",
         Mode::Normal => {
-            " /: search  j/k: navigate  Tab: focus  d: dataset  p: platform  c: criticality  ?: about  q: quit"
+            " /: search  j/k: navigate  Tab: focus  t: type  p: platform  c: criticality  ?: about  q: quit"
         }
     };
     Line::from(Span::styled(mode_hint, Style::default().fg(theme.hint_fg)))
@@ -429,7 +429,7 @@ fn draw_about(f: &mut Frame, theme: &Theme, area: Rect) {
         Line::from("  j/k ↑↓   navigate list"),
         Line::from("  Tab      toggle list / detail focus"),
         Line::from("  h/l ←→   move focus left / right"),
-        Line::from("  d        cycle dataset  (catalog/lolbas/sites/…)"),
+        Line::from("  t        cycle type  (catalog/lolbas/sites/…)"),
         Line::from("  p        cycle platform  (Win/W10/W11/Mac/Lin)"),
         Line::from("  c        cycle criticality  (Crit/High/Med/All)"),
         Line::from("  Alt-1…9  jump to Nth result"),
@@ -917,11 +917,11 @@ mod tests {
     // ── hint bar ──────────────────────────────────────────────────────────
 
     #[test]
-    fn hint_bar_shows_d_key_for_dataset() {
+    fn hint_bar_shows_t_key_for_type() {
         let app = App::new();
         let line = hint_text(&app, default_theme());
         let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
-        assert!(text.contains("d:"), "hint bar must advertise d key; got: {text}");
+        assert!(text.contains("t:"), "hint bar must advertise t key; got: {text}");
     }
 
     // ── colorize_detail_line ──────────────────────────────────────────────
