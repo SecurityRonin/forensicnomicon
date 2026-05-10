@@ -30,8 +30,8 @@ mod tests {
     }
 
     #[test]
-    fn dataset_count_is_7() {
-        assert_eq!(app::App::DATASET_COUNT, 7, "3 platform lolbas datasets merged into 1");
+    fn dataset_count_is_9() {
+        assert_eq!(app::App::DATASET_COUNT, 9, "9 datasets: catalog, lolbas, abusable sites, cmdlets, mmc, wmi, playbooks, malware profiles, attack flows");
     }
 
     #[test]
@@ -523,6 +523,7 @@ use forensicnomicon::{
     abusable_sites::{
         ABUSABLE_SITES, TAG_C2, TAG_DOWNLOAD, TAG_EXFIL, TAG_EXPLOIT, TAG_PHISHING,
     },
+    attack_flow::all_flows,
     catalog::{ArtifactDescriptor, OsScope, Platform, CATALOG},
     lolbins::{
         lolbas_entry, LolbasEntry, LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS,
@@ -531,6 +532,7 @@ use forensicnomicon::{
         UC_PERSIST, UC_PROXY, UC_RECON, UC_UPLOAD,
     },
     playbooks::PLAYBOOKS,
+    threat_intel::profiles::ALL_PROFILES,
 };
 use ratatui::{backend::CrosstermBackend, Terminal};
 use std::io;
@@ -574,6 +576,19 @@ fn lolbas_detail_lines(entry: &LolbasEntry) -> Vec<String> {
         lines.push(format!("Use cases: {uc}"));
     }
     lines
+}
+
+fn malware_class_label(class: forensicnomicon::threat_intel::MalwareClass) -> &'static str {
+    use forensicnomicon::threat_intel::MalwareClass;
+    match class {
+        MalwareClass::LdPreloadProcessHider => "LD_PRELOAD/process-hider",
+        MalwareClass::LdPreloadPamHooker    => "LD_PRELOAD/PAM-hooker",
+        MalwareClass::LdPreloadNetworkHider => "LD_PRELOAD/network-hider",
+        MalwareClass::LdPreloadFullRootkit  => "LD_PRELOAD/full-rootkit",
+        MalwareClass::LkmRootkit            => "LKM/rootkit",
+        MalwareClass::CryptoMiner           => "crypto-miner",
+        MalwareClass::GenericLdPreload      => "LD_PRELOAD/generic",
+    }
 }
 
 fn abuse_tags_str(tags: u8) -> String {
@@ -656,6 +671,14 @@ fn build_render_data(app: &app::App) -> RenderData {
             .map(|e| e.name.to_string())
             .collect(),
         6 => PLAYBOOKS.iter().map(|p| p.id.to_string()).collect(),
+        7 => ALL_PROFILES
+            .iter()
+            .map(|p| format!("{:<24}  [{}]", p.id, malware_class_label(p.malware_class)))
+            .collect(),
+        8 => all_flows()
+            .iter()
+            .map(|f| format!("{:<40}  {}", f.id, f.name))
+            .collect(),
         _ => vec![],
     };
 
@@ -819,6 +842,70 @@ fn build_render_data(app: &app::App) -> RenderData {
                     lines
                 }
                 None => vec!["Select an item.".into()],
+            }
+        }
+        7 => {
+            let profile = selected_name
+                .and_then(|s| s.split_whitespace().next())
+                .and_then(|id| ALL_PROFILES.iter().copied().find(|p| p.id == id));
+            match profile {
+                Some(p) => {
+                    let mut lines = vec![
+                        p.family.to_string(),
+                        "─".repeat(40),
+                        p.description.to_string(),
+                        String::new(),
+                        format!("Family  : {}", p.family),
+                        format!("Class   : {}", malware_class_label(p.malware_class)),
+                    ];
+                    if !p.mitre_techniques.is_empty() {
+                        lines.push(format!("MITRE   : {}", p.mitre_techniques.join("  ")));
+                    }
+                    lines.push(String::new());
+                    lines.push(format!("Thresholds — class:{} probable:{} confirmed:{}",
+                        p.class_threshold, p.probable_threshold, p.confirmed_threshold));
+                    lines.push(String::new());
+                    lines.push("Signals:".into());
+                    for s in p.signals {
+                        let req = if s.required { " [required]" } else { "" };
+                        lines.push(format!("  {:>3}  {}{}", s.weight, s.id, req));
+                    }
+                    if !p.exclusions.is_empty() {
+                        lines.push(String::new());
+                        lines.push("Exclusions:".into());
+                        for e in p.exclusions {
+                            lines.push(format!("  -{:>3}  {}", e.penalty, e.id));
+                        }
+                    }
+                    lines
+                }
+                None => vec!["Select a profile to see details.".into()],
+            }
+        }
+        8 => {
+            let flow = selected_name
+                .and_then(|s| s.split_whitespace().next())
+                .and_then(|id| all_flows().iter().find(|f| f.id == id));
+            match flow {
+                Some(f) => {
+                    let mut lines = vec![
+                        f.name.to_string(),
+                        "─".repeat(40),
+                        f.description.to_string(),
+                        String::new(),
+                        format!("Actions : {}", f.actions.len()),
+                        String::new(),
+                        "Steps:".into(),
+                    ];
+                    for (i, a) in f.actions.iter().enumerate() {
+                        lines.push(format!("  {:>2}. [{}] {} — {}", i + 1, a.technique_id, a.tactic, a.name));
+                        if !a.artifact_ids.is_empty() {
+                            lines.push(format!("      Artifacts: {}", a.artifact_ids.join(", ")));
+                        }
+                    }
+                    lines
+                }
+                None => vec!["Select a flow to see details.".into()],
             }
         }
         _ => vec!["Select an item to see details.".into()],
