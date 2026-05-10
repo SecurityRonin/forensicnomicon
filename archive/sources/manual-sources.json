@@ -54,15 +54,6 @@
     "notes": "Primary Sysinternals documentation and tool references. Web monitor (downloads index) in Documentation and Reference Sources section of dfir-feeds.opml."
   },
   {
-    "id": "eric-zimmerman",
-    "title": "Eric Zimmerman documentation",
-    "category": "primary-reference",
-    "kind": "documentation",
-    "html_url": "https://ericzimmerman.github.io/#!index.md",
-    "update_strategy": "manual-review",
-    "notes": "Parser and forensic tool documentation."
-  },
-  {
     "id": "velociraptor-docs",
     "title": "Velociraptor documentation",
     "category": "primary-reference",
