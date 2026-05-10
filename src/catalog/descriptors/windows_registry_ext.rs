@@ -31,10 +31,10 @@ pub(crate) static SAFEBOOT_MINIMAL: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://www.microsoftpressstore.com/articles/article.aspx?p=2762082",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Some legitimate security tools (AV, EDR) also register here"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 pub(crate) static SAFEBOOT_NETWORK: ArtifactDescriptor = ArtifactDescriptor {
@@ -57,10 +57,10 @@ pub(crate) static SAFEBOOT_NETWORK: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.microsoftpressstore.com/articles/article.aspx?p=2762082",
         "https://www.hexacorn.com/blog/2013/07/04/beyond-good-ol-run-key-part-15/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Some legitimate networking and security drivers also register here"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 pub(crate) static KNOWN_DLLS: ArtifactDescriptor = ArtifactDescriptor {
@@ -82,10 +82,10 @@ pub(crate) static KNOWN_DLLS: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Modifications to KnownDLLs are rare; baseline comparison required"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 pub(crate) static CMD_AUTORUN_HKLM: ArtifactDescriptor = ArtifactDescriptor {
@@ -108,10 +108,10 @@ pub(crate) static CMD_AUTORUN_HKLM: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/opensecurity-persistence/",
         "https://www.hexacorn.com/blog/2013/07/04/beyond-good-ol-run-key-part-15/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Some legitimate enterprise scripts and developer tooling configure AutoRun"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicit deletion",
 };
 
 pub(crate) static CMD_AUTORUN_HKCU: ArtifactDescriptor = ArtifactDescriptor {
@@ -134,10 +134,10 @@ pub(crate) static CMD_AUTORUN_HKCU: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/opensecurity-persistence/",
         "https://www.hexacorn.com/blog/2013/07/04/beyond-good-ol-run-key-part-15/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Some developer environments and aliases configure AutoRun benignly"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicit deletion",
 };
 
 pub(crate) static CREDENTIAL_PROVIDERS: ArtifactDescriptor = ArtifactDescriptor {
@@ -185,10 +185,10 @@ pub(crate) static NETWORK_PROVIDER_ORDER: ArtifactDescriptor = ArtifactDescripto
         "https://www.sans.org/blog/opensecurity-persistence/",
         "https://www.hexacorn.com/blog/2013/07/04/beyond-good-ol-run-key-part-15/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Enterprise SSO and credential manager extensions legitimately add network providers"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 pub(crate) static SHELL_EXECUTE_HOOKS: ArtifactDescriptor = ArtifactDescriptor {
@@ -211,10 +211,10 @@ pub(crate) static SHELL_EXECUTE_HOOKS: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/opensecurity-persistence/",
         "https://www.hexacorn.com/blog/2013/07/04/beyond-good-ol-run-key-part-15/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["A small number of legitimate shell extensions register here"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 pub(crate) static WER_RUNTIME_EXCEPTION_HELPER: ArtifactDescriptor = ArtifactDescriptor {
@@ -236,10 +236,10 @@ pub(crate) static WER_RUNTIME_EXCEPTION_HELPER: ArtifactDescriptor = ArtifactDes
     sources: &[
         "https://www.hexacorn.com/blog/2019/09/20/beyond-good-ol-run-key-part-116/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Rare legitimate registrations exist — baseline against clean image"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 pub(crate) static IFEO_GLOBAL_FLAG: ArtifactDescriptor = ArtifactDescriptor {
@@ -261,10 +261,13 @@ pub(crate) static IFEO_GLOBAL_FLAG: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://blog.xpnsec.com/hiding-your-dotnet-etw/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Legitimate developer/profiling use of GlobalFlag is possible",
+        "Requires correlation with COR_PROFILER environment variables for definitive injection evidence",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 pub(crate) static SCHEDULED_TASK_REGISTRY_CACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -312,10 +315,10 @@ pub(crate) static GROUP_POLICY_STARTUP_SCRIPTS: ArtifactDescriptor = ArtifactDes
         "https://www.sans.org/blog/opensecurity-persistence/",
         "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn789189(v=ws.11)",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Legitimate enterprise administration uses startup scripts heavily — baseline against expected GPO"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion or GPO refresh",
 };
 
 pub(crate) static GROUP_POLICY_LOGON_SCRIPTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -338,10 +341,10 @@ pub(crate) static GROUP_POLICY_LOGON_SCRIPTS: ArtifactDescriptor = ArtifactDescr
         "https://www.sans.org/blog/opensecurity-persistence/",
         "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn789189(v=ws.11)",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Legitimate enterprise administration uses logon scripts heavily — baseline against expected GPO"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion or GPO refresh",
 };
 
 pub(crate) static WINLOGON_NOTIFY: ArtifactDescriptor = ArtifactDescriptor {
@@ -390,10 +393,13 @@ pub(crate) static COM_SERVER_HKLM: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/opensecurity-persistence/",
         "https://www.hexacorn.com/blog/2013/07/04/beyond-good-ol-run-key-part-15/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Vast majority of CLSID entries are legitimate",
+        "Hijack proof requires confirming missing/orphaned DLL paths or anomalous server paths",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 pub(crate) static OFFICE_ADDINS: ArtifactDescriptor = ArtifactDescriptor {
@@ -416,10 +422,10 @@ pub(crate) static OFFICE_ADDINS: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/opensecurity-persistence/",
         "https://learn.microsoft.com/en-us/office/dev/add-ins/concepts/add-in-development-best-practices",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Many legitimate productivity add-ins register here (Adobe, Grammarly, enterprise tools)"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 pub(crate) static TERMINAL_SERVER_INITIAL_PROGRAM: ArtifactDescriptor = ArtifactDescriptor {
@@ -442,10 +448,10 @@ pub(crate) static TERMINAL_SERVER_INITIAL_PROGRAM: ArtifactDescriptor = Artifact
         "https://www.sans.org/blog/opensecurity-persistence/",
         "https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/clients/remote-desktop-allow-access",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Some kiosk/locked-down enterprise deployments legitimately set InitialProgram"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicit deletion",
 };
 
 // ── RECmd batch: user activity & execution evidence ──────────────────────────
@@ -473,10 +479,13 @@ pub(crate) static RECENTAPPS: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
         "https://www.magnetforensics.com/blog/artifact-profile-recentapps/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Only records apps launched via Start menu search, not all execution paths",
+        "Cleared when user clears Windows search history",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated per user search/launch interaction; entries rotate as new apps are launched",
 };
 
 pub(crate) static NETWORK_SHARES_HKCU: ArtifactDescriptor = ArtifactDescriptor {
@@ -499,10 +508,10 @@ pub(crate) static NETWORK_SHARES_HKCU: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["network_drives", "mountpoints2"],
     sources: &["https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Persists historical mappings even after disconnect — may represent past activity"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 pub(crate) static DEFAULT_BROWSER: ArtifactDescriptor = ArtifactDescriptor {
@@ -522,10 +531,10 @@ pub(crate) static DEFAULT_BROWSER: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &["chrome_cookies", "firefox_logins", "edge_webcache"],
     sources: &["https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb"],
-    evidence_strength: None,
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until user changes default browser",
 };
 
 pub(crate) static PROXY_SETTINGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -550,10 +559,10 @@ pub(crate) static PROXY_SETTINGS: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Many enterprise environments legitimately configure proxies via GPO or PAC files"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 pub(crate) static SYSTEM_TIMEZONE: ArtifactDescriptor = ArtifactDescriptor {
@@ -576,10 +585,10 @@ pub(crate) static SYSTEM_TIMEZONE: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["userassist_exe", "bam_user"],
     sources: &["https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb"],
-    evidence_strength: None,
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit timezone change",
 };
 
 pub(crate) static COMPUTER_NAME: ArtifactDescriptor = ArtifactDescriptor {
@@ -599,10 +608,10 @@ pub(crate) static COMPUTER_NAME: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["system_timezone", "networklist_profiles"],
     sources: &["https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb"],
-    evidence_strength: None,
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit rename",
 };
 
 pub(crate) static SHUTDOWN_TIME: ArtifactDescriptor = ArtifactDescriptor {
@@ -622,10 +631,10 @@ pub(crate) static SHUTDOWN_TIME: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["evtx_system"],
     sources: &["https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Only records the most recent clean shutdown; unclean shutdowns leave stale value"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value overwritten on each clean shutdown",
 };
 
 pub(crate) static USB_STOR_ENUM: ArtifactDescriptor = ArtifactDescriptor {
@@ -707,10 +716,13 @@ pub(crate) static UNINSTALL_KEYS: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["amcache_app_file", "muicache"],
     sources: &["https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Portable apps and self-extracting installers may not register here",
+        "Malware can suppress its own uninstall entry",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit uninstall removes entry",
 };
 
 pub(crate) static USER_ACCOUNT_SID: ArtifactDescriptor = ArtifactDescriptor {
@@ -733,10 +745,10 @@ pub(crate) static USER_ACCOUNT_SID: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["sam_users", "evtx_security"],
     sources: &["https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb"],
-    evidence_strength: None,
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists for life of user profile",
 };
 
 pub(crate) static TERMINAL_SERVER_CLIENT_SERVERS: ArtifactDescriptor = ArtifactDescriptor {
@@ -784,8 +796,11 @@ pub(crate) static INTERNET_EXPLORER_TYPED_URLS: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["typed_urls", "typed_urls_time"],
     sources: &["https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Only populated when IE/legacy Edge is used; obsolete on modern Windows",
+        "User can manually clear typed URL history",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated per user URL typing; FIFO eviction as new URLs are typed",
 };

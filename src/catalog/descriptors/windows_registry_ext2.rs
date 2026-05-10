@@ -101,10 +101,10 @@ pub(crate) static WINLOGON_DEFAULT_USERNAME: ArtifactDescriptor = ArtifactDescri
     sources: &[
         "https://learn.microsoft.com/en-us/troubleshoot/windows-server/user-profiles-and-logon/turn-on-automatic-logon",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Legitimately set when Autologon is configured intentionally"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicit deletion",
 };
 
 // ── LogonUI last logged-on user ───────────────────────────────────────────────
@@ -134,10 +134,10 @@ pub(crate) static LOGONUI_LAST_LOGGEDON_USER: ArtifactDescriptor = ArtifactDescr
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Only reflects the most recent interactive logon, not full logon history"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Overwritten on each interactive logon",
 };
 
 // ── PortProxy (netsh port forwarding) ────────────────────────────────────────
@@ -595,10 +595,13 @@ pub(crate) static SYSINTERNALS_EULA: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
         "https://learn.microsoft.com/en-us/sysinternals/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Sysadmins legitimately use these tools — context required to distinguish admin from attacker activity",
+        "EulaAccepted bit can be pre-seeded in registry without running the tool",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 // ── MS Office Server Cache (Follina IOC) ──────────────────────────────────────
@@ -696,10 +699,10 @@ pub(crate) static STARTUP_APPROVED_RUN_SYSTEM: ArtifactDescriptor = ArtifactDesc
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
-    evidence_strength: None,
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit modification",
 };
 
 pub(crate) static STARTUP_APPROVED_RUN_USER: ArtifactDescriptor = ArtifactDescriptor {
@@ -727,10 +730,10 @@ pub(crate) static STARTUP_APPROVED_RUN_USER: ArtifactDescriptor = ArtifactDescri
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
-    evidence_strength: None,
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit modification",
 };
 
 // ── Task Scheduler cache ──────────────────────────────────────────────────────
@@ -795,10 +798,10 @@ pub(crate) static PROFILE_LIST_USERS: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
         "https://learn.microsoft.com/en-us/windows/win32/sysinfo/profilelist",
     ],
-    evidence_strength: None,
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until profile is deleted",
 };
 
 // ── Registrar favorites ───────────────────────────────────────────────────────
@@ -828,10 +831,10 @@ pub(crate) static REGISTRAR_FAVORITES: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Sysadmins and forensic analysts legitimately use Registrar with sensitive bookmarks"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 // ── DHCP interface configuration ──────────────────────────────────────────────
@@ -861,10 +864,10 @@ pub(crate) static DHCP_IPV4_INTERFACE: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Only reflects current/most-recent DHCP lease, not full historical IP assignment"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated on each DHCP lease renewal/acquisition",
 };
 
 // ── NTFS last access update status ───────────────────────────────────────────
@@ -895,10 +898,10 @@ pub(crate) static NTFS_LAST_ACCESS_STATUS: ArtifactDescriptor = ArtifactDescript
         "https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-behavior",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Default value on Win10/11 is 0x80000001 (system-managed) — not necessarily attacker activity"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicit modification",
 };
 
 // ── Prefetch enabled/disabled ─────────────────────────────────────────────────
@@ -929,10 +932,10 @@ pub(crate) static PREFETCH_STATUS: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn452747(v=ws.11)",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Default disabled on Server SKUs and SSD-only configurations on some builds — not always attacker activity"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicit modification",
 };
 
 // ── Windows Firewall rules ────────────────────────────────────────────────────
@@ -963,10 +966,13 @@ pub(crate) static FIREWALL_RULES: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
         "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_firewall_rule_added.yml",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Many legitimate applications add firewall rules during install",
+        "Group Policy may push rules that look attacker-like",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit rule deletion",
 };
 
 // ── Event log channel enable/disable status ───────────────────────────────────

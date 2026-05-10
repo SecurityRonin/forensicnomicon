@@ -188,10 +188,13 @@ pub(crate) static LSA_NOTIFICATION_PACKAGES: ArtifactDescriptor = ArtifactDescri
         "https://www.hexacorn.com/blog/2013/09/17/beyond-good-ol-run-key-part-8/",
         "https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Default 'scecli' is normal; presence of additional DLLs is the IOC",
+        "Some enterprise password-policy products legitimately register here",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicit modification (changes apply at reboot)",
 };
 
 // ── T1546.002 — Screensaver Persistence ──────────────────────────────────────
@@ -230,10 +233,10 @@ pub(crate) static SCREENSAVER_PERSISTENCE: ArtifactDescriptor = ArtifactDescript
         "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.002/T1546.002.md",
         "https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Some users legitimately configure custom .scr screensavers — verify path and signature"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicit modification",
 };
 
 // ── T1547.010 — Print Monitor DLLs ───────────────────────────────────────────
@@ -399,10 +402,13 @@ pub(crate) static WINDOWS_INSTALL_DATE: ArtifactDescriptor = ArtifactDescriptor 
         "https://az4n6.blogspot.com/2017/02/when-windows-lies.html",
         "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-setup-log-files-and-event-logs",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Reset by Windows Feature Updates — does not reflect original install date",
+        "OEM/corporate image deployments inherit the original image build date",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until next Feature Update or reinstall",
 };
 
 /// Windows Clipboard History registry settings.
@@ -478,10 +484,13 @@ pub(crate) static WINDOWS_CLIPBOARD_HISTORY: ArtifactDescriptor = ArtifactDescri
         // and forensic implications of clipboard sync across devices
         "https://windowsir.blogspot.com/2026/01/whats-on-your-clipboard.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Only indicates the feature is enabled, not actual clipboard contents",
+        "Disabled by default on most Windows installations",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until user toggles the feature",
 };
 
 // ── Valley RAT Registry Persistence ─────────────────────────────────────────
@@ -546,10 +555,10 @@ pub(crate) static VALLEY_RAT_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
         // Source: Harlan Carvey commentary on Valley RAT registry storage
         "https://windowsir.blogspot.com/2026/01/grab-bag.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Legitimate Console key holds only display settings — unexpected subkeys/binary values are the IOC"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 // ── Hyper-V Guest Parameters ────────────────────────────────────────────────
@@ -622,10 +631,10 @@ pub(crate) static HYPERV_GUEST_PARAMS: ArtifactDescriptor = ArtifactDescriptor {
         // Source: DFIR Report — Lynx Ransomware case, threat actor queries this key for hypervisor discovery
         "https://thedfirreport.com/2025/12/17/cats-got-your-files-lynx-ransomware/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Only present on Hyper-V guest VMs with Integration Services installed"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists for life of the guest VM",
 };
 
 // ── Registry: FeatureUsage (Win10 1903+ taskbar telemetry) ────────────────────
@@ -748,10 +757,13 @@ pub static REGISTRY_FEATUREUSAGE: ArtifactDescriptor = ArtifactDescriptor {
         // Source: RegRipper plugin — confirms NTUSER.DAT hive + key path + traversal logic
         "https://github.com/keydet89/RegRipper3.0/blob/master/plugins/featureusage.pl",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Only populated on Win10 1903+ after first interactive logon",
+        "Counters may be reset by user via Settings > Privacy",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Counters incremented per taskbar interaction; persist in NTUSER.DAT",
 };
 
 // ── EnablePeriodicBackup — registry-key time-stomping detection enabler ──────
@@ -844,10 +856,10 @@ pub(crate) static ENABLE_PERIODIC_BACKUP: ArtifactDescriptor = ArtifactDescripto
         // documents the $SI/$FN attack model and Run-key tampering technique.
         "https://www.inversecos.com/2022/04/malicious-registry-timestamp.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &["Only relevant if value is 1 and reboot has occurred — otherwise RegBack contains 0-byte stubs"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicit modification",
 };
 
 // ── T1021.001 / T1112 — fDenyTSConnections (RDP Enable) ──────────────────────
@@ -900,10 +912,10 @@ pub(crate) static RDP_ENABLE_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
         "https://windowsir.blogspot.com/2023/05/the-windows-registry.html",
         "https://learn.microsoft.com/en-us/troubleshoot/windows-server/remote/enable-remote-desktop-remotely",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Many enterprises legitimately enable RDP — value alone is not malicious without context"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicit modification",
 };
 
 // ── T1564.002 / T1136.001 — SpecialAccounts\UserList (Hidden Users) ──────────
@@ -949,10 +961,10 @@ pub(crate) static SPECIAL_ACCOUNTS_USERLIST: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::High,
     related_artifacts: &["rdp_enable_registry", "logontype_winlogon"],
     sources: &["https://windowsir.blogspot.com/2023/05/the-windows-registry.html"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Some enterprise SOEs legitimately hide service accounts from the welcome screen"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 // ── T1112 — LogonType (Winlogon, XP-era value planted by threat-actor scripts) ─
@@ -1004,8 +1016,8 @@ pub(crate) static LOGONTYPE_WINLOGON: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://windowsir.blogspot.com/2023/05/the-windows-registry.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Has no functional effect on Vista+; presence on modern Windows indicates legacy-script execution"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicit deletion",
 };

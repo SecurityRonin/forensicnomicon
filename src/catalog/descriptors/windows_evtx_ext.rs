@@ -202,10 +202,13 @@ pub(crate) static EVTX_BITS_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://isc.sans.edu/forums/diary/Investigating+Windows+BITS+Activity/23281/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Legitimate Windows Update and BITS-aware applications also generate these events",
+        "Channel rotates and may not retain history of older transfers",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
 
 pub(crate) static EVTX_APPLOCKER: ArtifactDescriptor = ArtifactDescriptor {
@@ -230,10 +233,13 @@ pub(crate) static EVTX_APPLOCKER: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Only populated when AppLocker policy is configured and enforced",
+        "Audit-only mode may suppress block evidence",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
 
 pub(crate) static EVTX_APPLOCKER_SCRIPT: ArtifactDescriptor = ArtifactDescriptor {
@@ -258,10 +264,13 @@ pub(crate) static EVTX_APPLOCKER_SCRIPT: ArtifactDescriptor = ArtifactDescriptor
         "https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker",
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Requires AppLocker script policy to be enabled",
+        "Some script hosts (.NET, COM scriptlets) may bypass AppLocker enforcement",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
 
 pub(crate) static EVTX_DEFENDER: ArtifactDescriptor = ArtifactDescriptor {
@@ -315,10 +324,13 @@ pub(crate) static EVTX_FIREWALL: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Requires firewall auditing policy to be enabled",
+        "Group Policy refresh can generate noisy benign change events",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
 
 pub(crate) static EVTX_CODE_INTEGRITY: ArtifactDescriptor = ArtifactDescriptor {
@@ -342,10 +354,10 @@ pub(crate) static EVTX_CODE_INTEGRITY: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Driver developer test signing or third-party kernel drivers may produce benign violations"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
 
 pub(crate) static EVTX_NTLM: ArtifactDescriptor = ArtifactDescriptor {
@@ -370,10 +382,13 @@ pub(crate) static EVTX_NTLM: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Disabled by default; only populated when NTLM audit policy is enabled",
+        "Legacy applications generate substantial benign NTLM traffic",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
 
 pub(crate) static EVTX_PRINT_SERVICE: ArtifactDescriptor = ArtifactDescriptor {
@@ -398,10 +413,13 @@ pub(crate) static EVTX_PRINT_SERVICE: ArtifactDescriptor = ArtifactDescriptor {
         "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527",
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Operational channel may be disabled by default on some Windows builds",
+        "Legitimate driver installation also generates Event 316",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
 
 pub(crate) static EVTX_NETLOGON: ArtifactDescriptor = ArtifactDescriptor {
@@ -453,10 +471,10 @@ pub(crate) static EVTX_SMB_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/Yamato-Security/hayabusa-rules",
         "https://learn.microsoft.com/en-us/windows-server/storage/file-server/troubleshoot/detect-enable-and-disable-smbv1-v2-v3",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Failed authentications occur for many benign reasons (typo, expired credential, stale mapped drive)"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
 
 pub(crate) static EVTX_NETWORK_PROFILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -479,10 +497,10 @@ pub(crate) static EVTX_NETWORK_PROFILE: ArtifactDescriptor = ArtifactDescriptor 
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["networklist_profiles", "wifi_profiles"],
     sources: &["https://github.com/Yamato-Security/hayabusa-rules"],
-    evidence_strength: None,
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
 
 pub(crate) static EVTX_KERNEL_PNP: ArtifactDescriptor = ArtifactDescriptor {
@@ -506,10 +524,10 @@ pub(crate) static EVTX_KERNEL_PNP: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://www.sans.org/blog/computer-forensic-guide-to-profiling-usb-device-thumbdrives-on-win7-xp-2003/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Records all PnP device events; benign hardware changes also appear"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
 
 pub(crate) static EVTX_DRIVER_FRAMEWORKS: ArtifactDescriptor = ArtifactDescriptor {
@@ -536,10 +554,13 @@ pub(crate) static EVTX_DRIVER_FRAMEWORKS: ArtifactDescriptor = ArtifactDescripto
         "https://windowsir.blogspot.com/2022/05/usb-devices-redux.html",
         "https://blog.elcomsoft.com/2026/02/usb-device-forensics-on-windows-10-and-11/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Disabled by default on Win10/11 — must be enabled proactively before incident",
+        "MTP/PTP devices (phones, cameras) typically do not appear here",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
 
 pub(crate) static EVTX_LSA_PROTECTION: ArtifactDescriptor = ArtifactDescriptor {
@@ -591,10 +612,13 @@ pub(crate) static EVTX_CAPI2: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/enable-debug-logging-capi2",
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "High-volume noisy log; certificate validation occurs constantly",
+        "Frequently disabled or rapidly rotates due to size",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
 
 pub(crate) static EVTX_POWERSHELL_CLASSIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -619,10 +643,10 @@ pub(crate) static EVTX_POWERSHELL_CLASSIC: ArtifactDescriptor = ArtifactDescript
         "https://www.sans.org/blog/powershell-logging-for-the-blue-team/",
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Legacy log; modern PowerShell activity is in PowerShell/Operational and Microsoft-Windows-PowerShell/Operational"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
 
 // ── Group C: Additional EVTX Channels ────────────────────────────────────────
@@ -655,10 +679,13 @@ pub(crate) static EVTX_DNS_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/palantir/windows-event-forwarding/tree/master/group-policy-objects",
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Disabled by default — must be enabled via wevtutil or Group Policy before the incident",
+        "Extremely high volume when enabled — rotates quickly",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
 
 pub(crate) static EVTX_TERMINAL_SERVICES: ArtifactDescriptor = ArtifactDescriptor {
@@ -689,10 +716,10 @@ pub(crate) static EVTX_TERMINAL_SERVICES: ArtifactDescriptor = ArtifactDescripto
         "https://dfironthemountain.wordpress.com/2019/02/15/rdp-event-log-dfir/",
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Source Network Address may be 'localhost' or '127.0.0.1' for console sessions, not remote"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
 
 /// Microsoft-Windows-Application-Experience/Program-Telemetry — driver-block
@@ -769,8 +796,11 @@ pub(crate) static EVTX_APPLICATION_EXPERIENCE_TELEMETRY: ArtifactDescriptor = Ar
         //   active.
         "https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/design/microsoft-recommended-driver-block-rules",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Only populated when Microsoft Vulnerable Driver Blocklist or HVCI policy is active",
+        "Absence of EID 875 alongside an attempted driver load implies the driver loaded successfully",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };

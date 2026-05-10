@@ -79,10 +79,13 @@ pub(crate) static HONDA_ACCORD_RECENTSTOPS: ArtifactDescriptor = ArtifactDescrip
         "honda_accord_phonedb",
         "honda_accord_bluetooth",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Trigger for entry creation not confirmed — entries correlate with driven routes but interpretation requires care",
+        "Limited to specific Honda Accord 2016 Clarion infotainment",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Database updated per navigation event; bounded by app retention",
 };
 
 // ── Honda Accord CRM Eco Logs (trip telemetry) ──────────────────────────────
@@ -186,10 +189,13 @@ pub(crate) static HONDA_ACCORD_CRM_ECO_LOGS: ArtifactDescriptor = ArtifactDescri
         "honda_accord_phonedb",
         "honda_accord_bluetooth",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Units for mileage/odometer/fuel/range not confirmed",
+        "Limited to specific Honda Accord 2016 Clarion infotainment",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Telemetry log updated per trip leg; bounded by app retention",
 };
 
 // ── Honda Accord Phone DB (Bluetooth call history & contacts) ───────────────
@@ -304,10 +310,13 @@ pub(crate) static HONDA_ACCORD_PHONEDB: ArtifactDescriptor = ArtifactDescriptor 
         "honda_accord_recentstops",
         "honda_accord_crm_eco_logs",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Reflects only data synced from paired phones, not vehicle-originated calls",
+        "WAL file may contain additional uncommitted records",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Database updated per Bluetooth sync; bounded by app retention",
 };
 
 // ── Honda Accord Bluetooth Settings (paired devices) ────────────────────────
@@ -370,10 +379,10 @@ pub(crate) static HONDA_ACCORD_BLUETOOTH: ArtifactDescriptor = ArtifactDescripto
         "honda_accord_recentstops",
         "honda_accord_crm_eco_logs",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Records all paired devices regardless of recent connection — no last-connect timestamp"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Pairing database persists until user unpairs the device",
 };
 
 // ── Garmin nuvi Voice Log (TTS navigation instructions) ─────────────────────
@@ -454,8 +463,11 @@ pub(crate) static GARMIN_NUVI_VOICE_LOG: ArtifactDescriptor = ArtifactDescriptor
         "https://github.com/cheeky4n6monkey/4n6-scripts",
     ],
     related_artifacts: &[],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Tested only on Garmin nuvi 56LM; coverage on other models unconfirmed",
+        "Voice phrases use template variables — actual instruction values may need correlation",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Append-only log file with bounded size on FAT32 partition",
 };

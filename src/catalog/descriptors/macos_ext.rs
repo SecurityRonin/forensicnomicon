@@ -63,10 +63,13 @@ pub(crate) static MACOS_SPOTLIGHT_STORE: ArtifactDescriptor = ArtifactDescriptor
         "https://www.mac4n6.com/blog/2016/2/22/spotlight-on-spotlight",
         "https://forensicswiki.xyz/wiki/index.php?title=Spotlight",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "User can disable Spotlight indexing for specific paths",
+        "Encrypted volumes require unlock to access",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Spotlight metadata store persists until volume reindex",
 };
 
 pub(crate) static MACOS_DOCK_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -88,10 +91,10 @@ pub(crate) static MACOS_DOCK_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_knowledgec", "macos_sfl2_recent_items"],
     sources: &["https://www.mac4n6.com/blog/2016/6/2/ode-to-the-dock"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["recent-apps array bounded to ~10 entries; older launches evicted"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated per dock interaction; recent-apps rotates as new apps launched",
 };
 
 pub(crate) static MACOS_LOGIN_ITEMS_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -141,10 +144,13 @@ pub(crate) static MACOS_SFL2_RECENT_ITEMS: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_dock_plist", "macos_knowledgec"],
     sources: &["https://www.mac4n6.com/blog/2016/6/21/introduction-to-sfl-and-sfl2-files"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "User can clear recent items via menu",
+        "Some apps maintain their own recent lists outside SFL2",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated per document open; older entries evicted as new ones added",
 };
 
 pub(crate) static MACOS_SFL2_RECENT_SERVERS: ArtifactDescriptor = ArtifactDescriptor {
@@ -166,10 +172,10 @@ pub(crate) static MACOS_SFL2_RECENT_SERVERS: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_sfl2_recent_items"],
     sources: &["https://www.mac4n6.com/blog/2016/6/21/introduction-to-sfl-and-sfl2-files"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Only records mounted servers, not connection attempts"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated per server connection; older entries evicted as new ones added",
 };
 
 pub(crate) static MACOS_WIFI_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -193,10 +199,10 @@ pub(crate) static MACOS_WIFI_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_unified_log", "macos_wifi_intelligence"],
     sources: &["https://www.mac4n6.com/blog/2016/6/3/ode-to-the-network"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["User can manually remove networks from list"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Plist persists known networks until explicit removal",
 };
 
 pub(crate) static MACOS_SCREEN_TIME_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -219,10 +225,13 @@ pub(crate) static MACOS_SCREEN_TIME_DB: ArtifactDescriptor = ArtifactDescriptor 
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_knowledgec", "macos_dock_plist"],
     sources: &["https://www.mac4n6.com/blog/2019/6/20/screen-time-in-ios-12-macos-mojave"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Requires Screen Time enabled (default on macOS 12+)",
+        "Data retention bounded by Screen Time settings (typically ~30 days)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Time-bounded retention; older days purged",
 };
 
 pub(crate) static MACOS_TCC_SYSTEM_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -304,10 +313,10 @@ pub(crate) static MACOS_NOTES_DB: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_sms_db"],
     sources: &["https://github.com/mac4n6/APOLLO"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Notes encrypted with user password are not directly readable"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "CoreData store persists until note deletion",
 };
 
 pub(crate) static MACOS_PHOTOS_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -332,10 +341,10 @@ pub(crate) static MACOS_PHOTOS_DB: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_knowledgec"],
     sources: &["https://github.com/mac4n6/APOLLO"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["GPS metadata may be stripped if user disabled location for camera"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Photos library database persists until photo deletion",
 };
 
 pub(crate) static MACOS_ICLOUD_DRIVE_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -358,10 +367,13 @@ pub(crate) static MACOS_ICLOUD_DRIVE_DB: ArtifactDescriptor = ArtifactDescriptor
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_fsevents", "macos_spotlight_store"],
     sources: &["https://www.mac4n6.com/blog/2020/3/21/icloud-drive-forensics"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Only reflects locally synced state; cloud-only files may not appear",
+        "User can disable iCloud Drive",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Local sync metadata database persists until iCloud unlinked",
 };
 
 pub(crate) static MACOS_LOCATIOND_CLIENTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -384,10 +396,10 @@ pub(crate) static MACOS_LOCATIOND_CLIENTS: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_tcc_db", "macos_tcc_system_db"],
     sources: &["https://www.mac4n6.com/blog/2019/6/20/ios-and-macos-location-services"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Reflects authorization state, not actual location queries"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Plist persists until app uninstall or authorization reset",
 };
 
 pub(crate) static MACOS_LOCKDOWND_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -410,10 +422,10 @@ pub(crate) static MACOS_LOCKDOWND_LOG: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_unified_log"],
     sources: &["https://www.mac4n6.com/blog/2016/4/22/ios-device-pairing-records"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Log rotates and may not preserve full pairing history"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Daemon log rotates with size/time limits",
 };
 
 pub(crate) static MACOS_INSTALLER_RECEIPTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -436,10 +448,13 @@ pub(crate) static MACOS_INSTALLER_RECEIPTS: ArtifactDescriptor = ArtifactDescrip
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_install_history", "macos_gatekeeper_logs"],
     sources: &["https://www.mac4n6.com/blog/2016/6/22/macos-application-installation-history"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Only covers .pkg installs; drag-install .app bundles leave no receipt",
+        "Some installers clean up their own receipts",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Receipt plist persists until explicit deletion",
 };
 
 pub(crate) static MACOS_SAFARI_LOCALSTORAGE: ArtifactDescriptor = ArtifactDescriptor {
@@ -461,10 +476,13 @@ pub(crate) static MACOS_SAFARI_LOCALSTORAGE: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_safari_history", "macos_safari_downloads"],
     sources: &["https://www.mac4n6.com/blog/2016/6/23/safari-history"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "User can clear LocalStorage via Safari preferences",
+        "Private browsing does not write here",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Per-origin storage updated by web apps; persists until cleared",
 };
 
 pub(crate) static MACOS_NOTIFICATION_CENTER_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -488,10 +506,13 @@ pub(crate) static MACOS_NOTIFICATION_CENTER_DB: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["macos_knowledgec", "macos_sms_db"],
     sources: &["https://www.mac4n6.com/blog/2019/6/20/notification-center"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Notifications can be disabled per-app or system-wide",
+        "Database periodically pruned",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "SQLite database with periodic pruning of old notifications",
 };
 
 pub(crate) static MACOS_MDM_ENROLLMENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -514,10 +535,10 @@ pub(crate) static MACOS_MDM_ENROLLMENT: ArtifactDescriptor = ArtifactDescriptor 
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["macos_tcc_system_db"],
     sources: &["https://www.mac4n6.com/blog/2020/9/15/mdm-forensics"],
-    evidence_strength: None,
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Plist persists until MDM unenrollment",
 };
 
 pub(crate) static MACOS_ASL_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -540,10 +561,10 @@ pub(crate) static MACOS_ASL_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["macos_unified_log"],
     sources: &["https://www.mac4n6.com/blog/2016/2/5/asl-logging"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &["Legacy format; only relevant on pre-Sierra systems or upgraded systems retaining old logs"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Legacy ASL logs rotated by aslmanager",
 };
 
 pub(crate) static MACOS_DIAGNOSTIC_REPORTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -567,10 +588,13 @@ pub(crate) static MACOS_DIAGNOSTIC_REPORTS: ArtifactDescriptor = ArtifactDescrip
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["macos_unified_log"],
     sources: &["https://www.mac4n6.com/blog/2016/4/18/crash-logs-in-os-x"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Reports may be cleared by user or system maintenance",
+        "Only generated for processes that crash",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Crash reports accumulate; older reports purged by retention policy",
 };
 
 /// macOS QuickLook thumbnail cache — proves file was previewed.
@@ -677,10 +701,13 @@ pub(crate) static MACOS_QUICKLOOK_THUMBNAILS: ArtifactDescriptor = ArtifactDescr
         // Source: Sara Newcomer IACIS white paper — detailed QuickLook artifact analysis
         "http://iacis.org/iis/2014/10_iis_2014_421-430.pdf",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Database in volatile NSURL temp folder — may be cleared on reboot or by tmpcleaner",
+        "hit_count requires repeated previews to be meaningful",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated on each Quick Look preview; entries persist until temp folder cleared",
 };
 
 /// Apple Intelligence WiFi context events database.
@@ -744,10 +771,13 @@ pub(crate) static MACOS_WIFI_INTELLIGENCE: ArtifactDescriptor = ArtifactDescript
         // Source: Yogesh Khatri — discovery of wifiContextEvents table in views.db
         "https://www.swiftforensics.com/2025/01/new-wifi-database-from-apple.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Requires macOS 15.1+ on Apple Silicon (M1+)",
+        "Data periodically emptied — typically only current month",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Database periodically purged; typically retains current month only",
 };
 
 /// APFS (Apple File System) container — the default macOS filesystem since
@@ -866,10 +896,13 @@ pub(crate) static APFS_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
         // — live imaging FileVault2 via dd + /dev/rdisk; speed comparison dd vs FTK Imager CLI
         "https://az4n6.blogspot.com/2016/09/mac-live-imaging-functionality-versus.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "FileVault-encrypted containers require unlock for analysis",
+        "Snapshot history depends on Time Machine and APFS snapshot policy",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Disk container structure persists for life of the volume",
 };
 
 // ── iOS artifacts ─────────────────────────────────────────────────────────────
@@ -1113,10 +1146,13 @@ pub(crate) static HEIC_IMAGE_FILE: ArtifactDescriptor = ArtifactDescriptor {
         // — Nokia/MPEG HEIF technical specification and box structure reference
         "https://nokiatech.github.io/heif/technical.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "EXIF metadata can be stripped by the user or messaging apps",
+        "Some legacy forensic tools may not parse HEIC",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Image file persists on storage until explicit deletion",
 };
 
 // ── iOS14 Apple Maps History (MapsSync_0.0.1) ────────────────────────────────
@@ -1240,10 +1276,13 @@ pub(crate) static IOS14_MAPS_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/cheeky4n6monkey/4n6-scripts",
     ],
     related_artifacts: &[],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Per Heather Mahalik's research, timestamps are NOT accurate records of when searches were executed",
+        "Only retains last 3-5 entries",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Bounded to last 3-5 entries; FIFO eviction on new searches",
 };
 
 // ── Uber iOS LevelDB trip/location history ──────────────────────────────────
@@ -1374,10 +1413,13 @@ LevelDB libraries.",
         // Source: https://github.com/cclgroupltd/ccl_chrome_indexeddb (CCL LevelDB libraries used by the parser)
         "https://github.com/cclgroupltd/ccl_chrome_indexeddb",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "LevelDB compaction may purge older records",
+        "Only present when Uber app is installed and used",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "LevelDB updated per app session; older records compacted away",
 };
 
 // ── iOS Google Chat cacheV0.db ──────────────────────────────────────────────
@@ -1495,10 +1537,10 @@ pub(crate) static IOS_MOBILE_CONTAINER_MANAGER: ArtifactDescriptor = ArtifactDes
         // automated AppGroup/extension/entitlement resolution)
         "https://github.com/ydkhatri/mac_apt",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Requires root/jailbreak or full filesystem extraction to access"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "iOS system database persists across reboots; updated on app install/uninstall",
 };
 
 pub(crate) static IOS_CONTAINER_MANAGER_FIELDS: &[FieldSchema] = &[
@@ -1580,10 +1622,13 @@ older versions remain on disk as forensic snapshots",
         // Source: https://forensics.wiki/mac_os_x_10.9_artifacts_location#autorun-locations-2
         "https://forensics.wiki/mac_os_x_10.9_artifacts_location#autorun-locations-2",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Requires macOS 13 Ventura or later",
+        "Many legitimate apps install login items — context required",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "BTM database persists; versioned snapshots preserve prior autostart state",
 };
 
 pub(crate) static MACOS_BTM_FIELDS: &[FieldSchema] = &[
@@ -1675,8 +1720,11 @@ pub(crate) static IOS_GOOGLE_CHAT_CACHEV0: ArtifactDescriptor = ArtifactDescript
         // Source: https://github.com/abrignoni/iLEAPP (iLEAPP framework containing the Image CacheV0 parser)
         "https://github.com/abrignoni/iLEAPP",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "No foreign-key link to chat messages — visual/hash correlation required",
+        "Cache may be evicted by app maintenance",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Image cache updated as UI renders images; older entries evicted",
 };

@@ -30,10 +30,13 @@ pub(crate) static WINDOWS_CRASH_DUMP: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/complete-memory-dump",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Only present after BSOD or manual trigger; may be disabled or set to minidump-only",
+        "Single dump overwritten on next BSOD",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Single dump file overwritten on each BSOD",
 };
 
 pub(crate) static WINDOWS_MINIDUMP: ArtifactDescriptor = ArtifactDescriptor {
@@ -56,10 +59,10 @@ pub(crate) static WINDOWS_MINIDUMP: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/minidump-files",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Limited to kernel context; user-mode crash details require WER reports"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Minidumps accumulate in directory; oldest deleted by retention policy",
 };
 
 pub(crate) static AMCACHE_DRIVER: ArtifactDescriptor = ArtifactDescriptor {
@@ -115,10 +118,10 @@ pub(crate) static WER_REPORT_QUEUE: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows/win32/wer/windows-error-reporting",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Queue drained when reports successfully upload; surviving entries are bounded"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Queue drained as reports upload to Microsoft; transient retention",
 };
 
 pub(crate) static WINDOWS_NOTIFICATION_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -144,10 +147,13 @@ pub(crate) static WINDOWS_NOTIFICATION_DB: ArtifactDescriptor = ArtifactDescript
     sources: &[
         "https://learn.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/windows-push-notification-services--wns--overview",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Notifications can be disabled per-app or system-wide",
+        "User can clear notification history",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "SQLite database with FIFO eviction as new notifications arrive",
 };
 
 pub(crate) static AMCACHE_SHORTCUT: ArtifactDescriptor = ArtifactDescriptor {
@@ -173,8 +179,11 @@ pub(crate) static AMCACHE_SHORTCUT: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows/compatibility/application-compatibility-toolkit-documentation",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Presence indicates a shortcut existed, not necessarily that the target was executed",
+        "Periodic AmCache rebuild may lose history",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "AmCache hive persists in registry; rebuilt periodically by Compatibility Appraiser",
 };

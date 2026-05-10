@@ -143,10 +143,13 @@ Files can be very large (hundreds of MB); use streaming JSON parsers (e.g. Pytho
         // Source: https://thebinaryhick.blog/2021/02/20/using-google-takeout-for-dfir/ (Josh Hickman altitude/heading/velocity units)
         "https://thebinaryhick.blog/2021/02/20/using-google-takeout-for-dfir/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Requires user-initiated Takeout export — not directly extractable from device",
+        "User can delete location history server-side",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Static export file; persists as long as user retains it",
 };
 
 // ── Google Takeout Semantic Location History ─────────────────────────────────
@@ -200,10 +203,13 @@ Cross-reference with Records.json for raw coordinate and DetectedActivity detail
     sources: &[
         "https://cheeky4n6monkey.blogspot.com/2022/02/monkey-attempts-to-digest-some-google.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Server-side inferences may be inaccurate",
+        "Requires user-initiated Takeout export",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Static export file; persists as long as user retains it",
 };
 
 // ── AWS CloudTrail IAM Events ───────────────────────────────────────────────

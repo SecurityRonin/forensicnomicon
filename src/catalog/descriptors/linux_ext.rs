@@ -57,10 +57,10 @@ pub(crate) static LINUX_AUDIT_RULES: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["linux_auditd_log"],
     sources: &["https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/security_guide/chap-system_auditing"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Empty/missing rules indicate auditd not configured, not necessarily attacker tampering"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration files persist until explicit modification",
 };
 
 pub(crate) static LINUX_SYSLOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -83,10 +83,13 @@ pub(crate) static LINUX_SYSLOG: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["linux_auth_log", "linux_journal_dir"],
     sources: &["https://www.sans.org/blog/linux-forensics-from-basic-to-in-depth-evidence-collection/"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Easily cleared/modified by root attackers",
+        "logrotate compresses and eventually deletes old entries",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Syslog file rotated daily/weekly by logrotate",
 };
 
 pub(crate) static LINUX_MESSAGES_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -106,10 +109,13 @@ pub(crate) static LINUX_MESSAGES_LOG: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["linux_secure_log", "linux_journal_dir"],
     sources: &["https://www.sans.org/blog/linux-forensics-from-basic-to-in-depth-evidence-collection/"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Easily cleared/modified by root attackers",
+        "logrotate compresses and eventually deletes old entries",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Messages log rotated by logrotate with bounded retention",
 };
 
 pub(crate) static LINUX_SECURE_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -188,10 +194,10 @@ pub(crate) static LINUX_APACHE_ERROR_LOG: ArtifactDescriptor = ArtifactDescripto
         "https://www.sans.org/blog/web-server-log-analysis-for-incident-responders/",
         "https://httpd.apache.org/docs/current/logs.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Routine application errors generate noise — exploit indicators require pattern matching"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Apache error log rotated by logrotate",
 };
 
 pub(crate) static LINUX_NGINX_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -247,10 +253,10 @@ pub(crate) static LINUX_FAIL2BAN_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.fail2ban.org/wiki/index.php/Main_Page",
         "https://linux.die.net/man/8/fail2ban",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Only present when fail2ban is installed and active"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Fail2ban log rotated by logrotate",
 };
 
 pub(crate) static LINUX_DPKG_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -276,10 +282,13 @@ pub(crate) static LINUX_DPKG_LOG: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://linux.die.net/man/1/dpkg",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Root attackers can delete or modify entries",
+        "Snap/Flatpak/manual installs do not appear here",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "DPKG log rotated by logrotate",
 };
 
 pub(crate) static LINUX_RPM_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -304,10 +313,13 @@ pub(crate) static LINUX_RPM_DB: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://linux.die.net/man/8/rpm",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Root attackers can rebuild the database to hide entries",
+        "Manual binary installs bypass RPM",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "RPM database persists across reboots; updated on each package operation",
 };
 
 pub(crate) static LINUX_SELINUX_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
@@ -356,10 +368,10 @@ pub(crate) static LINUX_APPARMOR_PROFILES: ArtifactDescriptor = ArtifactDescript
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://gitlab.com/apparmor/apparmor/-/wikis/Documentation",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Only meaningful on AppArmor-enabled distributions (Ubuntu, SUSE)"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration files persist until explicit modification",
 };
 
 pub(crate) static LINUX_IPTABLES_RULES: ArtifactDescriptor = ArtifactDescriptor {
@@ -382,10 +394,13 @@ pub(crate) static LINUX_IPTABLES_RULES: ArtifactDescriptor = ArtifactDescriptor 
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://linux.die.net/man/8/iptables",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Live ruleset (iptables -L) may differ from persisted file if not saved",
+        "Modern systems use nftables instead",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration file persists until explicit modification",
 };
 
 pub(crate) static LINUX_NFTABLES_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -408,10 +423,10 @@ pub(crate) static LINUX_NFTABLES_CONF: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://wiki.nftables.org/wiki-nftables/index.php/Main_Page",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Live ruleset may differ from persisted file if not saved"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration file persists until explicit modification",
 };
 
 pub(crate) static LINUX_HOSTS_FILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -437,10 +452,10 @@ pub(crate) static LINUX_HOSTS_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://linux.die.net/man/5/hosts",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Some legitimate enterprise environments use hosts entries for internal services"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration file persists until explicit modification",
 };
 
 pub(crate) static LINUX_RESOLV_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -463,10 +478,13 @@ pub(crate) static LINUX_RESOLV_CONF: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://linux.die.net/man/5/resolv.conf",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Frequently regenerated by NetworkManager/systemd-resolved — not always persistent",
+        "DHCP-pushed nameservers may legitimately point to unfamiliar IPs",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Frequently overwritten by NetworkManager/systemd-resolved on network changes",
 };
 
 pub(crate) static LINUX_PROC_MODULES: ArtifactDescriptor = ArtifactDescriptor {
@@ -520,10 +538,10 @@ pub(crate) static LINUX_MODPROBE_D: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://linux.die.net/man/5/modprobe.d",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Some legitimate hardware vendor packages add modprobe configuration"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration directory persists until explicit modification",
 };
 
 pub(crate) static LINUX_DOCKER_CONTAINER_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -548,10 +566,13 @@ pub(crate) static LINUX_DOCKER_CONTAINER_LOGS: ArtifactDescriptor = ArtifactDesc
     sources: &[
         "https://www.sans.org/blog/container-forensics/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Container removal deletes associated logs",
+        "json-log driver is default but can be overridden to non-persistent backends",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Per-container JSON logs with size-based rotation; deleted on container removal",
 };
 
 pub(crate) static LINUX_DOCKER_DAEMON_JSON: ArtifactDescriptor = ArtifactDescriptor {
@@ -574,10 +595,10 @@ pub(crate) static LINUX_DOCKER_DAEMON_JSON: ArtifactDescriptor = ArtifactDescrip
         "https://www.sans.org/blog/container-forensics/",
         "https://docs.docker.com/config/daemon/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["File may be absent on default installs (Docker uses defaults)"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration file persists until explicit modification",
 };
 
 pub(crate) static LINUX_COREDUMP_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -600,10 +621,13 @@ pub(crate) static LINUX_COREDUMP_DIR: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["linux_journal_dir"],
     sources: &["https://systemd.io/COREDUMP/"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Coredumps disabled by default on many distributions (kernel.core_pattern, ulimit)",
+        "systemd-coredump retention is time- and size-bounded",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "systemd-coredump retention is bounded by time and size",
 };
 
 pub(crate) static LINUX_LOGROTATE_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -626,10 +650,10 @@ pub(crate) static LINUX_LOGROTATE_D: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://linux.die.net/man/8/logrotate",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Most fragments are package-installed defaults; tampering must be distinguished"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration directory persists until explicit modification",
 };
 
 pub(crate) static LINUX_SNAP_PACKAGES: ArtifactDescriptor = ArtifactDescriptor {
@@ -651,10 +675,13 @@ pub(crate) static LINUX_SNAP_PACKAGES: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://snapcraft.io/docs/snap-format",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Only meaningful on systems with snapd installed",
+        "Snap revisions accumulate but are pruned",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Snap package directory persists until explicit removal",
 };
 
 // ── Batch I: Linux kernel / live-system artifacts ──────────────────────────
@@ -708,10 +735,13 @@ pub(crate) static LINUX_KERN_LOG: ArtifactDescriptor = ArtifactDescriptor {
         // Elastic sequel: syslog/kern messages used to detect LKM rootkit persistence events
         "https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Rootkits can suppress their own load events",
+        "Easily cleared/modified by root attackers",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Kernel log rotated by logrotate",
 };
 
 pub(crate) static LINUX_PROC_KALLSYMS: ArtifactDescriptor = ArtifactDescriptor {
@@ -786,10 +816,10 @@ pub(crate) static LINUX_PROC_NET_TCP6: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://man7.org/linux/man-pages/man5/proc.5.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Live snapshot only — historical connections not preserved"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Live kernel snapshot; lost on reboot",
 };
 
 pub(crate) static LINUX_PROC_NET_UDP: ArtifactDescriptor = ArtifactDescriptor {
@@ -812,10 +842,10 @@ pub(crate) static LINUX_PROC_NET_UDP: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://man7.org/linux/man-pages/man5/proc.5.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["UDP is connectionless — entries reflect bound sockets, not flows"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Live kernel snapshot; lost on reboot",
 };
 
 pub(crate) static LINUX_PROC_NET_UNIX: ArtifactDescriptor = ArtifactDescriptor {
@@ -838,10 +868,10 @@ pub(crate) static LINUX_PROC_NET_UNIX: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://man7.org/linux/man-pages/man5/proc.5.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Only reflects active sockets at acquisition time"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Live kernel snapshot; lost on reboot",
 };
 
 pub(crate) static LINUX_LSOF_OUTPUT: ArtifactDescriptor = ArtifactDescriptor {
@@ -942,10 +972,13 @@ pub(crate) static LINUX_RKHUNTER_LOG: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://rkhunter.sourceforge.net/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Only present when rkhunter is installed and run",
+        "Generates false positives for legitimate system modifications",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Scan log rotated by logrotate",
 };
 
 pub(crate) static LINUX_SYSCTL_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -968,10 +1001,10 @@ pub(crate) static LINUX_SYSCTL_CONF: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://man7.org/linux/man-pages/man8/sysctl.8.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Live sysctl values may differ if changes were made via /proc/sys at runtime"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration file persists until explicit modification",
 };
 
 // ── Group D: Linux Kernel / Proc (new artifacts only — LINUX_KERN_LOG already defined above) ──
@@ -1001,10 +1034,13 @@ pub(crate) static LINUX_DMESG: ArtifactDescriptor = ArtifactDescriptor {
         "https://man7.org/linux/man-pages/man1/dmesg.1.html",
         "https://www.kernel.org/doc/html/latest/admin-guide/tainted-kernels.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Only captures most-recent boot window; older boots overwritten",
+        "Easily cleared/modified by root attackers",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Persisted at boot; overwritten on next boot",
 };
 
 pub(crate) static LINUX_BOOT_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1032,10 +1068,10 @@ pub(crate) static LINUX_BOOT_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://man7.org/linux/man-pages/man8/bootlogd.8.html",
         "https://www.freedesktop.org/software/systemd/man/latest/systemd-journald.service.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &["systemd systems may have empty boot.log; equivalent data in journald"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Boot log rotated by logrotate",
 };
 
 // ── Group E: Linux Auth/Binary Logs ──────────────────────────────────────────
@@ -1066,10 +1102,13 @@ pub(crate) static LINUX_FAILLOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://man7.org/linux/man-pages/man5/faillog.5.html",
         "https://man7.org/linux/man-pages/man8/faillog.8.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Many modern distributions have deprecated faillog in favor of pam_tally2/pam_faillock",
+        "Fixed-size structure overwritten on each failure",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Fixed-size per-UID record overwritten on each failure event",
 };
 
 // ── Hak5 LAN Turtle Credential Loot ─────────────────────────────────────────

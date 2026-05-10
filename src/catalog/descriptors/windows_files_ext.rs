@@ -68,10 +68,13 @@ pub(crate) static CHROME_WEB_DATA: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/Chrome.tkape",
         "https://www.sans.org/blog/google-chrome-forensics/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "User can clear autofill data via browser settings",
+        "Encrypted payment data requires DPAPI key to decrypt",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "SQLite database updated as user types form data; entries persist until cleared",
 };
 
 pub(crate) static EDGE_CHROMIUM_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -189,10 +192,13 @@ pub(crate) static FIREFOX_FORM_HISTORY: ArtifactDescriptor = ArtifactDescriptor 
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/Firefox.tkape",
         "https://nicoleibrahim.com/mozilla-firefox-forensics/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "User can clear form history via browser settings",
+        "Private browsing sessions do not write here",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "SQLite database updated per form-field input; entries persist until cleared",
 };
 
 pub(crate) static FIREFOX_SESSION_RESTORE: ArtifactDescriptor = ArtifactDescriptor {
@@ -219,10 +225,10 @@ pub(crate) static FIREFOX_SESSION_RESTORE: ArtifactDescriptor = ArtifactDescript
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/Firefox.tkape",
         "https://nicoleibrahim.com/mozilla-firefox-forensics/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Only captures session at last graceful close; data lost if disabled or session-saving turned off"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Overwritten on each Firefox session close",
 };
 
 // ── PowerShell ────────────────────────────────────────────────────────────────
@@ -373,10 +379,13 @@ pub(crate) static TEAMVIEWER_APP_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/TeamViewer.tkape",
         "https://dfir.blog/teamviewer-forensics/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "TeamViewer is widely used legitimately — distinguishing attacker use requires context",
+        "Logs rotate based on size limit",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Application log file with size-based rotation",
 };
 
 pub(crate) static ANYDESK_TRACE_USER: ArtifactDescriptor = ArtifactDescriptor {
@@ -557,10 +566,10 @@ pub(crate) static RUSTDESK_LOGS: ArtifactDescriptor = ArtifactDescriptor {
         "https://thedfirreport.com/2024/08/12/threat-actors-toolkit-leveraging-sliver-poshc2-and-batch-scripts/",
         "https://github.com/rustdesk/rustdesk",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Some legitimate users adopt RustDesk; attacker-controlled relay server is the key IOC"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Application log directory with rotation by RustDesk client",
 };
 
 // ── Cloud Storage ─────────────────────────────────────────────────────────────
@@ -693,10 +702,13 @@ OneDrive reinstall; general.keystore persists alongside logs",
         // Source: https://github.com/ydkhatri/OneDrive (Yogesh Khatri's ODL parser)
         "https://github.com/ydkhatri/OneDrive",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Encrypted/obfuscated payloads require key extraction to decode",
+        "Logs rotate to .odlgz; older history may be lost",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Diagnostic log files rotate with size limit and compression",
 };
 
 pub(crate) static ONEDRIVE_ODL_FIELDS: &[FieldSchema] = &[
@@ -793,10 +805,10 @@ pub(crate) static MEGASYNC_DATA: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/MEGAsync.tkape",
         "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-165a",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["MEGAsync has legitimate users — attacker use established by correlated exfil indicators"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Application data directory persists until uninstall",
 };
 
 // ── Communications ────────────────────────────────────────────────────────────
@@ -1015,10 +1027,13 @@ pub(crate) static WINDOWS_SEARCH_EDB: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/WindowsIndexSearch.tkape",
         "https://www.foxtonforensics.com/blog/post/analysing-the-windows-search-database",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Indexing scope depends on user/admin configuration",
+        "Service may be disabled by attacker or admin",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "ESE database persists until rebuild or service reset",
 };
 
 pub(crate) static EVENT_TRANSCRIPT_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -1047,10 +1062,13 @@ pub(crate) static EVENT_TRANSCRIPT_DB: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/etw/logapi/query.htm",
         "https://www.sans.org/blog/digital-forensics-dfir/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Only populated when telemetry level is Basic or higher",
+        "Telemetry can be disabled via GPO on enterprise systems",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Telemetry database with size-based rotation as new events overwrite old",
 };
 
 pub(crate) static CERTUTIL_CACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -1139,10 +1157,13 @@ pub(crate) static WER_REPORTS: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/WindowsErrorReporting.tkape",
         "https://www.sans.org/blog/windows-error-reporting-forensics/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Reports are uploaded and deleted on success — only queued/failed uploads remain",
+        "WER can be disabled via GPO",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Reports queued briefly then submitted/deleted; surviving reports are activity-bounded",
 };
 
 pub(crate) static IIS_W3SVC_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -1266,10 +1287,13 @@ pub(crate) static DHCP_SERVER_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Logs/DHCPServerLog.tkape",
         "https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/active-directory-enumeration-with-ad-module-without-rsat",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Only present on Windows DHCP Server role machines",
+        "Daily log rotation; older days deleted",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Daily-rotating log files with bounded retention",
 };
 
 pub(crate) static SUM_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -1390,10 +1414,10 @@ pub(crate) static USRCLASS_DAT_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/RegistryHivesUser.tkape",
         "https://www.sans.org/blog/windows-shellbag-forensics-in-depth/",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Shellbag interpretation requires careful parsing of the binary structures"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry hive file persists for life of user profile",
 };
 
 // ── Group A: Windows Plaintext Logs ──────────────────────────────────────────
@@ -1424,10 +1448,13 @@ pub(crate) static CBS_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/troubleshoot/windows-server/deployment/understanding-cbs-log-file",
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/WindowsUpdateLogs.tkape",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Rotates to CBS.persist.log when over ~50 MB; older entries may be lost",
+        "High-volume routine update activity creates noise",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Log file rotates at ~50 MB to CBS.persist.log",
 };
 
 pub(crate) static PFRO_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1454,10 +1481,10 @@ pub(crate) static PFRO_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-movefileexw",
         "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-setup-log-files-and-event-logs",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Legitimate uninstallers and updaters also use MoveFileEx with delay-until-reboot"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Log file persists until manually cleared or rotation",
 };
 
 pub(crate) static SETUPERR_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1484,10 +1511,10 @@ pub(crate) static SETUPERR_LOG: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-setup-log-files-and-event-logs",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &["Only present after recent Windows Setup; may be deleted after successful install"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Setup-time log file persists until manually deleted",
 };
 
 pub(crate) static SETUPAPI_UPGRADE_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1515,10 +1542,10 @@ pub(crate) static SETUPAPI_UPGRADE_LOG: ArtifactDescriptor = ArtifactDescriptor 
         "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-setup-log-files-and-event-logs",
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/WindowsUpdateLogs.tkape",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Only present after in-place Windows upgrade"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Upgrade log file persists until manually deleted",
 };
 
 // ── Group B: Windows Error Reporting Split ────────────────────────────────────
@@ -1551,10 +1578,13 @@ pub(crate) static WER_REPORTS_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/win32/wer/about-wer",
         "https://learn.microsoft.com/en-us/windows/win32/wer/wer-report-file-format",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Reports may be uploaded and deleted; surviving archive is bounded",
+        "WER can be disabled via GPO",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Per-user crash archive with bounded retention as new reports replace old",
 };
 
 pub(crate) static WER_REPORTS_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
@@ -1585,10 +1615,13 @@ pub(crate) static WER_REPORTS_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/win32/wer/about-wer",
         "https://learn.microsoft.com/en-us/windows/win32/wer/wer-report-file-format",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Reports may be uploaded and deleted; surviving archive is bounded",
+        "WER can be disabled via GPO",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "System crash archive with bounded retention as new reports replace old",
 };
 
 // ── Group F: Windows AppX/Modern App ─────────────────────────────────────────
@@ -1617,10 +1650,13 @@ pub(crate) static APPX_PACKAGES_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/uwp/design/app-settings/store-and-retrieve-app-data",
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/AppsData.tkape",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Mostly populated by legitimate Store apps",
+        "Sideloaded packages require admin enablement",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "App data directory persists until package uninstall",
 };
 
 pub(crate) static APPX_INSTALL_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1649,10 +1685,10 @@ pub(crate) static APPX_INSTALL_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/deployment-image-servicing-and-management--dism--technical-reference",
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/WindowsUpdateLogs.tkape",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["DISM activity is also generated by legitimate sysadmin and Windows Update operations"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Log file rotates when size limit reached",
 };
 
 // ── Group G: Windows Diagnostic/Telemetry ────────────────────────────────────
@@ -1680,10 +1716,13 @@ pub(crate) static DIAGNOSTIC_DATA_DIR: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/privacy/diagnostic-data-collection",
         "https://learn.microsoft.com/en-us/windows-hardware/test/wpt/recording-for-basic-system-diagnosis",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Binary ETL format requires specialized tooling to parse",
+        "Telemetry can be disabled via GPO — directory may be sparse",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "ETL files rotate with size and time-based retention",
 };
 
 pub(crate) static WINDOWS_UPDATE_SESSION: ArtifactDescriptor = ArtifactDescriptor {
@@ -1713,10 +1752,10 @@ pub(crate) static WINDOWS_UPDATE_SESSION: ArtifactDescriptor = ArtifactDescripto
         "https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-logs",
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/WindowsUpdateLogs.tkape",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Format changed across Windows builds; parser must handle variations"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Append-only log file persists until rotation or cleanup",
 };
 
 // ── NTUSER.MAN Mandatory Profile Persistence ────────────────────────────────
@@ -1885,10 +1924,13 @@ pub(crate) static WINDOWS_CLIPBOARD_DATA_FILES: ArtifactDescriptor = ArtifactDes
         // Source: ClipboardHistoryThief — attack tool targeting cbdhsvc COM interface
         "https://github.com/netero1010/ClipboardHistoryThief",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Encrypted payloads require key material to decrypt",
+        "Only present when clipboard history is enabled (not default)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Clipboard items rotate as new content copied; max 25 items retained",
 };
 
 /// Windows Defender MpWppTracing-*.bin support log files.
@@ -1975,8 +2017,11 @@ pub(crate) static WINDOWS_DEFENDER_MPWPPTRACING: ArtifactDescriptor = ArtifactDe
         // decoding the WPP binary records
         "https://github.com/Intrinsec/mplog_parser",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "WPP binary format requires Microsoft TMF files or Intrinsec mplog_parser to decode",
+        "Trace content depends on enabled WPP keywords; not always incident-relevant",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Defender support trace files rotate with size limits",
 };
