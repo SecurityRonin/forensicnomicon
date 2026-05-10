@@ -9697,3 +9697,63 @@ mod tests_assessment_gap_api {
         assert!(assessed < total, "all {} artifacts assessed — update this test", total);
     }
 }
+
+// ── Scheduled Task Registry Cache — COM handler enrichment ────────────────────
+
+#[cfg(test)]
+mod tests_scheduled_task_registry_cache {
+    use super::*;
+
+    #[test]
+    fn scheduled_task_registry_cache_exists() {
+        assert!(
+            CATALOG.by_id("scheduled_task_registry_cache").is_some(),
+            "catalog must contain 'scheduled_task_registry_cache'"
+        );
+    }
+
+    #[test]
+    fn scheduled_task_registry_cache_has_action_clsid_field() {
+        let d = CATALOG.by_id("scheduled_task_registry_cache").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "action_clsid"),
+            "scheduled_task_registry_cache must have 'action_clsid' field — \
+            COM handler CLSID embedded in the Actions binary blob; \
+            resolvable via Software\\Classes\\CLSID\\{{GUID}}\\InprocServer32. \
+            Source: windowsir.blogspot.com/2022/12/why-i-love-regripper.html"
+        );
+    }
+
+    #[test]
+    fn scheduled_task_registry_cache_has_action_dll_field() {
+        let d = CATALOG.by_id("scheduled_task_registry_cache").unwrap();
+        assert!(
+            d.fields.iter().any(|f| f.name == "action_dll"),
+            "scheduled_task_registry_cache must have 'action_dll' field — \
+            DLL path resolved from Software\\Classes\\CLSID\\{{GUID}}\\InprocServer32 \
+            for the COM handler CLSID in the Actions blob"
+        );
+    }
+
+    #[test]
+    fn scheduled_task_registry_cache_cites_windowsir_regripper_post() {
+        let d = CATALOG.by_id("scheduled_task_registry_cache").unwrap();
+        assert!(
+            d.sources.iter().any(|s| s.contains("windowsir.blogspot.com")),
+            "scheduled_task_registry_cache must cite windowsir regripper post \
+            (COM handler CLSID→DLL lookup technique); sources: {:?}",
+            d.sources
+        );
+    }
+
+    #[test]
+    fn scheduled_task_registry_cache_related_includes_com_hijack() {
+        let d = CATALOG.by_id("scheduled_task_registry_cache").unwrap();
+        assert!(
+            d.related_artifacts.iter().any(|r| r.contains("com_hijack")),
+            "scheduled_task_registry_cache must reference com_hijack artifact \
+            (CLSID→DLL cross-reference links both artifacts); got: {:?}",
+            d.related_artifacts
+        );
+    }
+}

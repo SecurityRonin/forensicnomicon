@@ -204,6 +204,24 @@ pub fn is_ntuser_man_path(path: &str) -> bool {
     base.eq_ignore_ascii_case("NTUSER.MAN")
 }
 
+/// Returns `true` if the COM handler DLL path for a Scheduled Task action is
+/// outside the expected Windows system directories, indicating potential abuse.
+///
+/// # Detection
+/// Legitimate built-in task COM handlers (e.g. RegIdleBackup → regidle.dll)
+/// reside in `%SystemRoot%\System32`. An attacker abusing Scheduled Task COM
+/// handler hijacking (T1053.005 + T1218) places a malicious DLL in a
+/// user-writable path. The RegIdleBackup technique was observed in TA505/
+/// GraceWire campaigns (Fox-IT/NCC Group report, 2021).
+///
+/// Match is case-insensitive; backslash and forward-slash normalized.
+///
+/// Source: <https://windowsir.blogspot.com/2022/12/why-i-love-regripper.html>
+#[must_use]
+pub fn is_task_com_handler_dll_suspicious(_dll_path: &str) -> bool {
+    false // stub — implementation in GREEN commit
+}
+
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
 mod tests {
@@ -437,5 +455,45 @@ mod tests {
         assert!(!is_ntuser_man_path(
             r"C:\Users\bob\notes\ntuser.man.backup.txt"
         ));
+    }
+
+    // ── is_task_com_handler_dll_suspicious ────────────────────────────────────
+
+    #[test]
+    fn system32_dll_is_not_suspicious() {
+        assert!(!is_task_com_handler_dll_suspicious(
+            r"%SystemRoot%\System32\regidle.dll"
+        ));
+    }
+
+    #[test]
+    fn system32_dll_case_insensitive() {
+        assert!(!is_task_com_handler_dll_suspicious(
+            r"C:\WINDOWS\system32\DeviceDirectoryClient.dll"
+        ));
+    }
+
+    #[test]
+    fn syswow64_dll_is_not_suspicious() {
+        assert!(!is_task_com_handler_dll_suspicious(
+            r"%SystemRoot%\SysWOW64\example.dll"
+        ));
+    }
+
+    #[test]
+    fn temp_dir_dll_is_suspicious() {
+        assert!(is_task_com_handler_dll_suspicious(
+            r"C:\Users\bob\AppData\Local\Temp\evil.dll"
+        ));
+    }
+
+    #[test]
+    fn programdata_dll_is_suspicious() {
+        assert!(is_task_com_handler_dll_suspicious(r"C:\ProgramData\payload.dll"));
+    }
+
+    #[test]
+    fn empty_dll_path_is_not_flagged() {
+        assert!(!is_task_com_handler_dll_suspicious(""));
     }
 }
