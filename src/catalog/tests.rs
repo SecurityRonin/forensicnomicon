@@ -9590,3 +9590,51 @@ mod tests_profile_merge {
         }
     }
 }
+
+mod tests_assessment_gap_api {
+    use super::*;
+
+    #[test]
+    fn unassessed_contains_only_none_entries() {
+        for d in CATALOG.unassessed() {
+            assert!(d.evidence_strength.is_none(),
+                "unassessed() returned assessed artifact: {}", d.id);
+        }
+    }
+
+    #[test]
+    fn unassessed_sorted_critical_first() {
+        let gaps = CATALOG.unassessed();
+        for w in gaps.windows(2) {
+            assert!(w[0].triage_priority >= w[1].triage_priority,
+                "{} ({:?}) came before {} ({:?}) in unassessed()",
+                w[0].id, w[0].triage_priority, w[1].id, w[1].triage_priority);
+        }
+    }
+
+    #[test]
+    fn assessed_entries_absent_from_unassessed() {
+        let gap_ids: std::collections::HashSet<&str> =
+            CATALOG.unassessed().iter().map(|d| d.id).collect();
+        for d in CATALOG.list() {
+            if d.evidence_strength.is_some() {
+                assert!(!gap_ids.contains(d.id),
+                    "assessed artifact {} appeared in unassessed()", d.id);
+            }
+        }
+    }
+
+    #[test]
+    fn assessment_coverage_sums_to_total() {
+        let (assessed, total) = CATALOG.assessment_coverage();
+        assert_eq!(assessed + CATALOG.unassessed().len(), total);
+        assert_eq!(total, CATALOG.list().len());
+    }
+
+    #[test]
+    fn assessment_coverage_shows_partial_progress() {
+        let (assessed, total) = CATALOG.assessment_coverage();
+        assert!(assessed > 0, "no artifacts assessed");
+        assert!(assessed < total, "all {} artifacts assessed — update this test", total);
+    }
+}
