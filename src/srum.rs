@@ -39,7 +39,7 @@ pub const TABLE_APP_TIMELINE: &str = "{7ACBBAA3-D029-4BE4-9A7A-0885927F1D8F}";
 ///
 /// The ESE table name is the energy GUID with the literal suffix `LT`.
 /// Available since Windows 8.1.  Maps to `sr energy-lt`.
-pub const TABLE_ENERGY_USAGE_LT: &str = "PLACEHOLDER";
+pub const TABLE_ENERGY_USAGE_LT: &str = "{FEE4E14F-02A9-4550-B5CE-5FA2DA202E37}LT";
 
 /// ID map table — integer ID → process path / SID mapping.
 ///
