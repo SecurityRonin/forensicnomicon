@@ -1,5 +1,5 @@
 use crate::threat_intel::{
-    profile::{Classification, MalwareClass, MalwareProfile, ProfileSignal, WeightedExclusion},
+    profile::{MalwareClass, MalwareProfile, ProfileSignal, WeightedExclusion},
     signals::*,
 };
 

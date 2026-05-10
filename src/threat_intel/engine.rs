@@ -1,5 +1,5 @@
 use std::collections::HashSet;
-use super::profile::{Classification, MalwareProfile, ProfileMatch, FiredSignal};
+use super::profile::{Classification, FiredSignal, MalwareProfile, ProfileMatch};
 
 #[derive(Debug)]
 pub struct DetectedSignal {
@@ -9,18 +9,71 @@ pub struct DetectedSignal {
 }
 
 pub fn score_against_profile(
-    _signals: &[DetectedSignal],
-    _profile: &'static MalwareProfile,
+    signals: &[DetectedSignal],
+    profile: &'static MalwareProfile,
 ) -> ProfileMatch {
-    todo!("implement score_against_profile")
+    let present: HashSet<&str> = signals.iter().map(|s| s.id).collect();
+
+    let missed_required: Vec<&'static str> = profile.signals.iter()
+        .filter(|ps| ps.required && !present.contains(ps.id))
+        .map(|ps| ps.id)
+        .collect();
+
+    if !missed_required.is_empty() {
+        return ProfileMatch {
+            profile,
+            score: 0,
+            classification: Classification::NoMatch,
+            fired: vec![],
+            missed_required,
+        };
+    }
+
+    let mut fired = Vec::new();
+    let raw_score: u32 = profile.signals.iter()
+        .filter(|ps| present.contains(ps.id))
+        .map(|ps| {
+            fired.push(FiredSignal { id: ps.id, weight: ps.weight });
+            ps.weight
+        })
+        .sum();
+
+    let penalty: u32 = profile.exclusions.iter()
+        .filter(|ex| present.contains(ex.id))
+        .map(|ex| ex.penalty)
+        .sum();
+
+    let score = raw_score.saturating_sub(penalty);
+
+    let classification = if score == 0 {
+        Classification::LowConfidence
+    } else if score >= profile.confirmed_threshold {
+        Classification::Confirmed
+    } else if score >= profile.probable_threshold {
+        Classification::Probable
+    } else if score >= profile.class_threshold {
+        Classification::ClassMatch
+    } else {
+        Classification::LowConfidence
+    };
+
+    ProfileMatch { profile, score, classification, fired, missed_required: vec![] }
 }
 
-pub fn score_all_profiles(_signals: &[DetectedSignal]) -> Vec<ProfileMatch> {
-    todo!("implement score_all_profiles")
+pub fn score_all_profiles(signals: &[DetectedSignal]) -> Vec<ProfileMatch> {
+    use super::profiles::ALL_PROFILES;
+    let mut matches: Vec<ProfileMatch> = ALL_PROFILES.iter()
+        .map(|p| score_against_profile(signals, p))
+        .filter(|m| m.score > 0)
+        .collect();
+    matches.sort_by(|a, b| b.score.cmp(&a.score).then(a.profile.id.cmp(b.profile.id)));
+    matches
 }
 
-pub fn top_match(_signals: &[DetectedSignal]) -> Option<ProfileMatch> {
-    todo!("implement top_match")
+pub fn top_match(signals: &[DetectedSignal]) -> Option<ProfileMatch> {
+    score_all_profiles(signals)
+        .into_iter()
+        .find(|m| m.classification >= Classification::ClassMatch)
 }
 
 #[cfg(test)]
@@ -75,7 +128,6 @@ mod tests {
     #[test]
     fn score_jynx_with_pam_signal_excluded_by_penalty() {
         use crate::threat_intel::profiles::JYNX;
-        // Jynx with PAM signal: base score 60, penalty 40 → 20 < class_threshold 45
         let signals = sigs(&[
             ELF_HOOKS_PROCESS_HIDING,
             ELF_HOOKS_FILE_HIDING,
@@ -146,8 +198,7 @@ mod tests {
     #[test]
     fn score_missing_required_signal_is_no_match() {
         use crate::threat_intel::profiles::FATHER;
-        // Father requires both process hiding AND pam_credential
-        let signals = sigs(&[ELF_HOOKS_PROCESS_HIDING]); // pam missing
+        let signals = sigs(&[ELF_HOOKS_PROCESS_HIDING]);
         let m = score_against_profile(&signals, &FATHER);
         assert_eq!(m.classification, Classification::NoMatch);
         assert_eq!(m.score, 0);
@@ -157,7 +208,6 @@ mod tests {
     #[test]
     fn score_exclusion_reduces_score() {
         use crate::threat_intel::profiles::FATHER;
-        // Father with network hiding signal: penalty 20 applied
         let without_exclusion = sigs(&[ELF_HOOKS_PROCESS_HIDING, ELF_HOOKS_PAM_CREDENTIAL]);
         let with_exclusion = sigs(&[ELF_HOOKS_PROCESS_HIDING, ELF_HOOKS_PAM_CREDENTIAL, ELF_HOOKS_NETWORK_HIDING]);
         let m_no_ex = score_against_profile(&without_exclusion, &FATHER);
@@ -168,10 +218,8 @@ mod tests {
     #[test]
     fn score_exclusion_cannot_exceed_raw_score() {
         use crate::threat_intel::profiles::JYNX;
-        // Jynx with only process hiding (30) + PAM penalty (40): saturating_sub → 0
         let signals = sigs(&[ELF_HOOKS_PROCESS_HIDING, ELF_HOOKS_FILE_HIDING, ELF_HOOKS_PAM_CREDENTIAL]);
         let m = score_against_profile(&signals, &JYNX);
-        // score must be ≥ 0 (u32 can't go negative, but saturating_sub ensures no panic)
-        let _ = m.score; // just assert it doesn't overflow/panic
+        let _ = m.score;
     }
 }
