@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# review_loop.sh — run /review-dfir-feeds in batches until no [ ] items remain.
+# review_loop.sh — run /review-dfir-feeds in batches until no pending items remain.
 #
-# Uses the same pending-review.md.lock convention as pending_lock.py so that
+# Uses the same pending-review.jsonl.lock convention as pending_lock.py so that
 # concurrent feed watch cron runs and fetch_all_sources.py invocations cannot
 # corrupt the file during an agent's read-modify-write cycle.
 #
@@ -13,7 +13,7 @@
 
 set -euo pipefail
 
-PENDING="archive/sources/pending-review.md"
+PENDING="archive/sources/pending-review.jsonl"
 DRY_RUN=false
 
 while [[ $# -gt 0 ]]; do
@@ -53,12 +53,18 @@ release_lock() {
 
 trap 'release_lock' EXIT INT TERM
 
+# ── JSONL helpers ──────────────────────────────────────────────────────────────
+
+_pending_count() {
+  python3 scripts/mark_reviewed.py --count-pending --jsonl "$PENDING" 2>/dev/null || echo 0
+}
+
 # ── Main loop ─────────────────────────────────────────────────────────────────
 
 batch=0
-while grep -q '^\- \[ \]' "$PENDING"; do
+while [[ $(_pending_count) -gt 0 ]]; do
   batch=$((batch + 1))
-  remaining=$(grep -c '^\- \[ \]' "$PENDING")
+  remaining=$(_pending_count)
   echo ""
   echo "══════════════════════════════════════════════"
   echo " Batch #${batch} — ${remaining} items remaining"
@@ -75,9 +81,9 @@ while grep -q '^\- \[ \]' "$PENDING"; do
   release_lock
 done
 
-remaining=$(grep -c '^\- \[ \]' "$PENDING" 2>/dev/null || echo 0)
+remaining=$(_pending_count)
 echo ""
 echo "══════════════════════════════════════════════"
 echo " review_loop done — ${batch} batches completed"
-echo " ${remaining} [ ] items remaining"
+echo " ${remaining} pending items remaining"
 echo "══════════════════════════════════════════════"

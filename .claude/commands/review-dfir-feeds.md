@@ -1,6 +1,6 @@
 # /review-dfir-feeds
 
-Read one unreviewed DFIR blog post from `archive/sources/pending-review.md`,
+Read one unreviewed DFIR blog post from `archive/sources/pending-review.jsonl`,
 deeply comprehend it, and **implement** all artifact knowledge into the
 forensicnomicon catalog via strict TDD. This is an implementation skill, not
 a gap-finder. Every session produces committed Rust code.
@@ -21,14 +21,22 @@ Process **one post per session**. Depth over throughput.
 
 ### 1. Select the next item
 
-Read `archive/sources/pending-review.md`. Take the **first** `- [ ]` or
-`- [!]` item only.
+```bash
+python3 scripts/mark_reviewed.py --next-pending
+```
 
-- **`[!]` (broken URL):** Search `site:<domain> "<title>"` via WebSearch.
-  If a working URL or archive.org mirror exists, update the URL and proceed.
-  If genuinely dead with no mirror, mark `[x] <!-- dead link, no mirror -->` and pick the next `[ ]` item.
+This prints JSON `{"url": "...", "title": "...", "status": "pending|broken"}`.
+If it prints `{}`, the queue is empty — nothing to do.
 
-- **`[ ]`:** Proceed directly.
+- **`broken` status:** Search `site:<domain> "<title>"` via WebSearch.
+  If a working URL or archive.org mirror exists, update the entry URL and proceed.
+  If genuinely dead with no mirror:
+  ```bash
+  python3 scripts/mark_reviewed.py "<url>" --status reviewed --artifacts 0 --heuristics 0 --notes "dead link, no mirror"
+  ```
+  Then run `--next-pending` again.
+
+- **`pending` status:** Proceed directly with the URL.
 
 ### 2. Fetch and fully read
 
@@ -198,18 +206,23 @@ git add src/catalog/descriptors/<file>.rs src/catalog/descriptors/mod.rs src/cat
 git commit -m "feat(GREEN): <artifact_id> — <rich description of what was added>"
 ```
 
-### 7. Mark and commit pending-review.md
+### 7. Mark and commit pending-review.jsonl
 
-After all artifacts from the post are implemented:
+After all artifacts from the post are implemented, update the JSONL entry:
 
-- Mark the post `[x]` if fully implemented
-- Mark `[→]` only if the post deserves a follow-up session (e.g. a multi-part
-  series where only part 1 was implemented)
-
-Update the file and commit:
 ```bash
-git add archive/sources/pending-review.md
-git commit -m "chore(feeds): mark post reviewed — <N> artifact(s) implemented"
+python3 scripts/mark_reviewed.py "<url>" \
+  --artifacts <N> --heuristics <M>
+```
+
+This sets `status: "reviewed"`, `reviewed_date: today`, `artifacts_found: N`,
+`heuristics_found: M`.  If the post deserves a follow-up session (e.g. a
+multi-part series where only part 1 was implemented), add `--notes "part 1 of N"`.
+
+Commit:
+```bash
+git add archive/sources/pending-review.jsonl
+git commit -m "chore(feeds): mark <title> reviewed — <N> artifacts/<M> heuristics"
 ```
 
 Push:

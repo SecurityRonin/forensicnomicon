@@ -8,7 +8,8 @@
       <!-- Harlan Carvey — Windows registry/timeline forensics; one of the longest-running DFIR blogs -->
       <outline type="rss" text="Windows Incident Response" title="Windows Incident Response" xmlUrl="https://windowsir.blogspot.com/feeds/posts/default" htmlUrl="https://windowsir.blogspot.com/"/>
       <!-- Ghost-hosted; Windows artifact deep dives (Prefetch, SRUM, ShimCache) -->
-      <!-- dfir.blog/rss/ returns malformed XML (invalid token line 437); try Ghost's JSON feed as fallback HTML monitor -->
+      <!-- dfir.blog/rss/ returns malformed XML: Ghost embeds raw HTML in <description> without CDATA wrapping;
+           unescaped < / & in code blocks (e.g. JSON at line 437) break ET.fromstring. Web monitor scrapes post links instead. -->
       <outline type="web" text="dfir.blog" title="dfir.blog" htmlUrl="https://dfir.blog/"/>
       <!-- Corey Harrell — Windows artifacts, threat hunting, malware triage -->
       <outline type="rss" text="Another Forensics Blog" title="Another Forensics Blog" xmlUrl="https://az4n6.blogspot.com/feeds/posts/default" htmlUrl="https://az4n6.blogspot.com/"/>
@@ -119,8 +120,9 @@
       <!-- Belkasoft's main site (belkasoft.com) has no feed; their WordPress blog does -->
       <outline type="rss" text="Belkasoft Blog" title="Belkasoft Blog" xmlUrl="https://belkasoft.wordpress.com/feed/" htmlUrl="https://belkasoft.wordpress.com/"/>
       <!-- Forensafe / ArtiFast — Windows artifact parser vendor; artifact coverage notes -->
-      <!-- forensafe.com/rss.xml returns malformed XML; monitoring main page directly -->
-      <outline type="web" text="Forensafe (ArtiFast) Blog" title="Forensafe (ArtiFast) Blog" htmlUrl="https://www.forensafe.com/blogs.html"/>
+      <!-- rss.xml returns 200 with valid content but has a leading space byte before <?xml;
+           fixed in check_feed_updates.py parse_feed() via payload.lstrip() -->
+      <outline type="rss" text="Forensafe (ArtiFast) Blog" title="Forensafe (ArtiFast) Blog" xmlUrl="https://www.forensafe.com/rss.xml" htmlUrl="https://www.forensafe.com/blogs/"/>
       <!-- Cellebrite — mobile forensics vendor; device support updates, acquisition research -->
       <outline type="rss" text="Cellebrite Blog" title="Cellebrite Blog" xmlUrl="https://cellebrite.com/en/feed/" htmlUrl="https://cellebrite.com/en/blog/"/>
       <!-- Dr. Joshua James — academic DFIR research; iLEAPP, mobile forensics methodology -->

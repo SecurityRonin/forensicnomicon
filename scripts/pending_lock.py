@@ -1,11 +1,12 @@
 """
-pending_lock.py — shared lockfile helper for pending-review.md writers.
+pending_lock.py — shared lockfile helper for pending-review.jsonl writers.
 
-All scripts that read-modify-write (or append to) pending-review.md must use
+All scripts that read-modify-write (or append to) pending-review.jsonl must use
 locked_write() so they don't corrupt each other's changes.  The same convention
 is used by:
   - fetch_all_sources.py  (imports from here)
   - check_feed_updates.py (imports from here)
+  - mark_reviewed.py      (imports from here)
   - review_loop.sh        (acquires path + ".lock" directly via shell)
 
 Lock protocol:

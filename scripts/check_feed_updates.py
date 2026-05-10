@@ -5,9 +5,9 @@ Reads `archive/sources/dfir-feeds.opml`, and for every outline with either
 `xmlUrl` (RSS/Atom) or `htmlUrl` + `type="web"` (HTML page monitor), checks
 for new content since the last snapshot.  Writes:
 
-- `archive/sources/feed-state.json`   — full snapshot (machine-readable)
-- `archive/sources/feed-report.md`    — current-run new posts (overwritten each run)
-- `archive/sources/pending-review.md` — accumulated unreviewed posts (append-only)
+- `archive/sources/feed-state.json`     — full snapshot (machine-readable)
+- `archive/sources/feed-report.md`     — current-run new posts (overwritten each run)
+- `archive/sources/pending-review.jsonl` — accumulated unreviewed posts (append-only, one JSON object per line)
 
 Two monitor types
 -----------------
@@ -22,27 +22,26 @@ HTML page monitor (type="web"):
 
 Pending review workflow
 -----------------------
-New posts are appended to `pending-review.md` with unchecked checkboxes.
+New posts are appended to `pending-review.jsonl` as JSON objects (one per line).
 Review them weekly inside Claude Code:
 
     make review-feeds          # show pending count + list
     /review-dfir-feeds         # Claude Code fetches posts and extracts findings
 
-Mark items done by changing `- [ ]` → `- [x]` (reviewed, no gaps) or
-`- [→]` (reviewed, TDD tasks created).  Already-present URLs are never
-re-added regardless of status.
+Mark items done via `scripts/mark_reviewed.py <url> --artifacts N --heuristics M`.
+Already-present URLs are never re-added regardless of status.
 
 URL validation
 --------------
 Fix 1 (new entries): each newly discovered URL is HEAD-checked before it is
-  written to pending-review.md.  URLs that return HTTP 404 or 410 are written
-  as `[!]` (broken at discovery time) instead of `[ ]`.
+  written to pending-review.jsonl.  URLs that return HTTP 404 or 410 are written
+  with status "broken" instead of "pending".
 
-Fix 2 (review skill): the `/review-dfir-feeds` skill instruction handles `[!]`
-  items by searching the source domain for the article title before giving up.
+Fix 2 (review skill): the `/review-dfir-feeds` skill handles "broken" entries
+  by searching the source domain for the article title before giving up.
 
-Fix 3 (revalidation): pass `--revalidate-pending` to HEAD-check all existing
-  `[ ]` entries in pending-review.md and mark newly-gone URLs as `[!]`.  Safe
+Fix 3 (revalidation): pass `--revalidate-pending` to HEAD-check all "pending"
+  entries in pending-review.jsonl and mark newly-gone URLs as "broken".  Safe
   to run at any time; only 404/410 responses trigger a status change.
 """
 
@@ -229,8 +228,33 @@ def parse_rss(root: ET.Element) -> list[FeedEntry]:
     return entries
 
 
+def _repair_rss_xml(payload: bytes) -> bytes:
+    """Collapse consecutive <item> opens emitted by buggy RSS generators.
+
+    Forensafe's generator writes ``<item>\\n<item>`` for every entry but only
+    one ``</item>`` close, cascading nesting depth by ~190 levels and making
+    xml.etree reject the whole document.  Collapsing pairs until stable fixes
+    the balance.  Loop guard of 20 iterations handles up to depth 2^20 which
+    far exceeds any real feed.
+    """
+    result = payload
+    for _ in range(20):
+        new = re.sub(rb"<item>(\s*)<item>", rb"<item>\1", result)
+        if new == result:
+            break
+        result = new
+    return result
+
+
 def parse_feed(payload: bytes) -> list[FeedEntry]:
-    root = ET.fromstring(payload)
+    # Strip leading whitespace/BOM before <?xml (forensafe.com/rss.xml emits a
+    # space byte before the declaration which xml.etree rejects).
+    stripped = payload.lstrip()
+    try:
+        root = ET.fromstring(stripped)
+    except ET.ParseError:
+        # Second attempt with structural repair (e.g. duplicate <item> tags).
+        root = ET.fromstring(_repair_rss_xml(stripped))
     tag = root.tag.lower()
     if tag.endswith("feed"):
         return parse_atom(root)
@@ -349,15 +373,21 @@ def filter_pending_entries(
 
 
 def load_reviewed_urls(pending_path: str) -> set[str]:
-    """Return URLs already present in pending-review.md (reviewed or not)."""
+    """Return URLs already present in pending-review.jsonl (any status)."""
     if not os.path.exists(pending_path):
         return set()
     urls: set[str] = set()
     with open(pending_path, "r", encoding="utf-8") as fh:
-        for line in fh:
-            # Match markdown link URLs: ](url)
-            for m in re.finditer(r"\]\(([^)]+)\)", line):
-                urls.add(m.group(1))
+        for lineno, line in enumerate(fh, 1):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                entry = json.loads(line)
+                if "url" in entry:
+                    urls.add(entry["url"])
+            except json.JSONDecodeError as exc:
+                print(f"WARNING: skipping malformed JSONL line {lineno}: {exc}", file=sys.stderr)
     return urls
 
 
@@ -366,12 +396,12 @@ def append_pending_review(
     new_entries: list[tuple[str, str, str]],
     validate: bool = True,
 ) -> tuple[int, int]:
-    """Append newly detected posts to pending-review.md under an exclusive lock.
+    """Append newly detected posts to pending-review.jsonl under an exclusive lock.
 
     Only posts whose URL is not already in the file are appended.
     When *validate* is True (default), each URL is HEAD-checked:
-      - HTTP 404/410 → written as ``[!]`` with a ``<!-- 404 on DATE -->`` annotation
-      - reachable / transient error → written as ``[ ]`` (normal)
+      - HTTP 404/410 → written with status "broken" and a note
+      - reachable / transient error → written with status "pending"
 
     Uses ``locked_write()`` so concurrent writes from the agent review loop,
     fetch_all_sources.py, or cron invocations cannot corrupt the file.
@@ -389,42 +419,74 @@ def append_pending_review(
 
     # HEAD-check before acquiring the lock — network I/O must not hold the lock.
     broken = 0
-    lines_to_append: list[str] = []
+    today = today_str()
+    entries_to_append: list[dict] = []
     for src, title, url in to_add:
         if validate:
             status, note = head_check(url)
         else:
             status = "ok"
+            note = ""
         if status == "gone":
-            lines_to_append.append(
-                f"- [!] [{title}]({url}) — {src} <!-- {note} on {today_str()} -->\n"
-            )
+            entries_to_append.append({
+                "url": url,
+                "title": title,
+                "source": src,
+                "status": "broken",
+                "discovered": today,
+                "reviewed_date": None,
+                "artifacts_found": None,
+                "heuristics_found": None,
+                "notes": f"{note} on {today}",
+            })
             broken += 1
         else:
-            lines_to_append.append(f"- [ ] [{title}]({url}) — {src}\n")
-
-    section = f"\n## {today_str()}\n\n" + "".join(lines_to_append)
+            entries_to_append.append({
+                "url": url,
+                "title": title,
+                "source": src,
+                "status": "pending",
+                "discovered": today,
+                "reviewed_date": None,
+                "artifacts_found": None,
+                "heuristics_found": None,
+                "notes": "",
+            })
 
     def _transform(content: str) -> str:
-        if not content:
-            header = (
-                "# DFIR Feed — Pending Review\n\n"
-                "New posts detected by Feed Watch that may contain artifact findings.\n"
-                "Mark `[x]` when reviewed, `[→]` when artifact tasks were created.\n"
-                "Mark `[!]` entries are 404/410 at discovery time — see retry instructions below.\n\n"
-            )
-            return header + section
-        return content.rstrip("\n") + "\n" + section
+        # Re-check inside lock to handle races — filter out URLs that appeared
+        # between our pre-check and lock acquisition.
+        existing: set[str] = set()
+        for line in content.splitlines():
+            stripped = line.strip()
+            if not stripped:
+                continue
+            try:
+                entry = json.loads(stripped)
+                if "url" in entry:
+                    existing.add(entry["url"])
+            except json.JSONDecodeError:
+                pass
+        new_lines = [
+            json.dumps(e, ensure_ascii=False) + "\n"
+            for e in entries_to_append
+            if e["url"] not in existing
+        ]
+        if not new_lines:
+            return content
+        # Ensure existing content ends with a newline before appending
+        base = content if content.endswith("\n") or not content else content + "\n"
+        return base + "".join(new_lines)
 
     locked_write(pending_path, _transform)
     return len(to_add), broken
 
 
 def revalidate_pending_urls(pending_path: str) -> tuple[int, int]:
-    """HEAD-check all ``[ ]`` entries in pending-review.md.
+    """HEAD-check all ``status == "pending"`` entries in pending-review.jsonl.
 
-    For each ``[ ]`` line whose URL returns HTTP 404 or 410, rewrite the line
-    as ``[!]`` with a ``<!-- 404 on DATE -->`` annotation.
+    For each pending entry whose URL returns HTTP 404 or 410, rewrites the
+    entry with status "broken" and a note annotation.
 
     Returns (checked_count, newly_broken_count).
     """
@@ -432,30 +494,43 @@ def revalidate_pending_urls(pending_path: str) -> tuple[int, int]:
         return 0, 0
 
     with open(pending_path, "r", encoding="utf-8") as fh:
-        lines = fh.readlines()
+        raw_lines = fh.readlines()
 
-    # Pattern: - [ ] [title](url) — source
-    pending_re = re.compile(r"^- \[ \] \[([^\]]*)\]\(([^)]+)\)(.*)")
     checked = 0
     newly_broken = 0
     new_lines: list[str] = []
     today = today_str()
 
-    for line in lines:
-        m = pending_re.match(line)
-        if not m:
-            new_lines.append(line)
+    for raw_line in raw_lines:
+        stripped = raw_line.strip()
+        if not stripped:
+            new_lines.append(raw_line)
             continue
-        title, url, rest = m.group(1), m.group(2), m.group(3)
+        try:
+            entry = json.loads(stripped)
+        except json.JSONDecodeError:
+            new_lines.append(raw_line)
+            continue
+        if entry.get("status") != "pending":
+            new_lines.append(raw_line)
+            continue
+        url = entry.get("url", "")
+        if not url:
+            new_lines.append(raw_line)
+            continue
         status, note = head_check(url)
         checked += 1
         if status == "gone":
-            # Replace [ ] with [!] and append annotation
-            rest_stripped = rest.rstrip("\n")
-            new_lines.append(f"- [!] [{title}]({url}){rest_stripped} <!-- {note} on {today} -->\n")
+            existing_notes = entry.get("notes") or ""
+            annotation = f"{note} on {today}"
+            entry["notes"] = (
+                existing_notes + "; " + annotation if existing_notes else annotation
+            )
+            entry["status"] = "broken"
+            new_lines.append(json.dumps(entry, ensure_ascii=False) + "\n")
             newly_broken += 1
         else:
-            new_lines.append(line)
+            new_lines.append(raw_line)
 
     if newly_broken > 0:
         with open(pending_path, "w", encoding="utf-8") as fh:
@@ -469,7 +544,7 @@ def main() -> int:
     parser.add_argument("--opml", default="archive/sources/dfir-feeds.opml")
     parser.add_argument("--state", default="archive/sources/feed-state.json")
     parser.add_argument("--report", default="archive/sources/feed-report.md")
-    parser.add_argument("--pending", default="archive/sources/pending-review.md")
+    parser.add_argument("--pending", default="archive/sources/pending-review.jsonl")
     parser.add_argument("--limit", type=int, default=10, help="max entries retained per feed")
     parser.add_argument(
         "--no-validate",
@@ -529,8 +604,8 @@ def main() -> int:
     print(
         f"checked {len(snapshots)} feeds; "
         f"detected {len(new_entries)} new entries; "
-        f"appended {appended} to pending-review"
-        + (f" ({broken} marked [!] — URL already gone)" if broken else "")
+        f"appended {appended} to pending-review.jsonl"
+        + (f" ({broken} marked broken — URL already gone)" if broken else "")
     )
     return 0
 
