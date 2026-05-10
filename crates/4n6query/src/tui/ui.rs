@@ -152,6 +152,15 @@ pub fn styled_line_for_item<'a>(s: &'a str, query: &str, theme: &Theme) -> Line<
     }
 }
 
+/// Semantic colorization for a single detail-pane line.
+///
+/// Applies pre-attentive color cues (dim labels, priority colors, MITRE cyan,
+/// bold section headers) plus search-term highlighting.
+fn colorize_detail_line(s: &str, _query: &str, _theme: &Theme) -> Line<'static> {
+    // Stub — plain text. GREEN replaces this.
+    Line::from(s.to_string())
+}
+
 /// Render a 14-char ATT&CK tactic heatmap bar from a slice of technique IDs.
 pub fn render_heatmap(techniques: &[&str], theme: &Theme) -> Line<'static> {
     let mask = tactic_mask(techniques);
@@ -785,8 +794,97 @@ mod tests {
             "PREFETCH",
             theme,
         );
-        let has_yellow_bg = line.spans.iter().any(|s| s.style.bg == Some(Color::Yellow));
-        assert!(has_yellow_bg, "highlight must be case-insensitive");
+        let has_match_hl_bg = line.spans.iter().any(|s| s.style.bg == Some(theme.match_hl));
+        assert!(has_match_hl_bg, "highlight must be case-insensitive");
+    }
+
+    // ── hint bar ──────────────────────────────────────────────────────────
+
+    #[test]
+    fn hint_bar_shows_d_key_for_dataset() {
+        let app = App::new();
+        let line = hint_text(&app, default_theme());
+        let text: String = line.spans.iter().map(|s| s.content.as_ref()).collect();
+        assert!(text.contains("d:"), "hint bar must advertise d key; got: {text}");
+    }
+
+    // ── colorize_detail_line ──────────────────────────────────────────────
+
+    #[test]
+    fn colorize_separator_is_dim() {
+        let theme = default_theme();
+        let line = colorize_detail_line("────────────────────────────────────────", "", theme);
+        let fg = line.spans[0].style.fg;
+        assert_eq!(fg, Some(theme.hint_fg), "separator must use hint_fg (dim)");
+    }
+
+    #[test]
+    fn colorize_section_header_is_bold() {
+        let theme = default_theme();
+        let line = colorize_detail_line("Fields:", "", theme);
+        let is_bold = line.spans[0].style.add_modifier.contains(Modifier::BOLD);
+        assert!(is_bold, "section header 'Fields:' must be bold");
+    }
+
+    #[test]
+    fn colorize_critical_value_has_crit_color() {
+        let theme = default_theme();
+        let line = colorize_detail_line("Priority: Critical", "", theme);
+        let val_span = line.spans.iter().find(|s| s.content.contains("Critical"));
+        assert_eq!(
+            val_span.and_then(|s| s.style.fg),
+            Some(theme.crit_fg),
+            "Priority: Critical must use crit_fg"
+        );
+    }
+
+    #[test]
+    fn colorize_mitre_ids_have_accent_color() {
+        let theme = default_theme();
+        let line = colorize_detail_line("MITRE: T1218.004  T1059", "", theme);
+        let mitre_span = line.spans.iter().find(|s| s.content.contains("T1218"));
+        assert_eq!(
+            mitre_span.and_then(|s| s.style.fg),
+            Some(theme.med_fg),
+            "MITRE IDs must use med_fg (accent)"
+        );
+    }
+
+    #[test]
+    fn colorize_search_match_highlighted_in_detail() {
+        let theme = default_theme();
+        let line = colorize_detail_line("Priority: Critical", "crit", theme);
+        let hl = line.spans.iter().find(|s| {
+            s.content.to_ascii_lowercase().contains("crit") && s.style.bg.is_some()
+        });
+        assert!(hl.is_some(), "query 'crit' must be highlighted in detail line");
+    }
+
+    #[test]
+    fn colorize_field_entry_name_is_bold() {
+        let theme = default_theme();
+        let line = colorize_detail_line("  run_count  — number of executions", "", theme);
+        let name_span = line.spans.iter().find(|s| s.content.contains("run_count"));
+        assert!(
+            name_span.map(|s| s.style.add_modifier.contains(Modifier::BOLD)) == Some(true),
+            "field entry name must be bold"
+        );
+    }
+
+    #[test]
+    fn styled_line_uses_theme_match_hl_not_hardcoded_yellow() {
+        use crate::tui::theme::THEME_ONE_DARK;
+        let line = styled_line_for_item(
+            "prefetch_file                        [Critical]",
+            "prefetch",
+            &THEME_ONE_DARK,
+        );
+        let hl_span = line.spans.iter().find(|s| s.style.bg.is_some());
+        assert_eq!(
+            hl_span.and_then(|s| s.style.bg),
+            Some(THEME_ONE_DARK.match_hl),
+            "highlight bg must be theme.match_hl, not hardcoded Color::Yellow"
+        );
     }
 
     // ── about dialog attribution ──────────────────────────────────────────
