@@ -7631,10 +7631,15 @@ pub(crate) static WINSCP_INI: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/winscp/winscp/blob/master/source/core/Security.cpp",
         "https://winscp.net/eng/docs/ui_pref_storage",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "CDCache records all hosts connected to, but reflects last-session state only; \
+         entries persist across explicit session deletion but the file itself can be wiped by a cleanup-aware attacker",
+        "Absence does not prove WinSCP was not used — an attacker may have deleted the file or used a version \
+         that writes elsewhere (portable build path varies)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated at WinSCP session close; persistent between reboots until manually deleted",
 };
 
 pub(crate) static WINRAR_HISTORY_FIELDS: &[FieldSchema] = &[
