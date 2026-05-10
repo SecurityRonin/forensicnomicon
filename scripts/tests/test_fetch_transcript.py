@@ -34,8 +34,9 @@ class TestExtractYouTubeId(unittest.TestCase):
         )
 
     def test_url_with_extra_params(self):
-        url = "https://www.youtube.com/watch?v=UCy8ntxFEudOCRZYT1f7ya9Q&list=PLx"
-        self.assertEqual(ft.extract_youtube_id(url), "UCy8ntxFEudOCRZYT1f7ya9Q")
+        # Video IDs are exactly 11 chars; extra query params should be ignored
+        url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=PLx&index=3"
+        self.assertEqual(ft.extract_youtube_id(url), "dQw4w9WgXcQ")
 
     def test_non_youtube_url_returns_none(self):
         self.assertIsNone(ft.extract_youtube_id("https://example.com/video/abc"))
