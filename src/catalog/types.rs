@@ -677,6 +677,27 @@ impl ForensicCatalog {
         v
     }
 
+    /// Return all descriptors that have not yet received an evidence/volatility
+    /// assessment, sorted by triage priority descending.
+    ///
+    /// Use this to drive demand-prioritised assessment sweeps: `unassessed().first()`
+    /// is always the highest-impact unassessed artifact.
+    pub fn unassessed(&self) -> Vec<&ArtifactDescriptor> {
+        let mut v: Vec<&ArtifactDescriptor> = self
+            .entries
+            .iter()
+            .filter(|d| d.evidence_strength.is_none())
+            .collect();
+        v.sort_by_key(|d| std::cmp::Reverse(d.triage_priority));
+        v
+    }
+
+    /// Return `(assessed_count, total_count)` for coverage reporting.
+    pub fn assessment_coverage(&self) -> (usize, usize) {
+        let assessed = self.entries.iter().filter(|d| d.evidence_strength.is_some()).count();
+        (assessed, self.entries.len())
+    }
+
     /// Return all descriptors whose `meaning` or `name` contains `keyword`
     /// (case-insensitive).
     pub fn filter_by_keyword(&self, keyword: &str) -> Vec<&ArtifactDescriptor> {
