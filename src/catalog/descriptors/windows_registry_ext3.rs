@@ -66,6 +66,10 @@ pub(crate) static ACTIVE_SETUP: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.014/T1547.014.md",
         "https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Rogue sub-key presence is definitive; compare StubPath against known-good baseline; last-write time indicates installation"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key persists until explicitly deleted",
 };
 
 // ── T1547.002/005/008 — LSA Providers ────────────────────────────────────────
@@ -105,6 +109,10 @@ pub(crate) static LSA_AUTH_PACKAGES: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.hexacorn.com/blog/2013/09/17/beyond-good-ol-run-key-part-8/",
         "https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Any non-msv1_0 DLL is definitive IOC; requires reboot to activate; compare against Windows baseline"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value persists across reboots; requires reboot to take effect",
 };
 
 /// `HKLM\SYSTEM\CurrentControlSet\Control\Lsa\Security Packages`
@@ -142,6 +150,10 @@ pub(crate) static LSA_SECURITY_PACKAGES: ArtifactDescriptor = ArtifactDescriptor
         "https://www.hexacorn.com/blog/2013/09/17/beyond-good-ol-run-key-part-8/",
         "https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Any non-Microsoft SSP DLL is definitive IOC; cross-reference DLL hash with threat intel"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value persists across reboots; requires reboot to take effect",
 };
 
 /// `HKLM\SYSTEM\CurrentControlSet\Control\Lsa\Notification Packages`
@@ -176,6 +188,10 @@ pub(crate) static LSA_NOTIFICATION_PACKAGES: ArtifactDescriptor = ArtifactDescri
         "https://www.hexacorn.com/blog/2013/09/17/beyond-good-ol-run-key-part-8/",
         "https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── T1546.002 — Screensaver Persistence ──────────────────────────────────────
@@ -214,6 +230,10 @@ pub(crate) static SCREENSAVER_PERSISTENCE: ArtifactDescriptor = ArtifactDescript
         "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.002/T1546.002.md",
         "https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── T1547.010 — Print Monitor DLLs ───────────────────────────────────────────
@@ -253,6 +273,10 @@ pub(crate) static PRINT_MONITOR_DLLS: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.hexacorn.com/blog/2013/10/20/beyond-good-ol-run-key-part-7/",
         "https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Rogue Driver value in any sub-key is definitive; PrintNightmare (CVE-2021-1675) may leave forensic artifacts"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key persists until explicitly deleted",
 };
 
 // ── T1543.003 — Windows Services ─────────────────────────────────────────────
@@ -304,6 +328,10 @@ pub(crate) static SERVICES_HKLM: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1543.003/T1543.003.md",
         "https://learn.microsoft.com/en-us/sysinternals/downloads/autoruns",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["New service sub-key creation time is definitive; ImagePath outside System32/SysWOW64 is suspicious; correlate with EVTX 7045"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key persists until service key deletion",
 };
 
 /// Windows OS installation date — unreliable after Feature Updates.
@@ -371,6 +399,10 @@ pub(crate) static WINDOWS_INSTALL_DATE: ArtifactDescriptor = ArtifactDescriptor 
         "https://az4n6.blogspot.com/2017/02/when-windows-lies.html",
         "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-setup-log-files-and-event-logs",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Windows Clipboard History registry settings.
@@ -446,6 +478,10 @@ pub(crate) static WINDOWS_CLIPBOARD_HISTORY: ArtifactDescriptor = ArtifactDescri
         // and forensic implications of clipboard sync across devices
         "https://windowsir.blogspot.com/2026/01/whats-on-your-clipboard.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Valley RAT Registry Persistence ─────────────────────────────────────────
@@ -510,6 +546,10 @@ pub(crate) static VALLEY_RAT_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
         // Source: Harlan Carvey commentary on Valley RAT registry storage
         "https://windowsir.blogspot.com/2026/01/grab-bag.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Hyper-V Guest Parameters ────────────────────────────────────────────────
@@ -582,6 +622,10 @@ pub(crate) static HYPERV_GUEST_PARAMS: ArtifactDescriptor = ArtifactDescriptor {
         // Source: DFIR Report — Lynx Ransomware case, threat actor queries this key for hypervisor discovery
         "https://thedfirreport.com/2025/12/17/cats-got-your-files-lynx-ransomware/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Registry: FeatureUsage (Win10 1903+ taskbar telemetry) ────────────────────
@@ -704,6 +748,10 @@ pub static REGISTRY_FEATUREUSAGE: ArtifactDescriptor = ArtifactDescriptor {
         // Source: RegRipper plugin — confirms NTUSER.DAT hive + key path + traversal logic
         "https://github.com/keydet89/RegRipper3.0/blob/master/plugins/featureusage.pl",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── EnablePeriodicBackup — registry-key time-stomping detection enabler ──────
@@ -796,6 +844,10 @@ pub(crate) static ENABLE_PERIODIC_BACKUP: ArtifactDescriptor = ArtifactDescripto
         // documents the $SI/$FN attack model and Run-key tampering technique.
         "https://www.inversecos.com/2022/04/malicious-registry-timestamp.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── T1021.001 / T1112 — fDenyTSConnections (RDP Enable) ──────────────────────
@@ -848,6 +900,10 @@ pub(crate) static RDP_ENABLE_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
         "https://windowsir.blogspot.com/2023/05/the-windows-registry.html",
         "https://learn.microsoft.com/en-us/troubleshoot/windows-server/remote/enable-remote-desktop-remotely",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── T1564.002 / T1136.001 — SpecialAccounts\UserList (Hidden Users) ──────────
@@ -893,6 +949,10 @@ pub(crate) static SPECIAL_ACCOUNTS_USERLIST: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::High,
     related_artifacts: &["rdp_enable_registry", "logontype_winlogon"],
     sources: &["https://windowsir.blogspot.com/2023/05/the-windows-registry.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── T1112 — LogonType (Winlogon, XP-era value planted by threat-actor scripts) ─
@@ -944,4 +1004,8 @@ pub(crate) static LOGONTYPE_WINLOGON: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://windowsir.blogspot.com/2023/05/the-windows-registry.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };

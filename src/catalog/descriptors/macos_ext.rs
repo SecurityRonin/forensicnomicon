@@ -34,6 +34,10 @@ pub(crate) static MACOS_FSEVENTS: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.mac4n6.com/blog/2016/2/1/the-hitchhikers-guide-to-the-fseventsd",
         "https://github.com/nicowillis/fseventparser",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Kernel-level; not easily tampered; covers all file system activity"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "FSEvents log; rotated as volume fills",
 };
 
 pub(crate) static MACOS_SPOTLIGHT_STORE: ArtifactDescriptor = ArtifactDescriptor {
@@ -59,6 +63,10 @@ pub(crate) static MACOS_SPOTLIGHT_STORE: ArtifactDescriptor = ArtifactDescriptor
         "https://www.mac4n6.com/blog/2016/2/22/spotlight-on-spotlight",
         "https://forensicswiki.xyz/wiki/index.php?title=Spotlight",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_DOCK_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -80,6 +88,10 @@ pub(crate) static MACOS_DOCK_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_knowledgec", "macos_sfl2_recent_items"],
     sources: &["https://www.mac4n6.com/blog/2016/6/2/ode-to-the-dock"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_LOGIN_ITEMS_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -104,6 +116,10 @@ pub(crate) static MACOS_LOGIN_ITEMS_PLIST: ArtifactDescriptor = ArtifactDescript
     sources: &[
         "https://www.sentinelone.com/blog/how-malware-persists-on-macos/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Persistence mechanism; SFL2 format varies by OS version"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Plist file; persistent until deleted",
 };
 
 pub(crate) static MACOS_SFL2_RECENT_ITEMS: ArtifactDescriptor = ArtifactDescriptor {
@@ -125,6 +141,10 @@ pub(crate) static MACOS_SFL2_RECENT_ITEMS: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_dock_plist", "macos_knowledgec"],
     sources: &["https://www.mac4n6.com/blog/2016/6/21/introduction-to-sfl-and-sfl2-files"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_SFL2_RECENT_SERVERS: ArtifactDescriptor = ArtifactDescriptor {
@@ -146,6 +166,10 @@ pub(crate) static MACOS_SFL2_RECENT_SERVERS: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_sfl2_recent_items"],
     sources: &["https://www.mac4n6.com/blog/2016/6/21/introduction-to-sfl-and-sfl2-files"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_WIFI_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -169,6 +193,10 @@ pub(crate) static MACOS_WIFI_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_unified_log", "macos_wifi_intelligence"],
     sources: &["https://www.mac4n6.com/blog/2016/6/3/ode-to-the-network"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_SCREEN_TIME_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -191,6 +219,10 @@ pub(crate) static MACOS_SCREEN_TIME_DB: ArtifactDescriptor = ArtifactDescriptor 
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_knowledgec", "macos_dock_plist"],
     sources: &["https://www.mac4n6.com/blog/2019/6/20/screen-time-in-ios-12-macos-mojave"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_TCC_SYSTEM_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -216,6 +248,10 @@ pub(crate) static MACOS_TCC_SYSTEM_DB: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["System-wide privacy permissions; requires SIP bypass to tamper"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SQLite DB; persistent until reset",
 };
 
 pub(crate) static MACOS_SMS_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -242,6 +278,10 @@ pub(crate) static MACOS_SMS_DB: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.mac4n6.com/blog/2020/7/28/imessage-artifacts-in-macos-catalina",
         "https://github.com/mac4n6/APOLLO",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["iMessage/SMS content; may be partially encrypted or unavailable without cloud sync"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SQLite DB; persistent until deleted",
 };
 
 pub(crate) static MACOS_NOTES_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -264,6 +304,10 @@ pub(crate) static MACOS_NOTES_DB: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_sms_db"],
     sources: &["https://github.com/mac4n6/APOLLO"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_PHOTOS_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -288,6 +332,10 @@ pub(crate) static MACOS_PHOTOS_DB: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_knowledgec"],
     sources: &["https://github.com/mac4n6/APOLLO"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_ICLOUD_DRIVE_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -310,6 +358,10 @@ pub(crate) static MACOS_ICLOUD_DRIVE_DB: ArtifactDescriptor = ArtifactDescriptor
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_fsevents", "macos_spotlight_store"],
     sources: &["https://www.mac4n6.com/blog/2020/3/21/icloud-drive-forensics"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_LOCATIOND_CLIENTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -332,6 +384,10 @@ pub(crate) static MACOS_LOCATIOND_CLIENTS: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_tcc_db", "macos_tcc_system_db"],
     sources: &["https://www.mac4n6.com/blog/2019/6/20/ios-and-macos-location-services"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_LOCKDOWND_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -354,6 +410,10 @@ pub(crate) static MACOS_LOCKDOWND_LOG: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_unified_log"],
     sources: &["https://www.mac4n6.com/blog/2016/4/22/ios-device-pairing-records"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_INSTALLER_RECEIPTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -376,6 +436,10 @@ pub(crate) static MACOS_INSTALLER_RECEIPTS: ArtifactDescriptor = ArtifactDescrip
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_install_history", "macos_gatekeeper_logs"],
     sources: &["https://www.mac4n6.com/blog/2016/6/22/macos-application-installation-history"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_SAFARI_LOCALSTORAGE: ArtifactDescriptor = ArtifactDescriptor {
@@ -397,6 +461,10 @@ pub(crate) static MACOS_SAFARI_LOCALSTORAGE: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_safari_history", "macos_safari_downloads"],
     sources: &["https://www.mac4n6.com/blog/2016/6/23/safari-history"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_NOTIFICATION_CENTER_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -420,6 +488,10 @@ pub(crate) static MACOS_NOTIFICATION_CENTER_DB: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["macos_knowledgec", "macos_sms_db"],
     sources: &["https://www.mac4n6.com/blog/2019/6/20/notification-center"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_MDM_ENROLLMENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -442,6 +514,10 @@ pub(crate) static MACOS_MDM_ENROLLMENT: ArtifactDescriptor = ArtifactDescriptor 
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["macos_tcc_system_db"],
     sources: &["https://www.mac4n6.com/blog/2020/9/15/mdm-forensics"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_ASL_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -464,6 +540,10 @@ pub(crate) static MACOS_ASL_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["macos_unified_log"],
     sources: &["https://www.mac4n6.com/blog/2016/2/5/asl-logging"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_DIAGNOSTIC_REPORTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -487,6 +567,10 @@ pub(crate) static MACOS_DIAGNOSTIC_REPORTS: ArtifactDescriptor = ArtifactDescrip
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["macos_unified_log"],
     sources: &["https://www.mac4n6.com/blog/2016/4/18/crash-logs-in-os-x"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// macOS QuickLook thumbnail cache — proves file was previewed.
@@ -593,6 +677,10 @@ pub(crate) static MACOS_QUICKLOOK_THUMBNAILS: ArtifactDescriptor = ArtifactDescr
         // Source: Sara Newcomer IACIS white paper — detailed QuickLook artifact analysis
         "http://iacis.org/iis/2014/10_iis_2014_421-430.pdf",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Apple Intelligence WiFi context events database.
@@ -656,6 +744,10 @@ pub(crate) static MACOS_WIFI_INTELLIGENCE: ArtifactDescriptor = ArtifactDescript
         // Source: Yogesh Khatri — discovery of wifiContextEvents table in views.db
         "https://www.swiftforensics.com/2025/01/new-wifi-database-from-apple.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// APFS (Apple File System) container — the default macOS filesystem since
@@ -774,6 +866,10 @@ pub(crate) static APFS_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
         // — live imaging FileVault2 via dd + /dev/rdisk; speed comparison dd vs FTK Imager CLI
         "https://az4n6.blogspot.com/2016/09/mac-live-imaging-functionality-versus.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── iOS artifacts ─────────────────────────────────────────────────────────────
@@ -886,6 +982,14 @@ pub(crate) static IOS_UNIFIED_LOG: ArtifactDescriptor = ArtifactDescriptor {
         // Source: Apple developer documentation — os/logging framework reference
         "https://developer.apple.com/documentation/os/logging",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Requires full file system extraction, sysdiagnose, or log collect --device for acquisition",
+        "Log rotation on iOS is aggressive — days to weeks depending on device activity",
+        "Format strings in uuidtext/ required for human-readable messages; without them, raw hex only",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "iOS aggressively rotates .tracev3 files; high-activity devices may retain only days of history",
 };
 
 // ── HEIC Image File (iOS 11+ / macOS High Sierra+) ─────────────────────────
@@ -1009,6 +1113,10 @@ pub(crate) static HEIC_IMAGE_FILE: ArtifactDescriptor = ArtifactDescriptor {
         // — Nokia/MPEG HEIF technical specification and box structure reference
         "https://nokiatech.github.io/heif/technical.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── iOS14 Apple Maps History (MapsSync_0.0.1) ────────────────────────────────
@@ -1132,6 +1240,10 @@ pub(crate) static IOS14_MAPS_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/cheeky4n6monkey/4n6-scripts",
     ],
     related_artifacts: &[],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Uber iOS LevelDB trip/location history ──────────────────────────────────
@@ -1262,6 +1374,10 @@ LevelDB libraries.",
         // Source: https://github.com/cclgroupltd/ccl_chrome_indexeddb (CCL LevelDB libraries used by the parser)
         "https://github.com/cclgroupltd/ccl_chrome_indexeddb",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── iOS Google Chat cacheV0.db ──────────────────────────────────────────────
@@ -1379,6 +1495,10 @@ pub(crate) static IOS_MOBILE_CONTAINER_MANAGER: ArtifactDescriptor = ArtifactDes
         // automated AppGroup/extension/entitlement resolution)
         "https://github.com/ydkhatri/mac_apt",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static IOS_CONTAINER_MANAGER_FIELDS: &[FieldSchema] = &[
@@ -1460,6 +1580,10 @@ older versions remain on disk as forensic snapshots",
         // Source: https://forensics.wiki/mac_os_x_10.9_artifacts_location#autorun-locations-2
         "https://forensics.wiki/mac_os_x_10.9_artifacts_location#autorun-locations-2",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MACOS_BTM_FIELDS: &[FieldSchema] = &[
@@ -1551,4 +1675,8 @@ pub(crate) static IOS_GOOGLE_CHAT_CACHEV0: ArtifactDescriptor = ArtifactDescript
         // Source: https://github.com/abrignoni/iLEAPP (iLEAPP framework containing the Image CacheV0 parser)
         "https://github.com/abrignoni/iLEAPP",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };

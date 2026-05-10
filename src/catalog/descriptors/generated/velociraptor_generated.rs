@@ -44,6 +44,10 @@ board.",
         triage_priority: TriagePriority::Medium,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_DOCX_DOCM_DOTX_DOTM_DOCB_XLSX_XLSM_XLTX_XL: ArtifactDescriptor = ArtifactDescriptor {
@@ -84,6 +88,10 @@ https://wiki.openoffice.org/wiki/Documentation/OOo3_User_Guides/Getting_Started/
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_USERS: ArtifactDescriptor = ArtifactDescriptor {
@@ -124,6 +132,10 @@ https://wiki.openoffice.org/wiki/Documentation/OOo3_User_Guides/Getting_Started/
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_TEMP: ArtifactDescriptor = ArtifactDescriptor {
@@ -144,6 +156,10 @@ pub(crate) static VELOCIRAPTOR_FILE_TEMP: ArtifactDescriptor = ArtifactDescripto
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_C_PROGRAM_FILES: ArtifactDescriptor = ArtifactDescriptor {
@@ -172,6 +188,10 @@ examine every file on the drive.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_TEMP_LOCALLOGS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -193,6 +213,10 @@ we need to access what the client was doing in the past.",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_: ArtifactDescriptor = ArtifactDescriptor {
@@ -221,6 +245,10 @@ the artifact uses the 'auto' data accessor but can also be changed as desired.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOGS_ACCESS_LOG_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -248,6 +276,10 @@ additions!",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_BIN_LS: ArtifactDescriptor = ArtifactDescriptor {
@@ -296,6 +328,10 @@ grouped by path to ensure files only downloaded once.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_EXE: ArtifactDescriptor = ArtifactDescriptor {
@@ -331,6 +367,10 @@ to perform a slow update of the local file hash database.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_TMP_IMAGE_DD: ArtifactDescriptor = ArtifactDescriptor {
@@ -370,6 +410,10 @@ The following cases are handled:
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_MANIFEST_JSON: ArtifactDescriptor = ArtifactDescriptor {
@@ -399,6 +443,10 @@ description from there.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_EXTENSIONS: ArtifactDescriptor = ArtifactDescriptor {
@@ -422,6 +470,10 @@ extension files in user's home directory.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_RUN_DOCKER_SOCK: ArtifactDescriptor = ArtifactDescriptor {
@@ -442,6 +494,10 @@ pub(crate) static VELOCIRAPTOR_FILE_RUN_DOCKER_SOCK: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_APT_LISTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -536,6 +592,10 @@ lists where last updated.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_DPKG_STATUS: ArtifactDescriptor = ArtifactDescriptor {
@@ -589,6 +649,10 @@ can easily be modified to include more details.",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_RUN_SNAPD_SOCKET: ArtifactDescriptor = ArtifactDescriptor {
@@ -642,6 +706,10 @@ can easily be modified to include more details.",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_TMP: ArtifactDescriptor = ArtifactDescriptor {
@@ -670,6 +738,10 @@ An anomalous file is considered one that matches at least one criteria:
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -691,6 +763,10 @@ store logs.",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_SBIN_AUDITCTL: ArtifactDescriptor = ArtifactDescriptor {
@@ -718,6 +794,10 @@ apt-get install auditd
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOG_AUTH_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -745,6 +825,10 @@ exploit the weak password.",
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Authentication events; check for brute-force patterns and privilege escalation"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Linux log rotates on size/time schedule",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_SYSLOGTIMESTAMP_TIMESTAMP_SYSLOGFACILITY_S: ArtifactDescriptor = ArtifactDescriptor {
@@ -772,6 +856,10 @@ exploit the weak password.",
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Authentication events; check for brute-force patterns and privilege escalation"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Linux log rotates on size/time schedule",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_HOME: ArtifactDescriptor = ArtifactDescriptor {
@@ -797,6 +885,10 @@ NOTE: We use the ext4 accessor to parse the low level filesystem.",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_PROC_MOUNTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -817,6 +909,10 @@ pub(crate) static VELOCIRAPTOR_FILE_PROC_MOUNTS: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_NET_ARP: ArtifactDescriptor = ArtifactDescriptor {
@@ -837,6 +933,10 @@ pub(crate) static VELOCIRAPTOR_FILE_NET_ARP: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_PROC_MODULES: ArtifactDescriptor = ArtifactDescriptor {
@@ -857,6 +957,10 @@ pub(crate) static VELOCIRAPTOR_FILE_PROC_MODULES: ArtifactDescriptor = ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_SBIN_NFT: ArtifactDescriptor = ArtifactDescriptor {
@@ -892,6 +996,10 @@ quarantined system.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_SSH_AUTHORIZED_KEYS: ArtifactDescriptor = ArtifactDescriptor {
@@ -920,6 +1028,10 @@ field is optional.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_SSH_PEM_ID_RSA_ID_DSA: ArtifactDescriptor =
@@ -961,6 +1073,10 @@ Be aware, this is an expensive operation.",
         triage_priority: TriagePriority::Critical,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+        evidence_caveats: &["Private key presence proves access capability; verify authorized_keys for lateral movement"],
+        volatility: Some(crate::volatility::VolatilityClass::Persistent),
+        volatility_rationale: "Private key files persist until explicitly deleted",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_ACPI_TABLES: ArtifactDescriptor = ArtifactDescriptor {
@@ -981,6 +1097,10 @@ pub(crate) static VELOCIRAPTOR_FILE_ACPI_TABLES: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -1011,6 +1131,10 @@ Tags: .bash_history .bash_profile .bashrc",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_PROC_STAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -1032,6 +1156,10 @@ cores spent in different parts of the system.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_CRONTABS: ArtifactDescriptor = ArtifactDescriptor {
@@ -1052,6 +1180,10 @@ pub(crate) static VELOCIRAPTOR_FILE_CRONTABS: ArtifactDescriptor = ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_CRON_WEEKLY: ArtifactDescriptor = ArtifactDescriptor {
@@ -1072,6 +1204,10 @@ pub(crate) static VELOCIRAPTOR_FILE_CRON_WEEKLY: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_ETC_GROUP: ArtifactDescriptor = ArtifactDescriptor {
@@ -1092,6 +1228,10 @@ pub(crate) static VELOCIRAPTOR_FILE_ETC_GROUP: ArtifactDescriptor = ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOG_WTMP: ArtifactDescriptor = ArtifactDescriptor {
@@ -1114,6 +1254,10 @@ These indicate when users last logged in.",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1135,6 +1279,10 @@ log files.",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_USR: ArtifactDescriptor = ArtifactDescriptor {
@@ -1176,6 +1324,10 @@ contexts in the future.",
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Modified timestamps on system binaries indicate trojanized files"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "System binary directory persists until package update",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_ETC_PASSWD: ArtifactDescriptor = ArtifactDescriptor {
@@ -1196,6 +1348,10 @@ pub(crate) static VELOCIRAPTOR_FILE_ETC_PASSWD: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOG_AUTH_LOG_SECURE: ArtifactDescriptor = ArtifactDescriptor {
@@ -1216,6 +1372,10 @@ pub(crate) static VELOCIRAPTOR_FILE_LOG_AUTH_LOG_SECURE: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_BIN_SYNC: ArtifactDescriptor = ArtifactDescriptor {
@@ -1236,6 +1396,10 @@ pub(crate) static VELOCIRAPTOR_FILE_BIN_SYNC: ArtifactDescriptor = ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_FINDER_PLIST: ArtifactDescriptor =
@@ -1257,6 +1421,10 @@ pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_FINDER_PLIST: Artifact
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_COM_APPLE_XPC_LAUNCHD_DISABLED_PLIST: ArtifactDescriptor =
@@ -1282,6 +1450,10 @@ https://github.com/CrowdStrike/automactc/blob/master/modules/mod_autoruns_v102.p
         triage_priority: TriagePriority::High,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_TABS: ArtifactDescriptor = ArtifactDescriptor {
@@ -1306,6 +1478,10 @@ https://github.com/CrowdStrike/automactc/blob/master/modules/mod_autoruns_v102.p
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_RECEIPTS_INSTALLHISTORY_PLIST: ArtifactDescriptor =
@@ -1327,6 +1503,10 @@ pub(crate) static VELOCIRAPTOR_FILE_RECEIPTS_INSTALLHISTORY_PLIST: ArtifactDescr
         triage_priority: TriagePriority::Medium,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_DOWNLOADS_ZIP: ArtifactDescriptor = ArtifactDescriptor {
@@ -1367,6 +1547,10 @@ contain sensitive URLs embedded within them.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_DOCK_PLIST: ArtifactDescriptor =
@@ -1395,6 +1579,10 @@ can be modified to point to a malicious application.
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -1418,6 +1606,10 @@ and modified.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_LAUNCHSERVICES_QUARA: ArtifactDescriptor =
@@ -1440,6 +1632,10 @@ information on when a file was downloaded from the internet.",
         triage_priority: TriagePriority::Medium,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_COM_APPLE_TCC_TCC_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -1467,6 +1663,10 @@ columns for Catalina and prior.",
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_TIMEMACHINE_PLIST: ArtifactDescriptor =
@@ -1488,6 +1688,10 @@ pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_TIMEMACHINE_PLIST: Art
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_USERS_PLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -1509,6 +1713,10 @@ system. The information is stored in plist files.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_SYSTEMCONFIGURATION_COM_APPLE_AIRPORT_PREF: ArtifactDescriptor =
@@ -1535,6 +1743,10 @@ wireless network.",
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_YAML_YML: ArtifactDescriptor = ArtifactDescriptor {
@@ -1576,6 +1788,10 @@ before deploying them on their network!",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_TMP_YAML: ArtifactDescriptor = ArtifactDescriptor {
@@ -1601,6 +1817,10 @@ velociraptor -r Server.Utils.ArtifactVerifier --SearchGlob '/path/to/*.yaml'
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_TO_IMAGE_VMDK: ArtifactDescriptor = ArtifactDescriptor {
@@ -1637,6 +1857,10 @@ artifact using the resources tab.",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_TMP_REMAPPING_WRITEBACK_YAML: ArtifactDescriptor =
@@ -1674,6 +1898,10 @@ artifact using the resources tab.",
         triage_priority: TriagePriority::Medium,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_TMP_1_YAML: ArtifactDescriptor = ArtifactDescriptor {
@@ -1694,6 +1922,10 @@ pub(crate) static VELOCIRAPTOR_FILE_TMP_1_YAML: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_FAVICONS: ArtifactDescriptor = ArtifactDescriptor {
@@ -1727,6 +1959,10 @@ database, within the 'favicons' table.
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_3_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1762,6 +1998,10 @@ MoreRecentThan as timestamp.
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOGS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1787,6 +2027,10 @@ With `UploadLogs` selected a copy of the logs are uploaded to the server.
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_TEAMVIEWER_CONNECTIONS_INCOMING_TXT: ArtifactDescriptor =
@@ -1811,6 +2055,10 @@ connections.",
         triage_priority: TriagePriority::Medium,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_TMP_COLLECTION_ZIP: ArtifactDescriptor = ArtifactDescriptor {
@@ -1917,6 +2165,10 @@ serverless collections/queries as in the following example.
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Presence indicates active Velociraptor collection; metadata reveals scope"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Temporary collection ZIP is volatile and deleted after upload",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_PROGRAMS_AMCACHE_HVE: ArtifactDescriptor = ArtifactDescriptor {
@@ -1959,6 +2211,10 @@ NOTE:
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_INVENTORY_FILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -2001,6 +2257,10 @@ NOTE:
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_DLL: ArtifactDescriptor = ArtifactDescriptor {
@@ -2028,6 +2288,10 @@ they are forwarding to.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_WINDOWS_SYSMON64_EXE: ArtifactDescriptor = ArtifactDescriptor {
@@ -2050,6 +2314,10 @@ provider for new events.",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_CURRENTVERSION_RUN: ArtifactDescriptor = ArtifactDescriptor {
@@ -2070,6 +2338,10 @@ pub(crate) static VELOCIRAPTOR_CURRENTVERSION_RUN: ArtifactDescriptor = Artifact
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_RTF_DOC_DOT_DOCX_DOCM_DOTX_DOTM_DOCB_XLS_X: ArtifactDescriptor = ArtifactDescriptor {
@@ -2114,6 +2386,10 @@ modify the glob for targeting.",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_WINDOWS_SYSTEM32: ArtifactDescriptor = ArtifactDescriptor {
@@ -2159,6 +2435,10 @@ grouped by path to ensure files only downloaded once.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_TEMP_WINPMEM_SYS: ArtifactDescriptor = ArtifactDescriptor {
@@ -2209,6 +2489,10 @@ $sequence_5 = { 250000ff00 33d0 8b4db0 c1e9 ( 08 | 08 ) }
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOGS_SECURITY_EVTX: ArtifactDescriptor = ArtifactDescriptor {
@@ -2231,6 +2515,10 @@ Destination Host Name/IP Process Name",
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Velociraptor-collected EVTX; check collection timestamp vs log timespan"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Collected EVTX rotates; velociraptor copy is point-in-time",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOGS_SYSTEM_SECURITY_EVTX: ArtifactDescriptor =
@@ -2254,6 +2542,10 @@ pub(crate) static VELOCIRAPTOR_FILE_LOGS_SYSTEM_SECURITY_EVTX: ArtifactDescripto
         triage_priority: TriagePriority::Medium,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_WINEVT_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -2294,6 +2586,10 @@ On windows, there are two types of logs:
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOGS_EVTX: ArtifactDescriptor = ArtifactDescriptor {
@@ -2345,6 +2641,10 @@ Inspired by others in `Windows.EventLogs.*`, many by Matt Green (@mgreen27).",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOGS_MICROSOFT_WINDOWS_POWERSHELL_4OPERATI: ArtifactDescriptor =
@@ -2379,6 +2679,10 @@ There are several parameters available for search leveraging regex.
         triage_priority: TriagePriority::Medium,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOGS_SYSTEM_EVTX: ArtifactDescriptor = ArtifactDescriptor {
@@ -2409,6 +2713,10 @@ a timeframe of interest and order by EventTime to scope RDP activity.",
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOGS_MICROSOFT_WINDOWS_TERMINALSERVICES_LO: ArtifactDescriptor = ArtifactDescriptor {
@@ -2439,6 +2747,10 @@ a timeframe of interest and order by EventTime to scope RDP activity.",
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOGS_MICROSOFT_WINDOWS_TERMINALSERVICES_RE: ArtifactDescriptor = ArtifactDescriptor {
@@ -2469,6 +2781,10 @@ a timeframe of interest and order by EventTime to scope RDP activity.",
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOGS_MICROSOFT_WINDOWS_TASKSCHEDULER_4OPER: ArtifactDescriptor = ArtifactDescriptor {
@@ -2508,6 +2824,10 @@ See: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Adva
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Scheduled task execution; correlate with persistence keys"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Task scheduler log rotates; collected copy is point-in-time",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOGS_SYMANTEC_ENDPOINT_PROTECTION_CLIENT_E: ArtifactDescriptor =
@@ -2539,6 +2859,10 @@ IgnoreRegex allows filtering out events relevant to the target environment.",
         triage_priority: TriagePriority::Medium,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_LOGS_APPLICATION_EVTX: ArtifactDescriptor =
@@ -2573,6 +2897,10 @@ This Artifact will hunt for evidence of Telerik exploitation in the Application 
         triage_priority: TriagePriority::High,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_TEMP_PROCESSES_SQLITE: ArtifactDescriptor =
@@ -2602,6 +2930,10 @@ tracker.",
         triage_priority: TriagePriority::Medium,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_METADATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -2628,6 +2960,10 @@ and when.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_METADATA_2: ArtifactDescriptor = ArtifactDescriptor {
@@ -2656,6 +2992,10 @@ and when.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_AUTOMATICDESTINATIONS_AUTOMATICDESTINATION: ArtifactDescriptor = ArtifactDescriptor {
@@ -2677,6 +3017,10 @@ as individual streams",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_LNK: ArtifactDescriptor = ArtifactDescriptor {
@@ -2767,6 +3111,10 @@ List of fields targeted by filter regex:
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_WINDOWSTATE_01_BIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -2791,6 +3139,10 @@ preservation.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_TABSTATE_BIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -2817,6 +3169,10 @@ preservation.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_PREFETCH_PF: ArtifactDescriptor = ArtifactDescriptor {
@@ -2852,6 +3208,10 @@ information.",
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_PST: ArtifactDescriptor = ArtifactDescriptor {
@@ -2872,6 +3232,10 @@ pub(crate) static VELOCIRAPTOR_FILE_PST: ArtifactDescriptor = ArtifactDescriptor
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_CACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -2903,6 +3267,10 @@ Best combined with:
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_NTUSER_DAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -2931,6 +3299,10 @@ soon. It is replaced by the registry hunter.",
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_I: ArtifactDescriptor = ArtifactDescriptor {
@@ -2971,6 +3343,10 @@ Limitations: This artifact uses the API to read available $I data. There may be 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_CONFIG_SAM: ArtifactDescriptor = ArtifactDescriptor {
@@ -2993,6 +3369,10 @@ Based on Omer Yampel's parser",
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Local account credential hashes; NTLM offline cracking risk"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SAM hive persists across reboots; protected in-use by Windows",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_SRU_SRUDB_DAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -3013,6 +3393,10 @@ pub(crate) static VELOCIRAPTOR_FILE_SRU_SRUDB_DAT: ArtifactDescriptor = Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_ACTIVITIESCACHE_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -3042,6 +3426,10 @@ Generic.Forensic.SQLiteHunter and will be removed in future",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_SUM: ArtifactDescriptor = ArtifactDescriptor {
@@ -3073,6 +3461,10 @@ trouble parsing these files on a live system.",
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_CURRENTVERSION_IMAGE_FILE_EXECUTION_OPTIONS: ArtifactDescriptor =
@@ -3107,6 +3499,10 @@ parse data in Windows.old or Regback folders, or VSS.",
         triage_priority: TriagePriority::Critical,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+        evidence_caveats: &["Non-zero GlobalFlag with Debugger value indicates silent process exit / hijack"],
+        volatility: Some(crate::volatility::VolatilityClass::Persistent),
+        volatility_rationale: "IFEO GlobalFlag registry persists until key deletion",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_V1_0_PROFILE_MICROSOFT_PROFILE_PS1: ArtifactDescriptor = ArtifactDescriptor {
@@ -3137,6 +3533,10 @@ with relevant regex filters.",
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_MICROSOFT_WOW64: ArtifactDescriptor = ArtifactDescriptor {
@@ -3158,6 +3558,10 @@ http://www.hexacorn.com/blog/2019/07/11/beyond-good-ol-run-key-part-108-2/",
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_SESSION_MANAGER_APPCOMPATCACHE_APPCOMPATCACHE: ArtifactDescriptor =
@@ -3191,6 +3595,10 @@ Windows 7 and 8 / 8.1 Systems.",
         triage_priority: TriagePriority::High,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_CONTROL_BACKUPRESTORE: ArtifactDescriptor = ArtifactDescriptor {
@@ -3215,6 +3623,10 @@ Volume Shadow Copy Service (VSS) and Windows Backup.",
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_SERVICES_PORTPROXY: ArtifactDescriptor = ArtifactDescriptor {
@@ -3238,6 +3650,10 @@ configuration modules.",
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_SOFTWARE_SYSINTERNALS: ArtifactDescriptor = ArtifactDescriptor {
@@ -3264,6 +3680,10 @@ users that are not currently logged on.",
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_SECURITYPROVIDERS_WDIGEST: ArtifactDescriptor = ArtifactDescriptor {
@@ -3304,6 +3724,10 @@ added. The existence of the key is suspicious, if not expected.
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["UseLogonCredential=1 enables plaintext credential caching in LSASS — critical IOC"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "WDigest registry value persists across reboots",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_TASKS: ArtifactDescriptor = ArtifactDescriptor {
@@ -3327,6 +3751,10 @@ this thoroughly before deploying this artifact widely to clients.",
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_V1_0_POWERSHELL_EXE: ArtifactDescriptor = ArtifactDescriptor {
@@ -3350,6 +3778,10 @@ this thoroughly before deploying this artifact widely to clients.",
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_ETC_HOSTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -3383,6 +3815,10 @@ but there are no rail guards on other domains. Use with caution.",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_ETC_HOSTS_VELOCIRAPTOR_BACKUP: ArtifactDescriptor =
@@ -3417,6 +3853,10 @@ but there are no rail guards on other domains. Use with caution.",
         triage_priority: TriagePriority::Medium,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_VHDX: ArtifactDescriptor = ArtifactDescriptor {
@@ -3438,6 +3878,10 @@ Linux (WSL) images.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_CURRENTVERSION_PROFILELIST: ArtifactDescriptor =
@@ -3473,6 +3917,10 @@ artifact.",
         triage_priority: TriagePriority::Critical,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+        evidence_caveats: &["User SID enumeration; compare against expected user base for rogue accounts"],
+        volatility: Some(crate::volatility::VolatilityClass::Persistent),
+        volatility_rationale: "ProfileList registry persists until profile deletion",
     };
 
 pub(crate) static VELOCIRAPTOR_APPCOMPATFLAGS_INSTALLEDSDB: ArtifactDescriptor =
@@ -3497,6 +3945,10 @@ nice format.",
         triage_priority: TriagePriority::High,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_CUSTOM: ArtifactDescriptor = ArtifactDescriptor {
@@ -3519,6 +3971,10 @@ nice format.",
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FIREWALLRULES: ArtifactDescriptor = ArtifactDescriptor {
@@ -3539,6 +3995,10 @@ pub(crate) static VELOCIRAPTOR_FIREWALLRULES: ArtifactDescriptor = ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_SYSTEM_RESOURCES_PHYSICAL_MEMORY_TRANSLATED: ArtifactDescriptor =
@@ -3560,6 +4020,10 @@ pub(crate) static VELOCIRAPTOR_SYSTEM_RESOURCES_PHYSICAL_MEMORY_TRANSLATED: Arti
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_CURRENTVERSION_UNINSTALL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3584,6 +4048,10 @@ Limitations: This key parses the live registry hives - if a user is not logged i
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_CAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -3610,6 +4078,10 @@ parsing all the cat files.",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_POWERSHELL_MODULEANALYSISCACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -3633,6 +4105,10 @@ use cases.",
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_SYSTEM_CURRENTCONTROLSET_SERVICES: ArtifactDescriptor =
@@ -3654,6 +4130,10 @@ pub(crate) static VELOCIRAPTOR_SYSTEM_CURRENTCONTROLSET_SERVICES: ArtifactDescri
         triage_priority: TriagePriority::High,
         related_artifacts: &[],
         sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static VELOCIRAPTOR_FILE_DLL_EXE: ArtifactDescriptor = ArtifactDescriptor {
@@ -3674,6 +4154,10 @@ pub(crate) static VELOCIRAPTOR_FILE_DLL_EXE: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VELOCIRAPTOR_FILE_C_MFT: ArtifactDescriptor = ArtifactDescriptor {
@@ -3703,6 +4187,10 @@ each row to aid analysis.",
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Generated entries (164) ─────────────────────────────────────────────────

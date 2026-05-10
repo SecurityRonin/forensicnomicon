@@ -143,6 +143,10 @@ Files can be very large (hundreds of MB); use streaming JSON parsers (e.g. Pytho
         // Source: https://thebinaryhick.blog/2021/02/20/using-google-takeout-for-dfir/ (Josh Hickman altitude/heading/velocity units)
         "https://thebinaryhick.blog/2021/02/20/using-google-takeout-for-dfir/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Google Takeout Semantic Location History ─────────────────────────────────
@@ -196,6 +200,10 @@ Cross-reference with Records.json for raw coordinate and DetectedActivity detail
     sources: &[
         "https://cheeky4n6monkey.blogspot.com/2022/02/monkey-attempts-to-digest-some-google.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── AWS CloudTrail IAM Events ───────────────────────────────────────────────
@@ -351,4 +359,12 @@ organization trails and custom S3 lifecycle policies may extend or shorten"),
         // Source: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-global-service-events (IAM events in us-east-1)
         "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-global-service-events",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "CloudTrail logs can be disabled or deleted by an attacker with sufficient IAM permissions",
+        "Log delivery latency of 1-3 minutes means near-real-time events may not yet appear",
+        "S3 bucket policy changes can prevent log delivery; check CloudTrail status before concluding absence",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "CloudTrail logs persist in S3 per retention policy (default indefinite); events appear within ~2 min of the action",
 };

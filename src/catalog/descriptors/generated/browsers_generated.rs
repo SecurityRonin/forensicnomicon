@@ -25,6 +25,10 @@ pub(crate) static BROWSERS_CHROME_HISTORY: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_CHROME_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -45,6 +49,10 @@ pub(crate) static BROWSERS_CHROME_PROFILE_DIR: ArtifactDescriptor = ArtifactDesc
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_CHROME_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -65,6 +73,10 @@ pub(crate) static BROWSERS_CHROME_COOKIES: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_CHROME_CACHE_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -85,6 +97,10 @@ pub(crate) static BROWSERS_CHROME_CACHE_DIR: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_CHROME_EXTENSIONS_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -105,6 +121,10 @@ pub(crate) static BROWSERS_CHROME_EXTENSIONS_DIR: ArtifactDescriptor = ArtifactD
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_EDGE_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -125,6 +145,10 @@ pub(crate) static BROWSERS_EDGE_HISTORY: ArtifactDescriptor = ArtifactDescriptor
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Microsoft_Edge"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_EDGE_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -145,6 +169,10 @@ pub(crate) static BROWSERS_EDGE_COOKIES: ArtifactDescriptor = ArtifactDescriptor
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Microsoft_Edge"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_EDGE_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -165,6 +193,10 @@ pub(crate) static BROWSERS_EDGE_PROFILE_DIR: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_FIREFOX_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -185,6 +217,10 @@ pub(crate) static BROWSERS_FIREFOX_PROFILE_DIR: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Mozilla_Firefox"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_FIREFOX_PLACES_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -205,6 +241,10 @@ pub(crate) static BROWSERS_FIREFOX_PLACES_DB: ArtifactDescriptor = ArtifactDescr
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_FIREFOX_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -225,6 +265,10 @@ pub(crate) static BROWSERS_FIREFOX_COOKIES: ArtifactDescriptor = ArtifactDescrip
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Mozilla_Firefox"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_FIREFOX_LOGINS: ArtifactDescriptor = ArtifactDescriptor {
@@ -245,6 +289,10 @@ pub(crate) static BROWSERS_FIREFOX_LOGINS: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Mozilla_Firefox"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Credential store persists until browser profile deletion",
 };
 
 pub(crate) static BROWSERS_BRAVE_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -265,6 +313,10 @@ pub(crate) static BROWSERS_BRAVE_HISTORY: ArtifactDescriptor = ArtifactDescripto
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://brave.com/privacy/"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_BRAVE_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -287,6 +339,10 @@ pub(crate) static BROWSERS_BRAVE_COOKIES: ArtifactDescriptor = ArtifactDescripto
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://brave.com/privacy/"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_OPERA_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -307,6 +363,10 @@ pub(crate) static BROWSERS_OPERA_HISTORY: ArtifactDescriptor = ArtifactDescripto
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://www.opera.com/features/privacy"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_OPERA_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -327,6 +387,10 @@ pub(crate) static BROWSERS_OPERA_PROFILE_DIR: ArtifactDescriptor = ArtifactDescr
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_VIVALDI_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -347,6 +411,10 @@ pub(crate) static BROWSERS_VIVALDI_HISTORY: ArtifactDescriptor = ArtifactDescrip
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://vivaldi.com/privacy/"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_VIVALDI_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -367,6 +435,10 @@ pub(crate) static BROWSERS_VIVALDI_PROFILE_DIR: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_SAFARI_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -387,6 +459,10 @@ pub(crate) static BROWSERS_SAFARI_HISTORY: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Apple_Safari"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_SAFARI_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -407,6 +483,10 @@ pub(crate) static BROWSERS_SAFARI_COOKIES: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Apple_Safari"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_SAFARI_DOWNLOADS: ArtifactDescriptor = ArtifactDescriptor {
@@ -427,6 +507,10 @@ pub(crate) static BROWSERS_SAFARI_DOWNLOADS: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Apple_Safari"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_IE_HISTORY_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -447,6 +531,10 @@ pub(crate) static BROWSERS_IE_HISTORY_DIR: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_IE_WEBCACHE_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -467,6 +555,10 @@ pub(crate) static BROWSERS_IE_WEBCACHE_DB: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://www.sans.org/blog/how-to-use-ie-history-as-a-forensic-artifact/"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_IE_TYPED_URLS: ArtifactDescriptor = ArtifactDescriptor {
@@ -487,6 +579,10 @@ pub(crate) static BROWSERS_IE_TYPED_URLS: ArtifactDescriptor = ArtifactDescripto
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_TOR_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -507,6 +603,10 @@ pub(crate) static BROWSERS_TOR_PROFILE_DIR: ArtifactDescriptor = ArtifactDescrip
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_TOR_PLACES_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -527,6 +627,10 @@ pub(crate) static BROWSERS_TOR_PLACES_DB: ArtifactDescriptor = ArtifactDescripto
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_WATERFOX_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -547,6 +651,10 @@ pub(crate) static BROWSERS_WATERFOX_PROFILE_DIR: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_LIBREWOLF_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -567,6 +675,10 @@ pub(crate) static BROWSERS_LIBREWOLF_PROFILE_DIR: ArtifactDescriptor = ArtifactD
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_CHROMIUM_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -587,6 +699,10 @@ pub(crate) static BROWSERS_CHROMIUM_HISTORY: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_PALEMOON_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -607,6 +723,10 @@ pub(crate) static BROWSERS_PALEMOON_PROFILE_DIR: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_SEAMONKEY_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -627,6 +747,10 @@ pub(crate) static BROWSERS_SEAMONKEY_PROFILE_DIR: ArtifactDescriptor = ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_BASILISK_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -647,6 +771,10 @@ pub(crate) static BROWSERS_BASILISK_PROFILE_DIR: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_FALKON_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -667,6 +795,10 @@ pub(crate) static BROWSERS_FALKON_PROFILE_DIR: ArtifactDescriptor = ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_MIDORI_CONFIG_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -687,6 +819,10 @@ pub(crate) static BROWSERS_MIDORI_CONFIG_DIR: ArtifactDescriptor = ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_MIN_HISTORY_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -707,6 +843,10 @@ pub(crate) static BROWSERS_MIN_HISTORY_DB: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_MAXTHON_USER_DATA_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -727,6 +867,10 @@ pub(crate) static BROWSERS_MAXTHON_USER_DATA_DIR: ArtifactDescriptor = ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Browsers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BROWSERS_SLIMJET_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -747,6 +891,10 @@ pub(crate) static BROWSERS_SLIMJET_HISTORY: ArtifactDescriptor = ArtifactDescrip
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://www.slimjet.com/"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Generated entries (37) ─────────────────────────────────────────────────

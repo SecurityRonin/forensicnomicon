@@ -79,6 +79,10 @@ pub(crate) static HONDA_ACCORD_RECENTSTOPS: ArtifactDescriptor = ArtifactDescrip
         "honda_accord_phonedb",
         "honda_accord_bluetooth",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Honda Accord CRM Eco Logs (trip telemetry) ──────────────────────────────
@@ -182,6 +186,10 @@ pub(crate) static HONDA_ACCORD_CRM_ECO_LOGS: ArtifactDescriptor = ArtifactDescri
         "honda_accord_phonedb",
         "honda_accord_bluetooth",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Honda Accord Phone DB (Bluetooth call history & contacts) ───────────────
@@ -296,6 +304,10 @@ pub(crate) static HONDA_ACCORD_PHONEDB: ArtifactDescriptor = ArtifactDescriptor 
         "honda_accord_recentstops",
         "honda_accord_crm_eco_logs",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Honda Accord Bluetooth Settings (paired devices) ────────────────────────
@@ -358,6 +370,10 @@ pub(crate) static HONDA_ACCORD_BLUETOOTH: ArtifactDescriptor = ArtifactDescripto
         "honda_accord_recentstops",
         "honda_accord_crm_eco_logs",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Garmin nuvi Voice Log (TTS navigation instructions) ─────────────────────
@@ -438,4 +454,8 @@ pub(crate) static GARMIN_NUVI_VOICE_LOG: ArtifactDescriptor = ArtifactDescriptor
         "https://github.com/cheeky4n6monkey/4n6-scripts",
     ],
     related_artifacts: &[],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };

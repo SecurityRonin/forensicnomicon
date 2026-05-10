@@ -133,6 +133,13 @@ pub static USERASSIST_EXE: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.magnetforensics.com/blog/artifact-profile-userassist/",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Counts GUI application launches; CLI-only execution not recorded",
+        "ROT13 name encoding can be misread if decoder is missing",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated per user GUI interaction; persists in NTUSER.DAT",
 };
 
 /// Run key field schema.
@@ -171,6 +178,10 @@ pub static RUN_KEY_HKLM_RUN: ArtifactDescriptor = ArtifactDescriptor {
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/06_Tool_Command_Vault/6.02_Windows_DFIR_Master_Notes.md",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Legitimate software also uses Run keys; context required"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "System registry key; persists until explicit deletion",
 };
 
 /// TypedURLs field schema.
@@ -204,6 +215,10 @@ pub static TYPED_URLS: ArtifactDescriptor = ArtifactDescriptor {
         "https://windowsir.blogspot.com/2006/04/typed-urls.html",
         "https://crucialsecurity.wordpress.com/2011/03/14/typedurls-part-1/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// PCA AppLaunch.dic pipe-delimited fields.
@@ -251,6 +266,10 @@ pub static PCA_APPLAUNCH_DIC: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sygnia.co/blog/new-windows-11-pca-artifact/",
         "https://github.com/Psmths/windows-forensic-artifacts/blob/main/execution/program-compatibility-assistant.md",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// PCA `PcaGeneralDb0.txt` field schema — abnormal-exit records.
@@ -319,6 +338,10 @@ pub static PCA_GENERAL_DB: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sygnia.co/blog/new-windows-11-pca-artifact/",
         "https://aboutdfir.com/new-windows-11-pro-22h2-evidence-of-execution-artifact/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Windows `hosts` file (`C:\Windows\System32\drivers\etc\hosts`).
@@ -369,6 +392,10 @@ pub static WINDOWS_HOSTS_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "https://support.microsoft.com/en-us/topic/microsoft-tcp-ip-host-name-resolution-order-dae00cc9-7e9c-c0cc-8360-477b99cb978a",
         "https://academy.bluraven.io/blog/edr-silencer-and-beyond-exploring-methods-to-block-edr-communication-part-2",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Name Resolution Policy Table (NRPT) — `HKLM\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters\DnsPolicyConfig\{UUID}`.
@@ -444,6 +471,10 @@ pub static DNS_POLICY_CONFIG_NRPT: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn593632(v=ws.11)",
         "https://learn.microsoft.com/en-us/powershell/module/dnsclient/add-dnsclientnrptrule",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Run key HKCU variants ────────────────────────────────────────────────────
@@ -475,6 +506,10 @@ pub static RUN_KEY_HKCU_RUN: ArtifactDescriptor = ArtifactDescriptor {
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/06_Tool_Command_Vault/6.02_Windows_DFIR_Master_Notes.md",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/02_Detection_Rules/2.2_sigma_rules/HKCU%20Run%20Key%20Written%20by%20Unusual%20Process.yml",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Per-user; requires knowing which user profile to examine"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Per-user registry key; persists in NTUSER.DAT",
 };
 
 /// HKCU RunOnce — per-user one-shot autostart (deleted after execution).
@@ -498,6 +533,10 @@ pub static RUN_KEY_HKCU_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// HKLM RunOnce — system-wide one-shot autostart.
@@ -521,6 +560,10 @@ pub static RUN_KEY_HKLM_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Single-run key deleted after execution; absence may indicate prior execution; correlate with execution artifacts"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Deleted by OS after single execution",
 };
 
 // ── IFEO ──────────────────────────────────────────────────────────────────────
@@ -557,6 +600,10 @@ pub static IFEO_DEBUGGER: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/enabling-postmortem-debugging",
         "https://www.sans.org/blog/malware-persistence-without-the-windows-registry/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Legitimate debugger keys exist; focus on non-debugger executables"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 // ── UserAssist (Shortcut/LNK GUID) ───────────────────────────────────────────
@@ -604,6 +651,10 @@ pub static USERASSIST_FOLDER: ArtifactDescriptor = ArtifactDescriptor {
         "https://windowsir.blogspot.com/2004/02/userassist.html",
         "http://windowsir.blogspot.com/2007/09/more-on-userassist-keys.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── UserAssist XP-era GUIDs (pre-Vista) ──────────────────────────────────────
@@ -689,6 +740,10 @@ pub static USERASSIST_XP_EXE: ArtifactDescriptor = ArtifactDescriptor {
         "https://windowsir.blogspot.com/2004/02/userassist.html",
         "http://windowsir.blogspot.com/2007/09/more-on-userassist-keys.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// UserAssist XP IE Favorites GUID (NTUSER.DAT) — Windows XP.
@@ -721,6 +776,10 @@ pub static USERASSIST_XP_IE_FAVORITES: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.magnetforensics.com/blog/artifact-profile-userassist/",
         "https://windowsir.blogspot.com/2004/02/userassist.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// UserAssist XP IE7-specific GUID (NTUSER.DAT) — Windows XP with IE7.
@@ -753,6 +812,10 @@ pub static USERASSIST_XP_IE7: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.magnetforensics.com/blog/artifact-profile-userassist/",
         "https://windowsir.blogspot.com/2004/02/userassist.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── ShellBags ─────────────────────────────────────────────────────────────────
@@ -795,6 +858,10 @@ pub static SHELLBAGS_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.magnetforensics.com/blog/forensic-analysis-of-windows-shellbags/",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &["Proves folder was browsed; does not prove file access or execution"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated on folder access; persists in UsrClass.dat",
 };
 
 // ── Amcache ───────────────────────────────────────────────────────────────────
@@ -840,6 +907,13 @@ pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/AmcacheParser",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Presence proves file was on disk and touched by Windows; not always execution",
+        "Can be populated by antivirus scans",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Persists until Windows Update or manual clear",
 };
 
 // ── ShimCache (AppCompatCache) ────────────────────────────────────────────────
@@ -882,6 +956,13 @@ pub static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/06_Tool_Command_Vault/6.02_Windows_DFIR_Master_Notes.md",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Presence proves file existed on disk, not necessarily executed",
+        "Written only on reboot; live system shows stale data",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Written to registry only on shutdown; live state is in memory",
 };
 
 // ── BAM / DAM ─────────────────────────────────────────────────────────────────
@@ -921,6 +1002,10 @@ pub static BAM_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/Psmths/windows-forensic-artifacts/blob/main/execution/bam-dam.md",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Granularity is per-day; precise execution time not available"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Rotated by OS on background activity manager flush",
 };
 
 pub(crate) static DAM_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -953,6 +1038,10 @@ pub static DAM_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://forensafe.com/blogs/bam.html",
         "https://github.com/Psmths/windows-forensic-artifacts/blob/main/execution/bam-dam.md",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &["Device Activity Monitor; less studied than BAM"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Rotated by OS on desktop activity monitor flush",
 };
 
 // ── SAM ───────────────────────────────────────────────────────────────────────
@@ -990,6 +1079,13 @@ pub static SAM_USERS: ArtifactDescriptor = ArtifactDescriptor {
         "https://windowsir.blogspot.com/2010/11/recovering-passwords.html",
         "http://windowsir.blogspot.com/2013/07/howto-determine-users-on-system.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Contains local account NTLM hashes; requires SYSTEM privilege to read",
+        "Must be used with SYSTEM hive to decrypt",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SAM registry hive; persists until account deleted",
 };
 
 // ── LSA Secrets / DCC2 ───────────────────────────────────────────────────────
@@ -1020,6 +1116,10 @@ pub static LSA_SECRETS: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Critical,
     related_artifacts: &["sam_users", "dpapi_system_masterkey", "dcc2_cache"],
     sources: &["https://www.sans.org/blog/lsa-secrets/"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Requires SYSTEM privileges to read; encrypted at rest"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "System hive registry; persists until credential removed",
 };
 
 pub(crate) static DCC2_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -1051,6 +1151,10 @@ pub static DCC2_CACHE: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://www.sans.org/blog/windows-credential-storage-for-penetration-testers/"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Only proves domain user logged in; not current password"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Rotated; last 10 cached credentials by default",
 };
 
 // ── TypedURLsTime ─────────────────────────────────────────────────────────────
@@ -1083,6 +1187,10 @@ pub static TYPED_URLS_TIME: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://www.sans.org/blog/digital-forensics-windows-registry-forensics-part-6-internet-explorer-user-typed-urls/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── MRU RecentDocs ────────────────────────────────────────────────────────────
@@ -1118,6 +1226,10 @@ pub static MRU_RECENT_DOCS: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/opensavemru-and-lastvisitedmru/",
         "https://forensics.wiki/opensavemru/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &["Only tracks files opened via common dialog; programmatic access not recorded"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated per file open; fixed max MRU depth",
 };
 
 // ── USB device enumeration ────────────────────────────────────────────────────
@@ -1154,6 +1266,10 @@ pub static USB_ENUM: ArtifactDescriptor = ArtifactDescriptor {
         "https://windowsir.blogspot.com/2013/07/usb-device-tracking-in-windows-7.html",
         "https://www.magnetforensics.com/blog/artifact-profile-usb-devices/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── MUICache ──────────────────────────────────────────────────────────────────
@@ -1193,6 +1309,10 @@ pub static MUICACHE: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.magnetforensics.com/blog/forensic-analysis-of-muicache-files-in-windows/",
         "https://forensafe.com/blogs/muicache.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── AppInit_DLLs ──────────────────────────────────────────────────────────────
@@ -1227,6 +1347,10 @@ pub static APPINIT_DLLS: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows/win32/dlls/registry-keys-for-appinit-dlls",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Only effective when SecureBoot is disabled"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicit deletion",
 };
 
 // ── Winlogon Userinit ─────────────────────────────────────────────────────────
@@ -1260,6 +1384,10 @@ pub static WINLOGON_USERINIT: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://learn.microsoft.com/en-us/windows/win32/secauthn/winlogon-and-gina"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Screensaver persistence ───────────────────────────────────────────────────
@@ -1293,6 +1421,10 @@ pub static SCREENSAVER_EXE: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://www.sans.org/blog/screensaver-registry-key-for-persistence/"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1580,6 +1712,10 @@ pub static WINLOGON_SHELL: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://learn.microsoft.com/en-us/windows/win32/secauthn/winlogon-and-gina"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Default value is 'explorer.exe'; any deviation is highly suspicious"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicit deletion",
 };
 
 /// Windows Services — ImagePath value indicates binary launched as a service.
@@ -1617,6 +1753,10 @@ pub static SERVICES_IMAGEPATH: ArtifactDescriptor = ArtifactDescriptor {
         // — PowerShell encoded command abuse via sc.exe binPath, base64+gzip obfuscation
         "https://az4n6.blogspot.com/2017/10/finding-and-decoding-malicious.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Many legitimate services present; focus on unsigned/unusual paths"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key under SYSTEM; persists until service removed",
 };
 
 pub(crate) static ACTIVE_SETUP_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -1650,6 +1790,10 @@ pub static ACTIVE_SETUP_HKLM: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://www.sans.org/blog/active-setup-registry-persistence/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Registry key presence is definitive persistence evidence; compare sub-key StubPath against known-good baseline"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
 /// Active Setup HKCU — user-side Active Setup version tracking.
@@ -1673,6 +1817,10 @@ pub static ACTIVE_SETUP_HKCU: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://www.sans.org/blog/active-setup-registry-persistence/"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// COM Hijacking via HKCU CLSID registration (T1546.015).
@@ -1698,6 +1846,10 @@ pub static COM_HIJACK_CLSID_HKCU: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://redcanary.com/threat-detection-report/techniques/t1546/"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Some legitimate COM redirection exists; compare with HKLM entries"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key per-user; persists in NTUSER.DAT",
 };
 
 /// AppCert DLLs — DLL injected into every process calling CreateProcess (T1546.009).
@@ -1722,6 +1874,10 @@ pub static APPCERT_DLLS: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://learn.microsoft.com/en-us/windows/win32/devnotes/appcertdlls"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BOOT_EXECUTE_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -1755,6 +1911,10 @@ pub static BOOT_EXECUTE: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/boot-time-global-flag-settings",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Any non-default value is highly suspicious; default is autocheck autochk *"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicit deletion",
 };
 
 /// LSA Security Support Providers — SSPs injected into LSASS (T1547.005).
@@ -1781,6 +1941,10 @@ pub static LSA_SECURITY_PKGS: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows/win32/secauthn/lsa-authentication",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// LSA Authentication Packages — loaded by LSASS for auth (T1547.002).
@@ -1802,6 +1966,10 @@ pub static LSA_AUTH_PKGS: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://learn.microsoft.com/en-us/windows/win32/secauthn/lsa-authentication"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Print Monitors — DLL loaded by the spooler service (T1547.010).
@@ -1825,6 +1993,10 @@ pub static PRINT_MONITORS: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://learn.microsoft.com/en-us/windows-hardware/drivers/print/print-monitor"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Time Provider DLLs — loaded into svchost as part of W32Time (T1547.003).
@@ -1846,6 +2018,10 @@ pub static TIME_PROVIDERS: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://learn.microsoft.com/en-us/windows/win32/sysinfo/time-provider"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Netsh Helper DLLs — COM-like DLLs loaded by netsh.exe (T1546.007).
@@ -1869,6 +2045,10 @@ pub static NETSH_HELPER_DLLS: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows/win32/netmgmt/network-management-functions",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static BHO_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -1902,6 +2082,10 @@ pub static BROWSER_HELPER_OBJECTS: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/aa753582(v=vs.85)",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Windows persistence: filesystem ──────────────────────────────────────
@@ -1928,6 +2112,10 @@ pub static STARTUP_FOLDER_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/win32/shell/csidl",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// System Startup Folder — files/LNKs here execute for all users at logon.
@@ -1949,6 +2137,10 @@ pub static STARTUP_FOLDER_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://learn.microsoft.com/en-us/windows/win32/shell/csidl"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Windows Task Scheduler task XML files (T1053.005).
@@ -1978,6 +2170,10 @@ pub static SCHEDULED_TASKS_DIR: ArtifactDescriptor = ArtifactDescriptor {
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/06_Tool_Command_Vault/6.02_Windows_DFIR_Master_Notes.md",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Task XML may be deleted after execution; check event log 4698/4702"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "XML files in tasks directory; persist until task deleted",
 };
 
 /// WDigest credential caching control (T1003.001).
@@ -2003,6 +2199,10 @@ pub static WDIGEST_CACHING: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://redcanary.com/threat-detection-report/techniques/t1003/"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Windows execution evidence ────────────────────────────────────────────
@@ -2031,6 +2231,10 @@ pub static WORDWHEEL_QUERY: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// OpenSaveMRU — files opened/saved via Windows common dialog (T1083).
@@ -2061,6 +2265,10 @@ pub static OPENSAVE_MRU: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// LastVisitedMRU — last folder visited in common dialog per-application.
@@ -2087,6 +2295,10 @@ pub static LASTVISITED_MRU: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── NTFS metadata files ───────────────────────────────────────────────────────
@@ -2281,6 +2493,14 @@ pub static MFT: ArtifactDescriptor = ArtifactDescriptor {
         // 8-timestamp dual MACE set ($SI + $FN), $Object_ID UUID creation time
         "https://github.com/kacos2000/MFT_Browser",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Requires raw disk access or volume shadow copy; locked on live systems",
+        "SI timestamps are user-spoofable; always compare against FN timestamps",
+        "Deleted-file entries may be overwritten if MFT fills up",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "$MFT entries persist until overwritten by new allocations; unallocated entries survive long-term",
 };
 
 pub(crate) static USNJRNL_FIELDS: &[FieldSchema] = &[
@@ -2390,6 +2610,14 @@ pub static USNJRNL: ArtifactDescriptor = ArtifactDescriptor {
         // Forensic value of the USN Journal
         "https://www.magnetforensics.com/blog/ntfs-usn-change-journal/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Journal is a rolling window (~32 MB default); older entries are overwritten",
+        "Journal can be cleared by an attacker with sufficient privileges",
+        "$J alternate data stream requires raw NTFS access — not visible via Win32 APIs",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "$UsnJrnl:$J is a rolling window (~32 MB); oldest records are overwritten as the journal grows",
 };
 
 /// NTFS $LogFile — transaction log used for crash recovery (T1070.006).
@@ -2442,6 +2670,14 @@ pub static LOGFILE_NTFS: ArtifactDescriptor = ArtifactDescriptor {
         // $LogFile forensics reference
         "https://www.sans.org/blog/the-key-to-ntfs-forensics-the-logfile/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "~64 MB rolling window; typically only hours of recent metadata operations",
+        "Primarily useful for cross-validating MFT LSN chains to detect timestamp injection",
+        "Requires specialised NTFS log parser (e.g. NTFSLogTracker)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "$LogFile is ~64 MB; wraps on high-activity systems within hours",
 };
 
 /// Windows Prefetch files directory — execution evidence (T1204.002).
@@ -2474,6 +2710,10 @@ pub static PREFETCH_DIR: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/PECmd",
         "https://github.com/EricZimmerman/Prefetch",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static SRUM_FIELDS: &[FieldSchema] = &[
@@ -2520,6 +2760,13 @@ pub static SRUM_DB: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.magnetforensics.com/blog/srum-forensic-analysis-of-windows-system-resource-utilization-monitor/",
         "https://github.com/MarkBaggett/srum-dump",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Requires ESE database parsing; data is aggregated over time windows",
+        "App paths may be partial; correlate with other execution artifacts",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "SRUM ESE database; records rolled up and purged periodically",
 };
 
 /// ActivitiesCache.db field schema — derived from kacos2000/WindowsTimeline analysis.
@@ -2607,6 +2854,10 @@ pub static WINDOWS_TIMELINE: ArtifactDescriptor = ArtifactDescriptor {
         "http://windowsir.blogspot.com/2019/11/activitescachedb-vs-ntuserdat.html",
         "https://github.com/EricZimmerman/WxTCmd",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Windows Timeline DeviceCache registry — resolves PlatformDeviceId GUIDs to names.
@@ -2651,6 +2902,10 @@ pub static WINDOWS_TIMELINE_DEVICECACHE: ArtifactDescriptor = ArtifactDescriptor
         "https://kacos2000.github.io/WindowsTimeline/WindowsTimeline.pdf",
         "https://github.com/kacos2000/WindowsTimeline",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Windows Search index (SQLite) — Win11 22H2+ migration from Windows.edb.
@@ -2695,6 +2950,10 @@ pub static WINDOWS_SEARCH_DB_WIN11: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["windows_search_edb", "mft", "usnjrnl"],
     sources: &["https://github.com/kacos2000/WinEDB"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// PowerShell PSReadLine command history (T1059.001).
@@ -2726,6 +2985,10 @@ pub static POWERSHELL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
         "https://community.sophos.com/sophos-labs/b/blog/posts/powershell-command-history-forensics",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// $I file binary schema — Vista+ format.
@@ -2853,6 +3116,10 @@ pub static RECYCLE_BIN: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/akhil-dara/RecycleBin-Forensic-Explorer",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["File name and deletion time available; original content may be overwritten"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Deleted on permanent delete; survives recycle until purge",
 };
 
 /// Windows Explorer Thumbnail Cache — file-access and image evidence.
@@ -2883,6 +3150,10 @@ pub static THUMBCACHE: ArtifactDescriptor = ArtifactDescriptor {
         "https://thumbcacheviewer.github.io/",
         "https://forensics.wiki/windows_thumbcache/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Windows Search database — indexed file/content search history.
@@ -2913,6 +3184,10 @@ pub static SEARCH_DB_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://cyber.aon.com/aon_cyber_labs/windows-search-index-the-forensic-artifact-youve-been-searching-for/",
         "https://github.com/EricZimmerman/SQLECmd",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Windows credential artifacts ──────────────────────────────────────────
@@ -2950,6 +3225,10 @@ pub static DPAPI_MASTERKEY_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://posts.specterops.io/operational-guidance-for-offensive-user-dpapi-abuse-1fb7fac8b107",
         "https://www.sygnia.co/blog/the-downfall-of-dpapis-top-secret-weapon/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &["Presence expected for every user; useful for decrypting other artifacts"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Master keys persist; old keys backed up in AD",
 };
 
 /// DPAPI Credential Blobs (Local) — encrypted credential store entries.
@@ -2979,6 +3258,10 @@ pub static DPAPI_CRED_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://posts.specterops.io/operational-guidance-for-offensive-user-dpapi-abuse-1fb7fac8b107",
         "https://www.sygnia.co/blog/the-downfall-of-dpapis-top-secret-weapon/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &["Encrypted credential blobs; useful with DPAPI master key decryption"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Encrypted credential blobs; persist until explicit deletion",
 };
 
 /// DPAPI Credential Blobs (Roaming) — roaming profile credential store.
@@ -3004,6 +3287,10 @@ pub static DPAPI_CRED_ROAMING: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/dpapi-forensics-credentials-stored-in-windows/",
         "https://posts.specterops.io/operational-guidance-for-offensive-user-dpapi-abuse-1fb7fac8b107",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static VAULT_FIELDS: &[FieldSchema] = &[
@@ -3046,6 +3333,10 @@ pub static WINDOWS_VAULT_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/win32/secauthn/credential-manager",
         "https://blog.digital-forensics.it/2016/01/windows-revaulting.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Windows Vault (System) — system-wide Windows Credential Manager vault.
@@ -3070,6 +3361,10 @@ pub static WINDOWS_VAULT_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/win32/secauthn/credential-manager",
         "https://blog.digital-forensics.it/2016/01/windows-revaulting.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static RDP_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -3106,6 +3401,10 @@ pub static RDP_CLIENT_SERVERS: ArtifactDescriptor = ArtifactDescriptor {
         "https://forensafe.com/blogs/rdc.html",
         "https://www.magnetforensics.com/blog/rdp-artifacts-in-incident-response/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Proves RDP was initiated FROM this machine; does not confirm success"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "MRU; rotated when max entries exceeded",
 };
 
 pub(crate) static RDP_MRU_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -3139,6 +3438,10 @@ pub static RDP_CLIENT_DEFAULT: ArtifactDescriptor = ArtifactDescriptor {
         "https://forensafe.com/blogs/rdc.html",
         "https://www.magnetforensics.com/blog/rdp-artifacts-in-incident-response/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NTDS_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -3170,6 +3473,10 @@ pub static NTDS_DIT: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://www.sans.org/blog/protecting-ad-from-credential-theft/"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["All domain hashes present; requires parsing with secretsdump or ntdsutil"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "AD database; persists until account deleted",
 };
 
 pub(crate) static BROWSER_CRED_FIELDS: &[FieldSchema] = &[
@@ -3211,6 +3518,13 @@ pub static CHROME_LOGIN_DATA: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.foxtonforensics.com/blog/post/analysing-chrome-login-data",
         "https://github.com/EricZimmerman/SQLECmd",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Credentials encrypted with DPAPI; require user masterkey to decrypt",
+        "May contain stale or user-deleted passwords",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SQLite DB; credentials persist until deleted from browser",
 };
 
 pub(crate) static FIREFOX_CRED_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -3245,6 +3559,13 @@ pub static FIREFOX_LOGINS: ArtifactDescriptor = ArtifactDescriptor {
         "https://redcanary.com/threat-detection-report/techniques/t1555/",
         "https://atropos4n6.com/windows/chrome-login-data-forensics/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Encrypted with Firefox key4.db; requires key extraction for plaintext",
+        "Primary password (master password) prevents access if set",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "JSON file; credentials persist until deleted from browser",
 };
 
 pub(crate) static WIFI_FIELDS: &[FieldSchema] = &[
@@ -3287,6 +3608,10 @@ pub static WIFI_PROFILES: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/wireless-forensics/",
         "https://forensafe.com/blogs/winwirelessnetworks.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &["Network profile history shows locations visited; useful for timeline and geographic profiling"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "WiFi profiles persist in registry until deleted",
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -3363,6 +3688,10 @@ pub static LINUX_CRONTAB_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
         "https://linux.die.net/man/5/crontab",
         "https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Drop-in cron jobs directory `/etc/cron.d/` (T1053.003).
@@ -3390,6 +3719,10 @@ pub static LINUX_CRON_D: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Periodic cron directories (daily/hourly/weekly/monthly) (T1053.003).
@@ -3417,6 +3750,10 @@ pub static LINUX_CRON_PERIODIC: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Per-user crontab spool at `/var/spool/cron/crontabs/{user}` (T1053.003).
@@ -3444,6 +3781,10 @@ pub static LINUX_USER_CRONTAB: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Unexpected cron entries are definitive persistence indicators; compare against known-good baseline"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Crontab entry; persists until crontab -r",
 };
 
 /// Anacron configuration at `/etc/anacrontab`.
@@ -3468,6 +3809,10 @@ pub static LINUX_ANACRONTAB: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://linux.die.net/man/8/anacron"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Linux persistence: systemd ────────────────────────────────────────────
@@ -3501,6 +3846,10 @@ pub static LINUX_SYSTEMD_SYSTEM_UNIT: ArtifactDescriptor = ArtifactDescriptor {
         "https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/",
         "https://www.elastic.co/security-labs/primer-on-persistence-mechanisms",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Per-user systemd service units (T1543.002).
@@ -3528,6 +3877,10 @@ pub static LINUX_SYSTEMD_USER_UNIT: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.freedesktop.org/software/systemd/man/systemd.unit.html",
         "https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// systemd timer units — cron-like scheduling (T1053.006).
@@ -3555,6 +3908,10 @@ pub static LINUX_SYSTEMD_TIMER: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.freedesktop.org/software/systemd/man/systemd.timer.html",
         "https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Linux persistence: init / rc.local ───────────────────────────────────
@@ -3585,6 +3942,10 @@ pub static LINUX_RC_LOCAL: ArtifactDescriptor = ArtifactDescriptor {
         "https://pberba.github.io/security/2022/02/06/linux-threat-hunting-for-persistence-initialization-scripts-and-shell-configuration/",
         "https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// SysV init scripts directory `/etc/init.d/`.
@@ -3611,6 +3972,10 @@ pub static LINUX_INIT_D: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://pberba.github.io/security/2022/02/06/linux-threat-hunting-for-persistence-initialization-scripts-and-shell-configuration/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Linux persistence: shell startup files ────────────────────────────────
@@ -3641,6 +4006,10 @@ pub static LINUX_BASHRC_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://pberba.github.io/security/2022/02/06/linux-threat-hunting-for-persistence-initialization-scripts-and-shell-configuration/",
         "https://www.elastic.co/guide/en/security/current/bash-shell-profile-modification.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// `~/.bash_profile` — Bash login shell startup (T1546.004).
@@ -3664,6 +4033,10 @@ pub static LINUX_BASH_PROFILE_USER: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://pberba.github.io/security/2022/02/06/linux-threat-hunting-for-persistence-initialization-scripts-and-shell-configuration/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// `~/.profile` — POSIX login shell startup.
@@ -3687,6 +4060,10 @@ pub static LINUX_PROFILE_USER: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://pberba.github.io/security/2022/02/06/linux-threat-hunting-for-persistence-initialization-scripts-and-shell-configuration/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// `~/.zshrc` — per-user Zsh interactive startup (T1546.004).
@@ -3710,6 +4087,10 @@ pub static LINUX_ZSHRC_USER: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://pberba.github.io/security/2022/02/06/linux-threat-hunting-for-persistence-initialization-scripts-and-shell-configuration/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// `/etc/profile` — system-wide login shell startup.
@@ -3734,6 +4115,10 @@ pub static LINUX_PROFILE_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://pberba.github.io/security/2022/02/06/linux-threat-hunting-for-persistence-initialization-scripts-and-shell-configuration/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// `/etc/profile.d/` — drop-in system-wide shell startup scripts.
@@ -3757,6 +4142,10 @@ pub static LINUX_PROFILE_D: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://pberba.github.io/security/2022/02/06/linux-threat-hunting-for-persistence-initialization-scripts-and-shell-configuration/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Linux persistence: dynamic linker ────────────────────────────────────
@@ -3789,6 +4178,10 @@ pub static LINUX_LD_SO_PRELOAD: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.wiz.io/blog/linux-rootkits-explained-part-1-dynamic-linker-hijacking",
         "https://www.sentinelone.com/labs/leveraging-ld_audit-to-beat-the-traditional-linux-library-preloading-technique/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// `/etc/ld.so.conf.d/` — linker search path configuration (T1574.006).
@@ -3817,6 +4210,10 @@ pub static LINUX_LD_SO_CONF_D: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://www.wiz.io/blog/linux-rootkits-explained-part-1-dynamic-linker-hijacking",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Linux persistence: SSH ────────────────────────────────────────────────
@@ -3846,6 +4243,10 @@ pub static LINUX_SSH_AUTHORIZED_KEYS: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/ssh-backdoors/",
         "https://sandflysecurity.com/blog/detecting-unauthorized-ssh-keys-in-linux/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Linux persistence: PAM / privilege / kernel ───────────────────────────
@@ -3878,6 +4279,10 @@ pub static LINUX_PAM_D: ArtifactDescriptor = ArtifactDescriptor {
         // T1556.003 coverage in Elastic persistence primer (PAM modification section)
         "https://www.elastic.co/security-labs/primer-on-persistence-mechanisms",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// `/etc/sudoers.d/` — drop-in sudoers rules (T1548.003).
@@ -3907,6 +4312,10 @@ pub static LINUX_SUDOERS_D: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.elastic.co/security-labs/primer-on-persistence-mechanisms",
         "https://linux.die.net/man/5/sudoers",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Presence of unexpected rules is high-confidence privilege escalation indicator"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Files in /etc/sudoers.d/; persist until explicitly removed",
 };
 
 /// `/etc/modules-load.d/` — kernel modules loaded at boot (T1547.006).
@@ -3936,6 +4345,10 @@ pub static LINUX_MODULES_LOAD_D: ArtifactDescriptor = ArtifactDescriptor {
         // Kernel module loading security — kernel.modules_disabled and LKM threat model
         "https://linux-audit.com/increase-kernel-integrity-with-disabled-linux-kernel-modules-loading/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// `/etc/update-motd.d/` — dynamic MOTD scripts executed on login (Debian/Ubuntu).
@@ -3965,6 +4378,10 @@ pub static LINUX_MOTD_D: ArtifactDescriptor = ArtifactDescriptor {
         // pberba Part 2, Section 10: motd scripts via pam_motd (Debian/Ubuntu)
         "https://pberba.github.io/security/2022/02/06/linux-threat-hunting-for-persistence-initialization-scripts-and-shell-configuration/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// `/etc/udev/rules.d/` — udev device event rules (T1546).
@@ -3995,6 +4412,10 @@ pub static LINUX_UDEV_RULES_D: ArtifactDescriptor = ArtifactDescriptor {
         // Official freedesktop udev rules syntax reference
         "https://www.freedesktop.org/software/systemd/man/udev_rules.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Linux execution evidence ──────────────────────────────────────────────
@@ -4025,6 +4446,14 @@ pub static LINUX_BASH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://bromiley.medium.com/torvalds-tuesday-bash-history-in-linux-forensics-7cc4c9b4db9f",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Circumstantial),
+    evidence_caveats: &[
+        "Trivially disabled with HISTSIZE=0 or HISTFILE=/dev/null",
+        "Written at shell exit; killed shells leave no history",
+        "Root can modify or delete",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Written at shell exit; max HISTSIZE entries",
 };
 
 /// `~/.zsh_history` — Zsh interactive command history.
@@ -4048,6 +4477,10 @@ pub static LINUX_ZSH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://bromiley.medium.com/torvalds-tuesday-bash-history-in-linux-forensics-7cc4c9b4db9f",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// `/var/log/wtmp` — binary successful login history (T1078).
@@ -4077,6 +4510,10 @@ pub static LINUX_WTMP: ArtifactDescriptor = ArtifactDescriptor {
         "https://bromiley.medium.com/torvalds-tuesday-logon-history-in-the-tmp-files-83530b2acc28",
         "https://sandflysecurity.com/blog/using-linux-utmpdump-for-forensics-and-detecting-log-file-tampering",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Binary format; utmpdump needed; can be edited by root"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Rotated by logrotate",
 };
 
 /// `/var/log/btmp` — binary failed login attempts.
@@ -4104,6 +4541,10 @@ pub static LINUX_BTMP: ArtifactDescriptor = ArtifactDescriptor {
         "https://bromiley.medium.com/torvalds-tuesday-logon-history-in-the-tmp-files-83530b2acc28",
         "https://sandflysecurity.com/blog/using-linux-utmpdump-for-forensics-and-detecting-log-file-tampering",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// `/var/log/lastlog` — binary last-login-per-UID database.
@@ -4131,6 +4572,10 @@ pub static LINUX_LASTLOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://linux.die.net/man/5/wtmp",
         "https://bromiley.medium.com/torvalds-tuesday-logon-history-in-the-tmp-files-83530b2acc28",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// `/var/log/auth.log` — authentication and sudo event log (Debian/Ubuntu).
@@ -4157,6 +4602,10 @@ pub static LINUX_AUTH_LOG: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://sandflysecurity.com/blog/using-linux-utmpdump-for-forensics-and-detecting-log-file-tampering",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["rsyslog/syslog-ng must be running; can be cleared by root"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "logrotate weekly by default",
 };
 
 /// systemd journal directory `/var/log/journal/`.
@@ -4182,6 +4631,10 @@ pub static LINUX_JOURNAL_DIR: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://systemd.io/JOURNAL_NATIVE_PROTOCOL/"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["systemd journal provides structured authentication and system events; requires journalctl for parsing"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "systemd journal; rotated by journald size/time limits",
 };
 
 // ── Linux credential artifacts ────────────────────────────────────────────
@@ -4213,6 +4666,13 @@ pub static LINUX_PASSWD: ArtifactDescriptor = ArtifactDescriptor {
         "https://linux.die.net/man/5/passwd",
         "https://bromiley.medium.com/torvalds-tuesday-user-accounts-597b4ca9dcaf",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "World-readable; shows all accounts but no password hashes (those are in shadow)",
+        "Added accounts may be backdoors; compare against baseline",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "File; persists until account deleted",
 };
 
 /// `/etc/shadow` — password hash database (T1003.008).
@@ -4240,6 +4700,13 @@ pub static LINUX_SHADOW: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-password-security/",
         "https://bromiley.medium.com/torvalds-tuesday-user-accounts-597b4ca9dcaf",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Requires root to read; contains hashed passwords",
+        "Hash format determines crackability; check for weak algorithms (MD5, SHA-256)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "File; persists until account deleted or password changed",
 };
 
 /// SSH private key files — stolen keys enable impersonation (T1552.004).
@@ -4268,6 +4735,13 @@ pub static LINUX_SSH_PRIVATE_KEY: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/ssh-backdoors/",
         "https://sandflysecurity.com/blog/detecting-unauthorized-ssh-keys-in-linux/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Private key presence proves capability for lateral movement",
+        "Passphrase-protected keys require cracking; unprotected keys are immediately usable",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "File; persists until explicitly removed",
 };
 
 /// `~/.ssh/known_hosts` — previously connected SSH server fingerprints (T1021.004).
@@ -4295,6 +4769,10 @@ pub static LINUX_SSH_KNOWN_HOSTS: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/ssh-backdoors/",
         "https://sandflysecurity.com/blog/detecting-unauthorized-ssh-keys-in-linux/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// `~/.gnupg/private-keys-v1.d/` — GnuPG private key store (T1552.004).
@@ -4319,6 +4797,10 @@ pub static LINUX_GNUPG_PRIVATE: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://gnupg.org/documentation/manuals/gnupg/GPG-Configuration-Options.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// `~/.aws/credentials` — AWS access key material (T1552.001).
@@ -4346,6 +4828,10 @@ pub static LINUX_AWS_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
         "https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html",
         "https://www.sans.org/blog/cloud-forensics-and-incident-response/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// `~/.docker/config.json` — Docker registry auth tokens (T1552.001).
@@ -4373,6 +4859,10 @@ pub static LINUX_DOCKER_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
         "https://docs.docker.com/engine/reference/commandline/login/",
         "https://www.sans.org/blog/container-forensics/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Batch E — Windows execution / persistence / credential ───────────────────
@@ -4407,6 +4897,10 @@ pub static LNK_FILES: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/kacos2000/Jumplist-Browser",
         "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-shllink/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Can be spoofed; verify with corroborating artifacts"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Created on file open; max ~150 recent items",
 };
 
 pub static JUMP_LIST_AUTO: ArtifactDescriptor = ArtifactDescriptor {
@@ -4439,6 +4933,10 @@ pub static JUMP_LIST_AUTO: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/kacos2000/Jumplist-Browser",
         "https://www.hexacorn.com/blog/2013/04/30/jumplists-file-names-and-appid-calculator/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Application-specific; some apps don't integrate with jump lists"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated on file access; max entries per app",
 };
 
 pub static JUMP_LIST_CUSTOM: ArtifactDescriptor = ArtifactDescriptor {
@@ -4471,6 +4969,10 @@ pub static JUMP_LIST_CUSTOM: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/kacos2000/Jumplist-Browser",
         "https://github.com/kacos2000/Jumplist-Browser/blob/master/CustomDestinations-ms.md",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &["Pinned items reflect user intent; can be manually set without file access"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Pinned by user; persists until app unpins",
 };
 
 pub static EVTX_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -4492,6 +4994,10 @@ pub static EVTX_DIR: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/EricZimmerman/evtx"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static MFT_FILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -4526,6 +5032,13 @@ pub static MFT_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/kacos2000/MFT_Browser",
         "https://www.sans.org/blog/windows-file-system-forensics-ntfs-master-file-table/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Timestamps susceptible to timestomping ($STANDARD_INFORMATION vs $FILE_NAME)",
+        "$FILE_NAME timestamps harder to tamper; compare both",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Residual),
+    volatility_rationale: "Metadata persists in unallocated MFT entries after deletion",
 };
 
 pub static USN_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -4547,6 +5060,10 @@ pub static USN_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/EricZimmerman/MFTECmd"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Circular; entries overwritten; may not have full history"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Circular journal; oldest entries overwritten first",
 };
 
 // ── Persistence ───────────────────────────────────────────────────────────────
@@ -4575,6 +5092,10 @@ pub static WMI_MOF_DIR: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/win32/wmisdk/commandlineeventconsumer",
         "https://learn.microsoft.com/en-us/windows/win32/wmisdk/--filtertoconsumerbinding",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static BITS_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -4600,6 +5121,10 @@ pub static BITS_DB: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/powershell/module/bitstransfer/get-bitstransfer?view=windowsserver2025-ps",
         "https://www.sans.org/white-papers/39195",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static WMI_SUB_FIELDS: &[FieldSchema] = &[
@@ -4652,6 +5177,10 @@ pub static WMI_SUBSCRIPTIONS: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/win32/wmisdk/monitoring-and-responding-to-events-with-standard-consumers",
         "https://learn.microsoft.com/en-us/windows/win32/wmisdk/--filtertoconsumerbinding",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static LOGON_SCRIPTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -4676,6 +5205,10 @@ pub static LOGON_SCRIPTS: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/opensecurity-persistence/",
         "https://www.hexacorn.com/blog/2013/07/04/beyond-good-ol-run-key-part-15/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static WINSOCK_LSP: ArtifactDescriptor = ArtifactDescriptor {
@@ -4700,6 +5233,10 @@ pub static WINSOCK_LSP: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/opensecurity-persistence/",
         "https://www.hexacorn.com/blog/2013/07/04/beyond-good-ol-run-key-part-15/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static APPSHIM_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -4724,6 +5261,10 @@ pub static APPSHIM_DB: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.hexacorn.com/blog/2013/07/04/beyond-good-ol-run-key-part-15/",
         "https://www.sans.org/blog/application-shimming/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static PASSWORD_FILTER_DLL: ArtifactDescriptor = ArtifactDescriptor {
@@ -4748,6 +5289,10 @@ pub static PASSWORD_FILTER_DLL: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/opensecurity-persistence/",
         "https://docs.microsoft.com/en-us/windows/win32/secmgmt/password-filter-programming-considerations",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static OFFICE_NORMAL_DOTM: ArtifactDescriptor = ArtifactDescriptor {
@@ -4772,6 +5317,10 @@ pub static OFFICE_NORMAL_DOTM: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/opensecurity-persistence/",
         "https://docs.microsoft.com/en-us/office/vba/word/concepts/customizing-word/using-events-with-the-application-object",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static POWERSHELL_PROFILE_ALL: ArtifactDescriptor = ArtifactDescriptor {
@@ -4796,6 +5345,10 @@ pub static POWERSHELL_PROFILE_ALL: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/opensecurity-persistence/",
         "https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Credentials ───────────────────────────────────────────────────────────────
@@ -4822,6 +5375,13 @@ pub static DPAPI_SYSTEM_MASTERKEY: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/gentilkiwi/mimikatz",
         "https://blog.gentilkiwi.com/securite/mimikatz/dpapi-domain-backup-keys-theft",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Required to decrypt SYSTEM-scope DPAPI blobs; requires SYSTEM privilege",
+        "Loss of this key means DPAPI-protected data is unrecoverable",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "System DPAPI master key; persists in SYSTEM hive",
 };
 
 pub static DPAPI_CREDHIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -4846,6 +5406,10 @@ pub static DPAPI_CREDHIST: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/gentilkiwi/mimikatz",
         "https://blog.gentilkiwi.com/securite/mimikatz/dpapi-domain-backup-keys-theft",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static CHROME_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -4867,6 +5431,10 @@ pub static CHROME_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["chrome_login_data"],
     sources: &["https://github.com/EricZimmerman/SQLECmd"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static EDGE_WEBCACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -4891,6 +5459,10 @@ pub static EDGE_WEBCACHE: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/SQLECmd",
         "https://www.sans.org/blog/digital-forensics-windows-browser-artifacts/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static VPN_RAS_PHONEBOOK: ArtifactDescriptor = ArtifactDescriptor {
@@ -4915,6 +5487,10 @@ pub static VPN_RAS_PHONEBOOK: ArtifactDescriptor = ArtifactDescriptor {
         "https://docs.microsoft.com/en-us/windows/win32/rras/ras-phone-book-files",
         "https://www.sans.org/blog/digital-forensics-windows-artifact-profiles/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static WINDOWS_HELLO_NGC: ArtifactDescriptor = ArtifactDescriptor {
@@ -4939,6 +5515,10 @@ pub static WINDOWS_HELLO_NGC: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/security/identity-protection/hello-for-business/",
         "https://www.sans.org/blog/digital-forensics-windows-artifact-profiles/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static USER_CERT_PRIVATE_KEY: ArtifactDescriptor = ArtifactDescriptor {
@@ -4963,6 +5543,10 @@ pub static USER_CERT_PRIVATE_KEY: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/win32/seccng/key-storage-and-retrieval",
         "https://github.com/gentilkiwi/mimikatz",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static MACHINE_CERT_STORE: ArtifactDescriptor = ArtifactDescriptor {
@@ -4987,6 +5571,10 @@ pub static MACHINE_CERT_STORE: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/win32/seccng/key-storage-and-retrieval",
         "https://github.com/gentilkiwi/mimikatz",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Batch F — Linux extended credentials / execution ─────────────────────────
@@ -5013,6 +5601,10 @@ pub static LINUX_AT_QUEUE: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static LINUX_SSHD_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
@@ -5037,6 +5629,10 @@ pub static LINUX_SSHD_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/ssh-backdoors/",
         "https://linux.die.net/man/5/sshd_config",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static LINUX_ETC_GROUP: ArtifactDescriptor = ArtifactDescriptor {
@@ -5061,6 +5657,10 @@ pub static LINUX_ETC_GROUP: ArtifactDescriptor = ArtifactDescriptor {
         "https://linux.die.net/man/5/group",
         "https://bromiley.medium.com/torvalds-tuesday-user-accounts-597b4ca9dcaf",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static LINUX_GNOME_KEYRING: ArtifactDescriptor = ArtifactDescriptor {
@@ -5082,6 +5682,13 @@ pub static LINUX_GNOME_KEYRING: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://wiki.gnome.org/Projects/GnomeKeyring"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Encrypted with user login password; accessible after user session unlock",
+        "Contains Wi-Fi keys, VPN credentials, and application secrets",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Keyring database file; persists until secrets removed",
 };
 
 pub static LINUX_KDE_KWALLET: ArtifactDescriptor = ArtifactDescriptor {
@@ -5103,6 +5710,13 @@ pub static LINUX_KDE_KWALLET: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://userbase.kde.org/KWallet"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Encrypted; requires wallet password or auto-unlock to access",
+        "Coverage depends on which KDE applications store credentials here",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "KWallet database file; persists until secrets removed",
 };
 
 pub static LINUX_CHROME_LOGIN_LINUX: ArtifactDescriptor = ArtifactDescriptor {
@@ -5124,6 +5738,13 @@ pub static LINUX_CHROME_LOGIN_LINUX: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/AlessandroZ/LaZagne"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "On Linux, Chrome uses GNOME Keyring or KWallet for encryption key storage",
+        "Plaintext accessible if keyring is unlocked",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SQLite DB; credentials persist until deleted from browser",
 };
 
 pub static LINUX_FIREFOX_LOGINS_LINUX: ArtifactDescriptor = ArtifactDescriptor {
@@ -5146,6 +5767,13 @@ pub static LINUX_FIREFOX_LOGINS_LINUX: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/AlessandroZ/LaZagne"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Same format as Windows Firefox logins; key4.db required for decryption",
+        "Primary password prevents access if set",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "JSON file; credentials persist until deleted from browser",
 };
 
 pub static LINUX_UTMP: ArtifactDescriptor = ArtifactDescriptor {
@@ -5171,6 +5799,10 @@ pub static LINUX_UTMP: ArtifactDescriptor = ArtifactDescriptor {
         "https://bromiley.medium.com/torvalds-tuesday-logon-history-in-the-tmp-files-83530b2acc28",
         "https://sandflysecurity.com/blog/using-linux-utmpdump-for-forensics-and-detecting-log-file-tampering",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static LINUX_GCP_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
@@ -5195,6 +5827,10 @@ pub static LINUX_GCP_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
         "https://cloud.google.com/sdk/docs/authorizing",
         "https://www.sans.org/blog/cloud-forensics-and-incident-response/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static LINUX_AZURE_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
@@ -5219,6 +5855,10 @@ pub static LINUX_AZURE_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
         "https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli",
         "https://www.sans.org/blog/cloud-forensics-and-incident-response/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static LINUX_KUBE_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
@@ -5243,6 +5883,10 @@ pub static LINUX_KUBE_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
         "https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/",
         "https://www.sans.org/blog/cloud-forensics-and-incident-response/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static LINUX_GIT_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
@@ -5264,6 +5908,10 @@ pub static LINUX_GIT_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://git-scm.com/docs/git-credential-store"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static LINUX_NETRC: ArtifactDescriptor = ArtifactDescriptor {
@@ -5285,6 +5933,10 @@ pub static LINUX_NETRC: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://linux.die.net/man/5/netrc"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Batch G — LinuxPersist-sourced persistence artifacts ─────────────────────
@@ -5311,6 +5963,10 @@ pub static LINUX_ETC_ENVIRONMENT: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://linux.die.net/man/7/environ"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static LINUX_XDG_AUTOSTART_USER: ArtifactDescriptor = ArtifactDescriptor {
@@ -5333,6 +5989,10 @@ pub static LINUX_XDG_AUTOSTART_USER: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://specifications.freedesktop.org/autostart-spec/autostart-spec-latest.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static LINUX_XDG_AUTOSTART_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
@@ -5355,6 +6015,10 @@ pub static LINUX_XDG_AUTOSTART_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://specifications.freedesktop.org/autostart-spec/autostart-spec-latest.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static LINUX_NETWORKMANAGER_DISPATCHER: ArtifactDescriptor = ArtifactDescriptor {
@@ -5379,6 +6043,10 @@ pub static LINUX_NETWORKMANAGER_DISPATCHER: ArtifactDescriptor = ArtifactDescrip
     sources: &[
         "https://networkmanager.dev/docs/api/latest/NetworkManager-dispatcher.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static LINUX_APT_HOOKS: ArtifactDescriptor = ArtifactDescriptor {
@@ -5401,6 +6069,10 @@ pub static LINUX_APT_HOOKS: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://wiki.debian.org/DpkgTriggers"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Batch H — Jump List / LNK / Prefetch / SRUM tables / EVTX channels ──────
@@ -5455,6 +6127,10 @@ pub static JUMP_LIST_APPID_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/kacos2000/Jumplist-Browser",
         "https://www.hexacorn.com/blog/2013/04/30/jumplists-file-names-and-appid-calculator/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Taskband Favorites — taskbar pinned application order.
@@ -5501,6 +6177,10 @@ pub static TASKBAND_FAVORITES: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["jump_list_auto", "lnk_files"],
     sources: &["https://github.com/kacos2000/Jumplist-Browser"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static JUMP_LIST_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
@@ -5529,6 +6209,10 @@ pub static JUMP_LIST_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/JumpList",
         "https://forensics.wiki/jump_lists/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static LNK_FILES_OFFICE: ArtifactDescriptor = ArtifactDescriptor {
@@ -5559,6 +6243,10 @@ pub static LNK_FILES_OFFICE: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/Lnk",
         "https://forensics.wiki/lnk/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static PREFETCH_FIELDS: &[FieldSchema] = &[
@@ -5681,6 +6369,10 @@ pub static PREFETCH_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/06_Tool_Command_Vault/6.02_Windows_DFIR_Master_Notes.md",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Prefetch can be disabled via registry; absence does not mean no execution"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Max 1024 entries, FIFO eviction on Win10+",
 };
 
 pub(crate) static SRUM_NET_FIELDS: &[FieldSchema] = &[
@@ -5758,6 +6450,13 @@ pub static SRUM_NETWORK_USAGE: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/Srum",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Aggregated bytes sent/received per process; not per-connection detail",
+        "Clock skew between SRUM and event logs possible",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "SRUM network table; rotated by Windows on schedule",
 };
 
 /// SRUM Network Connections table field schema.
@@ -5850,6 +6549,10 @@ pub static SRUM_NETWORK_CONNECTIONS: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/white-papers/36660/",
         "https://www.magnetforensics.com/blog/srum-forensic-analysis-of-windows-system-resource-utilization-monitor/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static SRUM_APP_FIELDS: &[FieldSchema] = &[
@@ -5922,6 +6625,10 @@ pub static SRUM_APP_RESOURCE: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.magnetforensics.com/blog/srum-forensic-analysis-of-windows-system-resource-utilization-monitor/",
         "https://github.com/EricZimmerman/Srum",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &["CPU and memory usage metrics; useful for corroborating execution, not proving it"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "SRUM ESE database; rotated by Windows on schedule",
 };
 
 pub(crate) static SRUM_ENERGY_FIELDS: &[FieldSchema] = &[
@@ -5986,6 +6693,10 @@ pub static SRUM_ENERGY_USAGE: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/white-papers/36660/",
         "https://github.com/EricZimmerman/Srum",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static SRUM_PUSH_FIELDS: &[FieldSchema] = &[
@@ -6044,6 +6755,10 @@ pub static SRUM_PUSH_NOTIFICATION: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/white-papers/36660/",
         "https://github.com/EricZimmerman/Srum",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_FIELDS: &[FieldSchema] = &[
@@ -6147,6 +6862,13 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
         //   PreviousTime, NewTime, ProcessName, ProcessId.
         "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4616",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Log can be cleared (event 1102/104); absence of log is itself evidence",
+        "Requires appropriate audit policy to be enabled",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Circular EVTX log; default 128 MB max",
 };
 
 pub static EVTX_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
@@ -6195,6 +6917,10 @@ pub static EVTX_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
         //   referenced by Carvey's scm.pl plugin.
         "https://www.manageengine.com/products/eventlog/kb/event-7031-service-crash-help.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Service install/start events useful; can be noisy with false positives"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Circular EVTX log; default 20 MB max",
 };
 
 pub static EVTX_APPLICATION_MSIINSTALLER: ArtifactDescriptor = ArtifactDescriptor {
@@ -6249,6 +6975,10 @@ pub static EVTX_APPLICATION_MSIINSTALLER: ArtifactDescriptor = ArtifactDescripto
         //   the canonical IDs (1022/1033/1034/1035/1036/1040/1042/11707/11708/11724).
         "https://learn.microsoft.com/en-us/windows/win32/msi/event-logging",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static EVTX_POWERSHELL: ArtifactDescriptor = ArtifactDescriptor {
@@ -6283,6 +7013,13 @@ pub static EVTX_POWERSHELL: ArtifactDescriptor = ArtifactDescriptor {
         "https://redcanary.com/threat-detection-report/techniques/t1059.001/",
         "https://github.com/EricZimmerman/evtx",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Requires script block logging to be enabled (4104)",
+        "AMSI bypass can prevent logging of obfuscated content",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Circular EVTX log; oldest events overwritten at max size",
 };
 
 pub static EVTX_SYSMON: ArtifactDescriptor = ArtifactDescriptor {
@@ -6313,6 +7050,13 @@ pub static EVTX_SYSMON: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/evtx",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.3_Windows_Event_Core.md",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Requires Sysmon to be installed and configured",
+        "Sysmon config determines what is logged",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Circular EVTX log; size depends on Sysmon config",
 };
 
 /// Microsoft-Windows-Windows Defender/Operational — Microsoft Defender AV
@@ -6386,6 +7130,10 @@ pub static EVTX_DEFENDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/troubleshoot-microsoft-defender-antivirus",
         "https://github.com/EricZimmerman/evtx",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static TYPED_PATHS_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -6418,6 +7166,10 @@ pub static TYPED_PATHS: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static RUN_MRU_FIELDS: &[FieldSchema] = &[
@@ -6458,6 +7210,10 @@ pub static RUN_MRU: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NETWORK_DRIVES_FIELDS: &[FieldSchema] = &[
@@ -6496,6 +7252,10 @@ pub static NETWORK_DRIVES: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/mkorman90/regipy/blob/master/regipy/plugins/ntuser/network_drives.py",
         "https://github.com/mkorman90/regipy/blob/master/regipy/plugins/validated_plugins.json",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Mapped drive destinations reveal lateral movement targets; UNC paths may expose internal host names"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Mapped drive registry entry; persists until unmapped",
 };
 
 pub(crate) static APP_PATHS_FIELDS: &[FieldSchema] = &[
@@ -6542,6 +7302,10 @@ pub static APP_PATHS: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MOUNTED_DEVICES_FIELDS: &[FieldSchema] = &[
@@ -6588,6 +7352,10 @@ pub static MOUNTED_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NETWORKLIST_FIELDS: &[FieldSchema] = &[
@@ -6634,6 +7402,10 @@ pub static NETWORKLIST_PROFILES: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Profile name set by router; can be spoofed by attacker-controlled AP"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Network profiles persist in registry",
 };
 
 pub(crate) static PUTTY_SESSION_FIELDS: &[FieldSchema] = &[
@@ -6680,6 +7452,10 @@ pub static PUTTY_SESSIONS: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static WINSCP_SESSION_FIELDS: &[FieldSchema] = &[
@@ -6727,6 +7503,10 @@ pub static WINSCP_SAVED_SESSIONS: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// WinSCP portable configuration file — lateral movement & exfil staging evidence.
@@ -6851,6 +7631,10 @@ pub(crate) static WINSCP_INI: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/winscp/winscp/blob/master/source/core/Security.cpp",
         "https://winscp.net/eng/docs/ui_pref_storage",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static WINRAR_HISTORY_FIELDS: &[FieldSchema] = &[
@@ -6891,6 +7675,10 @@ pub static WINRAR_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NETWORK_INTERFACE_FIELDS: &[FieldSchema] = &[
@@ -6930,6 +7718,10 @@ pub static NETWORK_INTERFACES: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static PAGEFILE_SYS: ArtifactDescriptor = ArtifactDescriptor {
@@ -6950,6 +7742,10 @@ pub static PAGEFILE_SYS: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["hiberfil_sys", "evtx_security"],
     sources: &["https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv", "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/06_Tool_Command_Vault/6.02_Windows_DFIR_Master_Notes.md"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static HIBERFIL_SYS: ArtifactDescriptor = ArtifactDescriptor {
@@ -6976,6 +7772,10 @@ pub static HIBERFIL_SYS: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static MOUNTPOINTS2_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -7007,6 +7807,10 @@ pub static MOUNTPOINTS2: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static PORTABLE_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
@@ -7027,6 +7831,10 @@ pub static PORTABLE_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["mounted_devices", "mountpoints2", "usb_enum"],
     sources: &["https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub static RDP_BITMAP_CACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -7047,6 +7855,10 @@ pub static RDP_BITMAP_CACHE: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["rdp_client_servers", "rdp_client_default"],
     sources: &["https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── macOS artifacts ───────────────────────────────────────────────────────────
@@ -7076,6 +7888,10 @@ pub static MACOS_UNIFIED_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.mandiant.com/resources/blog/reviewing-macos-unified-logs",
         "https://developer.apple.com/documentation/os/logging",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Per-user LaunchAgent plist files (`~/Library/LaunchAgents/`).
@@ -7103,6 +7919,13 @@ pub static MACOS_LAUNCH_AGENTS_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sentinelone.com/blog/how-malware-persists-on-macos/",
         "https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "LaunchAgent plists in ~/Library/LaunchAgents prove user-context persistence",
+        "Legitimate software also uses LaunchAgents; cross-reference signing and bundle ID",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "LaunchAgent plist persists until deleted; survives reboots",
 };
 
 /// System-wide LaunchAgent plist files (`/Library/LaunchAgents/`).
@@ -7129,6 +7952,13 @@ pub static MACOS_LAUNCH_AGENTS_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sentinelone.com/blog/how-malware-persists-on-macos/",
         "https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "System LaunchAgents require root installation; elevated-privilege persistence indicator",
+        "Apple-signed plists are expected; unsigned or ad-hoc signed warrant investigation",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "System-wide LaunchAgent plist; requires root to modify",
 };
 
 /// System LaunchDaemon plist files (`/Library/LaunchDaemons/`).
@@ -7156,6 +7986,13 @@ pub static MACOS_LAUNCH_DAEMONS: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sentinelone.com/blog/how-malware-persists-on-macos/",
         "https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "LaunchDaemons run as root; highest-privilege persistence mechanism on macOS",
+        "Correlate with install history and Gatekeeper records for origin attribution",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "LaunchDaemon plist; persists across reboots, requires root",
 };
 
 /// Transparency, Consent, and Control database (`~/Library/Application Support/com.apple.TCC/TCC.db`).
@@ -7183,6 +8020,10 @@ pub static MACOS_TCC_DB: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sentinelone.com/blog/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/",
         "https://eclecticlight.co/2020/11/04/tcc-in-big-sur-more-permissions-issues/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Quarantine events database (`~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`).
@@ -7210,6 +8051,10 @@ pub static MACOS_QUARANTINE_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.jaiminton.com/cheatsheet/DFIR/#quarantine-events",
         "https://eclecticlight.co/2021/06/05/checking-quarantine-flags-in-big-sur/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Safari browser history SQLite database (`~/Library/Safari/History.db`).
@@ -7237,6 +8082,10 @@ pub static MACOS_SAFARI_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/mac-artifact-safari/",
         "https://www.magnetforensics.com/blog/artifacts-for-ios-investigations/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Safari downloads plist (`~/Library/Safari/Downloads.plist`).
@@ -7262,6 +8111,10 @@ pub static MACOS_SAFARI_DOWNLOADS: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://www.sans.org/blog/mac-artifact-safari/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// KnowledgeC database (`~/Library/Application Support/Knowledge/knowledgeC.db`).
@@ -7289,6 +8142,10 @@ pub static MACOS_KNOWLEDGEC: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.mac4n6.com/blog/2018/8/5/knowledge-is-power-using-the-knowledgecdb-database-on-macos-ios-to-determine-precise-user-and-application-usage",
         "https://github.com/mac4n6/APOLLO",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Per-session bash history files (`~/.bash_sessions/`).
@@ -7315,6 +8172,10 @@ pub static MACOS_BASH_SESSIONS: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://eclecticlight.co/2019/07/08/why-mojave-could-be-your-last-bash/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Software package install history plist (`/Library/Receipts/InstallHistory.plist`).
@@ -7341,6 +8202,10 @@ pub static MACOS_INSTALL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://www.forensicmike1.com/2019/12/17/macos-forensic-artifacts-install-history/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Gatekeeper policy database (`/var/db/SystemPolicy-prefs.plist`).
@@ -7368,6 +8233,10 @@ pub static MACOS_GATEKEEPER_LOGS: ArtifactDescriptor = ArtifactDescriptor {
         "https://support.apple.com/en-us/102445",
         "https://www.sentinelone.com/blog/gatekeeper-bypass-macos-security/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// User keychain database (`~/Library/Keychains/login.keychain-db`).
@@ -7395,6 +8264,13 @@ pub static MACOS_KEYCHAIN_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.hexnode.com/blogs/macos-keychain-forensics/",
         "https://github.com/n0fate/chainbreaker",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Keychain DB requires user unlock; credential entries show what accounts were stored",
+        "Cannot be read without unlocking; useful post-acquisition with user password",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Keychain DB; persists until item deletion or keychain reset",
 };
 
 /// emond plist rules directory (`/etc/emond.d/rules/`).
@@ -7421,6 +8297,10 @@ pub static MACOS_EMOND: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://www.xorrior.com/emond-persistence/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// CoreAnalytics execution reports directory (`/Library/Logs/DiagnosticReports/`).
@@ -7448,6 +8328,10 @@ pub static MACOS_COREANALYTICS: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.crowdstrike.com/blog/reconstructing-command-line-activity-on-macos/",
         "https://thedfirreport.com/2021/01/18/all-that-for-a-coinminer/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Memory forensics artifacts ───────────────────────────────────────────────
@@ -7493,6 +8377,10 @@ pub static MEM_RUNNING_PROCESSES: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://volatilityfoundation.org/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Live RAM only; requires active acquisition"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "RAM; lost on power-off",
 };
 
 pub(crate) static MEM_NETWORK_CONNECTIONS_FIELDS: &[FieldSchema] = &[
@@ -7542,6 +8430,10 @@ pub static MEM_NETWORK_CONNECTIONS: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://volatilityfoundation.org/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Volatile; connections may close during acquisition"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "RAM; lost on power-off",
 };
 
 pub(crate) static MEM_LOADED_MODULES_FIELDS: &[FieldSchema] = &[
@@ -7585,6 +8477,10 @@ pub static MEM_LOADED_MODULES: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://volatilityfoundation.org/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Live RAM only; requires active acquisition; unlisted modules indicate injection"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "RAM; lost on power-off",
 };
 
 pub(crate) static MEM_REGISTRY_HIVES_FIELDS: &[FieldSchema] = &[
@@ -7622,6 +8518,10 @@ pub static MEM_REGISTRY_HIVES: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://volatilityfoundation.org/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Live RAM only; in-memory hive state may differ from on-disk"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "RAM; lost on power-off",
 };
 
 pub(crate) static MEM_USER_CREDENTIALS_FIELDS: &[FieldSchema] = &[
@@ -7660,6 +8560,10 @@ pub static MEM_USER_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
         "https://volatilityfoundation.org/",
         "https://www.sans.org/blog/protecting-privileged-domain-accounts-lsa-secrets-good-times/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Credentials in memory (LSASS); most valuable live artifact"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "RAM; lost on power-off",
 };
 
 // ── Global catalog entries ────────────────────────────────────────────────────

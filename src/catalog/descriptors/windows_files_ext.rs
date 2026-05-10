@@ -38,6 +38,10 @@ pub(crate) static CHROME_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/google-chrome-forensics/",
         "https://13cubed.com/downloads/Windows_Forensic_Analysis_Poster.pdf",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["History may be cleared; private browsing not recorded; timestamps are WebKit microseconds requiring conversion"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Overwritten by browser activity; no size limit",
 };
 
 pub(crate) static CHROME_WEB_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -64,6 +68,10 @@ pub(crate) static CHROME_WEB_DATA: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/Chrome.tkape",
         "https://www.sans.org/blog/google-chrome-forensics/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EDGE_CHROMIUM_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -90,6 +98,10 @@ pub(crate) static EDGE_CHROMIUM_HISTORY: ArtifactDescriptor = ArtifactDescriptor
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/MicrosoftEdge.tkape",
         "https://www.sans.org/blog/microsoft-edge-forensics/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Same caveats as Chrome History; profile switching means not all activity in default profile"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Overwritten by browser activity; no size limit",
 };
 
 pub(crate) static EDGE_CHROMIUM_LOGIN_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -115,6 +127,10 @@ pub(crate) static EDGE_CHROMIUM_LOGIN_DATA: ArtifactDescriptor = ArtifactDescrip
     sources: &[
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/MicrosoftEdge.tkape",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["DPAPI encryption requires user context or masterkey to decrypt; credential presence proves account storage"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Persists until credential explicitly removed",
 };
 
 pub(crate) static FIREFOX_PLACES: ArtifactDescriptor = ArtifactDescriptor {
@@ -143,6 +159,10 @@ pub(crate) static FIREFOX_PLACES: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/firefox-history-and-what-it-tells-you/",
         "https://nicoleibrahim.com/mozilla-firefox-forensics/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["History may be manually cleared; private browsing not recorded; frecency scoring can obscure visit count accuracy"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Overwritten by browser activity; no size limit",
 };
 
 pub(crate) static FIREFOX_FORM_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -169,6 +189,10 @@ pub(crate) static FIREFOX_FORM_HISTORY: ArtifactDescriptor = ArtifactDescriptor 
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/Firefox.tkape",
         "https://nicoleibrahim.com/mozilla-firefox-forensics/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static FIREFOX_SESSION_RESTORE: ArtifactDescriptor = ArtifactDescriptor {
@@ -195,6 +219,10 @@ pub(crate) static FIREFOX_SESSION_RESTORE: ArtifactDescriptor = ArtifactDescript
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/Firefox.tkape",
         "https://nicoleibrahim.com/mozilla-firefox-forensics/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── PowerShell ────────────────────────────────────────────────────────────────
@@ -223,6 +251,10 @@ pub(crate) static PSREADLINE_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/powershell-forensics-auditing/",
         "https://13cubed.com/downloads/Windows_Forensic_Analysis_Poster.pdf",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["User can manually edit or clear file; oldest entries evicted at limit; does not capture non-interactive PS sessions"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Oldest lines evicted at 4096-line limit",
 };
 
 pub(crate) static PSREADLINE_HISTORY_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
@@ -248,6 +280,10 @@ pub(crate) static PSREADLINE_HISTORY_SYSTEM: ArtifactDescriptor = ArtifactDescri
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/PowerShellConsole.tkape",
         "https://www.sans.org/blog/powershell-forensics-auditing/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Only populated when SYSTEM runs interactive PS; many SYSTEM PS sessions are non-interactive"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Oldest lines evicted at 4096-line limit",
 };
 
 pub(crate) static POWERSHELL_TRANSCRIPTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -274,6 +310,10 @@ pub(crate) static POWERSHELL_TRANSCRIPTS: ArtifactDescriptor = ArtifactDescripto
         "https://www.sans.org/blog/powershell-forensics-auditing/",
         "https://devblogs.microsoft.com/powershell/powershell-the-blue-team/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Requires transcript policy to be enabled; attacker may disable policy before activity"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Accumulate indefinitely; not auto-rotated",
 };
 
 // ── Remote Access Tools ───────────────────────────────────────────────────────
@@ -304,6 +344,10 @@ pub(crate) static TEAMVIEWER_CONNECTION_LOG: ArtifactDescriptor = ArtifactDescri
         "https://www.kroll.com/en/insights/publications/cyber/teamviewer-forensics",
         "https://dfir.blog/teamviewer-forensics/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["File may be deleted by attacker; timestamps correlate with partner ID that can be traced to account"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Appended per session; not auto-cleared",
 };
 
 pub(crate) static TEAMVIEWER_APP_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -329,6 +373,10 @@ pub(crate) static TEAMVIEWER_APP_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/TeamViewer.tkape",
         "https://dfir.blog/teamviewer-forensics/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static ANYDESK_TRACE_USER: ArtifactDescriptor = ArtifactDescriptor {
@@ -356,6 +404,10 @@ pub(crate) static ANYDESK_TRACE_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-025a",
         "https://dfir.blog/anydesk-forensics/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Rotated at size limit; attacker may clear ad.trace; session IDs in log can be used to request records from AnyDesk"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Rotated at size limit; .old retains previous",
 };
 
 pub(crate) static ANYDESK_TRACE_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
@@ -383,6 +435,10 @@ pub(crate) static ANYDESK_TRACE_SYSTEM: ArtifactDescriptor = ArtifactDescriptor 
         "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-025a",
         "https://dfir.blog/anydesk-forensics/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Only present when AnyDesk installed as service; may be absent on per-user installs"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Rotated at size limit",
 };
 
 pub(crate) static ANYDESK_CONNECTION_TRACE: ArtifactDescriptor = ArtifactDescriptor {
@@ -410,6 +466,10 @@ pub(crate) static ANYDESK_CONNECTION_TRACE: ArtifactDescriptor = ArtifactDescrip
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/AnyDesk.tkape",
         "https://dfir.blog/anydesk-forensics/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Structured format; attacker cleanup often misses this file; contains both inbound and outbound connections"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Appended; grows until manually cleared",
 };
 
 pub(crate) static ANYDESK_FILE_TRANSFER_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -437,6 +497,10 @@ pub(crate) static ANYDESK_FILE_TRANSFER_LOG: ArtifactDescriptor = ArtifactDescri
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/AnyDesk.tkape",
         "https://dfir.blog/anydesk-forensics/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Proves exfiltration direction and filename; attacker cleanup often misses this file"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Appended; grows until manually cleared",
 };
 
 pub(crate) static SCREENCONNECT_SESSION_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -464,6 +528,10 @@ pub(crate) static SCREENCONNECT_SESSION_DB: ArtifactDescriptor = ArtifactDescrip
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/ScreenConnect.tkape",
         "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-241a",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Only present on self-hosted deployments; cloud-hosted sessions leave no local DB"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SQLite DB; retained until manually cleared",
 };
 
 pub(crate) static RUSTDESK_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -489,6 +557,10 @@ pub(crate) static RUSTDESK_LOGS: ArtifactDescriptor = ArtifactDescriptor {
         "https://thedfirreport.com/2024/08/12/threat-actors-toolkit-leveraging-sliver-poshc2-and-batch-scripts/",
         "https://github.com/rustdesk/rustdesk",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Cloud Storage ─────────────────────────────────────────────────────────────
@@ -518,6 +590,10 @@ pub(crate) static DROPBOX_INSTANCE_DB: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/cloud-storage-forensics-dropbox-google-drive-and-onedrive/",
         "https://dfir.blog/dropbox-forensics/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Requires Dropbox-specific SQLite parser (obfuscated schema); file hashes prove sync without local copy"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SQLite DB; persists until Dropbox uninstalled",
 };
 
 pub(crate) static ONEDRIVE_METADATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -545,6 +621,10 @@ pub(crate) static ONEDRIVE_METADATA: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/cloud-storage-forensics-dropbox-google-drive-and-onedrive/",
         "https://github.com/barnettjw/ODL-Parser",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["ODL log parsing complex; SyncEngineDatabase.db reveals cloud-only placeholders — strongest exfil evidence"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SQLite DB; persists; ODL logs rotate",
 };
 
 // ── OneDrive ODL (Obfuscated Diagnostic Logs) ───────────────────────────────
@@ -613,6 +693,10 @@ OneDrive reinstall; general.keystore persists alongside logs",
         // Source: https://github.com/ydkhatri/OneDrive (Yogesh Khatri's ODL parser)
         "https://github.com/ydkhatri/OneDrive",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static ONEDRIVE_ODL_FIELDS: &[FieldSchema] = &[
@@ -680,6 +764,10 @@ pub(crate) static GOOGLE_DRIVE_FS_METADATA: ArtifactDescriptor = ArtifactDescrip
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/GoogleDrive.tkape",
         "https://www.sans.org/blog/cloud-storage-forensics-dropbox-google-drive-and-onedrive/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["metadata.db schema may change between Drive for Desktop versions; requires version-appropriate parser"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SQLite DB; persists until Drive uninstalled",
 };
 
 pub(crate) static MEGASYNC_DATA: ArtifactDescriptor = ArtifactDescriptor {
@@ -705,6 +793,10 @@ pub(crate) static MEGASYNC_DATA: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/MEGAsync.tkape",
         "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-165a",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Communications ────────────────────────────────────────────────────────────
@@ -734,6 +826,10 @@ pub(crate) static TEAMS_INDEXED_DB: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/microsoft-teams-forensics/",
         "https://bsodtutorials.wordpress.com/2021/05/24/microsoft-teams-forensics/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["LevelDB parsing requires specialized tooling; data may be encrypted at rest on newer Teams versions"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "LevelDB cache; grows with Teams usage",
 };
 
 pub(crate) static SLACK_INDEXED_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -760,6 +856,10 @@ pub(crate) static SLACK_INDEXED_DB: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/Slack.tkape",
         "https://www.sans.org/blog/slack-forensics-investigations-in-the-enterprise/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["LevelDB format; workspace data may be partially encrypted; availability depends on Slack plan retention settings"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "LevelDB cache; grows with Slack usage",
 };
 
 pub(crate) static DISCORD_LOCAL_STORAGE: ArtifactDescriptor = ArtifactDescriptor {
@@ -785,6 +885,10 @@ pub(crate) static DISCORD_LOCAL_STORAGE: ArtifactDescriptor = ArtifactDescriptor
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/Discord.tkape",
         "https://www.bleepingcomputer.com/news/security/discord-token-stealers-on-the-rise-heres-what-you-can-do/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Token extraction may require memory analysis; Discord rotates tokens on detection; LevelDB parsing required"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Persists until Discord uninstalled or cleared",
 };
 
 pub(crate) static SIGNAL_DATABASE: ArtifactDescriptor = ArtifactDescriptor {
@@ -812,6 +916,10 @@ pub(crate) static SIGNAL_DATABASE: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.cise.ufl.edu/~traynor/papers/signal-forensics.pdf",
         "https://www.magnetforensics.com/blog/forensic-analysis-of-signal-desktop/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["SQLCipher encrypted; requires config.json key to decrypt; without key, message content is inaccessible"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SQLCipher SQLite; persists until user deletes",
 };
 
 pub(crate) static SIGNAL_CONFIG_JSON: ArtifactDescriptor = ArtifactDescriptor {
@@ -838,6 +946,10 @@ pub(crate) static SIGNAL_CONFIG_JSON: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.magnetforensics.com/blog/forensic-analysis-of-signal-desktop/",
         "https://www.bleepingcomputer.com/news/security/signal-desktop-app-stores-messages-in-plaintext-unencrypted-folder/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Contains plaintext decryption key; any process with user access can decrypt all Signal messages"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Regenerated only on fresh install; otherwise permanent",
 };
 
 // ── Windows Forensic Files ────────────────────────────────────────────────────
@@ -903,6 +1015,10 @@ pub(crate) static WINDOWS_SEARCH_EDB: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/WindowsIndexSearch.tkape",
         "https://www.foxtonforensics.com/blog/post/analysing-the-windows-search-database",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVENT_TRANSCRIPT_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -931,6 +1047,10 @@ pub(crate) static EVENT_TRANSCRIPT_DB: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/etw/logapi/query.htm",
         "https://www.sans.org/blog/digital-forensics-dfir/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static CERTUTIL_CACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -958,6 +1078,10 @@ pub(crate) static CERTUTIL_CACHE: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/CertUtil.tkape",
         "https://www.sans.org/blog/certutil-is-a-lolbin/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Hash-named files require external resolution; creation timestamp = download time; survives downloaded file deletion"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "CryptNet cache; persists until explicitly flushed",
 };
 
 pub(crate) static SDB_CUSTOM_FILES: ArtifactDescriptor = ArtifactDescriptor {
@@ -984,6 +1108,10 @@ pub(crate) static SDB_CUSTOM_FILES: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/AppCompatSDBFiles.tkape",
         "https://www.hexacorn.com/blog/2015/07/17/beyond-good-ol-run-key-part-38/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Any .sdb file here is legitimately rare; requires sdbinst.exe or direct file copy — both leave evidence"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Installed SDB files persist until explicitly removed",
 };
 
 pub(crate) static WER_REPORTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -1011,6 +1139,10 @@ pub(crate) static WER_REPORTS: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/WindowsErrorReporting.tkape",
         "https://www.sans.org/blog/windows-error-reporting-forensics/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static IIS_W3SVC_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -1040,6 +1172,10 @@ pub(crate) static IIS_W3SVC_LOGS: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/iis-log-forensics/",
         "https://docs.microsoft.com/en-us/iis/manage/provisioning-and-managing-iis/configure-logging-in-iis",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Attacker may clear logs; Managed Pipeline may not log all requests; X-Forwarded-For spoofing common"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Rotated daily; retention per IIS config",
 };
 
 pub(crate) static IIS_CONFIG_APPLICATIONHOST: ArtifactDescriptor = ArtifactDescriptor {
@@ -1066,6 +1202,10 @@ pub(crate) static IIS_CONFIG_APPLICATIONHOST: ArtifactDescriptor = ArtifactDescr
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Logs/IISLogFiles.tkape",
         "https://www.sans.org/blog/iis-log-forensics/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Handler additions persist until config reset; embedded webshell paths in handlers are definitive indicators"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Persistent IIS config; modified by admin or attacker",
 };
 
 pub(crate) static DNS_DEBUG_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1094,6 +1234,10 @@ pub(crate) static DNS_DEBUG_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/dns-logging-in-windows-server/",
         "https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn800669(v=ws.11)",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Requires debug logging to be enabled; attacker may disable to evade; single-file rotation can overwrite evidence"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Single file rotated at configured size limit",
 };
 
 pub(crate) static DHCP_SERVER_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1122,6 +1266,10 @@ pub(crate) static DHCP_SERVER_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Logs/DHCPServerLog.tkape",
         "https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/active-directory-enumeration-with-ad-module-without-rsat",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static SUM_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -1151,6 +1299,10 @@ pub(crate) static SUM_DB: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/windows-user-access-logging-sum/",
         "https://advisory.kpmg.us/blog/2021/digital-forensics-incident-response.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Windows Server only; requires ESE/JET parser; timestamps in local server time — convert to UTC"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Up to 2 years retention; rolled annually",
 };
 
 pub(crate) static COPILOT_RECALL_UKG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1179,6 +1331,10 @@ pub(crate) static COPILOT_RECALL_UKG: ArtifactDescriptor = ArtifactDescriptor {
         "https://doublepulsar.com/recall-stealing-everything-youve-ever-typed-or-viewed-on-your-own-windows-pc-is-now-possible-da3e12e9465e",
         "https://www.bleepingcomputer.com/news/microsoft/microsoft-recall-now-available-to-all-windows-insiders/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Requires Copilot+ hardware with Recall enabled; VBS/PPLA protects live DB; accessible from acquired image"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Rolling 90-day window; older screenshots purged",
 };
 
 pub(crate) static NTUSER_DAT_FILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -1205,6 +1361,10 @@ pub(crate) static NTUSER_DAT_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "https://13cubed.com/downloads/Windows_Forensic_Analysis_Poster.pdf",
         "https://www.sans.org/blog/digital-forensics-artifacts-in-windows-registry/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Single hive provides all HKCU artifacts; transaction logs (.LOG1/.LOG2) must be applied for current state"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Exists for lifetime of user profile",
 };
 
 pub(crate) static USRCLASS_DAT_FILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -1230,6 +1390,10 @@ pub(crate) static USRCLASS_DAT_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/RegistryHivesUser.tkape",
         "https://www.sans.org/blog/windows-shellbag-forensics-in-depth/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Group A: Windows Plaintext Logs ──────────────────────────────────────────
@@ -1260,6 +1424,10 @@ pub(crate) static CBS_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/troubleshoot/windows-server/deployment/understanding-cbs-log-file",
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/WindowsUpdateLogs.tkape",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static PFRO_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1286,6 +1454,10 @@ pub(crate) static PFRO_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-movefileexw",
         "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-setup-log-files-and-event-logs",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static SETUPERR_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1312,6 +1484,10 @@ pub(crate) static SETUPERR_LOG: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-setup-log-files-and-event-logs",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static SETUPAPI_UPGRADE_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1339,6 +1515,10 @@ pub(crate) static SETUPAPI_UPGRADE_LOG: ArtifactDescriptor = ArtifactDescriptor 
         "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-setup-log-files-and-event-logs",
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/WindowsUpdateLogs.tkape",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Group B: Windows Error Reporting Split ────────────────────────────────────
@@ -1371,6 +1551,10 @@ pub(crate) static WER_REPORTS_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/win32/wer/about-wer",
         "https://learn.microsoft.com/en-us/windows/win32/wer/wer-report-file-format",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static WER_REPORTS_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
@@ -1401,6 +1585,10 @@ pub(crate) static WER_REPORTS_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/win32/wer/about-wer",
         "https://learn.microsoft.com/en-us/windows/win32/wer/wer-report-file-format",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Group F: Windows AppX/Modern App ─────────────────────────────────────────
@@ -1429,6 +1617,10 @@ pub(crate) static APPX_PACKAGES_USER: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/uwp/design/app-settings/store-and-retrieve-app-data",
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/AppsData.tkape",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static APPX_INSTALL_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1457,6 +1649,10 @@ pub(crate) static APPX_INSTALL_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/deployment-image-servicing-and-management--dism--technical-reference",
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/WindowsUpdateLogs.tkape",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Group G: Windows Diagnostic/Telemetry ────────────────────────────────────
@@ -1484,6 +1680,10 @@ pub(crate) static DIAGNOSTIC_DATA_DIR: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/privacy/diagnostic-data-collection",
         "https://learn.microsoft.com/en-us/windows-hardware/test/wpt/recording-for-basic-system-diagnosis",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static WINDOWS_UPDATE_SESSION: ArtifactDescriptor = ArtifactDescriptor {
@@ -1513,6 +1713,10 @@ pub(crate) static WINDOWS_UPDATE_SESSION: ArtifactDescriptor = ArtifactDescripto
         "https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-logs",
         "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Windows/WindowsUpdateLogs.tkape",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── NTUSER.MAN Mandatory Profile Persistence ────────────────────────────────
@@ -1598,6 +1802,13 @@ pub(crate) static NTUSER_MAN_PERSISTENCE: ArtifactDescriptor = ArtifactDescripto
         // Source: Microsoft documentation on mandatory user profiles
         "https://learn.microsoft.com/en-us/windows/client-management/client-tools/mandatory-user-profile",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Presence of NTUSER.MAN in a non-kiosk environment is a high-confidence IOC",
+        "File content is a full registry hive — parse it to extract persistence keys",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "File persists on disk until manually deleted; survives reboots by design",
 };
 
 // ── T1115 — Windows Clipboard History Data Files ─────────────────────────────
@@ -1674,6 +1885,10 @@ pub(crate) static WINDOWS_CLIPBOARD_DATA_FILES: ArtifactDescriptor = ArtifactDes
         // Source: ClipboardHistoryThief — attack tool targeting cbdhsvc COM interface
         "https://github.com/netero1010/ClipboardHistoryThief",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Windows Defender MpWppTracing-*.bin support log files.
@@ -1760,4 +1975,8 @@ pub(crate) static WINDOWS_DEFENDER_MPWPPTRACING: ArtifactDescriptor = ArtifactDe
         // decoding the WPP binary records
         "https://github.com/Intrinsec/mplog_parser",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };

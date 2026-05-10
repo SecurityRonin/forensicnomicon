@@ -25,6 +25,10 @@ pub(crate) static NIRSOFT_LAST_ACTIVITY_RECENT_ITEMS: ArtifactDescriptor = Artif
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/computer_activity_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_BROWSING_HISTORY_CHROME: ArtifactDescriptor = ArtifactDescriptor {
@@ -45,6 +49,10 @@ pub(crate) static NIRSOFT_BROWSING_HISTORY_CHROME: ArtifactDescriptor = Artifact
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/browsing_history_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_BROWSING_HISTORY_FIREFOX: ArtifactDescriptor = ArtifactDescriptor {
@@ -65,6 +73,10 @@ pub(crate) static NIRSOFT_BROWSING_HISTORY_FIREFOX: ArtifactDescriptor = Artifac
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/browsing_history_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_NETWORK_CONNECT_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -86,6 +98,10 @@ pub(crate) static NIRSOFT_NETWORK_CONNECT_LOG: ArtifactDescriptor = ArtifactDesc
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/network_connect_log.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_USBDEVIEW_ENUM_USB: ArtifactDescriptor = ArtifactDescriptor {
@@ -106,6 +122,10 @@ pub(crate) static NIRSOFT_USBDEVIEW_ENUM_USB: ArtifactDescriptor = ArtifactDescr
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/usb_devices_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_USBDEVIEW_ENUM_USBSTOR: ArtifactDescriptor = ArtifactDescriptor {
@@ -126,6 +146,10 @@ pub(crate) static NIRSOFT_USBDEVIEW_ENUM_USBSTOR: ArtifactDescriptor = ArtifactD
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/usb_devices_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_SHELLBAGS_USRCLASS_BAGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -146,6 +170,10 @@ pub(crate) static NIRSOFT_SHELLBAGS_USRCLASS_BAGS: ArtifactDescriptor = Artifact
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/shell_bags_view.html", "https://www.sans.org/blog/computer-forensic-artifacts-windows-7-shellbags/"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_SHELLBAGS_NTUSER_BAGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -166,6 +194,10 @@ pub(crate) static NIRSOFT_SHELLBAGS_NTUSER_BAGS: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/shell_bags_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_JUMPLISTS_AUTOMATIC_DESTINATIONS: ArtifactDescriptor = ArtifactDescriptor {
@@ -186,6 +218,10 @@ pub(crate) static NIRSOFT_JUMPLISTS_AUTOMATIC_DESTINATIONS: ArtifactDescriptor =
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/jump_lists_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_JUMPLISTS_CUSTOM_DESTINATIONS: ArtifactDescriptor = ArtifactDescriptor {
@@ -206,6 +242,10 @@ pub(crate) static NIRSOFT_JUMPLISTS_CUSTOM_DESTINATIONS: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/jump_lists_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_MUICACHE_LOCAL_SETTINGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -226,6 +266,10 @@ pub(crate) static NIRSOFT_MUICACHE_LOCAL_SETTINGS: ArtifactDescriptor = Artifact
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/muicache_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_RECENTFILES_RECENTDOCS_KEY: ArtifactDescriptor = ArtifactDescriptor {
@@ -246,6 +290,10 @@ pub(crate) static NIRSOFT_RECENTFILES_RECENTDOCS_KEY: ArtifactDescriptor = Artif
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/recent_files_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_WIFI_HISTORY_PROFILES_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -266,6 +314,10 @@ pub(crate) static NIRSOFT_WIFI_HISTORY_PROFILES_DIR: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/wifi_history_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_NETWORK_PASSWORDS_CRED_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -286,6 +338,10 @@ pub(crate) static NIRSOFT_NETWORK_PASSWORDS_CRED_DIR: ArtifactDescriptor = Artif
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/network_password_recovery.html"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Credential store persists until browser profile deletion",
 };
 
 pub(crate) static NIRSOFT_SAM_HIVE_REG: ArtifactDescriptor = ArtifactDescriptor {
@@ -306,6 +362,10 @@ pub(crate) static NIRSOFT_SAM_HIVE_REG: ArtifactDescriptor = ArtifactDescriptor 
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/sam_password_recovery.html"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Local account credential hashes; NTLM offline cracking risk"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SAM hive persists across reboots; protected in-use by Windows",
 };
 
 pub(crate) static NIRSOFT_REGISTRY_CHANGES_NTUSER: ArtifactDescriptor = ArtifactDescriptor {
@@ -326,6 +386,10 @@ pub(crate) static NIRSOFT_REGISTRY_CHANGES_NTUSER: ArtifactDescriptor = Artifact
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/registry_changes_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_OPENED_FILES_VIEW_HANDLE: ArtifactDescriptor = ArtifactDescriptor {
@@ -346,6 +410,10 @@ pub(crate) static NIRSOFT_OPENED_FILES_VIEW_HANDLE: ArtifactDescriptor = Artifac
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/opened_files_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_PROCESS_ACTIVITY_PREFETCH: ArtifactDescriptor = ArtifactDescriptor {
@@ -366,6 +434,10 @@ pub(crate) static NIRSOFT_PROCESS_ACTIVITY_PREFETCH: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/process_activity_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_INSTALLED_CODEC_AUDIO: ArtifactDescriptor = ArtifactDescriptor {
@@ -386,6 +458,10 @@ pub(crate) static NIRSOFT_INSTALLED_CODEC_AUDIO: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/installed_codec.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_STARTUP_RUN_HKLM_RUN: ArtifactDescriptor = ArtifactDescriptor {
@@ -406,6 +482,10 @@ pub(crate) static NIRSOFT_STARTUP_RUN_HKLM_RUN: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/startup_run_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_STARTUP_RUN_HKCU_RUN: ArtifactDescriptor = ArtifactDescriptor {
@@ -426,6 +506,10 @@ pub(crate) static NIRSOFT_STARTUP_RUN_HKCU_RUN: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/startup_run_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static NIRSOFT_APP_CRASH_DUMPS_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -446,6 +530,10 @@ pub(crate) static NIRSOFT_APP_CRASH_DUMPS_DIR: ArtifactDescriptor = ArtifactDesc
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://www.nirsoft.net/utils/app_crash_view.html"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Generated entries (22) ─────────────────────────────────────────────────

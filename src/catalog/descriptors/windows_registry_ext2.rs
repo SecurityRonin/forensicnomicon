@@ -38,6 +38,10 @@ pub(crate) static WINLOGON_AUTOADMIN_LOGON: ArtifactDescriptor = ArtifactDescrip
         "https://learn.microsoft.com/en-us/troubleshoot/windows-server/user-profiles-and-logon/turn-on-automatic-logon",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Legitimate on unattended kiosk/server builds; verify DefaultPassword also present"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persistent until modification",
 };
 
 pub(crate) static WINLOGON_DEFAULT_PASSWORD: ArtifactDescriptor = ArtifactDescriptor {
@@ -66,6 +70,10 @@ pub(crate) static WINLOGON_DEFAULT_PASSWORD: ArtifactDescriptor = ArtifactDescri
         "https://learn.microsoft.com/en-us/troubleshoot/windows-server/user-profiles-and-logon/turn-on-automatic-logon",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Presence proves plaintext credential stored; must confirm AutoAdminLogon=1 for context"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persistent until modification",
 };
 
 pub(crate) static WINLOGON_DEFAULT_USERNAME: ArtifactDescriptor = ArtifactDescriptor {
@@ -93,6 +101,10 @@ pub(crate) static WINLOGON_DEFAULT_USERNAME: ArtifactDescriptor = ArtifactDescri
     sources: &[
         "https://learn.microsoft.com/en-us/troubleshoot/windows-server/user-profiles-and-logon/turn-on-automatic-logon",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── LogonUI last logged-on user ───────────────────────────────────────────────
@@ -122,6 +134,10 @@ pub(crate) static LOGONUI_LAST_LOGGEDON_USER: ArtifactDescriptor = ArtifactDescr
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── PortProxy (netsh port forwarding) ────────────────────────────────────────
@@ -152,6 +168,10 @@ pub(crate) static PORTPROXY_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.fireeye.com/blog/threat-research/2019/01/bypassing-network-restrictions-through-rdp-tunneling.html",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Legitimate uses exist (e.g., WSL2 port forwarding); verify rule targets are suspicious"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persistent until netsh portproxy delete",
 };
 
 // ── Windows Defender tampering ────────────────────────────────────────────────
@@ -182,6 +202,10 @@ pub(crate) static WINDOWS_DEFENDER_EXCLUSIONS_LOCAL: ArtifactDescriptor = Artifa
         "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_windows_defender_exclusion_added.yml",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Legitimate AV exclusions common; suspicious if path matches known attacker staging directories"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persistent until Defender policy change",
 };
 
 pub(crate) static WINDOWS_DEFENDER_DISABLED_AV: ArtifactDescriptor = ArtifactDescriptor {
@@ -210,6 +234,10 @@ pub(crate) static WINDOWS_DEFENDER_DISABLED_AV: ArtifactDescriptor = ArtifactDes
         "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_windows_defender_disabled.yml",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Via policy key — Tamper Protection bypass required; near-certain indicator of deliberate disabling"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persistent until GPO refresh",
 };
 
 pub(crate) static WINDOWS_DEFENDER_REALTIME: ArtifactDescriptor = ArtifactDescriptor {
@@ -238,6 +266,10 @@ pub(crate) static WINDOWS_DEFENDER_REALTIME: ArtifactDescriptor = ArtifactDescri
         "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_windows_defender_realtime_protection_disabled.yml",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Individual component flags may be legitimately set by MDM; check for combination of multiple disabled components"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persistent until Defender reset",
 };
 
 // ── Office macro trust records ────────────────────────────────────────────────
@@ -268,6 +300,10 @@ pub(crate) static MS_OFFICE_TRUSTED_DOCS: ArtifactDescriptor = ArtifactDescripto
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
         "https://docs.microsoft.com/en-us/deployoffice/security/trusted-documents",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Legitimate macros also create entries; suspicious if document path is temp folder or remote share"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated when user enables Office document macros",
 };
 
 // ── VSS / shadow copy evasion ─────────────────────────────────────────────────
@@ -298,6 +334,10 @@ pub(crate) static VSS_FILES_NOT_TO_SNAPSHOT: ArtifactDescriptor = ArtifactDescri
         "https://www.bleepingcomputer.com/news/security/revil-ransomware-has-a-secret-backdoor-and-its-been-used/",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Non-Microsoft entries in this key are highly suspicious; verify against known software"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persistent until registry modification",
 };
 
 pub(crate) static VSS_FILES_NOT_TO_BACKUP: ArtifactDescriptor = ArtifactDescriptor {
@@ -325,6 +365,10 @@ pub(crate) static VSS_FILES_NOT_TO_BACKUP: ArtifactDescriptor = ArtifactDescript
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Non-Microsoft entries in this key are highly suspicious; verify against known software"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persistent until registry modification",
 };
 
 // ── IFEO SilentProcessExit (T1546.012) ───────────────────────────────────────
@@ -355,6 +399,10 @@ pub(crate) static IFEO_SILENT_EXIT: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.deepinstinct.com/blog/ifeo-injections",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Legitimate uses exist (WER config); suspicious if MonitorProcess points to unknown binary"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persistent until modification",
 };
 
 // ── .exe handler hijack ───────────────────────────────────────────────────────
@@ -384,6 +432,10 @@ pub(crate) static EXEFILE_SHELL_OPEN_SOFTWARE: ArtifactDescriptor = ArtifactDesc
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Any deviation from default (%1 %*) is extremely suspicious; near-certain compromise indicator"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persistent until explicit deletion",
 };
 
 pub(crate) static EXEFILE_SHELL_OPEN_USRCLASS: ArtifactDescriptor = ArtifactDescriptor {
@@ -411,6 +463,10 @@ pub(crate) static EXEFILE_SHELL_OPEN_USRCLASS: ArtifactDescriptor = ArtifactDesc
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Any presence of this key is suspicious; no legitimate software sets per-user .exe handler"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "UsrClass.dat value; persistent until profile deletion",
 };
 
 // ── RDP shadow sessions / credential abuse ────────────────────────────────────
@@ -440,6 +496,10 @@ pub(crate) static RDP_SHADOW_SESSIONS: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Shadow=2 or 4 (no consent) is particularly suspicious; verify against admin policy"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persistent until policy modification",
 };
 
 pub(crate) static RESTRICTED_ADMIN_RDP: ArtifactDescriptor = ArtifactDescriptor {
@@ -468,6 +528,10 @@ pub(crate) static RESTRICTED_ADMIN_RDP: ArtifactDescriptor = ArtifactDescriptor 
         "https://docs.microsoft.com/en-us/windows-server/remote/remote-desktop-services/clients/remote-desktop-allow-access",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["May be legitimately enabled for privileged access workstations; context required"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persistent until explicit change",
 };
 
 // ── Network shares ────────────────────────────────────────────────────────────
@@ -497,6 +561,10 @@ pub(crate) static NETWORK_SHARES_SERVER: ArtifactDescriptor = ArtifactDescriptor
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Legitimate shares common; suspicious if share path is attacker staging directory or C: root"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persistent until share removal",
 };
 
 // ── Sysinternals EULA (tool execution indicator) ──────────────────────────────
@@ -527,6 +595,10 @@ pub(crate) static SYSINTERNALS_EULA: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
         "https://learn.microsoft.com/en-us/sysinternals/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── MS Office Server Cache (Follina IOC) ──────────────────────────────────────
@@ -557,6 +629,10 @@ pub(crate) static MS_OFFICE_SERVER_CACHE: ArtifactDescriptor = ArtifactDescripto
         "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2022-30190",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &["URL presence requires correlation with known C2 domains; many legitimate Office URLs expected"],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated on Office server connections; persists in NTUSER.DAT",
 };
 
 // ── Cobalt Strike PowerShell IOC ──────────────────────────────────────────────
@@ -587,6 +663,10 @@ pub(crate) static POWERSHELL_COBALT_INFO: ArtifactDescriptor = ArtifactDescripto
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/RECmd_Batch_MC.reb",
         "https://www.crowdstrike.com/blog/registry-analysis-with-crowdresponse/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Key is not created by legitimate software; presence is near-certain Cobalt Strike IOC"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key created by Cobalt Strike; persistent until cleanup",
 };
 
 // ── StartupApproved Run keys ──────────────────────────────────────────────────
@@ -616,6 +696,10 @@ pub(crate) static STARTUP_APPROVED_RUN_SYSTEM: ArtifactDescriptor = ArtifactDesc
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static STARTUP_APPROVED_RUN_USER: ArtifactDescriptor = ArtifactDescriptor {
@@ -643,6 +727,10 @@ pub(crate) static STARTUP_APPROVED_RUN_USER: ArtifactDescriptor = ArtifactDescri
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Task Scheduler cache ──────────────────────────────────────────────────────
@@ -673,6 +761,10 @@ pub(crate) static TASKCACHE_TASKS_PATH: ArtifactDescriptor = ArtifactDescriptor 
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
         "https://nasbench.medium.com/a-deep-dive-into-windows-scheduled-tasks-and-the-processes-running-them-218d1eed4cce",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Many legitimate tasks present; suspicious tasks have random names or reside outside \\Microsoft\\"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persistent until task deletion",
 };
 
 // ── User profile list ─────────────────────────────────────────────────────────
@@ -703,6 +795,10 @@ pub(crate) static PROFILE_LIST_USERS: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
         "https://learn.microsoft.com/en-us/windows/win32/sysinfo/profilelist",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Registrar favorites ───────────────────────────────────────────────────────
@@ -732,6 +828,10 @@ pub(crate) static REGISTRAR_FAVORITES: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── DHCP interface configuration ──────────────────────────────────────────────
@@ -761,6 +861,10 @@ pub(crate) static DHCP_IPV4_INTERFACE: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── NTFS last access update status ───────────────────────────────────────────
@@ -791,6 +895,10 @@ pub(crate) static NTFS_LAST_ACCESS_STATUS: ArtifactDescriptor = ArtifactDescript
         "https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-behavior",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Prefetch enabled/disabled ─────────────────────────────────────────────────
@@ -821,6 +929,10 @@ pub(crate) static PREFETCH_STATUS: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn452747(v=ws.11)",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Windows Firewall rules ────────────────────────────────────────────────────
@@ -851,6 +963,10 @@ pub(crate) static FIREWALL_RULES: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
         "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_firewall_rule_added.yml",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Event log channel enable/disable status ───────────────────────────────────
@@ -881,4 +997,8 @@ pub(crate) static EVENT_LOG_CHANNEL_STATUS: ArtifactDescriptor = ArtifactDescrip
         "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_disable_event_logging.yml",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Disabled Security or Sysmon channel during an incident is near-certain evidence of tampering"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persistent until channel re-enabled",
 };

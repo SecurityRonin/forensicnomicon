@@ -30,6 +30,10 @@ pub(crate) static WINDOWS_CRASH_DUMP: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/complete-memory-dump",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static WINDOWS_MINIDUMP: ArtifactDescriptor = ArtifactDescriptor {
@@ -52,6 +56,10 @@ pub(crate) static WINDOWS_MINIDUMP: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/minidump-files",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static AMCACHE_DRIVER: ArtifactDescriptor = ArtifactDescriptor {
@@ -78,6 +86,10 @@ pub(crate) static AMCACHE_DRIVER: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows/security/threat-protection/intelligence/criteria",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Records driver load time, not execution time; SHA1 hash allows reputation lookup"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Amcache hive persists on disk; survives reboot",
 };
 
 pub(crate) static WER_REPORT_QUEUE: ArtifactDescriptor = ArtifactDescriptor {
@@ -103,6 +115,10 @@ pub(crate) static WER_REPORT_QUEUE: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows/win32/wer/windows-error-reporting",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static WINDOWS_NOTIFICATION_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -128,6 +144,10 @@ pub(crate) static WINDOWS_NOTIFICATION_DB: ArtifactDescriptor = ArtifactDescript
     sources: &[
         "https://learn.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/windows-push-notification-services--wns--overview",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static AMCACHE_SHORTCUT: ArtifactDescriptor = ArtifactDescriptor {
@@ -153,4 +173,8 @@ pub(crate) static AMCACHE_SHORTCUT: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://learn.microsoft.com/en-us/windows/compatibility/application-compatibility-toolkit-documentation",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };

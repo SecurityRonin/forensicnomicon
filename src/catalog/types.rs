@@ -382,6 +382,14 @@ pub struct ArtifactDescriptor {
     /// Brian Carrier, Red Canary, Microsoft docs, MITRE ATT&CK, etc.).
     /// Every production entry should have at least one URL.
     pub sources: &'static [&'static str],
+    /// How strongly this artifact proves a fact in isolation, or `None` if not yet assessed.
+    pub evidence_strength: Option<crate::evidence::EvidenceStrength>,
+    /// Known caveats, edge cases, or false-positive scenarios for this artifact.
+    pub evidence_caveats: &'static [&'static str],
+    /// How quickly this artifact is overwritten or lost, or `None` if not yet assessed.
+    pub volatility: Option<crate::volatility::VolatilityClass>,
+    /// One-line rationale for the volatility classification.
+    pub volatility_rationale: &'static str,
 }
 
 /// How to acquire and enumerate the outer container that holds one or more

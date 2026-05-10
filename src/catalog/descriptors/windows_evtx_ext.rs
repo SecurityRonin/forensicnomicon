@@ -32,6 +32,10 @@ pub(crate) static EVTX_TASK_SCHEDULER: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Event log; may be cleared by attackers"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log; rotated on size limit",
 };
 
 pub(crate) static EVTX_RDP_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -56,6 +60,10 @@ pub(crate) static EVTX_RDP_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://ponderthebits.com/2018/02/windows-rdp-related-event-logs-identification-tracking-and-investigation/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Outbound RDP; proves this host pivoted to another"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log; rotated on size limit",
 };
 
 pub(crate) static EVTX_RDP_INBOUND: ArtifactDescriptor = ArtifactDescriptor {
@@ -80,6 +88,10 @@ pub(crate) static EVTX_RDP_INBOUND: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://ponderthebits.com/2018/02/windows-rdp-related-event-logs-identification-tracking-and-investigation/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["1149 events confirm source IP before session; not easily faked"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log; rotated on size limit",
 };
 
 pub(crate) static EVTX_RDP_SESSION: ArtifactDescriptor = ArtifactDescriptor {
@@ -105,6 +117,10 @@ pub(crate) static EVTX_RDP_SESSION: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://ponderthebits.com/2018/02/windows-rdp-related-event-logs-identification-tracking-and-investigation/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Session lifecycle with timestamps; event 39 = RDP hijack"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log; rotated on size limit",
 };
 
 pub(crate) static EVTX_WINRM: ArtifactDescriptor = ArtifactDescriptor {
@@ -129,6 +145,10 @@ pub(crate) static EVTX_WINRM: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Confirms PowerShell Remoting lateral movement with account"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log; rotated on size limit",
 };
 
 pub(crate) static EVTX_WMI_ACTIVITY: ArtifactDescriptor = ArtifactDescriptor {
@@ -153,6 +173,10 @@ pub(crate) static EVTX_WMI_ACTIVITY: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://www.fireeye.com/blog/threat-research/2019/03/windows-management-instrumentation-wmi-offense-defense-and-forensics.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["5861 = permanent WMI subscription — near-certain persistence"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log; rotated on size limit",
 };
 
 pub(crate) static EVTX_BITS_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -178,6 +202,10 @@ pub(crate) static EVTX_BITS_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://isc.sans.edu/forums/diary/Investigating+Windows+BITS+Activity/23281/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_APPLOCKER: ArtifactDescriptor = ArtifactDescriptor {
@@ -202,6 +230,10 @@ pub(crate) static EVTX_APPLOCKER: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_APPLOCKER_SCRIPT: ArtifactDescriptor = ArtifactDescriptor {
@@ -226,6 +258,10 @@ pub(crate) static EVTX_APPLOCKER_SCRIPT: ArtifactDescriptor = ArtifactDescriptor
         "https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker",
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_DEFENDER: ArtifactDescriptor = ArtifactDescriptor {
@@ -251,6 +287,10 @@ pub(crate) static EVTX_DEFENDER: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Detection events survive file deletion; tamper events are highly suspicious"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log; rotated on size limit",
 };
 
 pub(crate) static EVTX_FIREWALL: ArtifactDescriptor = ArtifactDescriptor {
@@ -275,6 +315,10 @@ pub(crate) static EVTX_FIREWALL: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_CODE_INTEGRITY: ArtifactDescriptor = ArtifactDescriptor {
@@ -298,6 +342,10 @@ pub(crate) static EVTX_CODE_INTEGRITY: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_NTLM: ArtifactDescriptor = ArtifactDescriptor {
@@ -322,6 +370,10 @@ pub(crate) static EVTX_NTLM: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_PRINT_SERVICE: ArtifactDescriptor = ArtifactDescriptor {
@@ -346,6 +398,10 @@ pub(crate) static EVTX_PRINT_SERVICE: ArtifactDescriptor = ArtifactDescriptor {
         "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527",
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_NETLOGON: ArtifactDescriptor = ArtifactDescriptor {
@@ -369,6 +425,10 @@ pub(crate) static EVTX_NETLOGON: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://www.secura.com/blog/zero-logon",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["5827/5828 = ZeroLogon exploitation attempt — very low false-positive rate"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log; rotated on size limit",
 };
 
 pub(crate) static EVTX_SMB_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -393,6 +453,10 @@ pub(crate) static EVTX_SMB_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/Yamato-Security/hayabusa-rules",
         "https://learn.microsoft.com/en-us/windows-server/storage/file-server/troubleshoot/detect-enable-and-disable-smbv1-v2-v3",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_NETWORK_PROFILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -415,6 +479,10 @@ pub(crate) static EVTX_NETWORK_PROFILE: ArtifactDescriptor = ArtifactDescriptor 
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["networklist_profiles", "wifi_profiles"],
     sources: &["https://github.com/Yamato-Security/hayabusa-rules"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_KERNEL_PNP: ArtifactDescriptor = ArtifactDescriptor {
@@ -438,6 +506,10 @@ pub(crate) static EVTX_KERNEL_PNP: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://www.sans.org/blog/computer-forensic-guide-to-profiling-usb-device-thumbdrives-on-win7-xp-2003/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_DRIVER_FRAMEWORKS: ArtifactDescriptor = ArtifactDescriptor {
@@ -464,6 +536,10 @@ pub(crate) static EVTX_DRIVER_FRAMEWORKS: ArtifactDescriptor = ArtifactDescripto
         "https://windowsir.blogspot.com/2022/05/usb-devices-redux.html",
         "https://blog.elcomsoft.com/2026/02/usb-device-forensics-on-windows-10-and-11/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_LSA_PROTECTION: ArtifactDescriptor = ArtifactDescriptor {
@@ -487,6 +563,10 @@ pub(crate) static EVTX_LSA_PROTECTION: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/configuring-additional-lsa-protection",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["PPL changes indicate credential dumping preparation"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log; rotated on size limit",
 };
 
 pub(crate) static EVTX_CAPI2: ArtifactDescriptor = ArtifactDescriptor {
@@ -511,6 +591,10 @@ pub(crate) static EVTX_CAPI2: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/enable-debug-logging-capi2",
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_POWERSHELL_CLASSIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -535,6 +619,10 @@ pub(crate) static EVTX_POWERSHELL_CLASSIC: ArtifactDescriptor = ArtifactDescript
         "https://www.sans.org/blog/powershell-logging-for-the-blue-team/",
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Group C: Additional EVTX Channels ────────────────────────────────────────
@@ -567,6 +655,10 @@ pub(crate) static EVTX_DNS_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/palantir/windows-event-forwarding/tree/master/group-policy-objects",
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_TERMINAL_SERVICES: ArtifactDescriptor = ArtifactDescriptor {
@@ -597,6 +689,10 @@ pub(crate) static EVTX_TERMINAL_SERVICES: ArtifactDescriptor = ArtifactDescripto
         "https://dfironthemountain.wordpress.com/2019/02/15/rdp-event-log-dfir/",
         "https://github.com/Yamato-Security/hayabusa-rules",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 /// Microsoft-Windows-Application-Experience/Program-Telemetry — driver-block
@@ -673,4 +769,8 @@ pub(crate) static EVTX_APPLICATION_EXPERIENCE_TELEMETRY: ArtifactDescriptor = Ar
         //   active.
         "https://learn.microsoft.com/en-us/windows/security/application-security/application-control/windows-defender-application-control/design/microsoft-recommended-driver-block-rules",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };

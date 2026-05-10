@@ -25,6 +25,10 @@ pub(crate) static EVTX_APPLICATION: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DFSN_SERVERFILTER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -45,6 +49,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DFSN_SERVERFILTER_ANALYTIC: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DFSN_SERVERSERVICE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -65,6 +73,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DFSN_SERVERSERVICE_ANALYTIC: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -85,6 +97,10 @@ pub(crate) static EVTX_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_IALPSS_GPIO2_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -105,6 +121,10 @@ pub(crate) static EVTX_IALPSS_GPIO2_DEBUG_CHANNEL: ArtifactDescriptor = Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_IALPSS_GPIO2_PERFORMANCE_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -125,6 +145,10 @@ pub(crate) static EVTX_IALPSS_GPIO2_PERFORMANCE_CHANNEL: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_IALPSS2_I2C_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -145,6 +169,10 @@ pub(crate) static EVTX_IALPSS2_I2C_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_IALPSS2_I2C_PERFORMANCE_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -165,6 +193,10 @@ pub(crate) static EVTX_IALPSS2_I2C_PERFORMANCE_CHANNEL: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -185,6 +217,10 @@ pub(crate) static EVTX_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -205,6 +241,10 @@ pub(crate) static EVTX_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LSA_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -227,6 +267,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LSA_PERFORMANCE: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_AMSI_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -247,6 +291,10 @@ pub(crate) static EVTX_AMSI_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_AMSI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -267,6 +315,10 @@ pub(crate) static EVTX_AMSI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_UAC_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -287,6 +339,10 @@ pub(crate) static EVTX_UAC_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_APPV_CLIENT_STREAMINGUX_DEBUG: ArtifactDescriptor =
@@ -310,6 +366,10 @@ pub(crate) static EVTX_MICROSOFT_APPV_CLIENT_STREAMINGUX_DEBUG: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -330,6 +390,10 @@ pub(crate) static EVTX_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_VIRTUAL_APPLICATIONS: ArtifactDescriptor = ArtifactDescriptor {
@@ -350,6 +414,10 @@ pub(crate) static EVTX_VIRTUAL_APPLICATIONS: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_APPV_CLIENT_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -370,6 +438,10 @@ pub(crate) static EVTX_MICROSOFT_APPV_CLIENT_DEBUG: ArtifactDescriptor = Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_APPV_SHAREDPERFORMANCE_ANALYTIC: ArtifactDescriptor =
@@ -393,6 +465,10 @@ pub(crate) static EVTX_MICROSOFT_APPV_SHAREDPERFORMANCE_ANALYTIC: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_CLIENT_LICENSE_FLEXIBLE_PLATFORM_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -413,6 +489,10 @@ pub(crate) static EVTX_MICROSOFT_CLIENT_LICENSE_FLEXIBLE_PLATFORM_ADMIN: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_CLIENT_LICENSING_PLATFORM_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -433,6 +513,10 @@ pub(crate) static EVTX_MICROSOFT_CLIENT_LICENSING_PLATFORM_DIAGNOSTIC: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_CLIENT_LICENSING_PLATFORM_ADMIN: ArtifactDescriptor =
@@ -456,6 +540,10 @@ pub(crate) static EVTX_MICROSOFT_CLIENT_LICENSING_PLATFORM_ADMIN: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORE_OPERATIONAL: ArtifactDescriptor =
@@ -479,6 +567,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORE_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_WEBPLATSTORAGE_SERVER: ArtifactDescriptor =
@@ -502,6 +594,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_WEBPLATSTORAGE_SERVER: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_INDEXEDDB_SERVER: ArtifactDescriptor =
@@ -525,6 +621,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INDEXEDDB_SERVER: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_IEDVTOOL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -545,6 +645,10 @@ pub(crate) static EVTX_MICROSOFT_IEDVTOOL_DIAGNOSTIC: ArtifactDescriptor = Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_IEFRAME_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -565,6 +669,10 @@ pub(crate) static EVTX_MICROSOFT_IEFRAME_DIAGNOSTIC: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_ONECORE_SETUP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -585,6 +693,10 @@ pub(crate) static EVTX_MICROSOFT_ONECORE_SETUP_ANALYTIC: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_PEF_WFP_MESSAGEPROVIDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -605,6 +717,10 @@ pub(crate) static EVTX_MICROSOFT_PEF_WFP_MESSAGEPROVIDER_OPERATIONAL: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_PERFTRACK_IEFRAME_DIAGNOSTIC: ArtifactDescriptor =
@@ -628,6 +744,10 @@ pub(crate) static EVTX_MICROSOFT_PERFTRACK_IEFRAME_DIAGNOSTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_PERFTRACK_MSHTML_DIAGNOSTIC: ArtifactDescriptor =
@@ -651,6 +771,10 @@ pub(crate) static EVTX_MICROSOFT_PERFTRACK_MSHTML_DIAGNOSTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_SERVERCORE_SHELLLAUNCHER_DEBUG: ArtifactDescriptor =
@@ -674,6 +798,10 @@ pub(crate) static EVTX_MICROSOFT_SERVERCORE_SHELLLAUNCHER_DEBUG: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_SYSTEM_DIAGNOSTICS_DIAGNOSTICINVOKER_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
@@ -694,6 +822,10 @@ pub(crate) static EVTX_MICROSOFT_SYSTEM_DIAGNOSTICS_DIAGNOSTICINVOKER_OPERATIO: 
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_USER_EXPERIENCE_VIRTUALIZATION_ADMIN_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -714,6 +846,10 @@ pub(crate) static EVTX_MICROSOFT_USER_EXPERIENCE_VIRTUALIZATION_ADMIN_DEBUG: Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -734,6 +870,10 @@ pub(crate) static EVTX_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_USER_EXPERIENCE_VIRTUALIZATION_APP_AGENT_DEBU: ArtifactDescriptor = ArtifactDescriptor {
@@ -754,6 +894,10 @@ pub(crate) static EVTX_MICROSOFT_USER_EXPERIENCE_VIRTUALIZATION_APP_AGENT_DEBU: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -774,6 +918,10 @@ pub(crate) static EVTX_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WS_LICENSING_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -796,6 +944,10 @@ pub(crate) static EVTX_MICROSOFT_WS_LICENSING_DIAGNOSTIC: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WS_LICENSING_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -816,6 +968,10 @@ pub(crate) static EVTX_MICROSOFT_WS_LICENSING_ADMIN: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WS_LICENSING_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -836,6 +992,10 @@ pub(crate) static EVTX_MICROSOFT_WS_LICENSING_DEBUG: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_VPN_PLUGIN_PLATFORM_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -856,6 +1016,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_VPN_PLUGIN_PLATFORM_OPERATIONAL: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_VPN_PLUGIN_PLATFORM_OPERATIONALVERBOS: ArtifactDescriptor = ArtifactDescriptor {
@@ -876,6 +1040,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_VPN_PLUGIN_PLATFORM_OPERATIONALVERBOS: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AAD_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -896,6 +1064,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AAD_ANALYTIC: ArtifactDescriptor = Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AAD_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -918,6 +1090,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AAD_OPERATIONAL: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ADSI_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -938,6 +1114,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ADSI_DEBUG: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_API_TRACING_OPERATIONAL: ArtifactDescriptor =
@@ -961,6 +1141,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_API_TRACING_OPERATIONAL: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ASN1_OPERATIONAL: ArtifactDescriptor =
@@ -984,6 +1168,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ASN1_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ATAPORT_SATA_LPM: ArtifactDescriptor =
@@ -1007,6 +1195,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ATAPORT_SATA_LPM: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ATAPORT_GENERAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -1029,6 +1221,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ATAPORT_GENERAL: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_ATAPORT_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
@@ -1049,6 +1245,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_ATAPORT_DIAGNOSE: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_ATAPORT_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -1069,6 +1269,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_ATAPORT_ANALYTIC: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ACCELLIB_ACCELCX_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -1089,6 +1293,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ACCELLIB_ACCELCX_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ACTIONQUEUE_ANALYTIC: ArtifactDescriptor =
@@ -1112,6 +1320,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ACTIONQUEUE_ANALYTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ALTTAB_DIAGNOSTIC: ArtifactDescriptor =
@@ -1135,6 +1347,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ALTTAB_DIAGNOSTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ANYTIME_UPGRADE_EVENTS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -1155,6 +1371,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ANYTIME_UPGRADE_EVENTS_OPERATIONAL: Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ANYTIME_UPGRADE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -1175,6 +1395,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ANYTIME_UPGRADE_ANALYTIC: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPHOST_INTERNAL: ArtifactDescriptor =
@@ -1198,6 +1422,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPHOST_INTERNAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPHOST_DIAGNOSTIC: ArtifactDescriptor =
@@ -1221,6 +1449,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPHOST_DIAGNOSTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_APPTRACING: ArtifactDescriptor = ArtifactDescriptor {
@@ -1241,6 +1473,10 @@ pub(crate) static EVTX_APPTRACING: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPID_OPERATIONAL: ArtifactDescriptor =
@@ -1264,6 +1500,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPID_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_EXE_AND_DLL: ArtifactDescriptor =
@@ -1287,6 +1527,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_EXE_AND_DLL: ArtifactDescript
         triage_priority: TriagePriority::Medium,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_MSI_AND_SCRIPT: ArtifactDescriptor = ArtifactDescriptor {
@@ -1307,6 +1551,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_MSI_AND_SCRIPT: ArtifactDescr
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_PACKAGED_APP_EXECUTION: ArtifactDescriptor = ArtifactDescriptor {
@@ -1327,6 +1575,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_PACKAGED_APP_EXECUTION: Artif
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_PACKAGED_APP_DEPLOYMENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -1347,6 +1599,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_PACKAGED_APP_DEPLOYMENT: Arti
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_VERBOSE: ArtifactDescriptor =
@@ -1370,6 +1626,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_VERBOSE: ArtifactDescriptor =
         triage_priority: TriagePriority::Medium,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIVACY_AUDITING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -1390,6 +1650,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIVACY_AUDITING_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -1410,6 +1674,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_ANALYTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_ADMIN: ArtifactDescriptor =
@@ -1433,6 +1701,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_ADMIN: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_DEBUG: ArtifactDescriptor =
@@ -1456,6 +1728,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_DEBUG: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_DIAGNOSTICS: ArtifactDescriptor = ArtifactDescriptor {
@@ -1476,6 +1752,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_DIAGNOSTICS: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_STATE_DEBUG: ArtifactDescriptor =
@@ -1499,6 +1779,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_STATE_DEBUG: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_STATE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -1519,6 +1803,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_STATE_DIAGNOSTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPSRUPROV: ArtifactDescriptor = ArtifactDescriptor {
@@ -1539,6 +1827,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPSRUPROV: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_APPXDEPLOYMENTUNDOCKEDDEH_OPERATIONAL: ArtifactDescriptor =
@@ -1562,6 +1854,10 @@ pub(crate) static EVTX_APPXDEPLOYMENTUNDOCKEDDEH_OPERATIONAL: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -1582,6 +1878,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_OPERATIONAL: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1602,6 +1902,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_DEBUG: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_RESTRICTED: ArtifactDescriptor = ArtifactDescriptor {
@@ -1622,6 +1926,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_RESTRICTED: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -1642,6 +1950,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_DIAGNOSTIC: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -1662,6 +1974,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENT_OPERATIONAL: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -1682,6 +1998,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENT_DIAGNOSTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICABILITYENGINE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -1702,6 +2022,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICABILITYENGINE_ANALYTIC: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICABILITYENGINE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -1722,6 +2046,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICABILITYENGINE_OPERATIONAL: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_COMPAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -1742,6 +2070,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_COMPAT: 
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_TELEME: ArtifactDescriptor = ArtifactDescriptor {
@@ -1762,6 +2094,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_TELEME: 
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_STEPS_RECORDER: ArtifactDescriptor = ArtifactDescriptor {
@@ -1782,6 +2118,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_STEPS_RECORDER: 
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROBLEM_STEPS: ArtifactDescriptor = ArtifactDescriptor {
@@ -1802,6 +2142,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROBLEM_STEPS: A
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_INVENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -1822,6 +2166,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_INVENT: 
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_COMPATIBILITY: ArtifactDescriptor = ArtifactDescriptor {
@@ -1842,6 +2190,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_COMPATIBILITY: A
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPHELPCACHE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -1862,6 +2214,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPHELPCACHE_ANALYTIC: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPHELPCACHE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -1882,6 +2238,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPHELPCACHE_OPERATIONAL: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPHELPCACHE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -1902,6 +2262,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPHELPCACHE_DEBUG: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATIONRESOURCEMANAGEMENTSYSTEM_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -1922,6 +2286,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATIONRESOURCEMANAGEMENTSYSTEM_D: 
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATIONRESOURCEMANAGEMENTSYSTEM_O: ArtifactDescriptor = ArtifactDescriptor {
@@ -1942,6 +2310,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATIONRESOURCEMANAGEMENTSYSTEM_O: 
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXPACKAGING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -1962,6 +2334,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXPACKAGING_OPERATIONAL: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXPACKAGING_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -1982,6 +2358,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXPACKAGING_PERFORMANCE: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ASSIGNEDACCESS_ADMIN: ArtifactDescriptor =
@@ -2005,6 +2385,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ASSIGNEDACCESS_ADMIN: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ASSIGNEDACCESS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -2025,6 +2409,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ASSIGNEDACCESS_OPERATIONAL: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ASSIGNEDACCESSBROKER_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -2045,6 +2433,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ASSIGNEDACCESSBROKER_ADMIN: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ASYNCHRONOUSCAUSALITY_CAUSALITY: ArtifactDescriptor = ArtifactDescriptor {
@@ -2065,6 +2457,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ASYNCHRONOUSCAUSALITY_CAUSALITY: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_OPERATIONAL: ArtifactDescriptor =
@@ -2088,6 +2484,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_CAPTUREMONITOR: ArtifactDescriptor =
@@ -2111,6 +2511,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_CAPTUREMONITOR: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -2131,6 +2535,10 @@ pub(crate) static EVTX_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_PLAYBACKMANAGER: ArtifactDescriptor =
@@ -2154,6 +2562,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_PLAYBACKMANAGER: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_GLITCHDETECTION: ArtifactDescriptor =
@@ -2177,6 +2589,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_GLITCHDETECTION: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_INFORMATIONAL: ArtifactDescriptor =
@@ -2200,6 +2616,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_INFORMATIONAL: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIT_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -2220,6 +2640,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIT_ANALYTIC: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_PROTECTEDUSER_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -2240,6 +2664,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_PROTECTEDUSER_CLIENT: Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_PROTECTED_USER_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -2260,6 +2688,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_PROTECTED_USER_CLIENT: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AXINSTALLSERVICE_LOG: ArtifactDescriptor =
@@ -2283,6 +2715,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AXINSTALLSERVICE_LOG: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHPORT_HCI: ArtifactDescriptor = ArtifactDescriptor {
@@ -2305,6 +2741,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHPORT_HCI: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHPORT_L2CAP: ArtifactDescriptor =
@@ -2328,6 +2768,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHPORT_L2CAP: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_OPERATIONAL: ArtifactDescriptor =
@@ -2351,6 +2795,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_OPERATIONAL: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_DIAGNOSTIC: ArtifactDescriptor =
@@ -2374,6 +2822,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_DIAGNOSTIC: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_PERFORMANCE: ArtifactDescriptor =
@@ -2397,6 +2849,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_PERFORMANCE: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKGROUNDTRANSFER_CONTENTPREFETCHER: ArtifactDescriptor = ArtifactDescriptor {
@@ -2417,6 +2873,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKGROUNDTRANSFER_CONTENTPREFETCHER: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKUP_OPERATIONAL: ArtifactDescriptor =
@@ -2440,6 +2900,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKUP_OPERATIONAL: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_BFE_IPSEC_CONNECTIONS_OPERATIONAL_LOG: ArtifactDescriptor =
@@ -2463,6 +2927,10 @@ pub(crate) static EVTX_BFE_IPSEC_CONNECTIONS_OPERATIONAL_LOG: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_BFE_IPSEC_CONNECTIONS_RESOURCE_FLOWS_OPERATIONAL_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -2483,6 +2951,10 @@ pub(crate) static EVTX_BFE_IPSEC_CONNECTIONS_RESOURCE_FLOWS_OPERATIONAL_LOG: Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BASE_FILTERING_ENGINE_RESOURCE_FLOWS: ArtifactDescriptor = ArtifactDescriptor {
@@ -2503,6 +2975,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BASE_FILTERING_ENGINE_RESOURCE_FLOWS: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BATTERY_DIAGNOSTIC: ArtifactDescriptor =
@@ -2526,6 +3002,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BATTERY_DIAGNOSTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BIOMETRICS_OPERATIONAL: ArtifactDescriptor =
@@ -2549,6 +3029,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BIOMETRICS_OPERATIONAL: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BIOMETRICS_ANALYTIC: ArtifactDescriptor =
@@ -2572,6 +3056,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BIOMETRICS_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MANAGEMENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -2592,6 +3080,10 @@ pub(crate) static EVTX_MANAGEMENT: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_TRACING: ArtifactDescriptor =
@@ -2615,6 +3107,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_TRACING: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_DRIVEPREPARATIONTOOL_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -2635,6 +3131,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_DRIVEPREPARATIONTOOL_ADMIN: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_DRIVEPREPARATIONTOOL_OPERAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -2655,6 +3155,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_DRIVEPREPARATIONTOOL_OPERAT: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_DRIVER_PERFORMANCE_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
@@ -2675,6 +3179,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_DRIVER_PERFORMANCE_OPERATIO: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_CLIENT_ANALYTIC: ArtifactDescriptor =
@@ -2698,6 +3206,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_CLIENT_ANALYTIC: ArtifactDescripto
         triage_priority: TriagePriority::High,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_CLIENT_OPERATIONAL: ArtifactDescriptor =
@@ -2721,6 +3233,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_CLIENT_OPERATIONAL: ArtifactDescri
         triage_priority: TriagePriority::High,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_COMPACTSERVER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -2741,6 +3257,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_COMPACTSERVER_OPERATIONAL: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_COMPACTSERVER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -2761,6 +3281,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_COMPACTSERVER_ANALYTIC: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_BTHLEPREPAIRING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -2781,6 +3305,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_BTHLEPREPAIRING_OPERATIONAL: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_BTHMINI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -2801,6 +3329,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_BTHMINI_OPERATIONAL: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_HIDBTHLE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -2821,6 +3353,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_HIDBTHLE_OPERATIONAL: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_POLICY_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -2841,6 +3377,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_POLICY_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHE_OPERATIONAL: ArtifactDescriptor =
@@ -2864,6 +3404,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHE_OPERATIONAL: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHECLIENTEVENTPROVIDER_DIAGNO: ArtifactDescriptor = ArtifactDescriptor {
@@ -2884,6 +3428,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHECLIENTEVENTPROVIDER_DIAGNO: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHEEVENTPROVIDER_DIAGNOSTICCH: ArtifactDescriptor = ArtifactDescriptor {
@@ -2904,6 +3452,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHEEVENTPROVIDER_DIAGNOSTICCH: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHEMONITORING_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -2924,6 +3476,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHEMONITORING_ANALYTIC: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHESMB_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -2944,6 +3500,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHESMB_OPERATIONAL: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHESMB_ANALYTIC: ArtifactDescriptor =
@@ -2967,6 +3527,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHESMB_ANALYTIC: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKGROUNDTASKINFRASTRUCTURE_DIAGNOST: ArtifactDescriptor = ArtifactDescriptor {
@@ -2987,6 +3551,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKGROUNDTASKINFRASTRUCTURE_DIAGNOST: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKGROUNDTASKINFRASTRUCTURE_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
@@ -3007,6 +3575,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKGROUNDTASKINFRASTRUCTURE_OPERATIO: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REGSVR32_OPERATIONAL: ArtifactDescriptor =
@@ -3030,6 +3602,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REGSVR32_OPERATIONAL: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CAPI2_OPERATIONAL: ArtifactDescriptor =
@@ -3053,6 +3629,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CAPI2_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CAPI2_CATALOG_DATABASE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3073,6 +3653,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CAPI2_CATALOG_DATABASE_DEBUG: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CDROM_OPERATIONAL: ArtifactDescriptor =
@@ -3096,6 +3680,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CDROM_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_CREATEINSTANCE: ArtifactDescriptor =
@@ -3119,6 +3707,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_CREATEINSTANCE: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_CREATEINSTANCE: ArtifactDescriptor =
@@ -3142,6 +3734,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_CREATEINSTANCE: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_EXTENSIONCATALOG: ArtifactDescriptor =
@@ -3165,6 +3761,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_EXTENSIONCATALOG: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_CALL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3185,6 +3785,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_CALL: ArtifactDescriptor = Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_FREEUNUSEDLIBRARY: ArtifactDescriptor =
@@ -3208,6 +3812,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_FREEUNUSEDLIBRARY: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OLE_CLIPBOARD: ArtifactDescriptor = ArtifactDescriptor {
@@ -3228,6 +3836,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OLE_CLIPBOARD: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_APARTMENTUNINITIALIZE: ArtifactDescriptor = ArtifactDescriptor {
@@ -3248,6 +3860,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_APARTMENTUNINITIALIZE: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_APARTMENTINITIALIZE: ArtifactDescriptor =
@@ -3271,6 +3887,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_APARTMENTINITIALIZE: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_RUNDOWNINSTRUMENTATION: ArtifactDescriptor = ArtifactDescriptor {
@@ -3291,6 +3911,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_RUNDOWNINSTRUMENTATION: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -3311,6 +3935,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_ANALYTIC: ArtifactDescriptor = Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_TRACING: ArtifactDescriptor =
@@ -3334,6 +3962,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_TRACING: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_MESSAGEPROCESSING: ArtifactDescriptor = ArtifactDescriptor {
@@ -3354,6 +3986,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_MESSAGEPROCESSING: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_ACTIVATIONS: ArtifactDescriptor =
@@ -3377,6 +4013,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_ACTIVATIONS: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CALCULATOR_DIAGNOSTIC: ArtifactDescriptor =
@@ -3400,6 +4040,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CALCULATOR_DIAGNOSTIC: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CALCULATOR_DEBUG: ArtifactDescriptor =
@@ -3423,6 +4067,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CALCULATOR_DEBUG: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_OPERATION_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -3443,6 +4091,10 @@ pub(crate) static EVTX_OPERATION_LOG: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICES_DEPLOYMENT_OPERAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -3463,6 +4115,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICES_DEPLOYMENT_OPERAT: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICESCLIENT_CREDENTIALR: ArtifactDescriptor = ArtifactDescriptor {
@@ -3483,6 +4139,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICESCLIENT_CREDENTIALR: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICESCLIENT_LIFECYCLE_S: ArtifactDescriptor = ArtifactDescriptor {
@@ -3503,6 +4163,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICESCLIENT_LIFECYCLE_S: 
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICESCLIENT_LIFECYCLE_U: ArtifactDescriptor = ArtifactDescriptor {
@@ -3523,6 +4187,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICESCLIENT_LIFECYCLE_U: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLEANMGR_DIAGNOSTIC: ArtifactDescriptor =
@@ -3546,6 +4214,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLEANMGR_DIAGNOSTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLEARTYPETEXTTUNER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -3566,6 +4238,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLEARTYPETEXTTUNER_DIAGNOSTIC: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDFILES_FILTER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3586,6 +4262,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDFILES_FILTER_OPERATIONAL: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDRESTORELAUNCHER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3606,6 +4286,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDRESTORELAUNCHER_OPERATIONAL: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORAGEWIZARD_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3626,6 +4310,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORAGEWIZARD_OPERATIONAL: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORAGEWIZARD_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -3646,6 +4334,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORAGEWIZARD_ANALYTIC: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_OPERATIONAL: ArtifactDescriptor =
@@ -3669,6 +4361,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_OPERATIONAL: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_DEBUG: ArtifactDescriptor =
@@ -3692,6 +4388,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_DEBUG: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_INITIALIZATION: ArtifactDescriptor = ArtifactDescriptor {
@@ -3712,6 +4412,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_INITIALIZATION: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CMISETUP_ANALYTIC: ArtifactDescriptor =
@@ -3735,6 +4439,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CMISETUP_ANALYTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CODEINTEGRITY_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3755,6 +4463,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CODEINTEGRITY_OPERATIONAL: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CODEINTEGRITY_VERBOSE: ArtifactDescriptor =
@@ -3778,6 +4490,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CODEINTEGRITY_VERBOSE: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_ANALYTICAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3798,6 +4514,10 @@ pub(crate) static EVTX_ANALYTICAL: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COMPAT_APPRAISER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -3818,6 +4538,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COMPAT_APPRAISER_ANALYTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COMPAT_APPRAISER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3838,6 +4562,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COMPAT_APPRAISER_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CONNECTED_SEARCH_DEBUG: ArtifactDescriptor =
@@ -3861,6 +4589,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CONNECTED_SEARCH_DEBUG: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CONNECTED_SEARCH_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3881,6 +4613,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CONNECTED_SEARCH_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CONNECTED_SEARCH_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -3901,6 +4637,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CONNECTED_SEARCH_ANALYTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CONTAINERS_BINDFLT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3921,6 +4661,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CONTAINERS_BINDFLT_OPERATIONAL: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CONTAINERS_WCIFS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3941,6 +4685,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CONTAINERS_WCIFS_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CONTAINERS_WCNFS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3961,6 +4709,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CONTAINERS_WCNFS_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_SMSROUTER_OPERATIONAL_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -3981,6 +4733,10 @@ pub(crate) static EVTX_SMSROUTER_OPERATIONAL_CHANNEL: ArtifactDescriptor = Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_SMSROUTER_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -4001,6 +4757,10 @@ pub(crate) static EVTX_SMSROUTER_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COREWINDOW_ANALYTIC: ArtifactDescriptor =
@@ -4024,6 +4784,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COREWINDOW_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CORRUPTEDFILERECOVERY_CLIENT_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
@@ -4044,6 +4808,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CORRUPTEDFILERECOVERY_CLIENT_OPERATIO: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CORRUPTEDFILERECOVERY_SERVER_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
@@ -4064,6 +4832,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CORRUPTEDFILERECOVERY_SERVER_OPERATIO: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRASHDUMP_ANALYTIC: ArtifactDescriptor =
@@ -4087,6 +4859,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRASHDUMP_ANALYTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRASHDUMP_OPERATIONAL: ArtifactDescriptor =
@@ -4110,6 +4886,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRASHDUMP_OPERATIONAL: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDPROVHOST_DEBUG: ArtifactDescriptor =
@@ -4133,6 +4913,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDPROVHOST_DEBUG: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDUI_DIAGNOSTIC: ArtifactDescriptor =
@@ -4156,6 +4940,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDUI_DIAGNOSTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDENTIALPROVIDERS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -4176,6 +4964,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDENTIALPROVIDERS_DEBUG: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_BCRYPT_ANALYTIC: ArtifactDescriptor =
@@ -4199,6 +4991,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_BCRYPT_ANALYTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_CNG_ANALYTIC: ArtifactDescriptor =
@@ -4222,6 +5018,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_CNG_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DPAPI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -4242,6 +5042,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DPAPI_OPERATIONAL: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DPAPI_BACKUPKEYSVC: ArtifactDescriptor = ArtifactDescriptor {
@@ -4262,6 +5066,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DPAPI_BACKUPKEYSVC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DPAPI_DEBUG: ArtifactDescriptor =
@@ -4285,6 +5093,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DPAPI_DEBUG: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DSSENH_ANALYTIC: ArtifactDescriptor =
@@ -4308,6 +5120,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DSSENH_ANALYTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_NCRYPT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -4328,6 +5144,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_NCRYPT_OPERATIONAL: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_NCRYPT_CERTINUSE: ArtifactDescriptor =
@@ -4351,6 +5171,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_NCRYPT_CERTINUSE: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_NCRYPT_KEYMGMT: ArtifactDescriptor =
@@ -4374,6 +5198,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_NCRYPT_KEYMGMT: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_RNG_ANALYTIC: ArtifactDescriptor =
@@ -4397,6 +5225,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_RNG_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_RSAENH_ANALYTIC: ArtifactDescriptor =
@@ -4420,6 +5252,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_RSAENH_ANALYTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_D3D10LEVEL9_ANALYTIC: ArtifactDescriptor =
@@ -4443,6 +5279,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_D3D10LEVEL9_ANALYTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_D3D10LEVEL9_PERFTIMING: ArtifactDescriptor =
@@ -4466,6 +5306,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_D3D10LEVEL9_PERFTIMING: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D9_ANALYTIC: ArtifactDescriptor =
@@ -4489,6 +5333,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D9_ANALYTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DAL_PROVIDER_ANALYTIC: ArtifactDescriptor =
@@ -4512,6 +5360,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DAL_PROVIDER_ANALYTIC: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DAL_PROVIDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -4532,6 +5384,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DAL_PROVIDER_OPERATIONAL: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DCLOCATOR_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -4554,6 +5410,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DCLOCATOR_DEBUG: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DDISPLAY_ANALYTIC: ArtifactDescriptor =
@@ -4577,6 +5437,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DDISPLAY_ANALYTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_SERVER_EVENTS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -4597,6 +5461,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_SERVER_EVENTS_OPERATIONAL: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_SERVER_EVENTS_FILTERNOTIFICATION: ArtifactDescriptor = ArtifactDescriptor {
@@ -4617,6 +5485,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_SERVER_EVENTS_FILTERNOTIFICATION: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCPV6_CLIENT_EVENTS_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -4637,6 +5509,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCPV6_CLIENT_EVENTS_ADMIN: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_CLIENT_EVENTS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -4657,6 +5533,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_CLIENT_EVENTS_OPERATIONAL: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DLNA_NAMESPACE_ANALYTIC: ArtifactDescriptor =
@@ -4680,6 +5560,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DLNA_NAMESPACE_ANALYTIC: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DNS_CLIENT_EVENTS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -4700,6 +5584,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DNS_CLIENT_EVENTS_OPERATIONAL: Artifact
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DSC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -4722,6 +5610,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DSC_OPERATIONAL: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DSC_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -4742,6 +5634,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DSC_ANALYTIC: ArtifactDescriptor = Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DSC_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -4762,6 +5658,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DSC_DEBUG: ArtifactDescriptor = Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DUI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -4782,6 +5682,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DUI_DIAGNOSTIC: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DUSER_DIAGNOSTIC: ArtifactDescriptor =
@@ -4805,6 +5709,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DUSER_DIAGNOSTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_DVD_NAVIGATOR: ArtifactDescriptor = ArtifactDescriptor {
@@ -4825,6 +5733,10 @@ pub(crate) static EVTX_DVD_NAVIGATOR: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGI_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -4845,6 +5757,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGI_ANALYTIC: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGI_LOGGING: ArtifactDescriptor = ArtifactDescriptor {
@@ -4865,6 +5781,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGI_LOGGING: ArtifactDescriptor = Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -4885,6 +5805,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXP_ANALYTIC: ArtifactDescriptor = Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DATA_PDF_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -4905,6 +5829,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DATA_PDF_DEBUG: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DATAINTEGRITYSCAN_ADMIN: ArtifactDescriptor =
@@ -4928,6 +5856,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DATAINTEGRITYSCAN_ADMIN: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DATAINTEGRITYSCAN_CRASHRECOVERY: ArtifactDescriptor = ArtifactDescriptor {
@@ -4948,6 +5880,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DATAINTEGRITYSCAN_CRASHRECOVERY: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -4968,6 +5904,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_OPERATIONAL: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -4988,6 +5928,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_DIAGNOSTIC: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_SCRUBBING: ArtifactDescriptor =
@@ -5011,6 +5955,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_SCRUBBING: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -5031,6 +5979,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_PERFORMANCE: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEFRAG_CORE_DEBUG: ArtifactDescriptor =
@@ -5054,6 +6006,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEFRAG_CORE_DEBUG: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEPLORCH_ANALYTIC: ArtifactDescriptor =
@@ -5077,6 +6033,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEPLORCH_ANALYTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEPLOYMENT_SERVICES_DIAGNOSTICS_OPERA: ArtifactDescriptor = ArtifactDescriptor {
@@ -5097,6 +6057,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEPLOYMENT_SERVICES_DIAGNOSTICS_OPERA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEPLOYMENT_SERVICES_DIAGNOSTICS_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -5117,6 +6081,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEPLOYMENT_SERVICES_DIAGNOSTICS_ADMIN: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DESKTOPACTIVITYMODERATOR_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -5137,6 +6105,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DESKTOPACTIVITYMODERATOR_DIAGNOSTIC: Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DESKTOPWINDOWMANAGER_DIAG_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -5157,6 +6129,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DESKTOPWINDOWMANAGER_DIAG_DIAGNOSTIC: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEASSOCIATIONSERVICE_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -5177,6 +6153,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEASSOCIATIONSERVICE_PERFORMANCE: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICECONFIDENCE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -5197,6 +6177,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICECONFIDENCE_ANALYTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEGUARD_OPERATIONAL: ArtifactDescriptor =
@@ -5220,6 +6204,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEGUARD_OPERATIONAL: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_AUTOPILOT: ArtifactDescriptor = ArtifactDescriptor {
@@ -5240,6 +6228,10 @@ pub(crate) static EVTX_AUTOPILOT: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEMANAGEMENT_ENTERPRISE_DIAGNOSTI: ArtifactDescriptor = ArtifactDescriptor {
@@ -5260,6 +6252,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEMANAGEMENT_ENTERPRISE_DIAGNOSTI: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -5280,6 +6276,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_ADMIN: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -5300,6 +6300,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_DEBUG: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -5320,6 +6324,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_OPERATIONAL: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -5340,6 +6348,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_ANALYTIC: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESYNC_ANALYTIC: ArtifactDescriptor =
@@ -5363,6 +6375,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESYNC_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESYNC_OPERATIONAL: ArtifactDescriptor =
@@ -5386,6 +6402,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESYNC_OPERATIONAL: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_DEVICE_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescriptor =
@@ -5409,6 +6429,10 @@ pub(crate) static EVTX_DEVICE_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEUX_PERFORMANCE: ArtifactDescriptor =
@@ -5432,6 +6456,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEUX_PERFORMANCE: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEUX_INFORMATIONAL: ArtifactDescriptor =
@@ -5455,6 +6483,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEUX_INFORMATIONAL: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICES_BACKGROUND_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -5475,6 +6507,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICES_BACKGROUND_OPERATIONAL: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICES_LOCATION_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -5495,6 +6531,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICES_LOCATION_PERFORMANCE: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICES_QUERY_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -5515,6 +6555,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICES_QUERY_PERFORMANCE: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_CLIENT_EVENTS_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -5535,6 +6579,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_CLIENT_EVENTS_ADMIN: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCPNAP_OPERATIONAL: ArtifactDescriptor =
@@ -5558,6 +6606,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCPNAP_OPERATIONAL: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCPNAP_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -5578,6 +6630,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCPNAP_ADMIN: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGCPL_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -5598,6 +6654,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGCPL_DEBUG: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_ADVANCEDTASKMANAGER_ANALYTI: ArtifactDescriptor = ArtifactDescriptor {
@@ -5618,6 +6678,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_ADVANCEDTASKMANAGER_ANALYTI: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_ANALYTIC: ArtifactDescriptor =
@@ -5641,6 +6705,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_ANALYTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -5661,6 +6729,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_OPERATIONAL: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_DEBUG: ArtifactDescriptor =
@@ -5684,6 +6756,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_DEBUG: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDE_DEBUG: ArtifactDescriptor =
@@ -5707,6 +6783,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDE_DEBUG: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -5727,6 +6807,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDT_OPERATIONAL: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDT_DEBUG: ArtifactDescriptor =
@@ -5750,6 +6834,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDT_DEBUG: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -5770,6 +6858,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_OPERATIONAL: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_ANALYTIC: ArtifactDescriptor =
@@ -5793,6 +6885,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_ANALYTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_DEBUG: ArtifactDescriptor =
@@ -5816,6 +6912,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_DEBUG: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PLA_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -5836,6 +6936,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PLA_OPERATIONAL: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PLA_DEBUG: ArtifactDescriptor =
@@ -5859,6 +6963,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PLA_DEBUG: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PERFHOST_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -5879,6 +6987,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PERFHOST_ANALYTIC: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCHEDULED_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -5899,6 +7011,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCHEDULED_OPERATIONAL: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -5919,6 +7035,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_ADMIN: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -5939,6 +7059,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_OPERATIONAL: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -5959,6 +7083,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_DEBUG: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -5979,6 +7107,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_ANALYTIC: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTEDDIAGNOSTICSPROVIDER: ArtifactDescriptor = ArtifactDescriptor {
@@ -5999,6 +7131,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTEDDIAGNOSTICSPROVIDER: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_TASKMANAGER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -6019,6 +7155,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_TASKMANAGER_DEBUG: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_WDC_ANALYTIC: ArtifactDescriptor =
@@ -6042,6 +7182,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_WDC_ANALYTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_WDI_DEBUG: ArtifactDescriptor =
@@ -6065,6 +7209,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_WDI_DEBUG: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_NETWORKING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -6085,6 +7233,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_NETWORKING_OPERATIONAL: Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_NETWORKING_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -6105,6 +7257,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_NETWORKING_DEBUG: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_PERFTRACK_COUNTERS_DIAGNO: ArtifactDescriptor = ArtifactDescriptor {
@@ -6125,6 +7281,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_PERFTRACK_COUNTERS_DIAGNO: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_PERFTRACK_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -6145,6 +7305,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_PERFTRACK_DIAGNOSTIC: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_DIAGNOSTIC_LOOPBACK: ArtifactDescriptor = ArtifactDescriptor {
@@ -6165,6 +7329,10 @@ pub(crate) static EVTX_DIAGNOSTIC_LOOPBACK: ArtifactDescriptor = ArtifactDescrip
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D10_ANALYTIC: ArtifactDescriptor =
@@ -6188,6 +7356,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D10_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D10_1_ANALYTIC: ArtifactDescriptor =
@@ -6211,6 +7383,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D10_1_ANALYTIC: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D11_ANALYTIC: ArtifactDescriptor =
@@ -6234,6 +7410,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D11_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D11_PERFTIMING: ArtifactDescriptor =
@@ -6257,6 +7437,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D11_PERFTIMING: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D11_LOGGING: ArtifactDescriptor =
@@ -6280,6 +7464,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D11_LOGGING: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_ANALYTIC: ArtifactDescriptor =
@@ -6303,6 +7491,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_LOGGING: ArtifactDescriptor =
@@ -6326,6 +7518,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_LOGGING: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_PERFTIMING: ArtifactDescriptor =
@@ -6349,6 +7545,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_PERFTIMING: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3DSHADERCACHE_DEFAULT: ArtifactDescriptor = ArtifactDescriptor {
@@ -6369,6 +7569,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3DSHADERCACHE_DEFAULT: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DAMM_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -6391,6 +7595,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DAMM_DIAGNOSTIC: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTCOMPOSITION_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -6411,6 +7619,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTCOMPOSITION_DIAGNOSTIC: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTMANIPULATION_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -6431,6 +7643,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTMANIPULATION_DIAGNOSTIC: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_DIRECTSHOWPLUGINCONTROL: ArtifactDescriptor = ArtifactDescriptor {
@@ -6451,6 +7667,10 @@ pub(crate) static EVTX_DIRECTSHOWPLUGINCONTROL: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_DIRECTSHOW_FILTERGRAPH: ArtifactDescriptor = ArtifactDescriptor {
@@ -6471,6 +7691,10 @@ pub(crate) static EVTX_DIRECTSHOW_FILTERGRAPH: ArtifactDescriptor = ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTSHOW_KERNELSUPPORT_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -6491,6 +7715,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTSHOW_KERNELSUPPORT_PERFORMANCE: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTSOUND_DEBUG: ArtifactDescriptor =
@@ -6514,6 +7742,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTSOUND_DEBUG: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTWRITE_FONTCACHE_TRACING: ArtifactDescriptor = ArtifactDescriptor {
@@ -6534,6 +7766,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTWRITE_FONTCACHE_TRACING: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTWRITE_TRACING: ArtifactDescriptor =
@@ -6557,6 +7793,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTWRITE_TRACING: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTORYSERVICES_DEPLOYMENT_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
@@ -6577,6 +7817,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTORYSERVICES_DEPLOYMENT_OPERATIO: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISK_OPERATIONAL: ArtifactDescriptor =
@@ -6600,6 +7844,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISK_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_DISK_ANALYTIC: ArtifactDescriptor =
@@ -6623,6 +7871,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_DISK_ANALYTIC: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_DISK_DIAGNOSE: ArtifactDescriptor =
@@ -6646,6 +7898,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_DISK_DIAGNOSE: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISKDIAGNOSTIC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -6666,6 +7922,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISKDIAGNOSTIC_OPERATIONAL: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISKDIAGNOSTICDATACOLLECTOR_OPERATION: ArtifactDescriptor = ArtifactDescriptor {
@@ -6686,6 +7946,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISKDIAGNOSTICDATACOLLECTOR_OPERATION: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISKDIAGNOSTICRESOLVER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -6706,6 +7970,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISKDIAGNOSTICRESOLVER_OPERATIONAL: Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_API_ANALYTIC: ArtifactDescriptor =
@@ -6729,6 +7997,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_API_ANALYTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_API_INTERNALANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -6749,6 +8021,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_API_INTERNALANALYTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_CLI_ANALYTIC: ArtifactDescriptor =
@@ -6772,6 +8048,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_CLI_ANALYTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISPLAYCOLORCALIBRATION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -6792,6 +8072,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISPLAYCOLORCALIBRATION_OPERATIONAL: Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISPLAYCOLORCALIBRATION_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -6812,6 +8096,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISPLAYCOLORCALIBRATION_DEBUG: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISPLAYSWITCH_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -6832,6 +8120,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISPLAYSWITCH_DIAGNOSTIC: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DOT3MM_DIAGNOSTIC: ArtifactDescriptor =
@@ -6855,6 +8147,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DOT3MM_DIAGNOSTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DRIVERFRAMEWORKS_USERMODE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -6875,6 +8171,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DRIVERFRAMEWORKS_USERMODE_OPERATIONAL: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_POWER_DIAGNOSTIC: ArtifactDescriptor =
@@ -6898,6 +8198,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_POWER_DIAGNOSTIC: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_DIRVER_PROXY_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -6918,6 +8222,10 @@ pub(crate) static EVTX_DIRVER_PROXY_PERFORMANCE: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_DRIVER_PROXY_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -6938,6 +8246,10 @@ pub(crate) static EVTX_DRIVER_PROXY_OPERATIONAL: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_DUC_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescriptor =
@@ -6961,6 +8273,10 @@ pub(crate) static EVTX_DUC_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_API_DIAGNOSTIC: ArtifactDescriptor =
@@ -6984,6 +8300,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_API_DIAGNOSTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_COMPOSITOR_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -7004,6 +8324,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_COMPOSITOR_DIAGNOSTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_CORE_DIAGNOSTIC: ArtifactDescriptor =
@@ -7027,6 +8351,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_CORE_DIAGNOSTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_DWM_DIAGNOSTIC: ArtifactDescriptor =
@@ -7050,6 +8378,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_DWM_DIAGNOSTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_REDIR_DIAGNOSTIC: ArtifactDescriptor =
@@ -7073,6 +8405,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_REDIR_DIAGNOSTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_UDWM_DIAGNOSTIC: ArtifactDescriptor =
@@ -7096,6 +8432,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_UDWM_DIAGNOSTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_DIAGNOSTIC: ArtifactDescriptor =
@@ -7119,6 +8459,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_DIAGNOSTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_PERFORMANCE: ArtifactDescriptor =
@@ -7142,6 +8486,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_PERFORMANCE: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_POWER: ArtifactDescriptor = ArtifactDescriptor {
@@ -7162,6 +8510,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_POWER: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -7182,6 +8534,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_ADMIN: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_OPERATIONAL: ArtifactDescriptor =
@@ -7205,6 +8561,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_OPERATIONAL: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_CONTENTION: ArtifactDescriptor =
@@ -7228,6 +8588,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_CONTENTION: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXPTASKRINGTONE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -7248,6 +8612,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXPTASKRINGTONE_ANALYTIC: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXPTASKSYNCPROVIDER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -7268,6 +8636,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXPTASKSYNCPROVIDER_ANALYTIC: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_INFORMATION_PROTECTION_APPLICATION_LE: ArtifactDescriptor = ArtifactDescriptor {
@@ -7288,6 +8660,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INFORMATION_PROTECTION_APPLICATION_LE: 
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_INFORMATION_PROTECTION_AUDIT_REGULAR: ArtifactDescriptor = ArtifactDescriptor {
@@ -7308,6 +8684,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INFORMATION_PROTECTION_AUDIT_REGULAR: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EDP_AUDIT_REGULAR_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -7328,6 +8708,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EDP_AUDIT_REGULAR_CHANNEL: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_INFORMATION_PROTECTION_AUDIT_TCB_CHAN: ArtifactDescriptor = ArtifactDescriptor {
@@ -7348,6 +8732,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INFORMATION_PROTECTION_AUDIT_TCB_CHAN: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EDP_AUDIT_TCB_CHANNEL: ArtifactDescriptor =
@@ -7371,6 +8759,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EDP_AUDIT_TCB_CHANNEL: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EFS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -7391,6 +8783,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EFS_DEBUG: ArtifactDescriptor = Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EFS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -7413,6 +8809,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EFS_OPERATIONAL: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ELS_HYPHENATION_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -7433,6 +8833,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ELS_HYPHENATION_ANALYTIC_CHANNEL: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POLICY_BASED_QOS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -7453,6 +8857,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POLICY_BASED_QOS_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POLICY_BASED_QOS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -7473,6 +8881,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POLICY_BASED_QOS_ANALYTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ESE_IODIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
@@ -7493,6 +8905,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ESE_IODIAGNOSE: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ESE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -7515,6 +8931,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ESE_OPERATIONAL: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_OPERATIONAL: ArtifactDescriptor =
@@ -7538,6 +8958,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_OPERATIONAL: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_ANALYTIC: ArtifactDescriptor =
@@ -7561,6 +8985,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_ANALYTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -7581,6 +9009,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_DEBUG: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_OPERATIONAL_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -7601,6 +9033,10 @@ pub(crate) static EVTX_OPERATIONAL_CHANNEL: ArtifactDescriptor = ArtifactDescrip
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EASEOFACCESS_DIAGNOSTIC: ArtifactDescriptor =
@@ -7624,6 +9060,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EASEOFACCESS_DIAGNOSTIC: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EMBEDDEDAPPLAUNCHER_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -7644,6 +9084,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EMBEDDEDAPPLAUNCHER_ADMIN: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ENERGY_ESTIMATION_ENGINE_EVENTLOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -7664,6 +9108,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ENERGY_ESTIMATION_ENGINE_EVENTLOG: Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ENERGY_ESTIMATION_ENGINE_TRACE: ArtifactDescriptor = ArtifactDescriptor {
@@ -7684,6 +9132,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ENERGY_ESTIMATION_ENGINE_TRACE: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POWEREFFICIENCYDIAGNOSTICS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -7704,6 +9156,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWEREFFICIENCYDIAGNOSTICS_DIAGNOSTIC: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ENHANCEDSTORAGE_EHSTORCLASS_OPERATION: ArtifactDescriptor = ArtifactDescriptor {
@@ -7724,6 +9180,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ENHANCEDSTORAGE_EHSTORCLASS_OPERATION: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ENHANCEDSTORAGE_EHSTORTCGDRV_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -7744,6 +9204,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ENHANCEDSTORAGE_EHSTORTCGDRV_ANALYTIC: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ENROLLMENTPOLICYWEBSERVICE_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -7764,6 +9228,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ENROLLMENTPOLICYWEBSERVICE_ADMIN: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ENROLLMENTWEBSERVICE_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -7784,6 +9252,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ENROLLMENTWEBSERVICE_ADMIN: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FMS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -7804,6 +9276,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FMS_ANALYTIC: ArtifactDescriptor = Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_CLIENT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -7824,6 +9300,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_CLIENT_DIAGNOSTIC: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_CLIENT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -7844,6 +9324,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_CLIENT_OPERATIONAL: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_MANAGER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -7864,6 +9348,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_MANAGER_DIAGNOSTIC: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_MANAGER_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -7884,6 +9372,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_MANAGER_ADMIN: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FAULT_TOLERANT_HEAP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -7904,6 +9396,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FAULT_TOLERANT_HEAP_OPERATIONAL: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FEDERATIONSERVICES_DEPLOYMENT_OPERATI: ArtifactDescriptor = ArtifactDescriptor {
@@ -7924,6 +9420,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FEDERATIONSERVICES_DEPLOYMENT_OPERATI: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FEEDBACK_SERVICE_TRIGGERPROVIDER: ArtifactDescriptor = ArtifactDescriptor {
@@ -7944,6 +9444,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FEEDBACK_SERVICE_TRIGGERPROVIDER: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_CATALOG_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -7964,6 +9468,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_CATALOG_DEBUG: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_CONFIGMANAGER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -7984,6 +9492,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_CONFIGMANAGER_DEBUG: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_CORE_WHC: ArtifactDescriptor =
@@ -8007,6 +9519,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_CORE_WHC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_ENGINE_BACKUPLOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -8027,6 +9543,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_ENGINE_BACKUPLOG: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_ENGINE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -8047,6 +9567,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_ENGINE_DEBUG: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_FILE_HISTORY_BACKUP_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -8067,6 +9591,10 @@ pub(crate) static EVTX_FILE_HISTORY_BACKUP_LOG: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_SERVICE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -8087,6 +9615,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_SERVICE_DEBUG: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_UI_EVENTS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -8107,6 +9639,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_UI_EVENTS_DEBUG: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_UI_EVENTS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -8127,6 +9663,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_UI_EVENTS_ANALYTIC: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEINFOMINIFILTER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -8147,6 +9687,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEINFOMINIFILTER_OPERATIONAL: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEMANAGERAPP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -8167,6 +9711,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEMANAGERAPP_OPERATIONAL: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEMANAGERDATAMODEL_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -8187,6 +9735,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEMANAGERDATAMODEL_OPERATIONAL: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FIREWALL_CPL_DIAGNOSTIC: ArtifactDescriptor =
@@ -8210,6 +9762,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FIREWALL_CPL_DIAGNOSTIC: ArtifactDescri
         triage_priority: TriagePriority::Medium,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_SETUP_SPLASH_WINDOW_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -8230,6 +9786,10 @@ pub(crate) static EVTX_SETUP_SPLASH_WINDOW_PERFORMANCE: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FOLDER_REDIRECTION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -8250,6 +9810,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FOLDER_REDIRECTION_OPERATIONAL: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FUNCTIONDISCOVERYHOST_TRACING: ArtifactDescriptor = ArtifactDescriptor {
@@ -8270,6 +9834,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FUNCTIONDISCOVERYHOST_TRACING: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_GENERICROAMING_ADMIN: ArtifactDescriptor =
@@ -8293,6 +9861,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GENERICROAMING_ADMIN: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_GETTINGSTARTED_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -8313,6 +9885,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GETTINGSTARTED_DIAGNOSTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FONTGROUPS_DIAGNOSTIC: ArtifactDescriptor =
@@ -8336,6 +9912,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FONTGROUPS_DIAGNOSTIC: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_GLOBALIZATION_API_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -8356,6 +9936,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GLOBALIZATION_API_ANALYTIC_CHANNEL: Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_GROUPPOLICY_OPERATIONAL: ArtifactDescriptor =
@@ -8379,6 +9963,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GROUPPOLICY_OPERATIONAL: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HAL_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -8399,6 +9987,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HAL_DEBUG: ArtifactDescriptor = Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HEALTHCENTER_DEBUG: ArtifactDescriptor =
@@ -8422,6 +10014,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HEALTHCENTER_DEBUG: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HEALTHCENTER_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -8442,6 +10038,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HEALTHCENTER_PERFORMANCE: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HEALTHCENTERCPL_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -8462,6 +10062,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HEALTHCENTERCPL_PERFORMANCE: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HELLOFORBUSINESS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -8482,6 +10086,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HELLOFORBUSINESS_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HELLOFORBUSINESS_DEBUG: ArtifactDescriptor =
@@ -8505,6 +10113,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HELLOFORBUSINESS_DEBUG: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HELP_OPERATIONAL: ArtifactDescriptor =
@@ -8528,6 +10140,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HELP_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_CONTROL_PANEL_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -8548,6 +10164,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_CONTROL_PANEL_OPERATIONAL: Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_CONTROL_PANEL_PERFORMANCE_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -8568,6 +10188,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_CONTROL_PANEL_PERFORMANCE_D: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_LISTENERSERVICE: ArtifactDescriptor = ArtifactDescriptor {
@@ -8588,6 +10212,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_LISTENERSERVICE: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_LISTENER_SERVICE_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
@@ -8608,6 +10236,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_LISTENER_SERVICE_OPERATIONA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_PROVIDER_SERVICE_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
@@ -8628,6 +10260,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_PROVIDER_SERVICE_OPERATIONA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_PROVIDER_SERVICE_PERFORMANC: ArtifactDescriptor = ArtifactDescriptor {
@@ -8648,6 +10284,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_PROVIDER_SERVICE_PERFORMANC: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSTART_DIAGNOSTIC: ArtifactDescriptor =
@@ -8671,6 +10311,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSTART_DIAGNOSTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSPOTAUTH_ANALYTIC: ArtifactDescriptor =
@@ -8694,6 +10338,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSPOTAUTH_ANALYTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSPOTAUTH_OPERATIONAL: ArtifactDescriptor =
@@ -8717,6 +10365,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSPOTAUTH_OPERATIONAL: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_HTTP_LOG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -8737,6 +10389,10 @@ pub(crate) static EVTX_HTTP_LOG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_HTTP_SERVICE_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -8757,6 +10413,10 @@ pub(crate) static EVTX_HTTP_SERVICE_CHANNEL: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_COMPUTE_ANALYTIC: ArtifactDescriptor =
@@ -8780,6 +10440,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_COMPUTE_ANALYTIC: ArtifactDescr
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_COMPUTE_ADMIN: ArtifactDescriptor =
@@ -8803,6 +10467,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_COMPUTE_ADMIN: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_HYPER_V_GUEST_DRIVERS_ADMIN: ArtifactDescriptor =
@@ -8826,6 +10494,10 @@ pub(crate) static EVTX_MICROSOFT_HYPER_V_GUEST_DRIVERS_ADMIN: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_HYPER_V_GUEST_DRIVERS_ANALYTIC: ArtifactDescriptor =
@@ -8849,6 +10521,10 @@ pub(crate) static EVTX_MICROSOFT_HYPER_V_GUEST_DRIVERS_ANALYTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_GUEST_DRIVERS_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -8869,6 +10545,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_GUEST_DRIVERS_ADMIN: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_GUEST_DRIVERS_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
@@ -8889,6 +10569,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_GUEST_DRIVERS_DIAGNOSE: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_GUEST_DRIVERS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -8909,6 +10593,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_GUEST_DRIVERS_DEBUG: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_HYPERVISOR_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -8929,6 +10617,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_HYPERVISOR_OPERATIONAL: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_HYPERVISOR_ADMIN: ArtifactDescriptor =
@@ -8952,6 +10644,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_HYPERVISOR_ADMIN: ArtifactDescr
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_KMCL_CHILD_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -8972,6 +10668,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_KMCL_CHILD_ANALYTIC: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_NETVSC_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -8992,6 +10692,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_NETVSC_DIAGNOSTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_VID_ANALYTIC: ArtifactDescriptor =
@@ -9015,6 +10719,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_VID_ANALYTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_VID_ADMIN: ArtifactDescriptor =
@@ -9038,6 +10746,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_VID_ADMIN: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IE_SMARTSCREEN: ArtifactDescriptor = ArtifactDescriptor {
@@ -9058,6 +10770,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IE_SMARTSCREEN: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_DEBUG: ArtifactDescriptor =
@@ -9081,6 +10797,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_DEBUG: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -9101,6 +10821,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_ANALYTIC: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_ADMINISTRATIVE: ArtifactDescriptor = ArtifactDescriptor {
@@ -9121,6 +10845,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_ADMINISTRATIVE: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -9141,6 +10869,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_OPERATIONAL: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_IIS_DIAGNOSTICS_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -9161,6 +10893,10 @@ pub(crate) static EVTX_IIS_DIAGNOSTICS_CHANNEL: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_BROKER_ANALYTIC: ArtifactDescriptor =
@@ -9184,6 +10920,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_BROKER_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_CANDIDATEUI_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -9204,6 +10944,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_CANDIDATEUI_ANALYTIC: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_CUSTOMERFEEDBACKMANAGER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -9224,6 +10968,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_CUSTOMERFEEDBACKMANAGER_DEBUG: Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_CUSTOMERFEEDBACKMANAGERUI_ANALYTI: ArtifactDescriptor = ArtifactDescriptor {
@@ -9244,6 +10992,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_CUSTOMERFEEDBACKMANAGERUI_ANALYTI: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPAPI_ANALYTIC: ArtifactDescriptor =
@@ -9267,6 +11019,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPAPI_ANALYTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPLMP_ANALYTIC: ArtifactDescriptor =
@@ -9290,6 +11046,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPLMP_ANALYTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPPRED_ANALYTIC: ArtifactDescriptor =
@@ -9313,6 +11073,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPPRED_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPSETTING_ANALYTIC: ArtifactDescriptor =
@@ -9336,6 +11100,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPSETTING_ANALYTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPTIP_ANALYTIC: ArtifactDescriptor =
@@ -9359,6 +11127,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPTIP_ANALYTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_KRAPI_ANALYTIC: ArtifactDescriptor =
@@ -9382,6 +11154,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_KRAPI_ANALYTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_KRTIP_ANALYTIC: ArtifactDescriptor =
@@ -9405,6 +11181,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_KRTIP_ANALYTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_OEDCOMPILER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -9425,6 +11205,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_OEDCOMPILER_ANALYTIC: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_ROAMING_ANALYTIC: ArtifactDescriptor =
@@ -9448,6 +11232,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_ROAMING_ANALYTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCCORE_ANALYTIC: ArtifactDescriptor =
@@ -9471,6 +11259,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCCORE_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCDICCOMPILER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -9491,6 +11283,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCDICCOMPILER_ANALYTIC: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCTIP_ANALYTIC: ArtifactDescriptor =
@@ -9514,6 +11310,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCTIP_ANALYTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_TCCORE_ANALYTIC: ArtifactDescriptor =
@@ -9537,6 +11337,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_TCCORE_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_TCTIP_ANALYTIC: ArtifactDescriptor =
@@ -9560,6 +11364,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_TCTIP_ANALYTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_TIP_ANALYTIC: ArtifactDescriptor =
@@ -9583,6 +11391,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_TIP_ANALYTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IPBUSENUM_TRACING: ArtifactDescriptor =
@@ -9606,6 +11418,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IPBUSENUM_TRACING: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IPNAT_DIAGNOSTIC: ArtifactDescriptor =
@@ -9629,6 +11445,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IPNAT_DIAGNOSTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IPSEC_SRV_DIAGNOSTIC: ArtifactDescriptor =
@@ -9652,6 +11472,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IPSEC_SRV_DIAGNOSTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -9672,6 +11496,10 @@ pub(crate) static EVTX_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IDCTRLS_OPERATIONAL: ArtifactDescriptor =
@@ -9695,6 +11523,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IDCTRLS_OPERATIONAL: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IDCTRLS_ANALYTIC: ArtifactDescriptor =
@@ -9718,6 +11550,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IDCTRLS_ANALYTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINAPI_DIAGNOSTIC: ArtifactDescriptor =
@@ -9741,6 +11577,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINAPI_DIAGNOSTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COREAPPLICATION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -9761,6 +11601,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COREAPPLICATION_OPERATIONAL: ArtifactDe
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COREAPPLICATION_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -9781,6 +11625,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COREAPPLICATION_DIAGNOSTIC: ArtifactDes
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COREAPPLICATION_TRACING: ArtifactDescriptor =
@@ -9804,6 +11652,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COREAPPLICATION_TRACING: ArtifactDescri
         triage_priority: TriagePriority::Medium,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINUI_DIAGNOSTIC: ArtifactDescriptor =
@@ -9827,6 +11679,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINUI_DIAGNOSTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINUI_OPERATIONAL: ArtifactDescriptor =
@@ -9850,6 +11706,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINUI_OPERATIONAL: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_INDIRECTDISPLAYS_CLASSEXTENSION_EVENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -9870,6 +11730,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INDIRECTDISPLAYS_CLASSEXTENSION_EVENT: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_THIS_IS_THE_ANALYTIC_CHANNEL_TO_WHICH_INTERNAL_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -9890,6 +11754,10 @@ pub(crate) static EVTX_THIS_IS_THE_ANALYTIC_CHANNEL_TO_WHICH_INTERNAL_ANALYTIC: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_INPUTSWITCH_DIAGNOSTIC: ArtifactDescriptor =
@@ -9913,6 +11781,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INPUTSWITCH_DIAGNOSTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_THIS_IS_THE_ANALYTIC_CHANNEL_FOR_WINDOWS_INSTALL_UX_PER: ArtifactDescriptor = ArtifactDescriptor {
@@ -9933,6 +11805,10 @@ pub(crate) static EVTX_THIS_IS_THE_ANALYTIC_CHANNEL_FOR_WINDOWS_INSTALL_UX_PER: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_INTERNATIONAL_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -9953,6 +11829,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INTERNATIONAL_OPERATIONAL: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_IPHLPSVC_ETW_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -9973,6 +11853,10 @@ pub(crate) static EVTX_IPHLPSVC_ETW_CHANNEL: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_IPHLPSVC_ETW_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -9993,6 +11877,10 @@ pub(crate) static EVTX_IPHLPSVC_ETW_DEBUG_CHANNEL: ArtifactDescriptor = Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KDSSVC_OPERATIONAL: ArtifactDescriptor =
@@ -10016,6 +11904,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KDSSVC_OPERATIONAL: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_ACPI_DIAGNOSTIC: ArtifactDescriptor =
@@ -10039,6 +11931,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_ACPI_DIAGNOSTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPCOMPAT_GENERAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -10059,6 +11955,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPCOMPAT_GENERAL: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPCOMPAT_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -10079,6 +11979,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPCOMPAT_PERFORMANCE: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOT_ANALYTIC: ArtifactDescriptor =
@@ -10102,6 +12006,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOT_ANALYTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOT_OPERATIONAL: ArtifactDescriptor =
@@ -10125,6 +12033,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOT_OPERATIONAL: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOTDIAGNOSTICS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -10145,6 +12057,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOTDIAGNOSTICS_DIAGNOSTIC: Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_CPU_PARTITION_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -10165,6 +12081,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_CPU_PARTITION_ANALYTIC: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_CPU_STARVATION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -10185,6 +12105,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_CPU_STARVATION_OPERATIONAL: Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_DISK_ANALYTIC: ArtifactDescriptor =
@@ -10208,6 +12132,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_DISK_ANALYTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_DUMP_OPERATIONAL: ArtifactDescriptor =
@@ -10231,6 +12159,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_DUMP_OPERATIONAL: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_EVENTTRACING_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -10251,6 +12183,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_EVENTTRACING_ADMIN: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_EVENTTRACING_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -10271,6 +12207,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_EVENTTRACING_ANALYTIC: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_FILE_ANALYTIC: ArtifactDescriptor =
@@ -10294,6 +12234,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_FILE_ANALYTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_IO_OPERATIONAL: ArtifactDescriptor =
@@ -10317,6 +12261,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_IO_OPERATIONAL: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_IOTRACE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -10337,6 +12285,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_IOTRACE_DIAGNOSTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_LIVEDUMP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -10357,6 +12309,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_LIVEDUMP_ANALYTIC: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_LIVEDUMP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -10377,6 +12333,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_LIVEDUMP_OPERATIONAL: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_MEMORY_ANALYTIC: ArtifactDescriptor =
@@ -10400,6 +12360,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_MEMORY_ANALYTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_NETWORK_ANALYTIC: ArtifactDescriptor =
@@ -10423,6 +12387,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_NETWORK_ANALYTIC: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PEP_DIAGNOSTIC: ArtifactDescriptor =
@@ -10446,6 +12414,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PEP_DIAGNOSTIC: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_BOOT_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -10466,6 +12438,10 @@ pub(crate) static EVTX_BOOT_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PNP_DIAGNOSTIC: ArtifactDescriptor =
@@ -10489,6 +12465,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PNP_DIAGNOSTIC: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_DRIVER_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -10509,6 +12489,10 @@ pub(crate) static EVTX_DRIVER_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_DEVICE_ENUMERATION_DIAGNOSTIC_CHANNEL: ArtifactDescriptor =
@@ -10532,6 +12516,10 @@ pub(crate) static EVTX_DEVICE_ENUMERATION_DIAGNOSTIC_CHANNEL: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_CONFIGURATION_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -10552,6 +12540,10 @@ pub(crate) static EVTX_CONFIGURATION_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_DEVICE_CONFIGURATION: ArtifactDescriptor = ArtifactDescriptor {
@@ -10572,6 +12564,10 @@ pub(crate) static EVTX_DEVICE_CONFIGURATION: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_PNP_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -10592,6 +12588,10 @@ pub(crate) static EVTX_PNP_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_DEVICE_MANAGEMENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -10612,6 +12612,10 @@ pub(crate) static EVTX_DEVICE_MANAGEMENT: ArtifactDescriptor = ArtifactDescripto
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_DRIVER_WATCHDOG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -10632,6 +12636,10 @@ pub(crate) static EVTX_DRIVER_WATCHDOG_CHANNEL: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_CONFIGURATION: ArtifactDescriptor = ArtifactDescriptor {
@@ -10652,6 +12660,10 @@ pub(crate) static EVTX_CONFIGURATION: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_POWER_THERMAL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -10672,6 +12684,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_POWER_THERMAL_DIAGNOSTIC: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_THERMAL_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -10692,6 +12708,10 @@ pub(crate) static EVTX_THERMAL_OPERATIONAL: ArtifactDescriptor = ArtifactDescrip
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PREFETCH_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -10712,6 +12732,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PREFETCH_DIAGNOSTIC: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PRM_OPERATIONAL: ArtifactDescriptor =
@@ -10735,6 +12759,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PRM_OPERATIONAL: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PROCESS_ANALYTIC: ArtifactDescriptor =
@@ -10758,6 +12786,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PROCESS_ANALYTIC: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PROCESSOR_POWER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -10778,6 +12810,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PROCESSOR_POWER_DIAGNOSTIC: Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_REGISTRY_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -10798,6 +12834,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_REGISTRY_ANALYTIC: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_REGISTRY_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -10818,6 +12858,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_REGISTRY_PERFORMANCE: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_SHIMENGINE_DEBUG: ArtifactDescriptor =
@@ -10841,6 +12885,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_SHIMENGINE_DEBUG: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_SHIMENGINE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -10861,6 +12909,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_SHIMENGINE_OPERATIONAL: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_SHIMENGINE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -10881,6 +12933,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_SHIMENGINE_DIAGNOSTIC: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_STOREMGR_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -10901,6 +12957,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_STOREMGR_ANALYTIC: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_STOREMGR_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -10921,6 +12981,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_STOREMGR_OPERATIONAL: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WDI_ANALYTIC: ArtifactDescriptor =
@@ -10944,6 +13008,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WDI_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WDI_DEBUG: ArtifactDescriptor =
@@ -10967,6 +13035,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WDI_DEBUG: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WDI_OPERATIONAL: ArtifactDescriptor =
@@ -10990,6 +13062,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WDI_OPERATIONAL: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA_ERRORS: ArtifactDescriptor =
@@ -11013,6 +13089,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA_ERRORS: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA: ArtifactDescriptor = ArtifactDescriptor {
@@ -11033,6 +13113,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA: ArtifactDescriptor = Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA_OPERATIONAL: ArtifactDescriptor =
@@ -11056,6 +13140,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA_OPERATIONAL: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_XDV_ANALYTIC: ArtifactDescriptor =
@@ -11079,6 +13167,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_XDV_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_WINDOWS_KS_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -11099,6 +13191,10 @@ pub(crate) static EVTX_WINDOWS_KS_CHANNEL: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KEYBOARDFILTER_ADMIN: ArtifactDescriptor =
@@ -11122,6 +13218,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KEYBOARDFILTER_ADMIN: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KEYBOARDFILTER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -11142,6 +13242,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KEYBOARDFILTER_OPERATIONAL: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KEYBOARDFILTER_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -11162,6 +13266,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KEYBOARDFILTER_PERFORMANCE: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KNOWN_FOLDERS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -11182,6 +13290,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KNOWN_FOLDERS_OPERATIONAL: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_WLAN_AUTOCONFIG_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -11202,6 +13314,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_WLAN_AUTOCONFIG_OPERATIONAL: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_WIRED_AUTOCONFIG_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -11222,6 +13338,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_WIRED_AUTOCONFIG_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_L2NACP_DIAGNOSTIC: ArtifactDescriptor =
@@ -11245,6 +13365,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_L2NACP_DIAGNOSTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LAPS_OPERATIONAL: ArtifactDescriptor =
@@ -11268,6 +13392,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LAPS_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LDAP_CLIENT_DEBUG: ArtifactDescriptor =
@@ -11291,6 +13419,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LDAP_CLIENT_DEBUG: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LUA_CONSENTUI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -11311,6 +13443,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LUA_CONSENTUI_DIAGNOSTIC: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LANGUAGEPACKSETUP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -11331,6 +13467,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LANGUAGEPACKSETUP_OPERATIONAL: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LANGUAGEPACKSETUP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -11351,6 +13491,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LANGUAGEPACKSETUP_ANALYTIC: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LANGUAGEPACKSETUP_DEBUG: ArtifactDescriptor =
@@ -11374,6 +13518,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LANGUAGEPACKSETUP_DEBUG: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MAJOR_STATE_CONFIGURATION_CHANGE_THAT_CAN_HELP_DEBUG_AD: ArtifactDescriptor = ArtifactDescriptor {
@@ -11394,6 +13542,10 @@ pub(crate) static EVTX_MAJOR_STATE_CONFIGURATION_CHANGE_THAT_CAN_HELP_DEBUG_AD: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LIMITSMANAGEMENT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -11414,6 +13566,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LIMITSMANAGEMENT_DIAGNOSTIC: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LINKLAYERDISCOVERYPROTOCOL_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
@@ -11434,6 +13590,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LINKLAYERDISCOVERYPROTOCOL_OPERATIONA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LINKLAYERDISCOVERYPROTOCOL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -11454,6 +13614,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LINKLAYERDISCOVERYPROTOCOL_DIAGNOSTIC: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LIVEID_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -11476,6 +13640,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LIVEID_ANALYTIC: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LIVEID_OPERATIONAL: ArtifactDescriptor =
@@ -11499,6 +13667,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LIVEID_OPERATIONAL: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_AUTOMATION: ArtifactDescriptor = ArtifactDescriptor {
@@ -11519,6 +13691,10 @@ pub(crate) static EVTX_AUTOMATION: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MEDIA_FOUNDATION_FRAMESERVER: ArtifactDescriptor = ArtifactDescriptor {
@@ -11539,6 +13715,10 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_FRAMESERVER: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MEDIA_FOUNDATION_DEVICEPROXY: ArtifactDescriptor = ArtifactDescriptor {
@@ -11559,6 +13739,10 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_DEVICEPROXY: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MF_MEDIAFOUNDATIONDEVICEPROXY: ArtifactDescriptor = ArtifactDescriptor {
@@ -11579,6 +13763,10 @@ pub(crate) static EVTX_MF_MEDIAFOUNDATIONDEVICEPROXY: ArtifactDescriptor = Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MEDIA_FOUNDATION_PIPELINE: ArtifactDescriptor = ArtifactDescriptor {
@@ -11599,6 +13787,10 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_PIPELINE: ArtifactDescriptor = ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MEDIA_FOUNDATION_CONTENTPROTECTION: ArtifactDescriptor =
@@ -11622,6 +13814,10 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_CONTENTPROTECTION: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MEDIA_FOUNDATION_ASYNCWRAPPER: ArtifactDescriptor = ArtifactDescriptor {
@@ -11642,6 +13838,10 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_ASYNCWRAPPER: ArtifactDescriptor = Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MEDIAFOUNDATIONASYNCWRAPPER: ArtifactDescriptor = ArtifactDescriptor {
@@ -11662,6 +13862,10 @@ pub(crate) static EVTX_MEDIAFOUNDATIONASYNCWRAPPER: ArtifactDescriptor = Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MFDS: ArtifactDescriptor = ArtifactDescriptor {
@@ -11682,6 +13886,10 @@ pub(crate) static EVTX_MFDS: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_SRCPREFETCH: ArtifactDescriptor = ArtifactDescriptor {
@@ -11702,6 +13910,10 @@ pub(crate) static EVTX_SRCPREFETCH: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MP4: ArtifactDescriptor = ArtifactDescriptor {
@@ -11722,6 +13934,10 @@ pub(crate) static EVTX_MP4: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MEDIA_FOUNDATION_DEVICEMFT: ArtifactDescriptor = ArtifactDescriptor {
@@ -11742,6 +13958,10 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_DEVICEMFT: ArtifactDescriptor = Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_WINDOWS_MFH264ENC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -11762,6 +13982,10 @@ pub(crate) static EVTX_WINDOWS_MFH264ENC_CHANNEL: ArtifactDescriptor = ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_WINDOWS_MP4SDECD_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -11782,6 +14006,10 @@ pub(crate) static EVTX_WINDOWS_MP4SDECD_CHANNEL: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MUXENCODE: ArtifactDescriptor = ArtifactDescriptor {
@@ -11802,6 +14030,10 @@ pub(crate) static EVTX_MUXENCODE: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MPS_CLNT_DIAGNOSTIC: ArtifactDescriptor =
@@ -11825,6 +14057,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MPS_CLNT_DIAGNOSTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MPS_DRV_DIAGNOSTIC: ArtifactDescriptor =
@@ -11848,6 +14084,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MPS_DRV_DIAGNOSTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MPS_SRV_DIAGNOSTIC: ArtifactDescriptor =
@@ -11871,6 +14111,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MPS_SRV_DIAGNOSTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MSFTEDIT_DIAGNOSTIC: ArtifactDescriptor =
@@ -11894,6 +14138,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSFTEDIT_DIAGNOSTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_WINDOWS_MSMPEG2ADEC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -11914,6 +14162,10 @@ pub(crate) static EVTX_WINDOWS_MSMPEG2ADEC_CHANNEL: ArtifactDescriptor = Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_WINDOWS_MSMPEG2VDEC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -11934,6 +14186,10 @@ pub(crate) static EVTX_WINDOWS_MSMPEG2VDEC_CHANNEL: ArtifactDescriptor = Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MSMQ_END2END: ArtifactDescriptor = ArtifactDescriptor {
@@ -11954,6 +14210,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSMQ_END2END: ArtifactDescriptor = Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MSPAINT_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -11974,6 +14234,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSPAINT_DEBUG: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MSPAINT_DIAGNOSTIC: ArtifactDescriptor =
@@ -11997,6 +14261,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSPAINT_DIAGNOSTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHV_DIAGNOSTIC: ArtifactDescriptor =
@@ -12020,6 +14288,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHV_DIAGNOSTIC: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHV_OPERATIONAL: ArtifactDescriptor =
@@ -12043,6 +14315,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHV_OPERATIONAL: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHVCNFG_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -12063,6 +14339,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHVCNFG_DIAGNOSTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -12085,6 +14365,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_OPERATIONAL: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -12105,6 +14389,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_ADMIN: ArtifactDescriptor = Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -12125,6 +14413,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_DEBUG: ArtifactDescriptor = Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -12145,6 +14437,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_ANALYTIC: ArtifactDescriptor = Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MEDIA_CENTER: ArtifactDescriptor = ArtifactDescriptor {
@@ -12165,6 +14461,10 @@ pub(crate) static EVTX_MEDIA_CENTER: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_PLAYREADY_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -12185,6 +14485,10 @@ pub(crate) static EVTX_PLAYREADY_PERFORMANCE: ArtifactDescriptor = ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_DMR: ArtifactDescriptor =
@@ -12208,6 +14512,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_DMR: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_DMC: ArtifactDescriptor =
@@ -12231,6 +14539,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_DMC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_MDE: ArtifactDescriptor =
@@ -12254,6 +14566,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_MDE: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MEDIA_FOUNDATION_MEDIAENGINE: ArtifactDescriptor = ArtifactDescriptor {
@@ -12274,6 +14590,10 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_MEDIAENGINE: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MEDIA_FOUNDATION_CAPTURE_ENGINE_ETW_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -12294,6 +14614,10 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_CAPTURE_ENGINE_ETW_CHANNEL: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_MFREADWRITE_SOURCEREA: ArtifactDescriptor = ArtifactDescriptor {
@@ -12314,6 +14638,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_MFREADWRITE_SOURCEREA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_MFREADWRITE_SINKWRITE: ArtifactDescriptor = ArtifactDescriptor {
@@ -12334,6 +14662,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_MFREADWRITE_SINKWRITE: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_MFREADWRITE_TRANSFORM: ArtifactDescriptor = ArtifactDescriptor {
@@ -12354,6 +14686,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_MFREADWRITE_TRANSFORM: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MS_VIDEO_PROCESSOR_MFT_D3D11: ArtifactDescriptor = ArtifactDescriptor {
@@ -12374,6 +14710,10 @@ pub(crate) static EVTX_MS_VIDEO_PROCESSOR_MFT_D3D11: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MS_VIDEO_PROCESSOR_MFT: ArtifactDescriptor = ArtifactDescriptor {
@@ -12394,6 +14734,10 @@ pub(crate) static EVTX_MS_VIDEO_PROCESSOR_MFT: ArtifactDescriptor = ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MS_VIDEO_DSP: ArtifactDescriptor = ArtifactDescriptor {
@@ -12414,6 +14758,10 @@ pub(crate) static EVTX_MS_VIDEO_DSP: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MEDIA_FOUNDATION_PERFORMANCE_CORE: ArtifactDescriptor = ArtifactDescriptor {
@@ -12434,6 +14782,10 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_PERFORMANCE_CORE: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MEDIA_FOUNDATION_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -12454,6 +14806,10 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_PERFORMANCE: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_PERFORMANCE_SARSTREAM: ArtifactDescriptor = ArtifactDescriptor {
@@ -12474,6 +14830,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_PERFORMANCE_SARSTREAM: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MEDIA_FOUNDATION_PLATFORM: ArtifactDescriptor = ArtifactDescriptor {
@@ -12494,6 +14854,10 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_PLATFORM: ArtifactDescriptor = ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MEDIAFOUNDATIONDEVICEPROXY: ArtifactDescriptor = ArtifactDescriptor {
@@ -12514,6 +14878,10 @@ pub(crate) static EVTX_MEDIAFOUNDATIONDEVICEPROXY: ArtifactDescriptor = Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_PLAYAPI_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -12534,6 +14902,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_PLAYAPI_ANALYTIC: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MEMORYDIAGNOSTICS_RESULTS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -12554,6 +14926,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEMORYDIAGNOSTICS_RESULTS_DEBUG: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MIGRATION_ENGINE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -12574,6 +14950,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MIGRATION_ENGINE_ANALYTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MINSTORE_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -12594,6 +14974,10 @@ pub(crate) static EVTX_MINSTORE_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MINSTORE_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -12614,6 +14998,10 @@ pub(crate) static EVTX_MINSTORE_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_API_INTER: ArtifactDescriptor = ArtifactDescriptor {
@@ -12634,6 +15022,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_API_INTER: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_API_ANALY: ArtifactDescriptor = ArtifactDescriptor {
@@ -12654,6 +15046,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_API_ANALY: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_PARSER_TA: ArtifactDescriptor = ArtifactDescriptor {
@@ -12674,6 +15070,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_PARSER_TA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_SMSAPI_AN: ArtifactDescriptor = ArtifactDescriptor {
@@ -12694,6 +15094,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_SMSAPI_AN: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_SMSAPI: ArtifactDescriptor = ArtifactDescriptor {
@@ -12714,6 +15118,10 @@ pub(crate) static EVTX_SMSAPI: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_SMSROUTER: ArtifactDescriptor = ArtifactDescriptor {
@@ -12734,6 +15142,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_SMSROUTER: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILITYCENTER_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -12754,6 +15166,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILITYCENTER_PERFORMANCE: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_DIAGNOSTICS: ArtifactDescriptor = ArtifactDescriptor {
@@ -12774,6 +15190,10 @@ pub(crate) static EVTX_DIAGNOSTICS: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MANAGEMENTSERVICE: ArtifactDescriptor = ArtifactDescriptor {
@@ -12794,6 +15214,10 @@ pub(crate) static EVTX_MANAGEMENTSERVICE: ArtifactDescriptor = ArtifactDescripto
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MOSHOST_OPERATIONAL: ArtifactDescriptor =
@@ -12817,6 +15241,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOSHOST_OPERATIONAL: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MOSHOST_PERFORMANCE: ArtifactDescriptor =
@@ -12840,6 +15268,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOSHOST_PERFORMANCE: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_NOTIFICATION_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -12860,6 +15292,10 @@ pub(crate) static EVTX_NOTIFICATION_CHANNEL: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MSLBFOPROVIDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -12880,6 +15316,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSLBFOPROVIDER_OPERATIONAL: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NCSI_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -12900,6 +15340,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NCSI_ANALYTIC: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NCSI_OPERATIONAL: ArtifactDescriptor =
@@ -12923,6 +15367,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NCSI_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_PACKETCAPTURE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -12943,6 +15391,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_PACKETCAPTURE_DIAGNOSTIC: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -12965,6 +15417,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_DIAGNOSTIC: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_OPERATIONAL: ArtifactDescriptor =
@@ -12988,6 +15444,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_PROTECTEDUSERFAILURES: ArtifactDescriptor = ArtifactDescriptor {
@@ -13008,6 +15468,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_PROTECTEDUSERFAILURES: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_AUTHENTICATIONPOLICYFA: ArtifactDescriptor = ArtifactDescriptor {
@@ -13028,6 +15492,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_AUTHENTICATIONPOLICYFA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NTLM_OPERATIONAL: ArtifactDescriptor =
@@ -13051,6 +15519,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NTLM_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NWIFI_DIAGNOSTIC: ArtifactDescriptor =
@@ -13074,6 +15546,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NWIFI_DIAGNOSTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NARRATOR_INPROC_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13094,6 +15570,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NARRATOR_INPROC_DIAGNOSTIC: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NARRATOR_DIAGNOSTIC: ArtifactDescriptor =
@@ -13117,6 +15597,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NARRATOR_DIAGNOSTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NCASVC_OPERATIONAL: ArtifactDescriptor =
@@ -13140,6 +15624,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NCASVC_OPERATIONAL: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NCDAUTOSETUP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -13160,6 +15648,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NCDAUTOSETUP_OPERATIONAL: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NCDAUTOSETUP_DIAGNOSTIC: ArtifactDescriptor =
@@ -13183,6 +15675,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NCDAUTOSETUP_DIAGNOSTIC: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NDISIMPLATFORM_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -13203,6 +15699,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NDISIMPLATFORM_OPERATIONAL: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NDU_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13223,6 +15723,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NDU_DIAGNOSTIC: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETSHELL_PERFORMANCE: ArtifactDescriptor =
@@ -13246,6 +15750,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETSHELL_PERFORMANCE: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_CONNECTION_BROKER: ArtifactDescriptor = ArtifactDescriptor {
@@ -13266,6 +15774,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_CONNECTION_BROKER: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_DATAUSAGE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13286,6 +15798,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_DATAUSAGE_ANALYTIC: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_EXECUTION_CONTEXT_OPERATIONAL_CHANNEL: ArtifactDescriptor =
@@ -13309,6 +15825,10 @@ pub(crate) static EVTX_EXECUTION_CONTEXT_OPERATIONAL_CHANNEL: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_SETUP_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13329,6 +15849,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_SETUP_DIAGNOSTIC: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_AND_SHARING_CENTER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13349,6 +15873,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_AND_SHARING_CENTER_DIAGNOSTIC: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKACCESSPROTECTION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -13369,6 +15897,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKACCESSPROTECTION_OPERATIONAL: Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKACCESSPROTECTION_WHC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13389,6 +15921,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKACCESSPROTECTION_WHC: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKBRIDGE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13409,6 +15945,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKBRIDGE_DIAGNOSTIC: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROFILE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -13429,6 +15969,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROFILE_OPERATIONAL: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROFILE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13449,6 +15993,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROFILE_DIAGNOSTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROVIDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -13469,6 +16017,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROVIDER_OPERATIONAL: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROVISIONING_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13489,6 +16041,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROVISIONING_ANALYTIC: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROVISIONING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -13509,6 +16065,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROVISIONING_OPERATIONAL: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKSECURITY_DEBUG: ArtifactDescriptor =
@@ -13532,6 +16092,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKSECURITY_DEBUG: ArtifactDescript
         triage_priority: TriagePriority::Critical,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+        evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+        volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+        volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKSTATUS_ANALYTIC: ArtifactDescriptor =
@@ -13555,6 +16119,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKSTATUS_ANALYTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKING_CORRELATION_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13575,6 +16143,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKING_CORRELATION_DIAGNOSTIC: Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKING_REALTIMECOMMUNICATION_TRAC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13595,6 +16167,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKING_REALTIMECOMMUNICATION_TRAC: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NLASVC_DIAGNOSTIC: ArtifactDescriptor =
@@ -13618,6 +16194,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NLASVC_DIAGNOSTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NLASVC_OPERATIONAL: ArtifactDescriptor =
@@ -13641,6 +16221,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NLASVC_OPERATIONAL: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_PERFORMANCE: ArtifactDescriptor =
@@ -13664,6 +16248,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_PERFORMANCE: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_OPERATIONAL: ArtifactDescriptor =
@@ -13687,6 +16275,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_WHC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13707,6 +16299,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_WHC: ArtifactDescriptor = Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NVDIMMN_DIAGNOSTIC: ArtifactDescriptor =
@@ -13730,6 +16326,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NVDIMMN_DIAGNOSTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NVDIMMN_OPERATIONAL: ArtifactDescriptor =
@@ -13753,6 +16353,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NVDIMMN_OPERATIONAL: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_NVMEDISK_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13773,6 +16377,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_NVMEDISK_ANALYTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_NVMEDISK_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
@@ -13793,6 +16401,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_NVMEDISK_DIAGNOSE: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_NVMEDISK_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -13813,6 +16425,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_NVMEDISK_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OLE_CLIPBOARD_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -13833,6 +16449,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OLE_CLIPBOARD_PERFORMANCE: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OLE_CLIPBOARD_DIAGNOSTICS: ArtifactDescriptor = ArtifactDescriptor {
@@ -13853,6 +16473,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OLE_CLIPBOARD_DIAGNOSTICS: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OLEACC_DIAGNOSTIC: ArtifactDescriptor =
@@ -13876,6 +16500,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OLEACC_DIAGNOSTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OLEACC_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -13896,6 +16524,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OLEACC_DEBUG: ArtifactDescriptor = Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_FIRSTLOGONANIM_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13916,6 +16548,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_FIRSTLOGONANIM_DIAGNOSTIC: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_CORE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13936,6 +16572,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_CORE_DIAGNOSTIC: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_DUI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -13956,6 +16596,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_DUI_DIAGNOSTIC: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_DUI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -13976,6 +16620,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_DUI_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_PLUGINS_WIRELESS_DIAGNOS: ArtifactDescriptor = ArtifactDescriptor {
@@ -13996,6 +16644,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_PLUGINS_WIRELESS_DIAGNOS: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_PLUGINS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -14016,6 +16668,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_PLUGINS_DIAGNOSTIC: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_DIAGNOSTIC: ArtifactDescriptor =
@@ -14039,6 +16695,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_DIAGNOSTIC: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_SETUP: ArtifactDescriptor = ArtifactDescriptor {
@@ -14059,6 +16719,10 @@ pub(crate) static EVTX_SETUP: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_OCP_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescriptor =
@@ -14082,6 +16746,10 @@ pub(crate) static EVTX_OCP_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OFFLINEFILES_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -14102,6 +16770,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OFFLINEFILES_OPERATIONAL: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OFFLINEFILES_SYNCLOG: ArtifactDescriptor =
@@ -14125,6 +16797,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OFFLINEFILES_SYNCLOG: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEBACKUP_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -14147,6 +16823,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEBACKUP_DEBUG: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEX_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -14169,6 +16849,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEX_DIAGNOSTIC: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEX_OPERATIONAL: ArtifactDescriptor =
@@ -14192,6 +16876,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEX_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBELDR_ANALYTIC: ArtifactDescriptor =
@@ -14215,6 +16903,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBELDR_ANALYTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OTPCREDENTIALPROVIDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -14235,6 +16927,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OTPCREDENTIALPROVIDER_OPERATIONAL: Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_PCI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -14255,6 +16951,10 @@ pub(crate) static EVTX_PCI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PCI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -14275,6 +16975,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PCI_DIAGNOSTIC: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PDC_DIAGNOSTIC: ArtifactDescriptor =
@@ -14298,6 +17002,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PDC_DIAGNOSTIC: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_GLCND_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -14318,6 +17026,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GLCND_DEBUG: ArtifactDescriptor = Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_GLCND_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -14338,6 +17050,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GLCND_ADMIN: ArtifactDescriptor = Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_GLCND_DIAGNOSTIC: ArtifactDescriptor =
@@ -14361,6 +17077,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GLCND_DIAGNOSTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PACKAGESTATEROAMING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -14381,6 +17101,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PACKAGESTATEROAMING_OPERATIONAL: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PACKAGESTATEROAMING_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -14401,6 +17125,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PACKAGESTATEROAMING_DEBUG: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PACKAGESTATEROAMING_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -14421,6 +17149,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PACKAGESTATEROAMING_ANALYTIC: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PARENTALCONTROLS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -14441,6 +17173,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PARENTALCONTROLS_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PARENTALCONTROLS_TELEMETRY_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
@@ -14461,6 +17197,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PARENTALCONTROLS_TELEMETRY_OPERATIONA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PARENTALCONTROLS_TELEMETRY_AUDITING: ArtifactDescriptor = ArtifactDescriptor {
@@ -14481,6 +17221,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PARENTALCONTROLS_TELEMETRY_AUDITING: Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_DIAGNOSTIC: ArtifactDescriptor =
@@ -14504,6 +17248,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_DIAGNOSTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_ANALYTIC: ArtifactDescriptor =
@@ -14527,6 +17275,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_ANALYTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -14549,6 +17301,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_DEBUG: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PEERTOPEERDRTEVENTPROVIDER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -14569,6 +17325,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PEERTOPEERDRTEVENTPROVIDER_DIAGNOSTIC: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_INVDIMM_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -14589,6 +17349,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_INVDIMM_OPERATIONAL: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_INVDIMM_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -14609,6 +17373,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_INVDIMM_DIAGNOSTIC: Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMM_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -14629,6 +17397,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMM_OPERATIONAL: Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMM_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -14649,6 +17421,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMM_DIAGNOSTIC: Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMMN_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -14669,6 +17445,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMMN_DIAGNOSTIC: Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMMN_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -14689,6 +17469,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMMN_OPERATIONAL: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_PMEMDISK_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -14709,6 +17493,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_PMEMDISK_ANALYTIC: Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_PMEMDISK_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -14729,6 +17517,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_PMEMDISK_DIAGNOSTIC: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_PMEMDISK_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -14749,6 +17541,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_PMEMDISK_OPERATIONAL: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -14769,6 +17565,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_ANALYTIC: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
@@ -14789,6 +17589,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_DIAGNOSE: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_CERTIFICATION: ArtifactDescriptor = ArtifactDescriptor {
@@ -14809,6 +17613,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_CERTIFICATION: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -14829,6 +17637,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_OPERATIONAL: Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_VIRTUALNVDIMM_OPERAT: ArtifactDescriptor = ArtifactDescriptor {
@@ -14849,6 +17661,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_VIRTUALNVDIMM_OPERAT: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_VIRTUALNVDIMM_DIAGNO: ArtifactDescriptor = ArtifactDescriptor {
@@ -14869,6 +17685,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_VIRTUALNVDIMM_DIAGNO: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_WINDOWS_WMPHOTO_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -14889,6 +17709,10 @@ pub(crate) static EVTX_WINDOWS_WMPHOTO_CHANNEL: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PHOTOACQ_ANALYTIC: ArtifactDescriptor =
@@ -14912,6 +17736,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PHOTOACQ_ANALYTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PLAYTOMANAGER_ANALYTIC: ArtifactDescriptor =
@@ -14935,6 +17763,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PLAYTOMANAGER_ANALYTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_ANALYTIC: ArtifactDescriptor =
@@ -14958,6 +17790,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_ANALYTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_DIAGNOSTIC: ArtifactDescriptor =
@@ -14981,6 +17817,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_DIAGNOSTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_OPERATIONAL: ArtifactDescriptor =
@@ -15004,6 +17844,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_OPERATIONAL: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PORTABLEDEVICESTATUSPROVIDER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -15024,6 +17868,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PORTABLEDEVICESTATUSPROVIDER_ANALYTIC: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PORTABLEDEVICESYNCPROVIDER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -15044,6 +17892,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PORTABLEDEVICESYNCPROVIDER_ANALYTIC: Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POWER_METER_POLLING_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -15064,6 +17916,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWER_METER_POLLING_DIAGNOSTIC: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERCFG_DIAGNOSTIC: ArtifactDescriptor =
@@ -15087,6 +17943,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERCFG_DIAGNOSTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERCPL_DIAGNOSTIC: ArtifactDescriptor =
@@ -15110,6 +17970,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERCPL_DIAGNOSTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_DESIREDSTATECONFIGURATION: ArtifactDescriptor = ArtifactDescriptor {
@@ -15130,6 +17994,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_DESIREDSTATECONFIGURATION: A
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_OPERATIONAL: ArtifactDescriptor =
@@ -15153,6 +18021,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_OPERATIONAL: ArtifactDescrip
         triage_priority: TriagePriority::High,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_ANALYTIC: ArtifactDescriptor =
@@ -15176,6 +18048,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::High,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_DEBUG: ArtifactDescriptor =
@@ -15199,6 +18075,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_DEBUG: ArtifactDescriptor =
         triage_priority: TriagePriority::High,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIRESOURCES_DEPLOYMENT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -15219,6 +18099,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIRESOURCES_DEPLOYMENT_DIAGNOSTIC: Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIRESOURCES_DEPLOYMENT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -15239,6 +18123,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIRESOURCES_DEPLOYMENT_OPERATIONAL: Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIMARYNETWORKICON_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -15259,6 +18147,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIMARYNETWORKICON_PERFORMANCE: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKLOCATIONWIZARD_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -15279,6 +18171,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKLOCATIONWIZARD_OPERATIONAL: Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTDIALOGS_ANALYTIC: ArtifactDescriptor =
@@ -15302,6 +18198,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTDIALOGS_ANALYTIC: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTDIALOGS3D_ANALYTIC: ArtifactDescriptor =
@@ -15325,6 +18225,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTDIALOGS3D_ANALYTIC: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTSPOOLER_CORE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -15345,6 +18249,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTSPOOLER_CORE_ANALYTIC: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTSPOOLER_CORE_DEBUG: ArtifactDescriptor =
@@ -15368,6 +18276,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTSPOOLER_CORE_DEBUG: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIVACY_AUDITING_PERMISSIVELEARNINGMO: ArtifactDescriptor = ArtifactDescriptor {
@@ -15388,6 +18300,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIVACY_AUDITING_PERMISSIVELEARNINGMO: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PROCESSSTATEMANAGER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -15408,6 +18324,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PROCESSSTATEMANAGER_DIAGNOSTIC: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PROGRAM_COMPATIBILITY_ASSISTANT_OPERA: ArtifactDescriptor = ArtifactDescriptor {
@@ -15428,6 +18348,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PROGRAM_COMPATIBILITY_ASSISTANT_OPERA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PROXIMITY_COMMON_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -15448,6 +18372,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PROXIMITY_COMMON_PERFORMANCE: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PROXIMITY_COMMON_INFORMATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -15468,6 +18396,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PROXIMITY_COMMON_INFORMATIONAL: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PROXIMITY_COMMON_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -15488,6 +18420,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PROXIMITY_COMMON_DIAGNOSTIC: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_DEVELOPER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -15508,6 +18444,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_DEVELOPER_DEBUG: Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_INPROC_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -15528,6 +18468,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_INPROC_DEBUG: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_PLATFORM_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -15548,6 +18492,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_PLATFORM_DEBUG: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_PLATFORM_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
@@ -15568,6 +18516,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_PLATFORM_OPERATIONA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_PLATFORM_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -15588,6 +18540,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_PLATFORM_ADMIN: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_PACER_DIAGNOSTIC: ArtifactDescriptor =
@@ -15611,6 +18567,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_PACER_DIAGNOSTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_PACER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -15633,6 +18593,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_PACER_DEBUG: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_QWAVE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -15655,6 +18619,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_QWAVE_DEBUG: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_EEINFO: ArtifactDescriptor = ArtifactDescriptor {
@@ -15675,6 +18643,10 @@ pub(crate) static EVTX_EEINFO: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_ADMIN_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -15695,6 +18667,10 @@ pub(crate) static EVTX_ADMIN_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_RTWORKQUEUE_EXTENDED: ArtifactDescriptor = ArtifactDescriptor {
@@ -15715,6 +18691,10 @@ pub(crate) static EVTX_RTWORKQUEUE_EXTENDED: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_RTWORKQUEUE_THREADING: ArtifactDescriptor = ArtifactDescriptor {
@@ -15735,6 +18715,10 @@ pub(crate) static EVTX_RTWORKQUEUE_THREADING: ArtifactDescriptor = ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RADIOMANAGER_ANALYTIC: ArtifactDescriptor =
@@ -15758,6 +18742,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RADIOMANAGER_ANALYTIC: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RAS_NDISWANPACKETCAPTURE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -15778,6 +18766,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RAS_NDISWANPACKETCAPTURE_DIAGNOSTIC: Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REFS_OPERATIONAL: ArtifactDescriptor =
@@ -15801,6 +18793,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REFS_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REFSDEDUPSVC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -15821,6 +18817,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REFSDEDUPSVC_OPERATIONAL: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_READYBOOST_ANALYTIC: ArtifactDescriptor =
@@ -15844,6 +18844,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_READYBOOST_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_READYBOOSTDRIVER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -15864,6 +18868,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_READYBOOSTDRIVER_ANALYTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_READYBOOSTDRIVER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -15884,6 +18892,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_READYBOOSTDRIVER_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RECOVERY_OPERATIONAL: ArtifactDescriptor =
@@ -15907,6 +18919,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RECOVERY_OPERATIONAL: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RELIABILITYANALYSISCOMPONENT_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
@@ -15927,6 +18943,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RELIABILITYANALYSISCOMPONENT_OPERATIO: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_METRICS: ArtifactDescriptor = ArtifactDescriptor {
@@ -15947,6 +18967,10 @@ pub(crate) static EVTX_METRICS: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEAPP_AND_DESKTOP_CONNECTIONS_ADM: ArtifactDescriptor = ArtifactDescriptor {
@@ -15967,6 +18991,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEAPP_AND_DESKTOP_CONNECTIONS_ADM: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEAPP_AND_DESKTOP_CONNECTIONS_OPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -15987,6 +19015,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEAPP_AND_DESKTOP_CONNECTIONS_OPE: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEASSISTANCE_TRACING: ArtifactDescriptor = ArtifactDescriptor {
@@ -16007,6 +19039,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEASSISTANCE_TRACING: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEASSISTANCE_ADMIN: ArtifactDescriptor =
@@ -16030,6 +19066,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEASSISTANCE_ADMIN: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEASSISTANCE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -16050,6 +19090,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEASSISTANCE_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_RDPCORETS_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -16070,6 +19114,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_RDPCORETS_ADMIN: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_RDPCORETS_OPERA: ArtifactDescriptor = ArtifactDescriptor {
@@ -16090,6 +19138,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_RDPCORETS_OPERA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_RDPCORETS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -16110,6 +19162,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_RDPCORETS_DEBUG: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_REMOTEFX_VM_KER: ArtifactDescriptor = ArtifactDescriptor {
@@ -16130,6 +19186,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_REMOTEFX_VM_KER: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_REMOTEFX_VM_USE: ArtifactDescriptor = ArtifactDescriptor {
@@ -16150,6 +19210,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_REMOTEFX_VM_USE: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_SESSIONSERVICES: ArtifactDescriptor = ArtifactDescriptor {
@@ -16170,6 +19234,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_SESSIONSERVICES: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEFS_RDBSS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -16190,6 +19258,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEFS_RDBSS_DIAGNOSTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEFS_RDBSS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -16210,6 +19282,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEFS_RDBSS_OPERATIONAL: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEFS_UTPROVIDER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -16230,6 +19306,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEFS_UTPROVIDER_DIAGNOSTIC: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RESETENG_TRACE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -16250,6 +19330,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RESETENG_TRACE_DIAGNOSTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCE_EXHAUSTION_DETECTOR_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
@@ -16270,6 +19354,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCE_EXHAUSTION_DETECTOR_OPERATIO: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCE_EXHAUSTION_RESOLVER_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
@@ -16290,6 +19378,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCE_EXHAUSTION_RESOLVER_OPERATIO: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCE_LEAK_DIAGNOSTIC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -16310,6 +19402,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCE_LEAK_DIAGNOSTIC_OPERATIONAL: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCEPUBLICATION_TRACING: ArtifactDescriptor = ArtifactDescriptor {
@@ -16330,6 +19426,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCEPUBLICATION_TRACING: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RESTARTMANAGER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -16350,6 +19450,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RESTARTMANAGER_OPERATIONAL: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_GRAPHICS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -16370,6 +19474,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_GRAPHICS_ANALYTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTCAPTUREENG: ArtifactDescriptor = ArtifactDescriptor {
@@ -16390,6 +19498,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTCAPTUREENG: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTTRANSCODE: ArtifactDescriptor = ArtifactDescriptor {
@@ -16410,6 +19522,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTTRANSCODE: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTMEDIASTREA: ArtifactDescriptor = ArtifactDescriptor {
@@ -16430,6 +19546,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTMEDIASTREA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTADAPTIVEME: ArtifactDescriptor = ArtifactDescriptor {
@@ -16450,6 +19570,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTADAPTIVEME: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_NETWORKING_BACKGROUNDTRANSFER: ArtifactDescriptor = ArtifactDescriptor {
@@ -16470,6 +19594,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_NETWORKING_BACKGROUNDTRANSFER: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_NETWORKING_TRACING: ArtifactDescriptor = ArtifactDescriptor {
@@ -16490,6 +19618,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_NETWORKING_TRACING: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WEB_HTTP_TRACING: ArtifactDescriptor = ArtifactDescriptor {
@@ -16510,6 +19642,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WEB_HTTP_TRACING: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WEBAPI_TRACING: ArtifactDescriptor =
@@ -16533,6 +19669,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WEBAPI_TRACING: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SENSE_OPERATIONAL: ArtifactDescriptor =
@@ -16556,6 +19696,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SENSE_OPERATIONAL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_HELPERCLASSDIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -16576,6 +19720,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_HELPERCLASSDIAGNOSTIC: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_DIAGNOSTIC: ArtifactDescriptor =
@@ -16599,6 +19747,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_DIAGNOSTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_XPERFANALYTIC: ArtifactDescriptor =
@@ -16622,6 +19774,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_XPERFANALYTIC: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_OBJECTSTATEDIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -16642,6 +19798,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_OBJECTSTATEDIAGNOSTIC: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_OPERATIONAL: ArtifactDescriptor =
@@ -16665,6 +19825,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_OPERATIONAL: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_CONNECTIVITY: ArtifactDescriptor =
@@ -16688,6 +19852,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_CONNECTIVITY: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_SECURITY: ArtifactDescriptor =
@@ -16711,6 +19879,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_SECURITY: ArtifactDescriptor 
         triage_priority: TriagePriority::Critical,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+        evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+        volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+        volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
@@ -16733,6 +19905,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_AUDIT: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_OPERATIONAL: ArtifactDescriptor =
@@ -16756,6 +19932,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_OPERATIONAL: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -16778,6 +19958,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_ADMIN: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -16800,6 +19984,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_DEBUG: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_CONNECTIVITY: ArtifactDescriptor =
@@ -16823,6 +20011,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_CONNECTIVITY: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_NETMON: ArtifactDescriptor =
@@ -16846,6 +20038,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_NETMON: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_PERFORMANCE: ArtifactDescriptor =
@@ -16869,6 +20065,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_PERFORMANCE: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_ANALYTIC: ArtifactDescriptor =
@@ -16892,6 +20092,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_ANALYTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_SECURITY: ArtifactDescriptor =
@@ -16915,6 +20119,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_SECURITY: ArtifactDescriptor 
         triage_priority: TriagePriority::Critical,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+        evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+        volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+        volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_OPERATIONAL: ArtifactDescriptor =
@@ -16938,6 +20146,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_OPERATIONAL: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_CONNECTIVITY: ArtifactDescriptor =
@@ -16961,6 +20173,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_CONNECTIVITY: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_DIAGNOSTIC: ArtifactDescriptor =
@@ -16984,6 +20200,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_DIAGNOSTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
@@ -17006,6 +20226,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_AUDIT: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBWITNESSCLIENT_ADMIN: ArtifactDescriptor =
@@ -17029,6 +20253,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBWITNESSCLIENT_ADMIN: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_WITNESSCLIENTADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -17049,6 +20277,10 @@ pub(crate) static EVTX_WITNESSCLIENTADMIN: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBWITNESSCLIENT_INFORMATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -17069,6 +20301,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBWITNESSCLIENT_INFORMATIONAL: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SCHANNEL_EVENTS_PERF: ArtifactDescriptor =
@@ -17092,6 +20328,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCHANNEL_EVENTS_PERF: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -17114,6 +20354,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_ANALYTIC: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
@@ -17136,6 +20380,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_DIAGNOSE: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_CERTIFICATION: ArtifactDescriptor =
@@ -17159,6 +20407,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_CERTIFICATION: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_ANALYTIC: ArtifactDescriptor =
@@ -17182,6 +20434,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_ANALYTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_DIAGNOSTIC: ArtifactDescriptor =
@@ -17205,6 +20461,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_DIAGNOSTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_OPERATIONAL: ArtifactDescriptor =
@@ -17228,6 +20488,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_OPERATIONAL: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SDBUS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -17248,6 +20512,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SDBUS_ANALYTIC: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SDBUS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -17268,6 +20536,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SDBUS_DEBUG: ArtifactDescriptor = Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SDSTOR_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -17290,6 +20562,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SDSTOR_ANALYTIC: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SEARCH_CORE_DIAGNOSTIC: ArtifactDescriptor =
@@ -17313,6 +20589,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SEARCH_CORE_DIAGNOSTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SEARCH_PROTOCOLHANDLERS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -17333,6 +20613,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SEARCH_PROTOCOLHANDLERS_DIAGNOSTIC: Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_ADMINLESS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -17353,6 +20637,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_ADMINLESS_OPERATIONAL: Artifac
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_AUDIT_CONFIGURATION_CLIENT_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -17373,6 +20661,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_AUDIT_CONFIGURATION_CLIENT_D: 
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_AUDIT_CONFIGURATION_CLIENT_O: ArtifactDescriptor = ArtifactDescriptor {
@@ -17393,6 +20685,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_AUDIT_CONFIGURATION_CLIENT_O: 
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_CONFIGURATION_WIZARD_DIAGNOS: ArtifactDescriptor = ArtifactDescriptor {
@@ -17413,6 +20709,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_CONFIGURATION_WIZARD_DIAGNOS: 
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_CONFIGURATION_WIZARD_OPERATI: ArtifactDescriptor = ArtifactDescriptor {
@@ -17433,6 +20733,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_CONFIGURATION_WIZARD_OPERATI: 
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_ENTERPRISEDATA_FILEREVOCATIO: ArtifactDescriptor = ArtifactDescriptor {
@@ -17453,6 +20757,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_ENTERPRISEDATA_FILEREVOCATIO: 
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_EXCHANGEACTIVESYNCPROVISIONI: ArtifactDescriptor = ArtifactDescriptor {
@@ -17473,6 +20781,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_EXCHANGEACTIVESYNCPROVISIONI: 
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_IDENTITYSTORE_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -17493,6 +20805,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_IDENTITYSTORE_PERFORMANCE: Art
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_LESSPRIVILEGEDAPPCONTAINER_O: ArtifactDescriptor = ArtifactDescriptor {
@@ -17513,6 +20829,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_LESSPRIVILEGEDAPPCONTAINER_O: 
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_LICENSING_SLC_PERF: ArtifactDescriptor = ArtifactDescriptor {
@@ -17533,6 +20853,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_LICENSING_SLC_PERF: ArtifactDe
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_KERNEL_MODE: ArtifactDescriptor = ArtifactDescriptor {
@@ -17553,6 +20877,10 @@ pub(crate) static EVTX_KERNEL_MODE: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_USER_MODE: ArtifactDescriptor = ArtifactDescriptor {
@@ -17573,6 +20901,10 @@ pub(crate) static EVTX_USER_MODE: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_NETLOGON_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -17593,6 +20925,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_NETLOGON_OPERATIONAL: Artifact
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_GC_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -17613,6 +20949,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_GC_ANALYTIC: ArtifactDe
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_GENUINECENTER_LOGGING: ArtifactDescriptor = ArtifactDescriptor {
@@ -17633,6 +20973,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_GENUINECENTER_LOGGING: 
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_NOTIFICATIONS_ACTIONC: ArtifactDescriptor = ArtifactDescriptor {
@@ -17653,6 +20997,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_NOTIFICATIONS_ACTIONC: 
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -17673,6 +21021,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_ANALYTIC: ArtifactDescr
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_PERF: ArtifactDescriptor =
@@ -17696,6 +21048,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_PERF: ArtifactDescriptor =
         triage_priority: TriagePriority::Critical,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+        evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+        volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+        volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_USERCONSENTVERIFIER_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
@@ -17716,6 +21072,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_USERCONSENTVERIFIER_AUDIT: Art
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_VAULT_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -17736,6 +21096,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_VAULT_PERFORMANCE: ArtifactDes
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITYMITIGATIONSBROKER_PERF: ArtifactDescriptor = ArtifactDescriptor {
@@ -17756,6 +21120,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITYMITIGATIONSBROKER_PERF: Artifac
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITYMITIGATIONSBROKER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -17776,6 +21144,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITYMITIGATIONSBROKER_OPERATIONAL: 
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITYMITIGATIONSBROKER_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -17796,6 +21168,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITYMITIGATIONSBROKER_ADMIN: Artifa
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SENDTO_DIAGNOSTIC: ArtifactDescriptor =
@@ -17819,6 +21195,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SENDTO_DIAGNOSTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SENSEIR_OPERATIONAL: ArtifactDescriptor =
@@ -17842,6 +21222,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SENSEIR_OPERATIONAL: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVER_FOR_NFS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -17862,6 +21246,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVER_FOR_NFS_OPERATIONAL: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_DEPLOY: ArtifactDescriptor = ArtifactDescriptor {
@@ -17882,6 +21270,10 @@ pub(crate) static EVTX_DEPLOY: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVERMANAGER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -17902,6 +21294,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVERMANAGER_OPERATIONAL: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICE_REPORTING_API_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -17922,6 +21318,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICE_REPORTING_API_DEBUG: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICES_SVCHOST_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -17942,6 +21342,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICES_SVCHOST_DIAGNOSTIC: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICES_DIAGNOSTIC: ArtifactDescriptor =
@@ -17965,6 +21369,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICES_DIAGNOSTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICING_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -17987,6 +21395,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICING_DEBUG: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_AZURE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -18007,6 +21419,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_AZURE_OPERATIONAL: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_AZURE_DEBUG: ArtifactDescriptor =
@@ -18030,6 +21446,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_AZURE_DEBUG: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_OPERATIONAL: ArtifactDescriptor =
@@ -18053,6 +21473,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_OPERATIONAL: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_DEBUG: ArtifactDescriptor =
@@ -18076,6 +21500,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_DEBUG: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_ANALYTIC: ArtifactDescriptor =
@@ -18099,6 +21527,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_ANALYTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_ONEDRIVE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18119,6 +21551,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_ONEDRIVE_ANALYTIC: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_VERBOSEDEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -18139,6 +21575,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_VERBOSEDEBUG: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18159,6 +21599,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUP_ANALYTIC: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPCL_ANALYTIC: ArtifactDescriptor =
@@ -18182,6 +21626,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPCL_ANALYTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPPLATFORM_ANALYTIC: ArtifactDescriptor =
@@ -18205,6 +21653,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPPLATFORM_ANALYTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPQUEUE_ANALYTIC: ArtifactDescriptor =
@@ -18228,6 +21680,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPQUEUE_ANALYTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPUGC_ANALYTIC: ArtifactDescriptor =
@@ -18251,6 +21707,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPUGC_ANALYTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHAREMEDIA_CONTROLPANEL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18271,6 +21731,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHAREMEDIA_CONTROLPANEL_DIAGNOSTIC: Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_APPWIZCPL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18291,6 +21755,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_APPWIZCPL_DIAGNOSTIC: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_USER_INTERFACE_OPERATI: ArtifactDescriptor = ArtifactDescriptor {
@@ -18311,6 +21779,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_USER_INTERFACE_OPERATI: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_COMMON_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18331,6 +21803,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_COMMON_DIAGNOSTIC: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_LOGONUI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18351,6 +21827,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_LOGONUI_DIAGNOSTIC: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_LOGON_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18371,6 +21851,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_LOGON_DIAGNOSTIC: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_CREDUI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18391,6 +21875,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_CREDUI_DIAGNOSTIC: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_SHUTDOWN_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18411,6 +21899,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_SHUTDOWN_DIAGNOSTIC: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_CREDENTIALPROVIDERUSER_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -18431,6 +21923,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_CREDENTIALPROVIDERUSER_D: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_PASSWORDPROVIDER_DIAGNOS: ArtifactDescriptor = ArtifactDescriptor {
@@ -18451,6 +21947,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_PASSWORDPROVIDER_DIAGNOS: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_BOOTANIM_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18471,6 +21971,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_BOOTANIM_DIAGNOSTIC: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_PASSWORDPROVIDER_BOOTANI: ArtifactDescriptor = ArtifactDescriptor {
@@ -18491,6 +21995,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_PASSWORDPROVIDER_BOOTANI: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CONNECTEDACCOUNTSTATE_ACTIONCEN: ArtifactDescriptor = ArtifactDescriptor {
@@ -18511,6 +22019,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CONNECTEDACCOUNTSTATE_ACTIONCEN: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_DIAGNOSTIC: ArtifactDescriptor =
@@ -18534,6 +22046,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_DIAGNOSTIC: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_OPERATIONAL: ArtifactDescriptor =
@@ -18557,6 +22073,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_OPERATIONAL: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_LOGONTASKSCHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -18577,6 +22097,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_LOGONTASKSCHANNEL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_APPDEFAULTS: ArtifactDescriptor =
@@ -18600,6 +22124,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_APPDEFAULTS: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_ACTIONCENTER: ArtifactDescriptor =
@@ -18623,6 +22151,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_ACTIONCENTER: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_DEFAULTPROGRAMS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18643,6 +22175,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_DEFAULTPROGRAMS_DIAGNOSTIC: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_LOCKSCREENCONTENT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18663,6 +22199,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_LOCKSCREENCONTENT_DIAGNOSTIC: Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_OPENWITH_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18683,6 +22223,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_OPENWITH_DIAGNOSTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_SEARCH_URIHANDLER: ArtifactDescriptor =
@@ -18706,6 +22250,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_SEARCH_URIHANDLER: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_SHWEBSVC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18726,6 +22274,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_SHWEBSVC: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_ZIPFOLDER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18746,6 +22298,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_ZIPFOLDER_DIAGNOSTIC: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELLCOMMON_STARTLAYOUTPOPULATION_OPE: ArtifactDescriptor = ArtifactDescriptor {
@@ -18766,6 +22322,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELLCOMMON_STARTLAYOUTPOPULATION_OPE: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELLCOMMON_STARTLAYOUTPOPULATION_DIA: ArtifactDescriptor = ArtifactDescriptor {
@@ -18786,6 +22346,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELLCOMMON_STARTLAYOUTPOPULATION_DIA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHSVCS_DIAGNOSTIC: ArtifactDescriptor =
@@ -18809,6 +22373,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHSVCS_DIAGNOSTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SIDEBAR_DIAGNOSTIC: ArtifactDescriptor =
@@ -18832,6 +22400,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SIDEBAR_DIAGNOSTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SLEEPSTUDY_DIAGNOSTIC: ArtifactDescriptor =
@@ -18855,6 +22427,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SLEEPSTUDY_DIAGNOSTIC: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_AUDIT_AUTHENTICATION: ArtifactDescriptor = ArtifactDescriptor {
@@ -18875,6 +22451,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_AUDIT_AUTHENTICATION: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_DEVICEENUM_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -18895,6 +22475,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_DEVICEENUM_OPERATIONAL: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_TPM_VCARD_MODULE_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -18915,6 +22499,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_TPM_VCARD_MODULE_ADMIN: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_TPM_VCARD_MODULE_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
@@ -18935,6 +22523,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_TPM_VCARD_MODULE_OPERATIONA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTSCREEN_DEBUG: ArtifactDescriptor =
@@ -18958,6 +22550,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTSCREEN_DEBUG: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBHASHGENERATION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -18978,6 +22574,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBHASHGENERATION_OPERATIONAL: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBHASHGENERATION_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -18998,6 +22598,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBHASHGENERATION_ANALYTIC: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_SMBWMIANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -19018,6 +22622,10 @@ pub(crate) static EVTX_SMBWMIANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TTS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -19038,6 +22646,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TTS_DIAGNOSTIC: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SPEECH_USEREXPERIENCE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -19058,6 +22670,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SPEECH_USEREXPERIENCE_DIAGNOSTIC: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SPELL_CHECKING_FACILITY_ANALYTIC_CHAN: ArtifactDescriptor = ArtifactDescriptor {
@@ -19078,6 +22694,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SPELL_CHECKING_FACILITY_ANALYTIC_CHAN: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SPELLCHECKER_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -19098,6 +22718,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SPELLCHECKER_ANALYTIC_CHANNEL: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SPELL_CHECKING_HOST_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -19118,6 +22742,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SPELL_CHECKING_HOST_ANALYTIC_CHANNEL: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SRUMON_DIAGNOSTIC: ArtifactDescriptor =
@@ -19141,6 +22769,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SRUMON_DIAGNOSTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SRUMTELEMETRY: ArtifactDescriptor = ArtifactDescriptor {
@@ -19161,6 +22793,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SRUMTELEMETRY: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STATEREPOSITORY_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -19181,6 +22817,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STATEREPOSITORY_OPERATIONAL: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STATEREPOSITORY_DEBUG: ArtifactDescriptor =
@@ -19204,6 +22844,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STATEREPOSITORY_DEBUG: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STATEREPOSITORY_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -19224,6 +22868,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STATEREPOSITORY_DIAGNOSTIC: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STICKYNOTES_DEBUG: ArtifactDescriptor =
@@ -19247,6 +22895,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STICKYNOTES_DEBUG: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STICKYNOTES_ADMIN: ArtifactDescriptor =
@@ -19270,6 +22922,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STICKYNOTES_ADMIN: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STICKYNOTES_DIAGNOSTIC: ArtifactDescriptor =
@@ -19293,6 +22949,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STICKYNOTES_DIAGNOSTIC: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORDIAG_OPERATIONAL: ArtifactDescriptor =
@@ -19316,6 +22976,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORDIAG_OPERATIONAL: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_CLASSPNP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -19336,6 +23000,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_CLASSPNP_ANALYTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_CLASSPNP_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
@@ -19356,6 +23024,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_CLASSPNP_DIAGNOSE: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_CLASSPNP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -19376,6 +23048,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_CLASSPNP_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORPORT_OPERATIONAL: ArtifactDescriptor =
@@ -19399,6 +23075,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORPORT_OPERATIONAL: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
@@ -19419,6 +23099,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_DIAGNOSE: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -19439,6 +23123,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_ANALYTIC: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -19459,6 +23147,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_OPERATIONAL: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_HEALTH: ArtifactDescriptor =
@@ -19482,6 +23174,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_HEALTH: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_TIERING_HEAT_MEASUREMENT_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -19502,6 +23198,10 @@ pub(crate) static EVTX_TIERING_HEAT_MEASUREMENT_CHANNEL: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_TIERING_ADMIN: ArtifactDescriptor =
@@ -19525,6 +23225,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_TIERING_ADMIN: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_PARTUTIL_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
@@ -19545,6 +23249,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_PARTUTIL_OPERATIONA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_DEBUG: ArtifactDescriptor =
@@ -19568,6 +23276,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_DEBUG: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -19588,6 +23300,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_OPERATIONAL: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESETTINGS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -19608,6 +23324,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESETTINGS_DIAGNOSTIC: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_API_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -19628,6 +23348,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_API_OPERATIONAL: Artifact
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_DRIVER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -19648,6 +23372,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_DRIVER_OPERATIONAL: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_DRIVER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -19668,6 +23396,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_DRIVER_DIAGNOSTIC: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_DRIVER_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -19688,6 +23420,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_DRIVER_PERFORMANCE: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_MANAGEMENTAGENT_WHC: ArtifactDescriptor = ArtifactDescriptor {
@@ -19708,6 +23444,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_MANAGEMENTAGENT_WHC: Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_PARSER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -19728,6 +23468,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_PARSER_OPERATIONAL: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_PARSER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -19748,6 +23492,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_PARSER_DIAGNOSTIC: Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_SPACEMANAGER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -19768,6 +23516,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_SPACEMANAGER_DIAGNOSTIC: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_SPACEMANAGER_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
@@ -19788,6 +23540,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_SPACEMANAGER_OPERATIONA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEVOLUME_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -19808,6 +23564,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEVOLUME_OPERATIONAL: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORSVC_DIAGNOSTIC: ArtifactDescriptor =
@@ -19831,6 +23591,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORSVC_DIAGNOSTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SUBSYS_CSR_OPERATIONAL: ArtifactDescriptor =
@@ -19854,6 +23618,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SUBSYS_CSR_OPERATIONAL: ArtifactDescrip
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SUBSYS_SMSS_OPERATIONAL: ArtifactDescriptor =
@@ -19877,6 +23645,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SUBSYS_SMSS_OPERATIONAL: ArtifactDescri
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SUDO_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -19897,6 +23669,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SUDO_ADMIN: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SUPERFETCH_AGMCLOG: ArtifactDescriptor =
@@ -19920,6 +23696,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SUPERFETCH_AGMCLOG: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MEMORY_COOLING_OPERATIONAL_CHANNEL: ArtifactDescriptor =
@@ -19943,6 +23723,10 @@ pub(crate) static EVTX_MEMORY_COOLING_OPERATIONAL_CHANNEL: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SUPERFETCH_PFAPLOG: ArtifactDescriptor =
@@ -19966,6 +23750,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SUPERFETCH_PFAPLOG: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSPREP_ANALYTIC: ArtifactDescriptor =
@@ -19989,6 +23777,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSPREP_ANALYTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEM_PROFILE_HARDWAREID_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -20009,6 +23801,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEM_PROFILE_HARDWAREID_DIAGNOSTIC: A
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMDATAARCHIVER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -20029,6 +23825,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMDATAARCHIVER_DIAGNOSTIC: Artifact
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMHEALTHAGENT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -20049,6 +23849,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMHEALTHAGENT_DIAGNOSTIC: ArtifactD
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -20069,6 +23873,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGS_DIAGNOSTIC: ArtifactDesc
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGS_DEBUG: ArtifactDescriptor =
@@ -20092,6 +23900,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGS_DEBUG: ArtifactDescripto
         triage_priority: TriagePriority::High,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -20112,6 +23924,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGS_OPERATIONAL: ArtifactDes
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSHANDLERS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -20132,6 +23948,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSHANDLERS_DEBUG: ArtifactD
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSTHRESHOLD_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -20152,6 +23972,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSTHRESHOLD_DIAGNOSTIC: Art
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSTHRESHOLD_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -20172,6 +23996,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSTHRESHOLD_DEBUG: Artifact
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSTHRESHOLD_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -20192,6 +24020,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSTHRESHOLD_OPERATIONAL: Ar
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSV2_INFORMATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -20212,6 +24044,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSV2_INFORMATIONAL: Artifac
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TCPIP_DIAGNOSTIC: ArtifactDescriptor =
@@ -20235,6 +24071,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TCPIP_DIAGNOSTIC: ArtifactDescriptor =
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_UIMANAGER_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -20255,6 +24095,10 @@ pub(crate) static EVTX_UIMANAGER_CHANNEL: ArtifactDescriptor = ArtifactDescripto
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TSF_MSCTF_DIAGNOSTIC: ArtifactDescriptor =
@@ -20278,6 +24122,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TSF_MSCTF_DIAGNOSTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TSF_MSUTB_DIAGNOSTIC: ArtifactDescriptor =
@@ -20301,6 +24149,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TSF_MSUTB_DIAGNOSTIC: ArtifactDescripto
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TZSYNC_OPERATIONAL: ArtifactDescriptor =
@@ -20324,6 +24176,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TZSYNC_OPERATIONAL: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TZSYNC_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -20346,6 +24202,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TZSYNC_ANALYTIC: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_TABLETPC_INPUTPANEL_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -20366,6 +24226,10 @@ pub(crate) static EVTX_TABLETPC_INPUTPANEL_CHANNEL: ArtifactDescriptor = Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_OSK_SOFTKEYBOARD_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -20386,6 +24250,10 @@ pub(crate) static EVTX_OSK_SOFTKEYBOARD_CHANNEL: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_TABLETPC_INPUTPANEL_CHANNEL_IHM: ArtifactDescriptor = ArtifactDescriptor {
@@ -20406,6 +24274,10 @@ pub(crate) static EVTX_TABLETPC_INPUTPANEL_CHANNEL_IHM: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_IHM_DEBUGCHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -20426,6 +24298,10 @@ pub(crate) static EVTX_IHM_DEBUGCHANNEL: ArtifactDescriptor = ArtifactDescriptor
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_PHYSICAL_KEYBOARD_MANAGER_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -20446,6 +24322,10 @@ pub(crate) static EVTX_PHYSICAL_KEYBOARD_MANAGER_CHANNEL: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MAINTENANCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -20466,6 +24346,10 @@ pub(crate) static EVTX_MAINTENANCE: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TASKBARCPL_DIAGNOSTIC: ArtifactDescriptor =
@@ -20489,6 +24373,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TASKBARCPL_DIAGNOSTIC: ArtifactDescript
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TENANTRESTRICTIONS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -20509,6 +24397,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TENANTRESTRICTIONS_OPERATIONAL: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPCLIENT_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
@@ -20529,6 +24421,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPCLIENT_DEBUG: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPCLIENT_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
@@ -20549,6 +24445,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPCLIENT_OPERATIONA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPCLIENT_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -20569,6 +24469,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPCLIENT_ANALYTIC: Ar
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -20589,6 +24493,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_OPERATIONAL: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -20609,6 +24517,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_ADMIN: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_TRACING: ArtifactDescriptor = ArtifactDescriptor {
@@ -20629,6 +24541,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_TRACING: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -20649,6 +24565,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_ANALYTIC: Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_LICENSING_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
@@ -20669,6 +24589,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_LICENSING_ADMIN: Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_LOCALSESSIONMANAGER: ArtifactDescriptor = ArtifactDescriptor {
@@ -20689,6 +24613,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_LOCALSESSIONMANAGER: A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_MEDIAREDIRECTION_ANA: ArtifactDescriptor = ArtifactDescriptor {
@@ -20709,6 +24637,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_MEDIAREDIRECTION_ANA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPSOUNDDRIVER_PLAYB: ArtifactDescriptor = ArtifactDescriptor {
@@ -20729,6 +24661,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPSOUNDDRIVER_PLAYB: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPSOUNDDRIVER_CAPTU: ArtifactDescriptor = ArtifactDescriptor {
@@ -20749,6 +24685,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPSOUNDDRIVER_CAPTU: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_REMOTECONNECTIONMANA: ArtifactDescriptor = ArtifactDescriptor {
@@ -20769,6 +24709,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_REMOTECONNECTIONMANA: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_SESSIONBROKER_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -20789,6 +24733,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_SESSIONBROKER_CLIENT: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TETHERING_MANAGER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -20809,6 +24757,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TETHERING_MANAGER_ANALYTIC: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TETHERING_STATION_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -20829,6 +24781,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TETHERING_STATION_ANALYTIC: ArtifactDes
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_THEMECPL_DIAGNOSTIC: ArtifactDescriptor =
@@ -20852,6 +24808,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_THEMECPL_DIAGNOSTIC: ArtifactDescriptor
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_THEMEUI_DIAGNOSTIC: ArtifactDescriptor =
@@ -20875,6 +24835,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_THEMEUI_DIAGNOSTIC: ArtifactDescriptor 
         triage_priority: TriagePriority::Low,
         related_artifacts: &[],
         sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
     };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_THREAT_INTELLIGENCE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
@@ -20895,6 +24859,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_THREAT_INTELLIGENCE_ANALYTIC: ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TIME_SERVICE_PTP_PROVIDER_PTP_OPERATI: ArtifactDescriptor = ArtifactDescriptor {
@@ -20915,6 +24883,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TIME_SERVICE_PTP_PROVIDER_PTP_OPERATI: 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TIME_SERVICE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
@@ -20935,6 +24907,10 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TIME_SERVICE_OPERATIONAL: ArtifactDescr
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static EVTX_TUNNEL_DRIVER_ETW_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
@@ -20955,6 +24931,10 @@ pub(crate) static EVTX_TUNNEL_DRIVER_ETW_CHANNEL: ArtifactDescriptor = ArtifactD
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://github.com/nasbench/EVTX-ETW-Resources"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Generated entries (1014) ─────────────────────────────────────────────────

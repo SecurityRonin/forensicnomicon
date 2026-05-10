@@ -25,6 +25,10 @@ pub(crate) static REGEDIT_NETWORK: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_MICROSOFT_INTERNET_EXPLORER_TYPEDURLS: ArtifactDescriptor = ArtifactDescriptor {
@@ -45,6 +49,10 @@ pub(crate) static REGEDIT_MICROSOFT_INTERNET_EXPLORER_TYPEDURLS: ArtifactDescrip
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_USER_MRU: ArtifactDescriptor = ArtifactDescriptor {
@@ -65,6 +73,10 @@ pub(crate) static REGEDIT_USER_MRU: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_MICROSOFT_TERMINAL_SERVER_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
@@ -85,6 +97,10 @@ pub(crate) static REGEDIT_MICROSOFT_TERMINAL_SERVER_CLIENT: ArtifactDescriptor =
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_EXPLORER_COMDLG32_CIDSIZEMRU: ArtifactDescriptor = ArtifactDescriptor {
@@ -105,6 +121,10 @@ pub(crate) static REGEDIT_EXPLORER_COMDLG32_CIDSIZEMRU: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_EXPLORER_COMDLG32_FIRSTFOLDER: ArtifactDescriptor = ArtifactDescriptor {
@@ -125,6 +145,10 @@ pub(crate) static REGEDIT_EXPLORER_COMDLG32_FIRSTFOLDER: ArtifactDescriptor = Ar
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_EXPLORER_COMDLG32_LASTVISITEDPIDLMRU: ArtifactDescriptor = ArtifactDescriptor {
@@ -145,6 +169,10 @@ pub(crate) static REGEDIT_EXPLORER_COMDLG32_LASTVISITEDPIDLMRU: ArtifactDescript
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_EXPLORER_COMDLG32_LASTVISITEDPIDLMRULEGACY: ArtifactDescriptor = ArtifactDescriptor {
@@ -165,6 +193,10 @@ pub(crate) static REGEDIT_EXPLORER_COMDLG32_LASTVISITEDPIDLMRULEGACY: ArtifactDe
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_EXPLORER_COMDLG32_OPENSAVEPIDLMRU: ArtifactDescriptor = ArtifactDescriptor {
@@ -185,6 +217,10 @@ pub(crate) static REGEDIT_EXPLORER_COMDLG32_OPENSAVEPIDLMRU: ArtifactDescriptor 
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_FILEEXTS: ArtifactDescriptor = ArtifactDescriptor {
@@ -205,6 +241,10 @@ pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_FILEEXTS: ArtifactDescriptor =
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_RECENTDOCS: ArtifactDescriptor = ArtifactDescriptor {
@@ -225,6 +265,10 @@ pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_RECENTDOCS: ArtifactDescriptor
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_MOUNTPOINTS2: ArtifactDescriptor = ArtifactDescriptor {
@@ -245,6 +289,10 @@ pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_MOUNTPOINTS2: ArtifactDescript
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUN: ArtifactDescriptor = ArtifactDescriptor {
@@ -265,6 +313,10 @@ pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUN: ArtifactDescriptor = Artif
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -285,6 +337,10 @@ pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUNONCE: ArtifactDescriptor = A
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_RUNMRU: ArtifactDescriptor = ArtifactDescriptor {
@@ -305,6 +361,10 @@ pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_RUNMRU: ArtifactDescriptor = A
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_TYPEDPATHS: ArtifactDescriptor = ArtifactDescriptor {
@@ -325,6 +385,10 @@ pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_TYPEDPATHS: ArtifactDescriptor
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_USERASSIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -345,6 +409,10 @@ pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_USERASSIST: ArtifactDescriptor
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_WORDWHEELQUERY: ArtifactDescriptor = ArtifactDescriptor {
@@ -365,6 +433,10 @@ pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_WORDWHEELQUERY: ArtifactDescri
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CURRENTVERSION_SEARCH_RECENTAPPS: ArtifactDescriptor = ArtifactDescriptor {
@@ -385,6 +457,10 @@ pub(crate) static REGEDIT_CURRENTVERSION_SEARCH_RECENTAPPS: ArtifactDescriptor =
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_DOMAINS_ACCOUNT_USERS: ArtifactDescriptor = ArtifactDescriptor {
@@ -405,6 +481,10 @@ pub(crate) static REGEDIT_DOMAINS_ACCOUNT_USERS: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Local account enumeration via registry; compare against expected user list"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SAM account registry persists until account deletion",
 };
 
 pub(crate) static REGEDIT_MICROSOFT_WINDOWS_NT_CURRENTVERSION: ArtifactDescriptor = ArtifactDescriptor {
@@ -425,6 +505,10 @@ pub(crate) static REGEDIT_MICROSOFT_WINDOWS_NT_CURRENTVERSION: ArtifactDescripto
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_WINDOWS_NT_CURRENTVERSION_NETWORKLIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -445,6 +529,10 @@ pub(crate) static REGEDIT_WINDOWS_NT_CURRENTVERSION_NETWORKLIST: ArtifactDescrip
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_POLICIES_EXPLORER_RUN: ArtifactDescriptor = ArtifactDescriptor {
@@ -465,6 +553,10 @@ pub(crate) static REGEDIT_POLICIES_EXPLORER_RUN: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUN_SYSTEM_RUN_KEY: ArtifactDescriptor = ArtifactDescriptor {
@@ -485,6 +577,10 @@ pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUN_SYSTEM_RUN_KEY: ArtifactDes
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUNONCE_SYSTEM_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
@@ -505,6 +601,10 @@ pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUNONCE_SYSTEM_RUNONCE: Artifac
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_MICROSOFT_WINDOWS_PORTABLE_DEVICES_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
@@ -525,6 +625,10 @@ pub(crate) static REGEDIT_MICROSOFT_WINDOWS_PORTABLE_DEVICES_DEVICES: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CONTROL_COMPUTERNAME_COMPUTERNAME: ArtifactDescriptor = ArtifactDescriptor {
@@ -545,6 +649,10 @@ pub(crate) static REGEDIT_CONTROL_COMPUTERNAME_COMPUTERNAME: ArtifactDescriptor 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CONTROL_SESSION_MANAGER_APPCOMPATCACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -565,6 +673,10 @@ pub(crate) static REGEDIT_CONTROL_SESSION_MANAGER_APPCOMPATCACHE: ArtifactDescri
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CONTROLSET00_CONTROL_TIMEZONEINFORMATION: ArtifactDescriptor = ArtifactDescriptor {
@@ -585,6 +697,10 @@ pub(crate) static REGEDIT_CONTROLSET00_CONTROL_TIMEZONEINFORMATION: ArtifactDesc
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_SYSTEM_CONTROLSET00_SERVICES: ArtifactDescriptor = ArtifactDescriptor {
@@ -605,6 +721,10 @@ pub(crate) static REGEDIT_SYSTEM_CONTROLSET00_SERVICES: ArtifactDescriptor = Art
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_SERVICES_BAM_USERSETTINGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -625,6 +745,10 @@ pub(crate) static REGEDIT_SERVICES_BAM_USERSETTINGS: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_SERVICES_DAM_USERSETTINGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -645,6 +769,10 @@ pub(crate) static REGEDIT_SERVICES_DAM_USERSETTINGS: ArtifactDescriptor = Artifa
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_SERVICES_LANMANSERVER_SHARES: ArtifactDescriptor = ArtifactDescriptor {
@@ -665,6 +793,10 @@ pub(crate) static REGEDIT_SERVICES_LANMANSERVER_SHARES: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_TCPIP_PARAMETERS_INTERFACES: ArtifactDescriptor = ArtifactDescriptor {
@@ -685,6 +817,10 @@ pub(crate) static REGEDIT_TCPIP_PARAMETERS_INTERFACES: ArtifactDescriptor = Arti
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_PARAMETERS_INTERFACES: ArtifactDescriptor = ArtifactDescriptor {
@@ -705,6 +841,10 @@ pub(crate) static REGEDIT_PARAMETERS_INTERFACES: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_SYSTEM_MOUNTEDDEVICES: ArtifactDescriptor = ArtifactDescriptor {
@@ -725,6 +865,10 @@ pub(crate) static REGEDIT_SYSTEM_MOUNTEDDEVICES: ArtifactDescriptor = ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_SYSTEM_SETUP: ArtifactDescriptor = ArtifactDescriptor {
@@ -745,6 +889,10 @@ pub(crate) static REGEDIT_SYSTEM_SETUP: ArtifactDescriptor = ArtifactDescriptor 
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_SYSTEM_SELECT: ArtifactDescriptor = ArtifactDescriptor {
@@ -765,6 +913,10 @@ pub(crate) static REGEDIT_SYSTEM_SELECT: ArtifactDescriptor = ArtifactDescriptor
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CONTROLSET00_CONTROL_WINDOWS: ArtifactDescriptor = ArtifactDescriptor {
@@ -785,6 +937,10 @@ pub(crate) static REGEDIT_CONTROLSET00_CONTROL_WINDOWS: ArtifactDescriptor = Art
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST: ArtifactDescriptor = ArtifactDescriptor {
@@ -805,6 +961,10 @@ pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST: ArtifactDescriptor = Artif
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_PRO: ArtifactDescriptor = ArtifactDescriptor {
@@ -825,6 +985,10 @@ pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_PRO: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_RUN: ArtifactDescriptor = ArtifactDescriptor {
@@ -845,6 +1009,10 @@ pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_RUN: ArtifactDe
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_SID: ArtifactDescriptor = ArtifactDescriptor {
@@ -865,6 +1033,10 @@ pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_SID: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_STA: ArtifactDescriptor = ArtifactDescriptor {
@@ -885,6 +1057,10 @@ pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_STA: ArtifactDe
     triage_priority: TriagePriority::Low,
     related_artifacts: &[],
     sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Generated entries (44) ─────────────────────────────────────────────────

@@ -533,6 +533,10 @@ mod decode_tests {
             triage_priority: TriagePriority::Low,
             related_artifacts: &[],
             sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
         };
         let raw = 42u32.to_le_bytes();
         let rec = CATALOG.decode(&DWORD_DESC, "val", &raw).unwrap();
@@ -559,6 +563,10 @@ mod decode_tests {
             triage_priority: TriagePriority::Low,
             related_artifacts: &[],
             sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
         };
         let err = CATALOG.decode(&DWORD_DESC, "v", &[1, 2]).unwrap_err();
         assert_eq!(
@@ -592,6 +600,10 @@ mod decode_tests {
             triage_priority: TriagePriority::Low,
             related_artifacts: &[],
             sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
         };
         // "Hi" in UTF-16LE + NUL terminator
         let raw: &[u8] = &[0x48, 0x00, 0x69, 0x00, 0x00, 0x00];
@@ -622,6 +634,10 @@ mod decode_tests {
             triage_priority: TriagePriority::Low,
             related_artifacts: &[],
             sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
         };
         let err = CATALOG
             .decode(&UTF16_DESC, "", &[0x48, 0x00, 0x69])
@@ -651,6 +667,10 @@ mod decode_tests {
             triage_priority: TriagePriority::Low,
             related_artifacts: &[],
             sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
         };
         // "AB\0CD\0\0" in UTF-16LE
         let raw: &[u8] = &[
@@ -693,6 +713,10 @@ mod decode_tests {
             triage_priority: TriagePriority::Low,
             related_artifacts: &[],
             sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
         };
         let rec = CATALOG.decode(&MSZ_DESC, "", &[]).unwrap();
         assert_eq!(rec.fields, vec![("values", ArtifactValue::List(vec![]))]);
@@ -720,6 +744,10 @@ mod decode_tests {
             triage_priority: TriagePriority::Low,
             related_artifacts: &[],
             sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
         };
         // [2, 0, 1, 0xFFFFFFFF]
         let mut raw = Vec::new();
@@ -761,6 +789,10 @@ mod decode_tests {
             triage_priority: TriagePriority::Low,
             related_artifacts: &[],
             sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
         };
         let rec = CATALOG.decode(&MRU_DESC, "", &[]).unwrap();
         assert_eq!(rec.fields, vec![("indices", ArtifactValue::List(vec![]))]);
@@ -788,6 +820,10 @@ mod decode_tests {
             triage_priority: TriagePriority::Low,
             related_artifacts: &[],
             sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
         };
         let ft: u64 = 116_444_736_000_000_000; // Unix epoch
         let raw = ft.to_le_bytes();
@@ -822,6 +858,10 @@ mod decode_tests {
             triage_priority: TriagePriority::Low,
             related_artifacts: &[],
             sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
         };
         let err = CATALOG.decode(&FT_DESC, "", &[0; 8]).unwrap_err();
         assert_eq!(
@@ -938,6 +978,10 @@ mod decode_tests {
             triage_priority: TriagePriority::Low,
             related_artifacts: &[],
             sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
         };
         let raw = 99u32.to_le_bytes();
         let rec = CATALOG.decode(&DESC, "", &raw).unwrap();
@@ -970,6 +1014,10 @@ mod decode_tests {
             triage_priority: TriagePriority::Low,
             related_artifacts: &[],
             sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
         };
         let raw = [0xDE, 0xAD, 0xBE, 0xEF];
         let rec = CATALOG.decode(&DESC, "", &raw).unwrap();

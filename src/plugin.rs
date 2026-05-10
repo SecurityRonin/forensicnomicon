@@ -140,6 +140,10 @@ mod tests {
             triage_priority: TriagePriority::Low,
             related_artifacts: &[],
             sources: &["https://example.com/test"],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
         }
     }
 

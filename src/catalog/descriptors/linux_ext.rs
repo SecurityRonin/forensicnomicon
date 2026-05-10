@@ -34,6 +34,10 @@ pub(crate) static LINUX_AUDITD_LOG: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/security_guide/chap-system_auditing",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Kernel-level syscall auditing; attacker must disable auditd to evade"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Log file; rotated by logrotate",
 };
 
 pub(crate) static LINUX_AUDIT_RULES: ArtifactDescriptor = ArtifactDescriptor {
@@ -53,6 +57,10 @@ pub(crate) static LINUX_AUDIT_RULES: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["linux_auditd_log"],
     sources: &["https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/security_guide/chap-system_auditing"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_SYSLOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -75,6 +83,10 @@ pub(crate) static LINUX_SYSLOG: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["linux_auth_log", "linux_journal_dir"],
     sources: &["https://www.sans.org/blog/linux-forensics-from-basic-to-in-depth-evidence-collection/"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_MESSAGES_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -94,6 +106,10 @@ pub(crate) static LINUX_MESSAGES_LOG: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["linux_secure_log", "linux_journal_dir"],
     sources: &["https://www.sans.org/blog/linux-forensics-from-basic-to-in-depth-evidence-collection/"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_SECURE_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -116,6 +132,10 @@ pub(crate) static LINUX_SECURE_LOG: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::Critical,
     related_artifacts: &["linux_auditd_log", "linux_journal_dir"],
     sources: &["https://www.sans.org/blog/linux-forensics-from-basic-to-in-depth-evidence-collection/"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Authentication events; quality depends on PAM configuration"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Log file; rotated by logrotate",
 };
 
 pub(crate) static LINUX_APACHE_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -142,6 +162,10 @@ pub(crate) static LINUX_APACHE_ACCESS_LOG: ArtifactDescriptor = ArtifactDescript
     sources: &[
         "https://www.sans.org/blog/web-server-log-analysis-for-incident-responders/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Web exploitation primary source; attacker may delete or tamper"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Log file; rotated by logrotate",
 };
 
 pub(crate) static LINUX_APACHE_ERROR_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -164,6 +188,10 @@ pub(crate) static LINUX_APACHE_ERROR_LOG: ArtifactDescriptor = ArtifactDescripto
         "https://www.sans.org/blog/web-server-log-analysis-for-incident-responders/",
         "https://httpd.apache.org/docs/current/logs.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_NGINX_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -190,6 +218,10 @@ pub(crate) static LINUX_NGINX_ACCESS_LOG: ArtifactDescriptor = ArtifactDescripto
         "https://www.sans.org/blog/web-server-log-analysis-for-incident-responders/",
         "https://nginx.org/en/docs/http/ngx_http_log_module.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Web exploitation primary source; attacker may delete or tamper"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Log file; rotated by logrotate",
 };
 
 pub(crate) static LINUX_FAIL2BAN_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -215,6 +247,10 @@ pub(crate) static LINUX_FAIL2BAN_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.fail2ban.org/wiki/index.php/Main_Page",
         "https://linux.die.net/man/8/fail2ban",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_DPKG_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -240,6 +276,10 @@ pub(crate) static LINUX_DPKG_LOG: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://linux.die.net/man/1/dpkg",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_RPM_DB: ArtifactDescriptor = ArtifactDescriptor {
@@ -264,6 +304,10 @@ pub(crate) static LINUX_RPM_DB: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://linux.die.net/man/8/rpm",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_SELINUX_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
@@ -286,6 +330,10 @@ pub(crate) static LINUX_SELINUX_CONFIG: ArtifactDescriptor = ArtifactDescriptor 
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://linux.die.net/man/8/selinux",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Disabled SELinux is itself a strong indicator of attacker activity"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Config file; persistent until modified",
 };
 
 pub(crate) static LINUX_APPARMOR_PROFILES: ArtifactDescriptor = ArtifactDescriptor {
@@ -308,6 +356,10 @@ pub(crate) static LINUX_APPARMOR_PROFILES: ArtifactDescriptor = ArtifactDescript
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://gitlab.com/apparmor/apparmor/-/wikis/Documentation",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_IPTABLES_RULES: ArtifactDescriptor = ArtifactDescriptor {
@@ -330,6 +382,10 @@ pub(crate) static LINUX_IPTABLES_RULES: ArtifactDescriptor = ArtifactDescriptor 
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://linux.die.net/man/8/iptables",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_NFTABLES_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -352,6 +408,10 @@ pub(crate) static LINUX_NFTABLES_CONF: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://wiki.nftables.org/wiki-nftables/index.php/Main_Page",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_HOSTS_FILE: ArtifactDescriptor = ArtifactDescriptor {
@@ -377,6 +437,10 @@ pub(crate) static LINUX_HOSTS_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://linux.die.net/man/5/hosts",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_RESOLV_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -399,6 +463,10 @@ pub(crate) static LINUX_RESOLV_CONF: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://linux.die.net/man/5/resolv.conf",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_PROC_MODULES: ArtifactDescriptor = ArtifactDescriptor {
@@ -426,6 +494,10 @@ pub(crate) static LINUX_PROC_MODULES: ArtifactDescriptor = ArtifactDescriptor {
         // Volatility Phalanx 2 analysis: linux_lsmod vs /proc/modules to detect hidden LKM rootkits
         "https://volatility-labs.blogspot.com/2012/10/phalanx-2-revealed-using-volatility-to.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Live kernel modules; rootkit detection; lost on reboot"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Virtual FS; lost on reboot",
 };
 
 pub(crate) static LINUX_MODPROBE_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -448,6 +520,10 @@ pub(crate) static LINUX_MODPROBE_D: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://linux.die.net/man/5/modprobe.d",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_DOCKER_CONTAINER_LOGS: ArtifactDescriptor = ArtifactDescriptor {
@@ -472,6 +548,10 @@ pub(crate) static LINUX_DOCKER_CONTAINER_LOGS: ArtifactDescriptor = ArtifactDesc
     sources: &[
         "https://www.sans.org/blog/container-forensics/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_DOCKER_DAEMON_JSON: ArtifactDescriptor = ArtifactDescriptor {
@@ -494,6 +574,10 @@ pub(crate) static LINUX_DOCKER_DAEMON_JSON: ArtifactDescriptor = ArtifactDescrip
         "https://www.sans.org/blog/container-forensics/",
         "https://docs.docker.com/config/daemon/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_COREDUMP_DIR: ArtifactDescriptor = ArtifactDescriptor {
@@ -516,6 +600,10 @@ pub(crate) static LINUX_COREDUMP_DIR: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["linux_journal_dir"],
     sources: &["https://systemd.io/COREDUMP/"],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_LOGROTATE_D: ArtifactDescriptor = ArtifactDescriptor {
@@ -538,6 +626,10 @@ pub(crate) static LINUX_LOGROTATE_D: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/linux-persistence-mechanisms/",
         "https://linux.die.net/man/8/logrotate",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_SNAP_PACKAGES: ArtifactDescriptor = ArtifactDescriptor {
@@ -559,6 +651,10 @@ pub(crate) static LINUX_SNAP_PACKAGES: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://snapcraft.io/docs/snap-format",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Batch I: Linux kernel / live-system artifacts ──────────────────────────
@@ -583,6 +679,10 @@ pub(crate) static LINUX_DMESG_LOG: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://man7.org/linux/man-pages/man1/dmesg.1.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Kernel ring buffer wraps; grab early in live response"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Ring buffer — overwritten as kernel emits new messages",
 };
 
 pub(crate) static LINUX_KERN_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -608,6 +708,10 @@ pub(crate) static LINUX_KERN_LOG: ArtifactDescriptor = ArtifactDescriptor {
         // Elastic sequel: syslog/kern messages used to detect LKM rootkit persistence events
         "https://www.elastic.co/security-labs/sequel-on-persistence-mechanisms",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_PROC_KALLSYMS: ArtifactDescriptor = ArtifactDescriptor {
@@ -630,6 +734,10 @@ pub(crate) static LINUX_PROC_KALLSYMS: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://man7.org/linux/man-pages/man5/proc.5.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Requires root; compare against expected module symbols to find injected code"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Reflects live kernel symbol table; changes if modules loaded/unloaded",
 };
 
 pub(crate) static LINUX_PROC_NET_TCP: ArtifactDescriptor = ArtifactDescriptor {
@@ -652,6 +760,10 @@ pub(crate) static LINUX_PROC_NET_TCP: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://man7.org/linux/man-pages/man5/proc.5.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Live socket table; grab immediately — C2 connections close on detection"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Kernel socket table; entries vanish on connection close",
 };
 
 pub(crate) static LINUX_PROC_NET_TCP6: ArtifactDescriptor = ArtifactDescriptor {
@@ -674,6 +786,10 @@ pub(crate) static LINUX_PROC_NET_TCP6: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://man7.org/linux/man-pages/man5/proc.5.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_PROC_NET_UDP: ArtifactDescriptor = ArtifactDescriptor {
@@ -696,6 +812,10 @@ pub(crate) static LINUX_PROC_NET_UDP: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://man7.org/linux/man-pages/man5/proc.5.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_PROC_NET_UNIX: ArtifactDescriptor = ArtifactDescriptor {
@@ -718,6 +838,10 @@ pub(crate) static LINUX_PROC_NET_UNIX: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://man7.org/linux/man-pages/man5/proc.5.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_LSOF_OUTPUT: ArtifactDescriptor = ArtifactDescriptor {
@@ -740,6 +864,10 @@ pub(crate) static LINUX_LSOF_OUTPUT: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://man7.org/linux/man-pages/man8/lsof.8.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Live-response only; deleted files visible only while process holds fd open"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Process state; lost on process exit or system reboot",
 };
 
 pub(crate) static LINUX_SS_OUTPUT: ArtifactDescriptor = ArtifactDescriptor {
@@ -762,6 +890,10 @@ pub(crate) static LINUX_SS_OUTPUT: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://man7.org/linux/man-pages/man8/ss.8.html",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Live-response only; C2 connections disappear on session teardown"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Socket table exists only while connections are active",
 };
 
 pub(crate) static LINUX_CHKROOTKIT_OUTPUT: ArtifactDescriptor = ArtifactDescriptor {
@@ -784,6 +916,10 @@ pub(crate) static LINUX_CHKROOTKIT_OUTPUT: ArtifactDescriptor = ArtifactDescript
     sources: &[
         "https://www.chkrootkit.org/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &["Rootkit may subvert chkrootkit itself; corroborate with memory forensics"],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Assessment output; not persisted unless explicitly saved",
 };
 
 pub(crate) static LINUX_RKHUNTER_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -806,6 +942,10 @@ pub(crate) static LINUX_RKHUNTER_LOG: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://rkhunter.sourceforge.net/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_SYSCTL_CONF: ArtifactDescriptor = ArtifactDescriptor {
@@ -828,6 +968,10 @@ pub(crate) static LINUX_SYSCTL_CONF: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://man7.org/linux/man-pages/man8/sysctl.8.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Group D: Linux Kernel / Proc (new artifacts only — LINUX_KERN_LOG already defined above) ──
@@ -857,6 +1001,10 @@ pub(crate) static LINUX_DMESG: ArtifactDescriptor = ArtifactDescriptor {
         "https://man7.org/linux/man-pages/man1/dmesg.1.html",
         "https://www.kernel.org/doc/html/latest/admin-guide/tainted-kernels.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 pub(crate) static LINUX_BOOT_LOG: ArtifactDescriptor = ArtifactDescriptor {
@@ -884,6 +1032,10 @@ pub(crate) static LINUX_BOOT_LOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://man7.org/linux/man-pages/man8/bootlogd.8.html",
         "https://www.freedesktop.org/software/systemd/man/latest/systemd-journald.service.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Group E: Linux Auth/Binary Logs ──────────────────────────────────────────
@@ -914,6 +1066,10 @@ pub(crate) static LINUX_FAILLOG: ArtifactDescriptor = ArtifactDescriptor {
         "https://man7.org/linux/man-pages/man5/faillog.5.html",
         "https://man7.org/linux/man-pages/man8/faillog.8.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Hak5 LAN Turtle Credential Loot ─────────────────────────────────────────
@@ -1006,4 +1162,12 @@ pub(crate) static LAN_TURTLE_LOOT: ArtifactDescriptor = ArtifactDescriptor {
         // Source: https://docs.hak5.org/lan-turtle/ — official Hak5 LAN Turtle docs
         "https://docs.hak5.org/lan-turtle/",
     ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Requires physical access to the LAN Turtle device (SSH to 172.16.84.1 or flash imaging)",
+        "Loot files can be deleted by the attacker before seizure",
+        "Credential type depends on victim OS — NTLMv2 for Windows 7+, may vary for others",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Stored on 16 MB flash; persists until manually deleted or device is reflashed",
 };

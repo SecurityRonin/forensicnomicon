@@ -174,6 +174,10 @@ pub(crate) static SAMSUNG_GALLERY3D_TRASH: ArtifactDescriptor = ArtifactDescript
         // Source: cheeky4n6monkey — full reverse engineering of local.db trash + log tables
         "https://cheeky4n6monkey.blogspot.com/2022/01/mike-monkey-dumpster-dive-into-samsung.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Samsung Gallery3d Log table ─────────────────────────────────────────────
@@ -247,6 +251,10 @@ pub(crate) static SAMSUNG_GALLERY3D_LOG: ArtifactDescriptor = ArtifactDescriptor
         // base64 decoding methodology and v10/v11 format differences
         "https://cheeky4n6monkey.blogspot.com/2022/01/mike-monkey-dumpster-dive-into-samsung.html",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Android Tor Browser Thumbnails ──────────────────────────────────────────
@@ -341,6 +349,10 @@ pub(crate) static ANDROID_TOR_BROWSER_THUMBNAILS: ArtifactDescriptor = ArtifactD
         // (Josh Hickman's Android 12 test image used to validate the artifact)
         "https://thebinaryhick.blog/2021/12/17/android-12-image-now-available/",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };
 
 // ── Gboard Training Cache ───────────────────────────────────────────────────
@@ -451,4 +463,8 @@ pub(crate) static ANDROID_GBOARD_TRAININGCACHE: ArtifactDescriptor = ArtifactDes
         // the Gboard trainingcache parser module)
         "https://github.com/abrignoni/ALEAPP",
     ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
 };

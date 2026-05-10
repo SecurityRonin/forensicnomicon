@@ -25,6 +25,13 @@ pub(crate) static BROWSER_CHROME_HISTORY: ArtifactDescriptor = ArtifactDescripto
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "URL visited, not necessarily user-initiated; could be redirect or prefetch",
+        "History can be cleared by user or extensions; absence is not evidence of non-visit",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Overwritten by browser activity; no fixed size limit but old entries pruned",
 };
 
 pub(crate) static BROWSER_CHROME_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -45,6 +52,13 @@ pub(crate) static BROWSER_CHROME_COOKIES: ArtifactDescriptor = ArtifactDescripto
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Cookie presence proves domain contact, not user intent; third-party cookies common",
+        "Expiration and creation timestamps useful for timeline reconstruction",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Cookies expire or are overwritten by site updates",
 };
 
 pub(crate) static BROWSER_CHROME_DOWNLOADS: ArtifactDescriptor = ArtifactDescriptor {
@@ -65,6 +79,13 @@ pub(crate) static BROWSER_CHROME_DOWNLOADS: ArtifactDescriptor = ArtifactDescrip
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "File was downloaded; user may not have opened or executed it",
+        "Download record persists even if file was deleted from disk",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Download records persist until user clears download history",
 };
 
 pub(crate) static BROWSER_CHROME_BOOKMARKS: ArtifactDescriptor = ArtifactDescriptor {
@@ -85,6 +106,13 @@ pub(crate) static BROWSER_CHROME_BOOKMARKS: ArtifactDescriptor = ArtifactDescrip
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Circumstantial),
+    evidence_caveats: &[
+        "Bookmark proves awareness of URL, not visit frequency",
+        "May be synced from another device; check sync metadata",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Bookmarks persist until deleted by user",
 };
 
 pub(crate) static BROWSER_CHROME_EXTENSIONS: ArtifactDescriptor = ArtifactDescriptor {
@@ -105,6 +133,13 @@ pub(crate) static BROWSER_CHROME_EXTENSIONS: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Extension installed, possibly auto-installed by enterprise policy",
+        "Extension version and update timestamps useful for timeline",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Extensions persist until uninstalled",
 };
 
 pub(crate) static BROWSER_CHROME_LOGIN_DATA_V2: ArtifactDescriptor = ArtifactDescriptor {
@@ -126,6 +161,13 @@ pub(crate) static BROWSER_CHROME_LOGIN_DATA_V2: ArtifactDescriptor = ArtifactDes
     triage_priority: TriagePriority::Critical,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Credential saved; timestamp shows last use; passwords encrypted by OS credential store",
+        "Presence proves user entered credentials on the site at least once",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Credentials persist until deleted from browser or profile deletion",
 };
 
 pub(crate) static BROWSER_CHROME_AUTOFILL: ArtifactDescriptor = ArtifactDescriptor {
@@ -146,6 +188,13 @@ pub(crate) static BROWSER_CHROME_AUTOFILL: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Form data was saved; may have been auto-populated not manually typed",
+        "Timestamps show when autofill entry was created and last used",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Autofill data persists until browser data cleared",
 };
 
 pub(crate) static BROWSER_CHROME_CACHE: ArtifactDescriptor = ArtifactDescriptor {
@@ -166,6 +215,13 @@ pub(crate) static BROWSER_CHROME_CACHE: ArtifactDescriptor = ArtifactDescriptor 
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Cache entry proves resource was fetched; evicted under size pressure",
+        "Response headers (Last-Modified, ETag) may reveal server-side timestamps",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Evicted when cache size limit reached; newest entries overwrite oldest",
 };
 
 pub(crate) static BROWSER_CHROME_SESSION: ArtifactDescriptor = ArtifactDescriptor {
@@ -186,6 +242,13 @@ pub(crate) static BROWSER_CHROME_SESSION: ArtifactDescriptor = ArtifactDescripto
     triage_priority: TriagePriority::Medium,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Tab state reflects last browser close; unreliable if crash occurred",
+        "SNSS format is binary and partially documented",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Overwritten on every browser launch; lost on clean exit without restore",
 };
 
 pub(crate) static BROWSER_FIREFOX_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -206,6 +269,13 @@ pub(crate) static BROWSER_FIREFOX_HISTORY: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Mozilla_Firefox"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Same caveats as Chrome history; stored in places.sqlite",
+        "Firefox uses moz_places + moz_historyvisits join for full timeline",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Overwritten by browser activity; no fixed size limit",
 };
 
 pub(crate) static BROWSER_FIREFOX_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
@@ -226,6 +296,13 @@ pub(crate) static BROWSER_FIREFOX_COOKIES: ArtifactDescriptor = ArtifactDescript
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Mozilla_Firefox"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Same caveats as Chrome cookies; stored in cookies.sqlite",
+        "Firefox stores isHttpOnly and sameSite flags useful for security analysis",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Cookies expire or are overwritten by site updates",
 };
 
 pub(crate) static BROWSER_FIREFOX_DOWNLOADS: ArtifactDescriptor = ArtifactDescriptor {
@@ -246,6 +323,13 @@ pub(crate) static BROWSER_FIREFOX_DOWNLOADS: ArtifactDescriptor = ArtifactDescri
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Mozilla_Firefox"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Same caveats as Chrome downloads; stored in places.sqlite moz_annos",
+        "Download annotations reference moz_places entries",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Download records persist until user clears history",
 };
 
 pub(crate) static BROWSER_SAFARI_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
@@ -266,4 +350,11 @@ pub(crate) static BROWSER_SAFARI_HISTORY: ArtifactDescriptor = ArtifactDescripto
     triage_priority: TriagePriority::High,
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Apple_Safari"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Same caveats as Chrome history; stored in History.db",
+        "Safari has history_tombstones table tracking deleted URLs with timestamps",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Overwritten by browser activity; tombstones provide deletion evidence",
 };
