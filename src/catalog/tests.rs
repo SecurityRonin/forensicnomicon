@@ -9491,3 +9491,53 @@ mod tests_catalog_count_after_defender_support_logs {
         );
     }
 }
+
+#[cfg(test)]
+mod tests_profile_merge {
+    use super::*;
+
+    #[test]
+    fn catalog_entries_expose_evidence_and_volatility() {
+        for d in CATALOG.list() {
+            let _: Option<crate::evidence::EvidenceStrength> = d.evidence_strength;
+            let _: Option<crate::volatility::VolatilityClass> = d.volatility;
+            let _: &[&str] = d.evidence_caveats;
+            let _: &str = d.volatility_rationale;
+        }
+    }
+
+    #[test]
+    fn assessed_profiles_match_catalog_fields() {
+        use crate::profile::ARTIFACT_PROFILES;
+        for profile in ARTIFACT_PROFILES.iter() {
+            let desc = CATALOG.list().iter()
+                .find(|d| d.id == profile.id)
+                .unwrap_or_else(|| panic!(
+                    "ARTIFACT_PROFILES entry '{}' has no CATALOG descriptor", profile.id
+                ));
+            assert_eq!(desc.evidence_strength, Some(profile.evidence_strength),
+                "evidence_strength mismatch for {}", profile.id);
+            assert_eq!(desc.volatility, Some(profile.volatility),
+                "volatility mismatch for {}", profile.id);
+            assert_eq!(desc.evidence_caveats, profile.evidence_caveats,
+                "evidence_caveats mismatch for {}", profile.id);
+            assert_eq!(desc.volatility_rationale, profile.volatility_rationale,
+                "volatility_rationale mismatch for {}", profile.id);
+        }
+    }
+
+    #[test]
+    fn unassessed_catalog_entries_have_none_profile() {
+        use crate::profile::ARTIFACT_PROFILES;
+        let assessed: std::collections::HashSet<&str> =
+            ARTIFACT_PROFILES.iter().map(|p| p.id).collect();
+        for d in CATALOG.list() {
+            if !assessed.contains(d.id) {
+                assert!(d.evidence_strength.is_none(),
+                    "unassessed artifact '{}' has Some(evidence_strength)", d.id);
+                assert!(d.volatility.is_none(),
+                    "unassessed artifact '{}' has Some(volatility)", d.id);
+            }
+        }
+    }
+}
