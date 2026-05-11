@@ -535,7 +535,7 @@ pub static RUN_KEY_HKCU_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
         Distinct from the persistent Run key — malware choosing RunOnce may be \
         trying to limit dwell time or avoid repeated execution. Raspberry Robin \
         used HKCU RunOnce for user-scoped persistence (T1547.001).",
-    mitre_techniques: &["T1547.001"],
+    mitre_techniques: &["T1547.001", "T1112"],
     fields: RUN_KEY_FIELDS,
     retention: None,
     triage_priority: TriagePriority::High,
@@ -544,6 +544,8 @@ pub static RUN_KEY_HKCU_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys",
         // Source: Raspberry Robin RunOnce misreport — HKCU fires at user login not boot
         "https://windowsir.blogspot.com/2022/11/post-compilation.html",
+        // Source: Carvey confirmed indirect-write evasion leaves no hive trace
+        "https://windowsir.blogspot.com/2022/10/testing-registry-modification-scenarios.html",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &[
@@ -553,6 +555,11 @@ pub static RUN_KEY_HKCU_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
         "HKCU RunOnce fires at USER LOGIN, not machine boot — \
          open reporting frequently confuses these; a user-hive persistence entry \
          cannot execute before that user logs in",
+        "Indirect write via key rename (rename RunOnce → add value → rename back, \
+         used by Raspberry Robin/Roshtyak) leaves no forensic trace distinguishable \
+         from normal RunOnce usage in the hive — registry-only analysis cannot detect \
+         this evasion; requires Sysmon EID 12/13/14 or \
+         Microsoft-Windows-Shell-Core%4Operational.evtx",
     ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Deleted by OS after single user-login execution; \
@@ -571,19 +578,37 @@ pub static RUN_KEY_HKLM_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
-    meaning: "System-wide one-time autostart, deleted after first execution",
-    mitre_techniques: &["T1547.001"],
+    meaning: "System-wide one-time autostart: values execute once at the next MACHINE BOOT \
+        and are immediately deleted by the OS. Presence proves a payload was staged for the \
+        next boot. Absence after suspected compromise means the trigger already fired — \
+        correlate execution time with boot records (Event ID 4608 System startup) and \
+        execution artifacts (Prefetch, ShimCache). Distinct from the persistent Run key; \
+        malware choosing RunOnce may be trying to limit dwell time or leave minimal trace. \
+        Indirect write via key rename (Raspberry Robin/Roshtyak) can bypass detection rules.",
+    mitre_techniques: &["T1547.001", "T1112"],
     fields: RUN_KEY_FIELDS,
     retention: None,
     triage_priority: TriagePriority::High,
-    related_artifacts: &[],
+    related_artifacts: &["run_key_hkcu_once", "run_key_hklm"],
     sources: &[
         "https://learn.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys",
+        // Source: Carvey confirmed indirect-write evasion leaves no hive trace
+        "https://windowsir.blogspot.com/2022/10/testing-registry-modification-scenarios.html",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
-    evidence_caveats: &["Single-run key deleted after execution; absence may indicate prior execution; correlate with execution artifacts"],
+    evidence_caveats: &[
+        "Single-run key deleted by OS after boot execution — absence does not prove the \
+         key was never set; correlate with Event ID 4608 (System startup) and execution \
+         artifacts (Prefetch, ShimCache) at that boot time",
+        "Indirect write via key rename (rename RunOnce → add value → rename back, \
+         used by Raspberry Robin/Roshtyak) leaves no forensic trace distinguishable \
+         from normal RunOnce usage in the hive — registry-only analysis cannot detect \
+         this evasion; requires Sysmon EID 12/13/14 or \
+         Microsoft-Windows-Shell-Core%4Operational.evtx",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
-    volatility_rationale: "Deleted by OS after single execution",
+    volatility_rationale: "Deleted by OS after single boot-time execution; \
+        transient by design — acquire before the next system restart",
 };
 
 // ── IFEO ──────────────────────────────────────────────────────────────────────
