@@ -9783,3 +9783,113 @@ mod tests_scheduled_task_registry_cache {
         );
     }
 }
+
+// ── RunOnce key — user-login vs machine-boot analyst distinction ──────────────
+
+#[cfg(test)]
+mod tests_run_key_hkcu_once {
+    use super::*;
+
+    #[test]
+    fn run_key_hkcu_once_exists() {
+        assert!(
+            CATALOG.by_id("run_key_hkcu_once").is_some(),
+            "catalog must contain 'run_key_hkcu_once'"
+        );
+    }
+
+    #[test]
+    fn run_key_hkcu_once_has_evidence_strength() {
+        let d = CATALOG.by_id("run_key_hkcu_once").unwrap();
+        assert!(
+            d.evidence_strength.is_some(),
+            "run_key_hkcu_once must have evidence_strength set"
+        );
+    }
+
+    #[test]
+    fn run_key_hkcu_once_evidence_strength_is_strong() {
+        use crate::evidence::EvidenceStrength;
+        let d = CATALOG.by_id("run_key_hkcu_once").unwrap();
+        assert_eq!(
+            d.evidence_strength,
+            Some(EvidenceStrength::Strong),
+            "run_key_hkcu_once is Strong — key deleted after execution so \
+            absence may indicate prior run; presence is direct persistence evidence"
+        );
+    }
+
+    #[test]
+    fn run_key_hkcu_once_has_evidence_caveats() {
+        let d = CATALOG.by_id("run_key_hkcu_once").unwrap();
+        assert!(
+            !d.evidence_caveats.is_empty(),
+            "run_key_hkcu_once must have evidence_caveats"
+        );
+    }
+
+    #[test]
+    fn run_key_hkcu_once_caveats_mention_login_not_boot() {
+        let d = CATALOG.by_id("run_key_hkcu_once").unwrap();
+        let combined = d.evidence_caveats.join(" ").to_ascii_lowercase();
+        assert!(
+            combined.contains("login") || combined.contains("logon"),
+            "run_key_hkcu_once caveats must clarify execution triggers at \
+            user login, not machine boot — common open-reporting error; \
+            got: {:?}",
+            d.evidence_caveats
+        );
+    }
+
+    #[test]
+    fn run_key_hkcu_once_has_volatility() {
+        let d = CATALOG.by_id("run_key_hkcu_once").unwrap();
+        assert!(
+            d.volatility.is_some(),
+            "run_key_hkcu_once must have volatility set"
+        );
+    }
+
+    #[test]
+    fn run_key_hkcu_once_volatility_is_activity_driven() {
+        use crate::volatility::VolatilityClass;
+        let d = CATALOG.by_id("run_key_hkcu_once").unwrap();
+        assert_eq!(
+            d.volatility,
+            Some(VolatilityClass::ActivityDriven),
+            "run_key_hkcu_once volatility must be ActivityDriven — \
+            deleted by OS after single user-login execution"
+        );
+    }
+
+    #[test]
+    fn run_key_hkcu_once_has_related_artifacts() {
+        let d = CATALOG.by_id("run_key_hkcu_once").unwrap();
+        assert!(
+            !d.related_artifacts.is_empty(),
+            "run_key_hkcu_once must list related artifacts"
+        );
+    }
+
+    #[test]
+    fn run_key_hkcu_once_related_includes_run_key() {
+        let d = CATALOG.by_id("run_key_hkcu_once").unwrap();
+        assert!(
+            d.related_artifacts.iter().any(|r| r.contains("run_key")),
+            "run_key_hkcu_once must relate to run_key artifacts; got: {:?}",
+            d.related_artifacts
+        );
+    }
+
+    #[test]
+    fn run_key_hkcu_once_meaning_distinguishes_login_from_boot() {
+        let d = CATALOG.by_id("run_key_hkcu_once").unwrap();
+        let meaning = d.meaning.to_ascii_lowercase();
+        assert!(
+            meaning.contains("login") || meaning.contains("logon"),
+            "run_key_hkcu_once meaning must state execution triggers at user \
+            login not machine boot; got: {}",
+            d.meaning
+        );
+    }
+}
