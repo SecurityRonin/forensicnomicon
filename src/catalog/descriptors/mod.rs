@@ -524,19 +524,36 @@ pub static RUN_KEY_HKCU_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::User,
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
-    meaning: "Per-user one-time autostart, deleted after first execution",
+    meaning: "Per-user one-shot autostart: values execute once at the next \
+        USER LOGIN (not machine boot) and are immediately deleted by the OS. \
+        Presence proves a payload was staged for the next logon session of \
+        that user. Absence after suspected compromise means the trigger already \
+        fired; correlate execution time with user logon events (Event ID 4624). \
+        Distinct from the persistent Run key — malware choosing RunOnce may be \
+        trying to limit dwell time or avoid repeated execution. Raspberry Robin \
+        used HKCU RunOnce for user-scoped persistence (T1547.001).",
     mitre_techniques: &["T1547.001"],
     fields: RUN_KEY_FIELDS,
     retention: None,
     triage_priority: TriagePriority::High,
-    related_artifacts: &[],
+    related_artifacts: &["run_key_hkcu", "run_key_hklm_once"],
     sources: &[
         "https://learn.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys",
+        // Source: Raspberry Robin RunOnce misreport — HKCU fires at user login not boot
+        "https://windowsir.blogspot.com/2022/11/post-compilation.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Key is deleted by the OS after the first user login execution — \
+         absence does not prove the key was never set; correlate with Event ID 4624 \
+         (user logon) and execution artifacts (Prefetch, Shimcache) at that time",
+        "HKCU RunOnce fires at USER LOGIN, not machine boot — \
+         open reporting frequently confuses these; a user-hive persistence entry \
+         cannot execute before that user logs in",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Deleted by OS after single user-login execution; \
+        transient by design — acquire before the user\'s next login",
 };
 
 /// HKLM RunOnce — system-wide one-shot autostart.
