@@ -133,6 +133,7 @@ pub fn generate_static(rec: &IngestRecord) -> String {
     let triage = triage_variant(&rec.triage_priority);
     let meaning = escape_rust_str(&rec.meaning);
     let name = escape_rust_str(&rec.name);
+    let os_scope = &rec.os_scope;
 
     format!(
         r#"pub(crate) static {static_name}: ArtifactDescriptor = ArtifactDescriptor {{
@@ -144,7 +145,7 @@ pub fn generate_static(rec: &IngestRecord) -> String {
     value_name: {value_name_field},
     file_path: {file_path_field},
     scope: {scope},
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::{os_scope},
     decoder: Decoder::Identity,
     meaning: "{meaning}",
     mitre_techniques: {mitre},
@@ -190,6 +191,7 @@ mod tests {
             hive: Some("HKLM\\SYSTEM".to_string()),
             key_path: r"CurrentControlSet\Services\PortProxy\v4tov4\tcp".to_string(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: None,
             meaning:
                 "Records IPv4-to-IPv4 port forwarding rules; commonly abused for lateral movement."
@@ -209,6 +211,7 @@ mod tests {
             hive: None,
             key_path: String::new(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: Some(
                 r"C:\Users\%user%\AppData\Local\Google\Chrome\User Data\Default\History"
                     .to_string(),

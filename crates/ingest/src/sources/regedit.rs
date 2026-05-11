@@ -166,6 +166,7 @@ fn build_record(
         hive: hive.map(|h| h.to_string()),
         key_path: key_path.to_string(),
         value_name: None,
+        os_scope: "Win7Plus".to_string(),
         file_path: None,
         meaning,
         mitre_techniques: mitre,

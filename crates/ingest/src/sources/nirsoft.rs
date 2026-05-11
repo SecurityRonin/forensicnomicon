@@ -17,6 +17,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: None,
             key_path: String::new(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: Some(r"%APPDATA%\Microsoft\Windows\Recent\*".to_string()),
             meaning: "Recent files and folders accessed by the user (LNK shortcuts). \
                      Documented by NirSoft LastActivityView."
@@ -34,6 +35,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: None,
             key_path: String::new(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: Some(r"%LOCALAPPDATA%\Google\Chrome\User Data\Default\History".to_string()),
             meaning: "Chrome browsing history SQLite DB as parsed by NirSoft BrowsingHistoryView."
                 .to_string(),
@@ -49,6 +51,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: None,
             key_path: String::new(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: Some(
                 r"%APPDATA%\Mozilla\Firefox\Profiles\*.default-release\places.sqlite".to_string(),
             ),
@@ -68,6 +71,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: None,
             key_path: String::new(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: Some(r"%SystemRoot%\System32\LogFiles\*".to_string()),
             meaning: "Network connection log files in System32\\LogFiles. \
                      Parsed by NirSoft NetworkConnectLog."
@@ -85,6 +89,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: Some("HKLM\\SYSTEM".to_string()),
             key_path: r"CurrentControlSet\Enum\USB".to_string(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: None,
             meaning: "USB device enumeration entries in HKLM\\SYSTEM. \
                      Parsed by NirSoft USBDeview to list connected USB devices."
@@ -101,6 +106,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: Some("HKLM\\SYSTEM".to_string()),
             key_path: r"CurrentControlSet\Enum\USBSTOR".to_string(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: None,
             meaning: "USB mass storage device history in HKLM\\SYSTEM\\USBSTOR. \
                      Records device serial numbers and connection history."
@@ -118,6 +124,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: Some("HKCU\\Software\\Classes".to_string()),
             key_path: r"Local Settings\Software\Microsoft\Windows\Shell\Bags".to_string(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: None,
             meaning: "ShellBag entries in UsrClass.dat recording folder view settings — \
                      proves folder access even after deletion. Parsed by NirSoft ShellBagsView."
@@ -138,6 +145,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: Some("HKCU".to_string()),
             key_path: r"Software\Microsoft\Windows\Shell\BagMRU".to_string(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: None,
             meaning: "ShellBag MRU entries in NTUSER.DAT. Tracks folder navigation history."
                 .to_string(),
@@ -154,6 +162,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: None,
             key_path: String::new(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: Some(
                 r"%APPDATA%\Microsoft\Windows\Recent\AutomaticDestinations".to_string(),
             ),
@@ -172,6 +181,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: None,
             key_path: String::new(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: Some(r"%APPDATA%\Microsoft\Windows\Recent\CustomDestinations".to_string()),
             meaning: "Custom Jump List files (*.customDestinations-ms) — pinned items and tasks \
                      defined by applications."
@@ -189,6 +199,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: Some("HKCU\\Software\\Classes".to_string()),
             key_path: r"Local Settings\Software\Microsoft\Windows\Shell\MuiCache".to_string(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: None,
             meaning: "MUICache stores program display names for executables that have run — \
                      evidence of program execution even after binary deletion. \
@@ -207,6 +218,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: Some("HKCU".to_string()),
             key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs".to_string(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: None,
             meaning: "Registry key tracking recently opened documents — per-extension MRU lists. \
                      Parsed by NirSoft RecentFilesView."
@@ -224,6 +236,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: None,
             key_path: String::new(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: Some(r"%SystemRoot%\System32\wlansvc\Profiles\Interfaces".to_string()),
             meaning: "WLAN XML profile files listing previously connected Wi-Fi networks \
                      (includes SSID). Parsed by NirSoft WifiHistoryView."
@@ -241,6 +254,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: None,
             key_path: String::new(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: Some(r"%APPDATA%\Microsoft\Credentials".to_string()),
             meaning: "Windows Credential Manager store. May contain cached network passwords \
                      and domain credentials. Parsed by NirSoft NetworkPasswordRecovery."
@@ -260,6 +274,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: Some("HKLM\\SAM".to_string()),
             key_path: r"SAM\Domains\Account\Users".to_string(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: None,
             meaning: "SAM hive users sub-key contains NT/LM password hashes for local accounts. \
                      Relevant to NirSoft's password recovery tools."
@@ -277,6 +292,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: None,
             key_path: String::new(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: Some(r"%USERPROFILE%\NTUSER.DAT".to_string()),
             meaning: "User registry hive (NTUSER.DAT) — source for RegistryChangesView \
                      to diff registry before/after malware execution."
@@ -294,6 +310,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: None,
             key_path: String::new(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: Some(r"\\.\PhysicalDrive0".to_string()),
             meaning: "NirSoft OpenedFilesView queries the OS for open file handles — \
                      live artifact useful during triage to identify locked files."
@@ -311,6 +328,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: None,
             key_path: String::new(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: Some(r"%SystemRoot%\Prefetch\*.pf".to_string()),
             meaning: "Windows Prefetch files used by NirSoft ProcessActivityView to reconstruct \
                      process execution history."
@@ -328,6 +346,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: Some("HKLM\\SOFTWARE".to_string()),
             key_path: r"Microsoft\Windows NT\CurrentVersion\Drivers32".to_string(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: None,
             meaning: "Audio/video codec registrations — sometimes abused for persistence \
                      (DLL hijacking via codec paths). Documented by NirSoft InstalledCodec."
@@ -345,6 +364,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: Some("HKLM\\SOFTWARE".to_string()),
             key_path: r"Microsoft\Windows\CurrentVersion\Run".to_string(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: None,
             meaning: "System-wide Run key — programs listed here launch for all users at logon. \
                      A primary persistence mechanism documented by NirSoft StartupRun."
@@ -361,6 +381,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: Some("HKCU".to_string()),
             key_path: r"Software\Microsoft\Windows\CurrentVersion\Run".to_string(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: None,
             meaning:
                 "Per-user Run key — programs listed here launch when the current user logs on. \
@@ -379,6 +400,7 @@ pub fn nirsoft_artifacts() -> Vec<IngestRecord> {
             hive: None,
             key_path: String::new(),
             value_name: None,
+            os_scope: "Win7Plus".to_string(),
             file_path: Some(r"%LOCALAPPDATA%\CrashDumps".to_string()),
             meaning: "Application crash dump files. May contain credential material or memory \
                      forensics artefacts. Listed by NirSoft AppCrashView."

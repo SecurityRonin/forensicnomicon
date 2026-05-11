@@ -238,6 +238,7 @@ fn build_record(
         hive: None,
         key_path: String::new(),
         value_name: None,
+        os_scope: "Win7Plus".to_string(),
         file_path: Some(full_path),
         meaning,
         mitre_techniques: extract_mitre(comment),

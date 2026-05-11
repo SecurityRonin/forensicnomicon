@@ -16,7 +16,17 @@ use crate::record::{IngestRecord, IngestType};
 pub fn parse_fa_yaml(content: &str) -> Vec<IngestRecord> {
     let mut records = Vec::new();
     let mut seen_ids = HashSet::new();
+    parse_fa_yaml_into(content, &mut records, &mut seen_ids);
+    records
+}
 
+/// Parse a ForensicArtifacts YAML string into an existing records vec and shared seen-set.
+/// Used by `fetch_all_fa_artifacts` so the dedup set spans all files.
+fn parse_fa_yaml_into(
+    content: &str,
+    records: &mut Vec<IngestRecord>,
+    seen_ids: &mut HashSet<String>,
+) {
     // Split into YAML documents by ---
     // The content may start with --- or not; split on \n--- to handle both
     let raw_docs: Vec<&str> = content.split("\n---").collect();
@@ -27,15 +37,13 @@ pub fn parse_fa_yaml(content: &str) -> Vec<IngestRecord> {
             continue;
         }
         match serde_yaml::from_str::<serde_yaml::Value>(doc) {
-            Ok(value) => parse_document(&value, &mut records, &mut seen_ids),
+            Ok(value) => parse_document(&value, records, seen_ids),
             Err(_) => {
                 // Try the whole chunk if splitting produced something off
                 continue;
             }
         }
     }
-
-    records
 }
 
 fn parse_document(
@@ -68,6 +76,8 @@ fn parse_document(
                 .collect()
         })
         .unwrap_or_default();
+
+    let os_scope = parse_supported_os(value);
 
     let sources_list = value
         .get("sources")
@@ -146,6 +156,7 @@ fn parse_document(
                 key_path,
                 value_name: None,
                 file_path,
+                os_scope: os_scope.clone(),
                 meaning: doc.clone(),
                 mitre_techniques: Vec::new(),
                 triage_priority: triage.to_string(),
@@ -154,6 +165,37 @@ fn parse_document(
 
             records.push(rec);
         }
+    }
+}
+
+/// Maps ForensicArtifacts `supported_os` list to a single `OsScope` variant name.
+///
+/// FA YAML values: `Windows`, `Linux`, `Darwin` (macOS), `Android`, `iOS`.
+/// When multiple OSes are listed we pick the most permissive scope.
+fn parse_supported_os(value: &serde_yaml::Value) -> String {
+    let os_list: Vec<String> = value
+        .get("supported_os")
+        .and_then(|v| v.as_sequence())
+        .map(|seq| {
+            seq.iter()
+                .filter_map(|v| v.as_str())
+                .map(|s| s.to_ascii_lowercase())
+                .collect()
+        })
+        .unwrap_or_default();
+
+    let has_windows = os_list.iter().any(|s| s == "windows");
+    let has_linux = os_list.iter().any(|s| s == "linux");
+    let has_darwin = os_list.iter().any(|s| s == "darwin");
+
+    match (has_windows, has_linux, has_darwin) {
+        (true, true, true) | (true, true, false) | (true, false, true) | (false, true, true) => {
+            "All".to_string()
+        }
+        (true, false, false) => "Win7Plus".to_string(),
+        (false, true, false) => "Linux".to_string(),
+        (false, false, true) => "MacOs".to_string(),
+        _ => "Win7Plus".to_string(), // unknown / empty → conservative Windows default
     }
 }
 
@@ -283,6 +325,7 @@ pub fn fetch_all_fa_artifacts() -> Vec<IngestRecord> {
 
     let base_url = "https://raw.githubusercontent.com/forensicartifacts/artifacts/main/";
     let mut all_records = Vec::new();
+    let mut global_seen: HashSet<String> = HashSet::new();
 
     if let Some(tree_items) = tree.get("tree").and_then(|t| t.as_array()) {
         let yaml_paths: Vec<String> = tree_items
@@ -297,8 +340,7 @@ pub fn fetch_all_fa_artifacts() -> Vec<IngestRecord> {
             std::thread::sleep(std::time::Duration::from_millis(200));
             match client.get(&url).send().and_then(|r| r.text()) {
                 Ok(content) => {
-                    let records = parse_fa_yaml(&content);
-                    all_records.extend(records);
+                    parse_fa_yaml_into(&content, &mut all_records, &mut global_seen);
                 }
                 Err(e) => {
                     eprintln!("WARN: fa: failed to fetch {url}: {e}");
@@ -444,5 +486,92 @@ urls: []
                 eprintln!("WARN: network fetch failed (acceptable in offline CI): {e}");
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests_os_scope {
+    use super::*;
+
+    fn make_yaml(supported_os: &str) -> serde_yaml::Value {
+        serde_yaml::from_str(&format!("supported_os: {supported_os}")).unwrap()
+    }
+
+    #[test]
+    fn windows_maps_to_win7plus() {
+        let v = make_yaml("[Windows]");
+        assert_eq!(parse_supported_os(&v), "Win7Plus");
+    }
+
+    #[test]
+    fn linux_maps_to_linux() {
+        let v = make_yaml("[Linux]");
+        assert_eq!(parse_supported_os(&v), "Linux");
+    }
+
+    #[test]
+    fn darwin_maps_to_macos() {
+        let v = make_yaml("[Darwin]");
+        assert_eq!(parse_supported_os(&v), "MacOs");
+    }
+
+    #[test]
+    fn windows_and_linux_maps_to_all() {
+        let v = make_yaml("[Windows, Linux]");
+        assert_eq!(parse_supported_os(&v), "All");
+    }
+
+    #[test]
+    fn empty_list_defaults_to_win7plus() {
+        let v = make_yaml("[]");
+        assert_eq!(parse_supported_os(&v), "Win7Plus");
+    }
+
+    #[test]
+    fn missing_field_defaults_to_win7plus() {
+        let v: serde_yaml::Value = serde_yaml::from_str("name: test").unwrap();
+        assert_eq!(parse_supported_os(&v), "Win7Plus");
+    }
+
+    #[test]
+    fn all_three_maps_to_all() {
+        let v = make_yaml("[Windows, Linux, Darwin]");
+        assert_eq!(parse_supported_os(&v), "All");
+    }
+
+    #[test]
+    fn full_yaml_linux_artifact_produces_linux_os_scope() {
+        let yaml = r#"
+name: LinuxWtmp
+doc: Linux wtmp login record file.
+sources:
+- type: FILE
+  attributes:
+    paths:
+    - /var/log/wtmp
+supported_os: [Linux]
+urls: []
+"#;
+        let records = parse_fa_yaml(yaml);
+        assert!(!records.is_empty());
+        assert_eq!(records[0].os_scope, "Linux");
+    }
+
+    #[test]
+    fn full_yaml_windows_artifact_produces_win7plus_os_scope() {
+        let yaml = r#"
+name: WindowsRunKeys
+doc: Windows run keys.
+sources:
+- type: REGISTRY_KEY
+  attributes:
+    keys:
+    - HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run
+supported_os: [Windows]
+urls: []
+"#;
+        let records = parse_fa_yaml(yaml);
+        assert!(!records.is_empty());
+        assert_eq!(records[0].os_scope, "Win7Plus");
     }
 }
