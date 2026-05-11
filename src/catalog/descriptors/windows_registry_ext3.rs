@@ -1146,10 +1146,10 @@ pub(crate) static RUN_SERVICES_ONCE_HKLM: ArtifactDescriptor = ArtifactDescripto
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
     evidence_caveats: &[
         "Value is deleted after first execution; key may appear empty on a live system post-execution",
-        "VSS or registry transaction log may retain deleted value",
+        "Evidence of past execution may survive in prefetch, Amcache, or event logs even after self-deletion",
     ],
-    volatility: Some(crate::volatility::VolatilityClass::Residual),
-    volatility_rationale: "Self-deletes after single execution",
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists while present — self-deletion on execution is captured in retention, not volatility class",
 };
 
 /// `HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\RunServicesOnce`
@@ -1169,7 +1169,7 @@ pub(crate) static RUN_SERVICES_ONCE_HKCU: ArtifactDescriptor = ArtifactDescripto
     meaning: "User-scoped one-shot autostart: executes once as the current user at logon then \
         self-deletes. Used by low-privilege dropper stagers that need to survive a single reboot. \
         Self-deletion makes retrospective detection difficult; correlate with prefetch, event \
-        logs, or registry transaction log to establish execution.",
+        logs, or Amcache to establish execution.",
     mitre_techniques: &["T1547.001"],
     fields: &[FieldSchema {
         name: "value_name",
@@ -1185,9 +1185,12 @@ pub(crate) static RUN_SERVICES_ONCE_HKCU: ArtifactDescriptor = ArtifactDescripto
         "https://threatvector.cylance.com/en_us/home/windows-registry-persistence-part-2-the-run-keys-and-search-order.html",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
-    evidence_caveats: &["Value is deleted after first execution; may be absent on a live system"],
-    volatility: Some(crate::volatility::VolatilityClass::Residual),
-    volatility_rationale: "Self-deletes after single execution",
+    evidence_caveats: &[
+        "Value is deleted after first execution; may be absent on a live system post-execution",
+        "Evidence of past execution may survive in prefetch, Amcache, or event logs even after self-deletion",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists while present — self-deletion on execution is captured in retention, not volatility class",
 };
 
 // ── Windows Firewall Authorized Applications (T1562.004) ─────────────────────
