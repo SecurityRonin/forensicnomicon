@@ -9893,3 +9893,118 @@ mod tests_run_key_hkcu_once {
         );
     }
 }
+
+#[cfg(test)]
+mod tests_windows_hosts_file_assessment {
+    use super::*;
+
+    #[test]
+    fn windows_hosts_file_has_evidence_strength() {
+        let d = CATALOG.by_id("windows_hosts_file").unwrap();
+        assert!(
+            d.evidence_strength.is_some(),
+            "windows_hosts_file must have evidence_strength set"
+        );
+    }
+
+    #[test]
+    fn windows_hosts_file_evidence_strength_is_strong() {
+        use crate::evidence::EvidenceStrength;
+        let d = CATALOG.by_id("windows_hosts_file").unwrap();
+        assert_eq!(
+            d.evidence_strength,
+            Some(EvidenceStrength::Strong),
+            "windows_hosts_file is an on-disk config file; non-default entries \
+            directly prove tampering — evidence_strength must be Strong"
+        );
+    }
+
+    #[test]
+    fn windows_hosts_file_has_volatility() {
+        let d = CATALOG.by_id("windows_hosts_file").unwrap();
+        assert!(
+            d.volatility.is_some(),
+            "windows_hosts_file must have volatility set"
+        );
+    }
+
+    #[test]
+    fn windows_hosts_file_volatility_is_persistent() {
+        use crate::volatility::VolatilityClass;
+        let d = CATALOG.by_id("windows_hosts_file").unwrap();
+        assert_eq!(
+            d.volatility,
+            Some(VolatilityClass::Persistent),
+            "windows_hosts_file persists until explicitly modified or restored — \
+            volatility must be Persistent"
+        );
+    }
+
+    #[test]
+    fn windows_hosts_file_has_volatility_rationale() {
+        let d = CATALOG.by_id("windows_hosts_file").unwrap();
+        assert!(
+            !d.volatility_rationale.is_empty(),
+            "windows_hosts_file must have volatility_rationale explaining its persistence"
+        );
+    }
+}
+
+#[cfg(test)]
+mod tests_usn_journal_related_artifacts {
+    use super::*;
+
+    #[test]
+    fn usn_journal_has_related_artifacts() {
+        let d = CATALOG.by_id("usn_journal").unwrap();
+        assert!(
+            !d.related_artifacts.is_empty(),
+            "usn_journal must list related artifacts — it is used as a timeline \
+            overlay alongside shimcache, amcache, bam, and prefetch"
+        );
+    }
+
+    #[test]
+    fn usn_journal_related_includes_shimcache() {
+        let d = CATALOG.by_id("usn_journal").unwrap();
+        assert!(
+            d.related_artifacts.iter().any(|r| r.contains("shimcache")),
+            "usn_journal must relate to shimcache for timeline correlation; \
+            got: {:?}",
+            d.related_artifacts
+        );
+    }
+
+    #[test]
+    fn usn_journal_related_includes_amcache() {
+        let d = CATALOG.by_id("usn_journal").unwrap();
+        assert!(
+            d.related_artifacts.iter().any(|r| r.contains("amcache")),
+            "usn_journal must relate to amcache for program execution timeline; \
+            got: {:?}",
+            d.related_artifacts
+        );
+    }
+
+    #[test]
+    fn usn_journal_related_includes_bam() {
+        let d = CATALOG.by_id("usn_journal").unwrap();
+        assert!(
+            d.related_artifacts.iter().any(|r| r.contains("bam")),
+            "usn_journal must relate to BAM for execution timeline correlation; \
+            got: {:?}",
+            d.related_artifacts
+        );
+    }
+
+    #[test]
+    fn usn_journal_related_includes_prefetch() {
+        let d = CATALOG.by_id("usn_journal").unwrap();
+        assert!(
+            d.related_artifacts.iter().any(|r| r.contains("prefetch")),
+            "usn_journal must relate to prefetch for execution timeline; \
+            got: {:?}",
+            d.related_artifacts
+        );
+    }
+}
