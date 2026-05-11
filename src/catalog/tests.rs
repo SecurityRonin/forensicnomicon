@@ -10267,3 +10267,95 @@ mod tests_linux_auth_logs_pamdoora {
         );
     }
 }
+
+#[cfg(test)]
+mod tests_runonce_indirect_write_enrichment {
+    use super::*;
+
+    // ── run_key_hkcu_once enrichment ─────────────────────────────────────────
+
+    #[test]
+    fn run_key_hkcu_once_mitre_includes_t1112() {
+        let d = CATALOG.by_id("run_key_hkcu_once").unwrap();
+        assert!(
+            d.mitre_techniques.contains(&"T1112"),
+            "run_key_hkcu_once: indirect-write evasion maps to T1112 (Modify Registry); \
+             Carvey confirmed via testing (windowsir.blogspot.com 2022-10)"
+        );
+    }
+
+    #[test]
+    fn run_key_hkcu_once_caveat_mentions_indirect_write() {
+        let d = CATALOG.by_id("run_key_hkcu_once").unwrap();
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("indirect") || c.contains("rename")),
+            "run_key_hkcu_once must warn that rename-based indirect write leaves no \
+             hive-level trace distinguishable from normal use"
+        );
+    }
+
+    #[test]
+    fn run_key_hkcu_once_cites_carvey_testing_post() {
+        let d = CATALOG.by_id("run_key_hkcu_once").unwrap();
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("windowsir.blogspot.com") && s.contains("testing-registry")),
+            "run_key_hkcu_once must cite Carvey's registry modification testing post"
+        );
+    }
+
+    // ── run_key_hklm_once enrichment ─────────────────────────────────────────
+
+    #[test]
+    fn run_key_hklm_once_mitre_includes_t1112() {
+        let d = CATALOG.by_id("run_key_hklm_once").unwrap();
+        assert!(
+            d.mitre_techniques.contains(&"T1112"),
+            "run_key_hklm_once: same indirect-write evasion applies system-wide"
+        );
+    }
+
+    #[test]
+    fn run_key_hklm_once_has_related_artifacts() {
+        let d = CATALOG.by_id("run_key_hklm_once").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"run_key_hkcu_once"),
+            "run_key_hklm_once must relate to HKCU variant for cross-hive correlation"
+        );
+    }
+
+    #[test]
+    fn run_key_hklm_once_caveat_mentions_indirect_write() {
+        let d = CATALOG.by_id("run_key_hklm_once").unwrap();
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("indirect") || c.contains("rename")),
+            "run_key_hklm_once must document rename-based evasion leaving no hive trace"
+        );
+    }
+
+    #[test]
+    fn run_key_hklm_once_cites_carvey_testing_post() {
+        let d = CATALOG.by_id("run_key_hklm_once").unwrap();
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("windowsir.blogspot.com") && s.contains("testing-registry")),
+            "run_key_hklm_once must cite Carvey's registry modification testing post"
+        );
+    }
+
+    #[test]
+    fn run_key_hklm_once_meaning_is_substantive() {
+        let d = CATALOG.by_id("run_key_hklm_once").unwrap();
+        assert!(
+            d.meaning.len() > 80,
+            "run_key_hklm_once meaning is too brief ({} chars); needs same depth as HKCU variant",
+            d.meaning.len()
+        );
+    }
+}
