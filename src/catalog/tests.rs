@@ -10557,3 +10557,146 @@ mod tests_com_persistence_keys {
         assert!(!d.sources.is_empty());
     }
 }
+
+// ── Linux /etc/passwd ─────────────────────────────────────────────────────────
+
+#[cfg(test)]
+mod tests_linux_etc_passwd {
+    use super::*;
+
+    #[test]
+    fn linux_etc_passwd_exists() {
+        assert!(CATALOG.by_id("linux_etc_passwd").is_some());
+    }
+
+    #[test]
+    fn linux_etc_passwd_os_scope_is_linux() {
+        let d = CATALOG.by_id("linux_etc_passwd").unwrap();
+        assert_eq!(d.os_scope, OsScope::Linux);
+    }
+
+    #[test]
+    fn linux_etc_passwd_triage_is_high() {
+        let d = CATALOG.by_id("linux_etc_passwd").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::High);
+    }
+
+    #[test]
+    fn linux_etc_passwd_has_field_schema() {
+        let d = CATALOG.by_id("linux_etc_passwd").unwrap();
+        assert!(!d.fields.is_empty(), "must document the colon-delimited field schema");
+    }
+
+    #[test]
+    fn linux_etc_passwd_meaning_mentions_shell() {
+        let d = CATALOG.by_id("linux_etc_passwd").unwrap();
+        assert!(
+            d.meaning.to_ascii_lowercase().contains("shell"),
+            "meaning should note login shell as a forensic indicator"
+        );
+    }
+
+    #[test]
+    fn linux_etc_passwd_mitre_includes_t1136() {
+        let d = CATALOG.by_id("linux_etc_passwd").unwrap();
+        assert!(
+            d.mitre_techniques.iter().any(|t| t.starts_with("T1136")),
+            "must map T1136 (Create Account) family"
+        );
+    }
+}
+
+// ── Windows Credential Provider Filters ──────────────────────────────────────
+
+#[cfg(test)]
+mod tests_credential_provider_filters {
+    use super::*;
+
+    #[test]
+    fn credential_provider_filters_exists() {
+        assert!(CATALOG.by_id("credential_provider_filters").is_some());
+    }
+
+    #[test]
+    fn credential_provider_filters_mitre_t1556_001() {
+        let d = CATALOG.by_id("credential_provider_filters").unwrap();
+        assert!(
+            d.mitre_techniques.contains(&"T1556.001"),
+            "must map T1556.001"
+        );
+    }
+
+    #[test]
+    fn credential_provider_filters_triage_is_high() {
+        let d = CATALOG.by_id("credential_provider_filters").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::High);
+    }
+
+    #[test]
+    fn credential_provider_filters_has_related_credential_providers() {
+        let d = CATALOG.by_id("credential_provider_filters").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"credential_providers"),
+            "should relate to credential_providers"
+        );
+    }
+}
+
+// ── ESXi Trust Authority service logs ────────────────────────────────────────
+
+#[cfg(test)]
+mod tests_esxi_trust_logs {
+    use super::*;
+
+    #[test]
+    fn esxi_attestd_log_exists() {
+        assert!(CATALOG.by_id("esxi_attestd_log").is_some());
+    }
+
+    #[test]
+    fn esxi_attestd_log_triage_is_high() {
+        let d = CATALOG.by_id("esxi_attestd_log").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::High);
+    }
+
+    #[test]
+    fn esxi_attestd_log_meaning_mentions_attestation() {
+        let d = CATALOG.by_id("esxi_attestd_log").unwrap();
+        assert!(
+            d.meaning.to_ascii_lowercase().contains("attest"),
+            "meaning should describe attestation service"
+        );
+    }
+
+    #[test]
+    fn esxi_esxtokend_log_exists() {
+        assert!(CATALOG.by_id("esxi_esxtokend_log").is_some());
+    }
+
+    #[test]
+    fn esxi_esxtokend_log_triage_is_high() {
+        let d = CATALOG.by_id("esxi_esxtokend_log").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::High);
+    }
+
+    #[test]
+    fn esxi_kmxa_log_exists() {
+        assert!(CATALOG.by_id("esxi_kmxa_log").is_some());
+    }
+
+    #[test]
+    fn esxi_kmxa_log_triage_is_high() {
+        let d = CATALOG.by_id("esxi_kmxa_log").unwrap();
+        assert_eq!(d.triage_priority, TriagePriority::High);
+    }
+
+    #[test]
+    fn esxi_trust_logs_share_related_artifacts() {
+        let attestd = CATALOG.by_id("esxi_attestd_log").unwrap();
+        assert!(
+            attestd.related_artifacts.contains(&"esxi_esxtokend_log")
+                || attestd.related_artifacts.contains(&"esxi_kmxa_log"),
+            "esxi_attestd_log should relate to other ESXi trust logs"
+        );
+    }
+}
