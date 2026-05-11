@@ -392,10 +392,13 @@ pub static WINDOWS_HOSTS_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "https://support.microsoft.com/en-us/topic/microsoft-tcp-ip-host-name-resolution-order-dae00cc9-7e9c-c0cc-8360-477b99cb978a",
         "https://academy.bluraven.io/blog/edr-silencer-and-beyond-exploring-methods-to-block-edr-communication-part-2",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Non-default entries prove tampering but not who made the change — correlate with filesystem timestamps and event logs",
+        "Hosts file takes precedence over DNS but NOT over hardcoded IPs; tools that embed C2 IPs bypass this artifact entirely",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Plain text file on disk; survives reboots indefinitely until explicitly modified or restored — unlike WFP filters, hosts edits are trivially recoverable even after adversary cleanup if VSS copies exist",
 };
 
 /// Name Resolution Policy Table (NRPT) — `HKLM\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters\DnsPolicyConfig\{UUID}`.
@@ -5081,8 +5084,17 @@ pub static USN_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
     fields: DIR_ENTRY_FIELDS,
     retention: None,
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
-    sources: &["https://github.com/EricZimmerman/MFTECmd"],
+    related_artifacts: &[
+        "shimcache",
+        "amcache_app_file",
+        "bam_user",
+        "prefetch_file",
+        "mft_file",
+    ],
+    sources: &[
+        "https://github.com/EricZimmerman/MFTECmd",
+        "https://windowsir.blogspot.com/2022/11/challenge-7-write-up.html",
+    ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &["Circular; entries overwritten; may not have full history"],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
