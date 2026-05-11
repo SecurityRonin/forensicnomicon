@@ -115,6 +115,8 @@
       <outline type="web" text="Elastic Security Labs" title="Elastic Security Labs" htmlUrl="https://www.elastic.co/security-labs/"/>
     </outline>
     <outline text="Vendor DFIR Blogs" title="Vendor DFIR Blogs">
+      <!-- Flare.io — threat exposure management vendor; dark web intel, malware analysis, PAM backdoors, credential theft -->
+      <outline type="rss" text="Flare.io Threat Research Blog" title="Flare.io Threat Research Blog" xmlUrl="https://flare.io/learn/resources/blog/feed/" htmlUrl="https://flare.io/learn/resources/blog/"/>
       <!-- Binalyze — DFIR platform vendor; acquisition techniques, triage workflows -->
       <outline type="rss" text="Binalyze Blog" title="Binalyze Blog" xmlUrl="https://www.binalyze.com/blog/rss.xml" htmlUrl="https://www.binalyze.com/blog"/>
       <!-- Belkasoft's main site (belkasoft.com) has no feed; their WordPress blog does -->
