@@ -15407,4 +15407,12 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     vehicle_ext::HONDA_ACCORD_BLUETOOTH,
     // ── GPS devices (Garmin) ─────────────────────────────────────────────────
     vehicle_ext::GARMIN_NUVI_VOICE_LOG,
+    // ── FA stub upgrades: RunServices, FirewallAuthorizedApps, COM persistence ─
+    windows_registry_ext3::RUN_SERVICES_HKLM,
+    windows_registry_ext3::RUN_SERVICES_HKCU,
+    windows_registry_ext3::RUN_SERVICES_ONCE_HKLM,
+    windows_registry_ext3::RUN_SERVICES_ONCE_HKCU,
+    windows_registry_ext3::FIREWALL_AUTHORIZED_APPS,
+    windows_registry_ext3::SSODL,
+    windows_registry_ext3::SHARED_TASK_SCHEDULER,
 ];

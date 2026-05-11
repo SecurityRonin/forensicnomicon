@@ -1023,3 +1023,309 @@ pub(crate) static LOGONTYPE_WINLOGON: ArtifactDescriptor = ArtifactDescriptor {
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Registry value; persists until explicit deletion",
 };
+
+// ── RunServices / RunServicesOnce (T1547.001) ─────────────────────────────────
+
+/// `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunServices`
+///
+/// Win9x/NT4-era autostart key for background service-like programs that predates
+/// the Service Control Manager. Still parsed and executed by some Windows versions.
+/// Modern malware uses these keys to evade tools that check only the canonical `Run`
+/// key. Also check the Wow6432Node mirror for 32-bit persistence on 64-bit hosts.
+pub(crate) static RUN_SERVICES_HKLM: ArtifactDescriptor = ArtifactDescriptor {
+    id: "run_services_hklm",
+    name: "RunServices (HKLM)",
+    artifact_type: ArtifactType::RegistryKey,
+    hive: Some(HiveTarget::HklmSoftware),
+    key_path: r"Microsoft\Windows\CurrentVersion\RunServices",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Win9x-era autostart key that executes programs as background service-like processes \
+        before logon. Predates SCM; still processed by some Windows builds. \
+        Modern malware abuses this key to evade detection tools that enumerate only the canonical \
+        Run key. Also mirror-check HKLM\\SOFTWARE\\Wow6432Node\\...\\RunServices for 32-bit \
+        persistence on 64-bit hosts.",
+    mitre_techniques: &["T1547.001"],
+    fields: &[FieldSchema {
+        name: "value_name",
+        value_type: ValueType::Text,
+        description: "Arbitrary value name; data is the command line to execute",
+        is_uid_component: true,
+    }],
+    retention: Some("Persistent"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["run_key_hklm", "run_services_hkcu"],
+    sources: &[
+        "https://support.microsoft.com/en-us/kb/179365",
+        "https://threatvector.cylance.com/en_us/home/windows-registry-persistence-part-2-the-run-keys-and-search-order.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Wow6432Node mirror (HKLM\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\RunServices) \
+        serves 32-bit processes on 64-bit Windows; check both branches",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicitly deleted",
+};
+
+/// `HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\RunServices`
+///
+/// User-scoped equivalent of RunServices HKLM. Executes as the current user at
+/// logon without requiring elevated privileges.
+pub(crate) static RUN_SERVICES_HKCU: ArtifactDescriptor = ArtifactDescriptor {
+    id: "run_services_hkcu",
+    name: "RunServices (HKCU)",
+    artifact_type: ArtifactType::RegistryKey,
+    hive: Some(HiveTarget::NtUser),
+    key_path: r"Microsoft\Windows\CurrentVersion\RunServices",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::User,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "User-scoped Win9x-era autostart key. Executes programs as the logged-on user at \
+        shell startup, requiring no administrative privilege. Lower-privilege attackers use this \
+        variant when they cannot write HKLM. Pair with HKLM variant during triage.",
+    mitre_techniques: &["T1547.001"],
+    fields: &[FieldSchema {
+        name: "value_name",
+        value_type: ValueType::Text,
+        description: "Arbitrary value name; data is the command line to execute",
+        is_uid_component: true,
+    }],
+    retention: Some("Persistent"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["run_key_hkcu", "run_services_hklm"],
+    sources: &[
+        "https://support.microsoft.com/en-us/kb/179365",
+        "https://threatvector.cylance.com/en_us/home/windows-registry-persistence-part-2-the-run-keys-and-search-order.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["No elevation required; accessible to unprivileged malware"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicitly deleted",
+};
+
+/// `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunServicesOnce`
+///
+/// One-shot variant of RunServices HKLM: entries are deleted after execution.
+/// Harder to detect post-execution; useful for dropper stagers.
+pub(crate) static RUN_SERVICES_ONCE_HKLM: ArtifactDescriptor = ArtifactDescriptor {
+    id: "run_services_once_hklm",
+    name: "RunServicesOnce (HKLM)",
+    artifact_type: ArtifactType::RegistryKey,
+    hive: Some(HiveTarget::HklmSoftware),
+    key_path: r"Microsoft\Windows\CurrentVersion\RunServicesOnce",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "One-shot system-scope autostart: each value executes once at startup then is \
+        deleted. Used by dropper stagers and first-stage loaders that must survive a single \
+        reboot but should not persist afterwards. The self-deleting nature makes it harder to \
+        detect retrospectively — check VSS snapshots or event log timestamps for execution \
+        evidence if the key is now empty.",
+    mitre_techniques: &["T1547.001"],
+    fields: &[FieldSchema {
+        name: "value_name",
+        value_type: ValueType::Text,
+        description: "Arbitrary value name; deleted after execution",
+        is_uid_component: true,
+    }],
+    retention: Some("Single-execution then self-deleted"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["run_key_hklm_once", "run_services_hklm"],
+    sources: &[
+        "https://support.microsoft.com/en-us/kb/179365",
+        "https://threatvector.cylance.com/en_us/home/windows-registry-persistence-part-2-the-run-keys-and-search-order.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Value is deleted after first execution; key may appear empty on a live system post-execution",
+        "VSS or registry transaction log may retain deleted value",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Residual),
+    volatility_rationale: "Self-deletes after single execution",
+};
+
+/// `HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\RunServicesOnce`
+///
+/// User-scoped one-shot RunServicesOnce. Executes once as the logged-on user.
+pub(crate) static RUN_SERVICES_ONCE_HKCU: ArtifactDescriptor = ArtifactDescriptor {
+    id: "run_services_once_hkcu",
+    name: "RunServicesOnce (HKCU)",
+    artifact_type: ArtifactType::RegistryKey,
+    hive: Some(HiveTarget::NtUser),
+    key_path: r"Microsoft\Windows\CurrentVersion\RunServicesOnce",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::User,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "User-scoped one-shot autostart: executes once as the current user at logon then \
+        self-deletes. Used by low-privilege dropper stagers that need to survive a single reboot. \
+        Self-deletion makes retrospective detection difficult; correlate with prefetch, event \
+        logs, or registry transaction log to establish execution.",
+    mitre_techniques: &["T1547.001"],
+    fields: &[FieldSchema {
+        name: "value_name",
+        value_type: ValueType::Text,
+        description: "Arbitrary value name; deleted after execution",
+        is_uid_component: true,
+    }],
+    retention: Some("Single-execution then self-deleted"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["run_key_hkcu_once", "run_services_hkcu"],
+    sources: &[
+        "https://support.microsoft.com/en-us/kb/179365",
+        "https://threatvector.cylance.com/en_us/home/windows-registry-persistence-part-2-the-run-keys-and-search-order.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &["Value is deleted after first execution; may be absent on a live system"],
+    volatility: Some(crate::volatility::VolatilityClass::Residual),
+    volatility_rationale: "Self-deletes after single execution",
+};
+
+// ── Windows Firewall Authorized Applications (T1562.004) ─────────────────────
+
+/// Windows Firewall AuthorizedApplications list.
+///
+/// Registry values under HKLM and via policy that permit named applications
+/// to communicate through the firewall. Emotet and other commodity malware
+/// add entries here to ensure C2 channels pass through host-based filtering.
+pub(crate) static FIREWALL_AUTHORIZED_APPS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "firewall_authorized_apps",
+    name: "Windows Firewall Authorized Applications",
+    artifact_type: ArtifactType::RegistryKey,
+    hive: Some(HiveTarget::HklmSoftware),
+    key_path: r"Policies\Microsoft\WindowsFirewall\StandardProfile\AuthorizedApplications\List",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Registry keys that enumerate applications explicitly permitted to receive inbound \
+        connections through the Windows Firewall. Emotet modifies these settings after gaining \
+        execution to ensure its C2 channel passes through host-based filtering. Also abused by \
+        EyePyramid. Check all four path variants: StandardProfile and DomainProfile under both \
+        SOFTWARE\\Policies\\Microsoft\\WindowsFirewall and \
+        SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy.",
+    mitre_techniques: &["T1562.004"],
+    fields: &[FieldSchema {
+        name: "application_path",
+        value_type: ValueType::Text,
+        description: "Full path to the permitted executable with scope suffix (e.g., :*:Enabled:AppName)",
+        is_uid_component: true,
+    }],
+    retention: Some("Persistent"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["firewall_rules"],
+    sources: &[
+        "https://threatvector.cylance.com/en_us/home/threat-spotlight-eyepyramid-malware.html",
+        "https://blog.talosintelligence.com/2019/05/threat-roundup-0524-0531.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Legitimate software installers (e.g., remote desktop tools, backup agents) also add entries here",
+        "Check both StandardProfile and DomainProfile under Policies and CurrentControlSet paths",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicitly removed",
+};
+
+// ── ShellServiceObjectDelayLoad (SSODL) — T1546.013 ──────────────────────────
+
+/// `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ShellServiceObjectDelayLoad`
+///
+/// COM objects registered here are loaded by Explorer during shell initialisation
+/// via `CoCreateInstance`. Unlike Run keys, this mechanism loads a DLL in-process
+/// to Explorer, giving the payload access to the Explorer process memory and token.
+pub(crate) static SSODL: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ssodl",
+    name: "ShellServiceObjectDelayLoad (SSODL)",
+    artifact_type: ArtifactType::RegistryKey,
+    hive: Some(HiveTarget::HklmSoftware),
+    key_path: r"Microsoft\Windows\CurrentVersion\ShellServiceObjectDelayLoad",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "COM objects registered here are instantiated by Explorer.exe during shell \
+        initialisation via CoCreateInstance. The CLSID resolves to a DLL that is loaded \
+        in-process inside Explorer, granting the payload access to Explorer's process space \
+        and security token. Extremely rare legitimately on modern Windows; any entry not \
+        present by default warrants immediate investigation. Correlate with \
+        HKCR\\CLSID\\{<value>}\\InprocServer32 to find the DLL path.",
+    mitre_techniques: &["T1546.013"],
+    fields: &[FieldSchema {
+        name: "clsid",
+        value_type: ValueType::Text,
+        description: "CLSID of the COM object to load in-process within Explorer",
+        is_uid_component: true,
+    }],
+    retention: Some("Persistent"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["shell_execute_hooks", "shared_task_scheduler"],
+    sources: &[
+        "https://www.hexacorn.com/blog/2013/07/04/beyond-good-ol-run-key-part-15/",
+        "https://www.sans.org/blog/opensecurity-persistence/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Very few legitimate entries on modern Windows — any unknown CLSID here is highly suspicious",
+        "Resolve CLSID in HKCR to find the backing DLL path",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicitly deleted",
+};
+
+// ── SharedTaskScheduler — T1546.013 ──────────────────────────────────────────
+
+/// `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\SharedTaskScheduler`
+///
+/// COM objects registered here are instantiated by Explorer at shell startup via
+/// `ISharedTaskScheduler`. Like SSODL, this is an in-process COM load mechanism;
+/// the registered DLL runs inside Explorer. Used by rootkit-level persistence.
+pub(crate) static SHARED_TASK_SCHEDULER: ArtifactDescriptor = ArtifactDescriptor {
+    id: "shared_task_scheduler",
+    name: "SharedTaskScheduler",
+    artifact_type: ArtifactType::RegistryKey,
+    hive: Some(HiveTarget::HklmSoftware),
+    key_path: r"Microsoft\Windows\CurrentVersion\Explorer\SharedTaskScheduler",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "COM objects registered here are loaded in-process inside Explorer.exe at shell \
+        startup via the ISharedTaskScheduler interface. The mechanism provides rootkit-grade \
+        persistence: the payload DLL runs with Explorer's token and inherits all its privileges. \
+        Historically abused by Bagle, Rustock, and other rootkits. Nearly always empty on clean \
+        systems — any entry warrants immediate COM registration analysis.",
+    mitre_techniques: &["T1546.013"],
+    fields: &[FieldSchema {
+        name: "clsid",
+        value_type: ValueType::Text,
+        description: "CLSID of the COM object implementing ISharedTaskScheduler",
+        is_uid_component: true,
+    }],
+    retention: Some("Persistent"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["ssodl", "shell_execute_hooks"],
+    sources: &[
+        "https://www.hexacorn.com/blog/2013/07/04/beyond-good-ol-run-key-part-15/",
+        "https://www.sans.org/blog/opensecurity-persistence/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Should be empty on clean modern Windows — any CLSID here is anomalous",
+        "Resolve CLSID in HKCR\\CLSID to identify the DLL",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until explicitly deleted",
+};
