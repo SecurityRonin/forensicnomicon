@@ -337,3 +337,13 @@ $ 4n6query certutil.exe --format json      # JSON output for any query
 
 - [`RapidTriage`](https://github.com/SecurityRonin/RapidTriage) — live incident response triage tool
 - [`blazehash`](https://github.com/SecurityRonin/blazehash) — high-speed forensic hash verification
+
+---
+
+## Acknowledgments
+
+- [**Andrew Case**](https://www.linkedin.com/in/andrewcase) — core Volatility developer; memory forensics research that underpins the artifact volatility ordering and acquisition sequence in this library
+- [**Brendan Dolan-Gavitt**](https://www.cs.columbia.edu/~brendan/) — memory forensics researcher; foundational work on virtual machine introspection and memory structure analysis
+- [**Volatility Foundation**](https://volatilityfoundation.org/) — the open-source memory forensics framework whose artifact taxonomy and plugin architecture shaped how this library models `MemoryRegion` artifacts
+- [**Ulf Frisk / MemProcFS**](https://github.com/ufrisk/MemProcFS) — pioneered the filesystem-as-memory-interface model; MemProcFS's forensic mode and `MemoryRegion`-centric artifact layout informed this library's `MemoryRegion` artifact type and acquisition ordering
+- [**jam1garner**](https://github.com/jam1garner) — creator of [`binrw`](https://github.com/jam1garner/binrw), the declarative binary parsing crate used for structured artifact decoding
