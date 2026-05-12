@@ -241,16 +241,79 @@ pub(crate) static BROWSER_CHROME_SESSION: ArtifactDescriptor = ArtifactDescripto
     fields: &[],
     retention: None,
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
+    related_artifacts: &["browser_chrome_session_memory"],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
     evidence_caveats: &[
         "Tab state reflects last browser close; unreliable if crash occurred",
         "SNSS format is binary and partially documented",
+        "Live memory counterpart (browser_chrome_session_memory) captures current open tabs not yet flushed to disk",
     ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale:
         "Sessions file on disk; overwritten on every browser launch by normal Chrome activity",
+};
+
+pub(crate) static BROWSER_CHROME_SESSION_MEMORY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "browser_chrome_session_memory",
+    name: "Chrome Session In-Memory Tab State",
+    artifact_type: ArtifactType::MemoryRegion,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Chrome open tab URLs extracted from chrome.exe heap pages — captures current session not yet written to SNSS on-disk file.",
+    mitre_techniques: &["T1217"],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["browser_chrome_session", "browser_chrome_history"],
+    sources: &[
+        "https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome",
+        "https://github.com/SecurityRonin/memory-forensic",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Requires live memory acquisition; not obtainable from disk image alone",
+        "URL strings in heap reflect current session; may include pre-rendered tabs",
+        "Heap scan yields raw URL bytes — no tab ordering or window grouping",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "In RAM; lost on reboot or Chrome process termination",
+};
+
+pub(crate) static BROWSER_FIREFOX_SESSION_MEMORY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "browser_firefox_session_memory",
+    name: "Firefox Session In-Memory Tab State",
+    artifact_type: ArtifactType::MemoryRegion,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Firefox open tab URLs extracted from firefox.exe heap pages — captures current session not yet checkpointed to sessionstore-backups on disk.",
+    mitre_techniques: &["T1217"],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["browser_firefox_history", "browser_firefox_downloads"],
+    sources: &[
+        "https://forensicswiki.xyz/wiki/index.php?title=Mozilla_Firefox",
+        "https://github.com/SecurityRonin/memory-forensic",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Requires live memory acquisition; not obtainable from disk image alone",
+        "URL strings in heap reflect current session; sessionstore-backups.jsonlz4 is the on-disk equivalent",
+        "Heap scan yields raw URL bytes — no tab ordering or window grouping",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "In RAM; lost on reboot or Firefox process termination",
 };
 
 pub(crate) static BROWSER_FIREFOX_HISTORY: ArtifactDescriptor = ArtifactDescriptor {

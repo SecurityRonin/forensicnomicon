@@ -15421,9 +15421,11 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     browser_ext::BROWSER_CHROME_AUTOFILL,
     browser_ext::BROWSER_CHROME_CACHE,
     browser_ext::BROWSER_CHROME_SESSION,
+    browser_ext::BROWSER_CHROME_SESSION_MEMORY,
     browser_ext::BROWSER_FIREFOX_HISTORY,
     browser_ext::BROWSER_FIREFOX_COOKIES,
     browser_ext::BROWSER_FIREFOX_DOWNLOADS,
+    browser_ext::BROWSER_FIREFOX_SESSION_MEMORY,
     browser_ext::BROWSER_SAFARI_HISTORY,
     // ── iOS ─────────────────────────────────────────────────────────────────
     macos_ext::IOS_UNIFIED_LOG,
