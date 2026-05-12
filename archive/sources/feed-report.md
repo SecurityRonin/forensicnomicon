@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-05-11T06:51:59Z
+Generated: 2026-05-12T06:24:47Z
 
 ## Windows Incident Response
 
@@ -63,7 +63,7 @@ Generated: 2026-05-11T06:51:59Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-05-10T00:00:00+00:00 — [GhostLock: when ransomware impact requires no ransomware](https://andreafortuna.org/2026/05/10/ghostlock/)
+- 2026-05-11T09:00:00+00:00 — [DFIR from break glass to always-on: how incident response is becoming a permanent service](https://andreafortuna.org/2026/05/11/dfir-always-on/)
 
 ## Salt Forensics
 
@@ -160,9 +160,9 @@ Generated: 2026-05-11T06:51:59Z
 - Site: https://brettshavers.com/brett-s-blog
 - Feed: https://feeds.feedburner.com/brettshavers/oSyq
 - Entries checked: 3
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-11T14:07:55-07:00 — [That Time I Bought Coke on a Skateboard](https://brettshavers.com/brett-s-blog/entry/that-time-i-bought-coke-on-a-skateboard)
 
 ## Yogesh Khatri's forensic blog
 
@@ -178,9 +178,10 @@ Generated: 2026-05-11T06:51:59Z
 - Site: https://www.forensicfocus.com/
 - Feed: https://www.forensicfocus.com/rss/news2.php
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-05-11T15:27:02+00:00 — [Digital Forensics Jobs Round-Up, May 11 2026](https://www.forensicfocus.com/jobs/digital-forensics-jobs-round-up-may-11-2026/)
+- 2026-05-11T11:42:30+00:00 — [Eric Fookes, Founder & CEO, Fookes Software](https://www.forensicfocus.com/interviews/eric-fookes-founder-ceo-fookes-software/)
 
 ## Forensic Multimedia Analysis Blog
 
@@ -205,9 +206,9 @@ Generated: 2026-05-11T06:51:59Z
 - Site: https://thedfirreport.com/
 - Feed: https://thedfirreport.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-11T14:05:04+00:00 — [Flash Alert: EtherRat and TukTuk C2 End in The Gentleman Ransomware](https://thedfirreport.com/2026/05/11/flash-alert-etherrat-and-tuktuk-c2-end-in-the-gentleman-ransomware/)
 
 ## 13cubed (YouTube)
 
@@ -220,28 +221,20 @@ Generated: 2026-05-11T06:51:59Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-05-11T02:15:11+00:00 — [ISC Stormcast For Monday, May 11th, 2026 https://isc.sans.edu/podcastdetail/9926, (Mon, May 11th)](https://isc.sans.edu/diary/rss/32972)
-- 2026-05-10T22:37:08+00:00 — [YARA-X 1.16.0 Release, (Sun, May 10th)](https://isc.sans.edu/diary/rss/32970)
+- 2026-05-12T03:15:10+00:00 — [ISC Stormcast For Tuesday, May 12th, 2026 https://isc.sans.edu/podcastdetail/9928, (Tue, May 12th)](https://isc.sans.edu/diary/rss/32978)
+- 2026-05-11T22:19:13+00:00 — [Apple Patches Everything, (Mon, May 11th)](https://isc.sans.edu/diary/rss/32976)
+- 2026-05-11T14:20:16+00:00 — [Why we use CAPTCHAs, (Mon, May 11th)](https://isc.sans.edu/diary/rss/32974)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
-- New since last snapshot: 10
+- Entries checked: 0
+- New since last snapshot: 0
 
-- unknown date — [Training](https://www.dfir.training/training)
-- unknown date — [In-PersonOn-site](https://www.dfir.training/training/all-in-person-events)
-- unknown date — [Live OnlineInstructor-led](https://www.dfir.training/training/live-online-training)
-- unknown date — [WebinarsLive sessions](https://www.dfir.training/all-upcoming-webinars)
-- unknown date — [On-DemandSelf-paced](https://www.dfir.training/training/ondemand)
-- unknown date — [ProviderTraining Orgs](https://www.dfir.training/training/providers)
-- unknown date — [TopicsSubject areas](https://www.dfir.training/training/topics)
-- unknown date — [Events by LocationIn-person locations](https://www.dfir.training/training/events-location)
-- unknown date — [Tools](https://www.dfir.training/dfir-tools)
-- unknown date — [Library](https://www.dfir.training/resources)
+- No new entries detected
 
 ## MSAB
 
@@ -257,9 +250,9 @@ Generated: 2026-05-11T06:51:59Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-11T11:54:18+00:00 — [InfoSec News Nuggets 05/11/2026](https://aboutdfir.com/infosec-news-nuggets-05-11-2026/)
 
 ## Forensic 4cast
 
@@ -275,9 +268,9 @@ Generated: 2026-05-11T06:51:59Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-10T12:37:29+00:00 — [Week 19 – 2026](https://thisweekin4n6.com/2026/05/10/week-19-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
@@ -374,11 +367,12 @@ Generated: 2026-05-11T06:51:59Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 4
 
-- 2026-05-11T06:30:00+00:00 — [Does iCloud Drive now lose almost all metadata?](https://eclecticlight.co/2026/05/11/does-icloud-drive-now-lose-almost-all-metadata/)
-- 2026-05-10T11:30:00+00:00 — [Paintings of Beatrice Portinari: after 1862](https://eclecticlight.co/2026/05/10/paintings-of-beatrice-portinari-after-1862/)
-- 2026-05-10T07:00:00+00:00 — [Last Week on My Mac: snapshots, the elephant in APFS](https://eclecticlight.co/2026/05/10/last-week-on-my-mac-snapshots-the-elephant-in-apfs/)
+- 2026-05-11T20:27:00+00:00 — [What has changed in macOS Tahoe 26.5?](https://eclecticlight.co/2026/05/11/what-has-changed-in-macos-tahoe-26-5/)
+- 2026-05-11T17:21:35+00:00 — [Apple has released macOS Tahoe 26.5, and security updates 15.7.7 and 14.8.7](https://eclecticlight.co/2026/05/11/apple-has-released-macos-tahoe-26-5-and-security-updates-15-7-6-and-14-8-6/)
+- 2026-05-11T11:30:00+00:00 — [Hero or hooligan: Perseus 2](https://eclecticlight.co/2026/05/11/hero-or-hooligan-perseus-2/)
+- 2026-05-11T08:00:00+00:00 — [Solutions to Saturday Mac riddles 359](https://eclecticlight.co/2026/05/11/solutions-to-saturday-mac-riddles-359/)
 
 ## JPCERT/CC
 
@@ -403,9 +397,9 @@ Generated: 2026-05-11T06:51:59Z
 - Site: https://blog.elcomsoft.com/
 - Feed: https://blog.elcomsoft.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-11T11:00:07+00:00 — [Using the Extraction Agent in 2026: Compatibility, Signing, Firewall, and Extraction Tips](https://blog.elcomsoft.com/2026/05/using-the-extraction-agent-in-2026-compatibility-signing-firewall-and-extraction-tips/)
 
 ## Huntress Blog
 
@@ -430,18 +424,18 @@ Generated: 2026-05-11T06:51:59Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-11T22:00:43+00:00 — [Inside AD CS Escalation: Unpacking Advanced Misuse Techniques and Tools](https://unit42.paloaltonetworks.com/active-directory-certificate-services-exploitation/)
 
 ## Mandiant Threat Intelligence
 
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-11T14:00:00+00:00 — [GTIG AI Threat Tracker: Adversaries Leverage AI for Vulnerability Exploitation, Augmented Operations, and Initial Access](https://cloud.google.com/blog/topics/threat-intelligence/ai-vulnerability-exploitation-initial-access/)
 
 ## Cisco Talos Blog
 
@@ -466,27 +460,18 @@ Generated: 2026-05-11T06:51:59Z
 - Site: https://www.elastic.co/security-labs/
 - Feed: https://www.elastic.co/security-labs/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- unknown date — [Elastic Security MCP App: Interactive security operations inside your AI Tools](https://www.elastic.co/security-labs/elastic-security-mcp-app)
 
 ## Flare.io Threat Research Blog
 
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 1
 
-- 2026-05-08T15:38:25+00:00 — [Flare Joins the Inaugural 2026 Gartner Magic Quadrant for Cyber Threat Intelligence](https://flare.io/learn/resources/blog/flare-inaugural-2026-gartner-magic-quadrant-for-cyber-threat-intelligence)
-- 2026-05-07T13:00:31+00:00 — [PamDOORa: Analyzing a New Linux PAM-Based Backdoor for Sale on the Dark Web](https://flare.io/learn/resources/blog/pamdoora-new-linux-pam-based-backdoor-sale-dark-web)
-- 2026-05-06T13:00:00+00:00 — [Downloading Danger: How World Cup Hype Fuels a Global Mobile Malware Ecosystem](https://flare.io/learn/resources/blog/world-cup-global-mobile-malware-ecosystem)
-- 2026-05-04T13:26:44+00:00 — [Monitoring Cyberattacks Directly Linked to the US-Israel-Iran Military Conflict](https://flare.io/learn/resources/blog/cyberattacks-us-israel-iran-military-conflict)
-- 2026-04-30T20:02:26+00:00 — [Your AI Security Agents Are Only as Good as Your Cybercrime Intelligence](https://flare.io/learn/resources/blog/ai-security-agents-cybercrime-intelligence)
-- 2026-04-29T13:00:03+00:00 — [From Pirated Software to Full Access to FIFA: Tracing the 2026 World Cup Infostealer Pipeline](https://flare.io/learn/resources/blog/2026-world-cup-infostealer-pipeline)
-- 2026-04-26T16:22:31+00:00 — [Inside the Floor: A Quantitative Analysis of One Year of Exploit Forum Data](https://flare.io/learn/resources/blog/inside-the-floor-a-quantitative-analysis-of-1-year-exploit-forum-data)
-- 2026-04-23T17:23:45+00:00 — [Inside a Telegram Session Stealer: How a Pastebin-Hosted PowerShell Script Targets Desktop and Web Sessions](https://flare.io/learn/resources/blog/telegram-session-stealerpastebin-hosted-powershell-script-targets-desktop-web-sessions)
-- 2026-04-22T13:00:24+00:00 — [You Won’t Get the Ticket or Your Money Back: Inside the World Cup 2026 Ticket Fraud Operation](https://flare.io/learn/resources/blog/inside-world-cup-2026-ticket-fraud-operation)
-- 2026-04-22T13:00:13+00:00 — [Massive World Cup Consumer Fraud Infrastructure Targets Fans Before Kickoff](https://flare.io/learn/resources/blog/massive-world-cup-consumer-fraud-infrastructure)
+- 2026-05-11T13:50:38+00:00 — [One Out of Four Infostealer Victims Have Corporate Infrastructure Access](https://flare.io/learn/resources/blog/one-out-of-four-infostealer-victims-corporate-infrastructure-access)
 
 ## Binalyze Blog
 
@@ -520,9 +505,10 @@ Generated: 2026-05-11T06:51:59Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-05-11T13:29:45+00:00 — [Mobile Evidence in Crash and Workplace Investigations: Practical Tips for Seizure, Processing, and Review](https://cellebrite.com/en/resources/webinars/mobile-evidence-in-crash-and-workplace-investigations-practical-tips-for-seizure-processing-and-review/)
+- 2026-05-11T13:08:13+00:00 — [Ask Your Evidence: 10 AI Prompts That Move Cases Forward](https://cellebrite.com/en/blog/ask-your-evidence-10-ai-prompts-that-move-cases-forward/)
 
 ## DFIR Science
 
@@ -538,18 +524,19 @@ Generated: 2026-05-11T06:51:59Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-11T00:00:00-05:00 — [Inside CrowdStrike Automated Leads: A Transformative Approach to Threat Detections](https://www.crowdstrike.com/en-us/blog/ai-threat-detection-with-automated-leads/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-05-11T13:21:57+00:00 — [Yarbo responds to robot flaws that could mow down their owners](https://www.malwarebytes.com/blog/news/2026/05/yarbo-responds-to-robot-flaws-that-could-mow-down-their-owners)
+- 2026-05-11T07:04:00+00:00 — [A week in security (May 4 &#8211; May 10)](https://www.malwarebytes.com/blog/news/2026/05/a-week-in-security-may-4-may-10-2)
 
 ## Krebs on Security
 
@@ -565,19 +552,29 @@ Generated: 2026-05-11T06:51:59Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 8
 
-- 2026-05-10T13:52:15-04:00 — [Hackers abuse Google ads, Claude.ai chats to push Mac malware](https://www.bleepingcomputer.com/news/security/hackers-abuse-google-ads-claudeai-chats-to-push-mac-malware/)
-- 2026-05-10T10:16:47-04:00 — [Police shut down reboot of Crimenetwork marketplace, arrest admin](https://www.bleepingcomputer.com/news/security/police-shut-down-reboot-of-crimenetwork-marketplace-arrest-admin/)
+- 2026-05-11T18:40:34-04:00 — [GM agrees to $12.75M California settlement over sale of drivers’ data](https://www.bleepingcomputer.com/news/legal/gm-agrees-to-1275m-california-settlement-over-sale-of-drivers-data/)
+- 2026-05-11T18:03:06-04:00 — [Official CheckMarx Jenkins package compromised with infostealer](https://www.bleepingcomputer.com/news/security/official-checkmarx-jenkins-package-compromised-with-infostealer/)
+- 2026-05-11T18:02:00-04:00 — [New GhostLock tool abuses Windows API to block file access](https://www.bleepingcomputer.com/news/security/new-ghostlock-tool-abuses-windows-api-to-block-file-access/)
+- 2026-05-11T11:26:26-04:00 — [Instructure confirms hackers used Canvas flaw to deface portals](https://www.bleepingcomputer.com/news/security/instructure-confirms-hackers-used-canvas-flaw-to-deface-portals/)
+- 2026-05-11T09:53:56-04:00 — [Why Changing Passwords Doesn’t End an Active Directory Breach](https://www.bleepingcomputer.com/news/security/why-changing-passwords-doesnt-end-an-active-directory-breach/)
+- 2026-05-11T09:02:30-04:00 — [Google: Hackers used AI to develop zero-day exploit for web admin tool](https://www.bleepingcomputer.com/news/security/google-hackers-used-ai-to-develop-zero-day-exploit-for-web-admin-tool/)
+- 2026-05-11T08:30:00-04:00 — [Webinar this week: Prevention alone is not enough against modern attacks](https://www.bleepingcomputer.com/news/security/webinar-this-week-prevention-alone-is-not-enough-against-modern-attacks/)
+- 2026-05-11T05:03:02-04:00 — [TrickMo Android banker adopts TON blockchain for covert comms](https://www.bleepingcomputer.com/news/security/trickmo-android-banker-adopts-ton-blockchain-for-covert-comms/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 5
 
-- No new entries detected
+- 2026-05-11T21:15:48+00:00 — [FCC Softens Ban on Foreign-Made Routers](https://www.darkreading.com/endpoint-security/fcc-softens-foreign-router-ban)
+- 2026-05-11T19:50:20+00:00 — [Tech Can't Stop These Threats — Your People Can](https://www.darkreading.com/cyberattacks-data-breaches/tech-cant-stop-these-threats-people-can)
+- 2026-05-11T15:05:45+00:00 — ['Dirty Frag' Exploit Poised to Blow Up on Enterprise Linux Distros](https://www.darkreading.com/vulnerabilities-threats/dirty-frag-exploit-blow-up-enterprise-linux-distros)
+- 2026-05-11T13:00:00+00:00 — [Hackers Use AI for Exploit Development, Attack Automation](https://www.darkreading.com/cloud-security/hackers-ai-exploit-dev-attack-automation)
+- 2026-05-11T12:00:00+00:00 — [Cyber Espionage Group Targets Aviation Firms to Steal Map Data](https://www.darkreading.com/vulnerabilities-threats/cyber-espionage-group-aviation-firms-steal-map-data)
 
 ## Volexity Blog
 
@@ -977,9 +974,10 @@ Generated: 2026-05-11T06:51:59Z
 - Site: https://github.com/EricZimmerman/TLEFilePlugins
 - Feed: https://github.com/EricZimmerman/TLEFilePlugins/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-05-11T17:42:56+00:00 — [Merge pull request #19 from reece394/master](https://github.com/EricZimmerman/TLEFilePlugins/commit/0740b72b6a99b7f8dc36093c2f7764226d15dadc)
+- 2026-02-08T15:19:07+00:00 — [Add MFT Resident Data Support to TLE](https://github.com/EricZimmerman/TLEFilePlugins/commit/3d75518ae1dcfc0c135fffdd61a4094a53c062da)
 
 ## EZ Get-ZimmermanTools commits
 
@@ -1067,7 +1065,6 @@ Generated: 2026-05-11T06:51:59Z
 - Site: https://www.misp-project.org/
 - Feed: https://github.com/MISP/misp-taxonomies/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-05-10T17:40:04+00:00 — [Merge pull request #323 from eeee2345/add-agent-threat-rules-taxonomy](https://github.com/MISP/misp-taxonomies/commit/e822dabff584a459d32f6a7280e31b93926a6461)
-- 2026-05-10T13:50:46+00:00 — [Add agent-threat-rules taxonomy](https://github.com/MISP/misp-taxonomies/commit/e5a6831e7b836020a23fcd1ef2f2174179e6bd03)
+- No new entries detected
