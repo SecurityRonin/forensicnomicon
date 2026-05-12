@@ -10778,3 +10778,116 @@ mod tests_volatility_corrections {
         assert_eq!(d.volatility, Some(VolatilityClass::Volatile));
     }
 }
+
+#[cfg(test)]
+mod tests_browser_session_memory {
+    use super::*;
+    use crate::volatility::VolatilityClass;
+
+    // browser_chrome_session_memory — in-memory tab state extracted from Chrome heap
+    #[test]
+    fn browser_chrome_session_memory_exists() {
+        assert!(CATALOG.by_id("browser_chrome_session_memory").is_some());
+    }
+
+    #[test]
+    fn browser_chrome_session_memory_is_volatile() {
+        let d = CATALOG.by_id("browser_chrome_session_memory").unwrap();
+        assert_eq!(d.volatility, Some(VolatilityClass::Volatile));
+    }
+
+    #[test]
+    fn browser_chrome_session_memory_has_no_file_path() {
+        let d = CATALOG.by_id("browser_chrome_session_memory").unwrap();
+        assert!(d.file_path.is_none(), "memory artifact must not have a file_path");
+    }
+
+    #[test]
+    fn browser_chrome_session_memory_is_memory_region() {
+        let d = CATALOG.by_id("browser_chrome_session_memory").unwrap();
+        assert_eq!(d.artifact_type, crate::catalog::ArtifactType::MemoryRegion);
+    }
+
+    #[test]
+    fn browser_chrome_session_memory_related_includes_on_disk() {
+        let d = CATALOG.by_id("browser_chrome_session_memory").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"browser_chrome_session"),
+            "memory counterpart must reference its on-disk sibling"
+        );
+    }
+
+    #[test]
+    fn browser_chrome_session_memory_is_critical_triage() {
+        let d = CATALOG.by_id("browser_chrome_session_memory").unwrap();
+        assert_eq!(d.triage_priority, crate::catalog::TriagePriority::Critical);
+    }
+
+    #[test]
+    fn browser_chrome_session_memory_cites_memf_source() {
+        let d = CATALOG.by_id("browser_chrome_session_memory").unwrap();
+        assert!(
+            d.sources.iter().any(|s| s.contains("memory-forensic") || s.contains("memf")),
+            "must cite memory-forensic tooling as source"
+        );
+    }
+
+    // browser_firefox_session_memory — in-memory tab state extracted from Firefox heap
+    #[test]
+    fn browser_firefox_session_memory_exists() {
+        assert!(CATALOG.by_id("browser_firefox_session_memory").is_some());
+    }
+
+    #[test]
+    fn browser_firefox_session_memory_is_volatile() {
+        let d = CATALOG.by_id("browser_firefox_session_memory").unwrap();
+        assert_eq!(d.volatility, Some(VolatilityClass::Volatile));
+    }
+
+    #[test]
+    fn browser_firefox_session_memory_has_no_file_path() {
+        let d = CATALOG.by_id("browser_firefox_session_memory").unwrap();
+        assert!(d.file_path.is_none(), "memory artifact must not have a file_path");
+    }
+
+    #[test]
+    fn browser_firefox_session_memory_is_memory_region() {
+        let d = CATALOG.by_id("browser_firefox_session_memory").unwrap();
+        assert_eq!(d.artifact_type, crate::catalog::ArtifactType::MemoryRegion);
+    }
+
+    #[test]
+    fn browser_firefox_session_memory_related_includes_on_disk() {
+        let d = CATALOG.by_id("browser_firefox_session_memory").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"browser_firefox_history"),
+            "memory counterpart must reference its on-disk sibling"
+        );
+    }
+
+    #[test]
+    fn browser_firefox_session_memory_is_critical_triage() {
+        let d = CATALOG.by_id("browser_firefox_session_memory").unwrap();
+        assert_eq!(d.triage_priority, crate::catalog::TriagePriority::Critical);
+    }
+
+    // Cross-link: on-disk descriptors must reference their memory counterparts
+    #[test]
+    fn browser_chrome_session_related_includes_memory() {
+        let d = CATALOG.by_id("browser_chrome_session").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"browser_chrome_session_memory"),
+            "on-disk Chrome session must reference its memory counterpart"
+        );
+    }
+
+    #[test]
+    fn browser_chrome_session_caveat_mentions_memory() {
+        let d = CATALOG.by_id("browser_chrome_session").unwrap();
+        let has_memory_caveat = d
+            .evidence_caveats
+            .iter()
+            .any(|c| c.to_lowercase().contains("memory") || c.to_lowercase().contains("live"));
+        assert!(has_memory_caveat, "on-disk session must caveat that memory counterpart is richer");
+    }
+}
