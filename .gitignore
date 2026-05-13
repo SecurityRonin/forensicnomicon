@@ -2,6 +2,7 @@
 /data/
 .DS_Store
 .playwright-mcp/
+.claude/
 **/__pycache__/
 *.pyc
 .env
