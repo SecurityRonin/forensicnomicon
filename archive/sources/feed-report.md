@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-05-19T06:58:51Z
+Generated: 2026-05-20T06:59:26Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-05-19T06:58:51Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-20T00:00:00+00:00 — [PowerShell DFIR 2026: from MemProcFS-Analyzer to KAPE-style mini-timeline](https://andreafortuna.org/2026/05/20/powershell-dfir-2026/)
 
 ## Salt Forensics
 
@@ -141,10 +141,7 @@ Generated: 2026-05-19T06:58:51Z
 
 - Site: https://smarterforensics.com/
 - Feed: https://smarterforensics.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: timed out
 
 ## Initialization Vectors
 
@@ -160,9 +157,9 @@ Generated: 2026-05-19T06:58:51Z
 - Site: https://brettshavers.com/brett-s-blog
 - Feed: https://feeds.feedburner.com/brettshavers/oSyq
 - Entries checked: 3
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-17T23:12:53-07:00 — [Forensics First. AI Second.](https://brettshavers.com/brett-s-blog/entry/forensics-first-ai-second)
+- No new entries detected
 
 ## Yogesh Khatri's forensic blog
 
@@ -177,11 +174,7 @@ Generated: 2026-05-19T06:58:51Z
 
 - Site: https://www.forensicfocus.com/
 - Feed: https://www.forensicfocus.com/rss/news2.php
-- Entries checked: 10
-- New since last snapshot: 2
-
-- 2026-05-18T15:09:34+00:00 — [Digital Forensics Jobs Round-Up, May 18 2026](https://www.forensicfocus.com/jobs/digital-forensics-jobs-round-up-may-18-2026/)
-- 2026-05-18T10:13:12+00:00 — [Finding Previous Locations Without Geolocation Data](https://www.forensicfocus.com/articles/finding-previous-locations-without-geolocation-data/)
+- Status: error: HTTP 404
 
 ## Forensic Multimedia Analysis Blog
 
@@ -221,28 +214,18 @@ Generated: 2026-05-19T06:58:51Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-05-19T02:00:03+00:00 — [ISC Stormcast For Tuesday, May 19th, 2026 https://isc.sans.edu/podcastdetail/9936, (Tue, May 19th)](https://isc.sans.edu/diary/rss/32996)
-- 2026-05-18T20:08:00+00:00 — [TeamPCP Supply Chain Campaign: Activity Through 2026-05-17, (Mon, May 18th)](https://isc.sans.edu/diary/rss/32994)
+- 2026-05-20T02:00:02+00:00 — [ISC Stormcast For Wednesday, May 20th, 2026 https://isc.sans.edu/podcastdetail/9938, (Wed, May 20th)](https://isc.sans.edu/diary/rss/32998)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- unknown date — [Training](https://www.dfir.training/training)
-- unknown date — [In-PersonOn-site](https://www.dfir.training/training/all-in-person-events)
-- unknown date — [Live OnlineInstructor-led](https://www.dfir.training/training/live-online-training)
-- unknown date — [WebinarsLive sessions](https://www.dfir.training/all-upcoming-webinars)
-- unknown date — [On-DemandSelf-paced](https://www.dfir.training/training/ondemand)
-- unknown date — [ProviderTraining Orgs](https://www.dfir.training/training/providers)
-- unknown date — [TopicsSubject areas](https://www.dfir.training/training/topics)
-- unknown date — [Events by LocationIn-person locations](https://www.dfir.training/training/events-location)
-- unknown date — [Tools](https://www.dfir.training/dfir-tools)
-- unknown date — [Library](https://www.dfir.training/resources)
+- No new entries detected
 
 ## MSAB
 
@@ -260,7 +243,7 @@ Generated: 2026-05-19T06:58:51Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-05-18T11:35:48+00:00 — [InfoSec News Nuggets 05/18/2026](https://aboutdfir.com/infosec-news-nuggets-05-18-2026/)
+- 2026-05-19T13:06:53+00:00 — [InfoSec News Nuggets – 05/19/2026](https://aboutdfir.com/infosec-news-nuggets-05-19-2026/)
 
 ## Forensic 4cast
 
@@ -377,9 +360,9 @@ Generated: 2026-05-19T06:58:51Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-05-19T06:30:00+00:00 — [Settings, preferences and defaults](https://eclecticlight.co/2026/05/19/settings-preferences-and-defaults/)
-- 2026-05-18T11:30:00+00:00 — [Hero or hooligan: Theseus and the sandals](https://eclecticlight.co/2026/05/18/hero-or-hooligan-theseus-and-the-sandals/)
-- 2026-05-18T08:00:00+00:00 — [Solutions to Saturday Mac riddles 360](https://eclecticlight.co/2026/05/18/solutions-to-saturday-mac-riddles-360/)
+- 2026-05-20T06:30:00+00:00 — [Tackle QuickLook problems](https://eclecticlight.co/2026/05/20/tackle-quicklook-problems/)
+- 2026-05-19T18:28:58+00:00 — [Apple has released an update to XProtect for all macOS](https://eclecticlight.co/2026/05/19/apple-has-released-an-update-to-xprotect-for-all-macos-33/)
+- 2026-05-19T11:30:00+00:00 — [Medium and message: Pottery](https://eclecticlight.co/2026/05/19/medium-and-message-pottery/)
 
 ## JPCERT/CC
 
@@ -404,21 +387,18 @@ Generated: 2026-05-19T06:58:51Z
 - Site: https://blog.elcomsoft.com/
 - Feed: https://blog.elcomsoft.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-18T11:59:09+00:00 — [YellowKey: An Unexpected Backdoor into BitLocker, and Why You Should Be Paying Attention](https://blog.elcomsoft.com/2026/05/yellowkey-an-unexpected-backdoor-into-bitlocker-and-why-you-should-be-paying-attention/)
+- No new entries detected
 
 ## Huntress Blog
 
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-05-18T14:00:00+00:00 — [Threat Actor Defense Evasion: How Attackers Disable AV & EDR](https://www.huntress.com/blog/how-attackers-disable-av-edr)
-- 2026-05-15T19:00:00+00:00 — [19 Cloud Security Challenges and How to Mitigate Risk | Huntress](https://www.huntress.com/blog/cloud-security-challenges)
-- 2026-05-15T18:00:00+00:00 — [Most Common Passwords 2026: Is Yours on the List?](https://www.huntress.com/blog/most-common-passwords)
-- 2026-05-14T11:00:00+00:00 — [Panic at the Distro](https://www.huntress.com/blog/linux-kernel-flaws-copyfail-dirty-frag-fragnesia)
+- No new entries detected
 
 ## Red Canary Blog
 
@@ -452,9 +432,10 @@ Generated: 2026-05-19T06:58:51Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-05-19T15:39:37+00:00 — [TP-Link, Photoshop, OpenVPN, Norton VPN vulnerabilities](https://blog.talosintelligence.com/tp-link-photoshop-openvpn-norton-vpn-vulnerabilities/)
+- 2026-05-19T10:00:20+00:00 — [From PDB strings to MaaS: Tracking a commodity BadIIS ecosystem used by Chinese-speaking threat](https://blog.talosintelligence.com/from-pdb-strings-to-maas-tracking-a-commodity-badiis-ecosystem/)
 
 ## SANS Blog
 
@@ -506,18 +487,18 @@ Generated: 2026-05-19T06:58:51Z
 - Site: https://www.forensafe.com/blogs/
 - Feed: https://www.forensafe.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- Fri, 15 May 2026 — [Memory Network](https://forensafe.com/blogs/memory-network.html)
 
 ## Cellebrite Blog
 
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-19T03:43:40+00:00 — [Can You Use ChatGPT or Claude to Analyze UFDR Data?](https://cellebrite.com/en/topics/ai/can-you-use-chatgpt-or-claude-to-analyze-ufdr-data/)
+- No new entries detected
 
 ## DFIR Science
 
@@ -542,48 +523,53 @@ Generated: 2026-05-19T06:58:51Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-05-18T10:42:16+00:00 — [Microsoft is changing Edge’s plaintext password behavior](https://www.malwarebytes.com/blog/news/2026/05/microsoft-is-changing-edges-plaintext-password-behavior)
-- 2026-05-18T07:02:00+00:00 — [A week in security (May 11 &#8211; May 17)](https://www.malwarebytes.com/blog/news/2026/05/a-week-in-security-may-11-may-17-2)
+- 2026-05-19T15:56:38+00:00 — [Biometrics, diagnoses, and bank details exposed in major healthcare breach](https://www.malwarebytes.com/blog/news/2026/05/biometrics-diagnoses-and-bank-details-exposed-in-major-healthcare-breach)
+- 2026-05-19T12:46:13+00:00 — [Facebook scam promises cheap Aldi meat boxes, steals payment info instead](https://www.malwarebytes.com/blog/scams/2026/05/facebook-scam-promises-cheap-aldi-meat-boxes-steals-payment-info-instead)
+- 2026-05-19T10:51:56+00:00 — [YouTube wants your face to fight deepfakes](https://www.malwarebytes.com/blog/ai/2026/05/youtube-wants-your-face-to-fight-deepfakes)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-18T20:48:21+00:00 — [CISA Admin Leaked AWS GovCloud Keys on Github](https://krebsonsecurity.com/2026/05/cisa-admin-leaked-aws-govcloud-keys-on-github/)
+- No new entries detected
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 8
+- New since last snapshot: 10
 
-- 2026-05-18T18:15:30-04:00 — [INTERPOL ‘Operation Ramz’ seizes 53 malware, phishing servers](https://www.bleepingcomputer.com/news/security/interpol-operation-ramz-seizes-53-malware-phishing-servers/)
-- 2026-05-18T17:42:20-04:00 — [SHub macOS infostealer variant spoofs Apple security updates](https://www.bleepingcomputer.com/news/security/shub-macos-infostealer-variant-spoofs-apple-security-updates/)
-- 2026-05-18T14:45:35-04:00 — [5 Steps to Managing Shadow AI Tools Without Slowing Down Employees](https://www.bleepingcomputer.com/news/security/5-steps-to-managing-shadow-ai-tools-without-slowing-down-employees/)
-- 2026-05-18T13:28:02-04:00 — [Leaked Shai-Hulud malware fuels new npm infostealer campaign](https://www.bleepingcomputer.com/news/security/leaked-shai-hulud-malware-fuels-new-npm-infostealer-campaign/)
-- 2026-05-18T09:46:26-04:00 — [Grafana says stolen GitHub token let hackers steal codebase](https://www.bleepingcomputer.com/news/security/grafana-says-stolen-github-token-let-hackers-steal-codebase/)
-- 2026-05-18T07:14:28-04:00 — [Microsoft testing adjustable taskbar, Start menu in Windows 11](https://www.bleepingcomputer.com/news/microsoft/windows-11-finally-gets-a-resizable-taskbar-and-start-menu/)
-- 2026-05-18T04:33:14-04:00 — [Microsoft confirms Windows 11 security update install issues](https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-kb5089549-windows-11-security-update-install-issues/)
-- 2026-05-18T03:18:33-04:00 — [Exploit available for new DirtyDecrypt Linux root escalation flaw](https://www.bleepingcomputer.com/news/security/exploit-available-for-new-dirtydecrypt-linux-root-escalation-flaw/)
+- 2026-05-20T01:08:42-04:00 — [GitHub investigates internal repositories breach claimed by TeamPCP](https://www.bleepingcomputer.com/news/security/github-investigates-internal-repositories-breach-claimed-by-teampcp/)
+- 2026-05-19T18:25:49-04:00 — [Max-severity flaw in ChromaDB for AI apps allows server hijacking](https://www.bleepingcomputer.com/news/security/max-severity-flaw-in-chromadb-for-ai-apps-allows-server-hijacking/)
+- 2026-05-19T17:47:31-04:00 — [Cybercrime service disrupted for abusing Microsoft platform to sign malware](https://www.bleepingcomputer.com/news/security/cybercrime-service-disrupted-for-abusing-microsoft-platform-to-sign-malware/)
+- 2026-05-19T16:37:45-04:00 — [Discord rolls out end-to-end encryption on voice, video calls](https://www.bleepingcomputer.com/news/security/discord-rolls-out-end-to-end-encryption-on-voice-video-calls/)
+- 2026-05-19T15:45:39-04:00 — [FBI: Americans lost over $388 million to scams using crypto ATMs in 2025](https://www.bleepingcomputer.com/news/security/fbi-americans-lost-over-388-million-to-scams-using-crypto-atms-in-2025/)
+- 2026-05-19T15:35:32-04:00 — [Microsoft Self-Service Password Reset abused in Azure data theft attacks](https://www.bleepingcomputer.com/news/security/microsoft-self-service-password-reset-abused-in-azure-data-theft-attacks/)
+- 2026-05-19T12:22:30-04:00 — [Microsoft plans to improve Windows 11 driver quality in 2026](https://www.bleepingcomputer.com/news/microsoft/microsoft-plans-to-improve-windows-11-driver-quality-in-2026/)
+- 2026-05-19T12:10:47-04:00 — [Microsoft blames macOS update for undismissible Teams location prompts](https://www.bleepingcomputer.com/news/microsoft/microsoft-blames-undismissible-teams-location-prompts-on-macos-update/)
+- 2026-05-19T10:30:22-04:00 — [New Shai-Hulud malware wave compromises 600 npm packages](https://www.bleepingcomputer.com/news/security/new-shai-hulud-malware-wave-compromises-600-npm-packages/)
+- 2026-05-19T10:16:41-04:00 — [7-Eleven confirms data breach claimed by the ShinyHunters gang](https://www.bleepingcomputer.com/news/security/7-eleven-confirms-data-breach-claimed-by-the-shinyhunters-gang/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 7
 
-- 2026-05-18T21:43:51+00:00 — [Microsoft Exchange Zero-Day Under Attack, No Patch Available](https://www.darkreading.com/vulnerabilities-threats/microsoft-exchange-zero-day-no-patch)
-- 2026-05-18T21:24:59+00:00 — ['Claw Chain' Vulnerabilities Threaten OpenClaw Deployments](https://www.darkreading.com/application-security/claw-chain-vulnerabilities-threaten-openclaw)
-- 2026-05-18T19:53:05+00:00 — [Shai-Hulud Worm Clones Spread After Code Release](https://www.darkreading.com/application-security/shai-hulud-worm-clones-spread-code-release)
-- 2026-05-18T15:41:55+00:00 — [Fuel Tank Breaches Expand Scope of Iran's Cyber Offensive](https://www.darkreading.com/cyberattacks-data-breaches/fuel-tank-breaches-expand-scope-irans-cyber-offensive)
-- 2026-05-18T12:00:00+00:00 — [Boulevard of Broken Dreams: 2 Decades of Cyber Fails](https://www.darkreading.com/cyber-risk/broken-dreams-2-decades-cyber-fails)
+- 2026-05-19T22:17:55+00:00 — [What Will Make AI BOMs Real?](https://www.darkreading.com/cybersecurity-analytics/what-make-ai-bom-real)
+- 2026-05-19T21:55:35+00:00 — [Verizon DBIR: Enterprises Face a Dangerous Vulnerability Glut](https://www.darkreading.com/threat-intelligence/verizon-dbir-enterprises-vulnerability-glut)
+- 2026-05-19T21:06:54+00:00 — [Windows Zero-Day Barrage Continues After Patch Tuesday](https://www.darkreading.com/cyberattacks-data-breaches/windows-zero-day-barrage-continues-after-patch-tuesday)
+- 2026-05-19T19:49:53+00:00 — [CISA Exposes Secrets, Credentials in 'Private' Repo](https://www.darkreading.com/cybersecurity-operations/cisa-exposes-secrets-credentials-private-repo)
+- 2026-05-19T19:49:40+00:00 — [Stealer Spoofs Google, Microsoft &amp; Apple, Then Backdoors macOS](https://www.darkreading.com/threat-intelligence/stealer-spoofs-google-microsoft-apple-backdoors-macos)
+- 2026-05-19T13:28:43+00:00 — [Looking Back, Looking Forward: Digesting a Dynamic Bouillabaisse of Cyber Evolution](https://www.darkreading.com/cybersecurity-operations/looking-back-looking-forward-bouillabaisse-cyber-evolution)
+- 2026-05-18T21:44:53+00:00 — [Is 2026 the Year AI Bills of Materials Get Real?](https://www.darkreading.com/cyber-risk/is-2026-year-ai-bills-of-materials-get-real)
 
 ## Volexity Blog
 
@@ -605,10 +591,9 @@ Generated: 2026-05-19T06:58:51Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-05-18T22:42:50+00:00 — [How Storm-2949 turned a compromised identity into a cloud-wide breach](https://www.microsoft.com/en-us/security/blog/2026/05/18/storm-2949-turned-compromised-identity-into-cloud-wide-breach/)
-- 2026-05-18T16:00:00+00:00 — [How to better protect your growing business in an AI-powered world](https://www.microsoft.com/en-us/security/blog/2026/05/18/how-to-better-protect-your-growing-business-in-an-ai-powered-world/)
+- 2026-05-19T15:07:01+00:00 — [Exposing Fox Tempest: A malware-signing service operation](https://www.microsoft.com/en-us/security/blog/2026/05/19/exposing-fox-tempest-a-malware-signing-service-operation/)
 
 ## LOLBAS Project (Windows)
 
@@ -642,12 +627,9 @@ Generated: 2026-05-19T06:58:51Z
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-05-18T23:12:13+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/d9542535c399cba310b5898b9954a4c6540e4020)
-- 2026-05-18T23:02:12+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/d8df96401c73ec655329ea5d31c0304afd49679b)
-- 2026-05-18T23:01:11+00:00 — [Merge pull request #346 from magicsword-io/josehelps/magicsword-root-…](https://github.com/magicsword-io/LOLDrivers/commit/fbc328d79e4bce0920e5893a8374ad75827da555)
-- 2026-05-18T22:00:47+00:00 — [Point MagicSword links to root](https://github.com/magicsword-io/LOLDrivers/commit/15fdcad319c4bc2c624d734273c560065496992b)
+- No new entries detected
 
 ## LOFL Project (RMM C2 indicators)
 
@@ -663,9 +645,12 @@ Generated: 2026-05-19T06:58:51Z
 - Site: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes
 - Feed: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-05-20T02:54:17+00:00 — [Update 3.2.01_Memory_Forensics.md](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/72e75ffe761dec73f3d80a566b858cfa153a9cd8)
+- 2026-05-20T02:41:42+00:00 — [Update 3.2.01_Memory_Forensics.md](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/26325351f02721305833ac0c9af918443fb2ac79)
+- 2026-05-20T02:02:08+00:00 — [Update 3.2.01_Memory_Forensics.md](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/f64ff8e837cf23a39d0a07a71ac5471c9223b7ea)
+- 2026-05-20T01:43:28+00:00 — [Update 3.2.01_Memory_Forensics.md](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/b37142ab0eb5979e6cac8429ddcc836edc135644)
 
 ## kacos2000_Win10
 
@@ -870,9 +855,13 @@ Generated: 2026-05-19T06:58:51Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 5
 
-- 2026-05-18T14:25:44+00:00 — [dev-v1.6.40](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.40)
+- 2026-05-19T19:44:06+00:00 — [dev-v1.6.41](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.41)
+- 2026-05-18T14:29:39+00:00 — [integration-v9.4.4: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6163)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.4.4)
+- 2026-05-18T14:28:48+00:00 — [integration-v9.3.12: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6163)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.3.12)
+- 2026-05-18T14:27:54+00:00 — [integration-v9.2.16: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6163)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.2.16)
+- 2026-05-18T14:26:55+00:00 — [integration-v8.19.24: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6163)](https://github.com/elastic/detection-rules/releases/tag/integration-v8.19.24)
 
 ## regipy releases
 
