@@ -102,6 +102,107 @@ pub const EVTX_CHUNK_HEADER_OFFSETS: EvtxChunkHeaderOffsets = EvtxChunkHeaderOff
     header_checksum: 0x78,
 };
 
+// ── Semantic EVTX event structs ───────────────────────────────────────────────
+//
+// Plain data types — zero deps. Populated by winevt-extract; consumed by
+// forensic correlation layers (issen, etc.).
+
+/// An explicit-credential / Kerberos / NTLM lateral-movement event.
+/// Produced from EID 4648 (RunAs/PtH), 4769 (Kerberos SPN), 4776 (NTLM).
+#[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct LateralMovementEvent {
+    pub timestamp: String,
+    pub event_id: u32,
+    pub source_user: Option<String>,
+    pub target_user: Option<String>,
+    pub target_host: Option<String>,
+    pub logon_type: Option<u32>,
+    pub auth_package: Option<String>,
+    pub encryption_type: Option<String>,
+}
+
+/// A Remote Desktop session reconnect or disconnect event.
+/// Produced from EID 4778 (reconnected) and 4779 (disconnected).
+#[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct RdpSessionEvent {
+    pub timestamp: String,
+    pub event_id: u32,
+    pub user: Option<String>,
+    pub session_id: Option<u32>,
+    pub source_ip: Option<String>,
+}
+
+/// A network share access or access-check event.
+/// Produced from EID 5140 (share accessed) and 5145 (share object access check).
+#[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct SmbAccessEvent {
+    pub timestamp: String,
+    pub event_id: u32,
+    pub subject_user: Option<String>,
+    pub share_name: Option<String>,
+    pub share_path: Option<String>,
+    pub relative_target: Option<String>,
+    pub ip_address: Option<String>,
+}
+
+/// A Microsoft Defender malware detection or action event.
+/// Produced from EID 1116 (detected), 1117 (action taken), 1006 (scan result).
+#[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct DefenderEvent {
+    pub timestamp: String,
+    pub event_id: u32,
+    pub threat_name: Option<String>,
+    pub severity: Option<String>,
+    pub path: Option<String>,
+    pub action_taken: Option<String>,
+    pub process_name: Option<String>,
+}
+
+/// A WMI activity or subscription event.
+/// Produced from EID 5857/5858/5860/5861 (WMI-Activity) and Sysmon EID 19/20/21.
+/// EID 5861 / Sysmon 19 = permanent subscription — classic WMI backdoor indicator.
+#[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct WmiEvent {
+    pub timestamp: String,
+    pub event_id: u32,
+    pub provider: Option<String>,
+    pub filter_name: Option<String>,
+    pub consumer_name: Option<String>,
+    pub query: Option<String>,
+}
+
+/// A scheduled task creation or modification event.
+/// Produced from EID 4698 (task created) and EID 4702 (task updated).
+#[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct ScheduledTask {
+    pub timestamp: String,
+    pub event_id: u32,
+    pub task_name: Option<String>,
+    /// Raw XML task body; may contain inline script (VBScript/JScript).
+    pub task_content: Option<String>,
+    pub subject_user: Option<String>,
+}
+
+/// A process-creation event with LOLBin detection.
+/// Produced from Security EID 4688 and Sysmon EID 1.
+#[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct ProcessExecution {
+    pub timestamp: String,
+    pub pid: u64,
+    pub parent_pid: u64,
+    pub image: String,
+    pub command_line: String,
+    pub parent_image: Option<String>,
+    pub is_lolbin: bool,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
