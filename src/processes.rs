@@ -302,4 +302,79 @@ mod tests {
     fn empty_string_not_lsass_tool() {
         assert!(!is_lsass_access_tool(""));
     }
+
+    // --- WINDOWS_SINGLETON_PROCESSES ---
+    #[test]
+    fn singleton_list_contains_lsass() {
+        assert!(WINDOWS_SINGLETON_PROCESSES.contains(&"lsass.exe"));
+    }
+    #[test]
+    fn singleton_list_contains_services() {
+        assert!(WINDOWS_SINGLETON_PROCESSES.contains(&"services.exe"));
+    }
+    #[test]
+    fn singleton_list_contains_wininit() {
+        assert!(WINDOWS_SINGLETON_PROCESSES.contains(&"wininit.exe"));
+    }
+    #[test]
+    fn is_singleton_process_case_insensitive() {
+        assert!(is_singleton_process("LSASS.EXE"));
+    }
+    #[test]
+    fn is_singleton_process_returns_false_for_svchost() {
+        // svchost can have many instances — not a singleton
+        assert!(!is_singleton_process("svchost.exe"));
+    }
+
+    // --- WINDOWS_PARENT_RULES ---
+    #[test]
+    fn parent_rules_contain_svchost_services() {
+        assert!(WINDOWS_PARENT_RULES.contains(&("svchost.exe", "services.exe")));
+    }
+    #[test]
+    fn parent_rules_contain_lsass_wininit() {
+        assert!(WINDOWS_PARENT_RULES.contains(&("lsass.exe", "wininit.exe")));
+    }
+    #[test]
+    fn expected_parent_for_svchost_is_services() {
+        assert_eq!(expected_parent("svchost.exe"), Some("services.exe"));
+    }
+    #[test]
+    fn expected_parent_for_explorer_is_none() {
+        assert_eq!(expected_parent("explorer.exe"), None);
+    }
+
+    // --- WINDOWS_NON_NETWORKING_PROCESSES ---
+    #[test]
+    fn non_networking_contains_notepad() {
+        assert!(WINDOWS_NON_NETWORKING_PROCESSES.contains(&"notepad.exe"));
+    }
+    #[test]
+    fn non_networking_contains_calc() {
+        assert!(WINDOWS_NON_NETWORKING_PROCESSES.contains(&"calc.exe"));
+    }
+    #[test]
+    fn is_non_networking_process_case_insensitive() {
+        assert!(is_non_networking_process("NOTEPAD.EXE"));
+    }
+    #[test]
+    fn is_non_networking_process_false_for_chrome() {
+        assert!(!is_non_networking_process("chrome.exe"));
+    }
+
+    // --- WINDOWS_KERNEL_PDB_PREFIXES ---
+    #[test]
+    fn kernel_pdb_prefixes_contains_ntkrnl() {
+        assert!(WINDOWS_KERNEL_PDB_PREFIXES.contains(&"ntkrnl"));
+    }
+    #[test]
+    fn kernel_pdb_prefixes_contains_ntoskrnl() {
+        assert!(WINDOWS_KERNEL_PDB_PREFIXES.contains(&"ntoskrnl"));
+    }
+
+    // --- PE_MZ_MAGIC ---
+    #[test]
+    fn pe_mz_magic_is_4d5a() {
+        assert_eq!(PE_MZ_MAGIC, [0x4D, 0x5A]);
+    }
 }

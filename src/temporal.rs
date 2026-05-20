@@ -162,6 +162,32 @@ pub fn correlation_pairs() -> Vec<(&'static str, &'static str)> {
 mod tests {
     use super::*;
 
+    // --- FILETIME_EPOCH_OFFSET ---
+    #[test]
+    fn filetime_epoch_offset_value() {
+        assert_eq!(FILETIME_EPOCH_OFFSET, 116_444_736_000_000_000u64);
+    }
+
+    #[test]
+    fn filetime_to_unix_secs_unix_epoch() {
+        // FILETIME at Unix epoch (1970-01-01 00:00:00) = FILETIME_EPOCH_OFFSET
+        assert_eq!(filetime_to_unix_secs(FILETIME_EPOCH_OFFSET), Some(0));
+    }
+
+    #[test]
+    fn filetime_to_unix_secs_year_2000() {
+        // 2000-01-01 00:00:00 UTC = Unix 946_684_800
+        let ft = FILETIME_EPOCH_OFFSET + 946_684_800 * 10_000_000;
+        assert_eq!(filetime_to_unix_secs(ft), Some(946_684_800));
+    }
+
+    #[test]
+    fn filetime_to_unix_secs_pre_epoch_returns_none() {
+        assert_eq!(filetime_to_unix_secs(0), None);
+        assert_eq!(filetime_to_unix_secs(FILETIME_EPOCH_OFFSET - 1), None);
+    }
+
+    // --- existing tests ---
     #[test]
     fn table_nonempty() {
         assert!(!TEMPORAL_TABLE.is_empty());

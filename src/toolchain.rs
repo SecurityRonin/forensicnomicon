@@ -292,4 +292,14 @@ mod tests {
             "Linux artifacts should have Velociraptor mappings"
         );
     }
+
+    // --- VOLATILITY3_ISF_SERVER ---
+    #[test]
+    fn volatility3_isf_server_is_https() {
+        assert!(VOLATILITY3_ISF_SERVER.starts_with("https://"));
+    }
+    #[test]
+    fn volatility3_isf_server_contains_digitalpolice() {
+        assert!(VOLATILITY3_ISF_SERVER.contains("digitalpolice"));
+    }
 }
