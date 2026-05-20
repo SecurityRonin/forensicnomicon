@@ -195,12 +195,59 @@ pub struct ScheduledTask {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ProcessExecution {
     pub timestamp: String,
+    pub event_id: u32,
     pub pid: u64,
     pub parent_pid: u64,
     pub image: String,
     pub command_line: String,
     pub parent_image: Option<String>,
     pub is_lolbin: bool,
+}
+
+// ── Unified tagged enum ───────────────────────────────────────────────────────
+
+/// A unified EVTX semantic event — one variant per extraction type.
+///
+/// Use this when building mixed-event collections (e.g. a unified timeline).
+/// Each variant carries the fully-typed inner struct so the compiler enforces
+/// which fields are available per event kind.
+#[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "serde", serde(tag = "kind"))]
+pub enum EvtxEvent {
+    LateralMovement(LateralMovementEvent),
+    RdpSession(RdpSessionEvent),
+    SmbAccess(SmbAccessEvent),
+    Defender(DefenderEvent),
+    Wmi(WmiEvent),
+    ScheduledTask(ScheduledTask),
+    ProcessExecution(ProcessExecution),
+}
+
+impl EvtxEvent {
+    pub fn timestamp(&self) -> &str {
+        match self {
+            Self::LateralMovement(e) => &e.timestamp,
+            Self::RdpSession(e) => &e.timestamp,
+            Self::SmbAccess(e) => &e.timestamp,
+            Self::Defender(e) => &e.timestamp,
+            Self::Wmi(e) => &e.timestamp,
+            Self::ScheduledTask(e) => &e.timestamp,
+            Self::ProcessExecution(e) => &e.timestamp,
+        }
+    }
+
+    pub fn event_id(&self) -> u32 {
+        match self {
+            Self::LateralMovement(e) => e.event_id,
+            Self::RdpSession(e) => e.event_id,
+            Self::SmbAccess(e) => e.event_id,
+            Self::Defender(e) => e.event_id,
+            Self::Wmi(e) => e.event_id,
+            Self::ScheduledTask(e) => e.event_id,
+            Self::ProcessExecution(e) => e.event_id,
+        }
+    }
 }
 
 #[cfg(test)]

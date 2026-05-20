@@ -107,6 +107,7 @@ fn scheduled_task_has_expected_fields() {
 fn process_execution_has_expected_fields() {
     let e = ProcessExecution {
         timestamp: "2024-01-01T00:00:00Z".to_owned(),
+        event_id: 4688,
         pid: 1234,
         parent_pid: 5678,
         image: "C:\\Windows\\System32\\cmd.exe".to_owned(),
