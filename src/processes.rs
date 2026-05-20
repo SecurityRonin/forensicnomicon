@@ -136,6 +136,105 @@ pub const LSASS_ACCESS_TOOLS: &[&str] = &[
     "out-minidump",
 ];
 
+/// Windows processes that must have exactly one instance at a time.
+///
+/// Multiple instances of any of these indicate masquerading, injection, or a
+/// compromised system. Parent relationship must also be validated separately.
+///
+/// Sources:
+/// - Microsoft Windows Internals (7th ed.), Part 1 — system process descriptions.
+/// - SANS FOR508 — "Advanced Incident Response, Threat Hunting, and Digital
+///   Forensics", process baseline methodology.
+/// - MITRE ATT&CK T1055, T1036 — Process Injection / Masquerading:
+///   <https://attack.mitre.org/techniques/T1055/>
+pub const WINDOWS_SINGLETON_PROCESSES: &[&str] = &[
+    "lsass.exe",
+    "services.exe",
+    "wininit.exe",
+    "csrss.exe",
+    "smss.exe",
+    "lsm.exe",
+];
+
+/// Valid parent-child process relationships on Windows.
+///
+/// Each tuple is `(child_name, required_parent_name)`. A child seen with any
+/// other parent is suspicious and warrants investigation.
+///
+/// Sources:
+/// - Microsoft Windows Internals (7th ed.) — process ancestry diagrams.
+/// - SANS FOR508 process baseline: svchost must have services.exe as parent,
+///   lsass must have wininit.exe, etc.
+/// - MITRE ATT&CK T1055, T1036.003 — parent spoofing and process injection:
+///   <https://attack.mitre.org/techniques/T1036/003/>
+pub const WINDOWS_PARENT_RULES: &[(&str, &str)] = &[
+    ("svchost.exe", "services.exe"),
+    ("lsass.exe", "wininit.exe"),
+    ("services.exe", "wininit.exe"),
+    ("wininit.exe", "smss.exe"),
+];
+
+/// Windows processes that should never establish network connections.
+///
+/// Network activity from these processes is a strong anomaly indicator —
+/// often associated with process hollowing, DLL injection, or C2 in disguise.
+///
+/// Sources:
+/// - SANS FOR508 — anomalous network connection detection heuristics.
+/// - MITRE ATT&CK T1055 — Process Injection into non-network-capable binaries:
+///   <https://attack.mitre.org/techniques/T1055/>
+pub const WINDOWS_NON_NETWORKING_PROCESSES: &[&str] = &[
+    "notepad.exe",
+    "calc.exe",
+    "mspaint.exe",
+    "write.exe",
+    "wordpad.exe",
+    "snippingtool.exe",
+    "osk.exe",
+    "magnify.exe",
+    "narrator.exe",
+];
+
+/// Windows kernel image PDB name prefixes used to identify the kernel binary.
+///
+/// The kernel PE exports one of these as the PDB name in its debug directory.
+/// Used for ISF symbol auto-resolution and kernel base locating.
+///
+/// Sources:
+/// - Microsoft Symbol Server naming conventions for ntoskrnl/ntkrnlmp/ntkrnlpa.
+/// - Volatility3 ISF profile naming: ntkrnlmp.pdb, ntoskrnl.exe.pdb, etc.
+pub const WINDOWS_KERNEL_PDB_PREFIXES: &[&str] = &["ntkrnl", "ntoskrnl"];
+
+/// PE/MZ magic bytes — first two bytes of any valid Windows Portable Executable.
+///
+/// Sources:
+/// - Microsoft PE/COFF specification (revision 11):
+///   <https://learn.microsoft.com/en-us/windows/win32/debug/pe-format>
+pub const PE_MZ_MAGIC: [u8; 2] = [0x4D, 0x5A];
+
+/// Returns `true` if `name` is a Windows singleton process (case-insensitive).
+pub fn is_singleton_process(name: &str) -> bool {
+    let lower = name.to_ascii_lowercase();
+    WINDOWS_SINGLETON_PROCESSES.iter().any(|t| *t == lower)
+}
+
+/// Returns the required parent name for `child_name`, or `None` if no rule applies.
+///
+/// Lookup is case-insensitive on the child name.
+pub fn expected_parent(child_name: &str) -> Option<&'static str> {
+    let lower = child_name.to_ascii_lowercase();
+    WINDOWS_PARENT_RULES
+        .iter()
+        .find(|(child, _)| *child == lower.as_str())
+        .map(|(_, parent)| *parent)
+}
+
+/// Returns `true` if `name` should never have network connections (case-insensitive).
+pub fn is_non_networking_process(name: &str) -> bool {
+    let lower = name.to_ascii_lowercase();
+    WINDOWS_NON_NETWORKING_PROCESSES.iter().any(|t| *t == lower)
+}
+
 /// Returns `true` if `name` matches a known credential-access tool (case-insensitive).
 pub fn is_credential_access_tool(name: &str) -> bool {
     let lower = name.to_ascii_lowercase();

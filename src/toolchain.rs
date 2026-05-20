@@ -4,6 +4,19 @@
 //! and Velociraptor artifact names, enabling programmatic collection
 //! config generation.
 
+/// Community ISF (Intermediate Symbol Format) server for Volatility3.
+///
+/// Hosts Windows kernel symbol files as `.json.xz` archives, indexed by
+/// PDB name + GUID + age. URL pattern:
+/// `<server>/windows/<pdb_name>/<GUID><age>.json.xz`
+///
+/// Sources:
+/// - Volatility Foundation community ISF server documentation:
+///   <https://isf-server.code.digitalpolice.ca/>
+/// - Volatility3 symbol packs and ISF schema:
+///   <https://github.com/volatilityfoundation/volatility3>
+pub const VOLATILITY3_ISF_SERVER: &str = "https://isf-server.code.digitalpolice.ca";
+
 /// Toolchain mapping for one catalog artifact.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[non_exhaustive]

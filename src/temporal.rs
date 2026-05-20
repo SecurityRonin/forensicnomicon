@@ -1,3 +1,27 @@
+/// Windows FILETIME epoch offset from Unix epoch, in 100-nanosecond ticks.
+///
+/// Windows FILETIME counts 100ns intervals since 1601-01-01 00:00:00 UTC.
+/// Unix time counts seconds since 1970-01-01 00:00:00 UTC.
+/// The difference is exactly 11,644,473,600 seconds (134,774 days).
+///
+/// Sources:
+/// - Microsoft — Win32 FILETIME structure:
+///   <https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-filetime>
+/// - Howard Hinnant — "chrono-Compatible Low-Level Date Algorithms" (2010),
+///   Gregorian date arithmetic for epoch conversion:
+///   <https://howardhinnant.github.io/date_algorithms.html>
+pub const FILETIME_EPOCH_OFFSET: u64 = 116_444_736_000_000_000;
+
+/// Convert a Windows FILETIME to Unix seconds.
+///
+/// Returns `None` if `ft` pre-dates the Unix epoch (1970-01-01) or overflows `i64`.
+pub fn filetime_to_unix_secs(ft: u64) -> Option<i64> {
+    if ft < FILETIME_EPOCH_OFFSET {
+        return None;
+    }
+    i64::try_from((ft - FILETIME_EPOCH_OFFSET) / 10_000_000).ok()
+}
+
 /// How two artifacts' timestamps relate temporally for correlation.
 ///
 /// Sources:
