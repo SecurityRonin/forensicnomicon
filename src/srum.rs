@@ -3,7 +3,14 @@
 //! Each constant is the ESE table name as it appears in `SRUDB.dat`.
 //! GUIDs are verified against
 //! `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SRUM\Extensions`
-//! and public DFIR research (srum-dump, Mark Baggett's srum-dump, forensic papers).
+//! and the following authoritative sources:
+//!
+//! - Mark Baggett's srum-dump (primary GUID reference):
+//!   <https://github.com/markbaggett/srum-dump>
+//! - SANS ISC diary — SRUM forensic overview:
+//!   <https://isc.sans.edu/diary/System+Resource+Utilization+Monitor/21927>
+//! - libyal/esedb-kb SRUM table registry:
+//!   <https://github.com/libyal/esedb-kb/blob/main/documentation/System%20Resource%20Usage%20Monitor%20(SRUM).asciidoc>
 
 /// Network Data Usage — bytes sent and received per process per hour.
 ///
@@ -86,7 +93,7 @@ mod tests {
     fn network_usage_guid_is_correct() {
         assert_eq!(
             TABLE_NETWORK_USAGE,
-            "{973F5D5C-1D90-4944-BE8E-24B22A728CF2}"
+            "{973F5D5C-1D90-4944-BE8E-24B94231A174}"
         );
     }
 
