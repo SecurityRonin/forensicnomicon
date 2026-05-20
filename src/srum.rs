@@ -8,7 +8,7 @@
 /// Network Data Usage — bytes sent and received per process per hour.
 ///
 /// Available since Windows 8.1.  Maps to `sr network`.
-pub const TABLE_NETWORK_USAGE: &str = "{973F5D5C-1D90-4944-BE8E-24B22A728CF2}";
+pub const TABLE_NETWORK_USAGE: &str = "{973F5D5C-1D90-4944-BE8E-24B94231A174}";
 
 /// Application Resource Usage — foreground/background CPU cycles per process.
 ///
