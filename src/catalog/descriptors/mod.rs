@@ -7029,11 +7029,24 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
         //   SubjectUserName, SubjectDomainName, SubjectLogonId,
         //   PreviousTime, NewTime, ProcessName, ProcessId.
         "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4616",
+        // Source: Ahmed Thabit / Ahmed Abdo, LinkedIn (2025) — tested on Windows 10 Pro 20H2.
+        // Event 4624 WorkstationName is populated by the authenticating client for Type 3
+        // (Network/SMB) but by the destination host for Type 10 (RDP without NLA). Using
+        // WorkstationName as the source in RDP investigations misattributes the victim
+        // machine as the actor. Reproduced in EvtxECmd "Remote Host" column and Events-Ripper
+        // sessions/logins plugins. Always use IpAddress for Type 10 source attribution.
+        "https://www.linkedin.com/posts/ahmed-thabit_dfir-digitalforensics-incidentresponse-activity",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_caveats: &[
         "Log can be cleared (event 1102/104); absence of log is itself evidence",
         "Requires appropriate audit policy to be enabled",
+        "Event 4624 WorkstationName semantics differ by logon type: \
+         Type 3 (Network/SMB) — WorkstationName = source machine; \
+         Type 10 (RDP without NLA) — WorkstationName = destination machine, not source. \
+         For RDP source attribution always use IpAddress (Source Network Address), \
+         never WorkstationName alone. Using WorkstationName as the source on a Type 10 \
+         event misattributes the victim host as the actor.",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Circular EVTX log; default 128 MB max",

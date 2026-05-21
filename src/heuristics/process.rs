@@ -24,7 +24,16 @@ pub const LOGON_BATCH: u32 = 4;
 pub const LOGON_SERVICE: u32 = 5;
 pub const LOGON_NETWORK_CLEARTEXT: u32 = 8;
 pub const LOGON_NEW_CREDENTIALS: u32 = 9; // pass-the-hash / pass-the-ticket
-pub const LOGON_REMOTE_INTERACTIVE: u32 = 10; // RDP
+/// RDP session logon (without NLA pre-authentication).
+///
+/// **Field interpretation caveat (Event 4624):** For Type 10 events, the
+/// `WorkstationName` field records the *destination* machine being accessed,
+/// not the source. This is the inverse of Type 3 (Network/SMB), where
+/// `WorkstationName` records the source. Always use `IpAddress`
+/// (`Source Network Address`) for RDP source attribution; never rely on
+/// `WorkstationName` alone for Type 10. Confirmed by Ahmed Thabit / Ahmed Abdo
+/// (2025) across Windows 10 Pro 20H2; reproduced in EvtxECmd and Events-Ripper.
+pub const LOGON_REMOTE_INTERACTIVE: u32 = 10;
 
 /// Returns `true` for network-originating logon types (lateral movement candidates).
 #[must_use]
