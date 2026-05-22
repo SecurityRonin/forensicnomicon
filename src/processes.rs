@@ -156,10 +156,13 @@ pub const WINDOWS_SINGLETON_PROCESSES: &[&str] = &[
     "lsm.exe",
 ];
 
-/// Valid parent-child process relationships on Windows.
+/// Valid parent-child process relationships on Windows (single-parent form).
 ///
 /// Each tuple is `(child_name, required_parent_name)`. A child seen with any
 /// other parent is suspicious and warrants investigation.
+///
+/// For processes that may have multiple valid parents (e.g. `dllhost.exe`),
+/// use [`WINDOWS_PPID_RULES`] instead.
 ///
 /// Sources:
 /// - Microsoft Windows Internals (7th ed.) — process ancestry diagrams.
@@ -173,6 +176,46 @@ pub const WINDOWS_PARENT_RULES: &[(&str, &str)] = &[
     ("services.exe", "wininit.exe"),
     ("wininit.exe", "smss.exe"),
 ];
+
+/// Expected parent process names for Windows system processes (PPID spoofing detection).
+///
+/// Each tuple is `(child_name_lower, &[allowed_parent_names_lower])`. A child
+/// seen with a parent not in the allowed list signals PPID spoofing
+/// (MITRE ATT&CK T1134.004). Unlike [`WINDOWS_PARENT_RULES`], each entry
+/// supports multiple allowed parents for processes that can legitimately be
+/// spawned by different parents in different scenarios (e.g. `dllhost.exe`).
+///
+/// Sources:
+/// - Windows Internals 7th ed. — process ancestry diagrams.
+/// - MITRE ATT&CK T1134.004 — Access Token Manipulation: Parent PID Spoofing:
+///   <https://attack.mitre.org/techniques/T1134/004/>
+/// - Elastic Security "Suspicious Parent Process" detection rules:
+///   <https://www.elastic.co/guide/en/security/current/suspicious-parent-process.html>
+pub const WINDOWS_PPID_RULES: &[(&str, &[&str])] = &[
+    ("lsass.exe",     &["wininit.exe"]),
+    ("services.exe",  &["wininit.exe"]),
+    ("winlogon.exe",  &["smss.exe"]),
+    ("csrss.exe",     &["smss.exe"]),
+    ("smss.exe",      &["system"]),
+    ("svchost.exe",   &["services.exe"]),
+    ("taskhost.exe",  &["services.exe"]),
+    ("taskhostw.exe", &["services.exe"]),
+    ("spoolsv.exe",   &["services.exe"]),
+    ("dllhost.exe",   &["svchost.exe", "services.exe"]),
+];
+
+/// Returns the allowed parent names for `child_name` (case-insensitive lookup).
+///
+/// Returns an empty slice if no PPID rule exists for `child_name`. Callers can
+/// use `expected_parents(name).is_empty()` to test whether a process is tracked.
+pub fn expected_parents(child_name: &str) -> &'static [&'static str] {
+    let lower = child_name.to_ascii_lowercase();
+    WINDOWS_PPID_RULES
+        .iter()
+        .find(|(child, _)| *child == lower.as_str())
+        .map(|(_, parents)| *parents)
+        .unwrap_or(&[])
+}
 
 /// Windows processes that should never establish network connections.
 ///
