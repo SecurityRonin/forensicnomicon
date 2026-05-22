@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-05-21T07:03:56Z
+Generated: 2026-05-22T06:59:16Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-05-21T07:03:56Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-22T00:00:00+00:00 — [The illusion of human-first companies](https://andreafortuna.org/2026/05/22/human-washing/)
 
 ## Salt Forensics
 
@@ -142,18 +142,9 @@ Generated: 2026-05-21T07:03:56Z
 - Site: https://smarterforensics.com/
 - Feed: https://smarterforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2024-08-08T02:34:02+00:00 — [iOS 17- The “Forever” Setting That Isn’t… Or Is It?](https://smarterforensics.com/2024/08/ios-17-the-forever-setting-that-isnt-or-is-it/)
-- 2021-12-30T19:00:14+00:00 — [Android and iOS acquisition Recommendations](https://smarterforensics.com/2021/12/android-and-ios-acquisition-recommendations/)
-- 2021-03-17T19:39:09+00:00 — [Forensic 4:Cast Awards – nominations are open](https://smarterforensics.com/2021/03/forensic-4cast-awards-nominations-are-open/)
-- 2020-09-18T15:13:43+00:00 — [Rotten to the Core? Nah, iOS14 is Mostly Sweet](https://smarterforensics.com/2020/09/rotten-to-the-core-nah-ios14-is-mostly-sweet/)
-- 2020-08-25T17:47:27+00:00 — [Using Photos.sqlite to show the relationships between photos and the application they were created with?  By Scott Koenig](https://smarterforensics.com/2020/08/does-photos-sqlite-have-relations-with-cameramessagesapp-by-scott-koenig/)
-- 2020-07-17T18:00:49+00:00 — [DFIRSummit Laugh Track](https://smarterforensics.com/2020/07/dfirsummit-laugh-track/)
-- 2020-04-01T12:23:24+00:00 — [“Life Has no ctrl+Alt+Del” – The New DFIR online Meetup](https://smarterforensics.com/2020/04/life-has-no-ctrlaltdel-the-new-dfir-online-meetup/)
-- 2020-03-19T20:13:25+00:00 — [2020 Forensic 4Cast Nominations are open!](https://smarterforensics.com/2020/03/2020-forensic-4cast-nominations-are-open/)
-- 2019-09-26T20:58:45+00:00 — [iOS 13 – Summary for those of you who enjoy the cliffsnotes](https://smarterforensics.com/2019/09/ios-13-summary-for-those-of-you-who-enjoy-the-cliffsnotes/)
-- 2019-09-26T01:42:10+00:00 — […Won’t you back that thing up: a glimpse of  ios 13 artifacts](https://smarterforensics.com/2019/09/wont-you-back-that-thing-up-a-glimpse-of-ios-13-artifacts/)
+- No new entries detected
 
 ## Initialization Vectors
 
@@ -204,7 +195,7 @@ Generated: 2026-05-21T07:03:56Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-05-20T18:06:26+00:00 — [Evidence sharing is the next inflection point for enterprise DFIR teams](https://www.magnetforensics.com/blog/evidence-sharing-is-the-next-inflection-point-for-enterprise-dfir-teams/)
+- 2026-05-21T15:24:42+00:00 — [From alert to root cause: Strengthening federal cyber investigations](https://www.magnetforensics.com/blog/from-alert-to-root-cause-strengthening-federal-cyber-investigations/)
 
 ## The DFIR Report
 
@@ -219,28 +210,18 @@ Generated: 2026-05-21T07:03:56Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Entries checked: 10
-- New since last snapshot: 10
-
-- 2026-05-05T00:49:41+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
-- 2026-04-24T09:44:12+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
-- 2026-03-22T00:50:58+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
-- 2026-04-23T00:04:55+00:00 — [Tracking Program Execution with a Little Known Registry Key](https://www.youtube.com/watch?v=yoFkF-NHZvo)
-- 2026-05-05T15:31:05+00:00 — [The Truth About Windows Explorer Timestamps](https://www.youtube.com/watch?v=PdyVkmhMcOA)
-- 2026-05-01T22:55:06+00:00 — [Major Update to 13Cubed Courses: Chaos at Cobalt](https://www.youtube.com/watch?v=CzF6DFhSfHw)
-- 2026-04-30T06:35:14+00:00 — [13Cubed AMA - Answering Your Questions!](https://www.youtube.com/watch?v=duz5BoZUly8)
-- 2026-04-22T18:55:48+00:00 — [The Easy Way to Analyze Linux Memory](https://www.youtube.com/watch?v=W40gdWNdwUI)
-- 2026-04-13T16:01:10+00:00 — [Will AI Replace Digital Forensics Experts?](https://www.youtube.com/watch?v=lvkBtIhvThk)
-- 2026-04-28T19:45:58+00:00 — [Behind the Book: Threat Hunting macOS with Jaron Bradley](https://www.youtube.com/watch?v=8Uj2NbWnU6M)
+- Status: error: HTTP 404
 
 ## SANS Internet Storm Center
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 3
 
-- 2026-05-21T02:00:03+00:00 — [ISC Stormcast For Thursday, May 21st, 2026 https://isc.sans.edu/podcastdetail/9940, (Thu, May 21st)](https://isc.sans.edu/diary/rss/33000)
+- 2026-05-22T06:14:42+00:00 — [Cross-Platform NPM Stealer, (Fri, May 22nd)](https://isc.sans.edu/diary/rss/33006)
+- 2026-05-22T02:00:02+00:00 — [ISC Stormcast For Friday, May 22nd, 2026 https://isc.sans.edu/podcastdetail/9942, (Fri, May 22nd)](https://isc.sans.edu/diary/rss/33004)
+- 2026-05-21T13:34:09+00:00 — [Selective HTTP Proxying in Linux, (Thu, May 21st)](https://isc.sans.edu/diary/rss/33002)
 
 ## DFIR Training Blog
 
@@ -267,7 +248,7 @@ Generated: 2026-05-21T07:03:56Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-05-20T13:37:03+00:00 — [InfoSec News Nuggets 05/20/2026](https://aboutdfir.com/infosec-news-nuggets-05-20-2026/)
+- 2026-05-21T11:07:48+00:00 — [InfoSec News Nuggets 05/21/2026](https://aboutdfir.com/infosec-news-nuggets-05-21-2026/)
 
 ## Forensic 4cast
 
@@ -301,9 +282,9 @@ Generated: 2026-05-21T07:03:56Z
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-20T13:30:00+00:00 — [Amped FIVE Update 40623: New Formats, Assistant Automation, New Motion Detection, and updates to Change Frame Rate, Timeline, and Much More](https://blog.ampedsoftware.com/2026/05/20/amped-five-update-40623)
+- No new entries detected
 
 ## Didier Stevens Blog
 
@@ -384,8 +365,8 @@ Generated: 2026-05-21T07:03:56Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-05-21T06:30:00+00:00 — [Unmount a volume or eject a disk](https://eclecticlight.co/2026/05/21/unmount-a-volume-or-eject-a-disk/)
-- 2026-05-20T11:30:00+00:00 — [On Reflection: Extending the image](https://eclecticlight.co/2026/05/20/on-reflection-extending-the-image/)
+- 2026-05-22T06:30:00+00:00 — [How to search Time Machine backups?](https://eclecticlight.co/2026/05/22/how-to-search-time-machine-backups/)
+- 2026-05-21T11:30:00+00:00 — [Naturalists: Contents and artists](https://eclecticlight.co/2026/05/21/naturalists-contents-and-artists/)
 
 ## JPCERT/CC
 
@@ -419,11 +400,10 @@ Generated: 2026-05-21T07:03:56Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-05-20T13:00:00+00:00 — [Inside the RaaS Ecosystem: Operators, Affiliates & Attack Tradecraft | Huntress](https://www.huntress.com/blog/raas-ecosystem-ransomware-tradecraft)
-- 2026-05-19T07:00:00+00:00 — [Exposed RDP: The Misconfiguration Attackers Keep Exploiting](https://www.huntress.com/blog/exposed-rdp-misconfiguration-risks)
-- 2026-05-15T04:00:00+00:00 — [What Is Single Sign-On? The Practical Guide | Huntress](https://www.huntress.com/blog/what-is-sso-login)
+- 2026-05-21T14:00:00+00:00 — [How Huntress Uses Managed SIEM to Detect Threats Faster](https://www.huntress.com/blog/how-huntress-uses-managed-siem-to-detect-threats-faster)
+- 2026-05-21T07:00:00+00:00 — [The Gentleman Ransomware | Defense Evasion TTPs Uncovered | Huntress](https://www.huntress.com/blog/the-gentlemen-ransomware-defense-evasion-ttps)
 
 ## Red Canary Blog
 
@@ -439,9 +419,9 @@ Generated: 2026-05-21T07:03:56Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-20T10:00:46+00:00 — [Tracking TamperedChef Clusters via Certificate and Code Reuse](https://unit42.paloaltonetworks.com/tracking-tampered-chef-clusters/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
@@ -457,9 +437,9 @@ Generated: 2026-05-21T07:03:56Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-21T18:00:14+00:00 — [The art of being ungovernable](https://blog.talosintelligence.com/the-art-of-being-ungovernable/)
 
 ## SANS Blog
 
@@ -486,16 +466,16 @@ Generated: 2026-05-21T07:03:56Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-05-20T14:37:43+00:00 — [The World Cup Fraud Infrastructure is Nearly Three Times Larger Than We First Reported](https://flare.io/learn/resources/blog/world-cup-fraud-infrastructure-three-times-larger-than-original-reporting)
+- 2026-05-21T13:00:00+00:00 — [What Attackers See When They Look at US Healthcare: A Sector-Wide External Attack Surface Analysis](https://flare.io/learn/resources/blog/us-healthcare-sector-wide-external-attack-surface-analysis)
 
 ## Binalyze Blog
 
 - Site: https://www.binalyze.com/blog
 - Feed: https://www.binalyze.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-20T08:00:00+00:00 — [Handala's Kill List: Tracking the Victims of Iran's Most Destructive Cyber Unit](https://www.binalyze.com/blog/handalas-kill-list-tracking-the-victims-of-irans-most-destructive-cyber-unit)
+- No new entries detected
 
 ## Belkasoft Blog
 
@@ -522,7 +502,7 @@ Generated: 2026-05-21T07:03:56Z
 - Entries checked: 5
 - New since last snapshot: 1
 
-- 2026-05-20T15:13:54+00:00 — [Mobile Compliance is Broken on iOS. Here’s the Fix No One’s Talking About.](https://cellebrite.com/en/resources/whitepapers/mobile-compliance-broken-on-ios/)
+- 2026-05-22T06:07:45+00:00 — [Cellebrite Inseyets: Advancing Device Access, Automation and Analysis at Scale](https://cellebrite.com/en/blog/cellebrite-inseyets-advancing-device-access-automation-and-analysis-at-scale/)
 
 ## DFIR Science
 
@@ -540,59 +520,57 @@ Generated: 2026-05-21T07:03:56Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-05-20T00:00:00-05:00 — [How to Protect Identities and Sessions from Infostealers](https://www.crowdstrike.com/en-us/blog/how-to-protect-identities-and-sessions-from-infostealers/)
+- 2026-05-21T00:00:00-05:00 — [New Claude Integration Brings Audit Data into the Falcon Platform](https://www.crowdstrike.com/en-us/blog/new-claude-integration-brings-audit-data-into-the-falcon-platform/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 4
 
-- 2026-05-20T15:33:02+00:00 — [Fake malware-signing service Fox Tempest dismantled by Microsoft](https://www.malwarebytes.com/blog/news/2026/05/fake-malware-signing-service-fox-tempest-dismantled-by-microsoft)
-- 2026-05-20T11:46:48+00:00 — [Firefox 151 packs big privacy upgrades into a small update](https://www.malwarebytes.com/blog/privacy/2026/05/firefox-151-packs-big-privacy-upgrades-into-a-small-update)
+- 2026-05-21T17:36:52+00:00 — [Microsoft Defender vulnerabilities are being exploited in the wild](https://www.malwarebytes.com/blog/bugs/2026/05/microsoft-defender-vulnerabilities-are-being-exploited-in-the-wild)
+- 2026-05-21T11:08:37+00:00 — [TikTok, YouTube, and Roblox face scrutiny, but age gates won’t fix child safety](https://www.malwarebytes.com/blog/family-and-parenting/2026/05/tiktok-youtube-and-roblox-face-scrutiny-but-age-gates-wont-fix-child-safety)
+- 2026-05-21T10:19:18+00:00 — [Catch spyware in the act with Windows Webcam Monitoring](https://www.malwarebytes.com/blog/product/2026/05/catch-spyware-in-the-act-with-windows-webcam-monitoring)
+- 2026-05-21T10:01:54+00:00 — [Researchers left AI agents alone in a virtual town and watched it all unravel](https://www.malwarebytes.com/blog/ai/2026/05/researchers-left-ai-agents-alone-in-a-virtual-town-and-watched-it-all-unravel)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-21T21:50:25+00:00 — [Alleged Kimwolf Botmaster ‘Dort’ Arrested, Charged in U.S. and Canada](https://krebsonsecurity.com/2026/05/alleged-kimwolf-botmaster-dort-arrested-charged-in-u-s-and-canada/)
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 9
+- New since last snapshot: 8
 
-- 2026-05-21T02:54:01-04:00 — [GitHub links repo breach to TanStack npm supply-chain attack](https://www.bleepingcomputer.com/news/security/github-links-repo-breach-to-tanstack-npm-supply-chain-attack/)
-- 2026-05-20T17:36:24-04:00 — [Ukraine identifies infostealer operator tied to 28,000 stolen accounts](https://www.bleepingcomputer.com/news/security/ukraine-identifies-infostealer-operator-tied-to-28-000-stolen-accounts/)
-- 2026-05-20T17:19:17-04:00 — [Hackers bypass SonicWall VPN MFA due to incomplete patching](https://www.bleepingcomputer.com/news/security/hackers-bypass-sonicwall-vpn-mfa-due-to-incomplete-patching/)
-- 2026-05-20T11:46:37-04:00 — [Grafana breach caused by missed token rotation after TanStack attack](https://www.bleepingcomputer.com/news/security/grafana-breach-caused-by-missed-token-rotation-after-tanstack-attack/)
-- 2026-05-20T10:02:12-04:00 — [Identity Alone Isn't Enough: Why Device Security Has to Share the Load](https://www.bleepingcomputer.com/news/security/identity-alone-isnt-enough-why-device-security-has-to-share-the-load/)
-- 2026-05-20T08:52:29-04:00 — [Drupal critical update to fix bug with high exploitation risk](https://www.bleepingcomputer.com/news/security/drupal-critical-update-to-fix-bug-with-high-exploitation-risk/)
-- 2026-05-20T06:52:31-04:00 — [Exploit released for new PinTheft Arch Linux root escalation flaw](https://www.bleepingcomputer.com/news/linux/exploit-released-for-new-pintheft-arch-linux-root-escalation-flaw/)
-- 2026-05-20T04:14:08-04:00 — [GitHub confirms breach of 3,800 repos via malicious VSCode extension](https://www.bleepingcomputer.com/news/security/github-confirms-breach-of-3-800-repos-via-malicious-vscode-extension/)
-- 2026-05-20T03:31:15-04:00 — [Microsoft shares mitigation for YellowKey Windows zero-day](https://www.bleepingcomputer.com/news/microsoft/microsoft-shares-mitigation-for-yellowkey-windows-zero-day/)
+- 2026-05-21T14:13:50-04:00 — [Google accidentally exposed details of unfixed Chromium flaw](https://www.bleepingcomputer.com/news/security/google-accidentally-exposed-details-of-unfixed-chromium-flaw/)
+- 2026-05-21T11:11:08-04:00 — [Apple blocked over $11 billion in App Store fraud in 6 years](https://www.bleepingcomputer.com/news/apple/apple-blocked-22-billion-in-fraudulent-app-store-transactions-in-2025/)
+- 2026-05-21T10:00:10-04:00 — [Inside a Crypto Drainer: How to Spot it Before it Empties Your Wallet](https://www.bleepingcomputer.com/news/security/inside-a-crypto-drainer-how-to-spot-it-before-it-empties-your-wallet/)
+- 2026-05-21T10:00:00-04:00 — [Chinese hackers target telcos with new Linux, Windows malware](https://www.bleepingcomputer.com/news/security/chinese-hackers-target-telcos-with-new-linux-windows-malware/)
+- 2026-05-21T09:58:33-04:00 — [Max severity Cisco Secure Workload flaw gives Site Admin privileges](https://www.bleepingcomputer.com/news/security/cisco-max-severity-secure-workload-flaw-gives-hackers-site-admin-privileges/)
+- 2026-05-21T09:09:51-04:00 — [Police seize “First VPN” service used in ransomware, data theft attacks](https://www.bleepingcomputer.com/news/security/police-seize-first-vpn-service-used-in-ransomware-data-theft-attacks/)
+- 2026-05-21T07:00:00-04:00 — [Flipper One project needs community help to build open Linux platform](https://www.bleepingcomputer.com/news/hardware/flipper-one-project-needs-community-help-to-build-open-linux-platform/)
+- 2026-05-21T03:49:48-04:00 — [Microsoft warns of new Defender zero-days exploited in attacks](https://www.bleepingcomputer.com/news/security/microsoft-warns-of-new-defender-zero-days-exploited-in-attacks/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 8
+- New since last snapshot: 5
 
-- 2026-05-20T20:52:25+00:00 — [Cyber Pros Can't Decide If AI Is a Good or a Bad Thing](https://www.darkreading.com/cybersecurity-analytics/cyber-pros-ai)
-- 2026-05-20T20:51:32+00:00 — [GitHub Confirms Breach, 4K Internal Repos Stolen](https://www.darkreading.com/application-security/github-confirms-breach-4k-internal-repos-stolen)
-- 2026-05-20T20:35:35+00:00 — [Fake Android Apps Commit Carrier Billing Fraud for Premium Svcs.](https://www.darkreading.com/mobile-security/fake-android-apps-carrier-billing-fraud)
-- 2026-05-20T17:42:30+00:00 — [Processes and Culture Top Reasons Behind Data Breaches](https://www.darkreading.com/cyberattacks-data-breaches/processes-and-culture-top-reasons-behind-data-breaches)
-- 2026-05-20T16:12:08+00:00 — [Patch Now: Critical Flaw in OT Robot OS Gives Attackers Control](https://www.darkreading.com/ics-ot-security/patch-now-critical-flaw-ot-robot-os)
-- unknown date — [Infosecurity Europe](https://www.darkreading.com/events/infosecurity-europe)
-- 2026-05-20T07:00:00+00:00 — [Interpol's 'Operation Ramz' Pioneers Cross-Region Collabs in Middle East](https://www.darkreading.com/cybersecurity-operations/interpol-operation-ramz-cross-region-middle-east)
-- 2026-05-20T03:44:40+00:00 — [What It'll Take to Make AI BOMs Usable in a Modern Security Program](https://www.darkreading.com/cyber-risk/make-ai-bom-usable-modern-security-program)
+- 2026-05-21T21:11:40+00:00 — [How CISOs Should Prep for Agentic-Ready AI BOMs](https://www.darkreading.com/cyber-risk/how-cisos-should-prep-for-agentic-ready-ai-boms)
+- 2026-05-21T20:07:47+00:00 — [Google API Keys Remain Active After Deletion](https://www.darkreading.com/identity-access-management-security/google-api-keys-active-after-deletion)
+- 2026-05-21T15:43:37+00:00 — [AI Agents Are Shifting Identity Security Budget Dynamics](https://www.darkreading.com/identity-access-management-security/shifting-budget-dynamics-identity-security-ai-agents)
+- 2026-05-21T14:00:00+00:00 — [Chinese APTs Share Linux Backdoor in Central Asia Telco Attacks](https://www.darkreading.com/threat-intelligence/chinese-apts-linux-backdoor-telco-attacks)
+- 2026-05-21T13:05:00+00:00 — [Content Delivery Exploit Opens Websites to Brand Hijacking](https://www.darkreading.com/cyber-risk/content-delivery-exploit-websites-brand-hijacking)
 
 ## Volexity Blog
 
@@ -614,11 +592,9 @@ Generated: 2026-05-21T07:03:56Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 1
 
-- 2026-05-20T17:48:44+00:00 — [Mini Shai Hulud: Compromised @antv npm packages enable CI/CD credential theft](https://www.microsoft.com/en-us/security/blog/2026/05/20/mini-shai-hulud-compromised-antv-npm-packages-enable-ci-cd-credential-theft/)
-- 2026-05-20T16:00:00+00:00 — [Securing the gaming culture of cultures](https://www.microsoft.com/en-us/security/blog/2026/05/20/securing-the-gaming-culture-of-cultures/)
-- 2026-05-20T15:00:00+00:00 — [Introducing RAMPART and Clarity: Open source tools to bring safety into Agent development workflow](https://www.microsoft.com/en-us/security/blog/2026/05/20/introducing-rampart-and-clarity-open-source-tools-to-bring-safety-into-agent-development-workflow/)
+- 2026-05-21T16:00:00+00:00 — [What’s new in Microsoft Security: May 2026](https://www.microsoft.com/en-us/security/blog/2026/05/21/whats-new-in-microsoft-security-may-2026/)
 
 ## LOLBAS Project (Windows)
 
@@ -652,12 +628,9 @@ Generated: 2026-05-21T07:03:56Z
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-05-20T14:48:55+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/d4c2c72e754318889f56ad0fd3b53753ee745229)
-- 2026-05-20T14:19:31+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/73cb26e102960ad4e5e7e937bd8cb65627b0b87f)
-- 2026-05-20T14:18:19+00:00 — [Merge pull request #347 from magicsword-io/MHaggis/add-bootrepair-lenovo](https://github.com/magicsword-io/LOLDrivers/commit/fd082f3a31e43c42f8b91fe383608e5c5c5b5ed7)
-- 2026-05-19T14:52:29+00:00 — [Add Lenovo BootRepair.sys (PhantomKiller exploit)](https://github.com/magicsword-io/LOLDrivers/commit/21da8f4bf0ade5accae0edd0cb06552d2eed70e3)
+- No new entries detected
 
 ## LOFL Project (RMM C2 indicators)
 
@@ -880,9 +853,9 @@ Generated: 2026-05-21T07:03:56Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-20T22:15:12+00:00 — [dev-v1.6.42](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.42)
+- No new entries detected
 
 ## regipy releases
 
