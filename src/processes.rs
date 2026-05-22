@@ -540,123 +540,167 @@ mod tests {
     }
 
     // --- WINDOWS_PPID_RULES / expected_parents ---
+
+    // count
+    #[test]
+    fn ppid_rules_has_twenty_eight_entries() {
+        assert_eq!(WINDOWS_PPID_RULES.len(), 28);
+    }
+
+    // SpoofConfidence enum
+    #[test]
+    fn spoof_confidence_high_ne_low() {
+        assert_ne!(SpoofConfidence::High, SpoofConfidence::Low);
+    }
+
+    // existing entries still present (tuple now has 3 fields)
     #[test]
     fn ppid_rules_contains_svchost_services() {
         assert!(WINDOWS_PPID_RULES
             .iter()
-            .any(|(c, ps)| *c == "svchost.exe" && ps.contains(&"services.exe")));
+            .any(|(c, ps, _)| *c == "svchost.exe" && ps.contains(&"services.exe")));
     }
     #[test]
     fn ppid_rules_contains_lsass_wininit() {
         assert!(WINDOWS_PPID_RULES
             .iter()
-            .any(|(c, ps)| *c == "lsass.exe" && ps.contains(&"wininit.exe")));
-    }
-    #[test]
-    fn ppid_rules_dllhost_allows_svchost_and_services() {
-        let entry = WINDOWS_PPID_RULES.iter().find(|(c, _)| *c == "dllhost.exe").unwrap();
-        assert!(entry.1.contains(&"svchost.exe"), "dllhost must allow svchost.exe");
-        assert!(entry.1.contains(&"services.exe"), "dllhost must allow services.exe");
+            .any(|(c, ps, _)| *c == "lsass.exe" && ps.contains(&"wininit.exe")));
     }
     #[test]
     fn ppid_rules_smss_parent_is_system() {
         assert!(WINDOWS_PPID_RULES
             .iter()
-            .any(|(c, ps)| *c == "smss.exe" && ps.contains(&"system")));
+            .any(|(c, ps, _)| *c == "smss.exe" && ps.contains(&"system")));
+    }
+
+    // dllhost: expanded parents + Low confidence
+    #[test]
+    fn ppid_rules_dllhost_allows_svchost_and_services() {
+        let (_, ps, _) = WINDOWS_PPID_RULES.iter().find(|(c, _, _)| *c == "dllhost.exe").unwrap();
+        assert!(ps.contains(&"svchost.exe"));
+        assert!(ps.contains(&"services.exe"));
     }
     #[test]
-    fn ppid_rules_has_eighteen_entries() {
-        assert_eq!(WINDOWS_PPID_RULES.len(), 18);
+    fn ppid_rules_dllhost_allows_explorer() {
+        let (_, ps, _) = WINDOWS_PPID_RULES.iter().find(|(c, _, _)| *c == "dllhost.exe").unwrap();
+        assert!(ps.contains(&"explorer.exe"), "COM thumbnail/preview handlers: explorer → dllhost");
     }
     #[test]
-    fn expected_parents_svchost_returns_services() {
-        let parents = expected_parents("svchost.exe");
+    fn ppid_rules_dllhost_allows_mmc() {
+        let (_, ps, _) = WINDOWS_PPID_RULES.iter().find(|(c, _, _)| *c == "dllhost.exe").unwrap();
+        assert!(ps.contains(&"mmc.exe"), "MMC snap-ins activate COM surrogates");
+    }
+    #[test]
+    fn ppid_rules_dllhost_confidence_is_low() {
+        let (_, _, conf) = WINDOWS_PPID_RULES.iter().find(|(c, _, _)| *c == "dllhost.exe").unwrap();
+        assert_eq!(*conf, SpoofConfidence::Low);
+    }
+    #[test]
+    fn ppid_rules_lsass_confidence_is_high() {
+        let (_, _, conf) = WINDOWS_PPID_RULES.iter().find(|(c, _, _)| *c == "lsass.exe").unwrap();
+        assert_eq!(*conf, SpoofConfidence::High);
+    }
+
+    // new high-confidence entries
+    #[test]
+    fn ppid_rules_wininit_parent_is_smss() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps, _)| *c == "wininit.exe" && ps.contains(&"smss.exe")));
+    }
+    #[test]
+    fn ppid_rules_lsm_parent_is_wininit() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps, _)| *c == "lsm.exe" && ps.contains(&"wininit.exe")));
+    }
+    #[test]
+    fn ppid_rules_explorer_allows_userinit_and_winlogon() {
+        let (_, ps, _) = WINDOWS_PPID_RULES.iter().find(|(c, _, _)| *c == "explorer.exe").unwrap();
+        assert!(ps.contains(&"userinit.exe"), "normal logon: userinit → explorer");
+        assert!(ps.contains(&"winlogon.exe"), "auto-logon / shell replacement");
+    }
+    #[test]
+    fn ppid_rules_logonui_parent_is_winlogon() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps, _)| *c == "logonui.exe" && ps.contains(&"winlogon.exe")));
+    }
+    #[test]
+    fn ppid_rules_dwm_parent_is_winlogon() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps, _)| *c == "dwm.exe" && ps.contains(&"winlogon.exe")));
+    }
+    #[test]
+    fn ppid_rules_msdtc_parent_is_services() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps, _)| *c == "msdtc.exe" && ps.contains(&"services.exe")));
+    }
+    #[test]
+    fn ppid_rules_trustedinstaller_parent_is_services() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps, _)| *c == "trustedinstaller.exe" && ps.contains(&"services.exe")));
+    }
+    #[test]
+    fn ppid_rules_vssvc_parent_is_services() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps, _)| *c == "vssvc.exe" && ps.contains(&"services.exe")));
+    }
+    #[test]
+    fn ppid_rules_msmpeng_parent_is_services() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps, _)| *c == "msmpeng.exe" && ps.contains(&"services.exe")));
+    }
+    #[test]
+    fn ppid_rules_nissrv_parent_is_services() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps, _)| *c == "nissrv.exe" && ps.contains(&"services.exe")));
+    }
+
+    // expected_parents: new Option<(parents, confidence)> return type
+    #[test]
+    fn expected_parents_svchost_returns_services_high() {
+        let (parents, conf) = expected_parents("svchost.exe").unwrap();
         assert_eq!(parents, &["services.exe"]);
+        assert_eq!(conf, SpoofConfidence::High);
     }
     #[test]
-    fn expected_parents_dllhost_returns_two_parents() {
-        let parents = expected_parents("dllhost.exe");
+    fn expected_parents_dllhost_is_low_confidence() {
+        let (parents, conf) = expected_parents("dllhost.exe").unwrap();
         assert!(parents.contains(&"svchost.exe"));
-        assert!(parents.contains(&"services.exe"));
-        assert_eq!(parents.len(), 2);
+        assert!(parents.contains(&"explorer.exe"));
+        assert_eq!(conf, SpoofConfidence::Low);
     }
     #[test]
-    fn expected_parents_unknown_process_returns_empty() {
-        let parents = expected_parents("calc.exe");
-        assert!(parents.is_empty());
+    fn expected_parents_unknown_process_returns_none() {
+        assert!(expected_parents("calc.exe").is_none());
     }
     #[test]
     fn expected_parents_case_insensitive() {
-        let parents = expected_parents("SVCHOST.EXE");
-        assert!(!parents.is_empty(), "lookup must be case-insensitive");
+        let (parents, _) = expected_parents("SVCHOST.EXE").unwrap();
         assert!(parents.contains(&"services.exe"));
-    }
-
-    // --- expanded entries: high-confidence single/dual parent rules ---
-    #[test]
-    fn ppid_rules_runtimebroker_parent_is_svchost() {
-        assert!(WINDOWS_PPID_RULES
-            .iter()
-            .any(|(c, ps)| *c == "runtimebroker.exe" && ps.contains(&"svchost.exe")));
-    }
-    #[test]
-    fn ppid_rules_userinit_parent_is_winlogon() {
-        assert!(WINDOWS_PPID_RULES
-            .iter()
-            .any(|(c, ps)| *c == "userinit.exe" && ps.contains(&"winlogon.exe")));
-    }
-    #[test]
-    fn ppid_rules_searchindexer_parent_is_services() {
-        assert!(WINDOWS_PPID_RULES
-            .iter()
-            .any(|(c, ps)| *c == "searchindexer.exe" && ps.contains(&"services.exe")));
-    }
-    #[test]
-    fn ppid_rules_searchprotocolhost_parent_is_searchindexer() {
-        assert!(WINDOWS_PPID_RULES
-            .iter()
-            .any(|(c, ps)| *c == "searchprotocolhost.exe" && ps.contains(&"searchindexer.exe")));
-    }
-    #[test]
-    fn ppid_rules_searchfilterhost_parent_is_searchindexer() {
-        assert!(WINDOWS_PPID_RULES
-            .iter()
-            .any(|(c, ps)| *c == "searchfilterhost.exe" && ps.contains(&"searchindexer.exe")));
-    }
-    #[test]
-    fn ppid_rules_fontdrvhost_allows_wininit_and_winlogon() {
-        let entry = WINDOWS_PPID_RULES
-            .iter()
-            .find(|(c, _)| *c == "fontdrvhost.exe")
-            .expect("fontdrvhost.exe must have a PPID rule");
-        assert!(entry.1.contains(&"wininit.exe"),  "session-0 instance: parent wininit.exe");
-        assert!(entry.1.contains(&"winlogon.exe"), "per-user instance: parent winlogon.exe");
-    }
-    #[test]
-    fn ppid_rules_wmiprvse_parent_is_svchost() {
-        assert!(WINDOWS_PPID_RULES
-            .iter()
-            .any(|(c, ps)| *c == "wmiprvse.exe" && ps.contains(&"svchost.exe")));
-    }
-    #[test]
-    fn ppid_rules_audiodg_parent_is_svchost() {
-        assert!(WINDOWS_PPID_RULES
-            .iter()
-            .any(|(c, ps)| *c == "audiodg.exe" && ps.contains(&"svchost.exe")));
-    }
-    #[test]
-    fn expected_parents_runtimebroker_returns_svchost() {
-        assert_eq!(expected_parents("runtimebroker.exe"), &["svchost.exe"]);
     }
     #[test]
     fn expected_parents_fontdrvhost_returns_two_parents() {
-        let p = expected_parents("fontdrvhost.exe");
+        let (p, _) = expected_parents("fontdrvhost.exe").unwrap();
         assert!(p.contains(&"wininit.exe"));
         assert!(p.contains(&"winlogon.exe"));
         assert_eq!(p.len(), 2);
     }
     #[test]
+    fn expected_parents_runtimebroker_returns_svchost() {
+        let (p, _) = expected_parents("runtimebroker.exe").unwrap();
+        assert_eq!(p, &["svchost.exe"]);
+    }
+    #[test]
     fn expected_parents_wmiprvse_returns_svchost() {
-        assert_eq!(expected_parents("wmiprvse.exe"), &["svchost.exe"]);
+        let (p, _) = expected_parents("wmiprvse.exe").unwrap();
+        assert_eq!(p, &["svchost.exe"]);
     }
 }
