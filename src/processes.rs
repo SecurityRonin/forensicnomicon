@@ -177,63 +177,88 @@ pub const WINDOWS_PARENT_RULES: &[(&str, &str)] = &[
     ("wininit.exe", "smss.exe"),
 ];
 
+/// Confidence level of a PPID spoofing alert.
+///
+/// `High` — the parent constraint is tight; a violation is a strong indicator of
+/// PPID spoofing (MITRE ATT&CK T1134.004).
+///
+/// `Low` — the allowed-parent list is deliberately broad because the process has
+/// many legitimate spawners (e.g. COM Surrogate `dllhost.exe`). A violation is
+/// a weak signal; correlate with additional context before escalating.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum SpoofConfidence {
+    High,
+    Low,
+}
+
 /// Expected parent process names for Windows system processes (PPID spoofing detection).
 ///
-/// Each tuple is `(child_name_lower, &[allowed_parent_names_lower])`. A child
-/// seen with a parent not in the allowed list signals PPID spoofing
-/// (MITRE ATT&CK T1134.004). Unlike [`WINDOWS_PARENT_RULES`], each entry
-/// supports multiple allowed parents for processes that can legitimately be
-/// spawned by different parents in different scenarios (e.g. `dllhost.exe`).
+/// Each tuple is `(child_name_lower, &[allowed_parent_names_lower], SpoofConfidence)`.
+/// A child seen with a parent not in the allowed list signals PPID spoofing
+/// (MITRE ATT&CK T1134.004). Use [`expected_parents`] for case-insensitive lookup.
 ///
 /// Sources:
 /// - Windows Internals 7th ed. — process ancestry diagrams.
-/// - MITRE ATT&CK T1134.004 — Access Token Manipulation: Parent PID Spoofing:
-///   <https://attack.mitre.org/techniques/T1134/004/>
-/// - Elastic Security "Suspicious Parent Process" detection rules:
-///   <https://www.elastic.co/guide/en/security/current/suspicious-parent-process.html>
-pub const WINDOWS_PPID_RULES: &[(&str, &[&str])] = &[
+/// - MITRE ATT&CK T1134.004: <https://attack.mitre.org/techniques/T1134/004/>
+/// - SANS FOR508 — process baseline methodology.
+/// - Elastic Security "Suspicious Parent Process" detection rules.
+pub const WINDOWS_PPID_RULES: &[(&str, &[&str], SpoofConfidence)] = &[
     // --- Core session-init hierarchy ---
-    ("smss.exe",               &["system"]),
-    ("csrss.exe",              &["smss.exe"]),
-    ("winlogon.exe",           &["smss.exe"]),
+    ("smss.exe",               &["system"],                              SpoofConfidence::High),
+    ("csrss.exe",              &["smss.exe"],                            SpoofConfidence::High),
+    ("winlogon.exe",           &["smss.exe"],                            SpoofConfidence::High),
+    ("wininit.exe",            &["smss.exe"],                            SpoofConfidence::High),
+    // --- wininit.exe children ---
+    ("lsass.exe",              &["wininit.exe"],                         SpoofConfidence::High),
+    ("services.exe",           &["wininit.exe"],                         SpoofConfidence::High),
+    ("lsm.exe",                &["wininit.exe"],                         SpoofConfidence::High), // Local Session Manager (WI7 ch.2)
     // --- Services tree ---
-    ("services.exe",           &["wininit.exe"]),
-    ("lsass.exe",              &["wininit.exe"]),
-    ("svchost.exe",            &["services.exe"]),
-    ("taskhost.exe",           &["services.exe"]),
-    ("taskhostw.exe",          &["services.exe"]),
-    ("spoolsv.exe",            &["services.exe"]),
-    ("searchindexer.exe",      &["services.exe"]),
+    ("svchost.exe",            &["services.exe"],                        SpoofConfidence::High),
+    ("taskhost.exe",           &["services.exe"],                        SpoofConfidence::High),
+    ("taskhostw.exe",          &["services.exe"],                        SpoofConfidence::High),
+    ("spoolsv.exe",            &["services.exe"],                        SpoofConfidence::High),
+    ("searchindexer.exe",      &["services.exe"],                        SpoofConfidence::High),
+    ("msdtc.exe",              &["services.exe"],                        SpoofConfidence::High), // Distributed Transaction Coordinator
+    ("trustedinstaller.exe",   &["services.exe"],                        SpoofConfidence::High), // Windows servicing (WI7 ch.2)
+    ("vssvc.exe",              &["services.exe"],                        SpoofConfidence::High), // Volume Shadow Copy
+    ("msmpeng.exe",            &["services.exe"],                        SpoofConfidence::High), // Windows Defender AV engine
+    ("nissrv.exe",             &["services.exe"],                        SpoofConfidence::High), // Defender Network Inspection Service
     // --- svchost-hosted subsystems ---
-    ("audiodg.exe",            &["svchost.exe"]),    // Windows Audio Device Graph Isolation (WI7 ch.6)
-    ("wmiprvse.exe",           &["svchost.exe"]),    // WMI Provider Host isolation (WI7 ch.4)
-    ("runtimebroker.exe",      &["svchost.exe"]),    // UWP capability broker (WI7 ch.8)
-    // --- Search sub-processes (parent: SearchIndexer.exe) ---
-    ("searchprotocolhost.exe", &["searchindexer.exe"]),    // protocol handler isolation
-    ("searchfilterhost.exe",   &["searchindexer.exe"]),    // document filter isolation
-    // --- Per-user session ---
-    ("userinit.exe",           &["winlogon.exe"]),
-    // fontdrvhost has two legitimate instances: session-0 (wininit.exe at boot) and
-    // per-user (winlogon.exe at logon). Both parents must be allowed.
-    ("fontdrvhost.exe",        &["wininit.exe", "winlogon.exe"]),
-    // dllhost (COM Surrogate) is intentionally broad: any process activating an out-of-proc
-    // COM object can spawn it (explorer.exe for thumbnails, mmc.exe, etc.). Narrowing this
-    // entry produces unacceptable false-positive rates; correlate with COM class activation
-    // events instead for high-fidelity detection.
-    ("dllhost.exe",            &["svchost.exe", "services.exe"]),
+    ("audiodg.exe",            &["svchost.exe"],                         SpoofConfidence::High), // Audio Device Graph Isolation (WI7 ch.6)
+    ("wmiprvse.exe",           &["svchost.exe"],                         SpoofConfidence::High), // WMI Provider Host isolation (WI7 ch.4)
+    ("runtimebroker.exe",      &["svchost.exe"],                         SpoofConfidence::High), // UWP capability broker (WI7 ch.8)
+    // --- Search sub-processes ---
+    ("searchprotocolhost.exe", &["searchindexer.exe"],                   SpoofConfidence::High),
+    ("searchfilterhost.exe",   &["searchindexer.exe"],                   SpoofConfidence::High),
+    // --- winlogon.exe children ---
+    ("userinit.exe",           &["winlogon.exe"],                        SpoofConfidence::High),
+    ("logonui.exe",            &["winlogon.exe"],                        SpoofConfidence::High), // credential UI at logon/lock
+    ("dwm.exe",                &["winlogon.exe"],                        SpoofConfidence::High), // Desktop Window Manager (WI7 ch.3)
+    // fontdrvhost: two legitimate instances — session-0 (wininit) and per-user (winlogon).
+    ("fontdrvhost.exe",        &["wininit.exe", "winlogon.exe"],         SpoofConfidence::High),
+    // userinit children
+    ("explorer.exe",           &["userinit.exe", "winlogon.exe"],        SpoofConfidence::High), // winlogon for auto-logon / shell replacement
+    // --- Low-confidence: broad legitimate spawner sets ---
+    // dllhost (COM Surrogate) can be spawned by any process activating an out-of-proc COM
+    // object. The four entries here cover the most common legitimate spawners; an unlisted
+    // parent is suspicious but not definitive — correlate with COM class activation events.
+    ("dllhost.exe",            &["svchost.exe", "services.exe",
+                                  "explorer.exe", "mmc.exe"],            SpoofConfidence::Low),
 ];
 
-/// Returns the allowed parent names for `child_name` (case-insensitive lookup).
+/// Look up the allowed parent names and alert confidence for `child_name`.
 ///
-/// Returns an empty slice if no PPID rule exists for `child_name`. Callers can
-/// use `expected_parents(name).is_empty()` to test whether a process is tracked.
-pub fn expected_parents(child_name: &str) -> &'static [&'static str] {
+/// Returns `None` if the process is not tracked (no rule defined).
+/// Returns `Some((parents, High))` when a parent mismatch is a strong spoofing signal.
+/// Returns `Some((parents, Low))` when the process has many legitimate spawners and a
+/// mismatch is only a weak signal requiring additional corroboration.
+pub fn expected_parents(child_name: &str) -> Option<(&'static [&'static str], SpoofConfidence)> {
     let lower = child_name.to_ascii_lowercase();
     WINDOWS_PPID_RULES
         .iter()
-        .find(|(child, _)| *child == lower.as_str())
-        .map(|(_, parents)| *parents)
-        .unwrap_or(&[])
+        .find(|(child, _, _)| *child == lower.as_str())
+        .map(|(_, parents, conf)| (*parents, *conf))
 }
 
 /// Windows processes that should never establish network connections.
