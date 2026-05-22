@@ -192,16 +192,35 @@ pub const WINDOWS_PARENT_RULES: &[(&str, &str)] = &[
 /// - Elastic Security "Suspicious Parent Process" detection rules:
 ///   <https://www.elastic.co/guide/en/security/current/suspicious-parent-process.html>
 pub const WINDOWS_PPID_RULES: &[(&str, &[&str])] = &[
-    ("lsass.exe",     &["wininit.exe"]),
-    ("services.exe",  &["wininit.exe"]),
-    ("winlogon.exe",  &["smss.exe"]),
-    ("csrss.exe",     &["smss.exe"]),
-    ("smss.exe",      &["system"]),
-    ("svchost.exe",   &["services.exe"]),
-    ("taskhost.exe",  &["services.exe"]),
-    ("taskhostw.exe", &["services.exe"]),
-    ("spoolsv.exe",   &["services.exe"]),
-    ("dllhost.exe",   &["svchost.exe", "services.exe"]),
+    // --- Core session-init hierarchy ---
+    ("smss.exe",               &["system"]),
+    ("csrss.exe",              &["smss.exe"]),
+    ("winlogon.exe",           &["smss.exe"]),
+    // --- Services tree ---
+    ("services.exe",           &["wininit.exe"]),
+    ("lsass.exe",              &["wininit.exe"]),
+    ("svchost.exe",            &["services.exe"]),
+    ("taskhost.exe",           &["services.exe"]),
+    ("taskhostw.exe",          &["services.exe"]),
+    ("spoolsv.exe",            &["services.exe"]),
+    ("searchindexer.exe",      &["services.exe"]),
+    // --- svchost-hosted subsystems ---
+    ("audiodg.exe",            &["svchost.exe"]),    // Windows Audio Device Graph Isolation (WI7 ch.6)
+    ("wmiprvse.exe",           &["svchost.exe"]),    // WMI Provider Host isolation (WI7 ch.4)
+    ("runtimebroker.exe",      &["svchost.exe"]),    // UWP capability broker (WI7 ch.8)
+    // --- Search sub-processes (parent: SearchIndexer.exe) ---
+    ("searchprotocolhost.exe", &["searchindexer.exe"]),    // protocol handler isolation
+    ("searchfilterhost.exe",   &["searchindexer.exe"]),    // document filter isolation
+    // --- Per-user session ---
+    ("userinit.exe",           &["winlogon.exe"]),
+    // fontdrvhost has two legitimate instances: session-0 (wininit.exe at boot) and
+    // per-user (winlogon.exe at logon). Both parents must be allowed.
+    ("fontdrvhost.exe",        &["wininit.exe", "winlogon.exe"]),
+    // dllhost (COM Surrogate) is intentionally broad: any process activating an out-of-proc
+    // COM object can spawn it (explorer.exe for thumbnails, mmc.exe, etc.). Narrowing this
+    // entry produces unacceptable false-positive rates; correlate with COM class activation
+    // events instead for high-fidelity detection.
+    ("dllhost.exe",            &["svchost.exe", "services.exe"]),
 ];
 
 /// Returns the allowed parent names for `child_name` (case-insensitive lookup).
