@@ -546,8 +546,8 @@ mod tests {
             .any(|(c, ps)| *c == "smss.exe" && ps.contains(&"system")));
     }
     #[test]
-    fn ppid_rules_has_ten_entries() {
-        assert_eq!(WINDOWS_PPID_RULES.len(), 10);
+    fn ppid_rules_has_eighteen_entries() {
+        assert_eq!(WINDOWS_PPID_RULES.len(), 18);
     }
     #[test]
     fn expected_parents_svchost_returns_services() {
@@ -571,5 +571,73 @@ mod tests {
         let parents = expected_parents("SVCHOST.EXE");
         assert!(!parents.is_empty(), "lookup must be case-insensitive");
         assert!(parents.contains(&"services.exe"));
+    }
+
+    // --- expanded entries: high-confidence single/dual parent rules ---
+    #[test]
+    fn ppid_rules_runtimebroker_parent_is_svchost() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps)| *c == "runtimebroker.exe" && ps.contains(&"svchost.exe")));
+    }
+    #[test]
+    fn ppid_rules_userinit_parent_is_winlogon() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps)| *c == "userinit.exe" && ps.contains(&"winlogon.exe")));
+    }
+    #[test]
+    fn ppid_rules_searchindexer_parent_is_services() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps)| *c == "searchindexer.exe" && ps.contains(&"services.exe")));
+    }
+    #[test]
+    fn ppid_rules_searchprotocolhost_parent_is_searchindexer() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps)| *c == "searchprotocolhost.exe" && ps.contains(&"searchindexer.exe")));
+    }
+    #[test]
+    fn ppid_rules_searchfilterhost_parent_is_searchindexer() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps)| *c == "searchfilterhost.exe" && ps.contains(&"searchindexer.exe")));
+    }
+    #[test]
+    fn ppid_rules_fontdrvhost_allows_wininit_and_winlogon() {
+        let entry = WINDOWS_PPID_RULES
+            .iter()
+            .find(|(c, _)| *c == "fontdrvhost.exe")
+            .expect("fontdrvhost.exe must have a PPID rule");
+        assert!(entry.1.contains(&"wininit.exe"),  "session-0 instance: parent wininit.exe");
+        assert!(entry.1.contains(&"winlogon.exe"), "per-user instance: parent winlogon.exe");
+    }
+    #[test]
+    fn ppid_rules_wmiprvse_parent_is_svchost() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps)| *c == "wmiprvse.exe" && ps.contains(&"svchost.exe")));
+    }
+    #[test]
+    fn ppid_rules_audiodg_parent_is_svchost() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps)| *c == "audiodg.exe" && ps.contains(&"svchost.exe")));
+    }
+    #[test]
+    fn expected_parents_runtimebroker_returns_svchost() {
+        assert_eq!(expected_parents("runtimebroker.exe"), &["svchost.exe"]);
+    }
+    #[test]
+    fn expected_parents_fontdrvhost_returns_two_parents() {
+        let p = expected_parents("fontdrvhost.exe");
+        assert!(p.contains(&"wininit.exe"));
+        assert!(p.contains(&"winlogon.exe"));
+        assert_eq!(p.len(), 2);
+    }
+    #[test]
+    fn expected_parents_wmiprvse_returns_svchost() {
+        assert_eq!(expected_parents("wmiprvse.exe"), &["svchost.exe"]);
     }
 }
