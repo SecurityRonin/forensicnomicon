@@ -476,4 +476,57 @@ mod tests {
     fn pe_mz_magic_is_4d5a() {
         assert_eq!(PE_MZ_MAGIC, [0x4D, 0x5A]);
     }
+
+    // --- WINDOWS_PPID_RULES / expected_parents ---
+    #[test]
+    fn ppid_rules_contains_svchost_services() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps)| *c == "svchost.exe" && ps.contains(&"services.exe")));
+    }
+    #[test]
+    fn ppid_rules_contains_lsass_wininit() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps)| *c == "lsass.exe" && ps.contains(&"wininit.exe")));
+    }
+    #[test]
+    fn ppid_rules_dllhost_allows_svchost_and_services() {
+        let entry = WINDOWS_PPID_RULES.iter().find(|(c, _)| *c == "dllhost.exe").unwrap();
+        assert!(entry.1.contains(&"svchost.exe"), "dllhost must allow svchost.exe");
+        assert!(entry.1.contains(&"services.exe"), "dllhost must allow services.exe");
+    }
+    #[test]
+    fn ppid_rules_smss_parent_is_system() {
+        assert!(WINDOWS_PPID_RULES
+            .iter()
+            .any(|(c, ps)| *c == "smss.exe" && ps.contains(&"system")));
+    }
+    #[test]
+    fn ppid_rules_has_ten_entries() {
+        assert_eq!(WINDOWS_PPID_RULES.len(), 10);
+    }
+    #[test]
+    fn expected_parents_svchost_returns_services() {
+        let parents = expected_parents("svchost.exe");
+        assert_eq!(parents, &["services.exe"]);
+    }
+    #[test]
+    fn expected_parents_dllhost_returns_two_parents() {
+        let parents = expected_parents("dllhost.exe");
+        assert!(parents.contains(&"svchost.exe"));
+        assert!(parents.contains(&"services.exe"));
+        assert_eq!(parents.len(), 2);
+    }
+    #[test]
+    fn expected_parents_unknown_process_returns_empty() {
+        let parents = expected_parents("calc.exe");
+        assert!(parents.is_empty());
+    }
+    #[test]
+    fn expected_parents_case_insensitive() {
+        let parents = expected_parents("SVCHOST.EXE");
+        assert!(!parents.is_empty(), "lookup must be case-insensitive");
+        assert!(parents.contains(&"services.exe"));
+    }
 }
