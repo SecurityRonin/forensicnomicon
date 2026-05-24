@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-05-23T06:21:27Z
+Generated: 2026-05-24T06:49:03Z
 
 ## Windows Incident Response
 
@@ -217,18 +217,27 @@ Generated: 2026-05-23T06:21:27Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-23T05:49:17+00:00 — [An Example of Stack String in High Level Language, (Sat, May 23rd)](https://isc.sans.edu/diary/rss/33008)
+- No new entries detected
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [In-PersonOn-site](https://www.dfir.training/training/all-in-person-events)
+- unknown date — [Live OnlineInstructor-led](https://www.dfir.training/training/live-online-training)
+- unknown date — [WebinarsLive sessions](https://www.dfir.training/all-upcoming-webinars)
+- unknown date — [On-DemandSelf-paced](https://www.dfir.training/training/ondemand)
+- unknown date — [ProviderTraining Orgs](https://www.dfir.training/training/providers)
+- unknown date — [TopicsSubject areas](https://www.dfir.training/training/topics)
+- unknown date — [Events by LocationIn-person locations](https://www.dfir.training/training/events-location)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Library](https://www.dfir.training/resources)
 
 ## MSAB
 
@@ -244,9 +253,9 @@ Generated: 2026-05-23T06:21:27Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-22T11:31:07+00:00 — [InfoSec News Nuggets 05/22/2026](https://aboutdfir.com/infosec-news-nuggets-05-22-2026/)
+- No new entries detected
 
 ## Forensic 4cast
 
@@ -289,9 +298,9 @@ Generated: 2026-05-23T06:21:27Z
 - Site: https://blog.didierstevens.com/
 - Feed: https://blog.didierstevens.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-23T11:46:00+00:00 — [Update: search-for-compression.py Version 0.0.7](https://blog.didierstevens.com/2026/05/23/update-search-for-compression-py-version-0-0-7/)
 
 ## Hexordia
 
@@ -361,9 +370,11 @@ Generated: 2026-05-23T06:21:27Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 3
 
-- 2026-05-22T11:30:00+00:00 — [Reading Visual Art: 251 Snakes and staff, caduceus](https://eclecticlight.co/2026/05/22/reading-visual-art-251-snakes-and-staff-caduceus/)
+- 2026-05-23T11:30:00+00:00 — [Rubens’ Peace and War](https://eclecticlight.co/2026/05/23/rubens-peace-and-war/)
+- 2026-05-23T08:00:00+00:00 — [Saturday Mac riddles 361](https://eclecticlight.co/2026/05/23/saturday-mac-riddles-361/)
+- 2026-05-23T07:00:00+00:00 — [Fun with UTIs, QuickLook and Spotlight](https://eclecticlight.co/2026/05/23/fun-with-utis-quicklook-and-spotlight/)
 
 ## JPCERT/CC
 
@@ -388,9 +399,9 @@ Generated: 2026-05-23T06:21:27Z
 - Site: https://blog.elcomsoft.com/
 - Feed: https://blog.elcomsoft.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-22T08:20:53+00:00 — [A Decade of BitLocker Vulnerabilities: What’s Patched, What’s Not, and What Still Works](https://blog.elcomsoft.com/2026/05/a-decade-of-bitlocker-vulnerabilities-whats-patched-whats-not-and-what-still-works/)
+- No new entries detected
 
 ## Huntress Blog
 
@@ -415,10 +426,9 @@ Generated: 2026-05-23T06:21:27Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-05-22T13:00:42+00:00 — [Tracking Iranian APT Screening Serpens’ 2026 Espionage Campaigns](https://unit42.paloaltonetworks.com/tracking-iran-apt-screening-serpens/)
-- 2026-05-22T10:00:24+00:00 — [Paved With Intent: ROADtools and Nation-State Tactics in the Cloud](https://unit42.paloaltonetworks.com/roadtools-cloud-attacks/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
@@ -461,9 +471,9 @@ Generated: 2026-05-23T06:21:27Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-22T15:34:42+00:00 — [Anthropic Mythos, AI, and Cybersecurity: What You Need to Know](https://flare.io/learn/resources/blog/anthropic-mythos-ai-cybersecurity)
+- No new entries detected
 
 ## Binalyze Blog
 
@@ -515,53 +525,46 @@ Generated: 2026-05-23T06:21:27Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-22T00:00:00-07:00 — [Measuring AI-Enabled Success: 3 KPIs Leaders Should Track](https://www.crowdstrike.com/en-us/blog/measuring-ai-enabled-success-three-kpis-cios-should-track/)
+- No new entries detected
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-22T12:10:36+00:00 — [Update Chrome now:  Critical bugs could let attackers run code](https://www.malwarebytes.com/blog/bugs/2026/05/update-chrome-now-critical-bugs-could-let-attackers-run-code)
+- No new entries detected
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-22T16:34:24+00:00 — [Lawmakers Demand Answers as CISA Tries to Contain Data Leak](https://krebsonsecurity.com/2026/05/lawmakers-demand-answers-as-cisa-tries-to-contain-data-leak/)
+- No new entries detected
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 7
+- New since last snapshot: 2
 
-- 2026-05-22T13:24:52-04:00 — [Netherlands seizes 800 servers of hosting firm enabling cyberattacks](https://www.bleepingcomputer.com/news/security/netherlands-seizes-800-servers-of-hosting-firm-enabling-cyberattacks/)
-- 2026-05-22T11:32:18-04:00 — [Former US execs plead guilty to aiding tech support scammers](https://www.bleepingcomputer.com/news/security/former-us-execs-plead-guilty-to-aiding-tech-support-scammers/)
-- 2026-05-22T09:39:19-04:00 — [Trend Micro warns of Apex One zero-day exploited in the wild](https://www.bleepingcomputer.com/news/security/trend-micro-warns-of-apex-one-zero-day-exploited-in-attacks/)
-- 2026-05-22T09:14:40-04:00 — [Drupal: Critical SQL injection flaw now targeted in attacks](https://www.bleepingcomputer.com/news/security/drupal-critical-sql-injection-flaw-now-targeted-in-attacks/)
-- 2026-05-22T09:09:18-04:00 — [Why Chargebacks are Just One Piece of the Fraud Puzzle](https://www.bleepingcomputer.com/news/security/why-chargebacks-are-just-one-piece-of-the-fraud-puzzle/)
-- 2026-05-22T08:00:42-04:00 — [Ubiquiti patches three max severity UniFi OS vulnerabilities](https://www.bleepingcomputer.com/news/security/ubiquiti-patches-three-max-severity-unifi-os-vulnerabilities/)
-- 2026-05-22T05:01:20-04:00 — [US and Canada arrest and charge suspected Kimwolf botnet admin](https://www.bleepingcomputer.com/news/security/us-and-canada-arrest-and-charge-suspected-kimwolf-botnet-admin/)
+- 2026-05-23T16:48:23-04:00 — [Laravel Lang packages hijacked to deploy credential-stealing malware](https://www.bleepingcomputer.com/news/security/laravel-lang-packages-hijacked-to-deploy-credential-stealing-malware/)
+- 2026-05-23T10:23:44-04:00 — [Italy disrupts CINEMAGOAL piracy app that stole streaming auth codes](https://www.bleepingcomputer.com/news/legal/italy-disrupts-cinemagoal-piracy-app-that-stole-streaming-auth-codes/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-05-22T15:43:50+00:00 — [Akamai Joins Growing Chorus of Vendors Betting Big on Secure Enterprise Browsers](https://www.darkreading.com/remote-workforce/akamai-growing-chorus-betting-on-secure-enterprise-browsers)
-- 2026-05-22T13:17:25+00:00 — [Verizon DBIR: Healthcare Fends Off Increased Social Engineering Attacks](https://www.darkreading.com/cyber-risk/verizon-dbir-healthcare-fends-off-increased-social-engineering-attacks)
-- 2026-05-22T07:01:00+00:00 — [China's Webworm Uses Discord, Microsoft Graphs to Hack EU Governments](https://www.darkreading.com/endpoint-security/chinas-webworm-discord-microsoft-graphs)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -583,11 +586,9 @@ Generated: 2026-05-23T06:21:27Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-05-22T17:00:00+00:00 — [Microsoft recognized as a Leader in The Forrester Wave™ for Workforce Identity Security Platforms](https://www.microsoft.com/en-us/security/blog/2026/05/22/microsoft-recognized-as-a-leader-in-the-forrester-wave-for-workforce-identity-security-platforms/)
-- 2026-05-22T16:53:39+00:00 — [From edge appliance to enterprise compromise: Multi-stage Linux intrusion via F5 and Confluence](https://www.microsoft.com/en-us/security/blog/2026/05/22/from-edge-appliance-to-enterprise-compromise-multi-stage-linux-intrusion-via-f5-and-confluence/)
-- 2026-05-22T16:00:00+00:00 — [Microsoft Security success stories: How St. Luke’s and ManpowerGroup are securing AI foundations](https://www.microsoft.com/en-us/security/blog/2026/05/22/microsoft-security-success-stories-how-st-lukes-and-manpowergroup-are-securing-ai-foundations/)
+- No new entries detected
 
 ## LOLBAS Project (Windows)
 
@@ -639,10 +640,9 @@ Generated: 2026-05-23T06:21:27Z
 - Site: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes
 - Feed: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-05-23T01:13:21+00:00 — [Update 4.1.02_x64_Assembly_and_Registers_Crash_Course.md](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/cfaff9e622031898e7f6ff0f8bc159d6d489c12b)
-- 2026-05-23T00:59:32+00:00 — [Update 4.1.02_x64_Assembly_and_Registers_Crash_Course.md](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/269594a59d70f6cd43daa4b4b3f4131be8e01b9b)
+- 2026-05-24T03:39:23+00:00 — [Update 4.1.02_x64_Assembly_and_Registers_Crash_Course.md](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/56720a8fbd9a5d6b5228cbb4dd8e2070877ec5c3)
 
 ## kacos2000_Win10
 
@@ -685,10 +685,9 @@ Generated: 2026-05-23T06:21:27Z
 - Site: https://github.com/EricZimmerman/AmcacheParser
 - Feed: https://github.com/EricZimmerman/AmcacheParser/releases.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-05-22T19:12:06+00:00 — [2026.5.3](https://github.com/EricZimmerman/AmcacheParser/releases/tag/2026.5.3)
-- 2026-05-22T17:16:26+00:00 — [2026.5.2](https://github.com/EricZimmerman/AmcacheParser/releases/tag/2026.5.2)
+- No new entries detected
 
 ## EZ SQLECmd releases
 
@@ -821,10 +820,11 @@ Generated: 2026-05-23T06:21:27Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-05-23T01:27:05+00:00 — [Merge pull request #1030 from Yamato-Security/update-actions](https://github.com/Yamato-Security/hayabusa-rules/commit/e3a4aa27db7b7e80778fcc5c02a11dfc4601a1f9)
-- 2026-05-03T05:19:22+00:00 — [chg: update GitHub Actions to use specific versions for checkout and …](https://github.com/Yamato-Security/hayabusa-rules/commit/2e86d5dcd92a385da0350421e6451d682a38c2e0)
+- 2026-05-24T03:55:56+00:00 — [Merge pull request #1031 from Yamato-Security/fix-actions](https://github.com/Yamato-Security/hayabusa-rules/commit/cb00d9644bff26c7a5687a062a1f8b35c74d9219)
+- 2026-05-24T01:22:21+00:00 — [chg: update GitHub Actions to use specific versions for create-pull-r…](https://github.com/Yamato-Security/hayabusa-rules/commit/107526ab9dfdd5b69fec01d8a31cb91c76b4aa6e)
+- 2026-05-24T01:09:01+00:00 — [chg: update GitHub Actions to use specific versions for create-pull-r…](https://github.com/Yamato-Security/hayabusa-rules/commit/32258bb08fd5ec012d985a93c90c63664124865d)
 
 ## Hayabusa releases
 
