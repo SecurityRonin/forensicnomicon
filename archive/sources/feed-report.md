@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-05-24T06:49:03Z
+Generated: 2026-05-25T08:00:14Z
 
 ## Windows Incident Response
 
@@ -210,34 +210,43 @@ Generated: 2026-05-24T06:49:03Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Status: error: HTTP 404
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-05-05T00:49:41+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
+- 2026-04-24T09:44:12+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
+- 2026-03-22T00:50:58+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
+- 2026-04-23T00:04:55+00:00 — [Tracking Program Execution with a Little Known Registry Key](https://www.youtube.com/watch?v=yoFkF-NHZvo)
+- 2026-05-05T15:31:05+00:00 — [The Truth About Windows Explorer Timestamps](https://www.youtube.com/watch?v=PdyVkmhMcOA)
+- 2026-05-01T22:55:06+00:00 — [Major Update to 13Cubed Courses: Chaos at Cobalt](https://www.youtube.com/watch?v=CzF6DFhSfHw)
+- 2026-04-30T06:35:14+00:00 — [13Cubed AMA - Answering Your Questions!](https://www.youtube.com/watch?v=duz5BoZUly8)
+- 2026-04-22T18:55:48+00:00 — [The Easy Way to Analyze Linux Memory](https://www.youtube.com/watch?v=W40gdWNdwUI)
+- 2026-04-13T16:01:10+00:00 — [Will AI Replace Digital Forensics Experts?](https://www.youtube.com/watch?v=lvkBtIhvThk)
+- 2026-04-28T19:45:58+00:00 — [Behind the Book: Threat Hunting macOS with Jaron Bradley](https://www.youtube.com/watch?v=8Uj2NbWnU6M)
 
 ## SANS Internet Storm Center
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-24T16:38:21+00:00 — [Wireshark 4.6.6 Released, (Sun, May 24th)](https://isc.sans.edu/diary/rss/33010)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 7
 
-- unknown date — [Training](https://www.dfir.training/training)
-- unknown date — [In-PersonOn-site](https://www.dfir.training/training/all-in-person-events)
-- unknown date — [Live OnlineInstructor-led](https://www.dfir.training/training/live-online-training)
-- unknown date — [WebinarsLive sessions](https://www.dfir.training/all-upcoming-webinars)
-- unknown date — [On-DemandSelf-paced](https://www.dfir.training/training/ondemand)
-- unknown date — [ProviderTraining Orgs](https://www.dfir.training/training/providers)
-- unknown date — [TopicsSubject areas](https://www.dfir.training/training/topics)
-- unknown date — [Events by LocationIn-person locations](https://www.dfir.training/training/events-location)
-- unknown date — [Tools](https://www.dfir.training/dfir-tools)
-- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
+- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
+- unknown date — [AI-enhanced crime will expose DFIR practitioners who ignore AI.](https://www.dfir.training/blog/ai-enhanced-crime-will-expose-dfir-practitioners-who-ignore-ai)
+- unknown date — [56% are either likely to leave DFIR within 12 months or unsure if they’ll stay.](https://www.dfir.training/blog/56-of-dfir-is-unsure-if-they-will-stay-in-dfir-for-the-next-12-months)
 
 ## MSAB
 
@@ -271,9 +280,9 @@ Generated: 2026-05-24T06:49:03Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-24T11:20:21+00:00 — [Week 21 – 2026](https://thisweekin4n6.com/2026/05/24/week-21-2026/)
 
 ## The Sleuth Kit updates
 
@@ -298,9 +307,9 @@ Generated: 2026-05-24T06:49:03Z
 - Site: https://blog.didierstevens.com/
 - Feed: https://blog.didierstevens.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-23T11:46:00+00:00 — [Update: search-for-compression.py Version 0.0.7](https://blog.didierstevens.com/2026/05/23/update-search-for-compression-py-version-0-0-7/)
+- No new entries detected
 
 ## Hexordia
 
@@ -372,9 +381,9 @@ Generated: 2026-05-24T06:49:03Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-05-23T11:30:00+00:00 — [Rubens’ Peace and War](https://eclecticlight.co/2026/05/23/rubens-peace-and-war/)
-- 2026-05-23T08:00:00+00:00 — [Saturday Mac riddles 361](https://eclecticlight.co/2026/05/23/saturday-mac-riddles-361/)
-- 2026-05-23T07:00:00+00:00 — [Fun with UTIs, QuickLook and Spotlight](https://eclecticlight.co/2026/05/23/fun-with-utis-quicklook-and-spotlight/)
+- 2026-05-25T06:30:27+00:00 — [How to search document versions](https://eclecticlight.co/2026/05/25/how-to-search-document-versions/)
+- 2026-05-24T11:30:00+00:00 — [Rubens’ Consequences of War](https://eclecticlight.co/2026/05/24/rubens-consequences-of-war/)
+- 2026-05-24T07:00:00+00:00 — [Last Week on My Mac: Intel Macs will be stuck with bugs](https://eclecticlight.co/2026/05/24/last-week-on-my-mac-intel-macs-will-be-stuck-with-bugs/)
 
 ## JPCERT/CC
 
@@ -435,9 +444,10 @@ Generated: 2026-05-24T06:49:03Z
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-05-25T14:00:00+00:00 — [2 PhaaS 2 Furious: The Evolution of Chinese-language Phishing Services](https://cloud.google.com/blog/topics/threat-intelligence/chinese-language-phishing-services/)
+- 2026-05-25T14:00:00+00:00 — [Exploitation of KnowledgeDeliver via ViewState Deserialization Vulnerability](https://cloud.google.com/blog/topics/threat-intelligence/knowledgedeliver-viewstate-deserialization-vulnerability/)
 
 ## Cisco Talos Blog
 
@@ -534,9 +544,9 @@ Generated: 2026-05-24T06:49:03Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-25T07:02:00+00:00 — [A week in security (May 18 &#8211; May 24)](https://www.malwarebytes.com/blog/news/2026/05/a-week-in-security-may-18-may-24)
 
 ## Krebs on Security
 
@@ -552,10 +562,9 @@ Generated: 2026-05-24T06:49:03Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-05-23T16:48:23-04:00 — [Laravel Lang packages hijacked to deploy credential-stealing malware](https://www.bleepingcomputer.com/news/security/laravel-lang-packages-hijacked-to-deploy-credential-stealing-malware/)
-- 2026-05-23T10:23:44-04:00 — [Italy disrupts CINEMAGOAL piracy app that stole streaming auth codes](https://www.bleepingcomputer.com/news/legal/italy-disrupts-cinemagoal-piracy-app-that-stole-streaming-auth-codes/)
+- 2026-05-24T10:12:32-04:00 — [Ghost CMS SQL injection flaw exploited in large-scale ClickFix campaign](https://www.bleepingcomputer.com/news/security/ghost-cms-sql-injection-flaw-exploited-in-large-scale-clickfix-campaign/)
 
 ## Dark Reading
 
@@ -640,9 +649,9 @@ Generated: 2026-05-24T06:49:03Z
 - Site: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes
 - Feed: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-24T03:39:23+00:00 — [Update 4.1.02_x64_Assembly_and_Registers_Crash_Course.md](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/56720a8fbd9a5d6b5228cbb4dd8e2070877ec5c3)
+- No new entries detected
 
 ## kacos2000_Win10
 
@@ -820,11 +829,9 @@ Generated: 2026-05-24T06:49:03Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-05-24T03:55:56+00:00 — [Merge pull request #1031 from Yamato-Security/fix-actions](https://github.com/Yamato-Security/hayabusa-rules/commit/cb00d9644bff26c7a5687a062a1f8b35c74d9219)
-- 2026-05-24T01:22:21+00:00 — [chg: update GitHub Actions to use specific versions for create-pull-r…](https://github.com/Yamato-Security/hayabusa-rules/commit/107526ab9dfdd5b69fec01d8a31cb91c76b4aa6e)
-- 2026-05-24T01:09:01+00:00 — [chg: update GitHub Actions to use specific versions for create-pull-r…](https://github.com/Yamato-Security/hayabusa-rules/commit/32258bb08fd5ec012d985a93c90c63664124865d)
+- No new entries detected
 
 ## Hayabusa releases
 
