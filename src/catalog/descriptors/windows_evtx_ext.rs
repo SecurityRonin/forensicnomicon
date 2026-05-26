@@ -76,7 +76,7 @@ pub(crate) static EVTX_RDP_INBOUND: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Records inbound RDP authentication (1149 = user authenticated without password prompt; used with NLA). Critical for detecting unauthorized remote access — shows source IP and authenticating user even before Security log logon event fires.",
+    meaning: "Records inbound RDP network connection events. EID 1149 label says 'User authentication succeeded' but fires on network connection established — before NLA credential verification. Shows source IP and claimed username. Critical for detecting unauthorized remote access — fires before the Security log logon event.",
     mitre_techniques: &["T1021.001", "T1078"],
     fields: &[
         FieldSchema { name: "source_ip", value_type: ValueType::Text, description: "Source IP address of the RDP connection", is_uid_component: true },
@@ -89,7 +89,10 @@ pub(crate) static EVTX_RDP_INBOUND: ArtifactDescriptor = ArtifactDescriptor {
         "https://ponderthebits.com/2018/02/windows-rdp-related-event-logs-identification-tracking-and-investigation/",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["1149 events confirm source IP before session; not easily faked"],
+    evidence_caveats: &[
+        "EID 1149 label says 'user authentication succeeded' but actually fires on network connection established — before NLA credential check; presence does NOT confirm a successful login",
+        "Source IP and username fields are populated from the connection request, not from a validated authentication — treat as claimed identity until corroborated by Security EID 4624",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Event log; rotated on size limit",
 };
