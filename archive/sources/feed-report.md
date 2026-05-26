@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-05-25T08:00:14Z
+Generated: 2026-05-26T06:57:25Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-05-25T08:00:14Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-25T00:00:00+00:00 — [Telegram evidence beyond the cloud](https://andreafortuna.org/2026/05/25/telegram-forensics/)
 
 ## Salt Forensics
 
@@ -210,43 +210,29 @@ Generated: 2026-05-25T08:00:14Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Entries checked: 10
-- New since last snapshot: 10
-
-- 2026-05-05T00:49:41+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
-- 2026-04-24T09:44:12+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
-- 2026-03-22T00:50:58+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
-- 2026-04-23T00:04:55+00:00 — [Tracking Program Execution with a Little Known Registry Key](https://www.youtube.com/watch?v=yoFkF-NHZvo)
-- 2026-05-05T15:31:05+00:00 — [The Truth About Windows Explorer Timestamps](https://www.youtube.com/watch?v=PdyVkmhMcOA)
-- 2026-05-01T22:55:06+00:00 — [Major Update to 13Cubed Courses: Chaos at Cobalt](https://www.youtube.com/watch?v=CzF6DFhSfHw)
-- 2026-04-30T06:35:14+00:00 — [13Cubed AMA - Answering Your Questions!](https://www.youtube.com/watch?v=duz5BoZUly8)
-- 2026-04-22T18:55:48+00:00 — [The Easy Way to Analyze Linux Memory](https://www.youtube.com/watch?v=W40gdWNdwUI)
-- 2026-04-13T16:01:10+00:00 — [Will AI Replace Digital Forensics Experts?](https://www.youtube.com/watch?v=lvkBtIhvThk)
-- 2026-04-28T19:45:58+00:00 — [Behind the Book: Threat Hunting macOS with Jaron Bradley](https://www.youtube.com/watch?v=8Uj2NbWnU6M)
+- Status: error: HTTP 404
 
 ## SANS Internet Storm Center
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 5
 
-- 2026-05-24T16:38:21+00:00 — [Wireshark 4.6.6 Released, (Sun, May 24th)](https://isc.sans.edu/diary/rss/33010)
+- 2026-05-26T02:00:02+00:00 — [ISC Stormcast For Tuesday, May 26th, 2026 https://isc.sans.edu/podcastdetail/9944, (Tue, May 26th)](https://isc.sans.edu/diary/rss/33020)
+- 2026-05-26T00:01:48+00:00 — [Possible ACR Stealer From Page Impersonating Claude, (Tue, May 26th)](https://isc.sans.edu/diary/rss/33018)
+- 2026-05-25T14:14:58+00:00 — [Microsoft Access VBA, (Mon, May 25th)](https://isc.sans.edu/diary/rss/33012)
+- 2026-05-25T13:26:06+00:00 — [TeamPCP Supply Chain Campaign: Activity Through 2026-05-24, (Mon, May 25th)](https://isc.sans.edu/diary/rss/33016)
+- 2026-05-25T13:25:47+00:00 — [TeamPCP Supply Chain Campaign: Activity Through 2026-05-24, (Mon, May 25th)](https://isc.sans.edu/diary/rss/33014)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
 - Entries checked: 10
-- New since last snapshot: 7
+- New since last snapshot: 0
 
-- unknown date — [Sponsors](https://www.dfir.training/sponsors)
-- unknown date — [Blog](https://www.dfir.training/blog)
-- unknown date — [Contact](https://www.dfir.training/contact-form)
-- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
-- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
-- unknown date — [AI-enhanced crime will expose DFIR practitioners who ignore AI.](https://www.dfir.training/blog/ai-enhanced-crime-will-expose-dfir-practitioners-who-ignore-ai)
-- unknown date — [56% are either likely to leave DFIR within 12 months or unsure if they’ll stay.](https://www.dfir.training/blog/56-of-dfir-is-unsure-if-they-will-stay-in-dfir-for-the-next-12-months)
+- No new entries detected
 
 ## MSAB
 
@@ -280,9 +266,9 @@ Generated: 2026-05-25T08:00:14Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-24T11:20:21+00:00 — [Week 21 – 2026](https://thisweekin4n6.com/2026/05/24/week-21-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
@@ -381,9 +367,9 @@ Generated: 2026-05-25T08:00:14Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-05-25T06:30:27+00:00 — [How to search document versions](https://eclecticlight.co/2026/05/25/how-to-search-document-versions/)
-- 2026-05-24T11:30:00+00:00 — [Rubens’ Consequences of War](https://eclecticlight.co/2026/05/24/rubens-consequences-of-war/)
-- 2026-05-24T07:00:00+00:00 — [Last Week on My Mac: Intel Macs will be stuck with bugs](https://eclecticlight.co/2026/05/24/last-week-on-my-mac-intel-macs-will-be-stuck-with-bugs/)
+- 2026-05-26T06:30:19+00:00 — [What’s in that phishing email?](https://eclecticlight.co/2026/05/26/whats-in-that-phishing-email/)
+- 2026-05-25T11:30:00+00:00 — [Hero or hooligan: Theseus and Ariadne](https://eclecticlight.co/2026/05/25/hero-or-hooligan-theseus-and-ariadne/)
+- 2026-05-25T08:00:00+00:00 — [Solutions to Saturday Mac riddles 361](https://eclecticlight.co/2026/05/25/solutions-to-saturday-mac-riddles-361/)
 
 ## JPCERT/CC
 
@@ -444,10 +430,9 @@ Generated: 2026-05-25T08:00:14Z
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-05-25T14:00:00+00:00 — [2 PhaaS 2 Furious: The Evolution of Chinese-language Phishing Services](https://cloud.google.com/blog/topics/threat-intelligence/chinese-language-phishing-services/)
-- 2026-05-25T14:00:00+00:00 — [Exploitation of KnowledgeDeliver via ViewState Deserialization Vulnerability](https://cloud.google.com/blog/topics/threat-intelligence/knowledgedeliver-viewstate-deserialization-vulnerability/)
+- No new entries detected
 
 ## Cisco Talos Blog
 
@@ -544,27 +529,28 @@ Generated: 2026-05-25T08:00:14Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-25T07:02:00+00:00 — [A week in security (May 18 &#8211; May 24)](https://www.malwarebytes.com/blog/news/2026/05/a-week-in-security-may-18-may-24)
+- No new entries detected
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-25T13:21:49+00:00 — [Netherlands Seizes 800 Servers, Arrests 2 for Aiding Cyberattacks](https://krebsonsecurity.com/2026/05/netherlands-seizes-800-servers-arrests-2-for-aiding-cyberattacks/)
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-05-24T10:12:32-04:00 — [Ghost CMS SQL injection flaw exploited in large-scale ClickFix campaign](https://www.bleepingcomputer.com/news/security/ghost-cms-sql-injection-flaw-exploited-in-large-scale-clickfix-campaign/)
+- 2026-05-25T13:07:33-04:00 — [Anthropic’s restricted Claude Mythos model may be coming to Claude Code](https://www.bleepingcomputer.com/news/artificial-intelligence/anthropics-restricted-claude-mythos-model-may-be-coming-to-claude-code/)
+- 2026-05-25T08:45:54-04:00 — [FBI warns of Kali365 phishing service targeting Microsoft 365 accounts](https://www.bleepingcomputer.com/news/security/fbi-warns-of-kali365-phishing-service-targeting-microsoft-365-accounts/)
 
 ## Dark Reading
 
