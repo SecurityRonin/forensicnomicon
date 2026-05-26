@@ -132,11 +132,16 @@ pub static USERASSIST_EXE: ArtifactDescriptor = ArtifactDescriptor {
         "http://windowsir.blogspot.com/2007/09/more-on-userassist-keys.html",
         "https://www.magnetforensics.com/blog/artifact-profile-userassist/",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
+        // Richard Davis (13Cubed) — "Investigating Windows Endpoints" IWE course Q&A:
+        "https://training.13cubed.com/p/courses/investigating-windows-endpoints",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_caveats: &[
         "Counts GUI application launches; CLI-only execution not recorded",
         "ROT13 name encoding can be misread if decoder is missing",
+        "Run Count alone is insufficient — right-clicking an app in the Start Menu and selecting 'Open file location' increments Run Count and updates Last Executed without actual execution; require Focus Time > 0 for higher confidence",
+        "Behaviour differs across Windows 10 and 11 builds; verify on an exact matching OS version when this artifact is case-critical",
+        "Batch (.bat) and .cmd files launched via double-click are tracked; this may be the only GUI-execution artifact that captures them explicitly",
     ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Updated per user GUI interaction; persists in NTUSER.DAT",
@@ -951,11 +956,16 @@ pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.magnetforensics.com/blog/shimcache-vs-amcache-key-windows-forensic-artifacts/",
         "https://github.com/EricZimmerman/AmcacheParser",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
+        // Richard Davis (13Cubed) — "Investigating Windows Endpoints" IWE course Q&A:
+        "https://training.13cubed.com/p/courses/investigating-windows-endpoints",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &[
         "Presence proves file was on disk and touched by Windows; not always execution",
         "Can be populated by antivirus scans",
+        "AmCache last write time is NOT a reliable first-execution indicator on modern systems — the hive is updated by multiple mechanisms beyond the Compatibility Appraiser scheduled task (which is often disabled), including normal app launches and PCA activity",
+        "Run AmcacheParser.exe with the -i flag to generate AssociatedFileEntries output; omitting -i produces incomplete results",
+        "Transaction log files (.LOG1/.LOG2) must be co-located with the hive; AmcacheParser processes them automatically if present — without them, in-flight writes may be missing",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Persists until Windows Update or manual clear",
@@ -1000,11 +1010,14 @@ pub static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/AppCompatCacheParser",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/06_Tool_Command_Vault/6.02_Windows_DFIR_Master_Notes.md",
+        // Richard Davis (13Cubed) — "Investigating Windows Endpoints" IWE course Q&A:
+        "https://training.13cubed.com/p/courses/investigating-windows-endpoints",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &[
         "Presence proves file existed on disk, not necessarily executed",
         "Written only on clean shutdown; live system registry shows entries from last reboot only — use shimcache_memory to capture entries since last reboot",
+        "Copying a file at the Command Prompt without opening it in Windows Explorer does NOT create a Shimcache entry — the file must be accessed through the shell (Explorer view, rename, or move) to be shimmed",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Registry value persists until hive is overwritten; see shimcache_memory for the Volatile in-memory counterpart",
@@ -6536,9 +6549,18 @@ pub static PREFETCH_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/libyal/libscca/blob/main/documentation/Windows%20Prefetch%20File%20(PF)%20format.asciidoc",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/06_Tool_Command_Vault/6.02_Windows_DFIR_Master_Notes.md",
+        // Richard Davis (13Cubed) — "Investigating Windows Endpoints" IWE course Q&A:
+        "https://training.13cubed.com/p/courses/investigating-windows-endpoints",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["Prefetch can be disabled via registry; absence does not mean no execution"],
+    evidence_caveats: &[
+        "Prefetch is disabled by default on Windows Server; absence does not imply non-execution on server systems",
+        "Prefetch can be disabled on workstations via registry (EnablePrefetcher=0); absence does not prove non-execution",
+        "Volume Serial Number embedded in .pf files can link an executable to a specific removable media source",
+        "SDelete's own .pf file records the full list of files it deleted — anti-forensic tool use leaves execution evidence of the deletion itself",
+        "Deleting .pf files with Shift+Delete bypasses the Recycle Bin but leaves recoverable MFT entries; USN Journal also records the deletion",
+        "Win10+ stores up to 8 last-run timestamps per .pf file; Win7/8 stores only 1 — a single .pf covers broader history on modern Windows",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Max 1024 entries, FIFO eviction on Win10+",
 };

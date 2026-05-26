@@ -142,6 +142,7 @@ pub mod sqlite;
 pub mod srum;
 pub mod stix;
 pub mod temporal;
+pub mod timelining;
 pub mod toolchain;
 pub mod version_history;
 pub mod volatility;
