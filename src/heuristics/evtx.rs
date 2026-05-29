@@ -390,6 +390,79 @@ pub const TASKSCHEDULER_CHANNEL: &str = "Microsoft-Windows-TaskScheduler/Operati
 pub const BITS_CLIENT_CHANNEL: &str = "Microsoft-Windows-Bits-Client/Operational";
 /// Windows Defender operational channel.
 pub const DEFENDER_CHANNEL: &str = "Microsoft-Windows-Windows Defender/Operational";
+/// Hyper-V Virtual Machine Management Service (VMMS) Admin channel.
+pub const HYPERV_VMMS_CHANNEL: &str = "Microsoft-Windows-Hyper-V-VMMS/Admin";
+
+// ── VSS EID constants (Application channel, source "VSS") ────────────────────
+
+/// Application EID 8193: VSS service error — often fired when shadow copies are
+/// deleted via vssadmin or wmic (T1490 inhibit system recovery).
+pub const EID_VSS_ERROR: u32 = 8193;
+/// Application EID 524: VSS snapshot deleted event.
+pub const EID_VSS_SNAPSHOT_DELETED: u32 = 524;
+
+// ── Hyper-V VMMS EID constants ───────────────────────────────────────────────
+
+/// Hyper-V-VMMS EID 13002: Virtual machine state change initiated (e.g. stopping).
+/// QWCrypt/RedCurl shuts down all VMs before encrypting VHD/VHDX files on-disk.
+pub const EID_HYPERV_VM_STATE_CHANGE: u32 = 13002;
+/// Hyper-V-VMMS EID 13003: Virtual machine has stopped.
+pub const EID_HYPERV_VM_STOPPED: u32 = 13003;
+
+// ── WMI-Activity EID constants (query / error pivots) ────────────────────────
+
+/// WMI-Activity EID 5857: WMI provider loaded — lateral-movement pivot when
+/// ClientMachine indicates a remote host.
+pub const EID_WMI_QUERY: u32 = 5857;
+/// WMI-Activity EID 5858: WMI operation failure — remote WMI lateral movement
+/// attempt leaves an artifact even when the operation fails.
+pub const EID_WMI_OPERATION_FAILURE: u32 = 5858;
+
+// ── Security audit task EID ───────────────────────────────────────────────────
+
+/// Security EID 4698: Scheduled task created (Security audit channel).
+/// Complements TaskScheduler/Operational EID 106; fires even when the
+/// task scheduler operational log is cleared.
+pub const EID_SECURITY_TASK_CREATED: u32 = 4698;
+
+// ── BYOVD driver names ───────────────────────────────────────────────────────
+// Known-vulnerable driver service names used in Bring-Your-Own-Vulnerable-Driver
+// attacks (MITRE T1068). QWCrypt (RedCurl/GOLD BLADE) uses the Zemana Anti-Malware
+// driver (ZAM64.sys) to terminate EDR processes before deploying the encryptor.
+// Sources: LOLDrivers project, CISA advisories, vendor incident reports.
+
+/// Service names of known-vulnerable drivers abused in BYOVD attacks.
+pub const BYOVD_DRIVER_NAMES: &[&str] = &[
+    "ZemanaAntiMalware",
+    "zamguard64",
+    "ZAM",
+    "gdrv",          // Gigabyte App Center GDRV.sys
+    "AsrDrv104",     // ASRock Motherboard Utility
+    "AsrDrv10",
+    "RTCore64",      // MSI Afterburner / RTSS
+    "dbutil_2_3",    // Dell BIOS Utility
+    "ATSZIO64",      // ASUSTeK I/O driver
+    "WinRing0_1_2_0",
+    "cpuz136_x64",   // CPU-Z driver
+    "speedfan",
+];
+
+// ── QWCrypt-specific PowerShell patterns ─────────────────────────────────────
+// Observed in RedCurl/GOLD BLADE intrusions 2024–2025.
+// Match case-insensitively against EID 4104 ScriptBlockText.
+
+/// PowerShell script-block substrings associated with QWCrypt ransomware.
+pub const QWCRYPT_PS_PATTERNS: &[&str] = &[
+    "Get-VM",
+    "Stop-VM",
+    "Start-VM",
+    "Save-VM",
+    "Set-VMFirmware",
+    "Export-VM",
+    "vssadmin delete shadows",
+    "wbadmin delete",
+    "bcdedit /set.*recoveryenabled",
+];
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
