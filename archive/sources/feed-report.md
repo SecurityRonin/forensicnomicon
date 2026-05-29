@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-05-28T07:04:49Z
+Generated: 2026-05-29T07:06:10Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,10 @@ Generated: 2026-05-28T07:04:49Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-05-28T00:00:00+00:00 — [Lazarus, DPAPI, and the art of leaving nothing behind in RemotePE](https://andreafortuna.org/2026/05/28/lazarus-remotepe-dpapi-memory-forensics/)
+- 2026-05-28T00:00:00+00:00 — [No malware, no alerts, just a USB drive in your office](https://andreafortuna.org/2026/05/28/silent-ransom-group-usb-physical-attack-dfir/)
 
 ## Salt Forensics
 
@@ -195,7 +196,7 @@ Generated: 2026-05-28T07:04:49Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-05-27T15:54:47+00:00 — [The scariest sentence you’ll ever hear in a digital forensics lab](https://www.magnetforensics.com/blog/the-scariest-sentence-youll-ever-hear-in-a-digital-forensics-lab/)
+- 2026-05-28T20:45:03+00:00 — [Tackling deepfakes: Let’s focus on authentication, not detection](https://www.magnetforensics.com/blog/tackling-deepfakes-lets-focus-on-authentication-not-detection/)
 
 ## The DFIR Report
 
@@ -222,8 +223,8 @@ Generated: 2026-05-28T07:04:49Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-05-28T02:00:02+00:00 — [ISC Stormcast For Thursday, May 28th, 2026 https://isc.sans.edu/podcastdetail/9948, (Thu, May 28th)](https://isc.sans.edu/diary/rss/33028)
-- 2026-05-27T21:14:03+00:00 — [Reconstructing an Akira Ransomware Kill Chain from Perimeter and Endpoint Logs, (Wed, May 27th)](https://isc.sans.edu/diary/rss/33024)
+- 2026-05-29T02:00:02+00:00 — [ISC Stormcast For Friday, May 29th, 2026 https://isc.sans.edu/podcastdetail/9950, (Fri, May 29th)](https://isc.sans.edu/diary/rss/33030)
+- 2026-05-28T19:41:55+00:00 — [Analysis of a Year of Files Uploaded to DShield Sensors, (Wed, May 27th)](https://isc.sans.edu/diary/rss/33026)
 
 ## DFIR Training Blog
 
@@ -250,7 +251,7 @@ Generated: 2026-05-28T07:04:49Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-05-27T11:29:09+00:00 — [InfoSec News Nuggets 05/27/2026](https://aboutdfir.com/infosec-news-nuggets-05-27-2026/)
+- 2026-05-28T10:55:20+00:00 — [InfoSec News Nuggets – 05/28/2026](https://aboutdfir.com/infosec-news-nuggets-05-28-2026/)
 
 ## Forensic 4cast
 
@@ -274,19 +275,16 @@ Generated: 2026-05-28T07:04:49Z
 
 - Site: https://www.sleuthkit.org/
 - Feed: https://www.sleuthkit.org/rss.xml
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 429
 
 ## Amped Software blog
 
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-27T14:00:00+00:00 — [Deepfake Forensics Workflow for Image Analysis](https://blog.ampedsoftware.com/2026/05/27/deepfake-forensics-workflow-for-image-analysis)
+- No new entries detected
 
 ## Didier Stevens Blog
 
@@ -365,11 +363,10 @@ Generated: 2026-05-28T07:04:49Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-05-28T06:30:00+00:00 — [How to fix an app that crashes as it starts up](https://eclecticlight.co/2026/05/28/how-to-fix-an-app-that-crashes-as-it-starts-up/)
-- 2026-05-27T17:45:01+00:00 — [Apple has released an update to XProtect for all macOS](https://eclecticlight.co/2026/05/27/apple-has-released-an-update-to-xprotect-for-all-macos-34/)
-- 2026-05-27T11:30:00+00:00 — [On Reflection: Conclusions and contents](https://eclecticlight.co/2026/05/27/on-reflection-conclusions-and-contents/)
+- 2026-05-29T06:30:00+00:00 — [What happens in the log when an app crashes as it starts up?](https://eclecticlight.co/2026/05/29/what-happens-in-the-log-when-an-app-crashes-as-it-starts-up/)
+- 2026-05-28T11:30:00+00:00 — [Portraits of trees: Introduction](https://eclecticlight.co/2026/05/28/portraits-of-trees-introduction/)
 
 ## JPCERT/CC
 
@@ -414,7 +411,7 @@ Generated: 2026-05-28T07:04:49Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-05-27T12:58:44+00:00 — [Investigating suspicious AI workflows in Microsoft Entra Agent ID: Autonomous agents](https://redcanary.com/blog/threat-detection/entra-id-ai-workflows/)
+- 2026-05-28T13:13:04+00:00 — [Grading on a curve: How to assess a pentest](https://redcanary.com/blog/testing-and-validation/pentesting/)
 
 ## Palo Alto Unit 42
 
@@ -423,7 +420,7 @@ Generated: 2026-05-28T07:04:49Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-05-27T22:00:46+00:00 — [Out of the Crypt: The Evolving Cyber Extortion Economy](https://unit42.paloaltonetworks.com/cyber-extortion-economy/)
+- 2026-05-28T10:00:53+00:00 — [2026 World Cup: Discussing The World’s Biggest Game’s Attack Surface](https://unit42.paloaltonetworks.com/fifa-world-cup-attack-surface/)
 
 ## Mandiant Threat Intelligence
 
@@ -441,8 +438,8 @@ Generated: 2026-05-28T07:04:49Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-05-27T14:00:14+00:00 — [MediaArea heap-based buffer overflow vulnerabilities](https://blog.talosintelligence.com/mediaarea-heap-based-buffer-overflow-vulnerabilities/)
-- 2026-05-27T10:00:47+00:00 — [Introducing EvidenceForge: Synthetic security logs that don’t look (as) fake](https://blog.talosintelligence.com/introducing-evidenceforge-synthetic-security-logs-that-dont-look-as-fake/)
+- 2026-05-28T18:00:27+00:00 — [Less panic patching, more precision](https://blog.talosintelligence.com/less-panic-patching-more-precision/)
+- 2026-05-28T10:00:52+00:00 — [DICOM, Pydicom, GDCM, and Orthanc: A technical tour of what really happens in the heap](https://blog.talosintelligence.com/dicom-pydicom-gdcm-and-orthanc-a-technical-tour-of-what-really-happens-in-the-heap/)
 
 ## SANS Blog
 
@@ -469,7 +466,7 @@ Generated: 2026-05-28T07:04:49Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-05-27T13:00:00+00:00 — [Account Takeover is a Churn Problem: Why 65% of Consumers Abandon Platforms After Fraud](https://flare.io/learn/resources/blog/consumers-abandon-platforms-after-fraud)
+- 2026-05-28T13:00:00+00:00 — [Inside the Chinese-Language Gambling Infrastructure Targeting the 2026 World Cup](https://flare.io/learn/resources/blog/chinese-language-gambling-infrastructure-targeting-2026-world-cup)
 
 ## Binalyze Blog
 
@@ -503,9 +500,9 @@ Generated: 2026-05-28T07:04:49Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-28T16:03:15+00:00 — [FedRAMP High Changes the Cloud Equation for Federal Digital Evidence](https://cellebrite.com/en/blog/fedramp-high-changes-the-cloud-equation-for-federal-digital-evidence/)
 
 ## DFIR Science
 
@@ -532,9 +529,9 @@ Generated: 2026-05-28T07:04:49Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-05-27T11:41:54+00:00 — [Kali365 phishing kit bypasses MFA and steals Microsoft logins](https://www.malwarebytes.com/blog/scams/2026/05/kali365-phishing-kit-bypasses-mfa-and-steals-microsoft-logins)
-- 2026-05-27T09:56:26+00:00 — [Company bragged phone mics could listen to conversations. They couldn&#8217;t.](https://www.malwarebytes.com/blog/news/2026/05/company-bragged-phone-mics-could-listen-to-conversations-they-couldnt)
-- 2026-05-27T09:32:09+00:00 — [Fake LinkedIn emails abuse Adobe to track victims](https://www.malwarebytes.com/blog/threat-intel/2026/05/fake-linkedin-emails-abuse-adobe-to-track-victims)
+- 2026-05-28T12:04:52+00:00 — [Carnival confirms data breach impacting nearly 6 million](https://www.malwarebytes.com/blog/data-breaches/2026/05/carnival-confirms-data-breach-impacting-nearly-6-million)
+- 2026-05-28T11:03:43+00:00 — [Your Windows PC has a security deadline in June 2026](https://www.malwarebytes.com/blog/how-to/2026/05/your-windows-pc-has-a-security-deadline-in-june-2026)
+- 2026-05-28T10:18:26+00:00 — [Fake ChatGPT download site infects Windows and Mac users with malware](https://www.malwarebytes.com/blog/threat-intel/2026/05/fake-chatgpt-download-site-infects-windows-and-mac-users-with-malware)
 
 ## Krebs on Security
 
@@ -550,30 +547,31 @@ Generated: 2026-05-28T07:04:49Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 7
+- New since last snapshot: 10
 
-- 2026-05-27T17:31:25-04:00 — [GPU mining malware spreads via SEO poisoning, AI chatbots](https://www.bleepingcomputer.com/news/security/gpu-mining-malware-spreads-via-seo-poisoning-ai-chatbots/)
-- 2026-05-27T10:00:10-04:00 — [Can you enforce strong Active Directory password rules without frustrating users?](https://www.bleepingcomputer.com/news/security/can-you-enforce-strong-active-directory-password-rules-without-frustrating-users/)
-- 2026-05-27T09:28:42-04:00 — [Glassworm botnet disrupted after resilient C2 infrastructure takedown](https://www.bleepingcomputer.com/news/security/glassworm-botnet-disrupted-after-resilient-c2-infrastructure-takedown/)
-- 2026-05-27T07:51:12-04:00 — [FBI warns of in-person data theft attacks from extortion gang](https://www.bleepingcomputer.com/news/security/fbi-warns-of-silent-ransom-group-in-person-data-theft-attacks/)
-- 2026-05-27T06:06:17-04:00 — [CISA gives feds 4 days to patch actively exploited cPanel plugin flaw](https://www.bleepingcomputer.com/news/security/cisa-gives-feds-4-days-to-patch-actively-exploited-cpanel-plugin-flaw/)
-- 2026-05-27T05:09:03-04:00 — [Dutch police arrests suspect linked to Ajax football club hack](https://www.bleepingcomputer.com/news/security/dutch-police-arrests-suspect-linked-to-ajax-football-club-hack/)
-- 2026-05-27T04:33:46-04:00 — [Windows 11 KB5089573 update released with performance improvements](https://www.bleepingcomputer.com/news/microsoft/windows-11-kb5089573-update-released-with-performance-improvements/)
+- 2026-05-28T20:21:03-04:00 — [Anthropic confirms Claude Mythos-class models will roll out to the public](https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-confirms-claude-mythos-class-models-will-roll-out-to-the-public/)
+- 2026-05-28T18:24:49-04:00 — [GreyVibe hackers use ChatGPT, Gemini to power cyberattacks](https://www.bleepingcomputer.com/news/security/greyvibe-hackers-use-chatgpt-gemini-to-power-cyberattacks/)
+- 2026-05-28T17:10:11-04:00 — [BTMOB Android malware service generates custom phishing payloads](https://www.bleepingcomputer.com/news/security/btmob-android-malware-service-generates-custom-phishing-payloads/)
+- 2026-05-28T15:08:10-04:00 — [FBI warns of fake FIFA websites running World Cup fraud schemes](https://www.bleepingcomputer.com/news/security/fbi-warns-of-fake-fifa-websites-running-world-cup-fraud-schemes/)
+- 2026-05-28T13:25:43-04:00 — [Hackers exploit FortiClient EMS flaw to push infostealer malware](https://www.bleepingcomputer.com/news/security/hackers-exploit-forticlient-ems-flaw-to-push-infostealer-malware/)
+- 2026-05-28T10:25:43-04:00 — [New Gogs zero-day flaw lets hackers get remote code execution](https://www.bleepingcomputer.com/news/security/new-gogs-zero-day-flaw-lets-hackers-get-remote-code-execution/)
+- 2026-05-28T10:01:11-04:00 — [How SIEM helps MSPs reduce noise and stop threats faster](https://www.bleepingcomputer.com/news/security/how-siem-helps-msps-reduce-noise-and-stop-threats-faster/)
+- 2026-05-28T08:43:29-04:00 — [Romanian gets 5 years in prison for hacking Oregon govt network](https://www.bleepingcomputer.com/news/security/romanian-gets-5-years-in-prison-for-hacking-oregon-govt-network/)
+- 2026-05-28T08:20:28-04:00 — [Webinar: Why network incidents take too long to resolve](https://www.bleepingcomputer.com/news/security/webinar-why-network-incidents-take-too-long-to-resolve/)
+- 2026-05-28T06:49:27-04:00 — [Carnival Cruise confirms data breach affecting nearly 6 million people](https://www.bleepingcomputer.com/news/security/carnival-cruise-confirms-data-breach-affecting-nearly-6-million-people/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 7
+- New since last snapshot: 5
 
-- 2026-05-28T07:01:00+00:00 — [Nordic CISOs Handle Rising Cyber Threats Remarkably Well](https://www.darkreading.com/cybersecurity-analytics/nordic-cisos-rising-cyber-threats)
-- 2026-05-27T20:38:01+00:00 — [Ransomware Actors Show Up In Person to Steal Law Firm Data](https://www.darkreading.com/cyberattacks-data-breaches/ransomware-actors-steal-law-firm-data)
-- 2026-05-27T16:19:03+00:00 — [Latin American Cybercriminals Hoover Up Government Data](https://www.darkreading.com/cyberattacks-data-breaches/latin-american-cybercriminals-government-data)
-- 2026-05-27T16:11:19+00:00 — [AI-Assisted Exploit Development Outpaces Scanner Detection](https://www.darkreading.com/threat-intelligence/ai-assisted-exploit-development-scanner-detection)
-- 2026-05-27T12:11:30+00:00 — [Cybersecurity Evolution: How We Went From Perimeter Defense to AI-Native Security](https://www.darkreading.com/cybersecurity-operations/cybersecurity-evolution-perimeter-defense-to-ai-native-security)
-- 2026-05-26T19:29:56+00:00 — [State Cyber Leaders Beg Congress for More Funding, Support](https://www.darkreading.com/threat-intelligence/state-leaders-beg-congress-resume-cyber-funding)
-- 2026-05-26T19:12:52+00:00 — [For Enterprises, Security Remains Agentic AI's Biggest Challenge](https://www.darkreading.com/application-security/enterprises-agentic-ai-security-biggest-challenge)
+- 2026-05-28T19:04:37+00:00 — [Dutch Raid Fails to Dent Russian Bulletproof Host](https://www.darkreading.com/cyber-risk/dutch-raid-russian-bulletproof-host)
+- unknown date — [Name That Toon Contest](https://www.darkreading.com/events/celebrate-20-years-of-dark-reading-name-that-toon-contest)
+- 2026-05-28T15:36:25+00:00 — [Agentic AI Isn't Risky; the Way Orgs Deploy It Is](https://www.darkreading.com/application-security/agentic-ai-risky)
+- 2026-05-28T12:29:58+00:00 — [Focus on Cyber Insurance: How Quantifying Risk Is Reshaping Security](https://www.darkreading.com/cyber-risk/focus-cyber-insurance-quantifying-risk-reshape-security)
+- 2026-05-28T09:06:11+00:00 — [BTMOB RAT Spreads Across Brazil, LatAm via MaaS Model](https://www.darkreading.com/cyberattacks-data-breaches/btmob-rat-brazil-latam-maas-model)
 
 ## Volexity Blog
 
@@ -595,9 +593,10 @@ Generated: 2026-05-28T07:04:49Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-05-29T03:04:52+00:00 — [Typosquatted npm packages used to steal cloud and CI/CD secrets](https://www.microsoft.com/en-us/security/blog/2026/05/28/typosquatted-npm-packages-used-steal-cloud-ci-cd-secrets/)
+- 2026-05-28T15:00:00+00:00 — [The Gentlemen ransomware: Dissecting a self-propagating Go encryptor](https://www.microsoft.com/en-us/security/blog/2026/05/28/the-gentlemen-ransomware-dissecting-a-self-propagating-go-encryptor/)
 
 ## LOLBAS Project (Windows)
 
@@ -613,10 +612,9 @@ Generated: 2026-05-28T07:04:49Z
 - Site: https://gtfobins.github.io/
 - Feed: https://github.com/GTFOBins/GTFOBins.github.io/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-05-27T12:01:45+00:00 — [Clarify mosh-server comment](https://github.com/GTFOBins/GTFOBins.github.io/commit/acd524623f9c406acedd2754ebd9c2431f3675ad)
-- 2026-05-27T11:35:22+00:00 — [Fix syntax error in nginx config file payload](https://github.com/GTFOBins/GTFOBins.github.io/commit/30547b2ee3ac268fe1c3b2b97cff4ea6274b6388)
+- No new entries detected
 
 ## LOOBins (macOS)
 
@@ -767,11 +765,9 @@ Generated: 2026-05-28T07:04:49Z
 - Site: https://github.com/EricZimmerman/KapeFiles
 - Feed: https://github.com/EricZimmerman/KapeFiles/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-05-27T18:34:19+00:00 — [Merge pull request #1106 from vikas891/patch-1](https://github.com/EricZimmerman/KapeFiles/commit/8b69c0634e018221993f669c7b58b49595b099aa)
-- 2026-05-21T08:33:35+00:00 — [Refactor PowerShell_ParseScheduledTasks.mkape formatting](https://github.com/EricZimmerman/KapeFiles/commit/ace4bf97d4fec15fc2dc22f5a0e487ec6ea23d55)
-- 2026-05-21T08:30:42+00:00 — [Update PowerShell_ParseScheduledTasks.mkape](https://github.com/EricZimmerman/KapeFiles/commit/97d289e9566994dce3c5b1a8430c6fd242b9e355)
+- No new entries detected
 
 ## EZ RegistryPlugins commits
 
