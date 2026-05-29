@@ -19,6 +19,7 @@ pub mod linux_rootkit;
 pub mod memory;
 pub mod network;
 pub mod paths;
+pub mod pe;
 pub mod process;
 pub mod scoring;
 pub mod srum;
