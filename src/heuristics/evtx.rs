@@ -807,7 +807,16 @@ pub const RDP_FDENYTSC_KEY_FRAGMENT: &str = "fDenyTSConnections";
 /// Access to these shares from a remote IP (not localhost) is a lateral movement
 /// signal (T1021.002 — SMB/Windows Admin Shares). EID 5140 records the share
 /// name in the `ShareName` field as `\\*\ADMIN$`, `\\*\C$`, etc.
-pub const ADMIN_SHARE_NAMES: &[&str] = &[];
+pub const ADMIN_SHARE_NAMES: &[&str] = &[
+    "ADMIN$", // default admin share mapping to %SystemRoot%
+    "IPC$",   // inter-process communication share (required for any remote admin)
+    "C$",     // drive root shares — used directly by lateral movement tools
+    "D$",
+    "E$",
+    "F$",
+    "G$",
+    "H$",
+];
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
