@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-05-29T07:06:10Z
+Generated: 2026-05-30T06:32:01Z
 
 ## Windows Incident Response
 
@@ -61,10 +61,9 @@ Generated: 2026-05-29T07:06:10Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-05-28T00:00:00+00:00 — [Lazarus, DPAPI, and the art of leaving nothing behind in RemotePE](https://andreafortuna.org/2026/05/28/lazarus-remotepe-dpapi-memory-forensics/)
-- 2026-05-28T00:00:00+00:00 — [No malware, no alerts, just a USB drive in your office](https://andreafortuna.org/2026/05/28/silent-ransom-group-usb-physical-attack-dfir/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -196,7 +195,7 @@ Generated: 2026-05-29T07:06:10Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-05-28T20:45:03+00:00 — [Tackling deepfakes: Let’s focus on authentication, not detection](https://www.magnetforensics.com/blog/tackling-deepfakes-lets-focus-on-authentication-not-detection/)
+- 2026-05-29T18:21:58+00:00 — [What is SOCMINT? Social media intelligence in investigations](https://www.magnetforensics.com/blog/what-is-socmint-social-media-intelligence-in-investigations/)
 
 ## The DFIR Report
 
@@ -221,10 +220,9 @@ Generated: 2026-05-29T07:06:10Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-05-29T02:00:02+00:00 — [ISC Stormcast For Friday, May 29th, 2026 https://isc.sans.edu/podcastdetail/9950, (Fri, May 29th)](https://isc.sans.edu/diary/rss/33030)
-- 2026-05-28T19:41:55+00:00 — [Analysis of a Year of Files Uploaded to DShield Sensors, (Wed, May 27th)](https://isc.sans.edu/diary/rss/33026)
+- No new entries detected
 
 ## DFIR Training Blog
 
@@ -251,7 +249,7 @@ Generated: 2026-05-29T07:06:10Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-05-28T10:55:20+00:00 — [InfoSec News Nuggets – 05/28/2026](https://aboutdfir.com/infosec-news-nuggets-05-28-2026/)
+- 2026-05-29T12:23:20+00:00 — [InfoSec News Nuggets – 05/29/2026](https://aboutdfir.com/infosec-news-nuggets-05-29-2026/)
 
 ## Forensic 4cast
 
@@ -275,7 +273,19 @@ Generated: 2026-05-29T07:06:10Z
 
 - Site: https://www.sleuthkit.org/
 - Feed: https://www.sleuthkit.org/rss.xml
-- Status: error: HTTP 429
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2023-08-29T16:12:32-04:00 — [The Sleuth Kit 4.12.1 is available](https://sleuthkit.org/sleuthkit/download.php)
+- 2023-01-24T18:01:09-05:00 — [The Sleuth Kit 4.12.0 is available](https://sleuthkit.org/sleuthkit/download.php)
+- 2023-08-29T16:12:11-04:00 — [Autopsy 4.21.0 is available](http://www.autopsy.com/download)
+- 2023-01-24T18:00:46-05:00 — [Autopsy 4.20.0 is available](http://www.autopsy.com/download)
+- 2021-12-22T15:00:09-05:00 — [Autopsy 4.19.3 is available](http://sleuthkit.org/autopsy/download.php)
+- 2021-07-31T15:45:54-04:00 — [Autopsy 4.19.0 and The Sleuth Kit 4.11.0 Are Out](http://www.sleuthkit.org/)
+- 2021-03-23T06:47:05-04:00 — [Autopsy 4.18.0 and The Sleuth Kit 4.10.2 Are Out](http://www.sleuthkit.org/)
+- 2020-09-08T17:08:49-04:00 — [Autopsy 4.16.0 was released](http://www.sleuthkit.org/autopsy/history.php)
+- 2020-09-08T17:08:26-04:00 — [The Sleuth Kit 4.10.0 was released](http://www.sleuthkit.org/sleuthkit/history.php)
+- 2020-05-01T06:44:11-04:00 — [The Sleuth Kit 4.9.0 Was Released](http://www.sleuthkit.org/sleuthkit/download.php)
 
 ## Amped Software blog
 
@@ -363,10 +373,9 @@ Generated: 2026-05-29T07:06:10Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-05-29T06:30:00+00:00 — [What happens in the log when an app crashes as it starts up?](https://eclecticlight.co/2026/05/29/what-happens-in-the-log-when-an-app-crashes-as-it-starts-up/)
-- 2026-05-28T11:30:00+00:00 — [Portraits of trees: Introduction](https://eclecticlight.co/2026/05/28/portraits-of-trees-introduction/)
+- 2026-05-29T11:30:00+00:00 — [Reading Visual Art: 252 Dragonfly](https://eclecticlight.co/2026/05/29/reading-visual-art-252-dragonfly/)
 
 ## JPCERT/CC
 
@@ -400,27 +409,28 @@ Generated: 2026-05-29T07:06:10Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-05-28T07:00:00+00:00 — [Your Profile Is a Dossier. Here's Who's Reading It.](https://www.huntress.com/blog/declassified-cybercrime-episode-two)
+- 2026-05-27T14:00:00+00:00 — [Before Your MSP Chases CMMC, Take an Honest Look at Your Operations](https://www.huntress.com/blog/cmmc-msp-readiness-check)
 
 ## Red Canary Blog
 
 - Site: https://redcanary.com/blog/
 - Feed: https://redcanary.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-28T13:13:04+00:00 — [Grading on a curve: How to assess a pentest](https://redcanary.com/blog/testing-and-validation/pentesting/)
+- No new entries detected
 
 ## Palo Alto Unit 42
 
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-28T10:00:53+00:00 — [2026 World Cup: Discussing The World’s Biggest Game’s Attack Surface](https://unit42.paloaltonetworks.com/fifa-world-cup-attack-surface/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
@@ -436,10 +446,9 @@ Generated: 2026-05-29T07:06:10Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-05-28T18:00:27+00:00 — [Less panic patching, more precision](https://blog.talosintelligence.com/less-panic-patching-more-precision/)
-- 2026-05-28T10:00:52+00:00 — [DICOM, Pydicom, GDCM, and Orthanc: A technical tour of what really happens in the heap](https://blog.talosintelligence.com/dicom-pydicom-gdcm-and-orthanc-a-technical-tour-of-what-really-happens-in-the-heap/)
+- No new entries detected
 
 ## SANS Blog
 
@@ -464,9 +473,9 @@ Generated: 2026-05-29T07:06:10Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-28T13:00:00+00:00 — [Inside the Chinese-Language Gambling Infrastructure Targeting the 2026 World Cup](https://flare.io/learn/resources/blog/chinese-language-gambling-infrastructure-targeting-2026-world-cup)
+- No new entries detected
 
 ## Binalyze Blog
 
@@ -502,7 +511,7 @@ Generated: 2026-05-29T07:06:10Z
 - Entries checked: 5
 - New since last snapshot: 1
 
-- 2026-05-28T16:03:15+00:00 — [FedRAMP High Changes the Cloud Equation for Federal Digital Evidence](https://cellebrite.com/en/blog/fedramp-high-changes-the-cloud-equation-for-federal-digital-evidence/)
+- 2026-05-29T19:14:26+00:00 — [The Access Gap Is Closed: What Cellebrite Can Unlock in 2026](https://cellebrite.com/en/blog/the-access-gap-is-closed-what-cellebrite-can-unlock-in-2026/)
 
 ## DFIR Science
 
@@ -518,20 +527,19 @@ Generated: 2026-05-29T07:06:10Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-05-29T00:00:00-05:00 — [CrowdStrike Named a Leader in 2026 Gartner&reg; Magic Quadrant&trade; for Endpoint Protection for Seventh Consecutive Time](https://www.crowdstrike.com/en-us/blog/crowdstrike-leader-in-2026-gartner-magic-quadrant-for-endpoint-protection/)
+- 2026-05-29T00:00:00-05:00 — [Shadow AI: The Hidden Risk Expanding Across the Enterprise](https://www.crowdstrike.com/en-us/blog/shadow-ai-hidden-risk-expanding-across-the-enterprise/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 1
 
-- 2026-05-28T12:04:52+00:00 — [Carnival confirms data breach impacting nearly 6 million](https://www.malwarebytes.com/blog/data-breaches/2026/05/carnival-confirms-data-breach-impacting-nearly-6-million)
-- 2026-05-28T11:03:43+00:00 — [Your Windows PC has a security deadline in June 2026](https://www.malwarebytes.com/blog/how-to/2026/05/your-windows-pc-has-a-security-deadline-in-june-2026)
-- 2026-05-28T10:18:26+00:00 — [Fake ChatGPT download site infects Windows and Mac users with malware](https://www.malwarebytes.com/blog/threat-intel/2026/05/fake-chatgpt-download-site-infects-windows-and-mac-users-with-malware)
+- 2026-05-29T12:07:24+00:00 — [Signal users targeted in backup-stealing phishing attacks](https://www.malwarebytes.com/blog/news/2026/05/signal-users-targeted-in-backup-stealing-phishing-attacks)
 
 ## Krebs on Security
 
@@ -547,18 +555,16 @@ Generated: 2026-05-29T07:06:10Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 8
 
-- 2026-05-28T20:21:03-04:00 — [Anthropic confirms Claude Mythos-class models will roll out to the public](https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-confirms-claude-mythos-class-models-will-roll-out-to-the-public/)
-- 2026-05-28T18:24:49-04:00 — [GreyVibe hackers use ChatGPT, Gemini to power cyberattacks](https://www.bleepingcomputer.com/news/security/greyvibe-hackers-use-chatgpt-gemini-to-power-cyberattacks/)
-- 2026-05-28T17:10:11-04:00 — [BTMOB Android malware service generates custom phishing payloads](https://www.bleepingcomputer.com/news/security/btmob-android-malware-service-generates-custom-phishing-payloads/)
-- 2026-05-28T15:08:10-04:00 — [FBI warns of fake FIFA websites running World Cup fraud schemes](https://www.bleepingcomputer.com/news/security/fbi-warns-of-fake-fifa-websites-running-world-cup-fraud-schemes/)
-- 2026-05-28T13:25:43-04:00 — [Hackers exploit FortiClient EMS flaw to push infostealer malware](https://www.bleepingcomputer.com/news/security/hackers-exploit-forticlient-ems-flaw-to-push-infostealer-malware/)
-- 2026-05-28T10:25:43-04:00 — [New Gogs zero-day flaw lets hackers get remote code execution](https://www.bleepingcomputer.com/news/security/new-gogs-zero-day-flaw-lets-hackers-get-remote-code-execution/)
-- 2026-05-28T10:01:11-04:00 — [How SIEM helps MSPs reduce noise and stop threats faster](https://www.bleepingcomputer.com/news/security/how-siem-helps-msps-reduce-noise-and-stop-threats-faster/)
-- 2026-05-28T08:43:29-04:00 — [Romanian gets 5 years in prison for hacking Oregon govt network](https://www.bleepingcomputer.com/news/security/romanian-gets-5-years-in-prison-for-hacking-oregon-govt-network/)
-- 2026-05-28T08:20:28-04:00 — [Webinar: Why network incidents take too long to resolve](https://www.bleepingcomputer.com/news/security/webinar-why-network-incidents-take-too-long-to-resolve/)
-- 2026-05-28T06:49:27-04:00 — [Carnival Cruise confirms data breach affecting nearly 6 million people](https://www.bleepingcomputer.com/news/security/carnival-cruise-confirms-data-breach-affecting-nearly-6-million-people/)
+- 2026-05-29T14:21:36-04:00 — [ChatGPT share links abused to host fake outage pages to deliver malware](https://www.bleepingcomputer.com/news/security/chatgpt-share-links-abused-to-host-fake-outage-pages-to-deliver-malware/)
+- 2026-05-29T14:08:47-04:00 — [California AG sues 23andMe over 2023 breach exposing health data](https://www.bleepingcomputer.com/news/security/california-ag-sues-23andme-over-2023-breach-exposing-health-data/)
+- 2026-05-29T10:32:02-04:00 — [From $5 Attacks to Botnet-Powered Platforms: Inside the DDoS-as-a- Service Market](https://www.bleepingcomputer.com/news/security/from-5-attacks-to-botnet-powered-platforms-inside-the-ddos-as-a-service-market/)
+- 2026-05-29T10:26:36-04:00 — [Dutch govt disrupts malware botnet with 17 million infected devices](https://www.bleepingcomputer.com/news/security/dutch-govt-disrupts-malware-botnet-with-17-million-infected-devices/)
+- 2026-05-29T08:08:08-04:00 — [Google Chrome adds session cookie theft protection for all users](https://www.bleepingcomputer.com/news/security/google-chrome-adds-session-cookie-theft-protection-for-all-users/)
+- 2026-05-29T07:07:07-04:00 — [Man sent to prison for selling data of 7 millions elderly Americans](https://www.bleepingcomputer.com/news/security/man-sent-to-prison-for-selling-data-of-7-millions-elderly-americans/)
+- 2026-05-29T06:11:44-04:00 — [US charges Google security engineer with Polymarket insider trading](https://www.bleepingcomputer.com/news/security/us-charges-google-security-engineer-with-polymarket-insider-trading/)
+- 2026-05-29T04:29:40-04:00 — [Charter Communications data breach affects 4.9 million accounts](https://www.bleepingcomputer.com/news/security/charter-communications-data-breach-affects-49-million-accounts/)
 
 ## Dark Reading
 
@@ -567,11 +573,11 @@ Generated: 2026-05-29T07:06:10Z
 - Entries checked: 10
 - New since last snapshot: 5
 
-- 2026-05-28T19:04:37+00:00 — [Dutch Raid Fails to Dent Russian Bulletproof Host](https://www.darkreading.com/cyber-risk/dutch-raid-russian-bulletproof-host)
-- unknown date — [Name That Toon Contest](https://www.darkreading.com/events/celebrate-20-years-of-dark-reading-name-that-toon-contest)
-- 2026-05-28T15:36:25+00:00 — [Agentic AI Isn't Risky; the Way Orgs Deploy It Is](https://www.darkreading.com/application-security/agentic-ai-risky)
-- 2026-05-28T12:29:58+00:00 — [Focus on Cyber Insurance: How Quantifying Risk Is Reshaping Security](https://www.darkreading.com/cyber-risk/focus-cyber-insurance-quantifying-risk-reshape-security)
-- 2026-05-28T09:06:11+00:00 — [BTMOB RAT Spreads Across Brazil, LatAm via MaaS Model](https://www.darkreading.com/cyberattacks-data-breaches/btmob-rat-brazil-latam-maas-model)
+- 2026-05-29T20:22:04+00:00 — [Name That Toon: Mark of (Cybersecurity) Progress](https://www.darkreading.com/cloud-security/name-that-toon-mark-of-cybersecurity-progress)
+- 2026-05-29T14:35:33+00:00 — [Asia's Cyber Insurance Market Shows Signs of Life](https://www.darkreading.com/cybersecurity-operations/asias-cyber-insurance-market-signs-of-life)
+- 2026-05-29T13:00:01+00:00 — [With Complex Cloud Integrations, Small Errors Lead to Major Compromises](https://www.darkreading.com/vulnerabilities-threats/complex-cloud-integrations-small-errors-compromises)
+- 2026-05-29T12:00:00+00:00 — ['The Com' Cyberattacks Support Violence &amp; Sexploitation](https://www.darkreading.com/threat-intelligence/the-com-cyberattacks-violence-sexploitation)
+- 2026-05-28T23:05:23+00:00 — [As Global Powers Explore Humanoid Robots, Cyber-Risk Looms](https://www.darkreading.com/cyber-risk/global-powers-explore-humanoids-cyber-risk)
 
 ## Volexity Blog
 
@@ -595,8 +601,8 @@ Generated: 2026-05-29T07:06:10Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-05-29T03:04:52+00:00 — [Typosquatted npm packages used to steal cloud and CI/CD secrets](https://www.microsoft.com/en-us/security/blog/2026/05/28/typosquatted-npm-packages-used-steal-cloud-ci-cd-secrets/)
-- 2026-05-28T15:00:00+00:00 — [The Gentlemen ransomware: Dissecting a self-propagating Go encryptor](https://www.microsoft.com/en-us/security/blog/2026/05/28/the-gentlemen-ransomware-dissecting-a-self-propagating-go-encryptor/)
+- 2026-05-30T00:06:20+00:00 — [Malicious npm packages abuse dependency confusion to profile developer environments](https://www.microsoft.com/en-us/security/blog/2026/05/29/33-malicious-npm-packages-abuse-dependency-confusion-profile-developer-environments/)
+- 2026-05-29T16:00:00+00:00 — [Microsoft is named a Leader in the 2026 Gartner® Magic Quadrant™ for Endpoint Protection](https://www.microsoft.com/en-us/security/blog/2026/05/29/microsoft-is-named-a-leader-in-the-2026-gartner-magic-quadrant-for-endpoint-protection/)
 
 ## LOLBAS Project (Windows)
 
@@ -648,9 +654,11 @@ Generated: 2026-05-29T07:06:10Z
 - Site: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes
 - Feed: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-05-30T03:25:28+00:00 — [Update Dumpex.py](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/e290e24ce4fa1cf27d890309c487ef7322c7faff)
+- 2026-05-30T03:13:24+00:00 — [Update Dumpex.py](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/9547f9e5b68902cd21e6e49f967de48cb72e7ab9)
+- 2026-05-30T02:56:12+00:00 — [New Tools - Dumpex](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/33eac7a03220bc77cd29d4e4ebaacdc1ee392db7)
 
 ## kacos2000_Win10
 
@@ -855,9 +863,9 @@ Generated: 2026-05-29T07:06:10Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-29T14:07:42+00:00 — [dev-v1.6.44](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.44)
 
 ## regipy releases
 
@@ -1062,6 +1070,8 @@ Generated: 2026-05-29T07:06:10Z
 - Site: https://www.misp-project.org/
 - Feed: https://github.com/MISP/misp-taxonomies/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-05-29T12:29:07+00:00 — [fix: [*] missing UUIDs added](https://github.com/MISP/misp-taxonomies/commit/e45126b14cd654de3c4caa1e71a5fc58a12bae53)
+- 2026-05-29T12:25:18+00:00 — [Merge pull request #327 from MISP/codex/create-misp-taxonomies-from-i…](https://github.com/MISP/misp-taxonomies/commit/0b56fcdaad4aa0244b1d6c667687ca8e0c3053c1)
+- 2026-05-29T12:24:17+00:00 — [Add IAB Tech Lab taxonomies](https://github.com/MISP/misp-taxonomies/commit/570e19148de0dcd5115b4949f5646c156a56f3f2)
