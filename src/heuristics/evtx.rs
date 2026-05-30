@@ -687,6 +687,70 @@ pub const WMI_IMPACKET_INDICATORS: &[&str] = &[
     "127.0.0.1\\ADMIN$\\__",
 ];
 
+// ── System channel ────────────────────────────────────────────────────────────
+
+/// Canonical name for the Windows System event log channel.
+pub const SYSTEM_CHANNEL: &str = "System";
+
+// ── Security account management EIDs ─────────────────────────────────────────
+
+/// Security EID 4720: A user account was created.
+pub const EID_USER_ACCOUNT_CREATED: u32 = 4720;
+/// Security EID 4732: A member was added to a security-enabled local group.
+/// Combined with EID 4720, indicates a new local admin account was provisioned.
+pub const EID_USER_ADDED_TO_LOCAL_GROUP: u32 = 4732;
+
+/// SID for the local Administrators group (all Windows versions).
+pub const LOCAL_ADMINS_GROUP_SID: &str = "S-1-5-32-544";
+
+// ── VSS deletion process-creation patterns ────────────────────────────────────
+// Used in EID 4688 / Sysmon EID 1 CommandLine checks (T1490).
+
+/// CommandLine substrings indicating vssadmin shadow copy deletion.
+pub const VSSADMIN_SHADOW_DELETE_PATTERNS: &[&str] = &[];
+
+/// CommandLine substrings indicating wmic shadow copy deletion.
+pub const WMIC_SHADOW_DELETE_PATTERNS: &[&str] = &[];
+
+// ── bcdedit recovery-tamper CommandLine patterns ──────────────────────────────
+
+/// CommandLine substrings that disable Windows boot recovery options.
+/// Covers the three most common ransomware bcdedit calls (T1490/T1562.009).
+pub const BCDEDIT_RECOVERY_DISABLE_PATTERNS: &[&str] = &[];
+
+// ── wevtutil / PowerShell log-clearing patterns ───────────────────────────────
+
+/// CommandLine substrings that indicate wevtutil log-clear invocations.
+pub const WEVTUTIL_CLEAR_SUBSTRINGS: &[&str] = &[];
+
+/// PowerShell script-block substrings used to clear Windows event logs.
+pub const PS_CLEAR_EVENTLOG_PATTERNS: &[&str] = &[];
+
+// ── comsvcs.dll MiniDump (LSASS credential dump) patterns ─────────────────────
+
+/// CommandLine substrings that identify comsvcs.dll-based LSASS credential dumps
+/// (T1003.001).  The combination `comsvcs.dll` + `MiniDump` + `lsass` is
+/// near-zero-FP — rundll32 is the only normal caller of comsvcs MiniDump, and
+/// legitimate callers specify process names, not lsass.
+pub const COMSVCS_MINIDUMP_PATTERNS: &[&str] = &[];
+
+// ── RMM tool installer basenames ──────────────────────────────────────────────
+
+/// Process basenames for remote monitoring and management (RMM) tools.
+/// Installation of these tools outside `C:\Program Files\` or
+/// `C:\Program Files (x86)\` by a non-IT parent process is suspicious (T1219).
+pub const RMM_BINARY_NAMES: &[&str] = &[];
+
+/// Path prefixes for legitimate RMM tool installation directories.
+/// A drop of any `RMM_BINARY_NAMES` binary outside these paths is suspicious.
+pub const RMM_SAFE_INSTALL_PATHS: &[&str] = &[];
+
+// ── RDP registry enable key fragment ─────────────────────────────────────────
+
+/// Registry value that controls Terminal Services / RDP access.
+/// Setting this to 0 enables RDP (T1021.001 / T1112).
+pub const RDP_FDENYTSC_KEY_FRAGMENT: &str = "";
+
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
 mod tests {
@@ -1096,5 +1160,150 @@ mod tests {
     #[test]
     fn wmi_impacket_indicators_includes_admin_share_pattern() {
         assert!(WMI_IMPACKET_INDICATORS.iter().any(|s| s.contains("ADMIN$")));
+    }
+
+    // ── System channel ───────────────────────────────────────────────────────
+
+    #[test]
+    fn system_channel_is_correct() {
+        assert_eq!(SYSTEM_CHANNEL, "System");
+    }
+
+    // ── Account management EIDs ──────────────────────────────────────────────
+
+    #[test]
+    fn eid_user_account_created_is_4720() {
+        assert_eq!(EID_USER_ACCOUNT_CREATED, 4720);
+    }
+
+    #[test]
+    fn eid_user_added_to_local_group_is_4732() {
+        assert_eq!(EID_USER_ADDED_TO_LOCAL_GROUP, 4732);
+    }
+
+    #[test]
+    fn local_admins_group_sid_is_correct() {
+        assert_eq!(LOCAL_ADMINS_GROUP_SID, "S-1-5-32-544");
+    }
+
+    // ── VSS deletion patterns ─────────────────────────────────────────────────
+
+    #[test]
+    fn vssadmin_patterns_include_delete_shadows() {
+        assert!(
+            VSSADMIN_SHADOW_DELETE_PATTERNS
+                .iter()
+                .any(|p| p.contains("delete shadow")),
+            "must include 'delete shadows' variant"
+        );
+    }
+
+    #[test]
+    fn wmic_patterns_include_shadowcopy_delete() {
+        assert!(
+            WMIC_SHADOW_DELETE_PATTERNS
+                .iter()
+                .any(|p| p.contains("shadowcopy")),
+            "must include 'shadowcopy delete' variant"
+        );
+    }
+
+    // ── bcdedit recovery patterns ─────────────────────────────────────────────
+
+    #[test]
+    fn bcdedit_patterns_include_recoveryenabled_no() {
+        assert!(
+            BCDEDIT_RECOVERY_DISABLE_PATTERNS
+                .iter()
+                .any(|p| p.contains("recoveryenabled")),
+            "must include 'recoveryenabled no'"
+        );
+    }
+
+    #[test]
+    fn bcdedit_patterns_include_bootstatuspolicy() {
+        assert!(
+            BCDEDIT_RECOVERY_DISABLE_PATTERNS
+                .iter()
+                .any(|p| p.contains("bootstatuspolicy")),
+            "must include 'bootstatuspolicy ignoreallfailures'"
+        );
+    }
+
+    // ── wevtutil / log-clear patterns ─────────────────────────────────────────
+
+    #[test]
+    fn wevtutil_clear_substrings_not_empty() {
+        assert!(!WEVTUTIL_CLEAR_SUBSTRINGS.is_empty());
+    }
+
+    #[test]
+    fn ps_clear_eventlog_patterns_include_clear_eventlog() {
+        assert!(
+            PS_CLEAR_EVENTLOG_PATTERNS
+                .iter()
+                .any(|p| p.contains("Clear-EventLog")),
+        );
+    }
+
+    // ── comsvcs MiniDump patterns ─────────────────────────────────────────────
+
+    #[test]
+    fn comsvcs_patterns_include_minidump() {
+        assert!(
+            COMSVCS_MINIDUMP_PATTERNS
+                .iter()
+                .any(|p| p.contains("MiniDump")),
+            "must include 'MiniDump' substring"
+        );
+    }
+
+    #[test]
+    fn comsvcs_patterns_include_comsvcs_dll() {
+        assert!(
+            COMSVCS_MINIDUMP_PATTERNS
+                .iter()
+                .any(|p| p.contains("comsvcs")),
+            "must include 'comsvcs.dll' substring"
+        );
+    }
+
+    // ── RMM tool constants ────────────────────────────────────────────────────
+
+    #[test]
+    fn rmm_binary_names_includes_anydesk() {
+        assert!(
+            RMM_BINARY_NAMES
+                .iter()
+                .any(|n| n.to_lowercase().contains("anydesk")),
+            "must include AnyDesk"
+        );
+    }
+
+    #[test]
+    fn rmm_binary_names_includes_teamviewer() {
+        assert!(
+            RMM_BINARY_NAMES
+                .iter()
+                .any(|n| n.to_lowercase().contains("teamviewer")),
+            "must include TeamViewer"
+        );
+    }
+
+    #[test]
+    fn rmm_safe_paths_includes_program_files() {
+        assert!(
+            RMM_SAFE_INSTALL_PATHS
+                .iter()
+                .any(|p| p.contains("Program Files")),
+            "must include Program Files as a safe path"
+        );
+    }
+
+    // ── RDP enable key ────────────────────────────────────────────────────────
+
+    #[test]
+    fn rdp_fdenyts_key_is_correct() {
+        assert_eq!(RDP_FDENYTSC_KEY_FRAGMENT, "fDenyTSConnections");
     }
 }

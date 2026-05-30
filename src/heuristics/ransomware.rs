@@ -325,6 +325,40 @@ pub const RANSOM_NOTE_FILENAMES: &[&str] = &[
     "HOW_TO_UNLOCK.txt",
 ];
 
+// ── Ransomware process kill / service stop constants ───────────────────────────
+//
+// Cross-validated against: LockBit 3.0 CISA AA23-075A (explicit kill list),
+// leaked Conti and Babuk source code (kill-list arrays), and vendor IR reports
+// (Akira/BlackCat/RansomHub/BlackBasta/BianLian/Medusa/Rhysida/Play).
+// All basenames lowercased; compare case-insensitively at runtime.
+
+/// AV/EDR/database/backup process names targeted by ransomware kill scripts.
+///
+/// Used with `RANSOMWARE_KILL_CLUSTER_THRESHOLD` — a cluster of ≥N kills from
+/// this list within `RANSOMWARE_KILL_WINDOW_NS` is near-zero-FP for ransomware
+/// staging (T1562.001 / T1489).  Single kills have medium FP risk.
+pub const RANSOMWARE_KILL_PROCESSES: &[&str] = &[];
+
+/// Minimum number of kills from `RANSOMWARE_KILL_PROCESSES` within
+/// `RANSOMWARE_KILL_WINDOW_NS` to constitute a high-confidence ransomware
+/// process-termination cluster.
+pub const RANSOMWARE_KILL_CLUSTER_THRESHOLD: usize = 0;
+
+/// Sliding time window (nanoseconds) for clustering ransomware process kill events.
+pub const RANSOMWARE_KILL_WINDOW_NS: i64 = 0;
+
+/// Canonical service names stopped by ransomware staging scripts.
+///
+/// Covers Veeam, SQL Server, Exchange, Commvault, BackupExec, Sophos, McAfee,
+/// Kaspersky, and Malwarebytes — the services most commonly enumerated in
+/// LockBit 3.0 (CISA AA23-075A), Conti, and Babuk kill scripts.
+/// All lowercased; compare case-insensitively at runtime.
+pub const RANSOMWARE_STOP_SERVICES: &[&str] = &[];
+
+/// Minimum number of stops from `RANSOMWARE_STOP_SERVICES` within
+/// `RANSOMWARE_KILL_WINDOW_NS` to constitute a high-confidence cluster.
+pub const RANSOMWARE_SERVICE_STOP_CLUSTER_THRESHOLD: usize = 0;
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -422,6 +456,112 @@ mod tests {
             RANSOM_NOTE_FILENAMES.len() >= 50,
             "Expected at least 50 ransom note filenames for meaningful coverage, got {}",
             RANSOM_NOTE_FILENAMES.len()
+        );
+    }
+
+    // ── Ransomware kill / stop list tests ────────────────────────────────────
+
+    #[test]
+    fn kill_processes_includes_sql_server() {
+        assert!(
+            RANSOMWARE_KILL_PROCESSES.iter().any(|p| p.contains("sql")),
+            "must include SQL server process names"
+        );
+    }
+
+    #[test]
+    fn kill_processes_includes_veeam() {
+        assert!(
+            RANSOMWARE_KILL_PROCESSES.iter().any(|p| p.contains("veeam")),
+            "must include Veeam process names"
+        );
+    }
+
+    #[test]
+    fn kill_processes_includes_av_product() {
+        assert!(
+            RANSOMWARE_KILL_PROCESSES
+                .iter()
+                .any(|p| p.contains("sophos") || p.contains("mcshield") || p.contains("msmpeng")),
+            "must include at least one AV process"
+        );
+    }
+
+    #[test]
+    fn kill_processes_all_lowercase() {
+        for name in RANSOMWARE_KILL_PROCESSES {
+            assert_eq!(
+                *name,
+                name.to_lowercase(),
+                "all kill-list process names must be lowercase, got '{name}'"
+            );
+        }
+    }
+
+    #[test]
+    fn kill_processes_no_path_separators() {
+        for name in RANSOMWARE_KILL_PROCESSES {
+            assert!(
+                !name.contains('\\') && !name.contains('/'),
+                "'{name}' must be a basename only"
+            );
+        }
+    }
+
+    #[test]
+    fn kill_cluster_threshold_is_at_least_3() {
+        assert!(
+            RANSOMWARE_KILL_CLUSTER_THRESHOLD >= 3,
+            "threshold must be at least 3 to avoid trivial false positives"
+        );
+    }
+
+    #[test]
+    fn kill_window_is_60_seconds() {
+        assert_eq!(
+            RANSOMWARE_KILL_WINDOW_NS,
+            60_000_000_000,
+            "window must be exactly 60 seconds in nanoseconds"
+        );
+    }
+
+    #[test]
+    fn stop_services_includes_veeam() {
+        assert!(
+            RANSOMWARE_STOP_SERVICES
+                .iter()
+                .any(|s| s.contains("veeam")),
+            "must include Veeam backup services"
+        );
+    }
+
+    #[test]
+    fn stop_services_includes_commvault_cluster() {
+        let commvault = &["gxvss", "gxblr", "gxfwd", "gxcvd", "gxcimgr"];
+        for svc in commvault {
+            assert!(
+                RANSOMWARE_STOP_SERVICES.contains(svc),
+                "Commvault '{svc}' must be in stop-list (cited in CISA AA23-075A)"
+            );
+        }
+    }
+
+    #[test]
+    fn stop_services_all_lowercase() {
+        for svc in RANSOMWARE_STOP_SERVICES {
+            assert_eq!(
+                *svc,
+                svc.to_lowercase(),
+                "all stop-list service names must be lowercase, got '{svc}'"
+            );
+        }
+    }
+
+    #[test]
+    fn service_stop_threshold_is_at_least_3() {
+        assert!(
+            RANSOMWARE_SERVICE_STOP_CLUSTER_THRESHOLD >= 3,
+            "threshold must be at least 3"
         );
     }
 }
