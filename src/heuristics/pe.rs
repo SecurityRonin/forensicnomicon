@@ -169,6 +169,12 @@ pub const AV_EXCLUSION_PATH_FRAGMENTS: &[&str] = &[
     // Bitdefender
     "Bitdefender",
     "bd_ie",
+    // Malwarebytes
+    "Malwarebytes",
+    // VIPRE Security
+    "VIPRE",
+    // SentinelOne
+    "SentinelOne",
     // API / command patterns
     "AddDynamicSignature",
     "RemoveDynamicSignature",
@@ -294,6 +300,7 @@ pub const RANSOMWARE_STRING_PATTERNS: &[&str] = &[
     ".conti",
     ".hive",
     ".lockbit",
+    ".qwCrypt",             // QWCrypt / RedCurl ransomware
     // Ransom note filenames / embedded content
     "HOW_TO_DECRYPT",
     "DECRYPT_FILES",
@@ -408,6 +415,8 @@ pub const NETWORK_C2_PATTERNS: &[&str] = &[
     "/results",
     "/implant",
     "/stager",
+    // Cloudflare Workers abuse (RedCurl/QWCrypt C2 infrastructure)
+    "workers.dev",
     // DNS-over-HTTPS / DNS resolver abuse (T1071.004)
     "dns.google",
     "cloudflare-dns.com",
