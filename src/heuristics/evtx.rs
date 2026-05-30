@@ -827,7 +827,9 @@ pub const ADMIN_SHARE_NAMES: &[&str] = &[
 /// `explorer.exe` is the primary shell; `cmd.exe` and `powershell.exe` can also
 /// act as user-interactive parents but have too many legitimate uses at that level
 /// to be included without additional context filtering.
-pub const SHELL_PARENT_PROCESS_NAMES: &[&str] = &[];
+pub const SHELL_PARENT_PROCESS_NAMES: &[&str] = &[
+    "explorer.exe",
+];
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
