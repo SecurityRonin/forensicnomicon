@@ -818,6 +818,17 @@ pub const ADMIN_SHARE_NAMES: &[&str] = &[
     "H$",
 ];
 
+// ── User shell parent processes (T1204.002) ───────────────────────────────────
+
+/// Process basenames that represent the interactive Windows shell.
+/// When one of these is the `ParentImage` of a LOLBin process-create event,
+/// it indicates a user double-clicked something (LNK, script, attachment) that
+/// launched the LOLBin — the canonical T1204.002 signal (User Execution).
+/// `explorer.exe` is the primary shell; `cmd.exe` and `powershell.exe` can also
+/// act as user-interactive parents but have too many legitimate uses at that level
+/// to be included without additional context filtering.
+pub const SHELL_PARENT_PROCESS_NAMES: &[&str] = &[];
+
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
 mod tests {
@@ -1372,6 +1383,23 @@ mod tests {
     #[test]
     fn rdp_fdenyts_key_is_correct() {
         assert_eq!(RDP_FDENYTSC_KEY_FRAGMENT, "fDenyTSConnections");
+    }
+
+    // ── Shell parent process names ────────────────────────────────────────────
+
+    #[test]
+    fn shell_parent_process_names_includes_explorer() {
+        assert!(
+            SHELL_PARENT_PROCESS_NAMES
+                .iter()
+                .any(|s| s.eq_ignore_ascii_case("explorer.exe")),
+            "must include explorer.exe"
+        );
+    }
+
+    #[test]
+    fn shell_parent_process_names_is_nonempty() {
+        assert!(!SHELL_PARENT_PROCESS_NAMES.is_empty(), "must not be empty");
     }
 
     // ── SMB admin share names ─────────────────────────────────────────────────
