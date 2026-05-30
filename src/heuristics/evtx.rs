@@ -393,6 +393,85 @@ pub const DEFENDER_CHANNEL: &str = "Microsoft-Windows-Windows Defender/Operation
 /// Hyper-V Virtual Machine Management Service (VMMS) Admin channel.
 pub const HYPERV_VMMS_CHANNEL: &str = "Microsoft-Windows-Hyper-V-VMMS/Admin";
 
+// ── Sysmon EID 23 — file deletion ────────────────────────────────────────────
+
+/// Sysmon EID 23: File deleted — requires Sysmon v13+ with `-i` archiving enabled.
+/// Used to detect deliberate anti-forensics file deletion (e.g. PS history wipe).
+pub const EID_SYSMON_FILE_DELETE: u32 = 23;
+
+// ── Security EID 4657 — registry audit ───────────────────────────────────────
+
+/// Security EID 4657: A registry value was modified (Object Access auditing).
+/// Required: SACL on the registry key + "Audit Registry" policy enabled.
+pub const EID_REGISTRY_VALUE_SET: u32 = 4657;
+
+// ── HVCI / Driver Blocklist registry value names ──────────────────────────────
+// Modifying these values disables kernel-mode exploit mitigations.
+// QWCrypt/RedCurl uses reg edits to disable HVCI and the Vulnerable Driver
+// Blocklist before installing the Zemana BYOVD driver (T1562.001).
+
+/// Registry value names whose modification indicates HVCI/Driver Blocklist tampering.
+pub const HVCI_REGISTRY_VALUE_NAMES: &[&str] = &[
+    "VulnerableDriverBlocklistEnable",
+    "EnableVirtualizationBasedSecurity",
+    "HypervisorEnforcedCodeIntegrity",
+    "Enabled",
+];
+
+/// Registry key path fragments that are security-sensitive for HVCI/VBS.
+pub const HVCI_REGISTRY_KEY_PATHS: &[&str] = &[
+    "\\Control\\CI\\Config",
+    "\\Control\\DeviceGuard",
+];
+
+// ── QWCrypt IOC filenames ─────────────────────────────────────────────────────
+
+/// Process image basenames that are QWCrypt/RedCurl-specific IOC filenames.
+pub const QWCRYPT_IOC_FILENAMES: &[&str] = &[
+    "rbcw.exe",
+    "ADNotificationManager.exe",
+];
+
+/// Known QWCrypt C2 IP addresses.
+pub const QWCRYPT_IOC_IPS: &[&str] = &[
+    "109.206.236.209",
+];
+
+/// The .qwCrypt ransomware extension appended to encrypted files.
+pub const QWCRYPT_IOC_EXTENSION: &str = ".qwCrypt";
+
+// ── WebDAV LOLBin process names ───────────────────────────────────────────────
+// Processes that should rarely originate outbound WebDAV/HTTP connections in
+// a managed enterprise — a connection from these is a strong lateral-movement
+// or payload-staging signal (T1102, T1105).
+
+/// Process basenames that should not initiate outbound WebDAV/HTTP connections.
+pub const WEBDAV_LOL_PROCESSES: &[&str] = &[
+    "rundll32.exe",
+    "msiexec.exe",
+    "regsvr32.exe",
+    "wscript.exe",
+    "cscript.exe",
+    "mshta.exe",
+    "odbcconf.exe",
+    "ieexec.exe",
+];
+
+/// Substrings in a process CommandLine that indicate WebDAV-style UNC paths.
+/// A LOLBin launching with one of these in its command line is likely staging
+/// or executing a payload from a WebDAV share (T1102, T1105).
+pub const WEBDAV_COMMANDLINE_INDICATORS: &[&str] = &[
+    "DavWWWRoot",  // standard WebDAV share name used in UNC paths
+    "@SSL\\",      // WebDAV over HTTPS — \\server@443@SSL\DavWWWRoot\...
+    "@80\\",       // WebDAV over plain HTTP — \\server@80\DavWWWRoot\...
+    "@443\\",      // WebDAV over HTTPS (explicit port)
+];
+
+// ── PowerShell history path fragment ─────────────────────────────────────────
+
+/// Basename of the PowerShell command history file targeted by QWCrypt wipe.
+pub const PS_HISTORY_PATH_FRAGMENT: &str = "ConsoleHost_history.txt";
+
 // ── VSS EID constants (Application channel, source "VSS") ────────────────────
 
 /// Application EID 8193: VSS service error — often fired when shadow copies are
