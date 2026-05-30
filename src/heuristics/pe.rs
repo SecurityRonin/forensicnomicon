@@ -555,6 +555,48 @@ mod tests {
         assert!(NETWORK_C2_PATTERNS.contains(&"meterpreter"));
     }
 
+    // ── RED: QWCrypt gap tests ─────────────────────────────────────────────────
+
+    #[test]
+    fn av_exclusion_covers_malwarebytes() {
+        assert!(
+            AV_EXCLUSION_PATH_FRAGMENTS.contains(&"Malwarebytes"),
+            "QWCrypt explicitly excludes Malwarebytes from its AV kill list"
+        );
+    }
+
+    #[test]
+    fn av_exclusion_covers_vipre() {
+        assert!(
+            AV_EXCLUSION_PATH_FRAGMENTS.contains(&"VIPRE"),
+            "QWCrypt explicitly excludes VIPRE Security"
+        );
+    }
+
+    #[test]
+    fn av_exclusion_covers_sentinelone() {
+        assert!(
+            AV_EXCLUSION_PATH_FRAGMENTS.contains(&"SentinelOne"),
+            "QWCrypt explicitly excludes SentinelOne endpoint protection"
+        );
+    }
+
+    #[test]
+    fn network_c2_patterns_cover_cloudflare_workers() {
+        assert!(
+            NETWORK_C2_PATTERNS.contains(&"workers.dev"),
+            "workers.dev is the Cloudflare Workers C2 infrastructure abused by RedCurl/QWCrypt"
+        );
+    }
+
+    #[test]
+    fn ransomware_patterns_cover_qwcrypt_extension() {
+        assert!(
+            RANSOMWARE_STRING_PATTERNS.contains(&".qwCrypt"),
+            ".qwCrypt is the file extension appended by QWCrypt ransomware"
+        );
+    }
+
     #[test]
     fn credential_patterns_not_empty() {
         assert!(!CREDENTIAL_PATTERNS.is_empty());
