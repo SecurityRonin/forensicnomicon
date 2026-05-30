@@ -801,6 +801,14 @@ pub const RMM_SAFE_INSTALL_PATHS: &[&str] = &[
 /// Setting this to 0 enables RDP (T1021.001 / T1112).
 pub const RDP_FDENYTSC_KEY_FRAGMENT: &str = "fDenyTSConnections";
 
+// ── SMB admin share names (T1021.002) ────────────────────────────────────────
+
+/// Windows built-in administrative share names (case-insensitive match).
+/// Access to these shares from a remote IP (not localhost) is a lateral movement
+/// signal (T1021.002 — SMB/Windows Admin Shares). EID 5140 records the share
+/// name in the `ShareName` field as `\\*\ADMIN$`, `\\*\C$`, etc.
+pub const ADMIN_SHARE_NAMES: &[&str] = &[];
+
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
 mod tests {
@@ -1355,5 +1363,31 @@ mod tests {
     #[test]
     fn rdp_fdenyts_key_is_correct() {
         assert_eq!(RDP_FDENYTSC_KEY_FRAGMENT, "fDenyTSConnections");
+    }
+
+    // ── SMB admin share names ─────────────────────────────────────────────────
+
+    #[test]
+    fn admin_share_names_includes_admin_dollar() {
+        assert!(
+            ADMIN_SHARE_NAMES.iter().any(|s| s.eq_ignore_ascii_case("ADMIN$")),
+            "must include ADMIN$"
+        );
+    }
+
+    #[test]
+    fn admin_share_names_includes_c_dollar() {
+        assert!(
+            ADMIN_SHARE_NAMES.iter().any(|s| s.eq_ignore_ascii_case("C$")),
+            "must include C$"
+        );
+    }
+
+    #[test]
+    fn admin_share_names_includes_ipc_dollar() {
+        assert!(
+            ADMIN_SHARE_NAMES.iter().any(|s| s.eq_ignore_ascii_case("IPC$")),
+            "must include IPC$"
+        );
     }
 }
