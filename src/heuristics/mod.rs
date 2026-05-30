@@ -21,6 +21,7 @@ pub mod network;
 pub mod paths;
 pub mod pe;
 pub mod process;
+pub mod ransomware;
 pub mod scoring;
 pub mod srum;
 pub mod timestamps;
