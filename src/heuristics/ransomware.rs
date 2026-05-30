@@ -337,15 +337,65 @@ pub const RANSOM_NOTE_FILENAMES: &[&str] = &[
 /// Used with `RANSOMWARE_KILL_CLUSTER_THRESHOLD` — a cluster of ≥N kills from
 /// this list within `RANSOMWARE_KILL_WINDOW_NS` is near-zero-FP for ransomware
 /// staging (T1562.001 / T1489).  Single kills have medium FP risk.
-pub const RANSOMWARE_KILL_PROCESSES: &[&str] = &[];
+pub const RANSOMWARE_KILL_PROCESSES: &[&str] = &[
+    // SQL / database
+    "sql.exe", "sqlserv.exe", "sqlbrowser.exe", "sqlwriter.exe", "sqlagent.exe",
+    "sqlservr.exe", "oracle.exe", "ocssd.exe", "dbsnmp.exe", "dbeng50.exe",
+    "mysqld.exe", "mysqld-nt.exe", "mysqld-opt.exe", "postgres.exe",
+    // Office / productivity (locked open = can't encrypt)
+    "excel.exe", "infopath.exe", "msaccess.exe", "mspub.exe", "onenote.exe",
+    "outlook.exe", "powerpnt.exe", "winword.exe", "wordpad.exe", "notepad.exe",
+    "thunderbird.exe", "thebat.exe", "tbirdconfig.exe", "steam.exe", "firefox.exe",
+    // Veeam backup
+    "veeam.exe", "veeamguestindexer.exe", "veeamtransportsvc.exe",
+    "veeamdeploymentsvc.exe", "veeammountservice.exe",
+    // Sophos AV
+    "sophos.exe", "savadminservice.exe", "savservice.exe", "sedservice.exe",
+    // Malwarebytes
+    "mbamtray.exe", "mbam.exe",
+    // Windows Defender (rarely succeeds but always attempted)
+    "msmpeng.exe", "nissrv.exe", "securityhealthservice.exe",
+    // SentinelOne
+    "sentinelagent.exe", "sentinelhelperservice.exe", "sentinelservicehost.exe",
+    // CrowdStrike
+    "csfalconservice.exe", "crowdstrike.exe",
+    // Elastic
+    "elastic-agent.exe",
+    // ESET
+    "ekrn.exe", "egui.exe",
+    // Avira
+    "avgnt.exe", "avguard.exe",
+    // Kaspersky
+    "avp.exe", "kavfsslp.exe", "klnagent.exe",
+    // McAfee
+    "mfemms.exe", "masvc.exe", "macmnsvc.exe", "mcshield.exe",
+    // Trend Micro
+    "tmlisten.exe", "pccntmon.exe", "ntrtscan.exe", "tmccsf.exe",
+    // Backup tools
+    "backup.exe", "backupexecagentaccelerator.exe", "backupexecagentbrowser.exe",
+    "backupexecdevicemediaservice.exe", "backupexecjobengine.exe",
+    "backupexecmanagementservice.exe", "backupexecrpcservice.exe",
+    "backupexecvssprovider.exe", "bedbg.exe", "benetns.exe", "beserver.exe",
+    "pvlsvr.exe", "raw_agent_svc.exe", "cagservice.exe",
+    // Accounting / ERP
+    "sage.exe", "qbw32.exe", "qbdbmgr.exe", "qbdbmgrn.exe", "qbcfmonitorservice.exe",
+    // Misc services
+    "synctime.exe", "agntsvc.exe", "isqlplussvc.exe", "xfssvccon.exe",
+    "mydesktopservice.exe", "mydesktopqos.exe", "ocautoupds.exe", "encsvc.exe",
+    "ocomm.exe", "sqbcoreservice.exe", "ds_agent.exe", "zoolz.exe",
+    // Web / app servers
+    "httpd.exe", "nginx.exe", "node.exe", "java.exe",
+    // Misc
+    "hitmanpro.alert.exe", "googleupdate.exe",
+];
 
 /// Minimum number of kills from `RANSOMWARE_KILL_PROCESSES` within
 /// `RANSOMWARE_KILL_WINDOW_NS` to constitute a high-confidence ransomware
 /// process-termination cluster.
-pub const RANSOMWARE_KILL_CLUSTER_THRESHOLD: usize = 0;
+pub const RANSOMWARE_KILL_CLUSTER_THRESHOLD: usize = 5;
 
 /// Sliding time window (nanoseconds) for clustering ransomware process kill events.
-pub const RANSOMWARE_KILL_WINDOW_NS: i64 = 0;
+pub const RANSOMWARE_KILL_WINDOW_NS: i64 = 60_000_000_000; // 60 seconds
 
 /// Canonical service names stopped by ransomware staging scripts.
 ///
@@ -353,11 +403,61 @@ pub const RANSOMWARE_KILL_WINDOW_NS: i64 = 0;
 /// Kaspersky, and Malwarebytes — the services most commonly enumerated in
 /// LockBit 3.0 (CISA AA23-075A), Conti, and Babuk kill scripts.
 /// All lowercased; compare case-insensitively at runtime.
-pub const RANSOMWARE_STOP_SERVICES: &[&str] = &[];
+pub const RANSOMWARE_STOP_SERVICES: &[&str] = &[
+    // VSS (all ransomware)
+    "vss",
+    // SQL Server
+    "sqlserveragent", "mssqlserver", "sqlbrowser", "sqlwriter",
+    "reportserver", "sqlanywhere", "sqladhlp", "sqltelemetry",
+    "mssqlserveradhelper", "mssqlserveradhelper100", "mssqlserverolapservice",
+    // Veeam backup (LockBit 3.0 CISA AA23-075A + Conti leak)
+    "veeambackupsvc", "veeamcatalogsvc", "veeamtransportsvc", "veeammountsvc",
+    "veeamdeploysvc", "veeamnfssvc", "veeamrestsvc", "veeamcloudsvc",
+    "veeamdistributionsvc", "veeamenterprisemanagersvc", "veeamdeploymentservice",
+    "veeambrokerssvc",
+    // Commvault (explicitly cited in CISA AA23-075A for LockBit 3.0)
+    "gxvss", "gxblr", "gxfwd", "gxcvd", "gxcimgr",
+    // BackupExec
+    "backupexecagentaccelerator", "backupexecagentbrowser",
+    "backupexecdevicemediaservice", "backupexecjobengine",
+    "backupexecmanagementservice", "backupexecrpcservice", "backupexecvssprovider",
+    // Acronis
+    "acrsch2svc", "acronisagent",
+    // Sophos
+    "sophosagent", "sophosautoupdateservice", "savadminservice", "savservice",
+    "sophosclean", "sophoshealth", "sophosmcsagent", "sophosmcsclient",
+    "sophosmessagerouter", "sophossafestore", "sophossystemprotectionservice",
+    // Exchange
+    "msexchangeis", "msexchangetransport", "msexchangeadtopology",
+    "msexchangedelivery", "msexchangefrontendtransport", "msexchangerepl",
+    "msexchangesa", "msexchangeservicehost", "msexchangees", "msexchangemta",
+    "msexchangeantispamupdate", "msexchangefastsearch", "msexchangehm",
+    "msexchangeum", "msexchangeumcr",
+    // McAfee
+    "mfemms", "mfefire", "mfevtp", "mcshield", "mctaskmanager",
+    // Kaspersky
+    "kavfs", "kavfsgt", "kavfsslp", "klnagent",
+    // Malwarebytes
+    "mbamservice",
+    // QuickBooks
+    "qbcfmonitorservice", "qbidpservice", "qbvss",
+    // IIS / web
+    "w3svc", "iisadmin", "smtpsvc", "imap4svc", "pop3svc",
+    // Misc backup / recovery
+    "wbengine", "sdrsvc", "pdvfsservice",
+    // ESET
+    "ehttpsrv", "epsecurityservice", "epupdateservice", "erasrv", "esgshkernel",
+    // SCOM / MOM
+    "healthservice",
+    // Trend Micro
+    "ntrtscan", "tmccsf", "tmlisten",
+    // Defender
+    "msmpsvc",
+];
 
 /// Minimum number of stops from `RANSOMWARE_STOP_SERVICES` within
 /// `RANSOMWARE_KILL_WINDOW_NS` to constitute a high-confidence cluster.
-pub const RANSOMWARE_SERVICE_STOP_CLUSTER_THRESHOLD: usize = 0;
+pub const RANSOMWARE_SERVICE_STOP_CLUSTER_THRESHOLD: usize = 3;
 
 #[cfg(test)]
 mod tests {

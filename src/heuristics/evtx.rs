@@ -707,24 +707,43 @@ pub const LOCAL_ADMINS_GROUP_SID: &str = "S-1-5-32-544";
 // Used in EID 4688 / Sysmon EID 1 CommandLine checks (T1490).
 
 /// CommandLine substrings indicating vssadmin shadow copy deletion.
-pub const VSSADMIN_SHADOW_DELETE_PATTERNS: &[&str] = &[];
+pub const VSSADMIN_SHADOW_DELETE_PATTERNS: &[&str] = &[
+    "delete shadows",
+    "delete shadow",
+];
 
 /// CommandLine substrings indicating wmic shadow copy deletion.
-pub const WMIC_SHADOW_DELETE_PATTERNS: &[&str] = &[];
+pub const WMIC_SHADOW_DELETE_PATTERNS: &[&str] = &[
+    "shadowcopy delete",
+    "shadowstorage delete",
+];
 
 // ── bcdedit recovery-tamper CommandLine patterns ──────────────────────────────
 
 /// CommandLine substrings that disable Windows boot recovery options.
 /// Covers the three most common ransomware bcdedit calls (T1490/T1562.009).
-pub const BCDEDIT_RECOVERY_DISABLE_PATTERNS: &[&str] = &[];
+pub const BCDEDIT_RECOVERY_DISABLE_PATTERNS: &[&str] = &[
+    "recoveryenabled no",
+    "bootstatuspolicy ignoreallfailures",
+    "safeboot network",
+    "safeboot minimal",
+];
 
 // ── wevtutil / PowerShell log-clearing patterns ───────────────────────────────
 
 /// CommandLine substrings that indicate wevtutil log-clear invocations.
-pub const WEVTUTIL_CLEAR_SUBSTRINGS: &[&str] = &[];
+pub const WEVTUTIL_CLEAR_SUBSTRINGS: &[&str] = &[
+    " cl ",        // wevtutil cl Security
+    " clear-log ", // wevtutil clear-log Application
+];
 
 /// PowerShell script-block substrings used to clear Windows event logs.
-pub const PS_CLEAR_EVENTLOG_PATTERNS: &[&str] = &[];
+pub const PS_CLEAR_EVENTLOG_PATTERNS: &[&str] = &[
+    "Clear-EventLog",
+    "Remove-EventLog",
+    "wevtutil cl",
+    "wevtutil clear-log",
+];
 
 // ── comsvcs.dll MiniDump (LSASS credential dump) patterns ─────────────────────
 
@@ -732,24 +751,55 @@ pub const PS_CLEAR_EVENTLOG_PATTERNS: &[&str] = &[];
 /// (T1003.001).  The combination `comsvcs.dll` + `MiniDump` + `lsass` is
 /// near-zero-FP — rundll32 is the only normal caller of comsvcs MiniDump, and
 /// legitimate callers specify process names, not lsass.
-pub const COMSVCS_MINIDUMP_PATTERNS: &[&str] = &[];
+pub const COMSVCS_MINIDUMP_PATTERNS: &[&str] = &[
+    "comsvcs.dll",
+    "comsvcs",
+    "MiniDump",
+    "minidump",
+];
 
 // ── RMM tool installer basenames ──────────────────────────────────────────────
 
 /// Process basenames for remote monitoring and management (RMM) tools.
 /// Installation of these tools outside `C:\Program Files\` or
 /// `C:\Program Files (x86)\` by a non-IT parent process is suspicious (T1219).
-pub const RMM_BINARY_NAMES: &[&str] = &[];
+pub const RMM_BINARY_NAMES: &[&str] = &[
+    "anydesk.exe",
+    "atera_agent.exe",
+    "ateraagent.exe",
+    "splashtop_remote_svc.exe",
+    "srservice.exe",            // Splashtop Remote Service
+    "screenconnect.windowsclient.exe",
+    "screenconnect.clientservice.exe",
+    "connectwisecontrol.client.exe",
+    "teamviewer.exe",
+    "teamviewer_service.exe",
+    "ninjarmm-agent.exe",
+    "ninjaagent.exe",
+    "kaseya.exe",
+    "kaseyaendpoint.exe",
+    "lmiignition.exe",          // LogMeIn
+    "lmiguardiansvc.exe",
+    "gotomypc.exe",
+    "isllight.exe",             // ISL Online
+    "remotepc.exe",
+    "supremo.exe",
+    "pulseway.exe",
+    "pulsewayservice.exe",
+];
 
 /// Path prefixes for legitimate RMM tool installation directories.
 /// A drop of any `RMM_BINARY_NAMES` binary outside these paths is suspicious.
-pub const RMM_SAFE_INSTALL_PATHS: &[&str] = &[];
+pub const RMM_SAFE_INSTALL_PATHS: &[&str] = &[
+    "C:\\Program Files\\",
+    "C:\\Program Files (x86)\\",
+];
 
 // ── RDP registry enable key fragment ─────────────────────────────────────────
 
 /// Registry value that controls Terminal Services / RDP access.
 /// Setting this to 0 enables RDP (T1021.001 / T1112).
-pub const RDP_FDENYTSC_KEY_FRAGMENT: &str = "";
+pub const RDP_FDENYTSC_KEY_FRAGMENT: &str = "fDenyTSConnections";
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
