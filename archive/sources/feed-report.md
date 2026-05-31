@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-05-30T06:32:01Z
+Generated: 2026-05-31T07:08:17Z
 
 ## Windows Incident Response
 
@@ -193,9 +193,9 @@ Generated: 2026-05-30T06:32:01Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-29T18:21:58+00:00 — [What is SOCMINT? Social media intelligence in investigations](https://www.magnetforensics.com/blog/what-is-socmint-social-media-intelligence-in-investigations/)
+- No new entries detected
 
 ## The DFIR Report
 
@@ -247,9 +247,9 @@ Generated: 2026-05-30T06:32:01Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-29T12:23:20+00:00 — [InfoSec News Nuggets – 05/29/2026](https://aboutdfir.com/infosec-news-nuggets-05-29-2026/)
+- No new entries detected
 
 ## Forensic 4cast
 
@@ -274,18 +274,9 @@ Generated: 2026-05-30T06:32:01Z
 - Site: https://www.sleuthkit.org/
 - Feed: https://www.sleuthkit.org/rss.xml
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2023-08-29T16:12:32-04:00 — [The Sleuth Kit 4.12.1 is available](https://sleuthkit.org/sleuthkit/download.php)
-- 2023-01-24T18:01:09-05:00 — [The Sleuth Kit 4.12.0 is available](https://sleuthkit.org/sleuthkit/download.php)
-- 2023-08-29T16:12:11-04:00 — [Autopsy 4.21.0 is available](http://www.autopsy.com/download)
-- 2023-01-24T18:00:46-05:00 — [Autopsy 4.20.0 is available](http://www.autopsy.com/download)
-- 2021-12-22T15:00:09-05:00 — [Autopsy 4.19.3 is available](http://sleuthkit.org/autopsy/download.php)
-- 2021-07-31T15:45:54-04:00 — [Autopsy 4.19.0 and The Sleuth Kit 4.11.0 Are Out](http://www.sleuthkit.org/)
-- 2021-03-23T06:47:05-04:00 — [Autopsy 4.18.0 and The Sleuth Kit 4.10.2 Are Out](http://www.sleuthkit.org/)
-- 2020-09-08T17:08:49-04:00 — [Autopsy 4.16.0 was released](http://www.sleuthkit.org/autopsy/history.php)
-- 2020-09-08T17:08:26-04:00 — [The Sleuth Kit 4.10.0 was released](http://www.sleuthkit.org/sleuthkit/history.php)
-- 2020-05-01T06:44:11-04:00 — [The Sleuth Kit 4.9.0 Was Released](http://www.sleuthkit.org/sleuthkit/download.php)
+- No new entries detected
 
 ## Amped Software blog
 
@@ -373,9 +364,12 @@ Generated: 2026-05-30T06:32:01Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 4
 
-- 2026-05-29T11:30:00+00:00 — [Reading Visual Art: 252 Dragonfly](https://eclecticlight.co/2026/05/29/reading-visual-art-252-dragonfly/)
+- 2026-05-31T07:00:24+00:00 — [Last Week on My Mac: Razzle and dazzle](https://eclecticlight.co/2026/05/31/last-week-on-my-mac-razzle-and-dazzle/)
+- 2026-05-30T11:30:00+00:00 — [Eclectic paintings of Joseph Stella: 1 American landscapes](https://eclecticlight.co/2026/05/30/eclectic-paintings-of-joseph-stella-1-american-landscapes/)
+- 2026-05-30T08:00:29+00:00 — [Saturday Mac riddles 362](https://eclecticlight.co/2026/05/30/saturday-mac-riddles-362/)
+- 2026-05-30T07:00:14+00:00 — [Protect files with the Locked or Immutable flag](https://eclecticlight.co/2026/05/30/protect-files-with-the-locked-or-immutable-flag/)
 
 ## JPCERT/CC
 
@@ -409,10 +403,9 @@ Generated: 2026-05-30T06:32:01Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-05-28T07:00:00+00:00 — [Your Profile Is a Dossier. Here's Who's Reading It.](https://www.huntress.com/blog/declassified-cybercrime-episode-two)
-- 2026-05-27T14:00:00+00:00 — [Before Your MSP Chases CMMC, Take an Honest Look at Your Operations](https://www.huntress.com/blog/cmmc-msp-readiness-check)
+- No new entries detected
 
 ## Red Canary Blog
 
@@ -509,9 +502,9 @@ Generated: 2026-05-30T06:32:01Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-29T19:14:26+00:00 — [The Access Gap Is Closed: What Cellebrite Can Unlock in 2026](https://cellebrite.com/en/blog/the-access-gap-is-closed-what-cellebrite-can-unlock-in-2026/)
+- No new entries detected
 
 ## DFIR Science
 
@@ -527,19 +520,18 @@ Generated: 2026-05-30T06:32:01Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-05-29T00:00:00-05:00 — [CrowdStrike Named a Leader in 2026 Gartner&reg; Magic Quadrant&trade; for Endpoint Protection for Seventh Consecutive Time](https://www.crowdstrike.com/en-us/blog/crowdstrike-leader-in-2026-gartner-magic-quadrant-for-endpoint-protection/)
-- 2026-05-29T00:00:00-05:00 — [Shadow AI: The Hidden Risk Expanding Across the Enterprise](https://www.crowdstrike.com/en-us/blog/shadow-ai-hidden-risk-expanding-across-the-enterprise/)
+- No new entries detected
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-29T12:07:24+00:00 — [Signal users targeted in backup-stealing phishing attacks](https://www.malwarebytes.com/blog/news/2026/05/signal-users-targeted-in-backup-stealing-phishing-attacks)
+- No new entries detected
 
 ## Krebs on Security
 
@@ -555,29 +547,19 @@ Generated: 2026-05-30T06:32:01Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 8
+- New since last snapshot: 2
 
-- 2026-05-29T14:21:36-04:00 — [ChatGPT share links abused to host fake outage pages to deliver malware](https://www.bleepingcomputer.com/news/security/chatgpt-share-links-abused-to-host-fake-outage-pages-to-deliver-malware/)
-- 2026-05-29T14:08:47-04:00 — [California AG sues 23andMe over 2023 breach exposing health data](https://www.bleepingcomputer.com/news/security/california-ag-sues-23andme-over-2023-breach-exposing-health-data/)
-- 2026-05-29T10:32:02-04:00 — [From $5 Attacks to Botnet-Powered Platforms: Inside the DDoS-as-a- Service Market](https://www.bleepingcomputer.com/news/security/from-5-attacks-to-botnet-powered-platforms-inside-the-ddos-as-a-service-market/)
-- 2026-05-29T10:26:36-04:00 — [Dutch govt disrupts malware botnet with 17 million infected devices](https://www.bleepingcomputer.com/news/security/dutch-govt-disrupts-malware-botnet-with-17-million-infected-devices/)
-- 2026-05-29T08:08:08-04:00 — [Google Chrome adds session cookie theft protection for all users](https://www.bleepingcomputer.com/news/security/google-chrome-adds-session-cookie-theft-protection-for-all-users/)
-- 2026-05-29T07:07:07-04:00 — [Man sent to prison for selling data of 7 millions elderly Americans](https://www.bleepingcomputer.com/news/security/man-sent-to-prison-for-selling-data-of-7-millions-elderly-americans/)
-- 2026-05-29T06:11:44-04:00 — [US charges Google security engineer with Polymarket insider trading](https://www.bleepingcomputer.com/news/security/us-charges-google-security-engineer-with-polymarket-insider-trading/)
-- 2026-05-29T04:29:40-04:00 — [Charter Communications data breach affects 4.9 million accounts](https://www.bleepingcomputer.com/news/security/charter-communications-data-breach-affects-49-million-accounts/)
+- 2026-05-30T14:02:51-04:00 — [Palo Alto GlobalProtect VPN auth bypass flaw now exploited in attacks](https://www.bleepingcomputer.com/news/security/palo-alto-globalprotect-vpn-auth-bypass-flaw-now-exploited-in-attacks/)
+- 2026-05-30T10:16:08-04:00 — [New CIFSwitch Linux flaw gives root on multiple distributions](https://www.bleepingcomputer.com/news/security/new-cifswitch-linux-flaw-gives-root-on-multiple-distributions/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 0
 
-- 2026-05-29T20:22:04+00:00 — [Name That Toon: Mark of (Cybersecurity) Progress](https://www.darkreading.com/cloud-security/name-that-toon-mark-of-cybersecurity-progress)
-- 2026-05-29T14:35:33+00:00 — [Asia's Cyber Insurance Market Shows Signs of Life](https://www.darkreading.com/cybersecurity-operations/asias-cyber-insurance-market-signs-of-life)
-- 2026-05-29T13:00:01+00:00 — [With Complex Cloud Integrations, Small Errors Lead to Major Compromises](https://www.darkreading.com/vulnerabilities-threats/complex-cloud-integrations-small-errors-compromises)
-- 2026-05-29T12:00:00+00:00 — ['The Com' Cyberattacks Support Violence &amp; Sexploitation](https://www.darkreading.com/threat-intelligence/the-com-cyberattacks-violence-sexploitation)
-- 2026-05-28T23:05:23+00:00 — [As Global Powers Explore Humanoid Robots, Cyber-Risk Looms](https://www.darkreading.com/cyber-risk/global-powers-explore-humanoids-cyber-risk)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -599,10 +581,9 @@ Generated: 2026-05-30T06:32:01Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-05-30T00:06:20+00:00 — [Malicious npm packages abuse dependency confusion to profile developer environments](https://www.microsoft.com/en-us/security/blog/2026/05/29/33-malicious-npm-packages-abuse-dependency-confusion-profile-developer-environments/)
-- 2026-05-29T16:00:00+00:00 — [Microsoft is named a Leader in the 2026 Gartner® Magic Quadrant™ for Endpoint Protection](https://www.microsoft.com/en-us/security/blog/2026/05/29/microsoft-is-named-a-leader-in-the-2026-gartner-magic-quadrant-for-endpoint-protection/)
+- No new entries detected
 
 ## LOLBAS Project (Windows)
 
@@ -654,11 +635,10 @@ Generated: 2026-05-30T06:32:01Z
 - Site: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes
 - Feed: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-05-30T03:25:28+00:00 — [Update Dumpex.py](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/e290e24ce4fa1cf27d890309c487ef7322c7faff)
-- 2026-05-30T03:13:24+00:00 — [Update Dumpex.py](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/9547f9e5b68902cd21e6e49f967de48cb72e7ab9)
-- 2026-05-30T02:56:12+00:00 — [New Tools - Dumpex](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/33eac7a03220bc77cd29d4e4ebaacdc1ee392db7)
+- 2026-05-30T09:20:46+00:00 — [Update](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/f18df0a95027af5759c43d6bcb22bb44dd0aa102)
+- 2026-05-30T07:57:25+00:00 — [Update Dumpex.py](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/76e339b7051809f4c9c1f46342a359d148981ca0)
 
 ## kacos2000_Win10
 
@@ -863,9 +843,9 @@ Generated: 2026-05-30T06:32:01Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-29T14:07:42+00:00 — [dev-v1.6.44](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.44)
+- No new entries detected
 
 ## regipy releases
 
@@ -1070,8 +1050,7 @@ Generated: 2026-05-30T06:32:01Z
 - Site: https://www.misp-project.org/
 - Feed: https://github.com/MISP/misp-taxonomies/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-05-29T12:29:07+00:00 — [fix: [*] missing UUIDs added](https://github.com/MISP/misp-taxonomies/commit/e45126b14cd654de3c4caa1e71a5fc58a12bae53)
-- 2026-05-29T12:25:18+00:00 — [Merge pull request #327 from MISP/codex/create-misp-taxonomies-from-i…](https://github.com/MISP/misp-taxonomies/commit/0b56fcdaad4aa0244b1d6c667687ca8e0c3053c1)
-- 2026-05-29T12:24:17+00:00 — [Add IAB Tech Lab taxonomies](https://github.com/MISP/misp-taxonomies/commit/570e19148de0dcd5115b4949f5646c156a56f3f2)
+- 2026-05-30T19:24:02+00:00 — [Merge pull request #328 from MISP/codex/create-misp-taxonomy-for-cont…](https://github.com/MISP/misp-taxonomies/commit/9a5d60faa9013df07722d160afdad63786af1043)
+- 2026-05-30T19:19:25+00:00 — [Add content classification taxonomy](https://github.com/MISP/misp-taxonomies/commit/71b6a0b6df4fcd115ccc2faafbe25f474424f45a)
