@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-05-31T07:08:17Z
+Generated: 2026-06-01T08:47:01Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-05-31T07:08:17Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-01T00:00:00+00:00 — [Agentic AI in the enterprise and the autonomous actor missing from threat models](https://andreafortuna.org/2026/06/01/agentic-ai-enterprise/)
 
 ## Salt Forensics
 
@@ -151,9 +151,9 @@ Generated: 2026-05-31T07:08:17Z
 - Site: https://abrignoni.blogspot.com/
 - Feed: https://abrignoni.blogspot.com/feeds/posts/default
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-31T22:20:57-04:00 — [LEAPPs.org - Latest changes!](https://abrignoni.blogspot.com/2026/05/leappsorg-latest-changes.html)
 
 ## Brett Shavers
 
@@ -220,9 +220,11 @@ Generated: 2026-05-31T07:08:17Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-06-01T02:00:02+00:00 — [ISC Stormcast For Monday, June 1st, 2026 https://isc.sans.edu/podcastdetail/9952, (Mon, Jun 1st)](https://isc.sans.edu/diary/rss/33036)
+- 2026-06-01T00:02:30+00:00 — [Unidentified RAT pushes NetSupport RAT, (Mon, Jun 1st)](https://isc.sans.edu/diary/rss/33034)
+- 2026-05-31T16:01:29+00:00 — [YARA-X 1.17.0 Release, (Sun, May 31st)](https://isc.sans.edu/diary/rss/33032)
 
 ## DFIR Training Blog
 
@@ -237,19 +239,13 @@ Generated: 2026-05-31T07:08:17Z
 
 - Site: https://www.msab.com/
 - Feed: https://www.msab.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## AboutDFIR
 
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## Forensic 4cast
 
@@ -265,9 +261,9 @@ Generated: 2026-05-31T07:08:17Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-31T07:17:45+00:00 — [Week 22 – 2026](https://thisweekin4n6.com/2026/05/31/week-22-2026/)
 
 ## The Sleuth Kit updates
 
@@ -282,19 +278,16 @@ Generated: 2026-05-31T07:08:17Z
 
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## Didier Stevens Blog
 
 - Site: https://blog.didierstevens.com/
 - Feed: https://blog.didierstevens.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-01T07:33:01+00:00 — [Overview of Content Published in May](https://blog.didierstevens.com/2026/06/01/overview-of-content-published-in-may-11/)
 
 ## Hexordia
 
@@ -364,12 +357,11 @@ Generated: 2026-05-31T07:08:17Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 3
 
-- 2026-05-31T07:00:24+00:00 — [Last Week on My Mac: Razzle and dazzle](https://eclecticlight.co/2026/05/31/last-week-on-my-mac-razzle-and-dazzle/)
-- 2026-05-30T11:30:00+00:00 — [Eclectic paintings of Joseph Stella: 1 American landscapes](https://eclecticlight.co/2026/05/30/eclectic-paintings-of-joseph-stella-1-american-landscapes/)
-- 2026-05-30T08:00:29+00:00 — [Saturday Mac riddles 362](https://eclecticlight.co/2026/05/30/saturday-mac-riddles-362/)
-- 2026-05-30T07:00:14+00:00 — [Protect files with the Locked or Immutable flag](https://eclecticlight.co/2026/05/30/protect-files-with-the-locked-or-immutable-flag/)
+- 2026-06-01T08:00:23+00:00 — [Solutions to Saturday Mac riddles 362](https://eclecticlight.co/2026/06/01/solutions-to-saturday-mac-riddles-362/)
+- 2026-06-01T06:30:04+00:00 — [What Location Services do in macOS](https://eclecticlight.co/2026/06/01/what-location-services-do-in-macos/)
+- 2026-05-31T11:30:00+00:00 — [Eclectic paintings of Joseph Stella: 2 European myths](https://eclecticlight.co/2026/05/31/eclectic-paintings-of-joseph-stella-2-european-myths/)
 
 ## JPCERT/CC
 
@@ -502,9 +494,9 @@ Generated: 2026-05-31T07:08:17Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-01T05:57:00+00:00 — [From Seizure to Intelligence: Practical Digital Evidence Workflows for Drug Investigations](https://cellebrite.com/en/resources/webinars/from-seizure-to-intelligence-practical-digital-evidence-workflows-for-drug-investigations/)
 
 ## DFIR Science
 
@@ -520,18 +512,20 @@ Generated: 2026-05-31T07:08:17Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-06-01T00:00:00-05:00 — [CrowdStrike Scales AI-Native Agents Across Falcon Exposure Management with NVIDIA](https://www.crowdstrike.com/en-us/blog/crowdstrike-nvidia-collaborate-to-scale-ai-native-agents-across-falcon-exposure-management/)
+- 2026-06-01T00:00:00-05:00 — [CrowdStrike Brings Enterprise-Grade Security to the AI Factory with NVIDIA Vera BlueField-4 STX](https://www.crowdstrike.com/en-us/blog/crowdstrike-nvidia-bring-enterprise-grade-security-to-the-ai-factory/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-06-01T07:01:00+00:00 — [A week in security (May 25 &#8211; May 31)](https://www.malwarebytes.com/blog/news/2026/06/a-week-in-security-may-25-may-31)
+- 2026-06-01T01:52:57+00:00 — [Payment apps are watching what you say (Lock and Code S07E11)](https://www.malwarebytes.com/blog/podcast/2026/05/payment-apps-are-watching-what-you-say-lock-and-code-s07e11)
 
 ## Krebs on Security
 
@@ -547,10 +541,9 @@ Generated: 2026-05-31T07:08:17Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-05-30T14:02:51-04:00 — [Palo Alto GlobalProtect VPN auth bypass flaw now exploited in attacks](https://www.bleepingcomputer.com/news/security/palo-alto-globalprotect-vpn-auth-bypass-flaw-now-exploited-in-attacks/)
-- 2026-05-30T10:16:08-04:00 — [New CIFSwitch Linux flaw gives root on multiple distributions](https://www.bleepingcomputer.com/news/security/new-cifswitch-linux-flaw-gives-root-on-multiple-distributions/)
+- 2026-05-31T10:06:42-04:00 — [WP Maps Pro bug exploited to create admin accounts on WordPress sites](https://www.bleepingcomputer.com/news/security/wp-maps-pro-bug-exploited-to-create-admin-accounts-on-wordpress-sites/)
 
 ## Dark Reading
 
@@ -635,10 +628,9 @@ Generated: 2026-05-31T07:08:17Z
 - Site: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes
 - Feed: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-05-30T09:20:46+00:00 — [Update](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/f18df0a95027af5759c43d6bcb22bb44dd0aa102)
-- 2026-05-30T07:57:25+00:00 — [Update Dumpex.py](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/76e339b7051809f4c9c1f46342a359d148981ca0)
+- No new entries detected
 
 ## kacos2000_Win10
 
@@ -1050,7 +1042,9 @@ Generated: 2026-05-31T07:08:17Z
 - Site: https://www.misp-project.org/
 - Feed: https://github.com/MISP/misp-taxonomies/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 4
 
-- 2026-05-30T19:24:02+00:00 — [Merge pull request #328 from MISP/codex/create-misp-taxonomy-for-cont…](https://github.com/MISP/misp-taxonomies/commit/9a5d60faa9013df07722d160afdad63786af1043)
-- 2026-05-30T19:19:25+00:00 — [Add content classification taxonomy](https://github.com/MISP/misp-taxonomies/commit/71b6a0b6df4fcd115ccc2faafbe25f474424f45a)
+- 2026-06-01T06:36:54+00:00 — [chg: [mapping] UUID removed](https://github.com/MISP/misp-taxonomies/commit/c03f4ce071605ff9bafe3a091e7d0fd640f8585c)
+- 2026-06-01T06:32:20+00:00 — [chg: [manifest] updated](https://github.com/MISP/misp-taxonomies/commit/aee0d71cc02bc4ef8adb584beb58d92e0dbf9dcb)
+- 2026-06-01T06:31:48+00:00 — [Merge pull request #329 from MISP/codex/add-niso-credit-contributor-r…](https://github.com/MISP/misp-taxonomies/commit/73c3899760157874406f389fc4e8d31392a55d13)
+- 2026-05-31T21:02:10+00:00 — [Add NISO CRediT taxonomy](https://github.com/MISP/misp-taxonomies/commit/a5f8b54dc058c7f19d3fb26c020a7cde5fb89f82)
