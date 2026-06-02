@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-06-01T08:47:01Z
+Generated: 2026-06-02T08:09:22Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-06-01T08:47:01Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-01T00:00:00+00:00 — [Agentic AI in the enterprise and the autonomous actor missing from threat models](https://andreafortuna.org/2026/06/01/agentic-ai-enterprise/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -151,18 +151,18 @@ Generated: 2026-06-01T08:47:01Z
 - Site: https://abrignoni.blogspot.com/
 - Feed: https://abrignoni.blogspot.com/feeds/posts/default
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-31T22:20:57-04:00 — [LEAPPs.org - Latest changes!](https://abrignoni.blogspot.com/2026/05/leappsorg-latest-changes.html)
+- No new entries detected
 
 ## Brett Shavers
 
 - Site: https://brettshavers.com/brett-s-blog
 - Feed: https://feeds.feedburner.com/brettshavers/oSyq
 - Entries checked: 3
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-01T08:02:12-07:00 — [The difference between "No one will hire me" and "I am no longer professionally allowed to do this DFIR work"](https://brettshavers.com/brett-s-blog/entry/the-difference-between-no-one-will-hire-me-and-i-can-no-longer-professionally-allowed-to-do-this-dfir-work)
 
 ## Yogesh Khatri's forensic blog
 
@@ -220,11 +220,10 @@ Generated: 2026-06-01T08:47:01Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-06-01T02:00:02+00:00 — [ISC Stormcast For Monday, June 1st, 2026 https://isc.sans.edu/podcastdetail/9952, (Mon, Jun 1st)](https://isc.sans.edu/diary/rss/33036)
-- 2026-06-01T00:02:30+00:00 — [Unidentified RAT pushes NetSupport RAT, (Mon, Jun 1st)](https://isc.sans.edu/diary/rss/33034)
-- 2026-05-31T16:01:29+00:00 — [YARA-X 1.17.0 Release, (Sun, May 31st)](https://isc.sans.edu/diary/rss/33032)
+- 2026-06-02T07:29:25+00:00 — [New Wave Of Phishing Emails with SVG Files, (Tue, Jun 2nd)](https://isc.sans.edu/diary/rss/33040)
+- 2026-06-02T02:00:02+00:00 — [ISC Stormcast For Tuesday, June 2nd, 2026 https://isc.sans.edu/podcastdetail/9954, (Tue, Jun 2nd)](https://isc.sans.edu/diary/rss/33038)
 
 ## DFIR Training Blog
 
@@ -261,9 +260,9 @@ Generated: 2026-06-01T08:47:01Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-05-31T07:17:45+00:00 — [Week 22 – 2026](https://thisweekin4n6.com/2026/05/31/week-22-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
@@ -285,9 +284,9 @@ Generated: 2026-06-01T08:47:01Z
 - Site: https://blog.didierstevens.com/
 - Feed: https://blog.didierstevens.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-01T07:33:01+00:00 — [Overview of Content Published in May](https://blog.didierstevens.com/2026/06/01/overview-of-content-published-in-may-11/)
+- No new entries detected
 
 ## Hexordia
 
@@ -359,9 +358,9 @@ Generated: 2026-06-01T08:47:01Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-06-01T08:00:23+00:00 — [Solutions to Saturday Mac riddles 362](https://eclecticlight.co/2026/06/01/solutions-to-saturday-mac-riddles-362/)
-- 2026-06-01T06:30:04+00:00 — [What Location Services do in macOS](https://eclecticlight.co/2026/06/01/what-location-services-do-in-macos/)
-- 2026-05-31T11:30:00+00:00 — [Eclectic paintings of Joseph Stella: 2 European myths](https://eclecticlight.co/2026/05/31/eclectic-paintings-of-joseph-stella-2-european-myths/)
+- 2026-06-02T06:30:00+00:00 — [BSD flags are incompatible with iCloud Drive](https://eclecticlight.co/2026/06/02/bsd-flags-are-incompatible-with-icloud-drive/)
+- 2026-06-01T18:10:18+00:00 — [Apple has released macOS Tahoe 26.5.1](https://eclecticlight.co/2026/06/01/apple-has-released-macos-tahoe-26-5-1/)
+- 2026-06-01T11:30:00+00:00 — [In memoriam Mary Cassatt: 1, 1868-1880](https://eclecticlight.co/2026/06/01/in-memoriam-mary-cassatt-1-1868-1880/)
 
 ## JPCERT/CC
 
@@ -386,9 +385,9 @@ Generated: 2026-06-01T08:47:01Z
 - Site: https://blog.elcomsoft.com/
 - Feed: https://blog.elcomsoft.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-01T08:47:52+00:00 — [Forensic Implications of Apple Stolen Device Protection](https://blog.elcomsoft.com/2026/06/forensic-implications-of-apple-stolen-device-protection/)
 
 ## Huntress Blog
 
@@ -404,9 +403,10 @@ Generated: 2026-06-01T08:47:01Z
 - Site: https://redcanary.com/blog/
 - Feed: https://redcanary.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-06-01T18:59:52+00:00 — [Red Canary CFP tracker: May 2026](https://redcanary.com/blog/news-events/red-canary-cfp-tracker-june-2026/)
+- 2026-06-01T13:04:01+00:00 — [Investigating suspicious AI workflows in Microsoft Entra Agent ID: Agent’s user account](https://redcanary.com/blog/threat-detection/entra-id-ai-workflows-teams/)
 
 ## Palo Alto Unit 42
 
@@ -449,18 +449,20 @@ Generated: 2026-06-01T08:47:01Z
 - Site: https://www.elastic.co/security-labs/
 - Feed: https://www.elastic.co/security-labs/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- unknown date — [From API key to live threat detections in minutes: how Elastic Security ingests Google Threat Intelligence](https://www.elastic.co/security-labs/elastic-security-google-threat-intelligence)
+- unknown date — [PHANTOMPULSE: anatomy of a hijackable blockchain-C2 RATby Salim Bitam22 May 2026](https://www.elastic.co/security-labs/blockchain-c2-phantompulse-rat-sinkhole)
 
 ## Flare.io Threat Research Blog
 
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-06-01T22:06:36+00:00 — [FalkonC2 is Getting Ridiculously Stealthy](https://flare.io/learn/resources/blog/falkonc2)
+- 2026-06-01T19:21:26+00:00 — [What Security Leaders Need to Know About the 2026 DBIR: 50% of Ransomware Victims Had Credential Exposure Within 95 Days](https://flare.io/learn/resources/blog/2026-verizon-dbir)
 
 ## Binalyze Blog
 
@@ -494,9 +496,9 @@ Generated: 2026-06-01T08:47:01Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-01T05:57:00+00:00 — [From Seizure to Intelligence: Practical Digital Evidence Workflows for Drug Investigations](https://cellebrite.com/en/resources/webinars/from-seizure-to-intelligence-practical-digital-evidence-workflows-for-drug-investigations/)
+- No new entries detected
 
 ## DFIR Science
 
@@ -512,10 +514,9 @@ Generated: 2026-06-01T08:47:01Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-06-01T00:00:00-05:00 — [CrowdStrike Scales AI-Native Agents Across Falcon Exposure Management with NVIDIA](https://www.crowdstrike.com/en-us/blog/crowdstrike-nvidia-collaborate-to-scale-ai-native-agents-across-falcon-exposure-management/)
-- 2026-06-01T00:00:00-05:00 — [CrowdStrike Brings Enterprise-Grade Security to the AI Factory with NVIDIA Vera BlueField-4 STX](https://www.crowdstrike.com/en-us/blog/crowdstrike-nvidia-bring-enterprise-grade-security-to-the-ai-factory/)
+- 2026-06-01T00:00:00-05:00 — [Secure Shadow AI at the Control Plane with Falcon for IT](https://www.crowdstrike.com/en-us/blog/secure-shadow-ai-at-the-control-plane-with-falcon-for-it/)
 
 ## Malwarebytes Labs
 
@@ -524,35 +525,46 @@ Generated: 2026-06-01T08:47:01Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-06-01T07:01:00+00:00 — [A week in security (May 25 &#8211; May 31)](https://www.malwarebytes.com/blog/news/2026/06/a-week-in-security-may-25-may-31)
-- 2026-06-01T01:52:57+00:00 — [Payment apps are watching what you say (Lock and Code S07E11)](https://www.malwarebytes.com/blog/podcast/2026/05/payment-apps-are-watching-what-you-say-lock-and-code-s07e11)
+- 2026-06-01T14:40:25+00:00 — [Fake BlueWallet steals passwords, accounts, and crypto from Macs](https://www.malwarebytes.com/blog/threat-intel/2026/06/fake-bluewallet-steals-passwords-accounts-and-crypto-from-macs)
+- 2026-06-01T08:31:44+00:00 — [Your phone called. It needs a cleanup.](https://www.malwarebytes.com/blog/mobile/2026/06/your-phone-called-it-needs-a-cleanup)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-01T17:32:50+00:00 — [Hackers Used Meta’s AI Support Bot to Seize Instagram Accounts](https://krebsonsecurity.com/2026/06/hackers-used-metas-ai-support-bot-to-seize-instagram-accounts/)
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 10
 
-- 2026-05-31T10:06:42-04:00 — [WP Maps Pro bug exploited to create admin accounts on WordPress sites](https://www.bleepingcomputer.com/news/security/wp-maps-pro-bug-exploited-to-create-admin-accounts-on-wordpress-sites/)
+- 2026-06-01T18:14:19-04:00 — [Hackers hijack thousands of sites for ClickFix and FakeUpdate attacks](https://www.bleepingcomputer.com/news/security/hackers-hijack-thousands-of-sites-for-clickfix-and-fakeupdate-attacks/)
+- 2026-06-01T17:38:29-04:00 — [Red Hat npm packages compromised to steal developer credentials](https://www.bleepingcomputer.com/news/security/red-hat-npm-packages-compromised-to-steal-developer-credentials/)
+- 2026-06-01T17:28:41-04:00 — [Spain arrests doxer leaking sensitive data of govt employees](https://www.bleepingcomputer.com/news/security/spain-arrests-doxer-leaking-sensitive-data-of-govt-employees/)
+- 2026-06-01T14:17:13-04:00 — [Dashlane password manager users locked out by brute force attacks](https://www.bleepingcomputer.com/news/security/dashlane-password-manager-users-locked-out-by-brute-force-attacks/)
+- 2026-06-01T13:04:16-04:00 — [WordPress malware campaign hides payloads in Steam profiles](https://www.bleepingcomputer.com/news/security/wordpress-malware-campaign-hides-payloads-in-steam-profiles/)
+- 2026-06-01T10:36:46-04:00 — [Microsoft investigates Office Apps, Teams file access issues](https://www.bleepingcomputer.com/news/microsoft/microsoft-investigates-office-apps-teams-file-access-issues/)
+- 2026-06-01T10:00:10-04:00 — [Race Against Time: Why Faster Vulnerability Alerts Matter](https://www.bleepingcomputer.com/news/security/race-against-time-why-faster-vulnerability-alerts-matter/)
+- 2026-06-01T08:30:27-04:00 — [Critical Windows Netlogon RCE flaw now exploited in attacks](https://www.bleepingcomputer.com/news/microsoft/critical-windows-netlogon-remote-code-execution-flaw-now-exploited-in-attacks/)
+- 2026-06-01T08:01:09-04:00 — [Webinar tomorrow: From alert to resolution in network incident response](https://www.bleepingcomputer.com/news/security/webinar-tomorrow-from-alert-to-resolution-in-network-incident-response/)
+- 2026-06-01T07:40:16-04:00 — [Microsoft fixes outage affecting MFA setup, MySignIn service](https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-outage-affecting-mfa-setup-mysignin-service/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-06-01T21:07:48+00:00 — [Anthropic to Open Mythos AI to EU's ENISA](https://www.darkreading.com/cyber-risk/anthropic-mythos-ai-eu-enisa)
+- 2026-06-01T18:52:26+00:00 — [Microsoft's Zero-Day Legal Threats Spark Backlash](https://www.darkreading.com/application-security/microsoft-zero-day-legal-threats-backlash)
+- 2026-06-01T14:35:51+00:00 — [Patch Now: Another Palo Alto Auth Bypass Bug Under Active Exploit](https://www.darkreading.com/threat-intelligence/patch-palo-alto-auth-bypass-bug-exploit)
 
 ## Volexity Blog
 
@@ -835,9 +847,14 @@ Generated: 2026-06-01T08:47:01Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 6
 
-- No new entries detected
+- 2026-06-01T18:18:51+00:00 — [integration-v9.4.5: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.4.5)
+- 2026-06-01T18:18:02+00:00 — [integration-v9.3.13: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.3.13)
+- 2026-06-01T18:17:07+00:00 — [integration-v9.2.17: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.2.17)
+- 2026-06-01T18:16:19+00:00 — [integration-v8.19.25: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v8.19.25)
+- 2026-06-01T18:15:07+00:00 — [dev-v1.6.46](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.46)
+- 2026-06-01T13:58:37+00:00 — [dev-v1.6.45](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.45)
 
 ## regipy releases
 
@@ -1042,9 +1059,6 @@ Generated: 2026-06-01T08:47:01Z
 - Site: https://www.misp-project.org/
 - Feed: https://github.com/MISP/misp-taxonomies/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-06-01T06:36:54+00:00 — [chg: [mapping] UUID removed](https://github.com/MISP/misp-taxonomies/commit/c03f4ce071605ff9bafe3a091e7d0fd640f8585c)
-- 2026-06-01T06:32:20+00:00 — [chg: [manifest] updated](https://github.com/MISP/misp-taxonomies/commit/aee0d71cc02bc4ef8adb584beb58d92e0dbf9dcb)
-- 2026-06-01T06:31:48+00:00 — [Merge pull request #329 from MISP/codex/add-niso-credit-contributor-r…](https://github.com/MISP/misp-taxonomies/commit/73c3899760157874406f389fc4e8d31392a55d13)
-- 2026-05-31T21:02:10+00:00 — [Add NISO CRediT taxonomy](https://github.com/MISP/misp-taxonomies/commit/a5f8b54dc058c7f19d3fb26c020a7cde5fb89f82)
+- No new entries detected
