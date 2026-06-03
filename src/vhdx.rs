@@ -6,7 +6,54 @@
 //! Source: [MS-VHDX] Virtual Hard Disk v2 File Format
 //!   https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-vhdx/
 
-// (implementation added in the GREEN commit)
+/// 8-byte file type identifier at offset 0: ASCII `"vhdxfile"`.
+pub const FILE_IDENTIFIER: &[u8; 8] = b"vhdxfile";
+pub const FILE_IDENTIFIER_OFFSET: u64 = 0;
+
+/// 4-byte signature `"head"` at the start of each header block.
+pub const HEADER_SIGNATURE: &[u8; 4] = b"head";
+/// Each header block occupies a 4 KiB-aligned 64 KiB slot but the structure is 4096 bytes.
+pub const HEADER_SIZE: usize = 4096;
+
+/// 4-byte signature `"regi"` at the start of each region table.
+pub const REGION_TABLE_SIGNATURE: &[u8; 4] = b"regi";
+
+// Fixed section offsets within the first 1 MiB "header section" (MS-VHDX §2.1).
+pub const HEADER1_OFFSET: u64 = 0x0001_0000; // 64 KiB
+pub const HEADER2_OFFSET: u64 = 0x0002_0000; // 128 KiB
+pub const REGION_TABLE1_OFFSET: u64 = 0x0003_0000; // 192 KiB
+pub const REGION_TABLE2_OFFSET: u64 = 0x0004_0000; // 256 KiB
+
+/// VHDX checksums are CRC-32C (Castagnoli); this is the reversed polynomial.
+pub const CRC32C_POLYNOMIAL: u32 = 0x82F6_3B78;
+
+/// The two well-known region GUIDs that locate the Block Allocation Table and the
+/// Metadata region (16-byte little-endian GUIDs). Source: MS-VHDX §2.3.
+pub const REGION_GUIDS: &[(&str, [u8; 16])] = &[
+    (
+        "BAT",
+        [
+            0x66, 0x77, 0xC2, 0x2D, 0x23, 0xF6, 0x00, 0x42, 0x9D, 0x64, 0x11, 0x5E, 0x9B, 0xFD,
+            0x4A, 0x08,
+        ],
+    ),
+    (
+        "Metadata",
+        [
+            0x06, 0xA2, 0x7C, 0x8B, 0x90, 0x47, 0x9A, 0x4B, 0xB8, 0xFE, 0x57, 0x5F, 0x05, 0x0F,
+            0x88, 0x6E,
+        ],
+    ),
+];
+
+/// Block Allocation Table entry state values (low 3 bits of each 64-bit BAT entry).
+/// Source: MS-VHDX §2.5.2.
+pub const PAYLOAD_BLOCK_NOT_PRESENT: u64 = 0;
+pub const PAYLOAD_BLOCK_UNDEFINED: u64 = 1;
+pub const PAYLOAD_BLOCK_ZERO: u64 = 2;
+pub const PAYLOAD_BLOCK_UNMAPPED: u64 = 3;
+pub const PAYLOAD_BLOCK_FULLY_PRESENT: u64 = 6;
+pub const PAYLOAD_BLOCK_PARTIALLY_PRESENT: u64 = 7;
 
 #[cfg(test)]
 mod tests {
