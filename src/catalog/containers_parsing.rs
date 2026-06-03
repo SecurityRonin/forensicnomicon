@@ -106,6 +106,20 @@ const FLAT_FILE_HINTS: &[&str] = &[
     "Treat the source as a flat file or directory artifact and preserve raw bytes, filenames, and timestamps before any higher-level interpretation.",
 ];
 
+const VMWARE_VMDK_HINTS: &[&str] = &[
+    "Read the embedded or sidecar text descriptor first: its createType selects the layout (monolithicSparse, twoGbMaxExtent*, vmfsSparse, seSparse, streamOptimized, flat, or device-map) and its extent lines name the companion files to collect.",
+    "For sparse layouts, resolve the virtual disk through the two-level grain directory / grain table: a grain-table entry of 0 is sparse and 1 is an explicitly zeroed grain (header version 2+).",
+    "For streamOptimized, allocated grains are zlib (RFC 1950) compressed behind a 12-byte GrainMarker; a primary gdOffset of 0xFFFFFFFFFFFFFFFF means the real grain directory is in the footer header at file_end-1024.",
+    "Collect every companion extent (and, for delta disks, the parent chain via parentFileNameHint) before treating the virtual disk as complete.",
+];
+
+const VMDK_INVARIANTS: &[&str] = &[
+    "VMDK4 sparse extents begin with the little-endian magic 'KDMV' (0x564D444B) at offset 0; the 512-byte header carries capacity, grainSize, gdOffset, and compressAlgorithm.",
+    "ESXi COWD (vmfsSparse/vmfsThin) extents begin with the big-endian magic 'COWD' at offset 0, use 32-bit fields, and place the grain directory at sector 4 with 4096 entries per grain table.",
+    "seSparse (VMFS6) extents begin with the u64 constant-header magic 0x00000000CAFEBABE at offset 0 and a volatile header (0x00000000CAFECAFE) at sector 1; grain size is fixed at 8 sectors and grain entries are nibble-typed with a bit-rotated grain index.",
+    "A text descriptor (createType=...) may stand alone and reference one or more extent files; flat/VMFS/ZERO extents hold raw data while SPARSE/VMFSSPARSE/SESPARSE extents are binary with their own headers.",
+];
+
 static CONTAINER_PROFILES: &[ContainerProfile] = &[
     ContainerProfile {
         id: "windows_registry_hive",
@@ -179,9 +193,22 @@ static CONTAINER_PROFILES: &[ContainerProfile] = &[
             "https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file",
         ],
     },
+    ContainerProfile {
+        id: "vmware_vmdk",
+        name: "VMware VMDK Disk Image",
+        summary: "VMware virtual disk container (monolithicSparse, streamOptimized, twoGbMaxExtent*, vmfsSparse/vmfsThin COWD, seSparse, flat, or device-map) holding a guest virtual disk whose sectors must be reconstructed before filesystem analysis.",
+        parser_hints: VMWARE_VMDK_HINTS,
+        sources: &[
+            "https://github.com/libyal/libvmdk/blob/main/documentation/VMware%20Virtual%20Disk%20Format%20(VMDK).asciidoc",
+            "https://github.com/qemu/qemu/blob/master/block/vmdk.c",
+        ],
+    },
 ];
 
 static REGF_MAGIC: &[u8] = b"regf";
+static VMDK4_MAGIC_BYTES: &[u8] = b"KDMV"; // little-endian 0x564D444B
+static COWD_MAGIC_BYTES: &[u8] = b"COWD"; // big-endian, ESXi vmfsSparse/vmfsThin
+static SESPARSE_MAGIC_BYTES: &[u8] = &[0xBE, 0xBA, 0xFE, 0xCA, 0x00, 0x00, 0x00, 0x00]; // u64 LE 0xCAFEBABE
 static SQLITE_MAGIC: &[u8] = b"SQLite format 3\0";
 static ESE_MAGIC: &[u8] = &[0xef, 0xcd, 0xab, 0x89];
 static OLE_MAGIC: &[u8] = &[0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1];
@@ -272,6 +299,45 @@ static CONTAINER_SIGNATURES: &[ContainerSignature] = &[
         sources: &[
             "https://forensics.wiki/hiberfil.sys/",
             "https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/memory-dump-file-options",
+        ],
+    },
+    ContainerSignature {
+        container_id: "vmware_vmdk",
+        name: "VMDK Sparse Extent Header (KDMV)",
+        header_magic: VMDK4_MAGIC_BYTES,
+        footer_magic: &[],
+        header_offset: 0,
+        min_size: Some(512),
+        alignment: Some(512),
+        invariants: VMDK_INVARIANTS,
+        sources: &[
+            "https://github.com/libyal/libvmdk/blob/main/documentation/VMware%20Virtual%20Disk%20Format%20(VMDK).asciidoc",
+        ],
+    },
+    ContainerSignature {
+        container_id: "vmware_vmdk",
+        name: "VMDK COWD Sparse Extent Header (vmfsSparse/vmfsThin)",
+        header_magic: COWD_MAGIC_BYTES,
+        footer_magic: &[],
+        header_offset: 0,
+        min_size: Some(2048),
+        alignment: Some(512),
+        invariants: VMDK_INVARIANTS,
+        sources: &[
+            "https://github.com/qemu/qemu/blob/master/block/vmdk.c",
+        ],
+    },
+    ContainerSignature {
+        container_id: "vmware_vmdk",
+        name: "VMDK seSparse Constant Header (0xCAFEBABE)",
+        header_magic: SESPARSE_MAGIC_BYTES,
+        footer_magic: &[],
+        header_offset: 0,
+        min_size: Some(512),
+        alignment: Some(512),
+        invariants: VMDK_INVARIANTS,
+        sources: &[
+            "https://github.com/qemu/qemu/blob/master/block/vmdk.c",
         ],
     },
 ];
