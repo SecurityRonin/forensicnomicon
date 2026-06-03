@@ -120,6 +120,63 @@ const VMDK_INVARIANTS: &[&str] = &[
     "A text descriptor (createType=...) may stand alone and reference one or more extent files; flat/VMFS/ZERO extents hold raw data while SPARSE/VMFSSPARSE/SESPARSE extents are binary with their own headers.",
 ];
 
+const VHDX_HINTS: &[&str] = &[
+    "Validate against both header copies (offset 0x10000 and 0x20000) and use the one with the highest SequenceNumber whose CRC-32C checks out.",
+    "Resolve the Block Allocation Table via the Metadata and BAT regions named by the region table; a BAT entry state of 6 = fully present, 0 = not present.",
+    "Replay the log before trusting BAT/metadata state on a dirty image.",
+];
+const VHDX_INVARIANTS: &[&str] = &[
+    "Begins with the 8-byte file identifier 'vhdxfile' at offset 0.",
+    "Two 'head'-signed header copies live at 64 KiB and 128 KiB; two 'regi'-signed region tables at 192 KiB and 256 KiB; all checksums are CRC-32C (poly 0x82F63B78).",
+];
+
+const VHD_HINTS: &[&str] = &[
+    "Read the 512-byte 'conectix' footer at end-of-file for diskType, currentSize, and (for dynamic/differencing) the dataOffset of the 'cxsparse' header.",
+    "A fixed VHD has dataOffset = 0xFFFFFFFFFFFFFFFF and is raw data plus the footer; dynamic/differencing VHDs use a Block Allocation Table reached from the dynamic header.",
+];
+const VHD_INVARIANTS: &[&str] = &[
+    "Ends with a 512-byte footer whose cookie is 'conectix'; dynamic/differencing disks repeat the footer at offset 0 and add a 'cxsparse' 1024-byte dynamic header.",
+    "diskType is 2 (fixed), 3 (dynamic), or 4 (differencing); the footer checksum is the one's-complement of the footer with the checksum field zeroed.",
+];
+
+const QCOW2_HINTS: &[&str] = &[
+    "Parse the big-endian header for cluster_bits, virtual size, and the L1 table offset, then walk L1 -> L2 -> cluster to resolve guest offsets.",
+    "Refuse the image if any incompatible_features bit you do not understand is set; bit 0 (dirty) and bit 1 (corrupt) indicate the image needs repair.",
+    "L2 entries with bit 62 set point to a zlib (or zstd) compressed cluster; a backing_file_offset names a parent image that must also be collected.",
+];
+const QCOW2_INVARIANTS: &[&str] = &[
+    "Begins with the big-endian magic 'QFI\\xfb' (0x514649FB) at offset 0; version is 2 or 3.",
+    "cluster_bits is in 9..=21 (512 B .. 2 MiB clusters); v3 adds the 64-bit incompatible/compatible/autoclear feature words at offset 0x48.",
+];
+
+const EWF_HINTS: &[&str] = &[
+    "Identify the variant by the 8-byte signature: 'EVF\\x09\\x0d\\x0a\\xff\\x00' = EWF1 (.E01), 'EVF2..' = Ex01, 'LEF2..' = Lx01 logical evidence.",
+    "Walk the section chain (header, volume/disk, table/sectors, ... done) and collect every segment file (.E01, .E02, ...) — the acquisition spans all of them.",
+    "Verify the stored MD5/SHA-1 hash and per-chunk Adler-32 to confirm integrity before relying on the evidence.",
+];
+const EWF_INVARIANTS: &[&str] = &[
+    "Begins with one of the 8-byte EVF/EVF2/LEF2 signatures at offset 0.",
+    "Data is stored as compressed or raw chunks indexed by 'table' sections; the high bit of each EWF1 table offset flags a compressed chunk.",
+];
+
+const AFF4_HINTS: &[&str] = &[
+    "Open the file as a ZIP container and read 'information.turtle' (RDF) to discover the aff4:ImageStream or aff4:Map that backs the disk image.",
+    "For ImageStreams, reassemble data from chunked bevy segments (default 32 KiB chunks, 2048 chunks per bevy); for Map-backed images, follow the map ranges to ImageStream / Zero / SymbolicStream targets.",
+];
+const AFF4_INVARIANTS: &[&str] = &[
+    "Is a ZIP container: offset 0 is the local-file-header magic 'PK\\x03\\x04'; metadata lives in the 'information.turtle' segment.",
+    "Object identifiers use the aff4:// URI scheme and the http://aff4.org/Schema# RDF namespace.",
+];
+
+const DMG_HINTS: &[&str] = &[
+    "Read the 512-byte 'koly' trailer at end-of-file for the XML property-list offset/length and the total sector count; there is no header magic.",
+    "Parse the plist's blkx entries (each a 'mish' block table) and decode chunks by type: 0 zero-fill, 1 raw, 0x80000005 zlib, 0x80000006 bzip2, 0x80000007 LZFSE.",
+];
+const DMG_INVARIANTS: &[&str] = &[
+    "Ends with a 512-byte big-endian 'koly' (0x6B6F6C79) trailer; the decode tables are 'mish' (0x6D697368) BLKX block tables referenced from the XML plist.",
+    "Chunk entry type 0xFFFFFFFF terminates a block table and 0x7FFFFFFE is a comment.",
+];
+
 static CONTAINER_PROFILES: &[ContainerProfile] = &[
     ContainerProfile {
         id: "windows_registry_hive",
@@ -203,12 +260,72 @@ static CONTAINER_PROFILES: &[ContainerProfile] = &[
             "https://github.com/qemu/qemu/blob/master/block/vmdk.c",
         ],
     },
+    ContainerProfile {
+        id: "microsoft_vhdx",
+        name: "Microsoft VHDX Disk Image",
+        summary: "Hyper-V / Windows 8+ / WSL2 / Azure virtual disk with dual headers, a region table, a Block Allocation Table, and a log for crash consistency.",
+        parser_hints: VHDX_HINTS,
+        sources: &[
+            "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-vhdx/",
+        ],
+    },
+    ContainerProfile {
+        id: "microsoft_vhd",
+        name: "Microsoft VHD Disk Image (legacy)",
+        summary: "Legacy Virtual PC / Hyper-V Gen-1 virtual disk: fixed, dynamic, or differencing, identified by a 'conectix' footer at end-of-file.",
+        parser_hints: VHD_HINTS,
+        sources: &[
+            "https://www.microsoft.com/en-us/download/details.aspx?id=23850",
+        ],
+    },
+    ContainerProfile {
+        id: "qemu_qcow2",
+        name: "QEMU QCOW2 Disk Image",
+        summary: "QEMU / KVM / libvirt copy-on-write virtual disk (v2/v3) with two-level L1/L2 cluster mapping, optional compression, encryption, and backing files.",
+        parser_hints: QCOW2_HINTS,
+        sources: &[
+            "https://github.com/qemu/qemu/blob/master/docs/interop/qcow2.txt",
+        ],
+    },
+    ContainerProfile {
+        id: "ewf_image",
+        name: "Expert Witness Format (E01/Ex01/L01)",
+        summary: "Dominant professional forensic acquisition container: chunked, compressed, hashed evidence segments (EWF1 .E01, EWF2 Ex01, logical Lx01).",
+        parser_hints: EWF_HINTS,
+        sources: &[
+            "https://github.com/libyal/libewf/tree/main/documentation",
+        ],
+    },
+    ContainerProfile {
+        id: "aff4_image",
+        name: "AFF4 Forensic Image",
+        summary: "ZIP-based Advanced Forensic Format 4 container with RDF/Turtle metadata; disk images are aff4:ImageStream bevies or aff4:Map-backed streams.",
+        parser_hints: AFF4_HINTS,
+        sources: &[
+            "https://github.com/aff4/Standard",
+        ],
+    },
+    ContainerProfile {
+        id: "apple_dmg",
+        name: "Apple DMG / UDIF Disk Image",
+        summary: "macOS disk image with a 512-byte 'koly' trailer, an XML property list, and 'mish' BLKX block tables whose chunks are raw, zero, or zlib/bzip2/LZFSE compressed.",
+        parser_hints: DMG_HINTS,
+        sources: &[
+            "http://newosxbook.com/DMG.html",
+        ],
+    },
 ];
 
 static REGF_MAGIC: &[u8] = b"regf";
 static VMDK4_MAGIC_BYTES: &[u8] = b"KDMV"; // little-endian 0x564D444B
 static COWD_MAGIC_BYTES: &[u8] = b"COWD"; // big-endian, ESXi vmfsSparse/vmfsThin
 static SESPARSE_MAGIC_BYTES: &[u8] = &[0xBE, 0xBA, 0xFE, 0xCA, 0x00, 0x00, 0x00, 0x00]; // u64 LE 0xCAFEBABE
+static VHDX_MAGIC_BYTES: &[u8] = b"vhdxfile";
+static VHD_FOOTER_COOKIE: &[u8] = b"conectix";
+static QCOW2_MAGIC_BYTES: &[u8] = &[0x51, 0x46, 0x49, 0xFB]; // big-endian "QFI\xfb"
+static EVF1_MAGIC_BYTES: &[u8] = &[0x45, 0x56, 0x46, 0x09, 0x0D, 0x0A, 0xFF, 0x00]; // EWF1 .E01
+static AFF4_ZIP_MAGIC_BYTES: &[u8] = b"PK\x03\x04"; // ZIP local file header
+static DMG_KOLY_COOKIE: &[u8] = b"koly"; // 512-byte trailer at end-of-file
 static SQLITE_MAGIC: &[u8] = b"SQLite format 3\0";
 static ESE_MAGIC: &[u8] = &[0xef, 0xcd, 0xab, 0x89];
 static OLE_MAGIC: &[u8] = &[0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1];
@@ -339,6 +456,72 @@ static CONTAINER_SIGNATURES: &[ContainerSignature] = &[
         sources: &[
             "https://github.com/qemu/qemu/blob/master/block/vmdk.c",
         ],
+    },
+    ContainerSignature {
+        container_id: "microsoft_vhdx",
+        name: "VHDX File Identifier",
+        header_magic: VHDX_MAGIC_BYTES,
+        footer_magic: &[],
+        header_offset: 0,
+        min_size: Some(0x10_0000),
+        alignment: Some(0x1_0000),
+        invariants: VHDX_INVARIANTS,
+        sources: &["https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-vhdx/"],
+    },
+    ContainerSignature {
+        container_id: "microsoft_vhd",
+        name: "VHD conectix Footer",
+        header_magic: &[],
+        footer_magic: VHD_FOOTER_COOKIE,
+        header_offset: 0,
+        min_size: Some(512),
+        alignment: Some(512),
+        invariants: VHD_INVARIANTS,
+        sources: &["https://www.microsoft.com/en-us/download/details.aspx?id=23850"],
+    },
+    ContainerSignature {
+        container_id: "qemu_qcow2",
+        name: "QCOW2 Header Magic",
+        header_magic: QCOW2_MAGIC_BYTES,
+        footer_magic: &[],
+        header_offset: 0,
+        min_size: Some(72),
+        alignment: None,
+        invariants: QCOW2_INVARIANTS,
+        sources: &["https://github.com/qemu/qemu/blob/master/docs/interop/qcow2.txt"],
+    },
+    ContainerSignature {
+        container_id: "ewf_image",
+        name: "EWF1 EVF Signature",
+        header_magic: EVF1_MAGIC_BYTES,
+        footer_magic: &[],
+        header_offset: 0,
+        min_size: Some(13),
+        alignment: None,
+        invariants: EWF_INVARIANTS,
+        sources: &["https://github.com/libyal/libewf/tree/main/documentation"],
+    },
+    ContainerSignature {
+        container_id: "aff4_image",
+        name: "AFF4 ZIP Local File Header",
+        header_magic: AFF4_ZIP_MAGIC_BYTES,
+        footer_magic: &[],
+        header_offset: 0,
+        min_size: Some(22),
+        alignment: None,
+        invariants: AFF4_INVARIANTS,
+        sources: &["https://github.com/aff4/Standard"],
+    },
+    ContainerSignature {
+        container_id: "apple_dmg",
+        name: "DMG koly Trailer",
+        header_magic: &[],
+        footer_magic: DMG_KOLY_COOKIE,
+        header_offset: 0,
+        min_size: Some(512),
+        alignment: None,
+        invariants: DMG_INVARIANTS,
+        sources: &["http://newosxbook.com/DMG.html"],
     },
 ];
 
