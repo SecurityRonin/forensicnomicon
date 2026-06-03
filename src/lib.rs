@@ -132,6 +132,7 @@ pub mod dependencies;
 pub mod eventids;
 pub mod evidence;
 pub mod evtx;
+pub mod vmdk;
 pub mod forensicartifacts;
 pub mod mitre;
 pub mod navigator;
