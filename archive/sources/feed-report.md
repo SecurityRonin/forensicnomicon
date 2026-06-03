@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-06-02T08:09:22Z
+Generated: 2026-06-03T08:30:51Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-06-02T08:09:22Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-03T00:00:00+00:00 — [Security awareness training and the checkbox we all pretend works](https://andreafortuna.org/2026/06/03/security-awareness/)
 
 ## Salt Forensics
 
@@ -160,9 +160,9 @@ Generated: 2026-06-02T08:09:22Z
 - Site: https://brettshavers.com/brett-s-blog
 - Feed: https://feeds.feedburner.com/brettshavers/oSyq
 - Entries checked: 3
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-01T08:02:12-07:00 — [The difference between "No one will hire me" and "I am no longer professionally allowed to do this DFIR work"](https://brettshavers.com/brett-s-blog/entry/the-difference-between-no-one-will-hire-me-and-i-can-no-longer-professionally-allowed-to-do-this-dfir-work)
+- No new entries detected
 
 ## Yogesh Khatri's forensic blog
 
@@ -220,16 +220,15 @@ Generated: 2026-06-02T08:09:22Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-06-02T07:29:25+00:00 — [New Wave Of Phishing Emails with SVG Files, (Tue, Jun 2nd)](https://isc.sans.edu/diary/rss/33040)
-- 2026-06-02T02:00:02+00:00 — [ISC Stormcast For Tuesday, June 2nd, 2026 https://isc.sans.edu/podcastdetail/9954, (Tue, Jun 2nd)](https://isc.sans.edu/diary/rss/33038)
+- 2026-06-03T02:00:02+00:00 — [ISC Stormcast For Wednesday, June 3rd, 2026 https://isc.sans.edu/podcastdetail/9956, (Wed, Jun 3rd)](https://isc.sans.edu/diary/rss/33042)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
+- Entries checked: 0
 - New since last snapshot: 0
 
 - No new entries detected
@@ -358,9 +357,9 @@ Generated: 2026-06-02T08:09:22Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-06-02T06:30:00+00:00 — [BSD flags are incompatible with iCloud Drive](https://eclecticlight.co/2026/06/02/bsd-flags-are-incompatible-with-icloud-drive/)
-- 2026-06-01T18:10:18+00:00 — [Apple has released macOS Tahoe 26.5.1](https://eclecticlight.co/2026/06/01/apple-has-released-macos-tahoe-26-5-1/)
-- 2026-06-01T11:30:00+00:00 — [In memoriam Mary Cassatt: 1, 1868-1880](https://eclecticlight.co/2026/06/01/in-memoriam-mary-cassatt-1-1868-1880/)
+- 2026-06-03T06:30:53+00:00 — [Have you saved thousands of versions? Versatility 1.2 might be what you need](https://eclecticlight.co/2026/06/03/have-you-saved-thousands-of-versions-versatility-1-2-might-be-what-you-need/)
+- 2026-06-02T18:14:55+00:00 — [Apple has released an update to XProtect for all macOS](https://eclecticlight.co/2026/06/02/apple-has-released-an-update-to-xprotect-for-all-macos-35/)
+- 2026-06-02T11:30:00+00:00 — [Hero or hooligan: Theseus’ later years](https://eclecticlight.co/2026/06/02/hero-or-hooligan-theseus-later-years/)
 
 ## JPCERT/CC
 
@@ -385,37 +384,36 @@ Generated: 2026-06-02T08:09:22Z
 - Site: https://blog.elcomsoft.com/
 - Feed: https://blog.elcomsoft.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-01T08:47:52+00:00 — [Forensic Implications of Apple Stolen Device Protection](https://blog.elcomsoft.com/2026/06/forensic-implications-of-apple-stolen-device-protection/)
+- No new entries detected
 
 ## Huntress Blog
 
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-02T14:00:00+00:00 — [Unpatched NTLM Coercion in Windows search: URI Handler, Same Bug, No CVE, No Fix](https://www.huntress.com/blog/unpatched-ntlm-coercion-windows-search-uri-handler)
 
 ## Red Canary Blog
 
 - Site: https://redcanary.com/blog/
 - Feed: https://redcanary.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-06-01T18:59:52+00:00 — [Red Canary CFP tracker: May 2026](https://redcanary.com/blog/news-events/red-canary-cfp-tracker-june-2026/)
-- 2026-06-01T13:04:01+00:00 — [Investigating suspicious AI workflows in Microsoft Entra Agent ID: Agent’s user account](https://redcanary.com/blog/threat-detection/entra-id-ai-workflows-teams/)
+- No new entries detected
 
 ## Palo Alto Unit 42
 
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-02T10:00:31+00:00 — [Operation FlutterBridge: macOS Malvertising Campaign Spreads New FlutterShell Backdoor](https://unit42.paloaltonetworks.com/flutterbridge-new-fluttershell-backdoor/)
 
 ## Mandiant Threat Intelligence
 
@@ -449,20 +447,18 @@ Generated: 2026-06-02T08:09:22Z
 - Site: https://www.elastic.co/security-labs/
 - Feed: https://www.elastic.co/security-labs/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- unknown date — [From API key to live threat detections in minutes: how Elastic Security ingests Google Threat Intelligence](https://www.elastic.co/security-labs/elastic-security-google-threat-intelligence)
-- unknown date — [PHANTOMPULSE: anatomy of a hijackable blockchain-C2 RATby Salim Bitam22 May 2026](https://www.elastic.co/security-labs/blockchain-c2-phantompulse-rat-sinkhole)
+- No new entries detected
 
 ## Flare.io Threat Research Blog
 
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-06-01T22:06:36+00:00 — [FalkonC2 is Getting Ridiculously Stealthy](https://flare.io/learn/resources/blog/falkonc2)
-- 2026-06-01T19:21:26+00:00 — [What Security Leaders Need to Know About the 2026 DBIR: 50% of Ransomware Victims Had Credential Exposure Within 95 Days](https://flare.io/learn/resources/blog/2026-verizon-dbir)
+- 2026-06-02T14:11:03+00:00 — [Your Patients’ Records Are Worth More Than Their Bank Account Numbers](https://flare.io/learn/resources/blog/healthcare-record-costs-dark-web)
 
 ## Binalyze Blog
 
@@ -495,10 +491,7 @@ Generated: 2026-06-02T08:09:22Z
 
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
-- Entries checked: 5
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 403
 
 ## DFIR Science
 
@@ -516,26 +509,27 @@ Generated: 2026-06-02T08:09:22Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-06-01T00:00:00-05:00 — [Secure Shadow AI at the Control Plane with Falcon for IT](https://www.crowdstrike.com/en-us/blog/secure-shadow-ai-at-the-control-plane-with-falcon-for-it/)
+- 2026-06-02T00:00:00-05:00 — [How to Stop AI-Driven Data Loss](https://www.crowdstrike.com/en-us/blog/how-to-stop-ai-driven-data-loss/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-06-01T14:40:25+00:00 — [Fake BlueWallet steals passwords, accounts, and crypto from Macs](https://www.malwarebytes.com/blog/threat-intel/2026/06/fake-bluewallet-steals-passwords-accounts-and-crypto-from-macs)
-- 2026-06-01T08:31:44+00:00 — [Your phone called. It needs a cleanup.](https://www.malwarebytes.com/blog/mobile/2026/06/your-phone-called-it-needs-a-cleanup)
+- 2026-06-02T18:24:07+00:00 — [These convincing copyright notices are designed to steal Google logins](https://www.malwarebytes.com/blog/threat-intel/2026/06/these-convincing-copyright-notices-are-designed-to-steal-google-logins)
+- 2026-06-02T09:53:19+00:00 — [23andMe exposed genetic information of millions, lawsuit says](https://www.malwarebytes.com/blog/data-breaches/2026/06/23andme-exposed-genetic-information-of-millions-lawsuit-says)
+- 2026-06-02T09:03:55+00:00 — [Fake virus alerts are invading mobile games](https://www.malwarebytes.com/blog/mobile/2026/06/fake-virus-alerts-are-invading-mobile-games)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-01T17:32:50+00:00 — [Hackers Used Meta’s AI Support Bot to Seize Instagram Accounts](https://krebsonsecurity.com/2026/06/hackers-used-metas-ai-support-bot-to-seize-instagram-accounts/)
+- No new entries detected
 
 ## BleepingComputer
 
@@ -544,27 +538,30 @@ Generated: 2026-06-02T08:09:22Z
 - Entries checked: 10
 - New since last snapshot: 10
 
-- 2026-06-01T18:14:19-04:00 — [Hackers hijack thousands of sites for ClickFix and FakeUpdate attacks](https://www.bleepingcomputer.com/news/security/hackers-hijack-thousands-of-sites-for-clickfix-and-fakeupdate-attacks/)
-- 2026-06-01T17:38:29-04:00 — [Red Hat npm packages compromised to steal developer credentials](https://www.bleepingcomputer.com/news/security/red-hat-npm-packages-compromised-to-steal-developer-credentials/)
-- 2026-06-01T17:28:41-04:00 — [Spain arrests doxer leaking sensitive data of govt employees](https://www.bleepingcomputer.com/news/security/spain-arrests-doxer-leaking-sensitive-data-of-govt-employees/)
-- 2026-06-01T14:17:13-04:00 — [Dashlane password manager users locked out by brute force attacks](https://www.bleepingcomputer.com/news/security/dashlane-password-manager-users-locked-out-by-brute-force-attacks/)
-- 2026-06-01T13:04:16-04:00 — [WordPress malware campaign hides payloads in Steam profiles](https://www.bleepingcomputer.com/news/security/wordpress-malware-campaign-hides-payloads-in-steam-profiles/)
-- 2026-06-01T10:36:46-04:00 — [Microsoft investigates Office Apps, Teams file access issues](https://www.bleepingcomputer.com/news/microsoft/microsoft-investigates-office-apps-teams-file-access-issues/)
-- 2026-06-01T10:00:10-04:00 — [Race Against Time: Why Faster Vulnerability Alerts Matter](https://www.bleepingcomputer.com/news/security/race-against-time-why-faster-vulnerability-alerts-matter/)
-- 2026-06-01T08:30:27-04:00 — [Critical Windows Netlogon RCE flaw now exploited in attacks](https://www.bleepingcomputer.com/news/microsoft/critical-windows-netlogon-remote-code-execution-flaw-now-exploited-in-attacks/)
-- 2026-06-01T08:01:09-04:00 — [Webinar tomorrow: From alert to resolution in network incident response](https://www.bleepingcomputer.com/news/security/webinar-tomorrow-from-alert-to-resolution-in-network-incident-response/)
-- 2026-06-01T07:40:16-04:00 — [Microsoft fixes outage affecting MFA setup, MySignIn service](https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-outage-affecting-mfa-setup-mysignin-service/)
+- 2026-06-03T02:50:30-04:00 — [VS Code zero-day lets hackers steal GitHub tokens in one click](https://www.bleepingcomputer.com/news/security/vs-code-zero-day-lets-hackers-steal-github-tokens-in-one-click/)
+- 2026-06-02T18:52:40-04:00 — [Microsoft's Coreutils project brings Linux commands to Windows](https://www.bleepingcomputer.com/news/microsoft/microsofts-coreutils-project-brings-linux-commands-to-windows/)
+- 2026-06-02T18:44:50-04:00 — [OpenAI upgrades GPT-5.5, as it plans to retire legacy ChatGPT models](https://www.bleepingcomputer.com/news/artificial-intelligence/openai-upgrades-gpt-55-as-it-plans-to-retire-legacy-chatgpt-models/)
+- 2026-06-02T18:12:57-04:00 — [Critical Kirki flaw exploited to hijack WordPress admin accounts](https://www.bleepingcomputer.com/news/security/critical-kirki-flaw-exploited-to-hijack-wordpress-admin-accounts/)
+- 2026-06-02T17:54:49-04:00 — [Over 116,000 Minecraft systems infected in WeedHack malware campaign](https://www.bleepingcomputer.com/news/security/over-116-000-minecraft-systems-infected-in-weedhack-malware-campaign/)
+- 2026-06-02T16:01:20-04:00 — [AI-built ransomware toolkit automates EDR evasion, AD discovery](https://www.bleepingcomputer.com/news/security/ai-built-ransomware-toolkit-automates-edr-evasion-ad-discovery/)
+- 2026-06-02T13:02:40-04:00 — [Microsoft Exchange Online outage causes email delays, failures](https://www.bleepingcomputer.com/news/microsoft/microsoft-exchange-online-outage-causes-email-delays-failures/)
+- 2026-06-02T11:47:33-04:00 — [Instagram users locked out after Meta AI abused to steal accounts](https://www.bleepingcomputer.com/news/security/instagram-users-locked-out-after-meta-ai-abused-to-steal-accounts/)
+- 2026-06-02T10:30:40-04:00 — [Why the browser is now the front line for AI security](https://www.bleepingcomputer.com/news/security/why-the-browser-is-now-the-front-line-for-ai-security/)
+- 2026-06-02T08:40:33-04:00 — [CISA flags two-year-old Oracle flaw as actively exploited in attacks](https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-actively-exploited-oracle-weblogic-flaw/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 6
 
-- 2026-06-01T21:07:48+00:00 — [Anthropic to Open Mythos AI to EU's ENISA](https://www.darkreading.com/cyber-risk/anthropic-mythos-ai-eu-enisa)
-- 2026-06-01T18:52:26+00:00 — [Microsoft's Zero-Day Legal Threats Spark Backlash](https://www.darkreading.com/application-security/microsoft-zero-day-legal-threats-backlash)
-- 2026-06-01T14:35:51+00:00 — [Patch Now: Another Palo Alto Auth Bypass Bug Under Active Exploit](https://www.darkreading.com/threat-intelligence/patch-palo-alto-auth-bypass-bug-exploit)
+- 2026-06-02T21:51:07+00:00 — [Zoom CISO: AI as Security Enabler, Not Role-Replacer](https://www.darkreading.com/cybersecurity-operations/zoom-ciso-ai-security-enabler-role-replacer)
+- 2026-06-02T21:32:24+00:00 — [FBI-Flagged Phishing Kit Kali365 Expands Its Reach](https://www.darkreading.com/cyber-risk/fbi-flagged-phishing-kit-kali365-expands-its-reach)
+- 2026-06-02T20:11:51+00:00 — [DriveSurge Hijacks Thousands of Sites for ClickFix, FakeUpdate Attacks](https://www.darkreading.com/cyberattacks-data-breaches/drivesurge-hijacks-thousands-sites-clickfix-fakeupdate-attacks)
+- 2026-06-02T19:50:53+00:00 — [China Uses Dual-Method Cyberattack on Czech Orgs](https://www.darkreading.com/threat-intelligence/china-uses-dual-method-attack-czech-taiwan-orgs)
+- 2026-06-02T19:10:14+00:00 — [Securing AI Agents Before They Go Rogue Is Next to Impossible](https://www.darkreading.com/cyber-risk/securing-ai-agents-rogue)
+- 2026-06-02T12:00:00+00:00 — [Beyond Assume-Breach: How AI-Native Security Will Reshape Enterprise Defense](https://www.darkreading.com/cyber-risk/assume-breach-ai-native-security-reshape-enterprise-defense)
 
 ## Volexity Blog
 
@@ -577,18 +574,19 @@ Generated: 2026-06-02T08:09:22Z
 - Site: https://www.sentinelone.com/labs/
 - Feed: https://www.sentinelone.com/labs/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-02T13:00:58+00:00 — [LABScon25 Replay | Gamaredon x Turla: Unveiling a 2025 Espionage Alliance Targeting Ukraine](https://www.sentinelone.com/labs/labscon25-replay-gamaredon-x-turla-unveiling-a-2025-espionage-alliance-targeting-ukraine/)
 
 ## Microsoft Security Blog
 
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-06-03T04:45:06+00:00 — [Preinstall to persistence: Inside the Red Hat npm Miasma credential-stealing campaign](https://www.microsoft.com/en-us/security/blog/2026/06/02/preinstall-persistence-inside-red-hat-npm-miasma-credential-stealing-campaign/)
+- 2026-06-02T17:15:18+00:00 — [Microsoft Build 2026: Securing code, agents, and models across the development lifecycle](https://www.microsoft.com/en-us/security/blog/2026/06/02/microsoft-build-2026-securing-code-agents-and-models-across-the-development-lifecycle/)
 
 ## LOLBAS Project (Windows)
 
@@ -757,9 +755,10 @@ Generated: 2026-06-02T08:09:22Z
 - Site: https://github.com/EricZimmerman/KapeFiles
 - Feed: https://github.com/EricZimmerman/KapeFiles/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-06-02T19:59:07+00:00 — [Merge pull request #1108 from reece394/VeloSDS](https://github.com/EricZimmerman/KapeFiles/commit/50f0b2e72780f727e3cd6a090def9b2b144a0512)
+- 2026-06-02T19:09:30+00:00 — [Add Velociraptor SDS FileMask](https://github.com/EricZimmerman/KapeFiles/commit/e4e977bb3db1d47077bd2bf998a40c1ef836ffe3)
 
 ## EZ RegistryPlugins commits
 
@@ -847,14 +846,9 @@ Generated: 2026-06-02T08:09:22Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 6
+- New since last snapshot: 0
 
-- 2026-06-01T18:18:51+00:00 — [integration-v9.4.5: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.4.5)
-- 2026-06-01T18:18:02+00:00 — [integration-v9.3.13: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.3.13)
-- 2026-06-01T18:17:07+00:00 — [integration-v9.2.17: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.2.17)
-- 2026-06-01T18:16:19+00:00 — [integration-v8.19.25: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v8.19.25)
-- 2026-06-01T18:15:07+00:00 — [dev-v1.6.46](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.46)
-- 2026-06-01T13:58:37+00:00 — [dev-v1.6.45](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.45)
+- No new entries detected
 
 ## regipy releases
 
