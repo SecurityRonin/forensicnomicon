@@ -8,7 +8,46 @@
 //! the `dmg2img` and Apple `hdiutil` reverse-engineering efforts.
 //!   http://newosxbook.com/DMG.html
 
-// (implementation added in the GREEN commit)
+/// `koly` trailer magic, read as a big-endian `u32` (bytes `"koly"`).
+pub const KOLY_MAGIC: u32 = 0x6B6F_6C79;
+/// The koly trailer is exactly 512 bytes, located at end-of-file.
+pub const KOLY_SIZE: u64 = 512;
+
+/// `mish` BLKX block-table magic (bytes `"mish"`), big-endian.
+pub const MISH_MAGIC: u32 = 0x6D69_7368;
+
+/// Field offsets within the 512-byte koly trailer (all big-endian).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
+pub struct KolyTrailerOffsets {
+    pub magic: u64,        // 0x000 u32  "koly"
+    pub version: u64,      // 0x004 u32  (4)
+    pub header_size: u64,  // 0x008 u32  (512)
+    pub xml_offset: u64,   // 0x0D8 u64  offset of the property-list (plist) XML
+    pub xml_length: u64,   // 0x0E0 u64  length of the plist XML
+    pub sector_count: u64, // 0x1EC u64  total sectors of the decoded image
+}
+
+pub const KOLY_OFFSETS: KolyTrailerOffsets = KolyTrailerOffsets {
+    magic: 0x000,
+    version: 0x004,
+    header_size: 0x008,
+    xml_offset: 0x0D8,
+    xml_length: 0x0E0,
+    sector_count: 0x1EC,
+};
+
+/// UDIF BLKX block-chunk `entry_type` values (big-endian `u32`).
+/// `BLK_ADC`/`BLK_BZIP2`/`BLK_LZFSE` are valid UDIF types not all decoders support.
+pub const BLK_ZERO: u32 = 0x0000_0000;
+pub const BLK_RAW: u32 = 0x0000_0001;
+pub const BLK_IGNORE: u32 = 0x0000_0002;
+pub const BLK_ADC: u32 = 0x8000_0004;
+pub const BLK_ZLIB: u32 = 0x8000_0005;
+pub const BLK_BZIP2: u32 = 0x8000_0006;
+pub const BLK_LZFSE: u32 = 0x8000_0007;
+pub const BLK_COMMENT: u32 = 0x7FFF_FFFE;
+pub const BLK_TERMINATOR: u32 = 0xFFFF_FFFF;
 
 #[cfg(test)]
 mod tests {

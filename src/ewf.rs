@@ -7,7 +7,44 @@
 //! Source: libewf documentation (EWF & EWF2 file format specs)
 //!   https://github.com/libyal/libewf/tree/main/documentation
 
-// (implementation added in the GREEN commit)
+/// Length of every EWF file signature.
+pub const SIGNATURE_LEN: usize = 8;
+
+/// EWF1 file signature at offset 0: `"EVF"` + `0x09 0x0D 0x0A 0xFF 0x00`. (`.E01`)
+pub const EVF1_SIGNATURE: [u8; 8] = [0x45, 0x56, 0x46, 0x09, 0x0D, 0x0A, 0xFF, 0x00];
+/// EWF2 / Ex01 physical-evidence signature: `"EVF2"` + `0x0D 0x0A 0x81 0x00`.
+pub const EVF2_SIGNATURE: [u8; 8] = [0x45, 0x56, 0x46, 0x32, 0x0D, 0x0A, 0x81, 0x00];
+/// EWF2 / Lx01 logical-evidence signature: `"LEF2"` + `0x0D 0x0A 0x81 0x00`.
+pub const LEF2_SIGNATURE: [u8; 8] = [0x4C, 0x45, 0x46, 0x32, 0x0D, 0x0A, 0x81, 0x00];
+
+/// The EWF1 section-type vocabulary (the NUL-padded type string at the start of
+/// each 76-byte section descriptor). Source: libewf `documentation/Expert Witness
+/// Compression Format (EWF).asciidoc`.
+pub const EWF1_SECTION_TYPES: &[&str] = &[
+    "header",
+    "header2",
+    "volume",
+    "disk",
+    "table",
+    "table2",
+    "sectors",
+    "data",
+    "digest",
+    "hash",
+    "error2",
+    "session",
+    "next",
+    "done",
+];
+
+/// `compression_level` byte values stored in the volume/data section.
+pub const COMPRESSION_NONE: u8 = 0;
+pub const COMPRESSION_FAST: u8 = 1;
+pub const COMPRESSION_BEST: u8 = 2;
+
+/// In an EWF1 chunk-offset table, the most-significant bit of each 32-bit offset
+/// flags a zlib-compressed chunk; the remaining 31 bits are the file offset.
+pub const TABLE_ENTRY_COMPRESSED_FLAG: u32 = 0x8000_0000;
 
 #[cfg(test)]
 mod tests {
