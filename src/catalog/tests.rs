@@ -2892,6 +2892,42 @@ mod tests_batch_d {
     }
 
     #[test]
+    fn vmware_vmdk_container_profile_exists() {
+        let p = container_profile("vmware_vmdk").expect("vmware_vmdk container profile");
+        assert_eq!(p.id, "vmware_vmdk");
+        assert!(
+            p.parser_hints
+                .iter()
+                .any(|h| h.to_lowercase().contains("descriptor")),
+            "vmdk hints must mention the text descriptor"
+        );
+        assert!(!p.sources.is_empty());
+    }
+
+    #[test]
+    fn vmware_vmdk_signatures_cover_all_three_magics() {
+        let sigs: Vec<_> = all_container_signatures()
+            .iter()
+            .filter(|s| s.container_id == "vmware_vmdk")
+            .collect();
+        // VMDK4 sparse "KDMV", COWD "COWD", seSparse constant-header 0xCAFEBABE.
+        assert!(
+            sigs.iter().any(|s| s.header_magic == b"KDMV"),
+            "missing VMDK4 KDMV signature"
+        );
+        assert!(
+            sigs.iter().any(|s| s.header_magic == b"COWD"),
+            "missing COWD signature"
+        );
+        assert!(
+            sigs.iter()
+                .any(|s| s.header_magic == 0x0000_0000_CAFE_BABE_u64.to_le_bytes()),
+            "missing seSparse CAFEBABE signature"
+        );
+        assert!(sigs.iter().all(|s| s.header_offset == 0));
+    }
+
+    #[test]
     fn userassist_record_signature_prefers_payload_specific_signature() {
         let sigs = CATALOG.record_signatures("userassist_exe");
         assert!(sigs.iter().any(|sig| sig.id == "userassist_count_payload"));
