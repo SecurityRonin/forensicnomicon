@@ -2928,6 +2928,42 @@ mod tests_batch_d {
     }
 
     #[test]
+    fn disk_image_container_profiles_exist() {
+        for id in [
+            "microsoft_vhdx",
+            "microsoft_vhd",
+            "qemu_qcow2",
+            "ewf_image",
+            "aff4_image",
+            "apple_dmg",
+        ] {
+            let p = container_profile(id).unwrap_or_else(|| panic!("missing container profile {id}"));
+            assert!(!p.sources.is_empty(), "{id} must cite sources");
+            assert!(!p.parser_hints.is_empty(), "{id} must have parser hints");
+        }
+    }
+
+    #[test]
+    fn disk_image_signatures_have_correct_magics() {
+        let sig = |id: &str| {
+            all_container_signatures()
+                .iter()
+                .find(|s| s.container_id == id)
+                .unwrap_or_else(|| panic!("missing signature for {id}"))
+        };
+        assert_eq!(sig("microsoft_vhdx").header_magic, b"vhdxfile");
+        assert_eq!(sig("qemu_qcow2").header_magic, &[0x51, 0x46, 0x49, 0xFB]); // QFI\xfb
+        assert_eq!(
+            sig("ewf_image").header_magic,
+            &[0x45, 0x56, 0x46, 0x09, 0x0D, 0x0A, 0xFF, 0x00]
+        );
+        assert_eq!(sig("aff4_image").header_magic, b"PK\x03\x04");
+        // VHD and DMG carry their signature in a trailer, not a header.
+        assert_eq!(sig("microsoft_vhd").footer_magic, b"conectix");
+        assert_eq!(sig("apple_dmg").footer_magic, b"koly");
+    }
+
+    #[test]
     fn userassist_record_signature_prefers_payload_specific_signature() {
         let sigs = CATALOG.record_signatures("userassist_exe");
         assert!(sigs.iter().any(|sig| sig.id == "userassist_count_payload"));
