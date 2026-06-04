@@ -66,6 +66,55 @@ pub const PARTITION_TYPE_GUIDS: &[GptType] = &[
     GptType { guid: "3CB8E202-3B7E-47DD-8A3C-7FF2A13CFCEC", name: "ChromeOS root" },
 ];
 
+/// GPT partition-entry attribute flag bit positions and their meanings.
+///
+/// Bits 0–2 are defined for all partitions; bits 48–63 are type-specific and the
+/// constants here are the Microsoft Basic Data interpretation (the most common,
+/// and the one with forensic-relevant `hidden` / `no-automount` flags).
+///
+/// Sources:
+/// - UEFI Specification 2.10, §5.3.3, Table "Defined GPT Partition Entry —
+///   Partition Attributes": <https://uefi.org/specs/UEFI/2.10/05_GUID_Partition_Table_Format.html>
+/// - Microsoft, `PARTITION_INFORMATION_GPT` / `GPT_BASIC_DATA_ATTRIBUTE_*`:
+///   <https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ns-winioctl-partition_information_gpt>
+pub mod attributes {
+    /// Bit 0 — Required Partition (platform must not delete it).
+    pub const REQUIRED: u64 = 1 << 0;
+    /// Bit 1 — No Block IO Protocol (EFI firmware ignores the partition).
+    pub const NO_BLOCK_IO: u64 = 1 << 1;
+    /// Bit 2 — Legacy BIOS Bootable.
+    pub const LEGACY_BIOS_BOOTABLE: u64 = 1 << 2;
+    /// Bit 60 — (MS Basic Data) Read-only.
+    pub const MS_READ_ONLY: u64 = 1 << 60;
+    /// Bit 61 — (MS Basic Data) Shadow copy of another partition.
+    pub const MS_SHADOW_COPY: u64 = 1 << 61;
+    /// Bit 62 — (MS Basic Data) Hidden.
+    pub const MS_HIDDEN: u64 = 1 << 62;
+    /// Bit 63 — (MS Basic Data) No default drive letter (no automount).
+    pub const MS_NO_DRIVE_LETTER: u64 = 1 << 63;
+}
+
+/// Decode a partition-entry `attributes` bitfield into human-readable flag names
+/// (in bit order). Unset bits are omitted; an all-zero field yields an empty vec.
+#[must_use]
+pub fn attribute_names(attrs: u64) -> Vec<&'static str> {
+    use attributes as a;
+    let table: &[(u64, &str)] = &[
+        (a::REQUIRED, "required"),
+        (a::NO_BLOCK_IO, "no-block-io"),
+        (a::LEGACY_BIOS_BOOTABLE, "legacy-bios-bootable"),
+        (a::MS_READ_ONLY, "read-only"),
+        (a::MS_SHADOW_COPY, "shadow-copy"),
+        (a::MS_HIDDEN, "hidden"),
+        (a::MS_NO_DRIVE_LETTER, "no-automount"),
+    ];
+    table
+        .iter()
+        .filter(|(bit, _)| attrs & bit != 0)
+        .map(|(_, name)| *name)
+        .collect()
+}
+
 /// Look up a partition-type GUID's human-readable name (case-insensitive).
 ///
 /// Returns `None` for unknown GUIDs.
@@ -105,6 +154,15 @@ mod tests {
     #[test]
     fn unknown_guid_is_none() {
         assert_eq!(type_name("DEADBEEF-0000-0000-0000-000000000000"), None);
+    }
+
+    #[test]
+    fn attribute_names_decode_in_bit_order() {
+        assert!(attribute_names(0).is_empty());
+        assert_eq!(attribute_names(attributes::REQUIRED), vec!["required"]);
+        // Hidden + no-automount = a concealment-flag combination.
+        let attrs = attributes::MS_HIDDEN | attributes::MS_NO_DRIVE_LETTER;
+        assert_eq!(attribute_names(attrs), vec!["hidden", "no-automount"]);
     }
 
     #[test]
