@@ -142,6 +142,7 @@ pub mod vmdk;
 pub mod gpt;
 pub mod filesystems;
 pub mod bootkit;
+pub mod boot_signatures;
 pub mod ntfs;
 pub mod partition_types;
 pub mod forensicartifacts;
