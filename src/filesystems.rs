@@ -40,18 +40,32 @@ pub struct FsSignature {
 /// - **Linux swap** — `"SWAPSPACE2"` at offset `0xFF6` (page end − 10): `mkswap(8)` / kernel.
 /// - **ISO 9660** — `"CD001"` at offset `0x8001` (sector 16): ECMA-119.
 /// - **HFS+** — signature `"H+"` at offset `0x400`: Apple Technical Note TN1150.
+/// - **APFS** — container superblock `nx_magic` `"NXSB"` at offset `32` (after the
+///   32-byte `obj_phys_t` header): Apple File System Reference; util-linux
+///   `libblkid/src/superblocks/apfs.c` (`.magic = "NXSB", .sboff = 32`).
+/// - **Btrfs** — superblock magic `"_BHRfS_M"` at offset `65600` (`0x10040`; the
+///   superblock is at 64 KiB and `magic` is at `+0x40`): util-linux
+///   `libblkid/src/superblocks/btrfs.c` (`.kboff = 64, .sboff = 0x40`).
+/// - **LVM2 PV** — label `"LABELONE"` at the start of the PV label sector, which
+///   is sector 0 **or** sector 1 (offset `0` or `512`; the default is sector 1):
+///   util-linux `libblkid/src/superblocks/lvm.c` (checks `buf` and `buf + 512`);
+///   libvslvm "Logical Volume Manager (LVM) format".
 pub const FILESYSTEM_SIGNATURES: &[FsSignature] = &[
     FsSignature { name: "ext2/3/4", offset: 0x438, magic: &[0x53, 0xEF] },
     FsSignature { name: "NTFS", offset: 3, magic: b"NTFS    " },
     FsSignature { name: "exFAT", offset: 3, magic: b"EXFAT   " },
     FsSignature { name: "XFS", offset: 0, magic: b"XFSB" },
     FsSignature { name: "LUKS", offset: 0, magic: b"LUKS\xba\xbe" },
+    FsSignature { name: "APFS", offset: 32, magic: b"NXSB" },
     FsSignature { name: "FAT32", offset: 0x52, magic: b"FAT32   " },
     FsSignature { name: "FAT16", offset: 0x36, magic: b"FAT16   " },
     FsSignature { name: "FAT12", offset: 0x36, magic: b"FAT12   " },
     FsSignature { name: "Linux swap", offset: 0xFF6, magic: b"SWAPSPACE2" },
+    FsSignature { name: "LVM2", offset: 0, magic: b"LABELONE" },
+    FsSignature { name: "LVM2", offset: 512, magic: b"LABELONE" },
     FsSignature { name: "ISO 9660", offset: 0x8001, magic: b"CD001" },
     FsSignature { name: "HFS+", offset: 0x400, magic: b"H+" },
+    FsSignature { name: "Btrfs", offset: 65600, magic: b"_BHRfS_M" },
 ];
 
 /// Identify the filesystem from a volume's leading bytes, returning the first
@@ -90,6 +104,28 @@ mod tests {
     fn detects_luks_and_xfs_at_zero() {
         assert_eq!(detect_name(&buf_with(0, b"LUKS\xba\xbe")), Some("LUKS"));
         assert_eq!(detect_name(&buf_with(0, b"XFSB")), Some("XFS"));
+    }
+
+    #[test]
+    fn detects_apfs_at_offset_32() {
+        // libblkid: NXSB at sboff 32 (after the 32-byte obj_phys header).
+        assert_eq!(detect_name(&buf_with(32, b"NXSB")), Some("APFS"));
+        // NXSB at offset 0 is NOT APFS (the common off-by-32 mistake).
+        assert_eq!(detect_name(&buf_with(0, b"NXSB")), None);
+    }
+
+    #[test]
+    fn detects_btrfs_at_65600() {
+        // libblkid: _BHRfS_M at kboff 64 + sboff 0x40 = 65600.
+        assert_eq!(detect_name(&buf_with(65600, b"_BHRfS_M")), Some("Btrfs"));
+        assert_eq!(detect_name(&buf_with(65536, b"_BHRfS_M")), None);
+    }
+
+    #[test]
+    fn detects_lvm_at_sector_0_or_1() {
+        assert_eq!(detect_name(&buf_with(0, b"LABELONE")), Some("LVM2"));
+        // The default PV label is in sector 1 (offset 512) — the case mbr missed.
+        assert_eq!(detect_name(&buf_with(512, b"LABELONE")), Some("LVM2"));
     }
 
     #[test]
