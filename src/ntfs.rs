@@ -16,6 +16,179 @@
 //! - The NTFS Documentation project (Russon & Fledel):
 //!   <https://flatcap.github.io/linux-ntfs/ntfs/>
 
+// ── Signatures ────────────────────────────────────────────────────────────────
+
+/// Magic at the start of an in-use MFT file-record segment.
+pub const SIGNATURE_FILE: [u8; 4] = *b"FILE";
+/// Magic written by `chkdsk` over a record it found corrupt.
+pub const SIGNATURE_BAAD: [u8; 4] = *b"BAAD";
+/// OEM identifier at offset 3 of the NTFS boot sector.
+pub const OEM_ID: [u8; 8] = *b"NTFS    ";
+
+// ── Attribute type codes ────────────────────────────────────────────────────────
+
+/// NTFS attribute type identifiers (the `type` field of an attribute header).
+pub mod attr_types {
+    pub const STANDARD_INFORMATION: u32 = 0x10;
+    pub const ATTRIBUTE_LIST: u32 = 0x20;
+    pub const FILE_NAME: u32 = 0x30;
+    pub const OBJECT_ID: u32 = 0x40;
+    pub const SECURITY_DESCRIPTOR: u32 = 0x50;
+    pub const VOLUME_NAME: u32 = 0x60;
+    pub const VOLUME_INFORMATION: u32 = 0x70;
+    pub const DATA: u32 = 0x80;
+    pub const INDEX_ROOT: u32 = 0x90;
+    pub const INDEX_ALLOCATION: u32 = 0xA0;
+    pub const BITMAP: u32 = 0xB0;
+    pub const REPARSE_POINT: u32 = 0xC0;
+    pub const EA_INFORMATION: u32 = 0xD0;
+    pub const EA: u32 = 0xE0;
+    pub const PROPERTY_SET: u32 = 0xF0;
+    pub const LOGGED_UTILITY_STREAM: u32 = 0x100;
+    /// End-of-attributes marker.
+    pub const END: u32 = 0xFFFF_FFFF;
+}
+
+/// Attribute type code → canonical `$NAME`, in ascending code order.
+pub const ATTRIBUTE_TYPES: &[(u32, &str)] = &[
+    (attr_types::STANDARD_INFORMATION, "$STANDARD_INFORMATION"),
+    (attr_types::ATTRIBUTE_LIST, "$ATTRIBUTE_LIST"),
+    (attr_types::FILE_NAME, "$FILE_NAME"),
+    (attr_types::OBJECT_ID, "$OBJECT_ID"),
+    (attr_types::SECURITY_DESCRIPTOR, "$SECURITY_DESCRIPTOR"),
+    (attr_types::VOLUME_NAME, "$VOLUME_NAME"),
+    (attr_types::VOLUME_INFORMATION, "$VOLUME_INFORMATION"),
+    (attr_types::DATA, "$DATA"),
+    (attr_types::INDEX_ROOT, "$INDEX_ROOT"),
+    (attr_types::INDEX_ALLOCATION, "$INDEX_ALLOCATION"),
+    (attr_types::BITMAP, "$BITMAP"),
+    (attr_types::REPARSE_POINT, "$REPARSE_POINT"),
+    (attr_types::EA_INFORMATION, "$EA_INFORMATION"),
+    (attr_types::EA, "$EA"),
+    (attr_types::PROPERTY_SET, "$PROPERTY_SET"),
+    (attr_types::LOGGED_UTILITY_STREAM, "$LOGGED_UTILITY_STREAM"),
+];
+
+/// Look up an attribute type code's canonical name. Returns `None` for unknown
+/// codes (including the `END` marker).
+#[must_use]
+pub fn attribute_type_name(ty: u32) -> Option<&'static str> {
+    ATTRIBUTE_TYPES
+        .iter()
+        .find(|(code, _)| *code == ty)
+        .map(|(_, name)| *name)
+}
+
+// ── Well-known MFT record numbers ─────────────────────────────────────────────
+
+/// Fixed MFT record numbers for NTFS metadata files (records 0–11).
+pub mod mft_records {
+    pub const MFT: u64 = 0;
+    pub const MFTMIRR: u64 = 1;
+    pub const LOGFILE: u64 = 2;
+    pub const VOLUME: u64 = 3;
+    pub const ATTRDEF: u64 = 4;
+    /// The root directory (`.`).
+    pub const ROOT: u64 = 5;
+    pub const BITMAP: u64 = 6;
+    pub const BOOT: u64 = 7;
+    pub const BADCLUS: u64 = 8;
+    pub const SECURE: u64 = 9;
+    pub const UPCASE: u64 = 10;
+    pub const EXTEND: u64 = 11;
+}
+
+/// Record number → metadata-file name, in ascending order.
+pub const MFT_RECORD_NAMES: &[(u64, &str)] = &[
+    (mft_records::MFT, "$MFT"),
+    (mft_records::MFTMIRR, "$MFTMirr"),
+    (mft_records::LOGFILE, "$LogFile"),
+    (mft_records::VOLUME, "$Volume"),
+    (mft_records::ATTRDEF, "$AttrDef"),
+    (mft_records::ROOT, ". (root directory)"),
+    (mft_records::BITMAP, "$Bitmap"),
+    (mft_records::BOOT, "$Boot"),
+    (mft_records::BADCLUS, "$BadClus"),
+    (mft_records::SECURE, "$Secure"),
+    (mft_records::UPCASE, "$UpCase"),
+    (mft_records::EXTEND, "$Extend"),
+];
+
+/// Look up a well-known MFT record number's name. Returns `None` for ordinary
+/// (non-reserved) records.
+#[must_use]
+pub fn mft_record_name(n: u64) -> Option<&'static str> {
+    MFT_RECORD_NAMES
+        .iter()
+        .find(|(num, _)| *num == n)
+        .map(|(_, name)| *name)
+}
+
+// ── MFT record header field offsets ──────────────────────────────────────────
+
+/// Byte offsets of fields within an MFT file-record-segment header.
+pub mod mft_offsets {
+    pub const SIGNATURE: usize = 0x00;
+    pub const USA_OFFSET: usize = 0x04;
+    pub const USA_COUNT: usize = 0x06;
+    pub const LSN: usize = 0x08;
+    pub const SEQUENCE_NUMBER: usize = 0x10;
+    pub const HARD_LINK_COUNT: usize = 0x12;
+    pub const FIRST_ATTRIBUTE: usize = 0x14;
+    pub const FLAGS: usize = 0x16;
+    pub const USED_SIZE: usize = 0x18;
+    pub const ALLOCATED_SIZE: usize = 0x1C;
+    pub const BASE_RECORD: usize = 0x20;
+    pub const NEXT_ATTR_ID: usize = 0x28;
+    /// MFT record number (Windows XP and later).
+    pub const RECORD_NUMBER: usize = 0x2C;
+}
+
+/// MFT file-record-segment header flags (`flags` field at offset 0x16).
+pub mod mft_flags {
+    pub const IN_USE: u16 = 0x0001;
+    pub const DIRECTORY: u16 = 0x0002;
+    pub const EXTENSION: u16 = 0x0004;
+    pub const VIEW_INDEX: u16 = 0x0008;
+}
+
+// ── $FILE_NAME namespaces ─────────────────────────────────────────────────────
+
+/// `$FILE_NAME` namespace codes (the `namespace` byte of the attribute).
+pub mod filename_namespace {
+    pub const POSIX: u8 = 0;
+    pub const WIN32: u8 = 1;
+    pub const DOS: u8 = 2;
+    pub const WIN32_AND_DOS: u8 = 3;
+
+    /// Human-readable namespace name, or `None` for an unknown code.
+    #[must_use]
+    pub fn name(ns: u8) -> Option<&'static str> {
+        match ns {
+            POSIX => Some("POSIX"),
+            WIN32 => Some("Win32"),
+            DOS => Some("DOS"),
+            WIN32_AND_DOS => Some("Win32+DOS"),
+            _ => None,
+        }
+    }
+}
+
+// ── Boot sector (BPB / extended BPB) field offsets ────────────────────────────
+
+/// Byte offsets of fields within the NTFS boot sector.
+pub mod boot_offsets {
+    pub const OEM_ID: usize = 0x03;
+    pub const BYTES_PER_SECTOR: usize = 0x0B;
+    pub const SECTORS_PER_CLUSTER: usize = 0x0D;
+    pub const TOTAL_SECTORS: usize = 0x28;
+    pub const MFT_LCN: usize = 0x30;
+    pub const MFTMIRR_LCN: usize = 0x38;
+    pub const CLUSTERS_PER_RECORD: usize = 0x40;
+    pub const CLUSTERS_PER_INDEX: usize = 0x44;
+    pub const VOLUME_SERIAL: usize = 0x48;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
