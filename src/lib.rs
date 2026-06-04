@@ -139,6 +139,7 @@ pub mod qcow2;
 pub mod vhd;
 pub mod vhdx;
 pub mod vmdk;
+pub mod gpt;
 pub mod forensicartifacts;
 pub mod mitre;
 pub mod navigator;
