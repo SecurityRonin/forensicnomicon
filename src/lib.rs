@@ -140,6 +140,7 @@ pub mod vhd;
 pub mod vhdx;
 pub mod vmdk;
 pub mod gpt;
+pub mod partition_types;
 pub mod forensicartifacts;
 pub mod mitre;
 pub mod navigator;
