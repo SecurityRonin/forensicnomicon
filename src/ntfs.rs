@@ -270,6 +270,59 @@ mod tests {
     }
 
     #[test]
+    fn indx_signature_is_correct() {
+        assert_eq!(&SIGNATURE_INDX, b"INDX");
+    }
+
+    #[test]
+    fn file_attribute_flags_are_distinct_single_bits() {
+        use file_attributes as fa;
+        let bits = [
+            fa::READONLY,
+            fa::HIDDEN,
+            fa::SYSTEM,
+            fa::ARCHIVE,
+            fa::TEMPORARY,
+            fa::SPARSE_FILE,
+            fa::REPARSE_POINT,
+            fa::COMPRESSED,
+            fa::ENCRYPTED,
+        ];
+        for b in bits {
+            assert_eq!(b.count_ones(), 1, "flag must be a single bit: {b:#06x}");
+        }
+        let or: u32 = bits.iter().fold(0, |a, b| a | b);
+        assert_eq!(or.count_ones() as usize, bits.len(), "flags overlap");
+    }
+
+    #[test]
+    fn attribute_offsets_in_layout_order() {
+        use attr_offsets as o;
+        assert_eq!(o::TYPE, 0x00);
+        assert_eq!(o::LENGTH, 0x04);
+        assert_eq!(o::NON_RESIDENT, 0x08);
+        assert_eq!(o::FLAGS, 0x0C);
+        assert_eq!(o::ATTRIBUTE_ID, 0x0E);
+        // Resident vs non-resident bodies both begin at 0x10.
+        assert_eq!(o::RES_CONTENT_LENGTH, 0x10);
+        assert_eq!(o::NR_START_VCN, 0x10);
+        assert_eq!(o::NR_REAL_SIZE, 0x30);
+        assert!(o::TYPE < o::LENGTH && o::LENGTH < o::NON_RESIDENT);
+        assert!(o::NR_RUNS_OFFSET < o::NR_ALLOCATED_SIZE);
+    }
+
+    #[test]
+    fn attribute_flags_are_single_bits() {
+        for f in [
+            attr_flags::COMPRESSED,
+            attr_flags::ENCRYPTED,
+            attr_flags::SPARSE,
+        ] {
+            assert_eq!(f.count_ones(), 1, "flag must be a single bit: {f:#06x}");
+        }
+    }
+
+    #[test]
     fn boot_offsets_match_bpb_layout() {
         use boot_offsets as b;
         assert_eq!(b::OEM_ID, 0x03);
