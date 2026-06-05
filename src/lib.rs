@@ -143,6 +143,7 @@ pub mod gpt;
 pub mod filesystems;
 pub mod bootkit;
 pub mod boot_signatures;
+pub mod apm;
 pub mod ntfs;
 pub mod partition_types;
 pub mod forensicartifacts;
