@@ -145,6 +145,7 @@ pub mod bootkit;
 pub mod boot_signatures;
 pub mod apm;
 pub mod ntfs;
+pub mod partition_schemes;
 pub mod partition_types;
 pub mod forensicartifacts;
 pub mod mitre;
