@@ -22,6 +22,8 @@
 pub const SIGNATURE_FILE: [u8; 4] = *b"FILE";
 /// Magic written by `chkdsk` over a record it found corrupt.
 pub const SIGNATURE_BAAD: [u8; 4] = *b"BAAD";
+/// Magic at the start of an index-allocation buffer (`$INDEX_ALLOCATION`).
+pub const SIGNATURE_INDX: [u8; 4] = *b"INDX";
 /// OEM identifier at offset 3 of the NTFS boot sector.
 pub const OEM_ID: [u8; 8] = *b"NTFS    ";
 
@@ -77,6 +79,55 @@ pub fn attribute_type_name(ty: u32) -> Option<&'static str> {
         .iter()
         .find(|(code, _)| *code == ty)
         .map(|(_, name)| *name)
+}
+
+// ── Attribute header field offsets ────────────────────────────────────────────
+
+/// Byte offsets of fields within an attribute header (common header followed by
+/// a resident or non-resident body, both beginning at `0x10`).
+pub mod attr_offsets {
+    // Common header.
+    pub const TYPE: usize = 0x00;
+    pub const LENGTH: usize = 0x04;
+    pub const NON_RESIDENT: usize = 0x08;
+    pub const NAME_LENGTH: usize = 0x09;
+    pub const NAME_OFFSET: usize = 0x0A;
+    pub const FLAGS: usize = 0x0C;
+    pub const ATTRIBUTE_ID: usize = 0x0E;
+    // Resident body.
+    pub const RES_CONTENT_LENGTH: usize = 0x10;
+    pub const RES_CONTENT_OFFSET: usize = 0x14;
+    // Non-resident body.
+    pub const NR_START_VCN: usize = 0x10;
+    pub const NR_LAST_VCN: usize = 0x18;
+    pub const NR_RUNS_OFFSET: usize = 0x20;
+    pub const NR_COMPRESSION_UNIT: usize = 0x22;
+    pub const NR_ALLOCATED_SIZE: usize = 0x28;
+    pub const NR_REAL_SIZE: usize = 0x30;
+    pub const NR_INITIALIZED_SIZE: usize = 0x38;
+}
+
+/// Attribute header flags (`flags` field at offset `0x0C`).
+pub mod attr_flags {
+    pub const COMPRESSED: u16 = 0x0001;
+    pub const ENCRYPTED: u16 = 0x4000;
+    pub const SPARSE: u16 = 0x8000;
+}
+
+// ── File attribute flags ──────────────────────────────────────────────────────
+
+/// Windows `FILE_ATTRIBUTE_*` flags, as stored in `$STANDARD_INFORMATION` and
+/// `$FILE_NAME`. Values per [MS-FSCC] §2.6.
+pub mod file_attributes {
+    pub const READONLY: u32 = 0x0001;
+    pub const HIDDEN: u32 = 0x0002;
+    pub const SYSTEM: u32 = 0x0004;
+    pub const ARCHIVE: u32 = 0x0020;
+    pub const TEMPORARY: u32 = 0x0100;
+    pub const SPARSE_FILE: u32 = 0x0200;
+    pub const REPARSE_POINT: u32 = 0x0400;
+    pub const COMPRESSED: u32 = 0x0800;
+    pub const ENCRYPTED: u32 = 0x4000;
 }
 
 // ── Well-known MFT record numbers ─────────────────────────────────────────────
