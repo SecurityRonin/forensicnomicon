@@ -89,6 +89,50 @@ pub enum Category {
     Threat,
 }
 
+impl Category {
+    /// Classify a stable finding `code` into a coarse [`Category`] by keyword.
+    ///
+    /// A pragmatic, scheme-agnostic default so analyzers need not hand-map every
+    /// anomaly variant; an analyzer overrides [`Observation::category`] for the
+    /// codes where this heuristic is wrong (e.g. overloaded `BOOT` prefixes).
+    #[must_use]
+    pub fn from_code(code: &str) -> Category {
+        let c = code.to_ascii_uppercase();
+        if c.contains("CRC") || c.contains("INTEGRITY") || c.contains("CHECKSUM") || c.contains("HASH") {
+            Category::Integrity
+        } else if c.contains("OVERLAP")
+            || c.contains("OOB")
+            || c.contains("BOUND")
+            || c.contains("CHS")
+            || c.contains("MAP-COUNT")
+        {
+            Category::Structure
+        } else if c.contains("HIDDEN")
+            || c.contains("CONCEAL")
+            || c.contains("WIPED")
+            || c.contains("ERASED")
+            || c.contains("SPOOF")
+            || c.contains("PROTECTIVE")
+        {
+            // Checked before Residue so a wiped/erased *gap* reads as anti-forensics,
+            // not mere slack.
+            Category::Concealment
+        } else if c.contains("RESIDUAL")
+            || c.contains("SLACK")
+            || c.contains("GAP")
+            || c.contains("CARVE")
+            || c.contains("UNMAPPED")
+            || c.contains("ZEROLEN")
+        {
+            Category::Residue
+        } else if c.contains("BOOT") {
+            Category::Threat
+        } else {
+            Category::Structure
+        }
+    }
+}
+
 /// Where a finding's evidence sits on the medium — spanning partition-table
 /// (byte/LBA/sector), filesystem (path/field), executable/memory (RVA),
 /// record-oriented (event-log/journal/database) and registry positions.
@@ -432,12 +476,16 @@ impl FindingBuilder {
 pub trait Observation {
     /// Severity, or `None` if the analyzer deliberately does not grade this kind.
     fn severity(&self) -> Option<Severity>;
-    /// Analytical lens.
-    fn category(&self) -> Category;
     /// Stable, scheme-prefixed machine code.
     fn code(&self) -> &'static str;
     /// Human-readable, consistent-with note.
     fn note(&self) -> String;
+
+    /// Analytical lens; defaults to [`Category::from_code`] of [`Observation::code`].
+    /// Override when a code's keyword classification is wrong.
+    fn category(&self) -> Category {
+        Category::from_code(self.code())
+    }
 
     /// Non-disk subjects this kind is about (default: none).
     fn subjects(&self) -> Vec<SubjectRef> {
