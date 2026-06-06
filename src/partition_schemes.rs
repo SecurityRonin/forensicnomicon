@@ -59,12 +59,44 @@ pub fn detect_scheme(boot_area: &[u8]) -> Option<Scheme> {
         if boot_area.len() >= 520 && &boot_area[512..520] == GPT_HEADER_MAGIC {
             return Some(Scheme::Gpt);
         }
+        // A FAT/NTFS/exFAT volume boot record shares the 0x55AA signature but is
+        // a filesystem, not a partition table — do not mis-report it as MBR.
+        if looks_like_vbr(boot_area) {
+            return None;
+        }
         return Some(Scheme::Mbr);
     }
     if boot_area.len() >= 2 && &boot_area[0..2] == APM_DDR_MAGIC {
         return Some(Scheme::Apm);
     }
     None
+}
+
+/// `true` when `sector0` is a FAT/NTFS/exFAT **volume boot record** rather than
+/// a Master Boot Record. These filesystems' VBRs share the `0x55AA` boot
+/// signature at offset 510, so distinguishing them prevents a superfloppy
+/// (filesystem written directly to the device) from being mis-parsed as MBR —
+/// the bytes a partition table would occupy (446–510) are really BPB/boot code.
+///
+/// A VBR opens with an x86 jump (`0xEB`/`0xE9`) and carries a filesystem magic
+/// at a VBR-specific offset: `"NTFS    "` / `"EXFAT   "` at offset 3, or the FAT
+/// `BS_FilSysType` string `"FAT12   "`/`"FAT16   "` at 54 / `"FAT32   "` at 82.
+#[must_use]
+pub fn looks_like_vbr(sector0: &[u8]) -> bool {
+    if sector0.len() < 512 || sector0[510] != 0x55 || sector0[511] != 0xAA {
+        return false;
+    }
+    if sector0[0] != 0xEB && sector0[0] != 0xE9 {
+        return false;
+    }
+    let oem = &sector0[3..11];
+    if oem == b"NTFS    " || oem == b"EXFAT   " {
+        return true;
+    }
+    if &sector0[54..62] == b"FAT12   " || &sector0[54..62] == b"FAT16   " {
+        return true;
+    }
+    &sector0[82..90] == b"FAT32   "
 }
 
 #[cfg(test)]
