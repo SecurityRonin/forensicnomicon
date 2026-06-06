@@ -43,3 +43,52 @@ fn unrecognised_boot_area_is_none() {
     assert_eq!(detect_scheme(&[0u8; 1024]), None);
     assert_eq!(detect_scheme(&[]), None);
 }
+
+// ── VBR vs MBR disambiguation ────────────────────────────────────────────────
+// A FAT/NTFS/exFAT volume boot record also ends in 0x55AA at offset 510, so a
+// superfloppy (filesystem written directly to the device) must NOT be reported
+// as an MBR — bytes 446–510 are BPB/boot code, not a partition table.
+
+use forensicnomicon::partition_schemes::looks_like_vbr;
+
+fn fat16_vbr() -> Vec<u8> {
+    let mut b = vec![0u8; 1024];
+    b[0] = 0xEB; // jump
+    b[1] = 0x3C;
+    b[2] = 0x90;
+    b[3..11].copy_from_slice(b"MSDOS5.0"); // OEM
+    b[54..62].copy_from_slice(b"FAT16   "); // BS_FilSysType
+    b[510] = 0x55;
+    b[511] = 0xAA;
+    b
+}
+
+fn ntfs_vbr() -> Vec<u8> {
+    let mut b = vec![0u8; 1024];
+    b[0] = 0xEB;
+    b[1] = 0x52;
+    b[2] = 0x90;
+    b[3..11].copy_from_slice(b"NTFS    ");
+    b[510] = 0x55;
+    b[511] = 0xAA;
+    b
+}
+
+#[test]
+fn fat_vbr_is_not_classified_as_mbr() {
+    assert_eq!(detect_scheme(&fat16_vbr()), None);
+    assert!(looks_like_vbr(&fat16_vbr()));
+}
+
+#[test]
+fn ntfs_vbr_is_not_classified_as_mbr() {
+    assert_eq!(detect_scheme(&ntfs_vbr()), None);
+    assert!(looks_like_vbr(&ntfs_vbr()));
+}
+
+#[test]
+fn real_mbr_is_not_mistaken_for_a_vbr() {
+    // An MBR with a partition entry but no jump/FS magic at offset 0/3.
+    assert!(!looks_like_vbr(&mbr_boot_area()));
+    assert_eq!(detect_scheme(&mbr_boot_area()), Some(Scheme::Mbr));
+}
