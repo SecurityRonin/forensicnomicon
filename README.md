@@ -30,7 +30,7 @@ Building DFIR tools in Rust? The same data is a zero-dependency library:
 
 ```toml
 [dependencies]
-forensicnomicon = "0.1"
+forensicnomicon = "0.3"
 ```
 
 ---
@@ -324,18 +324,47 @@ $ 4n6query certutil.exe --format json      # JSON output for any query
 
 ---
 
+## Normalized reporting (`report`)
+
+The static catalog is one half of the leaf. The other is `forensicnomicon::report` — the **shared finding vocabulary every SecurityRonin analyzer normalizes onto**, so VMDK, VHDX, EWF, MBR/GPT/APM, ISO 9660, EVTX, SRUM, memory, and PE findings aggregate into one uniform `Report` instead of N bespoke result types. It is the **union of the analyzers' data, not a flattening** — and a `Finding` is an *observation with evidence*, never a verdict.
+
+```rust
+use forensicnomicon::report::{Finding, Severity, Category, Source};
+
+// Each analyzer keeps its own typed AnomalyKind and converts to a canonical Finding.
+let finding = Finding::observation(Severity::High, Category::Integrity, "VMDK-RGD-MISMATCH")
+    .note("redundant grain directory diverges from the primary")
+    .source(Source { analyzer: "vmdk-forensic".into(), scope: "VMDK".into(), version: None })
+    .mitre("T1565.001")                 // "consistent with", never an assertion
+    .evidence("primary_gte", "0x1234")
+    .build();
+
+assert_eq!(finding.severity, Some(Severity::High));
+```
+
+- **5-level `Severity`** (`Info < Low < Medium < High < Critical`), carried as `Option` so *unrated* (the analyzer didn't score it) is distinct from *scored, benign*.
+- **`Observation` producer trait** — implement `severity`/`category`/`code`/`note` on your typed anomaly and get `to_finding()` for free. `Finding` is builder-only and `#[non_exhaustive]`, so the model gains fields without breaking the published fleet.
+- **`FindingContext`** carries the behavioral superset: confidence, occurrence counts, timestamps, MITRE `ExternalRef`s, and non-disk `SubjectRef`s (process / module / registry key).
+- **Stable, scheme-prefixed codes** (`VMDK-RGD-MISMATCH`, `MEM-PROCESS-HOLLOWING`, `WINEVT-PROVIDER-GUID-SPOOFING`) are the cross-scheme join key; `Category::from_code` classifies them, and `disk4n6` / `issen` render `Report { findings, provenance, timeline }` uniformly.
+
+`forensicnomicon` stays the zero-dependency **leaf**: every analyzer depends *down* onto it; it depends on no one.
+
+---
+
 ## Docs
 
 | | |
 |---|---|
-| [API Reference](https://docs.rs/forensicnomicon) | Full rustdoc for all modules |
+| [API Reference](https://docs.rs/forensicnomicon) | Full rustdoc for all modules, including `report` |
 | [Architecture](ARCHITECTURE.md) | Data-flow: raw bytes to ArtifactRecord |
 
 ---
 
 ## Used by
 
-- [`issen`](https://github.com/SecurityRonin/issen) — live incident response triage tool
+- [`issen`](https://github.com/SecurityRonin/issen) — live incident response triage tool; renders the normalized `Report`
+- [`disk-forensic`](https://github.com/SecurityRonin/disk-forensic) — `disk4n6` partition-scheme orchestrator; aggregates analyzer findings
+- The SecurityRonin **forensic analyzer fleet** — `vmdk-forensic`, `vhdx-forensic`, `ewf-forensic`, `mbr-/gpt-/apm-/iso9660-forensic`, `winevt-forensic`, `srum-forensic`, `memory-forensic`, `exec-pe-forensic`, `usnjrnl-forensic` — all emit `forensicnomicon::report::Finding`
 - [`blazehash`](https://github.com/SecurityRonin/blazehash) — high-speed forensic hash verification
 
 ---
