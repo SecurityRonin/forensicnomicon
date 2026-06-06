@@ -206,3 +206,35 @@ fn mitre_external_ref_is_consistent_with_language() {
     assert_eq!(r.id, "T1003");
     assert_eq!(r.url, None);
 }
+
+#[test]
+fn category_from_code_classifies_by_keyword() {
+    use forensicnomicon::report::Category;
+    assert_eq!(Category::from_code("GPT-HEADER-CRC-INVALID"), Category::Integrity);
+    assert_eq!(Category::from_code("MBR-PART-OVERLAP"), Category::Structure);
+    assert_eq!(Category::from_code("MBR-PART-OOB"), Category::Structure);
+    assert_eq!(Category::from_code("MBR-GAP-SLACK"), Category::Residue);
+    assert_eq!(Category::from_code("MBR-GAP-WIPED"), Category::Concealment);
+    assert_eq!(Category::from_code("MBR-BOOT-MALWARE"), Category::Threat);
+    assert_eq!(Category::from_code("UNCLASSIFIED-CODE"), Category::Structure);
+}
+
+/// A kind that does NOT override category() — it must fall back to code-classification.
+struct DefaultCatKind;
+impl Observation for DefaultCatKind {
+    fn severity(&self) -> Option<Severity> {
+        Some(Severity::Low)
+    }
+    fn code(&self) -> &'static str {
+        "DEMO-PART-OVERLAP"
+    }
+    fn note(&self) -> String {
+        "x".to_string()
+    }
+}
+
+#[test]
+fn observation_category_defaults_to_code_classification() {
+    let f = DefaultCatKind.to_finding(src());
+    assert_eq!(f.category, Category::Structure);
+}
