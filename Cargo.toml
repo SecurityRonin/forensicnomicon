@@ -3,7 +3,7 @@ members = [".", "crates/fcatalog", "crates/ingest", "crates/4n6query"]
 
 [package]
 name = "forensicnomicon"
-version = "0.2.2"
+version = "0.3.0"
 description = "The ForensicNomicon — comprehensive DFIR artifact catalog: UserAssist, Shimcache, Amcache, Prefetch, $MFT, ShellBags, EVTX, NTDS.dit, SAM, SRUM, LNK, Jump Lists + KAPE/Velociraptor/Sigma/MITRE. Zero deps."
 edition = "2021"
 rust-version = "1.75"
