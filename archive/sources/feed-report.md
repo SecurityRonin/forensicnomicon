@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-06-06T06:40:46Z
+Generated: 2026-06-07T07:18:15Z
 
 ## Windows Incident Response
 
@@ -229,18 +229,9 @@ Generated: 2026-06-06T06:40:46Z
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- unknown date — [Training](https://www.dfir.training/training)
-- unknown date — [Tools](https://www.dfir.training/dfir-tools)
-- unknown date — [Library](https://www.dfir.training/resources)
-- unknown date — [Sponsors](https://www.dfir.training/sponsors)
-- unknown date — [Blog](https://www.dfir.training/blog)
-- unknown date — [Contact](https://www.dfir.training/contact-form)
-- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
-- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
-- unknown date — [AI-enhanced crime will expose DFIR practitioners who ignore AI.](https://www.dfir.training/blog/ai-enhanced-crime-will-expose-dfir-practitioners-who-ignore-ai)
-- unknown date — [56% are either likely to leave DFIR within 12 months or unsure if they’ll stay.](https://www.dfir.training/blog/56-of-dfir-is-unsure-if-they-will-stay-in-dfir-for-the-next-12-months)
+- No new entries detected
 
 ## MSAB
 
@@ -256,9 +247,9 @@ Generated: 2026-06-06T06:40:46Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-05T10:46:32+00:00 — [Infosec News Nuggets — June 5, 2026](https://aboutdfir.com/infosec-news-nuggets-june-5-2026/)
+- No new entries detected
 
 ## Forensic 4cast
 
@@ -274,9 +265,9 @@ Generated: 2026-06-06T06:40:46Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-07T06:18:13+00:00 — [Week 23 – 2026](https://thisweekin4n6.com/2026/06/07/week-23-2026/)
 
 ## The Sleuth Kit updates
 
@@ -319,9 +310,9 @@ Generated: 2026-06-06T06:40:46Z
 - Site: https://www.hexacorn.com/blog/
 - Feed: https://www.hexacorn.com/blog/feed/
 - Entries checked: 5
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-07T00:41:46+00:00 — [little secret of msconfig.exe](https://www.hexacorn.com/blog/2026/06/07/little-secret-of-msconfig-exe/)
 
 ## The DFIR Spot
 
@@ -373,9 +364,12 @@ Generated: 2026-06-06T06:40:46Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 4
 
-- 2026-06-05T11:30:00+00:00 — [In the shadow: Introduction](https://eclecticlight.co/2026/06/05/in-the-shadow-introduction/)
+- 2026-06-07T07:00:57+00:00 — [Last Week on My Mac: What’s in a name?](https://eclecticlight.co/2026/06/07/last-week-on-my-mac-whats-in-a-name/)
+- 2026-06-06T11:30:00+00:00 — [Elihu Vedder’s symbolism and stories: 1863-1884](https://eclecticlight.co/2026/06/06/elihu-vedders-symbolism-and-stories-1863-1884/)
+- 2026-06-06T08:00:33+00:00 — [Saturday Mac riddles 363](https://eclecticlight.co/2026/06/06/saturday-mac-riddles-363/)
+- 2026-06-06T07:00:02+00:00 — [Explainer: Getting a location](https://eclecticlight.co/2026/06/06/explainer-getting-a-location/)
 
 ## JPCERT/CC
 
@@ -427,18 +421,18 @@ Generated: 2026-06-06T06:40:46Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-05T14:05:42+00:00 — [Threat Brief: Active Exploitation of PAN-OS CVE-2026-0257](https://unit42.paloaltonetworks.com/active-exploitation-of-pan-os-cve-2026-0257/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-05T14:00:00+00:00 — [Seeking Counsel: Ongoing Targeted Campaign Against US Law Firms](https://cloud.google.com/blog/topics/threat-intelligence/targeted-campaign-us-law-firms/)
+- No new entries detected
 
 ## Cisco Talos Blog
 
@@ -472,9 +466,9 @@ Generated: 2026-06-06T06:40:46Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-05T13:00:13+00:00 — [Automated Telegram Bot Uses One Leak to Compile a Full Dossier: From Single Email Address to Complete Victim Profile](https://flare.io/learn/resources/blog/automated-telegram-bot-data-aggregation)
+- No new entries detected
 
 ## Binalyze Blog
 
@@ -508,13 +502,9 @@ Generated: 2026-06-06T06:40:46Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 5
+- New since last snapshot: 0
 
-- 2026-06-05T12:01:10+00:00 — [Cellebrite Announces Upcoming Investor Events on June 10, 2026](https://cellebrite.com/en/resources/press-releases/cellebrite-announces-upcoming-investor-events-on-june-10-2026/)
-- 2026-06-04T15:15:38+00:00 — [AI in Digital Forensics: 10 Best Practices for Investigators](https://cellebrite.com/en/blog/ai-in-digital-forensics-best-practices/)
-- 2026-06-01T05:57:00+00:00 — [From Seizure to Intelligence: Practical Digital Evidence Workflows for Drug Investigations](https://cellebrite.com/en/resources/webinars/from-seizure-to-intelligence-practical-digital-evidence-workflows-for-drug-investigations/)
-- 2026-05-29T19:14:26+00:00 — [The Access Gap Is Closed: What Cellebrite Can Unlock in 2026](https://cellebrite.com/en/blog/the-access-gap-is-closed-what-cellebrite-can-unlock-in-2026/)
-- 2026-05-28T16:03:15+00:00 — [FedRAMP High Changes the Cloud Equation for Federal Digital Evidence](https://cellebrite.com/en/blog/fedramp-high-changes-the-cloud-equation-for-federal-digital-evidence/)
+- No new entries detected
 
 ## DFIR Science
 
@@ -530,18 +520,18 @@ Generated: 2026-06-06T06:40:46Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-05T00:00:00-05:00 — [3 Principles to Safely Scale Agentic AI](https://www.crowdstrike.com/en-us/blog/three-principles-to-safely-scale-agentic-ai/)
+- No new entries detected
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-05T08:56:57+00:00 — [AI: Threat, tool, or both?](https://www.malwarebytes.com/blog/ai/2026/06/ai-threat-tool-or-both)
+- No new entries detected
 
 ## Krebs on Security
 
@@ -557,25 +547,18 @@ Generated: 2026-06-06T06:40:46Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 6
+- New since last snapshot: 1
 
-- 2026-06-05T17:54:42-04:00 — [Suspicious Polyfill login prompts pop up on Toshiba, Muji websites](https://www.bleepingcomputer.com/news/security/suspicious-polyfill-login-prompts-pop-up-on-toshiba-muji-websites/)
-- 2026-06-05T15:15:30-04:00 — [CISA: Hackers now exploit SolarWinds Serv-U flaw to crash servers](https://www.bleepingcomputer.com/news/security/cisa-hackers-now-exploit-solarwinds-serv-u-flaw-to-crash-servers/)
-- 2026-06-05T14:09:47-04:00 — [Chinese APT deploys new malware to keep access to hacked networks](https://www.bleepingcomputer.com/news/security/chinese-apt-deploys-new-malware-to-keep-access-to-hacked-networks/)
-- 2026-06-05T13:50:58-04:00 — [Dark web Nemesis Market vendor gets 26 years for selling drugs](https://www.bleepingcomputer.com/news/security/dark-web-nemesis-market-vendor-gets-26-years-for-selling-drugs/)
-- 2026-06-05T10:50:15-04:00 — [Over 900 US gas station tank gauge systems exposed to attacks](https://www.bleepingcomputer.com/news/security/over-900-us-gas-station-tank-gauge-systems-exposed-to-attacks/)
-- 2026-06-05T10:00:10-04:00 — [What 2026 DBIR Confirms: Attacks Are Living in the Browser](https://www.bleepingcomputer.com/news/security/what-2026-dbir-confirms-attacks-are-living-in-the-browser/)
+- 2026-06-06T10:09:26-04:00 — [Critical Everest Forms Pro flaw exploited to take over WordPress sites](https://www.bleepingcomputer.com/news/security/critical-everest-forms-pro-flaw-exploited-to-take-over-wordpress-sites/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-06-05T19:04:36+00:00 — [Exposed Fuel Tank Gauges Under Attack in the US](https://www.darkreading.com/cyberattacks-data-breaches/exposed-fuel-tank-gauges-attack-us)
-- 2026-06-05T14:40:11+00:00 — [Adaptive, Agentic AI Worms Loom as Next Enterprise Threat](https://www.darkreading.com/cyber-risk/adaptive-agentic-ai-worms-enterprise-cyber-threat)
-- 2026-06-05T13:00:00+00:00 — [Trump AI Order Seeks Voluntary Frontier Model Testing](https://www.darkreading.com/cybersecurity-operations/trump-ai-order-seeks-voluntary-frontier-model-testing)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -597,9 +580,9 @@ Generated: 2026-06-06T06:40:46Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-05T16:46:47+00:00 — [Securing CI/CD in an agentic world: Claude Code Github action case](https://www.microsoft.com/en-us/security/blog/2026/06/05/securing-ci-cd-in-agentic-world-claude-code-github-action-case/)
+- No new entries detected
 
 ## LOLBAS Project (Windows)
 
@@ -651,9 +634,9 @@ Generated: 2026-06-06T06:40:46Z
 - Site: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes
 - Feed: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-05T11:28:21+00:00 — [Update README.md](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/b6c721b6f1350a6a454fbbf431bc40f79cb8aee8)
+- No new entries detected
 
 ## kacos2000_Win10
 
@@ -740,10 +723,7 @@ Generated: 2026-06-06T06:40:46Z
 
 - Site: https://github.com/EricZimmerman/PECmd
 - Feed: https://github.com/EricZimmerman/PECmd/releases.atom
-- Entries checked: 6
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## EZ RBCmd releases
 
@@ -776,10 +756,7 @@ Generated: 2026-06-06T06:40:46Z
 
 - Site: https://github.com/EricZimmerman/RegistryPlugins
 - Feed: https://github.com/EricZimmerman/RegistryPlugins/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## EZ RegistryExplorerBookmarks commits
 
@@ -794,10 +771,7 @@ Generated: 2026-06-06T06:40:46Z
 
 - Site: https://github.com/EricZimmerman/GuidMapping
 - Feed: https://github.com/EricZimmerman/GuidMapping/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## EZ documentation commits
 
@@ -812,19 +786,13 @@ Generated: 2026-06-06T06:40:46Z
 
 - Site: https://github.com/EricZimmerman/DFIR-SQL-Query-Repo
 - Feed: https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## SigmaHQ sigma releases
 
 - Site: https://github.com/SigmaHQ/sigma
 - Feed: https://github.com/SigmaHQ/sigma/releases.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## Hayabusa rules commits
 
@@ -857,10 +825,7 @@ Generated: 2026-06-06T06:40:46Z
 
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
-- Entries checked: 10
-- New since last snapshot: 1
-
-- 2026-06-05T22:24:04+00:00 — [dev-v1.6.49](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.49)
+- Status: error: HTTP 504
 
 ## regipy releases
 
@@ -975,10 +940,9 @@ Generated: 2026-06-06T06:40:46Z
 - Site: https://github.com/EricZimmerman/TLEFilePlugins
 - Feed: https://github.com/EricZimmerman/TLEFilePlugins/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-06-05T14:24:45+00:00 — [Merge pull request #20 from reece394/master](https://github.com/EricZimmerman/TLEFilePlugins/commit/9351b5afdef6cba9053788d7c8943c65e5c0d236)
-- 2026-06-04T22:23:38+00:00 — [Fix SourceFile for Boot and SDS MFTECmd](https://github.com/EricZimmerman/TLEFilePlugins/commit/f977603465c18244c2c16282383d6e1475001a74)
+- No new entries detected
 
 ## EZ Get-ZimmermanTools commits
 
