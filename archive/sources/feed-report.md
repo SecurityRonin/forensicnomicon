@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-06-07T07:18:15Z
+Generated: 2026-06-08T08:27:30Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-06-07T07:18:15Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-08T00:00:00+00:00 — [Kubernetes container forensics after pod deletion](https://andreafortuna.org/2026/06/08/container-forensics/)
 
 ## Salt Forensics
 
@@ -160,9 +160,9 @@ Generated: 2026-06-07T07:18:15Z
 - Site: https://brettshavers.com/brett-s-blog
 - Feed: https://feeds.feedburner.com/brettshavers/oSyq
 - Entries checked: 3
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-07T18:13:59-07:00 — [Will Tomorrow Be Your DFIR ‘Mann Gulch’?](https://brettshavers.com/brett-s-blog/entry/will-tomorrow-be-your-dfir-mann-gulch)
 
 ## Yogesh Khatri's forensic blog
 
@@ -220,15 +220,15 @@ Generated: 2026-06-07T07:18:15Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-08T02:00:03+00:00 — [ISC Stormcast For Monday, June 8th, 2026 https://isc.sans.edu/podcastdetail/9962, (Mon, Jun 8th)](https://isc.sans.edu/diary/rss/33058)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
+- Entries checked: 0
 - New since last snapshot: 0
 
 - No new entries detected
@@ -237,19 +237,13 @@ Generated: 2026-06-07T07:18:15Z
 
 - Site: https://www.msab.com/
 - Feed: https://www.msab.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## AboutDFIR
 
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## Forensic 4cast
 
@@ -265,9 +259,9 @@ Generated: 2026-06-07T07:18:15Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-07T06:18:13+00:00 — [Week 23 – 2026](https://thisweekin4n6.com/2026/06/07/week-23-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
@@ -282,10 +276,7 @@ Generated: 2026-06-07T07:18:15Z
 
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## Didier Stevens Blog
 
@@ -310,9 +301,9 @@ Generated: 2026-06-07T07:18:15Z
 - Site: https://www.hexacorn.com/blog/
 - Feed: https://www.hexacorn.com/blog/feed/
 - Entries checked: 5
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-07T00:41:46+00:00 — [little secret of msconfig.exe](https://www.hexacorn.com/blog/2026/06/07/little-secret-of-msconfig-exe/)
+- No new entries detected
 
 ## The DFIR Spot
 
@@ -364,12 +355,11 @@ Generated: 2026-06-07T07:18:15Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 3
 
-- 2026-06-07T07:00:57+00:00 — [Last Week on My Mac: What’s in a name?](https://eclecticlight.co/2026/06/07/last-week-on-my-mac-whats-in-a-name/)
-- 2026-06-06T11:30:00+00:00 — [Elihu Vedder’s symbolism and stories: 1863-1884](https://eclecticlight.co/2026/06/06/elihu-vedders-symbolism-and-stories-1863-1884/)
-- 2026-06-06T08:00:33+00:00 — [Saturday Mac riddles 363](https://eclecticlight.co/2026/06/06/saturday-mac-riddles-363/)
-- 2026-06-06T07:00:02+00:00 — [Explainer: Getting a location](https://eclecticlight.co/2026/06/06/explainer-getting-a-location/)
+- 2026-06-08T08:00:46+00:00 — [Solutions to Saturday Mac riddles 363](https://eclecticlight.co/2026/06/08/solutions-to-saturday-mac-riddles-363/)
+- 2026-06-08T06:30:12+00:00 — [How does Lockdown Mode affect location data?](https://eclecticlight.co/2026/06/08/how-does-lockdown-mode-affect-location-data/)
+- 2026-06-07T11:30:00+00:00 — [Elihu Vedder’s symbolism and stories: 1885-1913](https://eclecticlight.co/2026/06/07/elihu-vedders-symbolism-and-stories-1885-1913/)
 
 ## JPCERT/CC
 
@@ -529,9 +519,9 @@ Generated: 2026-06-07T07:18:15Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-08T07:07:07+00:00 — [A week in security (June 1 &#8211; June 7)](https://www.malwarebytes.com/blog/news/2026/06/a-week-in-security-june-1-june-7-2)
 
 ## Krebs on Security
 
@@ -547,9 +537,12 @@ Generated: 2026-06-07T07:18:15Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 4
 
-- 2026-06-06T10:09:26-04:00 — [Critical Everest Forms Pro flaw exploited to take over WordPress sites](https://www.bleepingcomputer.com/news/security/critical-everest-forms-pro-flaw-exploited-to-take-over-wordpress-sites/)
+- 2026-06-08T02:00:27-04:00 — [Over 20,000 Instagram accounts stolen in Meta AI support hack](https://www.bleepingcomputer.com/news/security/meta-ai-support-data-breach-affects-20-000-instagram-accounts/)
+- 2026-06-07T19:20:02-04:00 — [Hands on with Intelligent Terminal, an AI-powered Windows Terminal](https://www.bleepingcomputer.com/news/microsoft/hands-on-with-intelligent-terminal-an-ai-powered-windows-terminal/)
+- 2026-06-07T10:17:46-04:00 — [C0XMO botnet spreads via DD-WRT router flaw, kills rival malware](https://www.bleepingcomputer.com/news/security/c0xmo-botnet-spreads-via-dd-wrt-router-flaw-kills-rival-malware/)
+- 2026-06-07T10:09:19-04:00 — [Silent Ransom Group targets law firms with fake IT support calls](https://www.bleepingcomputer.com/news/security/silent-ransom-group-targets-law-firms-with-fake-it-support-calls/)
 
 ## Dark Reading
 
@@ -633,10 +626,7 @@ Generated: 2026-06-07T07:18:15Z
 
 - Site: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes
 - Feed: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commits/main.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## kacos2000_Win10
 
@@ -723,7 +713,15 @@ Generated: 2026-06-07T07:18:15Z
 
 - Site: https://github.com/EricZimmerman/PECmd
 - Feed: https://github.com/EricZimmerman/PECmd/releases.atom
-- Status: error: HTTP 504
+- Entries checked: 6
+- New since last snapshot: 6
+
+- 2018-10-01T15:53:41+00:00 — [1.1.0.0](https://github.com/EricZimmerman/PECmd/releases/tag/1.1.0.0)
+- 2018-05-31T00:00:28+00:00 — [1.0.0.0](https://github.com/EricZimmerman/PECmd/releases/tag/1.0.0.0)
+- 2017-01-03T14:49:35+00:00 — [0.9.0.0](https://github.com/EricZimmerman/PECmd/releases/tag/0.9.0.0)
+- 2016-03-31T18:03:02+00:00 — [0.7.0.0](https://github.com/EricZimmerman/PECmd/releases/tag/0.7.0.0)
+- 2016-03-13T02:34:02+00:00 — [0.6.0.0](https://github.com/EricZimmerman/PECmd/releases/tag/0.6.0.0)
+- 2016-01-22T22:15:25+00:00 — [0.5.0.0](https://github.com/EricZimmerman/PECmd/releases/tag/0.5.0.0)
 
 ## EZ RBCmd releases
 
@@ -756,7 +754,19 @@ Generated: 2026-06-07T07:18:15Z
 
 - Site: https://github.com/EricZimmerman/RegistryPlugins
 - Feed: https://github.com/EricZimmerman/RegistryPlugins/commits/master.atom
-- Status: error: HTTP 504
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-04-26T17:40:51+00:00 — ["nuget"](https://github.com/EricZimmerman/RegistryPlugins/commit/4c922338b5155a859e8e9352fe16fe881b9ce9bd)
+- 2026-04-26T17:32:14+00:00 — [2026.5.0](https://github.com/EricZimmerman/RegistryPlugins/commit/4960ba02906523e6aef9f53fe779b0349f90dd4d)
+- 2026-04-24T18:50:01+00:00 — [nuget, fix issue with comdlg when LongName was empty, breaking Value …](https://github.com/EricZimmerman/RegistryPlugins/commit/e77da4e97ac666490b48e779faa6203e61e8af88)
+- 2026-03-03T15:47:22+00:00 — [Merge pull request #72 from AndrewRathbun/master](https://github.com/EricZimmerman/RegistryPlugins/commit/dfb2e4c080ad880050a110f513385fe16fd8235a)
+- 2026-03-03T03:21:58+00:00 — [Add command and arguments to ValuesOut](https://github.com/EricZimmerman/RegistryPlugins/commit/4557f80600a7b03fdc851da2cdf8a6572c1adec9)
+- 2026-03-03T03:21:26+00:00 — [Update TaskCache to add Command and Arguments output](https://github.com/EricZimmerman/RegistryPlugins/commit/509d59ead4fbeb82c6d6971b01686d9e4d4f1f18)
+- 2026-02-07T20:48:55+00:00 — [fix SAM plugin when a ton of users is present](https://github.com/EricZimmerman/RegistryPlugins/commit/27136da123279346584a3f8688873ee90f244d7c)
+- 2026-02-07T19:02:49+00:00 — [Merge pull request #70 from reece394/patch-1](https://github.com/EricZimmerman/RegistryPlugins/commit/bda260625b7c054edcf6687776c1511dcd1813eb)
+- 2026-02-07T18:59:16+00:00 — [Fix ApplicationSettingsContainer Compile](https://github.com/EricZimmerman/RegistryPlugins/commit/8a52fc310f08b1080dd4a604c703d884eb050420)
+- 2026-02-07T16:54:02+00:00 — [merge](https://github.com/EricZimmerman/RegistryPlugins/commit/4513994065bcf8c978fe01409a2b744f71f13e68)
 
 ## EZ RegistryExplorerBookmarks commits
 
@@ -771,7 +781,19 @@ Generated: 2026-06-07T07:18:15Z
 
 - Site: https://github.com/EricZimmerman/GuidMapping
 - Feed: https://github.com/EricZimmerman/GuidMapping/commits/master.atom
-- Status: error: HTTP 504
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-04-26T14:38:35+00:00 — [Merge remote-tracking branch 'origin/master'](https://github.com/EricZimmerman/GuidMapping/commit/f68fb312e0f66b73b98af9821c1d0d2cf0e0fd29)
+- 2026-04-26T14:38:17+00:00 — [2026.5.0](https://github.com/EricZimmerman/GuidMapping/commit/8c6c906db53ea39cf394ab34ed016aa1febf773d)
+- 2026-04-26T14:33:44+00:00 — [2026.5.0](https://github.com/EricZimmerman/GuidMapping/commit/ef2e1e38623c77522c8a1e2c5d257712fdb26a2d)
+- 2026-01-12T23:27:14+00:00 — [Update LICENSE](https://github.com/EricZimmerman/GuidMapping/commit/0ae29cfe4edeecef0077a0e5f552d94ef909707e)
+- 2025-01-13T20:12:01+00:00 — [new guids](https://github.com/EricZimmerman/GuidMapping/commit/f358a33efe7a1e8f99919cbb9f171609d51394f8)
+- 2025-01-08T15:10:34+00:00 — [framework](https://github.com/EricZimmerman/GuidMapping/commit/95b6c2f089962dfd8265292dac5fab8f2c60fb52)
+- 2025-01-08T14:58:27+00:00 — [proton drive](https://github.com/EricZimmerman/GuidMapping/commit/9cce66f8544861acf74c8b23e62b17d1c968e5ee)
+- 2025-01-07T22:27:03+00:00 — [Merge remote-tracking branch 'origin/master'](https://github.com/EricZimmerman/GuidMapping/commit/86e4254c89f08edfd6e5acf58d8ef23a8b862ba1)
+- 2025-01-07T22:26:53+00:00 — [nuget](https://github.com/EricZimmerman/GuidMapping/commit/63e4508591ef5cdba34c6b449b47329fa7c69dff)
+- 2025-01-07T22:26:45+00:00 — [Update publish.yml](https://github.com/EricZimmerman/GuidMapping/commit/41b5fd171899e6af64fde52bbd5c26639db89654)
 
 ## EZ documentation commits
 
@@ -786,13 +808,37 @@ Generated: 2026-06-07T07:18:15Z
 
 - Site: https://github.com/EricZimmerman/DFIR-SQL-Query-Repo
 - Feed: https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commits/master.atom
-- Status: error: HTTP 504
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2019-09-15T03:32:34+00:00 — [Update README.md](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/9fbc0e50f21334b9988c8defb4da3aa727990c6c)
+- 2019-09-15T03:28:45+00:00 — [Add files via upload](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/eefff80b2ab6823ab4aacaaa999919e2fa7118b8)
+- 2019-09-15T03:28:10+00:00 — [Create README.md](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/2526c78e17bce8ea85dfa4c91a83f3a290bedb4b)
+- 2019-07-25T04:20:44+00:00 — [Add files via upload](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/3e0cefb5e38739b94ff3fcae18a81304631f69eb)
+- 2019-07-25T04:16:52+00:00 — [Add files via upload](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/294126946bee4af09acfd68554fa3a517f9504a8)
+- 2019-07-25T04:16:05+00:00 — [Create README.md](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/3acebec47714418e7d78ab851d6da92c9b6402ca)
+- 2019-07-25T04:13:16+00:00 — [Update README.md](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/d1b5c731edb8f2f36d775e6969f9ce630a79fc01)
+- 2019-07-25T04:12:10+00:00 — [Add files via upload](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/98e7daedbb28217439c1a864de2248c37f1e5fbb)
+- 2019-07-25T04:09:11+00:00 — [Create README.md](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/ac30387caca66a8f4c608cf1702c8e7b348e2d6f)
+- 2019-07-25T04:07:16+00:00 — [Update README.md](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/4a606f18637a2fb5ab9d93657f40c1229da12dc3)
 
 ## SigmaHQ sigma releases
 
 - Site: https://github.com/SigmaHQ/sigma
 - Feed: https://github.com/SigmaHQ/sigma/releases.atom
-- Status: error: HTTP 504
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-04-28T11:32:44+00:00 — [Release r2026-04-01](https://github.com/SigmaHQ/sigma/releases/tag/r2026-04-01)
+- 2026-01-29T12:57:15+00:00 — [Release r2026-01-01](https://github.com/SigmaHQ/sigma/releases/tag/r2026-01-01)
+- 2025-11-28T10:43:38+00:00 — [Release r2025-12-01](https://github.com/SigmaHQ/sigma/releases/tag/r2025-12-01)
+- 2025-10-29T11:28:42+00:00 — [Release r2025-11-01](https://github.com/SigmaHQ/sigma/releases/tag/r2025-11-01)
+- 2025-10-01T12:54:14+00:00 — [Release r2025-10-01](https://github.com/SigmaHQ/sigma/releases/tag/r2025-10-01)
+- 2025-07-08T11:32:17+00:00 — [Release r2025-07-08](https://github.com/SigmaHQ/sigma/releases/tag/r2025-07-08)
+- 2025-05-27T11:13:34+00:00 — [Release r2025-05-21](https://github.com/SigmaHQ/sigma/releases/tag/r2025-05-21)
+- 2025-02-03T17:34:32+00:00 — [Release r2025-02-03](https://github.com/SigmaHQ/sigma/releases/tag/r2025-02-03)
+- 2024-12-19T19:56:01+00:00 — [Release r2024-12-19](https://github.com/SigmaHQ/sigma/releases/tag/r2024-12-19)
+- 2024-11-10T10:54:47+00:00 — [Release r2024-11-10](https://github.com/SigmaHQ/sigma/releases/tag/r2024-11-10)
 
 ## Hayabusa rules commits
 
@@ -825,7 +871,19 @@ Generated: 2026-06-07T07:18:15Z
 
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
-- Status: error: HTTP 504
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-06-05T22:24:04+00:00 — [dev-v1.6.49](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.49)
+- 2026-06-04T17:30:21+00:00 — [dev-v1.6.48](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.48)
+- 2026-06-03T17:15:05+00:00 — [dev-v1.6.47](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.47)
+- 2026-06-01T18:18:51+00:00 — [integration-v9.4.5: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.4.5)
+- 2026-06-01T18:18:02+00:00 — [integration-v9.3.13: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.3.13)
+- 2026-06-01T18:17:07+00:00 — [integration-v9.2.17: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.2.17)
+- 2026-06-01T18:16:19+00:00 — [integration-v8.19.25: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v8.19.25)
+- 2026-06-01T18:15:07+00:00 — [dev-v1.6.46](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.46)
+- 2026-06-01T13:58:37+00:00 — [dev-v1.6.45](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.45)
+- 2026-05-29T14:07:42+00:00 — [dev-v1.6.44](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.44)
 
 ## regipy releases
 
