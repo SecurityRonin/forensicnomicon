@@ -215,6 +215,67 @@ mod tests {
         assert!(hv.iter().all(|e| e.high_value));
     }
 
+    /// 13Cubed IWE course-taught Event IDs that must be present in the table,
+    /// each with the channel the course assigns. (id, channel)
+    const IWE_REQUIRED: &[(u32, &str)] = &[
+        // Security — logon / privilege / account lifecycle
+        (4634, "Security"),
+        (4647, "Security"),
+        (4672, "Security"),
+        (4722, "Security"),
+        // RDP / TerminalServices
+        (21, "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational"),
+        (22, "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational"),
+        (1149, "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational"),
+        (1029, "Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Operational"),
+        // Task Scheduler operational
+        (106, "Microsoft-Windows-TaskScheduler/Operational"),
+        (140, "Microsoft-Windows-TaskScheduler/Operational"),
+        (141, "Microsoft-Windows-TaskScheduler/Operational"),
+        (200, "Microsoft-Windows-TaskScheduler/Operational"),
+        (201, "Microsoft-Windows-TaskScheduler/Operational"),
+        // PowerShell
+        (4103, "Microsoft-Windows-PowerShell/Operational"),
+        (4104, "Microsoft-Windows-PowerShell/Operational"),
+        (400, "Windows PowerShell"),
+        (600, "Windows PowerShell"),
+        // System — services
+        (7034, "System"),
+        (7036, "System"),
+        // Defender
+        (1116, "Microsoft-Windows-Windows Defender/Operational"),
+        (1117, "Microsoft-Windows-Windows Defender/Operational"),
+        // ESENT / NTDS (Application log)
+        (216, "Application"),
+        (325, "Application"),
+        (326, "Application"),
+        (327, "Application"),
+    ];
+
+    #[test]
+    fn iwe_course_event_ids_present() {
+        for &(id, channel) in IWE_REQUIRED {
+            let e = event_entry(id)
+                .unwrap_or_else(|| panic!("IWE Event ID {id} missing from EVENT_ID_TABLE"));
+            assert_eq!(
+                e.channel, channel,
+                "Event {id} channel mismatch: got {:?}, want {channel:?}",
+                e.channel
+            );
+            assert!(
+                !e.description.is_empty(),
+                "Event {id} must carry a description"
+            );
+        }
+    }
+
+    #[test]
+    fn powershell_scriptblock_4104_is_high_value() {
+        let e = event_entry(4104).expect("Event 4104 (script block logging) should exist");
+        assert!(e.high_value, "4104 (decoded script content) is high-value");
+        assert!(e.mitre_techniques.contains(&"T1059.001"));
+    }
+
     #[test]
     fn all_artifact_ids_valid() {
         use crate::catalog::CATALOG;
