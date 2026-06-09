@@ -32,7 +32,29 @@ pub struct NativeEventTechnique {
 
 /// Per-event behavioral signatures. The first entry whose `event_id` matches
 /// and whose `logon_type` constraint is satisfied wins (see [`technique_for`]).
-pub static NATIVE_EVENT_TECHNIQUES: &[NativeEventTechnique] = &[];
+pub static NATIVE_EVENT_TECHNIQUES: &[NativeEventTechnique] = &[
+    NativeEventTechnique {
+        event_id: 4624,
+        logon_type: Some(10),
+        technique: "T1021.001",
+        tactic: "initial_access",
+        description: "Type-10 (RemoteInteractive/RDP) successful logon",
+    },
+    NativeEventTechnique {
+        event_id: 7045,
+        logon_type: None,
+        technique: "T1543.003",
+        tactic: "persistence",
+        description: "New Windows service installed (7045)",
+    },
+    NativeEventTechnique {
+        event_id: 4672,
+        logon_type: None,
+        technique: "T1078",
+        tactic: "privilege_escalation",
+        description: "Privileged (admin-equivalent) logon assigned (4672)",
+    },
+];
 
 /// The technique a *burst* of failed logons (4625) is consistent with. The
 /// burst threshold is a tuning decision the analyzer owns, not a fact, so it is
@@ -40,9 +62,9 @@ pub static NATIVE_EVENT_TECHNIQUES: &[NativeEventTechnique] = &[];
 pub const FAILED_LOGON_BURST: NativeEventTechnique = NativeEventTechnique {
     event_id: 4625,
     logon_type: None,
-    technique: "PLACEHOLDER",
-    tactic: "placeholder",
-    description: "RED stub",
+    technique: "T1110",
+    tactic: "initial_access",
+    description: "Repeated failed logons (4625) — consistent with password brute force",
 };
 
 /// Look up the behavioral technique consistent with a single event signature.
@@ -51,11 +73,12 @@ pub const FAILED_LOGON_BURST: NativeEventTechnique = NativeEventTechnique {
 /// constrains `logon_type`, the supplied `logon_type` must equal it.
 #[must_use]
 pub fn technique_for(
-    _event_id: u32,
-    _logon_type: Option<u32>,
+    event_id: u32,
+    logon_type: Option<u32>,
 ) -> Option<&'static NativeEventTechnique> {
-    // RED stub — implementation lands in the GREEN commit.
-    None
+    NATIVE_EVENT_TECHNIQUES
+        .iter()
+        .find(|t| t.event_id == event_id && t.logon_type.map_or(true, |lt| logon_type == Some(lt)))
 }
 
 #[cfg(test)]
