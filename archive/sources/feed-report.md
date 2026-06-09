@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-06-08T08:27:30Z
+Generated: 2026-06-09T06:59:33Z
 
 ## Windows Incident Response
 
@@ -63,7 +63,7 @@ Generated: 2026-06-08T08:27:30Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-06-08T00:00:00+00:00 — [Kubernetes container forensics after pod deletion](https://andreafortuna.org/2026/06/08/container-forensics/)
+- 2026-06-09T00:00:00+00:00 — [Every GPS satellite is a numbers station](https://andreafortuna.org/2026/06/09/gps-numbers-station/)
 
 ## Salt Forensics
 
@@ -160,9 +160,9 @@ Generated: 2026-06-08T08:27:30Z
 - Site: https://brettshavers.com/brett-s-blog
 - Feed: https://feeds.feedburner.com/brettshavers/oSyq
 - Entries checked: 3
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-07T18:13:59-07:00 — [Will Tomorrow Be Your DFIR ‘Mann Gulch’?](https://brettshavers.com/brett-s-blog/entry/will-tomorrow-be-your-dfir-mann-gulch)
+- No new entries detected
 
 ## Yogesh Khatri's forensic blog
 
@@ -210,40 +210,71 @@ Generated: 2026-06-08T08:27:30Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 404
 
 ## SANS Internet Storm Center
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-06-08T02:00:03+00:00 — [ISC Stormcast For Monday, June 8th, 2026 https://isc.sans.edu/podcastdetail/9962, (Mon, Jun 8th)](https://isc.sans.edu/diary/rss/33058)
+- 2026-06-09T02:00:03+00:00 — [ISC Stormcast For Tuesday, June 9th, 2026 https://isc.sans.edu/podcastdetail/9964, (Tue, Jun 9th)](https://isc.sans.edu/diary/rss/33062)
+- 2026-06-08T17:07:37+00:00 — [TeamPCP Supply Chain Campaign: Activity Through 2026-06-07, (Mon, Jun 8th)](https://isc.sans.edu/diary/rss/33060)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
+- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
+- unknown date — [AI-enhanced crime will expose DFIR practitioners who ignore AI.](https://www.dfir.training/blog/ai-enhanced-crime-will-expose-dfir-practitioners-who-ignore-ai)
+- unknown date — [56% are either likely to leave DFIR within 12 months or unsure if they’ll stay.](https://www.dfir.training/blog/56-of-dfir-is-unsure-if-they-will-stay-in-dfir-for-the-next-12-months)
 
 ## MSAB
 
 - Site: https://www.msab.com/
 - Feed: https://www.msab.com/feed/
-- Status: error: mismatched tag: line 93, column 2
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-05-12T17:00:00+00:00 — [Bulletin from the Annual General Meeting of Micro Systemation AB (publ)](https://www.msab.com/updates/bulletin-from-the-annual-general-meeting-of-micro-systemation-ab-publ-2/)
+- 2026-05-12T13:00:00+00:00 — [MSAB Secures Contract Worth SEK 12,7 Million with Australian Law Enforcement Agency](https://www.msab.com/updates/msab-secures-contract-worth-sek-127-million-with-australian-law-enforcement-agency/)
+- 2026-05-07T05:00:00+00:00 — [MSAB Sets Long-term Financial Targets](https://www.msab.com/updates/msab-sets-long-term-financial-targets/)
+- 2026-04-28T05:00:00+00:00 — [MSAB Interim Report – Q1 2026](https://www.msab.com/updates/msab-interim-report-q1-2026/)
+- 2026-04-21T11:00:00+00:00 — [MSAB publishes Annual Report for 2025](https://www.msab.com/updates/msab-publishes-annual-report-for-2025/)
+- 2026-04-14T05:00:00+00:00 — [Invitation to the Presentation of MSAB’s Interim Report January-March 2026](https://www.msab.com/updates/invitation-to-the-presentation-of-msabs-interim-report-january-march-2026/)
+- 2026-04-07T07:00:00+00:00 — [NOTICE OF ANNUAL GENERAL MEETING IN MICRO SYSTEMATION AB (publ)](https://www.msab.com/updates/notice-of-annual-general-meeting-in-micro-systemation-ab-publ-3/)
+- 2026-03-26T12:30:45+00:00 — [Q1 2026 Major Release is now available](https://www.msab.com/updates/q1-2026-major-release-is-now-available/)
+- 2026-03-24T06:00:00+00:00 — [Invitation to MSAB’s Capital Markets Day on May 7th, 2026](https://www.msab.com/updates/invitation-to-msabs-capital-markets-day-on-may-7th-2026/)
+- 2026-02-05T12:30:18+00:00 — [XRY 11.3.1: Market-first GPS device support.](https://www.msab.com/updates/xry-11-3-1-market-first-gps-device-support/)
 
 ## AboutDFIR
 
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
-- Status: error: mismatched tag: line 93, column 2
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-06-08T13:45:40+00:00 — [Infosec News Nuggets — June 8, 2026](https://aboutdfir.com/infosec-news-nuggets-june-8-2026/)
+- 2026-06-05T10:46:32+00:00 — [Infosec News Nuggets — June 5, 2026](https://aboutdfir.com/infosec-news-nuggets-june-5-2026/)
+- 2026-06-04T11:27:23+00:00 — [Infosec News Nuggets — June 4, 2026](https://aboutdfir.com/infosec-news-nuggets-june-4-2026/)
+- 2026-06-02T13:17:56+00:00 — [Infosec News Nuggets — June 2, 2026](https://aboutdfir.com/infosec-news-nuggets-june-2-2026/)
+- 2026-06-01T12:40:47+00:00 — [InfoSec News Nuggets — June 1, 2026](https://aboutdfir.com/infosec-news-nuggets-june-1-2026/)
+- 2026-05-29T12:23:20+00:00 — [InfoSec News Nuggets – 05/29/2026](https://aboutdfir.com/infosec-news-nuggets-05-29-2026/)
+- 2026-05-28T10:55:20+00:00 — [InfoSec News Nuggets – 05/28/2026](https://aboutdfir.com/infosec-news-nuggets-05-28-2026/)
+- 2026-05-27T11:29:09+00:00 — [InfoSec News Nuggets 05/27/2026](https://aboutdfir.com/infosec-news-nuggets-05-27-2026/)
+- 2026-05-26T10:49:46+00:00 — [InfoSec News Nuggets 05/26/2026](https://aboutdfir.com/infosec-news-nuggets-05-26-2026/)
+- 2026-05-22T11:31:07+00:00 — [InfoSec News Nuggets 05/22/2026](https://aboutdfir.com/infosec-news-nuggets-05-22-2026/)
 
 ## Forensic 4cast
 
@@ -276,7 +307,19 @@ Generated: 2026-06-08T08:27:30Z
 
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
-- Status: error: mismatched tag: line 93, column 2
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-06-03T13:31:37+00:00 — [How To Investigate Video Evidence: Workflows, Pitfalls and Best Practices](https://blog.ampedsoftware.com/2026/06/03/investigate-video-evidence)
+- 2026-05-27T14:00:00+00:00 — [Deepfake Forensics Workflow for Image Analysis](https://blog.ampedsoftware.com/2026/05/27/deepfake-forensics-workflow-for-image-analysis)
+- 2026-05-20T13:30:00+00:00 — [Amped FIVE Update 40823: New Formats, Assistant Automation, New Motion Detection, and updates to Change Frame Rate, Timeline, and Much More](https://blog.ampedsoftware.com/2026/05/20/amped-five-update-40823)
+- 2026-04-24T13:30:00+00:00 — [Learn from the Experts at Amped Connect U.S. 2026](https://blog.ampedsoftware.com/2026/04/24/learn-from-the-experts-at-amped-connect-u-s-2026)
+- 2026-04-16T13:30:00+00:00 — [Fifty Shades of Fake: Deepfakes, AI Enhancement, and Media Authenticity](https://blog.ampedsoftware.com/2026/04/16/fifty-shades-of-fake)
+- 2026-04-01T13:30:00+00:00 — [Amped DVRConv and Engine Update 40286](https://blog.ampedsoftware.com/2026/04/01/dvrconv-and-engine-update-40286)
+- 2026-03-25T14:30:00+00:00 — [Amped Replay Update 40205: Magnify and Spotlight Improvements, Bookmarks Updates and More!](https://blog.ampedsoftware.com/2026/03/25/amped-replay-update-40205)
+- 2026-03-11T14:30:00+00:00 — [Authenticate Update 40165: Faster and Updated Deepfake Detection, Improved Geometrical Analysis, New Inspector Panel, and more!](https://blog.ampedsoftware.com/2026/03/11/authenticate-update-40165)
+- 2026-02-18T14:30:00+00:00 — [Amped FIVE Update 39780: Playback Control Options, TIME File Improvements, Video Duration Control when Removing Frames, Updates to Resize and Aspect Ratio, and Much More](https://blog.ampedsoftware.com/2026/02/18/amped-five-update-39780)
+- 2026-02-10T14:30:00+00:00 — [2026 Digital Forensics Conference Guide: See Amped’s Video Forensics Tools Live](https://blog.ampedsoftware.com/2026/02/10/2026-digital-forensics-conference-guide)
 
 ## Didier Stevens Blog
 
@@ -355,11 +398,10 @@ Generated: 2026-06-08T08:27:30Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-06-08T08:00:46+00:00 — [Solutions to Saturday Mac riddles 363](https://eclecticlight.co/2026/06/08/solutions-to-saturday-mac-riddles-363/)
-- 2026-06-08T06:30:12+00:00 — [How does Lockdown Mode affect location data?](https://eclecticlight.co/2026/06/08/how-does-lockdown-mode-affect-location-data/)
-- 2026-06-07T11:30:00+00:00 — [Elihu Vedder’s symbolism and stories: 1885-1913](https://eclecticlight.co/2026/06/07/elihu-vedders-symbolism-and-stories-1885-1913/)
+- 2026-06-09T06:30:18+00:00 — [Reading the Finder’s Get Info dialog](https://eclecticlight.co/2026/06/09/reading-the-finders-get-info-dialog/)
+- 2026-06-08T11:30:00+00:00 — [In memoriam Mary Cassatt: 2, 1880-81](https://eclecticlight.co/2026/06/08/in-memoriam-mary-cassatt-2-1880-81/)
 
 ## JPCERT/CC
 
@@ -402,18 +444,18 @@ Generated: 2026-06-08T08:27:30Z
 - Site: https://redcanary.com/blog/
 - Feed: https://redcanary.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-08T15:37:01+00:00 — [Investigating suspicious AI workflows in Microsoft Entra Agent ID: Assistive agents](https://redcanary.com/blog/threat-detection/entra-id-ai-workflows-assistive-agents/)
 
 ## Palo Alto Unit 42
 
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-08T23:00:45+00:00 — [When “Hi, This Is IT” Comes Through Microsoft Teams](https://unit42.paloaltonetworks.com/microsoft-teams-phishing/)
 
 ## Mandiant Threat Intelligence
 
@@ -483,18 +525,18 @@ Generated: 2026-06-08T08:27:30Z
 - Site: https://www.forensafe.com/blogs/
 - Feed: https://www.forensafe.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- Fri, 05 June 2026 — [Memory Users](https://forensafe.com/blogs/memory-users.html)
 
 ## Cellebrite Blog
 
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-08T18:42:52+00:00 — [Automate Android and iOS Device Interactions with a Corellium Linux Server](https://cellebrite.com/en/blog/automate-android-and-ios-device-interactions-with-a-corellium-linux-server/)
 
 ## DFIR Science
 
@@ -510,18 +552,19 @@ Generated: 2026-06-08T08:27:30Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-08T00:00:00-05:00 — [CrowdStrike and Zscaler Bring Continuous Identity to Zero Trust Access](https://www.crowdstrike.com/en-us/blog/crowdstrike-zscaler-bring-continuous-identity-security-to-zero-trust-access/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-06-08T07:07:07+00:00 — [A week in security (June 1 &#8211; June 7)](https://www.malwarebytes.com/blog/news/2026/06/a-week-in-security-june-1-june-7-2)
+- 2026-06-08T15:02:13+00:00 — [Americans lost nearly $900 million to AI-powered scams, FBI says](https://www.malwarebytes.com/blog/scams/2026/06/americans-lost-nearly-900-million-to-ai-powered-scams-fbi-says)
+- 2026-06-08T10:53:06+00:00 — [Pirated PC games are delivering password-stealing malware](https://www.malwarebytes.com/blog/threat-intel/2026/06/pirated-pc-games-are-delivering-password-stealing-malware)
 
 ## Krebs on Security
 
@@ -537,21 +580,30 @@ Generated: 2026-06-08T08:27:30Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 10
 
-- 2026-06-08T02:00:27-04:00 — [Over 20,000 Instagram accounts stolen in Meta AI support hack](https://www.bleepingcomputer.com/news/security/meta-ai-support-data-breach-affects-20-000-instagram-accounts/)
-- 2026-06-07T19:20:02-04:00 — [Hands on with Intelligent Terminal, an AI-powered Windows Terminal](https://www.bleepingcomputer.com/news/microsoft/hands-on-with-intelligent-terminal-an-ai-powered-windows-terminal/)
-- 2026-06-07T10:17:46-04:00 — [C0XMO botnet spreads via DD-WRT router flaw, kills rival malware](https://www.bleepingcomputer.com/news/security/c0xmo-botnet-spreads-via-dd-wrt-router-flaw-kills-rival-malware/)
-- 2026-06-07T10:09:19-04:00 — [Silent Ransom Group targets law firms with fake IT support calls](https://www.bleepingcomputer.com/news/security/silent-ransom-group-targets-law-firms-with-fake-it-support-calls/)
+- 2026-06-09T02:56:27-04:00 — [Google patches new Chrome zero-day flaw exploited in the wild](https://www.bleepingcomputer.com/news/security/google-patches-fifth-chrome-zero-day-bug-exploited-in-attacks-this-year/)
+- 2026-06-08T18:11:58-04:00 — [NFCShare Android malware spreads via fake banking app updates on GitHub](https://www.bleepingcomputer.com/news/security/nfcshare-android-malware-spreads-via-fake-banking-app-updates-on-github/)
+- 2026-06-08T17:55:46-04:00 — [SoFi confirms third-party data breach at Hong Kong subsidiary](https://www.bleepingcomputer.com/news/security/sofi-confirms-third-party-data-breach-at-hong-kong-subsidiary/)
+- 2026-06-08T17:03:40-04:00 — [New Apple feature automatically changes your compromised passwords](https://www.bleepingcomputer.com/news/apple/new-apple-feature-automatically-changes-your-compromised-passwords/)
+- 2026-06-08T16:41:35-04:00 — [New Shai-Hulud attack trojanizes 19 science-focused PyPI packages](https://www.bleepingcomputer.com/news/security/new-shai-hulud-attack-trojanizes-19-science-focused-pypi-packages/)
+- 2026-06-08T14:40:53-04:00 — [WhatsApp says it disrupted new NSO spyware phishing attacks](https://www.bleepingcomputer.com/news/security/whatsapp-says-it-disrupted-new-nso-spyware-phishing-attacks/)
+- 2026-06-08T12:18:40-04:00 — [Gogs patches critical zero-day enabling remote code execution](https://www.bleepingcomputer.com/news/security/gogs-patches-critical-zero-day-enabling-remote-code-execution/)
+- 2026-06-08T11:51:19-04:00 — [Critical UniFi OS bug lets hackers gain root without authentication](https://www.bleepingcomputer.com/news/security/critical-unifi-os-bug-lets-hackers-gain-root-without-authentication/)
+- 2026-06-08T10:01:11-04:00 — [Reducing security operations complexity with Wazuh Cloud](https://www.bleepingcomputer.com/news/security/reducing-security-operations-complexity-with-wazuh-cloud/)
+- 2026-06-08T09:05:16-04:00 — [Check Point links VPN zero-day attacks to Qilin ransomware gang](https://www.bleepingcomputer.com/news/security/check-point-links-vpn-zero-day-attacks-to-qilin-ransomware-gang/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-06-08T20:59:52+00:00 — [Silent Ransom Group Hits US Law Firms in Escalating Extortion Attacks](https://www.darkreading.com/cyberattacks-data-breaches/silent-ransom-us-law-firms-extortion-attacks)
+- 2026-06-08T20:28:35+00:00 — [Check Point VPN Flaw Exploited Since Early May](https://www.darkreading.com/vulnerabilities-threats/check-point-vpn-flaw-exploited-early-may)
+- 2026-06-08T19:07:48+00:00 — [Iran Signed a Ceasefire — Its Hackers Didn't](https://www.darkreading.com/cyberattacks-data-breaches/iran-signed-ceasefire-hackers)
+- 2026-06-08T16:13:41+00:00 — ['Hades' Campaign Against PyPI Puts New Spin on Shai-Hulud](https://www.darkreading.com/application-security/hades-campaign-pypi-shai-hulud)
 
 ## Volexity Blog
 
@@ -573,9 +625,9 @@ Generated: 2026-06-08T08:27:30Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-08T16:00:00+00:00 — [AI brands as bait: How threat actors are using the AI hype in social engineering](https://www.microsoft.com/en-us/security/blog/2026/06/08/ai-brands-as-bait-how-threat-actors-are-using-the-ai-hype-in-social-engineering/)
 
 ## LOLBAS Project (Windows)
 
@@ -626,7 +678,19 @@ Generated: 2026-06-08T08:27:30Z
 
 - Site: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes
 - Feed: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commits/main.atom
-- Status: error: HTTP 504
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-06-05T11:28:21+00:00 — [Update README.md](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/b6c721b6f1350a6a454fbbf431bc40f79cb8aee8)
+- 2026-06-05T04:39:38+00:00 — [Update README.md](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/ecc4762cc1933eb359bb3afe4d5aefaafd51e971)
+- 2026-06-05T04:37:00+00:00 — [Update README.md](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/c39cfef1457ff215527d9145338cf449756ba664)
+- 2026-06-05T04:28:24+00:00 — [Create 3.2.06_Minidump_Analysis.md](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/61ac28fe2d44ef28fe78a240135cb89258a5f2fe)
+- 2026-06-05T04:27:18+00:00 — [Update 3.2.01_Memory_Forensics.md](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/692b98c655327f3088986aa19ce9e496e02edc53)
+- 2026-05-30T09:20:46+00:00 — [Update](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/f18df0a95027af5759c43d6bcb22bb44dd0aa102)
+- 2026-05-30T07:57:25+00:00 — [Update Dumpex.py](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/76e339b7051809f4c9c1f46342a359d148981ca0)
+- 2026-05-30T03:25:28+00:00 — [Update Dumpex.py](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/e290e24ce4fa1cf27d890309c487ef7322c7faff)
+- 2026-05-30T03:13:24+00:00 — [Update Dumpex.py](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/9547f9e5b68902cd21e6e49f967de48cb72e7ab9)
+- 2026-05-30T02:56:12+00:00 — [New Tools - Dumpex](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/33eac7a03220bc77cd29d4e4ebaacdc1ee392db7)
 
 ## kacos2000_Win10
 
@@ -714,14 +778,9 @@ Generated: 2026-06-08T08:27:30Z
 - Site: https://github.com/EricZimmerman/PECmd
 - Feed: https://github.com/EricZimmerman/PECmd/releases.atom
 - Entries checked: 6
-- New since last snapshot: 6
+- New since last snapshot: 0
 
-- 2018-10-01T15:53:41+00:00 — [1.1.0.0](https://github.com/EricZimmerman/PECmd/releases/tag/1.1.0.0)
-- 2018-05-31T00:00:28+00:00 — [1.0.0.0](https://github.com/EricZimmerman/PECmd/releases/tag/1.0.0.0)
-- 2017-01-03T14:49:35+00:00 — [0.9.0.0](https://github.com/EricZimmerman/PECmd/releases/tag/0.9.0.0)
-- 2016-03-31T18:03:02+00:00 — [0.7.0.0](https://github.com/EricZimmerman/PECmd/releases/tag/0.7.0.0)
-- 2016-03-13T02:34:02+00:00 — [0.6.0.0](https://github.com/EricZimmerman/PECmd/releases/tag/0.6.0.0)
-- 2016-01-22T22:15:25+00:00 — [0.5.0.0](https://github.com/EricZimmerman/PECmd/releases/tag/0.5.0.0)
+- No new entries detected
 
 ## EZ RBCmd releases
 
@@ -755,18 +814,9 @@ Generated: 2026-06-08T08:27:30Z
 - Site: https://github.com/EricZimmerman/RegistryPlugins
 - Feed: https://github.com/EricZimmerman/RegistryPlugins/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-04-26T17:40:51+00:00 — ["nuget"](https://github.com/EricZimmerman/RegistryPlugins/commit/4c922338b5155a859e8e9352fe16fe881b9ce9bd)
-- 2026-04-26T17:32:14+00:00 — [2026.5.0](https://github.com/EricZimmerman/RegistryPlugins/commit/4960ba02906523e6aef9f53fe779b0349f90dd4d)
-- 2026-04-24T18:50:01+00:00 — [nuget, fix issue with comdlg when LongName was empty, breaking Value …](https://github.com/EricZimmerman/RegistryPlugins/commit/e77da4e97ac666490b48e779faa6203e61e8af88)
-- 2026-03-03T15:47:22+00:00 — [Merge pull request #72 from AndrewRathbun/master](https://github.com/EricZimmerman/RegistryPlugins/commit/dfb2e4c080ad880050a110f513385fe16fd8235a)
-- 2026-03-03T03:21:58+00:00 — [Add command and arguments to ValuesOut](https://github.com/EricZimmerman/RegistryPlugins/commit/4557f80600a7b03fdc851da2cdf8a6572c1adec9)
-- 2026-03-03T03:21:26+00:00 — [Update TaskCache to add Command and Arguments output](https://github.com/EricZimmerman/RegistryPlugins/commit/509d59ead4fbeb82c6d6971b01686d9e4d4f1f18)
-- 2026-02-07T20:48:55+00:00 — [fix SAM plugin when a ton of users is present](https://github.com/EricZimmerman/RegistryPlugins/commit/27136da123279346584a3f8688873ee90f244d7c)
-- 2026-02-07T19:02:49+00:00 — [Merge pull request #70 from reece394/patch-1](https://github.com/EricZimmerman/RegistryPlugins/commit/bda260625b7c054edcf6687776c1511dcd1813eb)
-- 2026-02-07T18:59:16+00:00 — [Fix ApplicationSettingsContainer Compile](https://github.com/EricZimmerman/RegistryPlugins/commit/8a52fc310f08b1080dd4a604c703d884eb050420)
-- 2026-02-07T16:54:02+00:00 — [merge](https://github.com/EricZimmerman/RegistryPlugins/commit/4513994065bcf8c978fe01409a2b744f71f13e68)
+- No new entries detected
 
 ## EZ RegistryExplorerBookmarks commits
 
@@ -782,18 +832,9 @@ Generated: 2026-06-08T08:27:30Z
 - Site: https://github.com/EricZimmerman/GuidMapping
 - Feed: https://github.com/EricZimmerman/GuidMapping/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-04-26T14:38:35+00:00 — [Merge remote-tracking branch 'origin/master'](https://github.com/EricZimmerman/GuidMapping/commit/f68fb312e0f66b73b98af9821c1d0d2cf0e0fd29)
-- 2026-04-26T14:38:17+00:00 — [2026.5.0](https://github.com/EricZimmerman/GuidMapping/commit/8c6c906db53ea39cf394ab34ed016aa1febf773d)
-- 2026-04-26T14:33:44+00:00 — [2026.5.0](https://github.com/EricZimmerman/GuidMapping/commit/ef2e1e38623c77522c8a1e2c5d257712fdb26a2d)
-- 2026-01-12T23:27:14+00:00 — [Update LICENSE](https://github.com/EricZimmerman/GuidMapping/commit/0ae29cfe4edeecef0077a0e5f552d94ef909707e)
-- 2025-01-13T20:12:01+00:00 — [new guids](https://github.com/EricZimmerman/GuidMapping/commit/f358a33efe7a1e8f99919cbb9f171609d51394f8)
-- 2025-01-08T15:10:34+00:00 — [framework](https://github.com/EricZimmerman/GuidMapping/commit/95b6c2f089962dfd8265292dac5fab8f2c60fb52)
-- 2025-01-08T14:58:27+00:00 — [proton drive](https://github.com/EricZimmerman/GuidMapping/commit/9cce66f8544861acf74c8b23e62b17d1c968e5ee)
-- 2025-01-07T22:27:03+00:00 — [Merge remote-tracking branch 'origin/master'](https://github.com/EricZimmerman/GuidMapping/commit/86e4254c89f08edfd6e5acf58d8ef23a8b862ba1)
-- 2025-01-07T22:26:53+00:00 — [nuget](https://github.com/EricZimmerman/GuidMapping/commit/63e4508591ef5cdba34c6b449b47329fa7c69dff)
-- 2025-01-07T22:26:45+00:00 — [Update publish.yml](https://github.com/EricZimmerman/GuidMapping/commit/41b5fd171899e6af64fde52bbd5c26639db89654)
+- No new entries detected
 
 ## EZ documentation commits
 
@@ -809,36 +850,18 @@ Generated: 2026-06-08T08:27:30Z
 - Site: https://github.com/EricZimmerman/DFIR-SQL-Query-Repo
 - Feed: https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2019-09-15T03:32:34+00:00 — [Update README.md](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/9fbc0e50f21334b9988c8defb4da3aa727990c6c)
-- 2019-09-15T03:28:45+00:00 — [Add files via upload](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/eefff80b2ab6823ab4aacaaa999919e2fa7118b8)
-- 2019-09-15T03:28:10+00:00 — [Create README.md](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/2526c78e17bce8ea85dfa4c91a83f3a290bedb4b)
-- 2019-07-25T04:20:44+00:00 — [Add files via upload](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/3e0cefb5e38739b94ff3fcae18a81304631f69eb)
-- 2019-07-25T04:16:52+00:00 — [Add files via upload](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/294126946bee4af09acfd68554fa3a517f9504a8)
-- 2019-07-25T04:16:05+00:00 — [Create README.md](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/3acebec47714418e7d78ab851d6da92c9b6402ca)
-- 2019-07-25T04:13:16+00:00 — [Update README.md](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/d1b5c731edb8f2f36d775e6969f9ce630a79fc01)
-- 2019-07-25T04:12:10+00:00 — [Add files via upload](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/98e7daedbb28217439c1a864de2248c37f1e5fbb)
-- 2019-07-25T04:09:11+00:00 — [Create README.md](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/ac30387caca66a8f4c608cf1702c8e7b348e2d6f)
-- 2019-07-25T04:07:16+00:00 — [Update README.md](https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commit/4a606f18637a2fb5ab9d93657f40c1229da12dc3)
+- No new entries detected
 
 ## SigmaHQ sigma releases
 
 - Site: https://github.com/SigmaHQ/sigma
 - Feed: https://github.com/SigmaHQ/sigma/releases.atom
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-04-28T11:32:44+00:00 — [Release r2026-04-01](https://github.com/SigmaHQ/sigma/releases/tag/r2026-04-01)
-- 2026-01-29T12:57:15+00:00 — [Release r2026-01-01](https://github.com/SigmaHQ/sigma/releases/tag/r2026-01-01)
-- 2025-11-28T10:43:38+00:00 — [Release r2025-12-01](https://github.com/SigmaHQ/sigma/releases/tag/r2025-12-01)
-- 2025-10-29T11:28:42+00:00 — [Release r2025-11-01](https://github.com/SigmaHQ/sigma/releases/tag/r2025-11-01)
-- 2025-10-01T12:54:14+00:00 — [Release r2025-10-01](https://github.com/SigmaHQ/sigma/releases/tag/r2025-10-01)
-- 2025-07-08T11:32:17+00:00 — [Release r2025-07-08](https://github.com/SigmaHQ/sigma/releases/tag/r2025-07-08)
-- 2025-05-27T11:13:34+00:00 — [Release r2025-05-21](https://github.com/SigmaHQ/sigma/releases/tag/r2025-05-21)
-- 2025-02-03T17:34:32+00:00 — [Release r2025-02-03](https://github.com/SigmaHQ/sigma/releases/tag/r2025-02-03)
-- 2024-12-19T19:56:01+00:00 — [Release r2024-12-19](https://github.com/SigmaHQ/sigma/releases/tag/r2024-12-19)
-- 2024-11-10T10:54:47+00:00 — [Release r2024-11-10](https://github.com/SigmaHQ/sigma/releases/tag/r2024-11-10)
+- No new entries detected
 
 ## Hayabusa rules commits
 
@@ -872,18 +895,10 @@ Generated: 2026-06-08T08:27:30Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 2
 
-- 2026-06-05T22:24:04+00:00 — [dev-v1.6.49](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.49)
-- 2026-06-04T17:30:21+00:00 — [dev-v1.6.48](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.48)
-- 2026-06-03T17:15:05+00:00 — [dev-v1.6.47](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.47)
-- 2026-06-01T18:18:51+00:00 — [integration-v9.4.5: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.4.5)
-- 2026-06-01T18:18:02+00:00 — [integration-v9.3.13: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.3.13)
-- 2026-06-01T18:17:07+00:00 — [integration-v9.2.17: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.2.17)
-- 2026-06-01T18:16:19+00:00 — [integration-v8.19.25: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6225)](https://github.com/elastic/detection-rules/releases/tag/integration-v8.19.25)
-- 2026-06-01T18:15:07+00:00 — [dev-v1.6.46](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.46)
-- 2026-06-01T13:58:37+00:00 — [dev-v1.6.45](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.45)
-- 2026-05-29T14:07:42+00:00 — [dev-v1.6.44](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.44)
+- 2026-06-08T17:07:50+00:00 — [dev-v1.6.51](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.51)
+- 2026-06-08T14:10:05+00:00 — [dev-v1.6.50](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.50)
 
 ## regipy releases
 
@@ -1034,9 +1049,9 @@ Generated: 2026-06-08T08:27:30Z
 - Site: https://docs.velociraptor.app/
 - Feed: https://github.com/Velocidex/velociraptor/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-09T05:13:16+00:00 — [Release 0.77.1-rc1](https://github.com/Velocidex/velociraptor/releases/tag/v0.77.1-rc1)
 
 ## Microsoft Learn Windows What's New
 
