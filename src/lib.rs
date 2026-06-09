@@ -141,6 +141,7 @@ pub mod ewf;
 pub mod filesystems;
 pub mod forensicartifacts;
 pub mod gpt;
+pub mod history;
 pub mod mitre;
 pub mod navigator;
 pub mod ntfs;
