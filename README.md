@@ -351,11 +351,34 @@ assert_eq!(finding.severity, Some(Severity::High));
 
 ---
 
+## State-history (`history`)
+
+The third KNOWLEDGE vocabulary (alongside the catalog and `report`) is `forensicnomicon::history` — the **`[H]` state-history layer**: a cross-cutting functor that lifts every navigation primitive to a time-indexed variant (disk → VSS/APFS snapshots, memory → hiberfil chain, log → rotated/sealed journals, query → point-in-time exports; `[C]` git is the fixed point). It is pure declarative vocabulary — no parsing, no I/O.
+
+```rust
+use forensicnomicon::history::{epoch::LsnKind, profiles::SourceTemporalProfile};
+
+// The canonical temporal profile of one source family — the fleet's single source
+// of truth, so consumers (sqlite-forensic, Issen, …) never re-assert and drift on it.
+let wal = SourceTemporalProfile::sqlite_wal();
+assert!(wal.clock.ordering_only);            // a WAL frame carries no wall clock
+
+// A WAL ordering key is salt-qualified: a checkpoint reset rolls the salts AND
+// renumbers frames, so "frame 7 of epoch A" is not "frame 7 of epoch B".
+let _lsn = LsnKind::SqliteWalFrame { salt1: 0xDEAD_BEEF, salt2: 0x0BAD_F00D, frame_seq: 7, commit_seq: 3 };
+```
+
+- **`TemporalCohort<H>` / `TemporalState<H>`** — an artifact's states, ordered by `wall_time` (else by ordering key), grouped under one `IdentityDiscipline`; generic over a source-defined handle so there is no trait-object overhead.
+- **`ClockProvenance`** — four orthogonal trust axes (`source` / `trust_grade` / `tamper_resistance` / `ordering_only`), so "local but signed" (iOS APFS) is distinct from "external + attested" (Sigstore) instead of one flat trust level.
+- **`SourceTemporalProfile`** *(new in 0.4)* — one canonical `{ clock, safety, topology, ordering }` per source family (SQLite WAL, EVTX, USN, ESE, journald, VSS, git). A consumer reads the profile rather than re-deriving the classification, so the fleet cannot drift on, e.g., whether a WAL timestamp is forgeable.
+
+---
+
 ## Docs
 
 | | |
 |---|---|
-| [API Reference](https://docs.rs/forensicnomicon) | Full rustdoc for all modules, including `report` |
+| [API Reference](https://docs.rs/forensicnomicon) | Full rustdoc for all modules, including `report` and `history` |
 | [Architecture](ARCHITECTURE.md) | Data-flow: raw bytes to ArtifactRecord |
 
 ---
