@@ -7,7 +7,207 @@
 //! each re-deriving it and risking drift. Pure declarative knowledge; no I/O, no parsing.
 
 use crate::history::clock::{ClockProvenance, ClockSource, TamperResistance, TrustGrade};
-use crate::history::epoch::MaterializationSafety;
+use crate::history::epoch::{MaterializationSafety, TopologyKind};
+
+/// The structural shape of a source's ordering key — the *fifth* axis beyond the four
+/// clock/safety classifications.
+///
+/// Two sources can share a clock profile yet order their states differently: a WAL is a
+/// salt-qualified sequence, an EVTX log is wall-time-with-record-id. This axis records
+/// that shape so a consumer knows how to compare two states' positions.
+#[non_exhaustive]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum OrderingBasis {
+    /// Total order by a single monotonic sequence number, no wall time (ESE `.jrs` LSN).
+    SequenceOnly,
+    /// Total order by a TWO-level salt-qualified sequence: a generation counter (salt-1,
+    /// `+1` per checkpoint-reset, random origin) plus an intra-generation frame index,
+    /// with a per-generation nonce (salt-2) confirming epoch identity (SQLite WAL).
+    SaltQualifiedSequence,
+    /// Ordered primarily by an embedded wall-clock timestamp, tie-broken by a monotonic
+    /// record id (EVTX `EventRecordID`, USN, journald seqnum).
+    WallTimeWithRecordId,
+    /// A content-addressed Merkle DAG: identity is the hash, order is ancestry (git).
+    ContentHashDag,
+    /// An unordered set of discrete snapshots, each independently wall-time-stamped (VSS).
+    DiscreteSnapshotSet,
+}
+
+/// The canonical temporal characterization of one source family.
+///
+/// Bundles the four clock/safety classifications (via [`ClockProvenance`] +
+/// [`MaterializationSafety`]) with the cohort [`TopologyKind`] and the [`OrderingBasis`].
+/// One instance per source family is the fleet's single source of truth: a consumer
+/// (sqlite-forensic's adapter, Issen, a future `wal-history` crate) reads the profile
+/// rather than re-asserting any axis locally, so the fleet cannot drift.
+///
+/// Pure declarative knowledge — no parser, no I/O. A source's profile can live here even
+/// when its parser lives in another repo (winevt-forensic, usnjrnl-forensic, …).
+///
+/// Defaults are chosen **secure-by-default**: where a source can be hardened (journald
+/// FSS sealing), the profile encodes the *weaker, un-hardened* assumption so a consumer
+/// never over-claims tamper resistance it has not verified.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct SourceTemporalProfile {
+    /// Clock provenance shared by the source's temporal states (the four axes).
+    pub clock: ClockProvenance,
+    /// How safe it is to materialize a state without mutating the evidence.
+    pub safety: MaterializationSafety,
+    /// The shape of the source's temporal cohort.
+    pub topology: TopologyKind,
+    /// The structural shape of the source's ordering key.
+    pub ordering: OrderingBasis,
+}
+
+impl SourceTemporalProfile {
+    /// SQLite WAL: salt-qualified sequence, no wall time, non-crypto checksums, careful
+    /// materialization (libsqlite3 auto-checkpoints on open).
+    #[must_use]
+    pub fn sqlite_wal() -> Self {
+        Self {
+            clock: sqlite_wal_clock(),
+            safety: SQLITE_WAL_SAFETY,
+            topology: TopologyKind::SubJournalCommits,
+            ordering: OrderingBasis::SaltQualifiedSequence,
+        }
+    }
+
+    /// Windows EVTX: each record carries an embedded `TimeCreated` wall clock, tie-broken
+    /// by `EventRecordID`. Reading an `.evtx` never mutates it. An administrator can clear
+    /// or forge the log (no cryptographic seal), so tamper resistance is `AdminWritable`.
+    #[must_use]
+    pub fn evtx() -> Self {
+        Self {
+            clock: ClockProvenance {
+                source: ClockSource::LogRecord,
+                trust_grade: TrustGrade::LocalSubsystem,
+                tamper_resistance: TamperResistance::AdminWritable,
+                ordering_only: false,
+                skew_known: None,
+                authenticated: None,
+            },
+            safety: MaterializationSafety::ReadOnlySafe,
+            topology: TopologyKind::LinearJournal,
+            ordering: OrderingBasis::WallTimeWithRecordId,
+        }
+    }
+
+    /// NTFS USN change journal: each record carries a wall-clock `TimeStamp`, ordered by a
+    /// monotonic USN offset. Read-only; admin-writable (the journal can be cleared).
+    #[must_use]
+    pub fn usn_journal() -> Self {
+        Self {
+            clock: ClockProvenance {
+                source: ClockSource::LogRecord,
+                trust_grade: TrustGrade::LocalSubsystem,
+                tamper_resistance: TamperResistance::AdminWritable,
+                ordering_only: false,
+                skew_known: None,
+                authenticated: None,
+            },
+            safety: MaterializationSafety::ReadOnlySafe,
+            topology: TopologyKind::LinearJournal,
+            ordering: OrderingBasis::WallTimeWithRecordId,
+        }
+    }
+
+    /// ESE/JET transaction log (`.jrs`): ordered by a sequence-only LSN (no wall time in
+    /// the journal coordinate). `esentutl /r` replays and mutates, so materialization is
+    /// careful. Admin-writable on disk.
+    #[must_use]
+    pub fn ese_journal() -> Self {
+        Self {
+            clock: ClockProvenance {
+                source: ClockSource::SequenceOnly,
+                trust_grade: TrustGrade::OrderingOnly,
+                tamper_resistance: TamperResistance::AdminWritable,
+                ordering_only: true,
+                skew_known: None,
+                authenticated: None,
+            },
+            safety: MaterializationSafety::ReadOnlyRequiresCareful,
+            topology: TopologyKind::SubJournalCommits,
+            ordering: OrderingBasis::SequenceOnly,
+        }
+    }
+
+    /// systemd-journald (un-sealed default): wall-clock `__REALTIME_TIMESTAMP` ordered by
+    /// seqnum + boot-id. Read-only. Secure-by-default: the profile assumes NO FSS seal, so
+    /// tamper resistance is `AdminWritable`; an FSS-sealed journal upgrades to
+    /// [`TamperResistance::AppendOnlyLocal`] but a consumer must verify the seal first.
+    #[must_use]
+    pub fn journald() -> Self {
+        Self {
+            clock: ClockProvenance {
+                source: ClockSource::LogRecord,
+                trust_grade: TrustGrade::LocalSubsystem,
+                tamper_resistance: TamperResistance::AdminWritable,
+                ordering_only: false,
+                skew_known: None,
+                authenticated: None,
+            },
+            safety: MaterializationSafety::ReadOnlySafe,
+            topology: TopologyKind::LinearJournal,
+            ordering: OrderingBasis::WallTimeWithRecordId,
+        }
+    }
+
+    /// Windows VSS shadow copies: an unordered set of discrete snapshots, each carrying a
+    /// filesystem-metadata creation time. Mounting/reading a shadow copy is read-only;
+    /// the snapshot set is admin-writable (an admin can delete shadow copies).
+    #[must_use]
+    pub fn vss() -> Self {
+        Self {
+            clock: ClockProvenance {
+                source: ClockSource::FileMetadata,
+                trust_grade: TrustGrade::LocalSubsystem,
+                tamper_resistance: TamperResistance::AdminWritable,
+                ordering_only: false,
+                skew_known: None,
+                authenticated: None,
+            },
+            safety: MaterializationSafety::ReadOnlySafe,
+            topology: TopologyKind::DiscreteSet,
+            ordering: OrderingBasis::DiscreteSnapshotSet,
+        }
+    }
+
+    /// git: a content-addressed Merkle DAG. The commit graph's integrity is a topology
+    /// property (ancestry cannot change without changing hashes), but the commit/author
+    /// *timestamps* are trivially forgeable (`GIT_COMMITTER_DATE`), so the CLOCK's tamper
+    /// resistance is `Trivial` and its trust grade `LocalApplication`. Reading the object
+    /// store is read-only.
+    #[must_use]
+    pub fn git() -> Self {
+        Self {
+            clock: ClockProvenance {
+                source: ClockSource::ApplicationEmbedded,
+                trust_grade: TrustGrade::LocalApplication,
+                tamper_resistance: TamperResistance::Trivial,
+                ordering_only: false,
+                skew_known: None,
+                authenticated: None,
+            },
+            safety: MaterializationSafety::ReadOnlySafe,
+            topology: TopologyKind::Dag,
+            ordering: OrderingBasis::ContentHashDag,
+        }
+    }
+
+    /// Every source family the registry characterizes — used for fleet-wide invariants.
+    #[must_use]
+    pub fn all() -> [Self; 7] {
+        [
+            Self::sqlite_wal(),
+            Self::evtx(),
+            Self::usn_journal(),
+            Self::ese_journal(),
+            Self::journald(),
+            Self::vss(),
+            Self::git(),
+        ]
+    }
+}
 
 /// The clock provenance shared by every SQLite WAL commit state.
 ///

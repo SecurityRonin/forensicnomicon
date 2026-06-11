@@ -151,3 +151,35 @@ pub enum CohortTopology {
     /// Examples: git commit graph, btrfs subvolumes with `btrfs send -p`, VHDX differencing chain.
     Dag,
 }
+
+/// Payload-free discriminant of [`CohortTopology`].
+///
+/// A static source profile (see [`crate::history::profiles`]) can state that a source's
+/// cohorts are, say, `LinearJournal`-shaped without holding a concrete `LsnKind` value —
+/// the value only exists once an adapter reads real data. `TopologyKind` is that
+/// shape-without-payload; an adapter fills in the full `CohortTopology` at runtime.
+#[non_exhaustive]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum TopologyKind {
+    /// Corresponds to [`CohortTopology::DiscreteSet`].
+    DiscreteSet,
+    /// Corresponds to [`CohortTopology::LinearJournal`].
+    LinearJournal,
+    /// Corresponds to [`CohortTopology::SubJournalCommits`].
+    SubJournalCommits,
+    /// Corresponds to [`CohortTopology::Dag`].
+    Dag,
+}
+
+impl CohortTopology {
+    /// The payload-free [`TopologyKind`] discriminant of this topology.
+    #[must_use]
+    pub fn kind(&self) -> TopologyKind {
+        match self {
+            CohortTopology::DiscreteSet => TopologyKind::DiscreteSet,
+            CohortTopology::LinearJournal { .. } => TopologyKind::LinearJournal,
+            CohortTopology::SubJournalCommits => TopologyKind::SubJournalCommits,
+            CohortTopology::Dag => TopologyKind::Dag,
+        }
+    }
+}
