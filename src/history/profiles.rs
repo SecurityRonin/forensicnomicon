@@ -39,7 +39,7 @@ pub const SQLITE_WAL_SAFETY: MaterializationSafety = MaterializationSafety::Read
 mod tests {
     use super::*;
     use crate::history::clock::{ClockSource, TamperResistance, TrustGrade};
-    use crate::history::epoch::MaterializationSafety;
+    use crate::history::epoch::{MaterializationSafety, TopologyKind};
 
     #[test]
     fn sqlite_wal_clock_is_ordering_only_and_user_writable() {
@@ -62,6 +62,70 @@ mod tests {
         assert_eq!(
             SQLITE_WAL_SAFETY,
             MaterializationSafety::ReadOnlyRequiresCareful
+        );
+    }
+
+    #[test]
+    fn sqlite_wal_profile_bundles_the_four_axes_plus_ordering_shape() {
+        let p = SourceTemporalProfile::sqlite_wal();
+        assert_eq!(p.clock, sqlite_wal_clock());
+        assert_eq!(p.safety, MaterializationSafety::ReadOnlyRequiresCareful);
+        assert_eq!(p.topology, TopologyKind::SubJournalCommits);
+        // WAL is a TWO-level salt-qualified sequence, not a flat one.
+        assert_eq!(p.ordering, OrderingBasis::SaltQualifiedSequence);
+    }
+
+    #[test]
+    fn evtx_profile_has_wall_time_unlike_wal() {
+        let p = SourceTemporalProfile::evtx();
+        // EVTX records carry an embedded wall clock (TimeCreated) — the axis that
+        // distinguishes it from WAL.
+        assert_eq!(p.clock.source, ClockSource::LogRecord);
+        assert!(!p.clock.ordering_only);
+        assert_eq!(p.clock.trust_grade, TrustGrade::LocalSubsystem);
+        assert_eq!(p.clock.tamper_resistance, TamperResistance::AdminWritable);
+        assert_eq!(p.safety, MaterializationSafety::ReadOnlySafe);
+        assert_eq!(p.topology, TopologyKind::LinearJournal);
+        assert_eq!(p.ordering, OrderingBasis::WallTimeWithRecordId);
+        // The proving pair: WAL and EVTX disagree on the ordering axis.
+        assert_ne!(p.ordering, SourceTemporalProfile::sqlite_wal().ordering);
+    }
+
+    #[test]
+    fn every_source_profile_keeps_ordering_only_in_sync_with_its_clock() {
+        // The cross-source invariant: a profile is `ordering_only` IFF its clock is a
+        // pure sequence (no wall time). Holds by construction for every source.
+        for p in SourceTemporalProfile::all() {
+            assert_eq!(
+                p.clock.ordering_only,
+                p.clock.source == ClockSource::SequenceOnly,
+                "ordering_only must track SequenceOnly for {:?}",
+                p.ordering
+            );
+        }
+    }
+
+    #[test]
+    fn registry_is_not_journal_shaped() {
+        // Spot-check the non-journal topologies so the abstraction generalizes past logs.
+        assert_eq!(
+            SourceTemporalProfile::vss().topology,
+            TopologyKind::DiscreteSet
+        );
+        assert_eq!(
+            SourceTemporalProfile::vss().ordering,
+            OrderingBasis::DiscreteSnapshotSet
+        );
+        assert_eq!(SourceTemporalProfile::git().topology, TopologyKind::Dag);
+        assert_eq!(
+            SourceTemporalProfile::git().ordering,
+            OrderingBasis::ContentHashDag
+        );
+        // git commit timestamps are trivially forgeable (GIT_COMMITTER_DATE); the DAG's
+        // integrity is a topology property, not a clock one.
+        assert_eq!(
+            SourceTemporalProfile::git().clock.tamper_resistance,
+            TamperResistance::Trivial
         );
     }
 }
