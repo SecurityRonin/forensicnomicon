@@ -20,6 +20,7 @@ pub mod clock;
 pub mod cohort;
 pub mod epoch;
 pub mod identity;
+pub mod profiles;
 pub mod source;
 
 #[cfg(test)]
