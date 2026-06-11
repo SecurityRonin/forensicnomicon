@@ -136,16 +136,26 @@ mod api_shape_tests {
     // ── epoch ───────────────────────────────────────────────────────────────────
 
     #[test]
-    fn lsn_kind_sqlite_wal_frame() {
+    fn lsn_kind_sqlite_wal_frame_carries_salts() {
+        // A WAL frame ordering key MUST be salt-qualified: a bare frame index is
+        // meaningless across a checkpoint reset, which renumbers frames AND rolls the
+        // (salt1, salt2) pair. "Frame 7 of epoch A" and "frame 7 of epoch B" are
+        // different states; the salts carry that discontinuity inside the key.
         let lsn = LsnKind::SqliteWalFrame {
+            salt1: 0xDEAD_BEEF,
+            salt2: 0x0BAD_F00D,
             frame_seq: 7,
             commit_seq: 3,
         };
         match lsn {
             LsnKind::SqliteWalFrame {
+                salt1,
+                salt2,
                 frame_seq,
                 commit_seq,
             } => {
+                assert_eq!(salt1, 0xDEAD_BEEF);
+                assert_eq!(salt2, 0x0BAD_F00D);
                 assert_eq!(frame_seq, 7);
                 assert_eq!(commit_seq, 3);
             }
