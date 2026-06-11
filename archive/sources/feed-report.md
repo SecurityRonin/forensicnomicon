@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-06-10T07:19:16Z
+Generated: 2026-06-11T08:17:30Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-06-10T07:19:16Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-10T00:00:00+00:00 — [The Church, AI, and the politics of positioning](https://andreafortuna.org/2026/06/10/church-ai-encyclical-overton-window/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -193,9 +193,9 @@ Generated: 2026-06-10T07:19:16Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-10T13:58:44+00:00 — [Submissions now open to present at Magnet User Summit & Magnet Virtual Summit 2027!](https://www.magnetforensics.com/blog/submissions-now-open-to-present-at-magnet-user-summit-magnet-virtual-summit-2027/)
 
 ## The DFIR Report
 
@@ -211,34 +211,21 @@ Generated: 2026-06-10T07:19:16Z
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-06-08T14:00:03+00:00 — [The Korvath Incident: A macOS Forensics Challenge](https://www.youtube.com/watch?v=tRvw13e3Qn0)
-- 2026-05-05T00:49:41+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
-- 2026-04-24T09:44:12+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
-- 2026-05-28T20:26:20+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
-- 2026-04-23T00:04:55+00:00 — [Tracking Program Execution with a Little Known Registry Key](https://www.youtube.com/watch?v=yoFkF-NHZvo)
-- 2026-05-28T20:27:51+00:00 — [The Truth About Windows Explorer Timestamps](https://www.youtube.com/watch?v=PdyVkmhMcOA)
-- 2026-05-01T22:55:06+00:00 — [Major Update to 13Cubed Courses: Chaos at Cobalt](https://www.youtube.com/watch?v=CzF6DFhSfHw)
-- 2026-04-30T06:35:14+00:00 — [13Cubed AMA - Answering Your Questions!](https://www.youtube.com/watch?v=duz5BoZUly8)
-- 2026-04-22T18:55:48+00:00 — [The Easy Way to Analyze Linux Memory](https://www.youtube.com/watch?v=W40gdWNdwUI)
-- 2026-04-13T16:01:10+00:00 — [Will AI Replace Digital Forensics Experts?](https://www.youtube.com/watch?v=lvkBtIhvThk)
+- No new entries detected
 
 ## SANS Internet Storm Center
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
-- Entries checked: 10
-- New since last snapshot: 2
-
-- 2026-06-10T02:00:02+00:00 — [ISC Stormcast For Wednesday, June 10th, 2026 https://isc.sans.edu/podcastdetail/9966, (Wed, Jun 10th)](https://isc.sans.edu/diary/rss/33066)
-- 2026-06-09T17:34:29+00:00 — [Microsoft June 2026 Patch Tuesday, (Tue, Jun 9th)](https://isc.sans.edu/diary/rss/33064)
+- Status: error: HTTP 503
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
+- Entries checked: 0
 - New since last snapshot: 0
 
 - No new entries detected
@@ -247,28 +234,22 @@ Generated: 2026-06-10T07:19:16Z
 
 - Site: https://www.msab.com/
 - Feed: https://www.msab.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## AboutDFIR
 
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
-- Entries checked: 10
-- New since last snapshot: 1
-
-- 2026-06-09T11:16:26+00:00 — [Infosec News Nuggets — June 9, 2026](https://aboutdfir.com/infosec-news-nuggets-june-9-2026/)
+- Status: error: mismatched tag: line 93, column 2
 
 ## Forensic 4cast
 
 - Site: https://forensic4cast.com/blog/
 - Feed: https://forensic4cast.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-09T22:05:05+00:00 — [New Software: Perceptor](https://forensic4cast.com/2026/06/new-software-perceptor/)
+- No new entries detected
 
 ## This Week In 4n6
 
@@ -292,10 +273,7 @@ Generated: 2026-06-10T07:19:16Z
 
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## Didier Stevens Blog
 
@@ -311,9 +289,9 @@ Generated: 2026-06-10T07:19:16Z
 - Site: https://www.hexordia.com/blog/
 - Feed: https://www.hexordia.com/blog?format=rss
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-09T19:40:48+00:00 — [Checking out Evanole VM v20260603: Introducing EVM!](https://www.hexordia.com/blog/announcing-evanole-vm-v20260603)
+- No new entries detected
 
 ## Hexacorn
 
@@ -376,8 +354,8 @@ Generated: 2026-06-10T07:19:16Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-06-10T06:30:33+00:00 — [Crossing the Golden Gate, Intel support, and an update to SystHist](https://eclecticlight.co/2026/06/10/crossing-the-golden-gate-intel-support-and-an-update-to-systhist/)
-- 2026-06-09T11:30:00+00:00 — [Hero or hooligan: Jason and the Golden Fleece](https://eclecticlight.co/2026/06/09/hero-or-hooligan-jason-and-the-golden-fleece/)
+- 2026-06-11T06:30:02+00:00 — [Why can’t Preview open that PDF?](https://eclecticlight.co/2026/06/11/why-cant-preview-open-that-pdf/)
+- 2026-06-10T11:30:00+00:00 — [Portraits of trees: Peter Paul Rubens](https://eclecticlight.co/2026/06/10/portraits-of-trees-peter-paul-rubens/)
 
 ## JPCERT/CC
 
@@ -411,9 +389,13 @@ Generated: 2026-06-10T07:19:16Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 5
 
-- No new entries detected
+- 2026-06-10T14:00:00+00:00 — [Deceptive Installers: How Fake Apps Target macOS](https://www.huntress.com/blog/deceptive-installers-macos-infostealers)
+- 2026-06-09T07:00:00+00:00 — [Gartner Security Summit 2026: Huntress 5 Key Takeaways](https://www.huntress.com/blog/key-takeaways-gartner-security-risk-summit)
+- 2026-06-05T14:00:00+00:00 — [Why Huntress Doesn’t Need FedRAMP](https://www.huntress.com/blog/fedramp-alternative-for-defense-contractors)
+- 2026-06-03T14:00:00+00:00 — [Inside .NET Loader Analysis: From Malspam to In-Memory Loader](https://www.huntress.com/blog/malspam-to-loader-delivery-chain-analysis)
+- 2026-06-02T14:00:00+00:00 — [Unpatched NTLM Leakage in Windows search: URI Handler, Same Bug, No CVE, No Fix](https://www.huntress.com/blog/unpatched-ntlm-leak-windows-search-uri-handler)
 
 ## Red Canary Blog
 
@@ -429,9 +411,9 @@ Generated: 2026-06-10T07:19:16Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-09T22:00:21+00:00 — [Blinding the Watchmen: Abusing Cloud Logging Services for Defense Evasion and Visibility](https://unit42.paloaltonetworks.com/cloud-logging-defense-evasion/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
@@ -447,9 +429,9 @@ Generated: 2026-06-10T07:19:16Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-09T21:21:00+00:00 — [Microsoft Patch Tuesday for June 2026 — Snort rules and prominent vulnerabilities](https://blog.talosintelligence.com/microsoft-patch-tuesday-for-june-2026-snort-rules-and-prominent-vulnerabilities/)
+- No new entries detected
 
 ## SANS Blog
 
@@ -476,7 +458,7 @@ Generated: 2026-06-10T07:19:16Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-06-09T13:00:00+00:00 — [AI Enables Both Efficiency and a New Attack Surface in US Healthcare](https://flare.io/learn/resources/blog/ai-enables-efficiency-attack-surface-in-us-healthcare)
+- 2026-06-10T13:16:53+00:00 — [The Prehistory of Chinese-Language Guarantee Marketplaces](https://flare.io/learn/resources/blog/prehistory-chinese-language-guarantee-marketplaces)
 
 ## Binalyze Blog
 
@@ -510,9 +492,10 @@ Generated: 2026-06-10T07:19:16Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-06-09T14:09:45+00:00 — [Deterrence through Collective Digital Intelligence](https://cellebrite.com/en/blog/cellebrite-mission-systems-digital-intelligence-from-the-edge-to-command/)
+- 2026-06-10T12:27:32+00:00 — [Cellebrite Launches the New Age of Investigations with Genesis, Now Generally Available](https://cellebrite.com/en/resources/press-releases/cellebrite-launches-the-new-age-of-investigations-with-genesis-now-generally-available/)
+- 2026-06-10T12:26:20+00:00 — [The New Age of Investigations: Cellebrite’s Journey to Genesis](https://cellebrite.com/en/blog/the-new-age-of-investigations-cellebrites-journey-to-genesis/)
 
 ## DFIR Science
 
@@ -528,10 +511,9 @@ Generated: 2026-06-10T07:19:16Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-06-09T00:00:00-05:00 — [CrowdStrike 2026 Technology Threat Landscape Report: China&rsquo;s Ambitions Fuel Attacks](https://www.crowdstrike.com/en-us/blog/crowdstrike-2026-technology-threat-landscape-report/)
-- 2026-06-09T00:00:00-05:00 — [June 2026 Patch Tuesday: Microsoft Patches 206 Vulnerabilities Including Three Publicly Disclosed Zero-Days](https://www.crowdstrike.com/en-us/blog/patch-tuesday-analysis-june-2026/)
+- 2026-06-10T00:00:00-05:00 — [CrowdStrike Expands Identity Leadership with OpenID and IDPro](https://www.crowdstrike.com/en-us/blog/crowdstrike-expands-identity-leadership-with-openid-and-idpro/)
 
 ## Malwarebytes Labs
 
@@ -540,9 +522,9 @@ Generated: 2026-06-10T07:19:16Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-06-09T13:57:59+00:00 — [Meta&#8217;s face-recognition code raises new concerns about smart glasses](https://www.malwarebytes.com/blog/privacy/2026/06/metas-face-recognition-code-raises-new-concerns-about-smart-glasses)
-- 2026-06-09T13:02:49+00:00 — [Scammers love Meta, according to Lloyds Bank](https://www.malwarebytes.com/blog/scams/2026/06/scammers-love-meta-according-to-lloyds-bank)
-- 2026-06-09T10:50:16+00:00 — [Update Chrome: Google patches actively exploited vulnerability and 73 others](https://www.malwarebytes.com/blog/bugs/2026/06/update-chrome-google-patches-actively-exploited-vulnerability-and-73-others)
+- 2026-06-10T16:27:32+00:00 — [Free Spotify Premium hacks on social media are spreading infostealers](https://www.malwarebytes.com/blog/news/2026/06/free-spotify-premium-hacks-on-social-media-are-spreading-infostealers)
+- 2026-06-10T12:43:48+00:00 — [Microsoft’s biggest-ever Patch Tuesday fixes 206 bugs, including 3 zero-days](https://www.malwarebytes.com/blog/bugs/2026/06/microsofts-biggest-ever-patch-tuesday-fixes-206-bugs-including-3-zero-days)
+- 2026-06-10T11:45:00+00:00 — [88% of people struggle to tell what&#8217;s real online](https://www.malwarebytes.com/blog/ai/2026/06/88-of-people-struggle-to-tell-whats-real-online)
 
 ## Krebs on Security
 
@@ -551,7 +533,7 @@ Generated: 2026-06-10T07:19:16Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-06-09T22:07:28+00:00 — [A Record-Breaking Patch Tuesday for June 2026](https://krebsonsecurity.com/2026/06/a-record-breaking-patch-tuesday-for-june-2026/)
+- 2026-06-10T14:03:44+00:00 — [Who Runs the Ransomware Group ‘The Gentlemen?’](https://krebsonsecurity.com/2026/06/who-runs-the-ransomware-group-the-gentlemen/)
 
 ## BleepingComputer
 
@@ -560,28 +542,22 @@ Generated: 2026-06-10T07:19:16Z
 - Entries checked: 10
 - New since last snapshot: 10
 
-- 2026-06-10T02:26:28-04:00 — [Ivanti: Max severity Sentry flaw allows code execution as root](https://www.bleepingcomputer.com/news/security/new-max-severity-ivanti-sentry-flaw-allows-code-execution-as-root/)
-- 2026-06-09T22:03:31-04:00 — [Anthropic rolls out Claude Fable 5, but it's available for a limited time](https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-rolls-out-claude-fable-5-but-its-available-for-a-limited-time/)
-- 2026-06-09T19:11:18-04:00 — [Microsoft Defender 'RoguePlanet' zero-day grants SYSTEM privileges](https://www.bleepingcomputer.com/news/microsoft/microsoft-defender-rogueplanet-zero-day-grants-system-privileges/)
-- 2026-06-09T17:34:09-04:00 — [ServiceNow discloses security incident exposing customer data](https://www.bleepingcomputer.com/news/security/servicenow-discloses-security-incident-exposing-customer-data/)
-- 2026-06-09T17:20:20-04:00 — [OpenClaw AI agent found falling for phishing attacks, spills user data](https://www.bleepingcomputer.com/news/security/openclaw-ai-agent-found-falling-for-phishing-attacks-spills-user-data/)
-- 2026-06-09T15:36:27-04:00 — [SAP fixes critical flaws in NetWeaver and Commerce Cloud](https://www.bleepingcomputer.com/news/security/sap-fixes-critical-flaws-in-netweaver-and-commerce-cloud/)
-- 2026-06-09T14:35:00-04:00 — [Microsoft releases Windows 10 KB5094127 extended security update](https://www.bleepingcomputer.com/news/microsoft/microsoft-releases-windows-10-kb5094127-extended-security-update/)
-- 2026-06-09T13:57:59-04:00 — [Microsoft June 2026 Patch Tuesday fixes 3 zero-day, 200 flaws](https://www.bleepingcomputer.com/news/microsoft/microsoft-june-2026-patch-tuesday-fixes-3-zero-day-200-flaws/)
-- 2026-06-09T13:32:32-04:00 — [Windows 11 KB5094126 & KB5093998 cumulative updates released](https://www.bleepingcomputer.com/news/microsoft/windows-11-kb5094126-and-kb5093998-cumulative-updates-released/)
-- 2026-06-09T12:16:38-04:00 — [XBOW tests Anthropic's Mythos Preview for offensive security](https://www.bleepingcomputer.com/news/security/xbow-tests-anthropics-mythos-preview-for-offensive-security/)
+- 2026-06-11T03:27:53-04:00 — [Nottingham University data breach affects over 450,000 students](https://www.bleepingcomputer.com/news/security/nottingham-university-data-breach-affects-over-450-000-students/)
+- 2026-06-11T02:20:22-04:00 — [Max severity Ivanti Sentry vulnerability now exploited in attacks](https://www.bleepingcomputer.com/news/security/max-severity-ivanti-sentry-vulnerability-now-exploited-in-attacks/)
+- 2026-06-10T17:23:44-04:00 — [Path traversal flaw in AI dev platform Langflow exploited in attacks](https://www.bleepingcomputer.com/news/security/path-traversal-flaw-in-ai-dev-platform-langflow-exploited-in-attacks/)
+- 2026-06-10T16:27:08-04:00 — [The ‘Miasma’ worm source code briefly leaked on GitHub](https://www.bleepingcomputer.com/news/security/the-miasma-worm-source-code-briefly-leaked-on-github/)
+- 2026-06-10T15:41:44-04:00 — [GitHub announces npm security changes to tackle supply-chain attacks](https://www.bleepingcomputer.com/news/security/github-announces-npm-security-changes-to-tackle-supply-chain-attacks/)
+- 2026-06-10T14:31:57-04:00 — [Oracle PeopleSoft servers hacked in ShinyHunters data theft attacks](https://www.bleepingcomputer.com/news/security/oracle-peoplesoft-servers-hacked-in-shinyhunters-data-theft-attacks/)
+- 2026-06-10T11:00:00-04:00 — [China-linked JDY botnet expands targeting of U.S. military networks](https://www.bleepingcomputer.com/news/security/china-linked-jdy-botnet-expands-targeting-of-us-military-networks/)
+- 2026-06-10T10:05:15-04:00 — [The 5 Best Practices for Secure Identity Verification](https://www.bleepingcomputer.com/news/security/the-5-best-practices-for-secure-identity-verification/)
+- 2026-06-10T09:44:19-04:00 — [Microsoft patches Exchange Server zero-day exploited in attacks](https://www.bleepingcomputer.com/news/microsoft/microsoft-patches-exchange-server-zero-day-exploited-in-attacks/)
+- 2026-06-10T07:33:32-04:00 — [Microsoft: Some Windows PCs fail to install latest monthly updates](https://www.bleepingcomputer.com/news/microsoft/microsoft-some-upgraded-windows-pcs-fail-to-install-monthly-updates/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
-- Entries checked: 10
-- New since last snapshot: 4
-
-- 2026-06-09T21:42:57+00:00 — [Blame AI: Patch Tuesday Hits Record 206 CVEs](https://www.darkreading.com/vulnerabilities-threats/blame-ai-patch-tuesday-record-206-cves)
-- 2026-06-09T20:20:00+00:00 — [Microsoft Exchange Flaw Lets Attackers Spoof Any Email Address](https://www.darkreading.com/vulnerabilities-threats/exchange-flaw-attackers-spoof-email-address)
-- 2026-06-09T19:33:45+00:00 — [Miasma Supply Chain Worm Burrows Into 73 Microsoft Repositories](https://www.darkreading.com/application-security/miasma-supply-chain-worm-73-microsoft-repositories)
-- 2026-06-09T15:37:02+00:00 — [Russian Attackers Weaponize WinRAR Flaw Against Ukrainian Orgs](https://www.darkreading.com/vulnerabilities-threats/russian-groups-winrar-flaw-ukrainian-orgs)
+- Status: error: HTTP 404
 
 ## Volexity Blog
 
@@ -605,7 +581,7 @@ Generated: 2026-06-10T07:19:16Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-06-09T17:35:06+00:00 — [Reconstructing AI activity in investigations](https://www.microsoft.com/en-us/security/blog/2026/06/09/reconstructing-ai-activity-investigations/)
+- 2026-06-10T16:00:00+00:00 — [Turn specs into evals for any agent with ASSERT](https://commandline.microsoft.com/assert-written-intent-executable-evals/)
 
 ## LOLBAS Project (Windows)
 
@@ -1071,6 +1047,8 @@ Generated: 2026-06-10T07:19:16Z
 - Site: https://www.misp-project.org/
 - Feed: https://github.com/MISP/misp-taxonomies/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-06-10T07:40:15+00:00 — [chg: [MANIFEST] updated](https://github.com/MISP/misp-taxonomies/commit/0bbcb1547ae4a0522c6e912a1a55133f6f9e46af)
+- 2026-06-10T07:34:13+00:00 — [Merge branch 'main' of github.com:MISP/misp-taxonomies](https://github.com/MISP/misp-taxonomies/commit/d546ddf9bded01042b737b88dd267f0fedf8a415)
+- 2026-06-10T07:33:40+00:00 — [chg: [exercise] added 8th pan European cyber crisis exercise: Cyber E…](https://github.com/MISP/misp-taxonomies/commit/751f69cd1fc9dca886a89d40f0d9e31144bf936f)
