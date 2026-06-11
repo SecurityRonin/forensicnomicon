@@ -26,9 +26,18 @@ impl EpochTag {
 #[non_exhaustive]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum LsnKind {
-    /// SQLite WAL frame coordinate.
+    /// SQLite WAL frame coordinate, qualified by checkpoint generation.
+    ///
+    /// `(salt1, salt2)` pin the salt epoch: a checkpoint reset rolls both salts and
+    /// renumbers frames, so `frame_seq` is only comparable within a single epoch.
+    /// Ordering across epochs is therefore lexicographic on `(salt1, salt2, frame_seq)`,
+    /// and the salt change marks a cohort discontinuity (see `CohortTopology`).
     SqliteWalFrame {
-        /// Global frame sequence within the WAL file.
+        /// WAL salt-1 — the checkpoint generation seed (incremented on each reset).
+        salt1: u32,
+        /// WAL salt-2 — a fresh random value written at each checkpoint reset.
+        salt2: u32,
+        /// Frame sequence within this salt epoch (0-based, file order).
         frame_seq: u32,
         /// Committed transaction sequence (increments at each COMMIT marker frame).
         commit_seq: u32,
