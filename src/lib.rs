@@ -134,6 +134,7 @@ pub mod boot_signatures;
 pub mod bootkit;
 pub mod catalog;
 pub mod chainsaw;
+pub mod decmpfs;
 pub mod dependencies;
 pub mod dmg;
 pub mod eventids;
