@@ -127,6 +127,7 @@ pub mod aff4;
 pub mod antiforensics;
 pub mod antiforensics_aware;
 pub mod apm;
+pub mod appcompatcache;
 pub mod attack_events;
 pub mod attack_flow;
 pub mod boot_signatures;
