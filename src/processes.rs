@@ -71,6 +71,47 @@ pub fn is_masquerade_target(name: &str) -> bool {
         .any(|t| t.to_ascii_lowercase() == lower)
 }
 
+/// Windows binaries whose canonical home is `System32` (or `SysWOW64`): finding
+/// one of these executed from any other directory is a strong masquerade /
+/// relocation indicator (MITRE T1036.005).
+///
+/// This is the location-bound subset of [`WINDOWS_MASQUERADE_TARGETS`] — it
+/// deliberately omits `explorer.exe` (canonically in `\Windows\`, not
+/// `System32`) and the `system` / `registry` kernel pseudo-processes (no image
+/// path), so a relocation check over it does not false-positive on them.
+///
+/// Sources:
+/// - MITRE ATT&CK T1036.005 — Masquerading: Match Legitimate Name or Location:
+///   <https://attack.mitre.org/techniques/T1036/005/>
+/// - SANS FOR508 — known-good system-binary image paths baseline.
+pub const WINDOWS_SYSTEM32_BINARIES: &[&str] = &[
+    "svchost.exe",
+    "lsass.exe",
+    "csrss.exe",
+    "spoolsv.exe",
+    "dllhost.exe",
+    "conhost.exe",
+    "wermgr.exe",
+    "services.exe",
+    "winlogon.exe",
+    "wininit.exe",
+    "smss.exe",
+    "taskhost.exe",
+    "taskhostw.exe",
+    "lsaiso.exe",
+    "rundll32.exe",
+];
+
+/// Returns `true` if `name` is a binary whose canonical home is `System32`
+/// (case-insensitive). See [`WINDOWS_SYSTEM32_BINARIES`].
+#[must_use]
+pub fn is_system32_binary(name: &str) -> bool {
+    let lower = name.to_ascii_lowercase();
+    WINDOWS_SYSTEM32_BINARIES
+        .iter()
+        .any(|t| t.to_ascii_lowercase() == lower)
+}
+
 /// Returns `true` if `name` matches a known malware process name (case-insensitive).
 pub fn is_known_malware_process(name: &str) -> bool {
     let lower = name.to_ascii_lowercase();
@@ -205,46 +246,73 @@ pub enum SpoofConfidence {
 /// - Elastic Security "Suspicious Parent Process" detection rules.
 pub const WINDOWS_PPID_RULES: &[(&str, &[&str], SpoofConfidence)] = &[
     // --- Core session-init hierarchy ---
-    ("smss.exe",               &["system"],                              SpoofConfidence::High),
-    ("csrss.exe",              &["smss.exe"],                            SpoofConfidence::High),
-    ("winlogon.exe",           &["smss.exe"],                            SpoofConfidence::High),
-    ("wininit.exe",            &["smss.exe"],                            SpoofConfidence::High),
+    ("smss.exe", &["system"], SpoofConfidence::High),
+    ("csrss.exe", &["smss.exe"], SpoofConfidence::High),
+    ("winlogon.exe", &["smss.exe"], SpoofConfidence::High),
+    ("wininit.exe", &["smss.exe"], SpoofConfidence::High),
     // --- wininit.exe children ---
-    ("lsass.exe",              &["wininit.exe"],                         SpoofConfidence::High),
-    ("services.exe",           &["wininit.exe"],                         SpoofConfidence::High),
-    ("lsm.exe",                &["wininit.exe"],                         SpoofConfidence::High), // Local Session Manager (WI7 ch.2)
+    ("lsass.exe", &["wininit.exe"], SpoofConfidence::High),
+    ("services.exe", &["wininit.exe"], SpoofConfidence::High),
+    ("lsm.exe", &["wininit.exe"], SpoofConfidence::High), // Local Session Manager (WI7 ch.2)
     // --- Services tree ---
-    ("svchost.exe",            &["services.exe"],                        SpoofConfidence::High),
-    ("taskhost.exe",           &["services.exe"],                        SpoofConfidence::High),
-    ("taskhostw.exe",          &["services.exe"],                        SpoofConfidence::High),
-    ("spoolsv.exe",            &["services.exe"],                        SpoofConfidence::High),
-    ("searchindexer.exe",      &["services.exe"],                        SpoofConfidence::High),
-    ("msdtc.exe",              &["services.exe"],                        SpoofConfidence::High), // Distributed Transaction Coordinator
-    ("trustedinstaller.exe",   &["services.exe"],                        SpoofConfidence::High), // Windows servicing (WI7 ch.2)
-    ("vssvc.exe",              &["services.exe"],                        SpoofConfidence::High), // Volume Shadow Copy
-    ("msmpeng.exe",            &["services.exe"],                        SpoofConfidence::High), // Windows Defender AV engine
-    ("nissrv.exe",             &["services.exe"],                        SpoofConfidence::High), // Defender Network Inspection Service
+    ("svchost.exe", &["services.exe"], SpoofConfidence::High),
+    ("taskhost.exe", &["services.exe"], SpoofConfidence::High),
+    ("taskhostw.exe", &["services.exe"], SpoofConfidence::High),
+    ("spoolsv.exe", &["services.exe"], SpoofConfidence::High),
+    (
+        "searchindexer.exe",
+        &["services.exe"],
+        SpoofConfidence::High,
+    ),
+    ("msdtc.exe", &["services.exe"], SpoofConfidence::High), // Distributed Transaction Coordinator
+    (
+        "trustedinstaller.exe",
+        &["services.exe"],
+        SpoofConfidence::High,
+    ), // Windows servicing (WI7 ch.2)
+    ("vssvc.exe", &["services.exe"], SpoofConfidence::High), // Volume Shadow Copy
+    ("msmpeng.exe", &["services.exe"], SpoofConfidence::High), // Windows Defender AV engine
+    ("nissrv.exe", &["services.exe"], SpoofConfidence::High), // Defender Network Inspection Service
     // --- svchost-hosted subsystems ---
-    ("audiodg.exe",            &["svchost.exe"],                         SpoofConfidence::High), // Audio Device Graph Isolation (WI7 ch.6)
-    ("wmiprvse.exe",           &["svchost.exe"],                         SpoofConfidence::High), // WMI Provider Host isolation (WI7 ch.4)
-    ("runtimebroker.exe",      &["svchost.exe"],                         SpoofConfidence::High), // UWP capability broker (WI7 ch.8)
+    ("audiodg.exe", &["svchost.exe"], SpoofConfidence::High), // Audio Device Graph Isolation (WI7 ch.6)
+    ("wmiprvse.exe", &["svchost.exe"], SpoofConfidence::High), // WMI Provider Host isolation (WI7 ch.4)
+    ("runtimebroker.exe", &["svchost.exe"], SpoofConfidence::High), // UWP capability broker (WI7 ch.8)
     // --- Search sub-processes ---
-    ("searchprotocolhost.exe", &["searchindexer.exe"],                   SpoofConfidence::High),
-    ("searchfilterhost.exe",   &["searchindexer.exe"],                   SpoofConfidence::High),
+    (
+        "searchprotocolhost.exe",
+        &["searchindexer.exe"],
+        SpoofConfidence::High,
+    ),
+    (
+        "searchfilterhost.exe",
+        &["searchindexer.exe"],
+        SpoofConfidence::High,
+    ),
     // --- winlogon.exe children ---
-    ("userinit.exe",           &["winlogon.exe"],                        SpoofConfidence::High),
-    ("logonui.exe",            &["winlogon.exe"],                        SpoofConfidence::High), // credential UI at logon/lock
-    ("dwm.exe",                &["winlogon.exe"],                        SpoofConfidence::High), // Desktop Window Manager (WI7 ch.3)
+    ("userinit.exe", &["winlogon.exe"], SpoofConfidence::High),
+    ("logonui.exe", &["winlogon.exe"], SpoofConfidence::High), // credential UI at logon/lock
+    ("dwm.exe", &["winlogon.exe"], SpoofConfidence::High),     // Desktop Window Manager (WI7 ch.3)
     // fontdrvhost: two legitimate instances — session-0 (wininit) and per-user (winlogon).
-    ("fontdrvhost.exe",        &["wininit.exe", "winlogon.exe"],         SpoofConfidence::High),
+    (
+        "fontdrvhost.exe",
+        &["wininit.exe", "winlogon.exe"],
+        SpoofConfidence::High,
+    ),
     // userinit children
-    ("explorer.exe",           &["userinit.exe", "winlogon.exe"],        SpoofConfidence::High), // winlogon for auto-logon / shell replacement
+    (
+        "explorer.exe",
+        &["userinit.exe", "winlogon.exe"],
+        SpoofConfidence::High,
+    ), // winlogon for auto-logon / shell replacement
     // --- Low-confidence: broad legitimate spawner sets ---
     // dllhost (COM Surrogate) can be spawned by any process activating an out-of-proc COM
     // object. The four entries here cover the most common legitimate spawners; an unlisted
     // parent is suspicious but not definitive — correlate with COM class activation events.
-    ("dllhost.exe",            &["svchost.exe", "services.exe",
-                                  "explorer.exe", "mmc.exe"],            SpoofConfidence::Low),
+    (
+        "dllhost.exe",
+        &["svchost.exe", "services.exe", "explorer.exe", "mmc.exe"],
+        SpoofConfidence::Low,
+    ),
 ];
 
 /// Look up the allowed parent names and alert confidence for `child_name`.
@@ -351,6 +419,22 @@ mod tests {
     #[test]
     fn masquerade_targets_contains_lsass() {
         assert!(WINDOWS_MASQUERADE_TARGETS.contains(&"lsass.exe"));
+    }
+
+    #[test]
+    fn system32_binary_recognizes_svchost_case_insensitively() {
+        assert!(is_system32_binary("svchost.exe"));
+        assert!(is_system32_binary("SVCHOST.EXE"));
+        assert!(is_system32_binary("Spoolsv.exe"));
+    }
+
+    #[test]
+    fn system32_binary_excludes_explorer_and_pseudo_processes() {
+        // explorer lives in \Windows\, not System32; system/registry have no path.
+        assert!(!is_system32_binary("explorer.exe"));
+        assert!(!is_system32_binary("system"));
+        assert!(!is_system32_binary("registry"));
+        assert!(!is_system32_binary("coreupdater.exe"));
     }
 
     #[test]
@@ -601,28 +685,49 @@ mod tests {
     // dllhost: expanded parents + Low confidence
     #[test]
     fn ppid_rules_dllhost_allows_svchost_and_services() {
-        let (_, ps, _) = WINDOWS_PPID_RULES.iter().find(|(c, _, _)| *c == "dllhost.exe").unwrap();
+        let (_, ps, _) = WINDOWS_PPID_RULES
+            .iter()
+            .find(|(c, _, _)| *c == "dllhost.exe")
+            .unwrap();
         assert!(ps.contains(&"svchost.exe"));
         assert!(ps.contains(&"services.exe"));
     }
     #[test]
     fn ppid_rules_dllhost_allows_explorer() {
-        let (_, ps, _) = WINDOWS_PPID_RULES.iter().find(|(c, _, _)| *c == "dllhost.exe").unwrap();
-        assert!(ps.contains(&"explorer.exe"), "COM thumbnail/preview handlers: explorer → dllhost");
+        let (_, ps, _) = WINDOWS_PPID_RULES
+            .iter()
+            .find(|(c, _, _)| *c == "dllhost.exe")
+            .unwrap();
+        assert!(
+            ps.contains(&"explorer.exe"),
+            "COM thumbnail/preview handlers: explorer → dllhost"
+        );
     }
     #[test]
     fn ppid_rules_dllhost_allows_mmc() {
-        let (_, ps, _) = WINDOWS_PPID_RULES.iter().find(|(c, _, _)| *c == "dllhost.exe").unwrap();
-        assert!(ps.contains(&"mmc.exe"), "MMC snap-ins activate COM surrogates");
+        let (_, ps, _) = WINDOWS_PPID_RULES
+            .iter()
+            .find(|(c, _, _)| *c == "dllhost.exe")
+            .unwrap();
+        assert!(
+            ps.contains(&"mmc.exe"),
+            "MMC snap-ins activate COM surrogates"
+        );
     }
     #[test]
     fn ppid_rules_dllhost_confidence_is_low() {
-        let (_, _, conf) = WINDOWS_PPID_RULES.iter().find(|(c, _, _)| *c == "dllhost.exe").unwrap();
+        let (_, _, conf) = WINDOWS_PPID_RULES
+            .iter()
+            .find(|(c, _, _)| *c == "dllhost.exe")
+            .unwrap();
         assert_eq!(*conf, SpoofConfidence::Low);
     }
     #[test]
     fn ppid_rules_lsass_confidence_is_high() {
-        let (_, _, conf) = WINDOWS_PPID_RULES.iter().find(|(c, _, _)| *c == "lsass.exe").unwrap();
+        let (_, _, conf) = WINDOWS_PPID_RULES
+            .iter()
+            .find(|(c, _, _)| *c == "lsass.exe")
+            .unwrap();
         assert_eq!(*conf, SpoofConfidence::High);
     }
 
@@ -641,9 +746,18 @@ mod tests {
     }
     #[test]
     fn ppid_rules_explorer_allows_userinit_and_winlogon() {
-        let (_, ps, _) = WINDOWS_PPID_RULES.iter().find(|(c, _, _)| *c == "explorer.exe").unwrap();
-        assert!(ps.contains(&"userinit.exe"), "normal logon: userinit → explorer");
-        assert!(ps.contains(&"winlogon.exe"), "auto-logon / shell replacement");
+        let (_, ps, _) = WINDOWS_PPID_RULES
+            .iter()
+            .find(|(c, _, _)| *c == "explorer.exe")
+            .unwrap();
+        assert!(
+            ps.contains(&"userinit.exe"),
+            "normal logon: userinit → explorer"
+        );
+        assert!(
+            ps.contains(&"winlogon.exe"),
+            "auto-logon / shell replacement"
+        );
     }
     #[test]
     fn ppid_rules_logonui_parent_is_winlogon() {

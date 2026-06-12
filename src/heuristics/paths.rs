@@ -53,13 +53,17 @@ pub fn is_unc_path(path: &str) -> bool {
     path.starts_with("\\\\") || path.starts_with("//")
 }
 
-/// Path prefixes associated with suspicious execution locations.
+/// Path prefixes associated with suspicious execution locations — the DFIR
+/// "execution from an unusual location" triage baseline (SANS FOR508 / 13Cubed).
 pub const SUSPICIOUS_EXEC_PREFIXES: &[&str] = &[
     "\\Temp\\",
     "\\tmp\\",
     "\\AppData\\Local\\Temp\\",
     "\\Users\\Public\\",
     "\\ProgramData\\",
+    "\\Downloads\\",
+    "\\$Recycle.Bin\\",
+    "\\PerfLogs\\",
     "/tmp/",
     "/dev/shm/",
     "/run/shm/",
@@ -67,9 +71,16 @@ pub const SUSPICIOUS_EXEC_PREFIXES: &[&str] = &[
 ];
 
 /// Returns `true` if the path contains a suspicious execution prefix.
+///
+/// Matching is case-insensitive: Windows paths are case-insensitive, and
+/// artifacts such as Prefetch record paths upper-cased, so a case-sensitive
+/// `contains` would miss them.
 #[must_use]
 pub fn is_suspicious_exec_path(path: &str) -> bool {
-    SUSPICIOUS_EXEC_PREFIXES.iter().any(|p| path.contains(p))
+    let lower = path.to_ascii_lowercase();
+    SUSPICIOUS_EXEC_PREFIXES
+        .iter()
+        .any(|p| lower.contains(&p.to_ascii_lowercase()))
 }
 
 // ── HKCU\Console value-name allowlist (Valley RAT) ─────────────────────────
@@ -352,6 +363,17 @@ mod tests {
     #[test]
     fn normal_exec_path_not_suspicious() {
         assert!(!is_suspicious_exec_path(r"C:\Windows\System32\calc.exe"));
+    }
+
+    #[test]
+    fn suspicious_exec_path_is_case_insensitive() {
+        // Prefetch records upper-cased volume-relative paths.
+        assert!(is_suspicious_exec_path(
+            r"\VOLUME{X}\USERS\BOB\DOWNLOADS\INVOICE.EXE"
+        ));
+        assert!(is_suspicious_exec_path(r"\VOLUME{X}\WINDOWS\TEMP\X.EXE"));
+        assert!(is_suspicious_exec_path(r"\VOLUME{X}\$RECYCLE.BIN\A.EXE"));
+        assert!(is_suspicious_exec_path(r"\VOLUME{X}\PERFLOGS\B.EXE"));
     }
 
     // ── HKCU\Console allowlist (Valley RAT detection) ──────────────────────
