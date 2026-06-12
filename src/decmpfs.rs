@@ -113,9 +113,24 @@ pub struct Compression {
 /// caller must fail loud rather than guess.
 #[must_use]
 pub fn classify(compression_type: u32) -> Option<Compression> {
-    // RED stub — replaced by the real mapping in the GREEN commit.
-    let _ = compression_type;
-    None
+    use Algorithm::{LzBitmap, Lzfse, Lzvn, Uncompressed, Zlib};
+    use Storage::{Inline, ResourceFork};
+    let (algorithm, storage) = match compression_type {
+        1 | 9 => (Uncompressed, Inline),
+        10 => (Uncompressed, ResourceFork),
+        3 => (Zlib, Inline),
+        4 => (Zlib, ResourceFork),
+        7 => (Lzvn, Inline),
+        8 => (Lzvn, ResourceFork),
+        11 => (Lzfse, Inline),
+        12 => (Lzfse, ResourceFork),
+        13 => (LzBitmap, Inline),
+        14 => (LzBitmap, ResourceFork),
+        // Type 5 is the de-dup generation store (no payload here); every other
+        // value is undocumented — the caller must fail loud, not guess.
+        _ => return None,
+    };
+    Some(Compression { algorithm, storage })
 }
 
 #[cfg(test)]
