@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-06-11T08:17:30Z
+Generated: 2026-06-12T08:03:39Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-06-11T08:17:30Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-12T00:00:00+00:00 — [Below the OS, UEFI bootkits, firmware implants, and the artifacts Volatility will never find](https://andreafortuna.org/2026/06/12/uefi-bootkits/)
 
 ## Salt Forensics
 
@@ -193,9 +193,10 @@ Generated: 2026-06-11T08:17:30Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-06-10T13:58:44+00:00 — [Submissions now open to present at Magnet User Summit & Magnet Virtual Summit 2027!](https://www.magnetforensics.com/blog/submissions-now-open-to-present-at-magnet-user-summit-magnet-virtual-summit-2027/)
+- 2026-06-11T20:59:12+00:00 — [That One Artifact: Mapping the “Where”, proving the “Why”](https://www.magnetforensics.com/blog/that-one-artifact-mapping-the-where-proving-the-why/)
+- 2026-06-11T19:32:27+00:00 — [Best cloud investigation tool for enterprise](https://www.magnetforensics.com/blog/best-cloud-investigation-tool-for-enterprise/)
 
 ## The DFIR Report
 
@@ -219,7 +220,19 @@ Generated: 2026-06-11T08:17:30Z
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
-- Status: error: HTTP 503
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-06-11T02:25:21+00:00 — [ISC Stormcast For Thursday, June 11th, 2026 https://isc.sans.edu/podcastdetail/9968, (Thu, Jun 11th)](https://isc.sans.edu/diary/rss/33070)
+- 2026-06-10T08:29:21+00:00 — [How has use of framing protection security headers changed in the past 3 years&#x3f;, (Wed, Jun 10th)](https://isc.sans.edu/diary/rss/33068)
+- 2026-06-10T02:00:02+00:00 — [ISC Stormcast For Wednesday, June 10th, 2026 https://isc.sans.edu/podcastdetail/9966, (Wed, Jun 10th)](https://isc.sans.edu/diary/rss/33066)
+- 2026-06-09T17:34:29+00:00 — [Microsoft June 2026 Patch Tuesday, (Tue, Jun 9th)](https://isc.sans.edu/diary/rss/33064)
+- 2026-06-09T02:00:03+00:00 — [ISC Stormcast For Tuesday, June 9th, 2026 https://isc.sans.edu/podcastdetail/9964, (Tue, Jun 9th)](https://isc.sans.edu/diary/rss/33062)
+- 2026-06-08T17:07:37+00:00 — [TeamPCP Supply Chain Campaign: Activity Through 2026-06-07, (Mon, Jun 8th)](https://isc.sans.edu/diary/rss/33060)
+- 2026-06-08T02:00:03+00:00 — [ISC Stormcast For Monday, June 8th, 2026 https://isc.sans.edu/podcastdetail/9962, (Mon, Jun 8th)](https://isc.sans.edu/diary/rss/33058)
+- 2026-06-05T06:47:26+00:00 — [The Evil MSI Background is Back&#x21;, (Fri, Jun 5th)](https://isc.sans.edu/diary/rss/33054)
+- 2026-06-05T02:00:02+00:00 — [ISC Stormcast For Friday, June 5th, 2026 https://isc.sans.edu/podcastdetail/9960, (Fri, Jun 5th)](https://isc.sans.edu/diary/rss/33050)
+- 2026-06-04T06:10:44+00:00 — [Microsoft's Coreutils for Windows, (Thu, Jun 4th)](https://isc.sans.edu/diary/rss/33048)
 
 ## DFIR Training Blog
 
@@ -354,8 +367,8 @@ Generated: 2026-06-11T08:17:30Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-06-11T06:30:02+00:00 — [Why can’t Preview open that PDF?](https://eclecticlight.co/2026/06/11/why-cant-preview-open-that-pdf/)
-- 2026-06-10T11:30:00+00:00 — [Portraits of trees: Peter Paul Rubens](https://eclecticlight.co/2026/06/10/portraits-of-trees-peter-paul-rubens/)
+- 2026-06-12T06:30:00+00:00 — [macOS virtualisation is leaping forward in Golden Gate](https://eclecticlight.co/2026/06/12/macos-virtualisation-is-leaping-forward-in-golden-gate/)
+- 2026-06-11T11:30:00+00:00 — [In the shadow: Caravaggio](https://eclecticlight.co/2026/06/11/in-the-shadow-caravaggio/)
 
 ## JPCERT/CC
 
@@ -389,49 +402,45 @@ Generated: 2026-06-11T08:17:30Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 0
 
-- 2026-06-10T14:00:00+00:00 — [Deceptive Installers: How Fake Apps Target macOS](https://www.huntress.com/blog/deceptive-installers-macos-infostealers)
-- 2026-06-09T07:00:00+00:00 — [Gartner Security Summit 2026: Huntress 5 Key Takeaways](https://www.huntress.com/blog/key-takeaways-gartner-security-risk-summit)
-- 2026-06-05T14:00:00+00:00 — [Why Huntress Doesn’t Need FedRAMP](https://www.huntress.com/blog/fedramp-alternative-for-defense-contractors)
-- 2026-06-03T14:00:00+00:00 — [Inside .NET Loader Analysis: From Malspam to In-Memory Loader](https://www.huntress.com/blog/malspam-to-loader-delivery-chain-analysis)
-- 2026-06-02T14:00:00+00:00 — [Unpatched NTLM Leakage in Windows search: URI Handler, Same Bug, No CVE, No Fix](https://www.huntress.com/blog/unpatched-ntlm-leak-windows-search-uri-handler)
+- No new entries detected
 
 ## Red Canary Blog
 
 - Site: https://redcanary.com/blog/
 - Feed: https://redcanary.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-11T13:09:00+00:00 — [How threat hunting evolves at scale](https://redcanary.com/blog/threat-detection/threat-hunting-scaled/)
 
 ## Palo Alto Unit 42
 
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-11T10:00:24+00:00 — [Trust No Skill: Integrity Verification for AI Agent Supply Chains](https://unit42.paloaltonetworks.com/ai-agent-supply-chain-risks/)
 
 ## Mandiant Threat Intelligence
 
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-11T14:00:00+00:00 — [ShinyHunters Targets Education Sector with Oracle PeopleSoft Exploit](https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-targets-education-sector-oracle-exploit/)
 
 ## Cisco Talos Blog
 
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-11T18:00:49+00:00 — [A tale of two eras](https://blog.talosintelligence.com/a-tale-of-two-eras/)
 
 ## SANS Blog
 
@@ -456,9 +465,9 @@ Generated: 2026-06-11T08:17:30Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-10T13:16:53+00:00 — [The Prehistory of Chinese-Language Guarantee Marketplaces](https://flare.io/learn/resources/blog/prehistory-chinese-language-guarantee-marketplaces)
+- No new entries detected
 
 ## Binalyze Blog
 
@@ -491,11 +500,7 @@ Generated: 2026-06-11T08:17:30Z
 
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
-- Entries checked: 5
-- New since last snapshot: 2
-
-- 2026-06-10T12:27:32+00:00 — [Cellebrite Launches the New Age of Investigations with Genesis, Now Generally Available](https://cellebrite.com/en/resources/press-releases/cellebrite-launches-the-new-age-of-investigations-with-genesis-now-generally-available/)
-- 2026-06-10T12:26:20+00:00 — [The New Age of Investigations: Cellebrite’s Journey to Genesis](https://cellebrite.com/en/blog/the-new-age-of-investigations-cellebrites-journey-to-genesis/)
+- Status: error: not well-formed (invalid token): line 1, column 160
 
 ## DFIR Science
 
@@ -513,7 +518,7 @@ Generated: 2026-06-11T08:17:30Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-06-10T00:00:00-05:00 — [CrowdStrike Expands Identity Leadership with OpenID and IDPro](https://www.crowdstrike.com/en-us/blog/crowdstrike-expands-identity-leadership-with-openid-and-idpro/)
+- 2026-06-11T00:00:00-05:00 — [CrowdStrike Named an Innovation and Growth Leader in the 2026 Frost Radar&trade;: Cloud and Application Runtime Security](https://www.crowdstrike.com/en-us/blog/crowdstrike-leads-2026-frost-radar-cloud-runtime-security/)
 
 ## Malwarebytes Labs
 
@@ -522,42 +527,53 @@ Generated: 2026-06-11T08:17:30Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-06-10T16:27:32+00:00 — [Free Spotify Premium hacks on social media are spreading infostealers](https://www.malwarebytes.com/blog/news/2026/06/free-spotify-premium-hacks-on-social-media-are-spreading-infostealers)
-- 2026-06-10T12:43:48+00:00 — [Microsoft’s biggest-ever Patch Tuesday fixes 206 bugs, including 3 zero-days](https://www.malwarebytes.com/blog/bugs/2026/06/microsofts-biggest-ever-patch-tuesday-fixes-206-bugs-including-3-zero-days)
-- 2026-06-10T11:45:00+00:00 — [88% of people struggle to tell what&#8217;s real online](https://www.malwarebytes.com/blog/ai/2026/06/88-of-people-struggle-to-tell-whats-real-online)
+- 2026-06-11T16:09:13+00:00 — [Google can be liable for false AI Overviews, court rules](https://www.malwarebytes.com/blog/ai/2026/06/google-can-be-liable-for-false-ai-overviews-court-rules)
+- 2026-06-11T11:31:01+00:00 — [VRChat says reported data breach never happened](https://www.malwarebytes.com/blog/data-breaches/2026/06/data-of-2-4-million-vrchat-users-stolen)
+- 2026-06-11T10:55:26+00:00 — [Children&#8217;s phones must block nude images by September, UK says](https://www.malwarebytes.com/blog/family-and-parenting/2026/06/childrens-phones-must-block-nude-images-by-september-uk-says)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-10T14:03:44+00:00 — [Who Runs the Ransomware Group ‘The Gentlemen?’](https://krebsonsecurity.com/2026/06/who-runs-the-ransomware-group-the-gentlemen/)
+- No new entries detected
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 9
 
-- 2026-06-11T03:27:53-04:00 — [Nottingham University data breach affects over 450,000 students](https://www.bleepingcomputer.com/news/security/nottingham-university-data-breach-affects-over-450-000-students/)
-- 2026-06-11T02:20:22-04:00 — [Max severity Ivanti Sentry vulnerability now exploited in attacks](https://www.bleepingcomputer.com/news/security/max-severity-ivanti-sentry-vulnerability-now-exploited-in-attacks/)
-- 2026-06-10T17:23:44-04:00 — [Path traversal flaw in AI dev platform Langflow exploited in attacks](https://www.bleepingcomputer.com/news/security/path-traversal-flaw-in-ai-dev-platform-langflow-exploited-in-attacks/)
-- 2026-06-10T16:27:08-04:00 — [The ‘Miasma’ worm source code briefly leaked on GitHub](https://www.bleepingcomputer.com/news/security/the-miasma-worm-source-code-briefly-leaked-on-github/)
-- 2026-06-10T15:41:44-04:00 — [GitHub announces npm security changes to tackle supply-chain attacks](https://www.bleepingcomputer.com/news/security/github-announces-npm-security-changes-to-tackle-supply-chain-attacks/)
-- 2026-06-10T14:31:57-04:00 — [Oracle PeopleSoft servers hacked in ShinyHunters data theft attacks](https://www.bleepingcomputer.com/news/security/oracle-peoplesoft-servers-hacked-in-shinyhunters-data-theft-attacks/)
-- 2026-06-10T11:00:00-04:00 — [China-linked JDY botnet expands targeting of U.S. military networks](https://www.bleepingcomputer.com/news/security/china-linked-jdy-botnet-expands-targeting-of-us-military-networks/)
-- 2026-06-10T10:05:15-04:00 — [The 5 Best Practices for Secure Identity Verification](https://www.bleepingcomputer.com/news/security/the-5-best-practices-for-secure-identity-verification/)
-- 2026-06-10T09:44:19-04:00 — [Microsoft patches Exchange Server zero-day exploited in attacks](https://www.bleepingcomputer.com/news/microsoft/microsoft-patches-exchange-server-zero-day-exploited-in-attacks/)
-- 2026-06-10T07:33:32-04:00 — [Microsoft: Some Windows PCs fail to install latest monthly updates](https://www.bleepingcomputer.com/news/microsoft/microsoft-some-upgraded-windows-pcs-fail-to-install-monthly-updates/)
+- 2026-06-12T03:09:11-04:00 — [Over 73,000 French govt employees affected in Tchap messenger breach](https://www.bleepingcomputer.com/news/security/french-govt-says-tchap-breach-affected-over-73-000-accounts/)
+- 2026-06-11T19:14:16-04:00 — [Japanese energy firm loses drive with data of 10.9 million clients](https://www.bleepingcomputer.com/news/security/japanese-energy-firm-loses-drive-with-data-of-109-million-clients/)
+- 2026-06-11T18:44:58-04:00 — [Maine breach portal abused to publish fake data breach disclosures](https://www.bleepingcomputer.com/news/security/maine-breach-portal-abused-to-publish-fake-data-breach-disclosures/)
+- 2026-06-11T15:39:53-04:00 — [Oracle mitigates PeopleSoft zero-day exploited in data theft attacks](https://www.bleepingcomputer.com/news/security/oracle-mitigates-peoplesoft-zero-day-exploited-in-data-theft-attacks/)
+- 2026-06-11T11:55:41-04:00 — [Authorities dismantle 'AudiA6' ransomware crypto-laundering service](https://www.bleepingcomputer.com/news/legal/authorities-dismantle-audia6-ransomware-crypto-laundering-service/)
+- 2026-06-11T10:00:10-04:00 — [Why AI-driven threats are exposing the limits of MSP security stacks](https://www.bleepingcomputer.com/news/security/why-ai-driven-threats-are-exposing-the-limits-of-msp-security-stacks/)
+- 2026-06-11T08:52:41-04:00 — [Coupang hit with record $409 million data breach fine in Korea](https://www.bleepingcomputer.com/news/security/south-korea-hits-coupang-with-record-409-million-fine-over-data-breach/)
+- 2026-06-11T08:46:44-04:00 — [CISA tells govt agencies to patch critical exploited flaws in 3 days](https://www.bleepingcomputer.com/news/security/cisa-tells-govt-agencies-to-patch-critical-exploited-flaws-in-3-days/)
+- 2026-06-11T04:44:22-04:00 — [Microsoft fixes BitLocker recovery bug on Windows Server 2025](https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-bitlocker-recovery-bug-on-windows-server-2025/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
-- Status: error: HTTP 404
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-06-12T00:58:07+00:00 — [Phishing Attack Volume Down 20%, but Risk Still Rising](https://www.darkreading.com/cybersecurity-analytics/phishing-volume-down-20-risk-rising)
+- 2026-06-11T18:43:57+00:00 — [Max-Severity Ivanti Flaw Exploited 24 Hours After Disclosure](https://www.darkreading.com/vulnerabilities-threats/max-severity-ivanti-sentry-flaw-exploited-24-hours)
+- 2026-06-11T14:51:48+00:00 — [Segmentation Works for OT If Operators Are Paying Attention](https://www.darkreading.com/cybersecurity-operations/segmentation-works-for-ot-if-operators-are-paying-attention)
+- 2026-06-11T00:01:00+00:00 — [Chinese, N. Korean Threat Groups Build on Asia-Pacific Success](https://www.darkreading.com/cyberattacks-data-breaches/chinese-korean-threat-groups-asia-pacific-success)
+- 2026-06-10T21:17:12+00:00 — [CISA Rewrites Federal Patching Requirements for AI Threat Era](https://www.darkreading.com/cyber-risk/cisa-rewrites-federal-patching-requirements-ai-threat-era)
+- 2026-06-10T20:07:53+00:00 — [Bug Bounty Research Triggers ServiceNow Security Alert](https://www.darkreading.com/vulnerabilities-threats/bug-bounty-research-triggers-servicenow-security-alert)
+- 2026-06-10T19:34:43+00:00 — [AI Risk Worries Insurers &amp; Businesses Alike](https://www.darkreading.com/cyber-risk/ai-risk-worries-insurers-businesses-alike)
+- 2026-06-10T16:31:02+00:00 — [Nightmare-Eclipse Drops Yet Another Microsoft Exploit, RoguePlanet](https://www.darkreading.com/vulnerabilities-threats/nightmare-eclipse-microsoft-exploit-rogueplanet)
+- 2026-06-09T21:57:11+00:00 — [The Invisible Battlefield: How Cyberwar Is Reshaping Everyday Life](https://www.darkreading.com/endpoint-security/invisible-battlefield-cyber-war-reshaping-everyday-life)
+- 2026-06-09T21:42:57+00:00 — [Blame AI: Patch Tuesday Hits Record 206 CVEs](https://www.darkreading.com/vulnerabilities-threats/blame-ai-patch-tuesday-record-206-cves)
 
 ## Volexity Blog
 
@@ -570,18 +586,18 @@ Generated: 2026-06-11T08:17:30Z
 - Site: https://www.sentinelone.com/labs/
 - Feed: https://www.sentinelone.com/labs/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-11T13:00:59+00:00 — [LABScon25 Replay | Keynote: Steps to an Ecology of Cyber](https://www.sentinelone.com/labs/labscon25-replay-keynote-steps-to-an-ecology-of-cyber/)
 
 ## Microsoft Security Blog
 
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-10T16:00:00+00:00 — [Turn specs into evals for any agent with ASSERT](https://commandline.microsoft.com/assert-written-intent-executable-evals/)
+- No new entries detected
 
 ## LOLBAS Project (Windows)
 
@@ -813,9 +829,10 @@ Generated: 2026-06-11T08:17:30Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-06-11T22:55:52+00:00 — [Sigma Rule Supported Modifier Update (2026-06-11  22:55:45) (#1033)](https://github.com/Yamato-Security/hayabusa-rules/commit/01ee250052825e33ba363a34a988b16798586a57)
+- 2026-06-11T21:56:42+00:00 — [Sigma Rule Update (2026-06-11  21:56:35) (#1032)](https://github.com/Yamato-Security/hayabusa-rules/commit/774a2fe28a0cfc8a661597d965b360ab4c09153f)
 
 ## Hayabusa releases
 
@@ -1047,8 +1064,6 @@ Generated: 2026-06-11T08:17:30Z
 - Site: https://www.misp-project.org/
 - Feed: https://github.com/MISP/misp-taxonomies/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-06-10T07:40:15+00:00 — [chg: [MANIFEST] updated](https://github.com/MISP/misp-taxonomies/commit/0bbcb1547ae4a0522c6e912a1a55133f6f9e46af)
-- 2026-06-10T07:34:13+00:00 — [Merge branch 'main' of github.com:MISP/misp-taxonomies](https://github.com/MISP/misp-taxonomies/commit/d546ddf9bded01042b737b88dd267f0fedf8a415)
-- 2026-06-10T07:33:40+00:00 — [chg: [exercise] added 8th pan European cyber crisis exercise: Cyber E…](https://github.com/MISP/misp-taxonomies/commit/751f69cd1fc9dca886a89d40f0d9e31144bf936f)
+- No new entries detected
