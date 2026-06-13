@@ -95,6 +95,8 @@
 //! - [`pca`] — Windows 11 Program Compatibility Assistant artifacts
 //! - [`peripheral`] — external-device bus taxonomy (DMA / mass-storage class, MITRE)
 //! - [`shlink`] — Shell Link (`.LNK`) `[MS-SHLLINK]` format constants
+//! - [`jumplist`] — Jump List (`*.automaticDestinations-ms` / `*.customDestinations-ms`)
+//!   DestList / CustomDestinations offset tables + AppID map
 //! - [`shellbags`] — `BagMRU` PIDL / shell-item class-type knowledge
 //! - [`shell_history`] — bash/zsh/fish/PSReadLine format facts + tampering indicators
 //! - [`references`] — queryable source map per module
