@@ -154,6 +154,7 @@ pub mod history;
 pub mod mitre;
 pub mod navigator;
 pub mod ntfs;
+pub mod olecf;
 pub mod partition_schemes;
 pub mod partition_types;
 pub mod playbooks;
