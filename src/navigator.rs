@@ -150,4 +150,67 @@ mod tests {
             }
         }
     }
+
+    // ── Findings → Navigator layer ────────────────────────────────────────
+
+    #[test]
+    fn findings_layer_dedups_by_technique_and_takes_max_severity() {
+        use crate::report::{Category, Finding, Severity};
+        let findings = vec![
+            Finding::observation(Severity::Medium, Category::Threat, "MEM-LSASS-ACCESS")
+                .mitre("T1003.001")
+                .occurrences(2)
+                .build(),
+            // same technique, higher severity, different code
+            Finding::observation(Severity::Critical, Category::Threat, "MEM-CREDENTIAL-DUMP")
+                .mitre("T1003.001")
+                .build(),
+            Finding::observation(Severity::Low, Category::Concealment, "NTFS-TIMESTOMP")
+                .mitre("T1070.006")
+                .build(),
+        ];
+        let layer = findings_to_navigator_layer(&findings, "case-001");
+        assert!(layer.contains(r#""name": "case-001""#));
+        assert!(layer.contains(r#""domain": "enterprise-attack""#));
+        // T1003.001 deduped to a single technique entry
+        assert_eq!(layer.matches(r#""techniqueID": "T1003.001""#).count(), 1);
+        // max severity (Critical) drives the score
+        let line = layer
+            .lines()
+            .find(|l| l.contains("T1003.001"))
+            .expect("T1003.001 entry");
+        assert!(line.contains(r#""score": 100"#), "got: {line}");
+        // both contributing finding codes appear in the comment
+        assert!(line.contains("MEM-LSASS-ACCESS") && line.contains("MEM-CREDENTIAL-DUMP"));
+        // the second technique is present too
+        assert!(layer.contains(r#""techniqueID": "T1070.006""#));
+    }
+
+    #[test]
+    fn findings_without_mitre_refs_are_excluded() {
+        use crate::report::{Category, Finding, Severity};
+        let findings =
+            vec![
+                Finding::observation(Severity::High, Category::Integrity, "MBR-PART-OVERLAP")
+                    .build(),
+            ];
+        let layer = findings_to_navigator_layer(&findings, "x");
+        assert!(
+            !layer.contains("techniqueID"),
+            "no technique entries when findings carry no MITRE refs"
+        );
+    }
+
+    #[test]
+    fn report_to_layer_delegates_to_findings() {
+        use crate::report::{Category, Finding, Report, Severity};
+        let report = Report {
+            findings: vec![Finding::observation(Severity::High, Category::Threat, "X")
+                .mitre("T1059")
+                .build()],
+            ..Report::default()
+        };
+        let layer = report_to_navigator_layer(&report, "r");
+        assert!(layer.contains(r#""techniqueID": "T1059""#));
+    }
 }
