@@ -190,5 +190,6 @@ pub mod processes;
 pub mod references;
 pub mod remote_access;
 pub mod rootkit;
+pub mod shlink;
 pub mod third_party;
 pub mod threat_intel;
