@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-06-12T08:03:39Z
+Generated: 2026-06-13T07:08:12Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-06-12T08:03:39Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-12T00:00:00+00:00 — [Below the OS, UEFI bootkits, firmware implants, and the artifacts Volatility will never find](https://andreafortuna.org/2026/06/12/uefi-bootkits/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -193,10 +193,9 @@ Generated: 2026-06-12T08:03:39Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-06-11T20:59:12+00:00 — [That One Artifact: Mapping the “Where”, proving the “Why”](https://www.magnetforensics.com/blog/that-one-artifact-mapping-the-where-proving-the-why/)
-- 2026-06-11T19:32:27+00:00 — [Best cloud investigation tool for enterprise](https://www.magnetforensics.com/blog/best-cloud-investigation-tool-for-enterprise/)
+- No new entries detected
 
 ## The DFIR Report
 
@@ -221,39 +220,63 @@ Generated: 2026-06-12T08:03:39Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 1
 
-- 2026-06-11T02:25:21+00:00 — [ISC Stormcast For Thursday, June 11th, 2026 https://isc.sans.edu/podcastdetail/9968, (Thu, Jun 11th)](https://isc.sans.edu/diary/rss/33070)
-- 2026-06-10T08:29:21+00:00 — [How has use of framing protection security headers changed in the past 3 years&#x3f;, (Wed, Jun 10th)](https://isc.sans.edu/diary/rss/33068)
-- 2026-06-10T02:00:02+00:00 — [ISC Stormcast For Wednesday, June 10th, 2026 https://isc.sans.edu/podcastdetail/9966, (Wed, Jun 10th)](https://isc.sans.edu/diary/rss/33066)
-- 2026-06-09T17:34:29+00:00 — [Microsoft June 2026 Patch Tuesday, (Tue, Jun 9th)](https://isc.sans.edu/diary/rss/33064)
-- 2026-06-09T02:00:03+00:00 — [ISC Stormcast For Tuesday, June 9th, 2026 https://isc.sans.edu/podcastdetail/9964, (Tue, Jun 9th)](https://isc.sans.edu/diary/rss/33062)
-- 2026-06-08T17:07:37+00:00 — [TeamPCP Supply Chain Campaign: Activity Through 2026-06-07, (Mon, Jun 8th)](https://isc.sans.edu/diary/rss/33060)
-- 2026-06-08T02:00:03+00:00 — [ISC Stormcast For Monday, June 8th, 2026 https://isc.sans.edu/podcastdetail/9962, (Mon, Jun 8th)](https://isc.sans.edu/diary/rss/33058)
-- 2026-06-05T06:47:26+00:00 — [The Evil MSI Background is Back&#x21;, (Fri, Jun 5th)](https://isc.sans.edu/diary/rss/33054)
-- 2026-06-05T02:00:02+00:00 — [ISC Stormcast For Friday, June 5th, 2026 https://isc.sans.edu/podcastdetail/9960, (Fri, Jun 5th)](https://isc.sans.edu/diary/rss/33050)
-- 2026-06-04T06:10:44+00:00 — [Microsoft's Coreutils for Windows, (Thu, Jun 4th)](https://isc.sans.edu/diary/rss/33048)
+- 2026-06-12T12:30:10+00:00 — [ISC Stormcast For Friday, June 12th, 2026 https://isc.sans.edu/podcastdetail/9970, (Fri, Jun 12th)](https://isc.sans.edu/diary/rss/33074)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
+- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
+- unknown date — [AI-enhanced crime will expose DFIR practitioners who ignore AI.](https://www.dfir.training/blog/ai-enhanced-crime-will-expose-dfir-practitioners-who-ignore-ai)
+- unknown date — [56% are either likely to leave DFIR within 12 months or unsure if they’ll stay.](https://www.dfir.training/blog/56-of-dfir-is-unsure-if-they-will-stay-in-dfir-for-the-next-12-months)
 
 ## MSAB
 
 - Site: https://www.msab.com/
 - Feed: https://www.msab.com/feed/
-- Status: error: mismatched tag: line 93, column 2
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-05-12T17:00:00+00:00 — [Bulletin from the Annual General Meeting of Micro Systemation AB (publ)](https://www.msab.com/updates/bulletin-from-the-annual-general-meeting-of-micro-systemation-ab-publ-2/)
+- 2026-05-12T13:00:00+00:00 — [MSAB Secures Contract Worth SEK 12,7 Million with Australian Law Enforcement Agency](https://www.msab.com/updates/msab-secures-contract-worth-sek-127-million-with-australian-law-enforcement-agency/)
+- 2026-05-07T05:00:00+00:00 — [MSAB Sets Long-term Financial Targets](https://www.msab.com/updates/msab-sets-long-term-financial-targets/)
+- 2026-04-28T05:00:00+00:00 — [MSAB Interim Report – Q1 2026](https://www.msab.com/updates/msab-interim-report-q1-2026/)
+- 2026-04-21T11:00:00+00:00 — [MSAB publishes Annual Report for 2025](https://www.msab.com/updates/msab-publishes-annual-report-for-2025/)
+- 2026-04-14T05:00:00+00:00 — [Invitation to the Presentation of MSAB’s Interim Report January-March 2026](https://www.msab.com/updates/invitation-to-the-presentation-of-msabs-interim-report-january-march-2026/)
+- 2026-04-07T07:00:00+00:00 — [NOTICE OF ANNUAL GENERAL MEETING IN MICRO SYSTEMATION AB (publ)](https://www.msab.com/updates/notice-of-annual-general-meeting-in-micro-systemation-ab-publ-3/)
+- 2026-03-26T12:30:45+00:00 — [Q1 2026 Major Release is now available](https://www.msab.com/updates/q1-2026-major-release-is-now-available/)
+- 2026-03-24T06:00:00+00:00 — [Invitation to MSAB’s Capital Markets Day on May 7th, 2026](https://www.msab.com/updates/invitation-to-msabs-capital-markets-day-on-may-7th-2026/)
+- 2026-02-05T12:30:18+00:00 — [XRY 11.3.1: Market-first GPS device support.](https://www.msab.com/updates/xry-11-3-1-market-first-gps-device-support/)
 
 ## AboutDFIR
 
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
-- Status: error: mismatched tag: line 93, column 2
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-06-12T12:25:48+00:00 — [Infosec News Nuggets — June 12, 2026](https://aboutdfir.com/infosec-news-nuggets-june-12-2026/)
+- 2026-06-11T10:44:45+00:00 — [Infosec News Nuggets — June 11, 2026](https://aboutdfir.com/infosec-news-nuggets-june-11-2026/)
+- 2026-06-10T11:57:33+00:00 — [Infosec News Nuggets — June 10, 2026](https://aboutdfir.com/infosec-news-nuggets-june-10-2026/)
+- 2026-06-09T11:16:26+00:00 — [Infosec News Nuggets — June 9, 2026](https://aboutdfir.com/infosec-news-nuggets-june-9-2026/)
+- 2026-06-08T13:45:40+00:00 — [Infosec News Nuggets — June 8, 2026](https://aboutdfir.com/infosec-news-nuggets-june-8-2026/)
+- 2026-06-05T10:46:32+00:00 — [Infosec News Nuggets — June 5, 2026](https://aboutdfir.com/infosec-news-nuggets-june-5-2026/)
+- 2026-06-04T11:27:23+00:00 — [Infosec News Nuggets — June 4, 2026](https://aboutdfir.com/infosec-news-nuggets-june-4-2026/)
+- 2026-06-02T13:17:56+00:00 — [Infosec News Nuggets — June 2, 2026](https://aboutdfir.com/infosec-news-nuggets-june-2-2026/)
+- 2026-06-01T12:40:47+00:00 — [InfoSec News Nuggets — June 1, 2026](https://aboutdfir.com/infosec-news-nuggets-june-1-2026/)
+- 2026-05-29T12:23:20+00:00 — [InfoSec News Nuggets – 05/29/2026](https://aboutdfir.com/infosec-news-nuggets-05-29-2026/)
 
 ## Forensic 4cast
 
@@ -286,7 +309,19 @@ Generated: 2026-06-12T08:03:39Z
 
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
-- Status: error: mismatched tag: line 93, column 2
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-06-03T13:31:37+00:00 — [How To Investigate Video Evidence: Workflows, Pitfalls and Best Practices](https://blog.ampedsoftware.com/2026/06/03/investigate-video-evidence)
+- 2026-05-27T14:00:00+00:00 — [Deepfake Forensics Workflow for Image Analysis](https://blog.ampedsoftware.com/2026/05/27/deepfake-forensics-workflow-for-image-analysis)
+- 2026-05-20T13:30:00+00:00 — [Amped FIVE Update 40823: New Formats, Assistant Automation, New Motion Detection, and updates to Change Frame Rate, Timeline, and Much More](https://blog.ampedsoftware.com/2026/05/20/amped-five-update-40823)
+- 2026-04-24T13:30:00+00:00 — [Learn from the Experts at Amped Connect U.S. 2026](https://blog.ampedsoftware.com/2026/04/24/learn-from-the-experts-at-amped-connect-u-s-2026)
+- 2026-04-16T13:30:00+00:00 — [Fifty Shades of Fake: Deepfakes, AI Enhancement, and Media Authenticity](https://blog.ampedsoftware.com/2026/04/16/fifty-shades-of-fake)
+- 2026-04-01T13:30:00+00:00 — [Amped DVRConv and Engine Update 40286](https://blog.ampedsoftware.com/2026/04/01/dvrconv-and-engine-update-40286)
+- 2026-03-25T14:30:00+00:00 — [Amped Replay Update 40205: Magnify and Spotlight Improvements, Bookmarks Updates and More!](https://blog.ampedsoftware.com/2026/03/25/amped-replay-update-40205)
+- 2026-03-11T14:30:00+00:00 — [Authenticate Update 40165: Faster and Updated Deepfake Detection, Improved Geometrical Analysis, New Inspector Panel, and more!](https://blog.ampedsoftware.com/2026/03/11/authenticate-update-40165)
+- 2026-02-18T14:30:00+00:00 — [Amped FIVE Update 39780: Playback Control Options, TIME File Improvements, Video Duration Control when Removing Frames, Updates to Resize and Aspect Ratio, and Much More](https://blog.ampedsoftware.com/2026/02/18/amped-five-update-39780)
+- 2026-02-10T14:30:00+00:00 — [2026 Digital Forensics Conference Guide: See Amped’s Video Forensics Tools Live](https://blog.ampedsoftware.com/2026/02/10/2026-digital-forensics-conference-guide)
 
 ## Didier Stevens Blog
 
@@ -367,8 +402,8 @@ Generated: 2026-06-12T08:03:39Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-06-12T06:30:00+00:00 — [macOS virtualisation is leaping forward in Golden Gate](https://eclecticlight.co/2026/06/12/macos-virtualisation-is-leaping-forward-in-golden-gate/)
-- 2026-06-11T11:30:00+00:00 — [In the shadow: Caravaggio](https://eclecticlight.co/2026/06/11/in-the-shadow-caravaggio/)
+- 2026-06-13T07:00:00+00:00 — [Explainer: Disk encryption](https://eclecticlight.co/2026/06/13/explainer-disk-encryption/)
+- 2026-06-12T11:30:00+00:00 — [Brushstrokes: innovators of the first century](https://eclecticlight.co/2026/06/12/brushstrokes-innovators-of-the-first-century/)
 
 ## JPCERT/CC
 
@@ -411,9 +446,9 @@ Generated: 2026-06-12T08:03:39Z
 - Site: https://redcanary.com/blog/
 - Feed: https://redcanary.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-11T13:09:00+00:00 — [How threat hunting evolves at scale](https://redcanary.com/blog/threat-detection/threat-hunting-scaled/)
+- No new entries detected
 
 ## Palo Alto Unit 42
 
@@ -422,25 +457,25 @@ Generated: 2026-06-12T08:03:39Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-06-11T10:00:24+00:00 — [Trust No Skill: Integrity Verification for AI Agent Supply Chains](https://unit42.paloaltonetworks.com/ai-agent-supply-chain-risks/)
+- 2026-06-12T22:00:14+00:00 — [Tracing Digital Intent: New MacOS Tahoe 26 Artifact Discovered](https://unit42.paloaltonetworks.com/new-macos-artifact-discovered/)
 
 ## Mandiant Threat Intelligence
 
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-11T14:00:00+00:00 — [ShinyHunters Targets Education Sector with Oracle PeopleSoft Exploit](https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-targets-education-sector-oracle-exploit/)
+- No new entries detected
 
 ## Cisco Talos Blog
 
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-11T18:00:49+00:00 — [A tale of two eras](https://blog.talosintelligence.com/a-tale-of-two-eras/)
+- No new entries detected
 
 ## SANS Blog
 
@@ -465,9 +500,10 @@ Generated: 2026-06-12T08:03:39Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-06-12T19:00:55+00:00 — [Ransomware-as-a-Service: LockBit Alumni Launch Competing Programs as Ecosystem Consolidates in Q1 2026](https://flare.io/learn/resources/blog/ransomware-as-a-service-lockbit-alumni-launch-competing-programs-as-ecosystem-co)
+- 2026-06-12T13:41:44+00:00 — [5 Sessions to Catch at Identiverse 2026 (Plus 2 on the Future of AI Identity)](https://flare.io/learn/resources/blog/sessions-identiverse-2026)
 
 ## Binalyze Blog
 
@@ -500,7 +536,14 @@ Generated: 2026-06-12T08:03:39Z
 
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
-- Status: error: not well-formed (invalid token): line 1, column 160
+- Entries checked: 5
+- New since last snapshot: 5
+
+- 2026-06-12T17:11:36+00:00 — [Iceland District Prosecutor’s Office: Using AI Tools to Investigate Financial Crime](https://cellebrite.com/en/resources/customer-stories/iceland-district-prosecutors-office-using-ai-tools-to-investigate-financial-crime/)
+- 2026-06-12T08:32:25+00:00 — [Building Embedded Firmware Without Touching Hardware](https://cellebrite.com/en/blog/virtual-arm-hardware-firmware-development-corellium-atlas/)
+- 2026-06-12T07:39:43+00:00 — [Can You Tell if a Device was Picked Up? iOS Device Orientation Tracking in Forensics](https://cellebrite.com/en/the-101/resource/ios-device-orientation-tracking-forensics-unified-logs)
+- 2026-06-10T12:27:32+00:00 — [Cellebrite Launches the New Age of Investigations with Genesis, Now Generally Available](https://cellebrite.com/en/resources/press-releases/cellebrite-launches-the-new-age-of-investigations-with-genesis-now-generally-available/)
+- 2026-06-10T12:26:20+00:00 — [The New Age of Investigations: Cellebrite’s Journey to Genesis](https://cellebrite.com/en/blog/the-new-age-of-investigations-cellebrites-journey-to-genesis/)
 
 ## DFIR Science
 
@@ -518,18 +561,17 @@ Generated: 2026-06-12T08:03:39Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-06-11T00:00:00-05:00 — [CrowdStrike Named an Innovation and Growth Leader in the 2026 Frost Radar&trade;: Cloud and Application Runtime Security](https://www.crowdstrike.com/en-us/blog/crowdstrike-leads-2026-frost-radar-cloud-runtime-security/)
+- 2026-06-12T00:00:00-05:00 — [Why AI Projects Stall and How CIOs Can Respond](https://www.crowdstrike.com/en-us/blog/why-ai-projects-stall-and-how-cios-can-respond/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-06-11T16:09:13+00:00 — [Google can be liable for false AI Overviews, court rules](https://www.malwarebytes.com/blog/ai/2026/06/google-can-be-liable-for-false-ai-overviews-court-rules)
-- 2026-06-11T11:31:01+00:00 — [VRChat says reported data breach never happened](https://www.malwarebytes.com/blog/data-breaches/2026/06/data-of-2-4-million-vrchat-users-stolen)
-- 2026-06-11T10:55:26+00:00 — [Children&#8217;s phones must block nude images by September, UK says](https://www.malwarebytes.com/blog/family-and-parenting/2026/06/childrens-phones-must-block-nude-images-by-september-uk-says)
+- 2026-06-12T14:03:16+00:00 — [Stolen iPhones could soon be worth a lot less to thieves](https://www.malwarebytes.com/blog/mobile/2026/06/stolen-iphones-could-soon-be-worth-a-lot-less-to-thieves)
+- 2026-06-12T09:27:49+00:00 — [Fake verification pages are stealing Steam accounts from players](https://www.malwarebytes.com/blog/threat-intel/2026/06/fake-verification-pages-are-stealing-steam-accounts-from-players)
 
 ## Krebs on Security
 
@@ -545,35 +587,26 @@ Generated: 2026-06-12T08:03:39Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 9
+- New since last snapshot: 8
 
-- 2026-06-12T03:09:11-04:00 — [Over 73,000 French govt employees affected in Tchap messenger breach](https://www.bleepingcomputer.com/news/security/french-govt-says-tchap-breach-affected-over-73-000-accounts/)
-- 2026-06-11T19:14:16-04:00 — [Japanese energy firm loses drive with data of 10.9 million clients](https://www.bleepingcomputer.com/news/security/japanese-energy-firm-loses-drive-with-data-of-109-million-clients/)
-- 2026-06-11T18:44:58-04:00 — [Maine breach portal abused to publish fake data breach disclosures](https://www.bleepingcomputer.com/news/security/maine-breach-portal-abused-to-publish-fake-data-breach-disclosures/)
-- 2026-06-11T15:39:53-04:00 — [Oracle mitigates PeopleSoft zero-day exploited in data theft attacks](https://www.bleepingcomputer.com/news/security/oracle-mitigates-peoplesoft-zero-day-exploited-in-data-theft-attacks/)
-- 2026-06-11T11:55:41-04:00 — [Authorities dismantle 'AudiA6' ransomware crypto-laundering service](https://www.bleepingcomputer.com/news/legal/authorities-dismantle-audia6-ransomware-crypto-laundering-service/)
-- 2026-06-11T10:00:10-04:00 — [Why AI-driven threats are exposing the limits of MSP security stacks](https://www.bleepingcomputer.com/news/security/why-ai-driven-threats-are-exposing-the-limits-of-msp-security-stacks/)
-- 2026-06-11T08:52:41-04:00 — [Coupang hit with record $409 million data breach fine in Korea](https://www.bleepingcomputer.com/news/security/south-korea-hits-coupang-with-record-409-million-fine-over-data-breach/)
-- 2026-06-11T08:46:44-04:00 — [CISA tells govt agencies to patch critical exploited flaws in 3 days](https://www.bleepingcomputer.com/news/security/cisa-tells-govt-agencies-to-patch-critical-exploited-flaws-in-3-days/)
-- 2026-06-11T04:44:22-04:00 — [Microsoft fixes BitLocker recovery bug on Windows Server 2025](https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-bitlocker-recovery-bug-on-windows-server-2025/)
+- 2026-06-12T15:33:32-04:00 — [Maine disables data breach notification portal after fake disclosures](https://www.bleepingcomputer.com/news/security/maine-disables-data-breach-notification-portal-after-fake-disclosures/)
+- 2026-06-12T14:19:34-04:00 — [phpBB forum fixes auth bypass bug lurking for a decade](https://www.bleepingcomputer.com/news/security/phpbb-forum-fixes-auth-bypass-bug-lurking-for-a-decade/)
+- 2026-06-12T13:54:28-04:00 — [Ukrainian national pleads guilty to role in Conti ransomware operation](https://www.bleepingcomputer.com/news/security/ukrainian-national-pleads-guilty-to-role-in-conti-ransomware-operation/)
+- 2026-06-12T13:03:55-04:00 — [Over 400 Arch Linux packages compromised to push rootkit, infostealer](https://www.bleepingcomputer.com/news/security/over-400-arch-linux-packages-compromised-to-push-rootkit-infostealer/)
+- 2026-06-12T10:01:11-04:00 — [Early Warning Signs of Supply-Chain Attacks Live in the Dark Web](https://www.bleepingcomputer.com/news/security/early-warning-signs-of-supply-chain-attacks-live-in-the-dark-web/)
+- 2026-06-12T07:44:58-04:00 — [Microsoft fixes Windows update failures linked to WUSA installer](https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-windows-update-failures-linked-to-wusa-installer/)
+- 2026-06-12T06:13:19-04:00 — [Pharma giant Novo Nordisk discloses breach of clinical trials data](https://www.bleepingcomputer.com/news/security/pharmaceutical-giant-novo-nordisk-discloses-security-breach/)
+- 2026-06-12T04:26:55-04:00 — [CISA orders feds to patch actively exploited Ivanti flaw by Sunday](https://www.bleepingcomputer.com/news/security/cisa-gives-feds-3-days-to-patch-ivanti-flaw-exploited-in-attacks/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 2
 
-- 2026-06-12T00:58:07+00:00 — [Phishing Attack Volume Down 20%, but Risk Still Rising](https://www.darkreading.com/cybersecurity-analytics/phishing-volume-down-20-risk-rising)
-- 2026-06-11T18:43:57+00:00 — [Max-Severity Ivanti Flaw Exploited 24 Hours After Disclosure](https://www.darkreading.com/vulnerabilities-threats/max-severity-ivanti-sentry-flaw-exploited-24-hours)
-- 2026-06-11T14:51:48+00:00 — [Segmentation Works for OT If Operators Are Paying Attention](https://www.darkreading.com/cybersecurity-operations/segmentation-works-for-ot-if-operators-are-paying-attention)
-- 2026-06-11T00:01:00+00:00 — [Chinese, N. Korean Threat Groups Build on Asia-Pacific Success](https://www.darkreading.com/cyberattacks-data-breaches/chinese-korean-threat-groups-asia-pacific-success)
-- 2026-06-10T21:17:12+00:00 — [CISA Rewrites Federal Patching Requirements for AI Threat Era](https://www.darkreading.com/cyber-risk/cisa-rewrites-federal-patching-requirements-ai-threat-era)
-- 2026-06-10T20:07:53+00:00 — [Bug Bounty Research Triggers ServiceNow Security Alert](https://www.darkreading.com/vulnerabilities-threats/bug-bounty-research-triggers-servicenow-security-alert)
-- 2026-06-10T19:34:43+00:00 — [AI Risk Worries Insurers &amp; Businesses Alike](https://www.darkreading.com/cyber-risk/ai-risk-worries-insurers-businesses-alike)
-- 2026-06-10T16:31:02+00:00 — [Nightmare-Eclipse Drops Yet Another Microsoft Exploit, RoguePlanet](https://www.darkreading.com/vulnerabilities-threats/nightmare-eclipse-microsoft-exploit-rogueplanet)
-- 2026-06-09T21:57:11+00:00 — [The Invisible Battlefield: How Cyberwar Is Reshaping Everyday Life](https://www.darkreading.com/endpoint-security/invisible-battlefield-cyber-war-reshaping-everyday-life)
-- 2026-06-09T21:42:57+00:00 — [Blame AI: Patch Tuesday Hits Record 206 CVEs](https://www.darkreading.com/vulnerabilities-threats/blame-ai-patch-tuesday-record-206-cves)
+- 2026-06-12T20:26:32+00:00 — [ShinyHunters Uses Oracle Zero-Day to Rampage Higher Ed](https://www.darkreading.com/vulnerabilities-threats/shinyhunters-oracle-zero-day-higher-ed)
+- 2026-06-12T13:01:00+00:00 — [Claude Fable 5 Doesn't Change the Mythos Security Story](https://www.darkreading.com/vulnerabilities-threats/claude-fable-5-doesnt-change-mythos-security-story)
 
 ## Volexity Blog
 
@@ -586,9 +619,9 @@ Generated: 2026-06-12T08:03:39Z
 - Site: https://www.sentinelone.com/labs/
 - Feed: https://www.sentinelone.com/labs/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-11T13:00:59+00:00 — [LABScon25 Replay | Keynote: Steps to an Ecology of Cyber](https://www.sentinelone.com/labs/labscon25-replay-keynote-steps-to-an-ecology-of-cyber/)
+- No new entries detected
 
 ## Microsoft Security Blog
 
@@ -829,10 +862,9 @@ Generated: 2026-06-12T08:03:39Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-06-11T22:55:52+00:00 — [Sigma Rule Supported Modifier Update (2026-06-11  22:55:45) (#1033)](https://github.com/Yamato-Security/hayabusa-rules/commit/01ee250052825e33ba363a34a988b16798586a57)
-- 2026-06-11T21:56:42+00:00 — [Sigma Rule Update (2026-06-11  21:56:35) (#1032)](https://github.com/Yamato-Security/hayabusa-rules/commit/774a2fe28a0cfc8a661597d965b360ab4c09153f)
+- No new entries detected
 
 ## Hayabusa releases
 
