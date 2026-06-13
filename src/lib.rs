@@ -93,6 +93,10 @@
 //! - [`remote_access`] — LOLRMM / RMM tool indicators
 //! - [`third_party`] — PuTTY, WinSCP, cloud sync, browser registry artifacts
 //! - [`pca`] — Windows 11 Program Compatibility Assistant artifacts
+//! - [`peripheral`] — external-device bus taxonomy (DMA / mass-storage class, MITRE)
+//! - [`shlink`] — Shell Link (`.LNK`) `[MS-SHLLINK]` format constants
+//! - [`shellbags`] — `BagMRU` PIDL / shell-item class-type knowledge
+//! - [`shell_history`] — bash/zsh/fish/PSReadLine format facts + tampering indicators
 //! - [`references`] — queryable source map per module
 //! - [`no_std_compat`] — documents and validates the `no_std`-safe API surface
 //!
