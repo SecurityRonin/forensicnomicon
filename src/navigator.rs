@@ -46,6 +46,124 @@ pub fn generate_navigator_layer(layer_name: &str) -> String {
     )
 }
 
+/// Render an investigation's [`Report`](crate::report::Report) as an ATT&CK
+/// Navigator layer — one technique heatmap of everything observed in the case,
+/// scored by the highest severity seen for each technique. Directly importable
+/// into the ATT&CK Navigator.
+#[must_use]
+pub fn report_to_navigator_layer(report: &crate::report::Report, layer_name: &str) -> String {
+    findings_to_navigator_layer(&report.findings, layer_name)
+}
+
+/// Render a set of [`Finding`](crate::report::Finding)s as an ATT&CK Navigator
+/// layer. Each `mitre-attack` external ref on a finding contributes its
+/// technique; entries are deduplicated by technique ID, scored by the **maximum
+/// severity** of the contributing findings, colored on a severity gradient, and
+/// commented with the finding codes and total occurrence count. Findings with no
+/// MITRE reference are omitted (they have no place on the matrix).
+#[must_use]
+pub fn findings_to_navigator_layer(
+    findings: &[crate::report::Finding],
+    layer_name: &str,
+) -> String {
+    use crate::report::Severity;
+
+    struct Agg {
+        severity: Option<Severity>,
+        occurrences: u64,
+        codes: Vec<String>,
+    }
+
+    // BTreeMap keeps the output deterministic (sorted by technique ID).
+    let mut by_technique: std::collections::BTreeMap<String, Agg> =
+        std::collections::BTreeMap::new();
+    for finding in findings {
+        let occ = finding
+            .context
+            .occurrences
+            .map_or(1, std::num::NonZeroU64::get);
+        for reference in &finding.context.external_refs {
+            if reference.scheme != "mitre-attack" {
+                continue;
+            }
+            let agg = by_technique.entry(reference.id.clone()).or_insert(Agg {
+                severity: None,
+                occurrences: 0,
+                codes: Vec::new(),
+            });
+            if finding.severity > agg.severity {
+                agg.severity = finding.severity;
+            }
+            agg.occurrences = agg.occurrences.saturating_add(occ);
+            let code = finding.code.to_string();
+            if !agg.codes.contains(&code) {
+                agg.codes.push(code);
+            }
+        }
+    }
+
+    let mut techniques_json = Vec::new();
+    for (technique_id, agg) in &by_technique {
+        let comment = json_escape(&format!(
+            "{} ({} occurrence{})",
+            agg.codes.join(", "),
+            agg.occurrences,
+            if agg.occurrences == 1 { "" } else { "s" }
+        ));
+        techniques_json.push(format!(
+            r#"    {{"techniqueID": "{technique_id}", "score": {}, "color": "{}", "comment": "{comment}", "enabled": true}}"#,
+            severity_score(agg.severity),
+            severity_color(agg.severity),
+        ));
+    }
+    let techniques_str = techniques_json.join(",\n");
+    let name = json_escape(layer_name);
+
+    format!(
+        r#"{{
+  "name": "{name}",
+  "versions": {{"attack": "14", "navigator": "4.9", "layer": "4.5"}},
+  "domain": "enterprise-attack",
+  "description": "Investigation findings — ATT&CK techniques observed, scored by severity",
+  "techniques": [
+{techniques_str}
+  ]
+}}"#,
+    )
+}
+
+/// Navigator `score` (0-100) for a finding severity. `None` ("not scored")
+/// still places the technique on the matrix at a low score.
+fn severity_score(severity: Option<crate::report::Severity>) -> u32 {
+    use crate::report::Severity;
+    match severity {
+        Some(Severity::Critical) => 100,
+        Some(Severity::High) => 78,
+        Some(Severity::Medium) => 55,
+        Some(Severity::Low) => 35,
+        Some(Severity::Info) => 15,
+        _ => 5, // None, or any future variant
+    }
+}
+
+/// Severity gradient color (green → red) for the Navigator heatmap.
+fn severity_color(severity: Option<crate::report::Severity>) -> &'static str {
+    use crate::report::Severity;
+    match severity {
+        Some(Severity::Critical) => "#c0392b",
+        Some(Severity::High) => "#e67e22",
+        Some(Severity::Medium) => "#f1c40f",
+        Some(Severity::Low) => "#b7d04a",
+        Some(Severity::Info) => "#7fb069",
+        _ => "#9e9e9e", // None, or any future variant
+    }
+}
+
+/// Minimal JSON string escaping for embedded layer-name / comment text.
+fn json_escape(s: &str) -> String {
+    s.replace('\\', "\\\\").replace('"', "\\\"")
+}
+
 /// Returns a map of technique ID → artifact IDs for coverage reporting.
 pub fn technique_coverage() -> HashMap<&'static str, Vec<&'static str>> {
     let mut map: HashMap<&'static str, Vec<&'static str>> = HashMap::new();
