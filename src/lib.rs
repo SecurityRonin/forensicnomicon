@@ -183,6 +183,7 @@ pub mod journald;
 pub mod no_std_compat;
 pub mod paths;
 pub mod pca;
+pub mod peripheral;
 pub mod persistence;
 pub mod ports;
 pub mod processes;
