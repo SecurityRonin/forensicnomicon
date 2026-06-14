@@ -1,7 +1,7 @@
 [package]
 name = "fnomicon"
 version = "0.1.0"
-edition = "2021"
+edition.workspace = true
 description = "CLI explorer for the ForensicNomicon artifact catalog"
 
 [[bin]]
@@ -9,4 +9,4 @@ name = "fnomicon"
 path = "src/main.rs"
 
 [dependencies]
-forensicnomicon = { path = "../.." }
+forensicnomicon = { workspace = true }

@@ -1,11 +1,26 @@
 [workspace]
 members = [".", "crates/fcatalog", "crates/ingest", "crates/4n6query"]
 
+# Shared package field (DRY): every member is edition 2021; set it once here and
+# members inherit via `edition.workspace = true`. version / rust-version /
+# license differ across members, so they stay inline.
+[workspace.package]
+edition = "2021"
+
+# Single source of truth for dependency versions shared by 2+ members (DRY).
+# `forensicnomicon` is the root crate itself, declared as a path dep so the
+# in-workspace members link the local copy; the version pins it for publish.
+[workspace.dependencies]
+forensicnomicon = { path = ".", version = "0.5.4" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+
 [package]
 name = "forensicnomicon"
 version = "0.5.4"
 description = "The ForensicNomicon — comprehensive DFIR artifact catalog: UserAssist, Shimcache, Amcache, Prefetch, $MFT, ShellBags, EVTX, NTDS.dit, SAM, SRUM, LNK, Jump Lists + KAPE/Velociraptor/Sigma/MITRE. Zero deps."
-edition = "2021"
+edition.workspace = true
 rust-version = "1.75"
 license = "Apache-2.0"
 repository = "https://github.com/SecurityRonin/forensicnomicon"
@@ -21,10 +36,10 @@ std = []
 serde = ["dep:serde"]
 
 [dependencies]
-serde = { version = "1", features = ["derive"], optional = true }
+serde = { workspace = true, optional = true }
 
 [dev-dependencies]
-serde_json = "1"
+serde_json = { workspace = true }
 
 [[example]]
 name = "dump_lol"

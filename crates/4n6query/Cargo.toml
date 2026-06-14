@@ -1,7 +1,7 @@
 [package]
 name = "forensicnomicon-cli"
 version = "0.1.0"
-edition = "2021"
+edition.workspace = true
 rust-version = "1.75"
 authors = ["Albert Hui <albert@securityronin.com>"]
 description = "4n6query — DFIR lookup tool: query LOL/LOFL binaries, abusable sites, and 6,548 forensic artifacts from the command line"
@@ -19,10 +19,10 @@ name = "4n6query"
 path = "src/main.rs"
 
 [dependencies]
-forensicnomicon = { path = "../..", features = ["serde"] }
+forensicnomicon = { workspace = true, features = ["serde"] }
 clap = { version = "4", features = ["derive"] }
-serde_json = "1"
-serde_yaml = "0.9"
+serde_json = { workspace = true }
+serde_yaml = { workspace = true }
 # TUI
 ratatui = "0.29"
 crossterm = "0.28"
