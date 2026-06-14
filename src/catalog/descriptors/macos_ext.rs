@@ -40,6 +40,41 @@ pub(crate) static MACOS_FSEVENTS: ArtifactDescriptor = ArtifactDescriptor {
     volatility_rationale: "FSEvents log; rotated as volume fills",
 };
 
+pub(crate) static MACOS_BIOME_APP_MENUITEM: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_biome_app_menuitem",
+    name: "Apple Biome App.MenuItem Stream (menu-selection intent)",
+    artifact_type: ArtifactType::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Biome/streams/restricted/App.MenuItem/local"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "macOS Tahoe 26 Biome stream logging the exact text of menu items a user selected across the OS, each with a timestamp — a step-by-step user-intent trail (e.g. Go > Go to Folder, File > Save, Compress, Move to Trash, Empty Trash, Copy/Paste). Reconstructs deliberate workflow/intent that filesystem events alone do not show: data creation -> compression (staging for exfil) -> deletion -> trash-emptying (cleanup). SEGB-encapsulated protobuf; parse with ccl-segb (not handled by most commercial tools as of 2026).",
+    mitre_techniques: &["T1074.001", "T1560.001", "T1070"],
+    fields: &[
+        FieldSchema { name: "application", value_type: ValueType::Text, description: "Application whose menu was used (e.g. Finder, TextEdit)", is_uid_component: true },
+        FieldSchema { name: "menu_item", value_type: ValueType::Text, description: "Exact text of the menu item selected (e.g. Move to Trash)", is_uid_component: true },
+        FieldSchema { name: "timestamp", value_type: ValueType::Timestamp, description: "When the menu selection occurred", is_uid_component: false },
+    ],
+    retention: Some("Biome stream; rotated by the Biome subsystem (typically days to weeks)"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_fsevents", "macos_unified_log"],
+    sources: &[
+        "https://unit42.paloaltonetworks.com/new-macos-artifact-discovered/",
+        "https://github.com/cclgroupltd/ccl-segb",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "User-scope; records UI menu selections, not programmatic file operations",
+        "New in macOS Tahoe 26 — absent on earlier macOS versions",
+        "SEGB+protobuf; requires ccl-segb-style tooling, not parsed by most commercial suites",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Biome stream; rotated by the Biome subsystem over time",
+};
+
 pub(crate) static MACOS_SPOTLIGHT_STORE: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_spotlight_store",
     name: "Spotlight Metadata Store",

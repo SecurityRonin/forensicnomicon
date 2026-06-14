@@ -9072,6 +9072,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     windows_evtx_ext::EVTX_APPLICATION_EXPERIENCE_TELEMETRY,
     // Extended macOS artifacts (macos_ext)
     macos_ext::MACOS_FSEVENTS,
+    macos_ext::MACOS_BIOME_APP_MENUITEM,
     macos_ext::MACOS_SPOTLIGHT_STORE,
     macos_ext::MACOS_DOCK_PLIST,
     macos_ext::MACOS_LOGIN_ITEMS_PLIST,
