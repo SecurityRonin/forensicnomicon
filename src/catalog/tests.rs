@@ -20,6 +20,24 @@ mod catalog_integrity {
         }
     }
 
+    /// The Apple Biome `App.MenuItem` stream (macOS Tahoe 26) — a user-intent
+    /// trail of menu selections (Unit 42, 2026) — must be in the catalog.
+    #[test]
+    fn biome_app_menuitem_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "macos_biome_app_menuitem")
+            .expect("Biome App.MenuItem descriptor must be cataloged");
+        assert!(
+            d.file_path
+                .unwrap_or_default()
+                .contains("Biome/streams/restricted/App.MenuItem"),
+            "file_path must point at the App.MenuItem Biome stream"
+        );
+        assert_eq!(d.os_scope, crate::catalog::types::OsScope::MacOS);
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
