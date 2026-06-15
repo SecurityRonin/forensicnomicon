@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-06-14T07:58:29Z
+Generated: 2026-06-15T09:39:21Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-06-14T07:58:29Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-13T00:00:00+00:00 — [The macOS Tahoe artifact that tracks every menu selection a user makes](https://andreafortuna.org/2026/06/13/macos-tahoe-biome-menuitem/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -220,30 +220,64 @@ Generated: 2026-06-14T07:58:29Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-06-15T07:16:00+00:00 — [Evil MSI Background: BASE64 Statistical Analysis, (Mon, Jun 15th)](https://isc.sans.edu/diary/rss/33072)
+- 2026-06-15T02:00:02+00:00 — [ISC Stormcast For Monday, June 15th, 2026 https://isc.sans.edu/podcastdetail/9972, (Mon, Jun 15th)](https://isc.sans.edu/diary/rss/33076)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
+- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
+- unknown date — [AI-enhanced crime will expose DFIR practitioners who ignore AI.](https://www.dfir.training/blog/ai-enhanced-crime-will-expose-dfir-practitioners-who-ignore-ai)
+- unknown date — [56% are either likely to leave DFIR within 12 months or unsure if they’ll stay.](https://www.dfir.training/blog/56-of-dfir-is-unsure-if-they-will-stay-in-dfir-for-the-next-12-months)
 
 ## MSAB
 
 - Site: https://www.msab.com/
 - Feed: https://www.msab.com/feed/
-- Status: error: mismatched tag: line 93, column 2
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-05-12T17:00:00+00:00 — [Bulletin from the Annual General Meeting of Micro Systemation AB (publ)](https://www.msab.com/updates/bulletin-from-the-annual-general-meeting-of-micro-systemation-ab-publ-2/)
+- 2026-05-12T13:00:00+00:00 — [MSAB Secures Contract Worth SEK 12,7 Million with Australian Law Enforcement Agency](https://www.msab.com/updates/msab-secures-contract-worth-sek-127-million-with-australian-law-enforcement-agency/)
+- 2026-05-07T05:00:00+00:00 — [MSAB Sets Long-term Financial Targets](https://www.msab.com/updates/msab-sets-long-term-financial-targets/)
+- 2026-04-28T05:00:00+00:00 — [MSAB Interim Report – Q1 2026](https://www.msab.com/updates/msab-interim-report-q1-2026/)
+- 2026-04-21T11:00:00+00:00 — [MSAB publishes Annual Report for 2025](https://www.msab.com/updates/msab-publishes-annual-report-for-2025/)
+- 2026-04-14T05:00:00+00:00 — [Invitation to the Presentation of MSAB’s Interim Report January-March 2026](https://www.msab.com/updates/invitation-to-the-presentation-of-msabs-interim-report-january-march-2026/)
+- 2026-04-07T07:00:00+00:00 — [NOTICE OF ANNUAL GENERAL MEETING IN MICRO SYSTEMATION AB (publ)](https://www.msab.com/updates/notice-of-annual-general-meeting-in-micro-systemation-ab-publ-3/)
+- 2026-03-26T12:30:45+00:00 — [Q1 2026 Major Release is now available](https://www.msab.com/updates/q1-2026-major-release-is-now-available/)
+- 2026-03-24T06:00:00+00:00 — [Invitation to MSAB’s Capital Markets Day on May 7th, 2026](https://www.msab.com/updates/invitation-to-msabs-capital-markets-day-on-may-7th-2026/)
+- 2026-02-05T12:30:18+00:00 — [XRY 11.3.1: Market-first GPS device support.](https://www.msab.com/updates/xry-11-3-1-market-first-gps-device-support/)
 
 ## AboutDFIR
 
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
-- Status: error: mismatched tag: line 93, column 2
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-06-12T12:25:48+00:00 — [Infosec News Nuggets — June 12, 2026](https://aboutdfir.com/infosec-news-nuggets-june-12-2026/)
+- 2026-06-11T10:44:45+00:00 — [Infosec News Nuggets — June 11, 2026](https://aboutdfir.com/infosec-news-nuggets-june-11-2026/)
+- 2026-06-10T11:57:33+00:00 — [Infosec News Nuggets — June 10, 2026](https://aboutdfir.com/infosec-news-nuggets-june-10-2026/)
+- 2026-06-09T11:16:26+00:00 — [Infosec News Nuggets — June 9, 2026](https://aboutdfir.com/infosec-news-nuggets-june-9-2026/)
+- 2026-06-08T13:45:40+00:00 — [Infosec News Nuggets — June 8, 2026](https://aboutdfir.com/infosec-news-nuggets-june-8-2026/)
+- 2026-06-05T10:46:32+00:00 — [Infosec News Nuggets — June 5, 2026](https://aboutdfir.com/infosec-news-nuggets-june-5-2026/)
+- 2026-06-04T11:27:23+00:00 — [Infosec News Nuggets — June 4, 2026](https://aboutdfir.com/infosec-news-nuggets-june-4-2026/)
+- 2026-06-02T13:17:56+00:00 — [Infosec News Nuggets — June 2, 2026](https://aboutdfir.com/infosec-news-nuggets-june-2-2026/)
+- 2026-06-01T12:40:47+00:00 — [InfoSec News Nuggets — June 1, 2026](https://aboutdfir.com/infosec-news-nuggets-june-1-2026/)
+- 2026-05-29T12:23:20+00:00 — [InfoSec News Nuggets – 05/29/2026](https://aboutdfir.com/infosec-news-nuggets-05-29-2026/)
 
 ## Forensic 4cast
 
@@ -259,9 +293,9 @@ Generated: 2026-06-14T07:58:29Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-14T12:18:49+00:00 — [Week 24 – 2026](https://thisweekin4n6.com/2026/06/14/week-24-2026/)
 
 ## The Sleuth Kit updates
 
@@ -276,7 +310,19 @@ Generated: 2026-06-14T07:58:29Z
 
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
-- Status: error: mismatched tag: line 93, column 2
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-06-03T13:31:37+00:00 — [How To Investigate Video Evidence: Workflows, Pitfalls and Best Practices](https://blog.ampedsoftware.com/2026/06/03/investigate-video-evidence)
+- 2026-05-27T14:00:00+00:00 — [Deepfake Forensics Workflow for Image Analysis](https://blog.ampedsoftware.com/2026/05/27/deepfake-forensics-workflow-for-image-analysis)
+- 2026-05-20T13:30:00+00:00 — [Amped FIVE Update 40823: New Formats, Assistant Automation, New Motion Detection, and updates to Change Frame Rate, Timeline, and Much More](https://blog.ampedsoftware.com/2026/05/20/amped-five-update-40823)
+- 2026-04-24T13:30:00+00:00 — [Learn from the Experts at Amped Connect U.S. 2026](https://blog.ampedsoftware.com/2026/04/24/learn-from-the-experts-at-amped-connect-u-s-2026)
+- 2026-04-16T13:30:00+00:00 — [Fifty Shades of Fake: Deepfakes, AI Enhancement, and Media Authenticity](https://blog.ampedsoftware.com/2026/04/16/fifty-shades-of-fake)
+- 2026-04-01T13:30:00+00:00 — [Amped DVRConv and Engine Update 40286](https://blog.ampedsoftware.com/2026/04/01/dvrconv-and-engine-update-40286)
+- 2026-03-25T14:30:00+00:00 — [Amped Replay Update 40205: Magnify and Spotlight Improvements, Bookmarks Updates and More!](https://blog.ampedsoftware.com/2026/03/25/amped-replay-update-40205)
+- 2026-03-11T14:30:00+00:00 — [Authenticate Update 40165: Faster and Updated Deepfake Detection, Improved Geometrical Analysis, New Inspector Panel, and more!](https://blog.ampedsoftware.com/2026/03/11/authenticate-update-40165)
+- 2026-02-18T14:30:00+00:00 — [Amped FIVE Update 39780: Playback Control Options, TIME File Improvements, Video Duration Control when Removing Frames, Updates to Resize and Aspect Ratio, and Much More](https://blog.ampedsoftware.com/2026/02/18/amped-five-update-39780)
+- 2026-02-10T14:30:00+00:00 — [2026 Digital Forensics Conference Guide: See Amped’s Video Forensics Tools Live](https://blog.ampedsoftware.com/2026/02/10/2026-digital-forensics-conference-guide)
 
 ## Didier Stevens Blog
 
@@ -357,9 +403,9 @@ Generated: 2026-06-14T07:58:29Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-06-14T07:00:49+00:00 — [Last Week on My Mac: Why is it so hard to open a document?](https://eclecticlight.co/2026/06/14/last-week-on-my-mac-why-is-it-so-hard-to-open-a-document/)
-- 2026-06-13T11:30:00+00:00 — [The Great Ladies of Impressionism](https://eclecticlight.co/2026/06/13/the-great-ladies-of-impressionism/)
-- 2026-06-13T08:00:00+00:00 — [Saturday Mac riddles 364](https://eclecticlight.co/2026/06/13/saturday-mac-riddles-364/)
+- 2026-06-15T08:00:00+00:00 — [Solutions to Saturday Mac riddles 364](https://eclecticlight.co/2026/06/15/solutions-to-saturday-mac-riddles-364/)
+- 2026-06-15T06:30:13+00:00 — [Fix documents that won’t open as expected using Quarant2](https://eclecticlight.co/2026/06/15/fix-documents-that-wont-open-as-expected-using-quarant2/)
+- 2026-06-14T11:30:00+00:00 — [In memoriam Mary Cassatt: 3 1887-1902](https://eclecticlight.co/2026/06/14/in-memoriam-mary-cassatt-3-1887-1902/)
 
 ## JPCERT/CC
 
@@ -456,9 +502,9 @@ Generated: 2026-06-14T07:58:29Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-14T02:39:15+00:00 — [Supply chain ransomware: TeamPCP weaponizes worms to fuel partnerships and $95K data sales](https://flare.io/learn/resources/blog/supply-chain-ransomware-teampcp-weaponizes-worms-to-fuel-partnerships-and-95k-da)
+- No new entries detected
 
 ## Binalyze Blog
 
@@ -519,9 +565,9 @@ Generated: 2026-06-14T07:58:29Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-15T07:01:00+00:00 — [A week in security (June 8 &#8211; June 14)](https://www.malwarebytes.com/blog/news/2026/06/a-week-in-security-june-8-june-14)
 
 ## Krebs on Security
 
@@ -537,11 +583,9 @@ Generated: 2026-06-14T07:58:29Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 1
 
-- 2026-06-13T16:53:13-04:00 — [Ex-school district employee jailed for hacks on former employer](https://www.bleepingcomputer.com/news/security/ex-school-district-employee-jailed-for-hacks-on-former-employer/)
-- 2026-06-13T10:06:42-04:00 — [Chinese hackers hijack auth flow, spy on isolated network for a decade](https://www.bleepingcomputer.com/news/security/chinese-hackers-hijack-auth-flow-spy-on-isolated-network-for-a-decade/)
-- 2026-06-13T06:01:32-04:00 — [US Gov asks Anthropic to ban 'foreign national' access to Fable, Mythos](https://www.bleepingcomputer.com/news/security/us-gov-asks-anthropic-to-ban-foreign-national-access-to-fable-mythos/)
+- 2026-06-14T10:36:23-04:00 — [FBI disrupts massive AI-powered phishing service using a million URLs](https://www.bleepingcomputer.com/news/security/fbi-disrupts-massive-ai-powered-phishing-service-using-a-million-urls/)
 
 ## Dark Reading
 
@@ -581,9 +625,9 @@ Generated: 2026-06-14T07:58:29Z
 - Site: https://lolbas-project.github.io/
 - Feed: https://github.com/LOLBAS-Project/LOLBAS/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-14T20:27:23+00:00 — [Windows Sandbox abuse via wsb.exe (#504)](https://github.com/LOLBAS-Project/LOLBAS/commit/5814631f550c63c8fa2d7538319d374ee3664586)
 
 ## GTFOBins (Linux)
 
