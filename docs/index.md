@@ -1,227 +1,63 @@
-# DFIR Handbook
+# forensicnomicon
 
-This handbook is the analyst-facing entry point for `forensicnomicon`.
+**6,554 forensic artifacts. Every one enriched.** The zero-dependency KNOWLEDGE leaf of the SecurityRonin forensic fleet — a compile-time artifact catalog plus the normalized `report` and `history` vocabularies every analyzer builds on.
 
-## What this crate does
+You're in an active IR. You need to know if a binary is abusable, right now, offline, without opening a browser.
 
-Most artifact registries tell you *where* an artifact lives. forensicnomicon
-tells you what it **means** — and gives your tool the structured knowledge to
-act on that meaning automatically.
+```bash
+brew install SecurityRonin/tap/4n6query
+# or: cargo install forensicnomicon-cli
 
-Every artifact entry carries a set of **enrichments**:
+4n6query certutil.exe          # LOLBin lookup, ATT&CK techniques, use cases
+4n6query userassist            # 5 artifact variants, decoded field schemas, triage priority
+4n6query T1547.001             # all artifacts mapped to this technique
+4n6query --triage              # Critical artifacts to collect first, RFC 3227 order
+```
 
-| Enrichment | What it answers |
-|---|---|
-| **Decode** | How to turn raw bytes into structured fields (ROT13, FILETIME, MRU order, binary layout) |
-| **Meaning** | What the artifact proves forensically and how it differs from similar artifacts |
-| **Reliability** | Evidence strength (`Unreliable` → `Definitive`) and analyst caveats |
-| **Triage priority** | `Critical` / `High` / `Medium` / `Low` — what to look at first in a constrained window |
-| **Volatility** | RFC 3227 class (`Volatile` → `Residual`) — acquisition order for live response |
-| **Dependencies** | What else you need to collect or decrypt this artifact |
-| **Detection pivots** | MITRE ATT&CK techniques, Sigma rules, YARA templates, Chainsaw rules |
+Building DFIR tools in Rust? The same data is a zero-dependency library.
 
-The catalog holds **6,548 artifacts** total. 361 are fully curated with all
-enrichments above. The remaining 6,187 are generated from seven authoritative
-corpora (KAPE targets, ForensicArtifacts YAML, EVTX/ETW channels, Velociraptor,
-RECmd batch files, browser paths, NirSoft paths) and carry location, OS scope,
-decoder, and source citation.
+## What it does
 
-Use this handbook when you need to answer questions like:
+Most artifact registries tell you *where* an artifact lives. forensicnomicon tells you what it **means** — and gives your tool the structured knowledge to act on that meaning automatically. Every artifact entry carries decode rules, forensic meaning, evidence reliability, triage priority, RFC 3227 volatility class, and dependencies. The [DFIR Handbook](dfir-handbook.md) is the analyst-facing tour of the catalog.
 
-- what artifacts matter first during triage?
-- where should I look for execution, persistence, or credential evidence?
-- how does this crate model parsing and carving knowledge?
-- which source material justifies a given artifact or module?
+The crate is the fleet's three KNOWLEDGE vocabularies in one zero-dependency leaf:
 
-The crate is a knowledge and enrichment model, not a full parser suite. Use it
-to identify, prioritize, and interpret artifacts; pair it with collection and
-parsing tools for the rest.
+### The artifact catalog
 
-## Reading Order
+Magic bytes, record markers, format header offsets, field schemas, and invariants for thousands of forensic artifacts — plus LOLBAS/LOFL enrichment, ATT&CK mappings, and abusable-site data. No parsing algorithms, no file I/O.
 
-1. Start with [`crate::catalog::CATALOG`] — query by triage priority, MITRE technique, or keyword.
-2. Use [`crate::volatility::acquisition_order`] to determine what to collect first on a live machine.
-3. Use [`crate::evidence::evidence_for`] to understand how reliable each artifact is as evidence.
-4. Use [`crate::dependencies::full_collection_set`] to compute the transitive artifact set for an investigation.
-5. Use [`crate::playbooks`] for directed investigation paths from a trigger artifact.
-6. Use [`crate::references`] for module-level provenance.
-7. Use container, parsing, and signature profiles when you need acquisition, decoding, or carving boundaries.
+### Normalized reporting (`report`)
 
-## Core Knowledge Layers
+The **shared finding vocabulary every SecurityRonin analyzer normalizes onto**, so VMDK, VHDX, EWF, MBR/GPT/APM, ISO 9660, EVTX, SRUM, memory, and PE findings aggregate into one uniform `Report` instead of N bespoke result types. It is the **union of the analyzers' data, not a flattening** — and a `Finding` is an *observation with evidence*, never a verdict.
 
-The crate keeps DFIR knowledge in explicit layers:
+```rust
+use forensicnomicon::report::{Finding, Severity, Category, Source};
 
-- `ModuleReference`
-  Broad provenance for small indicator modules and the artifact catalog as a whole.
-- `ArtifactDescriptor`
-  The answer to “where does this artifact live, and why does it matter?”
-- `ContainerProfile`
-  How to open the outer container, such as a Registry hive, SQLite database, EVTX log, OLE compound file, or memory-bearing source.
-- `ContainerSignature`
-  How to recognize or carve that outer container from raw bytes.
-- `ArtifactParsingProfile`
-  Artifact-specific semantics above the container layer, such as `UserAssist` ROT13 or WMI subscription relationships.
-- `RecordSignature`
-  How to recognize or validate individual records or payload fragments inside a container.
-- `Decoder`
-  Compact, stable transforms implemented directly in the crate.
+let finding = Finding::observation(Severity::High, Category::Integrity, "VMDK-RGD-MISMATCH")
+    .note("redundant grain directory diverges from the primary")
+    .source(Source { analyzer: "vmdk-forensic".into(), scope: "VMDK".into(), version: None })
+    .mitre("T1565.001")                 // "consistent with", never an assertion
+    .evidence("primary_gte", "0x1234")
+    .build();
 
-## High-Value Artifact Families
+assert_eq!(finding.severity, Some(Severity::High));
+```
 
-### Execution
+- **5-level `Severity`** (`Info < Low < Medium < High < Critical`), carried as `Option` so *unrated* is distinct from *scored, benign*.
+- **`Observation` producer trait** — implement `severity`/`category`/`code`/`note` on your typed anomaly and get `to_finding()` for free. `Finding` is builder-only and `#[non_exhaustive]`.
+- **Stable, scheme-prefixed codes** (`VMDK-RGD-MISMATCH`, `MEM-PROCESS-HOLLOWING`, `WINEVT-PROVIDER-GUID-SPOOFING`) are the cross-scheme join key.
 
-Focus here when you need evidence that something ran:
+### State-history (`history`)
 
-- `userassist_exe`
-- `prefetch_dir`
-- `prefetch_file`
-- `amcache_app_file`
-- `shimcache`
-- `bam_user`
-- `dam_user`
-- `powershell_history`
-- `windows_timeline`
-- `srum_app_resource`
+The `[H]` state-history layer — a cross-cutting functor that lifts every navigation primitive to a time-indexed variant (disk → VSS/APFS snapshots, memory → hiberfil chain, log → rotated/sealed journals, query → point-in-time exports; `[C]` git is the fixed point). Pure declarative vocabulary — no parsing, no I/O. `TemporalCohort<H>`, `ClockProvenance` (four orthogonal trust axes), and `SourceTemporalProfile` give the fleet one canonical temporal classification per source family so consumers never re-derive and drift.
 
-Cross-correlation pattern:
+## Design
 
-- `UserAssist` and `Prefetch` strengthen interactive execution
-- `Amcache` and `ShimCache` strengthen file-presence and execution-history claims
-- `BAM` and `DAM` help with last execution timing
-- `PowerShell history` adds command-level context
+`forensicnomicon` stays the zero-dependency **leaf**: every analyzer depends *down* onto it; it depends on no one.
 
-### Persistence
+## Used by
 
-Focus here when you need autoruns or durable footholds:
-
-- `run_key_hkcu`
-- `run_key_hklm_run`
-- `run_key_hkcu_runonce`
-- `run_key_hklm_runonce`
-- `scheduled_tasks_dir`
-- `startup_folder_user`
-- `startup_folder_system`
-- `services_imagepath`
-- `wmi_mof_dir`
-- `wmi_subscriptions`
-- `logon_scripts`
-
-Cross-correlation pattern:
-
-- Registry autoruns explain launch intent
-- Startup folders and scheduled tasks explain user or boot-triggered launch
-- WMI artifacts explain stealthier persistence that may not appear in common autorun-only tooling
-
-### Credential Access
-
-Focus here when you need local secret material or browser credential evidence:
-
-- `dpapi_masterkey_user`
-- `dpapi_cred_user`
-- `dpapi_cred_roaming`
-- `windows_vault_user`
-- `windows_vault_system`
-- `chrome_login_data`
-- `firefox_logins`
-- `vpn_ras_phonebook`
-
-Cross-correlation pattern:
-
-- DPAPI master keys enable follow-on decryption
-- Vault and browser stores show what secrets were locally available
-- Pair these with execution artifacts to understand how secrets may have been accessed
-
-### File System and Timeline Reconstruction
-
-Focus here when you need existence, deletion, rename, or broad timeline evidence:
-
-- `mft_file`
-- `usn_journal`
-- `recycle_bin`
-- `lnk_files`
-- `jump_list_auto`
-- `jump_list_custom`
-- `jump_list_system`
-- `thumbcache`
-- `search_db_user`
-
-Cross-correlation pattern:
-
-- `$MFT` and `$UsnJrnl` provide strong file-system timeline evidence
-- `Recycle Bin` adds deletion context
-- `LNK` and `Jump Lists` add user-access context
-- `Search DB` and `Thumbcache` retain evidence even after original content is gone
-
-### Memory-Adjacent Evidence
-
-Focus here when you do not have a full RAM capture but still need memory-derived context:
-
-- `pagefile_sys`
-- `hiberfil_sys`
-
-Interpretation boundary:
-
-- treat these as memory-bearing sources
-- use the container and parsing profiles to understand how to reconstruct them
-- do not treat them as simple flat files with row-oriented records
-
-## Carving Guidance
-
-When analyzing unallocated space or fragmented memory, use the signature layers:
-
-- `ContainerSignature` answers “does this byte range look like a Registry hive, SQLite DB, EVTX file, or OLE compound file?”
-- `RecordSignature` answers “does this fragment look like a Registry cell, EVTX record, or artifact-specific payload?”
-
-Important rule:
-
-- signatures are not only magic bytes
-- strong carving also depends on structural invariants, alignment, size rules, and internal consistency
-
-Registry is the canonical example:
-
-- hive-level: `regf` plus `hbin`/cell structure
-- record-level: `nk` and `vk` cells
-- artifact-level: `UserAssist` Count payload semantics
-
-## Investigation Paths
-
-### Suspected Malware Execution
-
-1. Start with `prefetch_file`, `amcache_app_file`, `shimcache`, `bam_user`, and `powershell_history`
-2. Pivot into `evtx_security`, `evtx_sysmon`, and `evtx_powershell`
-3. Use `mft_file`, `usn_journal`, and `recycle_bin` for file-system reconstruction
-
-### Suspected Persistence
-
-1. Start with `run_key_hkcu`, `run_key_hklm_run`, `scheduled_tasks_dir`, and `services_imagepath`
-2. Check `wmi_mof_dir` and `wmi_subscriptions`
-3. Correlate with `prefetch_file`, `powershell_history`, and `evtx_system`
-
-### Suspected Credential Theft
-
-1. Start with `dpapi_masterkey_user`, `windows_vault_user`, `chrome_login_data`, and `firefox_logins`
-2. Correlate with execution artifacts such as `powershell_history`, `prefetch_file`, and `amcache_app_file`
-3. Use provenance and parsing profiles to decide whether decryption or deeper parser tooling is needed
-
-## Provenance and Trust
-
-Use provenance at two levels:
-
-- [`crate::references`]
-  Broad module-level justification
-- [`crate::catalog::ArtifactDescriptor::sources`]
-  Artifact-level justification
-
-Use the curated source corpus for discovery, but do not treat corpus membership as a substitute for artifact-specific citations.
-
-## Scope Boundary
-
-This handbook describes a forensic catalog and knowledge architecture.
-
-It is not a claim that the crate fully parses every supported format. The
-intended boundary is:
-
-- keep compact, stable decode logic in-core
-- keep parsing and carving knowledge explicit and queryable
-- keep large evolving parser implementations outside the core catalog unless
-  they are small, stable, and intrinsic to the artifact model
+- [`issen`](https://github.com/SecurityRonin/issen) — live incident response triage; renders the normalized `Report`
+- [`disk-forensic`](https://github.com/SecurityRonin/disk-forensic) — `disk4n6` partition-scheme orchestrator; aggregates analyzer findings
+- The SecurityRonin **forensic analyzer fleet** — `vmdk-forensic`, `vhdx-forensic`, `ewf-forensic`, `mbr-/gpt-/apm-/iso9660-forensic`, `winevt-forensic`, `srum-forensic`, `memory-forensic`, `exec-pe-forensic`, `usnjrnl-forensic` — all emit `forensicnomicon::report::Finding`
+- [`blazehash`](https://github.com/SecurityRonin/blazehash) — high-speed forensic hash verification

@@ -3,10 +3,10 @@
 This crate has three layers:
 
 - small zero-allocation indicator modules such as `ports`, `lolbins`, and `persistence`
-- the larger [`catalog`](../src/catalog/) module, which models **6,548 forensic artifacts** with decode logic, ATT&CK mappings, triage priority, retention, and per-artifact sources
+- the larger [`catalog`](https://github.com/SecurityRonin/forensicnomicon/tree/main/src/catalog/) module, which models **6,548 forensic artifacts** with decode logic, ATT&CK mappings, triage priority, retention, and per-artifact sources
 - cross-reference modules (`chainsaw`, `dependencies`, `eventids`, `evidence`, `forensicartifacts`, `navigator`, `playbooks`, `plugin`, `sigma`, `stix`, `temporal`, `toolchain`, `version_history`, `volatility`, `yara`) that enrich the catalog with detection, collection, and investigation data
 
-The [`references`](../src/references.rs) module turns module-level provenance into queryable static data.
+The [`references`](https://github.com/SecurityRonin/forensicnomicon/blob/main/src/references.rs) module turns module-level provenance into queryable static data.
 
 ## Coverage
 
@@ -266,7 +266,7 @@ Documents and validates which APIs are available in `no_std` environments. All s
 
 ## Full-Blog Archive
 
-The repository includes [`scripts/archive_blog.py`](../scripts/archive_blog.py), a dependency-free archive tool for building a local source corpus from a DFIR blog.
+The repository includes [`scripts/archive_blog.py`](https://github.com/SecurityRonin/forensicnomicon/blob/main/scripts/archive_blog.py), a dependency-free archive tool for building a local source corpus from a DFIR blog.
 
 Recommended target for Windows-focused artifact work:
 
@@ -398,16 +398,16 @@ For catalog pages such as `aboutDFIR`, `aboutDFIR Forensicators of DFIR`, and
 
 The subscribed feed manifest now lives at:
 
-- [`archive/sources/dfir-feeds.opml`](../archive/sources/dfir-feeds.opml)
-- [`archive/sources/catalog-directories.json`](../archive/sources/catalog-directories.json)
-- [`archive/sources/manual-sources.json`](../archive/sources/manual-sources.json)
-- [`archive/sources/source-inventory.json`](../archive/sources/source-inventory.json)
+- [`archive/sources/dfir-feeds.opml`](https://github.com/SecurityRonin/forensicnomicon/blob/main/archive/sources/dfir-feeds.opml)
+- [`archive/sources/catalog-directories.json`](https://github.com/SecurityRonin/forensicnomicon/blob/main/archive/sources/catalog-directories.json)
+- [`archive/sources/manual-sources.json`](https://github.com/SecurityRonin/forensicnomicon/blob/main/archive/sources/manual-sources.json)
+- [`archive/sources/source-inventory.json`](https://github.com/SecurityRonin/forensicnomicon/blob/main/archive/sources/source-inventory.json)
 
 Periodic updates are handled by:
 
-- [`scripts/normalize_sources.py`](../scripts/normalize_sources.py)
-- [`scripts/check_feed_updates.py`](../scripts/check_feed_updates.py)
-- [`feed-watch.yml`](../.github/workflows/feed-watch.yml)
+- [`scripts/normalize_sources.py`](https://github.com/SecurityRonin/forensicnomicon/blob/main/scripts/normalize_sources.py)
+- [`scripts/check_feed_updates.py`](https://github.com/SecurityRonin/forensicnomicon/blob/main/scripts/check_feed_updates.py)
+- [`feed-watch.yml`](https://github.com/SecurityRonin/forensicnomicon/blob/main/.github/workflows/feed-watch.yml)
 
 The maintenance workflow:
 
@@ -504,7 +504,7 @@ Use hierarchy:
 
 ## Additional Practitioner Blogs
 
-These are subscribed in [`archive/sources/dfir-feeds.opml`](../archive/sources/dfir-feeds.opml) and are useful as secondary research sources when expanding artifact coverage:
+These are subscribed in [`archive/sources/dfir-feeds.opml`](https://github.com/SecurityRonin/forensicnomicon/blob/main/archive/sources/dfir-feeds.opml) and are useful as secondary research sources when expanding artifact coverage:
 
 - az4n6 (Paul Rascagneres): https://az4n6.blogspot.com/
 - DFIR Diva: https://dfirdiva.com
