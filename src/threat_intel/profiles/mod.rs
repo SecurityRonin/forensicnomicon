@@ -34,7 +34,7 @@ pub use syslogk::SYSLOGK;
 pub use umbreon::UMBREON;
 pub use xmrig::XMRIG;
 
-pub const ALL_PROFILES: &[&MalwareProfile] = &[
+pub static ALL_PROFILES: &[&MalwareProfile] = &[
     &FATHER,
     &JYNX,
     &AZAZEL,
