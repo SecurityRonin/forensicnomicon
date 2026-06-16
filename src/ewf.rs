@@ -21,20 +21,8 @@ pub const LEF2_SIGNATURE: [u8; 8] = [0x4C, 0x45, 0x46, 0x32, 0x0D, 0x0A, 0x81, 0
 /// each 76-byte section descriptor). Source: libewf `documentation/Expert Witness
 /// Compression Format (EWF).asciidoc`.
 pub const EWF1_SECTION_TYPES: &[&str] = &[
-    "header",
-    "header2",
-    "volume",
-    "disk",
-    "table",
-    "table2",
-    "sectors",
-    "data",
-    "digest",
-    "hash",
-    "error2",
-    "session",
-    "next",
-    "done",
+    "header", "header2", "volume", "disk", "table", "table2", "sectors", "data", "digest", "hash",
+    "error2", "session", "next", "done",
 ];
 
 /// `compression_level` byte values stored in the volume/data section.
@@ -53,14 +41,23 @@ mod tests {
     #[test]
     fn evf1_signature() {
         // "EVF" + 0x09 0x0D 0x0A 0xFF 0x00 — the classic E01 signature at offset 0.
-        assert_eq!(EVF1_SIGNATURE, [0x45, 0x56, 0x46, 0x09, 0x0D, 0x0A, 0xFF, 0x00]);
+        assert_eq!(
+            EVF1_SIGNATURE,
+            [0x45, 0x56, 0x46, 0x09, 0x0D, 0x0A, 0xFF, 0x00]
+        );
         assert_eq!(&EVF1_SIGNATURE[0..3], b"EVF");
     }
 
     #[test]
     fn evf2_and_lef2_signatures() {
-        assert_eq!(EVF2_SIGNATURE, [0x45, 0x56, 0x46, 0x32, 0x0D, 0x0A, 0x81, 0x00]);
-        assert_eq!(LEF2_SIGNATURE, [0x4C, 0x45, 0x46, 0x32, 0x0D, 0x0A, 0x81, 0x00]);
+        assert_eq!(
+            EVF2_SIGNATURE,
+            [0x45, 0x56, 0x46, 0x32, 0x0D, 0x0A, 0x81, 0x00]
+        );
+        assert_eq!(
+            LEF2_SIGNATURE,
+            [0x4C, 0x45, 0x46, 0x32, 0x0D, 0x0A, 0x81, 0x00]
+        );
         assert_eq!(&EVF2_SIGNATURE[0..4], b"EVF2");
         assert_eq!(&LEF2_SIGNATURE[0..4], b"LEF2");
     }
@@ -73,7 +70,9 @@ mod tests {
 
     #[test]
     fn ewf1_section_types_present() {
-        for s in ["header", "header2", "volume", "disk", "table", "sectors", "done", "next"] {
+        for s in [
+            "header", "header2", "volume", "disk", "table", "sectors", "done", "next",
+        ] {
             assert!(EWF1_SECTION_TYPES.contains(&s), "missing section type {s}");
         }
     }

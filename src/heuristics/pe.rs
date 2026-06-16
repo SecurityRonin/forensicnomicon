@@ -118,19 +118,30 @@ pub const SUSPICIOUS_IMPORT_NAMES: &[&str] = &[
 /// A match indicates the binary was processed by a packer, which is a strong
 /// signal combined with high section entropy (> 6.8).
 pub const PACKED_SECTION_NAMES: &[&str] = &[
-    "UPX0", "UPX1", "UPX2",
-    ".upx0", ".upx1",
-    ".aspack", ".adata",
-    ".packed", ".shrink",
-    "MPRESS1", "MPRESS2",
+    "UPX0",
+    "UPX1",
+    "UPX2",
+    ".upx0",
+    ".upx1",
+    ".aspack",
+    ".adata",
+    ".packed",
+    ".shrink",
+    "MPRESS1",
+    "MPRESS2",
     ".petite",
-    ".nsp0", ".nsp1", ".nsp2",  // NsPack
-    ".themida", ".winlicen",
+    ".nsp0",
+    ".nsp1",
+    ".nsp2", // NsPack
+    ".themida",
+    ".winlicen",
     "PESHiELD",
     "_winzip_",
     "ASProtect",
-    ".enigma1", ".enigma2",
-    ".vmp0", ".vmp1",           // VMProtect
+    ".enigma1",
+    ".enigma2",
+    ".vmp0",
+    ".vmp1", // VMProtect
     ".obsidium",
     "Exe32Pack",
 ];
@@ -195,9 +206,9 @@ pub const QWCRYPT_PE_STRING_IOCS: &[&str] = &[
     ".qwCrypt",
     "rbcw",
     "ADNotificationManager",
-    "excludeVM",        // QWCrypt --excludeVM CLI flag
+    "excludeVM", // QWCrypt --excludeVM CLI flag
     "HyperV",
-    "ZAM64",            // Zemana anti-malware driver
+    "ZAM64", // Zemana anti-malware driver
     "zamguard",
     // Cloudflare Workers C2 patterns
     "workers.dev",
@@ -215,10 +226,10 @@ pub const ANTI_DEBUG_IMPORT_NAMES: &[&str] = &[
     // Explicit debugger presence queries
     "IsDebuggerPresent",
     "CheckRemoteDebuggerPresent",
-    "NtQueryInformationProcess",    // class 7 = ProcessDebugPort
+    "NtQueryInformationProcess", // class 7 = ProcessDebugPort
     "ZwQueryInformationProcess",
     // Thread hiding from debugger (SysInternals / anti-attach technique)
-    "NtSetInformationThread",       // ThreadHideFromDebugger = 17
+    "NtSetInformationThread", // ThreadHideFromDebugger = 17
     "ZwSetInformationThread",
     // Exception-based debugger probing
     "SetUnhandledExceptionFilter",
@@ -294,13 +305,13 @@ pub const RANSOMWARE_STRING_PATTERNS: &[&str] = &[
     ".locky",
     ".zepto",
     ".cerber",
-    ".wncry",           // WannaCry
+    ".wncry", // WannaCry
     ".wnry",
     ".ryuk",
     ".conti",
     ".hive",
     ".lockbit",
-    ".qwCrypt",             // QWCrypt / RedCurl ransomware
+    ".qwCrypt", // QWCrypt / RedCurl ransomware
     // Ransom note filenames / embedded content
     "HOW_TO_DECRYPT",
     "DECRYPT_FILES",
@@ -463,7 +474,7 @@ pub const CREDENTIAL_PATTERNS: &[&str] = &[
     "Authorization: Basic",
     "Authorization: Bearer",
     // Cloud provider key prefixes
-    "AKIA",                         // AWS access key ID prefix
+    "AKIA", // AWS access key ID prefix
     "aws_secret_access_key",
     "GOOGLE_APPLICATION_CREDENTIALS",
     "client_secret",
@@ -482,7 +493,7 @@ pub const CREDENTIAL_PATTERNS: &[&str] = &[
     "ssh-rsa ",
     "id_rsa",
     // JWT / Bearer token structure
-    "eyJhbGciOi",                    // base64-encoded {"alg"
+    "eyJhbGciOi", // base64-encoded {"alg"
 ];
 
 #[cfg(test)]

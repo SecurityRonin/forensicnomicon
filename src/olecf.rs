@@ -209,7 +209,10 @@ mod tests {
 
     #[test]
     fn signature_is_olecf_magic() {
-        assert_eq!(OLECF_SIGNATURE, [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1]);
+        assert_eq!(
+            OLECF_SIGNATURE,
+            [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1]
+        );
         // Reads as 0xE11AB1A1E011CFD0 little-endian.
         assert_eq!(u64::from_le_bytes(OLECF_SIGNATURE), 0xE11A_B1A1_E011_CFD0);
         assert_eq!(HEADER_SIZE, 512);

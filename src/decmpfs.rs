@@ -155,11 +155,17 @@ mod tests {
     fn zlib_types_3_inline_4_resource_fork() {
         assert_eq!(
             classify(3),
-            Some(Compression { algorithm: Algorithm::Zlib, storage: Storage::Inline })
+            Some(Compression {
+                algorithm: Algorithm::Zlib,
+                storage: Storage::Inline
+            })
         );
         assert_eq!(
             classify(4),
-            Some(Compression { algorithm: Algorithm::Zlib, storage: Storage::ResourceFork })
+            Some(Compression {
+                algorithm: Algorithm::Zlib,
+                storage: Storage::ResourceFork
+            })
         );
     }
 
@@ -167,11 +173,17 @@ mod tests {
     fn lzvn_types_7_inline_8_resource_fork() {
         assert_eq!(
             classify(7),
-            Some(Compression { algorithm: Algorithm::Lzvn, storage: Storage::Inline })
+            Some(Compression {
+                algorithm: Algorithm::Lzvn,
+                storage: Storage::Inline
+            })
         );
         assert_eq!(
             classify(8),
-            Some(Compression { algorithm: Algorithm::Lzvn, storage: Storage::ResourceFork })
+            Some(Compression {
+                algorithm: Algorithm::Lzvn,
+                storage: Storage::ResourceFork
+            })
         );
     }
 
@@ -179,11 +191,17 @@ mod tests {
     fn lzfse_types_11_inline_12_resource_fork() {
         assert_eq!(
             classify(11),
-            Some(Compression { algorithm: Algorithm::Lzfse, storage: Storage::Inline })
+            Some(Compression {
+                algorithm: Algorithm::Lzfse,
+                storage: Storage::Inline
+            })
         );
         assert_eq!(
             classify(12),
-            Some(Compression { algorithm: Algorithm::Lzfse, storage: Storage::ResourceFork })
+            Some(Compression {
+                algorithm: Algorithm::Lzfse,
+                storage: Storage::ResourceFork
+            })
         );
     }
 
@@ -211,11 +229,17 @@ mod tests {
     fn lzbitmap_types_13_inline_14_resource_fork() {
         assert_eq!(
             classify(13),
-            Some(Compression { algorithm: Algorithm::LzBitmap, storage: Storage::Inline })
+            Some(Compression {
+                algorithm: Algorithm::LzBitmap,
+                storage: Storage::Inline
+            })
         );
         assert_eq!(
             classify(14),
-            Some(Compression { algorithm: Algorithm::LzBitmap, storage: Storage::ResourceFork })
+            Some(Compression {
+                algorithm: Algorithm::LzBitmap,
+                storage: Storage::ResourceFork
+            })
         );
     }
 
@@ -232,7 +256,11 @@ mod tests {
         // Every documented compressing type follows odd⇒inline, even⇒resource-fork.
         for t in [3, 4, 7, 8, 11, 12, 13, 14] {
             let c = classify(t).expect("documented type");
-            let expected = if t % 2 == 1 { Storage::Inline } else { Storage::ResourceFork };
+            let expected = if t % 2 == 1 {
+                Storage::Inline
+            } else {
+                Storage::ResourceFork
+            };
             assert_eq!(c.storage, expected, "type {t}");
         }
     }

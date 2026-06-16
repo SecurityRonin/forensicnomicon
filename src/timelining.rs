@@ -82,17 +82,61 @@ pub struct BodyfileField {
 ///
 /// All timestamps are Unix epoch seconds (UTC). A value of `0` means unknown.
 pub const BODYFILE_FIELDS: &[BodyfileField] = &[
-    BodyfileField { index: 0, name: "MD5",  description: "MD5 hash of file content, or 0 if unavailable" },
-    BodyfileField { index: 1, name: "name", description: "Full file path; deleted files prefixed with (deleted)" },
-    BodyfileField { index: 2, name: "inode", description: "MFT record number (or inode number on non-NTFS)" },
-    BodyfileField { index: 3, name: "mode_as_string", description: "File type and permission string (e.g., r/rrwxrwxrwx)" },
-    BodyfileField { index: 4, name: "UID",  description: "User ID (Windows: 0)" },
-    BodyfileField { index: 5, name: "GID",  description: "Group ID (Windows: 0)" },
-    BodyfileField { index: 6, name: "size", description: "File size in bytes" },
-    BodyfileField { index: 7, name: "atime", description: "Last accessed (A) — Unix epoch seconds" },
-    BodyfileField { index: 8, name: "mtime", description: "Last modified (M) — Unix epoch seconds" },
-    BodyfileField { index: 9, name: "ctime", description: "MFT record changed (C) — Unix epoch seconds" },
-    BodyfileField { index: 10, name: "crtime", description: "Created / birth (B) — Unix epoch seconds" },
+    BodyfileField {
+        index: 0,
+        name: "MD5",
+        description: "MD5 hash of file content, or 0 if unavailable",
+    },
+    BodyfileField {
+        index: 1,
+        name: "name",
+        description: "Full file path; deleted files prefixed with (deleted)",
+    },
+    BodyfileField {
+        index: 2,
+        name: "inode",
+        description: "MFT record number (or inode number on non-NTFS)",
+    },
+    BodyfileField {
+        index: 3,
+        name: "mode_as_string",
+        description: "File type and permission string (e.g., r/rrwxrwxrwx)",
+    },
+    BodyfileField {
+        index: 4,
+        name: "UID",
+        description: "User ID (Windows: 0)",
+    },
+    BodyfileField {
+        index: 5,
+        name: "GID",
+        description: "Group ID (Windows: 0)",
+    },
+    BodyfileField {
+        index: 6,
+        name: "size",
+        description: "File size in bytes",
+    },
+    BodyfileField {
+        index: 7,
+        name: "atime",
+        description: "Last accessed (A) — Unix epoch seconds",
+    },
+    BodyfileField {
+        index: 8,
+        name: "mtime",
+        description: "Last modified (M) — Unix epoch seconds",
+    },
+    BodyfileField {
+        index: 9,
+        name: "ctime",
+        description: "MFT record changed (C) — Unix epoch seconds",
+    },
+    BodyfileField {
+        index: 10,
+        name: "crtime",
+        description: "Created / birth (B) — Unix epoch seconds",
+    },
 ];
 
 // ── Timeline tools ────────────────────────────────────────────────────────────
@@ -247,8 +291,13 @@ pub static PLASO_PARSERS: &[PlasoParser] = &[
         name: "winreg",
         description: "Windows Registry hives (NTUSER.DAT, SYSTEM, SOFTWARE, etc.)",
         artifact_ids: &[
-            "userassist_exe", "shimcache", "amcache_app_file",
-            "bam_user", "muicache", "run_key_hklm", "run_key_hkcu",
+            "userassist_exe",
+            "shimcache",
+            "amcache_app_file",
+            "bam_user",
+            "muicache",
+            "run_key_hklm",
+            "run_key_hkcu",
         ],
     },
     PlasoParser {
@@ -263,7 +312,8 @@ pub static PLASO_PARSERS: &[PlasoParser] = &[
     },
     PlasoParser {
         name: "custom_destinations",
-        description: "Jump Lists (custom destinations) — pinned and recently accessed files per app",
+        description:
+            "Jump Lists (custom destinations) — pinned and recently accessed files per app",
         artifact_ids: &["jump_list_custom"],
     },
     PlasoParser {
@@ -373,9 +423,9 @@ mod tests {
     #[test]
     fn bodyfile_macb_fields_present() {
         let names: Vec<&str> = BODYFILE_FIELDS.iter().map(|f| f.name).collect();
-        assert!(names.contains(&"atime"),  "missing atime (A)");
-        assert!(names.contains(&"mtime"),  "missing mtime (M)");
-        assert!(names.contains(&"ctime"),  "missing ctime (C)");
+        assert!(names.contains(&"atime"), "missing atime (A)");
+        assert!(names.contains(&"mtime"), "missing mtime (M)");
+        assert!(names.contains(&"ctime"), "missing ctime (C)");
         assert!(names.contains(&"crtime"), "missing crtime (B)");
     }
 
@@ -384,10 +434,10 @@ mod tests {
     #[test]
     fn all_four_tools_present() {
         let ids: Vec<&str> = TIMELINE_TOOLS.iter().map(|t| t.id).collect();
-        assert!(ids.contains(&"fls"),          "missing fls");
-        assert!(ids.contains(&"mactime"),      "missing mactime");
+        assert!(ids.contains(&"fls"), "missing fls");
+        assert!(ids.contains(&"mactime"), "missing mactime");
         assert!(ids.contains(&"log2timeline"), "missing log2timeline");
-        assert!(ids.contains(&"psort"),        "missing psort");
+        assert!(ids.contains(&"psort"), "missing psort");
         assert!(ids.contains(&"mftecmd_body"), "missing mftecmd_body");
     }
 
@@ -448,7 +498,9 @@ mod tests {
     fn mft_parser_covers_mft_file() {
         let parsers = parsers_for_artifact("mft_file");
         assert!(
-            parsers.iter().any(|p| p.name == "mft" || p.name == "filestat"),
+            parsers
+                .iter()
+                .any(|p| p.name == "mft" || p.name == "filestat"),
             "mft or filestat parser should cover mft_file"
         );
     }

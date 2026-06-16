@@ -72,7 +72,12 @@ mod tests {
 
     #[test]
     fn well_known_rdf_predicates() {
-        for p in ["aff4:type", "aff4:chunkSize", "aff4:chunksInSegment", "aff4:stored"] {
+        for p in [
+            "aff4:type",
+            "aff4:chunkSize",
+            "aff4:chunksInSegment",
+            "aff4:stored",
+        ] {
             assert!(RDF_PREDICATES.contains(&p), "missing predicate {p}");
         }
     }

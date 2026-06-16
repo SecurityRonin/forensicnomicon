@@ -118,14 +118,14 @@ pub const COWD_GTES_PER_GRAIN_TABLE: u32 = 4096;
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize))]
 pub struct CowdHeaderOffsets {
-    pub magic: u64,       // 0x00 u32  big-endian "COWD"
-    pub version: u64,     // 0x04 u32  always 1
-    pub flags: u64,       // 0x08 u32
-    pub capacity: u64,    // 0x0C u32  max data sectors (32-bit)
-    pub grain_size: u64,  // 0x10 u32  sectors per grain
-    pub gd_offset: u64,   // 0x14 u32  grain-directory sector (always 4)
-    pub gd_entries: u64,  // 0x18 u32  number of grain-directory entries
-    pub next_free: u64,   // 0x1C u32  next free sector
+    pub magic: u64,      // 0x00 u32  big-endian "COWD"
+    pub version: u64,    // 0x04 u32  always 1
+    pub flags: u64,      // 0x08 u32
+    pub capacity: u64,   // 0x0C u32  max data sectors (32-bit)
+    pub grain_size: u64, // 0x10 u32  sectors per grain
+    pub gd_offset: u64,  // 0x14 u32  grain-directory sector (always 4)
+    pub gd_entries: u64, // 0x18 u32  number of grain-directory entries
+    pub next_free: u64,  // 0x1C u32  next free sector
 }
 
 pub const COWD_HEADER_OFFSETS: CowdHeaderOffsets = CowdHeaderOffsets {
@@ -159,14 +159,14 @@ pub const SESPARSE_GTES_PER_GRAIN_TABLE: u64 = 4096;
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize))]
 pub struct SeSparseHeaderOffsets {
-    pub magic: u64,              // 0x00  0xCAFEBABE
-    pub version: u64,            // 0x08  0x0000000200000001
-    pub capacity: u64,           // 0x10  virtual size in sectors
-    pub grain_size: u64,         // 0x18  must be 8
-    pub grain_table_size: u64,   // 0x20  must be 64
-    pub grain_dir_offset: u64,   // 0x80  grain directory (sectors)
+    pub magic: u64,               // 0x00  0xCAFEBABE
+    pub version: u64,             // 0x08  0x0000000200000001
+    pub capacity: u64,            // 0x10  virtual size in sectors
+    pub grain_size: u64,          // 0x18  must be 8
+    pub grain_table_size: u64,    // 0x20  must be 64
+    pub grain_dir_offset: u64,    // 0x80  grain directory (sectors)
     pub grain_tables_offset: u64, // 0x90  grain tables region (sectors)
-    pub grains_offset: u64,      // 0xC0  grain data region (sectors)
+    pub grains_offset: u64,       // 0xC0  grain data region (sectors)
 }
 
 pub const SESPARSE_HEADER_OFFSETS: SeSparseHeaderOffsets = SeSparseHeaderOffsets {
@@ -238,7 +238,15 @@ pub const CREATE_TYPES: &[&str] = &[
 ];
 
 /// Extent type keywords used in a descriptor's extent lines.
-pub const EXTENT_TYPES: &[&str] = &["FLAT", "VMFS", "VMFSRAW", "ZERO", "SPARSE", "VMFSSPARSE", "SESPARSE"];
+pub const EXTENT_TYPES: &[&str] = &[
+    "FLAT",
+    "VMFS",
+    "VMFSRAW",
+    "ZERO",
+    "SPARSE",
+    "VMFSSPARSE",
+    "SESPARSE",
+];
 
 /// Extent access modes: `RW` (read-write), `RDONLY`, `NOACCESS` (inaccessible hole).
 pub const EXTENT_ACCESS_MODES: &[&str] = &["RW", "RDONLY", "NOACCESS"];
@@ -408,7 +416,15 @@ mod tests {
 
     #[test]
     fn extent_type_and_access_enumeration() {
-        for t in ["FLAT", "VMFS", "VMFSRAW", "ZERO", "SPARSE", "VMFSSPARSE", "SESPARSE"] {
+        for t in [
+            "FLAT",
+            "VMFS",
+            "VMFSRAW",
+            "ZERO",
+            "SPARSE",
+            "VMFSSPARSE",
+            "SESPARSE",
+        ] {
             assert!(EXTENT_TYPES.contains(&t), "missing extent type {t}");
         }
         assert_eq!(EXTENT_ACCESS_MODES, &["RW", "RDONLY", "NOACCESS"]);

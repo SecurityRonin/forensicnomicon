@@ -434,10 +434,22 @@ mod tests {
         (4672, "Security"),
         (4722, "Security"),
         // RDP / TerminalServices
-        (21, "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational"),
-        (22, "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational"),
-        (1149, "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational"),
-        (1029, "Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Operational"),
+        (
+            21,
+            "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational",
+        ),
+        (
+            22,
+            "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational",
+        ),
+        (
+            1149,
+            "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational",
+        ),
+        (
+            1029,
+            "Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Operational",
+        ),
         // Task Scheduler operational
         (106, "Microsoft-Windows-TaskScheduler/Operational"),
         (140, "Microsoft-Windows-TaskScheduler/Operational"),

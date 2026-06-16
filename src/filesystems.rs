@@ -51,21 +51,81 @@ pub struct FsSignature {
 ///   util-linux `libblkid/src/superblocks/lvm.c` (checks `buf` and `buf + 512`);
 ///   libvslvm "Logical Volume Manager (LVM) format".
 pub const FILESYSTEM_SIGNATURES: &[FsSignature] = &[
-    FsSignature { name: "ext2/3/4", offset: 0x438, magic: &[0x53, 0xEF] },
-    FsSignature { name: "NTFS", offset: 3, magic: b"NTFS    " },
-    FsSignature { name: "exFAT", offset: 3, magic: b"EXFAT   " },
-    FsSignature { name: "XFS", offset: 0, magic: b"XFSB" },
-    FsSignature { name: "LUKS", offset: 0, magic: b"LUKS\xba\xbe" },
-    FsSignature { name: "APFS", offset: 32, magic: b"NXSB" },
-    FsSignature { name: "FAT32", offset: 0x52, magic: b"FAT32   " },
-    FsSignature { name: "FAT16", offset: 0x36, magic: b"FAT16   " },
-    FsSignature { name: "FAT12", offset: 0x36, magic: b"FAT12   " },
-    FsSignature { name: "Linux swap", offset: 0xFF6, magic: b"SWAPSPACE2" },
-    FsSignature { name: "LVM2", offset: 0, magic: b"LABELONE" },
-    FsSignature { name: "LVM2", offset: 512, magic: b"LABELONE" },
-    FsSignature { name: "ISO 9660", offset: 0x8001, magic: b"CD001" },
-    FsSignature { name: "HFS+", offset: 0x400, magic: b"H+" },
-    FsSignature { name: "Btrfs", offset: 65600, magic: b"_BHRfS_M" },
+    FsSignature {
+        name: "ext2/3/4",
+        offset: 0x438,
+        magic: &[0x53, 0xEF],
+    },
+    FsSignature {
+        name: "NTFS",
+        offset: 3,
+        magic: b"NTFS    ",
+    },
+    FsSignature {
+        name: "exFAT",
+        offset: 3,
+        magic: b"EXFAT   ",
+    },
+    FsSignature {
+        name: "XFS",
+        offset: 0,
+        magic: b"XFSB",
+    },
+    FsSignature {
+        name: "LUKS",
+        offset: 0,
+        magic: b"LUKS\xba\xbe",
+    },
+    FsSignature {
+        name: "APFS",
+        offset: 32,
+        magic: b"NXSB",
+    },
+    FsSignature {
+        name: "FAT32",
+        offset: 0x52,
+        magic: b"FAT32   ",
+    },
+    FsSignature {
+        name: "FAT16",
+        offset: 0x36,
+        magic: b"FAT16   ",
+    },
+    FsSignature {
+        name: "FAT12",
+        offset: 0x36,
+        magic: b"FAT12   ",
+    },
+    FsSignature {
+        name: "Linux swap",
+        offset: 0xFF6,
+        magic: b"SWAPSPACE2",
+    },
+    FsSignature {
+        name: "LVM2",
+        offset: 0,
+        magic: b"LABELONE",
+    },
+    FsSignature {
+        name: "LVM2",
+        offset: 512,
+        magic: b"LABELONE",
+    },
+    FsSignature {
+        name: "ISO 9660",
+        offset: 0x8001,
+        magic: b"CD001",
+    },
+    FsSignature {
+        name: "HFS+",
+        offset: 0x400,
+        magic: b"H+",
+    },
+    FsSignature {
+        name: "Btrfs",
+        offset: 65600,
+        magic: b"_BHRfS_M",
+    },
 ];
 
 /// Identify the filesystem from a volume's leading bytes, returning the first
@@ -91,7 +151,10 @@ mod tests {
 
     #[test]
     fn detects_ext_at_0x438() {
-        assert_eq!(detect_name(&buf_with(0x438, &[0x53, 0xEF])), Some("ext2/3/4"));
+        assert_eq!(
+            detect_name(&buf_with(0x438, &[0x53, 0xEF])),
+            Some("ext2/3/4")
+        );
     }
 
     #[test]

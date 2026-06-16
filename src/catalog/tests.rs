@@ -2955,7 +2955,8 @@ mod tests_batch_d {
             "aff4_image",
             "apple_dmg",
         ] {
-            let p = container_profile(id).unwrap_or_else(|| panic!("missing container profile {id}"));
+            let p =
+                container_profile(id).unwrap_or_else(|| panic!("missing container profile {id}"));
             assert!(!p.sources.is_empty(), "{id} must cite sources");
             assert!(!p.parser_hints.is_empty(), "{id} must have parser hints");
         }

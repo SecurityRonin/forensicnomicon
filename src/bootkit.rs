@@ -27,8 +27,14 @@ pub struct BootkitMarker {
 
 /// Seed table of documented boot-sector-malware markers (see module docs).
 pub const BOOTKIT_MARKERS: &[BootkitMarker] = &[
-    BootkitMarker { name: "Stoned", needle: b"Your PC is now Stoned!" },
-    BootkitMarker { name: "Stoned", needle: b"LEGALISE MARIJUANA" },
+    BootkitMarker {
+        name: "Stoned",
+        needle: b"Your PC is now Stoned!",
+    },
+    BootkitMarker {
+        name: "Stoned",
+        needle: b"LEGALISE MARIJUANA",
+    },
 ];
 
 /// Scan `boot_code` for every known marker, returning the distinct family names
@@ -100,16 +106,36 @@ pub struct StashSector {
 /// Guntior instead stash at the disk's end, which has no fixed LBA and must be
 /// scanned by offset from the last sector.)
 pub const ORIGINAL_MBR_STASH_SECTORS: &[StashSector] = &[
-    StashSector { lba: 60, family: "Mebroot/Sinowal", note: "kernel patcher" },
-    StashSector { lba: 61, family: "Mebroot/Sinowal", note: "payload loader" },
-    StashSector { lba: 62, family: "Mebroot/Sinowal", note: "original MBR" },
-    StashSector { lba: 56, family: "Petya (Red)", note: "original MBR, XOR 0x37" },
+    StashSector {
+        lba: 60,
+        family: "Mebroot/Sinowal",
+        note: "kernel patcher",
+    },
+    StashSector {
+        lba: 61,
+        family: "Mebroot/Sinowal",
+        note: "payload loader",
+    },
+    StashSector {
+        lba: 62,
+        family: "Mebroot/Sinowal",
+        note: "original MBR",
+    },
+    StashSector {
+        lba: 56,
+        family: "Petya (Red)",
+        note: "original MBR, XOR 0x37",
+    },
     StashSector {
         lba: 55,
         family: "Petya (Red)",
         note: "verification sector (repeating 0x37)",
     },
-    StashSector { lba: 34, family: "NotPetya", note: "original sector-0 backup" },
+    StashSector {
+        lba: 34,
+        family: "NotPetya",
+        note: "original sector-0 backup",
+    },
 ];
 
 /// The legacy 'track-0 gap' — LBAs 1..=62, between the MBR (LBA 0) and the first
@@ -133,7 +159,9 @@ pub const EXPECTED_BOOT_INTERRUPT_VECTORS: &[u8] = &[0x10, 0x13, 0x18, 0x1a];
 /// more than one family / for more than one purpose). The returned iterator is
 /// lazy — collect or inspect it.
 pub fn stash_sectors_at(lba: u64) -> impl Iterator<Item = &'static StashSector> {
-    ORIGINAL_MBR_STASH_SECTORS.iter().filter(move |s| s.lba == lba)
+    ORIGINAL_MBR_STASH_SECTORS
+        .iter()
+        .filter(move |s| s.lba == lba)
 }
 
 #[cfg(test)]

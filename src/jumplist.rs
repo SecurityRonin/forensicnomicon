@@ -393,7 +393,10 @@ mod tests {
         for (id, name) in WELL_KNOWN_APPIDS {
             assert_eq!(*id, id.to_ascii_lowercase(), "AppID key must be lowercase");
             assert!(!name.is_empty(), "AppID name must be non-empty");
-            assert!(id.chars().all(|c| c.is_ascii_hexdigit()), "AppID must be hex");
+            assert!(
+                id.chars().all(|c| c.is_ascii_hexdigit()),
+                "AppID must be hex"
+            );
         }
     }
 

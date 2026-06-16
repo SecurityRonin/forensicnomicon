@@ -7,8 +7,8 @@
 //! own typed anomaly kinds.
 
 use forensicnomicon::report::{
-    Category, Confidence, ExternalRef, Finding, Location, Observation, Provenance, Report, Severity,
-    Source, SubjectRef, TimelineEvent,
+    Category, Confidence, ExternalRef, Finding, Location, Observation, Provenance, Report,
+    Severity, Source, SubjectRef, TimelineEvent,
 };
 
 fn src() -> Source {
@@ -83,7 +83,10 @@ fn finding_can_be_explicitly_unrated() {
 
 #[test]
 fn new_location_variants_cover_non_disk_media() {
-    assert_ne!(Location::Rva(0x0040_1000), Location::ByteOffset(0x0040_1000));
+    assert_ne!(
+        Location::Rva(0x0040_1000),
+        Location::ByteOffset(0x0040_1000)
+    );
     assert_ne!(Location::RecordId(4624), Location::Lba(4624));
     let _ = Location::Key("HKLM\\SYSTEM\\CurrentControlSet".to_string());
     let _ = Location::Other {
@@ -210,13 +213,19 @@ fn mitre_external_ref_is_consistent_with_language() {
 #[test]
 fn category_from_code_classifies_by_keyword() {
     use forensicnomicon::report::Category;
-    assert_eq!(Category::from_code("GPT-HEADER-CRC-INVALID"), Category::Integrity);
+    assert_eq!(
+        Category::from_code("GPT-HEADER-CRC-INVALID"),
+        Category::Integrity
+    );
     assert_eq!(Category::from_code("MBR-PART-OVERLAP"), Category::Structure);
     assert_eq!(Category::from_code("MBR-PART-OOB"), Category::Structure);
     assert_eq!(Category::from_code("MBR-GAP-SLACK"), Category::Residue);
     assert_eq!(Category::from_code("MBR-GAP-WIPED"), Category::Concealment);
     assert_eq!(Category::from_code("MBR-BOOT-MALWARE"), Category::Threat);
-    assert_eq!(Category::from_code("UNCLASSIFIED-CODE"), Category::Structure);
+    assert_eq!(
+        Category::from_code("UNCLASSIFIED-CODE"),
+        Category::Structure
+    );
 }
 
 /// A kind that does NOT override category() — it must fall back to code-classification.

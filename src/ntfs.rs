@@ -253,11 +253,23 @@ mod tests {
 
     #[test]
     fn attribute_type_codes_resolve() {
-        assert_eq!(attribute_type_name(attr_types::STANDARD_INFORMATION), Some("$STANDARD_INFORMATION"));
-        assert_eq!(attribute_type_name(attr_types::FILE_NAME), Some("$FILE_NAME"));
+        assert_eq!(
+            attribute_type_name(attr_types::STANDARD_INFORMATION),
+            Some("$STANDARD_INFORMATION")
+        );
+        assert_eq!(
+            attribute_type_name(attr_types::FILE_NAME),
+            Some("$FILE_NAME")
+        );
         assert_eq!(attribute_type_name(attr_types::DATA), Some("$DATA"));
-        assert_eq!(attribute_type_name(attr_types::INDEX_ROOT), Some("$INDEX_ROOT"));
-        assert_eq!(attribute_type_name(attr_types::LOGGED_UTILITY_STREAM), Some("$LOGGED_UTILITY_STREAM"));
+        assert_eq!(
+            attribute_type_name(attr_types::INDEX_ROOT),
+            Some("$INDEX_ROOT")
+        );
+        assert_eq!(
+            attribute_type_name(attr_types::LOGGED_UTILITY_STREAM),
+            Some("$LOGGED_UTILITY_STREAM")
+        );
         assert_eq!(attribute_type_name(0x1234), None);
     }
 
@@ -276,7 +288,10 @@ mod tests {
         assert_eq!(mft_records::ROOT, 5);
         assert_eq!(mft_records::EXTEND, 11);
         assert_eq!(mft_record_name(mft_records::MFT), Some("$MFT"));
-        assert_eq!(mft_record_name(mft_records::ROOT), Some(". (root directory)"));
+        assert_eq!(
+            mft_record_name(mft_records::ROOT),
+            Some(". (root directory)")
+        );
         assert_eq!(mft_record_name(mft_records::LOGFILE), Some("$LogFile"));
         assert_eq!(mft_record_name(99), None);
     }
@@ -316,7 +331,10 @@ mod tests {
         assert_eq!(filename_namespace::WIN32, 1);
         assert_eq!(filename_namespace::DOS, 2);
         assert_eq!(filename_namespace::WIN32_AND_DOS, 3);
-        assert_eq!(filename_namespace::name(filename_namespace::DOS), Some("DOS"));
+        assert_eq!(
+            filename_namespace::name(filename_namespace::DOS),
+            Some("DOS")
+        );
         assert_eq!(filename_namespace::name(9), None);
     }
 

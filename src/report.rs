@@ -98,7 +98,11 @@ impl Category {
     #[must_use]
     pub fn from_code(code: &str) -> Category {
         let c = code.to_ascii_uppercase();
-        if c.contains("CRC") || c.contains("INTEGRITY") || c.contains("CHECKSUM") || c.contains("HASH") {
+        if c.contains("CRC")
+            || c.contains("INTEGRITY")
+            || c.contains("CHECKSUM")
+            || c.contains("HASH")
+        {
             Category::Integrity
         } else if c.contains("OVERLAP")
             || c.contains("OOB")

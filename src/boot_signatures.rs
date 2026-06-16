@@ -34,11 +34,26 @@ const WIN_STUB: &[u8] = &[0x33, 0xC0, 0x8E, 0xD0, 0xBC, 0x00, 0x7C];
 
 /// Known MBR boot-code signatures, in evaluation order.
 pub const BOOT_CODE_SIGNATURES: &[BootCodeSignature] = &[
-    BootCodeSignature { name: "Windows 7+", patterns: &[(0, WIN_STUB), (418, b"BOOTMGR")] },
-    BootCodeSignature { name: "Windows Vista", patterns: &[(0, WIN_STUB), (424, b"BOOTMGR")] },
-    BootCodeSignature { name: "Syslinux", patterns: &[(3, b"SYSLINUX")] },
-    BootCodeSignature { name: "GRUB Legacy", patterns: &[(0, &[0xEB, 0x48, 0x90])] },
-    BootCodeSignature { name: "GRUB 2", patterns: &[(0, &[0xEB, 0x63, 0x90])] },
+    BootCodeSignature {
+        name: "Windows 7+",
+        patterns: &[(0, WIN_STUB), (418, b"BOOTMGR")],
+    },
+    BootCodeSignature {
+        name: "Windows Vista",
+        patterns: &[(0, WIN_STUB), (424, b"BOOTMGR")],
+    },
+    BootCodeSignature {
+        name: "Syslinux",
+        patterns: &[(3, b"SYSLINUX")],
+    },
+    BootCodeSignature {
+        name: "GRUB Legacy",
+        patterns: &[(0, &[0xEB, 0x48, 0x90])],
+    },
+    BootCodeSignature {
+        name: "GRUB 2",
+        patterns: &[(0, &[0xEB, 0x63, 0x90])],
+    },
 ];
 
 /// Identify the bootloader from a boot-code area, returning the first matching
@@ -73,12 +88,18 @@ mod tests {
 
     #[test]
     fn identifies_windows7_by_bootmgr_offset_418() {
-        assert_eq!(identify_loader(&boot_with(WIN_STUB, 418, b"BOOTMGR")), Some("Windows 7+"));
+        assert_eq!(
+            identify_loader(&boot_with(WIN_STUB, 418, b"BOOTMGR")),
+            Some("Windows 7+")
+        );
     }
 
     #[test]
     fn identifies_windows_vista_by_bootmgr_offset_424() {
-        assert_eq!(identify_loader(&boot_with(WIN_STUB, 424, b"BOOTMGR")), Some("Windows Vista"));
+        assert_eq!(
+            identify_loader(&boot_with(WIN_STUB, 424, b"BOOTMGR")),
+            Some("Windows Vista")
+        );
     }
 
     #[test]

@@ -34,15 +34,15 @@ pub const DISK_TYPE_DIFFERENCING: u32 = 4;
 #[cfg_attr(feature = "serde", derive(serde::Serialize))]
 pub struct VhdFooterOffsets {
     pub cookie: u64,              // 0x00  "conectix"
-    pub features: u64,           // 0x08
+    pub features: u64,            // 0x08
     pub file_format_version: u64, // 0x0C  0x00010000
-    pub data_offset: u64,        // 0x10  dynamic header offset (u64::MAX if fixed)
-    pub timestamp: u64,          // 0x18  seconds since 2000-01-01
-    pub current_size: u64,       // 0x30  virtual disk size in bytes
-    pub disk_geometry: u64,      // 0x38  CHS
-    pub disk_type: u64,          // 0x3C  2 | 3 | 4
-    pub checksum: u64,           // 0x40  one's-complement of the footer
-    pub unique_id: u64,          // 0x44  16-byte GUID
+    pub data_offset: u64,         // 0x10  dynamic header offset (u64::MAX if fixed)
+    pub timestamp: u64,           // 0x18  seconds since 2000-01-01
+    pub current_size: u64,        // 0x30  virtual disk size in bytes
+    pub disk_geometry: u64,       // 0x38  CHS
+    pub disk_type: u64,           // 0x3C  2 | 3 | 4
+    pub checksum: u64,            // 0x40  one's-complement of the footer
+    pub unique_id: u64,           // 0x44  16-byte GUID
 }
 
 pub const FOOTER_OFFSETS: VhdFooterOffsets = VhdFooterOffsets {

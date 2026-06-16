@@ -429,23 +429,15 @@ pub const HVCI_REGISTRY_VALUE_NAMES: &[&str] = &[
 ];
 
 /// Registry key path fragments that are security-sensitive for HVCI/VBS.
-pub const HVCI_REGISTRY_KEY_PATHS: &[&str] = &[
-    "\\Control\\CI\\Config",
-    "\\Control\\DeviceGuard",
-];
+pub const HVCI_REGISTRY_KEY_PATHS: &[&str] = &["\\Control\\CI\\Config", "\\Control\\DeviceGuard"];
 
 // ── QWCrypt IOC filenames ─────────────────────────────────────────────────────
 
 /// Process image basenames that are QWCrypt/RedCurl-specific IOC filenames.
-pub const QWCRYPT_IOC_FILENAMES: &[&str] = &[
-    "rbcw.exe",
-    "ADNotificationManager.exe",
-];
+pub const QWCRYPT_IOC_FILENAMES: &[&str] = &["rbcw.exe", "ADNotificationManager.exe"];
 
 /// Known QWCrypt C2 IP addresses.
-pub const QWCRYPT_IOC_IPS: &[&str] = &[
-    "109.206.236.209",
-];
+pub const QWCRYPT_IOC_IPS: &[&str] = &["109.206.236.209"];
 
 /// The .qwCrypt ransomware extension appended to encrypted files.
 pub const QWCRYPT_IOC_EXTENSION: &str = ".qwCrypt";
@@ -476,10 +468,10 @@ pub const WEBDAV_LOL_PROCESSES: &[&str] = &[
 /// A LOLBin launching with one of these in its command line is likely staging
 /// or executing a payload from a WebDAV share (T1102, T1105).
 pub const WEBDAV_COMMANDLINE_INDICATORS: &[&str] = &[
-    "DavWWWRoot",  // standard WebDAV share name used in UNC paths
-    "@SSL\\",      // WebDAV over HTTPS — \\server@443@SSL\DavWWWRoot\...
-    "@80\\",       // WebDAV over plain HTTP — \\server@80\DavWWWRoot\...
-    "@443\\",      // WebDAV over HTTPS (explicit port)
+    "DavWWWRoot", // standard WebDAV share name used in UNC paths
+    "@SSL\\",     // WebDAV over HTTPS — \\server@443@SSL\DavWWWRoot\...
+    "@80\\",      // WebDAV over plain HTTP — \\server@80\DavWWWRoot\...
+    "@443\\",     // WebDAV over HTTPS (explicit port)
 ];
 
 // ── PowerShell history path fragment ─────────────────────────────────────────
@@ -530,14 +522,14 @@ pub const BYOVD_DRIVER_NAMES: &[&str] = &[
     "ZemanaAntiMalware",
     "zamguard64",
     "ZAM",
-    "gdrv",          // Gigabyte App Center GDRV.sys
-    "AsrDrv104",     // ASRock Motherboard Utility
+    "gdrv",      // Gigabyte App Center GDRV.sys
+    "AsrDrv104", // ASRock Motherboard Utility
     "AsrDrv10",
-    "RTCore64",      // MSI Afterburner / RTSS
-    "dbutil_2_3",    // Dell BIOS Utility
-    "ATSZIO64",      // ASUSTeK I/O driver
+    "RTCore64",   // MSI Afterburner / RTSS
+    "dbutil_2_3", // Dell BIOS Utility
+    "ATSZIO64",   // ASUSTeK I/O driver
     "WinRing0_1_2_0",
-    "cpuz136_x64",   // CPU-Z driver
+    "cpuz136_x64", // CPU-Z driver
     "speedfan",
 ];
 
@@ -577,10 +569,7 @@ pub const WEBCLIENT_SERVICE_NAME: &str = "WebClient";
 /// DLL basenames confirmed as sideloading targets in QWCrypt/RedCurl intrusions.
 /// Both are legitimate Windows DLLs with 29+ legitimate loaders (per HijackLibs);
 /// the signal is: loaded from a path that is NOT a Windows system directory.
-pub const SIDELOAD_HIJACK_DLLS: &[&str] = &[
-    "srvcli.dll",
-    "netutils.dll",
-];
+pub const SIDELOAD_HIJACK_DLLS: &[&str] = &["srvcli.dll", "netutils.dll"];
 
 /// Path prefixes for directories that are safe (legitimate) locations for
 /// `srvcli.dll` and `netutils.dll`. A load from ANY other path is suspicious.
@@ -595,8 +584,7 @@ pub const SYSTEM_DLL_SAFE_PATH_PREFIXES: &[&str] = &[
 /// Registry key path fragment written on first run of Sysinternals AD Explorer.
 /// The full key is `HKCU\Software\Sysinternals\Active Directory Explorer`.
 /// It persists even after the tool is deleted — a durable recon tombstone (T1087).
-pub const ADEXPLORER_EULAACCEPTED_KEY_FRAGMENT: &str =
-    "Sysinternals\\Active Directory Explorer";
+pub const ADEXPLORER_EULAACCEPTED_KEY_FRAGMENT: &str = "Sysinternals\\Active Directory Explorer";
 
 // ── Zemana BYOVD signer thumbprint ───────────────────────────────────────────
 
@@ -621,11 +609,7 @@ pub const CHISEL_CMDLINE_INDICATORS: &[&str] = &[
 /// Command-line substrings present when RPivot (SOCKS4 tunnel) is run.
 /// The `cl.py` / `client.py` launcher + `--s`/`--p` flags are tool-specific.
 /// QWCrypt/RedCurl uses `pcalua.exe -a conhost.exe -c --headless python.exe cl.py`.
-pub const RPIVOT_CMDLINE_INDICATORS: &[&str] = &[
-    "cl.py",
-    "client.py",
-    "--headless",
-];
+pub const RPIVOT_CMDLINE_INDICATORS: &[&str] = &["cl.py", "client.py", "--headless"];
 
 // ── 7-Zip staging indicators ──────────────────────────────────────────────────
 
@@ -682,10 +666,8 @@ pub const BROWSER_PROCESS_NAMES: &[&str] = &[
 /// Command-line substrings that indicate the Impacket wmiexec.py output-redirect
 /// technique: `wmiexec.py` redirects stdout to a temp file under `\\127.0.0.1\ADMIN$\__<ts>`.
 /// Near-zero false-positive — legitimate admin WMI does not use this pattern.
-pub const WMI_IMPACKET_INDICATORS: &[&str] = &[
-    "\\\\127.0.0.1\\ADMIN$\\__",
-    "127.0.0.1\\ADMIN$\\__",
-];
+pub const WMI_IMPACKET_INDICATORS: &[&str] =
+    &["\\\\127.0.0.1\\ADMIN$\\__", "127.0.0.1\\ADMIN$\\__"];
 
 // ── System channel ────────────────────────────────────────────────────────────
 
@@ -707,16 +689,10 @@ pub const LOCAL_ADMINS_GROUP_SID: &str = "S-1-5-32-544";
 // Used in EID 4688 / Sysmon EID 1 CommandLine checks (T1490).
 
 /// CommandLine substrings indicating vssadmin shadow copy deletion.
-pub const VSSADMIN_SHADOW_DELETE_PATTERNS: &[&str] = &[
-    "delete shadows",
-    "delete shadow",
-];
+pub const VSSADMIN_SHADOW_DELETE_PATTERNS: &[&str] = &["delete shadows", "delete shadow"];
 
 /// CommandLine substrings indicating wmic shadow copy deletion.
-pub const WMIC_SHADOW_DELETE_PATTERNS: &[&str] = &[
-    "shadowcopy delete",
-    "shadowstorage delete",
-];
+pub const WMIC_SHADOW_DELETE_PATTERNS: &[&str] = &["shadowcopy delete", "shadowstorage delete"];
 
 // ── bcdedit recovery-tamper CommandLine patterns ──────────────────────────────
 
@@ -751,12 +727,7 @@ pub const PS_CLEAR_EVENTLOG_PATTERNS: &[&str] = &[
 /// (T1003.001).  The combination `comsvcs.dll` + `MiniDump` + `lsass` is
 /// near-zero-FP — rundll32 is the only normal caller of comsvcs MiniDump, and
 /// legitimate callers specify process names, not lsass.
-pub const COMSVCS_MINIDUMP_PATTERNS: &[&str] = &[
-    "comsvcs.dll",
-    "comsvcs",
-    "MiniDump",
-    "minidump",
-];
+pub const COMSVCS_MINIDUMP_PATTERNS: &[&str] = &["comsvcs.dll", "comsvcs", "MiniDump", "minidump"];
 
 // ── RMM tool installer basenames ──────────────────────────────────────────────
 
@@ -768,7 +739,7 @@ pub const RMM_BINARY_NAMES: &[&str] = &[
     "atera_agent.exe",
     "ateraagent.exe",
     "splashtop_remote_svc.exe",
-    "srservice.exe",            // Splashtop Remote Service
+    "srservice.exe", // Splashtop Remote Service
     "screenconnect.windowsclient.exe",
     "screenconnect.clientservice.exe",
     "connectwisecontrol.client.exe",
@@ -778,10 +749,10 @@ pub const RMM_BINARY_NAMES: &[&str] = &[
     "ninjaagent.exe",
     "kaseya.exe",
     "kaseyaendpoint.exe",
-    "lmiignition.exe",          // LogMeIn
+    "lmiignition.exe", // LogMeIn
     "lmiguardiansvc.exe",
     "gotomypc.exe",
-    "isllight.exe",             // ISL Online
+    "isllight.exe", // ISL Online
     "remotepc.exe",
     "supremo.exe",
     "pulseway.exe",
@@ -790,10 +761,7 @@ pub const RMM_BINARY_NAMES: &[&str] = &[
 
 /// Path prefixes for legitimate RMM tool installation directories.
 /// A drop of any `RMM_BINARY_NAMES` binary outside these paths is suspicious.
-pub const RMM_SAFE_INSTALL_PATHS: &[&str] = &[
-    "C:\\Program Files\\",
-    "C:\\Program Files (x86)\\",
-];
+pub const RMM_SAFE_INSTALL_PATHS: &[&str] = &["C:\\Program Files\\", "C:\\Program Files (x86)\\"];
 
 // ── RDP registry enable key fragment ─────────────────────────────────────────
 
@@ -811,11 +779,7 @@ pub const ADMIN_SHARE_NAMES: &[&str] = &[
     "ADMIN$", // default admin share mapping to %SystemRoot%
     "IPC$",   // inter-process communication share (required for any remote admin)
     "C$",     // drive root shares — used directly by lateral movement tools
-    "D$",
-    "E$",
-    "F$",
-    "G$",
-    "H$",
+    "D$", "E$", "F$", "G$", "H$",
 ];
 
 // ── User shell parent processes (T1204.002) ───────────────────────────────────
@@ -827,9 +791,7 @@ pub const ADMIN_SHARE_NAMES: &[&str] = &[
 /// `explorer.exe` is the primary shell; `cmd.exe` and `powershell.exe` can also
 /// act as user-interactive parents but have too many legitimate uses at that level
 /// to be included without additional context filtering.
-pub const SHELL_PARENT_PROCESS_NAMES: &[&str] = &[
-    "explorer.exe",
-];
+pub const SHELL_PARENT_PROCESS_NAMES: &[&str] = &["explorer.exe"];
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
@@ -1143,7 +1105,9 @@ mod tests {
 
     #[test]
     fn system_dll_safe_paths_includes_system32() {
-        assert!(SYSTEM_DLL_SAFE_PATH_PREFIXES.iter().any(|p| p.contains("System32")));
+        assert!(SYSTEM_DLL_SAFE_PATH_PREFIXES
+            .iter()
+            .any(|p| p.contains("System32")));
     }
 
     // ── AD Explorer tombstone ────────────────────────────────────────────────
@@ -1162,7 +1126,9 @@ mod tests {
     fn zemana_thumbprint_is_40_hex_chars() {
         assert_eq!(ZEMANA_SIGNER_THUMBPRINT.len(), 40);
         assert!(
-            ZEMANA_SIGNER_THUMBPRINT.chars().all(|c| c.is_ascii_hexdigit()),
+            ZEMANA_SIGNER_THUMBPRINT
+                .chars()
+                .all(|c| c.is_ascii_hexdigit()),
             "Zemana thumbprint must be hex digits only"
         );
     }
@@ -1205,12 +1171,16 @@ mod tests {
 
     #[test]
     fn browser_update_patterns_includes_google() {
-        assert!(BROWSER_UPDATE_TASK_PATTERNS.iter().any(|p| p.contains("GoogleUpdateTask")));
+        assert!(BROWSER_UPDATE_TASK_PATTERNS
+            .iter()
+            .any(|p| p.contains("GoogleUpdateTask")));
     }
 
     #[test]
     fn browser_update_patterns_includes_edge() {
-        assert!(BROWSER_UPDATE_TASK_PATTERNS.iter().any(|p| p.contains("MicrosoftEdgeUpdate")));
+        assert!(BROWSER_UPDATE_TASK_PATTERNS
+            .iter()
+            .any(|p| p.contains("MicrosoftEdgeUpdate")));
     }
 
     // ── Cloudflare Workers C2 ────────────────────────────────────────────────
@@ -1319,11 +1289,9 @@ mod tests {
 
     #[test]
     fn ps_clear_eventlog_patterns_include_clear_eventlog() {
-        assert!(
-            PS_CLEAR_EVENTLOG_PATTERNS
-                .iter()
-                .any(|p| p.contains("Clear-EventLog")),
-        );
+        assert!(PS_CLEAR_EVENTLOG_PATTERNS
+            .iter()
+            .any(|p| p.contains("Clear-EventLog")),);
     }
 
     // ── comsvcs MiniDump patterns ─────────────────────────────────────────────
@@ -1409,7 +1377,9 @@ mod tests {
     #[test]
     fn admin_share_names_includes_admin_dollar() {
         assert!(
-            ADMIN_SHARE_NAMES.iter().any(|s| s.eq_ignore_ascii_case("ADMIN$")),
+            ADMIN_SHARE_NAMES
+                .iter()
+                .any(|s| s.eq_ignore_ascii_case("ADMIN$")),
             "must include ADMIN$"
         );
     }
@@ -1417,7 +1387,9 @@ mod tests {
     #[test]
     fn admin_share_names_includes_c_dollar() {
         assert!(
-            ADMIN_SHARE_NAMES.iter().any(|s| s.eq_ignore_ascii_case("C$")),
+            ADMIN_SHARE_NAMES
+                .iter()
+                .any(|s| s.eq_ignore_ascii_case("C$")),
             "must include C$"
         );
     }
@@ -1425,7 +1397,9 @@ mod tests {
     #[test]
     fn admin_share_names_includes_ipc_dollar() {
         assert!(
-            ADMIN_SHARE_NAMES.iter().any(|s| s.eq_ignore_ascii_case("IPC$")),
+            ADMIN_SHARE_NAMES
+                .iter()
+                .any(|s| s.eq_ignore_ascii_case("IPC$")),
             "must include IPC$"
         );
     }
