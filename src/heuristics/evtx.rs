@@ -46,7 +46,7 @@ pub const RESERVED_EVENT_ID_MAX: u32 = 0;
 /// record written, regardless of the message, is event ID 0."
 #[must_use]
 pub fn is_reserved_event_id(event_id: u32) -> bool {
-    event_id <= RESERVED_EVENT_ID_MAX
+    event_id == RESERVED_EVENT_ID_MAX
 }
 
 // ── Channel volume anomalies ──────────────────────────────────────────────────

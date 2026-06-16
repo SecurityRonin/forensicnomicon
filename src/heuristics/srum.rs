@@ -204,11 +204,11 @@ fn levenshtein(a: &str, b: &str) -> usize {
     let m = a.len();
     let n = b.len();
     let mut dp = vec![vec![0usize; n + 1]; m + 1];
-    for i in 0..=m {
-        dp[i][0] = i;
+    for (i, row) in dp.iter_mut().enumerate() {
+        row[0] = i;
     }
-    for j in 0..=n {
-        dp[0][j] = j;
+    for (j, cell) in dp[0].iter_mut().enumerate() {
+        *cell = j;
     }
     for i in 1..=m {
         for j in 1..=n {
@@ -249,7 +249,7 @@ pub fn is_process_masquerade(binary_name: &str, dir: &str) -> bool {
 
     for &known in SYSTEM_BINARIES {
         let dist = levenshtein(&bin_lower, known);
-        if dist >= 1 && dist <= 2 {
+        if (1..=2).contains(&dist) {
             return true;
         }
     }
@@ -565,7 +565,7 @@ mod tests {
     #[test]
     fn beaconing_detected_with_small_jitter() {
         // hourly ± 5s — CoV will be ~0.001, well below 0.15
-        let ts: Vec<i64> = (0..10).map(|i| i * 3600 + (i % 3) as i64 * 5).collect();
+        let ts: Vec<i64> = (0..10).map(|i| i * 3600 + (i % 3) * 5).collect();
         assert!(is_beaconing(&ts));
     }
 

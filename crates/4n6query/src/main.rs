@@ -573,11 +573,7 @@ fn run_dump(format: Format, dataset: Dataset) -> i32 {
         );
     }
     if matches!(dataset, Dataset::All | Dataset::Catalog) {
-        let arr: Vec<_> = CATALOG
-            .list()
-            .iter()
-            .map(|d| descriptor_to_json(d))
-            .collect();
+        let arr: Vec<_> = CATALOG.list().iter().map(descriptor_to_json).collect();
         obj.insert("catalog".into(), serde_json::Value::Array(arr));
     }
 

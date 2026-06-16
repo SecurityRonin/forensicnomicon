@@ -20,6 +20,7 @@ const EVTX_RAW_BASE: &str = "https://raw.githubusercontent.com/nasbench/EVTX-ETW
 /// Parse a per-provider CSV string and return unique (ProviderName, Channel) pairs.
 ///
 /// Expected header includes at minimum a "Channel" column (case-insensitive).
+#[cfg_attr(not(test), allow(dead_code))]
 pub fn parse_evtx_csv(content: &str) -> Vec<IngestRecord> {
     let mut records = Vec::new();
     let mut seen_ids = HashSet::new();
@@ -172,6 +173,7 @@ fn split_csv_line(line: &str) -> Vec<&str> {
     fields
 }
 
+#[cfg_attr(not(test), allow(dead_code))]
 fn ensure_unique(base: String, seen: &mut HashSet<String>) -> String {
     if !seen.contains(&base) {
         return base;

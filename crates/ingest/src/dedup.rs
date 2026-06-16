@@ -30,11 +30,13 @@ impl IdSet {
     }
 
     /// Returns `true` if the set is empty.
+    #[cfg_attr(not(test), allow(dead_code))]
     pub fn is_empty(&self) -> bool {
         self.ids.is_empty()
     }
 
     /// Iterate over all IDs.
+    #[allow(dead_code)]
     pub fn iter(&self) -> impl Iterator<Item = &str> {
         self.ids.iter().map(String::as_str)
     }
@@ -73,7 +75,7 @@ fn scan_dir(dir: &Path, set: &mut IdSet) -> io::Result<()> {
         let path = entry.path();
         if path.is_dir() {
             scan_dir(&path, set)?;
-        } else if path.extension().map_or(false, |e| e == "rs") {
+        } else if path.extension().is_some_and(|e| e == "rs") {
             let source = fs::read_to_string(&path)?;
             for id in extract_ids_from_source(&source) {
                 set.insert(id);
@@ -155,7 +157,7 @@ pub(crate) static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
         );
         // Check a known ID
         assert!(
-            set.is_duplicate("safeboot_minimal") || set.len() > 0,
+            set.is_duplicate("safeboot_minimal") || !set.is_empty(),
             "catalog should contain known IDs"
         );
     }

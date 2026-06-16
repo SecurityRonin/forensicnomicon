@@ -308,6 +308,7 @@ absent on success",
 ///   - CreateUser: ~2 minutes
 ///   - AddUserToGroup: ~2 minutes
 ///   - RemoveUserFromGroup: ~1 min 45 sec
+///
 /// All well within the 15-minute SLA and the 5-minute target for critical events.
 /// Note: ConsoleLogin events are region-specific (logged in the region of the login
 /// URL), unlike IAM management events which are always in us-east-1.

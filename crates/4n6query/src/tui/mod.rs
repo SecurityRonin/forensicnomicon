@@ -6,6 +6,701 @@ pub mod keys;
 pub mod search;
 pub mod theme;
 pub mod ui;
+use crate::tui::app::WinVersionFilter;
+use crossterm::{
+    event::{self, DisableMouseCapture, EnableMouseCapture, Event},
+    execute,
+    terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
+};
+
+use forensicnomicon::{
+    abusable_sites::{ABUSABLE_SITES, TAG_C2, TAG_DOWNLOAD, TAG_EXFIL, TAG_EXPLOIT, TAG_PHISHING},
+    attack_flow::all_flows,
+    catalog::{ArtifactDescriptor, OsScope, Platform, CATALOG},
+    eventids::EVENT_ID_TABLE,
+    lolbins::{
+        lolbas_entry, LolbasEntry, LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS,
+        LOLBAS_WINDOWS_CMDLETS, LOLBAS_WINDOWS_MMC, LOLBAS_WINDOWS_WMI, UC_ARCHIVE, UC_BYPASS,
+        UC_CREDENTIALS, UC_DECODE, UC_DEFENSE_EVASION, UC_DOWNLOAD, UC_EXECUTE, UC_NETWORK,
+        UC_PERSIST, UC_PROXY, UC_RECON, UC_UPLOAD,
+    },
+    persistence::{
+        ACTIVE_SETUP_PATHS, APPINIT_PATHS, COM_HIJACK_PATHS, IFEO_PATHS, LINUX_PERSISTENCE_PATHS,
+        MACOS_PERSISTENCE_PATHS, SCREENSAVER_PATHS, SESSION_MANAGER_PATHS, WINDOWS_RUN_KEYS,
+        WINLOGON_PATHS,
+    },
+    playbooks::PLAYBOOKS,
+    remote_access::{
+        ACTION1_PATHS, ANYDESK_PATHS, ATERA_PATHS, GOTOASSIST_PATHS, KNOWN_RAT_NAMES,
+        MANAGEENGINE_PATHS, SPLASHTOP_PATHS, TEAMVIEWER_PATHS,
+    },
+    sigma::SIGMA_TABLE,
+    threat_intel::profiles::ALL_PROFILES,
+};
+use ratatui::{backend::CrosstermBackend, Terminal};
+use std::io;
+
+/// Frame-local render data built from App state on every tick.
+pub struct RenderData {
+    pub list_items: Vec<String>,
+    pub detail_lines: Vec<String>,
+}
+
+fn use_cases_str(uc: u16) -> String {
+    let mut tags: Vec<&str> = Vec::new();
+    if uc & UC_EXECUTE != 0 {
+        tags.push("Execute");
+    }
+    if uc & UC_DOWNLOAD != 0 {
+        tags.push("Download");
+    }
+    if uc & UC_UPLOAD != 0 {
+        tags.push("Upload");
+    }
+    if uc & UC_BYPASS != 0 {
+        tags.push("Bypass");
+    }
+    if uc & UC_PERSIST != 0 {
+        tags.push("Persist");
+    }
+    if uc & UC_RECON != 0 {
+        tags.push("Recon");
+    }
+    if uc & UC_PROXY != 0 {
+        tags.push("Proxy");
+    }
+    if uc & UC_DECODE != 0 {
+        tags.push("Decode");
+    }
+    if uc & UC_ARCHIVE != 0 {
+        tags.push("Archive");
+    }
+    if uc & UC_CREDENTIALS != 0 {
+        tags.push("Credentials");
+    }
+    if uc & UC_NETWORK != 0 {
+        tags.push("Network");
+    }
+    if uc & UC_DEFENSE_EVASION != 0 {
+        tags.push("DefEvasion");
+    }
+    tags.join("  ")
+}
+
+fn lolbas_detail_lines(entry: &LolbasEntry) -> Vec<String> {
+    let mut lines = vec![
+        entry.name.to_string(),
+        "─".repeat(40),
+        entry.description.to_string(),
+    ];
+    if !entry.mitre_techniques.is_empty() {
+        lines.push(String::new());
+        lines.push(format!("MITRE: {}", entry.mitre_techniques.join("  ")));
+    }
+    let uc = use_cases_str(entry.use_cases);
+    if !uc.is_empty() {
+        lines.push(String::new());
+        lines.push(format!("Use cases: {uc}"));
+    }
+    lines
+}
+
+fn malware_class_label(class: forensicnomicon::threat_intel::MalwareClass) -> &'static str {
+    use forensicnomicon::threat_intel::MalwareClass;
+    match class {
+        MalwareClass::LdPreloadProcessHider => "LD_PRELOAD/process-hider",
+        MalwareClass::LdPreloadPamHooker => "LD_PRELOAD/PAM-hooker",
+        MalwareClass::LdPreloadNetworkHider => "LD_PRELOAD/network-hider",
+        MalwareClass::LdPreloadFullRootkit => "LD_PRELOAD/full-rootkit",
+        MalwareClass::LkmRootkit => "LKM/rootkit",
+        MalwareClass::CryptoMiner => "crypto-miner",
+        MalwareClass::GenericLdPreload => "LD_PRELOAD/generic",
+    }
+}
+
+fn abuse_tags_str(tags: u8) -> String {
+    let mut v: Vec<&str> = Vec::new();
+    if tags & TAG_PHISHING != 0 {
+        v.push("Phishing");
+    }
+    if tags & TAG_C2 != 0 {
+        v.push("C2");
+    }
+    if tags & TAG_DOWNLOAD != 0 {
+        v.push("Download");
+    }
+    if tags & TAG_EXFIL != 0 {
+        v.push("Exfil");
+    }
+    if tags & TAG_EXPLOIT != 0 {
+        v.push("Exploit");
+    }
+    v.join("  ")
+}
+
+/// Catalog filter predicate — platform mask + criticality filter.
+///
+/// Factored out so the same logic is used for both display-list construction
+/// and rich search-index construction.
+fn catalog_passes(app: &app::App, d: &ArtifactDescriptor) -> bool {
+    let platform_ok = if !app.platform_mask.is_empty() {
+        if app.platform_mask.contains(Platform::Windows)
+            && d.os_scope.platform() == Platform::Windows
+        {
+            match app.win_version {
+                WinVersionFilter::All => true,
+                WinVersionFilter::Win10Plus => matches!(
+                    d.os_scope,
+                    OsScope::Win10Plus | OsScope::Win11Plus | OsScope::Win11_22H2
+                ),
+                WinVersionFilter::Win11Plus => {
+                    matches!(d.os_scope, OsScope::Win11Plus | OsScope::Win11_22H2)
+                }
+            }
+        } else {
+            app.platform_mask.matches(d.os_scope.platform())
+        }
+    } else {
+        true
+    };
+    platform_ok && app.crit_filter.passes(d.triage_priority)
+}
+
+fn build_render_data(app: &app::App) -> RenderData {
+    // Build the raw display list applying platform + crit filters for catalog (dataset 0).
+    let all_display: Vec<String> = match app.dataset_idx {
+        0 => CATALOG
+            .list()
+            .iter()
+            .filter(|d| catalog_passes(app, d))
+            .map(|d| format!("{:<36} [{:?}]", d.id, d.triage_priority))
+            .collect(),
+        1 => {
+            // Merged cross-platform lolbas — platform filter selects source.
+            if app.platform_mask.is_empty() {
+                let mut v: Vec<String> =
+                    LOLBAS_WINDOWS.iter().map(|e| e.name.to_string()).collect();
+                v.extend(LOLBAS_LINUX.iter().map(|e| e.name.to_string()));
+                v.extend(LOLBAS_MACOS.iter().map(|e| e.name.to_string()));
+                v
+            } else if app.platform_mask.contains(Platform::MacOS) {
+                LOLBAS_MACOS.iter().map(|e| e.name.to_string()).collect()
+            } else if app.platform_mask.contains(Platform::Linux) {
+                LOLBAS_LINUX.iter().map(|e| e.name.to_string()).collect()
+            } else {
+                LOLBAS_WINDOWS.iter().map(|e| e.name.to_string()).collect()
+            }
+        }
+        2 => ABUSABLE_SITES
+            .iter()
+            .map(|s| s.domain.to_string())
+            .collect(),
+        3 => LOLBAS_WINDOWS_CMDLETS
+            .iter()
+            .map(|e| e.name.to_string())
+            .collect(),
+        4 => LOLBAS_WINDOWS_MMC
+            .iter()
+            .map(|e| e.name.to_string())
+            .collect(),
+        5 => LOLBAS_WINDOWS_WMI
+            .iter()
+            .map(|e| e.name.to_string())
+            .collect(),
+        6 => PLAYBOOKS.iter().map(|p| p.id.to_string()).collect(),
+        7 => ALL_PROFILES
+            .iter()
+            .map(|p| format!("{:<24}  [{}]", p.id, malware_class_label(p.malware_class)))
+            .collect(),
+        8 => all_flows()
+            .iter()
+            .map(|f| format!("{:<40}  {}", f.id, f.name))
+            .collect(),
+        9 => EVENT_ID_TABLE
+            .iter()
+            .map(|e| format!("{:<6}  [{:<10}]  {}", e.event_id, e.channel, e.description))
+            .collect(),
+        10 => SIGMA_TABLE.iter().map(|r| r.title.to_string()).collect(),
+        11 => {
+            const MECHANISMS: &[(&str, &[&str])] = &[
+                ("Windows Run Keys", WINDOWS_RUN_KEYS),
+                ("Linux Persistence", LINUX_PERSISTENCE_PATHS),
+                ("macOS Persistence", MACOS_PERSISTENCE_PATHS),
+                ("IFEO Hijack", IFEO_PATHS),
+                ("AppInit DLLs", APPINIT_PATHS),
+                ("Session Manager", SESSION_MANAGER_PATHS),
+                ("Active Setup", ACTIVE_SETUP_PATHS),
+                ("Screensaver", SCREENSAVER_PATHS),
+                ("Winlogon", WINLOGON_PATHS),
+                ("COM/CLSID Hijack", COM_HIJACK_PATHS),
+            ];
+            MECHANISMS
+                .iter()
+                .map(|(name, _)| name.to_string())
+                .collect()
+        }
+        12 => {
+            const RMM_TOOLS: &[(&str, &[&str])] = &[
+                ("TeamViewer  [RMM]", TEAMVIEWER_PATHS),
+                ("AnyDesk     [RMM]", ANYDESK_PATHS),
+                ("Splashtop   [RMM]", SPLASHTOP_PATHS),
+                ("Atera       [RMM]", ATERA_PATHS),
+                ("GoToAssist  [RMM]", GOTOASSIST_PATHS),
+                ("Action1     [RMM]", ACTION1_PATHS),
+                ("ManageEngine[RMM]", MANAGEENGINE_PATHS),
+            ];
+            let mut v: Vec<String> = RMM_TOOLS.iter().map(|(name, _)| name.to_string()).collect();
+            v.push("Known RAT Names  [RAT]".to_string());
+            v
+        }
+        _ => vec![],
+    };
+
+    // Apply search filter if query is non-empty.
+    let list_items = if app.search_query.is_empty() {
+        all_display
+    } else {
+        let entries: Vec<search::SearchEntry> = if app.dataset_idx == 0 {
+            // Catalog: rich multi-field index (id + name + meaning + file_path + key_path).
+            // Re-iterate with the same filter — all 'static data, no I/O.
+            CATALOG
+                .list()
+                .iter()
+                .filter(|d| catalog_passes(app, d))
+                .enumerate()
+                .map(|(i, d)| {
+                    let mut parts: Vec<&str> = vec![d.id, d.name, d.meaning];
+                    if let Some(fp) = d.file_path {
+                        parts.push(fp);
+                    }
+                    if !d.key_path.is_empty() {
+                        parts.push(d.key_path);
+                    }
+                    search::SearchEntry::new(parts.join(" ").to_ascii_lowercase(), i)
+                })
+                .collect()
+        } else {
+            all_display
+                .iter()
+                .enumerate()
+                .map(|(i, s)| search::SearchEntry::new(s.to_ascii_lowercase(), i))
+                .collect()
+        };
+        let matched_indices = search::filter(&app.search_query, &entries);
+        matched_indices
+            .into_iter()
+            .map(|i| all_display[i].clone())
+            .collect()
+    };
+
+    let selected_name = list_items.get(app.selected).map(|s| s.trim());
+
+    let detail_lines: Vec<String> = match app.dataset_idx {
+        0 => {
+            let desc = selected_name
+                .and_then(|s| s.split_whitespace().next())
+                .and_then(|id| CATALOG.by_id(id));
+            match desc {
+                Some(d) => {
+                    const CW: usize = 8; // "Priority" = longest label
+                    let mut lines = vec![
+                        d.name.to_string(),
+                        "─".repeat(40),
+                        format!("{:<CW$}: {:?}", "Type", d.artifact_type),
+                        format!("{:<CW$}: {:?}", "OS", d.os_scope),
+                        format!("{:<CW$}: {:?}", "Priority", d.triage_priority),
+                    ];
+                    if let Some(fp) = d.file_path {
+                        lines.push(format!("{:<CW$}: {fp}", "Path"));
+                    }
+                    if !d.key_path.is_empty() {
+                        lines.push(format!("{:<CW$}: {}", "Key", d.key_path));
+                    }
+                    lines.push(String::new());
+                    lines.push(d.meaning.to_string());
+                    if !d.mitre_techniques.is_empty() {
+                        lines.push(String::new());
+                        lines.push(format!(
+                            "{:<CW$}: {}",
+                            "MITRE",
+                            d.mitre_techniques.join("  ")
+                        ));
+                    }
+                    if !d.fields.is_empty() {
+                        lines.push(String::new());
+                        lines.push("Fields:".into());
+                        for f in d.fields {
+                            lines.push(format!("  {}  — {}", f.name, f.description));
+                        }
+                    }
+                    if !d.sources.is_empty() {
+                        lines.push(String::new());
+                        lines.push("Sources:".into());
+                        for s in d.sources {
+                            lines.push(format!("  {s}"));
+                        }
+                    }
+                    lines
+                }
+                None => vec!["Select an item to see details.".into()],
+            }
+        }
+        // Lolbas: search platform-appropriate source(s).
+        1 => {
+            let entry = selected_name.and_then(|name| {
+                if app.platform_mask.contains(Platform::MacOS) {
+                    lolbas_entry(LOLBAS_MACOS, name)
+                } else if app.platform_mask.contains(Platform::Linux) {
+                    lolbas_entry(LOLBAS_LINUX, name)
+                } else if !app.platform_mask.is_empty() {
+                    lolbas_entry(LOLBAS_WINDOWS, name)
+                } else {
+                    lolbas_entry(LOLBAS_WINDOWS, name)
+                        .or_else(|| lolbas_entry(LOLBAS_LINUX, name))
+                        .or_else(|| lolbas_entry(LOLBAS_MACOS, name))
+                }
+            });
+            entry
+                .map(lolbas_detail_lines)
+                .unwrap_or_else(|| vec!["Select an item.".into()])
+        }
+        2 => {
+            let site = selected_name.and_then(|name| {
+                ABUSABLE_SITES
+                    .iter()
+                    .find(|s| s.domain.eq_ignore_ascii_case(name))
+            });
+            match site {
+                Some(s) => {
+                    const CW: usize = 10; // "Block risk" = longest label
+                    let mut lines = vec![
+                        s.domain.to_string(),
+                        "─".repeat(40),
+                        format!("{:<CW$}: {}", "Provider", s.provider),
+                        format!("{:<CW$}: {:?}", "Category", s.legitimate_category),
+                        format!("{:<CW$}: {:?}", "Block risk", s.blocking_risk),
+                    ];
+                    let tags = abuse_tags_str(s.abuse_tags);
+                    if !tags.is_empty() {
+                        lines.push(format!("{:<CW$}: {tags}", "Abuse"));
+                    }
+                    if !s.mitre_techniques.is_empty() {
+                        lines.push(String::new());
+                        lines.push(format!(
+                            "{:<CW$}: {}",
+                            "MITRE",
+                            s.mitre_techniques.join("  ")
+                        ));
+                    }
+                    lines
+                }
+                None => vec!["Select an item.".into()],
+            }
+        }
+        3 => selected_name
+            .and_then(|n| lolbas_entry(LOLBAS_WINDOWS_CMDLETS, n))
+            .map(lolbas_detail_lines)
+            .unwrap_or_else(|| vec!["Select an item.".into()]),
+        4 => selected_name
+            .and_then(|n| lolbas_entry(LOLBAS_WINDOWS_MMC, n))
+            .map(lolbas_detail_lines)
+            .unwrap_or_else(|| vec!["Select an item.".into()]),
+        5 => selected_name
+            .and_then(|n| lolbas_entry(LOLBAS_WINDOWS_WMI, n))
+            .map(lolbas_detail_lines)
+            .unwrap_or_else(|| vec!["Select an item.".into()]),
+        6 => {
+            let pb = selected_name.and_then(|id| PLAYBOOKS.iter().find(|p| p.id == id));
+            match pb {
+                Some(p) => {
+                    let mut lines = vec![
+                        p.name.to_string(),
+                        "─".repeat(40),
+                        p.description.to_string(),
+                        String::new(),
+                        format!("Steps: {}", p.steps.len()),
+                    ];
+                    for (i, step) in p.steps.iter().enumerate() {
+                        lines.push(String::new());
+                        lines.push(format!(
+                            "  {}. {} — {}",
+                            i + 1,
+                            step.artifact_id,
+                            step.tactic
+                        ));
+                        lines.push(format!("     {}", step.rationale));
+                    }
+                    lines
+                }
+                None => vec!["Select an item.".into()],
+            }
+        }
+        7 => {
+            let profile = selected_name
+                .and_then(|s| s.split_whitespace().next())
+                .and_then(|id| ALL_PROFILES.iter().copied().find(|p| p.id == id));
+            match profile {
+                Some(p) => {
+                    let mut lines = vec![
+                        p.family.to_string(),
+                        "─".repeat(40),
+                        p.description.to_string(),
+                        String::new(),
+                        format!("Family  : {}", p.family),
+                        format!("Class   : {}", malware_class_label(p.malware_class)),
+                    ];
+                    if !p.mitre_techniques.is_empty() {
+                        lines.push(format!("MITRE   : {}", p.mitre_techniques.join("  ")));
+                    }
+                    lines.push(String::new());
+                    lines.push(format!(
+                        "Thresholds — class:{} probable:{} confirmed:{}",
+                        p.class_threshold, p.probable_threshold, p.confirmed_threshold
+                    ));
+                    lines.push(String::new());
+                    lines.push("Signals:".into());
+                    for s in p.signals {
+                        let req = if s.required { " [required]" } else { "" };
+                        lines.push(format!("  {:>3}  {}{}", s.weight, s.id, req));
+                    }
+                    if !p.exclusions.is_empty() {
+                        lines.push(String::new());
+                        lines.push("Exclusions:".into());
+                        for e in p.exclusions {
+                            lines.push(format!("  -{:>3}  {}", e.penalty, e.id));
+                        }
+                    }
+                    lines
+                }
+                None => vec!["Select a profile to see details.".into()],
+            }
+        }
+        8 => {
+            let flow = selected_name
+                .and_then(|s| s.split_whitespace().next())
+                .and_then(|id| all_flows().iter().find(|f| f.id == id));
+            match flow {
+                Some(f) => {
+                    let mut lines = vec![
+                        f.name.to_string(),
+                        "─".repeat(40),
+                        f.description.to_string(),
+                        String::new(),
+                        format!("Actions : {}", f.actions.len()),
+                        String::new(),
+                        "Steps:".into(),
+                    ];
+                    for (i, a) in f.actions.iter().enumerate() {
+                        lines.push(format!(
+                            "  {:>2}. [{}] {} — {}",
+                            i + 1,
+                            a.technique_id,
+                            a.tactic,
+                            a.name
+                        ));
+                        if !a.artifact_ids.is_empty() {
+                            lines.push(format!("      Artifacts: {}", a.artifact_ids.join(", ")));
+                        }
+                    }
+                    lines
+                }
+                None => vec!["Select a flow to see details.".into()],
+            }
+        }
+        9 => {
+            let entry = selected_name
+                .and_then(|s| s.split_whitespace().next())
+                .and_then(|id_str| id_str.parse::<u32>().ok())
+                .and_then(|id| EVENT_ID_TABLE.iter().find(|e| e.event_id == id));
+            match entry {
+                Some(e) => {
+                    let mut lines = vec![
+                        format!("Event ID {} — {}", e.event_id, e.channel),
+                        "─".repeat(40),
+                        e.description.to_string(),
+                        String::new(),
+                        format!("Channel : {}", e.channel),
+                        format!("High val: {}", if e.high_value { "yes" } else { "no" }),
+                    ];
+                    if !e.mitre_techniques.is_empty() {
+                        lines.push(format!("MITRE   : {}", e.mitre_techniques.join("  ")));
+                    }
+                    if !e.artifact_ids.is_empty() {
+                        lines.push(String::new());
+                        lines.push(format!("Artifacts: {}", e.artifact_ids.join(", ")));
+                    }
+                    lines
+                }
+                None => vec!["Select an event ID to see details.".into()],
+            }
+        }
+        10 => {
+            let rule =
+                selected_name.and_then(|title| SIGMA_TABLE.iter().find(|r| r.title == title));
+            match rule {
+                Some(r) => {
+                    let mut lines = vec![
+                        r.title.to_string(),
+                        "─".repeat(40),
+                        format!("Rule ID  : {}", r.rule_id),
+                        format!("Artifact : {}", r.artifact_id),
+                        format!("Logsource: {}", r.logsource_category),
+                    ];
+                    if !r.mitre_techniques.is_empty() {
+                        lines.push(format!("MITRE    : {}", r.mitre_techniques.join("  ")));
+                    }
+                    lines
+                }
+                None => vec!["Select a Sigma rule to see details.".into()],
+            }
+        }
+        11 => {
+            const MECHANISMS: &[(&str, &[&str])] = &[
+                ("Windows Run Keys", WINDOWS_RUN_KEYS),
+                ("Linux Persistence", LINUX_PERSISTENCE_PATHS),
+                ("macOS Persistence", MACOS_PERSISTENCE_PATHS),
+                ("IFEO Hijack", IFEO_PATHS),
+                ("AppInit DLLs", APPINIT_PATHS),
+                ("Session Manager", SESSION_MANAGER_PATHS),
+                ("Active Setup", ACTIVE_SETUP_PATHS),
+                ("Screensaver", SCREENSAVER_PATHS),
+                ("Winlogon", WINLOGON_PATHS),
+                ("COM/CLSID Hijack", COM_HIJACK_PATHS),
+            ];
+            let paths = selected_name
+                .and_then(|name| MECHANISMS.iter().find(|(n, _)| *n == name))
+                .map(|(_, p)| *p);
+            match paths {
+                Some(ps) => {
+                    let mut lines = vec![selected_name.unwrap_or("").to_string(), "─".repeat(40)];
+                    for p in ps {
+                        lines.push(p.to_string());
+                    }
+                    lines
+                }
+                None => vec!["Select a persistence mechanism to see paths.".into()],
+            }
+        }
+        12 => {
+            const RMM_TOOLS: &[(&str, &[&str])] = &[
+                ("TeamViewer  [RMM]", TEAMVIEWER_PATHS),
+                ("AnyDesk     [RMM]", ANYDESK_PATHS),
+                ("Splashtop   [RMM]", SPLASHTOP_PATHS),
+                ("Atera       [RMM]", ATERA_PATHS),
+                ("GoToAssist  [RMM]", GOTOASSIST_PATHS),
+                ("Action1     [RMM]", ACTION1_PATHS),
+                ("ManageEngine[RMM]", MANAGEENGINE_PATHS),
+            ];
+            match selected_name {
+                Some("Known RAT Names  [RAT]") => {
+                    let mut lines = vec!["Known RAT / Backdoor Names".to_string(), "─".repeat(40)];
+                    for name in KNOWN_RAT_NAMES {
+                        lines.push(name.to_string());
+                    }
+                    lines
+                }
+                Some(name) => {
+                    let paths = RMM_TOOLS.iter().find(|(n, _)| *n == name).map(|(_, p)| *p);
+                    match paths {
+                        Some(ps) => {
+                            let mut lines = vec![
+                                name.to_string(),
+                                "─".repeat(40),
+                                "Registry indicators:".into(),
+                                String::new(),
+                            ];
+                            for p in ps {
+                                lines.push(p.to_string());
+                            }
+                            lines
+                        }
+                        None => vec!["Select a tool to see registry paths.".into()],
+                    }
+                }
+                None => vec!["Select a tool to see registry paths.".into()],
+            }
+        }
+        _ => vec!["Select an item to see details.".into()],
+    };
+
+    RenderData {
+        list_items,
+        detail_lines,
+    }
+}
+
+fn load_theme() -> &'static theme::Theme {
+    let config_path = dirs::config_dir()
+        .unwrap_or_else(|| std::path::PathBuf::from("."))
+        .join("4n6query")
+        .join("theme.toml");
+
+    if let Ok(contents) = std::fs::read_to_string(&config_path) {
+        if let Ok(t) = theme::load_user_config(&contents) {
+            return t;
+        }
+    }
+    theme::ALL_THEMES[0]
+}
+
+/// Launch the interactive TUI navigator.
+///
+/// Called when `4n6query` is invoked with no arguments on a TTY.
+/// Returns 0 on clean exit, 1 on error.
+pub fn run() -> i32 {
+    if let Err(e) = run_inner() {
+        eprintln!("tui error: {e}");
+        1
+    } else {
+        0
+    }
+}
+
+fn run_inner() -> io::Result<()> {
+    // Setup terminal
+    enable_raw_mode()?;
+    let mut stdout = io::stdout();
+    execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
+    let backend = CrosstermBackend::new(stdout);
+    let mut terminal = Terminal::new(backend)?;
+
+    let mut app = app::App::new();
+    let theme = load_theme();
+
+    loop {
+        app.tick_flash();
+        let rd = build_render_data(&app);
+
+        terminal.draw(|f| {
+            ui::draw(f, &app, theme, &rd.list_items, &rd.detail_lines);
+        })?;
+
+        if event::poll(std::time::Duration::from_millis(100))? {
+            match event::read()? {
+                Event::Key(key) => {
+                    if keys::handle_key(&mut app, key, rd.list_items.len()) {
+                        break;
+                    }
+                }
+                Event::Mouse(mouse) => {
+                    keys::handle_mouse(&mut app, mouse, rd.list_items.len());
+                }
+                _ => {}
+            }
+        }
+    }
+
+    // Restore terminal
+    disable_raw_mode()?;
+    execute!(
+        terminal.backend_mut(),
+        LeaveAlternateScreen,
+        DisableMouseCapture
+    )?;
+    terminal.show_cursor()?;
+
+    Ok(())
+}
 
 #[cfg(test)]
 mod tests {
@@ -681,700 +1376,4 @@ mod tests {
             &rd.list_items[..rd.list_items.len().min(3)]
         );
     }
-}
-
-use crate::tui::app::WinVersionFilter;
-use crossterm::{
-    event::{self, DisableMouseCapture, EnableMouseCapture, Event},
-    execute,
-    terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
-};
-
-use forensicnomicon::{
-    abusable_sites::{ABUSABLE_SITES, TAG_C2, TAG_DOWNLOAD, TAG_EXFIL, TAG_EXPLOIT, TAG_PHISHING},
-    attack_flow::all_flows,
-    catalog::{ArtifactDescriptor, OsScope, Platform, CATALOG},
-    eventids::EVENT_ID_TABLE,
-    lolbins::{
-        lolbas_entry, LolbasEntry, LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS,
-        LOLBAS_WINDOWS_CMDLETS, LOLBAS_WINDOWS_MMC, LOLBAS_WINDOWS_WMI, UC_ARCHIVE, UC_BYPASS,
-        UC_CREDENTIALS, UC_DECODE, UC_DEFENSE_EVASION, UC_DOWNLOAD, UC_EXECUTE, UC_NETWORK,
-        UC_PERSIST, UC_PROXY, UC_RECON, UC_UPLOAD,
-    },
-    persistence::{
-        ACTIVE_SETUP_PATHS, APPINIT_PATHS, COM_HIJACK_PATHS, IFEO_PATHS, LINUX_PERSISTENCE_PATHS,
-        MACOS_PERSISTENCE_PATHS, SCREENSAVER_PATHS, SESSION_MANAGER_PATHS, WINDOWS_RUN_KEYS,
-        WINLOGON_PATHS,
-    },
-    playbooks::PLAYBOOKS,
-    remote_access::{
-        ACTION1_PATHS, ANYDESK_PATHS, ATERA_PATHS, GOTOASSIST_PATHS, KNOWN_RAT_NAMES,
-        MANAGEENGINE_PATHS, SPLASHTOP_PATHS, TEAMVIEWER_PATHS,
-    },
-    sigma::SIGMA_TABLE,
-    threat_intel::profiles::ALL_PROFILES,
-};
-use ratatui::{backend::CrosstermBackend, Terminal};
-use std::io;
-
-/// Frame-local render data built from App state on every tick.
-pub struct RenderData {
-    pub list_items: Vec<String>,
-    pub detail_lines: Vec<String>,
-}
-
-fn use_cases_str(uc: u16) -> String {
-    let mut tags: Vec<&str> = Vec::new();
-    if uc & UC_EXECUTE != 0 {
-        tags.push("Execute");
-    }
-    if uc & UC_DOWNLOAD != 0 {
-        tags.push("Download");
-    }
-    if uc & UC_UPLOAD != 0 {
-        tags.push("Upload");
-    }
-    if uc & UC_BYPASS != 0 {
-        tags.push("Bypass");
-    }
-    if uc & UC_PERSIST != 0 {
-        tags.push("Persist");
-    }
-    if uc & UC_RECON != 0 {
-        tags.push("Recon");
-    }
-    if uc & UC_PROXY != 0 {
-        tags.push("Proxy");
-    }
-    if uc & UC_DECODE != 0 {
-        tags.push("Decode");
-    }
-    if uc & UC_ARCHIVE != 0 {
-        tags.push("Archive");
-    }
-    if uc & UC_CREDENTIALS != 0 {
-        tags.push("Credentials");
-    }
-    if uc & UC_NETWORK != 0 {
-        tags.push("Network");
-    }
-    if uc & UC_DEFENSE_EVASION != 0 {
-        tags.push("DefEvasion");
-    }
-    tags.join("  ")
-}
-
-fn lolbas_detail_lines(entry: &LolbasEntry) -> Vec<String> {
-    let mut lines = vec![
-        entry.name.to_string(),
-        "─".repeat(40),
-        entry.description.to_string(),
-    ];
-    if !entry.mitre_techniques.is_empty() {
-        lines.push(String::new());
-        lines.push(format!("MITRE: {}", entry.mitre_techniques.join("  ")));
-    }
-    let uc = use_cases_str(entry.use_cases);
-    if !uc.is_empty() {
-        lines.push(String::new());
-        lines.push(format!("Use cases: {uc}"));
-    }
-    lines
-}
-
-fn malware_class_label(class: forensicnomicon::threat_intel::MalwareClass) -> &'static str {
-    use forensicnomicon::threat_intel::MalwareClass;
-    match class {
-        MalwareClass::LdPreloadProcessHider => "LD_PRELOAD/process-hider",
-        MalwareClass::LdPreloadPamHooker => "LD_PRELOAD/PAM-hooker",
-        MalwareClass::LdPreloadNetworkHider => "LD_PRELOAD/network-hider",
-        MalwareClass::LdPreloadFullRootkit => "LD_PRELOAD/full-rootkit",
-        MalwareClass::LkmRootkit => "LKM/rootkit",
-        MalwareClass::CryptoMiner => "crypto-miner",
-        MalwareClass::GenericLdPreload => "LD_PRELOAD/generic",
-    }
-}
-
-fn abuse_tags_str(tags: u8) -> String {
-    let mut v: Vec<&str> = Vec::new();
-    if tags & TAG_PHISHING != 0 {
-        v.push("Phishing");
-    }
-    if tags & TAG_C2 != 0 {
-        v.push("C2");
-    }
-    if tags & TAG_DOWNLOAD != 0 {
-        v.push("Download");
-    }
-    if tags & TAG_EXFIL != 0 {
-        v.push("Exfil");
-    }
-    if tags & TAG_EXPLOIT != 0 {
-        v.push("Exploit");
-    }
-    v.join("  ")
-}
-
-/// Catalog filter predicate — platform mask + criticality filter.
-///
-/// Factored out so the same logic is used for both display-list construction
-/// and rich search-index construction.
-fn catalog_passes(app: &app::App, d: &ArtifactDescriptor) -> bool {
-    let platform_ok = if !app.platform_mask.is_empty() {
-        if app.platform_mask.contains(Platform::Windows)
-            && d.os_scope.platform() == Platform::Windows
-        {
-            match app.win_version {
-                WinVersionFilter::All => true,
-                WinVersionFilter::Win10Plus => matches!(
-                    d.os_scope,
-                    OsScope::Win10Plus | OsScope::Win11Plus | OsScope::Win11_22H2
-                ),
-                WinVersionFilter::Win11Plus => {
-                    matches!(d.os_scope, OsScope::Win11Plus | OsScope::Win11_22H2)
-                }
-            }
-        } else {
-            app.platform_mask.matches(d.os_scope.platform())
-        }
-    } else {
-        true
-    };
-    platform_ok && app.crit_filter.passes(d.triage_priority)
-}
-
-fn build_render_data(app: &app::App) -> RenderData {
-    // Build the raw display list applying platform + crit filters for catalog (dataset 0).
-    let all_display: Vec<String> = match app.dataset_idx {
-        0 => CATALOG
-            .list()
-            .iter()
-            .filter(|d| catalog_passes(app, d))
-            .map(|d| format!("{:<36} [{:?}]", d.id, d.triage_priority))
-            .collect(),
-        1 => {
-            // Merged cross-platform lolbas — platform filter selects source.
-            if app.platform_mask.is_empty() {
-                let mut v: Vec<String> =
-                    LOLBAS_WINDOWS.iter().map(|e| e.name.to_string()).collect();
-                v.extend(LOLBAS_LINUX.iter().map(|e| e.name.to_string()));
-                v.extend(LOLBAS_MACOS.iter().map(|e| e.name.to_string()));
-                v
-            } else if app.platform_mask.contains(Platform::MacOS) {
-                LOLBAS_MACOS.iter().map(|e| e.name.to_string()).collect()
-            } else if app.platform_mask.contains(Platform::Linux) {
-                LOLBAS_LINUX.iter().map(|e| e.name.to_string()).collect()
-            } else {
-                LOLBAS_WINDOWS.iter().map(|e| e.name.to_string()).collect()
-            }
-        }
-        2 => ABUSABLE_SITES
-            .iter()
-            .map(|s| s.domain.to_string())
-            .collect(),
-        3 => LOLBAS_WINDOWS_CMDLETS
-            .iter()
-            .map(|e| e.name.to_string())
-            .collect(),
-        4 => LOLBAS_WINDOWS_MMC
-            .iter()
-            .map(|e| e.name.to_string())
-            .collect(),
-        5 => LOLBAS_WINDOWS_WMI
-            .iter()
-            .map(|e| e.name.to_string())
-            .collect(),
-        6 => PLAYBOOKS.iter().map(|p| p.id.to_string()).collect(),
-        7 => ALL_PROFILES
-            .iter()
-            .map(|p| format!("{:<24}  [{}]", p.id, malware_class_label(p.malware_class)))
-            .collect(),
-        8 => all_flows()
-            .iter()
-            .map(|f| format!("{:<40}  {}", f.id, f.name))
-            .collect(),
-        9 => EVENT_ID_TABLE
-            .iter()
-            .map(|e| format!("{:<6}  [{:<10}]  {}", e.event_id, e.channel, e.description))
-            .collect(),
-        10 => SIGMA_TABLE.iter().map(|r| format!("{}", r.title)).collect(),
-        11 => {
-            const MECHANISMS: &[(&str, &[&str])] = &[
-                ("Windows Run Keys", WINDOWS_RUN_KEYS),
-                ("Linux Persistence", LINUX_PERSISTENCE_PATHS),
-                ("macOS Persistence", MACOS_PERSISTENCE_PATHS),
-                ("IFEO Hijack", IFEO_PATHS),
-                ("AppInit DLLs", APPINIT_PATHS),
-                ("Session Manager", SESSION_MANAGER_PATHS),
-                ("Active Setup", ACTIVE_SETUP_PATHS),
-                ("Screensaver", SCREENSAVER_PATHS),
-                ("Winlogon", WINLOGON_PATHS),
-                ("COM/CLSID Hijack", COM_HIJACK_PATHS),
-            ];
-            MECHANISMS
-                .iter()
-                .map(|(name, _)| name.to_string())
-                .collect()
-        }
-        12 => {
-            const RMM_TOOLS: &[(&str, &[&str])] = &[
-                ("TeamViewer  [RMM]", TEAMVIEWER_PATHS),
-                ("AnyDesk     [RMM]", ANYDESK_PATHS),
-                ("Splashtop   [RMM]", SPLASHTOP_PATHS),
-                ("Atera       [RMM]", ATERA_PATHS),
-                ("GoToAssist  [RMM]", GOTOASSIST_PATHS),
-                ("Action1     [RMM]", ACTION1_PATHS),
-                ("ManageEngine[RMM]", MANAGEENGINE_PATHS),
-            ];
-            let mut v: Vec<String> = RMM_TOOLS.iter().map(|(name, _)| name.to_string()).collect();
-            v.push("Known RAT Names  [RAT]".to_string());
-            v
-        }
-        _ => vec![],
-    };
-
-    // Apply search filter if query is non-empty.
-    let list_items = if app.search_query.is_empty() {
-        all_display
-    } else {
-        let entries: Vec<search::SearchEntry> = if app.dataset_idx == 0 {
-            // Catalog: rich multi-field index (id + name + meaning + file_path + key_path).
-            // Re-iterate with the same filter — all 'static data, no I/O.
-            CATALOG
-                .list()
-                .iter()
-                .filter(|d| catalog_passes(app, d))
-                .enumerate()
-                .map(|(i, d)| {
-                    let mut parts: Vec<&str> = vec![d.id, d.name, d.meaning];
-                    if let Some(fp) = d.file_path {
-                        parts.push(fp);
-                    }
-                    if !d.key_path.is_empty() {
-                        parts.push(d.key_path);
-                    }
-                    search::SearchEntry::new(parts.join(" ").to_ascii_lowercase(), i)
-                })
-                .collect()
-        } else {
-            all_display
-                .iter()
-                .enumerate()
-                .map(|(i, s)| search::SearchEntry::new(s.to_ascii_lowercase(), i))
-                .collect()
-        };
-        let matched_indices = search::filter(&app.search_query, &entries);
-        matched_indices
-            .into_iter()
-            .map(|i| all_display[i].clone())
-            .collect()
-    };
-
-    let selected_name = list_items.get(app.selected).map(|s| s.trim());
-
-    let detail_lines: Vec<String> = match app.dataset_idx {
-        0 => {
-            let desc = selected_name
-                .and_then(|s| s.split_whitespace().next())
-                .and_then(|id| CATALOG.by_id(id));
-            match desc {
-                Some(d) => {
-                    const CW: usize = 8; // "Priority" = longest label
-                    let mut lines = vec![
-                        d.name.to_string(),
-                        "─".repeat(40),
-                        format!("{:<CW$}: {:?}", "Type", d.artifact_type),
-                        format!("{:<CW$}: {:?}", "OS", d.os_scope),
-                        format!("{:<CW$}: {:?}", "Priority", d.triage_priority),
-                    ];
-                    if let Some(fp) = d.file_path {
-                        lines.push(format!("{:<CW$}: {fp}", "Path"));
-                    }
-                    if !d.key_path.is_empty() {
-                        lines.push(format!("{:<CW$}: {}", "Key", d.key_path));
-                    }
-                    lines.push(String::new());
-                    lines.push(d.meaning.to_string());
-                    if !d.mitre_techniques.is_empty() {
-                        lines.push(String::new());
-                        lines.push(format!(
-                            "{:<CW$}: {}",
-                            "MITRE",
-                            d.mitre_techniques.join("  ")
-                        ));
-                    }
-                    if !d.fields.is_empty() {
-                        lines.push(String::new());
-                        lines.push("Fields:".into());
-                        for f in d.fields {
-                            lines.push(format!("  {}  — {}", f.name, f.description));
-                        }
-                    }
-                    if !d.sources.is_empty() {
-                        lines.push(String::new());
-                        lines.push("Sources:".into());
-                        for s in d.sources {
-                            lines.push(format!("  {s}"));
-                        }
-                    }
-                    lines
-                }
-                None => vec!["Select an item to see details.".into()],
-            }
-        }
-        // Lolbas: search platform-appropriate source(s).
-        1 => {
-            let entry = selected_name.and_then(|name| {
-                if app.platform_mask.contains(Platform::MacOS) {
-                    lolbas_entry(LOLBAS_MACOS, name)
-                } else if app.platform_mask.contains(Platform::Linux) {
-                    lolbas_entry(LOLBAS_LINUX, name)
-                } else if !app.platform_mask.is_empty() {
-                    lolbas_entry(LOLBAS_WINDOWS, name)
-                } else {
-                    lolbas_entry(LOLBAS_WINDOWS, name)
-                        .or_else(|| lolbas_entry(LOLBAS_LINUX, name))
-                        .or_else(|| lolbas_entry(LOLBAS_MACOS, name))
-                }
-            });
-            entry
-                .map(lolbas_detail_lines)
-                .unwrap_or_else(|| vec!["Select an item.".into()])
-        }
-        2 => {
-            let site = selected_name.and_then(|name| {
-                ABUSABLE_SITES
-                    .iter()
-                    .find(|s| s.domain.eq_ignore_ascii_case(name))
-            });
-            match site {
-                Some(s) => {
-                    const CW: usize = 10; // "Block risk" = longest label
-                    let mut lines = vec![
-                        s.domain.to_string(),
-                        "─".repeat(40),
-                        format!("{:<CW$}: {}", "Provider", s.provider),
-                        format!("{:<CW$}: {:?}", "Category", s.legitimate_category),
-                        format!("{:<CW$}: {:?}", "Block risk", s.blocking_risk),
-                    ];
-                    let tags = abuse_tags_str(s.abuse_tags);
-                    if !tags.is_empty() {
-                        lines.push(format!("{:<CW$}: {tags}", "Abuse"));
-                    }
-                    if !s.mitre_techniques.is_empty() {
-                        lines.push(String::new());
-                        lines.push(format!(
-                            "{:<CW$}: {}",
-                            "MITRE",
-                            s.mitre_techniques.join("  ")
-                        ));
-                    }
-                    lines
-                }
-                None => vec!["Select an item.".into()],
-            }
-        }
-        3 => selected_name
-            .and_then(|n| lolbas_entry(LOLBAS_WINDOWS_CMDLETS, n))
-            .map(lolbas_detail_lines)
-            .unwrap_or_else(|| vec!["Select an item.".into()]),
-        4 => selected_name
-            .and_then(|n| lolbas_entry(LOLBAS_WINDOWS_MMC, n))
-            .map(lolbas_detail_lines)
-            .unwrap_or_else(|| vec!["Select an item.".into()]),
-        5 => selected_name
-            .and_then(|n| lolbas_entry(LOLBAS_WINDOWS_WMI, n))
-            .map(lolbas_detail_lines)
-            .unwrap_or_else(|| vec!["Select an item.".into()]),
-        6 => {
-            let pb = selected_name.and_then(|id| PLAYBOOKS.iter().find(|p| p.id == id));
-            match pb {
-                Some(p) => {
-                    let mut lines = vec![
-                        p.name.to_string(),
-                        "─".repeat(40),
-                        p.description.to_string(),
-                        String::new(),
-                        format!("Steps: {}", p.steps.len()),
-                    ];
-                    for (i, step) in p.steps.iter().enumerate() {
-                        lines.push(String::new());
-                        lines.push(format!(
-                            "  {}. {} — {}",
-                            i + 1,
-                            step.artifact_id,
-                            step.tactic
-                        ));
-                        lines.push(format!("     {}", step.rationale));
-                    }
-                    lines
-                }
-                None => vec!["Select an item.".into()],
-            }
-        }
-        7 => {
-            let profile = selected_name
-                .and_then(|s| s.split_whitespace().next())
-                .and_then(|id| ALL_PROFILES.iter().copied().find(|p| p.id == id));
-            match profile {
-                Some(p) => {
-                    let mut lines = vec![
-                        p.family.to_string(),
-                        "─".repeat(40),
-                        p.description.to_string(),
-                        String::new(),
-                        format!("Family  : {}", p.family),
-                        format!("Class   : {}", malware_class_label(p.malware_class)),
-                    ];
-                    if !p.mitre_techniques.is_empty() {
-                        lines.push(format!("MITRE   : {}", p.mitre_techniques.join("  ")));
-                    }
-                    lines.push(String::new());
-                    lines.push(format!(
-                        "Thresholds — class:{} probable:{} confirmed:{}",
-                        p.class_threshold, p.probable_threshold, p.confirmed_threshold
-                    ));
-                    lines.push(String::new());
-                    lines.push("Signals:".into());
-                    for s in p.signals {
-                        let req = if s.required { " [required]" } else { "" };
-                        lines.push(format!("  {:>3}  {}{}", s.weight, s.id, req));
-                    }
-                    if !p.exclusions.is_empty() {
-                        lines.push(String::new());
-                        lines.push("Exclusions:".into());
-                        for e in p.exclusions {
-                            lines.push(format!("  -{:>3}  {}", e.penalty, e.id));
-                        }
-                    }
-                    lines
-                }
-                None => vec!["Select a profile to see details.".into()],
-            }
-        }
-        8 => {
-            let flow = selected_name
-                .and_then(|s| s.split_whitespace().next())
-                .and_then(|id| all_flows().iter().find(|f| f.id == id));
-            match flow {
-                Some(f) => {
-                    let mut lines = vec![
-                        f.name.to_string(),
-                        "─".repeat(40),
-                        f.description.to_string(),
-                        String::new(),
-                        format!("Actions : {}", f.actions.len()),
-                        String::new(),
-                        "Steps:".into(),
-                    ];
-                    for (i, a) in f.actions.iter().enumerate() {
-                        lines.push(format!(
-                            "  {:>2}. [{}] {} — {}",
-                            i + 1,
-                            a.technique_id,
-                            a.tactic,
-                            a.name
-                        ));
-                        if !a.artifact_ids.is_empty() {
-                            lines.push(format!("      Artifacts: {}", a.artifact_ids.join(", ")));
-                        }
-                    }
-                    lines
-                }
-                None => vec!["Select a flow to see details.".into()],
-            }
-        }
-        9 => {
-            let entry = selected_name
-                .and_then(|s| s.split_whitespace().next())
-                .and_then(|id_str| id_str.parse::<u32>().ok())
-                .and_then(|id| EVENT_ID_TABLE.iter().find(|e| e.event_id == id));
-            match entry {
-                Some(e) => {
-                    let mut lines = vec![
-                        format!("Event ID {} — {}", e.event_id, e.channel),
-                        "─".repeat(40),
-                        e.description.to_string(),
-                        String::new(),
-                        format!("Channel : {}", e.channel),
-                        format!("High val: {}", if e.high_value { "yes" } else { "no" }),
-                    ];
-                    if !e.mitre_techniques.is_empty() {
-                        lines.push(format!("MITRE   : {}", e.mitre_techniques.join("  ")));
-                    }
-                    if !e.artifact_ids.is_empty() {
-                        lines.push(String::new());
-                        lines.push(format!("Artifacts: {}", e.artifact_ids.join(", ")));
-                    }
-                    lines
-                }
-                None => vec!["Select an event ID to see details.".into()],
-            }
-        }
-        10 => {
-            let rule =
-                selected_name.and_then(|title| SIGMA_TABLE.iter().find(|r| r.title == title));
-            match rule {
-                Some(r) => {
-                    let mut lines = vec![
-                        r.title.to_string(),
-                        "─".repeat(40),
-                        format!("Rule ID  : {}", r.rule_id),
-                        format!("Artifact : {}", r.artifact_id),
-                        format!("Logsource: {}", r.logsource_category),
-                    ];
-                    if !r.mitre_techniques.is_empty() {
-                        lines.push(format!("MITRE    : {}", r.mitre_techniques.join("  ")));
-                    }
-                    lines
-                }
-                None => vec!["Select a Sigma rule to see details.".into()],
-            }
-        }
-        11 => {
-            const MECHANISMS: &[(&str, &[&str])] = &[
-                ("Windows Run Keys", WINDOWS_RUN_KEYS),
-                ("Linux Persistence", LINUX_PERSISTENCE_PATHS),
-                ("macOS Persistence", MACOS_PERSISTENCE_PATHS),
-                ("IFEO Hijack", IFEO_PATHS),
-                ("AppInit DLLs", APPINIT_PATHS),
-                ("Session Manager", SESSION_MANAGER_PATHS),
-                ("Active Setup", ACTIVE_SETUP_PATHS),
-                ("Screensaver", SCREENSAVER_PATHS),
-                ("Winlogon", WINLOGON_PATHS),
-                ("COM/CLSID Hijack", COM_HIJACK_PATHS),
-            ];
-            let paths = selected_name
-                .and_then(|name| MECHANISMS.iter().find(|(n, _)| *n == name))
-                .map(|(_, p)| *p);
-            match paths {
-                Some(ps) => {
-                    let mut lines = vec![selected_name.unwrap_or("").to_string(), "─".repeat(40)];
-                    for p in ps {
-                        lines.push(p.to_string());
-                    }
-                    lines
-                }
-                None => vec!["Select a persistence mechanism to see paths.".into()],
-            }
-        }
-        12 => {
-            const RMM_TOOLS: &[(&str, &[&str])] = &[
-                ("TeamViewer  [RMM]", TEAMVIEWER_PATHS),
-                ("AnyDesk     [RMM]", ANYDESK_PATHS),
-                ("Splashtop   [RMM]", SPLASHTOP_PATHS),
-                ("Atera       [RMM]", ATERA_PATHS),
-                ("GoToAssist  [RMM]", GOTOASSIST_PATHS),
-                ("Action1     [RMM]", ACTION1_PATHS),
-                ("ManageEngine[RMM]", MANAGEENGINE_PATHS),
-            ];
-            match selected_name {
-                Some("Known RAT Names  [RAT]") => {
-                    let mut lines = vec!["Known RAT / Backdoor Names".to_string(), "─".repeat(40)];
-                    for name in KNOWN_RAT_NAMES {
-                        lines.push(name.to_string());
-                    }
-                    lines
-                }
-                Some(name) => {
-                    let paths = RMM_TOOLS.iter().find(|(n, _)| *n == name).map(|(_, p)| *p);
-                    match paths {
-                        Some(ps) => {
-                            let mut lines = vec![
-                                name.to_string(),
-                                "─".repeat(40),
-                                "Registry indicators:".into(),
-                                String::new(),
-                            ];
-                            for p in ps {
-                                lines.push(p.to_string());
-                            }
-                            lines
-                        }
-                        None => vec!["Select a tool to see registry paths.".into()],
-                    }
-                }
-                None => vec!["Select a tool to see registry paths.".into()],
-            }
-        }
-        _ => vec!["Select an item to see details.".into()],
-    };
-
-    RenderData {
-        list_items,
-        detail_lines,
-    }
-}
-
-fn load_theme() -> &'static theme::Theme {
-    let config_path = dirs::config_dir()
-        .unwrap_or_else(|| std::path::PathBuf::from("."))
-        .join("4n6query")
-        .join("theme.toml");
-
-    if let Ok(contents) = std::fs::read_to_string(&config_path) {
-        if let Ok(t) = theme::load_user_config(&contents) {
-            return t;
-        }
-    }
-    theme::ALL_THEMES[0]
-}
-
-/// Launch the interactive TUI navigator.
-///
-/// Called when `4n6query` is invoked with no arguments on a TTY.
-/// Returns 0 on clean exit, 1 on error.
-pub fn run() -> i32 {
-    if let Err(e) = run_inner() {
-        eprintln!("tui error: {e}");
-        1
-    } else {
-        0
-    }
-}
-
-fn run_inner() -> io::Result<()> {
-    // Setup terminal
-    enable_raw_mode()?;
-    let mut stdout = io::stdout();
-    execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
-    let backend = CrosstermBackend::new(stdout);
-    let mut terminal = Terminal::new(backend)?;
-
-    let mut app = app::App::new();
-    let theme = load_theme();
-
-    loop {
-        app.tick_flash();
-        let rd = build_render_data(&app);
-
-        terminal.draw(|f| {
-            ui::draw(f, &app, theme, &rd.list_items, &rd.detail_lines);
-        })?;
-
-        if event::poll(std::time::Duration::from_millis(100))? {
-            match event::read()? {
-                Event::Key(key) => {
-                    if keys::handle_key(&mut app, key, rd.list_items.len()) {
-                        break;
-                    }
-                }
-                Event::Mouse(mouse) => {
-                    keys::handle_mouse(&mut app, mouse, rd.list_items.len());
-                }
-                _ => {}
-            }
-        }
-    }
-
-    // Restore terminal
-    disable_raw_mode()?;
-    execute!(
-        terminal.backend_mut(),
-        LeaveAlternateScreen,
-        DisableMouseCapture
-    )?;
-    terminal.show_cursor()?;
-
-    Ok(())
 }

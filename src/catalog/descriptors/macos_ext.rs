@@ -643,7 +643,7 @@ pub(crate) static MACOS_DIAGNOSTIC_REPORTS: ArtifactDescriptor = ArtifactDescrip
 /// Two files coexist in `com.apple.QuickLook.thumbnailcache/`:
 /// - `index.sqlite`    — metadata (file_path, last_hit_date, hit_count, volume_uuid)
 /// - `thumbnails.data` — proprietary raw bitmap format; not standard image headers;
-///                       extractable via hex offset analysis (RGB Alpha bitmaps)
+///   extractable via hex offset analysis (RGB Alpha bitmaps)
 ///
 /// The directory location uses NSURL-style volatile temp paths
 /// (`/private/var/folders/<random>/<random>/C/`) — enumerate all user subdirs.
@@ -1481,38 +1481,39 @@ pub(crate) static IOS_GOOGLE_CHAT_CACHEV0_FIELDS: &[FieldSchema] = &[
     },
 ];
 
-/// iOS Google Chat (Dynamite) image thumbnail cache database.
-///
-/// The `cacheV0.db` SQLite database is created by Google's image rendering
-/// pipeline (similar to Glide Image Manager Cache on Android). It contains a
-/// single `cache` table with `id` and `data` columns. Each `data` BLOB holds
-/// a reduced-resolution copy of every image the app has rendered in its UI,
-/// including user avatars and images from deleted chats.
-///
-/// Key forensic insight: images from deleted conversations persist in this
-/// database even after the source files are removed from the main chat image
-/// directory. Also observed in Google Voice on iOS.
-///
-/// Source: https://abrignoni.blogspot.com/2024/02/what-is-cachev0db-and-why-are-there.html
+// iOS Google Chat (Dynamite) image thumbnail cache database.
+//
+// The `cacheV0.db` SQLite database is created by Google's image rendering
+// pipeline (similar to Glide Image Manager Cache on Android). It contains a
+// single `cache` table with `id` and `data` columns. Each `data` BLOB holds
+// a reduced-resolution copy of every image the app has rendered in its UI,
+// including user avatars and images from deleted chats.
+//
+// Key forensic insight: images from deleted conversations persist in this
+// database even after the source files are removed from the main chat image
+// directory. Also observed in Google Voice on iOS.
+//
+// Source: https://abrignoni.blogspot.com/2024/02/what-is-cachev0db-and-why-are-there.html
 // ── macOS BTM (Background Task Management) ──────────────────────────────────
 
-/// macOS Background Task Management database — login items, launch agents/daemons,
-/// and background tasks tracked since macOS 13 Ventura.
-///
-/// NSKeyedArchive binary plist containing per-user dictionaries of all registered
-/// background tasks. Each item has a `type` flag (agent=0x08, daemon=0x10,
-/// login item=0x04, app=0x02, user item=0x01, developer=0x20, spotlight=0x40,
-/// quicklook=0x800, curated=0x80000, legacy=0x10000) and a `disposition` flag
-/// (Enabled=0x01, Allowed=0x02, Hidden=0x04, Notified=0x08). When a user
-/// toggles an item OFF in System Settings > Login Items & Extensions, the
-/// Allowed bit (0x02) is cleared.
-///
-/// Multiple versioned .btm files may coexist (e.g. BackgroundItems-v9.btm from
-/// an older macOS and BackgroundItems-v13.btm from macOS 15). Older files are
-/// forensic snapshots of autostart state at that point in time.
-///
-/// Source: http://www.swiftforensics.com/2025/01/macapt-update-to-btm-processing.html
-/// Source: https://objective-see.org/blog/blog_0x31.html
+// macOS Background Task Management database — login items, launch agents/daemons,
+// and background tasks tracked since macOS 13 Ventura. (Canonical descriptor:
+// MACOS_BTM_BACKGROUND_TASKS, below.)
+//
+// NSKeyedArchive binary plist containing per-user dictionaries of all registered
+// background tasks. Each item has a `type` flag (agent=0x08, daemon=0x10,
+// login item=0x04, app=0x02, user item=0x01, developer=0x20, spotlight=0x40,
+// quicklook=0x800, curated=0x80000, legacy=0x10000) and a `disposition` flag
+// (Enabled=0x01, Allowed=0x02, Hidden=0x04, Notified=0x08). When a user
+// toggles an item OFF in System Settings > Login Items & Extensions, the
+// Allowed bit (0x02) is cleared.
+//
+// Multiple versioned .btm files may coexist (e.g. BackgroundItems-v9.btm from
+// an older macOS and BackgroundItems-v13.btm from macOS 15). Older files are
+// forensic snapshots of autostart state at that point in time.
+//
+// Source: http://www.swiftforensics.com/2025/01/macapt-update-to-btm-processing.html
+// Source: https://objective-see.org/blog/blog_0x31.html
 // ── iOS Mobile Container Manager ─────────────────────────────────────────────
 
 /// iOS containers.sqlite3 — maps apps to their extensions, AppGroups,

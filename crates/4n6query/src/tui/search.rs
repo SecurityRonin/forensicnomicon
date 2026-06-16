@@ -51,7 +51,7 @@ pub fn filter(query: &str, entries: &[SearchEntry]) -> Vec<usize> {
         .filter_map(|e| score(query, e).map(|s| (s, e.source_idx)))
         .collect();
     // stable sort: primary = score desc, secondary = original order (already stable)
-    scored.sort_by(|a, b| b.0.cmp(&a.0));
+    scored.sort_by_key(|b| std::cmp::Reverse(b.0));
     scored.into_iter().map(|(_, idx)| idx).collect()
 }
 

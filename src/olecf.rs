@@ -305,7 +305,7 @@ mod tests {
     #[test]
     fn sector_offset_formula() {
         // (sid + 1) << sector_shift, v3 (512-byte sectors): sector 0 starts at 512.
-        let off = |sid: u32, shift: u16| ((u64::from(sid) + 1) << shift);
+        let off = |sid: u32, shift: u16| (u64::from(sid) + 1) << shift;
         assert_eq!(off(0, SECTOR_SHIFT_V3), 512);
         assert_eq!(off(1, SECTOR_SHIFT_V3), 1024);
         // mini_offset = msid << 6.

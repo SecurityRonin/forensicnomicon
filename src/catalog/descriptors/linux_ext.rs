@@ -1231,9 +1231,8 @@ pub(crate) static LAN_TURTLE_LOOT: ArtifactDescriptor = ArtifactDescriptor {
 
 // ── /etc/passwd — local user account database ────────────────────────────────
 
-/// Linux `/etc/passwd` — local user account database (world-readable).
-///
-/// Contains username, UID, GID, GECOS full name, home directory, and login shell
+// Linux `/etc/passwd` — local user account database (world-readable).
+// Contains username, UID, GID, GECOS full name, home directory, and login shell.
 
 // ── ESXi vSphere Trust Authority service logs ─────────────────────────────────
 

@@ -41,7 +41,7 @@ pub fn artifacts_with_strength(
     crate::catalog::CATALOG
         .list()
         .iter()
-        .filter(|d| d.evidence_strength.map_or(false, |s| s >= min_strength))
+        .filter(|d| d.evidence_strength.is_some_and(|s| s >= min_strength))
         .collect()
 }
 

@@ -62,7 +62,7 @@ mod tests {
     fn sqlite_offsets_are_correct() {
         assert_eq!(SQLITE_PAGE_SIZE_OFFSET, 16);
         assert_eq!(SQLITE_FREELIST_TRUNK_OFFSET, 32);
-        assert!(SQLITE_HEADER_SIZE >= SQLITE_FREELIST_TRUNK_OFFSET + 4);
+        const { assert!(SQLITE_HEADER_SIZE >= SQLITE_FREELIST_TRUNK_OFFSET + 4) };
     }
 
     #[test]

@@ -157,6 +157,12 @@ fn observation_trait_produces_a_canonical_finding() {
         f.context.external_refs,
         vec![ExternalRef::mitre_attack("T1565.001")]
     );
+
+    // The benign variant grades Info, carries its own code, and has no MITRE refs.
+    let clean = DemoKind::Clean.to_finding(src());
+    assert_eq!(clean.severity, Some(Severity::Info));
+    assert_eq!(clean.code, "DEMO-CLEAN");
+    assert!(clean.context.external_refs.is_empty());
 }
 
 #[test]

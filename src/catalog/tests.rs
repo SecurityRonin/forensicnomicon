@@ -10162,7 +10162,7 @@ mod tests_linux_pam_module_dir {
     fn linux_pam_module_dir_has_related_pam_d() {
         let d = CATALOG.by_id("linux_pam_module_dir").unwrap();
         assert!(
-            d.related_artifacts.iter().any(|r| *r == "linux_pam_d"),
+            d.related_artifacts.contains(&"linux_pam_d"),
             "linux_pam_module_dir must relate to linux_pam_d; got: {:?}",
             d.related_artifacts
         );
@@ -10206,9 +10206,7 @@ mod tests_linux_pam_d_pamdoora {
     fn linux_pam_d_related_includes_pam_module_dir() {
         let d = CATALOG.by_id("linux_pam_d").unwrap();
         assert!(
-            d.related_artifacts
-                .iter()
-                .any(|r| *r == "linux_pam_module_dir"),
+            d.related_artifacts.contains(&"linux_pam_module_dir"),
             "linux_pam_d must relate to linux_pam_module_dir; got: {:?}",
             d.related_artifacts
         );
@@ -10829,7 +10827,7 @@ mod tests_volatility_corrections {
     fn linux_dmesg_ring_buffer_related_includes_linux_dmesg() {
         let d = CATALOG.by_id("linux_dmesg_ring_buffer").unwrap();
         assert!(
-            d.related_artifacts.iter().any(|&r| r == "linux_dmesg"),
+            d.related_artifacts.contains(&"linux_dmesg"),
             "ring buffer should cross-reference the persisted dmesg file"
         );
     }

@@ -1,8 +1,13 @@
-/// ATT&CK tactic coverage heatmap.
-///
-/// Maps MITRE technique IDs (T1059, T1547.001, …) to a 14-bit tactic mask
-/// and renders a braille bar showing coverage across all 14 ATT&CK Enterprise
-/// tactics in their canonical order.
+//! ATT&CK tactic coverage heatmap.
+//!
+//! Maps MITRE technique IDs (T1059, T1547.001, …) to a 14-bit tactic mask
+//! and renders a braille bar showing coverage across all 14 ATT&CK Enterprise
+//! tactics in their canonical order.
+//!
+//! Built and exercised by tests; not yet wired into the production render loop.
+
+// The whole module is reachable only from tests until the heatmap is wired in.
+#![cfg_attr(not(test), allow(dead_code))]
 
 /// The 14 ATT&CK Enterprise tactics in display order.
 /// Index 0 = leftmost char in the heatmap bar.

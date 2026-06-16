@@ -13,7 +13,9 @@ use ratatui::{
 use forensicnomicon::catalog::Platform;
 
 use crate::tui::app::{App, CritFilter, Focus, Mode, WinVersionFilter};
-use crate::tui::heatmap::{render_bar, tactic_mask, BLOCK_HIT, BLOCK_MISS};
+#[cfg(test)]
+use crate::tui::heatmap::BLOCK_MISS;
+use crate::tui::heatmap::{render_bar, tactic_mask, BLOCK_HIT};
 use crate::tui::theme::Theme;
 
 /// Version string shown in the about modal.
@@ -299,6 +301,8 @@ fn colorize_detail_line(s: &str, query: &str, theme: &Theme) -> Line<'static> {
 }
 
 /// Render a 14-char ATT&CK tactic heatmap bar from a slice of technique IDs.
+// Built and tested, not yet wired into the production render loop.
+#[cfg_attr(not(test), allow(dead_code))]
 pub fn render_heatmap(techniques: &[&str], theme: &Theme) -> Line<'static> {
     let mask = tactic_mask(techniques);
     let bar = render_bar(mask);

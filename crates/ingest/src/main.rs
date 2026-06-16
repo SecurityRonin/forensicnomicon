@@ -7,7 +7,7 @@ mod sources;
 
 use std::collections::HashSet;
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 use codegen::{generate_module_header, generate_static};
 use dedup::load_catalog_ids;
@@ -188,7 +188,7 @@ fn main() {
         "nirsoft",
     ];
     let source_names: Vec<&str> = if opts.sources.iter().any(|s| s == "all") {
-        all_sources.iter().copied().collect()
+        all_sources.to_vec()
     } else {
         opts.sources.iter().map(String::as_str).collect()
     };

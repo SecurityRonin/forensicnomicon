@@ -471,6 +471,7 @@ pub fn load_user_config(toml_str: &str) -> Result<&'static Theme, String> {
 
 /// Parse a `#RRGGBB` hex string into a `Color`. Returns an error string on
 /// failure.
+#[cfg_attr(not(test), allow(dead_code))]
 pub fn parse_hex(hex: &str) -> Result<Color, String> {
     let h = hex.trim_start_matches('#');
     if h.len() != 6 {

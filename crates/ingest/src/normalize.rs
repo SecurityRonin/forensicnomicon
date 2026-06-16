@@ -76,6 +76,7 @@ pub fn normalize_registry_id(path: &str, source: &str) -> String {
 
 /// Like `normalize_registry_id` but ensures uniqueness against an existing set.
 /// Appends `_2`, `_3`, etc. until unique.
+#[cfg_attr(not(test), allow(dead_code))]
 pub fn normalize_registry_id_unique(
     path: &str,
     source: &str,

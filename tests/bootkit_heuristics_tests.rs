@@ -26,7 +26,7 @@ fn track0_gap_covers_the_classic_stash_region() {
 
 #[test]
 fn entropy_thresholds_are_ordered_packer_triage_values() {
-    assert!(PACKED_BOOT_CODE_ENTROPY_SUSPECT < PACKED_BOOT_CODE_ENTROPY_STRONG);
+    const { assert!(PACKED_BOOT_CODE_ENTROPY_SUSPECT < PACKED_BOOT_CODE_ENTROPY_STRONG) };
     assert!((PACKED_BOOT_CODE_ENTROPY_SUSPECT - 7.0).abs() < f64::EPSILON);
     assert!((PACKED_BOOT_CODE_ENTROPY_STRONG - 7.5).abs() < f64::EPSILON);
 }

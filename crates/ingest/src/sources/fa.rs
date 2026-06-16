@@ -14,6 +14,7 @@ use crate::normalize::{normalize_file_id, normalize_registry_id};
 use crate::record::{IngestRecord, IngestType};
 
 /// Parse a ForensicArtifacts YAML string (possibly multi-document) into IngestRecords.
+#[cfg_attr(not(test), allow(dead_code))]
 pub fn parse_fa_yaml(content: &str) -> Vec<IngestRecord> {
     let mut records = Vec::new();
     let mut seen_ids = HashSet::new();
@@ -267,6 +268,7 @@ fn infer_triage(name: &str, doc: &str) -> &'static str {
     let combined = format!("{} {}", name, doc).to_ascii_lowercase();
     // Cap at High — generated artifacts lack human-curated evidence assessments.
     // Critical rating requires a handwritten descriptor with volatility/evidence filled in.
+    // Credential-access and execution/persistence artifacts both cap at High.
     if combined.contains("credential")
         || combined.contains("password")
         || combined.contains("lsass")
@@ -274,9 +276,7 @@ fn infer_triage(name: &str, doc: &str) -> &'static str {
         || combined.contains("ntds")
         || combined.contains("token")
         || combined.contains("privilege")
-    {
-        "High"
-    } else if combined.contains("execution")
+        || combined.contains("execution")
         || combined.contains("persistence")
         || combined.contains("run key")
         || combined.contains("startup")
@@ -299,6 +299,7 @@ fn infer_triage(name: &str, doc: &str) -> &'static str {
 }
 
 /// Fetch and parse ForensicArtifacts YAML from a single URL.
+#[cfg_attr(not(test), allow(dead_code))]
 pub fn fetch_fa_artifacts(url: &str) -> Result<Vec<IngestRecord>, Box<dyn std::error::Error>> {
     let client = reqwest::blocking::Client::builder()
         .user_agent("forensicnomicon-ingest/0.1")

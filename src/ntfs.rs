@@ -305,8 +305,8 @@ mod tests {
         assert_eq!(o::FLAGS, 0x16);
         assert_eq!(o::FIRST_ATTRIBUTE, 0x14);
         assert_eq!(o::BASE_RECORD, 0x20);
-        assert!(o::SIGNATURE < o::USA_OFFSET && o::USA_OFFSET < o::USA_COUNT);
-        assert!(o::FIRST_ATTRIBUTE < o::FLAGS && o::FLAGS < o::BASE_RECORD);
+        const { assert!(o::SIGNATURE < o::USA_OFFSET && o::USA_OFFSET < o::USA_COUNT) };
+        const { assert!(o::FIRST_ATTRIBUTE < o::FLAGS && o::FLAGS < o::BASE_RECORD) };
     }
 
     #[test]
@@ -376,8 +376,8 @@ mod tests {
         assert_eq!(o::RES_CONTENT_LENGTH, 0x10);
         assert_eq!(o::NR_START_VCN, 0x10);
         assert_eq!(o::NR_REAL_SIZE, 0x30);
-        assert!(o::TYPE < o::LENGTH && o::LENGTH < o::NON_RESIDENT);
-        assert!(o::NR_RUNS_OFFSET < o::NR_ALLOCATED_SIZE);
+        const { assert!(o::TYPE < o::LENGTH && o::LENGTH < o::NON_RESIDENT) };
+        const { assert!(o::NR_RUNS_OFFSET < o::NR_ALLOCATED_SIZE) };
     }
 
     #[test]

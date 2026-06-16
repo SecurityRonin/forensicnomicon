@@ -13,6 +13,7 @@ pub enum IngestType {
 pub struct IngestRecord {
     pub id: String,
     pub name: String,
+    #[cfg_attr(not(test), allow(dead_code))]
     pub source_name: &'static str,
     pub artifact_type: IngestType,
     pub hive: Option<String>,
@@ -29,6 +30,7 @@ pub struct IngestRecord {
 
 impl IngestRecord {
     /// Construct a minimal registry-key record.
+    #[cfg_attr(not(test), allow(dead_code))]
     pub fn registry_key(
         id: impl Into<String>,
         name: impl Into<String>,
@@ -55,6 +57,7 @@ impl IngestRecord {
     }
 
     /// Construct a minimal file record.
+    #[cfg_attr(not(test), allow(dead_code))]
     pub fn file(
         id: impl Into<String>,
         name: impl Into<String>,
