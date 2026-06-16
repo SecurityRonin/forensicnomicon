@@ -24,6 +24,7 @@
 //! 4n6query dump --format yaml
 //! ```
 
+mod explore;
 mod tui;
 
 use clap::{Parser, Subcommand, ValueEnum};
@@ -113,6 +114,24 @@ enum Commands {
         #[arg(long, value_enum, default_value = "all")]
         dataset: Dataset,
     },
+
+    /// List all catalog artifacts (id, name, triage priority).
+    List,
+
+    /// Filter catalog artifacts by keyword.
+    Search {
+        /// Keyword to match against artifacts.
+        keyword: String,
+    },
+
+    /// Print the full descriptor for a single artifact by id.
+    Show {
+        /// Artifact id to display.
+        id: String,
+    },
+
+    /// List Critical and High priority artifacts for triage.
+    Triage,
 }
 
 #[derive(Clone, Copy, ValueEnum, PartialEq, Eq)]
@@ -166,6 +185,10 @@ fn main() {
     let exit_code = if let Some(cmd) = cli.command {
         match cmd {
             Commands::Dump { format, dataset } => run_dump(format, dataset),
+            Commands::List => explore::run_list(),
+            Commands::Search { keyword } => explore::run_search(&keyword),
+            Commands::Show { id } => explore::run_show(&id),
+            Commands::Triage => explore::run_triage_view(),
         }
     } else if cli.triage {
         run_triage(

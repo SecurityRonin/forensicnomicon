@@ -5,6 +5,7 @@ edition.workspace = true
 rust-version = "1.75"
 description = "Mass-import ingestion pipeline for the forensicnomicon artifact catalog"
 license = "Apache-2.0"
+publish = false
 
 [[bin]]
 name = "ingest"

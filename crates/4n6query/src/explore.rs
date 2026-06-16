@@ -1,13 +1,9 @@
-//! fnomicon — CLI explorer for the ForensicNomicon artifact catalog.
+//! Catalog explorer subcommands ported from the former `fnomicon` CLI.
 //!
-//! Subcommands:
-//!   list              List all artifacts (id, name, priority)
-//!   search <keyword>  Filter artifacts by keyword
-//!   show <id>         Print full descriptor for a single artifact
-//!   triage            List Critical and High priority artifacts
+//! Provides the `list`, `search`, `show`, and `triage` views over the
+//! ForensicNomicon artifact catalog with ANSI-coloured human output.
 
 use forensicnomicon::catalog::{ArtifactDescriptor, ForensicCatalog, TriagePriority, CATALOG};
-use std::env;
 
 // ── ANSI colour helpers ───────────────────────────────────────────────────────
 
@@ -138,9 +134,12 @@ fn cmd_search(catalog: &'static ForensicCatalog, keyword: &str) {
     println!();
 }
 
-fn cmd_show(catalog: &'static ForensicCatalog, id: &str) {
+fn cmd_show(catalog: &'static ForensicCatalog, id: &str) -> i32 {
     match catalog.by_id(id) {
-        Some(d) => print_detail(d),
+        Some(d) => {
+            print_detail(d);
+            0
+        }
         None => {
             eprintln!(
                 "{RED}Error:{RESET} artifact '{id}' not found.",
@@ -148,7 +147,7 @@ fn cmd_show(catalog: &'static ForensicCatalog, id: &str) {
                 RESET = RESET,
                 id = id
             );
-            std::process::exit(1);
+            1
         }
     }
 }
@@ -176,98 +175,23 @@ fn cmd_triage(catalog: &'static ForensicCatalog) {
     println!();
 }
 
-fn usage() {
-    println!(
-        "{BOLD}fnomicon{RESET} — forensic artifact catalog explorer",
-        BOLD = BOLD,
-        RESET = RESET
-    );
-    println!();
-    println!("USAGE:");
-    println!("  fnomicon list");
-    println!("  fnomicon search <keyword>");
-    println!("  fnomicon show <artifact-id>");
-    println!("  fnomicon triage");
-    println!();
+// ── Public entry points (wired into the clap dispatch) ─────────────────────────
+
+pub fn run_list() -> i32 {
+    cmd_list(&CATALOG);
+    0
 }
 
-// ── Entry point ───────────────────────────────────────────────────────────────
-
-fn main() {
-    let args: Vec<String> = env::args().collect();
-
-    match args.get(1).map(String::as_str) {
-        Some("list") => cmd_list(&CATALOG),
-        Some("search") => {
-            let keyword = args.get(2).map(String::as_str).unwrap_or("");
-            if keyword.is_empty() {
-                eprintln!("Usage: fnomicon search <keyword>");
-                std::process::exit(1);
-            }
-            cmd_search(&CATALOG, keyword);
-        }
-        Some("show") => {
-            let id = args.get(2).map(String::as_str).unwrap_or("");
-            if id.is_empty() {
-                eprintln!("Usage: fnomicon show <artifact-id>");
-                std::process::exit(1);
-            }
-            cmd_show(&CATALOG, id);
-        }
-        Some("triage") => cmd_triage(&CATALOG),
-        _ => usage(),
-    }
+pub fn run_search(keyword: &str) -> i32 {
+    cmd_search(&CATALOG, keyword);
+    0
 }
 
-// ── Tests ─────────────────────────────────────────────────────────────────────
+pub fn run_show(id: &str) -> i32 {
+    cmd_show(&CATALOG, id)
+}
 
-#[cfg(test)]
-mod tests {
-    use forensicnomicon::catalog::{TriagePriority, CATALOG};
-
-    #[test]
-    fn catalog_accessible_from_binary() {
-        assert!(CATALOG.list().len() > 100);
-    }
-
-    #[test]
-    fn search_prefetch_returns_results() {
-        let results = CATALOG.filter_by_keyword("prefetch");
-        assert!(!results.is_empty());
-    }
-
-    #[test]
-    fn triage_critical_nonempty() {
-        let critical: Vec<_> = CATALOG
-            .for_triage()
-            .into_iter()
-            .filter(|d| d.triage_priority == TriagePriority::Critical)
-            .collect();
-        assert!(!critical.is_empty());
-    }
-
-    #[test]
-    fn list_returns_sorted_or_nonempty() {
-        let all = CATALOG.list();
-        assert!(!all.is_empty());
-    }
-
-    #[test]
-    fn by_id_lookup_works() {
-        // Grab the first artifact id and verify round-trip lookup
-        let first = CATALOG.list().first().expect("catalog is nonempty");
-        let found = CATALOG.by_id(first.id);
-        assert!(found.is_some());
-        assert_eq!(found.unwrap().id, first.id);
-    }
-
-    #[test]
-    fn triage_high_nonempty() {
-        let high: Vec<_> = CATALOG
-            .for_triage()
-            .into_iter()
-            .filter(|d| d.triage_priority == TriagePriority::High)
-            .collect();
-        assert!(!high.is_empty());
-    }
+pub fn run_triage_view() -> i32 {
+    cmd_triage(&CATALOG);
+    0
 }
