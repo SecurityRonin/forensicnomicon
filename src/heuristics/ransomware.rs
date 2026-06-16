@@ -673,12 +673,10 @@ mod tests {
 
     #[test]
     fn kill_cluster_threshold_is_at_least_3() {
-        const {
-            assert!(
-                RANSOMWARE_KILL_CLUSTER_THRESHOLD >= 3,
-                "threshold must be at least 3 to avoid trivial false positives"
-            );
-        }
+        const _: () = assert!(
+            RANSOMWARE_KILL_CLUSTER_THRESHOLD >= 3,
+            "threshold must be at least 3 to avoid trivial false positives"
+        );
     }
 
     #[test]
@@ -721,11 +719,9 @@ mod tests {
 
     #[test]
     fn service_stop_threshold_is_at_least_3() {
-        const {
-            assert!(
-                RANSOMWARE_SERVICE_STOP_CLUSTER_THRESHOLD >= 3,
-                "threshold must be at least 3"
-            );
-        }
+        const _: () = assert!(
+            RANSOMWARE_SERVICE_STOP_CLUSTER_THRESHOLD >= 3,
+            "threshold must be at least 3"
+        );
     }
 }
