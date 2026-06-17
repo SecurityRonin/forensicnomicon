@@ -1,3 +1,4 @@
+#![allow(clippy::unwrap_used, clippy::expect_used)]
 //! The normalized cross-scheme forensic report vocabulary — superset model.
 //!
 //! These tests pin the shared model every SecurityRonin analyzer normalizes

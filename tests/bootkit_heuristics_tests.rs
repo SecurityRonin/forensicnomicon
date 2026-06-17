@@ -1,3 +1,4 @@
+#![allow(clippy::unwrap_used, clippy::expect_used)]
 //! Signature-free bootkit-detection knowledge (stash sectors, entropy
 //! thresholds, expected BIOS interrupt vectors).
 

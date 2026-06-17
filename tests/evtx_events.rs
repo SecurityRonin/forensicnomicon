@@ -1,3 +1,4 @@
+#![allow(clippy::unwrap_used, clippy::expect_used)]
 use forensicnomicon::evtx::{
     DefenderEvent, EvtxEvent, LateralMovementEvent, ProcessExecution, RdpSessionEvent,
     ScheduledTask, SmbAccessEvent, WmiEvent,

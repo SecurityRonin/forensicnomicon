@@ -16,6 +16,35 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 serde_yaml = "0.9"
 
+# Paranoid Gatekeeper (fleet standard). forensicnomicon is the zero-dep KNOWLEDGE
+# leaf — compile-time artifact specs and constant tables, no I/O or binary
+# deserialization — so `unsafe_code` is forbidden outright. The panic-free denies
+# (unwrap_used / expect_used) still apply: a published accessor must never panic.
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+correctness = { level = "deny", priority = -1 }
+suspicious = { level = "deny", priority = -1 }
+# Panic-free production code: no unwrap/expect outside tests.
+unwrap_used = { level = "deny", priority = 0 }
+expect_used = { level = "deny", priority = 0 }
+# Pragmatic allows — stylistic pedantic lints that fight the domain (large
+# generated constant tables, scheme-prefixed codes, deliberate numeric casts).
+module_name_repetitions = { level = "allow", priority = 1 }
+must_use_candidate = { level = "allow", priority = 1 }
+missing_errors_doc = { level = "allow", priority = 1 }
+missing_panics_doc = { level = "allow", priority = 1 }
+cast_possible_truncation = { level = "allow", priority = 1 }
+cast_possible_wrap = { level = "allow", priority = 1 }
+cast_sign_loss = { level = "allow", priority = 1 }
+cast_precision_loss = { level = "allow", priority = 1 }
+unreadable_literal = { level = "allow", priority = 1 }
+similar_names = { level = "allow", priority = 1 }
+doc_markdown = { level = "allow", priority = 1 }
+
 [package]
 name = "forensicnomicon"
 version = "0.5.4"
@@ -40,6 +69,9 @@ serde = { workspace = true, optional = true }
 
 [dev-dependencies]
 serde_json = { workspace = true }
+
+[lints]
+workspace = true
 
 [[example]]
 name = "dump_lol"

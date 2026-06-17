@@ -1,3 +1,4 @@
+#![allow(clippy::unwrap_used, clippy::expect_used)]
 //! Partition-scheme detection from a disk's boot area.
 
 use forensicnomicon::partition_schemes::{detect_scheme, Scheme};

@@ -1,3 +1,4 @@
+#![allow(clippy::unwrap_used, clippy::expect_used)]
 //! Serialize the full forensicnomicon catalog to JSON snapshots under `data/`.
 //!
 //! Run with:

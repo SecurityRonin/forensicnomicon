@@ -1,3 +1,4 @@
+#![allow(clippy::unwrap_used, clippy::expect_used)]
 /// Integration tests for the `dump_lol` example.
 ///
 /// These tests run `cargo run --example dump_lol --features serde` exactly

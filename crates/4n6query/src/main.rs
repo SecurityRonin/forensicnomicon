@@ -1,3 +1,4 @@
+#![cfg_attr(test, allow(clippy::unwrap_used, clippy::expect_used))]
 //! `4n6query` — DFIR query tool for the forensicnomicon catalog.
 //!
 //! # Usage

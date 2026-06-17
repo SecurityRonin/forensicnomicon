@@ -51,3 +51,6 @@ assets = [
     ["../../target/release/4n6query", "usr/bin/4n6query", "755"],
     ["../../dist/4q", "usr/bin/4q", "755"],
 ]
+
+[lints]
+workspace = true

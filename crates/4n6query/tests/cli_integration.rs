@@ -1,3 +1,4 @@
+#![allow(clippy::unwrap_used, clippy::expect_used)]
 //! Integration tests for the `4n6query` CLI.
 //!
 //! Design: `4n6query <term>` is the universal entry point. The tool detects
