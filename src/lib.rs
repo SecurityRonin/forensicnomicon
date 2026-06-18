@@ -143,6 +143,7 @@ pub mod attack_flow;
 pub mod boot_signatures;
 pub mod bootkit;
 pub mod catalog;
+pub mod category;
 pub mod chainsaw;
 pub mod decmpfs;
 pub mod dependencies;
