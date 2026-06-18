@@ -107,7 +107,7 @@ pub fn fetch_kape_targets() -> Result<Vec<IngestRecord>, Box<dyn std::error::Err
         .iter()
         .filter_map(|f| f["path"].as_str())
         .filter(|p| p.ends_with(".tkape") && p.starts_with("Targets/"))
-        .map(|p| p.to_string())
+        .map(str::to_string)
         .collect::<Vec<_>>();
 
     let mut all_records = Vec::new();
@@ -221,10 +221,10 @@ fn build_record(
     };
     seen_ids.insert(id.clone());
 
-    let meaning = if !comment.is_empty() {
-        comment.to_string()
-    } else {
+    let meaning = if comment.is_empty() {
         format!("{name} — collected by KAPE {source_file} target")
+    } else {
+        comment.to_string()
     };
 
     let triage = infer_triage(name, comment);
@@ -276,7 +276,11 @@ fn infer_triage(name: &str, comment: &str) -> &'static str {
 }
 
 fn extract_mitre(text: &str) -> Vec<String> {
-    let re = regex::Regex::new(r"T\d{4}(?:\.\d{3})?").unwrap();
+    // Constant valid regex; degrade to no matches rather than panic if it ever
+    // fails to compile.
+    let Ok(re) = regex::Regex::new(r"T\d{4}(?:\.\d{3})?") else {
+        return Vec::new();
+    };
     re.find_iter(text).map(|m| m.as_str().to_string()).collect()
 }
 

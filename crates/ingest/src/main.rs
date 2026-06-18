@@ -1,4 +1,11 @@
-#![cfg_attr(test, allow(clippy::unwrap_used, clippy::expect_used))]
+#![cfg_attr(
+    test,
+    allow(
+        clippy::unwrap_used,
+        clippy::expect_used,
+        clippy::needless_raw_string_hashes
+    )
+)]
 mod codegen;
 mod dedup;
 mod github;
@@ -7,6 +14,7 @@ mod record;
 mod sources;
 
 use std::collections::HashSet;
+use std::fmt::Write as _;
 use std::fs;
 use std::path::PathBuf;
 
@@ -91,7 +99,7 @@ impl Opts {
 
 fn print_usage() {
     println!(
-        r#"forensicnomicon ingest pipeline
+        r"forensicnomicon ingest pipeline
 
 Usage: ingest [OPTIONS]
 
@@ -104,7 +112,7 @@ Options:
   --limit <N>         Max records per source (for testing)
   -v, --verbose       Verbose output
   -h, --help          Show this help
-"#
+"
     );
 }
 
@@ -163,7 +171,11 @@ fn main() {
     let output_dir = if opts.output_dir.is_absolute() {
         opts.output_dir.clone()
     } else {
-        std::env::current_dir().expect("cwd").join(&opts.output_dir)
+        let cwd = std::env::current_dir().unwrap_or_else(|e| {
+            eprintln!("WARN: could not resolve current dir: {e}; using \".\"");
+            PathBuf::from(".")
+        });
+        cwd.join(&opts.output_dir)
     };
 
     // Load existing catalog IDs for deduplication
@@ -245,16 +257,18 @@ fn main() {
             }
 
             // Summary comment listing all statics
-            content.push_str(&format!(
-                "// ── Generated entries ({}) ─────────────────────────────────────────────────\n",
+            let _ = writeln!(
+                content,
+                "// ── Generated entries ({}) ─────────────────────────────────────────────────",
                 new_records.len()
-            ));
-            content.push_str(&format!(
-                "// pub(crate) static GENERATED_{}_ENTRIES: &[&ArtifactDescriptor] = &[\n",
+            );
+            let _ = writeln!(
+                content,
+                "// pub(crate) static GENERATED_{}_ENTRIES: &[&ArtifactDescriptor] = &[",
                 source_name.to_ascii_uppercase()
-            ));
+            );
             for name in &static_names {
-                content.push_str(&format!("//     &{name},\n"));
+                let _ = writeln!(content, "//     &{name},");
             }
             content.push_str("// ];\n");
 
@@ -279,7 +293,7 @@ fn main() {
         };
 
         summaries.push(SourceSummary {
-            source: source_name.to_string(),
+            source: (*source_name).to_string(),
             fetched,
             new: new_count,
             written,

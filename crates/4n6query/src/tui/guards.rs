@@ -24,10 +24,10 @@ impl Guard {
                 }
             }
             Self::DetailFocused => {
-                if app.focus != Focus::Detail {
-                    Some("not in detail pane — press Tab or l to switch")
-                } else {
+                if app.focus == Focus::Detail {
                     None
+                } else {
+                    Some("not in detail pane — press Tab or l to switch")
                 }
             }
         }

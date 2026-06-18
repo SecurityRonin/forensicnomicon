@@ -36,8 +36,7 @@ pub fn pane_constraints(width: u16) -> [Constraint; 2] {
 /// Build the header line showing dataset + active filters + search query.
 pub fn header_text<'a>(app: &'a App, theme: &'a Theme) -> Line<'a> {
     let dataset_label = crate::tui::dataset::Dataset::from_idx(app.dataset_idx)
-        .map(|d| d.label())
-        .unwrap_or("unknown");
+        .map_or("unknown", super::dataset::Dataset::label);
 
     let mut spans = vec![
         Span::styled(
@@ -1075,7 +1074,7 @@ mod tests {
         let line = colorize_detail_line("  run_count  — number of executions", "", theme);
         let name_span = line.spans.iter().find(|s| s.content.contains("run_count"));
         assert!(
-            name_span.map(|s| s.style.add_modifier.contains(Modifier::BOLD)) == Some(true),
+            name_span.is_some_and(|s| s.style.add_modifier.contains(Modifier::BOLD)),
             "field entry name must be bold"
         );
     }

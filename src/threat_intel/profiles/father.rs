@@ -1,6 +1,11 @@
 use crate::threat_intel::{
     profile::{MalwareClass, MalwareProfile, ProfileSignal, WeightedExclusion},
-    signals::*,
+    signals::{
+        ARTIFACT_PAM_STAGING_FATHER, ARTIFACT_PAM_STAGING_STRUCTURAL, ELF_GLOBALLY_LOADED,
+        ELF_HOOKS_NETWORK_HIDING, ELF_HOOKS_PAM_CREDENTIAL, ELF_HOOKS_PROCESS_HIDING,
+        ELF_NOT_IN_PKG_DB, ELF_STRING_FATHER_FORMAT, ELF_STRING_STAGING_PATH,
+        TEMPORAL_LDPRELOAD_SSHD_RESTART,
+    },
 };
 
 pub static FATHER: MalwareProfile = MalwareProfile {

@@ -108,13 +108,13 @@ pub fn consonant_run_max(s: &str) -> u8 {
     let mut cur_run: u8 = 0;
     for c in s.chars() {
         if c.is_ascii_alphabetic() {
-            if !matches!(c.to_ascii_lowercase(), 'a' | 'e' | 'i' | 'o' | 'u') {
+            if matches!(c.to_ascii_lowercase(), 'a' | 'e' | 'i' | 'o' | 'u') {
+                cur_run = 0;
+            } else {
                 cur_run = cur_run.saturating_add(1);
                 if cur_run > max_run {
                     max_run = cur_run;
                 }
-            } else {
-                cur_run = 0;
             }
         } else {
             cur_run = 0;

@@ -25,7 +25,7 @@ pub fn handle_key(app: &mut App, event: KeyEvent, list_len: usize) -> bool {
     // About modal eats all keys except close keys
     if app.mode == Mode::About {
         match event.code {
-            KeyCode::Char('?') | KeyCode::F(1) | KeyCode::Esc | KeyCode::Char('q') => {
+            KeyCode::Char('?' | 'q') | KeyCode::F(1) | KeyCode::Esc => {
                 app.close_about();
             }
             KeyCode::Char('j') | KeyCode::Down => app.scroll_detail_down(),
@@ -52,37 +52,33 @@ pub fn handle_key(app: &mut App, event: KeyEvent, list_len: usize) -> bool {
     // Normal mode — full keybinding table
     match (event.code, event.modifiers) {
         // ── Quit ─────────────────────────────────────────────────────────
-        (KeyCode::Char('q'), KeyModifiers::NONE) | (KeyCode::Char('Q'), KeyModifiers::NONE) => {
-            return true
-        }
+        (KeyCode::Char('q' | 'Q'), KeyModifiers::NONE) => return true,
 
         // ── About modal ───────────────────────────────────────────────────
-        (KeyCode::Char('?'), KeyModifiers::NONE) | (KeyCode::F(1), KeyModifiers::NONE) => {
-            app.open_about()
+        (KeyCode::Char('?') | KeyCode::F(1), KeyModifiers::NONE) => {
+            app.open_about();
         }
 
         // ── Search ────────────────────────────────────────────────────────
         (KeyCode::Char('/'), KeyModifiers::NONE) => app.enter_search_mode(),
 
         // ── Navigation ────────────────────────────────────────────────────
-        (KeyCode::Char('j'), KeyModifiers::NONE) | (KeyCode::Down, KeyModifiers::NONE) => {
-            app.move_down(list_len)
+        (KeyCode::Char('j') | KeyCode::Down, KeyModifiers::NONE) => {
+            app.move_down(list_len);
         }
-        (KeyCode::Char('k'), KeyModifiers::NONE) | (KeyCode::Up, KeyModifiers::NONE) => {
-            app.move_up()
+        (KeyCode::Char('k') | KeyCode::Up, KeyModifiers::NONE) => {
+            app.move_up();
         }
-        (KeyCode::Char('g'), KeyModifiers::NONE) | (KeyCode::Home, KeyModifiers::NONE) => {
-            app.move_to_top()
+        (KeyCode::Char('g') | KeyCode::Home, KeyModifiers::NONE) => {
+            app.move_to_top();
         }
-        (KeyCode::Char('G'), KeyModifiers::NONE) | (KeyCode::End, KeyModifiers::NONE) => {
-            app.move_to_bottom(list_len)
+        (KeyCode::Char('G') | KeyCode::End, KeyModifiers::NONE) => {
+            app.move_to_bottom(list_len);
         }
         (KeyCode::PageDown, KeyModifiers::NONE)
-        | (KeyCode::Char('d'), KeyModifiers::CONTROL)
-        | (KeyCode::Char('f'), KeyModifiers::CONTROL) => app.page_down(list_len, PAGE_SIZE),
+        | (KeyCode::Char('d' | 'f'), KeyModifiers::CONTROL) => app.page_down(list_len, PAGE_SIZE),
         (KeyCode::PageUp, KeyModifiers::NONE)
-        | (KeyCode::Char('u'), KeyModifiers::CONTROL)
-        | (KeyCode::Char('b'), KeyModifiers::CONTROL) => app.page_up(PAGE_SIZE),
+        | (KeyCode::Char('u' | 'b'), KeyModifiers::CONTROL) => app.page_up(PAGE_SIZE),
 
         // ── Detail pane scroll ────────────────────────────────────────────
         (KeyCode::Char('J'), KeyModifiers::NONE) => {
@@ -108,11 +104,11 @@ pub fn handle_key(app: &mut App, event: KeyEvent, list_len: usize) -> bool {
                 app.focus_list();
             }
         }
-        (KeyCode::Char('l'), KeyModifiers::NONE) | (KeyCode::Right, KeyModifiers::NONE) => {
-            app.focus_detail()
+        (KeyCode::Char('l') | KeyCode::Right, KeyModifiers::NONE) => {
+            app.focus_detail();
         }
-        (KeyCode::Char('h'), KeyModifiers::NONE) | (KeyCode::Left, KeyModifiers::NONE) => {
-            app.focus_list()
+        (KeyCode::Char('h') | KeyCode::Left, KeyModifiers::NONE) => {
+            app.focus_list();
         }
         (KeyCode::Char('f'), KeyModifiers::NONE) => app.toggle_detail_fullscreen(),
 

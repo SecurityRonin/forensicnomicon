@@ -116,7 +116,7 @@ fn build_record(
     let hive = map_hive_type(hive_type);
 
     // Build a synthetic full path for ID normalization
-    let full_path = if let Some(ref h) = hive {
+    let full_path = if let Some(h) = hive {
         format!("{h}\\{key_path}")
     } else {
         key_path.to_string()
@@ -163,7 +163,7 @@ fn build_record(
         name: description.to_string(),
         source_name: "regedit",
         artifact_type: IngestType::RegistryKey,
-        hive: hive.map(|h| h.to_string()),
+        hive: hive.map(str::to_string),
         key_path: key_path.to_string(),
         value_name: None,
         os_scope: "Win7Plus".to_string(),
@@ -220,7 +220,11 @@ fn infer_triage(description: &str, comment: &str) -> &'static str {
 }
 
 fn extract_mitre(text: &str) -> Vec<String> {
-    let re = regex::Regex::new(r"T\d{4}(?:\.\d{3})?").unwrap();
+    // Constant valid regex; degrade to no matches rather than panic if it ever
+    // fails to compile.
+    let Ok(re) = regex::Regex::new(r"T\d{4}(?:\.\d{3})?") else {
+        return Vec::new();
+    };
     re.find_iter(text).map(|m| m.as_str().to_string()).collect()
 }
 

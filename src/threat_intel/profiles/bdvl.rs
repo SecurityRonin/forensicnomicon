@@ -1,6 +1,10 @@
 use crate::threat_intel::{
     profile::{MalwareClass, MalwareProfile, ProfileSignal, WeightedExclusion},
-    signals::*,
+    signals::{
+        ARTIFACT_PAM_STAGING_STRUCTURAL, ELF_GLOBALLY_LOADED, ELF_HOOKS_NETWORK_HIDING,
+        ELF_HOOKS_PAM_CREDENTIAL, ELF_HOOKS_PROCESS_HIDING, ELF_NOT_IN_PKG_DB,
+        NETWORK_MAGIC_PACKET_KNOCK,
+    },
 };
 
 pub static BDVL: MalwareProfile = MalwareProfile {

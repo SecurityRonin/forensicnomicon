@@ -69,14 +69,14 @@ mod catalog_integrity {
             } else if bytes.len() == 9 && bytes[5] == b'.' {
                 // check sub-technique: T1234.001
                 let sub = &bytes[6..9];
-                if !sub.iter().all(|b| b.is_ascii_digit()) {
+                if !sub.iter().all(u8::is_ascii_digit) {
                     return false;
                 }
                 &bytes[1..5]
             } else {
                 return false;
             };
-            digits.iter().all(|b| b.is_ascii_digit())
+            digits.iter().all(u8::is_ascii_digit)
         };
         for d in CATALOG.list() {
             for technique in d.mitre_techniques {
@@ -3401,8 +3401,8 @@ mod serde_tests {
         };
         let json = serde_json::to_string(&err).unwrap();
         assert!(json.contains("BufferTooShort"), "variant name missing");
-        assert!(json.contains("8"), "expected value missing");
-        assert!(json.contains("3"), "actual value missing");
+        assert!(json.contains('8'), "expected value missing");
+        assert!(json.contains('3'), "actual value missing");
     }
 
     #[test]
@@ -7590,8 +7590,7 @@ mod tests_aws_cloudtrail_iam_events {
         let fp = d.file_path.expect("must have file_path");
         assert!(
             fp.contains("CloudTrail") && fp.contains("us-east-1"),
-            "file_path should reference CloudTrail S3 path in us-east-1, got: {}",
-            fp
+            "file_path should reference CloudTrail S3 path in us-east-1, got: {fp}"
         );
     }
 
@@ -8702,8 +8701,7 @@ mod tests_pca_general_db {
         let p = d.file_path.unwrap_or("");
         assert!(
             p.contains(r"Windows\appcompat\pca") && p.contains("PcaGeneralDb"),
-            "file_path must reference C:\\Windows\\appcompat\\pca\\PcaGeneralDb*; got: {}",
-            p
+            "file_path must reference C:\\Windows\\appcompat\\pca\\PcaGeneralDb*; got: {p}"
         );
     }
 
@@ -8848,8 +8846,7 @@ mod tests_windows_hosts_file {
         let p = d.file_path.unwrap_or("");
         assert!(
             p.eq_ignore_ascii_case(r"C:\Windows\System32\drivers\etc\hosts"),
-            "file_path must be C:\\Windows\\System32\\drivers\\etc\\hosts; got: {}",
-            p
+            "file_path must be C:\\Windows\\System32\\drivers\\etc\\hosts; got: {p}"
         );
     }
 
@@ -9807,8 +9804,7 @@ mod tests_assessment_gap_api {
         assert!(assessed > 0, "no artifacts assessed");
         assert!(
             assessed < total,
-            "all {} artifacts assessed — update this test",
-            total
+            "all {total} artifacts assessed — update this test"
         );
     }
 }

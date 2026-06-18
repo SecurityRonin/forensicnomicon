@@ -145,8 +145,7 @@ pub fn to_fa_yaml(artifact_id: &str) -> Option<String> {
     // Prefer file_path; fall back to key_path for registry artifacts.
     let path = desc
         .file_path
-        .map(str::to_string)
-        .unwrap_or_else(|| desc.key_path.to_string());
+        .map_or_else(|| desc.key_path.to_string(), str::to_string);
 
     Some(format!(
         "name: {fa_name}\ndoc: {doc}.\nsources:\n- type: {source_type}\n  attributes:\n    paths:\n    - '{path}'\nlabels:\n- forensic_artifact\nurls:\n- https://forensicartifacts.com/\n",

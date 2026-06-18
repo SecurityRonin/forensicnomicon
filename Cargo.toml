@@ -44,6 +44,12 @@ cast_precision_loss = { level = "allow", priority = 1 }
 unreadable_literal = { level = "allow", priority = 1 }
 similar_names = { level = "allow", priority = 1 }
 doc_markdown = { level = "allow", priority = 1 }
+# Domain noise for a generated DFIR catalog + codegen tooling: the catalog/
+# dispatch functions are intentionally large; codegen builders declare items
+# mid-scope; artifact-path extension matches are intentionally case-exact.
+too_many_lines = { level = "allow", priority = 1 }
+items_after_statements = { level = "allow", priority = 1 }
+case_sensitive_file_extension_comparisons = { level = "allow", priority = 1 }
 
 [package]
 name = "forensicnomicon"

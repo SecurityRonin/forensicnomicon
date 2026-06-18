@@ -143,25 +143,23 @@ fn abuse_tags_str(tags: u8) -> String {
 /// Factored out so the same logic is used for both display-list construction
 /// and rich search-index construction.
 fn catalog_passes(app: &app::App, d: &ArtifactDescriptor) -> bool {
-    let platform_ok = if !app.platform_mask.is_empty() {
-        if app.platform_mask.contains(Platform::Windows)
-            && d.os_scope.platform() == Platform::Windows
-        {
-            match app.win_version {
-                WinVersionFilter::All => true,
-                WinVersionFilter::Win10Plus => matches!(
-                    d.os_scope,
-                    OsScope::Win10Plus | OsScope::Win11Plus | OsScope::Win11_22H2
-                ),
-                WinVersionFilter::Win11Plus => {
-                    matches!(d.os_scope, OsScope::Win11Plus | OsScope::Win11_22H2)
-                }
+    let platform_ok = if app.platform_mask.is_empty() {
+        true
+    } else if app.platform_mask.contains(Platform::Windows)
+        && d.os_scope.platform() == Platform::Windows
+    {
+        match app.win_version {
+            WinVersionFilter::All => true,
+            WinVersionFilter::Win10Plus => matches!(
+                d.os_scope,
+                OsScope::Win10Plus | OsScope::Win11Plus | OsScope::Win11_22H2
+            ),
+            WinVersionFilter::Win11Plus => {
+                matches!(d.os_scope, OsScope::Win11Plus | OsScope::Win11_22H2)
             }
-        } else {
-            app.platform_mask.matches(d.os_scope.platform())
         }
     } else {
-        true
+        app.platform_mask.matches(d.os_scope.platform())
     };
     platform_ok && app.crit_filter.passes(d.triage_priority)
 }
@@ -236,7 +234,7 @@ fn build_render_data(app: &app::App) -> RenderData {
             ];
             MECHANISMS
                 .iter()
-                .map(|(name, _)| name.to_string())
+                .map(|(name, _)| (*name).to_string())
                 .collect()
         }
         12 => {
@@ -249,7 +247,10 @@ fn build_render_data(app: &app::App) -> RenderData {
                 ("Action1     [RMM]", ACTION1_PATHS),
                 ("ManageEngine[RMM]", MANAGEENGINE_PATHS),
             ];
-            let mut v: Vec<String> = RMM_TOOLS.iter().map(|(name, _)| name.to_string()).collect();
+            let mut v: Vec<String> = RMM_TOOLS
+                .iter()
+                .map(|(name, _)| (*name).to_string())
+                .collect();
             v.push("Known RAT Names  [RAT]".to_string());
             v
         }
@@ -360,9 +361,7 @@ fn build_render_data(app: &app::App) -> RenderData {
                         .or_else(|| lolbas_entry(LOLBAS_MACOS, name))
                 }
             });
-            entry
-                .map(lolbas_detail_lines)
-                .unwrap_or_else(|| vec!["Select an item.".into()])
+            entry.map_or_else(|| vec!["Select an item.".into()], lolbas_detail_lines)
         }
         2 => {
             let site = selected_name.and_then(|name| {
@@ -399,16 +398,13 @@ fn build_render_data(app: &app::App) -> RenderData {
         }
         3 => selected_name
             .and_then(|n| lolbas_entry(LOLBAS_WINDOWS_CMDLETS, n))
-            .map(lolbas_detail_lines)
-            .unwrap_or_else(|| vec!["Select an item.".into()]),
+            .map_or_else(|| vec!["Select an item.".into()], lolbas_detail_lines),
         4 => selected_name
             .and_then(|n| lolbas_entry(LOLBAS_WINDOWS_MMC, n))
-            .map(lolbas_detail_lines)
-            .unwrap_or_else(|| vec!["Select an item.".into()]),
+            .map_or_else(|| vec!["Select an item.".into()], lolbas_detail_lines),
         5 => selected_name
             .and_then(|n| lolbas_entry(LOLBAS_WINDOWS_WMI, n))
-            .map(lolbas_detail_lines)
-            .unwrap_or_else(|| vec!["Select an item.".into()]),
+            .map_or_else(|| vec!["Select an item.".into()], lolbas_detail_lines),
         6 => {
             let pb = selected_name.and_then(|id| PLAYBOOKS.iter().find(|p| p.id == id));
             match pb {
@@ -574,7 +570,7 @@ fn build_render_data(app: &app::App) -> RenderData {
                 Some(ps) => {
                     let mut lines = vec![selected_name.unwrap_or("").to_string(), "─".repeat(40)];
                     for p in ps {
-                        lines.push(p.to_string());
+                        lines.push((*p).to_string());
                     }
                     lines
                 }
@@ -595,7 +591,7 @@ fn build_render_data(app: &app::App) -> RenderData {
                 Some("Known RAT Names  [RAT]") => {
                     let mut lines = vec!["Known RAT / Backdoor Names".to_string(), "─".repeat(40)];
                     for name in KNOWN_RAT_NAMES {
-                        lines.push(name.to_string());
+                        lines.push((*name).to_string());
                     }
                     lines
                 }
@@ -610,7 +606,7 @@ fn build_render_data(app: &app::App) -> RenderData {
                                 String::new(),
                             ];
                             for p in ps {
-                                lines.push(p.to_string());
+                                lines.push((*p).to_string());
                             }
                             lines
                         }
@@ -1045,9 +1041,7 @@ mod tests {
         let linux_count = build_render_data(&a).list_items.len();
         assert!(
             linux_count < full,
-            "Linux-only filter must reduce results: {} vs full {}",
-            linux_count,
-            full
+            "Linux-only filter must reduce results: {linux_count} vs full {full}"
         );
     }
 
@@ -1060,9 +1054,7 @@ mod tests {
         let win_count = build_render_data(&a).list_items.len();
         assert!(
             win_count < full,
-            "Windows-only filter must reduce results: {} vs full {}",
-            win_count,
-            full
+            "Windows-only filter must reduce results: {win_count} vs full {full}"
         );
     }
 
@@ -1081,9 +1073,7 @@ mod tests {
         let win10_count = build_render_data(&a).list_items.len();
         assert!(
             win10_count < win_all,
-            "Win10+ must show fewer results than all-Windows: {} vs {}",
-            win10_count,
-            win_all
+            "Win10+ must show fewer results than all-Windows: {win10_count} vs {win_all}"
         );
     }
 
@@ -1103,9 +1093,7 @@ mod tests {
         let win11_count = build_render_data(&a).list_items.len();
         assert!(
             win11_count < win10_count,
-            "Win11+ must show fewer results than Win10+: {} vs {}",
-            win11_count,
-            win10_count
+            "Win11+ must show fewer results than Win10+: {win11_count} vs {win10_count}"
         );
     }
 

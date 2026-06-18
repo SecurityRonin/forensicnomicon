@@ -20,7 +20,6 @@ fn priority_colour(p: TriagePriority) -> &'static str {
         TriagePriority::Critical => RED,
         TriagePriority::High => YELLOW,
         TriagePriority::Medium => GREEN,
-        TriagePriority::Low => DIM,
         _ => DIM,
     }
 }
@@ -63,16 +62,11 @@ fn print_detail(d: &ArtifactDescriptor) {
         RESET = RESET
     );
     println!("  Name     : {}", d.name);
-    println!(
-        "  Priority : {col}{label}{RESET}",
-        col = col,
-        label = label,
-        RESET = RESET
-    );
+    println!("  Priority : {col}{label}{RESET}");
     println!("  Meaning  : {}", d.meaning);
 
     if let Some(fp) = d.file_path {
-        println!("  Path     : {}", fp);
+        println!("  Path     : {fp}");
     }
     if !d.key_path.is_empty() {
         println!("  RegKey   : {}", d.key_path);
@@ -86,7 +80,7 @@ fn print_detail(d: &ArtifactDescriptor) {
     if !d.sources.is_empty() {
         println!("  Sources  :");
         for s in d.sources {
-            println!("    - {}", s);
+            println!("    - {s}");
         }
     }
     println!();
@@ -94,14 +88,7 @@ fn print_detail(d: &ArtifactDescriptor) {
 
 fn print_header(title: &str, count: usize) {
     println!();
-    println!(
-        "{BOLD}{title}{RESET}  {DIM}({count} artifact(s)){RESET}",
-        BOLD = BOLD,
-        title = title,
-        RESET = RESET,
-        DIM = DIM,
-        count = count
-    );
+    println!("{BOLD}{title}{RESET}  {DIM}({count} artifact(s)){RESET}");
     println!("{}", "─".repeat(70));
 }
 
@@ -120,12 +107,7 @@ fn cmd_search(catalog: &'static ForensicCatalog, keyword: &str) {
     let results = catalog.filter_by_keyword(keyword);
     print_header(&format!("Search: {keyword}"), results.len());
     if results.is_empty() {
-        println!(
-            "  {DIM}No results for \"{keyword}\".{RESET}",
-            DIM = DIM,
-            keyword = keyword,
-            RESET = RESET
-        );
+        println!("  {DIM}No results for \"{keyword}\".{RESET}");
     } else {
         for d in results {
             print_row(d);
@@ -135,20 +117,12 @@ fn cmd_search(catalog: &'static ForensicCatalog, keyword: &str) {
 }
 
 fn cmd_show(catalog: &'static ForensicCatalog, id: &str) -> i32 {
-    match catalog.by_id(id) {
-        Some(d) => {
-            print_detail(d);
-            0
-        }
-        None => {
-            eprintln!(
-                "{RED}Error:{RESET} artifact '{id}' not found.",
-                RED = RED,
-                RESET = RESET,
-                id = id
-            );
-            1
-        }
+    if let Some(d) = catalog.by_id(id) {
+        print_detail(d);
+        0
+    } else {
+        eprintln!("{RED}Error:{RESET} artifact '{id}' not found.");
+        1
     }
 }
 

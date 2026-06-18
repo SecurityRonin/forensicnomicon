@@ -38,16 +38,16 @@ fn parse_fa_yaml_into(
         if doc.is_empty() {
             continue;
         }
-        match serde_yaml::from_str::<serde_yaml::Value>(doc) {
-            Ok(value) => parse_document(&value, records, seen_ids),
-            Err(_) => {
-                // Try the whole chunk if splitting produced something off
-                continue;
-            }
+        // A chunk that fails to parse on its own is skipped — splitting may have
+        // produced something off.
+        if let Ok(value) = serde_yaml::from_str::<serde_yaml::Value>(doc) {
+            parse_document(&value, records, seen_ids);
         }
     }
 }
 
+// large generated/catalog function
+#[allow(clippy::too_many_lines)]
 fn parse_document(
     value: &serde_yaml::Value,
     records: &mut Vec<IngestRecord>,
@@ -77,7 +77,7 @@ fn parse_document(
             seq.iter()
                 .filter_map(|u| u.as_str())
                 .filter(|u| !u.contains("attack.mitre.org"))
-                .map(|s| s.to_string())
+                .map(std::string::ToString::to_string)
                 .collect()
         })
         .unwrap_or_default();
@@ -116,7 +116,7 @@ fn parse_document(
                 .map(|seq| {
                     seq.iter()
                         .filter_map(|v| v.as_str())
-                        .map(|s| s.to_string())
+                        .map(std::string::ToString::to_string)
                         .collect()
                 })
                 .unwrap_or_default(),
@@ -126,11 +126,11 @@ fn parse_document(
                 .map(|seq| {
                     seq.iter()
                         .filter_map(|v| v.as_str())
-                        .map(|s| s.to_string())
+                        .map(std::string::ToString::to_string)
                         .collect()
                 })
                 .unwrap_or_default(),
-            _ => Vec::new(),
+            IngestType::EventLog => Vec::new(),
         };
 
         for path in paths {
@@ -148,7 +148,7 @@ fn parse_document(
                     let id = ensure_unique(raw_id, seen_ids);
                     (id, None, String::new(), Some(path.clone()))
                 }
-                _ => continue,
+                IngestType::EventLog => continue,
             };
 
             seen_ids.insert(id.clone());
@@ -187,7 +187,7 @@ fn parse_supported_os(value: &serde_yaml::Value) -> String {
         .map(|seq| {
             seq.iter()
                 .filter_map(|v| v.as_str())
-                .map(|s| s.to_ascii_lowercase())
+                .map(str::to_ascii_lowercase)
                 .collect()
         })
         .unwrap_or_default();
@@ -197,10 +197,7 @@ fn parse_supported_os(value: &serde_yaml::Value) -> String {
     let has_darwin = os_list.iter().any(|s| s == "darwin");
 
     match (has_windows, has_linux, has_darwin) {
-        (true, true, true) | (true, true, false) | (true, false, true) | (false, true, true) => {
-            "All".to_string()
-        }
-        (true, false, false) => "Win7Plus".to_string(),
+        (true | false, true, true) | (true, true, false) | (true, false, true) => "All".to_string(),
         (false, true, false) => "Linux".to_string(),
         (false, false, true) => "MacOS".to_string(),
         _ => "Win7Plus".to_string(), // unknown / empty → conservative Windows default
@@ -265,7 +262,7 @@ fn strip_hive_from_path(path: &str) -> String {
 }
 
 fn infer_triage(name: &str, doc: &str) -> &'static str {
-    let combined = format!("{} {}", name, doc).to_ascii_lowercase();
+    let combined = format!("{name} {doc}").to_ascii_lowercase();
     // Cap at High — generated artifacts lack human-curated evidence assessments.
     // Critical rating requires a handwritten descriptor with volatility/evidence filled in.
     // Credential-access and execution/persistence artifacts both cap at High.
@@ -310,6 +307,8 @@ pub fn fetch_fa_artifacts(url: &str) -> Result<Vec<IngestRecord>, Box<dyn std::e
 }
 
 /// Fetch all ForensicArtifacts YAML files from the GitHub repository.
+// extension comparison is intentionally exact
+#[allow(clippy::case_sensitive_file_extension_comparisons)]
 pub fn fetch_all_fa_artifacts() -> Vec<IngestRecord> {
     let tree_url =
         "https://api.github.com/repos/forensicartifacts/artifacts/git/trees/main?recursive=1";
@@ -321,7 +320,11 @@ pub fn fetch_all_fa_artifacts() -> Vec<IngestRecord> {
         }
     };
 
-    let tree: serde_json::Value = match client.get(tree_url).send().and_then(|r| r.json()) {
+    let tree: serde_json::Value = match client
+        .get(tree_url)
+        .send()
+        .and_then(reqwest::blocking::Response::json)
+    {
         Ok(v) => v,
         Err(e) => {
             eprintln!("WARN: fa: failed to fetch tree: {e}");
@@ -338,13 +341,17 @@ pub fn fetch_all_fa_artifacts() -> Vec<IngestRecord> {
             .iter()
             .filter_map(|item| item.get("path").and_then(|p| p.as_str()))
             .filter(|p| p.ends_with(".yaml") && p.starts_with("artifacts/"))
-            .map(|s| s.to_string())
+            .map(std::string::ToString::to_string)
             .collect();
 
         for path in yaml_paths {
             let url = format!("{base_url}{path}");
             std::thread::sleep(std::time::Duration::from_millis(200));
-            match client.get(&url).send().and_then(|r| r.text()) {
+            match client
+                .get(&url)
+                .send()
+                .and_then(reqwest::blocking::Response::text)
+            {
                 Ok(content) => {
                     parse_fa_yaml_into(&content, &mut all_records, &mut global_seen);
                 }

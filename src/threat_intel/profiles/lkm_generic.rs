@@ -1,6 +1,9 @@
 use crate::threat_intel::{
     profile::{MalwareClass, MalwareProfile, ProfileSignal},
-    signals::*,
+    signals::{
+        PROCESS_HIDDEN_FROM_PS, SYSTEM_KERNEL_TAINT_FORCED, SYSTEM_KERNEL_TAINT_OOT,
+        SYSTEM_PROC_MODULES_SUSPECT,
+    },
 };
 
 pub static LKM_GENERIC: MalwareProfile = MalwareProfile {

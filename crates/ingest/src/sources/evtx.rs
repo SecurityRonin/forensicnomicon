@@ -43,10 +43,10 @@ pub fn parse_evtx_csv(content: &str) -> Vec<IngestRecord> {
         let sanitized = channel.replace('/', "\\");
         let file_path = format!(r"%SystemRoot%\System32\winevt\Logs\{sanitized}.evtx");
 
-        let meaning = if !provider.is_empty() {
-            format!("Windows Event Log channel '{channel}' from provider '{provider}'.")
-        } else {
+        let meaning = if provider.is_empty() {
             format!("Windows Event Log channel '{channel}'.")
+        } else {
+            format!("Windows Event Log channel '{channel}' from provider '{provider}'.")
         };
 
         let triage = infer_evtx_triage(&channel);
@@ -78,9 +78,8 @@ fn extract_channels_from_csv(content: &str) -> Vec<(String, String)> {
     let mut seen_channels: HashSet<String> = HashSet::new();
     let mut lines = content.lines();
 
-    let header_line = match lines.next() {
-        Some(h) => h,
-        None => return result,
+    let Some(header_line) = lines.next() else {
+        return result;
     };
     let headers: Vec<&str> = split_csv_line(header_line);
 
@@ -91,9 +90,8 @@ fn extract_channels_from_csv(content: &str) -> Vec<(String, String)> {
         .iter()
         .position(|h| h.trim_matches('"').eq_ignore_ascii_case("provider"));
 
-    let channel_idx = match channel_idx {
-        Some(i) => i,
-        None => return result,
+    let Some(channel_idx) = channel_idx else {
+        return result;
     };
 
     for line in lines {
@@ -192,6 +190,8 @@ fn ensure_unique(base: String, seen: &mut HashSet<String>) -> String {
 ///
 /// Walks all per-provider CSV files under ETWProvidersCSVs/Internal/,
 /// extracts unique Channel values, and creates one IngestRecord per channel.
+// extension comparison is intentionally exact
+#[allow(clippy::case_sensitive_file_extension_comparisons)]
 pub fn fetch_evtx_records() -> Vec<IngestRecord> {
     let client = match github_client() {
         Ok(c) => c,
@@ -203,14 +203,17 @@ pub fn fetch_evtx_records() -> Vec<IngestRecord> {
 
     // Use the Contents API (not the tree API, which gets truncated) to list
     // the ETWProvidersCSVs/Internal/ directory.
-    let contents: Vec<serde_json::Value> =
-        match client.get(EVTX_CONTENTS_URL).send().and_then(|r| r.json()) {
-            Ok(v) => v,
-            Err(e) => {
-                eprintln!("WARN: evtx: failed to fetch contents listing: {e}");
-                return Vec::new();
-            }
-        };
+    let contents: Vec<serde_json::Value> = match client
+        .get(EVTX_CONTENTS_URL)
+        .send()
+        .and_then(reqwest::blocking::Response::json)
+    {
+        Ok(v) => v,
+        Err(e) => {
+            eprintln!("WARN: evtx: failed to fetch contents listing: {e}");
+            return Vec::new();
+        }
+    };
 
     let mut all_channels: HashSet<String> = HashSet::new();
     let mut all_records = Vec::new();
@@ -220,13 +223,17 @@ pub fn fetch_evtx_records() -> Vec<IngestRecord> {
             .iter()
             .filter_map(|item| item.get("path").and_then(|p| p.as_str()))
             .filter(|p| p.ends_with(".csv"))
-            .map(|s| s.to_string())
+            .map(std::string::ToString::to_string)
             .collect();
 
         for path in csv_paths {
             let url = format!("{EVTX_RAW_BASE}{path}");
             std::thread::sleep(std::time::Duration::from_millis(50));
-            match client.get(&url).send().and_then(|r| r.text()) {
+            match client
+                .get(&url)
+                .send()
+                .and_then(reqwest::blocking::Response::text)
+            {
                 Ok(content) => {
                     let pairs = extract_channels_from_csv(&content);
                     for (provider, channel) in pairs {
@@ -243,10 +250,10 @@ pub fn fetch_evtx_records() -> Vec<IngestRecord> {
                             let file_path =
                                 format!(r"%SystemRoot%\System32\winevt\Logs\{sanitized}.evtx");
 
-                            let meaning = if !provider.is_empty() {
-                                format!("Windows Event Log channel '{channel}' from provider '{provider}'.")
-                            } else {
+                            let meaning = if provider.is_empty() {
                                 format!("Windows Event Log channel '{channel}'.")
+                            } else {
+                                format!("Windows Event Log channel '{channel}' from provider '{provider}'.")
                             };
 
                             let triage = infer_evtx_triage(&channel);

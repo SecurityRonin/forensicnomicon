@@ -1,6 +1,11 @@
 use crate::threat_intel::{
     profile::{MalwareClass, MalwareProfile, ProfileSignal, WeightedExclusion},
-    signals::*,
+    signals::{
+        ARTIFACT_LD_PRELOAD_FOREIGN, ARTIFACT_PAM_STAGING_STRUCTURAL, ELF_GLOBALLY_LOADED,
+        ELF_HOOKS_FILE_HIDING, ELF_HOOKS_NETWORK_HIDING, ELF_HOOKS_PAM_CREDENTIAL,
+        ELF_HOOKS_PROCESS_HIDING, ELF_NOT_IN_PKG_DB, PROCESS_THREAD_MINER_XMRIG,
+        SYSTEM_KERNEL_TAINT_OOT, SYSTEM_PROC_MODULES_SUSPECT, TEMPORAL_LDPRELOAD_SSHD_RESTART,
+    },
 };
 
 pub static UMBREON: MalwareProfile = MalwareProfile {

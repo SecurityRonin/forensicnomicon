@@ -1037,8 +1037,7 @@ mod tests {
         path.steps
             .iter()
             .find(|s| s.artifact_id == artifact_id)
-            .map(|s| s.unlocks)
-            .unwrap_or(&[])
+            .map_or(&[], |s| s.unlocks)
     }
 
     #[test]
@@ -1049,7 +1048,7 @@ mod tests {
                 .iter()
                 .chain(PLAYBOOKS.iter())
                 .find(|p| p.id == id)
-                .unwrap_or_else(|| panic!("path '{}' not found", id))
+                .unwrap_or_else(|| panic!("path '{id}' not found"))
         };
 
         // lateral_movement

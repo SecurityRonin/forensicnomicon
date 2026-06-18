@@ -1,6 +1,11 @@
 use crate::threat_intel::{
     profile::{MalwareClass, MalwareProfile, ProfileSignal, WeightedExclusion},
-    signals::*,
+    signals::{
+        ARTIFACT_PAM_STAGING_STRUCTURAL, ELF_GLOBALLY_LOADED, ELF_HOOKS_PAM_CREDENTIAL,
+        ELF_HOOKS_PROCESS_HIDING, ELF_STRING_STAGING_PATH, NETWORK_STRATUM_CONNECTION,
+        PROCESS_HIDDEN_FROM_PS, PROCESS_MASQUERADE, PROCESS_THREAD_MINER_XMRIG,
+        SYSTEM_CPU_ANOMALY_HIGH, SYSTEM_KERNEL_TAINT_OOT,
+    },
 };
 
 pub static NECRO: MalwareProfile = MalwareProfile {

@@ -1,4 +1,7 @@
-use crate::threat_intel::signals::*;
+use crate::threat_intel::signals::{
+    ELF_HOOKS_FILE_HIDING, ELF_HOOKS_IO_INTERCEPTION, ELF_HOOKS_NETWORK_HIDING,
+    ELF_HOOKS_PAM_CREDENTIAL, ELF_HOOKS_PROCESS_HIDING, ELF_HOOKS_UID_SPOOFING,
+};
 
 /// A string pattern baked into Father-class rootkit binaries that survives stripping.
 pub struct ElfStringPattern {

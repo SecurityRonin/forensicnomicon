@@ -366,8 +366,12 @@ pub(super) fn decode_artifact(
         }
 
         Decoder::EseDatabase => {
+            use core::fmt::Write as _;
             // ESE/JET database files are binary; surface raw bytes as hex for now.
-            let hex = raw.iter().map(|b| format!("{b:02x}")).collect::<String>();
+            let hex = raw.iter().fold(String::new(), |mut acc, b| {
+                let _ = write!(acc, "{b:02x}");
+                acc
+            });
             (vec![("value", ArtifactValue::Text(hex))], None)
         }
     };

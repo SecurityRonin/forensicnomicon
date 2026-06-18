@@ -1,6 +1,9 @@
 use crate::threat_intel::{
     profile::{MalwareClass, MalwareProfile, ProfileSignal, WeightedExclusion},
-    signals::*,
+    signals::{
+        ELF_GLOBALLY_LOADED, ELF_HOOKS_FILE_HIDING, ELF_HOOKS_NETWORK_HIDING,
+        ELF_HOOKS_PAM_CREDENTIAL, ELF_HOOKS_PROCESS_HIDING, ELF_NOT_IN_PKG_DB,
+    },
 };
 
 pub static LIB_PROCESS_HIDER: MalwareProfile = MalwareProfile {

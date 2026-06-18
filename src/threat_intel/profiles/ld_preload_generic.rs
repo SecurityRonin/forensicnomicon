@@ -1,6 +1,10 @@
 use crate::threat_intel::{
     profile::{MalwareClass, MalwareProfile, ProfileSignal},
-    signals::*,
+    signals::{
+        ARTIFACT_LD_PRELOAD_FOREIGN, ELF_GLOBALLY_LOADED, ELF_HOOKS_FILE_HIDING,
+        ELF_HOOKS_NETWORK_HIDING, ELF_HOOKS_PAM_CREDENTIAL, ELF_HOOKS_PROCESS_HIDING,
+        ELF_NOT_IN_PKG_DB,
+    },
 };
 
 /// Catch-all for LD_PRELOAD libraries that don't match any known family.

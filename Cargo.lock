@@ -485,6 +485,7 @@ dependencies = [
  "forensicnomicon",
  "predicates",
  "ratatui",
+ "serde",
  "serde_json",
  "serde_yaml",
  "toml",

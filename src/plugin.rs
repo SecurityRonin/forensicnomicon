@@ -78,7 +78,7 @@ impl ExtendedCatalog {
         self.custom_decoders
             .iter()
             .find(|d| d.id() == id)
-            .map(|d| d.as_ref())
+            .map(std::convert::AsRef::as_ref)
     }
 
     /// Returns the number of registered custom decoders.

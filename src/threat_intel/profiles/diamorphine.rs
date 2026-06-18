@@ -1,6 +1,10 @@
 use crate::threat_intel::{
     profile::{MalwareClass, MalwareProfile, ProfileSignal, WeightedExclusion},
-    signals::*,
+    signals::{
+        ELF_HOOKS_NETWORK_HIDING, ELF_HOOKS_PAM_CREDENTIAL, NETWORK_MAGIC_PACKET_KNOCK,
+        PROCESS_HIDDEN_FROM_PS, SYSTEM_KERNEL_TAINT_FORCED, SYSTEM_KERNEL_TAINT_OOT,
+        SYSTEM_PROC_MODULES_SUSPECT, TEMPORAL_ACTIVATION_SEQUENCE,
+    },
 };
 
 pub static DIAMORPHINE: MalwareProfile = MalwareProfile {

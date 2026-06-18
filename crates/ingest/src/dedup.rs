@@ -49,9 +49,13 @@ impl IdSet {
 ///     id: "some_id",
 /// ```
 pub fn extract_ids_from_source(source: &str) -> HashSet<String> {
-    // Match:  id: "the_id", (optional trailing comma/whitespace)
-    let re = Regex::new(r#"^\s+id:\s+"([a-z0-9_]+)""#).unwrap();
     let mut ids = HashSet::new();
+    // Match:  id: "the_id", (optional trailing comma/whitespace). The pattern is
+    // a constant valid regex; on the impossible compile failure return no ids
+    // rather than panic.
+    let Ok(re) = Regex::new(r#"^\s+id:\s+"([a-z0-9_]+)""#) else {
+        return ids;
+    };
     for line in source.lines() {
         if let Some(caps) = re.captures(line) {
             ids.insert(caps[1].to_string());

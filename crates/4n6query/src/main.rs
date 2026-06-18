@@ -229,15 +229,13 @@ fn is_mitre_id(term: &str) -> bool {
         return false;
     }
     let digits: &[u8] = &t[1..];
-    let base_ok = digits.len() >= 4 && digits[..4].iter().all(|b| b.is_ascii_digit());
+    let base_ok = digits.len() >= 4 && digits[..4].iter().all(u8::is_ascii_digit);
     if !base_ok {
         return false;
     }
     // Allow exactly T1234 or T1234.567
     digits.len() == 4
-        || (digits.len() == 8
-            && digits[4] == b'.'
-            && digits[5..].iter().all(|b| b.is_ascii_digit()))
+        || (digits.len() == 8 && digits[4] == b'.' && digits[5..].iter().all(u8::is_ascii_digit))
 }
 
 fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
@@ -265,14 +263,14 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
     };
 
     // 4. Relevant investigation paths (artifact-triggered chains) for matched artifacts.
-    let path_hits: Vec<&InvestigationPath> = if !artifact_hits.is_empty() {
+    let path_hits: Vec<&InvestigationPath> = if artifact_hits.is_empty() {
+        vec![]
+    } else {
         let hit_ids: Vec<&str> = artifact_hits.iter().map(|d| d.id).collect();
         INVESTIGATION_PATHS
             .iter()
             .filter(|p| p.steps.iter().any(|s| hit_ids.contains(&s.artifact_id)))
             .collect()
-    } else {
-        vec![]
     };
 
     if lolbas_hits.is_empty() && site_hit.is_none() && artifact_hits.is_empty() {
@@ -309,8 +307,8 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
             }
             let val = serde_json::Value::Object(obj);
             match format {
-                Format::Json => println!("{}", serde_json::to_string_pretty(&val).unwrap()),
-                Format::Yaml => print!("{}", serde_yaml::to_string(&val).unwrap()),
+                Format::Json => println!("{}", json_pretty(&val)),
+                Format::Yaml => print!("{}", yaml_str(&val)),
                 Format::Human => unreachable!(),
             }
         }
@@ -429,15 +427,13 @@ fn run_triage(
 ) -> i32 {
     // Validate scenario if provided
     let scenario_prefixes: Option<&'static [&'static str]> = if let Some(s) = scenario {
-        match techniques_for_scenario(s) {
-            Some(prefixes) => Some(prefixes),
-            None => {
-                eprintln!(
-                    "error: unknown scenario '{}'. Valid values: ransomware, data-breach, bec, insider, supply-chain",
-                    s
-                );
-                return 1;
-            }
+        if let Some(prefixes) = techniques_for_scenario(s) {
+            Some(prefixes)
+        } else {
+            eprintln!(
+                "error: unknown scenario '{s}'. Valid values: ransomware, data-breach, bec, insider, supply-chain"
+            );
+            return 1;
         }
     } else {
         None
@@ -445,17 +441,15 @@ fn run_triage(
 
     // Validate tactic if provided
     let tactic_prefixes: Option<&'static [&'static str]> = if let Some(t) = tactic {
-        match techniques_for_tactic(t) {
-            Some(prefixes) => Some(prefixes),
-            None => {
-                eprintln!(
-                    "error: unknown tactic '{}'. Valid values: execution, persistence, lateral-movement, \
-                     credential-access, defense-evasion, discovery, collection, exfiltration, \
-                     command-and-control, privilege-escalation",
-                    t
-                );
-                return 1;
-            }
+        if let Some(prefixes) = techniques_for_tactic(t) {
+            Some(prefixes)
+        } else {
+            eprintln!(
+                "error: unknown tactic '{t}'. Valid values: execution, persistence, lateral-movement, \
+                 credential-access, defense-evasion, discovery, collection, exfiltration, \
+                 command-and-control, privilege-escalation"
+            );
+            return 1;
         }
     } else {
         None
@@ -472,8 +466,7 @@ fn run_triage(
                 "low" => levels.push(TriagePriority::Low),
                 other => {
                     eprintln!(
-                        "error: unknown priority '{}'. Valid values: critical, high, medium, low",
-                        other
+                        "error: unknown priority '{other}'. Valid values: critical, high, medium, low"
                     );
                     return 1;
                 }
@@ -515,8 +508,8 @@ fn run_triage(
             let arr: Vec<_> = hits.iter().map(|d| descriptor_to_json(d)).collect();
             let val = serde_json::json!({ "artifacts": arr });
             match format {
-                Format::Json => println!("{}", serde_json::to_string_pretty(&val).unwrap()),
-                Format::Yaml => print!("{}", serde_yaml::to_string(&val).unwrap()),
+                Format::Json => println!("{}", json_pretty(&val)),
+                Format::Yaml => print!("{}", yaml_str(&val)),
                 Format::Human => unreachable!(),
             }
         }
@@ -538,40 +531,45 @@ fn run_triage(
 // Dump
 // ---------------------------------------------------------------------------
 
+// Serialization helpers. The values rendered here (catalog descriptors, LOLBAS
+// tables, playbooks) are always serializable in practice; these degrade to an
+// error note / `null` rather than panic, keeping the CLI panic-free.
+fn to_json_value<T: serde::Serialize>(value: &T) -> serde_json::Value {
+    serde_json::to_value(value).unwrap_or(serde_json::Value::Null)
+}
+
+fn json_pretty<T: serde::Serialize>(value: &T) -> String {
+    serde_json::to_string_pretty(value)
+        .unwrap_or_else(|e| format!("{{\"error\":\"JSON serialization failed: {e}\"}}"))
+}
+
+fn yaml_str<T: serde::Serialize>(value: &T) -> String {
+    serde_yaml::to_string(value)
+        .unwrap_or_else(|e| format!("error: YAML serialization failed: {e}\n"))
+}
+
 fn run_dump(format: Format, dataset: Dataset) -> i32 {
     let mut obj = serde_json::Map::new();
 
     if matches!(dataset, Dataset::All | Dataset::Lolbas) {
-        obj.insert(
-            "lolbas_windows".into(),
-            serde_json::to_value(LOLBAS_WINDOWS).unwrap(),
-        );
-        obj.insert(
-            "lolbas_linux".into(),
-            serde_json::to_value(LOLBAS_LINUX).unwrap(),
-        );
-        obj.insert(
-            "lolbas_macos".into(),
-            serde_json::to_value(LOLBAS_MACOS).unwrap(),
-        );
+        obj.insert("lolbas_windows".into(), to_json_value(&LOLBAS_WINDOWS));
+        obj.insert("lolbas_linux".into(), to_json_value(&LOLBAS_LINUX));
+        obj.insert("lolbas_macos".into(), to_json_value(&LOLBAS_MACOS));
         obj.insert(
             "lolbas_windows_cmdlets".into(),
-            serde_json::to_value(LOLBAS_WINDOWS_CMDLETS).unwrap(),
+            to_json_value(&LOLBAS_WINDOWS_CMDLETS),
         );
         obj.insert(
             "lolbas_windows_mmc".into(),
-            serde_json::to_value(LOLBAS_WINDOWS_MMC).unwrap(),
+            to_json_value(&LOLBAS_WINDOWS_MMC),
         );
         obj.insert(
             "lolbas_windows_wmi".into(),
-            serde_json::to_value(LOLBAS_WINDOWS_WMI).unwrap(),
+            to_json_value(&LOLBAS_WINDOWS_WMI),
         );
     }
     if matches!(dataset, Dataset::All | Dataset::Sites) {
-        obj.insert(
-            "abusable_sites".into(),
-            serde_json::to_value(ABUSABLE_SITES).unwrap(),
-        );
+        obj.insert("abusable_sites".into(), to_json_value(&ABUSABLE_SITES));
     }
     if matches!(dataset, Dataset::All | Dataset::Catalog) {
         let arr: Vec<_> = CATALOG.list().iter().map(descriptor_to_json).collect();
@@ -580,8 +578,8 @@ fn run_dump(format: Format, dataset: Dataset) -> i32 {
 
     let val = serde_json::Value::Object(obj);
     match format {
-        Format::Json | Format::Human => println!("{}", serde_json::to_string_pretty(&val).unwrap()),
-        Format::Yaml => print!("{}", serde_yaml::to_string(&val).unwrap()),
+        Format::Json | Format::Human => println!("{}", json_pretty(&val)),
+        Format::Yaml => print!("{}", yaml_str(&val)),
     }
     0
 }
@@ -655,7 +653,7 @@ fn run_playbook(id_arg: &str, format: Format) -> i32 {
         match format {
             Format::Json => {
                 let arr: Vec<serde_json::Value> = PLAYBOOKS.iter().map(playbook_to_json).collect();
-                println!("{}", serde_json::to_string_pretty(&arr).unwrap());
+                println!("{}", json_pretty(&arr));
             }
             Format::Yaml => {
                 for pb in PLAYBOOKS {
@@ -704,10 +702,7 @@ fn run_playbook(id_arg: &str, format: Format) -> i32 {
         Some(pb) => {
             match format {
                 Format::Json => {
-                    println!(
-                        "{}",
-                        serde_json::to_string_pretty(&playbook_to_json(pb)).unwrap()
-                    );
+                    println!("{}", json_pretty(&playbook_to_json(pb)));
                 }
                 Format::Yaml => {
                     println!("id: {}", pb.id);

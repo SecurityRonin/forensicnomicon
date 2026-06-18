@@ -1,6 +1,10 @@
 use crate::threat_intel::{
     profile::{MalwareClass, MalwareProfile, ProfileSignal},
-    signals::*,
+    signals::{
+        NETWORK_STRATUM_CONNECTION, NETWORK_STRATUM_LISTEN, PROCESS_ANOMALOUS_THREAD_COUNT,
+        PROCESS_HIDDEN_FROM_PS, PROCESS_MASQUERADE, PROCESS_THREAD_MINER_GENERIC,
+        PROCESS_THREAD_MINER_XMRIG, SYSTEM_CPU_ANOMALY_HIGH,
+    },
 };
 
 pub static XMRIG: MalwareProfile = MalwareProfile {

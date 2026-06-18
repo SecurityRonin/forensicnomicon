@@ -1,6 +1,10 @@
 use crate::threat_intel::{
     profile::{MalwareClass, MalwareProfile, ProfileSignal, WeightedExclusion},
-    signals::*,
+    signals::{
+        ARTIFACT_PAM_STAGING_FATHER, ELF_GLOBALLY_LOADED, ELF_HOOKS_PAM_CREDENTIAL,
+        ELF_HOOKS_PROCESS_HIDING, ELF_NOT_IN_PKG_DB, ELF_STRING_FATHER_FORMAT,
+        NETWORK_MAGIC_PACKET_KNOCK,
+    },
 };
 
 pub static AZAZEL: MalwareProfile = MalwareProfile {

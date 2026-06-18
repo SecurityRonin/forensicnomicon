@@ -211,7 +211,7 @@ fn strip_hive_from_path(path: &str) -> String {
 }
 
 fn infer_triage(name: &str, description: &str) -> &'static str {
-    let combined = format!("{} {}", name, description).to_ascii_lowercase();
+    let combined = format!("{name} {description}").to_ascii_lowercase();
     if combined.contains("credential")
         || combined.contains("password")
         || combined.contains("lsass")
@@ -276,7 +276,11 @@ pub fn fetch_velociraptor_artifacts() -> Vec<IngestRecord> {
         }
     };
 
-    let tree: serde_json::Value = match client.get(VELO_TREE_URL).send().and_then(|r| r.json()) {
+    let tree: serde_json::Value = match client
+        .get(VELO_TREE_URL)
+        .send()
+        .and_then(reqwest::blocking::Response::json)
+    {
         Ok(v) => v,
         Err(e) => {
             eprintln!("WARN: velociraptor: failed to fetch tree: {e}");
@@ -291,13 +295,17 @@ pub fn fetch_velociraptor_artifacts() -> Vec<IngestRecord> {
             .iter()
             .filter_map(|item| item.get("path").and_then(|p| p.as_str()))
             .filter(|p| p.starts_with("artifacts/definitions/") && p.ends_with(".yaml"))
-            .map(|s| s.to_string())
+            .map(str::to_string)
             .collect();
 
         for path in yaml_paths {
             let url = format!("{VELO_RAW_BASE}{path}");
             std::thread::sleep(std::time::Duration::from_millis(200));
-            match client.get(&url).send().and_then(|r| r.text()) {
+            match client
+                .get(&url)
+                .send()
+                .and_then(reqwest::blocking::Response::text)
+            {
                 Ok(content) => {
                     let records = parse_velociraptor_yaml(&content);
                     all_records.extend(records);
