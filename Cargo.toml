@@ -11,7 +11,7 @@ edition = "2021"
 # `forensicnomicon` is the root crate itself, declared as a path dep so the
 # in-workspace members link the local copy; the version pins it for publish.
 [workspace.dependencies]
-forensicnomicon = { path = ".", version = "0.5.5" }
+forensicnomicon = { path = ".", version = "0.5.6" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 serde_yaml = "0.9"
@@ -53,7 +53,7 @@ case_sensitive_file_extension_comparisons = { level = "allow", priority = 1 }
 
 [package]
 name = "forensicnomicon"
-version = "0.5.5"
+version = "0.5.6"
 description = "The ForensicNomicon — comprehensive DFIR artifact catalog: UserAssist, Shimcache, Amcache, Prefetch, $MFT, ShellBags, EVTX, NTDS.dit, SAM, SRUM, LNK, Jump Lists + KAPE/Velociraptor/Sigma/MITRE. Zero deps."
 edition.workspace = true
 rust-version = "1.75"
