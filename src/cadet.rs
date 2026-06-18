@@ -1,14 +1,19 @@
-//! Forensic activity categories — *what evidence means*, independent of which
-//! artifact/source it came from.
+//! **CADET** — *Categories of Activity in Digital Evidence Taxonomy*.
 //!
-//! The semantic axis: many artifacts answer one category (login ← `auth.log` +
-//! `wtmp` + EVTX 4624; device-install ← `setupapi.dev.log` + registry `USBSTOR`
-//! + EVTX). This is forensic knowledge, so it lives in `forensicnomicon`;
-//! correlation and reporting group timeline events by category across sources,
-//! while the *routing* type (which parser reads a file) is a consumer concern.
+//! The forensic-semantic axis: *what evidence means*, independent of which
+//! artifact/source recorded it. Many artifacts answer one category (login ←
+//! `auth.log` + `wtmp` + EVTX 4624; device-install ← `setupapi.dev.log` +
+//! registry `USBSTOR` + EVTX). This is forensic knowledge, so it lives in
+//! `forensicnomicon`; correlation and reporting group timeline events by
+//! [`ActivityCategory`] across sources, while the *routing* type (which parser
+//! reads a file) is a consumer concern.
+//!
+//! The brand is **CADET** (the citable framework handle); the Rust type is
+//! [`ActivityCategory`] (reads in code) — mirroring how **ATT&CK** (brand)
+//! pairs with [`crate::mitre::AttackTechnique`] (type).
 //!
 //! **Grounding (not invented):** this vocabulary is a synthesis of established
-//! DFIR taxonomies, with a stable [`ForensicCategory::code`] per variant and an
+//! DFIR taxonomies, with a stable [`ActivityCategory::code`] per variant and an
 //! ATT&CK-tactic mapping where the activity is inherently adversarial:
 //! - **SANS "Evidence of…"** (FOR500) — the practitioner analysis-question set
 //!   (Program Execution, File/Folder Opening, USB Usage, Account/Logon Usage,
@@ -16,24 +21,24 @@
 //! - **Plaso/log2timeline tags** (`tag_linux.txt`/`tag_windows.txt`) — the
 //!   cross-platform super-timeline precedent (`application_execution`, `login`…).
 //! - **MITRE ATT&CK** tactics — for the adversarial overlap (see
-//!   [`ForensicCategory::attack_tactic`]).
+//!   [`ActivityCategory::attack_tactic`]).
 //! - **CASE/UCO** is the eventual *export/interchange* target (a different,
-//!   serialization layer); [`ForensicCategory::code`] is the stable key a future
+//!   serialization layer); [`ActivityCategory::code`] is the stable key a future
 //!   CASE/UCO exporter maps to UCO `Action`/`Observable` concepts.
 //!
 //! Note: categories describe *observed* activity, not *inferred* intent —
-//! e.g. [`ForensicCategory::FileSystemActivity`] is kept unified rather than
+//! e.g. [`ActivityCategory::FileSystemActivity`] is kept unified rather than
 //! split into SANS's interpretive "opening vs download vs deletion" buckets,
 //! which are an analyst inference layered on top of the same filesystem evidence.
 //!
 //! Complements [`crate::report::Category`] (the analysis-lens axis —
 //! Integrity/Structure/Threat/…); this is the activity/behavior axis.
 
-/// The forensic-semantic category of a timeline event — *what happened*,
-/// independent of the source artifact that recorded it.
+/// A CADET category — the forensic-semantic category of a timeline event,
+/// *what happened*, independent of the source artifact that recorded it.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub enum ForensicCategory {
+pub enum ActivityCategory {
     /// Program / process execution. *(SANS: Program Execution; Plaso:
     /// `application_execution`; ATT&CK: TA0002.)* Prefetch, Amcache, BAM,
     /// UserAssist, Shimcache, SRUM app usage, process lists.
@@ -85,7 +90,7 @@ pub enum ForensicCategory {
     CloudStorage,
 }
 
-impl ForensicCategory {
+impl ActivityCategory {
     /// Stable kebab-case identifier — the published contract for persistence and
     /// the eventual CASE/UCO export mapping. **Never change a shipped code.**
     #[must_use]
@@ -152,7 +157,7 @@ impl ForensicCategory {
     }
 }
 
-impl core::fmt::Display for ForensicCategory {
+impl core::fmt::Display for ActivityCategory {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         let s = match self {
             Self::Execution => "Execution",
@@ -178,43 +183,43 @@ impl core::fmt::Display for ForensicCategory {
 
 #[cfg(test)]
 mod tests {
-    use super::ForensicCategory;
+    use super::ActivityCategory;
 
     /// The full set, for exhaustive round-trip / coverage checks.
-    const ALL: &[ForensicCategory] = &[
-        ForensicCategory::Execution,
-        ForensicCategory::Persistence,
-        ForensicCategory::ScheduledTask,
-        ForensicCategory::LoginActivity,
-        ForensicCategory::FileSystemActivity,
-        ForensicCategory::DeviceInstall,
-        ForensicCategory::NetworkActivity,
-        ForensicCategory::BrowserActivity,
-        ForensicCategory::SystemState,
-        ForensicCategory::AccountActivity,
-        ForensicCategory::PackageInventory,
-        ForensicCategory::AntiForensics,
-        ForensicCategory::UserActivity,
-        ForensicCategory::Integrity,
-        ForensicCategory::Geolocation,
-        ForensicCategory::CloudStorage,
+    const ALL: &[ActivityCategory] = &[
+        ActivityCategory::Execution,
+        ActivityCategory::Persistence,
+        ActivityCategory::ScheduledTask,
+        ActivityCategory::LoginActivity,
+        ActivityCategory::FileSystemActivity,
+        ActivityCategory::DeviceInstall,
+        ActivityCategory::NetworkActivity,
+        ActivityCategory::BrowserActivity,
+        ActivityCategory::SystemState,
+        ActivityCategory::AccountActivity,
+        ActivityCategory::PackageInventory,
+        ActivityCategory::AntiForensics,
+        ActivityCategory::UserActivity,
+        ActivityCategory::Integrity,
+        ActivityCategory::Geolocation,
+        ActivityCategory::CloudStorage,
     ];
 
     #[test]
     fn display_is_human_readable() {
-        assert_eq!(ForensicCategory::Execution.to_string(), "Execution");
+        assert_eq!(ActivityCategory::Execution.to_string(), "Execution");
         assert_eq!(
-            ForensicCategory::FileSystemActivity.to_string(),
+            ActivityCategory::FileSystemActivity.to_string(),
             "File System Activity"
         );
-        assert_eq!(ForensicCategory::CloudStorage.to_string(), "Cloud Storage");
+        assert_eq!(ActivityCategory::CloudStorage.to_string(), "Cloud Storage");
     }
 
     #[test]
     fn code_round_trips_for_every_variant() {
         for &c in ALL {
             assert_eq!(
-                ForensicCategory::from_code(c.code()),
+                ActivityCategory::from_code(c.code()),
                 Some(c),
                 "code() / from_code() must round-trip {c:?}"
             );
@@ -237,21 +242,21 @@ mod tests {
     #[test]
     fn attack_tactic_maps_only_adversarial_categories() {
         // The clean adversarial overlaps map to ATT&CK tactics; benign/forensic
-        // categories return None (ForensicCategory is a superset of ATT&CK).
-        assert_eq!(ForensicCategory::Execution.attack_tactic(), Some("TA0002"));
+        // categories return None (CADET is a superset of ATT&CK).
+        assert_eq!(ActivityCategory::Execution.attack_tactic(), Some("TA0002"));
         assert_eq!(
-            ForensicCategory::Persistence.attack_tactic(),
+            ActivityCategory::Persistence.attack_tactic(),
             Some("TA0003")
         );
         assert_eq!(
-            ForensicCategory::AntiForensics.attack_tactic(),
+            ActivityCategory::AntiForensics.attack_tactic(),
             Some("TA0005")
         );
         assert_eq!(
-            ForensicCategory::AccountActivity.attack_tactic(),
+            ActivityCategory::AccountActivity.attack_tactic(),
             Some("TA0006")
         );
-        assert_eq!(ForensicCategory::FileSystemActivity.attack_tactic(), None);
-        assert_eq!(ForensicCategory::BrowserActivity.attack_tactic(), None);
+        assert_eq!(ActivityCategory::FileSystemActivity.attack_tactic(), None);
+        assert_eq!(ActivityCategory::BrowserActivity.attack_tactic(), None);
     }
 }

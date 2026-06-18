@@ -55,6 +55,9 @@
 //!
 //! ## Enrichments — investigation
 //!
+//! - [`cadet`] — **CADET** (Categories of Activity in Digital Evidence Taxonomy):
+//!   the forensic-semantic axis ([`cadet::ActivityCategory`]) — *what evidence
+//!   means* across sources, with stable `code()` + ATT&CK-tactic alignment
 //! - [`playbooks`] — `INVESTIGATION_PATHS` (6 ATT&CK-tactic artifact chains) +
 //!   `PLAYBOOKS` (5 scenario checklists: ransomware, data_breach, bec, insider, supply_chain)
 //! - [`evidence`] — evidence strength ratings (`Unreliable` → `Definitive`) with analyst caveats
@@ -142,8 +145,8 @@ pub mod attack_events;
 pub mod attack_flow;
 pub mod boot_signatures;
 pub mod bootkit;
+pub mod cadet;
 pub mod catalog;
-pub mod category;
 pub mod chainsaw;
 pub mod decmpfs;
 pub mod dependencies;
