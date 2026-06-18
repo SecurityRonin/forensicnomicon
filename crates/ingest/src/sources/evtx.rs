@@ -384,6 +384,7 @@ Event ID,Event Version,Level,Channel,Task,Opcode,Keyword
     }
 
     #[test]
+    #[ignore = "hits live network (GitHub); run with `--ignored` to refresh data"]
     fn fetch_evtx_records_from_network() {
         let records = fetch_evtx_records();
         if records.is_empty() {

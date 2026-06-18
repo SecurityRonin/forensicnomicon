@@ -388,6 +388,7 @@ Targets:
     }
 
     #[test]
+    #[ignore = "hits live network (GitHub); run with `--ignored` to refresh data"]
     fn fetch_kape_index_returns_files() {
         // Network test
         let result = fetch_kape_targets();

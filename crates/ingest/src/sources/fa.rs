@@ -488,6 +488,7 @@ urls: []
     }
 
     #[test]
+    #[ignore = "hits live network (GitHub); run with `--ignored` to refresh data"]
     fn fetch_fa_windows_returns_records() {
         let result = fetch_fa_artifacts("https://raw.githubusercontent.com/forensicartifacts/artifacts/main/artifacts/data/windows.yaml");
         match result {

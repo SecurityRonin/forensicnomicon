@@ -359,6 +359,7 @@ Keys:
     }
 
     #[test]
+    #[ignore = "hits live network (GitHub); run with `--ignored` to refresh data"]
     fn parse_from_url_returns_records() {
         // This test hits the network — skip in offline CI if needed
         let result = parse_reb_url("https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb");
