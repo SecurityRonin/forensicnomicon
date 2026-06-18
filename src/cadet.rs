@@ -181,6 +181,153 @@ impl core::fmt::Display for ActivityCategory {
     }
 }
 
+#[cfg(feature = "std")]
+impl crate::catalog::ArtifactDescriptor {
+    /// Best-effort CADET [`ActivityCategory`] for this catalog artifact, derived
+    /// from its **structural identity** (registry key path + `id`) — never from
+    /// `mitre_techniques`, which is the *adversarial* axis and miscategorizes
+    /// benign artifacts (IE TypedURLs carries `T1217`/Discovery yet is
+    /// [`BrowserActivity`](ActivityCategory::BrowserActivity)). The
+    /// catalog-driven registry scanner tags each hit with this.
+    ///
+    /// Categories describe *observed* activity, not inferred intent: a
+    /// benign-by-default system list (e.g. `FilesNotToSnapshot`, present on every
+    /// host) is [`SystemState`](ActivityCategory::SystemState), **not**
+    /// [`AntiForensics`](ActivityCategory::AntiForensics), even where its MITRE
+    /// mapping is adversarial. Tuned for the Windows-registry artifact families
+    /// the scanner surfaces; generic host-config and non-registry artifacts
+    /// default to [`SystemState`](ActivityCategory::SystemState).
+    #[must_use]
+    pub fn activity_category(&self) -> ActivityCategory {
+        use ActivityCategory as C;
+        let hay = format!("{} {}", self.id, self.key_path).to_ascii_lowercase();
+        let has = |needles: &[&str]| needles.iter().any(|n| hay.contains(n));
+
+        // Specific identity families are matched before the broad autostart
+        // bucket so e.g. credential *providers* (autostart) don't fall into the
+        // account rule, and LSA *secrets* (account) don't fall into LSA packages.
+        if has(&[
+            "profilelist",
+            "profile_list",
+            "sam_users",
+            "sam_hive",
+            "account_users",
+            "user_account",
+            "_sid",
+            "dcc2",
+            "lsa_secret",
+            "logonui_last",
+            "loggedon_user",
+            "last_loggedon",
+        ]) {
+            return C::AccountActivity;
+        }
+        if has(&[
+            "typed_urls",
+            "typedurls",
+            "default_browser",
+            "internet explorer",
+            "browsers_",
+        ]) {
+            return C::BrowserActivity;
+        }
+        if has(&[
+            "proxy",
+            "rdp_",
+            "terminal server client",
+            "firewall",
+            "network_share",
+            "network_provider",
+            "networklist",
+            "lanmanserver",
+            "\\shares",
+            "\\interfaces",
+        ]) {
+            return C::NetworkActivity;
+        }
+        if has(&[
+            "mounteddevices",
+            "mounted_devices",
+            "usbstor",
+            "setupapi",
+            "portabledevices",
+        ]) {
+            return C::DeviceInstall;
+        }
+        if has(&[
+            "recentdocs",
+            "recent_docs",
+            "comdlg32",
+            "lastvisitedpidl",
+            "opensave",
+            "cidsizemru",
+            "shellbag",
+            "bagmru",
+        ]) {
+            return C::FileSystemActivity;
+        }
+        if has(&[
+            "userassist",
+            "shimcache",
+            "appcompatcache",
+            "muicache",
+            "app_paths",
+        ]) {
+            return C::Execution;
+        }
+        if has(&[
+            "run_key",
+            "currentversion\\run",
+            "runonce",
+            "winlogon",
+            "userinit",
+            "boot_execute",
+            "appinit",
+            "image_file_execution",
+            "ifeo",
+            "known_dlls",
+            "\\services\\",
+            "_services",
+            "credential_provider",
+            "lsa_auth",
+            "lsa_notification",
+            "lsa_security",
+            "auth_packages",
+            "auth_pkg",
+            "notification_packages",
+            "security_packages",
+            "security_pkg",
+            "netsh",
+            "ssodl",
+            "shellserviceobjectdelayload",
+            "shellex",
+            "contextmenuhandler",
+            "copyhookhandler",
+            "dragdrophandler",
+            "propertysheethandler",
+            "com_server",
+            "\\clsid",
+            "password_filter",
+            "winsock",
+            "\\lsp",
+            "protocol_catalog",
+            "autorun",
+            "command processor",
+            "exefile\\shell",
+            "taskband",
+            "initial_program",
+            "runtime_exception",
+            "autoplayhandler",
+            "active_setup",
+            "startup",
+            "valley_rat",
+        ]) {
+            return C::Persistence;
+        }
+        C::SystemState
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::ActivityCategory;
@@ -258,5 +405,50 @@ mod tests {
         );
         assert_eq!(ActivityCategory::FileSystemActivity.attack_tactic(), None);
         assert_eq!(ActivityCategory::BrowserActivity.attack_tactic(), None);
+    }
+
+    #[test]
+    fn descriptor_activity_category_classifies_known_registry_families() {
+        use crate::catalog::CATALOG;
+        // Real catalog ids → their structural category (verified against the live
+        // catalog, not synthetic descriptors — Doer-Checker). mitre is NOT used:
+        // browsers_ie_typed_urls carries T1217/Discovery yet must be BrowserActivity.
+        let cases = [
+            ("run_key_hklm", ActivityCategory::Persistence),
+            ("winlogon_shell", ActivityCategory::Persistence),
+            ("com_server_hklm", ActivityCategory::Persistence),
+            (
+                "fa_currentcontrolset_services",
+                ActivityCategory::Persistence,
+            ),
+            ("userassist_exe", ActivityCategory::Execution),
+            ("shimcache", ActivityCategory::Execution),
+            ("browsers_ie_typed_urls", ActivityCategory::BrowserActivity),
+            ("typed_urls", ActivityCategory::BrowserActivity),
+            ("fa_system_mounteddevices", ActivityCategory::DeviceInstall),
+            ("profile_list_users", ActivityCategory::AccountActivity),
+            ("sam_users", ActivityCategory::AccountActivity),
+            ("lsa_secrets", ActivityCategory::AccountActivity),
+            ("dcc2_cache", ActivityCategory::AccountActivity),
+            ("mru_recent_docs", ActivityCategory::FileSystemActivity),
+            ("rdp_client_default", ActivityCategory::NetworkActivity),
+            ("firewall_rules", ActivityCategory::NetworkActivity),
+            // Benign-by-default system config: SystemState, NOT AntiForensics
+            // (its MITRE mapping is adversarial, but the artifact is observed config).
+            ("vss_files_not_to_snapshot", ActivityCategory::SystemState),
+            ("computer_name", ActivityCategory::SystemState),
+            ("system_timezone", ActivityCategory::SystemState),
+        ];
+        for (id, expected) in cases {
+            let d = CATALOG
+                .by_id(id)
+                .unwrap_or_else(|| panic!("catalog id {id} should exist"));
+            assert_eq!(
+                d.activity_category(),
+                expected,
+                "{id} ({}) → expected {expected:?}",
+                d.key_path
+            );
+        }
     }
 }
