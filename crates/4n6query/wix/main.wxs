@@ -44,7 +44,7 @@
                     <Component Id='License' Guid='*'>
                         <File Id='LicenseFile'
                             DiskId='1'
-                            Source='wix\License.rtf'
+                            Source='crates\4n6query\wix\License.rtf'
                             KeyPath='yes'/>
                     </Component>
 
@@ -77,7 +77,7 @@
                                 Id='bat0'
                                 Name='4q.bat'
                                 DiskId='1'
-                                Source='..\..\dist\4q.bat'
+                                Source='dist\4q.bat'
                                 KeyPath='yes'/>
                         </Component>
                     </Directory>

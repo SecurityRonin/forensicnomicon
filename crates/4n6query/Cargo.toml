@@ -48,8 +48,12 @@ Look up any binary (certutil.exe, osascript, curl), abusable domain \
 (userassist, prefetch) across 6,548 enriched forensic artifacts, \
 all six LOL/LOFL datasets (Windows/macOS/Linux), and 54 abusable sites.
 Also ships as 4q — the short alias for interactive use."""
+# The binary asset MUST start with exactly `target/release/` (no `../../`) so
+# cargo-deb recognises it as the Cargo target dir and rewrites it to
+# `target/<triple>/release/` under `--target` (cross builds). The `4q` static
+# file is not a target-dir path, so it stays member-relative.
 assets = [
-    ["../../target/release/4n6query", "usr/bin/4n6query", "755"],
+    ["target/release/4n6query", "usr/bin/4n6query", "755"],
     ["../../dist/4q", "usr/bin/4q", "755"],
 ]
 
