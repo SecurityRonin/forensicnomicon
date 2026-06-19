@@ -116,7 +116,7 @@
             <UIRef Id='WixUI_FeatureTree'/>
         </UI>
 
-        <WixVariable Id='WixUILicenseRtf' Value='wix\License.rtf'/>
+        <WixVariable Id='WixUILicenseRtf' Value='crates\4n6query\wix\License.rtf'/>
 
     </Product>
 
