@@ -465,6 +465,20 @@ mod tests {
     }
 
     #[test]
+    fn suspicious_path_documents() {
+        // Executing from the user's Documents folder is a non-standard install
+        // location (portable apps, dropped payloads) — same class as Downloads.
+        assert!(is_suspicious_path(
+            r"C:\Users\User\Documents\portable-tool\tool.exe"
+        ));
+    }
+
+    #[test]
+    fn suspicious_path_desktop() {
+        assert!(is_suspicious_path(r"C:\Users\User\Desktop\tool.exe"));
+    }
+
+    #[test]
     fn suspicious_path_double_ext_pdf_exe() {
         assert!(is_suspicious_path(r"C:\Users\User\invoice.pdf.exe"));
     }
