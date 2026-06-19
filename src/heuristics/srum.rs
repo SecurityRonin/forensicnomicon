@@ -108,7 +108,7 @@ const EXEC_EXTENSIONS: &[&str] = &[".exe", ".dll", ".bat", ".ps1", ".vbs", ".js"
 /// Flags paths that:
 /// - Are UNC paths (`\\`)
 /// - Contain `\temp\` or `\tmp\`
-/// - Contain `\downloads\`
+/// - Contain `\downloads\`, `\documents\`, or `\desktop\` (user-profile content folders)
 /// - Contain `\windows\temp\`
 /// - Have a double extension (document ext followed by executable ext)
 /// - Are only one directory deep from a drive root (e.g. `C:\payload.exe`)
@@ -136,10 +136,15 @@ pub fn is_suspicious_path(path: &str) -> bool {
         return true;
     }
 
-    // Suspicious directory components
+    // Suspicious directory components. Downloads/Documents/Desktop are the
+    // user-profile content folders: legitimate software installs to Program
+    // Files, so running an executable from one of these is a non-standard
+    // location worth flagging.
     if lower.contains(r"\temp\")
         || lower.contains(r"\tmp\")
         || lower.contains(r"\downloads\")
+        || lower.contains(r"\documents\")
+        || lower.contains(r"\desktop\")
         || lower.contains(r"\windows\temp\")
     {
         return true;
