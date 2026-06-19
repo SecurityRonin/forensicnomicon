@@ -33,6 +33,7 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
         with:
+          toolchain: 1.96.0 # MUST match rust-toolchain.toml, else cross builds fail E0463
           targets: ${{ matrix.target }}
 
       - uses: Swatinem/rust-cache@v2
@@ -162,6 +163,7 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
         with:
+          toolchain: 1.96.0 # MUST match rust-toolchain.toml, else cross builds fail E0463
           targets: ${{ matrix.target }}
       - uses: Swatinem/rust-cache@v2
 
