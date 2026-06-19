@@ -66,7 +66,9 @@ jobs:
 
       - name: Build MSI (Windows)
         if: runner.os == 'Windows'
-        run: cargo wix --package forensicnomicon-cli --no-build --target ${{ matrix.target }} --output 4n6query-${{ steps.version.outputs.version }}-${{ matrix.target }}.msi
+        # --nocapture surfaces candle/light output so a Source-path failure names
+        # the offending file instead of a bare "candle exit 104".
+        run: cargo wix --package forensicnomicon-cli --no-build --nocapture --target ${{ matrix.target }} --output 4n6query-${{ steps.version.outputs.version }}-${{ matrix.target }}.msi
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
@@ -178,7 +180,7 @@ jobs:
         run: cargo install cargo-deb --version 2.11.2 --locked
 
       - name: Build .deb package
-        run: cargo deb -p forensicnomicon-cli --target ${{ matrix.target }}
+        run: cargo deb --package forensicnomicon-cli --target ${{ matrix.target }}
 
       - name: Find .deb file
         id: find_deb

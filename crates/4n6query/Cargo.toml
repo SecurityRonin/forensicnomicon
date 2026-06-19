@@ -13,6 +13,11 @@ readme = "../../README.md"
 keywords = ["dfir", "forensics", "lolbins", "mitre-attack", "soc"]
 categories = ["command-line-utilities"]
 exclude = [".github/", "target/", "wix/"]
+# The bin name (4n6query) differs from the package name, so cargo-deb cannot
+# resolve which binary to build ("no bin target … in default-run packages").
+# default-run names it explicitly (sqlite-forensic avoids this only because its
+# bin name equals its package name).
+default-run = "4n6query"
 
 [[bin]]
 name = "4n6query"
