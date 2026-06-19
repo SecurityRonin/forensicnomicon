@@ -179,8 +179,16 @@ jobs:
       - name: Install cargo-deb
         run: cargo install cargo-deb --version 2.11.2 --locked
 
+      # Bin name (4n6query) != package name (forensicnomicon-cli), so cargo-deb's
+      # own build can't resolve the target ("no bin target named 4n6query in
+      # default-run packages") — unlike sqlite-forensic where bin == package name.
+      # Build the binary ourselves, then package with --no-build (validated
+      # locally with --target). The asset path resolves to target/<triple>/release.
+      - name: Build binary
+        run: cargo build --release --target ${{ matrix.target }} --package forensicnomicon-cli
+
       - name: Build .deb package
-        run: cargo deb --package forensicnomicon-cli --target ${{ matrix.target }}
+        run: cargo deb --package forensicnomicon-cli --no-build --target ${{ matrix.target }}
 
       - name: Find .deb file
         id: find_deb

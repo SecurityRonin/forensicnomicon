@@ -1,8 +1,9 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <!--
   cargo-wix template for 4n6query / forensicnomicon-cli.
-  Build: cargo wix --no-build --target x86_64-pc-windows-msvc \
-                   --output 4n6query-<ver>-x86_64-pc-windows-msvc.msi
+  Built in CI by the release workflow (cargo wix, no-build, per-target MSI).
+  See .github/workflows/release.yml for the exact invocation.
+  (XML comments cannot contain a double hyphen, so flags are not spelled out.)
 -->
 <?if $(sys.BUILDARCH) = x64 or $(sys.BUILDARCH) = arm64 ?>
     <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
