@@ -1,15 +1,15 @@
 # Feed Update Report
 
-Generated: 2026-06-19T08:42:19Z
+Generated: 2026-06-20T07:10:53Z
 
 ## Windows Incident Response
 
 - Site: https://windowsir.blogspot.com/
 - Feed: https://windowsir.blogspot.com/feeds/posts/default
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-19T09:51:36-05:00 — [Timelines](https://windowsir.blogspot.com/2026/06/timelines.html)
 
 ## dfir.blog
 
@@ -61,9 +61,9 @@ Generated: 2026-06-19T08:42:19Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-19T00:00:00+00:00 — [iCloud Private Relay and the shrinking horizon of network forensics](https://andreafortuna.org/2026/06/19/apple-private-relay-dfir/)
 
 ## Salt Forensics
 
@@ -220,27 +220,18 @@ Generated: 2026-06-19T08:42:19Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-19T08:37:34+00:00 — [eBanking Phishing Delivered Through IPv4-Mapped IPv6 Address, (Fri, Jun 19th)](https://isc.sans.edu/diary/rss/33090)
+- No new entries detected
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
-- New since last snapshot: 10
+- Entries checked: 0
+- New since last snapshot: 0
 
-- unknown date — [Training](https://www.dfir.training/training)
-- unknown date — [Tools](https://www.dfir.training/dfir-tools)
-- unknown date — [Library](https://www.dfir.training/resources)
-- unknown date — [Sponsors](https://www.dfir.training/sponsors)
-- unknown date — [Blog](https://www.dfir.training/blog)
-- unknown date — [Contact](https://www.dfir.training/contact-form)
-- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
-- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
-- unknown date — [AI-enhanced crime will expose DFIR practitioners who ignore AI.](https://www.dfir.training/blog/ai-enhanced-crime-will-expose-dfir-practitioners-who-ignore-ai)
-- unknown date — [56% are either likely to leave DFIR within 12 months or unsure if they’ll stay.](https://www.dfir.training/blog/56-of-dfir-is-unsure-if-they-will-stay-in-dfir-for-the-next-12-months)
+- No new entries detected
 
 ## MSAB
 
@@ -258,7 +249,7 @@ Generated: 2026-06-19T08:42:19Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-06-18T12:11:51+00:00 — [InfoSec News Nuggets – 06/18/2026](https://aboutdfir.com/infosec-news-nuggets-06-18-2026/)
+- 2026-06-19T13:58:42+00:00 — [InfoSec News Nuggets – 06/19/2026](https://aboutdfir.com/infosec-news-nuggets-06-19-2026/)
 
 ## Forensic 4cast
 
@@ -375,8 +366,8 @@ Generated: 2026-06-19T08:42:19Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-06-19T06:30:00+00:00 — [What can you do when an app uses too much memory?](https://eclecticlight.co/2026/06/19/what-can-you-do-when-an-app-uses-too-much-memory/)
-- 2026-06-18T11:30:00+00:00 — [Brushstrokes: 16th century](https://eclecticlight.co/2026/06/18/brushstrokes-16th-century/)
+- 2026-06-20T07:00:00+00:00 — [Explainer: Memory](https://eclecticlight.co/2026/06/20/explainer-memory/)
+- 2026-06-19T11:30:00+00:00 — [Great Ladies of Impressionism: Berthe Morisot 1864-73](https://eclecticlight.co/2026/06/19/great-ladies-of-impressionism-berthe-morisot-1864-73/)
 
 ## JPCERT/CC
 
@@ -401,10 +392,9 @@ Generated: 2026-06-19T08:42:19Z
 - Site: https://blog.elcomsoft.com/
 - Feed: https://blog.elcomsoft.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-06-19T08:30:18+00:00 — [“Get Verification Code” Is Missing in iOS 18 and iOS 26; Here’s Where It Went](https://blog.elcomsoft.com/2026/06/get-verification-code-is-missing-in-ios-18-and-ios-26-heres-where-it-went/)
-- 2026-06-18T12:03:31+00:00 — [Downloading iOS 26 iCloud Backups](https://blog.elcomsoft.com/2026/06/downloading-ios-26-icloud-backups/)
+- No new entries detected
 
 ## Huntress Blog
 
@@ -420,18 +410,18 @@ Generated: 2026-06-19T08:42:19Z
 - Site: https://redcanary.com/blog/
 - Feed: https://redcanary.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-18T17:49:20+00:00 — [Intelligence Insights: June 2026](https://redcanary.com/blog/threat-intelligence/intelligence-insights-june-2026/)
+- No new entries detected
 
 ## Palo Alto Unit 42
 
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-20T02:05:33+00:00 — [Threat Brief: Mitigating Large-Scale Credential Attacks](https://unit42.paloaltonetworks.com/large-scale-credential-attacks/)
 
 ## Mandiant Threat Intelligence
 
@@ -447,10 +437,9 @@ Generated: 2026-06-19T08:42:19Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-06-18T18:00:24+00:00 — [Close Encounters of the Human Kind](https://blog.talosintelligence.com/close-encounters-of-the-human-kind/)
-- 2026-06-18T10:00:05+00:00 — [Scripting the disassembler: Local agentic reverse engineering through vbdec’s live COM object model](https://blog.talosintelligence.com/scripting-the-disassembler/)
+- No new entries detected
 
 ## SANS Blog
 
@@ -468,25 +457,26 @@ Generated: 2026-06-19T08:42:19Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- unknown date — [Lost in relocation: analysis of a new loader distributing CASTLESTEALER](https://www.elastic.co/security-labs/oxloader-malware-loader-infostealer)
+- unknown date — [Azure AD Graph Activity Logs: Ingestion and threat detection to close the visibility gap](https://www.elastic.co/security-labs/aad-graph-activity-logs-threat-detection)
 
 ## Flare.io Threat Research Blog
 
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-06-18T14:42:44+00:00 — [4 Categories of Breach Data, 4 Different Frameworks for Response](https://flare.io/learn/resources/blog/categories-of-breach-data-frameworks-for-response)
+- 2026-06-19T22:20:17+00:00 — [Inside the FortiBleed Dataset: 46,799 Working Logins, and the Internal Addresses That Show Where They Came From](https://flare.io/learn/resources/blog/fortibleed-dataset)
+- 2026-06-19T14:21:45+00:00 — [136 Critical Vulnerabilities, 212 Organizations, Zero Exploits Required: What Attackers See in Canadian Healthcare](https://flare.io/learn/resources/blog/what-attackers-see-canadian-healthcare)
 
 ## Binalyze Blog
 
 - Site: https://www.binalyze.com/blog
 - Feed: https://www.binalyze.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-19T06:30:00+00:00 — [Is AI Data Overload Burning Out the SOC?](https://www.binalyze.com/blog/is-ai-data-overload-burning-out-the-soc)
+- No new entries detected
 
 ## Belkasoft Blog
 
@@ -529,60 +519,53 @@ Generated: 2026-06-19T08:42:19Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-06-18T00:00:00-05:00 — [New Abuse of the ClickOnce Technology, Part 2: Stop Threat Actors from Clicking Once and Staying Forever](https://www.crowdstrike.com/en-us/blog/new-abuse-of-the-clickonce-technology-part-two/)
-- 2026-06-18T00:00:00-05:00 — [New Abuse of the ClickOnce Technology, Part 1: The Inner Workings of ClickOnce Application Deployment](https://www.crowdstrike.com/en-us/blog/new-abuse-of-the-clickonce-technology-part-one/)
+- No new entries detected
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-06-18T12:58:30+00:00 — [Microsoft working on a fix for RoguePlanet, a flaw that grants full PC control](https://www.malwarebytes.com/blog/news/2026/06/microsoft-working-on-a-fix-for-rogueplanet-a-flaw-that-grants-full-pc-control)
-- 2026-06-18T11:27:42+00:00 — [Retro gaming fans are the new target for fake GitHub malware](https://www.malwarebytes.com/blog/threat-intel/2026/06/retro-gaming-fans-are-the-new-target-for-fake-github-malware)
-- 2026-06-18T09:52:08+00:00 — [Kodak confirms breach as ShinyHunters&#8217; leak threat reaches deadline](https://www.malwarebytes.com/blog/news/2026/06/kodak-confirms-breach-as-shinyhunters-leak-threat-reaches-deadline)
+- 2026-06-19T16:05:53+00:00 — [Nearly 15,000 infected websites cleaned in SocGholish crackdown](https://www.malwarebytes.com/blog/news/2026/06/nearly-15000-infected-websites-cleaned-in-socgholish-crackdown)
+- 2026-06-19T11:47:16+00:00 — [Apple patches Beats Studio Buds flaw that could turn earbuds into a wiretap](https://www.malwarebytes.com/blog/bugs/2026/06/apple-patches-beats-studio-buds-flaw-that-could-turn-earbuds-into-a-wiretap)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-18T17:37:58+00:00 — [‘Popa’ Botnet Linked to Publicly-Traded Israeli Firm](https://krebsonsecurity.com/2026/06/popa-botnet-linked-to-publicly-traded-israeli-firm/)
+- No new entries detected
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 9
+- New since last snapshot: 8
 
-- 2026-06-19T02:47:55-04:00 — [CISA warns Fortinet users to secure devices after FortiBleed leak](https://www.bleepingcomputer.com/news/security/cisa-warns-fortinet-users-to-secure-devices-after-fortibleed-leak/)
-- 2026-06-18T18:31:52-04:00 — [Gentlemen ransomware uses multiple EDR killers to disable defenses](https://www.bleepingcomputer.com/news/security/gentlemen-ransomware-uses-multiple-edr-killers-to-disable-defenses/)
-- 2026-06-18T14:31:36-04:00 — [Nintendo confirms data stolen in WebMD subsidiary cyberattack](https://www.bleepingcomputer.com/news/security/nintendo-confirms-data-stolen-in-webmd-subsidiary-cyberattack/)
-- 2026-06-18T12:20:06-04:00 — [USB worm spreads crypto-stealing malware via Windows shortcut files](https://www.bleepingcomputer.com/news/security/usb-worm-spreads-crypto-stealing-malware-via-windows-shortcut-files/)
-- 2026-06-18T10:19:50-04:00 — [Klue OAuth breach linked to 'Icarus' Salesforce data theft attacks](https://www.bleepingcomputer.com/news/security/klue-oauth-breach-linked-to-icarus-salesforce-data-theft-attacks/)
-- 2026-06-18T09:48:56-04:00 — [5 reasons Microsoft 365 backup isn’t enough for business data protection](https://www.bleepingcomputer.com/news/security/5-reasons-microsoft-365-backup-isnt-enough-for-business-data-protection/)
-- 2026-06-18T09:25:47-04:00 — [Police cleans nearly 15,000 SocGholish-infected sites tied to Evil Corp](https://www.bleepingcomputer.com/news/security/law-enforcement-nukes-socgholish-malware-from-nearly-15-000-sites/)
-- 2026-06-18T08:55:36-04:00 — [ShapedPlugin update flow hacked to infect WordPress sites](https://www.bleepingcomputer.com/news/security/shapedplugin-update-flow-hacked-to-infect-wordpress-sites/)
-- 2026-06-18T08:23:58-04:00 — [Apple fixes Beats Studio Buds flaw that let hackers spy on conversations](https://www.bleepingcomputer.com/news/security/apple-fixes-beats-studio-buds-flaw-that-let-hackers-spy-on-conversations/)
+- 2026-06-19T18:31:04-04:00 — [Klue OAuth breach victim list grows as Icarus hackers claim attack](https://www.bleepingcomputer.com/news/security/klue-oauth-breach-victim-list-grows-as-icarus-hackers-claim-attack/)
+- 2026-06-19T16:25:02-04:00 — [Hackers exploit info disclosure bug in Gravity SMTP WordPress plugin](https://www.bleepingcomputer.com/news/security/hackers-exploit-info-disclosure-bug-in-gravity-smtp-wordpress-plugin/)
+- 2026-06-19T12:12:41-04:00 — [Texas govt data breach exposes over 3 million driver’s licenses](https://www.bleepingcomputer.com/news/security/texas-govt-data-breach-exposes-over-3-million-drivers-licenses/)
+- 2026-06-19T09:10:19-04:00 — [Every AI Agent Is an Identity. Most Organizations Don't Treat Them That Way](https://www.bleepingcomputer.com/news/security/every-ai-agent-is-an-identity-most-organizations-dont-treat-them-that-way/)
+- 2026-06-19T08:12:20-04:00 — [Webinar: How attackers bypass MFA and how defenders can respond](https://www.bleepingcomputer.com/news/security/webinar-how-attackers-bypass-mfa-and-how-defenders-can-respond/)
+- 2026-06-19T07:32:34-04:00 — [Microsoft: June 2026 Windows updates break Recycle Bin prompts](https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-recycle-bin-bug-on-all-supported-windows-releases/)
+- 2026-06-19T06:39:58-04:00 — [CISA: Splunk Enterprise flaw actively exploited, patch by Sunday](https://www.bleepingcomputer.com/news/security/cisa-splunk-enterprise-flaw-actively-exploited-patch-by-sunday/)
+- 2026-06-19T04:44:08-04:00 — [NY man charged after harassing college student with AI-generated nudes](https://www.bleepingcomputer.com/news/security/new-york-man-faces-cyberstalking-charge-after-sharing-ai-generated-nudes-online/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 1
 
-- 2026-06-18T20:05:47+00:00 — [Novo Nordisk Breach Exposes Software Development Pipeline Risk](https://www.darkreading.com/cyber-risk/novo-nordisk-breach-exposes-dev-pipeline-risk)
-- 2026-06-18T19:09:21+00:00 — [Operation Escaneo Signals Shift in LatAm Threat Landscape](https://www.darkreading.com/cybersecurity-operations/operation-escaneo-signals-shift-latam-threat-landscape)
-- 2026-06-18T18:20:07+00:00 — [FIFA Bug Exposes World Cup Streams to Remote Takeover](https://www.darkreading.com/application-security/fifa-bug-world-cup-streams-remote-takeover)
-- 2026-06-18T16:49:04+00:00 — [Salesforce Data Thefts Continue via Klue App Compromise](https://www.darkreading.com/cyberattacks-data-breaches/salesforce-data-thefts-klue-app-compromise)
-- 2026-06-18T13:00:00+00:00 — [Get Out of Security Debt by Tackling the Exposure Problem](https://www.darkreading.com/cyber-risk/security-debt-tackle-exposure-problem)
+- 2026-06-19T13:00:00+00:00 — [Stressors, AI Forcing Changes to Cybersecurity Teams](https://www.darkreading.com/cybersecurity-operations/stressors-ai-changes-cybersecurity-teams)
 
 ## Volexity Blog
 
@@ -604,10 +587,9 @@ Generated: 2026-06-19T08:42:19Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-06-19T00:17:54+00:00 — [AutoJack: How a single page can RCE the host running your AI agent](https://www.microsoft.com/en-us/security/blog/2026/06/18/autojack-single-page-rce-host-running-ai-agent/)
-- 2026-06-18T19:36:08+00:00 — [New Forrester study shows customers who unified with Microsoft Security benefited from 124% ROI](https://www.microsoft.com/en-us/security/blog/2026/06/18/new-forrester-study-shows-customers-who-unified-with-microsoft-security-benefited-from-124-roi/)
+- No new entries detected
 
 ## LOLBAS Project (Windows)
 
@@ -641,9 +623,13 @@ Generated: 2026-06-19T08:42:19Z
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 5
 
-- No new entries detected
+- 2026-06-19T16:21:36+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/845b497248a0f222732572482c3f77e5e6659573)
+- 2026-06-19T16:11:15+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/35052253e0b52eae050e63e933a51fecbeaf395f)
+- 2026-06-19T16:10:14+00:00 — [Merge pull request #375 from magicsword-io/codex/add-issue-374-gentle…](https://github.com/magicsword-io/LOLDrivers/commit/9e166080ae70bd632839477b65c9d3027f746386)
+- 2026-06-19T16:08:33+00:00 — [Mark ardrv as loading despite HVCI](https://github.com/magicsword-io/LOLDrivers/commit/4d40d9dba14b8204b69f83aab29ffd6bf6a88f73)
+- 2026-06-19T15:40:58+00:00 — [Add OPSWAT AppRemover ardrv driver](https://github.com/magicsword-io/LOLDrivers/commit/c7d28ccd6372035c3469bb7ef8243b3a35f17752)
 
 ## LOFL Project (RMM C2 indicators)
 
@@ -839,9 +825,10 @@ Generated: 2026-06-19T08:42:19Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-06-19T22:06:30+00:00 — [Sigma Rule Supported Modifier Update (2026-06-19  22:06:19) (#1035)](https://github.com/Yamato-Security/hayabusa-rules/commit/19b1ee874e75419eead605ef58eab8f25cba4b58)
+- 2026-06-19T21:04:05+00:00 — [Sigma Rule Update (2026-06-19  21:03:57) (#1034)](https://github.com/Yamato-Security/hayabusa-rules/commit/20fa0dcdb326bc5689d786455f4b0f75baf56597)
 
 ## Hayabusa releases
 
@@ -866,10 +853,9 @@ Generated: 2026-06-19T08:42:19Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-06-18T16:35:01+00:00 — [dev-v1.6.53](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.53)
-- 2026-06-18T15:32:08+00:00 — [dev-v1.6.52](https://github.com/elastic/detection-rules/releases/tag/dev-v1.6.52)
+- No new entries detected
 
 ## regipy releases
 
