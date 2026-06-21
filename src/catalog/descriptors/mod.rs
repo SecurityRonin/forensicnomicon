@@ -956,6 +956,8 @@ pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.magnetforensics.com/blog/shimcache-vs-amcache-key-windows-forensic-artifacts/",
         "https://github.com/EricZimmerman/AmcacheParser",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
+        // Seth Enoka — "Shimcache and Amcache: Program Execution Without Certainty":
+        "https://sethenoka.com/shimcache-and-amcache-program-execution-without-certainty/",
         // Richard Davis (13Cubed) — "Investigating Windows Endpoints" IWE course Q&A:
         "https://training.13cubed.com/p/courses/investigating-windows-endpoints",
     ],
@@ -1010,6 +1012,8 @@ pub static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/AppCompatCacheParser",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/06_Tool_Command_Vault/6.02_Windows_DFIR_Master_Notes.md",
+        // Seth Enoka — "Shimcache and Amcache: Program Execution Without Certainty":
+        "https://sethenoka.com/shimcache-and-amcache-program-execution-without-certainty/",
         // Richard Davis (13Cubed) — "Investigating Windows Endpoints" IWE course Q&A:
         "https://training.13cubed.com/p/courses/investigating-windows-endpoints",
     ],
@@ -1018,6 +1022,7 @@ pub static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
         "Presence proves file existed on disk, not necessarily executed",
         "Written only on clean shutdown; live system registry shows entries from last reboot only — use shimcache_memory to capture entries since last reboot",
         "Copying a file at the Command Prompt without opening it in Windows Explorer does NOT create a Shimcache entry — the file must be accessed through the shell (Explorer view, rename, or move) to be shimmed",
+        "Collection method matters: ShimCache records exposure, not execution — a responder browsing the live system under review (e.g. opening the folder in Explorer) can CREATE entries, making the analyst the source. Treat entries as evidence of exposure rather than proof of execution",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Registry value persists until hive is overwritten; see shimcache_memory for the Volatile in-memory counterpart",
