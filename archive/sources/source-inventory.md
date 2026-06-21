@@ -7,7 +7,7 @@ Generated from:
 
 Category counts:
 - directory: 3
-- feed: 63
+- feed: 64
 - knowledge-base: 37
 - practitioner-blog: 5
 - primary-reference: 8
@@ -126,6 +126,8 @@ Category counts:
 - Salt Forensics: https://salt4n6.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - SANS Internet Storm Center: https://isc.sans.edu/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
+- Seth Enoka — DFIR (Windows artefacts): https://sethenoka.com/windows-artefacts/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Smarter Forensics: https://smarterforensics.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`

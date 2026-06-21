@@ -29,6 +29,7 @@
       <outline type="rss" text="Cheeky4n6Monkey" title="Cheeky4n6Monkey" xmlUrl="https://cheeky4n6monkey.blogspot.com/feeds/posts/default" htmlUrl="https://cheeky4n6monkey.blogspot.com/"/>
       <!-- Windows artifact research, DFIR methodology, timelining techniques -->
       <outline type="rss" text="ThinkDFIR" title="ThinkDFIR" xmlUrl="https://thinkdfir.com/feed/" htmlUrl="https://thinkdfir.com/"/>
+      <outline type="rss" text="Seth Enoka — DFIR" title="Seth Enoka — DFIR (Windows artefacts)" xmlUrl="https://sethenoka.com/index.xml" htmlUrl="https://sethenoka.com/windows-artefacts/"/>
       <!-- Mark Woan — Windows forensics, custom forensic tooling and scripts -->
       <outline type="rss" text="DoubleBlak" title="DoubleBlak" xmlUrl="https://www.doubleblak.com/blogRSS.xml" htmlUrl="https://www.doubleblak.com/"/>
       <!-- Windows forensics, CTF writeups, artifact deep dives -->

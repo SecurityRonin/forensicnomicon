@@ -4,7 +4,7 @@
     "directories": "archive/sources/catalog-directories.json",
     "manual": "archive/sources/manual-sources.json"
   },
-  "total_sources": 116,
+  "total_sources": 117,
   "sources": [
     {
       "id": "aboutdfir-blogs",
@@ -715,6 +715,19 @@
       "kind": "rss-feed",
       "html_url": "https://isc.sans.edu/",
       "feed_url": "https://isc.sans.edu/rssfeed_full.xml",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
+      "id": "seth-enoka-dfir-windows-artefacts",
+      "title": "Seth Enoka — DFIR (Windows artefacts)",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://sethenoka.com/windows-artefacts/",
+      "feed_url": "https://sethenoka.com/index.xml",
       "update_strategy": "rss",
       "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [
