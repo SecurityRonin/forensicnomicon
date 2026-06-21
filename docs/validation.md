@@ -121,3 +121,81 @@ ISSEN_DC01_SYSTEM_HIVE=/path/to/szechuan-sauce-hives/SYSTEM \
 ```
 
 The test skips loud (prints `SKIP:` and passes) when the corpus is absent.
+
+## LOLDrivers BYOVD denylist — DC01 driver-set validation
+
+**Module:** [`forensicnomicon::drivers`](https://docs.rs/forensicnomicon/latest/forensicnomicon/drivers/) ·
+`KNOWN_VULNERABLE_DRIVERS` / `is_known_vulnerable_driver`
+
+**Claim under test.** The driver denylist (the **inverse** of the two service
+allowlists above) flags driver `.sys` basenames that the
+[LOLDrivers](https://www.loldrivers.io/) project tracks as known-vulnerable or
+known-malicious — the Bring Your Own Vulnerable Driver vector (MITRE
+[T1543.003](https://attack.mitre.org/techniques/T1543/003/) for the service
+registration, [T1068](https://attack.mitre.org/techniques/T1068/) for the kernel
+exploit). For drivers a *denylist* is the correct shape: a Windows host loads
+hundreds of legitimate third-party drivers (AV/EDR, GPU, VPN, storage), so an
+allowlist would false-flag essentially every one. To be useful the denylist must
+not false-flag a real host's legitimate drivers.
+
+**Source (independent third party).** The denylist is the de-duplicated set of
+`.sys` basenames from the LOLDrivers dataset
+([`drivers.json` API](https://www.loldrivers.io/api/drivers.json)), snapshot
+`magicsword-io/LOLDrivers` `drivers/` at commit
+`c7d28ccd6372035c3469bb7ef8243b3a35f17752` (2026-06-19): 653 entries (115
+`malicious`, 538 `vulnerable driver`) reduced to **646** distinct real basenames.
+Hash-only placeholder "names" (entries whose stored filename is itself a hash —
+useless as a *name* lead) are excluded; **names only** keep this zero-dep
+KNOWLEDGE leaf lean (no hash dataset embedded).
+
+**Tier — honest note.** This is **Tier 2**: the denylist is sourced from the
+authoritative LOLDrivers dataset (independent third party) and validated against
+a real corpus, but that corpus contains **no BYOVD** — the DFIRMadness DC01
+implant is a user-mode OwnProcess service (`coreupdater.exe`, covered by the exe
+catalog), so this is a true-negative-style confirmation plus committed synthetic
+positives, not a real-BYOVD-isolation proof.
+
+**Method (`tests/drivers_dc01_clean.rs`, env-gated).** Parse the same real DC01
+`SYSTEM` hive with `winreg-core`, resolve the current control set via
+`Select\Current`, and collect every driver service's image basename — `Type`
+`0x01` (`SERVICE_KERNEL_DRIVER`) or `0x02` (`SERVICE_FILE_SYSTEM_DRIVER`) — then
+run each through `is_known_vulnerable_driver`.
+
+**Result — and the name-matching limitation it exposes.** The DC carries **250+
+driver services**. Name-only matching hits **exactly three**:
+
+| Image basename | Genuine identity on this host | In LOLDrivers? |
+|---|---|---|
+| `afd.sys` | WinSock Ancillary Function Driver (Microsoft) | ✅ (also a tracked vulnerable sample) |
+| `monitor.sys` | Monitor Class Function Driver (Microsoft) | ✅ (also a tracked vulnerable sample) |
+| `usbxhci.sys` | USB 3.0 xHCI controller (Microsoft) | ✅ (also a tracked malicious sample) |
+
+All three are genuine, Microsoft-shipped OS drivers on this clean DC; the hits
+are **false positives of name-matching**, not BYOVD. This is the empirical
+demonstration of the module-doc caveat — a name match is a *lead* a legitimate
+namesake can trip (and a renamed malicious sample can evade); **hash-matching**
+against the LOLDrivers Authentihash/SHA256 set is the precise form (a future
+enhancement, deliberately out of scope to keep the crate lean). The test asserts
+this *exact* collision set, so any **new, unexpected** match — a real BYOVD whose
+name is not one of these three legit OS drivers — still fails loudly.
+
+**Synthetic positives/negatives (`tests/drivers_catalog.rs`, committed).** Real
+LOLDrivers names flagged — `rtcore64.sys` (RTCore64, the MSI Afterburner driver
+abused across many BYOVD campaigns) and `dbutil_2_3.sys` (Dell firmware-update
+driver, CVE-2021-21551); ordinary Windows drivers not flagged — `ntfs.sys`,
+`tcpip.sys`; plus case-insensitivity and optional-`.sys` mechanics.
+
+**Scope / honesty.** **DENYLIST** (presence is the lead, the inverse of the
+service allowlists), **NON-EXHAUSTIVE** (LOLDrivers grows daily; this is a
+point-in-time snapshot — absence does NOT mean safe), and **names-only**
+(a lead, not a verdict — corroborate with the on-disk hash, Authenticode
+signature, and load path).
+
+**Reproduce.**
+
+```bash
+ISSEN_DC01_SYSTEM_HIVE=/path/to/szechuan-sauce-hives/SYSTEM \
+  cargo test --test drivers_dc01_clean
+```
+
+The test skips loud (prints `SKIP:` and passes) when the corpus is absent.

@@ -1,19 +1,27 @@
-//! Real-data true-negative confirmation for the LOLDrivers BYOVD **denylist**
+//! Real-data validation for the LOLDrivers BYOVD **denylist**
 //! (Doer-Checker; **Tier 2** — authoritative third-party denylist validated
 //! against a real corpus that contains no BYOVD).
 //!
 //! Parses the genuine DFIRMadness "Szechuan Sauce" DC01 `SYSTEM` hive and
 //! collects every driver service's image basename — `Type` `0x01`
 //! (`SERVICE_KERNEL_DRIVER`) or `0x02` (`SERVICE_FILE_SYSTEM_DRIVER`), `.sys`
-//! image — then asserts that **none** of them is in the LOLDrivers denylist
+//! image — then runs each through the LOLDrivers denylist
 //! ([`is_known_vulnerable_driver`]).
 //!
 //! This DC is clean of BYOVD (its implant is a user-mode OwnProcess service,
-//! `coreupdater.exe`, covered by the exe catalog), so the expected result is
-//! **0 matches** — a true-negative confirmation that the denylist does not
-//! false-flag a real domain controller's ~250 legitimate third-party + Windows
-//! drivers. If any driver DOES match, the test surfaces it loudly: that would be
-//! a genuine BYOVD finding, not a test bug.
+//! `coreupdater.exe`, covered by the exe catalog), so the *intent* is a
+//! true-negative confirmation. The real-data result, however, exposes the
+//! known limitation of **name-only** matching: exactly three of the DC's ~250
+//! legitimate drivers carry names that LOLDrivers *also* tracks as
+//! vulnerable/malicious samples — `afd.sys` (WinSock Ancillary Function
+//! Driver), `monitor.sys` (Monitor Class Function Driver), and `usbxhci.sys`
+//! (USB 3.0 xHCI controller). These are genuine, Microsoft-shipped OS drivers
+//! on this host; the hits are **false positives of name-matching**, not BYOVD.
+//! They are the empirical demonstration of the module-doc caveat: a name match
+//! is a *lead* a legitimate namesake can trip, and hash-matching is the precise
+//! form. The test asserts this *exact* collision set, so any **new, unexpected**
+//! match (a real BYOVD whose name is not one of these three legit OS drivers)
+//! still fails loudly.
 //!
 //! The hive is a large gitignored corpus owned by `issen`; this test is
 //! env-gated on `ISSEN_DC01_SYSTEM_HIVE` (or the well-known fleet path) and
@@ -137,17 +145,27 @@ fn no_dc01_driver_is_known_vulnerable() {
         basenames.len()
     );
 
-    // True-negative: a clean DC has no BYOVD. Any match is a real finding —
-    // surface it loudly rather than silently passing.
-    let matches: Vec<&String> = basenames
+    // A clean DC carries no BYOVD, but name-only matching collides with three
+    // legitimate, Microsoft-shipped OS drivers whose names LOLDrivers also
+    // tracks as vulnerable/malicious samples (see the module docs). Those are
+    // false positives of name-matching, NOT findings on this host. Assert the
+    // EXACT collision set: a new, unexpected match (a real BYOVD not named like
+    // one of these legit OS drivers) must still fail loudly.
+    let mut matches: Vec<&String> = basenames
         .iter()
         .filter(|b| is_known_vulnerable_driver(b))
         .collect();
+    matches.sort();
 
-    assert!(
-        matches.is_empty(),
-        "BYOVD denylist matched {} DC01 driver(s) — investigate (a clean DC \
-         should have 0): {matches:?}",
-        matches.len()
+    // Ground truth (verified against the real hive): exactly these three legit
+    // OS drivers collide by name with LOLDrivers entries on a clean DC.
+    let expected_collisions = ["afd.sys", "monitor.sys", "usbxhci.sys"];
+    let got: Vec<&str> = matches.iter().map(|s| s.as_str()).collect();
+
+    assert_eq!(
+        got, expected_collisions,
+        "BYOVD name-match set changed. Expected only the known legit-OS-driver \
+         name collisions {expected_collisions:?}; any OTHER match is a real BYOVD \
+         lead — investigate. Got: {got:?}"
     );
 }

@@ -96,6 +96,9 @@
 //! - [`services`] — known-good Windows service-baseline catalogs: standalone
 //!   OwnProcess service exes (`is_known_service_binary`) and svchost-hosted
 //!   `ServiceDll`s (`is_known_service_dll`) for service-masquerade leads (T1543.003)
+//! - [`drivers`] — LOLDrivers BYOVD *denylist* (`is_known_vulnerable_driver`):
+//!   known-vulnerable/malicious driver `.sys` basenames — the inverse of the
+//!   service allowlists, presence is the lead (T1543.003 / T1068)
 //! - [`commands`] — log-wipe commands, rootkit names
 //! - [`paths`] — suspicious staging and hijack paths
 //! - [`antiforensics`] — anti-forensic tool indicators
@@ -154,6 +157,7 @@ pub mod chainsaw;
 pub mod decmpfs;
 pub mod dependencies;
 pub mod dmg;
+pub mod drivers;
 pub mod eventids;
 pub mod evidence;
 pub mod evtx;
