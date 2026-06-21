@@ -3082,6 +3082,38 @@ mod tests_batch_d {
         );
     }
 
+    /// Seth Enoka's "Shimcache and Amcache: Program Execution Without Certainty"
+    /// is the source for the collection-method/responder-contamination caveat:
+    /// a responder browsing the live box under review can CREATE ShimCache
+    /// entries, so exposure != execution and the analyst can be the source.
+    const SETH_ENOKA_SHIMCACHE: &str =
+        "https://sethenoka.com/shimcache-and-amcache-program-execution-without-certainty/";
+
+    #[test]
+    fn shimcache_has_collection_method_contamination_caveat() {
+        let has_caveat = SHIMCACHE.evidence_caveats.iter().any(|c| {
+            let lc = c.to_lowercase();
+            lc.contains("collection method") || lc.contains("responder") || lc.contains("exposure")
+        });
+        assert!(
+            has_caveat,
+            "SHIMCACHE must carry a collection-method/responder-contamination caveat \
+             (exposure != execution; browsing the live box can create entries)"
+        );
+        assert!(
+            SHIMCACHE.sources.contains(&SETH_ENOKA_SHIMCACHE),
+            "SHIMCACHE.sources must cite Seth Enoka's program-execution-without-certainty article"
+        );
+    }
+
+    #[test]
+    fn amcache_cites_seth_enoka_execution_uncertainty() {
+        assert!(
+            AMCACHE_APP_FILE.sources.contains(&SETH_ENOKA_SHIMCACHE),
+            "AMCACHE_APP_FILE.sources must cite Seth Enoka's program-execution-without-certainty article"
+        );
+    }
+
     #[test]
     fn evtx_security_has_authoritative_sources() {
         assert!(
