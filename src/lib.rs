@@ -93,6 +93,8 @@
 //! - [`lolbins`] — Windows LOLBAS + Linux GTFOBins
 //! - [`persistence`] — run keys, cron, LaunchAgents, IFEO, AppInit
 //! - [`processes`] — masquerade targets and offensive process names
+//! - [`services`] — known-good standalone Windows service-binary catalog
+//!   (`is_known_service_binary`) for System32 service-masquerade leads (T1543.003)
 //! - [`commands`] — log-wipe commands, rootkit names
 //! - [`paths`] — suspicious staging and hijack paths
 //! - [`antiforensics`] — anti-forensic tool indicators
@@ -207,6 +209,7 @@ pub mod processes;
 pub mod references;
 pub mod remote_access;
 pub mod rootkit;
+pub mod services;
 pub mod shell_history;
 pub mod shellbags;
 pub mod shlink;
