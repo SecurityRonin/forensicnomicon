@@ -63,3 +63,61 @@ ISSEN_DC01_SYSTEM_HIVE=/path/to/szechuan-sauce-hives/SYSTEM \
 ```
 
 The test skips loud (prints `SKIP:` and passes) when the corpus is absent.
+
+## Known-good svchost ServiceDll catalog — DC01 baseline completeness
+
+**Module:** [`forensicnomicon::services`](https://docs.rs/forensicnomicon/latest/forensicnomicon/services/) ·
+`KNOWN_WINDOWS_SERVICE_DLLS` / `is_known_service_dll`
+
+**Claim under test.** The catalog of legitimate svchost-hosted `ServiceDll`s is
+the baseline a ServiceDll-masquerade detector subtracts known-good DLLs against.
+A malicious `ServiceDll` — a planted `.dll` registered as the code a
+legitimate-looking, `svchost.exe`-hosted service loads (`Parameters\ServiceDll`)
+— is the #1 svchost implant vector (MITRE
+[T1543.003](https://attack.mitre.org/techniques/T1543/003/) /
+[T1036.005](https://attack.mitre.org/techniques/T1036/005/)). To gate that lead
+without flooding the analyst with false positives, the baseline must recognise
+the *legitimate* ServiceDlls actually loaded on a real host.
+
+**Tier — honest note.** This is **Tier 2 (real-corpus baseline completeness)**,
+not a real-masquerade isolation proof. The DFIRMadness DC01 corpus contains the
+`coreupdater.exe` implant, but that implant is a standalone **OwnProcess** service
+(covered by the exe catalog above) — the hive carries **no malicious
+`ServiceDll`**. So unlike the exe catalog, there is no real implant to isolate
+here. The real-data claim is narrower and stated plainly: the catalog is
+*complete* over the genuine set of ServiceDlls the DC actually loads. The
+masquerade case (a planted `evil.dll` / a ServiceDll under `\Temp\`) is exercised
+by committed synthetic unit tests (`tests/service_dlls_catalog.rs` and the
+in-module `tests`).
+
+**Method (`tests/service_dlls_dc01_baseline.rs`, env-gated).** Parse the same
+real DC01 `SYSTEM` hive with `winreg-core` (test-only dev-dependency; not in the
+published graph), resolve the current control set via `Select\Current`, and for
+every service read `Parameters\ServiceDll`, reducing each raw value (which may be
+a `REG_EXPAND_SZ` like `%SystemRoot%\System32\dnsrslvr.dll`) to its lowercase
+`.dll` basename.
+
+**Result.** The hive yields **117 ServiceDll rows → 106 unique DLL basenames**
+(several DLLs host multiple services, e.g. `rpcss.dll` → `DcomLaunch` + `RpcSs`,
+`icsvc.dll` → 7 Hyper-V integration services, `wdi.dll` → `WdiServiceHost` +
+`WdiSystemHost`, `mmcss.dll` → `MMCSS` + `THREADORDER`). The test asserts every
+one of the 106 basenames resolves `is_known_service_dll == true` — zero
+real-corpus unknowns. (During development the real-data test caught one genuine
+catalog gap, `w32time.dll` / W32Time, that the synthetic tests had missed — the
+Doer-Checker payoff; it is now catalogued.)
+
+**Scope / honesty.** The catalog is explicitly **NON-EXHAUSTIVE** and gates a
+*lead*, not a verdict: presence means the *name* is a documented legitimate
+ServiceDll (a masquerade reuses a legit name and/or an unexpected path —
+corroborate that the DLL resolves under `System32`, plus code-signature/hash and
+the hosting svchost group); absence means "investigate". Completeness is proven
+over one authentic DC image, not across every Windows version, edition, or role.
+
+**Reproduce.**
+
+```bash
+ISSEN_DC01_SYSTEM_HIVE=/path/to/szechuan-sauce-hives/SYSTEM \
+  cargo test --test service_dlls_dc01_baseline
+```
+
+The test skips loud (prints `SKIP:` and passes) when the corpus is absent.

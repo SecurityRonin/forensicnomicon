@@ -22,13 +22,15 @@
 //!
 //! ## Scope
 //!
-//! Entries are lowercase basenames of legitimate **standalone OwnProcess**
-//! (`SERVICE_WIN32_OWN_PROCESS`, type `0x10`) service executables that ship in
-//! `System32` / `SysWOW64`. The vast majority of Windows services are
-//! `svchost.exe`-hosted (`SERVICE_WIN32_SHARE_PROCESS`, type `0x20`) and carry a
-//! `ServiceDll` rather than a distinct image; those are out of scope here — see
-//! the [`SVCHOST_HOST_BINARY`] note. Kernel/filesystem driver services
-//! (types `0x01`/`0x02`, `.sys` images) are likewise out of scope.
+//! [`KNOWN_WINDOWS_SERVICE_BINARIES`] entries are lowercase basenames of
+//! legitimate **standalone OwnProcess** (`SERVICE_WIN32_OWN_PROCESS`, type
+//! `0x10`) service executables that ship in `System32` / `SysWOW64`. The vast
+//! majority of Windows services are `svchost.exe`-hosted
+//! (`SERVICE_WIN32_SHARE_PROCESS`, type `0x20`) and carry a `ServiceDll` rather
+//! than a distinct image; those DLLs are catalogued separately in
+//! [`KNOWN_WINDOWS_SERVICE_DLLS`] / [`is_known_service_dll`] — the complement
+//! that baselines the svchost implant vector. Kernel/filesystem driver services
+//! (types `0x01`/`0x02`, `.sys` images) are out of scope for both.
 //!
 //! ## NON-EXHAUSTIVE
 //!
@@ -68,7 +70,7 @@
 /// `Parameters` key) loaded into a shared `svchost.exe` process group
 /// (`SERVICE_WIN32_SHARE_PROCESS`, type `0x20`). For those, the *image* is
 /// always `svchost.exe`; the forensically interesting identifier is the
-/// `ServiceDll`, which is outside this catalog's basename-of-exe scope.
+/// `ServiceDll`, baselined separately in [`KNOWN_WINDOWS_SERVICE_DLLS`].
 ///
 /// Source: Windows Internals 7th ed., ch.9 (svchost service grouping);
 /// <https://learn.microsoft.com/en-us/windows/win32/services/service-programs>.
@@ -169,6 +171,207 @@ pub fn is_known_service_binary(basename: &str) -> bool {
     KNOWN_WINDOWS_SERVICE_BINARIES.contains(&lower.as_str())
 }
 
+/// Lowercase `.dll` basenames of legitimate **svchost-hosted** Windows service
+/// DLLs — the `ServiceDll` value under a service's `Parameters` key that a
+/// `SERVICE_WIN32_SHARE_PROCESS` (type `0x20`) service loads into a shared
+/// `svchost.exe` group.
+///
+/// This is the **complement** to [`KNOWN_WINDOWS_SERVICE_BINARIES`]: that list
+/// baselines standalone OwnProcess service *exes*; this one baselines the *DLLs*
+/// that svchost-hosted services load. Because `svchost.exe` is the same image
+/// for every hosted service, the forensically interesting identifier is the
+/// `ServiceDll`, and a *malicious* ServiceDll — a planted `.dll` registered as
+/// the code a legitimate-looking service loads — is the **#1 svchost implant
+/// vector** (MITRE ATT&CK
+/// [T1543.003 — Create or Modify System Process: Windows Service] and
+/// [T1036.005 — Masquerading: Match Legitimate Name or Location]). A
+/// svchost-hosted service whose `ServiceDll` basename is NOT in this catalog,
+/// or whose ServiceDll resolves outside `System32` (e.g. `\Temp\`, a user
+/// profile, `ProgramData`), is a **lead**, not a verdict.
+///
+/// **NON-EXHAUSTIVE** — Windows ships hundreds of svchost-hosted services and
+/// the set varies by OS version, edition, installed roles (a domain controller
+/// loads AD-DS DLLs a workstation never has), and optional features; third-party
+/// software registers its own ServiceDlls. This catalog cannot be complete and
+/// it deliberately gates a *lead*, never a verdict. Absence means "investigate",
+/// not "malicious"; presence means "a DLL with this name is a documented
+/// legitimate Windows ServiceDll" — a masquerade reuses a legit *name*, so
+/// corroborate with the on-disk path (must be `System32`), a code-signature /
+/// hash check, and the hosting svchost group before concluding.
+///
+/// The bulk of this catalog (106 unique basenames) is the exact set of
+/// `Parameters\ServiceDll` values observed on the genuine DFIRMadness "Szechuan
+/// Sauce" DC01 `SYSTEM` hive (117 ServiceDll rows; several DLLs host multiple
+/// services — `rpcss.dll` → `DcomLaunch`+`RpcSs`, `icsvc.dll` → 7 Hyper-V
+/// integration services, `wdi.dll` → `WdiServiceHost`+`WdiSystemHost`). See
+/// `tests/service_dlls_dc01_baseline.rs` for the baseline-completeness proof.
+///
+/// # Sources
+///
+/// - Microsoft — "Security guidelines for system services in Windows Server"
+///   (per-service catalog, incl. svchost-hosted services and their DLLs):
+///   <https://learn.microsoft.com/en-us/windows-server/security/windows-services/security-guidelines-for-disabling-system-services-in-windows-server>
+/// - Russinovich, Solomon & Ionescu — *Windows Internals, 7th ed.*, Chapter 9
+///   ("Management mechanisms — Services"): svchost grouping and `ServiceDll`.
+/// - SANS FOR508 — "Advanced Incident Response, Threat Hunting & Digital
+///   Forensics": svchost / ServiceDll known-good baseline methodology.
+/// - Elastic Security — service-DLL anomaly detection rules (svchost loading a
+///   ServiceDll from an unexpected path / unknown name):
+///   <https://www.elastic.co/guide/en/security/current/persistence-via-a-windows-service.html>
+/// - MITRE ATT&CK T1543.003 / T1036.005:
+///   <https://attack.mitre.org/techniques/T1543/003/> ·
+///   <https://attack.mitre.org/techniques/T1036/005/>
+/// - Ground truth: DFIRMadness "Szechuan Sauce" DC01 `SYSTEM` hive (the genuine
+///   106-entry ServiceDll set), parsed via `winreg-core` in the validation test.
+///
+/// [T1543.003 — Create or Modify System Process: Windows Service]: https://attack.mitre.org/techniques/T1543/003/
+/// [T1036.005 — Masquerading: Match Legitimate Name or Location]: https://attack.mitre.org/techniques/T1036/005/
+pub const KNOWN_WINDOWS_SERVICE_DLLS: &[&str] = &[
+    // === Core OS — RPC / COM / base platform svchost ServiceDlls ===
+    // Sources: MS Windows Server service guidelines; Windows Internals 7th ed.
+    // ch.9 (svchost grouping). Set confirmed against the real DC01 SYSTEM hive.
+    "rpcss.dll",    // Remote Procedure Call (RpcSs) + DCOM Launch (DcomLaunch)
+    "rpcepmap.dll", // RPC Endpoint Mapper (RpcEptMapper)
+    "es.dll",       // COM+ Event System (EventSystem)
+    "bisrv.dll",    // Background Tasks Infrastructure (BrokerInfrastructure)
+    "systemeventsbrokerserver.dll", // System Events Broker (SystemEventsBroker)
+    "fntcache.dll", // Windows Font Cache Service (FontCache)
+    "fontcache.dll", // Windows Font Cache (alt image name across builds)
+    "themeservice.dll", // Themes
+    "shsvcs.dll",   // Shell Hardware Detection (ShellHWDetection)
+    "profsvc.dll",  // User Profile Service (ProfSvc)
+    "gpsvc.dll",    // Group Policy Client (gpsvc)
+    "seclogon.dll", // Secondary Logon (seclogon)
+    "sens.dll",     // System Event Notification Service (SENS)
+    "sessenv.dll",  // Remote Desktop Configuration (SessionEnv)
+    "umpo.dll",     // Power (Power)
+    "umpnpmgr.dll", // Plug and Play (PlugPlay) + Device Install (DeviceInstall)
+    "hidserv.dll",  // Human Interface Device Service (hidserv)
+    "wpdbusenum.dll", // Portable Device Enumerator (WPDBusEnum)
+    "das.dll",      // Device Association Service (DeviceAssociationService)
+    "devicesetupmanager.dll", // Device Setup Manager (DsmSvc)
+    "wudfsvc.dll",  // Windows Driver Foundation - user-mode driver framework (wudfsvc)
+    "scdeviceenum.dll", // Smart Card Device Enumeration (ScDeviceEnum)
+    "scardsvr.dll", // Smart Card (SCardSvr)
+    "certprop.dll", // Certificate Propagation (CertPropSvc) + smart-card policy (SCPolicySvc)
+    "wcspluginservice.dll", // Windows Color System plug-in (WcsPlugInService)
+    "printconfig.dll", // Printer Extensions and Notifications (PrintNotify)
+    "pla.dll",      // Performance Logs & Alerts (pla)
+    "wdi.dll",      // Diagnostic Service/System Host (WdiServiceHost / WdiSystemHost)
+    "dps.dll",      // Diagnostic Policy Service (DPS)
+    "fdphost.dll",  // Function Discovery Provider Host (fdPHost)
+    "fdrespub.dll", // Function Discovery Resource Publication (FDResPub)
+    "mmcss.dll",    // Multimedia Class Scheduler (MMCSS) + Thread Ordering Server (THREADORDER)
+    "sysmain.dll",  // SysMain / Superfetch (SysMain)
+    "defragsvc.dll", // Optimize drives / Disk Defragmenter (defragsvc)
+    "trkwks.dll",   // Distributed Link Tracking Client (TrkWks)
+    "appinfo.dll",  // Application Information (Appinfo)
+    "appmgmts.dll", // Application Management (AppMgmt)
+    "appreadiness.dll", // App Readiness (AppReadiness)
+    "appxdeploymentserver.dll", // AppX Deployment Service (AppXSvc)
+    "aelupsvc.dll", // Application Experience / Lookup Service (AeLookupSvc)
+    "appidsvc.dll", // Application Identity (AppIDSvc)
+    "wcmsvc.dll",   // Windows Connection Manager (Wcmsvc)
+    "ualsvc.dll",   // User Access Logging Service (UALSVC)
+    "smphost.dll",  // Storage Spaces SMP host (smphost)
+    "svsvc.dll",    // Spot Verifier (svsvc)
+    "wephostsvc.dll", // Windows Encryption Provider Host (WEPHOSTSVC)
+    "vaultsvc.dll", // Credential Manager (VaultSvc)
+    "keyiso.dll",   // CNG Key Isolation (KeyIso)
+    "cryptsvc.dll", // Cryptographic Services (CryptSvc)
+    "efssvc.dll",   // Encrypting File System (EFS)
+    "wbiosrvc.dll", // Windows Biometric Service (svchost-hosted variant)
+    // === Networking svchost ServiceDlls ===
+    // Sources: MS Windows Server service guidelines; Elastic network-service rules.
+    "dnsrslvr.dll",    // DNS Client (Dnscache)
+    "dhcpcore.dll",    // DHCP Client (Dhcp)
+    "iphlpsvc.dll",    // IP Helper (iphlpsvc)
+    "nlasvc.dll",      // Network Location Awareness (NlaSvc)
+    "netprofmsvc.dll", // Network List Service (netprofm)
+    "ncasvc.dll",      // Network Connectivity Assistant (NcaSvc)
+    "netman.dll",      // Network Connections (Netman)
+    "nsisvc.dll",      // Network Store Interface Service (nsi)
+    "bfe.dll",         // Base Filtering Engine (BFE)
+    "mpssvc.dll",      // Windows Firewall / Defender Firewall (MpsSvc)
+    "ikeext.dll",      // IKE and AuthIP IPsec Keying Modules (IKEEXT)
+    "ipsecsvc.dll",    // IPsec Policy Agent (PolicyAgent)
+    "ipnathlp.dll",    // Internet Connection Sharing / NAT (SharedAccess)
+    "winhttp.dll",     // WinHTTP Web Proxy Auto-Discovery (WinHttpAutoProxySvc)
+    "wkssvc.dll",      // Workstation (LanmanWorkstation)
+    "srvsvc.dll",      // Server (LanmanServer)
+    "browser.dll",     // Computer Browser (Browser)
+    "lmhsvc.dll",      // TCP/IP NetBIOS Helper (lmhosts)
+    "ssdpsrv.dll",     // SSDP Discovery (SSDPSRV)
+    "upnphost.dll",    // UPnP Device Host (upnphost)
+    "lltdsvc.dll",     // Link-Layer Topology Discovery Mapper (lltdsvc)
+    "dot3svc.dll",     // Wired AutoConfig (dot3svc)
+    "eapsvc.dll",      // Extensible Authentication Protocol (Eaphost)
+    "rasauto.dll",     // Remote Access Auto Connection Manager (RasAuto)
+    "rasmans.dll",     // Remote Access Connection Manager (RasMan)
+    "mprdim.dll",      // Routing and Remote Access (RemoteAccess)
+    "sstpsvc.dll",     // Secure Socket Tunneling Protocol Service (SstpSvc)
+    "qagentrt.dll",    // Network Access Protection Agent (napagent)
+    "tapisrv.dll",     // Telephony (TapiSrv)
+    "iscsiexe.dll",    // Microsoft iSCSI Initiator Service (MSiSCSI)
+    "w32time.dll",     // Windows Time (W32Time)
+    // === Remote management / remote desktop / event-collector svchost ServiceDlls ===
+    // Sources: MS Windows Server service guidelines; SANS FOR508 lateral-movement baseline.
+    "termsrv.dll",  // Remote Desktop Services (TermService)
+    "umrdp.dll",    // Remote Desktop Services UserMode Port Redirector (UmRdpService)
+    "regsvc.dll",   // Remote Registry (RemoteRegistry)
+    "wsmsvc.dll",   // Windows Remote Management / WS-Management (WinRM)
+    "wecsvc.dll",   // Windows Event Collector (Wecsvc)
+    "wmisvc.dll",   // Windows Management Instrumentation (Winmgmt)
+    "schedsvc.dll", // Task Scheduler (Schedule)
+    "qmgr.dll",     // Background Intelligent Transfer Service (BITS)
+    "wuaueng.dll",  // Windows Update (wuauserv)
+    "sacsvr.dll",   // Special Administration Console Helper (sacsvr)
+    // === Audio / media / shell user-session svchost ServiceDlls ===
+    // Sources: MS Windows Server service guidelines.
+    "audiosrv.dll",             // Windows Audio (Audiosrv)
+    "audioendpointbuilder.dll", // Windows Audio Endpoint Builder (AudioEndpointBuilder)
+    "lsm.dll",                  // Local Session Manager (LSM)
+    // === Diagnostics / error-reporting svchost ServiceDlls ===
+    // Sources: MS Windows Server service guidelines.
+    "wersvc.dll",        // Windows Error Reporting Service (WerSvc)
+    "wercplsupport.dll", // Problem Reports control-panel support (wercplsupport)
+    "kmsvc.dll",         // Health Key and Certificate Management (hkmsvc)
+    "wsservice.dll",     // Windows Store Service (WSService)
+    // === Hyper-V integration / virtualization svchost ServiceDlls ===
+    // Sources: MS Hyper-V integration-services docs; Windows Internals 7th ed.
+    "icsvc.dll", // Hyper-V integration services (vmicheartbeat / vmicvss / vmicshutdown / vmictimesync / vmickvpexchange / vmicrdv / vmicguestinterface)
+    "swprv.dll", // Microsoft Software Shadow Copy Provider (swprv)
+    // === Active Directory Domain Services / Domain-Controller-role svchost ServiceDlls ===
+    // Sources: MS Windows Server service guidelines (AD DS roles); SANS FOR508
+    // DC baseline. These are the family the DC01 case lives in.
+    "ntdsa.dll",     // Active Directory Domain Services (NTDS)
+    "kdcsvc.dll",    // Kerberos Key Distribution Center (Kdc)
+    "kpssvc.dll",    // Microsoft Key Protection Service (KPSSVC)
+    "kdssvc.dll",    // Microsoft Key Distribution Service (KdsSvc)
+    "dsrolesrv.dll", // DS Role Server (DsRoleSvc)
+    "netlogon.dll",  // Netlogon (Netlogon)
+    "msdtckrm.dll",  // KtmRm for Distributed Transaction Coordinator (KtmRm)
+];
+
+/// Returns `true` if `basename` is a known-good svchost-hosted Windows
+/// `ServiceDll` (case-insensitive; accepts the name with or without a `.dll`
+/// suffix).
+///
+/// This is an **allow-style lead gate**, not a verdict: a svchost-hosted service
+/// whose `ServiceDll` basename returns `false` — or whose ServiceDll resolves
+/// outside `System32` — warrants investigation (T1543.003 / T1036.005), and a
+/// `true` result only means the *name* is a documented legitimate ServiceDll
+/// (a masquerade reuses a legit name — corroborate path / signature / hash).
+/// See [`KNOWN_WINDOWS_SERVICE_DLLS`] (NON-EXHAUSTIVE).
+#[must_use]
+pub fn is_known_service_dll(basename: &str) -> bool {
+    let mut lower = basename.trim().to_ascii_lowercase();
+    if !lower.ends_with(".dll") {
+        lower.push_str(".dll");
+    }
+    KNOWN_WINDOWS_SERVICE_DLLS.contains(&lower.as_str())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -241,5 +444,67 @@ mod tests {
     #[test]
     fn whitespace_trimmed() {
         assert!(is_known_service_binary("  dns  "));
+    }
+
+    // --- svchost ServiceDll catalog ---
+
+    #[test]
+    fn dll_catalog_covers_real_dc01_baseline() {
+        // The genuine DC01 hive has 106 unique ServiceDll basenames; the catalog
+        // covers all of them (plus a couple of common cross-build aliases).
+        assert!(KNOWN_WINDOWS_SERVICE_DLLS.len() >= 106);
+    }
+
+    #[test]
+    fn all_dll_entries_lowercase_bare_dll() {
+        for &d in KNOWN_WINDOWS_SERVICE_DLLS {
+            assert_eq!(d, d.to_ascii_lowercase());
+            assert!(d.ends_with(".dll"));
+            assert!(!d.contains('\\') && !d.contains('/'));
+        }
+    }
+
+    #[test]
+    fn no_duplicate_dll_entries() {
+        let mut seen = std::collections::BTreeSet::new();
+        for &d in KNOWN_WINDOWS_SERVICE_DLLS {
+            assert!(seen.insert(d), "duplicate: {d}");
+        }
+    }
+
+    #[test]
+    fn known_service_dll_brief_examples() {
+        assert!(is_known_service_dll("dnsrslvr.dll"));
+        assert!(is_known_service_dll("schedsvc.dll"));
+        assert!(is_known_service_dll("qmgr.dll"));
+    }
+
+    #[test]
+    fn known_service_dll_case_insensitive() {
+        assert!(is_known_service_dll("DNSRSLVR.DLL"));
+        assert!(is_known_service_dll("SchedSvc.Dll"));
+    }
+
+    #[test]
+    fn known_service_dll_accepts_with_or_without_dll() {
+        assert!(is_known_service_dll("qmgr"));
+        assert!(is_known_service_dll("qmgr.dll"));
+    }
+
+    #[test]
+    fn masquerade_dll_is_unknown() {
+        assert!(!is_known_service_dll("evil.dll"));
+        assert!(!is_known_service_dll("evil"));
+    }
+
+    #[test]
+    fn empty_and_random_dll_unknown() {
+        assert!(!is_known_service_dll(""));
+        assert!(!is_known_service_dll("totally-not-a-service"));
+    }
+
+    #[test]
+    fn dll_whitespace_trimmed() {
+        assert!(is_known_service_dll("  qmgr.dll  "));
     }
 }

@@ -93,8 +93,9 @@
 //! - [`lolbins`] — Windows LOLBAS + Linux GTFOBins
 //! - [`persistence`] — run keys, cron, LaunchAgents, IFEO, AppInit
 //! - [`processes`] — masquerade targets and offensive process names
-//! - [`services`] — known-good standalone Windows service-binary catalog
-//!   (`is_known_service_binary`) for System32 service-masquerade leads (T1543.003)
+//! - [`services`] — known-good Windows service-baseline catalogs: standalone
+//!   OwnProcess service exes (`is_known_service_binary`) and svchost-hosted
+//!   `ServiceDll`s (`is_known_service_dll`) for service-masquerade leads (T1543.003)
 //! - [`commands`] — log-wipe commands, rootkit names
 //! - [`paths`] — suspicious staging and hijack paths
 //! - [`antiforensics`] — anti-forensic tool indicators
