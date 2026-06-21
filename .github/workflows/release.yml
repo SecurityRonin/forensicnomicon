@@ -109,7 +109,9 @@ jobs:
           client-payload: '{"formula": "4n6query", "version": "${{ github.ref_name }}"}'
 
   crate:
-    needs: release
+    # Independent of the binary build: publishing the LIBRARY to crates.io must
+    # not be gated on the cross-platform binary matrix (build -> release). A
+    # binary-target failure should not skip the lib publish.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
