@@ -75,6 +75,11 @@ serde = { workspace = true, optional = true }
 
 [dev-dependencies]
 serde_json = { workspace = true }
+# TEST-ONLY: parses the real DC01 SYSTEM hive in tests/services_dc01_isolation.rs
+# to prove the known-good service catalog isolates the coreupdater.exe masquerade
+# on genuine data. winreg-core does NOT depend on forensicnomicon (no dep cycle);
+# this never enters the published dependency graph (dev-dep only).
+winreg-core = { path = "../winreg-forensic/crates/winreg-core" }
 
 [lints]
 workspace = true
