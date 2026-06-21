@@ -64,6 +64,15 @@ documentation = "https://docs.rs/forensicnomicon"
 keywords = ["forensics", "dfir", "incident-response", "mitre", "artifacts"]
 categories = ["science", "data-structures"]
 readme = "README.md"
+# The published crate is the catalog library only. Exclude the daily feed-watch
+# archive (archive/sources/pending-review.jsonl grows to multiple MB and timed
+# out the crates.io upload), the Python tooling, fixtures, and fuzz targets.
+exclude = [
+    "archive/",
+    "scripts/",
+    "tests/",
+    "fuzz/",
+]
 
 [features]
 default = ["std"]
