@@ -1,0 +1,93 @@
+//! Synthetic unit tests for the LOLDrivers BYOVD **denylist**
+//! ([`KNOWN_VULNERABLE_DRIVERS`] / [`is_known_vulnerable_driver`]).
+//!
+//! These cover the committed positive/negative cases (a real LOLDriver name ⇒
+//! flagged; an ordinary Windows driver ⇒ not flagged) and the lookup mechanics
+//! (case-insensitivity, optional `.sys` suffix). The real-corpus true-negative
+//! confirmation against the DC01 SYSTEM hive lives in
+//! `tests/drivers_dc01_clean.rs` (env-gated).
+//!
+//! Tier note (honest): the denylist is sourced from the authoritative LOLDrivers
+//! dataset (independent third party). `rtcore64.sys` and `dbutil_2_3.sys` are
+//! both well-known, real LOLDrivers entries (RTCore64 — the MSI Afterburner
+//! driver abused by RobbinHood/many BYOVD campaigns; DBUtil_2_3 — the Dell
+//! firmware-update driver, CVE-2021-21551).
+
+use forensicnomicon::drivers::{is_known_vulnerable_driver, KNOWN_VULNERABLE_DRIVERS};
+
+#[test]
+fn denylist_is_non_trivial() {
+    // The LOLDrivers dataset carries hundreds of distinct real driver basenames.
+    assert!(
+        KNOWN_VULNERABLE_DRIVERS.len() >= 500,
+        "expected the full LOLDrivers basename set, got {}",
+        KNOWN_VULNERABLE_DRIVERS.len()
+    );
+}
+
+#[test]
+fn all_entries_lowercase_bare_sys() {
+    for &d in KNOWN_VULNERABLE_DRIVERS {
+        assert_eq!(d, d.to_ascii_lowercase(), "not lowercase: {d}");
+        assert!(d.ends_with(".sys"), "not a .sys basename: {d}");
+        assert!(
+            !d.contains('\\') && !d.contains('/'),
+            "basename contains a path separator: {d}"
+        );
+    }
+}
+
+#[test]
+fn no_duplicate_entries() {
+    let mut seen = std::collections::BTreeSet::new();
+    for &d in KNOWN_VULNERABLE_DRIVERS {
+        assert!(seen.insert(d), "duplicate: {d}");
+    }
+}
+
+// --- positive: real LOLDrivers entries flagged ---
+
+#[test]
+fn flags_rtcore64() {
+    assert!(KNOWN_VULNERABLE_DRIVERS.contains(&"rtcore64.sys"));
+    assert!(is_known_vulnerable_driver("rtcore64.sys"));
+    assert!(is_known_vulnerable_driver("rtcore64")); // .sys optional
+}
+
+#[test]
+fn flags_dbutil_2_3() {
+    assert!(KNOWN_VULNERABLE_DRIVERS.contains(&"dbutil_2_3.sys"));
+    assert!(is_known_vulnerable_driver("dbutil_2_3.sys"));
+}
+
+#[test]
+fn flags_case_insensitively() {
+    assert!(is_known_vulnerable_driver("RTCore64.sys"));
+    assert!(is_known_vulnerable_driver("DBUTIL_2_3.SYS"));
+}
+
+#[test]
+fn flags_trimmed() {
+    assert!(is_known_vulnerable_driver("  rtcore64.sys  "));
+}
+
+// --- negative: ordinary Windows drivers NOT flagged ---
+
+#[test]
+fn does_not_flag_ntfs() {
+    assert!(!KNOWN_VULNERABLE_DRIVERS.contains(&"ntfs.sys"));
+    assert!(!is_known_vulnerable_driver("ntfs.sys"));
+    assert!(!is_known_vulnerable_driver("NTFS.SYS"));
+}
+
+#[test]
+fn does_not_flag_tcpip() {
+    assert!(!KNOWN_VULNERABLE_DRIVERS.contains(&"tcpip.sys"));
+    assert!(!is_known_vulnerable_driver("tcpip.sys"));
+}
+
+#[test]
+fn does_not_flag_empty_or_random() {
+    assert!(!is_known_vulnerable_driver(""));
+    assert!(!is_known_vulnerable_driver("totally-not-a-driver.sys"));
+}
