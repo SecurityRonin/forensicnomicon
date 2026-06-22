@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-06-21T08:12:25Z
+Generated: 2026-06-22T09:24:04Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-06-21T08:12:25Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-22T00:00:00+00:00 — [Building a CI/CD pipeline for Sigma rules](https://andreafortuna.org/2026/06/22/sigma-cicd-pipeline/)
 
 ## Salt Forensics
 
@@ -91,6 +91,24 @@ Generated: 2026-06-21T08:12:25Z
 - New since last snapshot: 0
 
 - No new entries detected
+
+## Seth Enoka — DFIR
+
+- Site: https://sethenoka.com/windows-artefacts/
+- Feed: https://sethenoka.com/index.xml
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-06-14T18:00:00+00:00 — [Shimcache and Amcache Forensics: Execution Evidence Without Certainty](https://sethenoka.com/shimcache-and-amcache-program-execution-without-certainty/)
+- 2026-05-11T10:00:00+00:00 — [Windows Prefetch Forensics: Execution Evidence and Its Limits](https://sethenoka.com/prefetch-execution-evidence-and-its-limits/)
+- 2026-04-13T23:00:00+00:00 — [Recent Files, Jump Lists, and Application-Level Context](https://sethenoka.com/recent-files-jump-lists-and-application-level-context/)
+- 2026-04-06T20:00:00+00:00 — [From SOC Analyst to Incident Responder: What Actually Changes](https://sethenoka.com/soc-analyst-to-incident-responder/)
+- 2026-03-25T20:00:00+00:00 — [ShellBags Forensics: Windows User Navigation Evidence](https://sethenoka.com/shellbags-and-user-navigation-what-windows-remembers-about-exploration/)
+- 2026-02-16T22:00:00+00:00 — [Windows Recycle Bin Forensics: $I/$R Files and Deleted File Metadata](https://sethenoka.com/windows-recycle-bin-forensics-on-windows-10-and-11/)
+- 2026-01-19T23:00:00+00:00 — [Understanding Windows Artefacts as Evidence, Not Indicators](https://sethenoka.com/understanding-windows-artefacts-as-evidence-not-indicators/)
+- 2023-03-25T10:50:00+00:00 — [SANS Certification Roadmap for DFIR and SOC Analysts](https://sethenoka.com/a-roadmap-to-earning-your-first-or-next-sans-certification/)
+- 2023-03-18T20:54:00+00:00 — [Unlocking the DFIR Job Market: Strategies for Landing Your Dream Role](https://sethenoka.com/unlocking-the-dfir-job-market-strategies-for-landing-your-dream-role/)
+- 2023-03-18T03:38:00+00:00 — [What Is an Alternate Data Stream? NTFS ADS Forensics](https://sethenoka.com/alternate-data-streams/)
 
 ## DoubleBlak
 
@@ -220,27 +238,18 @@ Generated: 2026-06-21T08:12:25Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-22T02:00:02+00:00 — [ISC Stormcast For Monday, June 22nd, 2026 https://isc.sans.edu/podcastdetail/9980, (Mon, Jun 22nd)](https://isc.sans.edu/diary/rss/33092)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- unknown date — [Training](https://www.dfir.training/training)
-- unknown date — [Tools](https://www.dfir.training/dfir-tools)
-- unknown date — [Library](https://www.dfir.training/resources)
-- unknown date — [Sponsors](https://www.dfir.training/sponsors)
-- unknown date — [Blog](https://www.dfir.training/blog)
-- unknown date — [Contact](https://www.dfir.training/contact-form)
-- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
-- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
-- unknown date — [AI-enhanced crime will expose DFIR practitioners who ignore AI.](https://www.dfir.training/blog/ai-enhanced-crime-will-expose-dfir-practitioners-who-ignore-ai)
-- unknown date — [56% are either likely to leave DFIR within 12 months or unsure if they’ll stay.](https://www.dfir.training/blog/56-of-dfir-is-unsure-if-they-will-stay-in-dfir-for-the-next-12-months)
+- No new entries detected
 
 ## MSAB
 
@@ -274,9 +283,9 @@ Generated: 2026-06-21T08:12:25Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-21T11:31:58+00:00 — [Week 25 – 2026](https://thisweekin4n6.com/2026/06/21/week-25-2026/)
 
 ## The Sleuth Kit updates
 
@@ -375,9 +384,9 @@ Generated: 2026-06-21T08:12:25Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-06-21T07:00:00+00:00 — [Last Week on My Mac: Uncompressed compressed files](https://eclecticlight.co/2026/06/21/last-week-on-my-mac-uncompressed-compressed-files/)
-- 2026-06-20T11:30:00+00:00 — [Colin Campbell Cooper painting America: 1896-1910](https://eclecticlight.co/2026/06/20/colin-campbell-cooper-painting-america-1896-1910/)
-- 2026-06-20T08:00:00+00:00 — [Saturday Mac riddles 365](https://eclecticlight.co/2026/06/20/saturday-mac-riddles-365/)
+- 2026-06-22T08:00:00+00:00 — [Solutions to Saturday Mac riddles 365](https://eclecticlight.co/2026/06/22/solutions-to-saturday-mac-riddles-365/)
+- 2026-06-22T06:30:00+00:00 — [SilentKnight 3.0 for Apple silicon Macs running Sequoia and later (full release)](https://eclecticlight.co/2026/06/22/silentknight-3-0-for-apple-silicon-macs-running-sequoia-and-later-full-release/)
+- 2026-06-21T11:30:00+00:00 — [Colin Campbell Cooper painting America: 1912-1923](https://eclecticlight.co/2026/06/21/colin-campbell-cooper-painting-america-1912-1923/)
 
 ## JPCERT/CC
 
@@ -537,9 +546,9 @@ Generated: 2026-06-21T08:12:25Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-22T07:01:00+00:00 — [A week in security (June 15 &#8211; June 21)](https://www.malwarebytes.com/blog/news/2026/06/a-week-in-security-june-15-june-21-2)
 
 ## Krebs on Security
 
@@ -555,10 +564,9 @@ Generated: 2026-06-21T08:12:25Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-06-20T11:23:46-04:00 — [New Prinz Eugen ransomware prioritizes recent files for encryption](https://www.bleepingcomputer.com/news/security/new-prinz-eugen-ransomware-prioritizes-recent-files-for-encryption/)
-- 2026-06-20T10:09:19-04:00 — [Microsoft links Mastra AI supply chain attack to North Korean hackers](https://www.bleepingcomputer.com/news/security/microsoft-links-mastra-ai-supply-chain-attack-to-north-korean-hackers/)
+- 2026-06-21T10:14:22-04:00 — [AryStinger botnet infected thousands of D-Link routers worldwide](https://www.bleepingcomputer.com/news/security/arystinger-botnet-infected-thousands-of-d-link-routers-worldwide/)
 
 ## Dark Reading
 
