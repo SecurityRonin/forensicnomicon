@@ -5,7 +5,7 @@
 #[non_exhaustive]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub enum ArtifactType {
+pub enum ArtifactLocation {
     /// A registry key (container of values).
     RegistryKey,
     /// A specific registry value.
@@ -350,7 +350,7 @@ pub struct ArtifactDescriptor {
     /// Human-readable display name.
     pub name: &'static str,
     /// What kind of artifact location this is.
-    pub artifact_type: ArtifactType,
+    pub artifact_type: ArtifactLocation,
     /// Which registry hive, or `None` for non-registry artifacts.
     pub hive: Option<HiveTarget>,
     /// Registry key path relative to the hive root (empty for non-registry).
@@ -544,7 +544,7 @@ pub struct ArtifactRecord {
 pub struct ArtifactQuery {
     pub scope: Option<DataScope>,
     pub os_scope: Option<OsScope>,
-    pub artifact_type: Option<ArtifactType>,
+    pub artifact_type: Option<ArtifactLocation>,
     pub hive: Option<HiveTarget>,
     pub mitre_technique: Option<&'static str>,
     pub id: Option<&'static str>,

@@ -2,8 +2,8 @@
 //! record signatures, parsing profiles, and the infer_container_profile helper.
 
 use super::types::{
-    ArtifactDescriptor, ArtifactParsingProfile, ArtifactType, ContainerProfile, ContainerSignature,
-    RecordSignature,
+    ArtifactDescriptor, ArtifactLocation, ArtifactParsingProfile, ContainerProfile,
+    ContainerSignature, RecordSignature,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -673,8 +673,8 @@ fn infer_container_profile(descriptor: &ArtifactDescriptor) -> Option<&'static C
     }
 
     match descriptor.artifact_type {
-        ArtifactType::EventLog => container_profile("windows_evtx"),
-        ArtifactType::File | ArtifactType::Directory => container_profile("flat_file"),
+        ArtifactLocation::EventLog => container_profile("windows_evtx"),
+        ArtifactLocation::File | ArtifactLocation::Directory => container_profile("flat_file"),
         _ => None,
     }
 }

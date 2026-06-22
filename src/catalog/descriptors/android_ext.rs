@@ -5,7 +5,7 @@
 //! Source: https://cheeky4n6monkey.blogspot.com/2022/01/mike-monkey-dumpster-dive-into-samsung.html
 
 use super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
     ValueType,
 };
 
@@ -143,7 +143,7 @@ pub(crate) static SAMSUNG_GALLERY3D_TRASH_FIELDS: &[FieldSchema] = &[
 pub(crate) static SAMSUNG_GALLERY3D_TRASH: ArtifactDescriptor = ArtifactDescriptor {
     id: "samsung_gallery3d_trash",
     name: "Samsung Gallery3d Trash Table",
-    artifact_type: ArtifactType::DatabaseEntry,
+    artifact_type: ArtifactLocation::DatabaseEntry,
     hive: None,
     key_path: "",
     value_name: None,
@@ -225,7 +225,7 @@ pub(crate) static SAMSUNG_GALLERY3D_LOG_FIELDS: &[FieldSchema] = &[
 pub(crate) static SAMSUNG_GALLERY3D_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "samsung_gallery3d_log",
     name: "Samsung Gallery3d Deletion Log Table",
-    artifact_type: ArtifactType::DatabaseEntry,
+    artifact_type: ArtifactLocation::DatabaseEntry,
     hive: None,
     key_path: "",
     value_name: None,
@@ -319,7 +319,7 @@ pub(crate) static ANDROID_TOR_BROWSER_THUMBNAILS_FIELDS: &[FieldSchema] = &[
 pub(crate) static ANDROID_TOR_BROWSER_THUMBNAILS: ArtifactDescriptor = ArtifactDescriptor {
     id: "android_tor_browser_thumbnails",
     name: "Android Tor Browser Tab Thumbnails",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -437,7 +437,7 @@ pub(crate) static ANDROID_GBOARD_TRAININGCACHE_FIELDS: &[FieldSchema] = &[
 pub(crate) static ANDROID_GBOARD_TRAININGCACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "android_gboard_trainingcache",
     name: "Android Gboard Training Cache (Keystroke Recovery)",
-    artifact_type: ArtifactType::DatabaseEntry,
+    artifact_type: ArtifactLocation::DatabaseEntry,
     hive: None,
     key_path: "",
     value_name: None,

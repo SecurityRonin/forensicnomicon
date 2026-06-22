@@ -6,7 +6,7 @@
 #![allow(clippy::too_many_lines)]
 
 use super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, FieldSchema, HiveTarget, OsScope,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, FieldSchema, HiveTarget, OsScope,
     TriagePriority, ValueType,
 };
 
@@ -15,7 +15,7 @@ use super::super::types::{
 pub(crate) static SAFEBOOT_MINIMAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "safeboot_minimal",
     name: "SafeBoot Minimal Services",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "CurrentControlSet\\Control\\SafeBoot\\Minimal",
     value_name: None,    file_path: None,
@@ -40,7 +40,7 @@ pub(crate) static SAFEBOOT_MINIMAL: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static SAFEBOOT_NETWORK: ArtifactDescriptor = ArtifactDescriptor {
     id: "safeboot_network",
     name: "SafeBoot Network Services",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "CurrentControlSet\\Control\\SafeBoot\\Network",
     value_name: None,    file_path: None,
@@ -66,7 +66,7 @@ pub(crate) static SAFEBOOT_NETWORK: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static KNOWN_DLLS: ArtifactDescriptor = ArtifactDescriptor {
     id: "known_dlls",
     name: "KnownDLLs",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "CurrentControlSet\\Control\\Session Manager\\KnownDLLs",
     value_name: None,    file_path: None,
@@ -91,7 +91,7 @@ pub(crate) static KNOWN_DLLS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static CMD_AUTORUN_HKLM: ArtifactDescriptor = ArtifactDescriptor {
     id: "cmd_autorun_hklm",
     name: "Command Processor AutoRun (HKLM)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Command Processor",
     value_name: None,    file_path: None,
@@ -117,7 +117,7 @@ pub(crate) static CMD_AUTORUN_HKLM: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static CMD_AUTORUN_HKCU: ArtifactDescriptor = ArtifactDescriptor {
     id: "cmd_autorun_hkcu",
     name: "Command Processor AutoRun (HKCU)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Command Processor",
     value_name: None,    file_path: None,
@@ -143,7 +143,7 @@ pub(crate) static CMD_AUTORUN_HKCU: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static CREDENTIAL_PROVIDERS: ArtifactDescriptor = ArtifactDescriptor {
     id: "credential_providers",
     name: "Credential Providers",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows\\CurrentVersion\\Authentication\\Credential Providers",
     value_name: None,    file_path: None,
@@ -168,7 +168,7 @@ pub(crate) static CREDENTIAL_PROVIDERS: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static NETWORK_PROVIDER_ORDER: ArtifactDescriptor = ArtifactDescriptor {
     id: "network_provider_order",
     name: "Network Provider Order",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "CurrentControlSet\\Control\\NetworkProvider\\Order",
     value_name: None,    file_path: None,
@@ -194,7 +194,7 @@ pub(crate) static NETWORK_PROVIDER_ORDER: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static SHELL_EXECUTE_HOOKS: ArtifactDescriptor = ArtifactDescriptor {
     id: "shell_execute_hooks",
     name: "Shell Execute Hooks",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows\\CurrentVersion\\Explorer\\ShellExecuteHooks",
     value_name: None,    file_path: None,
@@ -220,7 +220,7 @@ pub(crate) static SHELL_EXECUTE_HOOKS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static WER_RUNTIME_EXCEPTION_HELPER: ArtifactDescriptor = ArtifactDescriptor {
     id: "wer_runtime_exception_helper",
     name: "WER RuntimeExceptionHelperModules",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows\\Windows Error Reporting\\RuntimeExceptionHelperModules",
     value_name: None,    file_path: None,
@@ -245,7 +245,7 @@ pub(crate) static WER_RUNTIME_EXCEPTION_HELPER: ArtifactDescriptor = ArtifactDes
 pub(crate) static IFEO_GLOBAL_FLAG: ArtifactDescriptor = ArtifactDescriptor {
     id: "ifeo_global_flag",
     name: "IFEO GlobalFlag / .NET Profiler Abuse",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options",
     value_name: None,    file_path: None,
@@ -303,7 +303,7 @@ pub(crate) static SCHEDULED_TASK_REGISTRY_CACHE_FIELDS: &[FieldSchema] = &[
 pub(crate) static SCHEDULED_TASK_REGISTRY_CACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "scheduled_task_registry_cache",
     name: "Scheduled Task Registry Cache (TaskCache)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks",
     value_name: None,
@@ -343,7 +343,7 @@ pub(crate) static SCHEDULED_TASK_REGISTRY_CACHE: ArtifactDescriptor = ArtifactDe
 pub(crate) static GROUP_POLICY_STARTUP_SCRIPTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "group_policy_startup_scripts",
     name: "Group Policy Startup Scripts (HKLM)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows\\CurrentVersion\\Group Policy\\Scripts\\Startup",
     value_name: None,    file_path: None,
@@ -369,7 +369,7 @@ pub(crate) static GROUP_POLICY_STARTUP_SCRIPTS: ArtifactDescriptor = ArtifactDes
 pub(crate) static GROUP_POLICY_LOGON_SCRIPTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "group_policy_logon_scripts",
     name: "Group Policy Logon Scripts (HKCU)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\Scripts\\Logon",
     value_name: None,    file_path: None,
@@ -395,7 +395,7 @@ pub(crate) static GROUP_POLICY_LOGON_SCRIPTS: ArtifactDescriptor = ArtifactDescr
 pub(crate) static WINLOGON_NOTIFY: ArtifactDescriptor = ArtifactDescriptor {
     id: "winlogon_notify",
     name: "Winlogon Notification Packages",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify",
     value_name: None,    file_path: None,
@@ -421,7 +421,7 @@ pub(crate) static WINLOGON_NOTIFY: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static COM_SERVER_HKLM: ArtifactDescriptor = ArtifactDescriptor {
     id: "com_server_hklm",
     name: "COM InProcServer32 (HKLM — hijackable)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Classes\\CLSID",
     value_name: None,    file_path: None,
@@ -450,7 +450,7 @@ pub(crate) static COM_SERVER_HKLM: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static OFFICE_ADDINS: ArtifactDescriptor = ArtifactDescriptor {
     id: "office_addins",
     name: "Microsoft Office Add-ins Registry",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Office",
     value_name: None,    file_path: None,
@@ -476,7 +476,7 @@ pub(crate) static OFFICE_ADDINS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static TERMINAL_SERVER_INITIAL_PROGRAM: ArtifactDescriptor = ArtifactDescriptor {
     id: "terminal_server_initial_program",
     name: "Terminal Server InitialProgram (RDP auto-launch)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp",
     value_name: None,    file_path: None,
@@ -504,7 +504,7 @@ pub(crate) static TERMINAL_SERVER_INITIAL_PROGRAM: ArtifactDescriptor = Artifact
 pub(crate) static RECENTAPPS: ArtifactDescriptor = ArtifactDescriptor {
     id: "recentapps",
     name: "RecentApps (Windows 10 search history)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Search\\RecentApps",
     value_name: None,    file_path: None,
@@ -536,7 +536,7 @@ pub(crate) static RECENTAPPS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static NETWORK_SHARES_HKCU: ArtifactDescriptor = ArtifactDescriptor {
     id: "network_shares_hkcu",
     name: "Network Share Mapped Drive Cache (HKCU)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Network",
     value_name: None,    file_path: None,
@@ -562,7 +562,7 @@ pub(crate) static NETWORK_SHARES_HKCU: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static DEFAULT_BROWSER: ArtifactDescriptor = ArtifactDescriptor {
     id: "default_browser",
     name: "Default Browser Association",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\Shell\\Associations\\UrlAssociations\\http\\UserChoice",
     value_name: None,    file_path: None,
@@ -585,7 +585,7 @@ pub(crate) static DEFAULT_BROWSER: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static PROXY_SETTINGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "proxy_settings",
     name: "Internet Settings Proxy Configuration",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings",
     value_name: None,    file_path: None,
@@ -613,7 +613,7 @@ pub(crate) static PROXY_SETTINGS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static SYSTEM_TIMEZONE: ArtifactDescriptor = ArtifactDescriptor {
     id: "system_timezone",
     name: "System Timezone",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "CurrentControlSet\\Control\\TimeZoneInformation",
     value_name: None,    file_path: None,
@@ -639,7 +639,7 @@ pub(crate) static SYSTEM_TIMEZONE: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static COMPUTER_NAME: ArtifactDescriptor = ArtifactDescriptor {
     id: "computer_name",
     name: "Computer Name",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "CurrentControlSet\\Control\\ComputerName\\ComputerName",
     value_name: None,    file_path: None,
@@ -662,7 +662,7 @@ pub(crate) static COMPUTER_NAME: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static SHUTDOWN_TIME: ArtifactDescriptor = ArtifactDescriptor {
     id: "shutdown_time",
     name: "Last Shutdown Time",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "CurrentControlSet\\Control\\Windows",
     value_name: None,    file_path: None,
@@ -685,7 +685,7 @@ pub(crate) static SHUTDOWN_TIME: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static USB_STOR_ENUM: ArtifactDescriptor = ArtifactDescriptor {
     id: "usb_stor_enum",
     name: "USBSTOR Device Enumeration",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "CurrentControlSet\\Enum\\USBSTOR",
     value_name: None,    file_path: None,
@@ -714,7 +714,7 @@ pub(crate) static USB_STOR_ENUM: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static SETUPAPI_DEV_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "setupapi_dev_log",
     name: "SetupAPI Device Installation Log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\INF\\setupapi.dev.log"),
@@ -743,7 +743,7 @@ pub(crate) static SETUPAPI_DEV_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static UNINSTALL_KEYS: ArtifactDescriptor = ArtifactDescriptor {
     id: "uninstall_keys",
     name: "Installed Software (Uninstall Registry)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows\\CurrentVersion\\Uninstall",
     value_name: None,    file_path: None,
@@ -773,7 +773,7 @@ pub(crate) static UNINSTALL_KEYS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static USER_ACCOUNT_SID: ArtifactDescriptor = ArtifactDescriptor {
     id: "user_account_sid",
     name: "User Account SID to Name Mapping",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows NT\\CurrentVersion\\ProfileList",
     value_name: None,    file_path: None,
@@ -799,7 +799,7 @@ pub(crate) static USER_ACCOUNT_SID: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static TERMINAL_SERVER_CLIENT_SERVERS: ArtifactDescriptor = ArtifactDescriptor {
     id: "terminal_server_client_servers_ext",
     name: "RDP MRU: Terminal Server Client Servers (extended)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Terminal Server Client\\Servers",
     value_name: None,    file_path: None,
@@ -827,7 +827,7 @@ pub(crate) static TERMINAL_SERVER_CLIENT_SERVERS: ArtifactDescriptor = ArtifactD
 pub(crate) static INTERNET_EXPLORER_TYPED_URLS: ArtifactDescriptor = ArtifactDescriptor {
     id: "ie_typed_urls",
     name: "Internet Explorer Typed URLs",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Internet Explorer\\TypedURLs",
     value_name: None,    file_path: None,

@@ -96,7 +96,7 @@ impl ExtendedCatalog {
 mod tests {
     use super::*;
     use crate::catalog::{
-        ArtifactDescriptor, ArtifactType, DataScope, Decoder, OsScope, TriagePriority,
+        ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, OsScope, TriagePriority,
     };
 
     struct TestDecoder {
@@ -125,7 +125,7 @@ mod tests {
         ArtifactDescriptor {
             id: "custom_test_artifact",
             name: "Custom Test Artifact",
-            artifact_type: ArtifactType::File,
+            artifact_type: ArtifactLocation::File,
             hive: None,
             key_path: "",
             value_name: None,

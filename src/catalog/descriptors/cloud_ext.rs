@@ -5,7 +5,7 @@
 //! the data lives server-side and the export is OS-agnostic.
 
 use super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
     ValueType,
 };
 
@@ -116,7 +116,7 @@ pub(crate) static GOOGLE_TAKEOUT_LOCATION_RECORDS_FIELDS: &[FieldSchema] = &[
 pub(crate) static GOOGLE_TAKEOUT_LOCATION_RECORDS: ArtifactDescriptor = ArtifactDescriptor {
     id: "google_takeout_location_records",
     name: "Google Takeout Location Records",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -181,7 +181,7 @@ pub(crate) static GOOGLE_TAKEOUT_SEMANTIC_LOCATION_HISTORY_FIELDS: &[FieldSchema
 pub(crate) static GOOGLE_TAKEOUT_SEMANTIC_LOCATION_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "google_takeout_semantic_location_history",
     name: "Google Takeout Semantic Location History",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -320,7 +320,7 @@ absent on success",
 pub(crate) static AWS_CLOUDTRAIL_IAM_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "aws_cloudtrail_iam_events",
     name: "AWS CloudTrail IAM Management Events",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,

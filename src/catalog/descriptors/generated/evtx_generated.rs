@@ -5,12 +5,12 @@
 #![allow(clippy::too_many_lines)]
 
 use super::super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, OsScope, TriagePriority,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, OsScope, TriagePriority,
 };
 pub(crate) static EVTX_APPLICATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_application",
     name: "Application",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -34,7 +34,7 @@ pub(crate) static EVTX_APPLICATION: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DFSN_SERVERFILTER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dfsn_serverfilter_analytic",
     name: "Microsoft-Windows-DFSN-ServerFilter/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -58,7 +58,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DFSN_SERVERFILTER_ANALYTIC: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DFSN_SERVERSERVICE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dfsn_serverservice_analytic",
     name: "Microsoft-Windows-DFSN-ServerService/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -82,7 +82,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DFSN_SERVERSERVICE_ANALYTIC: ArtifactDe
 pub(crate) static EVTX_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_analytic_channel",
     name: "Analytic Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -106,7 +106,7 @@ pub(crate) static EVTX_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor
 pub(crate) static EVTX_IALPSS_GPIO2_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_ialpss_gpio2_debug_channel",
     name: "iaLPSS_GPIO2 Debug channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -130,7 +130,7 @@ pub(crate) static EVTX_IALPSS_GPIO2_DEBUG_CHANNEL: ArtifactDescriptor = Artifact
 pub(crate) static EVTX_IALPSS_GPIO2_PERFORMANCE_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_ialpss_gpio2_performance_channel",
     name: "iaLPSS_GPIO2 Performance channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -154,7 +154,7 @@ pub(crate) static EVTX_IALPSS_GPIO2_PERFORMANCE_CHANNEL: ArtifactDescriptor = Ar
 pub(crate) static EVTX_IALPSS2_I2C_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_ialpss2_i2c_debug_channel",
     name: "iaLPSS2_I2C Debug channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -178,7 +178,7 @@ pub(crate) static EVTX_IALPSS2_I2C_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactD
 pub(crate) static EVTX_IALPSS2_I2C_PERFORMANCE_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_ialpss2_i2c_performance_channel",
     name: "iaLPSS2_I2C Performance channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -202,7 +202,7 @@ pub(crate) static EVTX_IALPSS2_I2C_PERFORMANCE_CHANNEL: ArtifactDescriptor = Art
 pub(crate) static EVTX_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_operational",
     name: "Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -226,7 +226,7 @@ pub(crate) static EVTX_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_diagnostic",
     name: "Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -250,7 +250,7 @@ pub(crate) static EVTX_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LSA_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_lsa_performance",
     name: "Microsoft-Windows-LSA/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -276,7 +276,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LSA_PERFORMANCE: ArtifactDescriptor = A
 pub(crate) static EVTX_AMSI_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_amsi_debug",
     name: "AMSI/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -300,7 +300,7 @@ pub(crate) static EVTX_AMSI_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_AMSI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_amsi_operational",
     name: "AMSI/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -324,7 +324,7 @@ pub(crate) static EVTX_AMSI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor
 pub(crate) static EVTX_UAC_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_uac_debug",
     name: "Uac/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -349,7 +349,7 @@ pub(crate) static EVTX_MICROSOFT_APPV_CLIENT_STREAMINGUX_DEBUG: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_appv_client_streamingux_debug",
         name: "Microsoft-AppV-Client-Streamingux/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -375,7 +375,7 @@ pub(crate) static EVTX_MICROSOFT_APPV_CLIENT_STREAMINGUX_DEBUG: ArtifactDescript
 pub(crate) static EVTX_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_admin",
     name: "Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -399,7 +399,7 @@ pub(crate) static EVTX_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_VIRTUAL_APPLICATIONS: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_virtual_applications",
     name: "Virtual Applications",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -423,7 +423,7 @@ pub(crate) static EVTX_VIRTUAL_APPLICATIONS: ArtifactDescriptor = ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_APPV_CLIENT_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_appv_client_debug",
     name: "Microsoft-AppV-Client/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -448,7 +448,7 @@ pub(crate) static EVTX_MICROSOFT_APPV_SHAREDPERFORMANCE_ANALYTIC: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_appv_sharedperformance_analytic",
         name: "Microsoft-AppV-SharedPerformance/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -474,7 +474,7 @@ pub(crate) static EVTX_MICROSOFT_APPV_SHAREDPERFORMANCE_ANALYTIC: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_CLIENT_LICENSE_FLEXIBLE_PLATFORM_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_client_license_flexible_platform_admin",
     name: "Microsoft-Client-License-Flexible-Platform/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -498,7 +498,7 @@ pub(crate) static EVTX_MICROSOFT_CLIENT_LICENSE_FLEXIBLE_PLATFORM_ADMIN: Artifac
 pub(crate) static EVTX_MICROSOFT_CLIENT_LICENSING_PLATFORM_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_client_licensing_platform_diagnostic",
     name: "Microsoft-Client-Licensing-Platform/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -523,7 +523,7 @@ pub(crate) static EVTX_MICROSOFT_CLIENT_LICENSING_PLATFORM_ADMIN: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_client_licensing_platform_admin",
         name: "Microsoft-Client-Licensing-Platform/Admin",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -550,7 +550,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORE_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_store_operational",
         name: "Microsoft-Windows-Store/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -577,7 +577,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_WEBPLATSTORAGE_SERVER: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_webplatstorage_server",
         name: "Microsoft-Windows-WebPlatStorage-Server",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -604,7 +604,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INDEXEDDB_SERVER: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_indexeddb_server",
         name: "Microsoft-Windows-IndexedDB-Server",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -630,7 +630,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INDEXEDDB_SERVER: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_IEDVTOOL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_iedvtool_diagnostic",
     name: "Microsoft-IEDVTOOL/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -654,7 +654,7 @@ pub(crate) static EVTX_MICROSOFT_IEDVTOOL_DIAGNOSTIC: ArtifactDescriptor = Artif
 pub(crate) static EVTX_MICROSOFT_IEFRAME_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_ieframe_diagnostic",
     name: "Microsoft-IEFRAME/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -678,7 +678,7 @@ pub(crate) static EVTX_MICROSOFT_IEFRAME_DIAGNOSTIC: ArtifactDescriptor = Artifa
 pub(crate) static EVTX_MICROSOFT_ONECORE_SETUP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_onecore_setup_analytic",
     name: "Microsoft-OneCore-Setup/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -702,7 +702,7 @@ pub(crate) static EVTX_MICROSOFT_ONECORE_SETUP_ANALYTIC: ArtifactDescriptor = Ar
 pub(crate) static EVTX_MICROSOFT_PEF_WFP_MESSAGEPROVIDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_pef_wfp_messageprovider_operational",
     name: "Microsoft-Pef-WFP-MessageProvider/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -727,7 +727,7 @@ pub(crate) static EVTX_MICROSOFT_PERFTRACK_IEFRAME_DIAGNOSTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_perftrack_ieframe_diagnostic",
         name: "Microsoft-PerfTrack-IEFRAME/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -754,7 +754,7 @@ pub(crate) static EVTX_MICROSOFT_PERFTRACK_MSHTML_DIAGNOSTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_perftrack_mshtml_diagnostic",
         name: "Microsoft-PerfTrack-MSHTML/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -781,7 +781,7 @@ pub(crate) static EVTX_MICROSOFT_SERVERCORE_SHELLLAUNCHER_DEBUG: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_servercore_shelllauncher_debug",
         name: "Microsoft-ServerCore-ShellLauncher/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -807,7 +807,7 @@ pub(crate) static EVTX_MICROSOFT_SERVERCORE_SHELLLAUNCHER_DEBUG: ArtifactDescrip
 pub(crate) static EVTX_MICROSOFT_SYSTEM_DIAGNOSTICS_DIAGNOSTICINVOKER_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_system_diagnostics_diagnosticinvoker_operatio",
     name: "Microsoft-System-Diagnostics-DiagnosticInvoker/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -831,7 +831,7 @@ pub(crate) static EVTX_MICROSOFT_SYSTEM_DIAGNOSTICS_DIAGNOSTICINVOKER_OPERATIO: 
 pub(crate) static EVTX_MICROSOFT_USER_EXPERIENCE_VIRTUALIZATION_ADMIN_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_user_experience_virtualization_admin_debug",
     name: "Microsoft-User Experience Virtualization-Admin/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -855,7 +855,7 @@ pub(crate) static EVTX_MICROSOFT_USER_EXPERIENCE_VIRTUALIZATION_ADMIN_DEBUG: Art
 pub(crate) static EVTX_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_debug",
     name: "Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -879,7 +879,7 @@ pub(crate) static EVTX_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MICROSOFT_USER_EXPERIENCE_VIRTUALIZATION_APP_AGENT_DEBU: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_user_experience_virtualization_app_agent_debu",
     name: "Microsoft-User Experience Virtualization-App Agent/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -903,7 +903,7 @@ pub(crate) static EVTX_MICROSOFT_USER_EXPERIENCE_VIRTUALIZATION_APP_AGENT_DEBU: 
 pub(crate) static EVTX_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_analytic",
     name: "Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -927,7 +927,7 @@ pub(crate) static EVTX_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MICROSOFT_WS_LICENSING_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_ws_licensing_diagnostic",
     name: "Microsoft-WS-Licensing/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -953,7 +953,7 @@ pub(crate) static EVTX_MICROSOFT_WS_LICENSING_DIAGNOSTIC: ArtifactDescriptor = A
 pub(crate) static EVTX_MICROSOFT_WS_LICENSING_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_ws_licensing_admin",
     name: "Microsoft-WS-Licensing/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -977,7 +977,7 @@ pub(crate) static EVTX_MICROSOFT_WS_LICENSING_ADMIN: ArtifactDescriptor = Artifa
 pub(crate) static EVTX_MICROSOFT_WS_LICENSING_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_ws_licensing_debug",
     name: "Microsoft-WS-Licensing/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1001,7 +1001,7 @@ pub(crate) static EVTX_MICROSOFT_WS_LICENSING_DEBUG: ArtifactDescriptor = Artifa
 pub(crate) static EVTX_MICROSOFT_WINDOWS_VPN_PLUGIN_PLATFORM_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_vpn_plugin_platform_operational",
     name: "Microsoft-Windows-Vpn Plugin Platform/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1025,7 +1025,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_VPN_PLUGIN_PLATFORM_OPERATIONAL: Artifa
 pub(crate) static EVTX_MICROSOFT_WINDOWS_VPN_PLUGIN_PLATFORM_OPERATIONALVERBOS: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_vpn_plugin_platform_operationalverbos",
     name: "Microsoft-Windows-Vpn Plugin Platform/OperationalVerbose",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1049,7 +1049,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_VPN_PLUGIN_PLATFORM_OPERATIONALVERBOS: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AAD_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_aad_analytic",
     name: "Microsoft-Windows-AAD/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1073,7 +1073,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AAD_ANALYTIC: ArtifactDescriptor = Arti
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AAD_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_aad_operational",
     name: "Microsoft-Windows-AAD/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1099,7 +1099,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AAD_OPERATIONAL: ArtifactDescriptor = A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ADSI_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_adsi_debug",
     name: "Microsoft-Windows-ADSI/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1124,7 +1124,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_API_TRACING_OPERATIONAL: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_api_tracing_operational",
         name: "Microsoft-Windows-API-Tracing/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -1151,7 +1151,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ASN1_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_asn1_operational",
         name: "Microsoft-Windows-ASN1/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -1178,7 +1178,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ATAPORT_SATA_LPM: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ataport_sata_lpm",
         name: "Microsoft-Windows-ATAPort/SATA-LPM",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -1204,7 +1204,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ATAPORT_SATA_LPM: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ATAPORT_GENERAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ataport_general",
     name: "Microsoft-Windows-ATAPort/General",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1230,7 +1230,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ATAPORT_GENERAL: ArtifactDescriptor = A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_ATAPORT_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storage_ataport_diagnose",
     name: "Microsoft-Windows-Storage-ATAPort/Diagnose",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1254,7 +1254,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_ATAPORT_DIAGNOSE: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_ATAPORT_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storage_ataport_analytic",
     name: "Microsoft-Windows-Storage-ATAPort/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1278,7 +1278,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_ATAPORT_ANALYTIC: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ACCELLIB_ACCELCX_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_accellib_accelcx_operational",
     name: "Microsoft-Windows-AccelLib-AccelCx/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1303,7 +1303,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ACTIONQUEUE_ANALYTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_actionqueue_analytic",
         name: "Microsoft-Windows-ActionQueue/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -1330,7 +1330,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ALTTAB_DIAGNOSTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_alttab_diagnostic",
         name: "Microsoft-Windows-AltTab/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -1356,7 +1356,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ALTTAB_DIAGNOSTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ANYTIME_UPGRADE_EVENTS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_anytime_upgrade_events_operational",
     name: "Microsoft-Windows-Anytime-Upgrade-Events/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1380,7 +1380,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ANYTIME_UPGRADE_EVENTS_OPERATIONAL: Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ANYTIME_UPGRADE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_anytime_upgrade_analytic",
     name: "Microsoft-Windows-Anytime-Upgrade/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1405,7 +1405,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPHOST_INTERNAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_apphost_internal",
         name: "Microsoft-Windows-AppHost/Internal",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -1432,7 +1432,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPHOST_DIAGNOSTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_apphost_diagnostic",
         name: "Microsoft-Windows-AppHost/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -1458,7 +1458,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPHOST_DIAGNOSTIC: ArtifactDescriptor 
 pub(crate) static EVTX_APPTRACING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_apptracing",
     name: "AppTracing",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1483,7 +1483,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPID_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_appid_operational",
         name: "Microsoft-Windows-AppID/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -1510,7 +1510,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_EXE_AND_DLL: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_applocker_exe_and_dll",
         name: "Microsoft-Windows-AppLocker/EXE and DLL",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -1536,7 +1536,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_EXE_AND_DLL: ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_MSI_AND_SCRIPT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_applocker_msi_and_script",
     name: "Microsoft-Windows-AppLocker/MSI and Script",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1560,7 +1560,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_MSI_AND_SCRIPT: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_PACKAGED_APP_EXECUTION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_applocker_packaged_app_execution",
     name: "Microsoft-Windows-AppLocker/Packaged app-Execution",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1584,7 +1584,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_PACKAGED_APP_EXECUTION: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_PACKAGED_APP_DEPLOYMENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_applocker_packaged_app_deployment",
     name: "Microsoft-Windows-AppLocker/Packaged app-Deployment",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1609,7 +1609,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_VERBOSE: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_applocker_verbose",
         name: "Microsoft-Windows-AppLocker/Verbose",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -1635,7 +1635,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLOCKER_VERBOSE: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIVACY_AUDITING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_privacy_auditing_operational",
     name: "Microsoft-Windows-Privacy-Auditing/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1659,7 +1659,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIVACY_AUDITING_OPERATIONAL: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_appmodel_runtime_analytic",
     name: "Microsoft-Windows-AppModel-Runtime/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1684,7 +1684,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_ADMIN: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_appmodel_runtime_admin",
         name: "Microsoft-Windows-AppModel-Runtime/Admin",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -1711,7 +1711,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_DEBUG: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_appmodel_runtime_debug",
         name: "Microsoft-Windows-AppModel-Runtime/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -1737,7 +1737,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_DEBUG: ArtifactDescrip
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_RUNTIME_DIAGNOSTICS: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_appmodel_runtime_diagnostics",
     name: "Microsoft-Windows-AppModel-Runtime/Diagnostics",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1762,7 +1762,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_STATE_DEBUG: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_appmodel_state_debug",
         name: "Microsoft-Windows-AppModel-State/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -1788,7 +1788,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_STATE_DEBUG: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_STATE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_appmodel_state_diagnostic",
     name: "Microsoft-Windows-AppModel-State/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1812,7 +1812,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPMODEL_STATE_DIAGNOSTIC: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPSRUPROV: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_appsruprov",
     name: "Microsoft-Windows-AppSruProv",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1837,7 +1837,7 @@ pub(crate) static EVTX_APPXDEPLOYMENTUNDOCKEDDEH_OPERATIONAL: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_appxdeploymentundockeddeh_operational",
         name: "AppxDeploymentUndockedDeh/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -1863,7 +1863,7 @@ pub(crate) static EVTX_APPXDEPLOYMENTUNDOCKEDDEH_OPERATIONAL: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_appxdeploymentserver_operational",
     name: "Microsoft-Windows-AppXDeploymentServer/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1887,7 +1887,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_OPERATIONAL: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_appxdeploymentserver_debug",
     name: "Microsoft-Windows-AppXDeploymentServer/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1911,7 +1911,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_DEBUG: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_RESTRICTED: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_appxdeploymentserver_restricted",
     name: "Microsoft-Windows-AppXDeploymentServer/Restricted",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1935,7 +1935,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_RESTRICTED: Artifa
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_appxdeploymentserver_diagnostic",
     name: "Microsoft-Windows-AppXDeploymentServer/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1959,7 +1959,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENTSERVER_DIAGNOSTIC: Artifa
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_appxdeployment_operational",
     name: "Microsoft-Windows-AppXDeployment/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1983,7 +1983,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENT_OPERATIONAL: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_appxdeployment_diagnostic",
     name: "Microsoft-Windows-AppXDeployment/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2007,7 +2007,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXDEPLOYMENT_DIAGNOSTIC: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICABILITYENGINE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_applicabilityengine_analytic",
     name: "Microsoft-Windows-ApplicabilityEngine/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2031,7 +2031,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICABILITYENGINE_ANALYTIC: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICABILITYENGINE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_applicabilityengine_operational",
     name: "Microsoft-Windows-ApplicabilityEngine/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2055,7 +2055,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICABILITYENGINE_OPERATIONAL: Artifa
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_COMPAT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_application_experience_program_compat",
     name: "Microsoft-Windows-Application-Experience/Program-Compatibility-Assistant/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2079,7 +2079,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_COMPAT: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_TELEME: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_application_experience_program_teleme",
     name: "Microsoft-Windows-Application-Experience/Program-Telemetry",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2103,7 +2103,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_TELEME: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_STEPS_RECORDER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_application_experience_steps_recorder",
     name: "Microsoft-Windows-Application-Experience/Steps-Recorder",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2127,7 +2127,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_STEPS_RECORDER: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROBLEM_STEPS: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_application_experience_problem_steps",
     name: "Microsoft-Windows-Application-Experience/Problem-Steps-Recorder",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2151,7 +2151,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROBLEM_STEPS: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_INVENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_application_experience_program_invent",
     name: "Microsoft-Windows-Application-Experience/Program-Inventory",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2175,7 +2175,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_PROGRAM_INVENT: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_COMPATIBILITY: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_application_experience_compatibility",
     name: "Microsoft-Windows-Application-Experience/Compatibility-Infrastructure-Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2199,7 +2199,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATION_EXPERIENCE_COMPATIBILITY: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPHELPCACHE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_apphelpcache_analytic",
     name: "Microsoft-Windows-Kernel-ApphelpCache/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2223,7 +2223,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPHELPCACHE_ANALYTIC: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPHELPCACHE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_apphelpcache_operational",
     name: "Microsoft-Windows-Kernel-ApphelpCache/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2247,7 +2247,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPHELPCACHE_OPERATIONAL: Artifa
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPHELPCACHE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_apphelpcache_debug",
     name: "Microsoft-Windows-Kernel-ApphelpCache/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2271,7 +2271,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPHELPCACHE_DEBUG: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATIONRESOURCEMANAGEMENTSYSTEM_D: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_applicationresourcemanagementsystem_d",
     name: "Microsoft-Windows-ApplicationResourceManagementSystem/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2295,7 +2295,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATIONRESOURCEMANAGEMENTSYSTEM_D: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATIONRESOURCEMANAGEMENTSYSTEM_O: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_applicationresourcemanagementsystem_o",
     name: "Microsoft-Windows-ApplicationResourceManagementSystem/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2319,7 +2319,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPLICATIONRESOURCEMANAGEMENTSYSTEM_O: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXPACKAGING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_appxpackaging_operational",
     name: "Microsoft-Windows-AppxPackaging/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2343,7 +2343,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXPACKAGING_OPERATIONAL: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_APPXPACKAGING_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_appxpackaging_performance",
     name: "Microsoft-Windows-AppxPackaging/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2368,7 +2368,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ASSIGNEDACCESS_ADMIN: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_assignedaccess_admin",
         name: "Microsoft-Windows-AssignedAccess/Admin",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -2394,7 +2394,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ASSIGNEDACCESS_ADMIN: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ASSIGNEDACCESS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_assignedaccess_operational",
     name: "Microsoft-Windows-AssignedAccess/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2418,7 +2418,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ASSIGNEDACCESS_OPERATIONAL: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ASSIGNEDACCESSBROKER_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_assignedaccessbroker_admin",
     name: "Microsoft-Windows-AssignedAccessBroker/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2442,7 +2442,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ASSIGNEDACCESSBROKER_ADMIN: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ASYNCHRONOUSCAUSALITY_CAUSALITY: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_asynchronouscausality_causality",
     name: "Microsoft-Windows-AsynchronousCausality/Causality",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2467,7 +2467,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_audio_operational",
         name: "Microsoft-Windows-Audio/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -2494,7 +2494,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_CAPTUREMONITOR: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_audio_capturemonitor",
         name: "Microsoft-Windows-Audio/CaptureMonitor",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -2520,7 +2520,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_CAPTUREMONITOR: ArtifactDescripto
 pub(crate) static EVTX_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_performance",
     name: "Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2545,7 +2545,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_PLAYBACKMANAGER: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_audio_playbackmanager",
         name: "Microsoft-Windows-Audio/PlaybackManager",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -2572,7 +2572,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_GLITCHDETECTION: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_audio_glitchdetection",
         name: "Microsoft-Windows-Audio/GlitchDetection",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -2599,7 +2599,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_INFORMATIONAL: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_audio_informational",
         name: "Microsoft-Windows-Audio/Informational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -2625,7 +2625,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIO_INFORMATIONAL: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIT_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_audit_analytic",
     name: "Microsoft-Windows-Audit/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2649,7 +2649,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUDIT_ANALYTIC: ArtifactDescriptor = Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_PROTECTEDUSER_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_authentication_protecteduser_client",
     name: "Microsoft-Windows-Authentication/ProtectedUser-Client",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2673,7 +2673,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_PROTECTEDUSER_CLIENT: Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_PROTECTED_USER_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_authentication_protected_user_client",
     name: "Microsoft-Windows-Authentication/Protected User-Client",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2698,7 +2698,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AXINSTALLSERVICE_LOG: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_axinstallservice_log",
         name: "Microsoft-Windows-AxInstallService/Log",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -2724,7 +2724,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AXINSTALLSERVICE_LOG: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHPORT_HCI: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_bth_bthport_hci",
     name: "Microsoft-Windows-BTH-BTHPORT/HCI",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2751,7 +2751,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHPORT_L2CAP: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_bth_bthport_l2cap",
         name: "Microsoft-Windows-BTH-BTHPORT/L2CAP",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -2778,7 +2778,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_OPERATIONAL: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_bth_bthusb_operational",
         name: "Microsoft-Windows-BTH-BTHUSB/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -2805,7 +2805,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_DIAGNOSTIC: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_bth_bthusb_diagnostic",
         name: "Microsoft-Windows-BTH-BTHUSB/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -2832,7 +2832,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_PERFORMANCE: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_bth_bthusb_performance",
         name: "Microsoft-Windows-BTH-BTHUSB/Performance",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -2858,7 +2858,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BTH_BTHUSB_PERFORMANCE: ArtifactDescrip
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKGROUNDTRANSFER_CONTENTPREFETCHER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_backgroundtransfer_contentprefetcher",
     name: "Microsoft-Windows-BackgroundTransfer-ContentPrefetcher/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2883,7 +2883,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKUP_OPERATIONAL: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_backup_operational",
         name: "Microsoft-Windows-Backup/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -2910,7 +2910,7 @@ pub(crate) static EVTX_BFE_IPSEC_CONNECTIONS_OPERATIONAL_LOG: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_bfe_ipsec_connections_operational_log",
         name: "BFE IPsec Connections Operational Log",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -2936,7 +2936,7 @@ pub(crate) static EVTX_BFE_IPSEC_CONNECTIONS_OPERATIONAL_LOG: ArtifactDescriptor
 pub(crate) static EVTX_BFE_IPSEC_CONNECTIONS_RESOURCE_FLOWS_OPERATIONAL_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_bfe_ipsec_connections_resource_flows_operational_log",
     name: "BFE IPsec Connections' Resource Flows Operational Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2960,7 +2960,7 @@ pub(crate) static EVTX_BFE_IPSEC_CONNECTIONS_RESOURCE_FLOWS_OPERATIONAL_LOG: Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BASE_FILTERING_ENGINE_RESOURCE_FLOWS: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_base_filtering_engine_resource_flows",
     name: "Microsoft-Windows-Base-Filtering-Engine-Resource-Flows/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2985,7 +2985,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BATTERY_DIAGNOSTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_battery_diagnostic",
         name: "Microsoft-Windows-Battery/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3012,7 +3012,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BIOMETRICS_OPERATIONAL: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_biometrics_operational",
         name: "Microsoft-Windows-Biometrics/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3039,7 +3039,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BIOMETRICS_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_biometrics_analytic",
         name: "Microsoft-Windows-Biometrics/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3065,7 +3065,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BIOMETRICS_ANALYTIC: ArtifactDescriptor
 pub(crate) static EVTX_MANAGEMENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_management",
     name: "Management",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3090,7 +3090,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_TRACING: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_bitlocker_tracing",
         name: "Microsoft-Windows-BitLocker/Tracing",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3116,7 +3116,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_TRACING: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_DRIVEPREPARATIONTOOL_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_bitlocker_drivepreparationtool_admin",
     name: "Microsoft-Windows-BitLocker-DrivePreparationTool/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3140,7 +3140,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_DRIVEPREPARATIONTOOL_ADMIN: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_DRIVEPREPARATIONTOOL_OPERAT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_bitlocker_drivepreparationtool_operat",
     name: "Microsoft-Windows-BitLocker-DrivePreparationTool/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3164,7 +3164,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_DRIVEPREPARATIONTOOL_OPERAT: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BITLOCKER_DRIVER_PERFORMANCE_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_bitlocker_driver_performance_operatio",
     name: "Microsoft-Windows-BitLocker-Driver-Performance/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3189,7 +3189,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_CLIENT_ANALYTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_bits_client_analytic",
         name: "Microsoft-Windows-Bits-Client/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3216,7 +3216,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_CLIENT_OPERATIONAL: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_bits_client_operational",
         name: "Microsoft-Windows-Bits-Client/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3242,7 +3242,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_CLIENT_OPERATIONAL: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_COMPACTSERVER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_bits_compactserver_operational",
     name: "Microsoft-Windows-Bits-CompactServer/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3266,7 +3266,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_COMPACTSERVER_OPERATIONAL: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_COMPACTSERVER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_bits_compactserver_analytic",
     name: "Microsoft-Windows-Bits-CompactServer/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3290,7 +3290,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BITS_COMPACTSERVER_ANALYTIC: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_BTHLEPREPAIRING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_bluetooth_bthleprepairing_operational",
     name: "Microsoft-Windows-Bluetooth-BthLEPrepairing/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3314,7 +3314,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_BTHLEPREPAIRING_OPERATIONAL: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_BTHMINI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_bluetooth_bthmini_operational",
     name: "Microsoft-Windows-Bluetooth-BthMini/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3338,7 +3338,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_BTHMINI_OPERATIONAL: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_HIDBTHLE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_bluetooth_hidbthle_operational",
     name: "Microsoft-Windows-Bluetooth-HidBthLE/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3362,7 +3362,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_HIDBTHLE_OPERATIONAL: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BLUETOOTH_POLICY_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_bluetooth_policy_operational",
     name: "Microsoft-Windows-Bluetooth-Policy/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3387,7 +3387,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHE_OPERATIONAL: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_branchcache_operational",
         name: "Microsoft-Windows-BranchCache/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3413,7 +3413,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHE_OPERATIONAL: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHECLIENTEVENTPROVIDER_DIAGNO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_branchcacheclienteventprovider_diagno",
     name: "Microsoft-Windows-BranchCacheClientEventProvider/DiagnosticChannel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3437,7 +3437,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHECLIENTEVENTPROVIDER_DIAGNO: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHEEVENTPROVIDER_DIAGNOSTICCH: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_branchcacheeventprovider_diagnosticch",
     name: "Microsoft-Windows-BranchCacheEventProvider/DiagnosticChannel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3461,7 +3461,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHEEVENTPROVIDER_DIAGNOSTICCH: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHEMONITORING_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_branchcachemonitoring_analytic",
     name: "Microsoft-Windows-BranchCacheMonitoring/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3485,7 +3485,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHEMONITORING_ANALYTIC: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHESMB_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_branchcachesmb_operational",
     name: "Microsoft-Windows-BranchCacheSMB/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3510,7 +3510,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHESMB_ANALYTIC: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_branchcachesmb_analytic",
         name: "Microsoft-Windows-BranchCacheSMB/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3536,7 +3536,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BRANCHCACHESMB_ANALYTIC: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKGROUNDTASKINFRASTRUCTURE_DIAGNOST: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_backgroundtaskinfrastructure_diagnost",
     name: "Microsoft-Windows-BackgroundTaskInfrastructure/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3560,7 +3560,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKGROUNDTASKINFRASTRUCTURE_DIAGNOST: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_BACKGROUNDTASKINFRASTRUCTURE_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_backgroundtaskinfrastructure_operatio",
     name: "Microsoft-Windows-BackgroundTaskInfrastructure/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3585,7 +3585,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REGSVR32_OPERATIONAL: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_regsvr32_operational",
         name: "Microsoft-Windows-Regsvr32/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3612,7 +3612,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CAPI2_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_capi2_operational",
         name: "Microsoft-Windows-CAPI2/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3638,7 +3638,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CAPI2_OPERATIONAL: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CAPI2_CATALOG_DATABASE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_capi2_catalog_database_debug",
     name: "Microsoft-Windows-CAPI2/Catalog Database Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3663,7 +3663,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CDROM_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_cdrom_operational",
         name: "Microsoft-Windows-CDROM/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3690,7 +3690,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_CREATEINSTANCE: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_runtime_createinstance",
         name: "Microsoft-Windows-Runtime/CreateInstance",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3717,7 +3717,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_CREATEINSTANCE: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_com_createinstance",
         name: "Microsoft-Windows-COM/CreateInstance",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3744,7 +3744,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_EXTENSIONCATALOG: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_com_extensioncatalog",
         name: "Microsoft-Windows-COM/ExtensionCatalog",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3770,7 +3770,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_EXTENSIONCATALOG: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_CALL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_com_call",
     name: "Microsoft-Windows-COM/Call",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3795,7 +3795,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_FREEUNUSEDLIBRARY: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_com_freeunusedlibrary",
         name: "Microsoft-Windows-COM/FreeUnusedLibrary",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3821,7 +3821,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_FREEUNUSEDLIBRARY: ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OLE_CLIPBOARD: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ole_clipboard",
     name: "Microsoft-Windows-OLE/Clipboard",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3845,7 +3845,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OLE_CLIPBOARD: ArtifactDescriptor = Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_APARTMENTUNINITIALIZE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_com_apartmentuninitialize",
     name: "Microsoft-Windows-COM/ApartmentUninitialize",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3870,7 +3870,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_APARTMENTINITIALIZE: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_com_apartmentinitialize",
         name: "Microsoft-Windows-COM/ApartmentInitialize",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3896,7 +3896,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_APARTMENTINITIALIZE: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_RUNDOWNINSTRUMENTATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_com_rundowninstrumentation",
     name: "Microsoft-Windows-COM/RundownInstrumentation",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3920,7 +3920,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_RUNDOWNINSTRUMENTATION: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COM_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_com_analytic",
     name: "Microsoft-Windows-COM/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3945,7 +3945,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_TRACING: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_comruntime_tracing",
         name: "Microsoft-Windows-COMRuntime/Tracing",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -3971,7 +3971,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_TRACING: ArtifactDescriptor 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_MESSAGEPROCESSING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_comruntime_messageprocessing",
     name: "Microsoft-Windows-COMRuntime/MessageProcessing",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3996,7 +3996,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COMRUNTIME_ACTIVATIONS: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_comruntime_activations",
         name: "Microsoft-Windows-COMRuntime/Activations",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -4023,7 +4023,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CALCULATOR_DIAGNOSTIC: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_calculator_diagnostic",
         name: "Microsoft-Windows-Calculator/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -4050,7 +4050,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CALCULATOR_DEBUG: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_calculator_debug",
         name: "Microsoft-Windows-Calculator/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -4076,7 +4076,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CALCULATOR_DEBUG: ArtifactDescriptor =
 pub(crate) static EVTX_OPERATION_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_operation_log",
     name: "Operation log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4100,7 +4100,7 @@ pub(crate) static EVTX_OPERATION_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICES_DEPLOYMENT_OPERAT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_certificateservices_deployment_operat",
     name: "Microsoft-Windows-CertificateServices-Deployment/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4124,7 +4124,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICES_DEPLOYMENT_OPERAT: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICESCLIENT_CREDENTIALR: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_certificateservicesclient_credentialr",
     name: "Microsoft-Windows-CertificateServicesClient-CredentialRoaming/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4148,7 +4148,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICESCLIENT_CREDENTIALR: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICESCLIENT_LIFECYCLE_S: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_certificateservicesclient_lifecycle_s",
     name: "Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4172,7 +4172,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICESCLIENT_LIFECYCLE_S: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CERTIFICATESERVICESCLIENT_LIFECYCLE_U: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_certificateservicesclient_lifecycle_u",
     name: "Microsoft-Windows-CertificateServicesClient-Lifecycle-User/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4197,7 +4197,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLEANMGR_DIAGNOSTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_cleanmgr_diagnostic",
         name: "Microsoft-Windows-Cleanmgr/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -4223,7 +4223,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLEANMGR_DIAGNOSTIC: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLEARTYPETEXTTUNER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_cleartypetexttuner_diagnostic",
     name: "Microsoft-Windows-ClearTypeTextTuner/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4247,7 +4247,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLEARTYPETEXTTUNER_DIAGNOSTIC: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDFILES_FILTER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_cloudfiles_filter_operational",
     name: "Microsoft-Windows-CloudFiles-Filter/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4271,7 +4271,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDFILES_FILTER_OPERATIONAL: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDRESTORELAUNCHER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_cloudrestorelauncher_operational",
     name: "Microsoft-Windows-CloudRestoreLauncher/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4295,7 +4295,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDRESTORELAUNCHER_OPERATIONAL: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORAGEWIZARD_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_cloudstoragewizard_operational",
     name: "Microsoft-Windows-CloudStorageWizard/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4319,7 +4319,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORAGEWIZARD_OPERATIONAL: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORAGEWIZARD_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_cloudstoragewizard_analytic",
     name: "Microsoft-Windows-CloudStorageWizard/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4344,7 +4344,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_OPERATIONAL: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_cloudstore_operational",
         name: "Microsoft-Windows-CloudStore/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -4371,7 +4371,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_DEBUG: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_cloudstore_debug",
         name: "Microsoft-Windows-CloudStore/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -4397,7 +4397,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_DEBUG: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CLOUDSTORE_INITIALIZATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_cloudstore_initialization",
     name: "Microsoft-Windows-CloudStore/Initialization",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4422,7 +4422,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CMISETUP_ANALYTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_cmisetup_analytic",
         name: "Microsoft-Windows-CmiSetup/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -4448,7 +4448,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CMISETUP_ANALYTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CODEINTEGRITY_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_codeintegrity_operational",
     name: "Microsoft-Windows-CodeIntegrity/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4473,7 +4473,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CODEINTEGRITY_VERBOSE: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_codeintegrity_verbose",
         name: "Microsoft-Windows-CodeIntegrity/Verbose",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -4499,7 +4499,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CODEINTEGRITY_VERBOSE: ArtifactDescript
 pub(crate) static EVTX_ANALYTICAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_analytical",
     name: "Analytical",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4523,7 +4523,7 @@ pub(crate) static EVTX_ANALYTICAL: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COMPAT_APPRAISER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_compat_appraiser_analytic",
     name: "Microsoft-Windows-Compat-Appraiser/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4547,7 +4547,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COMPAT_APPRAISER_ANALYTIC: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COMPAT_APPRAISER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_compat_appraiser_operational",
     name: "Microsoft-Windows-Compat-Appraiser/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4572,7 +4572,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CONNECTED_SEARCH_DEBUG: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_connected_search_debug",
         name: "Microsoft-Windows-Connected-Search/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -4598,7 +4598,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CONNECTED_SEARCH_DEBUG: ArtifactDescrip
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CONNECTED_SEARCH_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_connected_search_operational",
     name: "Microsoft-Windows-Connected-Search/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4622,7 +4622,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CONNECTED_SEARCH_OPERATIONAL: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CONNECTED_SEARCH_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_connected_search_analytic",
     name: "Microsoft-Windows-Connected-Search/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4646,7 +4646,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CONNECTED_SEARCH_ANALYTIC: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CONTAINERS_BINDFLT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_containers_bindflt_operational",
     name: "Microsoft-Windows-Containers-BindFlt/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4670,7 +4670,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CONTAINERS_BINDFLT_OPERATIONAL: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CONTAINERS_WCIFS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_containers_wcifs_operational",
     name: "Microsoft-Windows-Containers-Wcifs/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4694,7 +4694,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CONTAINERS_WCIFS_OPERATIONAL: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CONTAINERS_WCNFS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_containers_wcnfs_operational",
     name: "Microsoft-Windows-Containers-Wcnfs/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4718,7 +4718,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CONTAINERS_WCNFS_OPERATIONAL: ArtifactD
 pub(crate) static EVTX_SMSROUTER_OPERATIONAL_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_smsrouter_operational_channel",
     name: "SmsRouter Operational Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4742,7 +4742,7 @@ pub(crate) static EVTX_SMSROUTER_OPERATIONAL_CHANNEL: ArtifactDescriptor = Artif
 pub(crate) static EVTX_SMSROUTER_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_smsrouter_debug_channel",
     name: "SmsRouter Debug Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4767,7 +4767,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COREWINDOW_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_corewindow_analytic",
         name: "Microsoft-Windows-CoreWindow/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -4793,7 +4793,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COREWINDOW_ANALYTIC: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CORRUPTEDFILERECOVERY_CLIENT_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_corruptedfilerecovery_client_operatio",
     name: "Microsoft-Windows-CorruptedFileRecovery-Client/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4817,7 +4817,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CORRUPTEDFILERECOVERY_CLIENT_OPERATIO: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CORRUPTEDFILERECOVERY_SERVER_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_corruptedfilerecovery_server_operatio",
     name: "Microsoft-Windows-CorruptedFileRecovery-Server/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4842,7 +4842,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRASHDUMP_ANALYTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_crashdump_analytic",
         name: "Microsoft-Windows-Crashdump/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -4869,7 +4869,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRASHDUMP_OPERATIONAL: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_crashdump_operational",
         name: "Microsoft-Windows-Crashdump/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -4896,7 +4896,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDPROVHOST_DEBUG: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_credprovhost_debug",
         name: "Microsoft-Windows-CredProvHost/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -4923,7 +4923,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDUI_DIAGNOSTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_credui_diagnostic",
         name: "Microsoft-Windows-CredUI/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -4949,7 +4949,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDUI_DIAGNOSTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CREDENTIALPROVIDERS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_credentialproviders_debug",
     name: "Microsoft-Windows-CredentialProviders/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4974,7 +4974,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_BCRYPT_ANALYTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_crypto_bcrypt_analytic",
         name: "Microsoft-Windows-Crypto-BCrypt/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5001,7 +5001,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_CNG_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_crypto_cng_analytic",
         name: "Microsoft-Windows-Crypto-CNG/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5027,7 +5027,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_CNG_ANALYTIC: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DPAPI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_crypto_dpapi_operational",
     name: "Microsoft-Windows-Crypto-DPAPI/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5051,7 +5051,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DPAPI_OPERATIONAL: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DPAPI_BACKUPKEYSVC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_crypto_dpapi_backupkeysvc",
     name: "Microsoft-Windows-Crypto-DPAPI/BackUpKeySvc",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5076,7 +5076,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DPAPI_DEBUG: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_crypto_dpapi_debug",
         name: "Microsoft-Windows-Crypto-DPAPI/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5103,7 +5103,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DSSENH_ANALYTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_crypto_dssenh_analytic",
         name: "Microsoft-Windows-Crypto-DSSEnh/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5129,7 +5129,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_DSSENH_ANALYTIC: ArtifactDescrip
 pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_NCRYPT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_crypto_ncrypt_operational",
     name: "Microsoft-Windows-Crypto-NCrypt/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5154,7 +5154,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_NCRYPT_CERTINUSE: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_crypto_ncrypt_certinuse",
         name: "Microsoft-Windows-Crypto-NCrypt/CertInUse",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5181,7 +5181,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_NCRYPT_KEYMGMT: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_crypto_ncrypt_keymgmt",
         name: "Microsoft-Windows-Crypto-NCrypt/KeyMgmt",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5208,7 +5208,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_RNG_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_crypto_rng_analytic",
         name: "Microsoft-Windows-Crypto-RNG/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5235,7 +5235,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_CRYPTO_RSAENH_ANALYTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_crypto_rsaenh_analytic",
         name: "Microsoft-Windows-Crypto-RSAEnh/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5262,7 +5262,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_D3D10LEVEL9_ANALYTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_d3d10level9_analytic",
         name: "Microsoft-Windows-D3D10Level9/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5289,7 +5289,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_D3D10LEVEL9_PERFTIMING: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_d3d10level9_perftiming",
         name: "Microsoft-Windows-D3D10Level9/PerfTiming",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5316,7 +5316,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D9_ANALYTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_direct3d9_analytic",
         name: "Microsoft-Windows-Direct3D9/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5343,7 +5343,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DAL_PROVIDER_ANALYTIC: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dal_provider_analytic",
         name: "Microsoft-Windows-DAL-Provider/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5369,7 +5369,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DAL_PROVIDER_ANALYTIC: ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DAL_PROVIDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dal_provider_operational",
     name: "Microsoft-Windows-DAL-Provider/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5393,7 +5393,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DAL_PROVIDER_OPERATIONAL: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DCLOCATOR_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dclocator_debug",
     name: "Microsoft-Windows-DCLocator/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5420,7 +5420,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DDISPLAY_ANALYTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ddisplay_analytic",
         name: "Microsoft-Windows-DDisplay/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5446,7 +5446,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DDISPLAY_ANALYTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_SERVER_EVENTS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dhcp_server_events_operational",
     name: "Microsoft-Windows-DHCP Server Events/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5470,7 +5470,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_SERVER_EVENTS_OPERATIONAL: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_SERVER_EVENTS_FILTERNOTIFICATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dhcp_server_events_filternotification",
     name: "Microsoft-Windows-DHCP Server Events/FilterNotifications",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5494,7 +5494,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_SERVER_EVENTS_FILTERNOTIFICATION: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCPV6_CLIENT_EVENTS_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dhcpv6_client_events_admin",
     name: "Microsoft-Windows-DHCPv6 Client Events/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5518,7 +5518,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCPV6_CLIENT_EVENTS_ADMIN: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_CLIENT_EVENTS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dhcp_client_events_operational",
     name: "Microsoft-Windows-DHCP Client Events/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5543,7 +5543,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DLNA_NAMESPACE_ANALYTIC: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dlna_namespace_analytic",
         name: "Microsoft-Windows-DLNA-Namespace/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5569,7 +5569,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DLNA_NAMESPACE_ANALYTIC: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DNS_CLIENT_EVENTS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dns_client_events_operational",
     name: "Microsoft-Windows-DNS Client Events/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5593,7 +5593,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DNS_CLIENT_EVENTS_OPERATIONAL: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DSC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dsc_operational",
     name: "Microsoft-Windows-DSC/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5619,7 +5619,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DSC_OPERATIONAL: ArtifactDescriptor = A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DSC_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dsc_analytic",
     name: "Microsoft-Windows-DSC/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5643,7 +5643,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DSC_ANALYTIC: ArtifactDescriptor = Arti
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DSC_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dsc_debug",
     name: "Microsoft-Windows-DSC/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5667,7 +5667,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DSC_DEBUG: ArtifactDescriptor = Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DUI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dui_diagnostic",
     name: "Microsoft-Windows-DUI/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5692,7 +5692,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DUSER_DIAGNOSTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_duser_diagnostic",
         name: "Microsoft-Windows-DUSER/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5718,7 +5718,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DUSER_DIAGNOSTIC: ArtifactDescriptor =
 pub(crate) static EVTX_DVD_NAVIGATOR: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_dvd_navigator",
     name: "DVD Navigator",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5742,7 +5742,7 @@ pub(crate) static EVTX_DVD_NAVIGATOR: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGI_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dxgi_analytic",
     name: "Microsoft-Windows-DXGI/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5766,7 +5766,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGI_ANALYTIC: ArtifactDescriptor = Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGI_LOGGING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dxgi_logging",
     name: "Microsoft-Windows-DXGI/Logging",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5790,7 +5790,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGI_LOGGING: ArtifactDescriptor = Arti
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dxp_analytic",
     name: "Microsoft-Windows-DXP/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5814,7 +5814,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXP_ANALYTIC: ArtifactDescriptor = Arti
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DATA_PDF_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_data_pdf_debug",
     name: "Microsoft-Windows-Data-Pdf/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5839,7 +5839,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DATAINTEGRITYSCAN_ADMIN: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dataintegrityscan_admin",
         name: "Microsoft-Windows-DataIntegrityScan/Admin",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5865,7 +5865,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DATAINTEGRITYSCAN_ADMIN: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DATAINTEGRITYSCAN_CRASHRECOVERY: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dataintegrityscan_crashrecovery",
     name: "Microsoft-Windows-DataIntegrityScan/CrashRecovery",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5889,7 +5889,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DATAINTEGRITYSCAN_CRASHRECOVERY: Artifa
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_deduplication_operational",
     name: "Microsoft-Windows-Deduplication/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5913,7 +5913,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_OPERATIONAL: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_deduplication_diagnostic",
     name: "Microsoft-Windows-Deduplication/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5938,7 +5938,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_SCRUBBING: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_deduplication_scrubbing",
         name: "Microsoft-Windows-Deduplication/Scrubbing",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -5964,7 +5964,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_SCRUBBING: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEDUPLICATION_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_deduplication_performance",
     name: "Microsoft-Windows-Deduplication/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5989,7 +5989,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEFRAG_CORE_DEBUG: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_defrag_core_debug",
         name: "Microsoft-Windows-Defrag-Core/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6016,7 +6016,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEPLORCH_ANALYTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_deplorch_analytic",
         name: "Microsoft-Windows-Deplorch/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6042,7 +6042,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEPLORCH_ANALYTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEPLOYMENT_SERVICES_DIAGNOSTICS_OPERA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_deployment_services_diagnostics_opera",
     name: "Microsoft-Windows-Deployment-Services-Diagnostics/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6066,7 +6066,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEPLOYMENT_SERVICES_DIAGNOSTICS_OPERA: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEPLOYMENT_SERVICES_DIAGNOSTICS_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_deployment_services_diagnostics_admin",
     name: "Microsoft-Windows-Deployment-Services-Diagnostics/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6090,7 +6090,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEPLOYMENT_SERVICES_DIAGNOSTICS_ADMIN: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DESKTOPACTIVITYMODERATOR_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_desktopactivitymoderator_diagnostic",
     name: "Microsoft-Windows-DesktopActivityModerator/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6114,7 +6114,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DESKTOPACTIVITYMODERATOR_DIAGNOSTIC: Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DESKTOPWINDOWMANAGER_DIAG_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_desktopwindowmanager_diag_diagnostic",
     name: "Microsoft-Windows-DesktopWindowManager-Diag/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6138,7 +6138,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DESKTOPWINDOWMANAGER_DIAG_DIAGNOSTIC: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEASSOCIATIONSERVICE_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_deviceassociationservice_performance",
     name: "Microsoft-Windows-DeviceAssociationService/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6162,7 +6162,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEASSOCIATIONSERVICE_PERFORMANCE: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICECONFIDENCE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_deviceconfidence_analytic",
     name: "Microsoft-Windows-DeviceConfidence/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6187,7 +6187,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEGUARD_OPERATIONAL: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_deviceguard_operational",
         name: "Microsoft-Windows-DeviceGuard/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6213,7 +6213,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEGUARD_OPERATIONAL: ArtifactDescri
 pub(crate) static EVTX_AUTOPILOT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_autopilot",
     name: "Autopilot",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6237,7 +6237,7 @@ pub(crate) static EVTX_AUTOPILOT: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEMANAGEMENT_ENTERPRISE_DIAGNOSTI: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_devicemanagement_enterprise_diagnosti",
     name: "Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6261,7 +6261,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEMANAGEMENT_ENTERPRISE_DIAGNOSTI: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_devicesetupmanager_admin",
     name: "Microsoft-Windows-DeviceSetupManager/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6285,7 +6285,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_ADMIN: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_devicesetupmanager_debug",
     name: "Microsoft-Windows-DeviceSetupManager/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6309,7 +6309,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_DEBUG: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_devicesetupmanager_operational",
     name: "Microsoft-Windows-DeviceSetupManager/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6333,7 +6333,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_OPERATIONAL: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESETUPMANAGER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_devicesetupmanager_analytic",
     name: "Microsoft-Windows-DeviceSetupManager/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6358,7 +6358,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESYNC_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_devicesync_analytic",
         name: "Microsoft-Windows-DeviceSync/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6385,7 +6385,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICESYNC_OPERATIONAL: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_devicesync_operational",
         name: "Microsoft-Windows-DeviceSync/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6412,7 +6412,7 @@ pub(crate) static EVTX_DEVICE_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_device_update_agent_operational_channel",
         name: "Device Update Agent operational channel",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6439,7 +6439,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEUX_PERFORMANCE: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_deviceux_performance",
         name: "Microsoft-Windows-DeviceUx/Performance",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6466,7 +6466,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEUX_INFORMATIONAL: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_deviceux_informational",
         name: "Microsoft-Windows-DeviceUx/Informational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6492,7 +6492,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICEUX_INFORMATIONAL: ArtifactDescrip
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICES_BACKGROUND_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_devices_background_operational",
     name: "Microsoft-Windows-Devices-Background/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6516,7 +6516,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICES_BACKGROUND_OPERATIONAL: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICES_LOCATION_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_devices_location_performance",
     name: "Microsoft.Windows.Devices.Location-Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6540,7 +6540,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICES_LOCATION_PERFORMANCE: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICES_QUERY_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_devices_query_performance",
     name: "Microsoft-Windows-Devices-Query/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6564,7 +6564,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DEVICES_QUERY_PERFORMANCE: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCP_CLIENT_EVENTS_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dhcp_client_events_admin",
     name: "Microsoft-Windows-DHCP Client Events/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6589,7 +6589,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCPNAP_OPERATIONAL: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dhcpnap_operational",
         name: "Microsoft-Windows-DHCPNap/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6615,7 +6615,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCPNAP_OPERATIONAL: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCPNAP_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dhcpnap_admin",
     name: "Microsoft-Windows-DHCPNap/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6639,7 +6639,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DHCPNAP_ADMIN: ArtifactDescriptor = Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGCPL_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagcpl_debug",
     name: "Microsoft-Windows-DiagCpl/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6663,7 +6663,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGCPL_DEBUG: ArtifactDescriptor = Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_ADVANCEDTASKMANAGER_ANALYTI: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_advancedtaskmanager_analyti",
     name: "Microsoft-Windows-Diagnosis-AdvancedTaskManager/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6688,7 +6688,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_ANALYTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_diagnosis_dps_analytic",
         name: "Microsoft-Windows-Diagnosis-DPS/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6714,7 +6714,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_ANALYTIC: ArtifactDescrip
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_dps_operational",
     name: "Microsoft-Windows-Diagnosis-DPS/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6739,7 +6739,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_DPS_DEBUG: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_diagnosis_dps_debug",
         name: "Microsoft-Windows-Diagnosis-DPS/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6766,7 +6766,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDE_DEBUG: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_diagnosis_msde_debug",
         name: "Microsoft-Windows-Diagnosis-MSDE/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6792,7 +6792,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDE_DEBUG: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_msdt_operational",
     name: "Microsoft-Windows-Diagnosis-MSDT/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6817,7 +6817,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDT_DEBUG: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_diagnosis_msdt_debug",
         name: "Microsoft-Windows-Diagnosis-MSDT/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6843,7 +6843,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_MSDT_DEBUG: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_pcw_operational",
     name: "Microsoft-Windows-Diagnosis-PCW/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6868,7 +6868,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_ANALYTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_diagnosis_pcw_analytic",
         name: "Microsoft-Windows-Diagnosis-PCW/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6895,7 +6895,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_DEBUG: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_diagnosis_pcw_debug",
         name: "Microsoft-Windows-Diagnosis-PCW/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6921,7 +6921,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PCW_DEBUG: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PLA_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_pla_operational",
     name: "Microsoft-Windows-Diagnosis-PLA/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6946,7 +6946,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PLA_DEBUG: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_diagnosis_pla_debug",
         name: "Microsoft-Windows-Diagnosis-PLA/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -6972,7 +6972,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PLA_DEBUG: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PERFHOST_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_perfhost_analytic",
     name: "Microsoft-Windows-Diagnosis-Perfhost/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6996,7 +6996,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_PERFHOST_ANALYTIC: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCHEDULED_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_scheduled_operational",
     name: "Microsoft-Windows-Diagnosis-Scheduled/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7020,7 +7020,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCHEDULED_OPERATIONAL: Artifa
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_scripted_admin",
     name: "Microsoft-Windows-Diagnosis-Scripted/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7044,7 +7044,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_ADMIN: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_scripted_operational",
     name: "Microsoft-Windows-Diagnosis-Scripted/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7068,7 +7068,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_OPERATIONAL: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_scripted_debug",
     name: "Microsoft-Windows-Diagnosis-Scripted/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7092,7 +7092,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_DEBUG: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_scripted_analytic",
     name: "Microsoft-Windows-Diagnosis-Scripted/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7116,7 +7116,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTED_ANALYTIC: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTEDDIAGNOSTICSPROVIDER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_scripteddiagnosticsprovider",
     name: "Microsoft-Windows-Diagnosis-ScriptedDiagnosticsProvider/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7140,7 +7140,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_SCRIPTEDDIAGNOSTICSPROVIDER: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_TASKMANAGER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnosis_taskmanager_debug",
     name: "Microsoft-Windows-Diagnosis-TaskManager/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7165,7 +7165,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_WDC_ANALYTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_diagnosis_wdc_analytic",
         name: "Microsoft-Windows-Diagnosis-WDC/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -7192,7 +7192,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_WDI_DEBUG: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_diagnosis_wdi_debug",
         name: "Microsoft-Windows-Diagnosis-WDI/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -7218,7 +7218,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSIS_WDI_DEBUG: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_NETWORKING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnostics_networking_operational",
     name: "Microsoft-Windows-Diagnostics-Networking/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7242,7 +7242,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_NETWORKING_OPERATIONAL: Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_NETWORKING_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnostics_networking_debug",
     name: "Microsoft-Windows-Diagnostics-Networking/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7266,7 +7266,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_NETWORKING_DEBUG: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_PERFTRACK_COUNTERS_DIAGNO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnostics_perftrack_counters_diagno",
     name: "Microsoft-Windows-Diagnostics-PerfTrack-Counters/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7290,7 +7290,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_PERFTRACK_COUNTERS_DIAGNO: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_PERFTRACK_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diagnostics_perftrack_diagnostic",
     name: "Microsoft-Windows-Diagnostics-PerfTrack/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7314,7 +7314,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIAGNOSTICS_PERFTRACK_DIAGNOSTIC: Artif
 pub(crate) static EVTX_DIAGNOSTIC_LOOPBACK: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_diagnostic_loopback",
     name: "Diagnostic-Loopback",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7339,7 +7339,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D10_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_direct3d10_analytic",
         name: "Microsoft-Windows-Direct3D10/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -7366,7 +7366,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D10_1_ANALYTIC: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_direct3d10_1_analytic",
         name: "Microsoft-Windows-Direct3D10_1/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -7393,7 +7393,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D11_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_direct3d11_analytic",
         name: "Microsoft-Windows-Direct3D11/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -7420,7 +7420,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D11_PERFTIMING: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_direct3d11_perftiming",
         name: "Microsoft-Windows-Direct3D11/PerfTiming",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -7447,7 +7447,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D11_LOGGING: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_direct3d11_logging",
         name: "Microsoft-Windows-Direct3D11/Logging",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -7474,7 +7474,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_direct3d12_analytic",
         name: "Microsoft-Windows-Direct3D12/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -7501,7 +7501,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_LOGGING: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_direct3d12_logging",
         name: "Microsoft-Windows-Direct3D12/Logging",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -7528,7 +7528,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_PERFTIMING: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_direct3d12_perftiming",
         name: "Microsoft-Windows-Direct3D12/PerfTiming",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -7554,7 +7554,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3D12_PERFTIMING: ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3DSHADERCACHE_DEFAULT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_direct3dshadercache_default",
     name: "Microsoft-Windows-Direct3DShaderCache/Default",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7578,7 +7578,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECT3DSHADERCACHE_DEFAULT: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DAMM_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_damm_diagnostic",
     name: "Microsoft-Windows-DAMM/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7604,7 +7604,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DAMM_DIAGNOSTIC: ArtifactDescriptor = A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTCOMPOSITION_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_directcomposition_diagnostic",
     name: "Microsoft-Windows-DirectComposition/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7628,7 +7628,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTCOMPOSITION_DIAGNOSTIC: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTMANIPULATION_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_directmanipulation_diagnostic",
     name: "Microsoft-Windows-DirectManipulation/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7652,7 +7652,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTMANIPULATION_DIAGNOSTIC: Artifact
 pub(crate) static EVTX_DIRECTSHOWPLUGINCONTROL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_directshowplugincontrol",
     name: "DirectShowPluginControl",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7676,7 +7676,7 @@ pub(crate) static EVTX_DIRECTSHOWPLUGINCONTROL: ArtifactDescriptor = ArtifactDes
 pub(crate) static EVTX_DIRECTSHOW_FILTERGRAPH: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_directshow_filtergraph",
     name: "DirectShow FilterGraph",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7700,7 +7700,7 @@ pub(crate) static EVTX_DIRECTSHOW_FILTERGRAPH: ArtifactDescriptor = ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTSHOW_KERNELSUPPORT_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_directshow_kernelsupport_performance",
     name: "Microsoft-Windows-DirectShow-KernelSupport/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7725,7 +7725,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTSOUND_DEBUG: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_directsound_debug",
         name: "Microsoft-Windows-DirectSound/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -7751,7 +7751,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTSOUND_DEBUG: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTWRITE_FONTCACHE_TRACING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_directwrite_fontcache_tracing",
     name: "Microsoft-Windows-DirectWrite-FontCache/Tracing",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7776,7 +7776,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTWRITE_TRACING: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_directwrite_tracing",
         name: "Microsoft-Windows-DirectWrite/Tracing",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -7802,7 +7802,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTWRITE_TRACING: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DIRECTORYSERVICES_DEPLOYMENT_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_directoryservices_deployment_operatio",
     name: "Microsoft-Windows-DirectoryServices-Deployment/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7827,7 +7827,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISK_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_disk_operational",
         name: "Microsoft-Windows-Disk/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -7854,7 +7854,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_DISK_ANALYTIC: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_storage_disk_analytic",
         name: "Microsoft-Windows-Storage-Disk/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -7881,7 +7881,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_DISK_DIAGNOSE: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_storage_disk_diagnose",
         name: "Microsoft-Windows-Storage-Disk/Diagnose",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -7907,7 +7907,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_DISK_DIAGNOSE: ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISKDIAGNOSTIC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diskdiagnostic_operational",
     name: "Microsoft-Windows-DiskDiagnostic/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7931,7 +7931,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISKDIAGNOSTIC_OPERATIONAL: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISKDIAGNOSTICDATACOLLECTOR_OPERATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diskdiagnosticdatacollector_operation",
     name: "Microsoft-Windows-DiskDiagnosticDataCollector/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7955,7 +7955,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISKDIAGNOSTICDATACOLLECTOR_OPERATION: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISKDIAGNOSTICRESOLVER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_diskdiagnosticresolver_operational",
     name: "Microsoft-Windows-DiskDiagnosticResolver/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7980,7 +7980,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_API_ANALYTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dism_api_analytic",
         name: "Microsoft-Windows-Dism-Api/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8006,7 +8006,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_API_ANALYTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_API_INTERNALANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dism_api_internalanalytic",
     name: "Microsoft-Windows-Dism-Api/InternalAnalytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8031,7 +8031,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_CLI_ANALYTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dism_cli_analytic",
         name: "Microsoft-Windows-Dism-Cli/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8057,7 +8057,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISM_CLI_ANALYTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISPLAYCOLORCALIBRATION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_displaycolorcalibration_operational",
     name: "Microsoft-Windows-DisplayColorCalibration/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8081,7 +8081,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISPLAYCOLORCALIBRATION_OPERATIONAL: Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISPLAYCOLORCALIBRATION_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_displaycolorcalibration_debug",
     name: "Microsoft-Windows-DisplayColorCalibration/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8105,7 +8105,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DISPLAYCOLORCALIBRATION_DEBUG: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DISPLAYSWITCH_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_displayswitch_diagnostic",
     name: "Microsoft-Windows-DisplaySwitch/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8130,7 +8130,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DOT3MM_DIAGNOSTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dot3mm_diagnostic",
         name: "Microsoft-Windows-Dot3MM/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8156,7 +8156,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DOT3MM_DIAGNOSTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DRIVERFRAMEWORKS_USERMODE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_driverframeworks_usermode_operational",
     name: "Microsoft-Windows-DriverFrameworks-UserMode/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8181,7 +8181,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_POWER_DIAGNOSTIC: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_power_diagnostic",
         name: "Microsoft-Windows-Kernel-Power/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8207,7 +8207,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_POWER_DIAGNOSTIC: ArtifactDescri
 pub(crate) static EVTX_DIRVER_PROXY_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_dirver_proxy_performance",
     name: "Dirver Proxy Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8231,7 +8231,7 @@ pub(crate) static EVTX_DIRVER_PROXY_PERFORMANCE: ArtifactDescriptor = ArtifactDe
 pub(crate) static EVTX_DRIVER_PROXY_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_driver_proxy_operational",
     name: "Driver Proxy Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8256,7 +8256,7 @@ pub(crate) static EVTX_DUC_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_duc_update_agent_operational_channel",
         name: "Duc Update Agent operational channel",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8283,7 +8283,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_API_DIAGNOSTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dwm_api_diagnostic",
         name: "Microsoft-Windows-Dwm-API/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8309,7 +8309,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_API_DIAGNOSTIC: ArtifactDescriptor 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_COMPOSITOR_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dwm_compositor_diagnostic",
     name: "Microsoft-Windows-Dwm-Compositor/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8334,7 +8334,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_CORE_DIAGNOSTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dwm_core_diagnostic",
         name: "Microsoft-Windows-Dwm-Core/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8361,7 +8361,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_DWM_DIAGNOSTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dwm_dwm_diagnostic",
         name: "Microsoft-Windows-Dwm-Dwm/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8388,7 +8388,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_REDIR_DIAGNOSTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dwm_redir_diagnostic",
         name: "Microsoft-Windows-Dwm-Redir/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8415,7 +8415,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DWM_UDWM_DIAGNOSTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dwm_udwm_diagnostic",
         name: "Microsoft-Windows-Dwm-Udwm/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8442,7 +8442,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_DIAGNOSTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dxgkrnl_diagnostic",
         name: "Microsoft-Windows-DxgKrnl/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8469,7 +8469,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_PERFORMANCE: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dxgkrnl_performance",
         name: "Microsoft-Windows-DxgKrnl/Performance",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8495,7 +8495,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_PERFORMANCE: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_POWER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dxgkrnl_power",
     name: "Microsoft-Windows-DxgKrnl/Power",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8519,7 +8519,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_POWER: ArtifactDescriptor = Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dxgkrnl_admin",
     name: "Microsoft-Windows-DxgKrnl-Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8544,7 +8544,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_OPERATIONAL: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dxgkrnl_operational",
         name: "Microsoft-Windows-DxgKrnl-Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8571,7 +8571,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_CONTENTION: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_dxgkrnl_contention",
         name: "Microsoft-Windows-DxgKrnl/Contention",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8597,7 +8597,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXGKRNL_CONTENTION: ArtifactDescriptor 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXPTASKRINGTONE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dxptaskringtone_analytic",
     name: "Microsoft-Windows-DxpTaskRingtone/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8621,7 +8621,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXPTASKRINGTONE_ANALYTIC: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_DXPTASKSYNCPROVIDER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_dxptasksyncprovider_analytic",
     name: "Microsoft-Windows-DxpTaskSyncProvider/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8645,7 +8645,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_DXPTASKSYNCPROVIDER_ANALYTIC: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_INFORMATION_PROTECTION_APPLICATION_LE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_information_protection_application_le",
     name: "Microsoft Windows Information Protection Application Learning Log Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8669,7 +8669,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INFORMATION_PROTECTION_APPLICATION_LE: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_INFORMATION_PROTECTION_AUDIT_REGULAR: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_information_protection_audit_regular",
     name: "Microsoft Windows Information Protection Audit Regular Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8693,7 +8693,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INFORMATION_PROTECTION_AUDIT_REGULAR: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EDP_AUDIT_REGULAR_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_edp_audit_regular_channel",
     name: "Microsoft Windows EDP Audit Regular Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8717,7 +8717,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EDP_AUDIT_REGULAR_CHANNEL: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_INFORMATION_PROTECTION_AUDIT_TCB_CHAN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_information_protection_audit_tcb_chan",
     name: "Microsoft Windows Information Protection Audit TCB Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8742,7 +8742,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EDP_AUDIT_TCB_CHANNEL: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_edp_audit_tcb_channel",
         name: "Microsoft Windows EDP Audit TCB Channel",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8768,7 +8768,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EDP_AUDIT_TCB_CHANNEL: ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EFS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_efs_debug",
     name: "Microsoft-Windows-EFS/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8792,7 +8792,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EFS_DEBUG: ArtifactDescriptor = Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EFS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_efs_operational",
     name: "Microsoft-Windows-EFS/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8818,7 +8818,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EFS_OPERATIONAL: ArtifactDescriptor = A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ELS_HYPHENATION_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_els_hyphenation_analytic_channel",
     name: "Microsoft Windows ELS Hyphenation Analytic Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8842,7 +8842,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ELS_HYPHENATION_ANALYTIC_CHANNEL: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POLICY_BASED_QOS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_policy_based_qos_operational",
     name: "Microsoft-Windows-Policy-based QoS/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8866,7 +8866,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POLICY_BASED_QOS_OPERATIONAL: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POLICY_BASED_QOS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_policy_based_qos_analytic",
     name: "Microsoft-Windows-Policy-based QoS/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8890,7 +8890,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POLICY_BASED_QOS_ANALYTIC: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ESE_IODIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ese_iodiagnose",
     name: "Microsoft-Windows-ESE/IODiagnose",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8914,7 +8914,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ESE_IODIAGNOSE: ArtifactDescriptor = Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ESE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ese_operational",
     name: "Microsoft-Windows-ESE/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8941,7 +8941,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_OPERATIONAL: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_eaphost_operational",
         name: "Microsoft-Windows-EapHost/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8968,7 +8968,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_ANALYTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_eaphost_analytic",
         name: "Microsoft-Windows-EapHost/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -8994,7 +8994,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_ANALYTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_eaphost_debug",
     name: "Microsoft-Windows-EapHost/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9018,7 +9018,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EAPHOST_DEBUG: ArtifactDescriptor = Art
 pub(crate) static EVTX_OPERATIONAL_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_operational_channel",
     name: "Operational Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9043,7 +9043,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EASEOFACCESS_DIAGNOSTIC: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_easeofaccess_diagnostic",
         name: "Microsoft-Windows-EaseOfAccess/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -9069,7 +9069,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EASEOFACCESS_DIAGNOSTIC: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_EMBEDDEDAPPLAUNCHER_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_embeddedapplauncher_admin",
     name: "Microsoft-Windows-EmbeddedAppLauncher/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9093,7 +9093,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_EMBEDDEDAPPLAUNCHER_ADMIN: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ENERGY_ESTIMATION_ENGINE_EVENTLOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_energy_estimation_engine_eventlog",
     name: "Microsoft-Windows-Energy-Estimation-Engine/EventLog",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9117,7 +9117,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ENERGY_ESTIMATION_ENGINE_EVENTLOG: Arti
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ENERGY_ESTIMATION_ENGINE_TRACE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_energy_estimation_engine_trace",
     name: "Microsoft-Windows-Energy-Estimation-Engine/Trace",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9141,7 +9141,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ENERGY_ESTIMATION_ENGINE_TRACE: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POWEREFFICIENCYDIAGNOSTICS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_powerefficiencydiagnostics_diagnostic",
     name: "Microsoft-Windows-PowerEfficiencyDiagnostics/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9165,7 +9165,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWEREFFICIENCYDIAGNOSTICS_DIAGNOSTIC: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ENHANCEDSTORAGE_EHSTORCLASS_OPERATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_enhancedstorage_ehstorclass_operation",
     name: "Microsoft-Windows-EnhancedStorage-EhStorClass/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9189,7 +9189,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ENHANCEDSTORAGE_EHSTORCLASS_OPERATION: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ENHANCEDSTORAGE_EHSTORTCGDRV_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_enhancedstorage_ehstortcgdrv_analytic",
     name: "Microsoft-Windows-EnhancedStorage-EhStorTcgDrv/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9213,7 +9213,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ENHANCEDSTORAGE_EHSTORTCGDRV_ANALYTIC: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ENROLLMENTPOLICYWEBSERVICE_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_enrollmentpolicywebservice_admin",
     name: "Microsoft-Windows-EnrollmentPolicyWebService/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9237,7 +9237,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ENROLLMENTPOLICYWEBSERVICE_ADMIN: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ENROLLMENTWEBSERVICE_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_enrollmentwebservice_admin",
     name: "Microsoft-Windows-EnrollmentWebService/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9261,7 +9261,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ENROLLMENTWEBSERVICE_ADMIN: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FMS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_fms_analytic",
     name: "Microsoft-Windows-FMS/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9285,7 +9285,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FMS_ANALYTIC: ArtifactDescriptor = Arti
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_CLIENT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_failoverclustering_client_diagnostic",
     name: "Microsoft-Windows-FailoverClustering-Client/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9309,7 +9309,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_CLIENT_DIAGNOSTIC: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_CLIENT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_failoverclustering_client_operational",
     name: "Microsoft-Windows-FailoverClustering-Client/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9333,7 +9333,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_CLIENT_OPERATIONAL: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_MANAGER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_failoverclustering_manager_diagnostic",
     name: "Microsoft-Windows-FailoverClustering-Manager/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9357,7 +9357,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_MANAGER_DIAGNOSTIC: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_MANAGER_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_failoverclustering_manager_admin",
     name: "Microsoft-Windows-FailoverClustering-Manager/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9381,7 +9381,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FAILOVERCLUSTERING_MANAGER_ADMIN: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FAULT_TOLERANT_HEAP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_fault_tolerant_heap_operational",
     name: "Microsoft-Windows-Fault-Tolerant-Heap/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9405,7 +9405,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FAULT_TOLERANT_HEAP_OPERATIONAL: Artifa
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FEDERATIONSERVICES_DEPLOYMENT_OPERATI: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_federationservices_deployment_operati",
     name: "Microsoft-Windows-FederationServices-Deployment/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9429,7 +9429,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FEDERATIONSERVICES_DEPLOYMENT_OPERATI: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FEEDBACK_SERVICE_TRIGGERPROVIDER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_feedback_service_triggerprovider",
     name: "Microsoft-Windows-Feedback-Service-TriggerProvider",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9453,7 +9453,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FEEDBACK_SERVICE_TRIGGERPROVIDER: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_CATALOG_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_filehistory_catalog_debug",
     name: "Microsoft-Windows-FileHistory-Catalog/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9477,7 +9477,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_CATALOG_DEBUG: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_CONFIGMANAGER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_filehistory_configmanager_debug",
     name: "Microsoft-Windows-FileHistory-ConfigManager/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9502,7 +9502,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_CORE_WHC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_filehistory_core_whc",
         name: "Microsoft-Windows-FileHistory-Core/WHC",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -9528,7 +9528,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_CORE_WHC: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_ENGINE_BACKUPLOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_filehistory_engine_backuplog",
     name: "Microsoft-Windows-FileHistory-Engine/BackupLog",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9552,7 +9552,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_ENGINE_BACKUPLOG: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_ENGINE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_filehistory_engine_debug",
     name: "Microsoft-Windows-FileHistory-Engine/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9576,7 +9576,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_ENGINE_DEBUG: ArtifactDescr
 pub(crate) static EVTX_FILE_HISTORY_BACKUP_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_file_history_backup_log",
     name: "File History backup log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9600,7 +9600,7 @@ pub(crate) static EVTX_FILE_HISTORY_BACKUP_LOG: ArtifactDescriptor = ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_SERVICE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_filehistory_service_debug",
     name: "Microsoft-Windows-FileHistory-Service/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9624,7 +9624,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_SERVICE_DEBUG: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_UI_EVENTS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_filehistory_ui_events_debug",
     name: "Microsoft-Windows-FileHistory-UI-Events/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9648,7 +9648,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_UI_EVENTS_DEBUG: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_UI_EVENTS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_filehistory_ui_events_analytic",
     name: "Microsoft-Windows-FileHistory-UI-Events/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9672,7 +9672,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEHISTORY_UI_EVENTS_ANALYTIC: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEINFOMINIFILTER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_fileinfominifilter_operational",
     name: "Microsoft-Windows-FileInfoMinifilter/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9696,7 +9696,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEINFOMINIFILTER_OPERATIONAL: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEMANAGERAPP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_filemanagerapp_operational",
     name: "Microsoft-Windows-FileManagerApp/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9720,7 +9720,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEMANAGERAPP_OPERATIONAL: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FILEMANAGERDATAMODEL_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_filemanagerdatamodel_operational",
     name: "Microsoft-Windows-FileManagerDataModel/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9745,7 +9745,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FIREWALL_CPL_DIAGNOSTIC: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_firewall_cpl_diagnostic",
         name: "Microsoft-Windows-Firewall-CPL/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -9771,7 +9771,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FIREWALL_CPL_DIAGNOSTIC: ArtifactDescri
 pub(crate) static EVTX_SETUP_SPLASH_WINDOW_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_setup_splash_window_performance",
     name: "Setup splash window performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9795,7 +9795,7 @@ pub(crate) static EVTX_SETUP_SPLASH_WINDOW_PERFORMANCE: ArtifactDescriptor = Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FOLDER_REDIRECTION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_folder_redirection_operational",
     name: "Microsoft-Windows-Folder Redirection/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9819,7 +9819,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FOLDER_REDIRECTION_OPERATIONAL: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_FUNCTIONDISCOVERYHOST_TRACING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_functiondiscoveryhost_tracing",
     name: "Microsoft-Windows-FunctionDiscoveryHost/Tracing",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9844,7 +9844,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GENERICROAMING_ADMIN: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_genericroaming_admin",
         name: "Microsoft-Windows-GenericRoaming/Admin",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -9870,7 +9870,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GENERICROAMING_ADMIN: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_GETTINGSTARTED_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_gettingstarted_diagnostic",
     name: "Microsoft-Windows-GettingStarted/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9895,7 +9895,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FONTGROUPS_DIAGNOSTIC: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_fontgroups_diagnostic",
         name: "Microsoft-Windows-FontGroups/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -9921,7 +9921,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_FONTGROUPS_DIAGNOSTIC: ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_GLOBALIZATION_API_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_globalization_api_analytic_channel",
     name: "Microsoft Windows.Globalization API Analytic Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9946,7 +9946,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GROUPPOLICY_OPERATIONAL: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_grouppolicy_operational",
         name: "Microsoft-Windows-GroupPolicy/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -9972,7 +9972,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GROUPPOLICY_OPERATIONAL: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HAL_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_hal_debug",
     name: "Microsoft-Windows-HAL/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -9997,7 +9997,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HEALTHCENTER_DEBUG: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_healthcenter_debug",
         name: "Microsoft-Windows-HealthCenter/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -10023,7 +10023,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HEALTHCENTER_DEBUG: ArtifactDescriptor 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HEALTHCENTER_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_healthcenter_performance",
     name: "Microsoft-Windows-HealthCenter/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10047,7 +10047,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HEALTHCENTER_PERFORMANCE: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HEALTHCENTERCPL_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_healthcentercpl_performance",
     name: "Microsoft-Windows-HealthCenterCPL/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10071,7 +10071,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HEALTHCENTERCPL_PERFORMANCE: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HELLOFORBUSINESS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_helloforbusiness_operational",
     name: "Microsoft-Windows-HelloForBusiness/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10096,7 +10096,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HELLOFORBUSINESS_DEBUG: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_helloforbusiness_debug",
         name: "Microsoft-Windows-HelloForBusiness/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -10123,7 +10123,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HELP_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_help_operational",
         name: "Microsoft-Windows-Help/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -10149,7 +10149,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HELP_OPERATIONAL: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_CONTROL_PANEL_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_homegroup_control_panel_operational",
     name: "Microsoft-Windows-HomeGroup Control Panel/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10173,7 +10173,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_CONTROL_PANEL_OPERATIONAL: Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_CONTROL_PANEL_PERFORMANCE_D: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_homegroup_control_panel_performance_d",
     name: "Microsoft-Windows-HomeGroup Control Panel Performance/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10197,7 +10197,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_CONTROL_PANEL_PERFORMANCE_D: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_LISTENERSERVICE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_homegroup_listenerservice",
     name: "Microsoft-Windows-HomeGroup-ListenerService",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10221,7 +10221,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_LISTENERSERVICE: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_LISTENER_SERVICE_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_homegroup_listener_service_operationa",
     name: "Microsoft-Windows-HomeGroup Listener Service/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10245,7 +10245,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_LISTENER_SERVICE_OPERATIONA: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_PROVIDER_SERVICE_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_homegroup_provider_service_operationa",
     name: "Microsoft-Windows-HomeGroup Provider Service/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10269,7 +10269,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_PROVIDER_SERVICE_OPERATIONA: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HOMEGROUP_PROVIDER_SERVICE_PERFORMANC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_homegroup_provider_service_performanc",
     name: "Microsoft-Windows-HomeGroup Provider Service Performance/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10294,7 +10294,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSTART_DIAGNOSTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_hotstart_diagnostic",
         name: "Microsoft-Windows-HotStart/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -10321,7 +10321,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSPOTAUTH_ANALYTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_hotspotauth_analytic",
         name: "Microsoft-Windows-HotspotAuth/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -10348,7 +10348,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSPOTAUTH_OPERATIONAL: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_hotspotauth_operational",
         name: "Microsoft-Windows-HotspotAuth/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -10374,7 +10374,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HOTSPOTAUTH_OPERATIONAL: ArtifactDescri
 pub(crate) static EVTX_HTTP_LOG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_http_log_channel",
     name: "HTTP Log Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10398,7 +10398,7 @@ pub(crate) static EVTX_HTTP_LOG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor
 pub(crate) static EVTX_HTTP_SERVICE_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_http_service_channel",
     name: "HTTP Service Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10423,7 +10423,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_COMPUTE_ANALYTIC: ArtifactDescr
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_hyper_v_compute_analytic",
         name: "Microsoft-Windows-Hyper-V-Compute-Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -10450,7 +10450,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_COMPUTE_ADMIN: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_hyper_v_compute_admin",
         name: "Microsoft-Windows-Hyper-V-Compute-Admin",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -10477,7 +10477,7 @@ pub(crate) static EVTX_MICROSOFT_HYPER_V_GUEST_DRIVERS_ADMIN: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_hyper_v_guest_drivers_admin",
         name: "Microsoft-Hyper-V-Guest-Drivers-Admin",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -10504,7 +10504,7 @@ pub(crate) static EVTX_MICROSOFT_HYPER_V_GUEST_DRIVERS_ANALYTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_hyper_v_guest_drivers_analytic",
         name: "Microsoft-Hyper-V-Guest-Drivers-Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -10530,7 +10530,7 @@ pub(crate) static EVTX_MICROSOFT_HYPER_V_GUEST_DRIVERS_ANALYTIC: ArtifactDescrip
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_GUEST_DRIVERS_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_hyper_v_guest_drivers_admin",
     name: "Microsoft-Windows-Hyper-V-Guest-Drivers/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10554,7 +10554,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_GUEST_DRIVERS_ADMIN: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_GUEST_DRIVERS_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_hyper_v_guest_drivers_diagnose",
     name: "Microsoft-Windows-Hyper-V-Guest-Drivers/Diagnose",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10578,7 +10578,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_GUEST_DRIVERS_DIAGNOSE: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_GUEST_DRIVERS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_hyper_v_guest_drivers_debug",
     name: "Microsoft-Windows-Hyper-V-Guest-Drivers/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10602,7 +10602,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_GUEST_DRIVERS_DEBUG: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_HYPERVISOR_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_hyper_v_hypervisor_operational",
     name: "Microsoft-Windows-Hyper-V-Hypervisor-Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10627,7 +10627,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_HYPERVISOR_ADMIN: ArtifactDescr
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_hyper_v_hypervisor_admin",
         name: "Microsoft-Windows-Hyper-V-Hypervisor-Admin",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -10653,7 +10653,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_HYPERVISOR_ADMIN: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_KMCL_CHILD_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_hyper_v_kmcl_child_analytic",
     name: "Microsoft-Windows-Hyper-V-KMCL-Child/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10677,7 +10677,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_KMCL_CHILD_ANALYTIC: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_NETVSC_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_hyper_v_netvsc_diagnostic",
     name: "Microsoft-Windows-Hyper-V-NETVSC/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10702,7 +10702,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_VID_ANALYTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_hyper_v_vid_analytic",
         name: "Microsoft-Windows-Hyper-V-VID-Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -10729,7 +10729,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_VID_ADMIN: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_hyper_v_vid_admin",
         name: "Microsoft-Windows-Hyper-V-VID-Admin",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -10755,7 +10755,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_HYPER_V_VID_ADMIN: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IE_SMARTSCREEN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ie_smartscreen",
     name: "Microsoft-Windows-IE-SmartScreen",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10780,7 +10780,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_DEBUG: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_iis_configuration_debug",
         name: "Microsoft-Windows-IIS-Configuration/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -10806,7 +10806,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_DEBUG: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_iis_configuration_analytic",
     name: "Microsoft-Windows-IIS-Configuration/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10830,7 +10830,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_ANALYTIC: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_ADMINISTRATIVE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_iis_configuration_administrative",
     name: "Microsoft-Windows-IIS-Configuration/Administrative",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10854,7 +10854,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_ADMINISTRATIVE: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_iis_configuration_operational",
     name: "Microsoft-Windows-IIS-Configuration/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10878,7 +10878,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IIS_CONFIGURATION_OPERATIONAL: Artifact
 pub(crate) static EVTX_IIS_DIAGNOSTICS_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_iis_diagnostics_channel",
     name: "IIS Diagnostics Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10903,7 +10903,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_BROKER_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ime_broker_analytic",
         name: "Microsoft-Windows-IME-Broker/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -10929,7 +10929,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_BROKER_ANALYTIC: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_CANDIDATEUI_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ime_candidateui_analytic",
     name: "Microsoft-Windows-IME-CandidateUI/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10953,7 +10953,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_CANDIDATEUI_ANALYTIC: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_CUSTOMERFEEDBACKMANAGER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ime_customerfeedbackmanager_debug",
     name: "Microsoft-Windows-IME-CustomerFeedbackManager/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -10977,7 +10977,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_CUSTOMERFEEDBACKMANAGER_DEBUG: Arti
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_CUSTOMERFEEDBACKMANAGERUI_ANALYTI: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ime_customerfeedbackmanagerui_analyti",
     name: "Microsoft-Windows-IME-CustomerFeedbackManagerUI/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -11002,7 +11002,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPAPI_ANALYTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ime_jpapi_analytic",
         name: "Microsoft-Windows-IME-JPAPI/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11029,7 +11029,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPLMP_ANALYTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ime_jplmp_analytic",
         name: "Microsoft-Windows-IME-JPLMP/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11056,7 +11056,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPPRED_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ime_jppred_analytic",
         name: "Microsoft-Windows-IME-JPPRED/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11083,7 +11083,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPSETTING_ANALYTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ime_jpsetting_analytic",
         name: "Microsoft-Windows-IME-JPSetting/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11110,7 +11110,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_JPTIP_ANALYTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ime_jptip_analytic",
         name: "Microsoft-Windows-IME-JPTIP/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11137,7 +11137,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_KRAPI_ANALYTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ime_krapi_analytic",
         name: "Microsoft-Windows-IME-KRAPI/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11164,7 +11164,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_KRTIP_ANALYTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ime_krtip_analytic",
         name: "Microsoft-Windows-IME-KRTIP/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11190,7 +11190,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_KRTIP_ANALYTIC: ArtifactDescriptor 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_OEDCOMPILER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ime_oedcompiler_analytic",
     name: "Microsoft-Windows-IME-OEDCompiler/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -11215,7 +11215,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_ROAMING_ANALYTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ime_roaming_analytic",
         name: "Microsoft-Windows-IME-Roaming/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11242,7 +11242,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCCORE_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ime_sccore_analytic",
         name: "Microsoft-Windows-IME-SCCORE/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11268,7 +11268,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCCORE_ANALYTIC: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCDICCOMPILER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ime_scdiccompiler_analytic",
     name: "Microsoft-Windows-IME-SCDICCOMPILER/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -11293,7 +11293,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_SCTIP_ANALYTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ime_sctip_analytic",
         name: "Microsoft-Windows-IME-SCTIP/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11320,7 +11320,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_TCCORE_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ime_tccore_analytic",
         name: "Microsoft-Windows-IME-TCCORE/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11347,7 +11347,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_TCTIP_ANALYTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ime_tctip_analytic",
         name: "Microsoft-Windows-IME-TCTIP/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11374,7 +11374,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IME_TIP_ANALYTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ime_tip_analytic",
         name: "Microsoft-Windows-IME-TIP/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11401,7 +11401,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IPBUSENUM_TRACING: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ipbusenum_tracing",
         name: "Microsoft-Windows-IPBusEnum/Tracing",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11428,7 +11428,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IPNAT_DIAGNOSTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ipnat_diagnostic",
         name: "Microsoft-Windows-IPNAT/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11455,7 +11455,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IPSEC_SRV_DIAGNOSTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ipsec_srv_diagnostic",
         name: "Microsoft-Windows-IPSEC-SRV/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11481,7 +11481,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IPSEC_SRV_DIAGNOSTIC: ArtifactDescripto
 pub(crate) static EVTX_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_debug_channel",
     name: "Debug Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -11506,7 +11506,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IDCTRLS_OPERATIONAL: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_idctrls_operational",
         name: "Microsoft-Windows-IdCtrls/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11533,7 +11533,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_IDCTRLS_ANALYTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_idctrls_analytic",
         name: "Microsoft-Windows-IdCtrls/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11560,7 +11560,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINAPI_DIAGNOSTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_twinapi_diagnostic",
         name: "Microsoft-Windows-TWinAPI/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11586,7 +11586,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINAPI_DIAGNOSTIC: ArtifactDescriptor 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COREAPPLICATION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_coreapplication_operational",
     name: "Microsoft-Windows-CoreApplication/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -11610,7 +11610,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COREAPPLICATION_OPERATIONAL: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_COREAPPLICATION_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_coreapplication_diagnostic",
     name: "Microsoft-Windows-CoreApplication/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -11635,7 +11635,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_COREAPPLICATION_TRACING: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_coreapplication_tracing",
         name: "Microsoft-Windows-CoreApplication/Tracing",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11662,7 +11662,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINUI_DIAGNOSTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_twinui_diagnostic",
         name: "Microsoft-Windows-TWinUI/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11689,7 +11689,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINUI_OPERATIONAL: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_twinui_operational",
         name: "Microsoft-Windows-TWinUI/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11715,7 +11715,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TWINUI_OPERATIONAL: ArtifactDescriptor 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_INDIRECTDISPLAYS_CLASSEXTENSION_EVENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_indirectdisplays_classextension_event",
     name: "Microsoft-Windows-IndirectDisplays-ClassExtension-Events/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -11739,7 +11739,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INDIRECTDISPLAYS_CLASSEXTENSION_EVENT: 
 pub(crate) static EVTX_THIS_IS_THE_ANALYTIC_CHANNEL_TO_WHICH_INTERNAL_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_this_is_the_analytic_channel_to_which_internal_analytic",
     name: "This is the Analytic channel to which internal Analytic events from the HIDCLASS driver are sent.",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -11764,7 +11764,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INPUTSWITCH_DIAGNOSTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_inputswitch_diagnostic",
         name: "Microsoft-Windows-InputSwitch/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11790,7 +11790,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INPUTSWITCH_DIAGNOSTIC: ArtifactDescrip
 pub(crate) static EVTX_THIS_IS_THE_ANALYTIC_CHANNEL_FOR_WINDOWS_INSTALL_UX_PER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_this_is_the_analytic_channel_for_windows_install_ux_per",
     name: "This is the analytic channel for Windows Install UX Performance.",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -11814,7 +11814,7 @@ pub(crate) static EVTX_THIS_IS_THE_ANALYTIC_CHANNEL_FOR_WINDOWS_INSTALL_UX_PER: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_INTERNATIONAL_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_international_operational",
     name: "Microsoft-Windows-International/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -11838,7 +11838,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_INTERNATIONAL_OPERATIONAL: ArtifactDesc
 pub(crate) static EVTX_IPHLPSVC_ETW_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_iphlpsvc_etw_channel",
     name: "Iphlpsvc Etw Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -11862,7 +11862,7 @@ pub(crate) static EVTX_IPHLPSVC_ETW_CHANNEL: ArtifactDescriptor = ArtifactDescri
 pub(crate) static EVTX_IPHLPSVC_ETW_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_iphlpsvc_etw_debug_channel",
     name: "Iphlpsvc Etw Debug Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -11887,7 +11887,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KDSSVC_OPERATIONAL: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kdssvc_operational",
         name: "Microsoft-Windows-KdsSvc/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11914,7 +11914,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_ACPI_DIAGNOSTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_acpi_diagnostic",
         name: "Microsoft-Windows-Kernel-Acpi/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -11940,7 +11940,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_ACPI_DIAGNOSTIC: ArtifactDescrip
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPCOMPAT_GENERAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_appcompat_general",
     name: "Microsoft-Windows-Kernel-AppCompat/General",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -11964,7 +11964,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPCOMPAT_GENERAL: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_APPCOMPAT_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_appcompat_performance",
     name: "Microsoft-Windows-Kernel-AppCompat/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -11989,7 +11989,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOT_ANALYTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_boot_analytic",
         name: "Microsoft-Windows-Kernel-Boot/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -12016,7 +12016,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOT_OPERATIONAL: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_boot_operational",
         name: "Microsoft-Windows-Kernel-Boot/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -12042,7 +12042,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOT_OPERATIONAL: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOTDIAGNOSTICS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_bootdiagnostics_diagnostic",
     name: "Microsoft-Windows-Kernel-BootDiagnostics/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12066,7 +12066,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_BOOTDIAGNOSTICS_DIAGNOSTIC: Arti
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_CPU_PARTITION_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_cpu_partition_analytic",
     name: "Microsoft-Windows-Kernel-CPU-Partition/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12090,7 +12090,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_CPU_PARTITION_ANALYTIC: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_CPU_STARVATION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_cpu_starvation_operational",
     name: "Microsoft-Windows-Kernel-CPU-Starvation/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12115,7 +12115,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_DISK_ANALYTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_disk_analytic",
         name: "Microsoft-Windows-Kernel-Disk/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -12142,7 +12142,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_DUMP_OPERATIONAL: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_dump_operational",
         name: "Microsoft-Windows-Kernel-Dump/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -12168,7 +12168,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_DUMP_OPERATIONAL: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_EVENTTRACING_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_eventtracing_admin",
     name: "Microsoft-Windows-Kernel-EventTracing/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12192,7 +12192,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_EVENTTRACING_ADMIN: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_EVENTTRACING_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_eventtracing_analytic",
     name: "Microsoft-Windows-Kernel-EventTracing/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12217,7 +12217,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_FILE_ANALYTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_file_analytic",
         name: "Microsoft-Windows-Kernel-File/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -12244,7 +12244,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_IO_OPERATIONAL: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_io_operational",
         name: "Microsoft-Windows-Kernel-IO/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -12270,7 +12270,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_IO_OPERATIONAL: ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_IOTRACE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_iotrace_diagnostic",
     name: "Microsoft-Windows-Kernel-IoTrace/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12294,7 +12294,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_IOTRACE_DIAGNOSTIC: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_LIVEDUMP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_livedump_analytic",
     name: "Microsoft-Windows-Kernel-LiveDump/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12318,7 +12318,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_LIVEDUMP_ANALYTIC: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_LIVEDUMP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_livedump_operational",
     name: "Microsoft-Windows-Kernel-LiveDump/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12343,7 +12343,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_MEMORY_ANALYTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_memory_analytic",
         name: "Microsoft-Windows-Kernel-Memory/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -12370,7 +12370,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_NETWORK_ANALYTIC: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_network_analytic",
         name: "Microsoft-Windows-Kernel-Network/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -12397,7 +12397,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PEP_DIAGNOSTIC: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_pep_diagnostic",
         name: "Microsoft-Windows-Kernel-Pep/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -12423,7 +12423,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PEP_DIAGNOSTIC: ArtifactDescript
 pub(crate) static EVTX_BOOT_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_boot_diagnostic_channel",
     name: "Boot Diagnostic Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12448,7 +12448,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PNP_DIAGNOSTIC: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_pnp_diagnostic",
         name: "Microsoft-Windows-Kernel-PnP/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -12474,7 +12474,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PNP_DIAGNOSTIC: ArtifactDescript
 pub(crate) static EVTX_DRIVER_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_driver_diagnostic_channel",
     name: "Driver Diagnostic Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12499,7 +12499,7 @@ pub(crate) static EVTX_DEVICE_ENUMERATION_DIAGNOSTIC_CHANNEL: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_device_enumeration_diagnostic_channel",
         name: "Device Enumeration Diagnostic Channel",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -12525,7 +12525,7 @@ pub(crate) static EVTX_DEVICE_ENUMERATION_DIAGNOSTIC_CHANNEL: ArtifactDescriptor
 pub(crate) static EVTX_CONFIGURATION_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_configuration_diagnostic_channel",
     name: "Configuration Diagnostic Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12549,7 +12549,7 @@ pub(crate) static EVTX_CONFIGURATION_DIAGNOSTIC_CHANNEL: ArtifactDescriptor = Ar
 pub(crate) static EVTX_DEVICE_CONFIGURATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_device_configuration",
     name: "Device Configuration",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12573,7 +12573,7 @@ pub(crate) static EVTX_DEVICE_CONFIGURATION: ArtifactDescriptor = ArtifactDescri
 pub(crate) static EVTX_PNP_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_pnp_analytic_channel",
     name: "Pnp Analytic Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12597,7 +12597,7 @@ pub(crate) static EVTX_PNP_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescri
 pub(crate) static EVTX_DEVICE_MANAGEMENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_device_management",
     name: "Device Management",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12621,7 +12621,7 @@ pub(crate) static EVTX_DEVICE_MANAGEMENT: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static EVTX_DRIVER_WATCHDOG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_driver_watchdog_channel",
     name: "Driver Watchdog Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12645,7 +12645,7 @@ pub(crate) static EVTX_DRIVER_WATCHDOG_CHANNEL: ArtifactDescriptor = ArtifactDes
 pub(crate) static EVTX_CONFIGURATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_configuration",
     name: "Configuration",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12669,7 +12669,7 @@ pub(crate) static EVTX_CONFIGURATION: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_POWER_THERMAL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_power_thermal_diagnostic",
     name: "Microsoft-Windows-Kernel-Power/Thermal-Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12693,7 +12693,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_POWER_THERMAL_DIAGNOSTIC: Artifa
 pub(crate) static EVTX_THERMAL_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_thermal_operational",
     name: "Thermal-Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12717,7 +12717,7 @@ pub(crate) static EVTX_THERMAL_OPERATIONAL: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PREFETCH_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_prefetch_diagnostic",
     name: "Microsoft-Windows-Kernel-Prefetch/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12742,7 +12742,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PRM_OPERATIONAL: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_prm_operational",
         name: "Microsoft-Windows-Kernel-Prm/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -12769,7 +12769,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PROCESS_ANALYTIC: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_process_analytic",
         name: "Microsoft-Windows-Kernel-Process/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -12795,7 +12795,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PROCESS_ANALYTIC: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PROCESSOR_POWER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_processor_power_diagnostic",
     name: "Microsoft-Windows-Kernel-Processor-Power/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12819,7 +12819,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PROCESSOR_POWER_DIAGNOSTIC: Arti
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_REGISTRY_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_registry_analytic",
     name: "Microsoft-Windows-Kernel-Registry/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12843,7 +12843,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_REGISTRY_ANALYTIC: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_REGISTRY_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_registry_performance",
     name: "Microsoft-Windows-Kernel-Registry/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12868,7 +12868,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_SHIMENGINE_DEBUG: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_shimengine_debug",
         name: "Microsoft-Windows-Kernel-ShimEngine/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -12894,7 +12894,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_SHIMENGINE_DEBUG: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_SHIMENGINE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_shimengine_operational",
     name: "Microsoft-Windows-Kernel-ShimEngine/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12918,7 +12918,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_SHIMENGINE_OPERATIONAL: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_SHIMENGINE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_shimengine_diagnostic",
     name: "Microsoft-Windows-Kernel-ShimEngine/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12942,7 +12942,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_SHIMENGINE_DIAGNOSTIC: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_STOREMGR_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_storemgr_analytic",
     name: "Microsoft-Windows-Kernel-StoreMgr/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12966,7 +12966,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_STOREMGR_ANALYTIC: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_STOREMGR_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_storemgr_operational",
     name: "Microsoft-Windows-Kernel-StoreMgr/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -12991,7 +12991,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WDI_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_wdi_analytic",
         name: "Microsoft-Windows-Kernel-WDI/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -13018,7 +13018,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WDI_DEBUG: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_wdi_debug",
         name: "Microsoft-Windows-Kernel-WDI/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -13045,7 +13045,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WDI_OPERATIONAL: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_wdi_operational",
         name: "Microsoft-Windows-Kernel-WDI/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -13072,7 +13072,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA_ERRORS: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_whea_errors",
         name: "Microsoft-Windows-Kernel-WHEA/Errors",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -13098,7 +13098,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA_ERRORS: ArtifactDescriptor 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_kernel_whea",
     name: "Microsoft-Windows-Kernel-WHEA",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13123,7 +13123,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_WHEA_OPERATIONAL: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_whea_operational",
         name: "Microsoft-Windows-Kernel-WHEA/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -13150,7 +13150,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_XDV_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_xdv_analytic",
         name: "Microsoft-Windows-Kernel-XDV/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -13176,7 +13176,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_XDV_ANALYTIC: ArtifactDescriptor
 pub(crate) static EVTX_WINDOWS_KS_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_windows_ks_channel",
     name: "WINDOWS_KS_CHANNEL",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13201,7 +13201,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KEYBOARDFILTER_ADMIN: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_keyboardfilter_admin",
         name: "Microsoft-Windows-KeyboardFilter/Admin",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -13227,7 +13227,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KEYBOARDFILTER_ADMIN: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KEYBOARDFILTER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_keyboardfilter_operational",
     name: "Microsoft-Windows-KeyboardFilter/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13251,7 +13251,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KEYBOARDFILTER_OPERATIONAL: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KEYBOARDFILTER_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_keyboardfilter_performance",
     name: "Microsoft-Windows-KeyboardFilter/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13275,7 +13275,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KEYBOARDFILTER_PERFORMANCE: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_KNOWN_FOLDERS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_known_folders_operational",
     name: "Microsoft-Windows-Known Folders/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13299,7 +13299,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KNOWN_FOLDERS_OPERATIONAL: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_WLAN_AUTOCONFIG_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_wlan_autoconfig_operational",
     name: "Microsoft-Windows-WLAN-AutoConfig/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13323,7 +13323,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_WLAN_AUTOCONFIG_OPERATIONAL: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_WIRED_AUTOCONFIG_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_wired_autoconfig_operational",
     name: "Microsoft-Windows-Wired-AutoConfig/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13348,7 +13348,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_L2NACP_DIAGNOSTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_l2nacp_diagnostic",
         name: "Microsoft-Windows-L2NACP/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -13375,7 +13375,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LAPS_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_laps_operational",
         name: "Microsoft-Windows-LAPS/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -13402,7 +13402,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LDAP_CLIENT_DEBUG: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ldap_client_debug",
         name: "Microsoft-Windows-LDAP-Client/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -13428,7 +13428,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LDAP_CLIENT_DEBUG: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LUA_CONSENTUI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_lua_consentui_diagnostic",
     name: "Microsoft-Windows-LUA-ConsentUI/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13452,7 +13452,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LUA_CONSENTUI_DIAGNOSTIC: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LANGUAGEPACKSETUP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_languagepacksetup_operational",
     name: "Microsoft-Windows-LanguagePackSetup/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13476,7 +13476,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LANGUAGEPACKSETUP_OPERATIONAL: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LANGUAGEPACKSETUP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_languagepacksetup_analytic",
     name: "Microsoft-Windows-LanguagePackSetup/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13501,7 +13501,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LANGUAGEPACKSETUP_DEBUG: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_languagepacksetup_debug",
         name: "Microsoft-Windows-LanguagePackSetup/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -13527,7 +13527,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LANGUAGEPACKSETUP_DEBUG: ArtifactDescri
 pub(crate) static EVTX_MAJOR_STATE_CONFIGURATION_CHANGE_THAT_CAN_HELP_DEBUG_AD: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_major_state_configuration_change_that_can_help_debug_ad",
     name: "major state/configuration change that can help debug admin and operational events. Default enabled state: off. Target audience: PSS/diagnostic tools/component developers",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13551,7 +13551,7 @@ pub(crate) static EVTX_MAJOR_STATE_CONFIGURATION_CHANGE_THAT_CAN_HELP_DEBUG_AD: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LIMITSMANAGEMENT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_limitsmanagement_diagnostic",
     name: "Microsoft-Windows-LimitsManagement/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13575,7 +13575,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LIMITSMANAGEMENT_DIAGNOSTIC: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LINKLAYERDISCOVERYPROTOCOL_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_linklayerdiscoveryprotocol_operationa",
     name: "Microsoft-Windows-LinkLayerDiscoveryProtocol/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13599,7 +13599,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LINKLAYERDISCOVERYPROTOCOL_OPERATIONA: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LINKLAYERDISCOVERYPROTOCOL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_linklayerdiscoveryprotocol_diagnostic",
     name: "Microsoft-Windows-LinkLayerDiscoveryProtocol/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13623,7 +13623,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LINKLAYERDISCOVERYPROTOCOL_DIAGNOSTIC: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_LIVEID_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_liveid_analytic",
     name: "Microsoft-Windows-LiveId/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13650,7 +13650,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LIVEID_OPERATIONAL: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_liveid_operational",
         name: "Microsoft-Windows-LiveId/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -13676,7 +13676,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_LIVEID_OPERATIONAL: ArtifactDescriptor 
 pub(crate) static EVTX_AUTOMATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_automation",
     name: "Automation",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13700,7 +13700,7 @@ pub(crate) static EVTX_AUTOMATION: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MEDIA_FOUNDATION_FRAMESERVER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_media_foundation_frameserver",
     name: "Media Foundation FrameServer",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13724,7 +13724,7 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_FRAMESERVER: ArtifactDescriptor = Artifa
 pub(crate) static EVTX_MEDIA_FOUNDATION_DEVICEPROXY: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_media_foundation_deviceproxy",
     name: "Media Foundation DeviceProxy",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13748,7 +13748,7 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_DEVICEPROXY: ArtifactDescriptor = Artifa
 pub(crate) static EVTX_MF_MEDIAFOUNDATIONDEVICEPROXY: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_mf_mediafoundationdeviceproxy",
     name: "MF_MediaFoundationDeviceProxy",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13772,7 +13772,7 @@ pub(crate) static EVTX_MF_MEDIAFOUNDATIONDEVICEPROXY: ArtifactDescriptor = Artif
 pub(crate) static EVTX_MEDIA_FOUNDATION_PIPELINE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_media_foundation_pipeline",
     name: "Media Foundation Pipeline",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13797,7 +13797,7 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_CONTENTPROTECTION: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_media_foundation_contentprotection",
         name: "Media Foundation ContentProtection",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -13823,7 +13823,7 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_CONTENTPROTECTION: ArtifactDescriptor =
 pub(crate) static EVTX_MEDIA_FOUNDATION_ASYNCWRAPPER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_media_foundation_asyncwrapper",
     name: "Media Foundation AsyncWrapper",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13847,7 +13847,7 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_ASYNCWRAPPER: ArtifactDescriptor = Artif
 pub(crate) static EVTX_MEDIAFOUNDATIONASYNCWRAPPER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_mediafoundationasyncwrapper",
     name: "MediaFoundationAsyncWrapper",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13871,7 +13871,7 @@ pub(crate) static EVTX_MEDIAFOUNDATIONASYNCWRAPPER: ArtifactDescriptor = Artifac
 pub(crate) static EVTX_MFDS: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_mfds",
     name: "MFDS",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13895,7 +13895,7 @@ pub(crate) static EVTX_MFDS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_SRCPREFETCH: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_srcprefetch",
     name: "SrcPrefetch",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13919,7 +13919,7 @@ pub(crate) static EVTX_SRCPREFETCH: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MP4: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_mp4",
     name: "MP4",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13943,7 +13943,7 @@ pub(crate) static EVTX_MP4: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MEDIA_FOUNDATION_DEVICEMFT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_media_foundation_devicemft",
     name: "Media Foundation DeviceMFT",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13967,7 +13967,7 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_DEVICEMFT: ArtifactDescriptor = Artifact
 pub(crate) static EVTX_WINDOWS_MFH264ENC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_windows_mfh264enc_channel",
     name: "WINDOWS_MFH264Enc_CHANNEL",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -13991,7 +13991,7 @@ pub(crate) static EVTX_WINDOWS_MFH264ENC_CHANNEL: ArtifactDescriptor = ArtifactD
 pub(crate) static EVTX_WINDOWS_MP4SDECD_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_windows_mp4sdecd_channel",
     name: "WINDOWS_MP4SDECD_CHANNEL",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14015,7 +14015,7 @@ pub(crate) static EVTX_WINDOWS_MP4SDECD_CHANNEL: ArtifactDescriptor = ArtifactDe
 pub(crate) static EVTX_MUXENCODE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_muxencode",
     name: "muxencode",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14040,7 +14040,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MPS_CLNT_DIAGNOSTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_mps_clnt_diagnostic",
         name: "Microsoft-Windows-MPS-CLNT/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -14067,7 +14067,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MPS_DRV_DIAGNOSTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_mps_drv_diagnostic",
         name: "Microsoft-Windows-MPS-DRV/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -14094,7 +14094,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MPS_SRV_DIAGNOSTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_mps_srv_diagnostic",
         name: "Microsoft-Windows-MPS-SRV/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -14121,7 +14121,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSFTEDIT_DIAGNOSTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_msftedit_diagnostic",
         name: "Microsoft-Windows-MSFTEDIT/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -14147,7 +14147,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSFTEDIT_DIAGNOSTIC: ArtifactDescriptor
 pub(crate) static EVTX_WINDOWS_MSMPEG2ADEC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_windows_msmpeg2adec_channel",
     name: "WINDOWS_MSMPEG2ADEC_CHANNEL",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14171,7 +14171,7 @@ pub(crate) static EVTX_WINDOWS_MSMPEG2ADEC_CHANNEL: ArtifactDescriptor = Artifac
 pub(crate) static EVTX_WINDOWS_MSMPEG2VDEC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_windows_msmpeg2vdec_channel",
     name: "WINDOWS_MSMPEG2VDEC_CHANNEL",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14195,7 +14195,7 @@ pub(crate) static EVTX_WINDOWS_MSMPEG2VDEC_CHANNEL: ArtifactDescriptor = Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MSMQ_END2END: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_msmq_end2end",
     name: "Microsoft-Windows-MSMQ/End2End",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14219,7 +14219,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSMQ_END2END: ArtifactDescriptor = Arti
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MSPAINT_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mspaint_debug",
     name: "Microsoft-Windows-MSPaint/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14244,7 +14244,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSPAINT_DIAGNOSTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_mspaint_diagnostic",
         name: "Microsoft-Windows-MSPaint/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -14271,7 +14271,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHV_DIAGNOSTIC: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_msshav_shv_diagnostic",
         name: "Microsoft-Windows-MSSHAV-SHV/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -14298,7 +14298,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHV_OPERATIONAL: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_msshav_shv_operational",
         name: "Microsoft-Windows-MSSHAV-SHV/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -14324,7 +14324,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHV_OPERATIONAL: ArtifactDescrip
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHVCNFG_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_msshav_shvcnfg_diagnostic",
     name: "Microsoft-Windows-MSSHAV-SHVCNFG/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14348,7 +14348,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSSHAV_SHVCNFG_DIAGNOSTIC: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mui_operational",
     name: "Microsoft-Windows-MUI/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14374,7 +14374,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_OPERATIONAL: ArtifactDescriptor = A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mui_admin",
     name: "Microsoft-Windows-MUI/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14398,7 +14398,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_ADMIN: ArtifactDescriptor = Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mui_debug",
     name: "Microsoft-Windows-MUI/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14422,7 +14422,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_DEBUG: ArtifactDescriptor = Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mui_analytic",
     name: "Microsoft-Windows-MUI/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14446,7 +14446,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MUI_ANALYTIC: ArtifactDescriptor = Arti
 pub(crate) static EVTX_MEDIA_CENTER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_media_center",
     name: "Media Center",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14470,7 +14470,7 @@ pub(crate) static EVTX_MEDIA_CENTER: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_PLAYREADY_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_playready_performance",
     name: "PlayReady-Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14495,7 +14495,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_DMR: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_media_streaming_dmr",
         name: "Microsoft-Windows-Media-Streaming/DMR",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -14522,7 +14522,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_DMC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_media_streaming_dmc",
         name: "Microsoft-Windows-Media-Streaming/DMC",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -14549,7 +14549,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_MDE: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_media_streaming_mde",
         name: "Microsoft-Windows-Media-Streaming/MDE",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -14575,7 +14575,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIA_STREAMING_MDE: ArtifactDescriptor
 pub(crate) static EVTX_MEDIA_FOUNDATION_MEDIAENGINE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_media_foundation_mediaengine",
     name: "Media Foundation MediaEngine",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14599,7 +14599,7 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_MEDIAENGINE: ArtifactDescriptor = Artifa
 pub(crate) static EVTX_MEDIA_FOUNDATION_CAPTURE_ENGINE_ETW_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_media_foundation_capture_engine_etw_channel",
     name: "Media Foundation Capture Engine ETW Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14623,7 +14623,7 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_CAPTURE_ENGINE_ETW_CHANNEL: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_MFREADWRITE_SOURCEREA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mediafoundation_mfreadwrite_sourcerea",
     name: "Microsoft-Windows-MediaFoundation-MFReadWrite/SourceReader",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14647,7 +14647,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_MFREADWRITE_SOURCEREA: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_MFREADWRITE_SINKWRITE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mediafoundation_mfreadwrite_sinkwrite",
     name: "Microsoft-Windows-MediaFoundation-MFReadWrite/SinkWriter",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14671,7 +14671,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_MFREADWRITE_SINKWRITE: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_MFREADWRITE_TRANSFORM: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mediafoundation_mfreadwrite_transform",
     name: "Microsoft-Windows-MediaFoundation-MFReadWrite/Transform",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14695,7 +14695,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_MFREADWRITE_TRANSFORM: 
 pub(crate) static EVTX_MS_VIDEO_PROCESSOR_MFT_D3D11: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_ms_video_processor_mft_d3d11",
     name: "MS Video Processor MFT (D3D11)",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14719,7 +14719,7 @@ pub(crate) static EVTX_MS_VIDEO_PROCESSOR_MFT_D3D11: ArtifactDescriptor = Artifa
 pub(crate) static EVTX_MS_VIDEO_PROCESSOR_MFT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_ms_video_processor_mft",
     name: "MS Video Processor MFT",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14743,7 +14743,7 @@ pub(crate) static EVTX_MS_VIDEO_PROCESSOR_MFT: ArtifactDescriptor = ArtifactDesc
 pub(crate) static EVTX_MS_VIDEO_DSP: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_ms_video_dsp",
     name: "MS Video DSP",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14767,7 +14767,7 @@ pub(crate) static EVTX_MS_VIDEO_DSP: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MEDIA_FOUNDATION_PERFORMANCE_CORE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_media_foundation_performance_core",
     name: "Media Foundation Performance Core",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14791,7 +14791,7 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_PERFORMANCE_CORE: ArtifactDescriptor = A
 pub(crate) static EVTX_MEDIA_FOUNDATION_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_media_foundation_performance",
     name: "Media Foundation Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14815,7 +14815,7 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_PERFORMANCE: ArtifactDescriptor = Artifa
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_PERFORMANCE_SARSTREAM: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mediafoundation_performance_sarstream",
     name: "Microsoft-Windows-MediaFoundation-Performance/SARStreamResource",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14839,7 +14839,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_PERFORMANCE_SARSTREAM: 
 pub(crate) static EVTX_MEDIA_FOUNDATION_PLATFORM: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_media_foundation_platform",
     name: "Media Foundation Platform",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14863,7 +14863,7 @@ pub(crate) static EVTX_MEDIA_FOUNDATION_PLATFORM: ArtifactDescriptor = ArtifactD
 pub(crate) static EVTX_MEDIAFOUNDATIONDEVICEPROXY: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_mediafoundationdeviceproxy",
     name: "MediaFoundationDeviceProxy",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14887,7 +14887,7 @@ pub(crate) static EVTX_MEDIAFOUNDATIONDEVICEPROXY: ArtifactDescriptor = Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_PLAYAPI_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mediafoundation_playapi_analytic",
     name: "Microsoft-Windows-MediaFoundation-PlayAPI/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14911,7 +14911,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEDIAFOUNDATION_PLAYAPI_ANALYTIC: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MEMORYDIAGNOSTICS_RESULTS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_memorydiagnostics_results_debug",
     name: "Microsoft-Windows-MemoryDiagnostics-Results/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14935,7 +14935,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MEMORYDIAGNOSTICS_RESULTS_DEBUG: Artifa
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MIGRATION_ENGINE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_migration_engine_analytic",
     name: "Microsoft-Windows-Migration-Engine/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14959,7 +14959,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MIGRATION_ENGINE_ANALYTIC: ArtifactDesc
 pub(crate) static EVTX_MINSTORE_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_minstore_analytic_channel",
     name: "Minstore Analytic Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -14983,7 +14983,7 @@ pub(crate) static EVTX_MINSTORE_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactD
 pub(crate) static EVTX_MINSTORE_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_minstore_debug_channel",
     name: "Minstore Debug Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15007,7 +15007,7 @@ pub(crate) static EVTX_MINSTORE_DEBUG_CHANNEL: ArtifactDescriptor = ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_API_INTER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mobile_broadband_experience_api_inter",
     name: "Microsoft-Windows-Mobile-Broadband-Experience-Api-Internal/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15031,7 +15031,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_API_INTER: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_API_ANALY: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mobile_broadband_experience_api_analy",
     name: "Microsoft-Windows-Mobile-Broadband-Experience-Api/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15055,7 +15055,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_API_ANALY: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_PARSER_TA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mobile_broadband_experience_parser_ta",
     name: "Microsoft-Windows-Mobile-Broadband-Experience-Parser-Task/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15079,7 +15079,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_PARSER_TA: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_SMSAPI_AN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mobile_broadband_experience_smsapi_an",
     name: "Microsoft-Windows-Mobile-Broadband-Experience-SmsApi/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15103,7 +15103,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_SMSAPI_AN: 
 pub(crate) static EVTX_SMSAPI: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_smsapi",
     name: "SMSApi",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15127,7 +15127,7 @@ pub(crate) static EVTX_SMSAPI: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_SMSROUTER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mobile_broadband_experience_smsrouter",
     name: "Microsoft-Windows-Mobile-Broadband-Experience-SmsRouter/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15151,7 +15151,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILE_BROADBAND_EXPERIENCE_SMSROUTER: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILITYCENTER_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mobilitycenter_performance",
     name: "Microsoft-Windows-MobilityCenter/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15175,7 +15175,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOBILITYCENTER_PERFORMANCE: ArtifactDes
 pub(crate) static EVTX_DIAGNOSTICS: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_diagnostics",
     name: "Diagnostics",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15199,7 +15199,7 @@ pub(crate) static EVTX_DIAGNOSTICS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MANAGEMENTSERVICE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_managementservice",
     name: "ManagementService",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15224,7 +15224,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOSHOST_OPERATIONAL: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_moshost_operational",
         name: "Microsoft-Windows-MosHost/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -15251,7 +15251,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOSHOST_PERFORMANCE: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_moshost_performance",
         name: "Microsoft-Windows-MosHost/Performance",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -15277,7 +15277,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MOSHOST_PERFORMANCE: ArtifactDescriptor
 pub(crate) static EVTX_NOTIFICATION_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_notification_channel",
     name: "Notification Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15301,7 +15301,7 @@ pub(crate) static EVTX_NOTIFICATION_CHANNEL: ArtifactDescriptor = ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_MSLBFOPROVIDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_mslbfoprovider_operational",
     name: "Microsoft-Windows-MsLbfoProvider/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15325,7 +15325,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_MSLBFOPROVIDER_OPERATIONAL: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NCSI_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ncsi_analytic",
     name: "Microsoft-Windows-NCSI/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15350,7 +15350,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NCSI_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ncsi_operational",
         name: "Microsoft-Windows-NCSI/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -15376,7 +15376,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NCSI_OPERATIONAL: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_PACKETCAPTURE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ndis_packetcapture_diagnostic",
     name: "Microsoft-Windows-NDIS-PacketCapture/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15400,7 +15400,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_PACKETCAPTURE_DIAGNOSTIC: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ndis_diagnostic",
     name: "Microsoft-Windows-NDIS/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15427,7 +15427,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ndis_operational",
         name: "Microsoft-Windows-NDIS/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -15453,7 +15453,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NDIS_OPERATIONAL: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_PROTECTEDUSERFAILURES: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_authentication_protecteduserfailures",
     name: "Microsoft-Windows-Authentication/ProtectedUserFailures-DomainController",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15477,7 +15477,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_PROTECTEDUSERFAILURES: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_AUTHENTICATIONPOLICYFA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_authentication_authenticationpolicyfa",
     name: "Microsoft-Windows-Authentication/AuthenticationPolicyFailures-DomainController",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15502,7 +15502,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NTLM_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ntlm_operational",
         name: "Microsoft-Windows-NTLM/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -15529,7 +15529,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NWIFI_DIAGNOSTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_nwifi_diagnostic",
         name: "Microsoft-Windows-NWiFi/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -15555,7 +15555,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NWIFI_DIAGNOSTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NARRATOR_INPROC_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_narrator_inproc_diagnostic",
     name: "Microsoft-Windows-Narrator-Inproc/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15580,7 +15580,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NARRATOR_DIAGNOSTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_narrator_diagnostic",
         name: "Microsoft-Windows-Narrator/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -15607,7 +15607,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NCASVC_OPERATIONAL: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ncasvc_operational",
         name: "Microsoft-Windows-Ncasvc/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -15633,7 +15633,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NCASVC_OPERATIONAL: ArtifactDescriptor 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NCDAUTOSETUP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ncdautosetup_operational",
     name: "Microsoft-Windows-NcdAutoSetup/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15658,7 +15658,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NCDAUTOSETUP_DIAGNOSTIC: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ncdautosetup_diagnostic",
         name: "Microsoft-Windows-NcdAutoSetup/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -15684,7 +15684,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NCDAUTOSETUP_DIAGNOSTIC: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NDISIMPLATFORM_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ndisimplatform_operational",
     name: "Microsoft-Windows-NdisImPlatform/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15708,7 +15708,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NDISIMPLATFORM_OPERATIONAL: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NDU_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ndu_diagnostic",
     name: "Microsoft-Windows-Ndu/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15733,7 +15733,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETSHELL_PERFORMANCE: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_netshell_performance",
         name: "Microsoft-Windows-NetShell/Performance",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -15759,7 +15759,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETSHELL_PERFORMANCE: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_CONNECTION_BROKER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_network_connection_broker",
     name: "Microsoft-Windows-Network-Connection-Broker",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15783,7 +15783,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_CONNECTION_BROKER: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_DATAUSAGE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_network_datausage_analytic",
     name: "Microsoft-Windows-Network-DataUsage/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15808,7 +15808,7 @@ pub(crate) static EVTX_EXECUTION_CONTEXT_OPERATIONAL_CHANNEL: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_execution_context_operational_channel",
         name: "Execution Context Operational Channel",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -15834,7 +15834,7 @@ pub(crate) static EVTX_EXECUTION_CONTEXT_OPERATIONAL_CHANNEL: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_SETUP_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_network_setup_diagnostic",
     name: "Microsoft-Windows-Network-Setup/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15858,7 +15858,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_SETUP_DIAGNOSTIC: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_AND_SHARING_CENTER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_network_and_sharing_center_diagnostic",
     name: "Microsoft-Windows-Network-and-Sharing-Center/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15882,7 +15882,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORK_AND_SHARING_CENTER_DIAGNOSTIC: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKACCESSPROTECTION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_networkaccessprotection_operational",
     name: "Microsoft-Windows-NetworkAccessProtection/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15906,7 +15906,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKACCESSPROTECTION_OPERATIONAL: Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKACCESSPROTECTION_WHC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_networkaccessprotection_whc",
     name: "Microsoft-Windows-NetworkAccessProtection/WHC",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15930,7 +15930,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKACCESSPROTECTION_WHC: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKBRIDGE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_networkbridge_diagnostic",
     name: "Microsoft-Windows-NetworkBridge/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15954,7 +15954,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKBRIDGE_DIAGNOSTIC: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROFILE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_networkprofile_operational",
     name: "Microsoft-Windows-NetworkProfile/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -15978,7 +15978,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROFILE_OPERATIONAL: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROFILE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_networkprofile_diagnostic",
     name: "Microsoft-Windows-NetworkProfile/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16002,7 +16002,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROFILE_DIAGNOSTIC: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROVIDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_networkprovider_operational",
     name: "Microsoft-Windows-NetworkProvider/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16026,7 +16026,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROVIDER_OPERATIONAL: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROVISIONING_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_networkprovisioning_analytic",
     name: "Microsoft-Windows-NetworkProvisioning/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16050,7 +16050,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROVISIONING_ANALYTIC: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKPROVISIONING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_networkprovisioning_operational",
     name: "Microsoft-Windows-NetworkProvisioning/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16075,7 +16075,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKSECURITY_DEBUG: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_networksecurity_debug",
         name: "Microsoft-Windows-NetworkSecurity/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -16104,7 +16104,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKSTATUS_ANALYTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_networkstatus_analytic",
         name: "Microsoft-Windows-NetworkStatus/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -16130,7 +16130,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKSTATUS_ANALYTIC: ArtifactDescrip
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKING_CORRELATION_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_networking_correlation_diagnostic",
     name: "Microsoft-Windows-Networking-Correlation/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16154,7 +16154,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKING_CORRELATION_DIAGNOSTIC: Arti
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKING_REALTIMECOMMUNICATION_TRAC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_networking_realtimecommunication_trac",
     name: "Microsoft-Windows-Networking-RealTimeCommunication/Tracing",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16179,7 +16179,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NLASVC_DIAGNOSTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_nlasvc_diagnostic",
         name: "Microsoft-Windows-NlaSvc/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -16206,7 +16206,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NLASVC_OPERATIONAL: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_nlasvc_operational",
         name: "Microsoft-Windows-NlaSvc/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -16233,7 +16233,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_PERFORMANCE: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ntfs_performance",
         name: "Microsoft-Windows-Ntfs/Performance",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -16260,7 +16260,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_ntfs_operational",
         name: "Microsoft-Windows-Ntfs/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -16286,7 +16286,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_OPERATIONAL: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NTFS_WHC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ntfs_whc",
     name: "Microsoft-Windows-Ntfs/WHC",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16311,7 +16311,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NVDIMMN_DIAGNOSTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_nvdimmn_diagnostic",
         name: "Microsoft-Windows-NvdimmN/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -16338,7 +16338,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NVDIMMN_OPERATIONAL: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_nvdimmn_operational",
         name: "Microsoft-Windows-NvdimmN/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -16364,7 +16364,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_NVDIMMN_OPERATIONAL: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_NVMEDISK_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storage_nvmedisk_analytic",
     name: "Microsoft-Windows-Storage-NvmeDisk/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16388,7 +16388,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_NVMEDISK_ANALYTIC: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_NVMEDISK_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storage_nvmedisk_diagnose",
     name: "Microsoft-Windows-Storage-NvmeDisk/Diagnose",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16412,7 +16412,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_NVMEDISK_DIAGNOSE: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_NVMEDISK_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storage_nvmedisk_operational",
     name: "Microsoft-Windows-Storage-NvmeDisk/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16436,7 +16436,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_NVMEDISK_OPERATIONAL: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OLE_CLIPBOARD_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ole_clipboard_performance",
     name: "Microsoft-Windows-OLE/Clipboard-Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16460,7 +16460,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OLE_CLIPBOARD_PERFORMANCE: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OLE_CLIPBOARD_DIAGNOSTICS: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ole_clipboard_diagnostics",
     name: "Microsoft-Windows-OLE/Clipboard-Diagnostics",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16485,7 +16485,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OLEACC_DIAGNOSTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_oleacc_diagnostic",
         name: "Microsoft-Windows-OLEACC/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -16511,7 +16511,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OLEACC_DIAGNOSTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OLEACC_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_oleacc_debug",
     name: "Microsoft-Windows-OLEACC/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16535,7 +16535,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OLEACC_DEBUG: ArtifactDescriptor = Arti
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_FIRSTLOGONANIM_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_oobe_firstlogonanim_diagnostic",
     name: "Microsoft-Windows-OOBE-FirstLogonAnim/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16559,7 +16559,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_FIRSTLOGONANIM_DIAGNOSTIC: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_CORE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_oobe_machine_core_diagnostic",
     name: "Microsoft-Windows-OOBE-Machine-Core/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16583,7 +16583,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_CORE_DIAGNOSTIC: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_DUI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_oobe_machine_dui_diagnostic",
     name: "Microsoft-Windows-OOBE-Machine-DUI/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16607,7 +16607,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_DUI_DIAGNOSTIC: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_DUI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_oobe_machine_dui_operational",
     name: "Microsoft-Windows-OOBE-Machine-DUI/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16631,7 +16631,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_DUI_OPERATIONAL: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_PLUGINS_WIRELESS_DIAGNOS: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_oobe_machine_plugins_wireless_diagnos",
     name: "Microsoft-Windows-OOBE-Machine-Plugins-Wireless/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16655,7 +16655,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_PLUGINS_WIRELESS_DIAGNOS: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_PLUGINS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_oobe_machine_plugins_diagnostic",
     name: "Microsoft-Windows-OOBE-Machine-Plugins/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16680,7 +16680,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_DIAGNOSTIC: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_oobe_machine_diagnostic",
         name: "Microsoft-Windows-OOBE-Machine/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -16706,7 +16706,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBE_MACHINE_DIAGNOSTIC: ArtifactDescri
 pub(crate) static EVTX_SETUP: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_setup",
     name: "Setup",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16731,7 +16731,7 @@ pub(crate) static EVTX_OCP_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_ocp_update_agent_operational_channel",
         name: "Ocp Update Agent operational channel",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -16757,7 +16757,7 @@ pub(crate) static EVTX_OCP_UPDATE_AGENT_OPERATIONAL_CHANNEL: ArtifactDescriptor 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OFFLINEFILES_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_offlinefiles_operational",
     name: "Microsoft-Windows-OfflineFiles/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16782,7 +16782,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OFFLINEFILES_SYNCLOG: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_offlinefiles_synclog",
         name: "Microsoft-Windows-OfflineFiles/SyncLog",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -16808,7 +16808,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OFFLINEFILES_SYNCLOG: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEBACKUP_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_onebackup_debug",
     name: "Microsoft-Windows-OneBackup/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16834,7 +16834,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEBACKUP_DEBUG: ArtifactDescriptor = A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEX_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_onex_diagnostic",
     name: "Microsoft-Windows-OneX/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16861,7 +16861,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_ONEX_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_onex_operational",
         name: "Microsoft-Windows-OneX/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -16888,7 +16888,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBELDR_ANALYTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_oobeldr_analytic",
         name: "Microsoft-Windows-OobeLdr/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -16914,7 +16914,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OOBELDR_ANALYTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_OTPCREDENTIALPROVIDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_otpcredentialprovider_operational",
     name: "Microsoft-Windows-OtpCredentialProvider/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16938,7 +16938,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_OTPCREDENTIALPROVIDER_OPERATIONAL: Arti
 pub(crate) static EVTX_PCI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_pci_operational",
     name: "PCI Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16962,7 +16962,7 @@ pub(crate) static EVTX_PCI_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PCI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_pci_diagnostic",
     name: "Microsoft-Windows-PCI/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -16987,7 +16987,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PDC_DIAGNOSTIC: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_kernel_pdc_diagnostic",
         name: "Microsoft-Windows-Kernel-Pdc/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -17013,7 +17013,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_KERNEL_PDC_DIAGNOSTIC: ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_GLCND_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_glcnd_debug",
     name: "Microsoft-Windows-glcnd/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17037,7 +17037,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GLCND_DEBUG: ArtifactDescriptor = Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_GLCND_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_glcnd_admin",
     name: "Microsoft-Windows-glcnd/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17062,7 +17062,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GLCND_DIAGNOSTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_glcnd_diagnostic",
         name: "Microsoft-Windows-glcnd/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -17088,7 +17088,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_GLCND_DIAGNOSTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PACKAGESTATEROAMING_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_packagestateroaming_operational",
     name: "Microsoft-Windows-PackageStateRoaming/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17112,7 +17112,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PACKAGESTATEROAMING_OPERATIONAL: Artifa
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PACKAGESTATEROAMING_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_packagestateroaming_debug",
     name: "Microsoft-Windows-PackageStateRoaming/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17136,7 +17136,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PACKAGESTATEROAMING_DEBUG: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PACKAGESTATEROAMING_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_packagestateroaming_analytic",
     name: "Microsoft-Windows-PackageStateRoaming/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17160,7 +17160,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PACKAGESTATEROAMING_ANALYTIC: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PARENTALCONTROLS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_parentalcontrols_operational",
     name: "Microsoft-Windows-ParentalControls/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17184,7 +17184,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PARENTALCONTROLS_OPERATIONAL: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PARENTALCONTROLS_TELEMETRY_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_parentalcontrols_telemetry_operationa",
     name: "Microsoft-Windows-ParentalControls-Telemetry/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17208,7 +17208,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PARENTALCONTROLS_TELEMETRY_OPERATIONA: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PARENTALCONTROLS_TELEMETRY_AUDITING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_parentalcontrols_telemetry_auditing",
     name: "Microsoft-Windows-ParentalControls-Telemetry/Auditing",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17233,7 +17233,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_DIAGNOSTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_partition_diagnostic",
         name: "Microsoft-Windows-Partition/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -17260,7 +17260,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_ANALYTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_partition_analytic",
         name: "Microsoft-Windows-Partition/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -17286,7 +17286,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_ANALYTIC: ArtifactDescriptor 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_partition_debug",
     name: "Microsoft-Windows-Partition/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17312,7 +17312,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PARTITION_DEBUG: ArtifactDescriptor = A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PEERTOPEERDRTEVENTPROVIDER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_peertopeerdrteventprovider_diagnostic",
     name: "Microsoft-Windows-PeerToPeerDrtEventProvider/DiagnosticChannel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17336,7 +17336,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PEERTOPEERDRTEVENTPROVIDER_DIAGNOSTIC: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_INVDIMM_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_persistentmemory_invdimm_operational",
     name: "Microsoft-Windows-PersistentMemory-INvdimm/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17360,7 +17360,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_INVDIMM_OPERATIONAL: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_INVDIMM_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_persistentmemory_invdimm_diagnostic",
     name: "Microsoft-Windows-PersistentMemory-INvdimm/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17384,7 +17384,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_INVDIMM_DIAGNOSTIC: Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMM_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_persistentmemory_nvdimm_operational",
     name: "Microsoft-Windows-PersistentMemory-Nvdimm/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17408,7 +17408,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMM_OPERATIONAL: Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMM_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_persistentmemory_nvdimm_diagnostic",
     name: "Microsoft-Windows-PersistentMemory-Nvdimm/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17432,7 +17432,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMM_DIAGNOSTIC: Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMMN_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_persistentmemory_nvdimmn_diagnostic",
     name: "Microsoft-Windows-PersistentMemory-NvdimmN/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17456,7 +17456,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMMN_DIAGNOSTIC: Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMMN_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_persistentmemory_nvdimmn_operational",
     name: "Microsoft-Windows-PersistentMemory-NvdimmN/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17480,7 +17480,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_NVDIMMN_OPERATIONAL: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_PMEMDISK_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_persistentmemory_pmemdisk_analytic",
     name: "Microsoft-Windows-PersistentMemory-PmemDisk/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17504,7 +17504,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_PMEMDISK_ANALYTIC: Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_PMEMDISK_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_persistentmemory_pmemdisk_diagnostic",
     name: "Microsoft-Windows-PersistentMemory-PmemDisk/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17528,7 +17528,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_PMEMDISK_DIAGNOSTIC: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_PMEMDISK_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_persistentmemory_pmemdisk_operational",
     name: "Microsoft-Windows-PersistentMemory-PmemDisk/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17552,7 +17552,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_PMEMDISK_OPERATIONAL: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_persistentmemory_scmbus_analytic",
     name: "Microsoft-Windows-PersistentMemory-ScmBus/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17576,7 +17576,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_ANALYTIC: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_persistentmemory_scmbus_diagnose",
     name: "Microsoft-Windows-PersistentMemory-ScmBus/Diagnose",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17600,7 +17600,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_DIAGNOSE: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_CERTIFICATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_persistentmemory_scmbus_certification",
     name: "Microsoft-Windows-PersistentMemory-ScmBus/Certification",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17624,7 +17624,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_CERTIFICATION: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_persistentmemory_scmbus_operational",
     name: "Microsoft-Windows-PersistentMemory-ScmBus/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17648,7 +17648,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_SCMBUS_OPERATIONAL: Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_VIRTUALNVDIMM_OPERAT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_persistentmemory_virtualnvdimm_operat",
     name: "Microsoft-Windows-PersistentMemory-VirtualNvdimm/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17672,7 +17672,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_VIRTUALNVDIMM_OPERAT: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_VIRTUALNVDIMM_DIAGNO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_persistentmemory_virtualnvdimm_diagno",
     name: "Microsoft-Windows-PersistentMemory-VirtualNvdimm/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17696,7 +17696,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PERSISTENTMEMORY_VIRTUALNVDIMM_DIAGNO: 
 pub(crate) static EVTX_WINDOWS_WMPHOTO_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_windows_wmphoto_channel",
     name: "WINDOWS_WMPHOTO_CHANNEL",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17721,7 +17721,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PHOTOACQ_ANALYTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_photoacq_analytic",
         name: "Microsoft-Windows-PhotoAcq/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -17748,7 +17748,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PLAYTOMANAGER_ANALYTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_playtomanager_analytic",
         name: "Microsoft-Windows-PlayToManager/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -17775,7 +17775,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_ANALYTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_pmemdisk_analytic",
         name: "Microsoft-Windows-PmemDisk/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -17802,7 +17802,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_DIAGNOSTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_pmemdisk_diagnostic",
         name: "Microsoft-Windows-PmemDisk/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -17829,7 +17829,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_OPERATIONAL: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_pmemdisk_operational",
         name: "Microsoft-Windows-PmemDisk/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -17855,7 +17855,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PMEMDISK_OPERATIONAL: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PORTABLEDEVICESTATUSPROVIDER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_portabledevicestatusprovider_analytic",
     name: "Microsoft-Windows-PortableDeviceStatusProvider/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17879,7 +17879,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PORTABLEDEVICESTATUSPROVIDER_ANALYTIC: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PORTABLEDEVICESYNCPROVIDER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_portabledevicesyncprovider_analytic",
     name: "Microsoft-Windows-PortableDeviceSyncProvider/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17903,7 +17903,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PORTABLEDEVICESYNCPROVIDER_ANALYTIC: Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POWER_METER_POLLING_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_power_meter_polling_diagnostic",
     name: "Microsoft-Windows-Power-Meter-Polling/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -17928,7 +17928,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERCFG_DIAGNOSTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_powercfg_diagnostic",
         name: "Microsoft-Windows-PowerCfg/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -17955,7 +17955,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERCPL_DIAGNOSTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_powercpl_diagnostic",
         name: "Microsoft-Windows-PowerCpl/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -17981,7 +17981,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERCPL_DIAGNOSTIC: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_DESIREDSTATECONFIGURATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_powershell_desiredstateconfiguration",
     name: "Microsoft-Windows-PowerShell-DesiredStateConfiguration-FileDownloadManager/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18006,7 +18006,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_OPERATIONAL: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_powershell_operational",
         name: "Microsoft-Windows-PowerShell/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -18033,7 +18033,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_powershell_analytic",
         name: "Microsoft-Windows-PowerShell/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -18060,7 +18060,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_DEBUG: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_powershell_debug",
         name: "Microsoft-Windows-PowerShell/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -18086,7 +18086,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_POWERSHELL_DEBUG: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIRESOURCES_DEPLOYMENT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_priresources_deployment_diagnostic",
     name: "Microsoft-Windows-PriResources-Deployment/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18110,7 +18110,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIRESOURCES_DEPLOYMENT_DIAGNOSTIC: Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIRESOURCES_DEPLOYMENT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_priresources_deployment_operational",
     name: "Microsoft-Windows-PriResources-Deployment/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18134,7 +18134,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIRESOURCES_DEPLOYMENT_OPERATIONAL: Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIMARYNETWORKICON_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_primarynetworkicon_performance",
     name: "Microsoft-Windows-PrimaryNetworkIcon/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18158,7 +18158,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIMARYNETWORKICON_PERFORMANCE: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_NETWORKLOCATIONWIZARD_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_networklocationwizard_operational",
     name: "Microsoft-Windows-NetworkLocationWizard/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18183,7 +18183,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTDIALOGS_ANALYTIC: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_printdialogs_analytic",
         name: "Microsoft-Windows-PrintDialogs/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -18210,7 +18210,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTDIALOGS3D_ANALYTIC: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_printdialogs3d_analytic",
         name: "Microsoft-Windows-PrintDialogs3D/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -18236,7 +18236,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTDIALOGS3D_ANALYTIC: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTSPOOLER_CORE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_printspooler_core_analytic",
     name: "Microsoft-Windows-PrintSpooler/Core-Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18261,7 +18261,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTSPOOLER_CORE_DEBUG: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_printspooler_core_debug",
         name: "Microsoft-Windows-PrintSpooler/Core-Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -18287,7 +18287,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRINTSPOOLER_CORE_DEBUG: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIVACY_AUDITING_PERMISSIVELEARNINGMO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_privacy_auditing_permissivelearningmo",
     name: "Microsoft-Windows-Privacy-Auditing-PermissiveLearningMode/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18311,7 +18311,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PRIVACY_AUDITING_PERMISSIVELEARNINGMO: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PROCESSSTATEMANAGER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_processstatemanager_diagnostic",
     name: "Microsoft-Windows-ProcessStateManager/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18335,7 +18335,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PROCESSSTATEMANAGER_DIAGNOSTIC: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PROGRAM_COMPATIBILITY_ASSISTANT_OPERA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_program_compatibility_assistant_opera",
     name: "Microsoft-Windows-Program-Compatibility-Assistant/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18359,7 +18359,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PROGRAM_COMPATIBILITY_ASSISTANT_OPERA: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PROXIMITY_COMMON_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_proximity_common_performance",
     name: "Microsoft-Windows-Proximity-Common/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18383,7 +18383,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PROXIMITY_COMMON_PERFORMANCE: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PROXIMITY_COMMON_INFORMATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_proximity_common_informational",
     name: "Microsoft-Windows-Proximity-Common/Informational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18407,7 +18407,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PROXIMITY_COMMON_INFORMATIONAL: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PROXIMITY_COMMON_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_proximity_common_diagnostic",
     name: "Microsoft-Windows-Proximity-Common/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18431,7 +18431,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PROXIMITY_COMMON_DIAGNOSTIC: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_DEVELOPER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_pushnotifications_developer_debug",
     name: "Microsoft-Windows-PushNotifications-Developer/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18455,7 +18455,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_DEVELOPER_DEBUG: Arti
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_INPROC_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_pushnotifications_inproc_debug",
     name: "Microsoft-Windows-PushNotifications-InProc/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18479,7 +18479,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_INPROC_DEBUG: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_PLATFORM_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_pushnotifications_platform_debug",
     name: "Microsoft-Windows-PushNotifications-Platform/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18503,7 +18503,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_PLATFORM_DEBUG: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_PLATFORM_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_pushnotifications_platform_operationa",
     name: "Microsoft-Windows-PushNotifications-Platform/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18527,7 +18527,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_PLATFORM_OPERATIONA: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_PUSHNOTIFICATIONS_PLATFORM_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_pushnotifications_platform_admin",
     name: "Microsoft-Windows-PushNotifications-Platform/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18552,7 +18552,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_PACER_DIAGNOSTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_qos_pacer_diagnostic",
         name: "Microsoft-Windows-QoS-Pacer/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -18578,7 +18578,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_PACER_DIAGNOSTIC: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_PACER_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_qos_pacer_debug",
     name: "Microsoft-Windows-QoS-Pacer/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18604,7 +18604,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_PACER_DEBUG: ArtifactDescriptor = A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_QWAVE_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_qos_qwave_debug",
     name: "Microsoft-Windows-QoS-qWAVE/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18630,7 +18630,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_QOS_QWAVE_DEBUG: ArtifactDescriptor = A
 pub(crate) static EVTX_EEINFO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_eeinfo",
     name: "EEInfo",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18654,7 +18654,7 @@ pub(crate) static EVTX_EEINFO: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_ADMIN_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_admin_channel",
     name: "Admin Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18678,7 +18678,7 @@ pub(crate) static EVTX_ADMIN_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_RTWORKQUEUE_EXTENDED: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_rtworkqueue_extended",
     name: "RTWorkQueue Extended",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18702,7 +18702,7 @@ pub(crate) static EVTX_RTWORKQUEUE_EXTENDED: ArtifactDescriptor = ArtifactDescri
 pub(crate) static EVTX_RTWORKQUEUE_THREADING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_rtworkqueue_threading",
     name: "RTWorkQueue Threading",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18727,7 +18727,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RADIOMANAGER_ANALYTIC: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_radiomanager_analytic",
         name: "Microsoft-Windows-RadioManager/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -18753,7 +18753,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RADIOMANAGER_ANALYTIC: ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RAS_NDISWANPACKETCAPTURE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_ras_ndiswanpacketcapture_diagnostic",
     name: "Microsoft-Windows-Ras-NdisWanPacketCapture/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18778,7 +18778,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REFS_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_refs_operational",
         name: "Microsoft-Windows-ReFS/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -18804,7 +18804,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REFS_OPERATIONAL: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REFSDEDUPSVC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_refsdedupsvc_operational",
     name: "Microsoft-Windows-ReFsDedupSvc/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18829,7 +18829,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_READYBOOST_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_readyboost_analytic",
         name: "Microsoft-Windows-ReadyBoost/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -18855,7 +18855,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_READYBOOST_ANALYTIC: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_READYBOOSTDRIVER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_readyboostdriver_analytic",
     name: "Microsoft-Windows-ReadyBoostDriver/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18879,7 +18879,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_READYBOOSTDRIVER_ANALYTIC: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_READYBOOSTDRIVER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_readyboostdriver_operational",
     name: "Microsoft-Windows-ReadyBoostDriver/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18904,7 +18904,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RECOVERY_OPERATIONAL: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_recovery_operational",
         name: "Microsoft-Windows-Recovery/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -18930,7 +18930,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RECOVERY_OPERATIONAL: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RELIABILITYANALYSISCOMPONENT_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_reliabilityanalysiscomponent_operatio",
     name: "Microsoft-Windows-ReliabilityAnalysisComponent/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18954,7 +18954,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RELIABILITYANALYSISCOMPONENT_OPERATIO: 
 pub(crate) static EVTX_METRICS: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_metrics",
     name: "Metrics",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -18978,7 +18978,7 @@ pub(crate) static EVTX_METRICS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEAPP_AND_DESKTOP_CONNECTIONS_ADM: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_remoteapp_and_desktop_connections_adm",
     name: "Microsoft-Windows-RemoteApp and Desktop Connections/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19002,7 +19002,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEAPP_AND_DESKTOP_CONNECTIONS_ADM: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEAPP_AND_DESKTOP_CONNECTIONS_OPE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_remoteapp_and_desktop_connections_ope",
     name: "Microsoft-Windows-RemoteApp and Desktop Connections/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19026,7 +19026,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEAPP_AND_DESKTOP_CONNECTIONS_OPE: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEASSISTANCE_TRACING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_remoteassistance_tracing",
     name: "Microsoft-Windows-RemoteAssistance/Tracing",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19051,7 +19051,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEASSISTANCE_ADMIN: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_remoteassistance_admin",
         name: "Microsoft-Windows-RemoteAssistance/Admin",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -19077,7 +19077,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEASSISTANCE_ADMIN: ArtifactDescrip
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEASSISTANCE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_remoteassistance_operational",
     name: "Microsoft-Windows-RemoteAssistance/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19101,7 +19101,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEASSISTANCE_OPERATIONAL: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_RDPCORETS_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_remotedesktopservices_rdpcorets_admin",
     name: "Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19125,7 +19125,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_RDPCORETS_ADMIN: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_RDPCORETS_OPERA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_remotedesktopservices_rdpcorets_opera",
     name: "Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19149,7 +19149,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_RDPCORETS_OPERA: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_RDPCORETS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_remotedesktopservices_rdpcorets_debug",
     name: "Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19173,7 +19173,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_RDPCORETS_DEBUG: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_REMOTEFX_VM_KER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_remotedesktopservices_remotefx_vm_ker",
     name: "Microsoft-Windows-RemoteDesktopServices-RemoteFX-VM-Kernel-Mode-Transport/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19197,7 +19197,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_REMOTEFX_VM_KER: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_REMOTEFX_VM_USE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_remotedesktopservices_remotefx_vm_use",
     name: "Microsoft-Windows-RemoteDesktopServices-RemoteFX-VM-User-Mode-Transport/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19221,7 +19221,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_REMOTEFX_VM_USE: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_SESSIONSERVICES: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_remotedesktopservices_sessionservices",
     name: "Microsoft-Windows-RemoteDesktopServices-SessionServices/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19245,7 +19245,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEDESKTOPSERVICES_SESSIONSERVICES: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEFS_RDBSS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_remotefs_rdbss_diagnostic",
     name: "Microsoft-Windows-Remotefs-Rdbss/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19269,7 +19269,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEFS_RDBSS_DIAGNOSTIC: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEFS_RDBSS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_remotefs_rdbss_operational",
     name: "Microsoft-Windows-Remotefs-Rdbss/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19293,7 +19293,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEFS_RDBSS_OPERATIONAL: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEFS_UTPROVIDER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_remotefs_utprovider_diagnostic",
     name: "Microsoft-Windows-Remotefs-UTProvider/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19317,7 +19317,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_REMOTEFS_UTPROVIDER_DIAGNOSTIC: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RESETENG_TRACE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_reseteng_trace_diagnostic",
     name: "Microsoft-Windows-ResetEng-Trace/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19341,7 +19341,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RESETENG_TRACE_DIAGNOSTIC: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCE_EXHAUSTION_DETECTOR_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_resource_exhaustion_detector_operatio",
     name: "Microsoft-Windows-Resource-Exhaustion-Detector/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19365,7 +19365,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCE_EXHAUSTION_DETECTOR_OPERATIO: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCE_EXHAUSTION_RESOLVER_OPERATIO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_resource_exhaustion_resolver_operatio",
     name: "Microsoft-Windows-Resource-Exhaustion-Resolver/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19389,7 +19389,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCE_EXHAUSTION_RESOLVER_OPERATIO: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCE_LEAK_DIAGNOSTIC_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_resource_leak_diagnostic_operational",
     name: "Microsoft-Windows-Resource-Leak-Diagnostic/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19413,7 +19413,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCE_LEAK_DIAGNOSTIC_OPERATIONAL: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCEPUBLICATION_TRACING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_resourcepublication_tracing",
     name: "Microsoft-Windows-ResourcePublication/Tracing",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19437,7 +19437,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RESOURCEPUBLICATION_TRACING: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RESTARTMANAGER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_restartmanager_operational",
     name: "Microsoft-Windows-RestartManager/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19461,7 +19461,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RESTARTMANAGER_OPERATIONAL: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_GRAPHICS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_runtime_graphics_analytic",
     name: "Microsoft-Windows-Runtime-Graphics/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19485,7 +19485,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_GRAPHICS_ANALYTIC: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTCAPTUREENG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_runtime_windows_media_winrtcaptureeng",
     name: "Microsoft-Windows-Runtime-Windows-Media/WinRTCaptureEngine",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19509,7 +19509,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTCAPTUREENG: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTTRANSCODE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_runtime_windows_media_winrttranscode",
     name: "Microsoft-Windows-Runtime-Windows-Media/WinRTTranscode",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19533,7 +19533,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTTRANSCODE: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTMEDIASTREA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_runtime_windows_media_winrtmediastrea",
     name: "Microsoft-Windows-Runtime-Windows-Media/WinRTMediaStreamSource",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19557,7 +19557,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTMEDIASTREA: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTADAPTIVEME: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_runtime_windows_media_winrtadaptiveme",
     name: "Microsoft-Windows-Runtime-Windows-Media/WinRTAdaptiveMediaSource",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19581,7 +19581,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WINDOWS_MEDIA_WINRTADAPTIVEME: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_NETWORKING_BACKGROUNDTRANSFER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_runtime_networking_backgroundtransfer",
     name: "Microsoft-Windows-Runtime-Networking-BackgroundTransfer/Tracing",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19605,7 +19605,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_NETWORKING_BACKGROUNDTRANSFER: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_NETWORKING_TRACING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_runtime_networking_tracing",
     name: "Microsoft-Windows-Runtime-Networking/Tracing",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19629,7 +19629,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_NETWORKING_TRACING: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WEB_HTTP_TRACING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_runtime_web_http_tracing",
     name: "Microsoft-Windows-Runtime-Web-Http/Tracing",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19654,7 +19654,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_RUNTIME_WEBAPI_TRACING: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_runtime_webapi_tracing",
         name: "Microsoft-Windows-Runtime-WebAPI/Tracing",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -19681,7 +19681,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SENSE_OPERATIONAL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_sense_operational",
         name: "Microsoft-Windows-SENSE/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -19707,7 +19707,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SENSE_OPERATIONAL: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_HELPERCLASSDIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smbclient_helperclassdiagnostic",
     name: "Microsoft-Windows-SMBClient/HelperClassDiagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19732,7 +19732,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_DIAGNOSTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smbclient_diagnostic",
         name: "Microsoft-Windows-SMBClient/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -19759,7 +19759,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_XPERFANALYTIC: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smbclient_xperfanalytic",
         name: "Microsoft-Windows-SMBClient/XPerfAnalytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -19785,7 +19785,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_XPERFANALYTIC: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_OBJECTSTATEDIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smbclient_objectstatediagnostic",
     name: "Microsoft-Windows-SMBClient/ObjectStateDiagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19810,7 +19810,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_OPERATIONAL: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smbclient_operational",
         name: "Microsoft-Windows-SMBClient/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -19837,7 +19837,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_CONNECTIVITY: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smbclient_connectivity",
         name: "Microsoft-Windows-SMBClient/Connectivity",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -19864,7 +19864,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_SECURITY: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smbclient_security",
         name: "Microsoft-Windows-SMBClient/Security",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -19892,7 +19892,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_SECURITY: ArtifactDescriptor 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBCLIENT_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smbclient_audit",
     name: "Microsoft-Windows-SMBClient/Audit",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19919,7 +19919,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_OPERATIONAL: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smbdirect_operational",
         name: "Microsoft-Windows-SMBDirect/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -19945,7 +19945,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_OPERATIONAL: ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smbdirect_admin",
     name: "Microsoft-Windows-SMBDirect/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19971,7 +19971,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_ADMIN: ArtifactDescriptor = A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smbdirect_debug",
     name: "Microsoft-Windows-SMBDirect/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -19998,7 +19998,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_CONNECTIVITY: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smbdirect_connectivity",
         name: "Microsoft-Windows-SMBDirect/Connectivity",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -20025,7 +20025,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBDIRECT_NETMON: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smbdirect_netmon",
         name: "Microsoft-Windows-SMBDirect/Netmon",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -20052,7 +20052,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_PERFORMANCE: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smbserver_performance",
         name: "Microsoft-Windows-SMBServer/Performance",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -20079,7 +20079,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_ANALYTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smbserver_analytic",
         name: "Microsoft-Windows-SMBServer/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -20106,7 +20106,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_SECURITY: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smbserver_security",
         name: "Microsoft-Windows-SMBServer/Security",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -20135,7 +20135,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_OPERATIONAL: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smbserver_operational",
         name: "Microsoft-Windows-SMBServer/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -20162,7 +20162,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_CONNECTIVITY: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smbserver_connectivity",
         name: "Microsoft-Windows-SMBServer/Connectivity",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -20189,7 +20189,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_DIAGNOSTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smbserver_diagnostic",
         name: "Microsoft-Windows-SMBServer/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -20215,7 +20215,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_DIAGNOSTIC: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBSERVER_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smbserver_audit",
     name: "Microsoft-Windows-SMBServer/Audit",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20242,7 +20242,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBWITNESSCLIENT_ADMIN: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smbwitnessclient_admin",
         name: "Microsoft-Windows-SMBWitnessClient/Admin",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -20268,7 +20268,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBWITNESSCLIENT_ADMIN: ArtifactDescrip
 pub(crate) static EVTX_WITNESSCLIENTADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_witnessclientadmin",
     name: "WitnessClientAdmin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20292,7 +20292,7 @@ pub(crate) static EVTX_WITNESSCLIENTADMIN: ArtifactDescriptor = ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBWITNESSCLIENT_INFORMATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smbwitnessclient_informational",
     name: "Microsoft-Windows-SMBWitnessClient/Informational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20317,7 +20317,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCHANNEL_EVENTS_PERF: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_schannel_events_perf",
         name: "Microsoft-Windows-Schannel-Events/Perf",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -20343,7 +20343,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCHANNEL_EVENTS_PERF: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_scmbus_analytic",
     name: "Microsoft-Windows-ScmBus/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20369,7 +20369,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_ANALYTIC: ArtifactDescriptor = A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_scmbus_diagnose",
     name: "Microsoft-Windows-ScmBus/Diagnose",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20396,7 +20396,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMBUS_CERTIFICATION: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_scmbus_certification",
         name: "Microsoft-Windows-ScmBus/Certification",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -20423,7 +20423,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_ANALYTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_scmdisk0101_analytic",
         name: "Microsoft-Windows-ScmDisk0101/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -20450,7 +20450,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_DIAGNOSTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_scmdisk0101_diagnostic",
         name: "Microsoft-Windows-ScmDisk0101/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -20477,7 +20477,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_OPERATIONAL: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_scmdisk0101_operational",
         name: "Microsoft-Windows-ScmDisk0101/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -20503,7 +20503,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SCMDISK0101_OPERATIONAL: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SDBUS_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_sdbus_analytic",
     name: "Microsoft-Windows-Sdbus/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20527,7 +20527,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SDBUS_ANALYTIC: ArtifactDescriptor = Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SDBUS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_sdbus_debug",
     name: "Microsoft-Windows-Sdbus/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20551,7 +20551,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SDBUS_DEBUG: ArtifactDescriptor = Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SDSTOR_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_sdstor_analytic",
     name: "Microsoft-Windows-Sdstor/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20578,7 +20578,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SEARCH_CORE_DIAGNOSTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_search_core_diagnostic",
         name: "Microsoft-Windows-Search-Core/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -20604,7 +20604,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SEARCH_CORE_DIAGNOSTIC: ArtifactDescrip
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SEARCH_PROTOCOLHANDLERS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_search_protocolhandlers_diagnostic",
     name: "Microsoft-Windows-Search-ProtocolHandlers/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20628,7 +20628,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SEARCH_PROTOCOLHANDLERS_DIAGNOSTIC: Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_ADMINLESS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_adminless_operational",
     name: "Microsoft-Windows-Security-Adminless/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20652,7 +20652,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_ADMINLESS_OPERATIONAL: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_AUDIT_CONFIGURATION_CLIENT_D: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_audit_configuration_client_d",
     name: "Microsoft-Windows-Security-Audit-Configuration-Client/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20676,7 +20676,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_AUDIT_CONFIGURATION_CLIENT_D: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_AUDIT_CONFIGURATION_CLIENT_O: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_audit_configuration_client_o",
     name: "Microsoft-Windows-Security-Audit-Configuration-Client/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20700,7 +20700,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_AUDIT_CONFIGURATION_CLIENT_O: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_CONFIGURATION_WIZARD_DIAGNOS: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_configuration_wizard_diagnos",
     name: "Microsoft-Windows-Security-Configuration-Wizard/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20724,7 +20724,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_CONFIGURATION_WIZARD_DIAGNOS: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_CONFIGURATION_WIZARD_OPERATI: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_configuration_wizard_operati",
     name: "Microsoft-Windows-Security-Configuration-Wizard/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20748,7 +20748,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_CONFIGURATION_WIZARD_OPERATI: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_ENTERPRISEDATA_FILEREVOCATIO: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_enterprisedata_filerevocatio",
     name: "Microsoft-Windows-Security-EnterpriseData-FileRevocationManager/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20772,7 +20772,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_ENTERPRISEDATA_FILEREVOCATIO: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_EXCHANGEACTIVESYNCPROVISIONI: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_exchangeactivesyncprovisioni",
     name: "Microsoft-Windows-Security-ExchangeActiveSyncProvisioning/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20796,7 +20796,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_EXCHANGEACTIVESYNCPROVISIONI: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_IDENTITYSTORE_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_identitystore_performance",
     name: "Microsoft-Windows-Security-IdentityStore/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20820,7 +20820,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_IDENTITYSTORE_PERFORMANCE: Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_LESSPRIVILEGEDAPPCONTAINER_O: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_lessprivilegedappcontainer_o",
     name: "Microsoft-Windows-Security-LessPrivilegedAppContainer/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20844,7 +20844,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_LESSPRIVILEGEDAPPCONTAINER_O: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_LICENSING_SLC_PERF: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_licensing_slc_perf",
     name: "Microsoft-Windows-Security-Licensing-SLC/Perf",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20868,7 +20868,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_LICENSING_SLC_PERF: ArtifactDe
 pub(crate) static EVTX_KERNEL_MODE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_kernel_mode",
     name: "Kernel Mode",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20892,7 +20892,7 @@ pub(crate) static EVTX_KERNEL_MODE: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_USER_MODE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_user_mode",
     name: "User Mode",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20916,7 +20916,7 @@ pub(crate) static EVTX_USER_MODE: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_NETLOGON_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_netlogon_operational",
     name: "Microsoft-Windows-Security-Netlogon/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20940,7 +20940,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_NETLOGON_OPERATIONAL: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_GC_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_spp_ux_gc_analytic",
     name: "Microsoft-Windows-Security-SPP-UX-GC/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20964,7 +20964,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_GC_ANALYTIC: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_GENUINECENTER_LOGGING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_spp_ux_genuinecenter_logging",
     name: "Microsoft-Windows-Security-SPP-UX-GenuineCenter-Logging/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -20988,7 +20988,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_GENUINECENTER_LOGGING: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_NOTIFICATIONS_ACTIONC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_spp_ux_notifications_actionc",
     name: "Microsoft-Windows-Security-SPP-UX-Notifications/ActionCenter",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21012,7 +21012,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_NOTIFICATIONS_ACTIONC: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_UX_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_spp_ux_analytic",
     name: "Microsoft-Windows-Security-SPP-UX/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21037,7 +21037,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_PERF: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_security_spp_perf",
         name: "Microsoft-Windows-Security-SPP/Perf",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -21065,7 +21065,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_SPP_PERF: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_USERCONSENTVERIFIER_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_userconsentverifier_audit",
     name: "Microsoft-Windows-Security-UserConsentVerifier/Audit",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21089,7 +21089,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_USERCONSENTVERIFIER_AUDIT: Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_VAULT_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_security_vault_performance",
     name: "Microsoft-Windows-Security-Vault/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21113,7 +21113,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITY_VAULT_PERFORMANCE: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITYMITIGATIONSBROKER_PERF: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_securitymitigationsbroker_perf",
     name: "Microsoft-Windows-SecurityMitigationsBroker/Perf",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21137,7 +21137,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITYMITIGATIONSBROKER_PERF: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITYMITIGATIONSBROKER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_securitymitigationsbroker_operational",
     name: "Microsoft-Windows-SecurityMitigationsBroker/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21161,7 +21161,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITYMITIGATIONSBROKER_OPERATIONAL: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITYMITIGATIONSBROKER_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_securitymitigationsbroker_admin",
     name: "Microsoft-Windows-SecurityMitigationsBroker/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21186,7 +21186,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SENDTO_DIAGNOSTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_sendto_diagnostic",
         name: "Microsoft-Windows-SendTo/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -21213,7 +21213,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SENSEIR_OPERATIONAL: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_senseir_operational",
         name: "Microsoft-Windows-SenseIR/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -21239,7 +21239,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SENSEIR_OPERATIONAL: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVER_FOR_NFS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_server_for_nfs_operational",
     name: "Microsoft-Windows-Server For NFS/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21263,7 +21263,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVER_FOR_NFS_OPERATIONAL: ArtifactDes
 pub(crate) static EVTX_DEPLOY: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_deploy",
     name: "Deploy",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21287,7 +21287,7 @@ pub(crate) static EVTX_DEPLOY: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVERMANAGER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_servermanager_operational",
     name: "Microsoft-Windows-ServerManager/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21311,7 +21311,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVERMANAGER_OPERATIONAL: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICE_REPORTING_API_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_service_reporting_api_debug",
     name: "Microsoft-Windows-Service Reporting API/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21335,7 +21335,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICE_REPORTING_API_DEBUG: ArtifactDe
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICES_SVCHOST_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_services_svchost_diagnostic",
     name: "Microsoft-Windows-Services-Svchost/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21360,7 +21360,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICES_DIAGNOSTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_services_diagnostic",
         name: "Microsoft-Windows-Services/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -21386,7 +21386,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICES_DIAGNOSTIC: ArtifactDescriptor
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICING_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_servicing_debug",
     name: "Microsoft-Windows-Servicing/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21412,7 +21412,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SERVICING_DEBUG: ArtifactDescriptor = A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_AZURE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_settingsync_azure_operational",
     name: "Microsoft-Windows-SettingSync-Azure/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21437,7 +21437,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_AZURE_DEBUG: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_settingsync_azure_debug",
         name: "Microsoft-Windows-SettingSync-Azure/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -21464,7 +21464,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_OPERATIONAL: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_settingsync_operational",
         name: "Microsoft-Windows-SettingSync/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -21491,7 +21491,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_DEBUG: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_settingsync_debug",
         name: "Microsoft-Windows-SettingSync/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -21518,7 +21518,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_ANALYTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_settingsync_analytic",
         name: "Microsoft-Windows-SettingSync/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -21544,7 +21544,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_ANALYTIC: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_ONEDRIVE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_settingsync_onedrive_analytic",
     name: "Microsoft-Windows-SettingSync-OneDrive/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21568,7 +21568,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_ONEDRIVE_ANALYTIC: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_VERBOSEDEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_settingsync_verbosedebug",
     name: "Microsoft-Windows-SettingSync/VerboseDebug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21592,7 +21592,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETTINGSYNC_VERBOSEDEBUG: ArtifactDescr
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_setup_analytic",
     name: "Microsoft-Windows-Setup/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21617,7 +21617,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPCL_ANALYTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_setupcl_analytic",
         name: "Microsoft-Windows-SetupCl/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -21644,7 +21644,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPPLATFORM_ANALYTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_setupplatform_analytic",
         name: "Microsoft-Windows-SetupPlatform/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -21671,7 +21671,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPQUEUE_ANALYTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_setupqueue_analytic",
         name: "Microsoft-Windows-SetupQueue/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -21698,7 +21698,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPUGC_ANALYTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_setupugc_analytic",
         name: "Microsoft-Windows-SetupUGC/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -21724,7 +21724,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SETUPUGC_ANALYTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHAREMEDIA_CONTROLPANEL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_sharemedia_controlpanel_diagnostic",
     name: "Microsoft-Windows-ShareMedia-ControlPanel/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21748,7 +21748,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHAREMEDIA_CONTROLPANEL_DIAGNOSTIC: Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_APPWIZCPL_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_appwizcpl_diagnostic",
     name: "Microsoft-Windows-Shell-AppWizCpl/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21772,7 +21772,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_APPWIZCPL_DIAGNOSTIC: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_USER_INTERFACE_OPERATI: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_authentication_user_interface_operati",
     name: "Microsoft-Windows-Authentication User Interface/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21796,7 +21796,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_AUTHENTICATION_USER_INTERFACE_OPERATI: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_COMMON_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_authui_common_diagnostic",
     name: "Microsoft-Windows-Shell-AuthUI-Common/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21820,7 +21820,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_COMMON_DIAGNOSTIC: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_LOGONUI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_authui_logonui_diagnostic",
     name: "Microsoft-Windows-Shell-AuthUI-LogonUI/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21844,7 +21844,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_LOGONUI_DIAGNOSTIC: Artifa
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_LOGON_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_authui_logon_diagnostic",
     name: "Microsoft-Windows-Shell-AuthUI-Logon/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21868,7 +21868,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_LOGON_DIAGNOSTIC: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_CREDUI_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_authui_credui_diagnostic",
     name: "Microsoft-Windows-Shell-AuthUI-CredUI/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21892,7 +21892,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_CREDUI_DIAGNOSTIC: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_SHUTDOWN_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_authui_shutdown_diagnostic",
     name: "Microsoft-Windows-Shell-AuthUI-Shutdown/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21916,7 +21916,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_SHUTDOWN_DIAGNOSTIC: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_CREDENTIALPROVIDERUSER_D: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_authui_credentialprovideruser_d",
     name: "Microsoft-Windows-Shell-AuthUI-CredentialProviderUser/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21940,7 +21940,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_CREDENTIALPROVIDERUSER_D: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_PASSWORDPROVIDER_DIAGNOS: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_authui_passwordprovider_diagnos",
     name: "Microsoft-Windows-Shell-AuthUI-PasswordProvider/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21964,7 +21964,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_PASSWORDPROVIDER_DIAGNOS: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_BOOTANIM_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_authui_bootanim_diagnostic",
     name: "Microsoft-Windows-Shell-AuthUI-BootAnim/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -21988,7 +21988,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_BOOTANIM_DIAGNOSTIC: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_PASSWORDPROVIDER_BOOTANI: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_authui_passwordprovider_bootani",
     name: "Microsoft-Windows-Shell-AuthUI-PasswordProvider/BootAnim",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22012,7 +22012,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_AUTHUI_PASSWORDPROVIDER_BOOTANI: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CONNECTEDACCOUNTSTATE_ACTIONCEN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_connectedaccountstate_actioncen",
     name: "Microsoft-Windows-Shell-ConnectedAccountState/ActionCenter",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22037,7 +22037,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_DIAGNOSTIC: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_shell_core_diagnostic",
         name: "Microsoft-Windows-Shell-Core/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -22064,7 +22064,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_OPERATIONAL: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_shell_core_operational",
         name: "Microsoft-Windows-Shell-Core/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -22090,7 +22090,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_OPERATIONAL: ArtifactDescrip
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_LOGONTASKSCHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_core_logontaskschannel",
     name: "Microsoft-Windows-Shell-Core/LogonTasksChannel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22115,7 +22115,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_APPDEFAULTS: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_shell_core_appdefaults",
         name: "Microsoft-Windows-Shell-Core/AppDefaults",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -22142,7 +22142,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_ACTIONCENTER: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_shell_core_actioncenter",
         name: "Microsoft-Windows-Shell-Core/ActionCenter",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -22168,7 +22168,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_CORE_ACTIONCENTER: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_DEFAULTPROGRAMS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_defaultprograms_diagnostic",
     name: "Microsoft-Windows-Shell-DefaultPrograms/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22192,7 +22192,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_DEFAULTPROGRAMS_DIAGNOSTIC: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_LOCKSCREENCONTENT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_lockscreencontent_diagnostic",
     name: "Microsoft-Windows-Shell-LockScreenContent/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22216,7 +22216,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_LOCKSCREENCONTENT_DIAGNOSTIC: Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_OPENWITH_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_openwith_diagnostic",
     name: "Microsoft-Windows-Shell-OpenWith/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22241,7 +22241,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_SEARCH_URIHANDLER: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_shell_search_urihandler",
         name: "Microsoft-Windows-Shell-Search-UriHandler",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -22267,7 +22267,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_SEARCH_URIHANDLER: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_SHWEBSVC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_shwebsvc",
     name: "Microsoft-Windows-Shell-Shwebsvc",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22291,7 +22291,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_SHWEBSVC: ArtifactDescriptor = Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_ZIPFOLDER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shell_zipfolder_diagnostic",
     name: "Microsoft-Windows-Shell-ZipFolder/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22315,7 +22315,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELL_ZIPFOLDER_DIAGNOSTIC: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELLCOMMON_STARTLAYOUTPOPULATION_OPE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shellcommon_startlayoutpopulation_ope",
     name: "Microsoft-Windows-ShellCommon-StartLayoutPopulation/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22339,7 +22339,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELLCOMMON_STARTLAYOUTPOPULATION_OPE: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SHELLCOMMON_STARTLAYOUTPOPULATION_DIA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_shellcommon_startlayoutpopulation_dia",
     name: "Microsoft-Windows-ShellCommon-StartLayoutPopulation/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22364,7 +22364,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SHSVCS_DIAGNOSTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_shsvcs_diagnostic",
         name: "Microsoft-Windows-Shsvcs/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -22391,7 +22391,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SIDEBAR_DIAGNOSTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_sidebar_diagnostic",
         name: "Microsoft-Windows-Sidebar/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -22418,7 +22418,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SLEEPSTUDY_DIAGNOSTIC: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_sleepstudy_diagnostic",
         name: "Microsoft-Windows-SleepStudy/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -22444,7 +22444,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SLEEPSTUDY_DIAGNOSTIC: ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_AUDIT_AUTHENTICATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smartcard_audit_authentication",
     name: "Microsoft-Windows-SmartCard-Audit/Authentication",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22468,7 +22468,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_AUDIT_AUTHENTICATION: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_DEVICEENUM_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smartcard_deviceenum_operational",
     name: "Microsoft-Windows-SmartCard-DeviceEnum/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22492,7 +22492,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_DEVICEENUM_OPERATIONAL: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_TPM_VCARD_MODULE_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smartcard_tpm_vcard_module_admin",
     name: "Microsoft-Windows-SmartCard-TPM-VCard-Module/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22516,7 +22516,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_TPM_VCARD_MODULE_ADMIN: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTCARD_TPM_VCARD_MODULE_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smartcard_tpm_vcard_module_operationa",
     name: "Microsoft-Windows-SmartCard-TPM-VCard-Module/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22541,7 +22541,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTSCREEN_DEBUG: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_smartscreen_debug",
         name: "Microsoft-Windows-SmartScreen/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -22567,7 +22567,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMARTSCREEN_DEBUG: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBHASHGENERATION_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smbhashgeneration_operational",
     name: "Microsoft-Windows-SMBHashGeneration/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22591,7 +22591,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBHASHGENERATION_OPERATIONAL: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBHASHGENERATION_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_smbhashgeneration_analytic",
     name: "Microsoft-Windows-SMBHashGeneration/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22615,7 +22615,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SMBHASHGENERATION_ANALYTIC: ArtifactDes
 pub(crate) static EVTX_SMBWMIANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_smbwmianalytic",
     name: "SmbWmiAnalytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22639,7 +22639,7 @@ pub(crate) static EVTX_SMBWMIANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TTS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_tts_diagnostic",
     name: "Microsoft-Windows-TTS/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22663,7 +22663,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TTS_DIAGNOSTIC: ArtifactDescriptor = Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SPEECH_USEREXPERIENCE_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_speech_userexperience_diagnostic",
     name: "Microsoft-Windows-Speech-UserExperience/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22687,7 +22687,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SPEECH_USEREXPERIENCE_DIAGNOSTIC: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SPELL_CHECKING_FACILITY_ANALYTIC_CHAN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_spell_checking_facility_analytic_chan",
     name: "Microsoft Windows Spell Checking Facility Analytic Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22711,7 +22711,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SPELL_CHECKING_FACILITY_ANALYTIC_CHAN: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SPELLCHECKER_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_spellchecker_analytic_channel",
     name: "Microsoft Windows Spellchecker Analytic Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22735,7 +22735,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SPELLCHECKER_ANALYTIC_CHANNEL: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SPELL_CHECKING_HOST_ANALYTIC_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_spell_checking_host_analytic_channel",
     name: "Microsoft Windows Spell Checking Host Analytic Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22760,7 +22760,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SRUMON_DIAGNOSTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_srumon_diagnostic",
         name: "Microsoft-Windows-SruMon/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -22786,7 +22786,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SRUMON_DIAGNOSTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SRUMTELEMETRY: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_srumtelemetry",
     name: "Microsoft-Windows-SrumTelemetry",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22810,7 +22810,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SRUMTELEMETRY: ArtifactDescriptor = Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STATEREPOSITORY_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_staterepository_operational",
     name: "Microsoft-Windows-StateRepository/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22835,7 +22835,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STATEREPOSITORY_DEBUG: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_staterepository_debug",
         name: "Microsoft-Windows-StateRepository/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -22861,7 +22861,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STATEREPOSITORY_DEBUG: ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STATEREPOSITORY_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_staterepository_diagnostic",
     name: "Microsoft-Windows-StateRepository/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -22886,7 +22886,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STICKYNOTES_DEBUG: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_stickynotes_debug",
         name: "Microsoft-Windows-StickyNotes/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -22913,7 +22913,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STICKYNOTES_ADMIN: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_stickynotes_admin",
         name: "Microsoft-Windows-StickyNotes/Admin",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -22940,7 +22940,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STICKYNOTES_DIAGNOSTIC: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_stickynotes_diagnostic",
         name: "Microsoft-Windows-StickyNotes/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -22967,7 +22967,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORDIAG_OPERATIONAL: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_stordiag_operational",
         name: "Microsoft-Windows-StorDiag/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -22993,7 +22993,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORDIAG_OPERATIONAL: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_CLASSPNP_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storage_classpnp_analytic",
     name: "Microsoft-Windows-Storage-ClassPnP/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23017,7 +23017,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_CLASSPNP_ANALYTIC: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_CLASSPNP_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storage_classpnp_diagnose",
     name: "Microsoft-Windows-Storage-ClassPnP/Diagnose",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23041,7 +23041,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_CLASSPNP_DIAGNOSE: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_CLASSPNP_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storage_classpnp_operational",
     name: "Microsoft-Windows-Storage-ClassPnP/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23066,7 +23066,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORPORT_OPERATIONAL: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_storport_operational",
         name: "Microsoft-Windows-StorPort/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -23092,7 +23092,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORPORT_OPERATIONAL: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_DIAGNOSE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storage_storport_diagnose",
     name: "Microsoft-Windows-Storage-Storport/Diagnose",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23116,7 +23116,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_DIAGNOSE: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storage_storport_analytic",
     name: "Microsoft-Windows-Storage-Storport/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23140,7 +23140,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_ANALYTIC: ArtifactDesc
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storage_storport_operational",
     name: "Microsoft-Windows-Storage-Storport/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23165,7 +23165,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_HEALTH: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_storage_storport_health",
         name: "Microsoft-Windows-Storage-Storport/Health",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -23191,7 +23191,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_STORPORT_HEALTH: ArtifactDescri
 pub(crate) static EVTX_TIERING_HEAT_MEASUREMENT_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_tiering_heat_measurement_channel",
     name: "Tiering Heat Measurement Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23216,7 +23216,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_TIERING_ADMIN: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_storage_tiering_admin",
         name: "Microsoft-Windows-Storage-Tiering/Admin",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -23242,7 +23242,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGE_TIERING_ADMIN: ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_PARTUTIL_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storagemanagement_partutil_operationa",
     name: "Microsoft-Windows-StorageManagement-PartUtil/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23267,7 +23267,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_DEBUG: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_storagemanagement_debug",
         name: "Microsoft-Windows-StorageManagement/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -23293,7 +23293,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_DEBUG: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storagemanagement_operational",
     name: "Microsoft-Windows-StorageManagement/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23317,7 +23317,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEMANAGEMENT_OPERATIONAL: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESETTINGS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storagesettings_diagnostic",
     name: "Microsoft-Windows-StorageSettings/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23341,7 +23341,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESETTINGS_DIAGNOSTIC: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_API_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storagespaces_api_operational",
     name: "Microsoft-Windows-StorageSpaces-Api/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23365,7 +23365,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_API_OPERATIONAL: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_DRIVER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storagespaces_driver_operational",
     name: "Microsoft-Windows-StorageSpaces-Driver/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23389,7 +23389,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_DRIVER_OPERATIONAL: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_DRIVER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storagespaces_driver_diagnostic",
     name: "Microsoft-Windows-StorageSpaces-Driver/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23413,7 +23413,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_DRIVER_DIAGNOSTIC: Artifa
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_DRIVER_PERFORMANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storagespaces_driver_performance",
     name: "Microsoft-Windows-StorageSpaces-Driver/Performance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23437,7 +23437,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_DRIVER_PERFORMANCE: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_MANAGEMENTAGENT_WHC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storagespaces_managementagent_whc",
     name: "Microsoft-Windows-StorageSpaces-ManagementAgent/WHC",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23461,7 +23461,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_MANAGEMENTAGENT_WHC: Arti
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_PARSER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storagespaces_parser_operational",
     name: "Microsoft-Windows-StorageSpaces-Parser/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23485,7 +23485,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_PARSER_OPERATIONAL: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_PARSER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storagespaces_parser_diagnostic",
     name: "Microsoft-Windows-StorageSpaces-Parser/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23509,7 +23509,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_PARSER_DIAGNOSTIC: Artifa
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_SPACEMANAGER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storagespaces_spacemanager_diagnostic",
     name: "Microsoft-Windows-StorageSpaces-SpaceManager/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23533,7 +23533,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_SPACEMANAGER_DIAGNOSTIC: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_SPACEMANAGER_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storagespaces_spacemanager_operationa",
     name: "Microsoft-Windows-StorageSpaces-SpaceManager/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23557,7 +23557,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGESPACES_SPACEMANAGER_OPERATIONA: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_STORAGEVOLUME_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_storagevolume_operational",
     name: "Microsoft-Windows-StorageVolume/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23582,7 +23582,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_STORSVC_DIAGNOSTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_storsvc_diagnostic",
         name: "Microsoft-Windows-Storsvc/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -23609,7 +23609,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SUBSYS_CSR_OPERATIONAL: ArtifactDescrip
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_subsys_csr_operational",
         name: "Microsoft-Windows-Subsys-Csr/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -23636,7 +23636,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SUBSYS_SMSS_OPERATIONAL: ArtifactDescri
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_subsys_smss_operational",
         name: "Microsoft-Windows-Subsys-SMSS/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -23662,7 +23662,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SUBSYS_SMSS_OPERATIONAL: ArtifactDescri
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SUDO_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_sudo_admin",
     name: "Microsoft-Windows-Sudo/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23687,7 +23687,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SUPERFETCH_AGMCLOG: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_superfetch_agmclog",
         name: "Microsoft-Windows-Superfetch/AgmcLog",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -23714,7 +23714,7 @@ pub(crate) static EVTX_MEMORY_COOLING_OPERATIONAL_CHANNEL: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_memory_cooling_operational_channel",
         name: "Memory cooling operational channel",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -23741,7 +23741,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SUPERFETCH_PFAPLOG: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_superfetch_pfaplog",
         name: "Microsoft-Windows-Superfetch/PfApLog",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -23768,7 +23768,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSPREP_ANALYTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_sysprep_analytic",
         name: "Microsoft-Windows-Sysprep/Analytic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -23794,7 +23794,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSPREP_ANALYTIC: ArtifactDescriptor =
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEM_PROFILE_HARDWAREID_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_system_profile_hardwareid_diagnostic",
     name: "Microsoft-Windows-System-Profile-HardwareId/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23818,7 +23818,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEM_PROFILE_HARDWAREID_DIAGNOSTIC: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMDATAARCHIVER_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_systemdataarchiver_diagnostic",
     name: "Microsoft-Windows-SystemDataArchiver/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23842,7 +23842,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMDATAARCHIVER_DIAGNOSTIC: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMHEALTHAGENT_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_systemhealthagent_diagnostic",
     name: "Microsoft-Windows-SystemHealthAgent/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23866,7 +23866,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMHEALTHAGENT_DIAGNOSTIC: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGS_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_systemsettings_diagnostic",
     name: "Microsoft-Windows-SystemSettings/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23891,7 +23891,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGS_DEBUG: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_systemsettings_debug",
         name: "Microsoft-Windows-SystemSettings/Debug",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -23917,7 +23917,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGS_DEBUG: ArtifactDescripto
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_systemsettings_operational",
     name: "Microsoft-Windows-SystemSettings/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23941,7 +23941,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGS_OPERATIONAL: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSHANDLERS_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_systemsettingshandlers_debug",
     name: "Microsoft-Windows-SystemSettingsHandlers/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23965,7 +23965,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSHANDLERS_DEBUG: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSTHRESHOLD_DIAGNOSTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_systemsettingsthreshold_diagnostic",
     name: "Microsoft-Windows-SystemSettingsThreshold/Diagnostic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -23989,7 +23989,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSTHRESHOLD_DIAGNOSTIC: Art
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSTHRESHOLD_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_systemsettingsthreshold_debug",
     name: "Microsoft-Windows-SystemSettingsThreshold/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24013,7 +24013,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSTHRESHOLD_DEBUG: Artifact
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSTHRESHOLD_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_systemsettingsthreshold_operational",
     name: "Microsoft-Windows-SystemSettingsThreshold/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24037,7 +24037,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSTHRESHOLD_OPERATIONAL: Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_SYSTEMSETTINGSV2_INFORMATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_systemsettingsv2_informational",
     name: "Microsoft-Windows-SystemSettingsV2/Informational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24062,7 +24062,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TCPIP_DIAGNOSTIC: ArtifactDescriptor =
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_tcpip_diagnostic",
         name: "Microsoft-Windows-TCPIP/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -24088,7 +24088,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TCPIP_DIAGNOSTIC: ArtifactDescriptor =
 pub(crate) static EVTX_UIMANAGER_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_uimanager_channel",
     name: "UIManager_Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24113,7 +24113,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TSF_MSCTF_DIAGNOSTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_tsf_msctf_diagnostic",
         name: "Microsoft-Windows-TSF-msctf/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -24140,7 +24140,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TSF_MSUTB_DIAGNOSTIC: ArtifactDescripto
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_tsf_msutb_diagnostic",
         name: "Microsoft-Windows-TSF-msutb/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -24167,7 +24167,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TZSYNC_OPERATIONAL: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_tzsync_operational",
         name: "Microsoft-Windows-TZSync/Operational",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -24193,7 +24193,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TZSYNC_OPERATIONAL: ArtifactDescriptor 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TZSYNC_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_tzsync_analytic",
     name: "Microsoft-Windows-TZSync/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24219,7 +24219,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TZSYNC_ANALYTIC: ArtifactDescriptor = A
 pub(crate) static EVTX_TABLETPC_INPUTPANEL_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_tabletpc_inputpanel_channel",
     name: "TabletPC_InputPanel_Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24243,7 +24243,7 @@ pub(crate) static EVTX_TABLETPC_INPUTPANEL_CHANNEL: ArtifactDescriptor = Artifac
 pub(crate) static EVTX_OSK_SOFTKEYBOARD_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_osk_softkeyboard_channel",
     name: "OSK_SoftKeyboard_Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24267,7 +24267,7 @@ pub(crate) static EVTX_OSK_SOFTKEYBOARD_CHANNEL: ArtifactDescriptor = ArtifactDe
 pub(crate) static EVTX_TABLETPC_INPUTPANEL_CHANNEL_IHM: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_tabletpc_inputpanel_channel_ihm",
     name: "TabletPC_InputPanel_Channel/IHM",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24291,7 +24291,7 @@ pub(crate) static EVTX_TABLETPC_INPUTPANEL_CHANNEL_IHM: ArtifactDescriptor = Art
 pub(crate) static EVTX_IHM_DEBUGCHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_ihm_debugchannel",
     name: "IHM_DebugChannel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24315,7 +24315,7 @@ pub(crate) static EVTX_IHM_DEBUGCHANNEL: ArtifactDescriptor = ArtifactDescriptor
 pub(crate) static EVTX_PHYSICAL_KEYBOARD_MANAGER_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_physical_keyboard_manager_channel",
     name: "Physical_Keyboard_Manager_Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24339,7 +24339,7 @@ pub(crate) static EVTX_PHYSICAL_KEYBOARD_MANAGER_CHANNEL: ArtifactDescriptor = A
 pub(crate) static EVTX_MAINTENANCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_maintenance",
     name: "Maintenance",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24364,7 +24364,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TASKBARCPL_DIAGNOSTIC: ArtifactDescript
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_taskbarcpl_diagnostic",
         name: "Microsoft-Windows-TaskbarCPL/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -24390,7 +24390,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TASKBARCPL_DIAGNOSTIC: ArtifactDescript
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TENANTRESTRICTIONS_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_tenantrestrictions_operational",
     name: "Microsoft-Windows-TenantRestrictions/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24414,7 +24414,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TENANTRESTRICTIONS_OPERATIONAL: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPCLIENT_DEBUG: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_rdpclient_debug",
     name: "Microsoft-Windows-TerminalServices-RDPClient/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24438,7 +24438,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPCLIENT_DEBUG: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPCLIENT_OPERATIONA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_rdpclient_operationa",
     name: "Microsoft-Windows-TerminalServices-RDPClient/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24462,7 +24462,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPCLIENT_OPERATIONA: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPCLIENT_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_rdpclient_analytic",
     name: "Microsoft-Windows-TerminalServices-RDPClient/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24486,7 +24486,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPCLIENT_ANALYTIC: Ar
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_gateway_operational",
     name: "Microsoft-Windows-TerminalServices-Gateway/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24510,7 +24510,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_OPERATIONAL: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_gateway_admin",
     name: "Microsoft-Windows-TerminalServices-Gateway/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24534,7 +24534,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_ADMIN: Artifac
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_TRACING: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_gateway_tracing",
     name: "Microsoft-Windows-TerminalServices-Gateway/Tracing",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24558,7 +24558,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_TRACING: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_gateway_analytic",
     name: "Microsoft-Windows-TerminalServices-Gateway/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24582,7 +24582,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_GATEWAY_ANALYTIC: Arti
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_LICENSING_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_licensing_admin",
     name: "Microsoft-Windows-TerminalServices-Licensing/Admin",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24606,7 +24606,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_LICENSING_ADMIN: Artif
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_LOCALSESSIONMANAGER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_localsessionmanager",
     name: "Microsoft-Windows-TerminalServices-LocalSessionManager/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24630,7 +24630,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_LOCALSESSIONMANAGER: A
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_MEDIAREDIRECTION_ANA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_mediaredirection_ana",
     name: "Microsoft-Windows-TerminalServices-MediaRedirection/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24654,7 +24654,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_MEDIAREDIRECTION_ANA: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPSOUNDDRIVER_PLAYB: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_rdpsounddriver_playb",
     name: "Microsoft-Windows-TerminalServices-RdpSoundDriver/Playback",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24678,7 +24678,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPSOUNDDRIVER_PLAYB: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPSOUNDDRIVER_CAPTU: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_rdpsounddriver_captu",
     name: "Microsoft-Windows-TerminalServices-RdpSoundDriver/Capture",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24702,7 +24702,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_RDPSOUNDDRIVER_CAPTU: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_REMOTECONNECTIONMANA: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_remoteconnectionmana",
     name: "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Debug",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24726,7 +24726,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_REMOTECONNECTIONMANA: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_SESSIONBROKER_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_terminalservices_sessionbroker_client",
     name: "Microsoft-Windows-TerminalServices-SessionBroker-Client/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24750,7 +24750,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TERMINALSERVICES_SESSIONBROKER_CLIENT: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TETHERING_MANAGER_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_tethering_manager_analytic",
     name: "Microsoft-Windows-Tethering-Manager/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24774,7 +24774,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TETHERING_MANAGER_ANALYTIC: ArtifactDes
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TETHERING_STATION_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_tethering_station_analytic",
     name: "Microsoft-Windows-Tethering-Station/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24799,7 +24799,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_THEMECPL_DIAGNOSTIC: ArtifactDescriptor
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_themecpl_diagnostic",
         name: "Microsoft-Windows-ThemeCPL/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -24826,7 +24826,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_THEMEUI_DIAGNOSTIC: ArtifactDescriptor 
     ArtifactDescriptor {
         id: "evtx_microsoft_windows_themeui_diagnostic",
         name: "Microsoft-Windows-ThemeUI/Diagnostic",
-        artifact_type: ArtifactType::EventLog,
+        artifact_type: ArtifactLocation::EventLog,
         hive: None,
         key_path: "",
         value_name: None,
@@ -24852,7 +24852,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_THEMEUI_DIAGNOSTIC: ArtifactDescriptor 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_THREAT_INTELLIGENCE_ANALYTIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_threat_intelligence_analytic",
     name: "Microsoft-Windows-Threat-Intelligence/Analytic",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24876,7 +24876,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_THREAT_INTELLIGENCE_ANALYTIC: ArtifactD
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TIME_SERVICE_PTP_PROVIDER_PTP_OPERATI: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_time_service_ptp_provider_ptp_operati",
     name: "Microsoft-Windows-Time-Service-PTP-Provider/PTP-Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24900,7 +24900,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TIME_SERVICE_PTP_PROVIDER_PTP_OPERATI: 
 pub(crate) static EVTX_MICROSOFT_WINDOWS_TIME_SERVICE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_microsoft_windows_time_service_operational",
     name: "Microsoft-Windows-Time-Service/Operational",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -24924,7 +24924,7 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_TIME_SERVICE_OPERATIONAL: ArtifactDescr
 pub(crate) static EVTX_TUNNEL_DRIVER_ETW_CHANNEL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_tunnel_driver_etw_channel",
     name: "Tunnel Driver Etw Channel",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,

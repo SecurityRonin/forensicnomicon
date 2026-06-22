@@ -5,12 +5,12 @@
 #![allow(clippy::too_many_lines)]
 
 use super::super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, HiveTarget, OsScope, TriagePriority,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, HiveTarget, OsScope, TriagePriority,
 };
 pub(crate) static NIRSOFT_LAST_ACTIVITY_RECENT_ITEMS: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_last_activity_recent_items",
     name: "LastActivityView — Recent Items",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -34,7 +34,7 @@ pub(crate) static NIRSOFT_LAST_ACTIVITY_RECENT_ITEMS: ArtifactDescriptor = Artif
 pub(crate) static NIRSOFT_BROWSING_HISTORY_CHROME: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_browsing_history_chrome",
     name: "BrowsingHistoryView — Chrome History",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -58,7 +58,7 @@ pub(crate) static NIRSOFT_BROWSING_HISTORY_CHROME: ArtifactDescriptor = Artifact
 pub(crate) static NIRSOFT_BROWSING_HISTORY_FIREFOX: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_browsing_history_firefox",
     name: "BrowsingHistoryView — Firefox History",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -82,7 +82,7 @@ pub(crate) static NIRSOFT_BROWSING_HISTORY_FIREFOX: ArtifactDescriptor = Artifac
 pub(crate) static NIRSOFT_NETWORK_CONNECT_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_network_connect_log",
     name: "NetworkConnectLog — System Log Files",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -107,7 +107,7 @@ pub(crate) static NIRSOFT_NETWORK_CONNECT_LOG: ArtifactDescriptor = ArtifactDesc
 pub(crate) static NIRSOFT_USBDEVIEW_ENUM_USB: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_usbdeview_enum_usb",
     name: "USBDeview — USB Device Enumeration",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "CurrentControlSet\\Enum\\USB",
     value_name: None,
@@ -131,7 +131,7 @@ pub(crate) static NIRSOFT_USBDEVIEW_ENUM_USB: ArtifactDescriptor = ArtifactDescr
 pub(crate) static NIRSOFT_USBDEVIEW_ENUM_USBSTOR: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_usbdeview_enum_usbstor",
     name: "USBDeview — USB Storage Device History",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "CurrentControlSet\\Enum\\USBSTOR",
     value_name: None,
@@ -155,7 +155,7 @@ pub(crate) static NIRSOFT_USBDEVIEW_ENUM_USBSTOR: ArtifactDescriptor = ArtifactD
 pub(crate) static NIRSOFT_SHELLBAGS_USRCLASS_BAGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_shellbags_usrclass_bags",
     name: "ShellBagsView — UsrClass ShellBags",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::UsrClass),
     key_path: "Local Settings\\Software\\Microsoft\\Windows\\Shell\\Bags",
     value_name: None,
@@ -179,7 +179,7 @@ pub(crate) static NIRSOFT_SHELLBAGS_USRCLASS_BAGS: ArtifactDescriptor = Artifact
 pub(crate) static NIRSOFT_SHELLBAGS_NTUSER_BAGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_shellbags_ntuser_bags",
     name: "ShellBagsView — NTUSER ShellBags",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\Shell\\BagMRU",
     value_name: None,
@@ -203,7 +203,7 @@ pub(crate) static NIRSOFT_SHELLBAGS_NTUSER_BAGS: ArtifactDescriptor = ArtifactDe
 pub(crate) static NIRSOFT_JUMPLISTS_AUTOMATIC_DESTINATIONS: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_jumplists_automatic_destinations",
     name: "JumpListsView — Automatic Destinations",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -227,7 +227,7 @@ pub(crate) static NIRSOFT_JUMPLISTS_AUTOMATIC_DESTINATIONS: ArtifactDescriptor =
 pub(crate) static NIRSOFT_JUMPLISTS_CUSTOM_DESTINATIONS: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_jumplists_custom_destinations",
     name: "JumpListsView — Custom Destinations",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -251,7 +251,7 @@ pub(crate) static NIRSOFT_JUMPLISTS_CUSTOM_DESTINATIONS: ArtifactDescriptor = Ar
 pub(crate) static NIRSOFT_MUICACHE_LOCAL_SETTINGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_muicache_local_settings",
     name: "MUICache — Program Execution Evidence",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::UsrClass),
     key_path: "Local Settings\\Software\\Microsoft\\Windows\\Shell\\MuiCache",
     value_name: None,
@@ -275,7 +275,7 @@ pub(crate) static NIRSOFT_MUICACHE_LOCAL_SETTINGS: ArtifactDescriptor = Artifact
 pub(crate) static NIRSOFT_RECENTFILES_RECENTDOCS_KEY: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_recentfiles_recentdocs_key",
     name: "RecentFilesView — RecentDocs Registry Key",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RecentDocs",
     value_name: None,
@@ -299,7 +299,7 @@ pub(crate) static NIRSOFT_RECENTFILES_RECENTDOCS_KEY: ArtifactDescriptor = Artif
 pub(crate) static NIRSOFT_WIFI_HISTORY_PROFILES_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_wifi_history_profiles_dir",
     name: "WifiHistoryView — WLAN Profiles Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -323,7 +323,7 @@ pub(crate) static NIRSOFT_WIFI_HISTORY_PROFILES_DIR: ArtifactDescriptor = Artifa
 pub(crate) static NIRSOFT_NETWORK_PASSWORDS_CRED_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_network_passwords_cred_dir",
     name: "NetworkPasswordRecovery — Credentials Store",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -347,7 +347,7 @@ pub(crate) static NIRSOFT_NETWORK_PASSWORDS_CRED_DIR: ArtifactDescriptor = Artif
 pub(crate) static NIRSOFT_SAM_HIVE_REG: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_sam_hive_reg",
     name: "SAM Hive — Account Database",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSam),
     key_path: "SAM\\Domains\\Account\\Users",
     value_name: None,
@@ -371,7 +371,7 @@ pub(crate) static NIRSOFT_SAM_HIVE_REG: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static NIRSOFT_REGISTRY_CHANGES_NTUSER: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_registry_changes_ntuser",
     name: "RegistryChangesView — NTUSER.DAT",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -395,7 +395,7 @@ pub(crate) static NIRSOFT_REGISTRY_CHANGES_NTUSER: ArtifactDescriptor = Artifact
 pub(crate) static NIRSOFT_OPENED_FILES_VIEW_HANDLE: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_opened_files_view_handle",
     name: "OpenedFilesView — Open File Handles",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -419,7 +419,7 @@ pub(crate) static NIRSOFT_OPENED_FILES_VIEW_HANDLE: ArtifactDescriptor = Artifac
 pub(crate) static NIRSOFT_PROCESS_ACTIVITY_PREFETCH: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_process_activity_prefetch",
     name: "ProcessActivityView — Prefetch Files",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -443,7 +443,7 @@ pub(crate) static NIRSOFT_PROCESS_ACTIVITY_PREFETCH: ArtifactDescriptor = Artifa
 pub(crate) static NIRSOFT_INSTALLED_CODEC_AUDIO: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_installed_codec_audio",
     name: "InstalledCodec — Audio/Video Codec Registry",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows NT\\CurrentVersion\\Drivers32",
     value_name: None,
@@ -467,7 +467,7 @@ pub(crate) static NIRSOFT_INSTALLED_CODEC_AUDIO: ArtifactDescriptor = ArtifactDe
 pub(crate) static NIRSOFT_STARTUP_RUN_HKLM_RUN: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_startup_run_hklm_run",
     name: "Startup Run — HKLM Run Key",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows\\CurrentVersion\\Run",
     value_name: None,
@@ -491,7 +491,7 @@ pub(crate) static NIRSOFT_STARTUP_RUN_HKLM_RUN: ArtifactDescriptor = ArtifactDes
 pub(crate) static NIRSOFT_STARTUP_RUN_HKCU_RUN: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_startup_run_hkcu_run",
     name: "Startup Run — HKCU Run Key",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
     value_name: None,
@@ -515,7 +515,7 @@ pub(crate) static NIRSOFT_STARTUP_RUN_HKCU_RUN: ArtifactDescriptor = ArtifactDes
 pub(crate) static NIRSOFT_APP_CRASH_DUMPS_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "nirsoft_app_crash_dumps_dir",
     name: "AppCrashView — Crash Dump Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,

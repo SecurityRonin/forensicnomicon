@@ -6,14 +6,14 @@
 #![allow(clippy::too_many_lines)]
 
 use super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
     ValueType,
 };
 
 pub(crate) static EVTX_TASK_SCHEDULER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_task_scheduler",
     name: "Task Scheduler Operational Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TaskScheduler%4Operational.evtx"),
@@ -41,7 +41,7 @@ pub(crate) static EVTX_TASK_SCHEDULER: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_RDP_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_rdp_client",
     name: "RDP Client Operational Log (outbound)",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TerminalServices-RDPClient%4Operational.evtx"),
@@ -69,7 +69,7 @@ pub(crate) static EVTX_RDP_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_RDP_INBOUND: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_rdp_inbound",
     name: "RDP Remote Connection Manager Log (inbound)",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TerminalServices-RemoteConnectionManager%4Operational.evtx"),
@@ -100,7 +100,7 @@ pub(crate) static EVTX_RDP_INBOUND: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_RDP_SESSION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_rdp_session",
     name: "RDP Local Session Manager Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-TerminalServices-LocalSessionManager%4Operational.evtx"),
@@ -129,7 +129,7 @@ pub(crate) static EVTX_RDP_SESSION: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_WINRM: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_winrm",
     name: "WinRM Operational Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-WinRM%4Operational.evtx"),
@@ -157,7 +157,7 @@ pub(crate) static EVTX_WINRM: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_WMI_ACTIVITY: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_wmi_activity",
     name: "WMI Activity Operational Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-WMI-Activity%4Operational.evtx"),
@@ -185,7 +185,7 @@ pub(crate) static EVTX_WMI_ACTIVITY: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_BITS_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_bits_client",
     name: "BITS Client Operational Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Bits-Client%4Operational.evtx"),
@@ -217,7 +217,7 @@ pub(crate) static EVTX_BITS_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_APPLOCKER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_applocker",
     name: "AppLocker EXE and DLL Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppLocker%4EXE and DLL.evtx"),
@@ -248,7 +248,7 @@ pub(crate) static EVTX_APPLOCKER: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_APPLOCKER_SCRIPT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_applocker_script",
     name: "AppLocker MSI and Script Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-AppLocker%4MSI and Script.evtx"),
@@ -279,7 +279,7 @@ pub(crate) static EVTX_APPLOCKER_SCRIPT: ArtifactDescriptor = ArtifactDescriptor
 pub(crate) static EVTX_DEFENDER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_defender",
     name: "Windows Defender Operational Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Windows Defender%4Operational.evtx"),
@@ -308,7 +308,7 @@ pub(crate) static EVTX_DEFENDER: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_FIREWALL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_firewall",
     name: "Windows Firewall with Advanced Security Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Windows Firewall With Advanced Security%4Firewall.evtx"),
@@ -339,7 +339,7 @@ pub(crate) static EVTX_FIREWALL: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_CODE_INTEGRITY: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_code_integrity",
     name: "Code Integrity Operational Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CodeIntegrity%4Operational.evtx"),
@@ -366,7 +366,7 @@ pub(crate) static EVTX_CODE_INTEGRITY: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_NTLM: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_ntlm",
     name: "NTLM Operational Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NTLM%4Operational.evtx"),
@@ -397,7 +397,7 @@ pub(crate) static EVTX_NTLM: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_PRINT_SERVICE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_print_service",
     name: "Print Service Operational Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-PrintService%4Operational.evtx"),
@@ -428,7 +428,7 @@ pub(crate) static EVTX_PRINT_SERVICE: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_NETLOGON: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_netlogon",
     name: "Netlogon Operational Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Security-Netlogon%4Operational.evtx"),
@@ -455,7 +455,7 @@ pub(crate) static EVTX_NETLOGON: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_SMB_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_smb_client",
     name: "SMB Client Security Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-SMBClient%4Security.evtx"),
@@ -483,7 +483,7 @@ pub(crate) static EVTX_SMB_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_NETWORK_PROFILE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_network_profile",
     name: "Network Profile Operational Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-NetworkProfile%4Operational.evtx"),
@@ -509,7 +509,7 @@ pub(crate) static EVTX_NETWORK_PROFILE: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static EVTX_KERNEL_PNP: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_kernel_pnp",
     name: "Kernel PnP Device Configuration Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-Kernel-PnP%4Device Configuration.evtx"),
@@ -536,7 +536,7 @@ pub(crate) static EVTX_KERNEL_PNP: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_DRIVER_FRAMEWORKS: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_driver_frameworks",
     name: "DriverFrameworks-UserMode Operational Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-DriverFrameworks-UserMode%4Operational.evtx"),
@@ -569,7 +569,7 @@ pub(crate) static EVTX_DRIVER_FRAMEWORKS: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static EVTX_LSA_PROTECTION: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_lsa_protection",
     name: "LSA Protection Operational Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-LSA%4Operational.evtx"),
@@ -596,7 +596,7 @@ pub(crate) static EVTX_LSA_PROTECTION: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_CAPI2: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_capi2",
     name: "CAPI2 Operational Log (certificate validation)",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-CAPI2%4Operational.evtx"),
@@ -627,7 +627,7 @@ pub(crate) static EVTX_CAPI2: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_POWERSHELL_CLASSIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_powershell_classic",
     name: "Windows PowerShell Classic Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Windows PowerShell.evtx"),
@@ -657,7 +657,7 @@ pub(crate) static EVTX_POWERSHELL_CLASSIC: ArtifactDescriptor = ArtifactDescript
 pub(crate) static EVTX_DNS_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_dns_client",
     name: "DNS Client Operational Event Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -694,7 +694,7 @@ pub(crate) static EVTX_DNS_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVTX_TERMINAL_SERVICES: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_terminal_services",
     name: "Terminal Services Local Session Manager Operational Log",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -740,7 +740,7 @@ pub(crate) static EVTX_TERMINAL_SERVICES: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static EVTX_APPLICATION_EXPERIENCE_TELEMETRY: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_application_experience_telemetry",
     name: "Application-Experience Program-Telemetry Log (driver-block validation)",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,

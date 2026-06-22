@@ -9,7 +9,7 @@
 //! Scripts: https://github.com/cheeky4n6monkey/Honda_Accord_2016_scripts
 
 use super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
     ValueType,
 };
 
@@ -50,7 +50,7 @@ pub(crate) static HONDA_ACCORD_RECENTSTOPS_FIELDS: &[FieldSchema] = &[
 pub(crate) static HONDA_ACCORD_RECENTSTOPS: ArtifactDescriptor = ArtifactDescriptor {
     id: "honda_accord_recentstops",
     name: "Honda Accord Garmin RecentStops (Navigation History)",
-    artifact_type: ArtifactType::DatabaseEntry,
+    artifact_type: ArtifactLocation::DatabaseEntry,
     hive: None,
     key_path: "",
     value_name: None,
@@ -161,7 +161,7 @@ pub(crate) static HONDA_ACCORD_CRM_ECO_LOGS_FIELDS: &[FieldSchema] = &[
 pub(crate) static HONDA_ACCORD_CRM_ECO_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "honda_accord_crm_eco_logs",
     name: "Honda Accord CRM Eco Logs (Trip Telemetry)",
-    artifact_type: ArtifactType::DatabaseEntry,
+    artifact_type: ArtifactLocation::DatabaseEntry,
     hive: None,
     key_path: "",
     value_name: None,
@@ -281,7 +281,7 @@ pub(crate) static HONDA_ACCORD_PHONEDB_FIELDS: &[FieldSchema] = &[
 pub(crate) static HONDA_ACCORD_PHONEDB: ArtifactDescriptor = ArtifactDescriptor {
     id: "honda_accord_phonedb",
     name: "Honda Accord Phone DB (Bluetooth Call History & Contacts)",
-    artifact_type: ArtifactType::DatabaseEntry,
+    artifact_type: ArtifactLocation::DatabaseEntry,
     hive: None,
     key_path: "",
     value_name: None,
@@ -350,7 +350,7 @@ pub(crate) static HONDA_ACCORD_BLUETOOTH_FIELDS: &[FieldSchema] = &[
 pub(crate) static HONDA_ACCORD_BLUETOOTH: ArtifactDescriptor = ArtifactDescriptor {
     id: "honda_accord_bluetooth",
     name: "Honda Accord Bluetooth Settings (Paired Devices)",
-    artifact_type: ArtifactType::DatabaseEntry,
+    artifact_type: ArtifactLocation::DatabaseEntry,
     hive: None,
     key_path: "",
     value_name: None,
@@ -436,7 +436,7 @@ pub(crate) static GARMIN_NUVI_VOICE_LOG_FIELDS: &[FieldSchema] = &[
 pub(crate) static GARMIN_NUVI_VOICE_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "garmin_nuvi_voice_log",
     name: "Garmin nuvi GPS Voice Instruction Log (vpm_log_all)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,

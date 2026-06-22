@@ -5,12 +5,12 @@
 #![allow(clippy::too_many_lines)]
 
 use super::super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, HiveTarget, OsScope, TriagePriority,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, HiveTarget, OsScope, TriagePriority,
 };
 pub(crate) static REGEDIT_NETWORK: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_network",
     name: "Network",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Network",
     value_name: None,
@@ -34,7 +34,7 @@ pub(crate) static REGEDIT_NETWORK: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static REGEDIT_MICROSOFT_INTERNET_EXPLORER_TYPEDURLS: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_microsoft_internet_explorer_typedurls",
     name: "Typed URLs",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Internet Explorer\\TypedURLs",
     value_name: None,
@@ -58,7 +58,7 @@ pub(crate) static REGEDIT_MICROSOFT_INTERNET_EXPLORER_TYPEDURLS: ArtifactDescrip
 pub(crate) static REGEDIT_USER_MRU: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_user_mru",
     name: "MS Office MRU",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "SOFTWARE\\Microsoft\\Office\\*\\*\\User MRU\\*\\*",
     value_name: None,
@@ -82,7 +82,7 @@ pub(crate) static REGEDIT_USER_MRU: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static REGEDIT_MICROSOFT_TERMINAL_SERVER_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_microsoft_terminal_server_client",
     name: "Terminal Server Client",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Terminal Server Client",
     value_name: None,
@@ -106,7 +106,7 @@ pub(crate) static REGEDIT_MICROSOFT_TERMINAL_SERVER_CLIENT: ArtifactDescriptor =
 pub(crate) static REGEDIT_EXPLORER_COMDLG32_CIDSIZEMRU: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_explorer_comdlg32_cidsizemru",
     name: "CIDSizeMRU",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\CIDSizeMRU",
     value_name: None,
@@ -130,7 +130,7 @@ pub(crate) static REGEDIT_EXPLORER_COMDLG32_CIDSIZEMRU: ArtifactDescriptor = Art
 pub(crate) static REGEDIT_EXPLORER_COMDLG32_FIRSTFOLDER: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_explorer_comdlg32_firstfolder",
     name: "FirstFolder",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\FirstFolder",
     value_name: None,
@@ -154,7 +154,7 @@ pub(crate) static REGEDIT_EXPLORER_COMDLG32_FIRSTFOLDER: ArtifactDescriptor = Ar
 pub(crate) static REGEDIT_EXPLORER_COMDLG32_LASTVISITEDPIDLMRU: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_explorer_comdlg32_lastvisitedpidlmru",
     name: "LastVisitedPidlMRU",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\LastVisitedPidlMRU",
     value_name: None,
@@ -178,7 +178,7 @@ pub(crate) static REGEDIT_EXPLORER_COMDLG32_LASTVISITEDPIDLMRU: ArtifactDescript
 pub(crate) static REGEDIT_EXPLORER_COMDLG32_LASTVISITEDPIDLMRULEGACY: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_explorer_comdlg32_lastvisitedpidlmrulegacy",
     name: "LastVisitedPidlMRULegacy",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\LastVisitedPidlMRULegacy",
     value_name: None,
@@ -202,7 +202,7 @@ pub(crate) static REGEDIT_EXPLORER_COMDLG32_LASTVISITEDPIDLMRULEGACY: ArtifactDe
 pub(crate) static REGEDIT_EXPLORER_COMDLG32_OPENSAVEPIDLMRU: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_explorer_comdlg32_opensavepidlmru",
     name: "OpenSavePidlMRU",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\OpenSavePidlMRU",
     value_name: None,
@@ -226,7 +226,7 @@ pub(crate) static REGEDIT_EXPLORER_COMDLG32_OPENSAVEPIDLMRU: ArtifactDescriptor 
 pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_FILEEXTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_currentversion_explorer_fileexts",
     name: "File Extensions",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts",
     value_name: None,
@@ -250,7 +250,7 @@ pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_FILEEXTS: ArtifactDescriptor =
 pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_RECENTDOCS: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_currentversion_explorer_recentdocs",
     name: "RecentDocs",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RecentDocs",
     value_name: None,
@@ -274,7 +274,7 @@ pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_RECENTDOCS: ArtifactDescriptor
 pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_MOUNTPOINTS2: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_currentversion_explorer_mountpoints2",
     name: "MountPoints2",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MountPoints2",
     value_name: None,
@@ -298,7 +298,7 @@ pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_MOUNTPOINTS2: ArtifactDescript
 pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUN: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_windows_currentversion_run",
     name: "User Run Key",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
     value_name: None,
@@ -322,7 +322,7 @@ pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUN: ArtifactDescriptor = Artif
 pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_windows_currentversion_runonce",
     name: "User RunOnce Key",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce",
     value_name: None,
@@ -346,7 +346,7 @@ pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUNONCE: ArtifactDescriptor = A
 pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_RUNMRU: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_currentversion_explorer_runmru",
     name: "RunMRU",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU",
     value_name: None,
@@ -370,7 +370,7 @@ pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_RUNMRU: ArtifactDescriptor = A
 pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_TYPEDPATHS: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_currentversion_explorer_typedpaths",
     name: "TypedPaths",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\TypedPaths",
     value_name: None,
@@ -394,7 +394,7 @@ pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_TYPEDPATHS: ArtifactDescriptor
 pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_USERASSIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_currentversion_explorer_userassist",
     name: "UserAssist",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\UserAssist",
     value_name: None,
@@ -418,7 +418,7 @@ pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_USERASSIST: ArtifactDescriptor
 pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_WORDWHEELQUERY: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_currentversion_explorer_wordwheelquery",
     name: "WordWheelQuery",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\WordWheelQuery",
     value_name: None,
@@ -442,7 +442,7 @@ pub(crate) static REGEDIT_CURRENTVERSION_EXPLORER_WORDWHEELQUERY: ArtifactDescri
 pub(crate) static REGEDIT_CURRENTVERSION_SEARCH_RECENTAPPS: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_currentversion_search_recentapps",
     name: "RecentApps",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Windows\\CurrentVersion\\Search\\RecentApps",
     value_name: None,
@@ -466,7 +466,7 @@ pub(crate) static REGEDIT_CURRENTVERSION_SEARCH_RECENTAPPS: ArtifactDescriptor =
 pub(crate) static REGEDIT_DOMAINS_ACCOUNT_USERS: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_domains_account_users",
     name: "SAM Users",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSam),
     key_path: "SAM\\Domains\\Account\\Users",
     value_name: None,
@@ -490,7 +490,7 @@ pub(crate) static REGEDIT_DOMAINS_ACCOUNT_USERS: ArtifactDescriptor = ArtifactDe
 pub(crate) static REGEDIT_MICROSOFT_WINDOWS_NT_CURRENTVERSION: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_microsoft_windows_nt_currentversion",
     name: "Windows NT Current Version",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows NT\\CurrentVersion",
     value_name: None,
@@ -514,7 +514,7 @@ pub(crate) static REGEDIT_MICROSOFT_WINDOWS_NT_CURRENTVERSION: ArtifactDescripto
 pub(crate) static REGEDIT_WINDOWS_NT_CURRENTVERSION_NETWORKLIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_windows_nt_currentversion_networklist",
     name: "Network List",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows NT\\CurrentVersion\\NetworkList",
     value_name: None,
@@ -538,7 +538,7 @@ pub(crate) static REGEDIT_WINDOWS_NT_CURRENTVERSION_NETWORKLIST: ArtifactDescrip
 pub(crate) static REGEDIT_POLICIES_EXPLORER_RUN: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_policies_explorer_run",
     name: "Group Policy Run Key",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows\\CurrentVersion\\policies\\Explorer\\Run",
     value_name: None,
@@ -562,7 +562,7 @@ pub(crate) static REGEDIT_POLICIES_EXPLORER_RUN: ArtifactDescriptor = ArtifactDe
 pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUN_SYSTEM_RUN_KEY: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_windows_currentversion_run_system_run_key",
     name: "System Run Key",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows\\CurrentVersion\\Run",
     value_name: None,
@@ -586,7 +586,7 @@ pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUN_SYSTEM_RUN_KEY: ArtifactDes
 pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUNONCE_SYSTEM_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_windows_currentversion_runonce_system_runonce",
     name: "System RunOnce Key",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows\\CurrentVersion\\RunOnce",
     value_name: None,
@@ -610,7 +610,7 @@ pub(crate) static REGEDIT_WINDOWS_CURRENTVERSION_RUNONCE_SYSTEM_RUNONCE: Artifac
 pub(crate) static REGEDIT_MICROSOFT_WINDOWS_PORTABLE_DEVICES_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_microsoft_windows_portable_devices_devices",
     name: "Portable Devices",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows Portable Devices\\Devices\\",
     value_name: None,
@@ -634,7 +634,7 @@ pub(crate) static REGEDIT_MICROSOFT_WINDOWS_PORTABLE_DEVICES_DEVICES: ArtifactDe
 pub(crate) static REGEDIT_CONTROL_COMPUTERNAME_COMPUTERNAME: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_control_computername_computername",
     name: "ComputerName",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "ControlSet00*\\Control\\ComputerName\\ComputerName",
     value_name: None,
@@ -658,7 +658,7 @@ pub(crate) static REGEDIT_CONTROL_COMPUTERNAME_COMPUTERNAME: ArtifactDescriptor 
 pub(crate) static REGEDIT_CONTROL_SESSION_MANAGER_APPCOMPATCACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_control_session_manager_appcompatcache",
     name: "AppCompatCache",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "ControlSet00*\\Control\\Session Manager\\AppCompatCache",
     value_name: None,
@@ -682,7 +682,7 @@ pub(crate) static REGEDIT_CONTROL_SESSION_MANAGER_APPCOMPATCACHE: ArtifactDescri
 pub(crate) static REGEDIT_CONTROLSET00_CONTROL_TIMEZONEINFORMATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_controlset00_control_timezoneinformation",
     name: "TimeZoneInformation",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "ControlSet00*\\Control\\TimeZoneInformation",
     value_name: None,
@@ -706,7 +706,7 @@ pub(crate) static REGEDIT_CONTROLSET00_CONTROL_TIMEZONEINFORMATION: ArtifactDesc
 pub(crate) static REGEDIT_SYSTEM_CONTROLSET00_SERVICES: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_system_controlset00_services",
     name: "Services",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "ControlSet00*\\Services",
     value_name: None,
@@ -730,7 +730,7 @@ pub(crate) static REGEDIT_SYSTEM_CONTROLSET00_SERVICES: ArtifactDescriptor = Art
 pub(crate) static REGEDIT_SERVICES_BAM_USERSETTINGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_services_bam_usersettings",
     name: "BAM",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "ControlSet00*\\Services\\bam\\UserSettings",
     value_name: None,
@@ -754,7 +754,7 @@ pub(crate) static REGEDIT_SERVICES_BAM_USERSETTINGS: ArtifactDescriptor = Artifa
 pub(crate) static REGEDIT_SERVICES_DAM_USERSETTINGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_services_dam_usersettings",
     name: "DAM",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "ControlSet00*\\Services\\dam\\UserSettings",
     value_name: None,
@@ -778,7 +778,7 @@ pub(crate) static REGEDIT_SERVICES_DAM_USERSETTINGS: ArtifactDescriptor = Artifa
 pub(crate) static REGEDIT_SERVICES_LANMANSERVER_SHARES: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_services_lanmanserver_shares",
     name: "Network Shares",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "ControlSet00*\\Services\\lanmanserver\\Shares",
     value_name: None,
@@ -802,7 +802,7 @@ pub(crate) static REGEDIT_SERVICES_LANMANSERVER_SHARES: ArtifactDescriptor = Art
 pub(crate) static REGEDIT_TCPIP_PARAMETERS_INTERFACES: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_tcpip_parameters_interfaces",
     name: "DHCP Network Hints",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "ControlSet00*\\Services\\Tcpip\\Parameters\\Interfaces",
     value_name: None,
@@ -826,7 +826,7 @@ pub(crate) static REGEDIT_TCPIP_PARAMETERS_INTERFACES: ArtifactDescriptor = Arti
 pub(crate) static REGEDIT_PARAMETERS_INTERFACES: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_parameters_interfaces",
     name: "Network Interfaces",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "ControlSet00*\\Services\\Tcpip\\Parameters\\Interfaces\\*",
     value_name: None,
@@ -850,7 +850,7 @@ pub(crate) static REGEDIT_PARAMETERS_INTERFACES: ArtifactDescriptor = ArtifactDe
 pub(crate) static REGEDIT_SYSTEM_MOUNTEDDEVICES: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_system_mounteddevices",
     name: "MountedDevices",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "MountedDevices",
     value_name: None,
@@ -874,7 +874,7 @@ pub(crate) static REGEDIT_SYSTEM_MOUNTEDDEVICES: ArtifactDescriptor = ArtifactDe
 pub(crate) static REGEDIT_SYSTEM_SETUP: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_system_setup",
     name: "Setup",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "Setup",
     value_name: None,
@@ -898,7 +898,7 @@ pub(crate) static REGEDIT_SYSTEM_SETUP: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static REGEDIT_SYSTEM_SELECT: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_system_select",
     name: "Current Control Set Name",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "Select",
     value_name: None,
@@ -922,7 +922,7 @@ pub(crate) static REGEDIT_SYSTEM_SELECT: ArtifactDescriptor = ArtifactDescriptor
 pub(crate) static REGEDIT_CONTROLSET00_CONTROL_WINDOWS: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_controlset00_control_windows",
     name: "Shutdown Time",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: "ControlSet00*\\Control\\Windows",
     value_name: None,
@@ -946,7 +946,7 @@ pub(crate) static REGEDIT_CONTROLSET00_CONTROL_WINDOWS: ArtifactDescriptor = Art
 pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_currentversion_profilelist",
     name: "ProfileList Flags",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\*",
     value_name: None,
@@ -970,7 +970,7 @@ pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST: ArtifactDescriptor = Artif
 pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_PRO: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_currentversion_profilelist_profilelist_pro",
     name: "ProfileList ProfileImagepath",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\*",
     value_name: None,
@@ -994,7 +994,7 @@ pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_PRO: ArtifactDe
 pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_RUN: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_currentversion_profilelist_profilelist_run",
     name: "ProfileList RunLogonScriptsync",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\*",
     value_name: None,
@@ -1018,7 +1018,7 @@ pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_RUN: ArtifactDe
 pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_SID: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_currentversion_profilelist_profilelist_sid",
     name: "ProfileList Sid",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\*",
     value_name: None,
@@ -1042,7 +1042,7 @@ pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_SID: ArtifactDe
 pub(crate) static REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_STA: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_currentversion_profilelist_profilelist_sta",
     name: "ProfileList State",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: "Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\*",
     value_name: None,

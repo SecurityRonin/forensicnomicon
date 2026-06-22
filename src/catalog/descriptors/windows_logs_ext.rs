@@ -6,14 +6,14 @@
 #![allow(clippy::too_many_lines)]
 
 use super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
     ValueType,
 };
 
 pub(crate) static WINDOWS_CRASH_DUMP: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_crash_dump",
     name: "Windows Kernel/Complete Memory Dump",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -42,7 +42,7 @@ pub(crate) static WINDOWS_CRASH_DUMP: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static WINDOWS_MINIDUMP: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_minidump",
     name: "Windows BSOD Minidump Files",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -68,7 +68,7 @@ pub(crate) static WINDOWS_MINIDUMP: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static AMCACHE_DRIVER: ArtifactDescriptor = ArtifactDescriptor {
     id: "amcache_driver",
     name: "AmCache InventoryDriverBinary",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: None,
     key_path: "",
     value_name: None,
@@ -98,7 +98,7 @@ pub(crate) static AMCACHE_DRIVER: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static WER_REPORT_QUEUE: ArtifactDescriptor = ArtifactDescriptor {
     id: "wer_report_queue",
     name: "Windows Error Reporting Queue",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -127,7 +127,7 @@ pub(crate) static WER_REPORT_QUEUE: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static WINDOWS_NOTIFICATION_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_notification_db",
     name: "Windows Push Notification Database",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -159,7 +159,7 @@ pub(crate) static WINDOWS_NOTIFICATION_DB: ArtifactDescriptor = ArtifactDescript
 pub(crate) static AMCACHE_SHORTCUT: ArtifactDescriptor = ArtifactDescriptor {
     id: "amcache_shortcut",
     name: "AmCache InventoryApplicationShortcut",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: None,
     key_path: "",
     value_name: None,

@@ -56,7 +56,7 @@ mod descriptors;
 pub mod types;
 
 pub use types::{
-    ArtifactDescriptor, ArtifactParsingProfile, ArtifactQuery, ArtifactRecord, ArtifactType,
+    ArtifactDescriptor, ArtifactLocation, ArtifactParsingProfile, ArtifactQuery, ArtifactRecord,
     ArtifactValue, BinaryField, BinaryFieldType, ContainerProfile, ContainerSignature, DataScope,
     DecodeError, Decoder, FieldSchema, ForensicCatalog, HiveTarget, OsScope, Platform,
     PlatformMask, RecordSignature, TriagePriority, ValueType,
@@ -192,7 +192,7 @@ mod refactor_contract {
         let _ = CATALOG.filter_by_keyword("prefetch");
 
         // Key public types must be nameable without qualification issues.
-        let _: ArtifactType = ArtifactType::File;
+        let _: ArtifactLocation = ArtifactLocation::File;
         let _: TriagePriority = TriagePriority::Critical;
         let _: DataScope = DataScope::User;
         let _: OsScope = OsScope::Win10Plus;

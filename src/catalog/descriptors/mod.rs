@@ -21,7 +21,7 @@ mod windows_registry_ext2;
 mod windows_registry_ext3;
 
 use super::types::{
-    ArtifactDescriptor, ArtifactType, BinaryField, BinaryFieldType, DataScope, Decoder,
+    ArtifactDescriptor, ArtifactLocation, BinaryField, BinaryFieldType, DataScope, Decoder,
     FieldSchema, HiveTarget, OsScope, TriagePriority, ValueType,
 };
 
@@ -109,7 +109,7 @@ pub(crate) static USERASSIST_FIELDS: &[FieldSchema] = &[
 pub static USERASSIST_EXE: ArtifactDescriptor = ArtifactDescriptor {
     id: "userassist_exe",
     name: "UserAssist (EXE)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::NtUser),
     // Source: https://www.magnetforensics.com/blog/artifact-profile-userassist/
     // https://www.sans.org/blog/computer-forensic-artifacts-windows-7-userassist/
@@ -159,7 +159,7 @@ pub(crate) static RUN_KEY_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static RUN_KEY_HKLM_RUN: ArtifactDescriptor = ArtifactDescriptor {
     id: "run_key_hklm",
     name: "Run Key (HKLM)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows\CurrentVersion\Run",
     value_name: None,
@@ -201,7 +201,7 @@ pub(crate) static TYPED_URLS_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static TYPED_URLS: ArtifactDescriptor = ArtifactDescriptor {
     id: "typed_urls",
     name: "TypedURLs (IE/Edge)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Internet Explorer\TypedURLs",
     value_name: None,
@@ -250,7 +250,7 @@ pub(crate) static PCA_PIPE_FIELDS: &[&str] = &["exe_path", "timestamp"];
 pub static PCA_APPLAUNCH_DIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "pca_applaunch_dic",
     name: "PCA AppLaunch.dic",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -318,7 +318,7 @@ pub(crate) static PCA_GENERAL_DB_FIELDS_SCHEMA: &[FieldSchema] = &[
 pub static PCA_GENERAL_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "pca_general_db",
     name: "PCA PcaGeneralDb0.txt",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -365,7 +365,7 @@ pub static PCA_GENERAL_DB: ArtifactDescriptor = ArtifactDescriptor {
 pub static WINDOWS_HOSTS_FILE: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_hosts_file",
     name: "Windows hosts File",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -424,7 +424,7 @@ pub static WINDOWS_HOSTS_FILE: ArtifactDescriptor = ArtifactDescriptor {
 pub static DNS_POLICY_CONFIG_NRPT: ArtifactDescriptor = ArtifactDescriptor {
     id: "dns_policy_config_nrpt",
     name: "DNS Name Resolution Policy Table (NRPT)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Services\Dnscache\Parameters\DnsPolicyConfig",
     value_name: None,
@@ -491,7 +491,7 @@ pub static DNS_POLICY_CONFIG_NRPT: ArtifactDescriptor = ArtifactDescriptor {
 pub static RUN_KEY_HKCU_RUN: ArtifactDescriptor = ArtifactDescriptor {
     id: "run_key_hkcu",
     name: "Run Key (HKCU)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Run",
     value_name: None,
@@ -524,7 +524,7 @@ pub static RUN_KEY_HKCU_RUN: ArtifactDescriptor = ArtifactDescriptor {
 pub static RUN_KEY_HKCU_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "run_key_hkcu_once",
     name: "RunOnce Key (HKCU)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Windows\CurrentVersion\RunOnce",
     value_name: None,
@@ -575,7 +575,7 @@ pub static RUN_KEY_HKCU_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
 pub static RUN_KEY_HKLM_RUNONCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "run_key_hklm_once",
     name: "RunOnce Key (HKLM)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows\CurrentVersion\RunOnce",
     value_name: None,
@@ -632,7 +632,7 @@ pub(crate) static IFEO_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static IFEO_DEBUGGER: ArtifactDescriptor = ArtifactDescriptor {
     id: "ifeo_debugger",
     name: "IFEO Debugger Hijack",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows NT\CurrentVersion\Image File Execution Options",
     value_name: Some("Debugger"),
@@ -677,7 +677,7 @@ pub static IFEO_DEBUGGER: ArtifactDescriptor = ArtifactDescriptor {
 pub static USERASSIST_FOLDER: ArtifactDescriptor = ArtifactDescriptor {
     id: "userassist_folder",
     name: "UserAssist (Shortcut/LNK)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::NtUser),
     // Source: https://www.magnetforensics.com/blog/artifact-profile-userassist/
     // https://www.sans.org/blog/computer-forensic-artifacts-windows-7-userassist/
@@ -768,7 +768,7 @@ pub(crate) static USERASSIST_XP_FIELDS: &[FieldSchema] = &[
 pub static USERASSIST_XP_EXE: ArtifactDescriptor = ArtifactDescriptor {
     id: "userassist_xp_exe",
     name: "UserAssist XP (App/File/Link)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::NtUser),
     // Source: https://www.magnetforensics.com/blog/artifact-profile-userassist/
     // https://windowsir.blogspot.com/2004/02/userassist.html
@@ -806,7 +806,7 @@ pub static USERASSIST_XP_EXE: ArtifactDescriptor = ArtifactDescriptor {
 pub static USERASSIST_XP_IE_FAVORITES: ArtifactDescriptor = ArtifactDescriptor {
     id: "userassist_xp_ie_favorites",
     name: "UserAssist XP (IE Favorites/Toolbar)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::NtUser),
     // Source: https://www.magnetforensics.com/blog/artifact-profile-userassist/
     // GUID {5E6AB780-7743-11CF-A12B-00AA004AE837} = XP IE Favorites and toolbar GUID.
@@ -842,7 +842,7 @@ pub static USERASSIST_XP_IE_FAVORITES: ArtifactDescriptor = ArtifactDescriptor {
 pub static USERASSIST_XP_IE7: ArtifactDescriptor = ArtifactDescriptor {
     id: "userassist_xp_ie7",
     name: "UserAssist XP (IE7)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::NtUser),
     // Source: https://www.magnetforensics.com/blog/artifact-profile-userassist/
     // GUID {0D6D4F41-2994-4BA0-8FEF-620E43CD2812} = IE7-specific UserAssist GUID (XP + IE7 only).
@@ -884,7 +884,7 @@ pub(crate) static SHELLBAGS_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static SHELLBAGS_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "shellbags_user",
     name: "ShellBags (User)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::UsrClass),
     key_path: r"Local Settings\Software\Microsoft\Windows\Shell\Bags",
     value_name: None,
@@ -935,7 +935,7 @@ pub(crate) static AMCACHE_FIELDS: &[FieldSchema] = &[
 pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
     id: "amcache_app_file",
     name: "Amcache InventoryApplicationFile",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::Amcache),
     key_path: r"Root\InventoryApplicationFile",
     value_name: None,
@@ -990,7 +990,7 @@ pub(crate) static SHIMCACHE_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "shimcache",
     name: "ShimCache (AppCompatCache)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\Session Manager\AppCompatCache",
     value_name: Some("AppCompatCache"),
@@ -1040,7 +1040,7 @@ pub static SHIMCACHE_MEMORY: crate::catalog::ArtifactDescriptor =
     crate::catalog::ArtifactDescriptor {
     id: "shimcache_memory",
     name: "ShimCache In-Memory Buffer (AppCompatCache live)",
-    artifact_type: ArtifactType::MemoryRegion,
+    artifact_type: ArtifactLocation::MemoryRegion,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1086,7 +1086,7 @@ pub(crate) static BAM_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static BAM_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "bam_user",
     name: "BAM (Background Activity Moderator)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Services\bam\State\UserSettings",
     value_name: None,
@@ -1124,7 +1124,7 @@ pub(crate) static DAM_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static DAM_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "dam_user",
     name: "DAM (Desktop Activity Moderator)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Services\dam\State\UserSettings",
     value_name: None,
@@ -1165,7 +1165,7 @@ pub(crate) static SAM_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static SAM_USERS: ArtifactDescriptor = ArtifactDescriptor {
     id: "sam_users",
     name: "SAM User Accounts",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSam),
     key_path: r"SAM\Domains\Account\Users\Names",
     value_name: None,
@@ -1206,7 +1206,7 @@ pub(crate) static LSA_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static LSA_SECRETS: ArtifactDescriptor = ArtifactDescriptor {
     id: "lsa_secrets",
     name: "LSA Secrets",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSecurity),
     key_path: r"Policy\Secrets",
     value_name: None,
@@ -1241,7 +1241,7 @@ pub(crate) static DCC2_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static DCC2_CACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "dcc2_cache",
     name: "Domain Cached Credentials 2 (DCC2)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSecurity),
     key_path: r"Cache",
     value_name: None,
@@ -1275,7 +1275,7 @@ pub(crate) static TYPED_URLS_TIME_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static TYPED_URLS_TIME: ArtifactDescriptor = ArtifactDescriptor {
     id: "typed_urls_time",
     name: "TypedURLsTime (IE/Edge)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Internet Explorer\TypedURLsTime",
     value_name: None,
@@ -1311,7 +1311,7 @@ pub(crate) static MRU_RECENT_DOCS_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static MRU_RECENT_DOCS: ArtifactDescriptor = ArtifactDescriptor {
     id: "mru_recent_docs",
     name: "MRU RecentDocs",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs",
     value_name: None,
@@ -1354,7 +1354,7 @@ pub(crate) static USB_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static USB_ENUM: ArtifactDescriptor = ArtifactDescriptor {
     id: "usb_enum",
     name: "USB Device Enumeration (USBSTOR)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Enum\USBSTOR",
     value_name: None,
@@ -1395,7 +1395,7 @@ pub(crate) static MUICACHE_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static MUICACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "muicache",
     name: "MUICache",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::UsrClass),
     key_path: r"Local Settings\MuiCache",
     value_name: None,
@@ -1437,7 +1437,7 @@ pub(crate) static APPINIT_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static APPINIT_DLLS: ArtifactDescriptor = ArtifactDescriptor {
     id: "appinit_dlls",
     name: "AppInit_DLLs",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows NT\CurrentVersion\Windows",
     value_name: Some("AppInit_DLLs"),
@@ -1476,7 +1476,7 @@ pub(crate) static WINLOGON_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static WINLOGON_USERINIT: ArtifactDescriptor = ArtifactDescriptor {
     id: "winlogon_userinit",
     name: "Winlogon Userinit",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows NT\CurrentVersion\Winlogon",
     value_name: Some("Userinit"),
@@ -1513,7 +1513,7 @@ pub(crate) static SCREENSAVER_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static SCREENSAVER_EXE: ArtifactDescriptor = ArtifactDescriptor {
     id: "screensaver_exe",
     name: "Screensaver Executable",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Control Panel\Desktop",
     value_name: Some("SCRNSAVE.EXE"),
@@ -1804,7 +1804,7 @@ pub(crate) static FILE_PATH_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static WINLOGON_SHELL: ArtifactDescriptor = ArtifactDescriptor {
     id: "winlogon_shell",
     name: "Winlogon Shell",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows NT\CurrentVersion\Winlogon",
     value_name: Some("Shell"),
@@ -1832,7 +1832,7 @@ pub static WINLOGON_SHELL: ArtifactDescriptor = ArtifactDescriptor {
 pub static SERVICES_IMAGEPATH: ArtifactDescriptor = ArtifactDescriptor {
     id: "services_imagepath",
     name: "Services ImagePath",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Services",
     value_name: Some("ImagePath"),
@@ -1880,7 +1880,7 @@ pub(crate) static ACTIVE_SETUP_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static ACTIVE_SETUP_HKLM: ArtifactDescriptor = ArtifactDescriptor {
     id: "active_setup_hklm",
     name: "Active Setup (HKLM)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Active Setup\Installed Components",
     value_name: Some("StubPath"),
@@ -1909,7 +1909,7 @@ pub static ACTIVE_SETUP_HKLM: ArtifactDescriptor = ArtifactDescriptor {
 pub static ACTIVE_SETUP_HKCU: ArtifactDescriptor = ArtifactDescriptor {
     id: "active_setup_hkcu",
     name: "Active Setup (HKCU)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Active Setup\Installed Components",
     value_name: Some("Version"),
@@ -1938,7 +1938,7 @@ pub static ACTIVE_SETUP_HKCU: ArtifactDescriptor = ArtifactDescriptor {
 pub static COM_HIJACK_CLSID_HKCU: ArtifactDescriptor = ArtifactDescriptor {
     id: "com_hijack_clsid_hkcu",
     name: "COM Hijack CLSID (HKCU)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::UsrClass),
     key_path: r"CLSID",
     value_name: Some("InprocServer32"),
@@ -1966,7 +1966,7 @@ pub static COM_HIJACK_CLSID_HKCU: ArtifactDescriptor = ArtifactDescriptor {
 pub static APPCERT_DLLS: ArtifactDescriptor = ArtifactDescriptor {
     id: "appcert_dlls",
     name: "AppCertDlls",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\Session Manager\AppCertDlls",
     value_name: None,
@@ -2001,7 +2001,7 @@ pub(crate) static BOOT_EXECUTE_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static BOOT_EXECUTE: ArtifactDescriptor = ArtifactDescriptor {
     id: "boot_execute",
     name: "Boot Execute",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\Session Manager",
     value_name: Some("BootExecute"),
@@ -2031,7 +2031,7 @@ pub static BOOT_EXECUTE: ArtifactDescriptor = ArtifactDescriptor {
 pub static LSA_SECURITY_PKGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "lsa_security_pkgs",
     name: "LSA Security Packages",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\Lsa",
     value_name: Some("Security Packages"),
@@ -2058,7 +2058,7 @@ pub static LSA_SECURITY_PKGS: ArtifactDescriptor = ArtifactDescriptor {
 pub static LSA_AUTH_PKGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "lsa_auth_pkgs",
     name: "LSA Authentication Packages",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\Lsa",
     value_name: Some("Authentication Packages"),
@@ -2085,7 +2085,7 @@ pub static LSA_AUTH_PKGS: ArtifactDescriptor = ArtifactDescriptor {
 pub static PRINT_MONITORS: ArtifactDescriptor = ArtifactDescriptor {
     id: "print_monitors",
     name: "Print Monitors",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\Print\Monitors",
     value_name: Some("Driver"),
@@ -2110,7 +2110,7 @@ pub static PRINT_MONITORS: ArtifactDescriptor = ArtifactDescriptor {
 pub static TIME_PROVIDERS: ArtifactDescriptor = ArtifactDescriptor {
     id: "time_providers",
     name: "W32Time Time Provider DLLs",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Services\W32Time\TimeProviders",
     value_name: Some("DllName"),
@@ -2135,7 +2135,7 @@ pub static TIME_PROVIDERS: ArtifactDescriptor = ArtifactDescriptor {
 pub static NETSH_HELPER_DLLS: ArtifactDescriptor = ArtifactDescriptor {
     id: "netsh_helper_dlls",
     name: "Netsh Helper DLLs",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\NetSh",
     value_name: None,
@@ -2172,7 +2172,7 @@ pub(crate) static BHO_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static BROWSER_HELPER_OBJECTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_helper_objects",
     name: "Internet Explorer Browser Helper Objects",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects",
     value_name: None,
@@ -2201,7 +2201,7 @@ pub static BROWSER_HELPER_OBJECTS: ArtifactDescriptor = ArtifactDescriptor {
 pub static STARTUP_FOLDER_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "startup_folder_user",
     name: "User Startup Folder",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2229,7 +2229,7 @@ pub static STARTUP_FOLDER_USER: ArtifactDescriptor = ArtifactDescriptor {
 pub static STARTUP_FOLDER_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     id: "startup_folder_system",
     name: "System Startup Folder",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2257,7 +2257,7 @@ pub static STARTUP_FOLDER_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
 pub static SCHEDULED_TASKS_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "scheduled_tasks_dir",
     name: "Scheduled Tasks Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2290,7 +2290,7 @@ pub static SCHEDULED_TASKS_DIR: ArtifactDescriptor = ArtifactDescriptor {
 pub static WDIGEST_CACHING: ArtifactDescriptor = ArtifactDescriptor {
     id: "wdigest_caching",
     name: "WDigest UseLogonCredential",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\SecurityProviders\WDigest",
     value_name: Some("UseLogonCredential"),
@@ -2318,7 +2318,7 @@ pub static WDIGEST_CACHING: ArtifactDescriptor = ArtifactDescriptor {
 pub static WORDWHEEL_QUERY: ArtifactDescriptor = ArtifactDescriptor {
     id: "wordwheel_query",
     name: "WordWheelQuery (Explorer Search)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery",
     value_name: None,
@@ -2351,7 +2351,7 @@ pub static WORDWHEEL_QUERY: ArtifactDescriptor = ArtifactDescriptor {
 pub static OPENSAVE_MRU: ArtifactDescriptor = ArtifactDescriptor {
     id: "opensave_mru",
     name: "OpenSaveMRU (Common Dialog)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSaveMRU",
     value_name: None,
@@ -2382,7 +2382,7 @@ pub static OPENSAVE_MRU: ArtifactDescriptor = ArtifactDescriptor {
 pub static LASTVISITED_MRU: ArtifactDescriptor = ArtifactDescriptor {
     id: "lastvisited_mru",
     name: "LastVisitedMRU (Common Dialog)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedMRU",
     value_name: None,
@@ -2562,7 +2562,7 @@ pub(crate) static MFT_FIELDS: &[FieldSchema] = &[
 pub static MFT: ArtifactDescriptor = ArtifactDescriptor {
     id: "mft",
     name: "NTFS Master File Table ($MFT)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2684,7 +2684,7 @@ pub(crate) static USNJRNL_FIELDS: &[FieldSchema] = &[
 pub static USNJRNL: ArtifactDescriptor = ArtifactDescriptor {
     id: "usnjrnl",
     name: "NTFS USN Change Journal ($UsnJrnl:$J)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2740,7 +2740,7 @@ pub static USNJRNL: ArtifactDescriptor = ArtifactDescriptor {
 pub static LOGFILE_NTFS: ArtifactDescriptor = ArtifactDescriptor {
     id: "logfile_ntfs",
     name: "NTFS Transaction Log ($LogFile)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2794,7 +2794,7 @@ pub static LOGFILE_NTFS: ArtifactDescriptor = ArtifactDescriptor {
 pub static PREFETCH_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "prefetch_dir",
     name: "Prefetch Files Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2846,7 +2846,7 @@ pub(crate) static SRUM_FIELDS: &[FieldSchema] = &[
 pub static SRUM_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "srum_db",
     name: "SRUM Database (SRUDB.dat)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2935,7 +2935,7 @@ pub(crate) static WINDOWS_TIMELINE_FIELDS: &[FieldSchema] = &[
 pub static WINDOWS_TIMELINE: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_timeline",
     name: "Windows Timeline (ActivitiesCache.db)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -2976,7 +2976,7 @@ pub static WINDOWS_TIMELINE: ArtifactDescriptor = ArtifactDescriptor {
 pub static WINDOWS_TIMELINE_DEVICECACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_timeline_devicecache",
     name: "Windows Timeline DeviceCache Registry",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\*\Current",
     value_name: Some("Data"),
@@ -3026,7 +3026,7 @@ pub static WINDOWS_TIMELINE_DEVICECACHE: ArtifactDescriptor = ArtifactDescriptor
 pub static WINDOWS_SEARCH_DB_WIN11: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_search_db_win11",
     name: "Windows Search Index SQLite (windows.db, Win11 22H2+)",
-    artifact_type: ArtifactType::DatabaseEntry,
+    artifact_type: ArtifactLocation::DatabaseEntry,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3070,7 +3070,7 @@ pub static WINDOWS_SEARCH_DB_WIN11: ArtifactDescriptor = ArtifactDescriptor {
 pub static POWERSHELL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "powershell_history",
     name: "PowerShell PSReadLine History",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3190,7 +3190,7 @@ pub const RECYCLE_BIN_FIELDS: &[FieldSchema] = &[
 pub static RECYCLE_BIN: ArtifactDescriptor = ArtifactDescriptor {
     id: "recycle_bin",
     name: "Recycle Bin ($I Metadata)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3236,7 +3236,7 @@ pub static RECYCLE_BIN: ArtifactDescriptor = ArtifactDescriptor {
 pub static THUMBCACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "thumbcache",
     name: "Explorer Thumbnail Cache",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3270,7 +3270,7 @@ pub static THUMBCACHE: ArtifactDescriptor = ArtifactDescriptor {
 pub static SEARCH_DB_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "search_db_user",
     name: "Windows Search Database (Windows.db)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3313,7 +3313,7 @@ pub(crate) static DPAPI_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static DPAPI_MASTERKEY_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "dpapi_masterkey_user",
     name: "DPAPI User Master Keys",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3345,7 +3345,7 @@ pub static DPAPI_MASTERKEY_USER: ArtifactDescriptor = ArtifactDescriptor {
 pub static DPAPI_CRED_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "dpapi_cred_user",
     name: "DPAPI Credential Blobs (Local)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3375,7 +3375,7 @@ pub static DPAPI_CRED_USER: ArtifactDescriptor = ArtifactDescriptor {
 pub static DPAPI_CRED_ROAMING: ArtifactDescriptor = ArtifactDescriptor {
     id: "dpapi_cred_roaming",
     name: "DPAPI Credential Blobs (Roaming)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3422,7 +3422,7 @@ pub(crate) static VAULT_FIELDS: &[FieldSchema] = &[
 pub static WINDOWS_VAULT_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_vault_user",
     name: "Windows Vault (User)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3450,7 +3450,7 @@ pub static WINDOWS_VAULT_USER: ArtifactDescriptor = ArtifactDescriptor {
 pub static WINDOWS_VAULT_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_vault_system",
     name: "Windows Vault (System)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3488,7 +3488,7 @@ pub(crate) static RDP_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static RDP_CLIENT_SERVERS: ArtifactDescriptor = ArtifactDescriptor {
     id: "rdp_client_servers",
     name: "RDP Client Saved Servers",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Terminal Server Client\Servers",
     value_name: Some("UsernameHint"),
@@ -3525,7 +3525,7 @@ pub(crate) static RDP_MRU_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static RDP_CLIENT_DEFAULT: ArtifactDescriptor = ArtifactDescriptor {
     id: "rdp_client_default",
     name: "RDP Client Default MRU",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Terminal Server Client\Default",
     value_name: None,
@@ -3565,7 +3565,7 @@ pub(crate) static NTDS_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static NTDS_DIT: ArtifactDescriptor = ArtifactDescriptor {
     id: "ntds_dit",
     name: "Active Directory Database (NTDS.dit)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3605,7 +3605,7 @@ pub(crate) static BROWSER_CRED_FIELDS: &[FieldSchema] = &[
 pub static CHROME_LOGIN_DATA: ArtifactDescriptor = ArtifactDescriptor {
     id: "chrome_login_data",
     name: "Chrome/Edge Login Data (SQLite)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3647,7 +3647,7 @@ pub(crate) static FIREFOX_CRED_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static FIREFOX_LOGINS: ArtifactDescriptor = ArtifactDescriptor {
     id: "firefox_logins",
     name: "Firefox logins.json",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3697,7 +3697,7 @@ pub(crate) static WIFI_FIELDS: &[FieldSchema] = &[
 pub static WIFI_PROFILES: ArtifactDescriptor = ArtifactDescriptor {
     id: "wifi_profiles",
     name: "Wireless Network Profiles (WLAN)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3776,7 +3776,7 @@ pub(crate) static LOG_LINE_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static LINUX_CRONTAB_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_crontab_system",
     name: "System Crontab (/etc/crontab)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3808,7 +3808,7 @@ pub static LINUX_CRONTAB_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_CRON_D: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_cron_d",
     name: "Cron Drop-in Directory (/etc/cron.d/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3839,7 +3839,7 @@ pub static LINUX_CRON_D: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_CRON_PERIODIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_cron_periodic",
     name: "Cron Periodic Directories (/etc/cron.{daily,hourly,weekly,monthly}/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3870,7 +3870,7 @@ pub static LINUX_CRON_PERIODIC: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_USER_CRONTAB: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_user_crontab",
     name: "Per-User Crontab Spool",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3901,7 +3901,7 @@ pub static LINUX_USER_CRONTAB: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_ANACRONTAB: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_anacrontab",
     name: "Anacrontab (/etc/anacrontab)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3932,7 +3932,7 @@ pub static LINUX_ANACRONTAB: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_SYSTEMD_SYSTEM_UNIT: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_systemd_system_unit",
     name: "systemd System Service Units",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3966,7 +3966,7 @@ pub static LINUX_SYSTEMD_SYSTEM_UNIT: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_SYSTEMD_USER_UNIT: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_systemd_user_unit",
     name: "systemd User Service Units",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -3997,7 +3997,7 @@ pub static LINUX_SYSTEMD_USER_UNIT: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_SYSTEMD_TIMER: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_systemd_timer",
     name: "systemd Timer Units",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4030,7 +4030,7 @@ pub static LINUX_SYSTEMD_TIMER: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_RC_LOCAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_rc_local",
     name: "rc.local Startup Script",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4062,7 +4062,7 @@ pub static LINUX_RC_LOCAL: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_INIT_D: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_init_d",
     name: "SysV Init Scripts (/etc/init.d/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4094,7 +4094,7 @@ pub static LINUX_INIT_D: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_BASHRC_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_bashrc_user",
     name: "User ~/.bashrc",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4123,7 +4123,7 @@ pub static LINUX_BASHRC_USER: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_BASH_PROFILE_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_bash_profile_user",
     name: "User ~/.bash_profile",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4150,7 +4150,7 @@ pub static LINUX_BASH_PROFILE_USER: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_PROFILE_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_profile_user",
     name: "User ~/.profile",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4177,7 +4177,7 @@ pub static LINUX_PROFILE_USER: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_ZSHRC_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_zshrc_user",
     name: "User ~/.zshrc",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4204,7 +4204,7 @@ pub static LINUX_ZSHRC_USER: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_PROFILE_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_profile_system",
     name: "System /etc/profile",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4232,7 +4232,7 @@ pub static LINUX_PROFILE_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_PROFILE_D: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_profile_d",
     name: "System /etc/profile.d/ Drop-ins",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4265,7 +4265,7 @@ pub static LINUX_PROFILE_D: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_LD_SO_PRELOAD: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_ld_so_preload",
     name: "Dynamic Linker Preload (/etc/ld.so.preload)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4298,7 +4298,7 @@ pub static LINUX_LD_SO_PRELOAD: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_LD_SO_CONF_D: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_ld_so_conf_d",
     name: "Linker Config Directory (/etc/ld.so.conf.d/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4332,7 +4332,7 @@ pub static LINUX_LD_SO_CONF_D: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_SSH_AUTHORIZED_KEYS: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_ssh_authorized_keys",
     name: "SSH authorized_keys",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4369,7 +4369,7 @@ pub static LINUX_SSH_AUTHORIZED_KEYS: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_PAM_MODULE_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_pam_module_dir",
     name: "PAM Modules Directory (/lib/security/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4404,7 +4404,7 @@ pub static LINUX_PAM_MODULE_DIR: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_PAM_D: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_pam_d",
     name: "PAM Configuration (/etc/pam.d/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4449,7 +4449,7 @@ pub static LINUX_PAM_D: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_SUDOERS_D: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_sudoers_d",
     name: "Sudoers Drop-ins (/etc/sudoers.d/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4484,7 +4484,7 @@ pub static LINUX_SUDOERS_D: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_MODULES_LOAD_D: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_modules_load_d",
     name: "Kernel Module Load Config (/etc/modules-load.d/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4517,7 +4517,7 @@ pub static LINUX_MODULES_LOAD_D: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_MOTD_D: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_motd_d",
     name: "Dynamic MOTD Scripts (/etc/update-motd.d/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4551,7 +4551,7 @@ pub static LINUX_MOTD_D: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_UDEV_RULES_D: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_udev_rules_d",
     name: "udev Rules (/etc/udev/rules.d/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4587,7 +4587,7 @@ pub static LINUX_UDEV_RULES_D: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_BASH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_bash_history",
     name: "Bash History (~/.bash_history)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4619,7 +4619,7 @@ pub static LINUX_BASH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_ZSH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_zsh_history",
     name: "Zsh History (~/.zsh_history)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4649,7 +4649,7 @@ pub static LINUX_ZSH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_WTMP: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_wtmp",
     name: "Login History (/var/log/wtmp)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4685,7 +4685,7 @@ pub static LINUX_WTMP: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_BTMP: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_btmp",
     name: "Failed Login Attempts (/var/log/btmp)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4721,7 +4721,7 @@ pub static LINUX_BTMP: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_LASTLOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_lastlog",
     name: "Last Login Database (/var/log/lastlog)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4756,7 +4756,7 @@ pub static LINUX_LASTLOG: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_AUTH_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_auth_log",
     name: "Auth Log (/var/log/auth.log)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4786,7 +4786,7 @@ pub static LINUX_AUTH_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_JOURNAL_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_journal_dir",
     name: "systemd Journal (/var/log/journal/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4818,7 +4818,7 @@ pub static LINUX_JOURNAL_DIR: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_PASSWD: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_passwd",
     name: "User Account Database (/etc/passwd)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4853,7 +4853,7 @@ pub static LINUX_PASSWD: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_SHADOW: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_shadow",
     name: "Shadow Password File (/etc/shadow)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4887,7 +4887,7 @@ pub static LINUX_SHADOW: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_SSH_PRIVATE_KEY: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_ssh_private_key",
     name: "SSH Private Keys (~/.ssh/id_*)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4922,7 +4922,7 @@ pub static LINUX_SSH_PRIVATE_KEY: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_SSH_KNOWN_HOSTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_ssh_known_hosts",
     name: "SSH Known Hosts (~/.ssh/known_hosts)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4953,7 +4953,7 @@ pub static LINUX_SSH_KNOWN_HOSTS: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_GNUPG_PRIVATE: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_gnupg_private",
     name: "GnuPG Private Key Store (~/.gnupg/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -4981,7 +4981,7 @@ pub static LINUX_GNUPG_PRIVATE: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_AWS_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_aws_credentials",
     name: "AWS Credentials (~/.aws/credentials)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5012,7 +5012,7 @@ pub static LINUX_AWS_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_DOCKER_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_docker_config",
     name: "Docker Config (~/.docker/config.json)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5043,7 +5043,7 @@ pub static LINUX_DOCKER_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
 pub static LNK_FILES: ArtifactDescriptor = ArtifactDescriptor {
     id: "lnk_files",
     name: "LNK / Shell Link Recent Files",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5077,7 +5077,7 @@ pub static LNK_FILES: ArtifactDescriptor = ArtifactDescriptor {
 pub static JUMP_LIST_AUTO: ArtifactDescriptor = ArtifactDescriptor {
     id: "jump_list_auto",
     name: "Jump Lists — AutomaticDestinations",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5113,7 +5113,7 @@ pub static JUMP_LIST_AUTO: ArtifactDescriptor = ArtifactDescriptor {
 pub static JUMP_LIST_CUSTOM: ArtifactDescriptor = ArtifactDescriptor {
     id: "jump_list_custom",
     name: "Jump Lists — CustomDestinations",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5151,7 +5151,7 @@ pub static JUMP_LIST_CUSTOM: ArtifactDescriptor = ArtifactDescriptor {
 pub static EVTX_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_dir",
     name: "Windows Event Log Directory (EVTX)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5176,7 +5176,7 @@ pub static EVTX_DIR: ArtifactDescriptor = ArtifactDescriptor {
 pub static MFT_FILE: ArtifactDescriptor = ArtifactDescriptor {
     id: "mft_file",
     name: "Master File Table ($MFT)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5217,7 +5217,7 @@ pub static MFT_FILE: ArtifactDescriptor = ArtifactDescriptor {
 pub static USN_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "usn_journal",
     name: "USN Journal ($UsnJrnl:$J)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5253,7 +5253,7 @@ pub static USN_JOURNAL: ArtifactDescriptor = ArtifactDescriptor {
 pub static WMI_MOF_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "wmi_mof_dir",
     name: "WMI MOF Subscription Repository",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5283,7 +5283,7 @@ pub static WMI_MOF_DIR: ArtifactDescriptor = ArtifactDescriptor {
 pub static BITS_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "bits_db",
     name: "BITS Job Queue Database",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5339,7 +5339,7 @@ pub(crate) static WMI_SUB_FIELDS: &[FieldSchema] = &[
 pub static WMI_SUBSCRIPTIONS: ArtifactDescriptor = ArtifactDescriptor {
     id: "wmi_subscriptions",
     name: "WMI Event Subscriptions (Registry)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\WBEM\ESS\//./root/subscription",
     value_name: None,
@@ -5368,7 +5368,7 @@ pub static WMI_SUBSCRIPTIONS: ArtifactDescriptor = ArtifactDescriptor {
 pub static LOGON_SCRIPTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "logon_scripts",
     name: "Logon Scripts (UserInitMprLogonScript)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Environment",
     value_name: Some("UserInitMprLogonScript"),
@@ -5396,7 +5396,7 @@ pub static LOGON_SCRIPTS: ArtifactDescriptor = ArtifactDescriptor {
 pub static WINSOCK_LSP: ArtifactDescriptor = ArtifactDescriptor {
     id: "winsock_lsp",
     name: "Winsock Layered Service Provider",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Services\WinSock2\Parameters\Protocol_Catalog9",
     value_name: None,
@@ -5424,7 +5424,7 @@ pub static WINSOCK_LSP: ArtifactDescriptor = ArtifactDescriptor {
 pub static APPSHIM_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "appshim_db",
     name: "Application Shim Database",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5452,7 +5452,7 @@ pub static APPSHIM_DB: ArtifactDescriptor = ArtifactDescriptor {
 pub static PASSWORD_FILTER_DLL: ArtifactDescriptor = ArtifactDescriptor {
     id: "password_filter_dll",
     name: "Password Filter DLL (Notification Packages)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\Lsa",
     value_name: Some("Notification Packages"),
@@ -5480,7 +5480,7 @@ pub static PASSWORD_FILTER_DLL: ArtifactDescriptor = ArtifactDescriptor {
 pub static OFFICE_NORMAL_DOTM: ArtifactDescriptor = ArtifactDescriptor {
     id: "office_normal_dotm",
     name: "Office Normal Template (Normal.dotm)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5508,7 +5508,7 @@ pub static OFFICE_NORMAL_DOTM: ArtifactDescriptor = ArtifactDescriptor {
 pub static POWERSHELL_PROFILE_ALL: ArtifactDescriptor = ArtifactDescriptor {
     id: "powershell_profile_all",
     name: "PowerShell All-Users Profile (profile.ps1)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5538,7 +5538,7 @@ pub static POWERSHELL_PROFILE_ALL: ArtifactDescriptor = ArtifactDescriptor {
 pub static DPAPI_SYSTEM_MASTERKEY: ArtifactDescriptor = ArtifactDescriptor {
     id: "dpapi_system_masterkey",
     name: "DPAPI System Master Key",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5569,7 +5569,7 @@ pub static DPAPI_SYSTEM_MASTERKEY: ArtifactDescriptor = ArtifactDescriptor {
 pub static DPAPI_CREDHIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "dpapi_credhist",
     name: "DPAPI CREDHIST File",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5597,7 +5597,7 @@ pub static DPAPI_CREDHIST: ArtifactDescriptor = ArtifactDescriptor {
 pub static CHROME_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
     id: "chrome_cookies",
     name: "Chrome/Edge Cookies (SQLite)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5622,7 +5622,7 @@ pub static CHROME_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
 pub static EDGE_WEBCACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "edge_webcache",
     name: "IE/Edge Legacy WebCacheV01.dat",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5650,7 +5650,7 @@ pub static EDGE_WEBCACHE: ArtifactDescriptor = ArtifactDescriptor {
 pub static VPN_RAS_PHONEBOOK: ArtifactDescriptor = ArtifactDescriptor {
     id: "vpn_ras_phonebook",
     name: "VPN Credentials — RAS Phonebook",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5678,7 +5678,7 @@ pub static VPN_RAS_PHONEBOOK: ArtifactDescriptor = ArtifactDescriptor {
 pub static WINDOWS_HELLO_NGC: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_hello_ngc",
     name: "Windows Hello / NGC Folder",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5706,7 +5706,7 @@ pub static WINDOWS_HELLO_NGC: ArtifactDescriptor = ArtifactDescriptor {
 pub static USER_CERT_PRIVATE_KEY: ArtifactDescriptor = ArtifactDescriptor {
     id: "user_cert_private_key",
     name: "User Certificate Private Keys",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5734,7 +5734,7 @@ pub static USER_CERT_PRIVATE_KEY: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACHINE_CERT_STORE: ArtifactDescriptor = ArtifactDescriptor {
     id: "machine_cert_store",
     name: "Machine Certificate Private Keys",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5764,7 +5764,7 @@ pub static MACHINE_CERT_STORE: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_AT_QUEUE: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_at_queue",
     name: "AT Job Queue (/var/spool/at/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5792,7 +5792,7 @@ pub static LINUX_AT_QUEUE: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_SSHD_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_sshd_config",
     name: "SSH Daemon Configuration (/etc/ssh/sshd_config)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5820,7 +5820,7 @@ pub static LINUX_SSHD_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_ETC_GROUP: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_etc_group",
     name: "Group Accounts (/etc/group)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5848,7 +5848,7 @@ pub static LINUX_ETC_GROUP: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_GNOME_KEYRING: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_gnome_keyring",
     name: "GNOME Keyring (keyrings/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5876,7 +5876,7 @@ pub static LINUX_GNOME_KEYRING: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_KDE_KWALLET: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_kde_kwallet",
     name: "KDE KWallet (kwalletd/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5904,7 +5904,7 @@ pub static LINUX_KDE_KWALLET: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_CHROME_LOGIN_LINUX: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_chrome_login_linux",
     name: "Chrome/Chromium Login Data (Linux)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5932,7 +5932,7 @@ pub static LINUX_CHROME_LOGIN_LINUX: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_FIREFOX_LOGINS_LINUX: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_firefox_logins_linux",
     name: "Firefox logins.json (Linux)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5961,7 +5961,7 @@ pub static LINUX_FIREFOX_LOGINS_LINUX: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_UTMP: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_utmp",
     name: "Current Login Sessions (/run/utmp)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -5994,7 +5994,7 @@ pub static LINUX_UTMP: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_GCP_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_gcp_credentials",
     name: "GCP Application Default Credentials",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6022,7 +6022,7 @@ pub static LINUX_GCP_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_AZURE_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_azure_credentials",
     name: "Azure CLI Credentials (~/.azure/)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6050,7 +6050,7 @@ pub static LINUX_AZURE_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_KUBE_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_kube_config",
     name: "Kubernetes Config (~/.kube/config)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6078,7 +6078,7 @@ pub static LINUX_KUBE_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_GIT_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_git_credentials",
     name: "Git Credential Store (~/.git-credentials)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6103,7 +6103,7 @@ pub static LINUX_GIT_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_NETRC: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_netrc",
     name: "Netrc Credential File (~/.netrc)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6131,7 +6131,7 @@ pub static LINUX_NETRC: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_ETC_ENVIRONMENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_etc_environment",
     name: "System Environment Variables (/etc/environment)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6158,7 +6158,7 @@ pub static LINUX_ETC_ENVIRONMENT: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_XDG_AUTOSTART_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_xdg_autostart_user",
     name: "XDG User Autostart (.desktop files)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6184,7 +6184,7 @@ pub static LINUX_XDG_AUTOSTART_USER: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_XDG_AUTOSTART_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_xdg_autostart_system",
     name: "XDG System Autostart (.desktop files)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6210,7 +6210,7 @@ pub static LINUX_XDG_AUTOSTART_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
 pub static LINUX_NETWORKMANAGER_DISPATCHER: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_networkmanager_dispatcher",
     name: "NetworkManager Dispatcher Scripts",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6238,7 +6238,7 @@ pub static LINUX_NETWORKMANAGER_DISPATCHER: ArtifactDescriptor = ArtifactDescrip
 pub static LINUX_APT_HOOKS: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_apt_hooks",
     name: "APT Package Manager Hook Scripts",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6274,7 +6274,7 @@ pub static LINUX_APT_HOOKS: ArtifactDescriptor = ArtifactDescriptor {
 pub static JUMP_LIST_APPID_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
     id: "jump_list_appid_registry",
     name: "JumplistData — AppID Hash Registry Index",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     // Source: https://github.com/kacos2000/Jumplist-Browser README (confirmed via tool)
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Search\JumplistData",
@@ -6329,7 +6329,7 @@ pub static JUMP_LIST_APPID_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
 pub static TASKBAND_FAVORITES: ArtifactDescriptor = ArtifactDescriptor {
     id: "taskband_favorites",
     name: "Taskband Favorites — Taskbar Pinned Applications",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     // Source: https://github.com/kacos2000/Jumplist-Browser README
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband",
@@ -6372,7 +6372,7 @@ pub static TASKBAND_FAVORITES: ArtifactDescriptor = ArtifactDescriptor {
 pub static JUMP_LIST_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     id: "jump_list_system",
     name: "Jump Lists — System AutomaticDestinations",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6404,7 +6404,7 @@ pub static JUMP_LIST_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
 pub static LNK_FILES_OFFICE: ArtifactDescriptor = ArtifactDescriptor {
     id: "lnk_files_office",
     name: "Office Recent LNK Files",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6518,7 +6518,7 @@ pub(crate) static PREFETCH_FIELDS: &[FieldSchema] = &[
 pub static PREFETCH_FILE: ArtifactDescriptor = ArtifactDescriptor {
     id: "prefetch_file",
     name: "Prefetch File (.pf)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6621,7 +6621,7 @@ pub(crate) static SRUM_NET_FIELDS: &[FieldSchema] = &[
 pub static SRUM_NETWORK_USAGE: ArtifactDescriptor = ArtifactDescriptor {
     id: "srum_network_usage",
     name: "SRUM Network Data Usage Table",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6720,7 +6720,7 @@ pub(crate) static SRUM_NET_CONN_FIELDS: &[FieldSchema] = &[
 pub static SRUM_NETWORK_CONNECTIONS: ArtifactDescriptor = ArtifactDescriptor {
     id: "srum_network_connections",
     name: "SRUM Network Connections Table",
-    artifact_type: ArtifactType::EseDatabase,
+    artifact_type: ArtifactLocation::EseDatabase,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6798,7 +6798,7 @@ pub(crate) static SRUM_APP_FIELDS: &[FieldSchema] = &[
 pub static SRUM_APP_RESOURCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "srum_app_resource",
     name: "SRUM Application Resource Usage Table",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6868,7 +6868,7 @@ pub(crate) static SRUM_ENERGY_FIELDS: &[FieldSchema] = &[
 pub static SRUM_ENERGY_USAGE: ArtifactDescriptor = ArtifactDescriptor {
     id: "srum_energy_usage",
     name: "SRUM Energy Usage Table",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6930,7 +6930,7 @@ pub(crate) static SRUM_PUSH_FIELDS: &[FieldSchema] = &[
 pub static SRUM_PUSH_NOTIFICATION: ArtifactDescriptor = ArtifactDescriptor {
     id: "srum_push_notification",
     name: "SRUM Push Notification Activity Table",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -6998,7 +6998,7 @@ pub(crate) static EVTX_FIELDS: &[FieldSchema] = &[
 pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_security",
     name: "Security Event Log (Security.evtx)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7082,7 +7082,7 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
 pub static EVTX_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_system",
     name: "System Event Log (System.evtx)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7134,7 +7134,7 @@ pub static EVTX_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
 pub static EVTX_APPLICATION_MSIINSTALLER: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_application_msiinstaller",
     name: "Application Event Log — MsiInstaller Provider",
-    artifact_type: ArtifactType::EventLog,
+    artifact_type: ArtifactLocation::EventLog,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7192,7 +7192,7 @@ pub static EVTX_APPLICATION_MSIINSTALLER: ArtifactDescriptor = ArtifactDescripto
 pub static EVTX_POWERSHELL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_powershell",
     name: "PowerShell Operational Log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7233,7 +7233,7 @@ pub static EVTX_POWERSHELL: ArtifactDescriptor = ArtifactDescriptor {
 pub static EVTX_SYSMON: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_sysmon",
     name: "Sysmon Operational Log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7281,7 +7281,7 @@ pub static EVTX_SYSMON: ArtifactDescriptor = ArtifactDescriptor {
 pub static EVTX_DEFENDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_defender_operational",
     name: "Microsoft-Windows-Windows Defender/Operational",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7354,7 +7354,7 @@ pub(crate) static TYPED_PATHS_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static TYPED_PATHS: ArtifactDescriptor = ArtifactDescriptor {
     id: "typed_paths",
     name: "Explorer Typed Paths",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths",
     value_name: None,
@@ -7398,7 +7398,7 @@ pub(crate) static RUN_MRU_FIELDS: &[FieldSchema] = &[
 pub static RUN_MRU: ArtifactDescriptor = ArtifactDescriptor {
     id: "run_mru",
     name: "Run Dialog MRU",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU",
     value_name: None,
@@ -7442,7 +7442,7 @@ pub(crate) static NETWORK_DRIVES_FIELDS: &[FieldSchema] = &[
 pub static NETWORK_DRIVES: ArtifactDescriptor = ArtifactDescriptor {
     id: "network_drives",
     name: "Mapped Network Drives",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Network",
     value_name: Some("RemotePath"),
@@ -7490,7 +7490,7 @@ pub(crate) static APP_PATHS_FIELDS: &[FieldSchema] = &[
 pub static APP_PATHS: ArtifactDescriptor = ArtifactDescriptor {
     id: "app_paths",
     name: "App Paths Registry Entries",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows\CurrentVersion\App Paths",
     value_name: None,
@@ -7540,7 +7540,7 @@ pub(crate) static MOUNTED_DEVICES_FIELDS: &[FieldSchema] = &[
 pub static MOUNTED_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
     id: "mounted_devices",
     name: "Mounted Devices",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"MountedDevices",
     value_name: None,
@@ -7590,7 +7590,7 @@ pub(crate) static NETWORKLIST_FIELDS: &[FieldSchema] = &[
 pub static NETWORKLIST_PROFILES: ArtifactDescriptor = ArtifactDescriptor {
     id: "networklist_profiles",
     name: "Network List Profiles",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles",
     value_name: None,
@@ -7640,7 +7640,7 @@ pub(crate) static PUTTY_SESSION_FIELDS: &[FieldSchema] = &[
 pub static PUTTY_SESSIONS: ArtifactDescriptor = ArtifactDescriptor {
     id: "putty_sessions",
     name: "PuTTY Saved Sessions",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\SimonTatham\PuTTY\Sessions",
     value_name: None,
@@ -7690,7 +7690,7 @@ pub(crate) static WINSCP_SESSION_FIELDS: &[FieldSchema] = &[
 pub static WINSCP_SAVED_SESSIONS: ArtifactDescriptor = ArtifactDescriptor {
     id: "winscp_saved_sessions",
     name: "WinSCP Saved Sessions",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Martin Prikryl\WinSCP 2\Sessions",
     value_name: None,
@@ -7807,7 +7807,7 @@ pub(crate) static WINSCP_INI_FIELDS: &[FieldSchema] = &[
 pub(crate) static WINSCP_INI: ArtifactDescriptor = ArtifactDescriptor {
     id: "winscp_ini",
     name: "WinSCP INI Configuration File",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7868,7 +7868,7 @@ pub(crate) static WINRAR_HISTORY_FIELDS: &[FieldSchema] = &[
 pub static WINRAR_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "winrar_history",
     name: "WinRAR Archive History",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"SOFTWARE\WinRAR",
     value_name: None,
@@ -7912,7 +7912,7 @@ pub(crate) static NETWORK_INTERFACE_FIELDS: &[FieldSchema] = &[
 pub static NETWORK_INTERFACES: ArtifactDescriptor = ArtifactDescriptor {
     id: "network_interfaces",
     name: "TCP/IP Network Interfaces",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Services\Tcpip\Parameters\Interfaces",
     value_name: None,
@@ -7940,7 +7940,7 @@ pub static NETWORK_INTERFACES: ArtifactDescriptor = ArtifactDescriptor {
 pub static PAGEFILE_SYS: ArtifactDescriptor = ArtifactDescriptor {
     id: "pagefile_sys",
     name: "Pagefile.sys",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -7964,7 +7964,7 @@ pub static PAGEFILE_SYS: ArtifactDescriptor = ArtifactDescriptor {
 pub static HIBERFIL_SYS: ArtifactDescriptor = ArtifactDescriptor {
     id: "hiberfil_sys",
     name: "Hibernation File (hiberfil.sys)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8001,7 +8001,7 @@ pub(crate) static MOUNTPOINTS2_FIELDS: &[FieldSchema] = &[FieldSchema {
 pub static MOUNTPOINTS2: ArtifactDescriptor = ArtifactDescriptor {
     id: "mountpoints2",
     name: "MountPoints2",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\MountPoints2",
     value_name: None,
@@ -8029,7 +8029,7 @@ pub static MOUNTPOINTS2: ArtifactDescriptor = ArtifactDescriptor {
 pub static PORTABLE_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
     id: "portable_devices",
     name: "Windows Portable Devices Mapping",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows Portable Devices\Devices",
     value_name: None,
@@ -8053,7 +8053,7 @@ pub static PORTABLE_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
 pub static RDP_BITMAP_CACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "rdp_bitmap_cache",
     name: "RDP Bitmap Cache",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8083,7 +8083,7 @@ pub static RDP_BITMAP_CACHE: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACOS_UNIFIED_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_unified_log",
     name: "macOS Unified Log",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8114,7 +8114,7 @@ pub static MACOS_UNIFIED_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACOS_LAUNCH_AGENTS_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_launch_agents_user",
     name: "macOS User LaunchAgents",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8147,7 +8147,7 @@ pub static MACOS_LAUNCH_AGENTS_USER: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACOS_LAUNCH_AGENTS_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_launch_agents_system",
     name: "macOS System LaunchAgents",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8181,7 +8181,7 @@ pub static MACOS_LAUNCH_AGENTS_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACOS_LAUNCH_DAEMONS: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_launch_daemons",
     name: "macOS LaunchDaemons",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8215,7 +8215,7 @@ pub static MACOS_LAUNCH_DAEMONS: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACOS_TCC_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_tcc_db",
     name: "macOS TCC Database",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8246,7 +8246,7 @@ pub static MACOS_TCC_DB: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACOS_QUARANTINE_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_quarantine_events",
     name: "macOS Quarantine Events Database",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8277,7 +8277,7 @@ pub static MACOS_QUARANTINE_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACOS_SAFARI_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_safari_history",
     name: "macOS Safari Browser History",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8307,7 +8307,7 @@ pub static MACOS_SAFARI_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACOS_SAFARI_DOWNLOADS: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_safari_downloads",
     name: "macOS Safari Downloads",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8337,7 +8337,7 @@ pub static MACOS_SAFARI_DOWNLOADS: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACOS_KNOWLEDGEC: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_knowledgec",
     name: "macOS KnowledgeC Database",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8368,7 +8368,7 @@ pub static MACOS_KNOWLEDGEC: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACOS_BASH_SESSIONS: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_bash_sessions",
     name: "macOS Bash Session History",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8398,7 +8398,7 @@ pub static MACOS_BASH_SESSIONS: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACOS_INSTALL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_install_history",
     name: "macOS Software Install History",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8428,7 +8428,7 @@ pub static MACOS_INSTALL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACOS_GATEKEEPER_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_gatekeeper_logs",
     name: "macOS Gatekeeper Assessment Logs",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8459,7 +8459,7 @@ pub static MACOS_GATEKEEPER_LOGS: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACOS_KEYCHAIN_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_keychain_user",
     name: "macOS User Keychain",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8493,7 +8493,7 @@ pub static MACOS_KEYCHAIN_USER: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACOS_EMOND: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_emond",
     name: "macOS Event Monitor Daemon Rules",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8523,7 +8523,7 @@ pub static MACOS_EMOND: ArtifactDescriptor = ArtifactDescriptor {
 pub static MACOS_COREANALYTICS: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_coreanalytics",
     name: "macOS CoreAnalytics Execution Reports",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8573,7 +8573,7 @@ pub(crate) static MEM_RUNNING_PROCESSES_FIELDS: &[FieldSchema] = &[
 pub static MEM_RUNNING_PROCESSES: ArtifactDescriptor = ArtifactDescriptor {
     id: "mem_running_processes",
     name: "Running Processes (Memory)",
-    artifact_type: ArtifactType::MemoryRegion,
+    artifact_type: ArtifactLocation::MemoryRegion,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8626,7 +8626,7 @@ pub(crate) static MEM_NETWORK_CONNECTIONS_FIELDS: &[FieldSchema] = &[
 pub static MEM_NETWORK_CONNECTIONS: ArtifactDescriptor = ArtifactDescriptor {
     id: "mem_network_connections",
     name: "Network Connections (Memory)",
-    artifact_type: ArtifactType::MemoryRegion,
+    artifact_type: ArtifactLocation::MemoryRegion,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8673,7 +8673,7 @@ pub(crate) static MEM_LOADED_MODULES_FIELDS: &[FieldSchema] = &[
 pub static MEM_LOADED_MODULES: ArtifactDescriptor = ArtifactDescriptor {
     id: "mem_loaded_modules",
     name: "Loaded Modules (Memory)",
-    artifact_type: ArtifactType::MemoryRegion,
+    artifact_type: ArtifactLocation::MemoryRegion,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8714,7 +8714,7 @@ pub(crate) static MEM_REGISTRY_HIVES_FIELDS: &[FieldSchema] = &[
 pub static MEM_REGISTRY_HIVES: ArtifactDescriptor = ArtifactDescriptor {
     id: "mem_registry_hives",
     name: "In-Memory Registry Hives",
-    artifact_type: ArtifactType::MemoryRegion,
+    artifact_type: ArtifactLocation::MemoryRegion,
     hive: None,
     key_path: "",
     value_name: None,
@@ -8755,7 +8755,7 @@ pub(crate) static MEM_USER_CREDENTIALS_FIELDS: &[FieldSchema] = &[
 pub static MEM_USER_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
     id: "mem_user_credentials",
     name: "User Credentials in Memory (LSASS)",
-    artifact_type: ArtifactType::MemoryRegion,
+    artifact_type: ArtifactLocation::MemoryRegion,
     hive: None,
     key_path: "",
     value_name: None,

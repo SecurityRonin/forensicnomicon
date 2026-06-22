@@ -335,7 +335,7 @@ mod decode_tests {
     #[test]
     fn catalog_filter_by_artifact_type_file() {
         let q = ArtifactQuery {
-            artifact_type: Some(ArtifactType::File),
+            artifact_type: Some(ArtifactLocation::File),
             ..Default::default()
         };
         let results = CATALOG.filter(&q);
@@ -536,7 +536,7 @@ mod decode_tests {
         static DWORD_DESC: ArtifactDescriptor = ArtifactDescriptor {
             id: "test_dword",
             name: "Test DWORD",
-            artifact_type: ArtifactType::RegistryValue,
+            artifact_type: ArtifactLocation::RegistryValue,
             hive: Some(HiveTarget::HklmSoftware),
             key_path: "Test",
             value_name: None,
@@ -566,7 +566,7 @@ mod decode_tests {
         static DWORD_DESC: ArtifactDescriptor = ArtifactDescriptor {
             id: "test_dword2",
             name: "Test DWORD 2",
-            artifact_type: ArtifactType::RegistryValue,
+            artifact_type: ArtifactLocation::RegistryValue,
             hive: Some(HiveTarget::HklmSoftware),
             key_path: "Test",
             value_name: None,
@@ -603,7 +603,7 @@ mod decode_tests {
         static UTF16_DESC: ArtifactDescriptor = ArtifactDescriptor {
             id: "test_utf16",
             name: "Test UTF-16",
-            artifact_type: ArtifactType::RegistryValue,
+            artifact_type: ArtifactLocation::RegistryValue,
             hive: Some(HiveTarget::NtUser),
             key_path: "Test",
             value_name: None,
@@ -637,7 +637,7 @@ mod decode_tests {
         static UTF16_DESC: ArtifactDescriptor = ArtifactDescriptor {
             id: "test_utf16_odd",
             name: "Test UTF-16 odd",
-            artifact_type: ArtifactType::RegistryValue,
+            artifact_type: ArtifactLocation::RegistryValue,
             hive: Some(HiveTarget::NtUser),
             key_path: "Test",
             value_name: None,
@@ -670,7 +670,7 @@ mod decode_tests {
         static MSZ_DESC: ArtifactDescriptor = ArtifactDescriptor {
             id: "test_msz",
             name: "Test MultiSz",
-            artifact_type: ArtifactType::RegistryValue,
+            artifact_type: ArtifactLocation::RegistryValue,
             hive: Some(HiveTarget::HklmSoftware),
             key_path: "Test",
             value_name: None,
@@ -716,7 +716,7 @@ mod decode_tests {
         static MSZ_DESC: ArtifactDescriptor = ArtifactDescriptor {
             id: "test_msz_empty",
             name: "Test MultiSz empty",
-            artifact_type: ArtifactType::RegistryValue,
+            artifact_type: ArtifactLocation::RegistryValue,
             hive: Some(HiveTarget::HklmSoftware),
             key_path: "Test",
             value_name: None,
@@ -747,7 +747,7 @@ mod decode_tests {
         static MRU_DESC: ArtifactDescriptor = ArtifactDescriptor {
             id: "test_mru",
             name: "Test MRUListEx",
-            artifact_type: ArtifactType::RegistryValue,
+            artifact_type: ArtifactLocation::RegistryValue,
             hive: Some(HiveTarget::NtUser),
             key_path: "Test",
             value_name: None,
@@ -792,7 +792,7 @@ mod decode_tests {
         static MRU_DESC: ArtifactDescriptor = ArtifactDescriptor {
             id: "test_mru_empty",
             name: "Test MRUListEx empty",
-            artifact_type: ArtifactType::RegistryValue,
+            artifact_type: ArtifactLocation::RegistryValue,
             hive: Some(HiveTarget::NtUser),
             key_path: "Test",
             value_name: None,
@@ -823,7 +823,7 @@ mod decode_tests {
         static FT_DESC: ArtifactDescriptor = ArtifactDescriptor {
             id: "test_ft",
             name: "Test FiletimeAt",
-            artifact_type: ArtifactType::RegistryValue,
+            artifact_type: ArtifactLocation::RegistryValue,
             hive: Some(HiveTarget::NtUser),
             key_path: "Test",
             value_name: None,
@@ -861,7 +861,7 @@ mod decode_tests {
         static FT_DESC: ArtifactDescriptor = ArtifactDescriptor {
             id: "test_ft_short",
             name: "Test FiletimeAt short",
-            artifact_type: ArtifactType::RegistryValue,
+            artifact_type: ArtifactLocation::RegistryValue,
             hive: Some(HiveTarget::NtUser),
             key_path: "Test",
             value_name: None,
@@ -947,7 +947,7 @@ mod decode_tests {
     #[test]
     fn pca_descriptor_has_correct_metadata() {
         assert_eq!(PCA_APPLAUNCH_DIC.id, "pca_applaunch_dic");
-        assert_eq!(PCA_APPLAUNCH_DIC.artifact_type, ArtifactType::File);
+        assert_eq!(PCA_APPLAUNCH_DIC.artifact_type, ArtifactLocation::File);
         assert_eq!(PCA_APPLAUNCH_DIC.hive, None);
         assert_eq!(PCA_APPLAUNCH_DIC.os_scope, OsScope::Win11_22H2);
         assert!(PCA_APPLAUNCH_DIC.file_path.is_some());
@@ -981,7 +981,7 @@ mod decode_tests {
         static DESC: ArtifactDescriptor = ArtifactDescriptor {
             id: "test_exact",
             name: "Test exact",
-            artifact_type: ArtifactType::RegistryValue,
+            artifact_type: ArtifactLocation::RegistryValue,
             hive: Some(HiveTarget::HklmSoftware),
             key_path: "Test",
             value_name: None,
@@ -1017,7 +1017,7 @@ mod decode_tests {
         static DESC: ArtifactDescriptor = ArtifactDescriptor {
             id: "test_bytes",
             name: "Test bytes",
-            artifact_type: ArtifactType::RegistryValue,
+            artifact_type: ArtifactLocation::RegistryValue,
             hive: Some(HiveTarget::HklmSoftware),
             key_path: "Test",
             value_name: None,
@@ -1465,14 +1465,20 @@ mod tests_batch_c {
     #[test]
     fn startup_folder_user_md() {
         assert_eq!(STARTUP_FOLDER_USER.id, "startup_folder_user");
-        assert_eq!(STARTUP_FOLDER_USER.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            STARTUP_FOLDER_USER.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(STARTUP_FOLDER_USER.scope, DataScope::User);
         assert!(STARTUP_FOLDER_USER.mitre_techniques.contains(&"T1547.001"));
     }
     #[test]
     fn startup_folder_system_md() {
         assert_eq!(STARTUP_FOLDER_SYSTEM.id, "startup_folder_system");
-        assert_eq!(STARTUP_FOLDER_SYSTEM.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            STARTUP_FOLDER_SYSTEM.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(STARTUP_FOLDER_SYSTEM.scope, DataScope::System);
         assert!(STARTUP_FOLDER_SYSTEM
             .mitre_techniques
@@ -1481,7 +1487,10 @@ mod tests_batch_c {
     #[test]
     fn scheduled_tasks_dir_md() {
         assert_eq!(SCHEDULED_TASKS_DIR.id, "scheduled_tasks_dir");
-        assert_eq!(SCHEDULED_TASKS_DIR.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            SCHEDULED_TASKS_DIR.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(SCHEDULED_TASKS_DIR.scope, DataScope::System);
         assert!(SCHEDULED_TASKS_DIR.mitre_techniques.contains(&"T1053.005"));
     }
@@ -1519,48 +1528,48 @@ mod tests_batch_c {
     #[test]
     fn prefetch_dir_md() {
         assert_eq!(PREFETCH_DIR.id, "prefetch_dir");
-        assert_eq!(PREFETCH_DIR.artifact_type, ArtifactType::Directory);
+        assert_eq!(PREFETCH_DIR.artifact_type, ArtifactLocation::Directory);
         assert_eq!(PREFETCH_DIR.scope, DataScope::System);
         assert!(PREFETCH_DIR.mitre_techniques.contains(&"T1204.002"));
     }
     #[test]
     fn srum_db_md() {
         assert_eq!(SRUM_DB.id, "srum_db");
-        assert_eq!(SRUM_DB.artifact_type, ArtifactType::File);
+        assert_eq!(SRUM_DB.artifact_type, ArtifactLocation::File);
         assert_eq!(SRUM_DB.scope, DataScope::System);
         assert!(SRUM_DB.os_scope == OsScope::Win8Plus);
     }
     #[test]
     fn windows_timeline_md() {
         assert_eq!(WINDOWS_TIMELINE.id, "windows_timeline");
-        assert_eq!(WINDOWS_TIMELINE.artifact_type, ArtifactType::File);
+        assert_eq!(WINDOWS_TIMELINE.artifact_type, ArtifactLocation::File);
         assert_eq!(WINDOWS_TIMELINE.scope, DataScope::User);
         assert_eq!(WINDOWS_TIMELINE.os_scope, OsScope::Win10Plus);
     }
     #[test]
     fn powershell_history_md() {
         assert_eq!(POWERSHELL_HISTORY.id, "powershell_history");
-        assert_eq!(POWERSHELL_HISTORY.artifact_type, ArtifactType::File);
+        assert_eq!(POWERSHELL_HISTORY.artifact_type, ArtifactLocation::File);
         assert_eq!(POWERSHELL_HISTORY.scope, DataScope::User);
         assert!(POWERSHELL_HISTORY.mitre_techniques.contains(&"T1059.001"));
     }
     #[test]
     fn recycle_bin_md() {
         assert_eq!(RECYCLE_BIN.id, "recycle_bin");
-        assert_eq!(RECYCLE_BIN.artifact_type, ArtifactType::Directory);
+        assert_eq!(RECYCLE_BIN.artifact_type, ArtifactLocation::Directory);
         assert_eq!(RECYCLE_BIN.scope, DataScope::User);
         assert!(RECYCLE_BIN.mitre_techniques.contains(&"T1070.004"));
     }
     #[test]
     fn thumbcache_md() {
         assert_eq!(THUMBCACHE.id, "thumbcache");
-        assert_eq!(THUMBCACHE.artifact_type, ArtifactType::Directory);
+        assert_eq!(THUMBCACHE.artifact_type, ArtifactLocation::Directory);
         assert_eq!(THUMBCACHE.scope, DataScope::User);
     }
     #[test]
     fn search_db_user_md() {
         assert_eq!(SEARCH_DB_USER.id, "search_db_user");
-        assert_eq!(SEARCH_DB_USER.artifact_type, ArtifactType::File);
+        assert_eq!(SEARCH_DB_USER.artifact_type, ArtifactLocation::File);
         assert_eq!(SEARCH_DB_USER.scope, DataScope::System);
     }
 
@@ -1569,33 +1578,45 @@ mod tests_batch_c {
     #[test]
     fn dpapi_masterkey_user_md() {
         assert_eq!(DPAPI_MASTERKEY_USER.id, "dpapi_masterkey_user");
-        assert_eq!(DPAPI_MASTERKEY_USER.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            DPAPI_MASTERKEY_USER.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(DPAPI_MASTERKEY_USER.scope, DataScope::User);
         assert!(DPAPI_MASTERKEY_USER.mitre_techniques.contains(&"T1555.004"));
     }
     #[test]
     fn dpapi_cred_user_md() {
         assert_eq!(DPAPI_CRED_USER.id, "dpapi_cred_user");
-        assert_eq!(DPAPI_CRED_USER.artifact_type, ArtifactType::Directory);
+        assert_eq!(DPAPI_CRED_USER.artifact_type, ArtifactLocation::Directory);
         assert_eq!(DPAPI_CRED_USER.scope, DataScope::User);
     }
     #[test]
     fn dpapi_cred_roaming_md() {
         assert_eq!(DPAPI_CRED_ROAMING.id, "dpapi_cred_roaming");
-        assert_eq!(DPAPI_CRED_ROAMING.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            DPAPI_CRED_ROAMING.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(DPAPI_CRED_ROAMING.scope, DataScope::User);
     }
     #[test]
     fn windows_vault_user_md() {
         assert_eq!(WINDOWS_VAULT_USER.id, "windows_vault_user");
-        assert_eq!(WINDOWS_VAULT_USER.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            WINDOWS_VAULT_USER.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(WINDOWS_VAULT_USER.scope, DataScope::User);
         assert!(WINDOWS_VAULT_USER.mitre_techniques.contains(&"T1555.004"));
     }
     #[test]
     fn windows_vault_system_md() {
         assert_eq!(WINDOWS_VAULT_SYSTEM.id, "windows_vault_system");
-        assert_eq!(WINDOWS_VAULT_SYSTEM.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            WINDOWS_VAULT_SYSTEM.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(WINDOWS_VAULT_SYSTEM.scope, DataScope::System);
     }
     #[test]
@@ -1615,28 +1636,28 @@ mod tests_batch_c {
     #[test]
     fn ntds_dit_md() {
         assert_eq!(NTDS_DIT.id, "ntds_dit");
-        assert_eq!(NTDS_DIT.artifact_type, ArtifactType::File);
+        assert_eq!(NTDS_DIT.artifact_type, ArtifactLocation::File);
         assert_eq!(NTDS_DIT.scope, DataScope::System);
         assert!(NTDS_DIT.mitre_techniques.contains(&"T1003.003"));
     }
     #[test]
     fn chrome_login_data_md() {
         assert_eq!(CHROME_LOGIN_DATA.id, "chrome_login_data");
-        assert_eq!(CHROME_LOGIN_DATA.artifact_type, ArtifactType::File);
+        assert_eq!(CHROME_LOGIN_DATA.artifact_type, ArtifactLocation::File);
         assert_eq!(CHROME_LOGIN_DATA.scope, DataScope::User);
         assert!(CHROME_LOGIN_DATA.mitre_techniques.contains(&"T1555.003"));
     }
     #[test]
     fn firefox_logins_md() {
         assert_eq!(FIREFOX_LOGINS.id, "firefox_logins");
-        assert_eq!(FIREFOX_LOGINS.artifact_type, ArtifactType::File);
+        assert_eq!(FIREFOX_LOGINS.artifact_type, ArtifactLocation::File);
         assert_eq!(FIREFOX_LOGINS.scope, DataScope::User);
         assert!(FIREFOX_LOGINS.mitre_techniques.contains(&"T1555.003"));
     }
     #[test]
     fn wifi_profiles_md() {
         assert_eq!(WIFI_PROFILES.id, "wifi_profiles");
-        assert_eq!(WIFI_PROFILES.artifact_type, ArtifactType::Directory);
+        assert_eq!(WIFI_PROFILES.artifact_type, ArtifactLocation::Directory);
         assert_eq!(WIFI_PROFILES.scope, DataScope::System);
         assert!(WIFI_PROFILES.mitre_techniques.contains(&"T1552.001"));
     }
@@ -1702,7 +1723,7 @@ mod tests_batch_d {
     #[test]
     fn linux_crontab_system_md() {
         assert_eq!(LINUX_CRONTAB_SYSTEM.id, "linux_crontab_system");
-        assert_eq!(LINUX_CRONTAB_SYSTEM.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_CRONTAB_SYSTEM.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_CRONTAB_SYSTEM.scope, DataScope::System);
         assert_eq!(LINUX_CRONTAB_SYSTEM.os_scope, OsScope::Linux);
         assert!(LINUX_CRONTAB_SYSTEM.mitre_techniques.contains(&"T1053.003"));
@@ -1710,27 +1731,30 @@ mod tests_batch_d {
     #[test]
     fn linux_cron_d_md() {
         assert_eq!(LINUX_CRON_D.id, "linux_cron_d");
-        assert_eq!(LINUX_CRON_D.artifact_type, ArtifactType::Directory);
+        assert_eq!(LINUX_CRON_D.artifact_type, ArtifactLocation::Directory);
         assert_eq!(LINUX_CRON_D.scope, DataScope::System);
         assert_eq!(LINUX_CRON_D.os_scope, OsScope::Linux);
     }
     #[test]
     fn linux_cron_periodic_md() {
         assert_eq!(LINUX_CRON_PERIODIC.id, "linux_cron_periodic");
-        assert_eq!(LINUX_CRON_PERIODIC.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            LINUX_CRON_PERIODIC.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(LINUX_CRON_PERIODIC.scope, DataScope::System);
     }
     #[test]
     fn linux_user_crontab_md() {
         assert_eq!(LINUX_USER_CRONTAB.id, "linux_user_crontab");
-        assert_eq!(LINUX_USER_CRONTAB.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_USER_CRONTAB.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_USER_CRONTAB.scope, DataScope::User);
         assert!(LINUX_USER_CRONTAB.mitre_techniques.contains(&"T1053.003"));
     }
     #[test]
     fn linux_anacrontab_md() {
         assert_eq!(LINUX_ANACRONTAB.id, "linux_anacrontab");
-        assert_eq!(LINUX_ANACRONTAB.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_ANACRONTAB.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_ANACRONTAB.scope, DataScope::System);
     }
 
@@ -1741,7 +1765,7 @@ mod tests_batch_d {
         assert_eq!(LINUX_SYSTEMD_SYSTEM_UNIT.id, "linux_systemd_system_unit");
         assert_eq!(
             LINUX_SYSTEMD_SYSTEM_UNIT.artifact_type,
-            ArtifactType::Directory
+            ArtifactLocation::Directory
         );
         assert_eq!(LINUX_SYSTEMD_SYSTEM_UNIT.scope, DataScope::System);
         assert_eq!(LINUX_SYSTEMD_SYSTEM_UNIT.os_scope, OsScope::LinuxSystemd);
@@ -1754,7 +1778,7 @@ mod tests_batch_d {
         assert_eq!(LINUX_SYSTEMD_USER_UNIT.id, "linux_systemd_user_unit");
         assert_eq!(
             LINUX_SYSTEMD_USER_UNIT.artifact_type,
-            ArtifactType::Directory
+            ArtifactLocation::Directory
         );
         assert_eq!(LINUX_SYSTEMD_USER_UNIT.scope, DataScope::User);
         assert_eq!(LINUX_SYSTEMD_USER_UNIT.os_scope, OsScope::LinuxSystemd);
@@ -1762,7 +1786,10 @@ mod tests_batch_d {
     #[test]
     fn linux_systemd_timer_md() {
         assert_eq!(LINUX_SYSTEMD_TIMER.id, "linux_systemd_timer");
-        assert_eq!(LINUX_SYSTEMD_TIMER.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            LINUX_SYSTEMD_TIMER.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(LINUX_SYSTEMD_TIMER.os_scope, OsScope::LinuxSystemd);
         assert!(LINUX_SYSTEMD_TIMER.mitre_techniques.contains(&"T1053.006"));
     }
@@ -1772,14 +1799,14 @@ mod tests_batch_d {
     #[test]
     fn linux_rc_local_md() {
         assert_eq!(LINUX_RC_LOCAL.id, "linux_rc_local");
-        assert_eq!(LINUX_RC_LOCAL.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_RC_LOCAL.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_RC_LOCAL.scope, DataScope::System);
         assert!(LINUX_RC_LOCAL.mitre_techniques.contains(&"T1037.004"));
     }
     #[test]
     fn linux_init_d_md() {
         assert_eq!(LINUX_INIT_D.id, "linux_init_d");
-        assert_eq!(LINUX_INIT_D.artifact_type, ArtifactType::Directory);
+        assert_eq!(LINUX_INIT_D.artifact_type, ArtifactLocation::Directory);
         assert_eq!(LINUX_INIT_D.scope, DataScope::System);
     }
 
@@ -1788,7 +1815,7 @@ mod tests_batch_d {
     #[test]
     fn linux_bashrc_user_md() {
         assert_eq!(LINUX_BASHRC_USER.id, "linux_bashrc_user");
-        assert_eq!(LINUX_BASHRC_USER.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_BASHRC_USER.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_BASHRC_USER.scope, DataScope::User);
         assert!(LINUX_BASHRC_USER.mitre_techniques.contains(&"T1546.004"));
     }
@@ -1819,7 +1846,7 @@ mod tests_batch_d {
     #[test]
     fn linux_profile_d_md() {
         assert_eq!(LINUX_PROFILE_D.id, "linux_profile_d");
-        assert_eq!(LINUX_PROFILE_D.artifact_type, ArtifactType::Directory);
+        assert_eq!(LINUX_PROFILE_D.artifact_type, ArtifactLocation::Directory);
         assert_eq!(LINUX_PROFILE_D.scope, DataScope::System);
     }
 
@@ -1828,14 +1855,17 @@ mod tests_batch_d {
     #[test]
     fn linux_ld_so_preload_md() {
         assert_eq!(LINUX_LD_SO_PRELOAD.id, "linux_ld_so_preload");
-        assert_eq!(LINUX_LD_SO_PRELOAD.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_LD_SO_PRELOAD.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_LD_SO_PRELOAD.scope, DataScope::System);
         assert!(LINUX_LD_SO_PRELOAD.mitre_techniques.contains(&"T1574.006"));
     }
     #[test]
     fn linux_ld_so_conf_d_md() {
         assert_eq!(LINUX_LD_SO_CONF_D.id, "linux_ld_so_conf_d");
-        assert_eq!(LINUX_LD_SO_CONF_D.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            LINUX_LD_SO_CONF_D.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(LINUX_LD_SO_CONF_D.scope, DataScope::System);
     }
 
@@ -1844,7 +1874,10 @@ mod tests_batch_d {
     #[test]
     fn linux_ssh_authorized_keys_md() {
         assert_eq!(LINUX_SSH_AUTHORIZED_KEYS.id, "linux_ssh_authorized_keys");
-        assert_eq!(LINUX_SSH_AUTHORIZED_KEYS.artifact_type, ArtifactType::File);
+        assert_eq!(
+            LINUX_SSH_AUTHORIZED_KEYS.artifact_type,
+            ArtifactLocation::File
+        );
         assert_eq!(LINUX_SSH_AUTHORIZED_KEYS.scope, DataScope::User);
         assert!(LINUX_SSH_AUTHORIZED_KEYS
             .mitre_techniques
@@ -1856,34 +1889,40 @@ mod tests_batch_d {
     #[test]
     fn linux_pam_d_md() {
         assert_eq!(LINUX_PAM_D.id, "linux_pam_d");
-        assert_eq!(LINUX_PAM_D.artifact_type, ArtifactType::Directory);
+        assert_eq!(LINUX_PAM_D.artifact_type, ArtifactLocation::Directory);
         assert_eq!(LINUX_PAM_D.scope, DataScope::System);
         assert!(LINUX_PAM_D.mitre_techniques.contains(&"T1556.003"));
     }
     #[test]
     fn linux_sudoers_d_md() {
         assert_eq!(LINUX_SUDOERS_D.id, "linux_sudoers_d");
-        assert_eq!(LINUX_SUDOERS_D.artifact_type, ArtifactType::Directory);
+        assert_eq!(LINUX_SUDOERS_D.artifact_type, ArtifactLocation::Directory);
         assert_eq!(LINUX_SUDOERS_D.scope, DataScope::System);
         assert!(LINUX_SUDOERS_D.mitre_techniques.contains(&"T1548.003"));
     }
     #[test]
     fn linux_modules_load_d_md() {
         assert_eq!(LINUX_MODULES_LOAD_D.id, "linux_modules_load_d");
-        assert_eq!(LINUX_MODULES_LOAD_D.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            LINUX_MODULES_LOAD_D.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(LINUX_MODULES_LOAD_D.scope, DataScope::System);
         assert!(LINUX_MODULES_LOAD_D.mitre_techniques.contains(&"T1547.006"));
     }
     #[test]
     fn linux_motd_d_md() {
         assert_eq!(LINUX_MOTD_D.id, "linux_motd_d");
-        assert_eq!(LINUX_MOTD_D.artifact_type, ArtifactType::Directory);
+        assert_eq!(LINUX_MOTD_D.artifact_type, ArtifactLocation::Directory);
         assert_eq!(LINUX_MOTD_D.scope, DataScope::System);
     }
     #[test]
     fn linux_udev_rules_d_md() {
         assert_eq!(LINUX_UDEV_RULES_D.id, "linux_udev_rules_d");
-        assert_eq!(LINUX_UDEV_RULES_D.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            LINUX_UDEV_RULES_D.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(LINUX_UDEV_RULES_D.scope, DataScope::System);
         assert!(LINUX_UDEV_RULES_D.mitre_techniques.contains(&"T1546"));
     }
@@ -1893,7 +1932,7 @@ mod tests_batch_d {
     #[test]
     fn linux_bash_history_md() {
         assert_eq!(LINUX_BASH_HISTORY.id, "linux_bash_history");
-        assert_eq!(LINUX_BASH_HISTORY.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_BASH_HISTORY.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_BASH_HISTORY.scope, DataScope::User);
         assert!(LINUX_BASH_HISTORY.mitre_techniques.contains(&"T1059.004"));
     }
@@ -1905,33 +1944,33 @@ mod tests_batch_d {
     #[test]
     fn linux_wtmp_md() {
         assert_eq!(LINUX_WTMP.id, "linux_wtmp");
-        assert_eq!(LINUX_WTMP.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_WTMP.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_WTMP.scope, DataScope::System);
         assert!(LINUX_WTMP.mitre_techniques.contains(&"T1078"));
     }
     #[test]
     fn linux_btmp_md() {
         assert_eq!(LINUX_BTMP.id, "linux_btmp");
-        assert_eq!(LINUX_BTMP.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_BTMP.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_BTMP.scope, DataScope::System);
     }
     #[test]
     fn linux_lastlog_md() {
         assert_eq!(LINUX_LASTLOG.id, "linux_lastlog");
-        assert_eq!(LINUX_LASTLOG.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_LASTLOG.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_LASTLOG.scope, DataScope::System);
     }
     #[test]
     fn linux_auth_log_md() {
         assert_eq!(LINUX_AUTH_LOG.id, "linux_auth_log");
-        assert_eq!(LINUX_AUTH_LOG.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_AUTH_LOG.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_AUTH_LOG.scope, DataScope::System);
         assert!(LINUX_AUTH_LOG.mitre_techniques.contains(&"T1078"));
     }
     #[test]
     fn linux_journal_dir_md() {
         assert_eq!(LINUX_JOURNAL_DIR.id, "linux_journal_dir");
-        assert_eq!(LINUX_JOURNAL_DIR.artifact_type, ArtifactType::Directory);
+        assert_eq!(LINUX_JOURNAL_DIR.artifact_type, ArtifactLocation::Directory);
         assert_eq!(LINUX_JOURNAL_DIR.os_scope, OsScope::LinuxSystemd);
     }
 
@@ -1940,21 +1979,21 @@ mod tests_batch_d {
     #[test]
     fn linux_passwd_md() {
         assert_eq!(LINUX_PASSWD.id, "linux_passwd");
-        assert_eq!(LINUX_PASSWD.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_PASSWD.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_PASSWD.scope, DataScope::System);
         assert!(LINUX_PASSWD.mitre_techniques.contains(&"T1087.001"));
     }
     #[test]
     fn linux_shadow_md() {
         assert_eq!(LINUX_SHADOW.id, "linux_shadow");
-        assert_eq!(LINUX_SHADOW.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_SHADOW.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_SHADOW.scope, DataScope::System);
         assert!(LINUX_SHADOW.mitre_techniques.contains(&"T1003.008"));
     }
     #[test]
     fn linux_ssh_private_key_md() {
         assert_eq!(LINUX_SSH_PRIVATE_KEY.id, "linux_ssh_private_key");
-        assert_eq!(LINUX_SSH_PRIVATE_KEY.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_SSH_PRIVATE_KEY.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_SSH_PRIVATE_KEY.scope, DataScope::User);
         assert!(LINUX_SSH_PRIVATE_KEY
             .mitre_techniques
@@ -1971,14 +2010,17 @@ mod tests_batch_d {
     #[test]
     fn linux_gnupg_private_md() {
         assert_eq!(LINUX_GNUPG_PRIVATE.id, "linux_gnupg_private");
-        assert_eq!(LINUX_GNUPG_PRIVATE.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            LINUX_GNUPG_PRIVATE.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(LINUX_GNUPG_PRIVATE.scope, DataScope::User);
         assert!(LINUX_GNUPG_PRIVATE.mitre_techniques.contains(&"T1552.004"));
     }
     #[test]
     fn linux_aws_credentials_md() {
         assert_eq!(LINUX_AWS_CREDENTIALS.id, "linux_aws_credentials");
-        assert_eq!(LINUX_AWS_CREDENTIALS.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_AWS_CREDENTIALS.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_AWS_CREDENTIALS.scope, DataScope::User);
         assert!(LINUX_AWS_CREDENTIALS
             .mitre_techniques
@@ -1987,7 +2029,7 @@ mod tests_batch_d {
     #[test]
     fn linux_docker_config_md() {
         assert_eq!(LINUX_DOCKER_CONFIG.id, "linux_docker_config");
-        assert_eq!(LINUX_DOCKER_CONFIG.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_DOCKER_CONFIG.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_DOCKER_CONFIG.scope, DataScope::User);
         assert!(LINUX_DOCKER_CONFIG.mitre_techniques.contains(&"T1552.001"));
     }
@@ -2050,35 +2092,35 @@ mod tests_batch_d {
     #[test]
     fn lnk_files_md() {
         assert_eq!(LNK_FILES.id, "lnk_files");
-        assert_eq!(LNK_FILES.artifact_type, ArtifactType::Directory);
+        assert_eq!(LNK_FILES.artifact_type, ArtifactLocation::Directory);
         assert_eq!(LNK_FILES.scope, DataScope::User);
         assert!(LNK_FILES.mitre_techniques.contains(&"T1547.009"));
     }
     #[test]
     fn jump_list_auto_md() {
         assert_eq!(JUMP_LIST_AUTO.id, "jump_list_auto");
-        assert_eq!(JUMP_LIST_AUTO.artifact_type, ArtifactType::Directory);
+        assert_eq!(JUMP_LIST_AUTO.artifact_type, ArtifactLocation::Directory);
         assert_eq!(JUMP_LIST_AUTO.scope, DataScope::User);
         assert!(JUMP_LIST_AUTO.mitre_techniques.contains(&"T1547.009"));
     }
     #[test]
     fn jump_list_custom_md() {
         assert_eq!(JUMP_LIST_CUSTOM.id, "jump_list_custom");
-        assert_eq!(JUMP_LIST_CUSTOM.artifact_type, ArtifactType::Directory);
+        assert_eq!(JUMP_LIST_CUSTOM.artifact_type, ArtifactLocation::Directory);
         assert_eq!(JUMP_LIST_CUSTOM.scope, DataScope::User);
         assert!(JUMP_LIST_CUSTOM.mitre_techniques.contains(&"T1547.009"));
     }
     #[test]
     fn evtx_dir_md() {
         assert_eq!(EVTX_DIR.id, "evtx_dir");
-        assert_eq!(EVTX_DIR.artifact_type, ArtifactType::Directory);
+        assert_eq!(EVTX_DIR.artifact_type, ArtifactLocation::Directory);
         assert_eq!(EVTX_DIR.scope, DataScope::System);
         assert!(EVTX_DIR.mitre_techniques.contains(&"T1070.001"));
     }
     #[test]
     fn usn_journal_md() {
         assert_eq!(USN_JOURNAL.id, "usn_journal");
-        assert_eq!(USN_JOURNAL.artifact_type, ArtifactType::File);
+        assert_eq!(USN_JOURNAL.artifact_type, ArtifactLocation::File);
         assert_eq!(USN_JOURNAL.scope, DataScope::System);
         assert_eq!(USN_JOURNAL.os_scope, OsScope::Win7Plus);
     }
@@ -2088,42 +2130,45 @@ mod tests_batch_d {
     #[test]
     fn wmi_mof_dir_md() {
         assert_eq!(WMI_MOF_DIR.id, "wmi_mof_dir");
-        assert_eq!(WMI_MOF_DIR.artifact_type, ArtifactType::Directory);
+        assert_eq!(WMI_MOF_DIR.artifact_type, ArtifactLocation::Directory);
         assert_eq!(WMI_MOF_DIR.scope, DataScope::System);
         assert!(WMI_MOF_DIR.mitre_techniques.contains(&"T1546.003"));
     }
     #[test]
     fn bits_db_md() {
         assert_eq!(BITS_DB.id, "bits_db");
-        assert_eq!(BITS_DB.artifact_type, ArtifactType::Directory);
+        assert_eq!(BITS_DB.artifact_type, ArtifactLocation::Directory);
         assert_eq!(BITS_DB.scope, DataScope::System);
         assert!(BITS_DB.mitre_techniques.contains(&"T1197"));
     }
     #[test]
     fn wmi_subscriptions_md() {
         assert_eq!(WMI_SUBSCRIPTIONS.id, "wmi_subscriptions");
-        assert_eq!(WMI_SUBSCRIPTIONS.artifact_type, ArtifactType::RegistryKey);
+        assert_eq!(
+            WMI_SUBSCRIPTIONS.artifact_type,
+            ArtifactLocation::RegistryKey
+        );
         assert_eq!(WMI_SUBSCRIPTIONS.scope, DataScope::System);
         assert!(WMI_SUBSCRIPTIONS.mitre_techniques.contains(&"T1546.003"));
     }
     #[test]
     fn logon_scripts_md() {
         assert_eq!(LOGON_SCRIPTS.id, "logon_scripts");
-        assert_eq!(LOGON_SCRIPTS.artifact_type, ArtifactType::RegistryValue);
+        assert_eq!(LOGON_SCRIPTS.artifact_type, ArtifactLocation::RegistryValue);
         assert_eq!(LOGON_SCRIPTS.scope, DataScope::User);
         assert!(LOGON_SCRIPTS.mitre_techniques.contains(&"T1037.001"));
     }
     #[test]
     fn winsock_lsp_md() {
         assert_eq!(WINSOCK_LSP.id, "winsock_lsp");
-        assert_eq!(WINSOCK_LSP.artifact_type, ArtifactType::RegistryKey);
+        assert_eq!(WINSOCK_LSP.artifact_type, ArtifactLocation::RegistryKey);
         assert_eq!(WINSOCK_LSP.scope, DataScope::System);
         assert!(WINSOCK_LSP.mitre_techniques.contains(&"T1547.010"));
     }
     #[test]
     fn appshim_db_md() {
         assert_eq!(APPSHIM_DB.id, "appshim_db");
-        assert_eq!(APPSHIM_DB.artifact_type, ArtifactType::Directory);
+        assert_eq!(APPSHIM_DB.artifact_type, ArtifactLocation::Directory);
         assert_eq!(APPSHIM_DB.scope, DataScope::System);
         assert!(APPSHIM_DB.mitre_techniques.contains(&"T1546.011"));
     }
@@ -2132,7 +2177,7 @@ mod tests_batch_d {
         assert_eq!(PASSWORD_FILTER_DLL.id, "password_filter_dll");
         assert_eq!(
             PASSWORD_FILTER_DLL.artifact_type,
-            ArtifactType::RegistryValue
+            ArtifactLocation::RegistryValue
         );
         assert_eq!(PASSWORD_FILTER_DLL.scope, DataScope::System);
         assert!(PASSWORD_FILTER_DLL.mitre_techniques.contains(&"T1556.002"));
@@ -2140,14 +2185,14 @@ mod tests_batch_d {
     #[test]
     fn office_normal_dotm_md() {
         assert_eq!(OFFICE_NORMAL_DOTM.id, "office_normal_dotm");
-        assert_eq!(OFFICE_NORMAL_DOTM.artifact_type, ArtifactType::File);
+        assert_eq!(OFFICE_NORMAL_DOTM.artifact_type, ArtifactLocation::File);
         assert_eq!(OFFICE_NORMAL_DOTM.scope, DataScope::User);
         assert!(OFFICE_NORMAL_DOTM.mitre_techniques.contains(&"T1137.001"));
     }
     #[test]
     fn powershell_profile_all_md() {
         assert_eq!(POWERSHELL_PROFILE_ALL.id, "powershell_profile_all");
-        assert_eq!(POWERSHELL_PROFILE_ALL.artifact_type, ArtifactType::File);
+        assert_eq!(POWERSHELL_PROFILE_ALL.artifact_type, ArtifactLocation::File);
         assert_eq!(POWERSHELL_PROFILE_ALL.scope, DataScope::System);
         assert!(POWERSHELL_PROFILE_ALL
             .mitre_techniques
@@ -2161,7 +2206,7 @@ mod tests_batch_d {
         assert_eq!(DPAPI_SYSTEM_MASTERKEY.id, "dpapi_system_masterkey");
         assert_eq!(
             DPAPI_SYSTEM_MASTERKEY.artifact_type,
-            ArtifactType::Directory
+            ArtifactLocation::Directory
         );
         assert_eq!(DPAPI_SYSTEM_MASTERKEY.scope, DataScope::System);
         assert!(DPAPI_SYSTEM_MASTERKEY
@@ -2171,42 +2216,45 @@ mod tests_batch_d {
     #[test]
     fn dpapi_credhist_md() {
         assert_eq!(DPAPI_CREDHIST.id, "dpapi_credhist");
-        assert_eq!(DPAPI_CREDHIST.artifact_type, ArtifactType::File);
+        assert_eq!(DPAPI_CREDHIST.artifact_type, ArtifactLocation::File);
         assert_eq!(DPAPI_CREDHIST.scope, DataScope::User);
         assert!(DPAPI_CREDHIST.mitre_techniques.contains(&"T1555.004"));
     }
     #[test]
     fn chrome_cookies_md() {
         assert_eq!(CHROME_COOKIES.id, "chrome_cookies");
-        assert_eq!(CHROME_COOKIES.artifact_type, ArtifactType::File);
+        assert_eq!(CHROME_COOKIES.artifact_type, ArtifactLocation::File);
         assert_eq!(CHROME_COOKIES.scope, DataScope::User);
         assert!(CHROME_COOKIES.mitre_techniques.contains(&"T1539"));
     }
     #[test]
     fn edge_webcache_md() {
         assert_eq!(EDGE_WEBCACHE.id, "edge_webcache");
-        assert_eq!(EDGE_WEBCACHE.artifact_type, ArtifactType::Directory);
+        assert_eq!(EDGE_WEBCACHE.artifact_type, ArtifactLocation::Directory);
         assert_eq!(EDGE_WEBCACHE.scope, DataScope::User);
         assert!(EDGE_WEBCACHE.mitre_techniques.contains(&"T1539"));
     }
     #[test]
     fn vpn_ras_phonebook_md() {
         assert_eq!(VPN_RAS_PHONEBOOK.id, "vpn_ras_phonebook");
-        assert_eq!(VPN_RAS_PHONEBOOK.artifact_type, ArtifactType::File);
+        assert_eq!(VPN_RAS_PHONEBOOK.artifact_type, ArtifactLocation::File);
         assert_eq!(VPN_RAS_PHONEBOOK.scope, DataScope::User);
         assert!(VPN_RAS_PHONEBOOK.mitre_techniques.contains(&"T1552.001"));
     }
     #[test]
     fn windows_hello_ngc_md() {
         assert_eq!(WINDOWS_HELLO_NGC.id, "windows_hello_ngc");
-        assert_eq!(WINDOWS_HELLO_NGC.artifact_type, ArtifactType::Directory);
+        assert_eq!(WINDOWS_HELLO_NGC.artifact_type, ArtifactLocation::Directory);
         assert_eq!(WINDOWS_HELLO_NGC.scope, DataScope::System);
         assert!(WINDOWS_HELLO_NGC.mitre_techniques.contains(&"T1555"));
     }
     #[test]
     fn user_cert_private_key_md() {
         assert_eq!(USER_CERT_PRIVATE_KEY.id, "user_cert_private_key");
-        assert_eq!(USER_CERT_PRIVATE_KEY.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            USER_CERT_PRIVATE_KEY.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(USER_CERT_PRIVATE_KEY.scope, DataScope::User);
         assert!(USER_CERT_PRIVATE_KEY
             .mitre_techniques
@@ -2215,7 +2263,10 @@ mod tests_batch_d {
     #[test]
     fn machine_cert_store_md() {
         assert_eq!(MACHINE_CERT_STORE.id, "machine_cert_store");
-        assert_eq!(MACHINE_CERT_STORE.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            MACHINE_CERT_STORE.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(MACHINE_CERT_STORE.scope, DataScope::System);
         assert!(MACHINE_CERT_STORE.mitre_techniques.contains(&"T1552.004"));
     }
@@ -2261,42 +2312,48 @@ mod tests_batch_d {
     #[test]
     fn linux_at_queue_md() {
         assert_eq!(LINUX_AT_QUEUE.id, "linux_at_queue");
-        assert_eq!(LINUX_AT_QUEUE.artifact_type, ArtifactType::Directory);
+        assert_eq!(LINUX_AT_QUEUE.artifact_type, ArtifactLocation::Directory);
         assert_eq!(LINUX_AT_QUEUE.scope, DataScope::System);
         assert!(LINUX_AT_QUEUE.mitre_techniques.contains(&"T1053.001"));
     }
     #[test]
     fn linux_sshd_config_md() {
         assert_eq!(LINUX_SSHD_CONFIG.id, "linux_sshd_config");
-        assert_eq!(LINUX_SSHD_CONFIG.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_SSHD_CONFIG.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_SSHD_CONFIG.scope, DataScope::System);
         assert!(LINUX_SSHD_CONFIG.mitre_techniques.contains(&"T1098.004"));
     }
     #[test]
     fn linux_etc_group_md() {
         assert_eq!(LINUX_ETC_GROUP.id, "linux_etc_group");
-        assert_eq!(LINUX_ETC_GROUP.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_ETC_GROUP.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_ETC_GROUP.scope, DataScope::System);
         assert!(LINUX_ETC_GROUP.mitre_techniques.contains(&"T1087.001"));
     }
     #[test]
     fn linux_gnome_keyring_md() {
         assert_eq!(LINUX_GNOME_KEYRING.id, "linux_gnome_keyring");
-        assert_eq!(LINUX_GNOME_KEYRING.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            LINUX_GNOME_KEYRING.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(LINUX_GNOME_KEYRING.scope, DataScope::User);
         assert!(LINUX_GNOME_KEYRING.mitre_techniques.contains(&"T1555.003"));
     }
     #[test]
     fn linux_kde_kwallet_md() {
         assert_eq!(LINUX_KDE_KWALLET.id, "linux_kde_kwallet");
-        assert_eq!(LINUX_KDE_KWALLET.artifact_type, ArtifactType::Directory);
+        assert_eq!(LINUX_KDE_KWALLET.artifact_type, ArtifactLocation::Directory);
         assert_eq!(LINUX_KDE_KWALLET.scope, DataScope::User);
         assert!(LINUX_KDE_KWALLET.mitre_techniques.contains(&"T1555.003"));
     }
     #[test]
     fn linux_chrome_login_linux_md() {
         assert_eq!(LINUX_CHROME_LOGIN_LINUX.id, "linux_chrome_login_linux");
-        assert_eq!(LINUX_CHROME_LOGIN_LINUX.artifact_type, ArtifactType::File);
+        assert_eq!(
+            LINUX_CHROME_LOGIN_LINUX.artifact_type,
+            ArtifactLocation::File
+        );
         assert_eq!(LINUX_CHROME_LOGIN_LINUX.scope, DataScope::User);
         assert!(LINUX_CHROME_LOGIN_LINUX
             .mitre_techniques
@@ -2305,7 +2362,10 @@ mod tests_batch_d {
     #[test]
     fn linux_firefox_logins_linux_md() {
         assert_eq!(LINUX_FIREFOX_LOGINS_LINUX.id, "linux_firefox_logins_linux");
-        assert_eq!(LINUX_FIREFOX_LOGINS_LINUX.artifact_type, ArtifactType::File);
+        assert_eq!(
+            LINUX_FIREFOX_LOGINS_LINUX.artifact_type,
+            ArtifactLocation::File
+        );
         assert_eq!(LINUX_FIREFOX_LOGINS_LINUX.scope, DataScope::User);
         assert!(LINUX_FIREFOX_LOGINS_LINUX
             .mitre_techniques
@@ -2314,14 +2374,17 @@ mod tests_batch_d {
     #[test]
     fn linux_utmp_md() {
         assert_eq!(LINUX_UTMP.id, "linux_utmp");
-        assert_eq!(LINUX_UTMP.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_UTMP.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_UTMP.scope, DataScope::System);
         assert!(LINUX_UTMP.mitre_techniques.contains(&"T1078"));
     }
     #[test]
     fn linux_gcp_credentials_md() {
         assert_eq!(LINUX_GCP_CREDENTIALS.id, "linux_gcp_credentials");
-        assert_eq!(LINUX_GCP_CREDENTIALS.artifact_type, ArtifactType::Directory);
+        assert_eq!(
+            LINUX_GCP_CREDENTIALS.artifact_type,
+            ArtifactLocation::Directory
+        );
         assert_eq!(LINUX_GCP_CREDENTIALS.scope, DataScope::User);
         assert!(LINUX_GCP_CREDENTIALS
             .mitre_techniques
@@ -2332,7 +2395,7 @@ mod tests_batch_d {
         assert_eq!(LINUX_AZURE_CREDENTIALS.id, "linux_azure_credentials");
         assert_eq!(
             LINUX_AZURE_CREDENTIALS.artifact_type,
-            ArtifactType::Directory
+            ArtifactLocation::Directory
         );
         assert_eq!(LINUX_AZURE_CREDENTIALS.scope, DataScope::User);
         assert!(LINUX_AZURE_CREDENTIALS
@@ -2342,14 +2405,14 @@ mod tests_batch_d {
     #[test]
     fn linux_kube_config_md() {
         assert_eq!(LINUX_KUBE_CONFIG.id, "linux_kube_config");
-        assert_eq!(LINUX_KUBE_CONFIG.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_KUBE_CONFIG.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_KUBE_CONFIG.scope, DataScope::User);
         assert!(LINUX_KUBE_CONFIG.mitre_techniques.contains(&"T1552.001"));
     }
     #[test]
     fn linux_git_credentials_md() {
         assert_eq!(LINUX_GIT_CREDENTIALS.id, "linux_git_credentials");
-        assert_eq!(LINUX_GIT_CREDENTIALS.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_GIT_CREDENTIALS.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_GIT_CREDENTIALS.scope, DataScope::User);
         assert!(LINUX_GIT_CREDENTIALS
             .mitre_techniques
@@ -2358,7 +2421,7 @@ mod tests_batch_d {
     #[test]
     fn linux_netrc_md() {
         assert_eq!(LINUX_NETRC.id, "linux_netrc");
-        assert_eq!(LINUX_NETRC.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_NETRC.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_NETRC.scope, DataScope::User);
         assert!(LINUX_NETRC.mitre_techniques.contains(&"T1552.001"));
     }
@@ -2395,7 +2458,7 @@ mod tests_batch_d {
     #[test]
     fn linux_etc_environment_md() {
         assert_eq!(LINUX_ETC_ENVIRONMENT.id, "linux_etc_environment");
-        assert_eq!(LINUX_ETC_ENVIRONMENT.artifact_type, ArtifactType::File);
+        assert_eq!(LINUX_ETC_ENVIRONMENT.artifact_type, ArtifactLocation::File);
         assert_eq!(LINUX_ETC_ENVIRONMENT.scope, DataScope::System);
         assert!(LINUX_ETC_ENVIRONMENT
             .mitre_techniques
@@ -2406,7 +2469,7 @@ mod tests_batch_d {
         assert_eq!(LINUX_XDG_AUTOSTART_USER.id, "linux_xdg_autostart_user");
         assert_eq!(
             LINUX_XDG_AUTOSTART_USER.artifact_type,
-            ArtifactType::Directory
+            ArtifactLocation::Directory
         );
         assert_eq!(LINUX_XDG_AUTOSTART_USER.scope, DataScope::User);
         assert!(LINUX_XDG_AUTOSTART_USER
@@ -2418,7 +2481,7 @@ mod tests_batch_d {
         assert_eq!(LINUX_XDG_AUTOSTART_SYSTEM.id, "linux_xdg_autostart_system");
         assert_eq!(
             LINUX_XDG_AUTOSTART_SYSTEM.artifact_type,
-            ArtifactType::Directory
+            ArtifactLocation::Directory
         );
         assert_eq!(LINUX_XDG_AUTOSTART_SYSTEM.scope, DataScope::System);
         assert!(LINUX_XDG_AUTOSTART_SYSTEM
@@ -2433,7 +2496,7 @@ mod tests_batch_d {
         );
         assert_eq!(
             LINUX_NETWORKMANAGER_DISPATCHER.artifact_type,
-            ArtifactType::Directory
+            ArtifactLocation::Directory
         );
         assert_eq!(LINUX_NETWORKMANAGER_DISPATCHER.scope, DataScope::System);
         assert!(LINUX_NETWORKMANAGER_DISPATCHER
@@ -2443,7 +2506,7 @@ mod tests_batch_d {
     #[test]
     fn linux_apt_hooks_md() {
         assert_eq!(LINUX_APT_HOOKS.id, "linux_apt_hooks");
-        assert_eq!(LINUX_APT_HOOKS.artifact_type, ArtifactType::Directory);
+        assert_eq!(LINUX_APT_HOOKS.artifact_type, ArtifactLocation::Directory);
         assert_eq!(LINUX_APT_HOOKS.scope, DataScope::System);
         assert_eq!(LINUX_APT_HOOKS.os_scope, OsScope::LinuxDebian);
         assert!(LINUX_APT_HOOKS.mitre_techniques.contains(&"T1546.004"));
@@ -2474,7 +2537,7 @@ mod tests_batch_d {
     #[test]
     fn jump_list_system_md() {
         assert_eq!(JUMP_LIST_SYSTEM.id, "jump_list_system");
-        assert_eq!(JUMP_LIST_SYSTEM.artifact_type, ArtifactType::Directory);
+        assert_eq!(JUMP_LIST_SYSTEM.artifact_type, ArtifactLocation::Directory);
         assert_eq!(JUMP_LIST_SYSTEM.scope, DataScope::System);
         assert!(JUMP_LIST_SYSTEM.mitre_techniques.contains(&"T1547.009"));
     }
@@ -2484,7 +2547,7 @@ mod tests_batch_d {
     #[test]
     fn lnk_files_office_md() {
         assert_eq!(LNK_FILES_OFFICE.id, "lnk_files_office");
-        assert_eq!(LNK_FILES_OFFICE.artifact_type, ArtifactType::Directory);
+        assert_eq!(LNK_FILES_OFFICE.artifact_type, ArtifactLocation::Directory);
         assert_eq!(LNK_FILES_OFFICE.scope, DataScope::User);
         assert!(LNK_FILES_OFFICE.mitre_techniques.contains(&"T1547.009"));
     }
@@ -2494,7 +2557,7 @@ mod tests_batch_d {
     #[test]
     fn prefetch_file_md() {
         assert_eq!(PREFETCH_FILE.id, "prefetch_file");
-        assert_eq!(PREFETCH_FILE.artifact_type, ArtifactType::File);
+        assert_eq!(PREFETCH_FILE.artifact_type, ArtifactLocation::File);
         assert_eq!(PREFETCH_FILE.scope, DataScope::System);
         assert_eq!(PREFETCH_FILE.os_scope, OsScope::Win7Plus);
         assert!(PREFETCH_FILE.mitre_techniques.contains(&"T1059"));
@@ -2505,7 +2568,7 @@ mod tests_batch_d {
     #[test]
     fn srum_network_usage_md() {
         assert_eq!(SRUM_NETWORK_USAGE.id, "srum_network_usage");
-        assert_eq!(SRUM_NETWORK_USAGE.artifact_type, ArtifactType::File);
+        assert_eq!(SRUM_NETWORK_USAGE.artifact_type, ArtifactLocation::File);
         assert_eq!(SRUM_NETWORK_USAGE.scope, DataScope::System);
         assert_eq!(SRUM_NETWORK_USAGE.os_scope, OsScope::Win8Plus);
         assert!(SRUM_NETWORK_USAGE.mitre_techniques.contains(&"T1049"));
@@ -2513,7 +2576,7 @@ mod tests_batch_d {
     #[test]
     fn srum_app_resource_md() {
         assert_eq!(SRUM_APP_RESOURCE.id, "srum_app_resource");
-        assert_eq!(SRUM_APP_RESOURCE.artifact_type, ArtifactType::File);
+        assert_eq!(SRUM_APP_RESOURCE.artifact_type, ArtifactLocation::File);
         assert_eq!(SRUM_APP_RESOURCE.scope, DataScope::System);
         assert_eq!(SRUM_APP_RESOURCE.os_scope, OsScope::Win8Plus);
         assert!(SRUM_APP_RESOURCE.mitre_techniques.contains(&"T1059"));
@@ -2521,7 +2584,7 @@ mod tests_batch_d {
     #[test]
     fn srum_energy_usage_md() {
         assert_eq!(SRUM_ENERGY_USAGE.id, "srum_energy_usage");
-        assert_eq!(SRUM_ENERGY_USAGE.artifact_type, ArtifactType::File);
+        assert_eq!(SRUM_ENERGY_USAGE.artifact_type, ArtifactLocation::File);
         assert_eq!(SRUM_ENERGY_USAGE.scope, DataScope::System);
         assert_eq!(SRUM_ENERGY_USAGE.os_scope, OsScope::Win8Plus);
         assert!(SRUM_ENERGY_USAGE.mitre_techniques.contains(&"T1059"));
@@ -2529,7 +2592,7 @@ mod tests_batch_d {
     #[test]
     fn srum_push_notification_md() {
         assert_eq!(SRUM_PUSH_NOTIFICATION.id, "srum_push_notification");
-        assert_eq!(SRUM_PUSH_NOTIFICATION.artifact_type, ArtifactType::File);
+        assert_eq!(SRUM_PUSH_NOTIFICATION.artifact_type, ArtifactLocation::File);
         assert_eq!(SRUM_PUSH_NOTIFICATION.scope, DataScope::System);
         assert_eq!(SRUM_PUSH_NOTIFICATION.os_scope, OsScope::Win10Plus);
         assert!(SRUM_PUSH_NOTIFICATION.mitre_techniques.contains(&"T1059"));
@@ -2671,28 +2734,28 @@ mod tests_batch_d {
     #[test]
     fn evtx_security_md() {
         assert_eq!(EVTX_SECURITY.id, "evtx_security");
-        assert_eq!(EVTX_SECURITY.artifact_type, ArtifactType::File);
+        assert_eq!(EVTX_SECURITY.artifact_type, ArtifactLocation::File);
         assert_eq!(EVTX_SECURITY.scope, DataScope::System);
         assert!(EVTX_SECURITY.mitre_techniques.contains(&"T1070.001"));
     }
     #[test]
     fn evtx_system_md() {
         assert_eq!(EVTX_SYSTEM.id, "evtx_system");
-        assert_eq!(EVTX_SYSTEM.artifact_type, ArtifactType::File);
+        assert_eq!(EVTX_SYSTEM.artifact_type, ArtifactLocation::File);
         assert_eq!(EVTX_SYSTEM.scope, DataScope::System);
         assert!(EVTX_SYSTEM.mitre_techniques.contains(&"T1543.003"));
     }
     #[test]
     fn evtx_powershell_md() {
         assert_eq!(EVTX_POWERSHELL.id, "evtx_powershell");
-        assert_eq!(EVTX_POWERSHELL.artifact_type, ArtifactType::File);
+        assert_eq!(EVTX_POWERSHELL.artifact_type, ArtifactLocation::File);
         assert_eq!(EVTX_POWERSHELL.scope, DataScope::System);
         assert!(EVTX_POWERSHELL.mitre_techniques.contains(&"T1059.001"));
     }
     #[test]
     fn evtx_sysmon_md() {
         assert_eq!(EVTX_SYSMON.id, "evtx_sysmon");
-        assert_eq!(EVTX_SYSMON.artifact_type, ArtifactType::File);
+        assert_eq!(EVTX_SYSMON.artifact_type, ArtifactLocation::File);
         assert_eq!(EVTX_SYSMON.scope, DataScope::System);
         assert!(EVTX_SYSMON.mitre_techniques.contains(&"T1059"));
     }
@@ -3371,10 +3434,10 @@ mod serde_tests {
 
     #[test]
     fn artifact_type_roundtrips_json() {
-        let json = serde_json::to_string(&ArtifactType::File).unwrap();
+        let json = serde_json::to_string(&ArtifactLocation::File).unwrap();
         assert_eq!(json, "\"File\"");
-        let decoded: ArtifactType = serde_json::from_str(&json).unwrap();
-        assert_eq!(decoded, ArtifactType::File);
+        let decoded: ArtifactLocation = serde_json::from_str(&json).unwrap();
+        assert_eq!(decoded, ArtifactLocation::File);
     }
 
     #[test]
@@ -3524,7 +3587,7 @@ mod memory_tests {
         let mem: Vec<_> = CATALOG
             .list()
             .iter()
-            .filter(|d| matches!(d.artifact_type, ArtifactType::MemoryRegion))
+            .filter(|d| matches!(d.artifact_type, ArtifactLocation::MemoryRegion))
             .collect();
         assert!(
             mem.len() >= 3,
@@ -3550,7 +3613,7 @@ mod memory_tests {
         let mem: Vec<_> = CATALOG
             .list()
             .iter()
-            .filter(|d| matches!(d.artifact_type, ArtifactType::MemoryRegion))
+            .filter(|d| matches!(d.artifact_type, ArtifactLocation::MemoryRegion))
             .collect();
         for d in &mem {
             assert!(
@@ -5563,7 +5626,7 @@ mod tests_winscp_ini {
         let d = CATALOG.by_id("winscp_ini").unwrap();
         assert_eq!(
             d.artifact_type,
-            ArtifactType::File,
+            ArtifactLocation::File,
             "winscp_ini must be a File artifact"
         );
     }
@@ -5810,7 +5873,7 @@ mod tests_macos_wifi_intelligence {
         let d = CATALOG.by_id("macos_wifi_intelligence").unwrap();
         assert_eq!(
             d.artifact_type,
-            ArtifactType::DatabaseEntry,
+            ArtifactLocation::DatabaseEntry,
             "macos_wifi_intelligence must be DatabaseEntry (SQLite)"
         );
     }
@@ -5941,7 +6004,7 @@ mod tests_windows_clipboard_history {
         let d = CATALOG.by_id("windows_clipboard_history").unwrap();
         assert_eq!(
             d.artifact_type,
-            ArtifactType::RegistryKey,
+            ArtifactLocation::RegistryKey,
             "windows_clipboard_history must be RegistryKey type"
         );
     }
@@ -6140,7 +6203,7 @@ mod tests_valley_rat_registry {
     #[test]
     fn valley_rat_registry_is_registry_key() {
         let d = CATALOG.by_id("valley_rat_registry").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::RegistryKey);
+        assert_eq!(d.artifact_type, ArtifactLocation::RegistryKey);
     }
 }
 
@@ -6170,7 +6233,7 @@ mod tests_ntuser_man_persistence {
     #[test]
     fn ntuser_man_persistence_is_file() {
         let d = CATALOG.by_id("ntuser_man_persistence").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::File);
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
     }
 
     #[test]
@@ -6293,7 +6356,7 @@ mod tests_ios_unified_log {
         let d = CATALOG.by_id("ios_unified_log").unwrap();
         assert_eq!(
             d.artifact_type,
-            ArtifactType::Directory,
+            ArtifactLocation::Directory,
             "ios_unified_log must be Directory artifact type"
         );
     }
@@ -6421,7 +6484,7 @@ mod tests_apfs_container {
     #[test]
     fn apfs_container_artifact_type() {
         let d = CATALOG.by_id("apfs_container").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::File);
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
     }
 
     #[test]
@@ -6662,7 +6725,7 @@ mod az4n6_mac_live_imaging_tests {
     fn google_takeout_location_records_exists() {
         let d = CATALOG.by_id("google_takeout_location_records").unwrap();
         assert_eq!(d.name, "Google Takeout Location Records");
-        assert_eq!(d.artifact_type, ArtifactType::File);
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
         assert_eq!(d.os_scope, OsScope::All);
         assert_eq!(d.scope, DataScope::User);
     }
@@ -6742,7 +6805,7 @@ mod az4n6_mac_live_imaging_tests {
             .by_id("google_takeout_semantic_location_history")
             .unwrap();
         assert_eq!(d.name, "Google Takeout Semantic Location History");
-        assert_eq!(d.artifact_type, ArtifactType::File);
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
         assert_eq!(d.os_scope, OsScope::All);
         assert_eq!(d.scope, DataScope::User);
     }
@@ -6855,7 +6918,7 @@ mod tests_samsung_gallery3d_trash {
         let d = CATALOG.by_id("samsung_gallery3d_trash").unwrap();
         assert_eq!(
             d.artifact_type,
-            ArtifactType::DatabaseEntry,
+            ArtifactLocation::DatabaseEntry,
             "samsung_gallery3d_trash must be DatabaseEntry type"
         );
     }
@@ -7027,7 +7090,7 @@ mod tests_samsung_gallery3d_log {
         let d = CATALOG.by_id("samsung_gallery3d_log").unwrap();
         assert_eq!(
             d.artifact_type,
-            ArtifactType::DatabaseEntry,
+            ArtifactLocation::DatabaseEntry,
             "samsung_gallery3d_log must be DatabaseEntry type"
         );
     }
@@ -7143,7 +7206,7 @@ mod tests_honda_accord_recentstops {
     #[test]
     fn is_database_entry_type() {
         let d = CATALOG.by_id("honda_accord_recentstops").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::DatabaseEntry);
+        assert_eq!(d.artifact_type, ArtifactLocation::DatabaseEntry);
     }
 
     #[test]
@@ -7201,7 +7264,7 @@ mod tests_honda_accord_crm_eco_logs {
     #[test]
     fn is_database_entry_type() {
         let d = CATALOG.by_id("honda_accord_crm_eco_logs").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::DatabaseEntry);
+        assert_eq!(d.artifact_type, ArtifactLocation::DatabaseEntry);
     }
 
     #[test]
@@ -7247,7 +7310,7 @@ mod tests_honda_accord_phonedb {
     #[test]
     fn is_database_entry_type() {
         let d = CATALOG.by_id("honda_accord_phonedb").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::DatabaseEntry);
+        assert_eq!(d.artifact_type, ArtifactLocation::DatabaseEntry);
     }
 
     #[test]
@@ -7298,7 +7361,7 @@ mod tests_honda_accord_bluetooth {
     #[test]
     fn is_database_entry_type() {
         let d = CATALOG.by_id("honda_accord_bluetooth").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::DatabaseEntry);
+        assert_eq!(d.artifact_type, ArtifactLocation::DatabaseEntry);
     }
 
     #[test]
@@ -7349,7 +7412,7 @@ mod tests_ios14_maps_history {
     #[test]
     fn is_database_entry_type() {
         let d = CATALOG.by_id("ios14_maps_history").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::DatabaseEntry);
+        assert_eq!(d.artifact_type, ArtifactLocation::DatabaseEntry);
     }
 
     #[test]
@@ -7406,7 +7469,7 @@ mod tests_garmin_nuvi_voice_log {
     #[test]
     fn is_file_type() {
         let d = CATALOG.by_id("garmin_nuvi_voice_log").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::File);
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
     }
 
     #[test]
@@ -7459,7 +7522,7 @@ mod tests_heic_image_file {
     #[test]
     fn is_file_type() {
         let d = CATALOG.by_id("heic_image_file").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::File);
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
     }
 
     #[test]
@@ -7533,7 +7596,7 @@ mod tests_lan_turtle_loot {
     #[test]
     fn is_directory_type() {
         let d = CATALOG.by_id("lan_turtle_loot").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::Directory);
+        assert_eq!(d.artifact_type, ArtifactLocation::Directory);
     }
 
     #[test]
@@ -7601,7 +7664,7 @@ mod tests_aws_cloudtrail_iam_events {
     #[test]
     fn artifact_type_is_file() {
         let d = CATALOG.by_id("aws_cloudtrail_iam_events").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::File);
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
     }
 
     #[test]
@@ -7778,7 +7841,7 @@ mod tests_uber_ios_leveldb {
     #[test]
     fn has_correct_artifact_type() {
         let d = CATALOG.by_id("uber_ios_leveldb").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::DatabaseEntry);
+        assert_eq!(d.artifact_type, ArtifactLocation::DatabaseEntry);
     }
 
     #[test]
@@ -7890,7 +7953,7 @@ mod tests_ios_google_chat_cachev0 {
     #[test]
     fn has_correct_artifact_type() {
         let d = CATALOG.by_id("ios_google_chat_cachev0").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::DatabaseEntry);
+        assert_eq!(d.artifact_type, ArtifactLocation::DatabaseEntry);
     }
 
     #[test]
@@ -7969,7 +8032,7 @@ mod tests_android_tor_browser_thumbnails {
     #[test]
     fn has_correct_artifact_type() {
         let d = CATALOG.by_id("android_tor_browser_thumbnails").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::Directory);
+        assert_eq!(d.artifact_type, ArtifactLocation::Directory);
     }
 
     #[test]
@@ -8053,7 +8116,7 @@ mod tests_macos_btm_background_tasks {
     #[test]
     fn artifact_type_is_file() {
         let d = CATALOG.by_id("macos_btm_background_tasks").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::File);
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
     }
 
     #[test]
@@ -8143,7 +8206,7 @@ mod tests_onedrive_odl_logs {
     #[test]
     fn artifact_type_is_file() {
         let d = CATALOG.by_id("onedrive_odl_logs").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::File);
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
     }
 
     #[test]
@@ -8228,7 +8291,7 @@ mod tests_ios_mobile_container_manager {
     #[test]
     fn artifact_type_is_database() {
         let d = CATALOG.by_id("ios_mobile_container_manager").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::DatabaseEntry);
+        assert_eq!(d.artifact_type, ArtifactLocation::DatabaseEntry);
     }
 
     #[test]
@@ -8311,7 +8374,7 @@ mod tests_android_gboard_trainingcache {
     #[test]
     fn has_correct_artifact_type() {
         let d = CATALOG.by_id("android_gboard_trainingcache").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::DatabaseEntry);
+        assert_eq!(d.artifact_type, ArtifactLocation::DatabaseEntry);
     }
 
     #[test]
@@ -8426,7 +8489,7 @@ mod tests_hyperv_guest_params {
     #[test]
     fn hyperv_guest_params_is_registry_key() {
         let d = CATALOG.by_id("hyperv_guest_params").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::RegistryKey);
+        assert_eq!(d.artifact_type, ArtifactLocation::RegistryKey);
     }
 
     #[test]
@@ -8537,7 +8600,7 @@ mod tests_registry_featureusage {
     #[test]
     fn registry_featureusage_is_registry_key() {
         let d = CATALOG.by_id("registry_featureusage").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::RegistryKey);
+        assert_eq!(d.artifact_type, ArtifactLocation::RegistryKey);
     }
 
     #[test]
@@ -8724,7 +8787,7 @@ mod tests_pca_general_db {
     #[test]
     fn pca_general_db_is_file() {
         let d = CATALOG.by_id("pca_general_db").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::File);
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
     }
 
     #[test]
@@ -8869,7 +8932,7 @@ mod tests_windows_hosts_file {
     #[test]
     fn windows_hosts_file_is_file() {
         let d = CATALOG.by_id("windows_hosts_file").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::File);
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
     }
 
     #[test]
@@ -8989,7 +9052,7 @@ mod tests_enable_periodic_backup {
     #[test]
     fn enable_periodic_backup_is_registry_value() {
         let d = CATALOG.by_id("enable_periodic_backup").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::RegistryValue);
+        assert_eq!(d.artifact_type, ArtifactLocation::RegistryValue);
     }
 
     #[test]
@@ -9145,7 +9208,7 @@ mod tests_dns_policy_config_nrpt {
     #[test]
     fn dns_policy_config_nrpt_is_registry_key() {
         let d = CATALOG.by_id("dns_policy_config_nrpt").unwrap();
-        assert_eq!(d.artifact_type, ArtifactType::RegistryKey);
+        assert_eq!(d.artifact_type, ArtifactLocation::RegistryKey);
     }
 
     #[test]
@@ -9511,7 +9574,7 @@ mod tests_windows_clipboard_data_files {
         let d = CATALOG.by_id("windows_clipboard_data_files").unwrap();
         assert_eq!(
             d.artifact_type,
-            ArtifactType::File,
+            ArtifactLocation::File,
             "windows_clipboard_data_files must be artifact_type File"
         );
     }
@@ -9641,7 +9704,7 @@ mod tests_windows_defender_mpwpptracing {
         let d = CATALOG.by_id("windows_defender_mpwpptracing").unwrap();
         assert_eq!(
             d.artifact_type,
-            ArtifactType::File,
+            ArtifactLocation::File,
             "MpWppTracing-*.bin is a file artifact"
         );
     }
@@ -10925,7 +10988,10 @@ mod tests_browser_session_memory {
     #[test]
     fn browser_chrome_session_memory_is_memory_region() {
         let d = CATALOG.by_id("browser_chrome_session_memory").unwrap();
-        assert_eq!(d.artifact_type, crate::catalog::ArtifactType::MemoryRegion);
+        assert_eq!(
+            d.artifact_type,
+            crate::catalog::ArtifactLocation::MemoryRegion
+        );
     }
 
     #[test]
@@ -10978,7 +11044,10 @@ mod tests_browser_session_memory {
     #[test]
     fn browser_firefox_session_memory_is_memory_region() {
         let d = CATALOG.by_id("browser_firefox_session_memory").unwrap();
-        assert_eq!(d.artifact_type, crate::catalog::ArtifactType::MemoryRegion);
+        assert_eq!(
+            d.artifact_type,
+            crate::catalog::ArtifactLocation::MemoryRegion
+        );
     }
 
     #[test]

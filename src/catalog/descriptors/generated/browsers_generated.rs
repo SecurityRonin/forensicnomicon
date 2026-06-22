@@ -5,12 +5,12 @@
 #![allow(clippy::too_many_lines)]
 
 use super::super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, HiveTarget, OsScope, TriagePriority,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, HiveTarget, OsScope, TriagePriority,
 };
 pub(crate) static BROWSERS_CHROME_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_chrome_history",
     name: "Chrome History DB",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -34,7 +34,7 @@ pub(crate) static BROWSERS_CHROME_HISTORY: ArtifactDescriptor = ArtifactDescript
 pub(crate) static BROWSERS_CHROME_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_chrome_profile_dir",
     name: "Chrome Profile Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -58,7 +58,7 @@ pub(crate) static BROWSERS_CHROME_PROFILE_DIR: ArtifactDescriptor = ArtifactDesc
 pub(crate) static BROWSERS_CHROME_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_chrome_cookies",
     name: "Chrome Cookies",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -82,7 +82,7 @@ pub(crate) static BROWSERS_CHROME_COOKIES: ArtifactDescriptor = ArtifactDescript
 pub(crate) static BROWSERS_CHROME_CACHE_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_chrome_cache_dir",
     name: "Chrome Cache Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -106,7 +106,7 @@ pub(crate) static BROWSERS_CHROME_CACHE_DIR: ArtifactDescriptor = ArtifactDescri
 pub(crate) static BROWSERS_CHROME_EXTENSIONS_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_chrome_extensions_dir",
     name: "Chrome Extensions",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -130,7 +130,7 @@ pub(crate) static BROWSERS_CHROME_EXTENSIONS_DIR: ArtifactDescriptor = ArtifactD
 pub(crate) static BROWSERS_EDGE_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_edge_history",
     name: "Edge (Chromium) History DB",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -154,7 +154,7 @@ pub(crate) static BROWSERS_EDGE_HISTORY: ArtifactDescriptor = ArtifactDescriptor
 pub(crate) static BROWSERS_EDGE_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_edge_cookies",
     name: "Edge (Chromium) Cookies",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -178,7 +178,7 @@ pub(crate) static BROWSERS_EDGE_COOKIES: ArtifactDescriptor = ArtifactDescriptor
 pub(crate) static BROWSERS_EDGE_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_edge_profile_dir",
     name: "Edge Profile Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -202,7 +202,7 @@ pub(crate) static BROWSERS_EDGE_PROFILE_DIR: ArtifactDescriptor = ArtifactDescri
 pub(crate) static BROWSERS_FIREFOX_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_firefox_profile_dir",
     name: "Firefox Profile Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -226,7 +226,7 @@ pub(crate) static BROWSERS_FIREFOX_PROFILE_DIR: ArtifactDescriptor = ArtifactDes
 pub(crate) static BROWSERS_FIREFOX_PLACES_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_firefox_places_db",
     name: "Firefox Places (History) DB",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -250,7 +250,7 @@ pub(crate) static BROWSERS_FIREFOX_PLACES_DB: ArtifactDescriptor = ArtifactDescr
 pub(crate) static BROWSERS_FIREFOX_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_firefox_cookies",
     name: "Firefox Cookies",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -274,7 +274,7 @@ pub(crate) static BROWSERS_FIREFOX_COOKIES: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static BROWSERS_FIREFOX_LOGINS: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_firefox_logins",
     name: "Firefox Saved Logins",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -300,7 +300,7 @@ pub(crate) static BROWSERS_FIREFOX_LOGINS: ArtifactDescriptor = ArtifactDescript
 pub(crate) static BROWSERS_BRAVE_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_brave_history",
     name: "Brave History DB",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -324,7 +324,7 @@ pub(crate) static BROWSERS_BRAVE_HISTORY: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static BROWSERS_BRAVE_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_brave_cookies",
     name: "Brave Cookies",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -350,7 +350,7 @@ pub(crate) static BROWSERS_BRAVE_COOKIES: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static BROWSERS_OPERA_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_opera_history",
     name: "Opera History DB",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -374,7 +374,7 @@ pub(crate) static BROWSERS_OPERA_HISTORY: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static BROWSERS_OPERA_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_opera_profile_dir",
     name: "Opera Profile Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -398,7 +398,7 @@ pub(crate) static BROWSERS_OPERA_PROFILE_DIR: ArtifactDescriptor = ArtifactDescr
 pub(crate) static BROWSERS_VIVALDI_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_vivaldi_history",
     name: "Vivaldi History DB",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -422,7 +422,7 @@ pub(crate) static BROWSERS_VIVALDI_HISTORY: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static BROWSERS_VIVALDI_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_vivaldi_profile_dir",
     name: "Vivaldi Profile Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -446,7 +446,7 @@ pub(crate) static BROWSERS_VIVALDI_PROFILE_DIR: ArtifactDescriptor = ArtifactDes
 pub(crate) static BROWSERS_SAFARI_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_safari_history",
     name: "Safari History DB",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -470,7 +470,7 @@ pub(crate) static BROWSERS_SAFARI_HISTORY: ArtifactDescriptor = ArtifactDescript
 pub(crate) static BROWSERS_SAFARI_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_safari_cookies",
     name: "Safari Cookies",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -494,7 +494,7 @@ pub(crate) static BROWSERS_SAFARI_COOKIES: ArtifactDescriptor = ArtifactDescript
 pub(crate) static BROWSERS_SAFARI_DOWNLOADS: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_safari_downloads",
     name: "Safari Downloads Plist",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -518,7 +518,7 @@ pub(crate) static BROWSERS_SAFARI_DOWNLOADS: ArtifactDescriptor = ArtifactDescri
 pub(crate) static BROWSERS_IE_HISTORY_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_ie_history_dir",
     name: "Internet Explorer History",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -542,7 +542,7 @@ pub(crate) static BROWSERS_IE_HISTORY_DIR: ArtifactDescriptor = ArtifactDescript
 pub(crate) static BROWSERS_IE_WEBCACHE_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_ie_webcache_db",
     name: "Internet Explorer WebCache DB",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -566,7 +566,7 @@ pub(crate) static BROWSERS_IE_WEBCACHE_DB: ArtifactDescriptor = ArtifactDescript
 pub(crate) static BROWSERS_IE_TYPED_URLS: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_ie_typed_urls",
     name: "Internet Explorer Typed URLs",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: "Software\\Microsoft\\Internet Explorer\\TypedURLs",
     value_name: None,
@@ -590,7 +590,7 @@ pub(crate) static BROWSERS_IE_TYPED_URLS: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static BROWSERS_TOR_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_tor_profile_dir",
     name: "Tor Browser Profile Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -614,7 +614,7 @@ pub(crate) static BROWSERS_TOR_PROFILE_DIR: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static BROWSERS_TOR_PLACES_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_tor_places_db",
     name: "Tor Browser Places DB",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -638,7 +638,7 @@ pub(crate) static BROWSERS_TOR_PLACES_DB: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static BROWSERS_WATERFOX_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_waterfox_profile_dir",
     name: "Waterfox Profile Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -662,7 +662,7 @@ pub(crate) static BROWSERS_WATERFOX_PROFILE_DIR: ArtifactDescriptor = ArtifactDe
 pub(crate) static BROWSERS_LIBREWOLF_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_librewolf_profile_dir",
     name: "LibreWolf Profile Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -686,7 +686,7 @@ pub(crate) static BROWSERS_LIBREWOLF_PROFILE_DIR: ArtifactDescriptor = ArtifactD
 pub(crate) static BROWSERS_CHROMIUM_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_chromium_history",
     name: "Chromium History DB",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -710,7 +710,7 @@ pub(crate) static BROWSERS_CHROMIUM_HISTORY: ArtifactDescriptor = ArtifactDescri
 pub(crate) static BROWSERS_PALEMOON_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_palemoon_profile_dir",
     name: "Pale Moon Profile Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -734,7 +734,7 @@ pub(crate) static BROWSERS_PALEMOON_PROFILE_DIR: ArtifactDescriptor = ArtifactDe
 pub(crate) static BROWSERS_SEAMONKEY_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_seamonkey_profile_dir",
     name: "SeaMonkey Profile Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -758,7 +758,7 @@ pub(crate) static BROWSERS_SEAMONKEY_PROFILE_DIR: ArtifactDescriptor = ArtifactD
 pub(crate) static BROWSERS_BASILISK_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_basilisk_profile_dir",
     name: "Basilisk Profile Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -782,7 +782,7 @@ pub(crate) static BROWSERS_BASILISK_PROFILE_DIR: ArtifactDescriptor = ArtifactDe
 pub(crate) static BROWSERS_FALKON_PROFILE_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_falkon_profile_dir",
     name: "Falkon Profile Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -806,7 +806,7 @@ pub(crate) static BROWSERS_FALKON_PROFILE_DIR: ArtifactDescriptor = ArtifactDesc
 pub(crate) static BROWSERS_MIDORI_CONFIG_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_midori_config_dir",
     name: "Midori Config Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -830,7 +830,7 @@ pub(crate) static BROWSERS_MIDORI_CONFIG_DIR: ArtifactDescriptor = ArtifactDescr
 pub(crate) static BROWSERS_MIN_HISTORY_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_min_history_db",
     name: "Min Browser History",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -854,7 +854,7 @@ pub(crate) static BROWSERS_MIN_HISTORY_DB: ArtifactDescriptor = ArtifactDescript
 pub(crate) static BROWSERS_MAXTHON_USER_DATA_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_maxthon_user_data_dir",
     name: "Maxthon User Data Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -878,7 +878,7 @@ pub(crate) static BROWSERS_MAXTHON_USER_DATA_DIR: ArtifactDescriptor = ArtifactD
 pub(crate) static BROWSERS_SLIMJET_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "browsers_slimjet_history",
     name: "Slimjet History DB",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,

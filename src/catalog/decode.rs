@@ -2,8 +2,8 @@
 //! core `decode_artifact` dispatch function.
 
 use super::types::{
-    ArtifactDescriptor, ArtifactRecord, ArtifactType, ArtifactValue, BinaryField, BinaryFieldType,
-    DecodeError, Decoder, HiveTarget,
+    ArtifactDescriptor, ArtifactLocation, ArtifactRecord, ArtifactValue, BinaryField,
+    BinaryFieldType, DecodeError, Decoder, HiveTarget,
 };
 
 /// ROT13-decode an ASCII string: rotate A-Z and a-z by 13, leave other chars.
@@ -387,7 +387,7 @@ fn make_record(
     timestamp: Option<String>,
 ) -> ArtifactRecord {
     let uid = match descriptor.artifact_type {
-        ArtifactType::File | ArtifactType::Directory => build_file_uid(descriptor, name),
+        ArtifactLocation::File | ArtifactLocation::Directory => build_file_uid(descriptor, name),
         _ => build_registry_uid(descriptor, name),
     };
     ArtifactRecord {

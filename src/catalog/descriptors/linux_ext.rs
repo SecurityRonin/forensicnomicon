@@ -6,14 +6,14 @@
 #![allow(clippy::too_many_lines)]
 
 use super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
     ValueType,
 };
 
 pub(crate) static LINUX_AUDITD_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_auditd_log",
     name: "Auditd Log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/var/log/audit/audit.log"),
@@ -43,7 +43,7 @@ pub(crate) static LINUX_AUDITD_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_AUDIT_RULES: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_audit_rules",
     name: "Auditd Rules Configuration",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/etc/audit/rules.d/"),
@@ -66,7 +66,7 @@ pub(crate) static LINUX_AUDIT_RULES: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_SYSLOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_syslog",
     name: "Syslog",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/var/log/syslog"),
@@ -95,7 +95,7 @@ pub(crate) static LINUX_SYSLOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_MESSAGES_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_messages_log",
     name: "Messages Log (RHEL/CentOS)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/var/log/messages"),
@@ -121,7 +121,7 @@ pub(crate) static LINUX_MESSAGES_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_SECURE_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_secure_log",
     name: "Secure Log (RHEL/CentOS authentication)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/var/log/secure"),
@@ -147,7 +147,7 @@ pub(crate) static LINUX_SECURE_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_APACHE_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_apache_access_log",
     name: "Apache HTTP Server Access Log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/var/log/apache2/access.log"),
@@ -177,7 +177,7 @@ pub(crate) static LINUX_APACHE_ACCESS_LOG: ArtifactDescriptor = ArtifactDescript
 pub(crate) static LINUX_APACHE_ERROR_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_apache_error_log",
     name: "Apache HTTP Server Error Log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/var/log/apache2/error.log"),
@@ -203,7 +203,7 @@ pub(crate) static LINUX_APACHE_ERROR_LOG: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static LINUX_NGINX_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_nginx_access_log",
     name: "Nginx Access Log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/var/log/nginx/access.log"),
@@ -233,7 +233,7 @@ pub(crate) static LINUX_NGINX_ACCESS_LOG: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static LINUX_FAIL2BAN_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_fail2ban_log",
     name: "Fail2Ban Log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/var/log/fail2ban.log"),
@@ -262,7 +262,7 @@ pub(crate) static LINUX_FAIL2BAN_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_DPKG_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_dpkg_log",
     name: "DPKG Package Manager Log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/var/log/dpkg.log"),
@@ -294,7 +294,7 @@ pub(crate) static LINUX_DPKG_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_RPM_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_rpm_db",
     name: "RPM Package Database",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/var/lib/rpm/Packages"),
@@ -325,7 +325,7 @@ pub(crate) static LINUX_RPM_DB: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_SELINUX_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_selinux_config",
     name: "SELinux Configuration",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/etc/selinux/config"),
@@ -351,7 +351,7 @@ pub(crate) static LINUX_SELINUX_CONFIG: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static LINUX_APPARMOR_PROFILES: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_apparmor_profiles",
     name: "AppArmor Profiles",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/etc/apparmor.d/"),
@@ -377,7 +377,7 @@ pub(crate) static LINUX_APPARMOR_PROFILES: ArtifactDescriptor = ArtifactDescript
 pub(crate) static LINUX_IPTABLES_RULES: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_iptables_rules",
     name: "Persisted iptables Rules (IPv4)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/etc/iptables/rules.v4"),
@@ -406,7 +406,7 @@ pub(crate) static LINUX_IPTABLES_RULES: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static LINUX_NFTABLES_CONF: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_nftables_conf",
     name: "nftables Firewall Configuration",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/etc/nftables.conf"),
@@ -432,7 +432,7 @@ pub(crate) static LINUX_NFTABLES_CONF: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_HOSTS_FILE: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_hosts_file",
     name: "/etc/hosts (static DNS overrides)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/etc/hosts"),
@@ -461,7 +461,7 @@ pub(crate) static LINUX_HOSTS_FILE: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_RESOLV_CONF: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_resolv_conf",
     name: "/etc/resolv.conf (DNS resolver config)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/etc/resolv.conf"),
@@ -490,7 +490,7 @@ pub(crate) static LINUX_RESOLV_CONF: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_PROC_MODULES: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_proc_modules",
     name: "/proc/modules (loaded kernel modules)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/proc/modules"),
@@ -521,7 +521,7 @@ pub(crate) static LINUX_PROC_MODULES: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_MODPROBE_D: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_modprobe_d",
     name: "modprobe.d Configuration (module loading hooks)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/etc/modprobe.d/"),
@@ -547,7 +547,7 @@ pub(crate) static LINUX_MODPROBE_D: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_DOCKER_CONTAINER_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_docker_container_logs",
     name: "Docker Container Logs and State",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/var/lib/docker/containers/"),
@@ -578,7 +578,7 @@ pub(crate) static LINUX_DOCKER_CONTAINER_LOGS: ArtifactDescriptor = ArtifactDesc
 pub(crate) static LINUX_DOCKER_DAEMON_JSON: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_docker_daemon_json",
     name: "Docker Daemon Configuration",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/etc/docker/daemon.json"),
@@ -604,7 +604,7 @@ pub(crate) static LINUX_DOCKER_DAEMON_JSON: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static LINUX_COREDUMP_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_coredump_dir",
     name: "systemd Coredump Storage",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/var/lib/systemd/coredump/"),
@@ -633,7 +633,7 @@ pub(crate) static LINUX_COREDUMP_DIR: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_LOGROTATE_D: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_logrotate_d",
     name: "Logrotate Configuration Fragments",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/etc/logrotate.d/"),
@@ -659,7 +659,7 @@ pub(crate) static LINUX_LOGROTATE_D: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_SNAP_PACKAGES: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_snap_packages",
     name: "Installed Snap Packages",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/var/lib/snapd/snaps/"),
@@ -694,7 +694,7 @@ pub(crate) static LINUX_SNAP_PACKAGES: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_DMESG_RING_BUFFER: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_dmesg_ring_buffer",
     name: "Kernel Ring Buffer (live, dmesg command)",
-    artifact_type: ArtifactType::LiveResponse,
+    artifact_type: ArtifactLocation::LiveResponse,
     hive: None,
     key_path: "",
     value_name: None,
@@ -732,7 +732,7 @@ pub(crate) static LINUX_DMESG_RING_BUFFER: ArtifactDescriptor = ArtifactDescript
 pub(crate) static LINUX_KERN_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_kern_log",
     name: "Kernel Syslog (Debian/Ubuntu)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -764,7 +764,7 @@ pub(crate) static LINUX_KERN_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_PROC_KALLSYMS: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_proc_kallsyms",
     name: "Kernel Symbol Table",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -790,7 +790,7 @@ pub(crate) static LINUX_PROC_KALLSYMS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_PROC_NET_TCP: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_proc_net_tcp",
     name: "Kernel IPv4 TCP Socket Table",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -816,7 +816,7 @@ pub(crate) static LINUX_PROC_NET_TCP: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_PROC_NET_TCP6: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_proc_net_tcp6",
     name: "Kernel IPv6 TCP Socket Table",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -842,7 +842,7 @@ pub(crate) static LINUX_PROC_NET_TCP6: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_PROC_NET_UDP: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_proc_net_udp",
     name: "Kernel IPv4 UDP Socket Table",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -868,7 +868,7 @@ pub(crate) static LINUX_PROC_NET_UDP: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_PROC_NET_UNIX: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_proc_net_unix",
     name: "Kernel Unix Domain Socket Table",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -894,7 +894,7 @@ pub(crate) static LINUX_PROC_NET_UNIX: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_LSOF_OUTPUT: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_lsof_output",
     name: "lsof Open Files Output",
-    artifact_type: ArtifactType::LiveResponse,
+    artifact_type: ArtifactLocation::LiveResponse,
     hive: None,
     key_path: "",
     value_name: None,
@@ -920,7 +920,7 @@ pub(crate) static LINUX_LSOF_OUTPUT: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_SS_OUTPUT: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_ss_output",
     name: "ss Socket Statistics Output",
-    artifact_type: ArtifactType::LiveResponse,
+    artifact_type: ArtifactLocation::LiveResponse,
     hive: None,
     key_path: "",
     value_name: None,
@@ -946,7 +946,7 @@ pub(crate) static LINUX_SS_OUTPUT: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_CHKROOTKIT_OUTPUT: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_chkrootkit_output",
     name: "chkrootkit Scan Results",
-    artifact_type: ArtifactType::LiveResponse,
+    artifact_type: ArtifactLocation::LiveResponse,
     hive: None,
     key_path: "",
     value_name: None,
@@ -972,7 +972,7 @@ pub(crate) static LINUX_CHKROOTKIT_OUTPUT: ArtifactDescriptor = ArtifactDescript
 pub(crate) static LINUX_RKHUNTER_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_rkhunter_log",
     name: "Rootkit Hunter Log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1001,7 +1001,7 @@ pub(crate) static LINUX_RKHUNTER_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_SYSCTL_CONF: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_sysctl_conf",
     name: "Kernel Parameter Configuration",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1029,7 +1029,7 @@ pub(crate) static LINUX_SYSCTL_CONF: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_DMESG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_dmesg",
     name: "Kernel Ring Buffer Log (dmesg)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1063,7 +1063,7 @@ pub(crate) static LINUX_DMESG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_BOOT_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_boot_log",
     name: "Boot Log (/var/log/boot.log)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1096,7 +1096,7 @@ pub(crate) static LINUX_BOOT_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LINUX_FAILLOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "linux_faillog",
     name: "Failed Login Log (/var/log/faillog)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1156,7 +1156,7 @@ pub(crate) static LINUX_FAILLOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LAN_TURTLE_LOOT: ArtifactDescriptor = ArtifactDescriptor {
     id: "lan_turtle_loot",
     name: "Hak5 LAN Turtle Credential Loot",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1244,7 +1244,7 @@ pub(crate) static LAN_TURTLE_LOOT: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static ESXI_ATTESTD_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "esxi_attestd_log",
     name: "ESXi Attestation Service Log (attestd.log)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1284,7 +1284,7 @@ pub(crate) static ESXI_ATTESTD_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static ESXI_ESXTOKEND_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "esxi_esxtokend_log",
     name: "ESXi Token Service Log (esxtokend.log)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1321,7 +1321,7 @@ pub(crate) static ESXI_ESXTOKEND_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static ESXI_KMXA_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "esxi_kmxa_log",
     name: "ESXi Key Provider Agent Log (kmxa.log)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,

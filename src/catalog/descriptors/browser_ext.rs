@@ -4,13 +4,13 @@
 //! Firefox, and Safari artifacts targeted by the browser-forensic workspace.
 
 use super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, OsScope, TriagePriority,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, OsScope, TriagePriority,
 };
 
 pub(crate) static BROWSER_CHROME_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_chrome_history",
     name: "Chrome History (browser-forensic)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -38,7 +38,7 @@ pub(crate) static BROWSER_CHROME_HISTORY: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static BROWSER_CHROME_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_chrome_cookies",
     name: "Chrome Cookies (browser-forensic)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -65,7 +65,7 @@ pub(crate) static BROWSER_CHROME_COOKIES: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static BROWSER_CHROME_DOWNLOADS: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_chrome_downloads",
     name: "Chrome Downloads (browser-forensic)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -92,7 +92,7 @@ pub(crate) static BROWSER_CHROME_DOWNLOADS: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static BROWSER_CHROME_BOOKMARKS: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_chrome_bookmarks",
     name: "Chrome Bookmarks (browser-forensic)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -119,7 +119,7 @@ pub(crate) static BROWSER_CHROME_BOOKMARKS: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static BROWSER_CHROME_EXTENSIONS: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_chrome_extensions",
     name: "Chrome Extensions (browser-forensic)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -146,7 +146,7 @@ pub(crate) static BROWSER_CHROME_EXTENSIONS: ArtifactDescriptor = ArtifactDescri
 pub(crate) static BROWSER_CHROME_LOGIN_DATA_V2: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_chrome_login_data_v2",
     name: "Chrome Login Data v2 (browser-forensic)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -174,7 +174,7 @@ pub(crate) static BROWSER_CHROME_LOGIN_DATA_V2: ArtifactDescriptor = ArtifactDes
 pub(crate) static BROWSER_CHROME_AUTOFILL: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_chrome_autofill",
     name: "Chrome Autofill (browser-forensic)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -201,7 +201,7 @@ pub(crate) static BROWSER_CHROME_AUTOFILL: ArtifactDescriptor = ArtifactDescript
 pub(crate) static BROWSER_CHROME_CACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_chrome_cache",
     name: "Chrome Cache (browser-forensic)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -228,7 +228,7 @@ pub(crate) static BROWSER_CHROME_CACHE: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static BROWSER_CHROME_SESSION: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_chrome_session",
     name: "Chrome Session (browser-forensic)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -257,7 +257,7 @@ pub(crate) static BROWSER_CHROME_SESSION: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static BROWSER_CHROME_SESSION_MEMORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_chrome_session_memory",
     name: "Chrome Session In-Memory Tab State",
-    artifact_type: ArtifactType::MemoryRegion,
+    artifact_type: ArtifactLocation::MemoryRegion,
     hive: None,
     key_path: "",
     value_name: None,
@@ -288,7 +288,7 @@ pub(crate) static BROWSER_CHROME_SESSION_MEMORY: ArtifactDescriptor = ArtifactDe
 pub(crate) static BROWSER_FIREFOX_SESSION_MEMORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_firefox_session_memory",
     name: "Firefox Session In-Memory Tab State",
-    artifact_type: ArtifactType::MemoryRegion,
+    artifact_type: ArtifactLocation::MemoryRegion,
     hive: None,
     key_path: "",
     value_name: None,
@@ -319,7 +319,7 @@ pub(crate) static BROWSER_FIREFOX_SESSION_MEMORY: ArtifactDescriptor = ArtifactD
 pub(crate) static BROWSER_FIREFOX_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_firefox_history",
     name: "Firefox History (browser-forensic)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -346,7 +346,7 @@ pub(crate) static BROWSER_FIREFOX_HISTORY: ArtifactDescriptor = ArtifactDescript
 pub(crate) static BROWSER_FIREFOX_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_firefox_cookies",
     name: "Firefox Cookies (browser-forensic)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -373,7 +373,7 @@ pub(crate) static BROWSER_FIREFOX_COOKIES: ArtifactDescriptor = ArtifactDescript
 pub(crate) static BROWSER_FIREFOX_DOWNLOADS: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_firefox_downloads",
     name: "Firefox Downloads (browser-forensic)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -400,7 +400,7 @@ pub(crate) static BROWSER_FIREFOX_DOWNLOADS: ArtifactDescriptor = ArtifactDescri
 pub(crate) static BROWSER_SAFARI_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "browser_safari_history",
     name: "Safari History (browser-forensic)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,

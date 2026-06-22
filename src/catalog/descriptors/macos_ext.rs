@@ -6,14 +6,14 @@
 #![allow(clippy::too_many_lines)]
 
 use super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
     ValueType,
 };
 
 pub(crate) static MACOS_FSEVENTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_fsevents",
     name: "FSEvents Log",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/.fseventsd/"),
@@ -43,7 +43,7 @@ pub(crate) static MACOS_FSEVENTS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static MACOS_BIOME_APP_MENUITEM: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_biome_app_menuitem",
     name: "Apple Biome App.MenuItem Stream (menu-selection intent)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -78,7 +78,7 @@ pub(crate) static MACOS_BIOME_APP_MENUITEM: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static MACOS_SPOTLIGHT_STORE: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_spotlight_store",
     name: "Spotlight Metadata Store",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/.Spotlight-V100/Store-V2/*/store.db"),
@@ -110,7 +110,7 @@ pub(crate) static MACOS_SPOTLIGHT_STORE: ArtifactDescriptor = ArtifactDescriptor
 pub(crate) static MACOS_DOCK_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_dock_plist",
     name: "Dock Configuration Plist (recent apps)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Users/*/Library/Preferences/com.apple.dock.plist"),
@@ -135,7 +135,7 @@ pub(crate) static MACOS_DOCK_PLIST: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static MACOS_LOGIN_ITEMS_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_login_items_plist",
     name: "Login Items Plist",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Users/*/Library/Preferences/com.apple.loginitems.plist"),
@@ -163,7 +163,7 @@ pub(crate) static MACOS_LOGIN_ITEMS_PLIST: ArtifactDescriptor = ArtifactDescript
 pub(crate) static MACOS_SFL2_RECENT_ITEMS: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_sfl2_recent_items",
     name: "SFL2 Recent Documents",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentDocuments.sfl2"),
@@ -191,7 +191,7 @@ pub(crate) static MACOS_SFL2_RECENT_ITEMS: ArtifactDescriptor = ArtifactDescript
 pub(crate) static MACOS_SFL2_RECENT_SERVERS: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_sfl2_recent_servers",
     name: "SFL2 Recent Servers",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentServers.sfl2"),
@@ -216,7 +216,7 @@ pub(crate) static MACOS_SFL2_RECENT_SERVERS: ArtifactDescriptor = ArtifactDescri
 pub(crate) static MACOS_WIFI_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_wifi_plist",
     name: "Known Wi-Fi Networks (airport preferences)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist"),
@@ -243,7 +243,7 @@ pub(crate) static MACOS_WIFI_PLIST: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static MACOS_SCREEN_TIME_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_screen_time_db",
     name: "Screen Time Database",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Users/*/Library/Application Support/com.apple.ScreenTime/RMAdminStore-Local.sqlite"),
@@ -272,7 +272,7 @@ pub(crate) static MACOS_SCREEN_TIME_DB: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static MACOS_TCC_SYSTEM_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_tcc_system_db",
     name: "TCC System Database (root-level)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Library/Application Support/com.apple.TCC/TCC.db"),
@@ -301,7 +301,7 @@ pub(crate) static MACOS_TCC_SYSTEM_DB: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static MACOS_SMS_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_sms_db",
     name: "iMessage / SMS Database (chat.db)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Users/*/Library/Messages/chat.db"),
@@ -331,7 +331,7 @@ pub(crate) static MACOS_SMS_DB: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static MACOS_NOTES_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_notes_db",
     name: "Apple Notes Database",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Users/*/Library/Containers/com.apple.Notes/Data/Library/CoreData/ExternalRecords/"),
@@ -357,7 +357,7 @@ pub(crate) static MACOS_NOTES_DB: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static MACOS_PHOTOS_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_photos_db",
     name: "Photos Library Database",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Users/*/Pictures/Photos Library.photoslibrary/database/Photos.sqlite"),
@@ -385,7 +385,7 @@ pub(crate) static MACOS_PHOTOS_DB: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static MACOS_ICLOUD_DRIVE_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_icloud_drive_db",
     name: "iCloud Drive Local Metadata",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Users/*/Library/Application Support/CloudDocs/session/db/client.db"),
@@ -414,7 +414,7 @@ pub(crate) static MACOS_ICLOUD_DRIVE_DB: ArtifactDescriptor = ArtifactDescriptor
 pub(crate) static MACOS_LOCATIOND_CLIENTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_locationd_clients",
     name: "Location Services Client Authorization",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/private/var/db/locationd/clients.plist"),
@@ -440,7 +440,7 @@ pub(crate) static MACOS_LOCATIOND_CLIENTS: ArtifactDescriptor = ArtifactDescript
 pub(crate) static MACOS_LOCKDOWND_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_lockdownd_log",
     name: "Lockdownd Log (iOS device pairing)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/private/var/log/lockdownd.log"),
@@ -466,7 +466,7 @@ pub(crate) static MACOS_LOCKDOWND_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static MACOS_INSTALLER_RECEIPTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_installer_receipts",
     name: "Third-Party Package Receipts",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Library/Receipts/"),
@@ -495,7 +495,7 @@ pub(crate) static MACOS_INSTALLER_RECEIPTS: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static MACOS_SAFARI_LOCALSTORAGE: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_safari_localstorage",
     name: "Safari HTML5 LocalStorage",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Users/*/Library/Safari/LocalStorage/"),
@@ -523,7 +523,7 @@ pub(crate) static MACOS_SAFARI_LOCALSTORAGE: ArtifactDescriptor = ArtifactDescri
 pub(crate) static MACOS_NOTIFICATION_CENTER_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_notification_center_db",
     name: "Notification Center Database",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Users/*/Library/Application Support/com.apple.notificationcenter/db2/db"),
@@ -553,7 +553,7 @@ pub(crate) static MACOS_NOTIFICATION_CENTER_DB: ArtifactDescriptor = ArtifactDes
 pub(crate) static MACOS_MDM_ENROLLMENT: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_mdm_enrollment",
     name: "MDM Enrollment State",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Library/Preferences/com.apple.mdmclient.plist"),
@@ -579,7 +579,7 @@ pub(crate) static MACOS_MDM_ENROLLMENT: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static MACOS_ASL_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_asl_logs",
     name: "Apple System Log (ASL) Binary Logs",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/private/var/log/asl/"),
@@ -605,7 +605,7 @@ pub(crate) static MACOS_ASL_LOGS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static MACOS_DIAGNOSTIC_REPORTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_diagnostic_reports",
     name: "Diagnostic Reports (crash logs)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,    file_path: Some("/Library/Logs/DiagnosticReports/"),
@@ -656,7 +656,7 @@ pub(crate) static MACOS_DIAGNOSTIC_REPORTS: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static MACOS_QUICKLOOK_THUMBNAILS: ArtifactDescriptor = ArtifactDescriptor {
     id: "quicklook_thumbnails",
     name: "QuickLook Thumbnail Cache",
-    artifact_type: ArtifactType::DatabaseEntry,
+    artifact_type: ArtifactLocation::DatabaseEntry,
     hive: None,
     key_path: "",
     value_name: None,
@@ -762,7 +762,7 @@ pub(crate) static MACOS_QUICKLOOK_THUMBNAILS: ArtifactDescriptor = ArtifactDescr
 pub(crate) static MACOS_WIFI_INTELLIGENCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_wifi_intelligence",
     name: "Apple Intelligence WiFi Context Events",
-    artifact_type: ArtifactType::DatabaseEntry,
+    artifact_type: ArtifactLocation::DatabaseEntry,
     hive: None,
     key_path: "",
     value_name: None,
@@ -852,7 +852,7 @@ pub(crate) static MACOS_WIFI_INTELLIGENCE: ArtifactDescriptor = ArtifactDescript
 pub(crate) static APFS_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
     id: "apfs_container",
     name: "APFS Container (Apple File System)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1019,7 +1019,7 @@ pub(crate) static IOS_UNIFIED_LOG_FIELDS: &[FieldSchema] = &[
 pub(crate) static IOS_UNIFIED_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "ios_unified_log",
     name: "iOS Apple Unified Log",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1092,7 +1092,7 @@ pub(crate) static IOS_UNIFIED_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static HEIC_IMAGE_FILE: ArtifactDescriptor = ArtifactDescriptor {
     id: "heic_image_file",
     name: "HEIC Image File (High Efficiency Image Container)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1280,7 +1280,7 @@ pub(crate) static IOS14_MAPS_HISTORY_FIELDS: &[FieldSchema] = &[
 pub(crate) static IOS14_MAPS_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "ios14_maps_history",
     name: "iOS14 Apple Maps History (MapsSync_0.0.1)",
-    artifact_type: ArtifactType::DatabaseEntry,
+    artifact_type: ArtifactLocation::DatabaseEntry,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1414,7 +1414,7 @@ pub(crate) static UBER_IOS_LEVELDB_FIELDS: &[FieldSchema] = &[
 pub(crate) static UBER_IOS_LEVELDB: ArtifactDescriptor = ArtifactDescriptor {
     id: "uber_ios_leveldb",
     name: "Uber iOS LevelDB Location/Trip History",
-    artifact_type: ArtifactType::DatabaseEntry,
+    artifact_type: ArtifactLocation::DatabaseEntry,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1537,7 +1537,7 @@ pub(crate) static IOS_GOOGLE_CHAT_CACHEV0_FIELDS: &[FieldSchema] = &[
 pub(crate) static IOS_MOBILE_CONTAINER_MANAGER: ArtifactDescriptor = ArtifactDescriptor {
     id: "ios_mobile_container_manager",
     name: "iOS Mobile Container Manager (containers.sqlite3)",
-    artifact_type: ArtifactType::DatabaseEntry,
+    artifact_type: ArtifactLocation::DatabaseEntry,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1619,7 +1619,7 @@ pub(crate) static IOS_CONTAINER_MANAGER_FIELDS: &[FieldSchema] = &[
 pub(crate) static MACOS_BTM_BACKGROUND_TASKS: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_btm_background_tasks",
     name: "macOS Background Task Management (BTM)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1726,7 +1726,7 @@ pub(crate) static MACOS_BTM_FIELDS: &[FieldSchema] = &[
 pub(crate) static IOS_GOOGLE_CHAT_CACHEV0: ArtifactDescriptor = ArtifactDescriptor {
     id: "ios_google_chat_cachev0",
     name: "iOS Google Chat Image Cache (cacheV0.db)",
-    artifact_type: ArtifactType::DatabaseEntry,
+    artifact_type: ArtifactLocation::DatabaseEntry,
     hive: None,
     key_path: "",
     value_name: None,

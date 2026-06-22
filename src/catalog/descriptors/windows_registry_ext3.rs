@@ -24,7 +24,7 @@
 #![allow(clippy::too_many_lines)]
 
 use super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, FieldSchema, HiveTarget, OsScope,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, FieldSchema, HiveTarget, OsScope,
     TriagePriority, ValueType,
 };
 
@@ -42,7 +42,7 @@ use super::super::types::{
 pub(crate) static ACTIVE_SETUP: ArtifactDescriptor = ArtifactDescriptor {
     id: "active_setup",
     name: "Active Setup Installed Components",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Active Setup\Installed Components",
     value_name: None,
@@ -85,7 +85,7 @@ pub(crate) static ACTIVE_SETUP: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LSA_AUTH_PACKAGES: ArtifactDescriptor = ArtifactDescriptor {
     id: "lsa_auth_packages",
     name: "LSA Authentication Packages",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\Lsa",
     value_name: Some("Authentication Packages"),
@@ -126,7 +126,7 @@ pub(crate) static LSA_AUTH_PACKAGES: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static LSA_SECURITY_PACKAGES: ArtifactDescriptor = ArtifactDescriptor {
     id: "lsa_security_packages",
     name: "LSA Security Packages",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\Lsa",
     value_name: Some("Security Packages"),
@@ -164,7 +164,7 @@ pub(crate) static LSA_SECURITY_PACKAGES: ArtifactDescriptor = ArtifactDescriptor
 pub(crate) static LSA_NOTIFICATION_PACKAGES: ArtifactDescriptor = ArtifactDescriptor {
     id: "lsa_notification_packages",
     name: "LSA Notification Packages",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\Lsa",
     value_name: Some("Notification Packages"),
@@ -210,7 +210,7 @@ pub(crate) static LSA_NOTIFICATION_PACKAGES: ArtifactDescriptor = ArtifactDescri
 pub(crate) static SCREENSAVER_PERSISTENCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "screensaver_persistence",
     name: "Screensaver Persistence (SCRNSAVE.EXE)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Control Panel\Desktop",
     value_name: Some("SCRNSAVE.EXE"),
@@ -252,7 +252,7 @@ pub(crate) static SCREENSAVER_PERSISTENCE: ArtifactDescriptor = ArtifactDescript
 pub(crate) static PRINT_MONITOR_DLLS: ArtifactDescriptor = ArtifactDescriptor {
     id: "print_monitor_dlls",
     name: "Print Monitor DLLs",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\Print\Monitors",
     value_name: None,
@@ -293,7 +293,7 @@ pub(crate) static PRINT_MONITOR_DLLS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static SERVICES_HKLM: ArtifactDescriptor = ArtifactDescriptor {
     id: "services_hklm",
     name: "Windows Services Registry (HKLM\\Services)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Services",
     value_name: None,
@@ -355,7 +355,7 @@ pub(crate) static SERVICES_HKLM: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static WINDOWS_INSTALL_DATE: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_install_date",
     name: "Windows Install Date",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"SOFTWARE\Microsoft\Windows NT\CurrentVersion",
     value_name: Some("InstallDate"),
@@ -438,7 +438,7 @@ pub(crate) static WINDOWS_INSTALL_DATE: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static WINDOWS_CLIPBOARD_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_clipboard_history",
     name: "Windows Clipboard History Settings",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     // Source: https://stackoverflow.com/questions/60802854/enabling-clipboard-history-in-windows-10
     key_path: "HKCU\\Software\\Microsoft\\Clipboard",
@@ -510,7 +510,7 @@ pub(crate) static WINDOWS_CLIPBOARD_HISTORY: ArtifactDescriptor = ArtifactDescri
 pub(crate) static VALLEY_RAT_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
     id: "valley_rat_registry",
     name: "Valley RAT Registry Config & Plugins",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     // Source: https://www.cloudsek.com/blog/silver-fox-targeting-india-using-tax-themed-phishing-lures
     key_path: "HKCU\\Console",
@@ -584,7 +584,7 @@ pub(crate) static VALLEY_RAT_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static HYPERV_GUEST_PARAMS: ArtifactDescriptor = ArtifactDescriptor {
     id: "hyperv_guest_params",
     name: "Hyper-V Guest Parameters",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     // Source: https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/manage/manage-hyper-v-integration-services
     key_path: r"Microsoft\Virtual Machine\Guest\Parameters",
@@ -685,7 +685,7 @@ pub(crate) static HYPERV_GUEST_PARAMS: ArtifactDescriptor = ArtifactDescriptor {
 pub static REGISTRY_FEATUREUSAGE: ArtifactDescriptor = ArtifactDescriptor {
     id: "registry_featureusage",
     name: "FeatureUsage (Taskbar Telemetry)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     // Source: https://www.crowdstrike.com/en-us/blog/how-to-employ-featureusage-for-windows-10-taskbar-forensics/
     // Source: https://github.com/keydet89/RegRipper3.0/blob/master/plugins/featureusage.pl
@@ -805,7 +805,7 @@ pub static REGISTRY_FEATUREUSAGE: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static ENABLE_PERIODIC_BACKUP: ArtifactDescriptor = ArtifactDescriptor {
     id: "enable_periodic_backup",
     name: "EnablePeriodicBackup (RegBack toggle)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     // Source: https://learn.microsoft.com/en-us/troubleshoot/windows-client/deployment/system-registry-no-backed-up-regback-folder
     key_path: r"CurrentControlSet\Control\Session Manager\Configuration Manager",
@@ -879,7 +879,7 @@ pub(crate) static ENABLE_PERIODIC_BACKUP: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static RDP_ENABLE_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
     id: "rdp_enable_registry",
     name: "fDenyTSConnections (RDP Enable)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\Terminal Server",
     value_name: Some("fDenyTSConnections"),
@@ -934,7 +934,7 @@ pub(crate) static RDP_ENABLE_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static SPECIAL_ACCOUNTS_USERLIST: ArtifactDescriptor = ArtifactDescriptor {
     id: "special_accounts_userlist",
     name: "SpecialAccounts\\UserList (Hidden Users)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList",
     value_name: None,
@@ -987,7 +987,7 @@ pub(crate) static SPECIAL_ACCOUNTS_USERLIST: ArtifactDescriptor = ArtifactDescri
 pub(crate) static LOGONTYPE_WINLOGON: ArtifactDescriptor = ArtifactDescriptor {
     id: "logontype_winlogon",
     name: "LogonType (Winlogon, XP-era value)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows NT\CurrentVersion\Winlogon",
     value_name: Some("LogonType"),
@@ -1035,7 +1035,7 @@ pub(crate) static LOGONTYPE_WINLOGON: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static RUN_SERVICES_HKLM: ArtifactDescriptor = ArtifactDescriptor {
     id: "run_services_hklm",
     name: "RunServices (HKLM)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows\CurrentVersion\RunServices",
     value_name: None,
@@ -1078,7 +1078,7 @@ pub(crate) static RUN_SERVICES_HKLM: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static RUN_SERVICES_HKCU: ArtifactDescriptor = ArtifactDescriptor {
     id: "run_services_hkcu",
     name: "RunServices (HKCU)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Microsoft\Windows\CurrentVersion\RunServices",
     value_name: None,
@@ -1116,7 +1116,7 @@ pub(crate) static RUN_SERVICES_HKCU: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static RUN_SERVICES_ONCE_HKLM: ArtifactDescriptor = ArtifactDescriptor {
     id: "run_services_once_hklm",
     name: "RunServicesOnce (HKLM)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows\CurrentVersion\RunServicesOnce",
     value_name: None,
@@ -1158,7 +1158,7 @@ pub(crate) static RUN_SERVICES_ONCE_HKLM: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static RUN_SERVICES_ONCE_HKCU: ArtifactDescriptor = ArtifactDescriptor {
     id: "run_services_once_hkcu",
     name: "RunServicesOnce (HKCU)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Microsoft\Windows\CurrentVersion\RunServicesOnce",
     value_name: None,
@@ -1203,7 +1203,7 @@ pub(crate) static RUN_SERVICES_ONCE_HKCU: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static FIREWALL_AUTHORIZED_APPS: ArtifactDescriptor = ArtifactDescriptor {
     id: "firewall_authorized_apps",
     name: "Windows Firewall Authorized Applications",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Policies\Microsoft\WindowsFirewall\StandardProfile\AuthorizedApplications\List",
     value_name: None,
@@ -1250,7 +1250,7 @@ pub(crate) static FIREWALL_AUTHORIZED_APPS: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static SSODL: ArtifactDescriptor = ArtifactDescriptor {
     id: "ssodl",
     name: "ShellServiceObjectDelayLoad (SSODL)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows\CurrentVersion\ShellServiceObjectDelayLoad",
     value_name: None,
@@ -1297,7 +1297,7 @@ pub(crate) static SSODL: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static SHARED_TASK_SCHEDULER: ArtifactDescriptor = ArtifactDescriptor {
     id: "shared_task_scheduler",
     name: "SharedTaskScheduler",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows\CurrentVersion\Explorer\SharedTaskScheduler",
     value_name: None,
@@ -1347,7 +1347,7 @@ pub(crate) static SHARED_TASK_SCHEDULER: ArtifactDescriptor = ArtifactDescriptor
 pub(crate) static CREDENTIAL_PROVIDER_FILTERS: ArtifactDescriptor = ArtifactDescriptor {
     id: "credential_provider_filters",
     name: "Credential Provider Filters",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows\CurrentVersion\Authentication\Credential Provider Filters",
     value_name: None,

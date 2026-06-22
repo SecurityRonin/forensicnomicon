@@ -6,7 +6,7 @@
 #![allow(clippy::too_many_lines)]
 
 use super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, FieldSchema, HiveTarget, OsScope,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, FieldSchema, HiveTarget, OsScope,
     TriagePriority, ValueType,
 };
 
@@ -15,7 +15,7 @@ use super::super::types::{
 pub(crate) static WINLOGON_AUTOADMIN_LOGON: ArtifactDescriptor = ArtifactDescriptor {
     id: "winlogon_autoadmin_logon",
     name: "WinLogon AutoAdminLogon",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows NT\CurrentVersion\Winlogon",
     value_name: Some("AutoAdminLogon"),
@@ -47,7 +47,7 @@ pub(crate) static WINLOGON_AUTOADMIN_LOGON: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static WINLOGON_DEFAULT_PASSWORD: ArtifactDescriptor = ArtifactDescriptor {
     id: "winlogon_default_password",
     name: "WinLogon DefaultPassword",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows NT\CurrentVersion\Winlogon",
     value_name: Some("DefaultPassword"),
@@ -79,7 +79,7 @@ pub(crate) static WINLOGON_DEFAULT_PASSWORD: ArtifactDescriptor = ArtifactDescri
 pub(crate) static WINLOGON_DEFAULT_USERNAME: ArtifactDescriptor = ArtifactDescriptor {
     id: "winlogon_default_username",
     name: "WinLogon DefaultUserName",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows NT\CurrentVersion\Winlogon",
     value_name: Some("DefaultUserName"),
@@ -112,7 +112,7 @@ pub(crate) static WINLOGON_DEFAULT_USERNAME: ArtifactDescriptor = ArtifactDescri
 pub(crate) static LOGONUI_LAST_LOGGEDON_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "logonui_last_loggedon_user",
     name: "LogonUI LastLoggedOnUser",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows\CurrentVersion\Authentication\LogonUI",
     value_name: Some("LastLoggedOnUser"),
@@ -145,7 +145,7 @@ pub(crate) static LOGONUI_LAST_LOGGEDON_USER: ArtifactDescriptor = ArtifactDescr
 pub(crate) static PORTPROXY_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
     id: "portproxy_config",
     name: "PortProxy v4tov4 TCP",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Services\PortProxy\v4tov4\tcp",
     value_name: None,
@@ -179,7 +179,7 @@ pub(crate) static PORTPROXY_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static WINDOWS_DEFENDER_EXCLUSIONS_LOCAL: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_defender_exclusions_local",
     name: "Windows Defender Exclusions",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows Defender\Exclusions",
     value_name: None,
@@ -211,7 +211,7 @@ pub(crate) static WINDOWS_DEFENDER_EXCLUSIONS_LOCAL: ArtifactDescriptor = Artifa
 pub(crate) static WINDOWS_DEFENDER_DISABLED_AV: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_defender_disabled_av",
     name: "Windows Defender DisableAntiVirus",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Policies\Microsoft\Windows Defender",
     value_name: Some("DisableAntiVirus"),
@@ -243,7 +243,7 @@ pub(crate) static WINDOWS_DEFENDER_DISABLED_AV: ArtifactDescriptor = ArtifactDes
 pub(crate) static WINDOWS_DEFENDER_REALTIME: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_defender_realtime",
     name: "Windows Defender Real-Time Protection",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows Defender\Real-Time Protection",
     value_name: None,
@@ -277,7 +277,7 @@ pub(crate) static WINDOWS_DEFENDER_REALTIME: ArtifactDescriptor = ArtifactDescri
 pub(crate) static MS_OFFICE_TRUSTED_DOCS: ArtifactDescriptor = ArtifactDescriptor {
     id: "ms_office_trusted_docs",
     name: "MS Office Trusted Documents (TrustRecords)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Office\{version}\{app}\Security\Trusted Documents\TrustRecords",
     value_name: None,
@@ -311,7 +311,7 @@ pub(crate) static MS_OFFICE_TRUSTED_DOCS: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static VSS_FILES_NOT_TO_SNAPSHOT: ArtifactDescriptor = ArtifactDescriptor {
     id: "vss_files_not_to_snapshot",
     name: "VSS FilesNotToSnapshot",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot",
     value_name: None,
@@ -343,7 +343,7 @@ pub(crate) static VSS_FILES_NOT_TO_SNAPSHOT: ArtifactDescriptor = ArtifactDescri
 pub(crate) static VSS_FILES_NOT_TO_BACKUP: ArtifactDescriptor = ArtifactDescriptor {
     id: "vss_files_not_to_backup",
     name: "VSS FilesNotToBackup",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\BackupRestore\FilesNotToBackup",
     value_name: None,
@@ -376,7 +376,7 @@ pub(crate) static VSS_FILES_NOT_TO_BACKUP: ArtifactDescriptor = ArtifactDescript
 pub(crate) static IFEO_SILENT_EXIT: ArtifactDescriptor = ArtifactDescriptor {
     id: "ifeo_silent_exit",
     name: "IFEO SilentProcessExit",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows NT\CurrentVersion\SilentProcessExit",
     value_name: None,
@@ -410,7 +410,7 @@ pub(crate) static IFEO_SILENT_EXIT: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EXEFILE_SHELL_OPEN_SOFTWARE: ArtifactDescriptor = ArtifactDescriptor {
     id: "exefile_shell_open_software",
     name: "Exefile Shell Open Command (HKLM SOFTWARE)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Classes\Exefile\Shell\Open\Command",
     value_name: None,
@@ -441,7 +441,7 @@ pub(crate) static EXEFILE_SHELL_OPEN_SOFTWARE: ArtifactDescriptor = ArtifactDesc
 pub(crate) static EXEFILE_SHELL_OPEN_USRCLASS: ArtifactDescriptor = ArtifactDescriptor {
     id: "exefile_shell_open_usrclass",
     name: "Exefile Shell Open Command (UsrClass.dat)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::UsrClass),
     key_path: r"Exefile\Shell\Open\Command",
     value_name: None,
@@ -474,7 +474,7 @@ pub(crate) static EXEFILE_SHELL_OPEN_USRCLASS: ArtifactDescriptor = ArtifactDesc
 pub(crate) static RDP_SHADOW_SESSIONS: ArtifactDescriptor = ArtifactDescriptor {
     id: "rdp_shadow_sessions",
     name: "RDP Shadow Session Policy",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Policies\Microsoft\Windows NT\Terminal Services",
     value_name: Some("Shadow"),
@@ -505,7 +505,7 @@ pub(crate) static RDP_SHADOW_SESSIONS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static RESTRICTED_ADMIN_RDP: ArtifactDescriptor = ArtifactDescriptor {
     id: "restricted_admin_rdp",
     name: "Restricted Admin RDP (DisableRestrictedAdmin)",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\Lsa",
     value_name: Some("DisableRestrictedAdmin"),
@@ -539,7 +539,7 @@ pub(crate) static RESTRICTED_ADMIN_RDP: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static NETWORK_SHARES_SERVER: ArtifactDescriptor = ArtifactDescriptor {
     id: "network_shares_server",
     name: "LanmanServer Shares",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Services\LanmanServer\Shares",
     value_name: None,
@@ -572,7 +572,7 @@ pub(crate) static NETWORK_SHARES_SERVER: ArtifactDescriptor = ArtifactDescriptor
 pub(crate) static SYSINTERNALS_EULA: ArtifactDescriptor = ArtifactDescriptor {
     id: "sysinternals_eula",
     name: "Sysinternals EulaAccepted",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Sysinternals",
     value_name: None,
@@ -609,7 +609,7 @@ pub(crate) static SYSINTERNALS_EULA: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static MS_OFFICE_SERVER_CACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "ms_office_server_cache",
     name: "MS Office Server Cache",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Office\{version}\Common\Internet\Server Cache",
     value_name: None,
@@ -643,7 +643,7 @@ pub(crate) static MS_OFFICE_SERVER_CACHE: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static POWERSHELL_COBALT_INFO: ArtifactDescriptor = ArtifactDescriptor {
     id: "powershell_cobalt_info",
     name: "PowerShell Cobalt Strike Info Key",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\PowerShell\info",
     value_name: None,
@@ -677,7 +677,7 @@ pub(crate) static POWERSHELL_COBALT_INFO: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static STARTUP_APPROVED_RUN_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     id: "startup_approved_run_system",
     name: "StartupApproved Run (HKLM)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run",
     value_name: None,
@@ -708,7 +708,7 @@ pub(crate) static STARTUP_APPROVED_RUN_SYSTEM: ArtifactDescriptor = ArtifactDesc
 pub(crate) static STARTUP_APPROVED_RUN_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "startup_approved_run_user",
     name: "StartupApproved Run (HKCU)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run",
     value_name: None,
@@ -741,7 +741,7 @@ pub(crate) static STARTUP_APPROVED_RUN_USER: ArtifactDescriptor = ArtifactDescri
 pub(crate) static TASKCACHE_TASKS_PATH: ArtifactDescriptor = ArtifactDescriptor {
     id: "taskcache_tasks_path",
     name: "TaskCache Tree (Scheduled Task Paths)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree",
     value_name: None,
@@ -775,7 +775,7 @@ pub(crate) static TASKCACHE_TASKS_PATH: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static PROFILE_LIST_USERS: ArtifactDescriptor = ArtifactDescriptor {
     id: "profile_list_users",
     name: "ProfileList (User SIDs and Profile Paths)",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows NT\CurrentVersion\ProfileList",
     value_name: None,
@@ -809,7 +809,7 @@ pub(crate) static PROFILE_LIST_USERS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static REGISTRAR_FAVORITES: ArtifactDescriptor = ArtifactDescriptor {
     id: "registrar_favorites",
     name: "Registrar Registry Editor Favorites",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
     key_path: r"Software\Resplendence\Registrar\Favorites",
     value_name: None,
@@ -842,7 +842,7 @@ pub(crate) static REGISTRAR_FAVORITES: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static DHCP_IPV4_INTERFACE: ArtifactDescriptor = ArtifactDescriptor {
     id: "dhcp_ipv4_interface",
     name: "DHCP Interface IPv4 Configuration",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Services\Tcpip\Parameters\Interfaces",
     value_name: None,
@@ -875,7 +875,7 @@ pub(crate) static DHCP_IPV4_INTERFACE: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static NTFS_LAST_ACCESS_STATUS: ArtifactDescriptor = ArtifactDescriptor {
     id: "ntfs_last_access_status",
     name: "NTFS Last Access Update Status",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\FileSystem",
     value_name: Some("NtfsDisableLastAccessUpdate"),
@@ -909,7 +909,7 @@ pub(crate) static NTFS_LAST_ACCESS_STATUS: ArtifactDescriptor = ArtifactDescript
 pub(crate) static PREFETCH_STATUS: ArtifactDescriptor = ArtifactDescriptor {
     id: "prefetch_status",
     name: "Prefetch Enable Status",
-    artifact_type: ArtifactType::RegistryValue,
+    artifact_type: ArtifactLocation::RegistryValue,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters",
     value_name: Some("EnablePrefetcher"),
@@ -943,7 +943,7 @@ pub(crate) static PREFETCH_STATUS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static FIREWALL_RULES: ArtifactDescriptor = ArtifactDescriptor {
     id: "firewall_rules",
     name: "Windows Firewall Rules",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSystem),
     key_path: r"CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules",
     value_name: None,
@@ -980,7 +980,7 @@ pub(crate) static FIREWALL_RULES: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVENT_LOG_CHANNEL_STATUS: ArtifactDescriptor = ArtifactDescriptor {
     id: "event_log_channel_status",
     name: "Event Log Channel Enabled/Disabled Status",
-    artifact_type: ArtifactType::RegistryKey,
+    artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::HklmSoftware),
     key_path: r"Microsoft\Windows\CurrentVersion\WINEVT\Channels",
     value_name: None,

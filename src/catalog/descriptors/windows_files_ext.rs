@@ -6,7 +6,7 @@
 #![allow(clippy::too_many_lines)]
 
 use super::super::types::{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
     ValueType,
 };
 
@@ -15,7 +15,7 @@ use super::super::types::{
 pub(crate) static CHROME_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "chrome_history",
     name: "Chrome Browsing History (SQLite)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -47,7 +47,7 @@ pub(crate) static CHROME_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static CHROME_WEB_DATA: ArtifactDescriptor = ArtifactDescriptor {
     id: "chrome_web_data",
     name: "Chrome Web Data (SQLite)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -80,7 +80,7 @@ pub(crate) static CHROME_WEB_DATA: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EDGE_CHROMIUM_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "edge_chromium_history",
     name: "Edge (Chromium) Browsing History (SQLite)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -110,7 +110,7 @@ pub(crate) static EDGE_CHROMIUM_HISTORY: ArtifactDescriptor = ArtifactDescriptor
 pub(crate) static EDGE_CHROMIUM_LOGIN_DATA: ArtifactDescriptor = ArtifactDescriptor {
     id: "edge_chromium_login_data",
     name: "Edge (Chromium) Login Data (SQLite)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -139,7 +139,7 @@ pub(crate) static EDGE_CHROMIUM_LOGIN_DATA: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static FIREFOX_PLACES: ArtifactDescriptor = ArtifactDescriptor {
     id: "firefox_places",
     name: "Firefox places.sqlite (History + Bookmarks)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -171,7 +171,7 @@ pub(crate) static FIREFOX_PLACES: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static FIREFOX_FORM_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "firefox_form_history",
     name: "Firefox formhistory.sqlite",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -204,7 +204,7 @@ pub(crate) static FIREFOX_FORM_HISTORY: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static FIREFOX_SESSION_RESTORE: ArtifactDescriptor = ArtifactDescriptor {
     id: "firefox_session_restore",
     name: "Firefox sessionstore.jsonlz4 (Session Restore)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -236,7 +236,7 @@ pub(crate) static FIREFOX_SESSION_RESTORE: ArtifactDescriptor = ArtifactDescript
 pub(crate) static PSREADLINE_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "psreadline_history",
     name: "PSReadLine Console History (User)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -266,7 +266,7 @@ pub(crate) static PSREADLINE_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static PSREADLINE_HISTORY_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     id: "psreadline_history_system",
     name: "PSReadLine Console History (SYSTEM account)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -295,7 +295,7 @@ pub(crate) static PSREADLINE_HISTORY_SYSTEM: ArtifactDescriptor = ArtifactDescri
 pub(crate) static POWERSHELL_TRANSCRIPTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "powershell_transcripts",
     name: "PowerShell Transcript Logs",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -327,7 +327,7 @@ pub(crate) static POWERSHELL_TRANSCRIPTS: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static TEAMVIEWER_CONNECTION_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "teamviewer_connection_log",
     name: "TeamViewer Incoming Connections Log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -359,7 +359,7 @@ pub(crate) static TEAMVIEWER_CONNECTION_LOG: ArtifactDescriptor = ArtifactDescri
 pub(crate) static TEAMVIEWER_APP_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "teamviewer_app_log",
     name: "TeamViewer Application Log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -391,7 +391,7 @@ pub(crate) static TEAMVIEWER_APP_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static ANYDESK_TRACE_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "anydesk_trace_user",
     name: "AnyDesk Trace Log (User)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -422,7 +422,7 @@ pub(crate) static ANYDESK_TRACE_USER: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static ANYDESK_TRACE_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     id: "anydesk_trace_system",
     name: "AnyDesk Service Trace Log (System)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -453,7 +453,7 @@ pub(crate) static ANYDESK_TRACE_SYSTEM: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static ANYDESK_CONNECTION_TRACE: ArtifactDescriptor = ArtifactDescriptor {
     id: "anydesk_connection_trace",
     name: "AnyDesk Connection Trace",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -484,7 +484,7 @@ pub(crate) static ANYDESK_CONNECTION_TRACE: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static ANYDESK_FILE_TRANSFER_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "anydesk_file_transfer_log",
     name: "AnyDesk File Transfer Log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -515,7 +515,7 @@ pub(crate) static ANYDESK_FILE_TRANSFER_LOG: ArtifactDescriptor = ArtifactDescri
 pub(crate) static SCREENCONNECT_SESSION_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "screenconnect_session_db",
     name: "ScreenConnect / ConnectWise Control Session Database",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -546,7 +546,7 @@ pub(crate) static SCREENCONNECT_SESSION_DB: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static RUSTDESK_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "rustdesk_logs",
     name: "RustDesk Logs Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -577,7 +577,7 @@ pub(crate) static RUSTDESK_LOGS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static DROPBOX_INSTANCE_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "dropbox_instance_db",
     name: "Dropbox Instance Database Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -608,7 +608,7 @@ pub(crate) static DROPBOX_INSTANCE_DB: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static ONEDRIVE_METADATA: ArtifactDescriptor = ArtifactDescriptor {
     id: "onedrive_metadata",
     name: "OneDrive Sync Client Metadata",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -659,7 +659,7 @@ pub(crate) static ONEDRIVE_METADATA: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static ONEDRIVE_ODL_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "onedrive_odl_logs",
     name: "OneDrive ODL Diagnostic Logs",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -754,7 +754,7 @@ pub(crate) static ONEDRIVE_ODL_FIELDS: &[FieldSchema] = &[
 pub(crate) static GOOGLE_DRIVE_FS_METADATA: ArtifactDescriptor = ArtifactDescriptor {
     id: "google_drive_fs_metadata",
     name: "Google Drive for Desktop Metadata",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -785,7 +785,7 @@ pub(crate) static GOOGLE_DRIVE_FS_METADATA: ArtifactDescriptor = ArtifactDescrip
 pub(crate) static MEGASYNC_DATA: ArtifactDescriptor = ArtifactDescriptor {
     id: "megasync_data",
     name: "MEGAsync Cloud Storage Data",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -816,7 +816,7 @@ pub(crate) static MEGASYNC_DATA: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static TEAMS_INDEXED_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "teams_indexed_db",
     name: "Microsoft Teams IndexedDB (Chat History)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -847,7 +847,7 @@ pub(crate) static TEAMS_INDEXED_DB: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static SLACK_INDEXED_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "slack_indexed_db",
     name: "Slack IndexedDB (Message Cache)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -877,7 +877,7 @@ pub(crate) static SLACK_INDEXED_DB: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static DISCORD_LOCAL_STORAGE: ArtifactDescriptor = ArtifactDescriptor {
     id: "discord_local_storage",
     name: "Discord Local Storage (LevelDB)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -906,7 +906,7 @@ pub(crate) static DISCORD_LOCAL_STORAGE: ArtifactDescriptor = ArtifactDescriptor
 pub(crate) static SIGNAL_DATABASE: ArtifactDescriptor = ArtifactDescriptor {
     id: "signal_database",
     name: "Signal Desktop Message Database",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -937,7 +937,7 @@ pub(crate) static SIGNAL_DATABASE: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static SIGNAL_CONFIG_JSON: ArtifactDescriptor = ArtifactDescriptor {
     id: "signal_config_json",
     name: "Signal Desktop config.json (DB Encryption Key)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -977,7 +977,7 @@ pub(crate) static SIGNAL_CONFIG_JSON: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static WINDOWS_SEARCH_EDB: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_search_edb",
     name: "Windows Search Index (Windows.edb)",
-    artifact_type: ArtifactType::EseDatabase,
+    artifact_type: ArtifactLocation::EseDatabase,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1039,7 +1039,7 @@ pub(crate) static WINDOWS_SEARCH_EDB: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static EVENT_TRANSCRIPT_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "event_transcript_db",
     name: "Windows Telemetry EventTranscript.db",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1074,7 +1074,7 @@ pub(crate) static EVENT_TRANSCRIPT_DB: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static CERTUTIL_CACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "certutil_cache",
     name: "CertUtil URL Cache (certutil -urlcache)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1105,7 +1105,7 @@ pub(crate) static CERTUTIL_CACHE: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static SDB_CUSTOM_FILES: ArtifactDescriptor = ArtifactDescriptor {
     id: "sdb_custom_files",
     name: "Custom AppCompat Shim Database Files",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1135,7 +1135,7 @@ pub(crate) static SDB_CUSTOM_FILES: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static WER_REPORTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "wer_reports",
     name: "Windows Error Reporting Queue",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1169,7 +1169,7 @@ pub(crate) static WER_REPORTS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static IIS_W3SVC_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "iis_w3svc_logs",
     name: "IIS W3C HTTP Access Logs",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1202,7 +1202,7 @@ pub(crate) static IIS_W3SVC_LOGS: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static IIS_CONFIG_APPLICATIONHOST: ArtifactDescriptor = ArtifactDescriptor {
     id: "iis_config_applicationhost",
     name: "IIS applicationHost.config",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1232,7 +1232,7 @@ pub(crate) static IIS_CONFIG_APPLICATIONHOST: ArtifactDescriptor = ArtifactDescr
 pub(crate) static DNS_DEBUG_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "dns_debug_log",
     name: "DNS Server Debug Log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1264,7 +1264,7 @@ pub(crate) static DNS_DEBUG_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static DHCP_SERVER_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "dhcp_server_log",
     name: "Windows DHCP Server Log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1299,7 +1299,7 @@ pub(crate) static DHCP_SERVER_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static SUM_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "sum_db",
     name: "User Access Logging (SUM) Database",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1332,7 +1332,7 @@ pub(crate) static SUM_DB: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static COPILOT_RECALL_UKG: ArtifactDescriptor = ArtifactDescriptor {
     id: "copilot_recall_ukg",
     name: "Windows Recall Screenshot Index (ukg.db)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1364,7 +1364,7 @@ pub(crate) static COPILOT_RECALL_UKG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static NTUSER_DAT_FILE: ArtifactDescriptor = ArtifactDescriptor {
     id: "ntuser_dat_file",
     name: "NTUSER.DAT (Per-User Registry Hive)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1394,7 +1394,7 @@ pub(crate) static NTUSER_DAT_FILE: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static USRCLASS_DAT_FILE: ArtifactDescriptor = ArtifactDescriptor {
     id: "usrclass_dat_file",
     name: "UsrClass.dat (User Classes Registry Hive)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1425,7 +1425,7 @@ pub(crate) static USRCLASS_DAT_FILE: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static CBS_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "cbs_log",
     name: "CBS.log (Component Based Servicing Log)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1460,7 +1460,7 @@ pub(crate) static CBS_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static PFRO_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "pfro_log",
     name: "PFRO.log (Pending File Rename Operations Log)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1490,7 +1490,7 @@ pub(crate) static PFRO_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static SETUPERR_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "setuperr_log",
     name: "setuperr.log (Windows Setup Error Log)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1520,7 +1520,7 @@ pub(crate) static SETUPERR_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static SETUPAPI_UPGRADE_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "setupapi_upgrade_log",
     name: "setupapi.upgrade.log (In-Place Upgrade Driver Log)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1553,7 +1553,7 @@ pub(crate) static SETUPAPI_UPGRADE_LOG: ArtifactDescriptor = ArtifactDescriptor 
 pub(crate) static WER_REPORTS_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "wer_reports_user",
     name: "WER ReportArchive (User-scope Crash Reports)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1590,7 +1590,7 @@ pub(crate) static WER_REPORTS_USER: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static WER_REPORTS_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
     id: "wer_reports_system",
     name: "WER ReportArchive (System-scope Crash Reports)",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1629,7 +1629,7 @@ pub(crate) static WER_REPORTS_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static APPX_PACKAGES_USER: ArtifactDescriptor = ArtifactDescriptor {
     id: "appx_packages_user",
     name: "AppX/UWP Package Data Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1662,7 +1662,7 @@ pub(crate) static APPX_PACKAGES_USER: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static APPX_INSTALL_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "appx_install_log",
     name: "DISM.log (Deployment Image Servicing Log)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1696,7 +1696,7 @@ pub(crate) static APPX_INSTALL_LOG: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static DIAGNOSTIC_DATA_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "diagnostic_data_dir",
     name: "Windows Diagnostic Data ETL Directory",
-    artifact_type: ArtifactType::Directory,
+    artifact_type: ArtifactLocation::Directory,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1728,7 +1728,7 @@ pub(crate) static DIAGNOSTIC_DATA_DIR: ArtifactDescriptor = ArtifactDescriptor {
 pub(crate) static WINDOWS_UPDATE_SESSION: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_update_session",
     name: "Windows Update ReportingEvents.log",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1788,7 +1788,7 @@ pub(crate) static WINDOWS_UPDATE_SESSION: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static NTUSER_MAN_PERSISTENCE: ArtifactDescriptor = ArtifactDescriptor {
     id: "ntuser_man_persistence",
     name: "NTUSER.MAN Mandatory Profile Persistence",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1878,7 +1878,7 @@ pub(crate) static NTUSER_MAN_PERSISTENCE: ArtifactDescriptor = ArtifactDescripto
 pub(crate) static WINDOWS_CLIPBOARD_DATA_FILES: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_clipboard_data_files",
     name: "Windows Clipboard History Data Files",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
@@ -1957,7 +1957,7 @@ pub(crate) static WINDOWS_CLIPBOARD_DATA_FILES: ArtifactDescriptor = ArtifactDes
 pub(crate) static WINDOWS_DEFENDER_MPWPPTRACING: ArtifactDescriptor = ArtifactDescriptor {
     id: "windows_defender_mpwpptracing",
     name: "Windows Defender Support Logs (MpWppTracing-*.bin, WPP traces)",
-    artifact_type: ArtifactType::File,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,

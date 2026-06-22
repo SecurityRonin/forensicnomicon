@@ -4,7 +4,7 @@
 //! container signatures. Output is valid YARA syntax that analysts
 //! can refine and deploy.
 
-use crate::catalog::{ArtifactType, HiveTarget, TriagePriority, CATALOG};
+use crate::catalog::{ArtifactLocation, HiveTarget, TriagePriority, CATALOG};
 
 /// Return the Windows registry root prefix string for a given hive target.
 fn hive_prefix(hive: HiveTarget) -> &'static str {
@@ -61,7 +61,7 @@ pub fn yara_rule_template(artifact_id: &str) -> Option<String> {
 
     // Build the strings block depending on artifact type.
     let (strings_block, condition_var) = match artifact.artifact_type {
-        ArtifactType::RegistryKey | ArtifactType::RegistryValue => {
+        ArtifactLocation::RegistryKey | ArtifactLocation::RegistryValue => {
             // Construct full registry path: HKEY_... \ key_path
             let full_path = if let Some(hive) = artifact.hive {
                 let prefix = hive_prefix(hive);
@@ -77,7 +77,7 @@ pub fn yara_rule_template(artifact_id: &str) -> Option<String> {
                 format!("    strings:\n        $key_path = \"{full_path}\" nocase wide ascii");
             (block, "$key_path")
         }
-        ArtifactType::File | ArtifactType::Directory => {
+        ArtifactLocation::File | ArtifactLocation::Directory => {
             // Prefer file_path; fall back to key_path.
             let path = artifact.file_path.unwrap_or(artifact.key_path);
             // Use the filename portion for a compact, focused string match.
@@ -87,17 +87,17 @@ pub fn yara_rule_template(artifact_id: &str) -> Option<String> {
                 format!("    strings:\n        $file_path = \"{target}\" nocase wide ascii");
             (block, "$file_path")
         }
-        ArtifactType::EventLog => {
+        ArtifactLocation::EventLog => {
             let path = artifact.file_path.unwrap_or(artifact.key_path);
             let filename = path.rsplit(['\\', '/']).next().unwrap_or(path);
             let block =
                 format!("    strings:\n        $evtx_file = \"{filename}\" nocase wide ascii");
             (block, "$evtx_file")
         }
-        ArtifactType::MemoryRegion
-        | ArtifactType::LiveResponse
-        | ArtifactType::DatabaseEntry
-        | ArtifactType::EseDatabase => {
+        ArtifactLocation::MemoryRegion
+        | ArtifactLocation::LiveResponse
+        | ArtifactLocation::DatabaseEntry
+        | ArtifactLocation::EseDatabase => {
             let block = format!(
                 "    strings:\n        $artifact = \"{}\" nocase wide ascii",
                 artifact.name
