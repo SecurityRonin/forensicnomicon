@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-06-22T09:24:04Z
+Generated: 2026-06-23T07:01:06Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-06-22T09:24:04Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-22T00:00:00+00:00 — [Building a CI/CD pipeline for Sigma rules](https://andreafortuna.org/2026/06/22/sigma-cicd-pipeline/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -97,18 +97,9 @@ Generated: 2026-06-22T09:24:04Z
 - Site: https://sethenoka.com/windows-artefacts/
 - Feed: https://sethenoka.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-06-14T18:00:00+00:00 — [Shimcache and Amcache Forensics: Execution Evidence Without Certainty](https://sethenoka.com/shimcache-and-amcache-program-execution-without-certainty/)
-- 2026-05-11T10:00:00+00:00 — [Windows Prefetch Forensics: Execution Evidence and Its Limits](https://sethenoka.com/prefetch-execution-evidence-and-its-limits/)
-- 2026-04-13T23:00:00+00:00 — [Recent Files, Jump Lists, and Application-Level Context](https://sethenoka.com/recent-files-jump-lists-and-application-level-context/)
-- 2026-04-06T20:00:00+00:00 — [From SOC Analyst to Incident Responder: What Actually Changes](https://sethenoka.com/soc-analyst-to-incident-responder/)
-- 2026-03-25T20:00:00+00:00 — [ShellBags Forensics: Windows User Navigation Evidence](https://sethenoka.com/shellbags-and-user-navigation-what-windows-remembers-about-exploration/)
-- 2026-02-16T22:00:00+00:00 — [Windows Recycle Bin Forensics: $I/$R Files and Deleted File Metadata](https://sethenoka.com/windows-recycle-bin-forensics-on-windows-10-and-11/)
-- 2026-01-19T23:00:00+00:00 — [Understanding Windows Artefacts as Evidence, Not Indicators](https://sethenoka.com/understanding-windows-artefacts-as-evidence-not-indicators/)
-- 2023-03-25T10:50:00+00:00 — [SANS Certification Roadmap for DFIR and SOC Analysts](https://sethenoka.com/a-roadmap-to-earning-your-first-or-next-sans-certification/)
-- 2023-03-18T20:54:00+00:00 — [Unlocking the DFIR Job Market: Strategies for Landing Your Dream Role](https://sethenoka.com/unlocking-the-dfir-job-market-strategies-for-landing-your-dream-role/)
-- 2023-03-18T03:38:00+00:00 — [What Is an Alternate Data Stream? NTFS ADS Forensics](https://sethenoka.com/alternate-data-streams/)
+- No new entries detected
 
 ## DoubleBlak
 
@@ -178,9 +169,9 @@ Generated: 2026-06-22T09:24:04Z
 - Site: https://brettshavers.com/brett-s-blog
 - Feed: https://feeds.feedburner.com/brettshavers/oSyq
 - Entries checked: 3
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-22T23:18:38-07:00 — [FORBIDDEN DFIR](https://brettshavers.com/brett-s-blog/entry/forbidden-dfir)
 
 ## Yogesh Khatri's forensic blog
 
@@ -211,9 +202,9 @@ Generated: 2026-06-22T09:24:04Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-22T14:43:41+00:00 — [The new era of vehicle forensics: Why agencies need a modern approach](https://www.magnetforensics.com/blog/the-new-era-of-vehicle-forensics-why-agencies-need-a-modern-approach/)
 
 ## The DFIR Report
 
@@ -238,15 +229,17 @@ Generated: 2026-06-22T09:24:04Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 3
 
-- 2026-06-22T02:00:02+00:00 — [ISC Stormcast For Monday, June 22nd, 2026 https://isc.sans.edu/podcastdetail/9980, (Mon, Jun 22nd)](https://isc.sans.edu/diary/rss/33092)
+- 2026-06-23T03:02:34+00:00 — [CVE-2024-40766: The Patch Fixed the Bug. Nobody Fixed the Configuration., (Tue, Jun 23rd)](https://isc.sans.edu/diary/rss/33094)
+- 2026-06-23T02:00:03+00:00 — [ISC Stormcast For Tuesday, June 23rd, 2026 https://isc.sans.edu/podcastdetail/9982, (Tue, Jun 23rd)](https://isc.sans.edu/diary/rss/33098)
+- 2026-06-22T14:10:27+00:00 — [Webshells Remain Popular, (Mon, Jun 22nd)](https://isc.sans.edu/diary/rss/33096)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
+- Entries checked: 0
 - New since last snapshot: 0
 
 - No new entries detected
@@ -255,19 +248,13 @@ Generated: 2026-06-22T09:24:04Z
 
 - Site: https://www.msab.com/
 - Feed: https://www.msab.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## AboutDFIR
 
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## Forensic 4cast
 
@@ -283,9 +270,9 @@ Generated: 2026-06-22T09:24:04Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-21T11:31:58+00:00 — [Week 25 – 2026](https://thisweekin4n6.com/2026/06/21/week-25-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
@@ -300,10 +287,7 @@ Generated: 2026-06-22T09:24:04Z
 
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## Didier Stevens Blog
 
@@ -382,11 +366,10 @@ Generated: 2026-06-22T09:24:04Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-06-22T08:00:00+00:00 — [Solutions to Saturday Mac riddles 365](https://eclecticlight.co/2026/06/22/solutions-to-saturday-mac-riddles-365/)
-- 2026-06-22T06:30:00+00:00 — [SilentKnight 3.0 for Apple silicon Macs running Sequoia and later (full release)](https://eclecticlight.co/2026/06/22/silentknight-3-0-for-apple-silicon-macs-running-sequoia-and-later-full-release/)
-- 2026-06-21T11:30:00+00:00 — [Colin Campbell Cooper painting America: 1912-1923](https://eclecticlight.co/2026/06/21/colin-campbell-cooper-painting-america-1912-1923/)
+- 2026-06-23T06:30:00+00:00 — [Choose and use in-document metadata](https://eclecticlight.co/2026/06/23/choose-and-use-in-document-metadata/)
+- 2026-06-22T11:30:00+00:00 — [Hero or hooligan: Achilles becomes the warrior](https://eclecticlight.co/2026/06/22/hero-or-hooligan-achilles-becomes-the-warrior/)
 
 ## JPCERT/CC
 
@@ -438,9 +421,9 @@ Generated: 2026-06-22T09:24:04Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-22T22:00:04+00:00 — [The Global Namespace Risk: Universal Bucket Hijacking Technique for Cloud Data Exfiltration](https://unit42.paloaltonetworks.com/cloud-bucket-hijacking-risks/)
 
 ## Mandiant Threat Intelligence
 
@@ -519,9 +502,9 @@ Generated: 2026-06-22T09:24:04Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-12T07:39:43+00:00 — [Can You Tell if a Device was Picked Up? iOS Device Orientation Tracking in Forensics](https://cellebrite.com/en/blog/ios-device-orientation-tracking-forensics-unified-logs/)
 
 ## DFIR Science
 
@@ -537,18 +520,19 @@ Generated: 2026-06-22T09:24:04Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-22T00:00:00-05:00 — [94% of Organizations Report Cloud Breaches: CrowdStrike State of CDR Survey](https://www.crowdstrike.com/en-us/blog/crowdstrike-state-of-cdr-survey-key-takeaways/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-06-22T07:01:00+00:00 — [A week in security (June 15 &#8211; June 21)](https://www.malwarebytes.com/blog/news/2026/06/a-week-in-security-june-15-june-21-2)
+- 2026-06-22T15:22:22+00:00 — [Thousands of D-Link routers under control of AryStinger botnet](https://www.malwarebytes.com/blog/news/2026/06/thousands-of-d-link-routers-under-control-of-arystinger-botnet)
+- 2026-06-22T13:19:50+00:00 — [Document delivery scams: What are they and what’s their goal?](https://www.malwarebytes.com/blog/scams/2026/06/document-delivery-scams-what-are-they-and-whats-their-goal)
 
 ## Krebs on Security
 
@@ -564,18 +548,24 @@ Generated: 2026-06-22T09:24:04Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 7
 
-- 2026-06-21T10:14:22-04:00 — [AryStinger botnet infected thousands of D-Link routers worldwide](https://www.bleepingcomputer.com/news/security/arystinger-botnet-infected-thousands-of-d-link-routers-worldwide/)
+- 2026-06-22T18:42:21-04:00 — [WhatsApp phishing attack uses fake business docs to hack PCs](https://www.bleepingcomputer.com/news/security/whatsapp-phishing-attack-uses-fake-business-docs-to-hack-pcs/)
+- 2026-06-22T17:52:18-04:00 — [JaredFromSubway MEV bot hacked in $15 million crypto theft](https://www.bleepingcomputer.com/news/security/jaredfromsubway-mev-bot-hacked-in-15-million-crypto-theft/)
+- 2026-06-22T17:05:01-04:00 — [FFmpeg fixes PixelSmash flaw in widely used video decoder](https://www.bleepingcomputer.com/news/security/ffmpeg-fixes-pixelsmash-flaw-in-widely-used-video-decoder/)
+- 2026-06-22T16:01:02-04:00 — [FortiBleed campaign used custom FortiGate sniffer to steal credentials](https://www.bleepingcomputer.com/news/security/fortibleed-campaign-used-custom-fortigate-sniffer-to-steal-credentials/)
+- 2026-06-22T13:41:31-04:00 — [Microsoft says Windows 11 26H2 is coming soon, details upgrade process](https://www.bleepingcomputer.com/news/microsoft/microsoft-says-windows-11-26h2-is-coming-soon-details-upgrade-process/)
+- 2026-06-22T13:28:57-04:00 — [Microsoft fixes AutoGen Studio flaw that enabled code execution](https://www.bleepingcomputer.com/news/security/microsoft-fixes-autogen-studio-flaw-that-enabled-code-execution/)
+- 2026-06-22T10:05:15-04:00 — [A Glimpse into the “Search Your Target” Market for Stolen Credentials](https://www.bleepingcomputer.com/news/security/a-glimpse-into-the-search-your-target-market-for-stolen-credentials/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-22T16:10:10+00:00 — [Crypto Heist Fueled by Elaborate Fake Reputation-Boosting Campaign](https://www.darkreading.com/cyberattacks-data-breaches/crypto-heist-fake-reputation-boosting-campaign)
 
 ## Volexity Blog
 
@@ -597,9 +587,10 @@ Generated: 2026-06-22T09:24:04Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-06-22T19:07:28+00:00 — [Guarding AI memory](https://www.microsoft.com/en-us/security/blog/2026/06/22/guarding-ai-memory/)
+- 2026-06-22T16:00:00+00:00 — [One intrusion, two cyberattackers: Uncovering parallel threat activity](https://www.microsoft.com/en-us/security/blog/2026/06/22/one-intrusion-two-cyberattackers-uncovering-parallel-threat-activity/)
 
 ## LOLBAS Project (Windows)
 
@@ -1011,9 +1002,9 @@ Generated: 2026-06-22T09:24:04Z
 - Site: https://docs.velociraptor.app/
 - Feed: https://github.com/Velocidex/velociraptor/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-23T00:01:42+00:00 — [Release 0.77.1](https://github.com/Velocidex/velociraptor/releases/tag/v0.77.1)
 
 ## Microsoft Learn Windows What's New
 
