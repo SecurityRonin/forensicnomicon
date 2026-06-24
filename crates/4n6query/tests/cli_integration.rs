@@ -669,3 +669,100 @@ fn playbook_list_json_is_valid() {
         "JSON list must have exactly 5 scenario playbooks"
     );
 }
+
+// ---------------------------------------------------------------------------
+// dump — datasets that were previously TUI-only (event ids, sigma, flows,
+// malware profiles). Closes the CLI side of the CLI/TUI parity gap.
+// ---------------------------------------------------------------------------
+
+#[test]
+fn dump_all_has_parity_dataset_keys() {
+    let out = run(&["dump", "--format", "json"]);
+    assert_eq!(out.code, 0, "stderr: {}", out.stderr);
+    let v: serde_json::Value = serde_json::from_str(&out.stdout).unwrap();
+    for key in &[
+        "event_ids",
+        "sigma_rules",
+        "attack_flows",
+        "malware_profiles",
+    ] {
+        assert!(
+            v[key].is_array(),
+            "dump --dataset all missing array key: {key}"
+        );
+    }
+}
+
+#[test]
+fn dump_dataset_event_ids_excludes_lolbas() {
+    let out = run(&["dump", "--format", "json", "--dataset", "event-ids"]);
+    assert_eq!(out.code, 0, "stderr: {}", out.stderr);
+    let v: serde_json::Value = serde_json::from_str(&out.stdout).unwrap();
+    assert!(v["event_ids"].is_array());
+    assert!(v.get("lolbas_windows").is_none());
+}
+
+#[test]
+fn dump_dataset_profiles_excludes_lolbas() {
+    let out = run(&["dump", "--format", "json", "--dataset", "profiles"]);
+    assert_eq!(out.code, 0, "stderr: {}", out.stderr);
+    let v: serde_json::Value = serde_json::from_str(&out.stdout).unwrap();
+    assert!(v["malware_profiles"].is_array());
+    assert!(v.get("lolbas_windows").is_none());
+}
+
+// ---------------------------------------------------------------------------
+// Universal lookup — parity datasets reachable by term
+// ---------------------------------------------------------------------------
+
+#[test]
+fn query_event_id_4624_returns_event() {
+    let out = run(&["4624", "--format", "json"]);
+    assert_eq!(out.code, 0, "stderr: {}", out.stderr);
+    let v: serde_json::Value = serde_json::from_str(&out.stdout).unwrap();
+    let events = v["events"].as_array().expect("missing events array");
+    assert!(!events.is_empty());
+    assert_eq!(events[0]["event_id"], 4624);
+}
+
+#[test]
+fn query_sigma_mimikatz_returns_sigma() {
+    let out = run(&["mimikatz", "--format", "json"]);
+    assert_eq!(out.code, 0, "stderr: {}", out.stderr);
+    let v: serde_json::Value = serde_json::from_str(&out.stdout).unwrap();
+    let sigma = v["sigma"].as_array().expect("missing sigma array");
+    assert!(
+        sigma.iter().any(|r| r["title"]
+            .as_str()
+            .is_some_and(|t| t.to_lowercase().contains("mimikatz"))),
+        "expected a Mimikatz sigma rule"
+    );
+}
+
+#[test]
+fn query_flow_conti_returns_flow() {
+    let out = run(&["conti", "--format", "json"]);
+    assert_eq!(out.code, 0, "stderr: {}", out.stderr);
+    let v: serde_json::Value = serde_json::from_str(&out.stdout).unwrap();
+    let flows = v["flows"].as_array().expect("missing flows array");
+    assert!(
+        flows
+            .iter()
+            .any(|f| f["id"].as_str() == Some("conti_ransomware")),
+        "expected conti_ransomware flow"
+    );
+}
+
+#[test]
+fn query_profile_diamorphine_returns_profile() {
+    let out = run(&["diamorphine", "--format", "json"]);
+    assert_eq!(out.code, 0, "stderr: {}", out.stderr);
+    let v: serde_json::Value = serde_json::from_str(&out.stdout).unwrap();
+    let profiles = v["profiles"].as_array().expect("missing profiles array");
+    assert!(
+        profiles
+            .iter()
+            .any(|p| p["id"].as_str() == Some("diamorphine")),
+        "expected diamorphine profile"
+    );
+}
