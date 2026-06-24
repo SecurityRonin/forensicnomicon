@@ -496,6 +496,121 @@ pub const CREDENTIAL_PATTERNS: &[&str] = &[
     "eyJhbGciOi", // base64-encoded {"alg"
 ];
 
+// ── Pure PE-header offset decoders ────────────────────────────────────────────
+//
+// Zero-I/O decoders over caller-fetched header bytes. Each is bounds-checked,
+// panic-free (no `unwrap`/`expect`/index-panic), and returns `Option` so a
+// truncated or malformed buffer degrades to `None` rather than crashing.
+//
+// Offsets follow the Microsoft PE/COFF specification:
+// <https://learn.microsoft.com/en-us/windows/win32/debug/pe-format>.
+
+/// Offset of the `e_lfanew` field (u32, LE) within the DOS header.
+const DOS_E_LFANEW_OFFSET: usize = 0x3C;
+
+/// Offset of `NumberOfSections` (u16, LE) within the COFF file header.
+const COFF_NUMBER_OF_SECTIONS_OFFSET: usize = 6;
+
+/// Offset of `SizeOfOptionalHeader` (u16, LE) within the COFF file header.
+const COFF_SIZE_OF_OPTIONAL_HEADER_OFFSET: usize = 0x14;
+
+/// Optional-header `Magic` value identifying a 32-bit (PE32) image.
+const OPT_MAGIC_PE32: u16 = 0x010B;
+
+/// Optional-header `Magic` value identifying a 64-bit (PE32+) image.
+const OPT_MAGIC_PE32PLUS: u16 = 0x020B;
+
+/// Data-directory array base, as an offset from the start of a PE32
+/// optional header. (`NumberOfRvaAndSizes` @92, directories begin @96.)
+const PE32_DATA_DIR_OFFSET: usize = 96;
+
+/// Data-directory array base, as an offset from the start of a PE32+
+/// optional header.
+const PE32PLUS_DATA_DIR_OFFSET: usize = 112;
+
+/// Each PE section-table entry is 40 bytes.
+const SECTION_ENTRY_SIZE: usize = 40;
+
+/// Parsed fields of the COFF file header relevant to locating the section table.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct CoffHeader {
+    /// `NumberOfSections` — count of entries in the section table.
+    pub number_of_sections: u16,
+    /// `SizeOfOptionalHeader` — bytes of optional header following the COFF header.
+    pub size_of_optional_header: u16,
+}
+
+/// Optional-header `Magic`, distinguishing 32-bit (PE32) from 64-bit (PE32+) images.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum OptionalHeaderMagic {
+    /// PE32 — 32-bit image (`Magic` == 0x010B).
+    Pe32,
+    /// PE32+ — 64-bit image (`Magic` == 0x020B).
+    Pe32Plus,
+}
+
+impl OptionalHeaderMagic {
+    /// Offset of the data-directory array from the start of the optional header.
+    ///
+    /// PE32 and PE32+ place the directory array at different offsets because the
+    /// PE32+ header widens several fields to 64 bits.
+    #[must_use]
+    pub fn data_directory_offset(self) -> usize {
+        // RED stub
+        0
+    }
+}
+
+/// Parsed fields of a single 40-byte PE section-table entry.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct SectionEntry {
+    /// Section name (`Name[8]`), trailing NUL padding stripped.
+    pub name: Vec<u8>,
+    /// `VirtualSize` — size of the section when loaded into memory.
+    pub virtual_size: u32,
+    /// `VirtualAddress` — RVA of the section relative to the image base.
+    pub virtual_address: u32,
+}
+
+/// Reads `e_lfanew` (offset of the PE header) from a DOS header.
+///
+/// Validates the `MZ` magic and returns `None` if the buffer is too short or
+/// the magic is absent.
+#[must_use]
+pub fn parse_dos_header(_bytes: &[u8]) -> Option<u32> {
+    // RED stub
+    None
+}
+
+/// Parses the COFF file header from a slice positioned at the PE signature.
+///
+/// Validates the `PE\0\0` signature and returns `None` on a short or malformed
+/// buffer.
+#[must_use]
+pub fn parse_coff_header(_bytes: &[u8]) -> Option<CoffHeader> {
+    // RED stub
+    None
+}
+
+/// Classifies an optional header by its `Magic` field.
+///
+/// `bytes` must be positioned at the start of the optional header. Returns
+/// `None` for a short buffer or an unrecognized magic value.
+#[must_use]
+pub fn parse_optional_header_magic(_bytes: &[u8]) -> Option<OptionalHeaderMagic> {
+    // RED stub
+    None
+}
+
+/// Parses a single 40-byte section-table entry.
+///
+/// Returns `None` if fewer than 40 bytes are supplied.
+#[must_use]
+pub fn parse_section_entry(_bytes: &[u8]) -> Option<SectionEntry> {
+    // RED stub
+    None
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -628,5 +743,125 @@ mod tests {
         assert!(CREDENTIAL_PATTERNS.contains(&"api_key="));
         assert!(CREDENTIAL_PATTERNS.contains(&"AKIA"));
         assert!(CREDENTIAL_PATTERNS.contains(&"-----BEGIN"));
+    }
+
+    // ── PE-header offset decoders ──────────────────────────────────────────────
+
+    /// Builds a 64-byte DOS header with the `MZ` magic and a given `e_lfanew`.
+    fn dos_header(e_lfanew: u32) -> Vec<u8> {
+        let mut buf = vec![0u8; 0x40];
+        buf[0..2].copy_from_slice(&MZ_MAGIC);
+        buf[0x3C..0x40].copy_from_slice(&e_lfanew.to_le_bytes());
+        buf
+    }
+
+    /// Builds a COFF header slice starting at the `PE\0\0` signature.
+    ///
+    /// Offsets are relative to the signature: `NumberOfSections` @ +6,
+    /// `SizeOfOptionalHeader` @ +0x14 (signature 4 bytes + COFF field @ +16).
+    fn coff_header(number_of_sections: u16, size_of_optional_header: u16) -> Vec<u8> {
+        // 4-byte signature + 20-byte COFF file header = 24 bytes.
+        let mut buf = vec![0u8; 24];
+        buf[0..4].copy_from_slice(&PE_SIGNATURE);
+        buf[6..8].copy_from_slice(&number_of_sections.to_le_bytes());
+        buf[0x14..0x16].copy_from_slice(&size_of_optional_header.to_le_bytes());
+        buf
+    }
+
+    #[test]
+    fn dos_header_returns_e_lfanew() {
+        assert_eq!(parse_dos_header(&dos_header(0x80)), Some(0x80));
+        assert_eq!(parse_dos_header(&dos_header(0xF0)), Some(0xF0));
+    }
+
+    #[test]
+    fn dos_header_rejects_missing_mz_magic() {
+        let mut buf = dos_header(0x80);
+        buf[0] = b'X';
+        assert_eq!(parse_dos_header(&buf), None);
+    }
+
+    #[test]
+    fn dos_header_rejects_short_buffer() {
+        // Too short to hold e_lfanew @ 0x3C..0x40.
+        assert_eq!(parse_dos_header(&[b'M', b'Z']), None);
+        assert_eq!(parse_dos_header(&vec![0u8; 0x3F]), None);
+        assert_eq!(parse_dos_header(&[]), None);
+    }
+
+    #[test]
+    fn coff_header_parses_section_count_and_opt_size() {
+        let parsed = parse_coff_header(&coff_header(7, 0xF0)).expect("valid COFF");
+        assert_eq!(parsed.number_of_sections, 7);
+        assert_eq!(parsed.size_of_optional_header, 0xF0);
+    }
+
+    #[test]
+    fn coff_header_rejects_bad_signature() {
+        let mut buf = coff_header(2, 0xF0);
+        buf[1] = b'X'; // corrupt "PE\0\0"
+        assert_eq!(parse_coff_header(&buf), None);
+    }
+
+    #[test]
+    fn coff_header_rejects_short_buffer() {
+        assert_eq!(parse_coff_header(&PE_SIGNATURE), None);
+        assert_eq!(parse_coff_header(&[]), None);
+    }
+
+    #[test]
+    fn optional_header_magic_classifies_pe32_and_pe32plus() {
+        let pe32 = 0x010Bu16.to_le_bytes();
+        let pe32plus = 0x020Bu16.to_le_bytes();
+        assert_eq!(
+            parse_optional_header_magic(&pe32),
+            Some(OptionalHeaderMagic::Pe32)
+        );
+        assert_eq!(
+            parse_optional_header_magic(&pe32plus),
+            Some(OptionalHeaderMagic::Pe32Plus)
+        );
+    }
+
+    #[test]
+    fn optional_header_magic_rejects_unknown_and_short() {
+        assert_eq!(parse_optional_header_magic(&0x0000u16.to_le_bytes()), None);
+        assert_eq!(parse_optional_header_magic(&[0x0B]), None);
+        assert_eq!(parse_optional_header_magic(&[]), None);
+    }
+
+    #[test]
+    fn data_directory_offset_matches_spec() {
+        // PE32: NumberOfRvaAndSizes @92, directories @96.
+        assert_eq!(OptionalHeaderMagic::Pe32.data_directory_offset(), 96);
+        // PE32+: directories @112.
+        assert_eq!(OptionalHeaderMagic::Pe32Plus.data_directory_offset(), 112);
+    }
+
+    #[test]
+    fn section_entry_parses_name_vsize_and_vaddr() {
+        let mut buf = vec![0u8; 40];
+        buf[0..5].copy_from_slice(b".text");
+        buf[8..12].copy_from_slice(&0x1234u32.to_le_bytes()); // VirtualSize @8
+        buf[0xC..0x10].copy_from_slice(&0x1000u32.to_le_bytes()); // VirtualAddress @0xC
+        let entry = parse_section_entry(&buf).expect("valid entry");
+        assert_eq!(entry.name, b".text");
+        assert_eq!(entry.virtual_size, 0x1234);
+        assert_eq!(entry.virtual_address, 0x1000);
+    }
+
+    #[test]
+    fn section_entry_strips_nul_padding_only() {
+        // A full 8-byte name has no NUL terminator and must survive intact.
+        let mut buf = vec![0u8; 40];
+        buf[0..8].copy_from_slice(b".rdata12");
+        let entry = parse_section_entry(&buf).expect("valid entry");
+        assert_eq!(entry.name, b".rdata12");
+    }
+
+    #[test]
+    fn section_entry_rejects_short_buffer() {
+        assert_eq!(parse_section_entry(&vec![0u8; 39]), None);
+        assert_eq!(parse_section_entry(&[]), None);
     }
 }
