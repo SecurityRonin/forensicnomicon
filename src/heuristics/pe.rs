@@ -556,9 +556,25 @@ impl OptionalHeaderMagic {
     /// PE32+ header widens several fields to 64 bits.
     #[must_use]
     pub fn data_directory_offset(self) -> usize {
-        // RED stub
-        0
+        match self {
+            OptionalHeaderMagic::Pe32 => PE32_DATA_DIR_OFFSET,
+            OptionalHeaderMagic::Pe32Plus => PE32PLUS_DATA_DIR_OFFSET,
+        }
     }
+}
+
+/// Reads a little-endian `u16` at `offset`, or `None` if out of bounds.
+fn read_u16_le(bytes: &[u8], offset: usize) -> Option<u16> {
+    let end = offset.checked_add(2)?;
+    let slice = bytes.get(offset..end)?;
+    Some(u16::from_le_bytes(slice.try_into().ok()?))
+}
+
+/// Reads a little-endian `u32` at `offset`, or `None` if out of bounds.
+fn read_u32_le(bytes: &[u8], offset: usize) -> Option<u32> {
+    let end = offset.checked_add(4)?;
+    let slice = bytes.get(offset..end)?;
+    Some(u32::from_le_bytes(slice.try_into().ok()?))
 }
 
 /// Parsed fields of a single 40-byte PE section-table entry.
@@ -577,9 +593,11 @@ pub struct SectionEntry {
 /// Validates the `MZ` magic and returns `None` if the buffer is too short or
 /// the magic is absent.
 #[must_use]
-pub fn parse_dos_header(_bytes: &[u8]) -> Option<u32> {
-    // RED stub
-    None
+pub fn parse_dos_header(bytes: &[u8]) -> Option<u32> {
+    if bytes.get(..2)? != MZ_MAGIC {
+        return None;
+    }
+    read_u32_le(bytes, DOS_E_LFANEW_OFFSET)
 }
 
 /// Parses the COFF file header from a slice positioned at the PE signature.
@@ -587,9 +605,14 @@ pub fn parse_dos_header(_bytes: &[u8]) -> Option<u32> {
 /// Validates the `PE\0\0` signature and returns `None` on a short or malformed
 /// buffer.
 #[must_use]
-pub fn parse_coff_header(_bytes: &[u8]) -> Option<CoffHeader> {
-    // RED stub
-    None
+pub fn parse_coff_header(bytes: &[u8]) -> Option<CoffHeader> {
+    if bytes.get(..4)? != PE_SIGNATURE {
+        return None;
+    }
+    Some(CoffHeader {
+        number_of_sections: read_u16_le(bytes, COFF_NUMBER_OF_SECTIONS_OFFSET)?,
+        size_of_optional_header: read_u16_le(bytes, COFF_SIZE_OF_OPTIONAL_HEADER_OFFSET)?,
+    })
 }
 
 /// Classifies an optional header by its `Magic` field.
@@ -597,18 +620,30 @@ pub fn parse_coff_header(_bytes: &[u8]) -> Option<CoffHeader> {
 /// `bytes` must be positioned at the start of the optional header. Returns
 /// `None` for a short buffer or an unrecognized magic value.
 #[must_use]
-pub fn parse_optional_header_magic(_bytes: &[u8]) -> Option<OptionalHeaderMagic> {
-    // RED stub
-    None
+pub fn parse_optional_header_magic(bytes: &[u8]) -> Option<OptionalHeaderMagic> {
+    match read_u16_le(bytes, 0)? {
+        OPT_MAGIC_PE32 => Some(OptionalHeaderMagic::Pe32),
+        OPT_MAGIC_PE32PLUS => Some(OptionalHeaderMagic::Pe32Plus),
+        _ => None,
+    }
 }
 
 /// Parses a single 40-byte section-table entry.
 ///
 /// Returns `None` if fewer than 40 bytes are supplied.
 #[must_use]
-pub fn parse_section_entry(_bytes: &[u8]) -> Option<SectionEntry> {
-    // RED stub
-    None
+pub fn parse_section_entry(bytes: &[u8]) -> Option<SectionEntry> {
+    let entry = bytes.get(..SECTION_ENTRY_SIZE)?;
+    let raw_name = entry.get(..8)?;
+    let name_len = raw_name
+        .iter()
+        .position(|&b| b == 0)
+        .unwrap_or(raw_name.len());
+    Some(SectionEntry {
+        name: raw_name.get(..name_len)?.to_vec(),
+        virtual_size: read_u32_le(entry, 8)?,
+        virtual_address: read_u32_le(entry, 0xC)?,
+    })
 }
 
 #[cfg(test)]
@@ -784,8 +819,8 @@ mod tests {
     #[test]
     fn dos_header_rejects_short_buffer() {
         // Too short to hold e_lfanew @ 0x3C..0x40.
-        assert_eq!(parse_dos_header(&[b'M', b'Z']), None);
-        assert_eq!(parse_dos_header(&vec![0u8; 0x3F]), None);
+        assert_eq!(parse_dos_header(b"MZ"), None);
+        assert_eq!(parse_dos_header(&[0u8; 0x3F]), None);
         assert_eq!(parse_dos_header(&[]), None);
     }
 
@@ -861,7 +896,7 @@ mod tests {
 
     #[test]
     fn section_entry_rejects_short_buffer() {
-        assert_eq!(parse_section_entry(&vec![0u8; 39]), None);
+        assert_eq!(parse_section_entry(&[0u8; 39]), None);
         assert_eq!(parse_section_entry(&[]), None);
     }
 }
