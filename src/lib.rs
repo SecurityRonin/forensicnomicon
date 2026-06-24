@@ -157,6 +157,7 @@ pub mod chainsaw;
 pub mod decmpfs;
 pub mod dependencies;
 pub mod dmg;
+pub mod dpapi;
 pub mod drivers;
 pub mod eventids;
 pub mod evidence;
