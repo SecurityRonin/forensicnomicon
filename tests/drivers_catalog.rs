@@ -91,3 +91,28 @@ fn does_not_flag_empty_or_random() {
     assert!(!is_known_vulnerable_driver(""));
     assert!(!is_known_vulnerable_driver("totally-not-a-driver.sys"));
 }
+
+// --- GentleKiller / Gentlemen RaaS BYOVD drop-names (ESET, 18 Jun 2026) ---
+// https://www.welivesecurity.com/en/eset-research/killing-me-gently-inside-gentlemens-edr-killer-framework/
+#[test]
+fn flags_gentlekiller_byovd_drivers() {
+    // Driver filenames GentleKiller's 8 variants + bundled third-party tools
+    // drop to disk (ESET Tables 3-4 + IoC file table). Names-only leads.
+    for d in [
+        "eb.sys",              // Kaspersky variant (custom rootkit)
+        "nseckrnl.sys",        // FACEIT variant (NSecsoft NSecKrnl)
+        "gamedriverx64.sys",   // Valorant variant (Tower of Fantasy anti-cheat)
+        "vgk.sys",             // Valorant variant drop name (masquerades as Vanguard)
+        "stpm_old.sys",        // Javelin variant (Safetica ProcessMonitor, old)
+        "stpm_new.sys",        // Javelin variant (Safetica ProcessMonitor, new)
+        "dmx.sys",             // WatchDog variant (Zemana, CVE-2022-42045)
+        "360netmon_wfp.sys",   // Network Blocker variant (Qihoo 360)
+        "g11.sys",             // G11 variant drop name
+        "poisonx.sys",         // G11 variant (PoisonX rootkit)
+        "googleapiutil64.sys", // HexKiller (Baidu BdApi)
+        "throttleblood.sys",   // ThrottleBlood (ThrottleStop drop name)
+        "havoc.sys",           // HavocKiller (Huawei Audio)
+    ] {
+        assert!(is_known_vulnerable_driver(d), "GentleKiller driver not flagged: {d}");
+    }
+}
