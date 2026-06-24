@@ -770,6 +770,58 @@ pub const KNOWN_VULNERABLE_DRIVERS: &[&str] = &[
     "zyarkit.sys",
 ];
 
+/// A curated BYOVD driver: its on-disk **file basename** paired with the
+/// **service name(s)** it is registered under in 7045/4697 service-install
+/// events.
+///
+/// This is the bridge between the two BYOVD match surfaces — the image-basename
+/// denylist ([`KNOWN_VULNERABLE_DRIVERS`] / [`is_known_vulnerable_driver`]) and
+/// the EVTX service-install heuristic (which keys on the `ServiceName` field).
+/// A curated entry's [`file_basename`](VulnerableDriver::file_basename) is
+/// asserted (crate tests) to be present in [`KNOWN_VULNERABLE_DRIVERS`], so the
+/// two surfaces cannot drift.
+#[derive(Debug, Clone, Copy)]
+pub struct VulnerableDriver {
+    /// Lowercase `.sys` file basename — also present in [`KNOWN_VULNERABLE_DRIVERS`].
+    pub file_basename: &'static str,
+    /// Service name(s) seen in 7045/4697 `ServiceName` fields for this driver.
+    pub service_names: &'static [&'static str],
+    /// Human label / vendor product.
+    pub label: &'static str,
+}
+
+macro_rules! byovd_curated {
+    ($($base:literal => [$($svc:literal),* $(,)?], $label:literal);* $(;)?) => {
+        /// Curated BYOVD drivers with a known **basename ↔ service-name** mapping —
+        /// the single source of truth bridging the image denylist
+        /// ([`KNOWN_VULNERABLE_DRIVERS`]) and the EVTX service-install heuristic's
+        /// service-name list ([`crate::heuristics::evtx::BYOVD_DRIVER_NAMES`], which
+        /// is derived from this table).
+        pub const BYOVD_CURATED: &[VulnerableDriver] = &[
+            $( VulnerableDriver { file_basename: $base, service_names: &[$($svc),*], label: $label } ),*
+        ];
+        /// Service names of curated BYOVD drivers, **derived** from
+        /// [`BYOVD_CURATED`] (its flattened `service_names`). Matched
+        /// case-insensitively against the `ServiceName` of a 7045/4697
+        /// service-install EVTX event. Re-exported as
+        /// [`crate::heuristics::evtx::BYOVD_DRIVER_NAMES`].
+        pub const BYOVD_DRIVER_NAMES: &[&str] = &[ $($($svc),*),* ];
+    };
+}
+
+byovd_curated! {
+    "zamguard64.sys"  => ["ZemanaAntiMalware", "zamguard64", "ZAM"], "Zemana AntiMalware (QWCrypt / RedCurl)";
+    "gdrv.sys"        => ["gdrv"],           "Gigabyte App Center GDRV";
+    "asrdrv104.sys"   => ["AsrDrv104"],      "ASRock Motherboard Utility";
+    "asrdrv10.sys"    => ["AsrDrv10"],       "ASRock Motherboard Utility";
+    "rtcore64.sys"    => ["RTCore64"],       "MSI Afterburner / RTSS";
+    "dbutil_2_3.sys"  => ["dbutil_2_3"],     "Dell BIOS Utility (CVE-2021-21551)";
+    "atszio64.sys"    => ["ATSZIO64"],       "ASUSTeK I/O driver";
+    "winring0x64.sys" => ["WinRing0_1_2_0"], "WinRing0 (OpenLibSys)";
+    "cpuz_x64.sys"    => ["cpuz136_x64"],    "CPUID CPU-Z";
+    "speedfan.sys"    => ["speedfan"],       "Almico SpeedFan";
+}
+
 /// Returns `true` if `basename` is a known-vulnerable / known-malicious driver
 /// from the [LOLDrivers] dataset (case-insensitive; accepts the name with or
 /// without a `.sys` suffix).
