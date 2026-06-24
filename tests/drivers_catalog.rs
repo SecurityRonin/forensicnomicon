@@ -13,6 +13,8 @@
 //! driver abused by RobbinHood/many BYOVD campaigns; DBUtil_2_3 — the Dell
 //! firmware-update driver, CVE-2021-21551).
 
+#![allow(clippy::unwrap_used, clippy::expect_used)]
+
 use forensicnomicon::drivers::{is_known_vulnerable_driver, KNOWN_VULNERABLE_DRIVERS};
 
 #[test]
@@ -117,26 +119,19 @@ fn flags_gentlekiller_byovd_drivers() {
     }
 }
 
-// --- Unified BYOVD catalog: drift invariants (basename ↔ service-name) ---
+// --- Unified BYOVD catalog: drift invariants + LOLDrivers enrichment ---
 #[test]
-fn byovd_curated_basenames_are_in_denylist() {
-    // Every curated BYOVD driver's file basename MUST be in the image denylist,
-    // so the two match surfaces (image basename vs EVTX service name) can't drift.
-    for d in forensicnomicon::drivers::BYOVD_CURATED {
-        assert!(
-            KNOWN_VULNERABLE_DRIVERS.contains(&d.file_basename),
-            "curated BYOVD basename not in denylist: {} ({})",
-            d.file_basename, d.label
-        );
-        assert!(!d.service_names.is_empty(), "no service names: {}", d.file_basename);
-    }
+fn known_vulnerable_drivers_is_derived_from_byovd_drivers() {
+    use forensicnomicon::drivers::BYOVD_DRIVERS;
+    let basenames: Vec<&str> = BYOVD_DRIVERS.iter().map(|d| d.file_basename).collect();
+    assert_eq!(KNOWN_VULNERABLE_DRIVERS, basenames.as_slice());
 }
 
 #[test]
-fn byovd_driver_names_are_derived_from_curated() {
-    use forensicnomicon::drivers::BYOVD_CURATED;
+fn byovd_driver_names_are_derived_from_byovd_drivers() {
+    use forensicnomicon::drivers::BYOVD_DRIVERS;
     use forensicnomicon::heuristics::evtx::BYOVD_DRIVER_NAMES;
-    let derived: Vec<&str> = BYOVD_CURATED
+    let derived: Vec<&str> = BYOVD_DRIVERS
         .iter()
         .flat_map(|d| d.service_names.iter().copied())
         .collect();
@@ -149,4 +144,21 @@ fn byovd_driver_names_preserved() {
     for s in ["RTCore64", "dbutil_2_3", "WinRing0_1_2_0", "ZemanaAntiMalware", "speedfan"] {
         assert!(BYOVD_DRIVER_NAMES.contains(&s), "lost service name: {s}");
     }
+}
+
+#[test]
+fn byovd_drivers_are_enriched() {
+    use forensicnomicon::drivers::{BYOVD_DRIVERS, DriverCategory};
+    let by = |n: &str| BYOVD_DRIVERS.iter().find(|d| d.file_basename == n).unwrap();
+    let rt = by("rtcore64.sys");
+    assert!(!rt.loldrivers_id.is_empty(), "rtcore64 missing GUID");
+    assert!(rt.cve.contains(&"CVE-2019-16098"));
+    assert!(rt.mitre.contains(&"T1068"));
+    assert!(rt.edr_killer);
+    assert!(by("dbutil_2_3.sys").cve.contains(&"CVE-2021-21551"));
+    assert!(BYOVD_DRIVERS.iter().any(|d| d.category == DriverCategory::Malicious));
+    assert!(BYOVD_DRIVERS.iter().any(|d| d.loads_despite_hvci));
+    assert!(BYOVD_DRIVERS.iter().any(|d| !d.sha256.is_empty()));
+    let with_guid = BYOVD_DRIVERS.iter().filter(|d| !d.loldrivers_id.is_empty()).count();
+    assert!(with_guid >= 600, "GUID coverage regressed: {with_guid}");
 }
