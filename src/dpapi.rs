@@ -113,8 +113,28 @@ pub struct HashAlgInfo {
 /// SHA-512, 128-byte derive block). A caller may treat `None` as the historical
 /// SHA-1 default, but the unrecognised `algId` is surfaced rather than hidden.
 #[must_use]
-pub const fn hash_alg_info(_alg_id: u32) -> Option<HashAlgInfo> {
-    None // RED: not yet implemented
+pub const fn hash_alg_info(alg_id: u32) -> Option<HashAlgInfo> {
+    match alg_id {
+        CALG_SHA1 => Some(HashAlgInfo {
+            is_sha512: false,
+            digest_len: 20,
+            derive_block_len: 64,
+            hash_block_len: 64,
+        }),
+        CALG_HMAC => Some(HashAlgInfo {
+            is_sha512: true,
+            digest_len: 64,
+            derive_block_len: 64,
+            hash_block_len: 128,
+        }),
+        CALG_SHA_512 => Some(HashAlgInfo {
+            is_sha512: true,
+            digest_len: 64,
+            derive_block_len: 128,
+            hash_block_len: 128,
+        }),
+        _ => None,
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -137,8 +157,18 @@ pub struct CipherAlgInfo {
 ///
 /// Recognises [`CALG_AES_256`] (`0x6610`) and [`CALG_3DES`] (`0x6603`).
 #[must_use]
-pub const fn cipher_alg_info(_alg_id: u32) -> Option<CipherAlgInfo> {
-    None // RED: not yet implemented
+pub const fn cipher_alg_info(alg_id: u32) -> Option<CipherAlgInfo> {
+    match alg_id {
+        CALG_AES_256 => Some(CipherAlgInfo {
+            key_len: 32,
+            iv_len: 16,
+        }),
+        CALG_3DES => Some(CipherAlgInfo {
+            key_len: 24,
+            iv_len: 8,
+        }),
+        _ => None,
+    }
 }
 
 #[cfg(test)]
