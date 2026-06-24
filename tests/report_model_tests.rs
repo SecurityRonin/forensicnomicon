@@ -64,7 +64,9 @@ fn finding_builder_assembles_a_rated_observation() {
         vec![ExternalRef::mitre_attack("T1565.001")]
     );
     assert_eq!(f.context.confidence.map(Confidence::get), Some(0.9));
-    assert_eq!(f.context.occurrences.map(std::num::NonZero::get), Some(3));
+    // `|n| n.get()` over the concrete NonZero type — the generic `std::num::NonZero`
+    // path is 1.79+, but the inherent `.get()` is 1.75-compatible (MSRV gate).
+    assert_eq!(f.context.occurrences.map(|n| n.get()), Some(3));
     assert_eq!(f.context.tags, vec!["rgd"]);
 }
 
