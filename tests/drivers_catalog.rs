@@ -116,3 +116,37 @@ fn flags_gentlekiller_byovd_drivers() {
         assert!(is_known_vulnerable_driver(d), "GentleKiller driver not flagged: {d}");
     }
 }
+
+// --- Unified BYOVD catalog: drift invariants (basename ↔ service-name) ---
+#[test]
+fn byovd_curated_basenames_are_in_denylist() {
+    // Every curated BYOVD driver's file basename MUST be in the image denylist,
+    // so the two match surfaces (image basename vs EVTX service name) can't drift.
+    for d in forensicnomicon::drivers::BYOVD_CURATED {
+        assert!(
+            KNOWN_VULNERABLE_DRIVERS.contains(&d.file_basename),
+            "curated BYOVD basename not in denylist: {} ({})",
+            d.file_basename, d.label
+        );
+        assert!(!d.service_names.is_empty(), "no service names: {}", d.file_basename);
+    }
+}
+
+#[test]
+fn byovd_driver_names_are_derived_from_curated() {
+    use forensicnomicon::drivers::BYOVD_CURATED;
+    use forensicnomicon::heuristics::evtx::BYOVD_DRIVER_NAMES;
+    let derived: Vec<&str> = BYOVD_CURATED
+        .iter()
+        .flat_map(|d| d.service_names.iter().copied())
+        .collect();
+    assert_eq!(BYOVD_DRIVER_NAMES, derived.as_slice());
+}
+
+#[test]
+fn byovd_driver_names_preserved() {
+    use forensicnomicon::heuristics::evtx::BYOVD_DRIVER_NAMES;
+    for s in ["RTCore64", "dbutil_2_3", "WinRing0_1_2_0", "ZemanaAntiMalware", "speedfan"] {
+        assert!(BYOVD_DRIVER_NAMES.contains(&s), "lost service name: {s}");
+    }
+}
