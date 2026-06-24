@@ -261,7 +261,7 @@ impl App {
 
     // ── Dataset ───────────────────────────────────────────────────────────
 
-    pub const DATASET_COUNT: usize = 13;
+    pub const DATASET_COUNT: usize = 15;
 
     pub fn switch_dataset(&mut self, idx: usize) {
         if idx < Self::DATASET_COUNT {

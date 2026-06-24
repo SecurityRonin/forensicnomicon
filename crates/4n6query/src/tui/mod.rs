@@ -6,6 +6,7 @@ pub mod keys;
 pub mod search;
 pub mod theme;
 pub mod ui;
+use crate::indicators::{IndicatorKind, INDICATOR_SOURCES};
 use crate::tui::app::WinVersionFilter;
 use crossterm::{
     event::{self, DisableMouseCapture, EnableMouseCapture, Event},
@@ -17,6 +18,7 @@ use forensicnomicon::{
     abusable_sites::{ABUSABLE_SITES, TAG_C2, TAG_DOWNLOAD, TAG_EXFIL, TAG_EXPLOIT, TAG_PHISHING},
     attack_flow::all_flows,
     catalog::{ArtifactDescriptor, OsScope, Platform, CATALOG},
+    drivers::{DriverCategory, BYOVD_DRIVERS},
     eventids::EVENT_ID_TABLE,
     lolbins::{
         lolbas_entry, LolbasEntry, LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS,
@@ -254,6 +256,14 @@ fn build_render_data(app: &app::App) -> RenderData {
             v.push("Known RAT Names  [RAT]".to_string());
             v
         }
+        13 => BYOVD_DRIVERS
+            .iter()
+            .map(|d| d.file_basename.to_string())
+            .collect(),
+        14 => INDICATOR_SOURCES
+            .iter()
+            .map(|s| s.label.to_string())
+            .collect(),
         _ => vec![],
     };
 
@@ -614,6 +624,76 @@ fn build_render_data(app: &app::App) -> RenderData {
                     }
                 }
                 None => vec!["Select a tool to see registry paths.".into()],
+            }
+        }
+        13 => {
+            let driver = selected_name
+                .and_then(|name| BYOVD_DRIVERS.iter().find(|d| d.file_basename == name));
+            match driver {
+                Some(d) => {
+                    let cat = match d.category {
+                        DriverCategory::Malicious => "malicious",
+                        DriverCategory::Vulnerable => "vulnerable driver",
+                    };
+                    let mut lines = vec![
+                        d.file_basename.to_string(),
+                        "─".repeat(40),
+                        format!("Category: {cat}"),
+                    ];
+                    if !d.label.is_empty() {
+                        lines.push(d.label.to_string());
+                    }
+                    if d.edr_killer {
+                        lines.push("EDR-killer".into());
+                    }
+                    if d.loads_despite_hvci {
+                        lines.push("Loads despite HVCI".into());
+                    }
+                    if !d.cve.is_empty() {
+                        lines.push(format!("CVE: {}", d.cve.join(", ")));
+                    }
+                    if !d.mitre.is_empty() {
+                        lines.push(format!("MITRE: {}", d.mitre.join(", ")));
+                    }
+                    if !d.service_names.is_empty() {
+                        lines.push(format!("Service names: {}", d.service_names.join(", ")));
+                    }
+                    if !d.loldrivers_id.is_empty() {
+                        lines.push(format!("LOLDrivers: {}", d.loldrivers_id));
+                    }
+                    if let Some(h) = d.sha256.first() {
+                        lines.push(format!("SHA256: {h}"));
+                    }
+                    lines
+                }
+                None => vec!["Select a driver to see details.".into()],
+            }
+        }
+        14 => {
+            let src =
+                selected_name.and_then(|name| INDICATOR_SOURCES.iter().find(|s| s.label == name));
+            match src {
+                Some(s) => {
+                    let kind = match s.kind {
+                        IndicatorKind::Name => "name match",
+                        IndicatorKind::Pattern => "command-line pattern",
+                    };
+                    let mut lines = vec![
+                        s.label.to_string(),
+                        "─".repeat(40),
+                        format!("Indicator kind: {kind}"),
+                    ];
+                    if !s.mitre.is_empty() {
+                        lines.push(format!("MITRE: {}", s.mitre.join(", ")));
+                    }
+                    lines.push(String::new());
+                    lines.push(format!("Entries ({}):", s.table.len()));
+                    for e in s.table {
+                        lines.push(format!("  {e}"));
+                    }
+                    lines
+                }
+                None => vec!["Select an indicator group to see entries.".into()],
             }
         }
         _ => vec!["Select an item to see details.".into()],
