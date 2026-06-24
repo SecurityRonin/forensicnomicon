@@ -6,6 +6,8 @@
 //! ```text
 //! # Universal lookup — binary, domain, MITRE technique, or keyword
 //! 4n6query certutil.exe
+//! 4n6query rtcore64.sys          # BYOVD vulnerable driver (CVE / MITRE / SHA-256)
+//! 4n6query mimikatz             # threat indicator (credential-access tool, …)
 //! 4n6query certutil.exe --platform windows
 //! 4n6query raw.githubusercontent.com
 //! 4n6query userassist
@@ -21,7 +23,7 @@
 //!
 //! # Bulk export for SIEM/SOAR
 //! 4n6query dump
-//! 4n6query dump --dataset lolbas|sites|catalog|all
+//! 4n6query dump --dataset lolbas|sites|catalog|drivers|indicators|all
 //! 4n6query dump --format yaml
 //! ```
 
@@ -40,6 +42,32 @@ use forensicnomicon::lolbins::{
 use forensicnomicon::playbooks::{
     path_by_id, playbook_by_id, InvestigationPath, INVESTIGATION_PATHS, PLAYBOOKS,
 };
+use forensicnomicon::drivers::{DriverCategory, VulnerableDriver, BYOVD_DRIVERS};
+use forensicnomicon::heuristics::evtx::{
+    AMSI_BYPASS_PATTERNS, ARCHIVER_PROCESS_NAMES, BROWSER_PROCESS_NAMES, COMSVCS_MINIDUMP_PATTERNS,
+    DEFENDER_TAMPER_PATTERNS, PSEXEC_SERVICE_PATTERNS, VSSADMIN_SHADOW_DELETE_PATTERNS,
+    WEBDAV_COMMANDLINE_INDICATORS,
+};
+use forensicnomicon::heuristics::pe::{CREDENTIAL_PATTERNS, NETWORK_C2_PATTERNS};
+use forensicnomicon::antiforensics::{
+    KNOWN_ROOTKIT_NAMES, LOG_WIPE_COMMANDS, SECURE_DELETE_TOOLS, SHADOW_COPY_DELETION_PATTERNS,
+    TIMESTOMP_INDICATORS,
+};
+use forensicnomicon::commands::{
+    CREDENTIAL_DUMP_PATTERNS, DEFENSE_EVASION_PATTERNS, DOWNLOAD_TOOL_PATTERNS,
+    LATERAL_MOVEMENT_PATTERNS, POWERSHELL_ABUSE_PATTERNS, RECON_PATTERNS, REVERSE_SHELL_PATTERNS,
+    WMI_ABUSE_PATTERNS,
+};
+use forensicnomicon::processes::{
+    CREDENTIAL_ACCESS_TOOLS, KNOWN_MALWARE_PROCESS_NAMES, LSASS_ACCESS_TOOLS,
+    WINDOWS_MASQUERADE_TARGETS,
+};
+use forensicnomicon::heuristics::ransomware::{
+    RANSOMWARE_KILL_PROCESSES, RANSOMWARE_STOP_SERVICES, RANSOM_NOTE_FILENAMES,
+};
+use forensicnomicon::remote_access::KNOWN_RAT_NAMES;
+use forensicnomicon::rootkit::KNOWN_LD_PRELOAD_ROOTKITS;
+use forensicnomicon::shell_history::{DOWNLOAD_PIPE_TO_SHELL_PATTERNS, HISTORY_CLEARING_PATTERNS};
 use std::process;
 
 // ---------------------------------------------------------------------------
@@ -54,6 +82,7 @@ use std::process;
     long_about = "Look up any binary, domain, MITRE technique, or keyword across all forensicnomicon datasets.\n\n\
                   Examples:\n  \
                   4n6query certutil.exe\n  \
+                  4n6query rtcore64.sys\n  \
                   4n6query raw.githubusercontent.com\n  \
                   4n6query userassist\n  \
                   4n6query T1547.001\n  \
@@ -161,6 +190,8 @@ enum Dataset {
     Lolbas,
     Sites,
     Catalog,
+    Drivers,
+    Indicators,
 }
 
 const ALL_PLATFORMS: &[(Platform, &str, &[LolbasEntry])] = &[
@@ -175,6 +206,133 @@ const ALL_PLATFORMS: &[(Platform, &str, &[LolbasEntry])] = &[
     (Platform::WindowsMmc, "windows-mmc", LOLBAS_WINDOWS_MMC),
     (Platform::WindowsWmi, "windows-wmi", LOLBAS_WINDOWS_WMI),
 ];
+
+// ---------------------------------------------------------------------------
+// Indicator index — term-queryable threat-knowledge tables (names + patterns)
+// ---------------------------------------------------------------------------
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum IndicatorKind {
+    /// Tool / process / file name — match by basename equality or containment.
+    Name,
+    /// Command-line / CLI substring — match either direction (fragment of a command).
+    Pattern,
+}
+
+struct IndicatorSource {
+    label: &'static str,
+    kind: IndicatorKind,
+    mitre: &'static [&'static str],
+    table: &'static [&'static str],
+}
+
+use IndicatorKind::{Name, Pattern};
+const INDICATOR_SOURCES: &[IndicatorSource] = &[
+    // ── names ────────────────────────────────────────────────────────────────
+    IndicatorSource { label: "remote-access trojan (RAT)", kind: Name, mitre: &["T1219"], table: KNOWN_RAT_NAMES },
+    IndicatorSource { label: "known malware process", kind: Name, mitre: &[], table: KNOWN_MALWARE_PROCESS_NAMES },
+    IndicatorSource { label: "credential-access tool", kind: Name, mitre: &["T1003"], table: CREDENTIAL_ACCESS_TOOLS },
+    IndicatorSource { label: "LSASS-access tool", kind: Name, mitre: &["T1003.001"], table: LSASS_ACCESS_TOOLS },
+    IndicatorSource { label: "common masquerade target", kind: Name, mitre: &["T1036.005"], table: WINDOWS_MASQUERADE_TARGETS },
+    IndicatorSource { label: "known rootkit", kind: Name, mitre: &["T1014"], table: KNOWN_ROOTKIT_NAMES },
+    IndicatorSource { label: "LD_PRELOAD rootkit", kind: Name, mitre: &["T1574.006"], table: KNOWN_LD_PRELOAD_ROOTKITS },
+    IndicatorSource { label: "secure-delete / anti-forensics tool", kind: Name, mitre: &["T1070.004"], table: SECURE_DELETE_TOOLS },
+    IndicatorSource { label: "ransom-note filename", kind: Name, mitre: &["T1486"], table: RANSOM_NOTE_FILENAMES },
+    IndicatorSource { label: "process terminated by ransomware", kind: Name, mitre: &["T1489"], table: RANSOMWARE_KILL_PROCESSES },
+    IndicatorSource { label: "service stopped by ransomware", kind: Name, mitre: &["T1489"], table: RANSOMWARE_STOP_SERVICES },
+    IndicatorSource { label: "archiver (staging / exfil)", kind: Name, mitre: &["T1560"], table: ARCHIVER_PROCESS_NAMES },
+    IndicatorSource { label: "browser process", kind: Name, mitre: &[], table: BROWSER_PROCESS_NAMES },
+    // ── command-line patterns ─────────────────────────────────────────────────
+    IndicatorSource { label: "lateral-movement command", kind: Pattern, mitre: &["T1021"], table: LATERAL_MOVEMENT_PATTERNS },
+    IndicatorSource { label: "discovery / recon command", kind: Pattern, mitre: &["T1087"], table: RECON_PATTERNS },
+    IndicatorSource { label: "credential-dumping command", kind: Pattern, mitre: &["T1003"], table: CREDENTIAL_DUMP_PATTERNS },
+    IndicatorSource { label: "defense-evasion command", kind: Pattern, mitre: &["T1562"], table: DEFENSE_EVASION_PATTERNS },
+    IndicatorSource { label: "reverse-shell command", kind: Pattern, mitre: &["T1059"], table: REVERSE_SHELL_PATTERNS },
+    IndicatorSource { label: "PowerShell abuse", kind: Pattern, mitre: &["T1059.001"], table: POWERSHELL_ABUSE_PATTERNS },
+    IndicatorSource { label: "WMI abuse", kind: Pattern, mitre: &["T1047"], table: WMI_ABUSE_PATTERNS },
+    IndicatorSource { label: "download command", kind: Pattern, mitre: &["T1105"], table: DOWNLOAD_TOOL_PATTERNS },
+    IndicatorSource { label: "log-wipe command", kind: Pattern, mitre: &["T1070.001"], table: LOG_WIPE_COMMANDS },
+    IndicatorSource { label: "timestomp indicator", kind: Pattern, mitre: &["T1070.006"], table: TIMESTOMP_INDICATORS },
+    IndicatorSource { label: "shadow-copy deletion", kind: Pattern, mitre: &["T1490"], table: SHADOW_COPY_DELETION_PATTERNS },
+    IndicatorSource { label: "vssadmin shadow delete", kind: Pattern, mitre: &["T1490"], table: VSSADMIN_SHADOW_DELETE_PATTERNS },
+    IndicatorSource { label: "shell-history clearing", kind: Pattern, mitre: &["T1070.003"], table: HISTORY_CLEARING_PATTERNS },
+    IndicatorSource { label: "download-pipe-to-shell", kind: Pattern, mitre: &["T1059.004"], table: DOWNLOAD_PIPE_TO_SHELL_PATTERNS },
+    IndicatorSource { label: "AMSI bypass", kind: Pattern, mitre: &["T1562.001"], table: AMSI_BYPASS_PATTERNS },
+    IndicatorSource { label: "Defender tamper", kind: Pattern, mitre: &["T1562.001"], table: DEFENDER_TAMPER_PATTERNS },
+    IndicatorSource { label: "PsExec service", kind: Pattern, mitre: &["T1569.002"], table: PSEXEC_SERVICE_PATTERNS },
+    IndicatorSource { label: "comsvcs LSASS minidump", kind: Pattern, mitre: &["T1003.001"], table: COMSVCS_MINIDUMP_PATTERNS },
+    IndicatorSource { label: "WebDAV delivery", kind: Pattern, mitre: &["T1105"], table: WEBDAV_COMMANDLINE_INDICATORS },
+    IndicatorSource { label: "C2 network pattern", kind: Pattern, mitre: &["T1071"], table: NETWORK_C2_PATTERNS },
+    IndicatorSource { label: "credential string pattern", kind: Pattern, mitre: &["T1003"], table: CREDENTIAL_PATTERNS },
+];
+
+fn norm(s: &str) -> String {
+    s.trim().to_ascii_lowercase()
+}
+
+/// A BYOVD driver lookup: match `term` to a basename or a service name.
+fn lookup_drivers(term: &str) -> Vec<&'static VulnerableDriver> {
+    let t = norm(term);
+    let t_sys = if t.ends_with(".sys") { t.clone() } else { format!("{t}.sys") };
+    BYOVD_DRIVERS
+        .iter()
+        .filter(|d| {
+            d.file_basename == t
+                || d.file_basename == t_sys
+                || d.service_names.iter().any(|s| norm(s) == t)
+        })
+        .collect()
+}
+
+/// Indicator-table lookup: returns (source, matched-entry) for each hit.
+fn lookup_indicators(term: &str) -> Vec<(&'static IndicatorSource, &'static str)> {
+    let t = norm(term);
+    if t.len() < 3 {
+        return vec![];
+    }
+    let mut hits = Vec::new();
+    for src in INDICATOR_SOURCES {
+        for &entry in src.table {
+            let e = norm(entry);
+            let m = match src.kind {
+                IndicatorKind::Name => {
+                    t == e || (t.len() >= 3 && e.len() >= 3 && (t.contains(&e) || e.contains(&t)))
+                }
+                IndicatorKind::Pattern => {
+                    // require >=4-char patterns to avoid short-substring false positives
+                    t.len() >= 4 && e.len() >= 4 && (t.contains(&e) || e.contains(&t))
+                }
+            };
+            if m {
+                hits.push((src, entry));
+            }
+        }
+    }
+    hits
+}
+
+fn driver_to_json(d: &VulnerableDriver) -> serde_json::Value {
+    serde_json::json!({
+        "file_basename": d.file_basename,
+        "label": d.label,
+        "category": match d.category { DriverCategory::Malicious => "malicious", DriverCategory::Vulnerable => "vulnerable driver" },
+        "loldrivers_id": d.loldrivers_id,
+        "cve": d.cve,
+        "mitre_techniques": d.mitre,
+        "sha256": d.sha256,
+        "service_names": d.service_names,
+        "loads_despite_hvci": d.loads_despite_hvci,
+        "edr_killer": d.edr_killer,
+    })
+}
+
+fn indicator_to_json(src: &IndicatorSource, matched: &str) -> serde_json::Value {
+    serde_json::json!({
+        "matched": matched,
+        "category": src.label,
+        "mitre_techniques": src.mitre,
+    })
+}
 
 // ---------------------------------------------------------------------------
 // Main
@@ -209,7 +367,7 @@ fn main() {
         eprintln!("Usage: 4n6query <term> [--platform <p>] [--format json|yaml]");
         eprintln!("       4n6query --triage");
         eprintln!("       4n6query --playbook [<id>]");
-        eprintln!("       4n6query dump [--dataset all|lolbas|sites|catalog]");
+        eprintln!("       4n6query dump [--dataset all|lolbas|sites|catalog|drivers|indicators]");
         eprintln!("       4n6query --help");
         1
     };
@@ -249,6 +407,10 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
     // 2. Abusable site lookup
     let site_hit = abusable_site_info(term);
 
+    // 2b. BYOVD vulnerable-driver + threat-indicator lookups.
+    let driver_hits = lookup_drivers(term);
+    let indicator_hits = lookup_indicators(term);
+
     // 3. MITRE technique or keyword search for catalog artifacts.
     // Suppressed when --platform is specified: the user is asking about a
     // specific LOLBin platform, not doing a broad keyword search.
@@ -273,7 +435,12 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
             .collect()
     };
 
-    if lolbas_hits.is_empty() && site_hit.is_none() && artifact_hits.is_empty() {
+    if lolbas_hits.is_empty()
+        && site_hit.is_none()
+        && artifact_hits.is_empty()
+        && driver_hits.is_empty()
+        && indicator_hits.is_empty()
+    {
         eprintln!(
             "Not found: '{term}' — no matches in LOLBins, abusable sites, or artifact catalog"
         );
@@ -293,6 +460,17 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
             if let Some(site) = site_hit {
                 let arr = vec![site_to_json(site)];
                 obj.insert("sites".into(), serde_json::Value::Array(arr));
+            }
+            if !driver_hits.is_empty() {
+                let arr: Vec<_> = driver_hits.iter().map(|d| driver_to_json(d)).collect();
+                obj.insert("drivers".into(), serde_json::Value::Array(arr));
+            }
+            if !indicator_hits.is_empty() {
+                let arr: Vec<_> = indicator_hits
+                    .iter()
+                    .map(|(src, m)| indicator_to_json(src, m))
+                    .collect();
+                obj.insert("indicators".into(), serde_json::Value::Array(arr));
             }
             if !artifact_hits.is_empty() {
                 let arr: Vec<_> = artifact_hits
@@ -336,6 +514,57 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
                     category_label(site.legitimate_category)
                 );
                 println!("      MITRE    : {}", site.mitre_techniques.join(", "));
+            }
+            for d in &driver_hits {
+                let cat = match d.category {
+                    DriverCategory::Malicious => "malicious",
+                    DriverCategory::Vulnerable => "vulnerable driver",
+                };
+                let ek = if d.edr_killer { "  EDR-killer" } else { "" };
+                println!("BYOVD  {}  [{cat}]{ek}", d.file_basename);
+                if !d.label.is_empty() {
+                    println!("       {}", d.label);
+                }
+                if !d.cve.is_empty() {
+                    println!("       CVE: {}", d.cve.join(", "));
+                }
+                if !d.mitre.is_empty() {
+                    println!("       MITRE: {}", d.mitre.join(", "));
+                }
+                if !d.service_names.is_empty() {
+                    println!("       Service names: {}", d.service_names.join(", "));
+                }
+                if d.loads_despite_hvci {
+                    println!("       Loads despite HVCI");
+                }
+                if !d.loldrivers_id.is_empty() {
+                    println!("       LOLDrivers: {}", d.loldrivers_id);
+                }
+                if let Some(h) = d.sha256.first() {
+                    println!("       SHA256: {h}");
+                }
+            }
+            let mut seen_labels: Vec<&str> = Vec::new();
+            for (src, _) in &indicator_hits {
+                if seen_labels.contains(&src.label) {
+                    continue;
+                }
+                seen_labels.push(src.label);
+                let mut matches: Vec<&str> = indicator_hits
+                    .iter()
+                    .filter(|(s, _)| s.label == src.label)
+                    .map(|(_, m)| *m)
+                    .collect();
+                matches.dedup();
+                let shown = if matches.len() > 8 {
+                    format!("{}, … (+{} more)", matches[..8].join(", "), matches.len() - 8)
+                } else {
+                    matches.join(", ")
+                };
+                println!("INDICATOR  [{}]  matched: {shown}", src.label);
+                if !src.mitre.is_empty() {
+                    println!("           MITRE: {}", src.mitre.join(", "));
+                }
             }
             if !artifact_hits.is_empty() {
                 for d in &artifact_hits {
@@ -575,6 +804,24 @@ fn run_dump(format: Format, dataset: Dataset) -> i32 {
         let arr: Vec<_> = CATALOG.list().iter().map(descriptor_to_json).collect();
         obj.insert("catalog".into(), serde_json::Value::Array(arr));
     }
+    if matches!(dataset, Dataset::All | Dataset::Drivers) {
+        let arr: Vec<_> = BYOVD_DRIVERS.iter().map(driver_to_json).collect();
+        obj.insert("byovd_drivers".into(), serde_json::Value::Array(arr));
+    }
+    if matches!(dataset, Dataset::All | Dataset::Indicators) {
+        let mut ind = serde_json::Map::new();
+        for src in INDICATOR_SOURCES {
+            ind.insert(
+                src.label.into(),
+                serde_json::json!({
+                    "kind": match src.kind { IndicatorKind::Name => "name", IndicatorKind::Pattern => "pattern" },
+                    "mitre": src.mitre,
+                    "entries": src.table,
+                }),
+            );
+        }
+        obj.insert("indicators".into(), serde_json::Value::Object(ind));
+    }
 
     let val = serde_json::Value::Object(obj);
     match format {
@@ -770,5 +1017,38 @@ fn category_label(c: SiteCategory) -> &'static str {
         SiteCategory::UrlShortener => "URL Shortener",
         SiteCategory::DnsService => "DNS Service",
         SiteCategory::Other => "Other",
+    }
+}
+
+#[cfg(test)]
+mod indicator_tests {
+    use super::*;
+
+    #[test]
+    fn finds_byovd_driver_by_basename() {
+        let h = lookup_drivers("rtcore64.sys");
+        assert!(h.iter().any(|d| d.file_basename == "rtcore64.sys" && !d.loldrivers_id.is_empty()));
+        assert!(!lookup_drivers("rtcore64").is_empty()); // .sys optional
+    }
+
+    #[test]
+    fn finds_byovd_driver_by_service_name() {
+        assert!(lookup_drivers("RTCore64").iter().any(|d| d.file_basename == "rtcore64.sys"));
+    }
+
+    #[test]
+    fn finds_lateral_movement_pattern() {
+        assert!(lookup_indicators("wmiexec").iter().any(|(s, _)| s.label.contains("lateral")));
+    }
+
+    #[test]
+    fn short_term_yields_nothing() {
+        assert!(lookup_indicators("a").is_empty());
+    }
+
+    #[test]
+    fn unknown_term_no_hits() {
+        assert!(lookup_drivers("definitely-not-a-driver").is_empty());
+        assert!(lookup_indicators("zzqxnotarealthing").is_empty());
     }
 }
