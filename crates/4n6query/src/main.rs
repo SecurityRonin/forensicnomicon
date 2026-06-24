@@ -35,8 +35,10 @@ use clap::{Parser, Subcommand, ValueEnum};
 use forensicnomicon::abusable_sites::{
     abusable_site_info, BlockingRisk, SiteCategory, ABUSABLE_SITES,
 };
+use forensicnomicon::attack_flow::{all_flows, AttackFlow};
 use forensicnomicon::catalog::{TriagePriority, CATALOG};
 use forensicnomicon::drivers::{DriverCategory, VulnerableDriver, BYOVD_DRIVERS};
+use forensicnomicon::eventids::{event_entry, EventIdEntry, EVENT_ID_TABLE};
 use forensicnomicon::lolbins::{
     lolbas_entry, LolbasEntry, LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS, LOLBAS_WINDOWS_CMDLETS,
     LOLBAS_WINDOWS_MMC, LOLBAS_WINDOWS_WMI,
@@ -44,6 +46,9 @@ use forensicnomicon::lolbins::{
 use forensicnomicon::playbooks::{
     path_by_id, playbook_by_id, InvestigationPath, INVESTIGATION_PATHS, PLAYBOOKS,
 };
+use forensicnomicon::sigma::{SigmaRef, SIGMA_TABLE};
+use forensicnomicon::threat_intel::profile::{MalwareClass, MalwareProfile};
+use forensicnomicon::threat_intel::profiles::ALL_PROFILES;
 use std::process;
 
 use crate::indicators::{IndicatorKind, IndicatorSource, INDICATOR_SOURCES};
@@ -170,6 +175,10 @@ enum Dataset {
     Catalog,
     Drivers,
     Indicators,
+    EventIds,
+    Sigma,
+    Flows,
+    Profiles,
 }
 
 const ALL_PLATFORMS: &[(Platform, &str, &[LolbasEntry])] = &[
@@ -257,6 +266,108 @@ fn indicator_to_json(src: &IndicatorSource, matched: &str) -> serde_json::Value 
     })
 }
 
+/// Windows Event ID lookup: an all-digit term is matched against the table.
+fn lookup_events(term: &str) -> Vec<&'static EventIdEntry> {
+    match term.trim().parse::<u32>() {
+        Ok(id) => event_entry(id).into_iter().collect(),
+        Err(_) => vec![],
+    }
+}
+
+/// Sigma rule lookup: substring match on rule title or log-source category.
+fn lookup_sigma(term: &str) -> Vec<&'static SigmaRef> {
+    let t = norm(term);
+    if t.len() < 3 {
+        return vec![];
+    }
+    SIGMA_TABLE
+        .iter()
+        .filter(|r| norm(r.title).contains(&t) || norm(r.logsource_category).contains(&t))
+        .collect()
+}
+
+/// Attack-flow lookup: substring match on flow id or name.
+fn lookup_flows(term: &str) -> Vec<&'static AttackFlow> {
+    let t = norm(term);
+    if t.len() < 3 {
+        return vec![];
+    }
+    all_flows()
+        .iter()
+        .filter(|f| norm(f.id).contains(&t) || norm(f.name).contains(&t))
+        .collect()
+}
+
+/// Malware-profile lookup: substring match on id, family, or any alias.
+fn lookup_profiles(term: &str) -> Vec<&'static MalwareProfile> {
+    let t = norm(term);
+    if t.len() < 3 {
+        return vec![];
+    }
+    ALL_PROFILES
+        .iter()
+        .copied()
+        .filter(|p| {
+            norm(p.id).contains(&t)
+                || norm(p.family).contains(&t)
+                || p.aliases.iter().any(|a| norm(a).contains(&t))
+        })
+        .collect()
+}
+
+fn event_to_json(e: &EventIdEntry) -> serde_json::Value {
+    serde_json::json!({
+        "event_id": e.event_id,
+        "channel": e.channel,
+        "description": e.description,
+        "mitre_techniques": e.mitre_techniques,
+        "artifact_ids": e.artifact_ids,
+        "high_value": e.high_value,
+    })
+}
+
+fn sigma_to_json(r: &SigmaRef) -> serde_json::Value {
+    serde_json::json!({
+        "rule_id": r.rule_id,
+        "title": r.title,
+        "artifact_id": r.artifact_id,
+        "logsource_category": r.logsource_category,
+        "mitre_techniques": r.mitre_techniques,
+    })
+}
+
+fn flow_to_json(f: &AttackFlow) -> serde_json::Value {
+    serde_json::json!({
+        "id": f.id,
+        "name": f.name,
+        "description": f.description,
+        "action_count": f.actions.len(),
+    })
+}
+
+fn malware_class_label(c: MalwareClass) -> &'static str {
+    match c {
+        MalwareClass::LdPreloadProcessHider => "ld_preload process hider",
+        MalwareClass::LdPreloadPamHooker => "ld_preload PAM hooker",
+        MalwareClass::LdPreloadNetworkHider => "ld_preload network hider",
+        MalwareClass::LdPreloadFullRootkit => "ld_preload full rootkit",
+        MalwareClass::LkmRootkit => "LKM rootkit",
+        MalwareClass::CryptoMiner => "crypto miner",
+        MalwareClass::GenericLdPreload => "generic ld_preload",
+    }
+}
+
+fn profile_to_json(p: &MalwareProfile) -> serde_json::Value {
+    serde_json::json!({
+        "id": p.id,
+        "family": p.family,
+        "aliases": p.aliases,
+        "description": p.description,
+        "malware_class": malware_class_label(p.malware_class),
+        "mitre_techniques": p.mitre_techniques,
+    })
+}
+
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
@@ -333,6 +444,10 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
     // 2b. BYOVD vulnerable-driver + threat-indicator lookups.
     let driver_hits = lookup_drivers(term);
     let indicator_hits = lookup_indicators(term);
+    let event_hits = lookup_events(term);
+    let sigma_hits = lookup_sigma(term);
+    let flow_hits = lookup_flows(term);
+    let profile_hits = lookup_profiles(term);
 
     // 3. MITRE technique or keyword search for catalog artifacts.
     // Suppressed when --platform is specified: the user is asking about a
@@ -363,6 +478,10 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
         && artifact_hits.is_empty()
         && driver_hits.is_empty()
         && indicator_hits.is_empty()
+        && event_hits.is_empty()
+        && sigma_hits.is_empty()
+        && flow_hits.is_empty()
+        && profile_hits.is_empty()
     {
         eprintln!(
             "Not found: '{term}' — no matches in LOLBins, abusable sites, or artifact catalog"
@@ -394,6 +513,22 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
                     .map(|(src, m)| indicator_to_json(src, m))
                     .collect();
                 obj.insert("indicators".into(), serde_json::Value::Array(arr));
+            }
+            if !event_hits.is_empty() {
+                let arr: Vec<_> = event_hits.iter().map(|e| event_to_json(e)).collect();
+                obj.insert("events".into(), serde_json::Value::Array(arr));
+            }
+            if !sigma_hits.is_empty() {
+                let arr: Vec<_> = sigma_hits.iter().map(|r| sigma_to_json(r)).collect();
+                obj.insert("sigma".into(), serde_json::Value::Array(arr));
+            }
+            if !flow_hits.is_empty() {
+                let arr: Vec<_> = flow_hits.iter().map(|f| flow_to_json(f)).collect();
+                obj.insert("flows".into(), serde_json::Value::Array(arr));
+            }
+            if !profile_hits.is_empty() {
+                let arr: Vec<_> = profile_hits.iter().map(|p| profile_to_json(p)).collect();
+                obj.insert("profiles".into(), serde_json::Value::Array(arr));
             }
             if !artifact_hits.is_empty() {
                 let arr: Vec<_> = artifact_hits
@@ -491,6 +626,32 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
                 println!("INDICATOR  [{}]  matched: {shown}", src.label);
                 if !src.mitre.is_empty() {
                     println!("           MITRE: {}", src.mitre.join(", "));
+                }
+            }
+            for e in &event_hits {
+                println!("EVENT  {}  [{}]  {}", e.event_id, e.channel, e.description);
+                if !e.mitre_techniques.is_empty() {
+                    println!("       MITRE: {}", e.mitre_techniques.join(", "));
+                }
+            }
+            for r in &sigma_hits {
+                println!("SIGMA  {}  [{}]", r.title, r.logsource_category);
+                if !r.mitre_techniques.is_empty() {
+                    println!("       MITRE: {}", r.mitre_techniques.join(", "));
+                }
+            }
+            for f in &flow_hits {
+                println!("FLOW   {}  —  {}", f.id, f.name);
+                println!("       Actions: {}", f.actions.len());
+            }
+            for p in &profile_hits {
+                println!(
+                    "PROFILE  {}  [{}]",
+                    p.family,
+                    malware_class_label(p.malware_class)
+                );
+                if !p.mitre_techniques.is_empty() {
+                    println!("         MITRE: {}", p.mitre_techniques.join(", "));
                 }
             }
             if !artifact_hits.is_empty() {
@@ -748,6 +909,22 @@ fn run_dump(format: Format, dataset: Dataset) -> i32 {
             );
         }
         obj.insert("indicators".into(), serde_json::Value::Object(ind));
+    }
+    if matches!(dataset, Dataset::All | Dataset::EventIds) {
+        let arr: Vec<_> = EVENT_ID_TABLE.iter().map(event_to_json).collect();
+        obj.insert("event_ids".into(), serde_json::Value::Array(arr));
+    }
+    if matches!(dataset, Dataset::All | Dataset::Sigma) {
+        let arr: Vec<_> = SIGMA_TABLE.iter().map(sigma_to_json).collect();
+        obj.insert("sigma_rules".into(), serde_json::Value::Array(arr));
+    }
+    if matches!(dataset, Dataset::All | Dataset::Flows) {
+        let arr: Vec<_> = all_flows().iter().map(flow_to_json).collect();
+        obj.insert("attack_flows".into(), serde_json::Value::Array(arr));
+    }
+    if matches!(dataset, Dataset::All | Dataset::Profiles) {
+        let arr: Vec<_> = ALL_PROFILES.iter().map(|p| profile_to_json(p)).collect();
+        obj.insert("malware_profiles".into(), serde_json::Value::Array(arr));
     }
 
     let val = serde_json::Value::Object(obj);
