@@ -721,12 +721,77 @@ mod tests {
     }
 
     #[test]
-    fn dataset_count_is_13() {
+    fn dataset_count_is_15() {
         assert_eq!(
             app::App::DATASET_COUNT,
-            13,
-            "13 datasets: catalog, lolbas, abusable sites, cmdlets, mmc, wmi, playbooks, \
-             malware profiles, attack flows, event ids, sigma, persistence, remote access"
+            15,
+            "15 datasets: catalog, lolbas, abusable sites, cmdlets, mmc, wmi, playbooks, \
+             malware profiles, attack flows, event ids, sigma, persistence, remote access, \
+             byovd drivers, threat indicators"
+        );
+    }
+
+    #[test]
+    fn drivers_is_at_idx_13() {
+        use forensicnomicon::drivers::BYOVD_DRIVERS;
+        let rd = build_render_data(&make_app(13, "", 0));
+        assert!(
+            !rd.list_items.is_empty(),
+            "dataset idx 13 must be BYOVD drivers (non-empty list)"
+        );
+        let first = BYOVD_DRIVERS[0].file_basename;
+        assert!(
+            rd.list_items.iter().any(|s| s.contains(first)),
+            "drivers list must contain '{}'; got: {:?}",
+            first,
+            &rd.list_items[..rd.list_items.len().min(3)]
+        );
+    }
+
+    #[test]
+    fn driver_detail_contains_category_or_cve() {
+        let rd = build_render_data(&make_app(13, "", 0));
+        assert!(
+            !rd.detail_lines.is_empty(),
+            "driver detail must be non-empty"
+        );
+        let combined = rd.detail_lines.join("\n").to_lowercase();
+        assert!(
+            combined.contains("malicious")
+                || combined.contains("vulnerable")
+                || combined.contains("loldrivers")
+                || combined.contains("service names"),
+            "driver detail must contain category/loldrivers/service info; got: {combined}"
+        );
+    }
+
+    #[test]
+    fn threat_indicators_is_at_idx_14() {
+        let rd = build_render_data(&make_app(14, "", 0));
+        assert!(
+            !rd.list_items.is_empty(),
+            "dataset idx 14 must be threat indicators (non-empty list)"
+        );
+        let first = crate::indicators::INDICATOR_SOURCES[0].label;
+        assert!(
+            rd.list_items.iter().any(|s| s.contains(first)),
+            "threat-indicator list must contain '{}'; got: {:?}",
+            first,
+            &rd.list_items[..rd.list_items.len().min(3)]
+        );
+    }
+
+    #[test]
+    fn threat_indicator_detail_contains_mitre_or_entries() {
+        let rd = build_render_data(&make_app(14, "", 0));
+        assert!(
+            !rd.detail_lines.is_empty(),
+            "threat-indicator detail must be non-empty"
+        );
+        let combined = rd.detail_lines.join("\n").to_lowercase();
+        assert!(
+            combined.contains("indicator") || combined.contains("entries"),
+            "threat-indicator detail must contain indicator/entries info; got: {combined}"
         );
     }
 
