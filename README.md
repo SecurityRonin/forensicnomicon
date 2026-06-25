@@ -12,6 +12,10 @@
 [![rust](https://img.shields.io/badge/rust-1.75+-orange?style=for-the-badge&logo=rust)](https://www.rust-lang.org)
 [![Sponsor](https://img.shields.io/github/sponsors/h4x0r?style=for-the-badge&logo=github&label=Sponsor&color=ea4aaa)](https://github.com/sponsors/h4x0r)
 
+## DFIR Knowledge-as-Code (KaC)
+
+MITRE ATT&CK, LOLBAS, and LOLDrivers are references you *browse*. **Forensicnomicon is DFIR knowledge compiled into code** — every LOLBin, BYOVD vulnerable driver, forensic artifact, and attack indicator as a zero-dependency Rust library and an offline binary, queryable in milliseconds with no browser and no network.
+
 **6,554 forensic artifacts. Every one enriched.**
 
 You're in an active IR. You need to know if a binary is abusable, right now, offline, without opening a browser.
@@ -37,7 +41,7 @@ forensicnomicon = "0.3"
 
 ## What makes it different
 
-MITRE ATT&CK and lolbas-project.github.io are browser references. This is a binary.
+MITRE ATT&CK and lolbas-project.github.io are browser references. This is **Knowledge-as-Code** — a binary.
 
 - **Offline.** All 6,554 artifacts compile into the binary. Zero I/O at runtime, zero network calls.
 - **Enriched.** Not just where an artifact lives — how to decode it, how strong the evidence is, what to collect alongside it, which KAPE targets and Velociraptor artifacts collect it.

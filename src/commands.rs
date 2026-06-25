@@ -553,7 +553,7 @@ mod tests {
     }
     #[test]
     fn detects_wmiexec() {
-        assert!(is_lateral_movement_command("wmiexec.py admin@192.168.1.1"));
+        assert!(is_lateral_movement_command("wmiexec.py <user>@<host>"));
     }
     #[test]
     fn detects_enter_pssession() {

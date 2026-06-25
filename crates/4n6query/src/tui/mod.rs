@@ -6,6 +6,7 @@ pub mod keys;
 pub mod search;
 pub mod theme;
 pub mod ui;
+use crate::indicators::{IndicatorKind, INDICATOR_SOURCES};
 use crate::tui::app::WinVersionFilter;
 use crossterm::{
     event::{self, DisableMouseCapture, EnableMouseCapture, Event},
@@ -17,6 +18,7 @@ use forensicnomicon::{
     abusable_sites::{ABUSABLE_SITES, TAG_C2, TAG_DOWNLOAD, TAG_EXFIL, TAG_EXPLOIT, TAG_PHISHING},
     attack_flow::all_flows,
     catalog::{ArtifactDescriptor, OsScope, Platform, CATALOG},
+    drivers::{DriverCategory, BYOVD_DRIVERS},
     eventids::EVENT_ID_TABLE,
     lolbins::{
         lolbas_entry, LolbasEntry, LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS,
@@ -254,6 +256,14 @@ fn build_render_data(app: &app::App) -> RenderData {
             v.push("Known RAT Names  [RAT]".to_string());
             v
         }
+        13 => BYOVD_DRIVERS
+            .iter()
+            .map(|d| d.file_basename.to_string())
+            .collect(),
+        14 => INDICATOR_SOURCES
+            .iter()
+            .map(|s| s.label.to_string())
+            .collect(),
         _ => vec![],
     };
 
@@ -616,6 +626,76 @@ fn build_render_data(app: &app::App) -> RenderData {
                 None => vec!["Select a tool to see registry paths.".into()],
             }
         }
+        13 => {
+            let driver = selected_name
+                .and_then(|name| BYOVD_DRIVERS.iter().find(|d| d.file_basename == name));
+            match driver {
+                Some(d) => {
+                    let cat = match d.category {
+                        DriverCategory::Malicious => "malicious",
+                        DriverCategory::Vulnerable => "vulnerable driver",
+                    };
+                    let mut lines = vec![
+                        d.file_basename.to_string(),
+                        "─".repeat(40),
+                        format!("Category: {cat}"),
+                    ];
+                    if !d.label.is_empty() {
+                        lines.push(d.label.to_string());
+                    }
+                    if d.edr_killer {
+                        lines.push("EDR-killer".into());
+                    }
+                    if d.loads_despite_hvci {
+                        lines.push("Loads despite HVCI".into());
+                    }
+                    if !d.cve.is_empty() {
+                        lines.push(format!("CVE: {}", d.cve.join(", ")));
+                    }
+                    if !d.mitre.is_empty() {
+                        lines.push(format!("MITRE: {}", d.mitre.join(", ")));
+                    }
+                    if !d.service_names.is_empty() {
+                        lines.push(format!("Service names: {}", d.service_names.join(", ")));
+                    }
+                    if !d.loldrivers_id.is_empty() {
+                        lines.push(format!("LOLDrivers: {}", d.loldrivers_id));
+                    }
+                    if let Some(h) = d.sha256.first() {
+                        lines.push(format!("SHA256: {h}"));
+                    }
+                    lines
+                }
+                None => vec!["Select a driver to see details.".into()],
+            }
+        }
+        14 => {
+            let src =
+                selected_name.and_then(|name| INDICATOR_SOURCES.iter().find(|s| s.label == name));
+            match src {
+                Some(s) => {
+                    let kind = match s.kind {
+                        IndicatorKind::Name => "name match",
+                        IndicatorKind::Pattern => "command-line pattern",
+                    };
+                    let mut lines = vec![
+                        s.label.to_string(),
+                        "─".repeat(40),
+                        format!("Indicator kind: {kind}"),
+                    ];
+                    if !s.mitre.is_empty() {
+                        lines.push(format!("MITRE: {}", s.mitre.join(", ")));
+                    }
+                    lines.push(String::new());
+                    lines.push(format!("Entries ({}):", s.table.len()));
+                    for e in s.table {
+                        lines.push(format!("  {e}"));
+                    }
+                    lines
+                }
+                None => vec!["Select an indicator group to see entries.".into()],
+            }
+        }
         _ => vec!["Select an item to see details.".into()],
     };
 
@@ -721,12 +801,77 @@ mod tests {
     }
 
     #[test]
-    fn dataset_count_is_13() {
+    fn dataset_count_is_15() {
         assert_eq!(
             app::App::DATASET_COUNT,
-            13,
-            "13 datasets: catalog, lolbas, abusable sites, cmdlets, mmc, wmi, playbooks, \
-             malware profiles, attack flows, event ids, sigma, persistence, remote access"
+            15,
+            "15 datasets: catalog, lolbas, abusable sites, cmdlets, mmc, wmi, playbooks, \
+             malware profiles, attack flows, event ids, sigma, persistence, remote access, \
+             byovd drivers, threat indicators"
+        );
+    }
+
+    #[test]
+    fn drivers_is_at_idx_13() {
+        use forensicnomicon::drivers::BYOVD_DRIVERS;
+        let rd = build_render_data(&make_app(13, "", 0));
+        assert!(
+            !rd.list_items.is_empty(),
+            "dataset idx 13 must be BYOVD drivers (non-empty list)"
+        );
+        let first = BYOVD_DRIVERS[0].file_basename;
+        assert!(
+            rd.list_items.iter().any(|s| s.contains(first)),
+            "drivers list must contain '{}'; got: {:?}",
+            first,
+            &rd.list_items[..rd.list_items.len().min(3)]
+        );
+    }
+
+    #[test]
+    fn driver_detail_contains_category_or_cve() {
+        let rd = build_render_data(&make_app(13, "", 0));
+        assert!(
+            !rd.detail_lines.is_empty(),
+            "driver detail must be non-empty"
+        );
+        let combined = rd.detail_lines.join("\n").to_lowercase();
+        assert!(
+            combined.contains("malicious")
+                || combined.contains("vulnerable")
+                || combined.contains("loldrivers")
+                || combined.contains("service names"),
+            "driver detail must contain category/loldrivers/service info; got: {combined}"
+        );
+    }
+
+    #[test]
+    fn threat_indicators_is_at_idx_14() {
+        let rd = build_render_data(&make_app(14, "", 0));
+        assert!(
+            !rd.list_items.is_empty(),
+            "dataset idx 14 must be threat indicators (non-empty list)"
+        );
+        let first = crate::indicators::INDICATOR_SOURCES[0].label;
+        assert!(
+            rd.list_items.iter().any(|s| s.contains(first)),
+            "threat-indicator list must contain '{}'; got: {:?}",
+            first,
+            &rd.list_items[..rd.list_items.len().min(3)]
+        );
+    }
+
+    #[test]
+    fn threat_indicator_detail_contains_mitre_or_entries() {
+        let rd = build_render_data(&make_app(14, "", 0));
+        assert!(
+            !rd.detail_lines.is_empty(),
+            "threat-indicator detail must be non-empty"
+        );
+        let combined = rd.detail_lines.join("\n").to_lowercase();
+        assert!(
+            combined.contains("indicator") || combined.contains("entries"),
+            "threat-indicator detail must contain indicator/entries info; got: {combined}"
         );
     }
 

@@ -14,6 +14,8 @@ pub enum Dataset {
     Sigma = 10,
     Persistence = 11,
     RemoteAccess = 12,
+    Drivers = 13,
+    ThreatIndicators = 14,
 }
 
 impl Dataset {
@@ -32,6 +34,8 @@ impl Dataset {
             10 => Some(Self::Sigma),
             11 => Some(Self::Persistence),
             12 => Some(Self::RemoteAccess),
+            13 => Some(Self::Drivers),
+            14 => Some(Self::ThreatIndicators),
             _ => None,
         }
     }
@@ -51,6 +55,8 @@ impl Dataset {
             Self::Sigma => "sigma",
             Self::Persistence => "persistence",
             Self::RemoteAccess => "remote access",
+            Self::Drivers => "byovd drivers",
+            Self::ThreatIndicators => "threat indicators",
         }
     }
 }

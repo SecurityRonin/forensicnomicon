@@ -512,26 +512,13 @@ pub const EID_WMI_OPERATION_FAILURE: u32 = 5858;
 pub const EID_SECURITY_TASK_CREATED: u32 = 4698;
 
 // ── BYOVD driver names ───────────────────────────────────────────────────────
-// Known-vulnerable driver service names used in Bring-Your-Own-Vulnerable-Driver
-// attacks (MITRE T1068). QWCrypt (RedCurl/GOLD BLADE) uses the Zemana Anti-Malware
-// driver (ZAM64.sys) to terminate EDR processes before deploying the encryptor.
-// Sources: LOLDrivers project, CISA advisories, vendor incident reports.
+// BYOVD driver SERVICE names (the EVTX 7045/4697 `ServiceName` key) are now
+// derived from the unified driver catalog in `crate::drivers`, so this
+// service-name surface and the image-basename denylist share a single source of
+// truth and cannot drift (MITRE T1068). See [`crate::drivers::BYOVD_CURATED`].
 
-/// Service names of known-vulnerable drivers abused in BYOVD attacks.
-pub const BYOVD_DRIVER_NAMES: &[&str] = &[
-    "ZemanaAntiMalware",
-    "zamguard64",
-    "ZAM",
-    "gdrv",      // Gigabyte App Center GDRV.sys
-    "AsrDrv104", // ASRock Motherboard Utility
-    "AsrDrv10",
-    "RTCore64",   // MSI Afterburner / RTSS
-    "dbutil_2_3", // Dell BIOS Utility
-    "ATSZIO64",   // ASUSTeK I/O driver
-    "WinRing0_1_2_0",
-    "cpuz136_x64", // CPU-Z driver
-    "speedfan",
-];
+#[doc(inline)]
+pub use crate::drivers::BYOVD_DRIVER_NAMES;
 
 // ── QWCrypt-specific PowerShell patterns ─────────────────────────────────────
 // Observed in RedCurl/GOLD BLADE intrusions 2024–2025.
