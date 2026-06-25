@@ -115,7 +115,10 @@ fn flags_gentlekiller_byovd_drivers() {
         "throttleblood.sys",   // ThrottleBlood (ThrottleStop drop name)
         "havoc.sys",           // HavocKiller (Huawei Audio)
     ] {
-        assert!(is_known_vulnerable_driver(d), "GentleKiller driver not flagged: {d}");
+        assert!(
+            is_known_vulnerable_driver(d),
+            "GentleKiller driver not flagged: {d}"
+        );
     }
 }
 
@@ -141,14 +144,20 @@ fn byovd_driver_names_are_derived_from_byovd_drivers() {
 #[test]
 fn byovd_driver_names_preserved() {
     use forensicnomicon::heuristics::evtx::BYOVD_DRIVER_NAMES;
-    for s in ["RTCore64", "dbutil_2_3", "WinRing0_1_2_0", "ZemanaAntiMalware", "speedfan"] {
+    for s in [
+        "RTCore64",
+        "dbutil_2_3",
+        "WinRing0_1_2_0",
+        "ZemanaAntiMalware",
+        "speedfan",
+    ] {
         assert!(BYOVD_DRIVER_NAMES.contains(&s), "lost service name: {s}");
     }
 }
 
 #[test]
 fn byovd_drivers_are_enriched() {
-    use forensicnomicon::drivers::{BYOVD_DRIVERS, DriverCategory};
+    use forensicnomicon::drivers::{DriverCategory, BYOVD_DRIVERS};
     let by = |n: &str| BYOVD_DRIVERS.iter().find(|d| d.file_basename == n).unwrap();
     let rt = by("rtcore64.sys");
     assert!(!rt.loldrivers_id.is_empty(), "rtcore64 missing GUID");
@@ -156,9 +165,14 @@ fn byovd_drivers_are_enriched() {
     assert!(rt.mitre.contains(&"T1068"));
     assert!(rt.edr_killer);
     assert!(by("dbutil_2_3.sys").cve.contains(&"CVE-2021-21551"));
-    assert!(BYOVD_DRIVERS.iter().any(|d| d.category == DriverCategory::Malicious));
+    assert!(BYOVD_DRIVERS
+        .iter()
+        .any(|d| d.category == DriverCategory::Malicious));
     assert!(BYOVD_DRIVERS.iter().any(|d| d.loads_despite_hvci));
     assert!(BYOVD_DRIVERS.iter().any(|d| !d.sha256.is_empty()));
-    let with_guid = BYOVD_DRIVERS.iter().filter(|d| !d.loldrivers_id.is_empty()).count();
+    let with_guid = BYOVD_DRIVERS
+        .iter()
+        .filter(|d| !d.loldrivers_id.is_empty())
+        .count();
     assert!(with_guid >= 600, "GUID coverage regressed: {with_guid}");
 }

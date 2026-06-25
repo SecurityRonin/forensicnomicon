@@ -219,7 +219,9 @@ mod tests {
         let bn: std::vec::Vec<&str> = BYOVD_DRIVERS.iter().map(|d| d.file_basename).collect();
         assert_eq!(KNOWN_VULNERABLE_DRIVERS, bn.as_slice());
         // rtcore64 is fully enriched (GUID + CVE + MITRE + EDR-killer + category).
-        let rt = BYOVD_DRIVERS.iter().find(|d| d.file_basename == "rtcore64.sys");
+        let rt = BYOVD_DRIVERS
+            .iter()
+            .find(|d| d.file_basename == "rtcore64.sys");
         assert!(rt.is_some_and(|d| {
             !d.loldrivers_id.is_empty()
                 && d.cve.contains(&"CVE-2019-16098")
@@ -230,7 +232,9 @@ mod tests {
         }));
         // enrichment coverage across the set.
         assert!(BYOVD_DRIVERS.iter().any(|d| d.loads_despite_hvci));
-        assert!(BYOVD_DRIVERS.iter().any(|d| d.category == DriverCategory::Malicious));
+        assert!(BYOVD_DRIVERS
+            .iter()
+            .any(|d| d.category == DriverCategory::Malicious));
         assert!(BYOVD_DRIVERS.iter().any(|d| !d.sha256.is_empty()));
         assert!(BYOVD_DRIVERS.iter().any(|d| !d.service_names.is_empty()));
         assert!(!format!("{:?}", BYOVD_DRIVERS[0]).is_empty()); // Debug

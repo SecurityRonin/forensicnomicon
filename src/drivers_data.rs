@@ -3,6 +3,7 @@
 use super::{DriverCategory, VulnerableDriver};
 
 /// All BYOVD drivers (LOLDrivers snapshot + curated overlay): 709 entries.
+#[rustfmt::skip]
 pub const BYOVD_DRIVERS: &[VulnerableDriver] = &[
     VulnerableDriver { file_basename: "0x3040_blacklotus_beta_driver.sys", service_names: &[], label: "0x3040_blacklotus_beta_driver", category: DriverCategory::Vulnerable, loldrivers_id: "", cve: &[], mitre: &["T1068"], sha256: &[], loads_despite_hvci: false, edr_killer: false },
     VulnerableDriver { file_basename: "0x3440_blacklotus_v2_driver.sys", service_names: &[], label: "0x3440_blacklotus_v2_driver", category: DriverCategory::Vulnerable, loldrivers_id: "", cve: &[], mitre: &["T1068"], sha256: &[], loads_despite_hvci: false, edr_killer: false },
@@ -716,6 +717,7 @@ pub const BYOVD_DRIVERS: &[VulnerableDriver] = &[
 ];
 
 /// Driver `.sys` basenames (derived: every `BYOVD_DRIVERS` entry's basename).
+#[rustfmt::skip]
 pub const KNOWN_VULNERABLE_DRIVERS: &[&str] = &[
     "0x3040_blacklotus_beta_driver.sys",
     "0x3440_blacklotus_v2_driver.sys",
@@ -1429,6 +1431,7 @@ pub const KNOWN_VULNERABLE_DRIVERS: &[&str] = &[
 ];
 
 /// BYOVD driver service names (derived: flattened curated `service_names`).
+#[rustfmt::skip]
 pub const BYOVD_DRIVER_NAMES: &[&str] = &[
     "AsrDrv10",
     "AsrDrv104",
