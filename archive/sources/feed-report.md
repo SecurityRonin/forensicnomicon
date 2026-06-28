@@ -1,15 +1,15 @@
 # Feed Update Report
 
-Generated: 2026-06-27T06:40:00Z
+Generated: 2026-06-28T07:12:07Z
 
 ## Windows Incident Response
 
 - Site: https://windowsir.blogspot.com/
 - Feed: https://windowsir.blogspot.com/feeds/posts/default
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-27T08:07:22-05:00 — [Consistency](https://windowsir.blogspot.com/2026/06/consistency.html)
 
 ## dfir.blog
 
@@ -61,9 +61,9 @@ Generated: 2026-06-27T06:40:00Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-28T00:00:00+00:00 — [Forensic tools as instruments of repression: Russia, Cellebrite, and the case of Andrey Pivovarov](https://andreafortuna.org/2026/06/28/cellebrite-russia-pivovarov/)
 
 ## Salt Forensics
 
@@ -237,10 +237,10 @@ Generated: 2026-06-27T06:40:00Z
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
-- New since last snapshot: 1
+- Entries checked: 0
+- New since last snapshot: 0
 
-- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
+- No new entries detected
 
 ## MSAB
 
@@ -256,9 +256,9 @@ Generated: 2026-06-27T06:40:00Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-26T13:04:46+00:00 — [Infosec News Nuggets — June 26, 2026](https://aboutdfir.com/infosec-news-nuggets-june-26-2026/)
+- No new entries detected
 
 ## Forensic 4cast
 
@@ -274,18 +274,15 @@ Generated: 2026-06-27T06:40:00Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-28T04:31:15+00:00 — [Week 26 – 2026](https://thisweekin4n6.com/2026/06/28/week-26-2026/)
 
 ## The Sleuth Kit updates
 
 - Site: https://www.sleuthkit.org/
 - Feed: https://www.sleuthkit.org/rss.xml
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: timed out
 
 ## Amped Software blog
 
@@ -373,9 +370,12 @@ Generated: 2026-06-27T06:40:00Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 4
 
-- 2026-06-26T11:30:00+00:00 — [Great Ladies of Impressionism: Berthe Morisot 1874-1891](https://eclecticlight.co/2026/06/26/great-ladies-of-impressionism-berthe-morisot-1874-1891/)
+- 2026-06-28T07:00:00+00:00 — [Last Week on My Mac: Spotlight on semantics](https://eclecticlight.co/2026/06/28/last-week-on-my-mac-spotlight-on-semantics/)
+- 2026-06-27T11:30:00+00:00 — [An American in Paris: paintings of Henry Ossawa Tanner 1880-1902](https://eclecticlight.co/2026/06/27/an-american-in-paris-paintings-of-henry-ossawa-tanner-1880-1902/)
+- 2026-06-27T08:00:00+00:00 — [Saturday Mac riddles 366](https://eclecticlight.co/2026/06/27/saturday-mac-riddles-366/)
+- 2026-06-27T07:00:00+00:00 — [Explainer: sysdiagnose and logarchives](https://eclecticlight.co/2026/06/27/explainer-sysdiagnose-and-logarchives/)
 
 ## JPCERT/CC
 
@@ -535,46 +535,33 @@ Generated: 2026-06-27T06:40:00Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-26T12:44:01+00:00 — [Malware steals Chrome session cookies to take over your accounts](https://www.malwarebytes.com/blog/news/2026/06/malware-steals-chrome-session-cookies-to-take-over-your-accounts)
+- No new entries detected
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: syntax error: line 1, column 0
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 1
 
-- 2026-06-26T18:06:17-04:00 — [FBI: Russian hackers now target Signal backup recovery keys](https://www.bleepingcomputer.com/news/security/fbi-russian-hackers-now-target-signal-backup-recovery-keys/)
-- 2026-06-26T15:43:06-04:00 — [CISA sets urgent deadline to fix Cisco flaw exploited in attacks](https://www.bleepingcomputer.com/news/security/cisa-sets-urgent-deadline-to-fix-cisco-flaw-exploited-in-attacks/)
-- 2026-06-26T14:04:12-04:00 — [Polymarket customers lose $3 million in supply-chain attack](https://www.bleepingcomputer.com/news/security/polymarket-customers-lose-3-million-in-supply-chain-attack/)
-- 2026-06-26T13:49:07-04:00 — [Cybersecurity firms targeted by fraudulent OpenAI organization invites](https://www.bleepingcomputer.com/news/security/cybersecurity-firms-targeted-by-fraudulent-openai-organization-invites/)
-- 2026-06-26T10:01:11-04:00 — [Your First GRC Agent: A Red Teamer's Walkthrough](https://www.bleepingcomputer.com/news/security/your-first-grc-agent-a-red-teamers-walkthrough/)
+- 2026-06-27T10:22:36-04:00 — [Clean GitHub repo tricks AI coding agents into running malware](https://www.bleepingcomputer.com/news/security/clean-github-repo-tricks-ai-coding-agents-into-running-malware/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 7
+- New since last snapshot: 1
 
-- 2026-06-26T19:11:02+00:00 — [AI Decline? Confidence in Autonomous Penetration Testing Falls](https://www.darkreading.com/cybersecurity-operations/ai-decline-confidence-autonomous-penetration-testing)
-- 2026-06-26T17:31:04+00:00 — [Cisco Adds NHI to Security Stack With Astrix, WideField Acquisitions](https://www.darkreading.com/identity-access-management-security/cisco-adds-nhi-security-stack-with-astrix-widefield)
-- 2026-06-26T16:32:30+00:00 — [New Initiative Tackles Security for End-of-Life Open Source Software](https://www.darkreading.com/application-security/initiative-tackles-security-end-of-life-open-source)
-- 2026-06-26T16:00:00+00:00 — [AI Won't Wipe-Out Entry-Level Cybersecurity Jobs](https://www.darkreading.com/cybersecurity-operations/ai-wont-wipe-out-entry-level-cybersecurity-jobs)
-- 2026-06-26T13:30:00+00:00 — [Meeting Trump's 2030 Quantum Deadline Will be Expensive, Complex](https://www.darkreading.com/cybersecurity-operations/meeting-2030-quantum-deadline-expensive-complex)
-- 2026-06-26T13:00:00+00:00 — [Thanks for Crushing the Submissions Inbox. We're Trying to Keep Up](https://www.darkreading.com/cybersecurity-operations/submissions-guidelines-reminder)
-- 2026-06-25T22:42:36+00:00 — [Robinhood Cuts Access Approval Time to Support High-Velocity Development](https://www.darkreading.com/application-security/robinhood-reengineered-access-approvals-for-high-velocity-development)
+- 2026-06-27T11:48:05+00:00 — [Third-Party Breaches Teach Education Sector a Costly Lesson in Vendor Risk](https://www.darkreading.com/cyber-risk/third-party-breaches-teaches-education-lesson-vendor-risk)
 
 ## Volexity Blog
 
@@ -632,11 +619,9 @@ Generated: 2026-06-27T06:40:00Z
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-06-26T14:23:21+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/0beda73a4001f981d843a774308e04709e701be7)
-- 2026-06-26T14:14:15+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/46700d2004b7f62f75d90f84b324f0e1df8e510e)
-- 2026-06-26T14:13:15+00:00 — [Merge pull request #359 from magicsword-io/josehelps/add-lolrmm-backl…](https://github.com/magicsword-io/LOLDrivers/commit/31000f4e4d6e77d78a5c72731dcc8d01b6ca9f21)
+- No new entries detected
 
 ## LOFL Project (RMM C2 indicators)
 
@@ -1066,6 +1051,9 @@ Generated: 2026-06-27T06:40:00Z
 - Site: https://www.misp-project.org/
 - Feed: https://github.com/MISP/misp-taxonomies/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-06-27T13:47:45+00:00 — [Merge pull request #335 from k1r10n/main](https://github.com/MISP/misp-taxonomies/commit/d9f20d793462ec873745fcccfa75ce89354c78fb)
+- 2026-06-27T01:41:27+00:00 — [LF](https://github.com/MISP/misp-taxonomies/commit/0b4d092f5f2cf5a48b8370c43fa7346f03f8a525)
+- 2026-06-27T01:39:57+00:00 — [feat: update  in MANIFEST](https://github.com/MISP/misp-taxonomies/commit/028ef1cc69a3e45da609ac3fc339234fac0d887d)
+- 2026-06-27T01:31:46+00:00 — [feat: add RST Cloud threat intelligence scoring and verdicts JSON schema](https://github.com/MISP/misp-taxonomies/commit/e4aa06f3839267a723ac8948d7eaee5c55061990)
