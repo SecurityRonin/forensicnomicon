@@ -6,7 +6,8 @@
 //! against the global [`crate::catalog::CATALOG`].
 //!
 //! Use [`evidence_for`] for point-lookups, [`artifacts_with_strength`] for bulk
-//! queries, and [`crate::catalog::CATALOG::unassessed`] to find gaps sorted by
+//! queries, and [`crate::catalog::ForensicCatalog::unassessed`] (on the global
+//! [`crate::catalog::CATALOG`]) to find gaps sorted by
 //! triage priority.
 
 pub use forensicnomicon_core::evidence::EvidenceStrength;
