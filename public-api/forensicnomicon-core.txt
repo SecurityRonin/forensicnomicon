@@ -1,0 +1,645 @@
+pub mod forensicnomicon_core
+pub mod forensicnomicon_core::catalog
+pub mod forensicnomicon_core::catalog::types
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::types::ArtifactLocation
+pub forensicnomicon_core::catalog::types::ArtifactLocation::DatabaseEntry
+pub forensicnomicon_core::catalog::types::ArtifactLocation::Directory
+pub forensicnomicon_core::catalog::types::ArtifactLocation::EseDatabase
+pub forensicnomicon_core::catalog::types::ArtifactLocation::EventLog
+pub forensicnomicon_core::catalog::types::ArtifactLocation::File
+pub forensicnomicon_core::catalog::types::ArtifactLocation::LiveResponse
+pub forensicnomicon_core::catalog::types::ArtifactLocation::MemoryRegion
+pub forensicnomicon_core::catalog::types::ArtifactLocation::RegistryKey
+pub forensicnomicon_core::catalog::types::ArtifactLocation::RegistryValue
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::types::ArtifactValue
+pub forensicnomicon_core::catalog::types::ArtifactValue::Bool(bool)
+pub forensicnomicon_core::catalog::types::ArtifactValue::Bytes(alloc::vec::Vec<u8>)
+pub forensicnomicon_core::catalog::types::ArtifactValue::Integer(i64)
+pub forensicnomicon_core::catalog::types::ArtifactValue::List(alloc::vec::Vec<forensicnomicon_core::catalog::types::ArtifactValue>)
+pub forensicnomicon_core::catalog::types::ArtifactValue::Map(alloc::vec::Vec<(alloc::string::String, forensicnomicon_core::catalog::types::ArtifactValue)>)
+pub forensicnomicon_core::catalog::types::ArtifactValue::Null
+pub forensicnomicon_core::catalog::types::ArtifactValue::Text(alloc::string::String)
+pub forensicnomicon_core::catalog::types::ArtifactValue::Timestamp(alloc::string::String)
+pub forensicnomicon_core::catalog::types::ArtifactValue::UnsignedInt(u64)
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::types::BinaryFieldType
+pub forensicnomicon_core::catalog::types::BinaryFieldType::Bytes
+pub forensicnomicon_core::catalog::types::BinaryFieldType::Bytes::len: usize
+pub forensicnomicon_core::catalog::types::BinaryFieldType::FiletimeLe
+pub forensicnomicon_core::catalog::types::BinaryFieldType::I32Le
+pub forensicnomicon_core::catalog::types::BinaryFieldType::I64Le
+pub forensicnomicon_core::catalog::types::BinaryFieldType::U16Le
+pub forensicnomicon_core::catalog::types::BinaryFieldType::U32Le
+pub forensicnomicon_core::catalog::types::BinaryFieldType::U64Le
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::types::DataScope
+pub forensicnomicon_core::catalog::types::DataScope::Mixed
+pub forensicnomicon_core::catalog::types::DataScope::Network
+pub forensicnomicon_core::catalog::types::DataScope::System
+pub forensicnomicon_core::catalog::types::DataScope::User
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::types::DecodeError
+pub forensicnomicon_core::catalog::types::DecodeError::BufferTooShort
+pub forensicnomicon_core::catalog::types::DecodeError::BufferTooShort::actual: usize
+pub forensicnomicon_core::catalog::types::DecodeError::BufferTooShort::expected: usize
+pub forensicnomicon_core::catalog::types::DecodeError::FieldOutOfBounds
+pub forensicnomicon_core::catalog::types::DecodeError::FieldOutOfBounds::buf_len: usize
+pub forensicnomicon_core::catalog::types::DecodeError::FieldOutOfBounds::field: &'static str
+pub forensicnomicon_core::catalog::types::DecodeError::FieldOutOfBounds::offset: usize
+pub forensicnomicon_core::catalog::types::DecodeError::FieldOutOfBounds::size: usize
+pub forensicnomicon_core::catalog::types::DecodeError::InvalidUtf16
+pub forensicnomicon_core::catalog::types::DecodeError::InvalidUtf8
+pub forensicnomicon_core::catalog::types::DecodeError::UnsupportedDecoder(&'static str)
+impl core::error::Error for forensicnomicon_core::catalog::types::DecodeError
+impl core::fmt::Display for forensicnomicon_core::catalog::types::DecodeError
+pub fn forensicnomicon_core::catalog::types::DecodeError::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::types::Decoder
+pub forensicnomicon_core::catalog::types::Decoder::BinaryRecord(&'static [forensicnomicon_core::catalog::types::BinaryField])
+pub forensicnomicon_core::catalog::types::Decoder::DwordLe
+pub forensicnomicon_core::catalog::types::Decoder::EseDatabase
+pub forensicnomicon_core::catalog::types::Decoder::FiletimeAt
+pub forensicnomicon_core::catalog::types::Decoder::FiletimeAt::offset: usize
+pub forensicnomicon_core::catalog::types::Decoder::Identity
+pub forensicnomicon_core::catalog::types::Decoder::MruListEx
+pub forensicnomicon_core::catalog::types::Decoder::MultiSz
+pub forensicnomicon_core::catalog::types::Decoder::PipeDelimited
+pub forensicnomicon_core::catalog::types::Decoder::PipeDelimited::fields: &'static [&'static str]
+pub forensicnomicon_core::catalog::types::Decoder::Rot13Name
+pub forensicnomicon_core::catalog::types::Decoder::Rot13NameWithBinaryValue(&'static [forensicnomicon_core::catalog::types::BinaryField])
+pub forensicnomicon_core::catalog::types::Decoder::Utf16Le
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::types::HiveTarget
+pub forensicnomicon_core::catalog::types::HiveTarget::Amcache
+pub forensicnomicon_core::catalog::types::HiveTarget::Bcd
+pub forensicnomicon_core::catalog::types::HiveTarget::HklmSam
+pub forensicnomicon_core::catalog::types::HiveTarget::HklmSecurity
+pub forensicnomicon_core::catalog::types::HiveTarget::HklmSoftware
+pub forensicnomicon_core::catalog::types::HiveTarget::HklmSystem
+pub forensicnomicon_core::catalog::types::HiveTarget::None
+pub forensicnomicon_core::catalog::types::HiveTarget::NtUser
+pub forensicnomicon_core::catalog::types::HiveTarget::UsrClass
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::types::OsScope
+pub forensicnomicon_core::catalog::types::OsScope::All
+pub forensicnomicon_core::catalog::types::OsScope::Android
+pub forensicnomicon_core::catalog::types::OsScope::IOS
+pub forensicnomicon_core::catalog::types::OsScope::Linux
+pub forensicnomicon_core::catalog::types::OsScope::LinuxDebian
+pub forensicnomicon_core::catalog::types::OsScope::LinuxRhel
+pub forensicnomicon_core::catalog::types::OsScope::LinuxSystemd
+pub forensicnomicon_core::catalog::types::OsScope::MacOS
+pub forensicnomicon_core::catalog::types::OsScope::MacOS12Plus
+pub forensicnomicon_core::catalog::types::OsScope::MacOS13Plus
+pub forensicnomicon_core::catalog::types::OsScope::MacOS14Plus
+pub forensicnomicon_core::catalog::types::OsScope::Win10Plus
+pub forensicnomicon_core::catalog::types::OsScope::Win11Plus
+pub forensicnomicon_core::catalog::types::OsScope::Win11_22H2
+pub forensicnomicon_core::catalog::types::OsScope::Win7Plus
+pub forensicnomicon_core::catalog::types::OsScope::Win8Plus
+impl forensicnomicon_core::catalog::types::OsScope
+pub const fn forensicnomicon_core::catalog::types::OsScope::platform(self) -> forensicnomicon_core::catalog::types::Platform
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::types::Platform
+pub forensicnomicon_core::catalog::types::Platform::Android
+pub forensicnomicon_core::catalog::types::Platform::IOS
+pub forensicnomicon_core::catalog::types::Platform::Linux
+pub forensicnomicon_core::catalog::types::Platform::MacOS
+pub forensicnomicon_core::catalog::types::Platform::Windows
+impl forensicnomicon_core::catalog::types::Platform
+pub const forensicnomicon_core::catalog::types::Platform::ALL: &'static [forensicnomicon_core::catalog::types::Platform]
+pub const fn forensicnomicon_core::catalog::types::Platform::bit(self) -> u8
+pub const fn forensicnomicon_core::catalog::types::Platform::label(self) -> &'static str
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::types::TriagePriority
+pub forensicnomicon_core::catalog::types::TriagePriority::Critical = 3
+pub forensicnomicon_core::catalog::types::TriagePriority::High = 2
+pub forensicnomicon_core::catalog::types::TriagePriority::Low = 0
+pub forensicnomicon_core::catalog::types::TriagePriority::Medium = 1
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::types::ValueType
+pub forensicnomicon_core::catalog::types::ValueType::Bool
+pub forensicnomicon_core::catalog::types::ValueType::Bytes
+pub forensicnomicon_core::catalog::types::ValueType::Guid
+pub forensicnomicon_core::catalog::types::ValueType::Integer
+pub forensicnomicon_core::catalog::types::ValueType::Json
+pub forensicnomicon_core::catalog::types::ValueType::List
+pub forensicnomicon_core::catalog::types::ValueType::Text
+pub forensicnomicon_core::catalog::types::ValueType::Timestamp
+pub forensicnomicon_core::catalog::types::ValueType::UnsignedInt
+pub struct forensicnomicon_core::catalog::types::ArtifactDescriptor
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::artifact_type: forensicnomicon_core::catalog::types::ArtifactLocation
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::decoder: forensicnomicon_core::catalog::types::Decoder
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::evidence_caveats: &'static [&'static str]
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::evidence_strength: core::option::Option<forensicnomicon_core::evidence::EvidenceStrength>
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::fields: &'static [forensicnomicon_core::catalog::types::FieldSchema]
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::file_path: core::option::Option<&'static str>
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::hive: core::option::Option<forensicnomicon_core::catalog::types::HiveTarget>
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::id: &'static str
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::key_path: &'static str
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::meaning: &'static str
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::mitre_techniques: &'static [&'static str]
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::name: &'static str
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::os_scope: forensicnomicon_core::catalog::types::OsScope
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::related_artifacts: &'static [&'static str]
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::retention: core::option::Option<&'static str>
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::scope: forensicnomicon_core::catalog::types::DataScope
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::sources: &'static [&'static str]
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::triage_priority: forensicnomicon_core::catalog::types::TriagePriority
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::value_name: core::option::Option<&'static str>
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::volatility: core::option::Option<forensicnomicon_core::volatility::VolatilityClass>
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::volatility_rationale: &'static str
+#[non_exhaustive] pub struct forensicnomicon_core::catalog::types::ArtifactParsingProfile
+pub forensicnomicon_core::catalog::types::ArtifactParsingProfile::artifact_id: &'static str
+pub forensicnomicon_core::catalog::types::ArtifactParsingProfile::extracted_fields: &'static [&'static str]
+pub forensicnomicon_core::catalog::types::ArtifactParsingProfile::format: &'static str
+pub forensicnomicon_core::catalog::types::ArtifactParsingProfile::parser_hints: &'static [&'static str]
+pub forensicnomicon_core::catalog::types::ArtifactParsingProfile::sources: &'static [&'static str]
+pub forensicnomicon_core::catalog::types::ArtifactParsingProfile::summary: &'static str
+pub struct forensicnomicon_core::catalog::types::ArtifactQuery
+pub forensicnomicon_core::catalog::types::ArtifactQuery::artifact_type: core::option::Option<forensicnomicon_core::catalog::types::ArtifactLocation>
+pub forensicnomicon_core::catalog::types::ArtifactQuery::hive: core::option::Option<forensicnomicon_core::catalog::types::HiveTarget>
+pub forensicnomicon_core::catalog::types::ArtifactQuery::id: core::option::Option<&'static str>
+pub forensicnomicon_core::catalog::types::ArtifactQuery::mitre_technique: core::option::Option<&'static str>
+pub forensicnomicon_core::catalog::types::ArtifactQuery::os_scope: core::option::Option<forensicnomicon_core::catalog::types::OsScope>
+pub forensicnomicon_core::catalog::types::ArtifactQuery::scope: core::option::Option<forensicnomicon_core::catalog::types::DataScope>
+#[non_exhaustive] pub struct forensicnomicon_core::catalog::types::ArtifactRecord
+pub forensicnomicon_core::catalog::types::ArtifactRecord::artifact_id: &'static str
+pub forensicnomicon_core::catalog::types::ArtifactRecord::artifact_name: &'static str
+pub forensicnomicon_core::catalog::types::ArtifactRecord::confidence: f32
+pub forensicnomicon_core::catalog::types::ArtifactRecord::fields: alloc::vec::Vec<(&'static str, forensicnomicon_core::catalog::types::ArtifactValue)>
+pub forensicnomicon_core::catalog::types::ArtifactRecord::meaning: alloc::string::String
+pub forensicnomicon_core::catalog::types::ArtifactRecord::mitre_techniques: alloc::vec::Vec<&'static str>
+pub forensicnomicon_core::catalog::types::ArtifactRecord::os_scope: forensicnomicon_core::catalog::types::OsScope
+pub forensicnomicon_core::catalog::types::ArtifactRecord::scope: forensicnomicon_core::catalog::types::DataScope
+pub forensicnomicon_core::catalog::types::ArtifactRecord::timestamp: core::option::Option<alloc::string::String>
+pub forensicnomicon_core::catalog::types::ArtifactRecord::uid: alloc::string::String
+pub struct forensicnomicon_core::catalog::types::BinaryField
+pub forensicnomicon_core::catalog::types::BinaryField::description: &'static str
+pub forensicnomicon_core::catalog::types::BinaryField::field_type: forensicnomicon_core::catalog::types::BinaryFieldType
+pub forensicnomicon_core::catalog::types::BinaryField::name: &'static str
+pub forensicnomicon_core::catalog::types::BinaryField::offset: usize
+#[non_exhaustive] pub struct forensicnomicon_core::catalog::types::ContainerProfile
+pub forensicnomicon_core::catalog::types::ContainerProfile::id: &'static str
+pub forensicnomicon_core::catalog::types::ContainerProfile::name: &'static str
+pub forensicnomicon_core::catalog::types::ContainerProfile::parser_hints: &'static [&'static str]
+pub forensicnomicon_core::catalog::types::ContainerProfile::sources: &'static [&'static str]
+pub forensicnomicon_core::catalog::types::ContainerProfile::summary: &'static str
+#[non_exhaustive] pub struct forensicnomicon_core::catalog::types::ContainerSignature
+pub forensicnomicon_core::catalog::types::ContainerSignature::alignment: core::option::Option<usize>
+pub forensicnomicon_core::catalog::types::ContainerSignature::container_id: &'static str
+pub forensicnomicon_core::catalog::types::ContainerSignature::footer_magic: &'static [u8]
+pub forensicnomicon_core::catalog::types::ContainerSignature::header_magic: &'static [u8]
+pub forensicnomicon_core::catalog::types::ContainerSignature::header_offset: usize
+pub forensicnomicon_core::catalog::types::ContainerSignature::invariants: &'static [&'static str]
+pub forensicnomicon_core::catalog::types::ContainerSignature::min_size: core::option::Option<usize>
+pub forensicnomicon_core::catalog::types::ContainerSignature::name: &'static str
+pub forensicnomicon_core::catalog::types::ContainerSignature::sources: &'static [&'static str]
+pub struct forensicnomicon_core::catalog::types::FieldSchema
+pub forensicnomicon_core::catalog::types::FieldSchema::description: &'static str
+pub forensicnomicon_core::catalog::types::FieldSchema::is_uid_component: bool
+pub forensicnomicon_core::catalog::types::FieldSchema::name: &'static str
+pub forensicnomicon_core::catalog::types::FieldSchema::value_type: forensicnomicon_core::catalog::types::ValueType
+pub struct forensicnomicon_core::catalog::types::ForensicCatalog
+impl forensicnomicon_core::catalog::types::ForensicCatalog
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::assessment_coverage(&self) -> (usize, usize)
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::by_id(&self, &str) -> core::option::Option<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::by_mitre(&self, &str) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::filter(&self, &forensicnomicon_core::catalog::types::ArtifactQuery) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::filter_by_keyword(&self, &str) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::for_triage(&self) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::list(&self) -> &[forensicnomicon_core::catalog::types::ArtifactDescriptor]
+pub const fn forensicnomicon_core::catalog::types::ForensicCatalog::new(&'static [forensicnomicon_core::catalog::types::ArtifactDescriptor]) -> Self
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::unassessed(&self) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
+impl forensicnomicon_core::catalog::types::ForensicCatalog
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::container_profile(&self, &str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ContainerProfile>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::container_signature(&self, &str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ContainerSignature>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::decode(&self, &forensicnomicon_core::catalog::types::ArtifactDescriptor, &str, &[u8]) -> core::result::Result<forensicnomicon_core::catalog::types::ArtifactRecord, forensicnomicon_core::catalog::types::DecodeError>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::parsing_profile(&self, &str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ArtifactParsingProfile>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::record_signatures(&self, &str) -> alloc::vec::Vec<&'static forensicnomicon_core::catalog::types::RecordSignature>
+pub struct forensicnomicon_core::catalog::types::PlatformMask(pub u8)
+impl forensicnomicon_core::catalog::types::PlatformMask
+pub const forensicnomicon_core::catalog::types::PlatformMask::NONE: Self
+pub const fn forensicnomicon_core::catalog::types::PlatformMask::contains(self, forensicnomicon_core::catalog::types::Platform) -> bool
+pub const fn forensicnomicon_core::catalog::types::PlatformMask::is_empty(self) -> bool
+pub const fn forensicnomicon_core::catalog::types::PlatformMask::matches(self, forensicnomicon_core::catalog::types::Platform) -> bool
+pub const fn forensicnomicon_core::catalog::types::PlatformMask::toggle(self, forensicnomicon_core::catalog::types::Platform) -> Self
+pub const fn forensicnomicon_core::catalog::types::PlatformMask::with(self, forensicnomicon_core::catalog::types::Platform) -> Self
+#[non_exhaustive] pub struct forensicnomicon_core::catalog::types::RecordSignature
+pub forensicnomicon_core::catalog::types::RecordSignature::alignment: core::option::Option<usize>
+pub forensicnomicon_core::catalog::types::RecordSignature::artifact_id: core::option::Option<&'static str>
+pub forensicnomicon_core::catalog::types::RecordSignature::container_id: &'static str
+pub forensicnomicon_core::catalog::types::RecordSignature::footer_magic: &'static [u8]
+pub forensicnomicon_core::catalog::types::RecordSignature::header_magic: &'static [u8]
+pub forensicnomicon_core::catalog::types::RecordSignature::header_offset: usize
+pub forensicnomicon_core::catalog::types::RecordSignature::id: &'static str
+pub forensicnomicon_core::catalog::types::RecordSignature::invariants: &'static [&'static str]
+pub forensicnomicon_core::catalog::types::RecordSignature::min_size: core::option::Option<usize>
+pub forensicnomicon_core::catalog::types::RecordSignature::name: &'static str
+pub forensicnomicon_core::catalog::types::RecordSignature::sources: &'static [&'static str]
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::ArtifactLocation
+pub forensicnomicon_core::catalog::ArtifactLocation::DatabaseEntry
+pub forensicnomicon_core::catalog::ArtifactLocation::Directory
+pub forensicnomicon_core::catalog::ArtifactLocation::EseDatabase
+pub forensicnomicon_core::catalog::ArtifactLocation::EventLog
+pub forensicnomicon_core::catalog::ArtifactLocation::File
+pub forensicnomicon_core::catalog::ArtifactLocation::LiveResponse
+pub forensicnomicon_core::catalog::ArtifactLocation::MemoryRegion
+pub forensicnomicon_core::catalog::ArtifactLocation::RegistryKey
+pub forensicnomicon_core::catalog::ArtifactLocation::RegistryValue
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::ArtifactValue
+pub forensicnomicon_core::catalog::ArtifactValue::Bool(bool)
+pub forensicnomicon_core::catalog::ArtifactValue::Bytes(alloc::vec::Vec<u8>)
+pub forensicnomicon_core::catalog::ArtifactValue::Integer(i64)
+pub forensicnomicon_core::catalog::ArtifactValue::List(alloc::vec::Vec<forensicnomicon_core::catalog::types::ArtifactValue>)
+pub forensicnomicon_core::catalog::ArtifactValue::Map(alloc::vec::Vec<(alloc::string::String, forensicnomicon_core::catalog::types::ArtifactValue)>)
+pub forensicnomicon_core::catalog::ArtifactValue::Null
+pub forensicnomicon_core::catalog::ArtifactValue::Text(alloc::string::String)
+pub forensicnomicon_core::catalog::ArtifactValue::Timestamp(alloc::string::String)
+pub forensicnomicon_core::catalog::ArtifactValue::UnsignedInt(u64)
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::BinaryFieldType
+pub forensicnomicon_core::catalog::BinaryFieldType::Bytes
+pub forensicnomicon_core::catalog::BinaryFieldType::Bytes::len: usize
+pub forensicnomicon_core::catalog::BinaryFieldType::FiletimeLe
+pub forensicnomicon_core::catalog::BinaryFieldType::I32Le
+pub forensicnomicon_core::catalog::BinaryFieldType::I64Le
+pub forensicnomicon_core::catalog::BinaryFieldType::U16Le
+pub forensicnomicon_core::catalog::BinaryFieldType::U32Le
+pub forensicnomicon_core::catalog::BinaryFieldType::U64Le
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::DataScope
+pub forensicnomicon_core::catalog::DataScope::Mixed
+pub forensicnomicon_core::catalog::DataScope::Network
+pub forensicnomicon_core::catalog::DataScope::System
+pub forensicnomicon_core::catalog::DataScope::User
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::DecodeError
+pub forensicnomicon_core::catalog::DecodeError::BufferTooShort
+pub forensicnomicon_core::catalog::DecodeError::BufferTooShort::actual: usize
+pub forensicnomicon_core::catalog::DecodeError::BufferTooShort::expected: usize
+pub forensicnomicon_core::catalog::DecodeError::FieldOutOfBounds
+pub forensicnomicon_core::catalog::DecodeError::FieldOutOfBounds::buf_len: usize
+pub forensicnomicon_core::catalog::DecodeError::FieldOutOfBounds::field: &'static str
+pub forensicnomicon_core::catalog::DecodeError::FieldOutOfBounds::offset: usize
+pub forensicnomicon_core::catalog::DecodeError::FieldOutOfBounds::size: usize
+pub forensicnomicon_core::catalog::DecodeError::InvalidUtf16
+pub forensicnomicon_core::catalog::DecodeError::InvalidUtf8
+pub forensicnomicon_core::catalog::DecodeError::UnsupportedDecoder(&'static str)
+impl core::error::Error for forensicnomicon_core::catalog::types::DecodeError
+impl core::fmt::Display for forensicnomicon_core::catalog::types::DecodeError
+pub fn forensicnomicon_core::catalog::types::DecodeError::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::Decoder
+pub forensicnomicon_core::catalog::Decoder::BinaryRecord(&'static [forensicnomicon_core::catalog::types::BinaryField])
+pub forensicnomicon_core::catalog::Decoder::DwordLe
+pub forensicnomicon_core::catalog::Decoder::EseDatabase
+pub forensicnomicon_core::catalog::Decoder::FiletimeAt
+pub forensicnomicon_core::catalog::Decoder::FiletimeAt::offset: usize
+pub forensicnomicon_core::catalog::Decoder::Identity
+pub forensicnomicon_core::catalog::Decoder::MruListEx
+pub forensicnomicon_core::catalog::Decoder::MultiSz
+pub forensicnomicon_core::catalog::Decoder::PipeDelimited
+pub forensicnomicon_core::catalog::Decoder::PipeDelimited::fields: &'static [&'static str]
+pub forensicnomicon_core::catalog::Decoder::Rot13Name
+pub forensicnomicon_core::catalog::Decoder::Rot13NameWithBinaryValue(&'static [forensicnomicon_core::catalog::types::BinaryField])
+pub forensicnomicon_core::catalog::Decoder::Utf16Le
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::HiveTarget
+pub forensicnomicon_core::catalog::HiveTarget::Amcache
+pub forensicnomicon_core::catalog::HiveTarget::Bcd
+pub forensicnomicon_core::catalog::HiveTarget::HklmSam
+pub forensicnomicon_core::catalog::HiveTarget::HklmSecurity
+pub forensicnomicon_core::catalog::HiveTarget::HklmSoftware
+pub forensicnomicon_core::catalog::HiveTarget::HklmSystem
+pub forensicnomicon_core::catalog::HiveTarget::None
+pub forensicnomicon_core::catalog::HiveTarget::NtUser
+pub forensicnomicon_core::catalog::HiveTarget::UsrClass
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::OsScope
+pub forensicnomicon_core::catalog::OsScope::All
+pub forensicnomicon_core::catalog::OsScope::Android
+pub forensicnomicon_core::catalog::OsScope::IOS
+pub forensicnomicon_core::catalog::OsScope::Linux
+pub forensicnomicon_core::catalog::OsScope::LinuxDebian
+pub forensicnomicon_core::catalog::OsScope::LinuxRhel
+pub forensicnomicon_core::catalog::OsScope::LinuxSystemd
+pub forensicnomicon_core::catalog::OsScope::MacOS
+pub forensicnomicon_core::catalog::OsScope::MacOS12Plus
+pub forensicnomicon_core::catalog::OsScope::MacOS13Plus
+pub forensicnomicon_core::catalog::OsScope::MacOS14Plus
+pub forensicnomicon_core::catalog::OsScope::Win10Plus
+pub forensicnomicon_core::catalog::OsScope::Win11Plus
+pub forensicnomicon_core::catalog::OsScope::Win11_22H2
+pub forensicnomicon_core::catalog::OsScope::Win7Plus
+pub forensicnomicon_core::catalog::OsScope::Win8Plus
+impl forensicnomicon_core::catalog::types::OsScope
+pub const fn forensicnomicon_core::catalog::types::OsScope::platform(self) -> forensicnomicon_core::catalog::types::Platform
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::Platform
+pub forensicnomicon_core::catalog::Platform::Android
+pub forensicnomicon_core::catalog::Platform::IOS
+pub forensicnomicon_core::catalog::Platform::Linux
+pub forensicnomicon_core::catalog::Platform::MacOS
+pub forensicnomicon_core::catalog::Platform::Windows
+impl forensicnomicon_core::catalog::types::Platform
+pub const forensicnomicon_core::catalog::types::Platform::ALL: &'static [forensicnomicon_core::catalog::types::Platform]
+pub const fn forensicnomicon_core::catalog::types::Platform::bit(self) -> u8
+pub const fn forensicnomicon_core::catalog::types::Platform::label(self) -> &'static str
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::TriagePriority
+pub forensicnomicon_core::catalog::TriagePriority::Critical = 3
+pub forensicnomicon_core::catalog::TriagePriority::High = 2
+pub forensicnomicon_core::catalog::TriagePriority::Low = 0
+pub forensicnomicon_core::catalog::TriagePriority::Medium = 1
+#[non_exhaustive] pub enum forensicnomicon_core::catalog::ValueType
+pub forensicnomicon_core::catalog::ValueType::Bool
+pub forensicnomicon_core::catalog::ValueType::Bytes
+pub forensicnomicon_core::catalog::ValueType::Guid
+pub forensicnomicon_core::catalog::ValueType::Integer
+pub forensicnomicon_core::catalog::ValueType::Json
+pub forensicnomicon_core::catalog::ValueType::List
+pub forensicnomicon_core::catalog::ValueType::Text
+pub forensicnomicon_core::catalog::ValueType::Timestamp
+pub forensicnomicon_core::catalog::ValueType::UnsignedInt
+pub struct forensicnomicon_core::catalog::ArtifactDescriptor
+pub forensicnomicon_core::catalog::ArtifactDescriptor::artifact_type: forensicnomicon_core::catalog::types::ArtifactLocation
+pub forensicnomicon_core::catalog::ArtifactDescriptor::decoder: forensicnomicon_core::catalog::types::Decoder
+pub forensicnomicon_core::catalog::ArtifactDescriptor::evidence_caveats: &'static [&'static str]
+pub forensicnomicon_core::catalog::ArtifactDescriptor::evidence_strength: core::option::Option<forensicnomicon_core::evidence::EvidenceStrength>
+pub forensicnomicon_core::catalog::ArtifactDescriptor::fields: &'static [forensicnomicon_core::catalog::types::FieldSchema]
+pub forensicnomicon_core::catalog::ArtifactDescriptor::file_path: core::option::Option<&'static str>
+pub forensicnomicon_core::catalog::ArtifactDescriptor::hive: core::option::Option<forensicnomicon_core::catalog::types::HiveTarget>
+pub forensicnomicon_core::catalog::ArtifactDescriptor::id: &'static str
+pub forensicnomicon_core::catalog::ArtifactDescriptor::key_path: &'static str
+pub forensicnomicon_core::catalog::ArtifactDescriptor::meaning: &'static str
+pub forensicnomicon_core::catalog::ArtifactDescriptor::mitre_techniques: &'static [&'static str]
+pub forensicnomicon_core::catalog::ArtifactDescriptor::name: &'static str
+pub forensicnomicon_core::catalog::ArtifactDescriptor::os_scope: forensicnomicon_core::catalog::types::OsScope
+pub forensicnomicon_core::catalog::ArtifactDescriptor::related_artifacts: &'static [&'static str]
+pub forensicnomicon_core::catalog::ArtifactDescriptor::retention: core::option::Option<&'static str>
+pub forensicnomicon_core::catalog::ArtifactDescriptor::scope: forensicnomicon_core::catalog::types::DataScope
+pub forensicnomicon_core::catalog::ArtifactDescriptor::sources: &'static [&'static str]
+pub forensicnomicon_core::catalog::ArtifactDescriptor::triage_priority: forensicnomicon_core::catalog::types::TriagePriority
+pub forensicnomicon_core::catalog::ArtifactDescriptor::value_name: core::option::Option<&'static str>
+pub forensicnomicon_core::catalog::ArtifactDescriptor::volatility: core::option::Option<forensicnomicon_core::volatility::VolatilityClass>
+pub forensicnomicon_core::catalog::ArtifactDescriptor::volatility_rationale: &'static str
+#[non_exhaustive] pub struct forensicnomicon_core::catalog::ArtifactParsingProfile
+pub forensicnomicon_core::catalog::ArtifactParsingProfile::artifact_id: &'static str
+pub forensicnomicon_core::catalog::ArtifactParsingProfile::extracted_fields: &'static [&'static str]
+pub forensicnomicon_core::catalog::ArtifactParsingProfile::format: &'static str
+pub forensicnomicon_core::catalog::ArtifactParsingProfile::parser_hints: &'static [&'static str]
+pub forensicnomicon_core::catalog::ArtifactParsingProfile::sources: &'static [&'static str]
+pub forensicnomicon_core::catalog::ArtifactParsingProfile::summary: &'static str
+pub struct forensicnomicon_core::catalog::ArtifactQuery
+pub forensicnomicon_core::catalog::ArtifactQuery::artifact_type: core::option::Option<forensicnomicon_core::catalog::types::ArtifactLocation>
+pub forensicnomicon_core::catalog::ArtifactQuery::hive: core::option::Option<forensicnomicon_core::catalog::types::HiveTarget>
+pub forensicnomicon_core::catalog::ArtifactQuery::id: core::option::Option<&'static str>
+pub forensicnomicon_core::catalog::ArtifactQuery::mitre_technique: core::option::Option<&'static str>
+pub forensicnomicon_core::catalog::ArtifactQuery::os_scope: core::option::Option<forensicnomicon_core::catalog::types::OsScope>
+pub forensicnomicon_core::catalog::ArtifactQuery::scope: core::option::Option<forensicnomicon_core::catalog::types::DataScope>
+#[non_exhaustive] pub struct forensicnomicon_core::catalog::ArtifactRecord
+pub forensicnomicon_core::catalog::ArtifactRecord::artifact_id: &'static str
+pub forensicnomicon_core::catalog::ArtifactRecord::artifact_name: &'static str
+pub forensicnomicon_core::catalog::ArtifactRecord::confidence: f32
+pub forensicnomicon_core::catalog::ArtifactRecord::fields: alloc::vec::Vec<(&'static str, forensicnomicon_core::catalog::types::ArtifactValue)>
+pub forensicnomicon_core::catalog::ArtifactRecord::meaning: alloc::string::String
+pub forensicnomicon_core::catalog::ArtifactRecord::mitre_techniques: alloc::vec::Vec<&'static str>
+pub forensicnomicon_core::catalog::ArtifactRecord::os_scope: forensicnomicon_core::catalog::types::OsScope
+pub forensicnomicon_core::catalog::ArtifactRecord::scope: forensicnomicon_core::catalog::types::DataScope
+pub forensicnomicon_core::catalog::ArtifactRecord::timestamp: core::option::Option<alloc::string::String>
+pub forensicnomicon_core::catalog::ArtifactRecord::uid: alloc::string::String
+pub struct forensicnomicon_core::catalog::BinaryField
+pub forensicnomicon_core::catalog::BinaryField::description: &'static str
+pub forensicnomicon_core::catalog::BinaryField::field_type: forensicnomicon_core::catalog::types::BinaryFieldType
+pub forensicnomicon_core::catalog::BinaryField::name: &'static str
+pub forensicnomicon_core::catalog::BinaryField::offset: usize
+#[non_exhaustive] pub struct forensicnomicon_core::catalog::ContainerProfile
+pub forensicnomicon_core::catalog::ContainerProfile::id: &'static str
+pub forensicnomicon_core::catalog::ContainerProfile::name: &'static str
+pub forensicnomicon_core::catalog::ContainerProfile::parser_hints: &'static [&'static str]
+pub forensicnomicon_core::catalog::ContainerProfile::sources: &'static [&'static str]
+pub forensicnomicon_core::catalog::ContainerProfile::summary: &'static str
+#[non_exhaustive] pub struct forensicnomicon_core::catalog::ContainerSignature
+pub forensicnomicon_core::catalog::ContainerSignature::alignment: core::option::Option<usize>
+pub forensicnomicon_core::catalog::ContainerSignature::container_id: &'static str
+pub forensicnomicon_core::catalog::ContainerSignature::footer_magic: &'static [u8]
+pub forensicnomicon_core::catalog::ContainerSignature::header_magic: &'static [u8]
+pub forensicnomicon_core::catalog::ContainerSignature::header_offset: usize
+pub forensicnomicon_core::catalog::ContainerSignature::invariants: &'static [&'static str]
+pub forensicnomicon_core::catalog::ContainerSignature::min_size: core::option::Option<usize>
+pub forensicnomicon_core::catalog::ContainerSignature::name: &'static str
+pub forensicnomicon_core::catalog::ContainerSignature::sources: &'static [&'static str]
+pub struct forensicnomicon_core::catalog::FieldSchema
+pub forensicnomicon_core::catalog::FieldSchema::description: &'static str
+pub forensicnomicon_core::catalog::FieldSchema::is_uid_component: bool
+pub forensicnomicon_core::catalog::FieldSchema::name: &'static str
+pub forensicnomicon_core::catalog::FieldSchema::value_type: forensicnomicon_core::catalog::types::ValueType
+pub struct forensicnomicon_core::catalog::ForensicCatalog
+impl forensicnomicon_core::catalog::types::ForensicCatalog
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::assessment_coverage(&self) -> (usize, usize)
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::by_id(&self, &str) -> core::option::Option<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::by_mitre(&self, &str) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::filter(&self, &forensicnomicon_core::catalog::types::ArtifactQuery) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::filter_by_keyword(&self, &str) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::for_triage(&self) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::list(&self) -> &[forensicnomicon_core::catalog::types::ArtifactDescriptor]
+pub const fn forensicnomicon_core::catalog::types::ForensicCatalog::new(&'static [forensicnomicon_core::catalog::types::ArtifactDescriptor]) -> Self
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::unassessed(&self) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
+impl forensicnomicon_core::catalog::types::ForensicCatalog
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::container_profile(&self, &str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ContainerProfile>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::container_signature(&self, &str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ContainerSignature>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::decode(&self, &forensicnomicon_core::catalog::types::ArtifactDescriptor, &str, &[u8]) -> core::result::Result<forensicnomicon_core::catalog::types::ArtifactRecord, forensicnomicon_core::catalog::types::DecodeError>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::parsing_profile(&self, &str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ArtifactParsingProfile>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::record_signatures(&self, &str) -> alloc::vec::Vec<&'static forensicnomicon_core::catalog::types::RecordSignature>
+pub struct forensicnomicon_core::catalog::PlatformMask(pub u8)
+impl forensicnomicon_core::catalog::types::PlatformMask
+pub const forensicnomicon_core::catalog::types::PlatformMask::NONE: Self
+pub const fn forensicnomicon_core::catalog::types::PlatformMask::contains(self, forensicnomicon_core::catalog::types::Platform) -> bool
+pub const fn forensicnomicon_core::catalog::types::PlatformMask::is_empty(self) -> bool
+pub const fn forensicnomicon_core::catalog::types::PlatformMask::matches(self, forensicnomicon_core::catalog::types::Platform) -> bool
+pub const fn forensicnomicon_core::catalog::types::PlatformMask::toggle(self, forensicnomicon_core::catalog::types::Platform) -> Self
+pub const fn forensicnomicon_core::catalog::types::PlatformMask::with(self, forensicnomicon_core::catalog::types::Platform) -> Self
+#[non_exhaustive] pub struct forensicnomicon_core::catalog::RecordSignature
+pub forensicnomicon_core::catalog::RecordSignature::alignment: core::option::Option<usize>
+pub forensicnomicon_core::catalog::RecordSignature::artifact_id: core::option::Option<&'static str>
+pub forensicnomicon_core::catalog::RecordSignature::container_id: &'static str
+pub forensicnomicon_core::catalog::RecordSignature::footer_magic: &'static [u8]
+pub forensicnomicon_core::catalog::RecordSignature::header_magic: &'static [u8]
+pub forensicnomicon_core::catalog::RecordSignature::header_offset: usize
+pub forensicnomicon_core::catalog::RecordSignature::id: &'static str
+pub forensicnomicon_core::catalog::RecordSignature::invariants: &'static [&'static str]
+pub forensicnomicon_core::catalog::RecordSignature::min_size: core::option::Option<usize>
+pub forensicnomicon_core::catalog::RecordSignature::name: &'static str
+pub forensicnomicon_core::catalog::RecordSignature::sources: &'static [&'static str]
+pub fn forensicnomicon_core::catalog::all_container_profiles() -> &'static [forensicnomicon_core::catalog::types::ContainerProfile]
+pub fn forensicnomicon_core::catalog::all_container_signatures() -> &'static [forensicnomicon_core::catalog::types::ContainerSignature]
+pub fn forensicnomicon_core::catalog::all_parsing_profiles() -> &'static [forensicnomicon_core::catalog::types::ArtifactParsingProfile]
+pub fn forensicnomicon_core::catalog::all_record_signatures() -> &'static [forensicnomicon_core::catalog::types::RecordSignature]
+pub fn forensicnomicon_core::catalog::container_profile(&str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ContainerProfile>
+pub fn forensicnomicon_core::catalog::container_signature(&str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ContainerSignature>
+pub fn forensicnomicon_core::catalog::parsing_profile(&str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ArtifactParsingProfile>
+pub fn forensicnomicon_core::catalog::record_signatures_for_container(&str) -> alloc::vec::Vec<&'static forensicnomicon_core::catalog::types::RecordSignature>
+pub mod forensicnomicon_core::decmpfs
+#[non_exhaustive] pub enum forensicnomicon_core::decmpfs::Algorithm
+pub forensicnomicon_core::decmpfs::Algorithm::LzBitmap
+pub forensicnomicon_core::decmpfs::Algorithm::Lzfse
+pub forensicnomicon_core::decmpfs::Algorithm::Lzvn
+pub forensicnomicon_core::decmpfs::Algorithm::Uncompressed
+pub forensicnomicon_core::decmpfs::Algorithm::Zlib
+pub enum forensicnomicon_core::decmpfs::Storage
+pub forensicnomicon_core::decmpfs::Storage::Inline
+pub forensicnomicon_core::decmpfs::Storage::ResourceFork
+pub struct forensicnomicon_core::decmpfs::Compression
+pub forensicnomicon_core::decmpfs::Compression::algorithm: forensicnomicon_core::decmpfs::Algorithm
+pub forensicnomicon_core::decmpfs::Compression::storage: forensicnomicon_core::decmpfs::Storage
+pub const forensicnomicon_core::decmpfs::CHUNK_SIZE: usize
+pub const forensicnomicon_core::decmpfs::COMPRESSION_TYPE_OFFSET: usize
+pub const forensicnomicon_core::decmpfs::HEADER_LEN: usize
+pub const forensicnomicon_core::decmpfs::MAGIC: u32
+pub const forensicnomicon_core::decmpfs::UNCOMPRESSED_SIZE_OFFSET: usize
+pub fn forensicnomicon_core::decmpfs::classify(u32) -> core::option::Option<forensicnomicon_core::decmpfs::Compression>
+pub mod forensicnomicon_core::evidence
+#[non_exhaustive] pub enum forensicnomicon_core::evidence::EvidenceStrength
+pub forensicnomicon_core::evidence::EvidenceStrength::Circumstantial = 1
+pub forensicnomicon_core::evidence::EvidenceStrength::Corroborative = 2
+pub forensicnomicon_core::evidence::EvidenceStrength::Definitive = 4
+pub forensicnomicon_core::evidence::EvidenceStrength::Strong = 3
+pub forensicnomicon_core::evidence::EvidenceStrength::Unreliable = 0
+pub mod forensicnomicon_core::filesystems
+pub struct forensicnomicon_core::filesystems::FsSignature
+pub forensicnomicon_core::filesystems::FsSignature::magic: &'static [u8]
+pub forensicnomicon_core::filesystems::FsSignature::name: &'static str
+pub forensicnomicon_core::filesystems::FsSignature::offset: usize
+pub const forensicnomicon_core::filesystems::FILESYSTEM_SIGNATURES: &[forensicnomicon_core::filesystems::FsSignature]
+pub fn forensicnomicon_core::filesystems::detect_name(&[u8]) -> core::option::Option<&'static str>
+pub mod forensicnomicon_core::partition_schemes
+pub enum forensicnomicon_core::partition_schemes::Scheme
+pub forensicnomicon_core::partition_schemes::Scheme::Apm
+pub forensicnomicon_core::partition_schemes::Scheme::Gpt
+pub forensicnomicon_core::partition_schemes::Scheme::Mbr
+pub const forensicnomicon_core::partition_schemes::APM_DDR_MAGIC: &[u8; 2]
+pub const forensicnomicon_core::partition_schemes::GPT_HEADER_MAGIC: &[u8; 8]
+pub const forensicnomicon_core::partition_schemes::MBR_BOOT_SIGNATURE: [u8; 2]
+pub const forensicnomicon_core::partition_schemes::MBR_BOOT_SIGNATURE_OFFSET: usize
+pub fn forensicnomicon_core::partition_schemes::detect_scheme(&[u8]) -> core::option::Option<forensicnomicon_core::partition_schemes::Scheme>
+pub fn forensicnomicon_core::partition_schemes::looks_like_vbr(&[u8]) -> bool
+pub mod forensicnomicon_core::partition_types
+pub struct forensicnomicon_core::partition_types::MbrPartitionType
+pub forensicnomicon_core::partition_types::MbrPartitionType::code: u8
+pub forensicnomicon_core::partition_types::MbrPartitionType::name: &'static str
+pub const forensicnomicon_core::partition_types::PARTITION_TYPES: &[forensicnomicon_core::partition_types::MbrPartitionType]
+pub fn forensicnomicon_core::partition_types::type_name(u8) -> core::option::Option<&'static str>
+pub mod forensicnomicon_core::report
+#[non_exhaustive] pub enum forensicnomicon_core::report::Category
+pub forensicnomicon_core::report::Category::Concealment
+pub forensicnomicon_core::report::Category::History
+pub forensicnomicon_core::report::Category::Integrity
+pub forensicnomicon_core::report::Category::Provenance
+pub forensicnomicon_core::report::Category::Residue
+pub forensicnomicon_core::report::Category::Structure
+pub forensicnomicon_core::report::Category::Threat
+impl forensicnomicon_core::report::Category
+pub fn forensicnomicon_core::report::Category::from_code(&str) -> forensicnomicon_core::report::Category
+#[non_exhaustive] pub enum forensicnomicon_core::report::Location
+pub forensicnomicon_core::report::Location::ByteOffset(u64)
+pub forensicnomicon_core::report::Location::Field(alloc::string::String)
+pub forensicnomicon_core::report::Location::Key(alloc::string::String)
+pub forensicnomicon_core::report::Location::Lba(u64)
+pub forensicnomicon_core::report::Location::Other
+pub forensicnomicon_core::report::Location::Other::space: alloc::string::String
+pub forensicnomicon_core::report::Location::Other::value: u64
+pub forensicnomicon_core::report::Location::Path(alloc::string::String)
+pub forensicnomicon_core::report::Location::RecordId(u64)
+pub forensicnomicon_core::report::Location::Rva(u64)
+pub forensicnomicon_core::report::Location::Sector(u64)
+#[non_exhaustive] pub enum forensicnomicon_core::report::Severity
+pub forensicnomicon_core::report::Severity::Critical
+pub forensicnomicon_core::report::Severity::High
+pub forensicnomicon_core::report::Severity::Info
+pub forensicnomicon_core::report::Severity::Low
+pub forensicnomicon_core::report::Severity::Medium
+impl core::fmt::Display for forensicnomicon_core::report::Severity
+pub fn forensicnomicon_core::report::Severity::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct forensicnomicon_core::report::Confidence(_)
+impl forensicnomicon_core::report::Confidence
+pub fn forensicnomicon_core::report::Confidence::get(self) -> f32
+pub fn forensicnomicon_core::report::Confidence::new(f32) -> core::option::Option<Self>
+impl core::convert::From<forensicnomicon_core::report::Confidence> for f32
+pub fn f32::from(forensicnomicon_core::report::Confidence) -> Self
+impl core::convert::TryFrom<f32> for forensicnomicon_core::report::Confidence
+pub type forensicnomicon_core::report::Confidence::Error = &'static str
+pub fn forensicnomicon_core::report::Confidence::try_from(f32) -> core::result::Result<Self, Self::Error>
+pub struct forensicnomicon_core::report::Evidence
+pub forensicnomicon_core::report::Evidence::field: alloc::string::String
+pub forensicnomicon_core::report::Evidence::location: core::option::Option<forensicnomicon_core::report::Location>
+pub forensicnomicon_core::report::Evidence::value: alloc::string::String
+pub struct forensicnomicon_core::report::ExternalRef
+pub forensicnomicon_core::report::ExternalRef::id: alloc::string::String
+pub forensicnomicon_core::report::ExternalRef::scheme: alloc::string::String
+pub forensicnomicon_core::report::ExternalRef::url: core::option::Option<alloc::string::String>
+impl forensicnomicon_core::report::ExternalRef
+pub fn forensicnomicon_core::report::ExternalRef::mitre_attack(impl core::convert::Into<alloc::string::String>) -> Self
+#[non_exhaustive] pub struct forensicnomicon_core::report::Finding
+pub forensicnomicon_core::report::Finding::category: forensicnomicon_core::report::Category
+pub forensicnomicon_core::report::Finding::code: alloc::borrow::Cow<'static, str>
+pub forensicnomicon_core::report::Finding::context: forensicnomicon_core::report::FindingContext
+pub forensicnomicon_core::report::Finding::evidence: alloc::vec::Vec<forensicnomicon_core::report::Evidence>
+pub forensicnomicon_core::report::Finding::note: alloc::string::String
+pub forensicnomicon_core::report::Finding::severity: core::option::Option<forensicnomicon_core::report::Severity>
+pub forensicnomicon_core::report::Finding::source: forensicnomicon_core::report::Source
+pub forensicnomicon_core::report::Finding::subjects: alloc::vec::Vec<forensicnomicon_core::report::SubjectRef>
+impl forensicnomicon_core::report::Finding
+pub fn forensicnomicon_core::report::Finding::observation(forensicnomicon_core::report::Severity, forensicnomicon_core::report::Category, impl core::convert::Into<alloc::borrow::Cow<'static, str>>) -> forensicnomicon_core::report::FindingBuilder
+pub fn forensicnomicon_core::report::Finding::unrated(forensicnomicon_core::report::Category, impl core::convert::Into<alloc::borrow::Cow<'static, str>>) -> forensicnomicon_core::report::FindingBuilder
+pub struct forensicnomicon_core::report::FindingBuilder
+impl forensicnomicon_core::report::FindingBuilder
+pub fn forensicnomicon_core::report::FindingBuilder::build(self) -> forensicnomicon_core::report::Finding
+pub fn forensicnomicon_core::report::FindingBuilder::confidence(self, forensicnomicon_core::report::Confidence) -> Self
+pub fn forensicnomicon_core::report::FindingBuilder::evidence(self, impl core::convert::Into<alloc::string::String>, impl core::convert::Into<alloc::string::String>) -> Self
+pub fn forensicnomicon_core::report::FindingBuilder::evidence_at(self, impl core::convert::Into<alloc::string::String>, impl core::convert::Into<alloc::string::String>, forensicnomicon_core::report::Location) -> Self
+pub fn forensicnomicon_core::report::FindingBuilder::evidence_item(self, forensicnomicon_core::report::Evidence) -> Self
+pub fn forensicnomicon_core::report::FindingBuilder::external_ref(self, forensicnomicon_core::report::ExternalRef) -> Self
+pub fn forensicnomicon_core::report::FindingBuilder::mitre(self, impl core::convert::Into<alloc::string::String>) -> Self
+pub fn forensicnomicon_core::report::FindingBuilder::note(self, impl core::convert::Into<alloc::string::String>) -> Self
+pub fn forensicnomicon_core::report::FindingBuilder::occurrences(self, u64) -> Self
+pub fn forensicnomicon_core::report::FindingBuilder::source(self, forensicnomicon_core::report::Source) -> Self
+pub fn forensicnomicon_core::report::FindingBuilder::subject(self, forensicnomicon_core::report::SubjectRef) -> Self
+pub fn forensicnomicon_core::report::FindingBuilder::tag(self, impl core::convert::Into<alloc::borrow::Cow<'static, str>>) -> Self
+pub fn forensicnomicon_core::report::FindingBuilder::timestamp(self, forensicnomicon_core::report::Timestamp) -> Self
+#[non_exhaustive] pub struct forensicnomicon_core::report::FindingContext
+pub forensicnomicon_core::report::FindingContext::confidence: core::option::Option<forensicnomicon_core::report::Confidence>
+pub forensicnomicon_core::report::FindingContext::external_refs: alloc::vec::Vec<forensicnomicon_core::report::ExternalRef>
+pub forensicnomicon_core::report::FindingContext::occurrences: core::option::Option<core::num::nonzero::NonZeroU64>
+pub forensicnomicon_core::report::FindingContext::tags: alloc::vec::Vec<alloc::borrow::Cow<'static, str>>
+pub forensicnomicon_core::report::FindingContext::timestamps: alloc::vec::Vec<forensicnomicon_core::report::Timestamp>
+pub struct forensicnomicon_core::report::Provenance
+pub forensicnomicon_core::report::Provenance::label: alloc::string::String
+pub forensicnomicon_core::report::Provenance::source: alloc::string::String
+pub forensicnomicon_core::report::Provenance::value: alloc::string::String
+#[non_exhaustive] pub struct forensicnomicon_core::report::Report
+pub forensicnomicon_core::report::Report::findings: alloc::vec::Vec<forensicnomicon_core::report::Finding>
+pub forensicnomicon_core::report::Report::metadata: alloc::vec::Vec<forensicnomicon_core::report::Evidence>
+pub forensicnomicon_core::report::Report::provenance: alloc::vec::Vec<forensicnomicon_core::report::Provenance>
+pub forensicnomicon_core::report::Report::timeline: alloc::vec::Vec<forensicnomicon_core::report::TimelineEvent>
+impl forensicnomicon_core::report::Report
+pub fn forensicnomicon_core::report::Report::findings_at_least(&self, forensicnomicon_core::report::Severity) -> impl core::iter::traits::iterator::Iterator<Item = &forensicnomicon_core::report::Finding>
+pub fn forensicnomicon_core::report::Report::max_severity(&self) -> core::option::Option<forensicnomicon_core::report::Severity>
+pub fn forensicnomicon_core::report::Report::unrated_findings(&self) -> impl core::iter::traits::iterator::Iterator<Item = &forensicnomicon_core::report::Finding>
+pub struct forensicnomicon_core::report::Source
+pub forensicnomicon_core::report::Source::analyzer: alloc::string::String
+pub forensicnomicon_core::report::Source::scope: alloc::string::String
+pub forensicnomicon_core::report::Source::version: core::option::Option<alloc::string::String>
+pub struct forensicnomicon_core::report::SubjectRef
+pub forensicnomicon_core::report::SubjectRef::id: alloc::string::String
+pub forensicnomicon_core::report::SubjectRef::kind: alloc::string::String
+pub forensicnomicon_core::report::SubjectRef::label: core::option::Option<alloc::string::String>
+pub forensicnomicon_core::report::SubjectRef::scheme: alloc::string::String
+pub struct forensicnomicon_core::report::TimelineEvent
+pub forensicnomicon_core::report::TimelineEvent::event: alloc::string::String
+pub forensicnomicon_core::report::TimelineEvent::source: alloc::string::String
+pub forensicnomicon_core::report::TimelineEvent::when: core::option::Option<alloc::string::String>
+pub struct forensicnomicon_core::report::Timestamp
+pub forensicnomicon_core::report::Timestamp::kind: alloc::string::String
+pub forensicnomicon_core::report::Timestamp::location: core::option::Option<forensicnomicon_core::report::Location>
+pub forensicnomicon_core::report::Timestamp::value: alloc::string::String
+pub trait forensicnomicon_core::report::Observation
+pub fn forensicnomicon_core::report::Observation::category(&self) -> forensicnomicon_core::report::Category
+pub fn forensicnomicon_core::report::Observation::code(&self) -> &'static str
+pub fn forensicnomicon_core::report::Observation::confidence(&self) -> core::option::Option<forensicnomicon_core::report::Confidence>
+pub fn forensicnomicon_core::report::Observation::evidence(&self) -> alloc::vec::Vec<forensicnomicon_core::report::Evidence>
+pub fn forensicnomicon_core::report::Observation::mitre(&self) -> &'static [&'static str]
+pub fn forensicnomicon_core::report::Observation::note(&self) -> alloc::string::String
+pub fn forensicnomicon_core::report::Observation::severity(&self) -> core::option::Option<forensicnomicon_core::report::Severity>
+pub fn forensicnomicon_core::report::Observation::subjects(&self) -> alloc::vec::Vec<forensicnomicon_core::report::SubjectRef>
+pub fn forensicnomicon_core::report::Observation::to_finding(&self, forensicnomicon_core::report::Source) -> forensicnomicon_core::report::Finding
+pub mod forensicnomicon_core::volatility
+#[non_exhaustive] pub enum forensicnomicon_core::volatility::VolatilityClass
+pub forensicnomicon_core::volatility::VolatilityClass::ActivityDriven = 2
+pub forensicnomicon_core::volatility::VolatilityClass::Persistent = 1
+pub forensicnomicon_core::volatility::VolatilityClass::Residual = 0
+pub forensicnomicon_core::volatility::VolatilityClass::RotatingBuffer = 3
+pub forensicnomicon_core::volatility::VolatilityClass::Volatile = 4

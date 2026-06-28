@@ -1,0 +1,15 @@
+pub mod forensicnomicon_data
+pub mod forensicnomicon_data::catalog
+pub use forensicnomicon_data::catalog::<<forensicnomicon_core::catalog::*>>
+pub static forensicnomicon_data::catalog::CATALOG: forensicnomicon_core::catalog::types::ForensicCatalog
+pub fn forensicnomicon_data::catalog::container_profile_for_artifact(&str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ContainerProfile>
+pub fn forensicnomicon_data::catalog::container_signature_for_artifact(&str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ContainerSignature>
+pub fn forensicnomicon_data::catalog::record_signatures_for_artifact(&str) -> alloc::vec::Vec<&'static forensicnomicon_core::catalog::types::RecordSignature>
+pub mod forensicnomicon_data::evidence
+pub use forensicnomicon_data::evidence::EvidenceStrength
+pub fn forensicnomicon_data::evidence::artifacts_with_strength(forensicnomicon_core::evidence::EvidenceStrength) -> alloc::vec::Vec<&'static forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub fn forensicnomicon_data::evidence::evidence_for(&str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub mod forensicnomicon_data::volatility
+pub use forensicnomicon_data::volatility::VolatilityClass
+pub fn forensicnomicon_data::volatility::acquisition_order() -> alloc::vec::Vec<&'static forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub fn forensicnomicon_data::volatility::volatility_for(&str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ArtifactDescriptor>
