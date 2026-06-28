@@ -2,7 +2,13 @@
 /data/
 .DS_Store
 .playwright-mcp/
-.claude/
+# Ignore .claude/ CONTENTS (not the dir itself) so git still descends and the
+# negation below can re-include the one deliberately-committed command file.
+# Otherwise it is "tracked AND ignored", which trips cargo/release-plz's clean-tree check.
+.claude/*
+!.claude/commands/
+.claude/commands/*
+!.claude/commands/review-dfir-feeds.md
 **/__pycache__/
 *.pyc
 .env
