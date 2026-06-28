@@ -35,7 +35,7 @@ jobs:
           fetch-depth: 0
       - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
       - name: release-plz release
-        uses: release-plz/action@v0.5 # renovate: pin to digest SHA on first run
+        uses: release-plz/action@e8792575c7f2366cf6ff3ccc33ead9ace5b691c7 # v0.5.130
         with:
           command: release
         env:
@@ -55,7 +55,7 @@ jobs:
           fetch-depth: 0
       - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
       - name: release-plz release-pr
-        uses: release-plz/action@v0.5 # renovate: pin to digest SHA on first run
+        uses: release-plz/action@e8792575c7f2366cf6ff3ccc33ead9ace5b691c7 # v0.5.130
         with:
           command: release-pr
         env:
