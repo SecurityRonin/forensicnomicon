@@ -19,6 +19,12 @@ git_release_enable = false
 changelog_update = true
 # Each crate versions independently (core/data move at very different cadences).
 dependencies_update = false
+# Only prepare a release when a real change exists since the last one. release-plz's
+# release detection is file-based, so a changelog-only "chore: release" commit
+# otherwise re-triggers a release (the #2->#3->#4 churn loop). This allowlist makes
+# feat/fix/perf/refactor/doc/revert the only release triggers; chore/ci/test/style/
+# build (incl. release-plz's own release commits) never prepare a release.
+release_commits = "^(feat|fix|perf|refactor|doc|revert)"
 
 # Skip release-plz's own release commits so merging a release PR does not trigger
 # yet another release (the #2 -> #3 churn loop, which a squash-merged release commit
