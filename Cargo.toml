@@ -55,7 +55,7 @@ case_sensitive_file_extension_comparisons = { level = "allow", priority = 1 }
 
 [package]
 name = "forensicnomicon"
-version = "0.12.0"
+version = "0.12.1"
 description = "The ForensicNomicon — comprehensive DFIR artifact catalog: UserAssist, Shimcache, Amcache, Prefetch, $MFT, ShellBags, EVTX, NTDS.dit, SAM, SRUM, LNK, Jump Lists + KAPE/Velociraptor/Sigma/MITRE. Zero deps."
 edition.workspace = true
 rust-version = "1.75"
