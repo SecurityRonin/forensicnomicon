@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-data-v0.1.0...forensicnomicon-data-v1.0.0) - 2026-06-29
+
+### Changed
+
+- Stabilize the detection-knowledge API at 1.0 atop `forensicnomicon-core` 1.0. No
+  functional changes from 0.1.0; catalog content continues to evolve additively.
+
 ## [0.1.0](https://github.com/SecurityRonin/forensicnomicon/releases/tag/forensicnomicon-data-v0.1.0) - 2026-06-28
 
 ### Other

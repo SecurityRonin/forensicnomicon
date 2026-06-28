@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v0.12.0...forensicnomicon-v1.0.0) - 2026-06-29
+
+### Changed
+
+- Stabilize the public API at 1.0. The `forensicnomicon` facade re-exports
+  `forensicnomicon-core` 1.0 (report model, lookup engine, structural constants)
+  and `forensicnomicon-data` 1.0 (artifact catalog, IOC, MITRE knowledge) under a
+  semver-stable contract. No functional changes from 0.12.0.
+
 ## [0.12.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v0.11.0...forensicnomicon-v0.12.0) - 2026-06-28
 
 ### Fixed
