@@ -34,8 +34,15 @@ Building DFIR tools in Rust? The same data is a zero-dependency library:
 
 ```toml
 [dependencies]
-forensicnomicon = "0.3"
+forensicnomicon = "0.12"   # facade: stable engine + the full catalog, one import
 ```
+
+Building a detection pipeline or `*-forensic` analyzer? Depend on the **stable engine**
+instead — [`forensicnomicon-core`](https://crates.io/crates/forensicnomicon-core) (the
+`report` model, catalog types, and lookup engine) holds still while the knowledge in
+[`forensicnomicon-data`](https://crates.io/crates/forensicnomicon-data) (the 6,554
+descriptors + IOC/MITRE tables) updates underneath it — so catalog changes never force
+your crate to republish.
 
 ---
 
