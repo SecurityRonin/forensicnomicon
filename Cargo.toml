@@ -1,5 +1,5 @@
 [workspace]
-members = [".", "crates/core", "crates/ingest", "crates/4n6query"]
+members = [".", "crates/core", "crates/data", "crates/ingest", "crates/4n6query"]
 
 # Shared package field (DRY): every member is edition 2021; set it once here and
 # members inherit via `edition.workspace = true`. version / rust-version /
@@ -13,6 +13,7 @@ edition = "2021"
 [workspace.dependencies]
 forensicnomicon = { path = ".", version = "0.11" }
 forensicnomicon-core = { path = "crates/core", version = "0.1" }
+forensicnomicon-data = { path = "crates/data", version = "0.1" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 serde_yaml = "0.9"
@@ -77,11 +78,12 @@ exclude = [
 
 [features]
 default = ["std"]
-std = ["forensicnomicon-core/std"]
-serde = ["dep:serde", "forensicnomicon-core/serde"]
+std = ["forensicnomicon-core/std", "forensicnomicon-data/std"]
+serde = ["dep:serde", "forensicnomicon-core/serde", "forensicnomicon-data/serde"]
 
 [dependencies]
 forensicnomicon-core = { workspace = true }
+forensicnomicon-data = { workspace = true }
 serde = { workspace = true, optional = true }
 
 [dev-dependencies]

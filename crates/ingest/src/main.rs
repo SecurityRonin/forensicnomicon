@@ -35,7 +35,7 @@ impl Opts {
     fn parse(args: &[String]) -> Result<Self, String> {
         let mut sources = Vec::new();
         let mut output_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../src/catalog/descriptors/generated");
+            .join("../data/src/catalog/descriptors/generated");
         let mut dry_run = false;
         let mut limit = None;
         let mut verbose = false;
@@ -107,7 +107,7 @@ Options:
   --source <SOURCE>   regedit|kape|fa|velociraptor|evtx|browsers|nirsoft|all
                       (comma-separated for multiple)
   --output <DIR>      Output directory for .rs files
-                      [default: src/catalog/descriptors/generated]
+                      [default: crates/data/src/catalog/descriptors/generated]
   --dry-run           Print stats without writing files
   --limit <N>         Max records per source (for testing)
   -v, --verbose       Verbose output
@@ -180,7 +180,7 @@ fn main() {
 
     // Load existing catalog IDs for deduplication
     let catalog_dir =
-        PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../src/catalog/descriptors");
+        PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../data/src/catalog/descriptors");
     let existing_ids = load_catalog_ids(&catalog_dir).unwrap_or_else(|e| {
         eprintln!("WARN: could not load catalog IDs: {e}");
         dedup::IdSet::default()
@@ -333,7 +333,7 @@ fn main() {
     } else if total_new > 0 {
         println!("Output written to: {}", output_dir.display());
         println!();
-        println!("To wire into the catalog, add to src/catalog/descriptors/mod.rs:");
+        println!("To wire into the catalog, add to crates/data/src/catalog/descriptors/mod.rs:");
         for s in summaries.iter().filter(|s| s.written) {
             println!(
                 "  mod generated {{ pub(super) mod {}_generated; }}",

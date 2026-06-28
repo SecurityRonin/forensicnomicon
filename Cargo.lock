@@ -508,6 +508,7 @@ name = "forensicnomicon"
 version = "0.11.0"
 dependencies = [
  "forensicnomicon-core",
+ "forensicnomicon-data",
  "serde",
  "serde_json",
  "winreg-core",
@@ -535,6 +536,15 @@ name = "forensicnomicon-core"
 version = "0.1.0"
 dependencies = [
  "serde",
+]
+
+[[package]]
+name = "forensicnomicon-data"
+version = "0.1.0"
+dependencies = [
+ "forensicnomicon-core",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
