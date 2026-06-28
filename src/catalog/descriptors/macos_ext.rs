@@ -1767,3 +1767,360 @@ pub(crate) static IOS_GOOGLE_CHAT_CACHEV0: ArtifactDescriptor = ArtifactDescript
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Image cache updated as UI renders images; older entries evicted",
 };
+
+// ── Apple ATX texture containers (iOS UI image caches) ─────────────────────
+//
+// ATX (`AAPL`) texture containers hold iOS UI image caches: PosterBoard /
+// runtime snapshots, wallpapers, contact posters, and Animoji/Avatar renders.
+// Forensically they are "what was on screen". Container layout and decode are
+// reverse-engineered in iLEAPP's `apple_atx.py`; the format and locations were
+// documented by James Habben (2026-06-26). The byte framing: an 8-byte magic
+// `AAPL\r\n\x1a\n` followed by `[size u32 LE][4-byte tag][payload]` chunks
+// (HEAD/FILL/astc/ASTC/LZFS/END). HEAD carries width, height, depth, array
+// layers, mipmaps, a texture UUID, and a pixel-format discriminator pair. The
+// payload is ASTC 4x4: a raw `astc`/`ASTC` chunk is macro-tiled (32x32-block
+// tiles, Morton-ordered with a local X/Y swap — decoding it linearly yields a
+// visually shuffled image), while an `LZFS` chunk is LZFSE-compressed linear
+// ASTC (seen around avatar/Animoji resources). Discriminator `(3,5)` is
+// confirmed ASTC 4x4; `(1,1)` and `(3,1)` are inferred ASTC 4x4 (decode +
+// payload shape match, not asserted by the format).
+//
+// # Sources
+// - <https://leapps.org/blog-post?post=2026-06-26-decoding-apple-atx-images> —
+//   James Habben, format + iOS locations + the macro-tiling/Morton de-tile fix
+// - <https://github.com/abrignoni/iLEAPP> — `leapp_functions/parsers/apple_atx.py`
+//   reference parser/decoder and `scripts/artifacts/apple_atx_images.py` artifact
+
+/// Generic Apple ATX (`AAPL`) texture container — the format umbrella that the
+/// location-specific ATX artifacts share. iLEAPP enumerates these globally as
+/// `**/*.atx`.
+pub(crate) static APPLE_ATX_TEXTURE_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
+    id: "apple_atx_texture_container",
+    name: "Apple ATX Texture Container (AAPL)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Source: https://leapps.org/blog-post?post=2026-06-26-decoding-apple-atx-images
+    // iLEAPP's Apple ATX Images artifact searches globally for **/*.atx
+    file_path: Some("**/*.atx"),
+    scope: DataScope::User,
+    os_scope: OsScope::IOS,
+    decoder: Decoder::Identity,
+    meaning: "Apple 'AAPL' texture container holding an iOS UI image cache. \
+        Layout: 8-byte magic AAPL\\r\\n\\x1a\\n, then [size u32 LE][4-byte tag] \
+        [payload] chunks (HEAD, FILL, astc/ASTC, LZFS, END). HEAD carries width, \
+        height, depth, array-layer count, mipmap count, a texture UUID, and a \
+        pixel-format discriminator pair. The payload is ASTC 4x4 texture data: a \
+        raw astc/ASTC chunk is macro-tiled (32x32-block tiles, Morton-ordered \
+        with a local X/Y swap) and decodes to a shuffled image if read linearly, \
+        while an LZFS chunk is LZFSE-compressed linear ASTC (common for \
+        avatar/Animoji resources). Discriminator (3,5) is confirmed ASTC 4x4; \
+        (1,1) and (3,1) are inferred ASTC 4x4. Forensically these reconstruct \
+        UI imagery — wallpapers, posters, snapshots, avatars — i.e. what the \
+        device rendered. Decode to RGBA/PNG with iLEAPP's apple_atx parser or \
+        the atx-core Rust reader.",
+    mitre_techniques: &["T1005"],
+    fields: &[
+        FieldSchema {
+            name: "width",
+            value_type: ValueType::UnsignedInt,
+            description: "Texture width in pixels (HEAD offset 0x18)",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "height",
+            value_type: ValueType::UnsignedInt,
+            description: "Texture height in pixels (HEAD offset 0x1C)",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "depth",
+            value_type: ValueType::UnsignedInt,
+            description: "Texture depth (HEAD offset 0x20)",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "array_layers",
+            value_type: ValueType::UnsignedInt,
+            description: "Array layer count (HEAD offset 0x28)",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "mipmap_count",
+            value_type: ValueType::UnsignedInt,
+            description: "Mipmap level count (HEAD offset 0x2C)",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "texture_uuid",
+            value_type: ValueType::Text,
+            description: "16-byte texture UUID from HEAD (offset 0x3C)",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "pixel_format",
+            value_type: ValueType::Text,
+            description: "Pixel-format discriminator pair, e.g. (3,5)/(1,1)/(3,1)",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "pixel_format_confidence",
+            value_type: ValueType::Text,
+            // Source: https://leapps.org/blog-post?post=2026-06-26-decoding-apple-atx-images
+            description: "'confirmed' for (3,5) ASTC 4x4; 'inferred' for (1,1)/(3,1)",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "payload_type",
+            value_type: ValueType::Text,
+            description: "Texture payload chunk tag: astc, ASTC, or LZFS (LZFSE-wrapped)",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "payload_size",
+            value_type: ValueType::UnsignedInt,
+            description: "Texture payload byte size as framed in the container",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "chunk_list",
+            value_type: ValueType::Text,
+            description: "Ordered list of chunk tags found while walking the container",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("On-disk cache; persists until the owning subsystem regenerates it or the app/poster is removed"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[
+        "ios_atx_posterboard_runtime_snapshot",
+        "ios_atx_poster_snapshot_cache",
+        "ios_atx_avatar_animoji_texture",
+        "heic_image_file",
+    ],
+    sources: &[
+        // Source: James Habben — ATX format, iOS locations, Morton de-tile fix
+        "https://leapps.org/blog-post?post=2026-06-26-decoding-apple-atx-images",
+        // Source: iLEAPP — apple_atx.py reference parser + apple_atx_images.py artifact
+        "https://github.com/abrignoni/iLEAPP",
+        // Source: Crush Forensics — independent ATX previewer cited by the write-up
+        "https://github.com/kalink0/crush-forensics",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Pixel format (1,1)/(3,1) is inferred ASTC 4x4 from decode + payload shape, not asserted by the format — never report it as confirmed",
+        "Path is not assignment: an ATX in a PosterBoard-ish path is an available/rendered image, not proof of the active wallpaper at a given time",
+        "Raw astc/ASTC blocks are macro-tiled; the Morton X/Y orientation is a heuristic, not a format flag, so a pathological texture could de-tile wrong",
+        "Non-ASTC-4x4 or other-block-size textures, if present, are not decoded; metadata is still reported",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "On-disk texture cache files survive reboot; cleared when the subsystem regenerates the cache or the owning app/poster is removed",
+};
+
+/// iOS PosterBoard / WallpaperKit runtime poster snapshots stored as ATX —
+/// rendered Lock/Home Screen and gallery images under `PRBPosterExtensionDataStore`.
+pub(crate) static IOS_ATX_POSTERBOARD_RUNTIME_SNAPSHOT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ios_atx_posterboard_runtime_snapshot",
+    name: "iOS PosterBoard Runtime Snapshot (ATX)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Source: https://leapps.org/blog-post?post=2026-06-26-decoding-apple-atx-images
+    // Observed in the Hickman iOS 17 public image under PRBPosterExtensionDataStore;
+    // RuntimeSnapshot-home/lock.atx and SNAPSHOT_GALLERY*.atx per poster provider.
+    file_path: Some("/private/var/mobile/Containers/Data/Application/*/Library/Application Support/PRBPosterExtensionDataStore/*/Extensions/*/descriptors/*/versions/*/*.atx"),
+    scope: DataScope::User,
+    os_scope: OsScope::IOS,
+    decoder: Decoder::Identity,
+    meaning: "Rendered Lock Screen / Home Screen poster images cached as ATX \
+        texture containers under the PosterBoard extension data store. Filenames \
+        include RuntimeSnapshot-home.atx and RuntimeSnapshot-lock.atx (the \
+        rendered home/lock poster) and SNAPSHOT_GALLERY / \
+        SNAPSHOT_GALLERY_WITH_COMPLICATIONS variants (poster-picker previews). \
+        The Extensions path segment names the poster provider — e.g. \
+        com.apple.WallpaperKit.CollectionsPoster, \
+        com.apple.EmojiPoster.EmojiPosterExtension, com.apple.weather.poster, \
+        com.apple.PhotosUIPrivate.PhotosPosterProvider — so the directory shows \
+        which poster types were configured. Payload is raw macro-tiled ASTC 4x4 \
+        (decode with the apple_atx Morton de-tile). Per-versions/* directories \
+        retain prior renders, giving a history of configured posters.",
+    mitre_techniques: &["T1005"],
+    fields: &[
+        FieldSchema {
+            name: "poster_provider",
+            value_type: ValueType::Text,
+            description: "Poster extension bundle id from the path (e.g. com.apple.WallpaperKit.CollectionsPoster)",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "snapshot_role",
+            value_type: ValueType::Text,
+            description: "Render role from the filename: RuntimeSnapshot-home/-lock, SNAPSHOT_GALLERY, etc.",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "version",
+            value_type: ValueType::Text,
+            description: "versions/* segment — distinguishes successive renders of the same poster",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "texture_uuid",
+            value_type: ValueType::Text,
+            description: "Texture UUID from the ATX HEAD chunk",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Re-rendered when the poster configuration changes; prior versions/* renders may persist"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["apple_atx_texture_container", "ios_atx_poster_snapshot_cache"],
+    sources: &[
+        // Source: James Habben — PosterBoard/PRBPosterExtensionDataStore ATX locations
+        "https://leapps.org/blog-post?post=2026-06-26-decoding-apple-atx-images",
+        "https://github.com/abrignoni/iLEAPP",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Path is not assignment: presence under PRBPosterExtensionDataStore shows a poster was configured/rendered, not that it was the active wallpaper at any given moment",
+        "Macro-tiled ASTC; the Morton X/Y de-tile orientation is a heuristic, not a format flag",
+        "Filenames may contain glob metacharacters (e.g. brackets) that confuse naive path matching",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Re-rendered when the poster/wallpaper configuration changes; versioned directories may retain earlier renders",
+};
+
+/// iOS poster snapshot caches stored as ATX — Ambient (lock screen) and
+/// ShareNameAndPhoto (contact poster) rendered composites under `PosterSnapshots`.
+pub(crate) static IOS_ATX_POSTER_SNAPSHOT_CACHE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ios_atx_poster_snapshot_cache",
+    name: "iOS Poster Snapshot Cache (ATX)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Source: https://leapps.org/blog-post?post=2026-06-26-decoding-apple-atx-images
+    // Observed: /private/var/mobile/Library/Caches/Ambient/PosterSnapshots/... and
+    // .../Caches/com.apple.ShareNameAndPhoto/PosterSnapshots/... (Composite/Foreground).
+    file_path: Some("/private/var/mobile/**/PosterSnapshots/**/*.atx"),
+    scope: DataScope::User,
+    os_scope: OsScope::IOS,
+    decoder: Decoder::Identity,
+    meaning: "Rendered poster snapshots cached as ATX under PosterSnapshots trees. \
+        Two notable sources: /private/var/mobile/Library/Caches/Ambient/ \
+        PosterSnapshots/... (ambient/Lock Screen renders, with Composite.atx and \
+        Foreground.atx layers inside each Snapshot.pks/Resources) and per-app \
+        .../Caches/com.apple.ShareNameAndPhoto/PosterSnapshots/... (Contact \
+        Poster renders for the Name & Photo sharing card). Snapshot directory \
+        names encode orientation, scale, and a content hash. These reconstruct \
+        the contact poster or lock-screen imagery the device rendered. Payload \
+        is raw macro-tiled ASTC 4x4.",
+    mitre_techniques: &["T1005"],
+    fields: &[
+        FieldSchema {
+            name: "snapshot_source",
+            value_type: ValueType::Text,
+            description: "Originating cache: Ambient (lock screen) or com.apple.ShareNameAndPhoto (contact poster)",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "layer",
+            value_type: ValueType::Text,
+            description: "Layer file within the snapshot bundle, e.g. Composite.atx or Foreground.atx",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "content_hash",
+            value_type: ValueType::Text,
+            description: "Content-hash directory segment identifying the rendered snapshot",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "texture_uuid",
+            value_type: ValueType::Text,
+            description: "Texture UUID from the ATX HEAD chunk",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Regenerated when the poster/contact card changes; old snapshots may linger until cache maintenance"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["apple_atx_texture_container", "ios_atx_posterboard_runtime_snapshot"],
+    sources: &[
+        // Source: James Habben — PosterSnapshots ATX locations
+        "https://leapps.org/blog-post?post=2026-06-26-decoding-apple-atx-images",
+        "https://github.com/abrignoni/iLEAPP",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Path is not assignment: a cached snapshot shows a poster/contact card was rendered, not that it was active or currently displayed",
+        "A contact-poster render reflects a contact card configured on the device; it does not by itself establish who set it or when it was shown",
+        "Macro-tiled ASTC; Morton X/Y de-tile orientation is a heuristic",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Snapshots are re-rendered when the underlying poster or contact card changes; superseded renders persist until cache maintenance",
+};
+
+/// iOS Animoji / Avatar ATX textures — AvatarKit system assets and per-app
+/// Animoji render caches, LZFSE-compressed ASTC.
+pub(crate) static IOS_ATX_AVATAR_ANIMOJI_TEXTURE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ios_atx_avatar_animoji_texture",
+    name: "iOS Animoji / Avatar Texture (ATX)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Source: https://leapps.org/blog-post?post=2026-06-26-decoding-apple-atx-images
+    // Observed: AvatarKit.framework/animoji/<creature>/*-camera{,Grid}.atx (system
+    // assets) and PluginKitPlugin/*/Library/Caches/Animoji/*.atx (render caches).
+    file_path: Some("/private/var/mobile/Containers/Data/PluginKitPlugin/*/Library/Caches/Animoji/*.atx"),
+    scope: DataScope::User,
+    os_scope: OsScope::IOS,
+    decoder: Decoder::Identity,
+    meaning: "Animoji/Memoji avatar texture renders stored as ATX. Two flavours: \
+        Apple system assets under \
+        /System/Library/PrivateFrameworks/AvatarKit.framework/animoji/<creature>/ \
+        (e.g. fox-camera.atx, fox-cameraGrid.atx — stock, present on every device) \
+        and per-app render caches under \
+        Containers/Data/PluginKitPlugin/*/Library/Caches/Animoji/*.atx (avatars \
+        actually rendered by an app/keyboard). These payloads are LZFS chunks — \
+        LZFSE-compressed linear ASTC 4x4 — not macro-tiled, so no Morton de-tile \
+        is needed. The per-app caches are the forensically interesting set: they \
+        evidence which Animoji/Memoji were rendered in app context.",
+    mitre_techniques: &["T1005"],
+    fields: &[
+        FieldSchema {
+            name: "avatar_kind",
+            value_type: ValueType::Text,
+            description: "Animoji creature / Memoji identifier parsed from the filename",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "asset_class",
+            value_type: ValueType::Text,
+            description: "'system' (AvatarKit.framework stock asset) or 'cache' (per-app render)",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "texture_uuid",
+            value_type: ValueType::Text,
+            description: "Texture UUID from the ATX HEAD chunk",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("System assets persist with the OS; per-app render caches persist until app cache eviction or uninstall"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["apple_atx_texture_container"],
+    sources: &[
+        // Source: James Habben — LZFS/avatar/Animoji ATX observation
+        "https://leapps.org/blog-post?post=2026-06-26-decoding-apple-atx-images",
+        "https://github.com/abrignoni/iLEAPP",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "AvatarKit.framework assets are stock OS files present on every device — no individuating value; only the per-app Caches/Animoji renders reflect user activity",
+        "A rendered avatar texture does not establish who sent/used it or in which conversation; correlate with app data",
+        "Pixel format is typically inferred ASTC 4x4 ((1,1)/(3,1)), not format-asserted",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "System assets are static; per-app render caches survive reboot until cache eviction or app uninstall",
+};
