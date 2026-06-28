@@ -1,0 +1,26 @@
+# release-plz owns crates.io publishing + changelogs + per-crate version bumps for
+# the workspace libraries. It runs on pushes to main (see
+# .github/workflows/release-plz.yml):
+#   - `release-pr`  opens a human-reviewed version-bump PR (conventional commits)
+#   - `release`     publishes any crate whose Cargo.toml version is ahead of
+#                   crates.io, in dependency order, and creates its git tag
+#
+# Binary distribution (the 4n6query MSI/deb/Homebrew/winget assets) stays in
+# release.yml, triggered by a manual `v*` tag — decoupled from library publishing.
+
+[workspace]
+# Per-package git tags, e.g. `forensicnomicon-core-v0.1.1`. These deliberately do
+# NOT match release.yml's `v*` trigger, so a library release never kicks off a
+# binary build. Cutting a binary release stays a deliberate `v*` tag push.
+git_tag_enable = true
+# GitHub Releases (with downloadable assets) are owned by release.yml; library
+# crates get a git tag + CHANGELOG entry, not a separate GitHub Release.
+git_release_enable = false
+changelog_update = true
+# Each crate versions independently (core/data move at very different cadences).
+dependencies_update = false
+
+# The ingest tool is a build-time codegen helper — never published to crates.io.
+[[package]]
+name = "ingest"
+release = false

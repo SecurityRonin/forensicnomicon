@@ -1,0 +1,66 @@
+name: release-plz
+
+# Owns crates.io publishing + changelogs + version bumps for the workspace
+# libraries (forensicnomicon-core, forensicnomicon-data, the forensicnomicon
+# facade, and forensicnomicon-cli). Configuration lives in release-plz.toml.
+#
+# On every push to main:
+#   - release-plz-pr:      opens/updates a human-reviewed version-bump PR
+#   - release-plz-release: publishes any crate whose version is ahead of crates.io
+#                          (release-plz resolves dependency order) and tags it
+#
+# Binary distribution (4n6query MSI/deb/Homebrew/winget) stays in release.yml,
+# triggered by a manual `v*` tag. The two pipelines do not overlap: release-plz
+# uses package-prefixed tags (forensicnomicon-core-v*, …) which never match `v*`.
+
+permissions:
+  contents: write
+  pull-requests: write
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release-plz-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release-plz-release:
+    name: release-plz release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 0
+      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+      - name: release-plz release
+        uses: release-plz/action@v0.5 # renovate: pin to digest SHA on first run
+        with:
+          command: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+
+  release-plz-pr:
+    name: release-plz PR
+    runs-on: ubuntu-latest
+    # Serialize PR updates so concurrent pushes don't fight over the release PR.
+    concurrency:
+      group: release-plz-pr
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 0
+      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+      - name: release-plz release-pr
+        uses: release-plz/action@v0.5 # renovate: pin to digest SHA on first run
+        with:
+          command: release-pr
+        env:
+          # NOTE: GITHUB_TOKEN-created PRs do not trigger other workflows (CI won't
+          # run on the release PR). For CI on the release PR, supply a PAT or GitHub
+          # App token as a RELEASE_PLZ_TOKEN secret and reference it here instead.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
