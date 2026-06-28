@@ -322,12 +322,10 @@ mod tests {
     #[test]
     fn report_to_layer_delegates_to_findings() {
         use crate::report::{Category, Finding, Report, Severity};
-        let report = Report {
-            findings: vec![Finding::observation(Severity::High, Category::Threat, "X")
-                .mitre("T1059")
-                .build()],
-            ..Report::default()
-        };
+        let mut report = Report::default();
+        report.findings = vec![Finding::observation(Severity::High, Category::Threat, "X")
+            .mitre("T1059")
+            .build()];
         let layer = report_to_navigator_layer(&report, "r");
         assert!(layer.contains(r#""techniqueID": "T1059""#));
     }
