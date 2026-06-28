@@ -117,25 +117,31 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
       - uses: Swatinem/rust-cache@v2
-      - name: Publish lib to crates.io
+      - name: Publish workspace crates to crates.io (dependency order)
+        # Dependency order: forensicnomicon-core <- forensicnomicon-data <-
+        # forensicnomicon (facade) <- forensicnomicon-cli. crates.io must have each
+        # dependency indexed before its dependents publish, so wait ~60s between
+        # tiers for the index to propagate. Each crate's own version is published
+        # (the crates are versioned independently), and an already-published
+        # version is tolerated so re-runs are idempotent.
         run: |
-          output=$(cargo publish -p forensicnomicon --allow-dirty 2>&1) && echo "$output" || {
-            echo "$output"
-            echo "$output" | grep -q "already exists on crates.io" || exit 1
-            echo "Version already published to crates.io, skipping"
+          publish() {
+            local crate="$1"
+            echo "::group::cargo publish -p $crate"
+            if output=$(cargo publish -p "$crate" --allow-dirty 2>&1); then
+              echo "$output"; echo "::endgroup::"; return 0
+            fi
+            echo "$output"; echo "::endgroup::"
+            echo "$output" | grep -q "already exists on crates.io" || return 1
+            echo "Version already published to crates.io, skipping $crate"
           }
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-      # crates.io index takes ~30s to propagate before dependents can publish
-      - name: Wait for crates.io index
-        run: sleep 60
-      - name: Publish CLI to crates.io
-        run: |
-          output=$(cargo publish -p forensicnomicon-cli --allow-dirty 2>&1) && echo "$output" || {
-            echo "$output"
-            echo "$output" | grep -q "already exists on crates.io" || exit 1
-            echo "Version already published to crates.io, skipping"
-          }
+          publish forensicnomicon-core
+          sleep 60
+          publish forensicnomicon-data
+          sleep 60
+          publish forensicnomicon
+          sleep 60
+          publish forensicnomicon-cli
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
 

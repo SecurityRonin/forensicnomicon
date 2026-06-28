@@ -13,6 +13,11 @@
       "matchUpdateTypes": ["minor", "patch", "digest"]
     },
     {
+      "description": "Widen Rust requirement ranges (not just the lockfile) so caret pins do not silently go stale behind a published minor",
+      "matchManagers": ["cargo"],
+      "rangeStrategy": "bump"
+    },
+    {
       "description": "Automerge Rust dependency patch bumps",
       "matchManagers": ["cargo"],
       "matchUpdateTypes": ["patch"],
@@ -21,7 +26,7 @@
       "automergeStrategy": "squash"
     },
     {
-      "description": "Require review for Rust minor/major bumps",
+      "description": "Require review for Rust minor/major bumps (protects the published libs' low MSRV)",
       "matchManagers": ["cargo"],
       "matchUpdateTypes": ["minor", "major"],
       "automerge": false
