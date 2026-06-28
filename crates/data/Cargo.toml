@@ -2,7 +2,7 @@
 name = "forensicnomicon-data"
 # Pre-1.0 while the split is in progress. This is the fast-moving knowledge layer;
 # it releases frequently and independently of the stable `forensicnomicon-core`.
-version = "0.1.0"
+version = "0.1.1"
 description = "Detection knowledge for the ForensicNomicon: the artifact descriptor catalog (the global CATALOG) and evidence/volatility lookups. The fast-moving data layer atop forensicnomicon-core."
 edition.workspace = true
 rust-version = "1.75"
