@@ -1,27 +1,15 @@
-//! Evidence strength / confidence model for forensic artifacts.
+//! Evidence strength helpers over the assembled global catalog.
 //!
-//! Ratings live directly in [`crate::catalog::ArtifactDescriptor::evidence_strength`]
-//! (populated for assessed entries; `None` for generated entries awaiting review).
+//! The [`EvidenceStrength`] rating type is defined in `forensicnomicon-core` and
+//! re-exported here (so `crate::evidence::EvidenceStrength` resolves throughout the
+//! descriptor dataset). The point-lookup and bulk-query helpers below resolve
+//! against the global [`crate::catalog::CATALOG`].
 //!
-//! Use [`evidence_for`] for point-lookups, [`artifacts_with_strength`] for bulk queries,
-//! and [`crate::catalog::CATALOG::unassessed`] to find gaps sorted by triage priority.
+//! Use [`evidence_for`] for point-lookups, [`artifacts_with_strength`] for bulk
+//! queries, and [`crate::catalog::CATALOG::unassessed`] to find gaps sorted by
+//! triage priority.
 
-/// How strongly an artifact proves a fact in isolation.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[non_exhaustive]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub enum EvidenceStrength {
-    /// Known false-positive generator; use only with strong corroboration.
-    Unreliable = 0,
-    /// Suggestive but easily explained by benign activity.
-    Circumstantial = 1,
-    /// Useful with other evidence; not standalone proof.
-    Corroborative = 2,
-    /// Strong evidence; edge-case alternative explanations exist.
-    Strong = 3,
-    /// Definitive proof of the claimed activity (e.g., Prefetch = execution occurred).
-    Definitive = 4,
-}
+pub use forensicnomicon_core::evidence::EvidenceStrength;
 
 /// Returns the descriptor for a given artifact ID if it has been assessed.
 ///
@@ -79,14 +67,6 @@ mod tests {
                 );
             }
         }
-    }
-
-    #[test]
-    fn strength_ordering_is_consistent() {
-        assert!(EvidenceStrength::Definitive > EvidenceStrength::Strong);
-        assert!(EvidenceStrength::Strong > EvidenceStrength::Corroborative);
-        assert!(EvidenceStrength::Corroborative > EvidenceStrength::Circumstantial);
-        assert!(EvidenceStrength::Circumstantial > EvidenceStrength::Unreliable);
     }
 
     #[test]

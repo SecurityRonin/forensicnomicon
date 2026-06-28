@@ -19,7 +19,9 @@ fn hive_prefix(hive: HiveTarget) -> &'static str {
             r"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatCache"
         }
         HiveTarget::Bcd => r"HKEY_LOCAL_MACHINE\BCD00000000",
-        HiveTarget::None => "",
+        // `None` and any future `#[non_exhaustive]` HiveTarget variant have no
+        // registry root prefix.
+        _ => "",
     }
 }
 
@@ -53,6 +55,8 @@ pub fn yara_rule_template(artifact_id: &str) -> Option<String> {
         TriagePriority::High => "high",
         TriagePriority::Medium => "medium",
         TriagePriority::Low => "low",
+        // Forward-compat for future `#[non_exhaustive]` TriagePriority variants.
+        _ => "unknown",
     };
 
     // Truncate meaning and sanitize quotes so the YARA string literal stays valid.
@@ -94,10 +98,10 @@ pub fn yara_rule_template(artifact_id: &str) -> Option<String> {
                 format!("    strings:\n        $evtx_file = \"{filename}\" nocase wide ascii");
             (block, "$evtx_file")
         }
-        ArtifactLocation::MemoryRegion
-        | ArtifactLocation::LiveResponse
-        | ArtifactLocation::DatabaseEntry
-        | ArtifactLocation::EseDatabase => {
+        // MemoryRegion / LiveResponse / DatabaseEntry / EseDatabase, plus any
+        // future `#[non_exhaustive]` ArtifactLocation variant: fall back to a
+        // generic name-based string match.
+        _ => {
             let block = format!(
                 "    strings:\n        $artifact = \"{}\" nocase wide ascii",
                 artifact.name

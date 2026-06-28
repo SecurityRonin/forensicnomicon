@@ -7,7 +7,8 @@ use super::types::{
 };
 
 /// ROT13-decode an ASCII string: rotate A-Z and a-z by 13, leave other chars.
-pub(crate) fn rot13(s: &str) -> String {
+#[doc(hidden)]
+pub fn rot13(s: &str) -> String {
     s.chars()
         .map(|c| match c {
             'A'..='Z' => (b'A' + (c as u8 - b'A' + 13) % 26) as char,
@@ -20,7 +21,8 @@ pub(crate) fn rot13(s: &str) -> String {
 /// Convert a Windows FILETIME (100ns ticks since 1601-01-01) to ISO 8601 UTC.
 ///
 /// Returns `None` for zero or negative Unix epoch values.
-pub(crate) fn filetime_to_iso8601(ft: u64) -> Option<String> {
+#[doc(hidden)]
+pub fn filetime_to_iso8601(ft: u64) -> Option<String> {
     // FILETIME epoch is 1601-01-01. Unix epoch offset in 100ns ticks:
     const EPOCH_DIFF: u64 = 116_444_736_000_000_000;
     if ft == 0 {

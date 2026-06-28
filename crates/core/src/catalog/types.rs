@@ -178,7 +178,7 @@ impl OsScope {
 /// Each bit corresponds to `Platform::bit()`.
 ///
 /// ```
-/// use forensicnomicon::catalog::types::{Platform, PlatformMask};
+/// use forensicnomicon_core::catalog::types::{Platform, PlatformMask};
 /// let mask = PlatformMask::NONE.with(Platform::Windows).with(Platform::MacOS);
 /// assert!(mask.matches(Platform::Windows));
 /// assert!(mask.matches(Platform::MacOS));
@@ -244,7 +244,9 @@ pub enum BinaryFieldType {
 
 /// One field inside a fixed-layout binary record (e.g. the 72-byte UserAssist
 /// value). Fully `const`-constructible.
-#[non_exhaustive]
+// Not `#[non_exhaustive]`: constructed by the descriptor data layer (umbrella
+// crate) via struct literals, so it must be cross-crate constructible. Adding a
+// field is a deliberate `-core` change coordinated with the data layer.
 #[cfg_attr(feature = "serde", derive(serde::Serialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct BinaryField {
@@ -311,7 +313,8 @@ pub enum ValueType {
 }
 
 /// Describes one field in a decoded artifact record -- purely metadata, no data.
-#[non_exhaustive]
+// Not `#[non_exhaustive]`: constructed by the descriptor data layer via struct
+// literals (see `BinaryField`).
 #[cfg_attr(feature = "serde", derive(serde::Serialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct FieldSchema {
@@ -341,7 +344,8 @@ pub enum TriagePriority {
 
 /// A single entry in the forensic artifact catalog. Fully `const`-constructible
 /// so it can live in a `static`.
-#[non_exhaustive]
+// Not `#[non_exhaustive]`: the ~6.5k descriptors in the data layer construct this
+// via struct literals, so it must be cross-crate constructible (see `BinaryField`).
 #[cfg_attr(feature = "serde", derive(serde::Serialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct ArtifactDescriptor {
@@ -538,7 +542,8 @@ pub struct ArtifactRecord {
 
 /// Filter parameters for querying the catalog. All fields are optional --
 /// `None` means "match any".
-#[non_exhaustive]
+// Not `#[non_exhaustive]`: callers build queries via `ArtifactQuery { .. }` struct
+// literals, so it must be cross-crate constructible.
 #[cfg_attr(feature = "serde", derive(serde::Serialize))]
 #[derive(Debug, Clone, Default)]
 pub struct ArtifactQuery {

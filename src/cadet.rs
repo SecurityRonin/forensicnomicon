@@ -181,8 +181,19 @@ impl core::fmt::Display for ActivityCategory {
     }
 }
 
+/// Extension trait adding CADET activity categorization to catalog descriptors.
+///
+/// Defined here (not on the type) because [`crate::catalog::ArtifactDescriptor`]
+/// lives in `forensicnomicon-core`; the orphan rule forbids an inherent `impl` on a
+/// foreign type. Bring this trait into scope to call `descriptor.activity_category()`.
 #[cfg(feature = "std")]
-impl crate::catalog::ArtifactDescriptor {
+pub trait ArtifactDescriptorCadetExt {
+    /// CADET activity category for this artifact (see the impl for the full rules).
+    fn activity_category(&self) -> ActivityCategory;
+}
+
+#[cfg(feature = "std")]
+impl ArtifactDescriptorCadetExt for crate::catalog::ArtifactDescriptor {
     /// Best-effort CADET [`ActivityCategory`] for this catalog artifact, derived
     /// from its **structural identity** (registry key path + `id`) — never from
     /// `mitre_techniques`, which is the *adversarial* axis and miscategorizes
@@ -197,8 +208,7 @@ impl crate::catalog::ArtifactDescriptor {
     /// mapping is adversarial. Tuned for the Windows-registry artifact families
     /// the scanner surfaces; generic host-config and non-registry artifacts
     /// default to [`SystemState`](ActivityCategory::SystemState).
-    #[must_use]
-    pub fn activity_category(&self) -> ActivityCategory {
+    fn activity_category(&self) -> ActivityCategory {
         use ActivityCategory as C;
         let hay = format!("{} {}", self.id, self.key_path).to_ascii_lowercase();
         let has = |needles: &[&str]| needles.iter().any(|n| hay.contains(n));
@@ -330,7 +340,7 @@ impl crate::catalog::ArtifactDescriptor {
 
 #[cfg(test)]
 mod tests {
-    use super::ActivityCategory;
+    use super::{ActivityCategory, ArtifactDescriptorCadetExt};
 
     /// The full set, for exhaustive round-trip / coverage checks.
     const ALL: &[ActivityCategory] = &[
