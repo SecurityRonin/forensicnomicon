@@ -21,6 +21,8 @@ changelog_update = true
 dependencies_update = false
 
 # The ingest tool is a build-time codegen helper — never published to crates.io.
+# `publish = false` must mirror its Cargo.toml (release-plz cross-checks the two).
 [[package]]
 name = "ingest"
 release = false
+publish = false
