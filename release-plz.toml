@@ -20,6 +20,28 @@ changelog_update = true
 # Each crate versions independently (core/data move at very different cadences).
 dependencies_update = false
 
+# Skip release-plz's own release commits so merging a release PR does not trigger
+# yet another release (the #2 -> #3 churn loop, which a squash-merged release commit
+# otherwise re-attributes to a package). Library releases still fire on
+# feat/fix/perf/refactor/doc; ci/chore/test/build no longer cause churn.
+[changelog]
+commit_parsers = [
+    { message = "^chore\\(release\\):", skip = true },
+    { message = "^chore: release", skip = true },
+    { message = "^feat", group = "added" },
+    { message = "^fix", group = "fixed" },
+    { message = "^perf", group = "performance" },
+    { message = "^refactor", group = "other" },
+    { message = "^doc", group = "documentation" },
+    { message = "^revert", group = "other" },
+    { message = "^style", skip = true },
+    { message = "^test", skip = true },
+    { message = "^ci", skip = true },
+    { message = "^build", skip = true },
+    { message = "^chore", skip = true },
+    { message = "^.*", group = "other" },
+]
+
 # The ingest tool is a build-time codegen helper — never published to crates.io.
 # `publish = false` must mirror its Cargo.toml (release-plz cross-checks the two).
 [[package]]
