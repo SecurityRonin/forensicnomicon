@@ -34,7 +34,7 @@ Building DFIR tools in Rust? The same data is a zero-dependency library:
 
 ```toml
 [dependencies]
-forensicnomicon = "0.12"   # facade: stable engine + the full catalog, one import
+forensicnomicon = "1"   # facade: stable engine + the full catalog, one import
 ```
 
 Building a detection pipeline or `*-forensic` analyzer? Depend on the **stable engine**
