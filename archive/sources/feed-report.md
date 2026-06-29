@@ -1,15 +1,15 @@
 # Feed Update Report
 
-Generated: 2026-06-28T07:12:07Z
+Generated: 2026-06-29T08:27:50Z
 
 ## Windows Incident Response
 
 - Site: https://windowsir.blogspot.com/
 - Feed: https://windowsir.blogspot.com/feeds/posts/default
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-27T08:07:22-05:00 — [Consistency](https://windowsir.blogspot.com/2026/06/consistency.html)
+- No new entries detected
 
 ## dfir.blog
 
@@ -63,7 +63,7 @@ Generated: 2026-06-28T07:12:07Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-06-28T00:00:00+00:00 — [Forensic tools as instruments of repression: Russia, Cellebrite, and the case of Andrey Pivovarov](https://andreafortuna.org/2026/06/28/cellebrite-russia-pivovarov/)
+- 2026-06-29T00:00:00+00:00 — [In praise of the ordinary worker](https://andreafortuna.org/2026/06/29/mediocrity-ordinary-worker/)
 
 ## Salt Forensics
 
@@ -229,18 +229,28 @@ Generated: 2026-06-28T07:12:07Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-06-29T02:00:02+00:00 — [ISC Stormcast For Monday, June 29th, 2026 https://isc.sans.edu/podcastdetail/9986, (Mon, Jun 29th)](https://isc.sans.edu/diary/rss/33108)
+- 2026-06-28T07:56:44+00:00 — [YARA-X 1.18.0 and 1.19.0 Release, (Sun, Jun 28th)](https://isc.sans.edu/diary/rss/33106)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
+- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
+- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
+- unknown date — [AI-enhanced crime will expose DFIR practitioners who ignore AI.](https://www.dfir.training/blog/ai-enhanced-crime-will-expose-dfir-practitioners-who-ignore-ai)
 
 ## MSAB
 
@@ -274,15 +284,27 @@ Generated: 2026-06-28T07:12:07Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-28T04:31:15+00:00 — [Week 26 – 2026](https://thisweekin4n6.com/2026/06/28/week-26-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
 - Site: https://www.sleuthkit.org/
 - Feed: https://www.sleuthkit.org/rss.xml
-- Status: error: timed out
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2023-08-29T16:12:32-04:00 — [The Sleuth Kit 4.12.1 is available](https://sleuthkit.org/sleuthkit/download.php)
+- 2023-01-24T18:01:09-05:00 — [The Sleuth Kit 4.12.0 is available](https://sleuthkit.org/sleuthkit/download.php)
+- 2023-08-29T16:12:11-04:00 — [Autopsy 4.21.0 is available](http://www.autopsy.com/download)
+- 2023-01-24T18:00:46-05:00 — [Autopsy 4.20.0 is available](http://www.autopsy.com/download)
+- 2021-12-22T15:00:09-05:00 — [Autopsy 4.19.3 is available](http://sleuthkit.org/autopsy/download.php)
+- 2021-07-31T15:45:54-04:00 — [Autopsy 4.19.0 and The Sleuth Kit 4.11.0 Are Out](http://www.sleuthkit.org/)
+- 2021-03-23T06:47:05-04:00 — [Autopsy 4.18.0 and The Sleuth Kit 4.10.2 Are Out](http://www.sleuthkit.org/)
+- 2020-09-08T17:08:49-04:00 — [Autopsy 4.16.0 was released](http://www.sleuthkit.org/autopsy/history.php)
+- 2020-09-08T17:08:26-04:00 — [The Sleuth Kit 4.10.0 was released](http://www.sleuthkit.org/sleuthkit/history.php)
+- 2020-05-01T06:44:11-04:00 — [The Sleuth Kit 4.9.0 Was Released](http://www.sleuthkit.org/sleuthkit/download.php)
 
 ## Amped Software blog
 
@@ -370,12 +392,11 @@ Generated: 2026-06-28T07:12:07Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 3
 
-- 2026-06-28T07:00:00+00:00 — [Last Week on My Mac: Spotlight on semantics](https://eclecticlight.co/2026/06/28/last-week-on-my-mac-spotlight-on-semantics/)
-- 2026-06-27T11:30:00+00:00 — [An American in Paris: paintings of Henry Ossawa Tanner 1880-1902](https://eclecticlight.co/2026/06/27/an-american-in-paris-paintings-of-henry-ossawa-tanner-1880-1902/)
-- 2026-06-27T08:00:00+00:00 — [Saturday Mac riddles 366](https://eclecticlight.co/2026/06/27/saturday-mac-riddles-366/)
-- 2026-06-27T07:00:00+00:00 — [Explainer: sysdiagnose and logarchives](https://eclecticlight.co/2026/06/27/explainer-sysdiagnose-and-logarchives/)
+- 2026-06-29T08:00:00+00:00 — [Solutions to Saturday Mac riddles 366](https://eclecticlight.co/2026/06/29/solutions-to-saturday-mac-riddles-366/)
+- 2026-06-29T06:30:00+00:00 — [What does Activity Monitor measure?](https://eclecticlight.co/2026/06/29/what-does-activity-monitor-measure/)
+- 2026-06-28T11:30:00+00:00 — [An American in Paris: paintings of Henry Ossawa Tanner 1902-1930](https://eclecticlight.co/2026/06/28/an-american-in-paris-paintings-of-henry-ossawa-tanner-1902-1930/)
 
 ## JPCERT/CC
 
@@ -499,9 +520,10 @@ Generated: 2026-06-28T07:12:07Z
 - Site: https://www.forensafe.com/blogs/
 - Feed: https://www.forensafe.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- Fri, 26 June 2026 — [Windows AutoRun Items](https://forensafe.com/blogs/windows-autorun-items.html)
+- Fri, 19 June 2026 — [Android Google Messages](https://forensafe.com/blogs/android-google-messages.html)
 
 ## Cellebrite Blog
 
@@ -535,15 +557,27 @@ Generated: 2026-06-28T07:12:07Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-29T07:01:00+00:00 — [A week in security (June 22 &#8211; June 28)](https://www.malwarebytes.com/blog/news/2026/06/a-week-in-security-june-22-june-28)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
-- Status: error: syntax error: line 1, column 0
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-06-23T16:12:49+00:00 — [Scattered Spider Hackers Plead Guilty on Day 1 of Trial](https://krebsonsecurity.com/2026/06/scattered-spider-hackers-plead-guilty-on-day-1-of-trial/)
+- 2026-06-18T17:37:58+00:00 — [‘Popa’ Botnet Linked to Publicly-Traded Israeli Firm](https://krebsonsecurity.com/2026/06/popa-botnet-linked-to-publicly-traded-israeli-firm/)
+- 2026-06-10T14:03:44+00:00 — [Who Runs the Ransomware Group ‘The Gentlemen?’](https://krebsonsecurity.com/2026/06/who-runs-the-ransomware-group-the-gentlemen/)
+- 2026-06-09T22:07:28+00:00 — [A Record-Breaking Patch Tuesday for June 2026](https://krebsonsecurity.com/2026/06/a-record-breaking-patch-tuesday-for-june-2026/)
+- 2026-06-01T17:32:50+00:00 — [Hackers Used Meta’s AI Support Bot to Seize Instagram Accounts](https://krebsonsecurity.com/2026/06/hackers-used-metas-ai-support-bot-to-seize-instagram-accounts/)
+- 2026-05-25T13:21:49+00:00 — [Netherlands Seizes 800 Servers, Arrests 2 for Aiding Cyberattacks](https://krebsonsecurity.com/2026/05/netherlands-seizes-800-servers-arrests-2-for-aiding-cyberattacks/)
+- 2026-05-22T16:34:24+00:00 — [Lawmakers Demand Answers as CISA Tries to Contain Data Leak](https://krebsonsecurity.com/2026/05/lawmakers-demand-answers-as-cisa-tries-to-contain-data-leak/)
+- 2026-05-21T21:50:25+00:00 — [Alleged Kimwolf Botmaster ‘Dort’ Arrested, Charged in U.S. and Canada](https://krebsonsecurity.com/2026/05/alleged-kimwolf-botmaster-dort-arrested-charged-in-u-s-and-canada/)
+- 2026-05-18T20:48:21+00:00 — [CISA Admin Leaked AWS GovCloud Keys on Github](https://krebsonsecurity.com/2026/05/cisa-admin-leaked-aws-govcloud-keys-on-github/)
+- 2026-05-12T21:46:45+00:00 — [Patch Tuesday, May 2026 Edition](https://krebsonsecurity.com/2026/05/patch-tuesday-may-2026-edition/)
 
 ## BleepingComputer
 
@@ -552,16 +586,16 @@ Generated: 2026-06-28T07:12:07Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-06-27T10:22:36-04:00 — [Clean GitHub repo tricks AI coding agents into running malware](https://www.bleepingcomputer.com/news/security/clean-github-repo-tricks-ai-coding-agents-into-running-malware/)
+- 2026-06-28T10:13:46-04:00 — [Data breach exposes up to 14.2 million email logins at six ISPs](https://www.bleepingcomputer.com/news/security/data-breach-exposes-up-to-142-million-email-logins-at-six-isps/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-27T11:48:05+00:00 — [Third-Party Breaches Teach Education Sector a Costly Lesson in Vendor Risk](https://www.darkreading.com/cyber-risk/third-party-breaches-teaches-education-lesson-vendor-risk)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -817,9 +851,10 @@ Generated: 2026-06-28T07:12:07Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-06-28T23:22:47+00:00 — [Merge pull request #1039 from Shirofune-Security/docs-readme-landing](https://github.com/Yamato-Security/hayabusa-rules/commit/e412dabc69b182baaf189730c6ade570b64b35fa)
+- 2026-06-28T23:04:45+00:00 — [docs: replace README with a landing page pointing to the documentatio…](https://github.com/Yamato-Security/hayabusa-rules/commit/715a5a95027913b727a39435bee992e4b78950d1)
 
 ## Hayabusa releases
 
@@ -1051,9 +1086,6 @@ Generated: 2026-06-28T07:12:07Z
 - Site: https://www.misp-project.org/
 - Feed: https://github.com/MISP/misp-taxonomies/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-06-27T13:47:45+00:00 — [Merge pull request #335 from k1r10n/main](https://github.com/MISP/misp-taxonomies/commit/d9f20d793462ec873745fcccfa75ce89354c78fb)
-- 2026-06-27T01:41:27+00:00 — [LF](https://github.com/MISP/misp-taxonomies/commit/0b4d092f5f2cf5a48b8370c43fa7346f03f8a525)
-- 2026-06-27T01:39:57+00:00 — [feat: update  in MANIFEST](https://github.com/MISP/misp-taxonomies/commit/028ef1cc69a3e45da609ac3fc339234fac0d887d)
-- 2026-06-27T01:31:46+00:00 — [feat: add RST Cloud threat intelligence scoring and verdicts JSON schema](https://github.com/MISP/misp-taxonomies/commit/e4aa06f3839267a723ac8948d7eaee5c55061990)
+- No new entries detected
