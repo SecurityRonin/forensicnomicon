@@ -1,11 +1,23 @@
 # Handoff: forensicnomicon knowledge propagation — Plans A & B
 
-**Status (updated 2026-06-29):** in-repo work SHIPPED on `main` — 3-crate split
-(`forensicnomicon-core` 0.1, `forensicnomicon-data` 0.1, `forensicnomicon` 0.12
-facade) plus release-plz / cargo-public-api / Renovate automation. Resolved:
-keep the `forensicnomicon` facade long-term (no hard-cut); crate names =
-`-core`/`-data`. Remaining: fleet migration of analyzer libs to
-`forensicnomicon-core` + stale-pin normalization; the `1.0` cut is still open.
+> **ARCHIVED 2026-06-29 — Plan A COMPLETE.** Kept as a record + for Plan B.
+
+**Status (2026-06-29, Plan A done):**
+- **3-crate split + 1.0 cut — SHIPPED.** `forensicnomicon`, `forensicnomicon-core`,
+  `forensicnomicon-data` all at **1.0.0** on crates.io (facade re-exports both;
+  release-plz / cargo-public-api / Renovate automation in place). `forensicnomicon-cli`
+  at 0.1.2.
+- **Fleet — FULLY MIGRATED.** ~38 dependent repos (~70 crate versions) republished onto
+  `forensicnomicon = "1"` in dependency order; every mainline tree resolves a single
+  fn 1.0 major (stale-caret + local-ahead strands cleaned up).
+- **Resolved decisions:** keep the `forensicnomicon` facade long-term (no hard-cut);
+  crate names `-core` / `-data`.
+- **Plan B (engine/knowledge `-core` decoupling) was NOT done and remains a future
+  option** — the fleet pins the facade `"1"`, not `-core` directly. The broader
+  direction is now the fleet-monorepo consolidation (see issen
+  `docs/plans/2026-06-29-fleet-monorepo-consolidation.md`), which would subsume Plan B.
+- **Option C** (signed runtime knowledge pack) remains deferred.
+
 **Original proposal date:** 2026-06-28.
 **Audience:** whoever picks up forensicnomicon release engineering next.
 
