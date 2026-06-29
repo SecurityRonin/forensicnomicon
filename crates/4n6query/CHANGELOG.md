@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-cli-v0.1.2...forensicnomicon-cli-v0.1.3) - 2026-06-29
+
+### Documentation
+
+- *(readme)* bump install snippet forensicnomicon 0.12 -> 1
+
 ## [0.1.2](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-cli-v0.1.1...forensicnomicon-cli-v0.1.2) - 2026-06-28
 
 ### Documentation
