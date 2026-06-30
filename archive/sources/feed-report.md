@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-06-29T08:27:50Z
+Generated: 2026-06-30T07:05:21Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-06-29T08:27:50Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-06-29T00:00:00+00:00 — [In praise of the ordinary worker](https://andreafortuna.org/2026/06/29/mediocrity-ordinary-worker/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -202,18 +202,19 @@ Generated: 2026-06-29T08:27:50Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-29T20:59:45+00:00 — [Empowering federal agencies to combat cybercrime and digital fraud](https://www.magnetforensics.com/blog/empowering-federal-agencies-to-combat-cybercrime-and-digital-fraud/)
 
 ## The DFIR Report
 
 - Site: https://thedfirreport.com/
 - Feed: https://thedfirreport.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-06-29T13:07:17+00:00 — [From Bing Search to Ransomware: Bumblebee and AdaptixC2 Deliver Akira](https://thedfirreport.com/2026/06/29/from-bing-search-to-ransomware-bumblebee-and-adaptixc2-deliver-akira-3/)
+- 2025-08-05T21:30:00+00:00 — [Flash Alert: From Bing Search to Ransomware: Bumblebee and AdaptixC2 Deliver Akira](https://thedfirreport.com/2025/08/05/from-bing-search-to-ransomware-bumblebee-and-adaptixc2-deliver-akira-2/)
 
 ## 13cubed (YouTube)
 
@@ -231,26 +232,17 @@ Generated: 2026-06-29T08:27:50Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-06-29T02:00:02+00:00 — [ISC Stormcast For Monday, June 29th, 2026 https://isc.sans.edu/podcastdetail/9986, (Mon, Jun 29th)](https://isc.sans.edu/diary/rss/33108)
-- 2026-06-28T07:56:44+00:00 — [YARA-X 1.18.0 and 1.19.0 Release, (Sun, Jun 28th)](https://isc.sans.edu/diary/rss/33106)
+- 2026-06-30T02:25:12+00:00 — [ISC Stormcast For Tuesday, June 30th, 2026 https://isc.sans.edu/podcastdetail/9988, (Tue, Jun 30th)](https://isc.sans.edu/diary/rss/33112)
+- 2026-06-29T12:00:54+00:00 — [Adding some Automation to the favicon.ico method of Host Recon, (Mon, Jun 29th)](https://isc.sans.edu/diary/rss/33110)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
-- New since last snapshot: 10
+- Entries checked: 0
+- New since last snapshot: 0
 
-- unknown date — [Training](https://www.dfir.training/training)
-- unknown date — [Tools](https://www.dfir.training/dfir-tools)
-- unknown date — [Library](https://www.dfir.training/resources)
-- unknown date — [Sponsors](https://www.dfir.training/sponsors)
-- unknown date — [Blog](https://www.dfir.training/blog)
-- unknown date — [Contact](https://www.dfir.training/contact-form)
-- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
-- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
-- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
-- unknown date — [AI-enhanced crime will expose DFIR practitioners who ignore AI.](https://www.dfir.training/blog/ai-enhanced-crime-will-expose-dfir-practitioners-who-ignore-ai)
+- No new entries detected
 
 ## MSAB
 
@@ -293,18 +285,9 @@ Generated: 2026-06-29T08:27:50Z
 - Site: https://www.sleuthkit.org/
 - Feed: https://www.sleuthkit.org/rss.xml
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2023-08-29T16:12:32-04:00 — [The Sleuth Kit 4.12.1 is available](https://sleuthkit.org/sleuthkit/download.php)
-- 2023-01-24T18:01:09-05:00 — [The Sleuth Kit 4.12.0 is available](https://sleuthkit.org/sleuthkit/download.php)
-- 2023-08-29T16:12:11-04:00 — [Autopsy 4.21.0 is available](http://www.autopsy.com/download)
-- 2023-01-24T18:00:46-05:00 — [Autopsy 4.20.0 is available](http://www.autopsy.com/download)
-- 2021-12-22T15:00:09-05:00 — [Autopsy 4.19.3 is available](http://sleuthkit.org/autopsy/download.php)
-- 2021-07-31T15:45:54-04:00 — [Autopsy 4.19.0 and The Sleuth Kit 4.11.0 Are Out](http://www.sleuthkit.org/)
-- 2021-03-23T06:47:05-04:00 — [Autopsy 4.18.0 and The Sleuth Kit 4.10.2 Are Out](http://www.sleuthkit.org/)
-- 2020-09-08T17:08:49-04:00 — [Autopsy 4.16.0 was released](http://www.sleuthkit.org/autopsy/history.php)
-- 2020-09-08T17:08:26-04:00 — [The Sleuth Kit 4.10.0 was released](http://www.sleuthkit.org/sleuthkit/history.php)
-- 2020-05-01T06:44:11-04:00 — [The Sleuth Kit 4.9.0 Was Released](http://www.sleuthkit.org/sleuthkit/download.php)
+- No new entries detected
 
 ## Amped Software blog
 
@@ -392,11 +375,12 @@ Generated: 2026-06-29T08:27:50Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 4
 
-- 2026-06-29T08:00:00+00:00 — [Solutions to Saturday Mac riddles 366](https://eclecticlight.co/2026/06/29/solutions-to-saturday-mac-riddles-366/)
-- 2026-06-29T06:30:00+00:00 — [What does Activity Monitor measure?](https://eclecticlight.co/2026/06/29/what-does-activity-monitor-measure/)
-- 2026-06-28T11:30:00+00:00 — [An American in Paris: paintings of Henry Ossawa Tanner 1902-1930](https://eclecticlight.co/2026/06/28/an-american-in-paris-paintings-of-henry-ossawa-tanner-1902-1930/)
+- 2026-06-30T07:00:00+00:00 — [Logistician 1.2 fixes a couple of bugs](https://eclecticlight.co/2026/06/30/logistician-1-2-fixes-a-couple-of-bugs/)
+- 2026-06-30T06:30:00+00:00 — [Firmware has become complicated again](https://eclecticlight.co/2026/06/30/firmware-has-become-complicated-again/)
+- 2026-06-29T18:31:02+00:00 — [Apple has just released macOS 26.5.2 Tahoe](https://eclecticlight.co/2026/06/29/apple-has-just-released-macos-26-5-2-tahoe/)
+- 2026-06-29T11:30:00+00:00 — [Hero or hooligan: The Anger of Achilles](https://eclecticlight.co/2026/06/29/hero-or-hooligan-the-anger-of-achilles/)
 
 ## JPCERT/CC
 
@@ -430,9 +414,14 @@ Generated: 2026-06-29T08:27:50Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 6
 
-- No new entries detected
+- 2026-06-29T14:00:00+00:00 — [The Hacker's 2026 Playbook: Dark Web Tactics Targeting You](https://www.huntress.com/blog/hacker-tactics-2026-dark-web-playbook)
+- 2026-06-29T07:00:00+00:00 — [These Recent Insider Threat Allegations](https://www.huntress.com/blog/insider-threat-claims)
+- 2026-06-29T07:00:00+00:00 — [Defence Impairment Olympics](https://www.huntress.com/blog/mimikatz-credential-dumping-defence-impairment)
+- 2026-06-26T04:00:00+00:00 — [What’s the Average Cost of a Data Breach in 2025? | Huntress](https://www.huntress.com/blog/average-cost-of-a-data-breach)
+- 2026-06-25T04:00:00+00:00 — [27 Biggest Data Breaches in History: Famous Examples](https://www.huntress.com/blog/biggest-data-breaches)
+- 2026-06-25T04:00:00+00:00 — [The 36 Most Common Cyberattacks (2026) | Huntress](https://www.huntress.com/blog/most-common-cyberattacks)
 
 ## Red Canary Blog
 
@@ -457,9 +446,9 @@ Generated: 2026-06-29T08:27:50Z
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-29T14:00:00+00:00 — [The Bear Necessities: A Look at the Drivers, Dynamics, and Applications of the Pro-Russia Influence Ecosystem](https://cloud.google.com/blog/topics/threat-intelligence/pro-russia-influence-ecosystem/)
 
 ## Cisco Talos Blog
 
@@ -520,19 +509,22 @@ Generated: 2026-06-29T08:27:50Z
 - Site: https://www.forensafe.com/blogs/
 - Feed: https://www.forensafe.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- Fri, 26 June 2026 — [Windows AutoRun Items](https://forensafe.com/blogs/windows-autorun-items.html)
-- Fri, 19 June 2026 — [Android Google Messages](https://forensafe.com/blogs/android-google-messages.html)
+- No new entries detected
 
 ## Cellebrite Blog
 
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 0
+- New since last snapshot: 5
 
-- No new entries detected
+- 2026-06-29T20:53:36+00:00 — [A Drone Forensics Operation at Scale: 1,200+ UAVs. Nearly 10 TB of Data. One CFID.](https://cellebrite.com/en/resources/customer-stories/cfid-drone-forensics-india/)
+- 2026-06-29T20:51:31+00:00 — [A Drone Was Seized at Your Facility. Now What?](https://cellebrite.com/en/blog/a-drone-was-seized-at-your-facility-now-what/)
+- 2026-06-29T20:19:27+00:00 — [The FAA Just Drew the New Line: What New Drone Regulations for Critical Infrastructure Mean for Operators](https://cellebrite.com/en/blog/the-faa-just-drew-the-new-line-what-new-drone-regulations-for-critical-infrastructure-mean-for-operators/)
+- 2026-06-29T20:17:09+00:00 — [ERSOU Secures Multiple UK Convictions Using Cellebrite Drone Forensics](https://cellebrite.com/en/resources/customer-stories/cfid-drone-forensics-ersou/)
+- 2026-06-29T17:42:15+00:00 — [Cellebrite APAC Public Safety 2026](https://cellebrite.com/en/resources/webinars/cellebrite-apac-public-safety-2026/)
 
 ## DFIR Science
 
@@ -548,54 +540,59 @@ Generated: 2026-06-29T08:27:50Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-29T00:00:00-05:00 — [Falcon Cloud Security June 2026 Release: Updates for Azure and Google Cloud](https://www.crowdstrike.com/en-us/blog/new-in-falcon-cloud-security-expanding-multi-cloud-coverage/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-06-29T07:01:00+00:00 — [A week in security (June 22 &#8211; June 28)](https://www.malwarebytes.com/blog/news/2026/06/a-week-in-security-june-22-june-28)
+- 2026-06-29T14:44:37+00:00 — [This pay gap is programmed (Lock and Code S07E13)](https://www.malwarebytes.com/blog/podcast/2026/06/this-pay-gap-is-programmed-lock-and-code-s07e13)
+- 2026-06-29T14:41:18+00:00 — [119 Edge extensions promised useful tools, instead downloaded malware](https://www.malwarebytes.com/blog/news/2026/06/119-edge-extensions-promised-useful-tools-instead-downloaded-malware)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-06-23T16:12:49+00:00 — [Scattered Spider Hackers Plead Guilty on Day 1 of Trial](https://krebsonsecurity.com/2026/06/scattered-spider-hackers-plead-guilty-on-day-1-of-trial/)
-- 2026-06-18T17:37:58+00:00 — [‘Popa’ Botnet Linked to Publicly-Traded Israeli Firm](https://krebsonsecurity.com/2026/06/popa-botnet-linked-to-publicly-traded-israeli-firm/)
-- 2026-06-10T14:03:44+00:00 — [Who Runs the Ransomware Group ‘The Gentlemen?’](https://krebsonsecurity.com/2026/06/who-runs-the-ransomware-group-the-gentlemen/)
-- 2026-06-09T22:07:28+00:00 — [A Record-Breaking Patch Tuesday for June 2026](https://krebsonsecurity.com/2026/06/a-record-breaking-patch-tuesday-for-june-2026/)
-- 2026-06-01T17:32:50+00:00 — [Hackers Used Meta’s AI Support Bot to Seize Instagram Accounts](https://krebsonsecurity.com/2026/06/hackers-used-metas-ai-support-bot-to-seize-instagram-accounts/)
-- 2026-05-25T13:21:49+00:00 — [Netherlands Seizes 800 Servers, Arrests 2 for Aiding Cyberattacks](https://krebsonsecurity.com/2026/05/netherlands-seizes-800-servers-arrests-2-for-aiding-cyberattacks/)
-- 2026-05-22T16:34:24+00:00 — [Lawmakers Demand Answers as CISA Tries to Contain Data Leak](https://krebsonsecurity.com/2026/05/lawmakers-demand-answers-as-cisa-tries-to-contain-data-leak/)
-- 2026-05-21T21:50:25+00:00 — [Alleged Kimwolf Botmaster ‘Dort’ Arrested, Charged in U.S. and Canada](https://krebsonsecurity.com/2026/05/alleged-kimwolf-botmaster-dort-arrested-charged-in-u-s-and-canada/)
-- 2026-05-18T20:48:21+00:00 — [CISA Admin Leaked AWS GovCloud Keys on Github](https://krebsonsecurity.com/2026/05/cisa-admin-leaked-aws-govcloud-keys-on-github/)
-- 2026-05-12T21:46:45+00:00 — [Patch Tuesday, May 2026 Edition](https://krebsonsecurity.com/2026/05/patch-tuesday-may-2026-edition/)
+- No new entries detected
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 10
 
-- 2026-06-28T10:13:46-04:00 — [Data breach exposes up to 14.2 million email logins at six ISPs](https://www.bleepingcomputer.com/news/security/data-breach-exposes-up-to-142-million-email-logins-at-six-isps/)
+- 2026-06-29T16:40:44-04:00 — [Nissan discloses employee data breach linked to Oracle zero-day attacks](https://www.bleepingcomputer.com/news/security/nissan-discloses-employee-data-breach-linked-to-oracle-zero-day-attacks/)
+- 2026-06-29T16:30:28-04:00 — [NAIC says public data stolen in ShinyHunters' PeopleSoft breach](https://www.bleepingcomputer.com/news/security/naic-says-public-data-stolen-in-shinyhunters-peoplesoft-breach/)
+- 2026-06-29T13:48:28-04:00 — [WhatsApp rolls out usernames to help users hide their phone number](https://www.bleepingcomputer.com/news/security/whatsapp-rolls-out-usernames-to-help-users-hide-their-phone-number/)
+- 2026-06-29T13:11:15-04:00 — [Microsoft extends Windows Server 2022 hotpatching until October 2027](https://www.bleepingcomputer.com/news/microsoft/microsoft-extends-windows-server-2022-hotpatching-until-october-2027/)
+- 2026-06-29T11:09:43-04:00 — [U.S. offers $10 million for hackers targeting WhatsApp, Signal users](https://www.bleepingcomputer.com/news/security/us-offers-10-million-for-hackers-targeting-whatsapp-signal-users/)
+- 2026-06-29T10:01:11-04:00 — [Agentic AI Has an Identity Problem and Attackers Know It](https://www.bleepingcomputer.com/news/security/agentic-ai-has-an-identity-problem-and-attackers-know-it/)
+- 2026-06-29T10:00:00-04:00 — [Critical SimpleHelp flaw exploited to deploy new stealer malware](https://www.bleepingcomputer.com/news/security/hackers-exploit-critical-simplehelp-flaw-deploy-new-djinn-infostealer-taskweaver-malware/)
+- 2026-06-29T09:46:17-04:00 — [Hackers now exploit critical Oracle E-Business flaw in attacks](https://www.bleepingcomputer.com/news/security/new-oracle-e-business-suite-flaw-now-exploited-in-attacks/)
+- 2026-06-29T08:14:22-04:00 — [Webinar: Why business email compromise attacks keep succeeding](https://www.bleepingcomputer.com/news/security/webinar-why-business-email-compromise-attacks-keep-succeeding/)
+- 2026-06-29T07:21:03-04:00 — [US seizes hundreds of FIFA World Cup illegal streaming domains](https://www.bleepingcomputer.com/news/security/us-seizes-hundreds-of-fifa-world-cup-illegal-streaming-domains/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 5
 
-- No new entries detected
+- 2026-06-29T21:29:15+00:00 — ['Djinn' Stealer Targets Cloud, AI Credentials](https://www.darkreading.com/cyberattacks-data-breaches/djinn-stealer-targets-cloud-ai-credentials)
+- 2026-06-29T21:05:29+00:00 — [Vulnerabilities Expose Private Data in Indian Government Systems](https://www.darkreading.com/vulnerabilities-threats/vulnerabilities-private-data-indian-government-systems)
+- 2026-06-29T19:38:04+00:00 — [Can Clothes Make You Invisible to Facial Recognition?](https://www.darkreading.com/cyber-risk/clothes-invisible-facial-recognition)
+- 2026-06-29T19:12:08+00:00 — [Iran, Russia, China Target Water Systems for Sabotage](https://www.darkreading.com/ics-ot-security/iran-russia-china-target-water-systems-sabotage)
+- 2026-06-29T11:44:42+00:00 — [Amazon Q VS Extension Flaw Leads to Cloud Credential Theft](https://www.darkreading.com/cloud-security/amazon-q-vs-extension-flaw-leads-cloud-credential-theft)
 
 ## Volexity Blog
 
@@ -617,18 +614,18 @@ Generated: 2026-06-29T08:27:50Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-29T16:27:46+00:00 — [Chromium extension uses AI‑related branding to redirect browser search](https://www.microsoft.com/en-us/security/blog/2026/06/29/chromium-extension-uses-airelated-branding-redirect-browser-search/)
 
 ## LOLBAS Project (Windows)
 
 - Site: https://lolbas-project.github.io/
 - Feed: https://github.com/LOLBAS-Project/LOLBAS/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-29T23:16:07+00:00 — [Update Wmic.yml (#432)](https://github.com/LOLBAS-Project/LOLBAS/commit/a2784c79091cb282fefb68f0056a853cfafd7e3c)
 
 ## GTFOBins (Linux)
 
@@ -851,10 +848,9 @@ Generated: 2026-06-29T08:27:50Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-06-28T23:22:47+00:00 — [Merge pull request #1039 from Shirofune-Security/docs-readme-landing](https://github.com/Yamato-Security/hayabusa-rules/commit/e412dabc69b182baaf189730c6ade570b64b35fa)
-- 2026-06-28T23:04:45+00:00 — [docs: replace README with a landing page pointing to the documentatio…](https://github.com/Yamato-Security/hayabusa-rules/commit/715a5a95027913b727a39435bee992e4b78950d1)
+- No new entries detected
 
 ## Hayabusa releases
 
