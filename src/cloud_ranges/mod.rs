@@ -60,9 +60,19 @@ impl CloudProvider {
 /// Panic-free.
 #[must_use]
 pub fn classify_ipv4(ip: Ipv4Addr) -> Option<CloudProvider> {
-    // RED stub — replaced by the GREEN implementation.
-    let _ = ip;
-    None
+    let key = u32::from(ip);
+    let ranges = generated::CLOUD_RANGES;
+    // Last interval whose start is <= key (intervals are disjoint + ascending).
+    let idx = ranges.partition_point(|(start, _, _)| *start <= key);
+    if idx == 0 {
+        return None;
+    }
+    let (start, end, provider) = ranges[idx - 1];
+    if key >= start && key <= end {
+        Some(provider)
+    } else {
+        None
+    }
 }
 
 #[cfg(test)]
