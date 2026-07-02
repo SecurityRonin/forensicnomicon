@@ -149,6 +149,7 @@ pub mod apm;
 pub mod appcompatcache;
 pub mod attack_events;
 pub mod attack_flow;
+pub mod beaconing;
 pub mod boot_signatures;
 pub mod bootkit;
 pub mod cadet;
