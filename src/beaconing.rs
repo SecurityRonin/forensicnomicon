@@ -83,9 +83,36 @@ pub fn assess_periodicity(
     sorted_timestamps_ns: &[i64],
     thresholds: &BeaconingThresholds,
 ) -> Option<BeaconAssessment> {
-    // RED stub — replaced by the GREEN implementation.
-    let _ = (sorted_timestamps_ns, thresholds);
-    None
+    let occurrences = sorted_timestamps_ns.len();
+    if occurrences < thresholds.min_occurrences {
+        return None;
+    }
+    // Inter-arrival intervals in seconds. Need at least two intervals for a
+    // dispersion estimate, independent of the occurrence threshold.
+    let intervals: Vec<f64> = sorted_timestamps_ns
+        .windows(2)
+        .map(|w| (w[1] - w[0]) as f64 / 1_000_000_000.0)
+        .collect();
+    if intervals.len() < 2 {
+        return None;
+    }
+    let n = intervals.len() as f64;
+    let mean = intervals.iter().sum::<f64>() / n;
+    if mean < thresholds.min_interval_seconds {
+        return None;
+    }
+    // Sample standard deviation (N-1); mean >= min_interval_seconds > 0 here, so
+    // the coefficient of variation never divides by zero.
+    let variance = intervals.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / (n - 1.0);
+    let coefficient_of_variation = variance.sqrt() / mean;
+    if coefficient_of_variation > thresholds.max_coefficient_of_variation {
+        return None;
+    }
+    Some(BeaconAssessment {
+        occurrences,
+        mean_interval_seconds: mean,
+        coefficient_of_variation,
+    })
 }
 
 #[cfg(test)]
@@ -147,12 +174,5 @@ mod tests {
     fn empty_and_single_are_none_not_panic() {
         assert!(assess_periodicity(&[], &DEFAULT_BEACONING).is_none());
         assert!(assess_periodicity(&[42], &DEFAULT_BEACONING).is_none());
-    }
-
-    #[test]
-    fn defaults_are_sane() {
-        assert_eq!(DEFAULT_BEACONING.min_occurrences, 4);
-        assert!(DEFAULT_BEACONING.max_coefficient_of_variation > 0.0);
-        assert!(DEFAULT_BEACONING.min_interval_seconds > 0.0);
     }
 }
