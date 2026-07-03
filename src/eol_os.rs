@@ -93,9 +93,8 @@ pub const EOL_OS: &[EolOs] = &[
 /// insensitive substring match against the specific→general table.
 #[must_use]
 pub fn lookup(product_name: &str) -> Option<&'static EolOs> {
-    // RED stub — replaced by the GREEN implementation.
-    let _ = product_name;
-    None
+    let hay = product_name.to_ascii_lowercase();
+    EOL_OS.iter().find(|e| hay.contains(e.match_substr))
 }
 
 /// Whether `product_name` is a known OS whose end-of-support date is on or before
