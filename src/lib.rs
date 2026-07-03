@@ -164,6 +164,7 @@ pub mod drivers;
 pub mod eventids;
 pub use forensicnomicon_data::evidence;
 pub mod evtx;
+pub mod eol_os;
 pub mod ewf;
 pub use forensicnomicon_core::filesystems;
 pub mod forensicartifacts;
