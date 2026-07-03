@@ -178,6 +178,7 @@ pub use forensicnomicon_core::partition_schemes;
 pub use forensicnomicon_core::partition_types;
 pub mod playbooks;
 pub mod plugin;
+pub mod process_lifetime;
 pub mod qcow2;
 pub use forensicnomicon_core::report;
 pub mod sigma;
