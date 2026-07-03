@@ -26,9 +26,7 @@ pub const SHORT_LIVED_THRESHOLD_SECONDS: i64 = 60;
 /// malformed or clock-skewed) is not short-lived.
 #[must_use]
 pub fn is_short_lived(lifetime_seconds: i64) -> bool {
-    // RED stub — replaced by the GREEN implementation.
-    let _ = lifetime_seconds;
-    false
+    (0..=SHORT_LIVED_THRESHOLD_SECONDS).contains(&lifetime_seconds)
 }
 
 #[cfg(test)]
