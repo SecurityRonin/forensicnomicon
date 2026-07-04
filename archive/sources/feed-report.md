@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-07-03T06:44:06Z
+Generated: 2026-07-04T06:32:08Z
 
 ## Windows Incident Response
 
@@ -220,18 +220,9 @@ Generated: 2026-07-03T06:44:06Z
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-06-19T00:57:00+00:00 — [How the USN Journal Really Works](https://www.youtube.com/watch?v=eSLHyqZlglk)
-- 2026-06-16T20:23:08+00:00 — [The Korvath Incident: A macOS Forensics Challenge](https://www.youtube.com/watch?v=tRvw13e3Qn0)
-- 2026-06-28T16:30:49+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
-- 2026-04-24T09:44:12+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
-- 2026-05-28T20:26:20+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
-- 2026-04-23T00:04:55+00:00 — [Tracking Program Execution with a Little Known Registry Key](https://www.youtube.com/watch?v=yoFkF-NHZvo)
-- 2026-05-28T20:27:51+00:00 — [The Truth About Windows Explorer Timestamps](https://www.youtube.com/watch?v=PdyVkmhMcOA)
-- 2026-05-01T22:55:06+00:00 — [Major Update to 13Cubed Courses: Chaos at Cobalt](https://www.youtube.com/watch?v=CzF6DFhSfHw)
-- 2026-04-30T06:35:14+00:00 — [13Cubed AMA - Answering Your Questions!](https://www.youtube.com/watch?v=duz5BoZUly8)
-- 2026-04-22T18:55:48+00:00 — [The Easy Way to Analyze Linux Memory](https://www.youtube.com/watch?v=W40gdWNdwUI)
+- No new entries detected
 
 ## SANS Internet Storm Center
 
@@ -246,7 +237,7 @@ Generated: 2026-07-03T06:44:06Z
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
+- Entries checked: 0
 - New since last snapshot: 0
 
 - No new entries detected
@@ -255,19 +246,13 @@ Generated: 2026-07-03T06:44:06Z
 
 - Site: https://www.msab.com/
 - Feed: https://www.msab.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## AboutDFIR
 
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
-- Entries checked: 10
-- New since last snapshot: 1
-
-- 2026-07-02T10:50:48+00:00 — [Infosec News Nuggets — July 2, 2026](https://aboutdfir.com/infosec-news-nuggets-july-2-2026/)
+- Status: error: mismatched tag: line 93, column 2
 
 ## Forensic 4cast
 
@@ -300,10 +285,7 @@ Generated: 2026-07-03T06:44:06Z
 
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## Didier Stevens Blog
 
@@ -382,10 +364,9 @@ Generated: 2026-07-03T06:44:06Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-07-03T06:30:00+00:00 — [Sort order, collation and the Finder](https://eclecticlight.co/2026/07/03/sort-order-collation-and-the-finder/)
-- 2026-07-02T11:30:00+00:00 — [Brushstrokes: Portraits 1760-1877](https://eclecticlight.co/2026/07/02/brushstrokes-portraits-1760-1877/)
+- 2026-07-03T11:30:31+00:00 — [Great Ladies of Impressionism: Marie Bracquemond](https://eclecticlight.co/2026/07/03/great-ladies-of-impressionism-marie-bracquemond/)
 
 ## JPCERT/CC
 
@@ -410,9 +391,9 @@ Generated: 2026-07-03T06:44:06Z
 - Site: https://blog.elcomsoft.com/
 - Feed: https://blog.elcomsoft.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-02T08:25:13+00:00 — [How to Buy a Reliable SSD, Continued](https://blog.elcomsoft.com/2026/07/how-to-buy-a-reliable-ssd-continued/)
+- No new entries detected
 
 ## Huntress Blog
 
@@ -437,27 +418,27 @@ Generated: 2026-07-03T06:44:06Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-02T22:00:39+00:00 — [How We Added WebAuthn to a Browser-Based RDP Client](https://unit42.paloaltonetworks.com/webauthn-added-to-browser-based-rdp/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-02T14:00:00+00:00 — [Google’s Continued Disruption of Malicious Residential Proxy Networks](https://cloud.google.com/blog/topics/threat-intelligence/google-continued-disruption-residential-proxy-networks/)
+- No new entries detected
 
 ## Cisco Talos Blog
 
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-02T18:00:34+00:00 — [Catan and Mouse](https://blog.talosintelligence.com/catan-and-mouse/)
+- No new entries detected
 
 ## SANS Blog
 
@@ -473,18 +454,18 @@ Generated: 2026-07-03T06:44:06Z
 - Site: https://www.elastic.co/security-labs/
 - Feed: https://www.elastic.co/security-labs/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- unknown date — [Inside Elastic InfoSec&#x27;s agentic SOC: cutting alert triage from 30 minutes to under 3](https://www.elastic.co/security-labs/alert-triage-agentic-soc-elastic-workflows)
+- No new entries detected
 
 ## Flare.io Threat Research Blog
 
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-02T14:20:25+00:00 — [$4 Social Security Numbers on the Dark Web Carry 30 Year Sentences: The Stolen Data Courts Punish the Most Severely](https://flare.io/learn/resources/blog/stolen-data-courts-punish-most-severely)
+- No new entries detected
 
 ## Binalyze Blog
 
@@ -518,9 +499,9 @@ Generated: 2026-07-03T06:44:06Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-02T15:06:32+00:00 — [Guardia di Finanza | Cellebrite Pathfinder Onboarding](https://cellebrite.com/en/resources/webinars/guardia-di-finanza-cellebrite-pathfinder-onboarding/)
+- No new entries detected
 
 ## DFIR Science
 
@@ -545,51 +526,37 @@ Generated: 2026-07-03T06:44:06Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 1
 
-- 2026-07-02T16:22:25+00:00 — [Apple’s Hide My Email doesn&#8217;t hide it very well](https://www.malwarebytes.com/blog/news/2026/07/apples-hide-my-email-doesnt-hide-it-very-well)
-- 2026-07-02T16:05:08+00:00 — [Fake Google and Cloudflare verification pages spread multiple malware families](https://www.malwarebytes.com/blog/threat-intel/2026/07/fake-google-and-cloudflare-verification-pages-spread-multiple-malware-families)
-- 2026-07-02T12:38:12+00:00 — [WinRAR flaw could allow attackers to take control of your computer](https://www.malwarebytes.com/blog/news/2026/07/winrar-flaw-could-allow-attackers-to-take-control-of-your-computer)
+- 2026-07-03T13:30:36+00:00 — [Verified X ad spreads Mac malware, while ConsentFix steals Microsoft accounts](https://www.malwarebytes.com/blog/news/2026/07/verified-x-ad-spreads-mac-malware-while-consentfix-steals-microsoft-accounts)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-02T19:27:33+00:00 — [FBI Seizes NetNut Proxy Platform, Popa Botnet](https://krebsonsecurity.com/2026/07/fbi-seizes-netnut-proxy-platform-popa-botnet/)
+- No new entries detected
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 9
+- New since last snapshot: 2
 
-- 2026-07-02T21:37:09-04:00 — [Claude Fable 5 isn’t permanently leaving subscriptions, Anthropic says](https://www.bleepingcomputer.com/news/artificial-intelligence/claude-fable-5-isnt-permanently-leaving-subscriptions-anthropic-says/)
-- 2026-07-02T20:48:30-04:00 — [Claude Fable relaunch disappoints users with nerfed performance](https://www.bleepingcomputer.com/news/artificial-intelligence/claude-fable-relaunch-disappoints-users-with-nerfed-performance/)
-- 2026-07-02T11:18:51-04:00 — [Google loses final appeal to overturn €4.1 billion EU fine](https://www.bleepingcomputer.com/news/legal/google-loses-final-appeal-to-overturn-41-billion-eu-fine/)
-- 2026-07-02T10:00:10-04:00 — [ConsentFix and ClickFix: How Microsoft 365 Accounts are Hijacked in 3 Seconds](https://www.bleepingcomputer.com/news/security/consentfix-and-clickfix-how-microsoft-365-accounts-are-hijacked-in-3-seconds/)
-- 2026-07-02T08:15:47-04:00 — [Microsoft fixes bug that removed Copilot buttons in Outlook](https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-bug-that-removed-copilot-button-in-outlook/)
-- 2026-07-02T07:35:25-04:00 — [Cisco finally confirms attackers exploiting Unified CM flaw](https://www.bleepingcomputer.com/news/security/cisco-finally-confirms-attackers-exploiting-unified-cm-flaw/)
-- 2026-07-02T06:52:43-04:00 — [CISA: Microsoft SharePoint RCE flaw now actively exploited](https://www.bleepingcomputer.com/news/security/cisa-microsoft-sharepoint-rce-flaw-now-actively-exploited/)
-- 2026-07-02T06:46:58-04:00 — [Opera rolls out Paste Protect feature to fight ClickFix attacks](https://www.bleepingcomputer.com/news/security/opera-rolls-out-paste-protect-feature-to-fight-clickfix-attacks/)
-- 2026-07-02T04:58:25-04:00 — [Alleged Scattered Spider hacker extradited to the United States](https://www.bleepingcomputer.com/news/security/alleged-scattered-spider-hacker-extradited-to-the-united-states/)
+- 2026-07-03T13:50:04-04:00 — [NetNut proxy network disrupted, 2 million infected devices cut off](https://www.bleepingcomputer.com/news/security/netnut-proxy-network-disrupted-2-million-infected-devices-cut-off/)
+- 2026-07-03T10:12:22-04:00 — [ARToken PhaaS exposes EvilTokens' Microsoft 365 phishing toolkit](https://www.bleepingcomputer.com/news/security/artoken-phaas-exposes-eviltokens-microsoft-365-phishing-toolkit/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 6
+- New since last snapshot: 1
 
-- 2026-07-02T23:01:00+00:00 — [Aussies Face Reduced Cybercrime Risk, as Pressure Shifts to SMBs](https://www.darkreading.com/cybersecurity-analytics/aussies-face-reduced-cybercrime-risk-pressure-shifts-smbs)
-- 2026-07-02T19:31:58+00:00 — [Apple Reverses Age-Old Patch Policy to Keep Up With AI](https://www.darkreading.com/cybersecurity-operations/apple-patch-policy-ai)
-- 2026-07-02T19:11:33+00:00 — [FortiBleed Actors Collaborating With Inc, Lynx Ransomware Gangs](https://www.darkreading.com/threat-intelligence/fortibleed-actors-inc-lynx-ransomware-gangs)
-- 2026-07-02T18:07:40+00:00 — [Ransomware Thugs Masquerade as Interpol to Entice Small Biz](https://www.darkreading.com/cyberattacks-data-breaches/attackers-use-interpol-lure-target-small-businesses)
-- 2026-07-02T12:33:57+00:00 — [Anthropic's AI Finds Bugs. IBM Bets $5B It Can Fix Them.](https://www.darkreading.com/vulnerabilities-threats/anthropic-s-ai-finds-bugs-ibm-bets-5b-it-can-fix-them-)
-- 2026-07-01T15:44:41+00:00 — [When Too Much Security Data Became the Risk](https://www.darkreading.com/cyber-risk/too-much-security-data-risk)
+- 2026-07-03T13:01:00+00:00 — [Chinese LLMs Broaden the Gap Between Attackers &amp; Defenders](https://www.darkreading.com/cyber-risk/chinese-llms-broaden-gap-between-attackers-and-defenders)
 
 ## Volexity Blog
 
@@ -602,18 +569,18 @@ Generated: 2026-07-03T06:44:06Z
 - Site: https://www.sentinelone.com/labs/
 - Feed: https://www.sentinelone.com/labs/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-02T13:00:02+00:00 — [Context Engineering | Compaction & Agent Memory for Automated Malware Analysis](https://www.sentinelone.com/labs/context-engineering-compaction-agent-memory-for-automated-malware-analysis/)
+- No new entries detected
 
 ## Microsoft Security Blog
 
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-02T16:00:00+00:00 — [Improving security posture across the Microsoft partner ecosystem](https://www.microsoft.com/en-us/security/blog/2026/07/02/improving-security-posture-across-the-microsoft-partner-ecosystem/)
+- No new entries detected
 
 ## LOLBAS Project (Windows)
 
@@ -665,9 +632,9 @@ Generated: 2026-07-03T06:44:06Z
 - Site: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes
 - Feed: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-03T01:13:28+00:00 — [Rename for error fixing](https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/123bf05c61cfcdbe5db1f28e5da02786f07cf92e)
+- No new entries detected
 
 ## kacos2000_Win10
 
@@ -845,9 +812,10 @@ Generated: 2026-07-03T06:44:06Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-07-03T22:07:00+00:00 — [Sigma Rule Supported Modifier Update (2026-07-03  22:06:52) (#1043)](https://github.com/Yamato-Security/hayabusa-rules/commit/8b0309b5ce63a4883ea674540101325108415b9f)
+- 2026-07-03T20:55:44+00:00 — [Sigma Rule Update (2026-07-03  20:55:37) (#1042)](https://github.com/Yamato-Security/hayabusa-rules/commit/79cfd0e6116ad1f713f41ec6f4fe6d3b9600df6e)
 
 ## Hayabusa releases
 
