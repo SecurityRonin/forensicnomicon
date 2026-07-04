@@ -16,6 +16,7 @@ mod vehicle_ext;
 mod windows_evtx_ext;
 mod windows_files_ext;
 mod windows_logs_ext;
+mod windows_memory_ext;
 mod windows_registry_ext;
 mod windows_registry_ext2;
 mod windows_registry_ext3;
@@ -15482,6 +15483,12 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     android_ext::SAMSUNG_GALLERY3D_LOG,
     android_ext::ANDROID_TOR_BROWSER_THUMBNAILS,
     android_ext::ANDROID_GBOARD_TRAININGCACHE,
+    // ── Memory forensics (VAD/malfind, netscan, handles/threads, callbacks, DKOM) ──
+    windows_memory_ext::MEM_PROCESS_INJECTION,
+    windows_memory_ext::MEM_NETWORK_SCAN,
+    windows_memory_ext::MEM_HANDLES_THREADS,
+    windows_memory_ext::MEM_KERNEL_CALLBACKS,
+    windows_memory_ext::MEM_HIDDEN_PROCESSES,
     // ── Cloud services (Google Takeout, AWS CloudTrail) ────────────────────
     cloud_ext::GOOGLE_TAKEOUT_LOCATION_RECORDS,
     cloud_ext::GOOGLE_TAKEOUT_SEMANTIC_LOCATION_HISTORY,
