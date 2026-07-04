@@ -84,11 +84,12 @@ pub(crate) static MEM_PROCESS_INJECTION_FIELDS: &[FieldSchema] = &[
 ///
 /// malfind enumerates each process' Virtual Address Descriptor (VAD) tree and
 /// flags regions consistent with injection. Its filter is not simply "private
-/// RWX": a VAD is reported when it is a private, executable short VAD
-/// (`Flags.PrivateMemory == 1` and pool tag `VadS`) OR a non-private executable
-/// region whose protection is not `PAGE_EXECUTE_WRITECOPY`; it additionally
-/// flags *dirty* pages inside an executable non-writable region (write-then-
-/// protect injection). Classic injection — `VirtualAllocEx` + `WriteProcessMemory`,
+/// RWX": it considers executable, non-image-backed VADs (a private short VAD
+/// with `Flags.PrivateMemory == 1` and pool tag `VadS`, or a region whose
+/// protection is not `PAGE_EXECUTE_WRITECOPY`), and reports one only when its
+/// protection is write+execute OR it contains a *dirty* executable page in an
+/// otherwise non-writable region (write-then-protect injection); a clean
+/// execute-only region is not reported. Classic injection — `VirtualAllocEx` + `WriteProcessMemory`,
 /// reflective DLL loading, process hollowing, `.text` overwrites — often leaves
 /// this footprint, frequently beginning with an `MZ` header or a bare code
 /// prologue. The signal comes from the `_MMVAD` node's `Flags.Protection`,
@@ -110,10 +111,11 @@ pub(crate) static MEM_PROCESS_INJECTION: ArtifactDescriptor = ArtifactDescriptor
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
     meaning: "Executable memory regions recovered by walking each process' VAD tree \
-(malfind-class analysis). malfind reports a region when it is a private, executable short VAD \
-(Flags.PrivateMemory == 1 and pool tag VadS) OR a non-private executable region whose protection \
-is not PAGE_EXECUTE_WRITECOPY; it also flags dirty pages inside an executable, non-writable region \
-(write-then-protect injection). Injected code — VirtualAllocEx+WriteProcessMemory, reflective DLL \
+(malfind-class analysis). malfind considers executable, non-image-backed VADs (a private short VAD \
+with Flags.PrivateMemory == 1 and pool tag VadS, or a region whose protection is not \
+PAGE_EXECUTE_WRITECOPY) and reports one only when its protection is write+execute OR it contains a \
+dirty executable page in an otherwise non-writable region (write-then-protect injection); a clean \
+execute-only region is not reported. Injected code — VirtualAllocEx+WriteProcessMemory, reflective DLL \
 loading, process hollowing, in-place .text patching — often produces such regions with no mapped \
 module on disk. The determination is made from the _MMVAD node's Flags.Protection, \
 Flags.PrivateMemory, and Flags.CommitCharge fields together with the VAD pool tag. A region \
@@ -462,7 +464,7 @@ pub(crate) static MEM_KERNEL_CALLBACKS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "symbol",
         value_type: ValueType::Text,
-        description: "Internal symbol vol3 emits for the callback array (callbacks Symbol column): PspLoadImageNotifyRoutine, PspCreateThreadNotifyRoutine, PspCreateProcessNotifyRoutine, CmRegisterCallback/CmRegisterCallbackEx",
+        description: "Symbol vol3 resolves for the callback ROUTINE ADDRESS via owning-module symbol lookup (callbacks Symbol column) — the target the callback points to, not the array name; the notify-array itself (PspLoadImageNotifyRoutine, PspCreateThreadNotifyRoutine, PspCreateProcessNotifyRoutine, CmRegisterCallback/Ex) is reflected in the Type column",
         is_uid_component: false,
     },
     FieldSchema {
@@ -533,7 +535,8 @@ walks KiServiceTable and windows.driverscan pool-scans for driver objects (recov
 unlinked from PsLoadedModuleList). A callback or SSDT target that resolves to no known module (or \
 outside ntoskrnl) is suspicious; it can also reflect a symbol/module-list resolution failure or \
 an unloaded-driver context, so corroborate before concluding a hook. Cross-reference \
-mem_loaded_modules (a driver present in the pool but absent from the module list is hidden).",
+mem_loaded_modules (a driver present in the pool but absent from the module list is consistent with \
+hiding — corroborate, as pool scans can surface stale or partially-valid driver objects).",
     mitre_techniques: &[
         "T1547.006", // Boot or Logon Autostart Execution: Kernel Modules and Extensions
         "T1014",     // Rootkit
