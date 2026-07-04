@@ -85,8 +85,9 @@ pub(crate) static MEM_PROCESS_INJECTION_FIELDS: &[FieldSchema] = &[
 /// malfind enumerates each process' Virtual Address Descriptor (VAD) tree and
 /// flags regions consistent with injection. Its filter is not simply "private
 /// RWX": it considers executable, non-image-backed VADs (a private short VAD
-/// with `Flags.PrivateMemory == 1` and pool tag `VadS`, or a region whose
-/// protection is not `PAGE_EXECUTE_WRITECOPY`), and reports one only when its
+/// with `Flags.PrivateMemory == 1` and pool tag `VadS`, or a non-private region
+/// (`Flags.PrivateMemory == 0`) whose protection is not `PAGE_EXECUTE_WRITECOPY`),
+/// and reports one only when its
 /// protection is write+execute OR it contains a *dirty* executable page in an
 /// otherwise non-writable region (write-then-protect injection); a clean
 /// execute-only region is not reported. Classic injection — `VirtualAllocEx` + `WriteProcessMemory`,
@@ -112,8 +113,9 @@ pub(crate) static MEM_PROCESS_INJECTION: ArtifactDescriptor = ArtifactDescriptor
     decoder: Decoder::Identity,
     meaning: "Executable memory regions recovered by walking each process' VAD tree \
 (malfind-class analysis). malfind considers executable, non-image-backed VADs (a private short VAD \
-with Flags.PrivateMemory == 1 and pool tag VadS, or a region whose protection is not \
-PAGE_EXECUTE_WRITECOPY) and reports one only when its protection is write+execute OR it contains a \
+with Flags.PrivateMemory == 1 and pool tag VadS, or a non-private region (Flags.PrivateMemory == 0) \
+whose protection is not PAGE_EXECUTE_WRITECOPY) and reports one only when its protection is \
+write+execute OR it contains a \
 dirty executable page in an otherwise non-writable region (write-then-protect injection); a clean \
 execute-only region is not reported. Injected code — VirtualAllocEx+WriteProcessMemory, reflective DLL \
 loading, process hollowing, in-place .text patching — often produces such regions with no mapped \
