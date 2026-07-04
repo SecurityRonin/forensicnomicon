@@ -78,7 +78,7 @@ pub(crate) static VSS_SNAPSHOT_ANALYSIS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "store_block_offset",
         value_type: ValueType::UnsignedInt,
-        description: "Store data-block offset (store block descriptor, offset 16), relative to the start of the volume — where the pre-change (copy-on-write) bytes are kept. Overlaying store blocks onto the live volume reconstructs the file as it was at snapshot time",
+        description: "Store data-block offset (store block descriptor, offset 16), relative to the start of the volume — where the pre-change (copy-on-write) bytes are kept. Reconstructing snapshot-time state applies the relevant newer stores in order (most recent down to the target, respecting each descriptor's flags), not a flat overlay",
         is_uid_component: false,
     },
     FieldSchema {
