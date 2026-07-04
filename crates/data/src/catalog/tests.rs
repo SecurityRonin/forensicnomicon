@@ -11089,3 +11089,54 @@ mod tests_browser_session_memory {
         );
     }
 }
+
+/// GCFA/FOR508 memory-forensics coverage-gap descriptors (VAD/malfind,
+/// netscan, handles/threads, kernel callbacks, DKOM-hidden processes).
+/// These assert the five new curated descriptors are queryable by ID and
+/// carry at least one primary-source citation (Volatility3 plugin source or
+/// Microsoft kernel-structure docs).
+mod tests_memory_gcfa_ext {
+    use super::*;
+
+    /// The five memory-forensics descriptors added to close the GCFA gap.
+    const MEMORY_GCFA_IDS: &[&str] = &[
+        "mem_process_injection",
+        "mem_network_scan",
+        "mem_handles_threads",
+        "mem_kernel_callbacks",
+        "mem_hidden_processes",
+    ];
+
+    #[test]
+    fn catalog_has_all_memory_gcfa_descriptors() {
+        for id in MEMORY_GCFA_IDS {
+            assert!(
+                CATALOG.by_id(id).is_some(),
+                "memory GCFA descriptor '{id}' missing from catalog"
+            );
+        }
+    }
+
+    #[test]
+    fn memory_gcfa_descriptors_have_primary_source_citations() {
+        for id in MEMORY_GCFA_IDS {
+            let d = CATALOG
+                .by_id(id)
+                .unwrap_or_else(|| panic!("descriptor '{id}' missing"));
+            assert!(!d.sources.is_empty(), "descriptor '{id}' has no sources");
+            assert!(
+                d.sources.iter().all(|s| s.starts_with("https://")),
+                "descriptor '{id}' has a non-URL source citation"
+            );
+            let has_primary = d.sources.iter().any(|s| {
+                s.contains("github.com/volatilityfoundation/volatility3")
+                    || s.contains("learn.microsoft.com")
+            });
+            assert!(
+                has_primary,
+                "descriptor '{id}' must cite a primary source \
+                 (Volatility3 plugin src or Microsoft kernel docs)"
+            );
+        }
+    }
+}
