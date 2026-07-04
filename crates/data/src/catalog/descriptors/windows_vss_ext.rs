@@ -5,7 +5,8 @@
 //! (copy-on-write) area. Recovering prior versions of files means parsing the
 //! catalog (which stores each snapshot's identity), the store block descriptors
 //! (which map original-volume offsets to the pre-change data blocks kept in the
-//! diff area), and overlaying the diff area on the current volume. This
+//! diff area), and applying the relevant newer stores in order onto the current
+//! volume. This
 //! complements the registry-only `vss_files_not_to_backup` exclusion keys with
 //! the on-disk store/diff-area analysis a GCFA/FOR508-class exam relies on for
 //! recovering deleted or timestomped prior file states.
@@ -98,8 +99,10 @@ pub(crate) static VSS_SNAPSHOT_ANALYSIS_FIELDS: &[FieldSchema] = &[
 /// descriptors that implement copy-on-write: each descriptor maps an
 /// original-volume block offset to the store block that preserves that block's
 /// content as it was when the snapshot was taken. Recovering a prior file
-/// version means overlaying the diff-area store blocks onto the current volume,
-/// so blocks changed since the snapshot resolve to their pre-change bytes.
+/// version means applying the relevant newer stores in order (most recent down
+/// to the target snapshot, respecting each block descriptor's flags) onto the
+/// current volume, so blocks changed since the snapshot resolve to their
+/// preserved copy-on-write copies.
 /// This exposes deleted files, pre-timestomp/pre-wipe file states, and prior
 /// registry hives that exist only inside the shadow copy. The registry-only
 /// `vss_files_not_to_backup` keys are the exclusion list, not the snapshot data;
@@ -126,11 +129,12 @@ the store information (shadow-copy identifier GUID at offset 16, shadow-copy set
 snapshot context at offset 48, attribute flags at offset 56) and store block descriptors that \
 implement copy-on-write: each descriptor maps an original-volume block offset (offset 0) to the \
 store data-block offset (offset 16) preserving that block's pre-change content. Recovering a prior \
-file version overlays the diff-area store blocks on the current volume, so changed blocks resolve \
-to their snapshot-time bytes. This recovers deleted files, pre-timestomp/pre-wipe states, and prior \
-registry hives that live only inside the shadow copy. Cross-reference vss_files_not_to_backup (the \
-registry exclusion list, NOT the snapshot data), mft/mft_file, and ntfs_timestomping_si_fn (a \
-snapshot preserves the pre-forgery timestamps).",
+file version applies the relevant newer stores in order (most recent down to the target snapshot, \
+respecting each block descriptor's flags) onto the current volume, so changed blocks resolve to \
+their preserved copy-on-write copies. This recovers deleted files, pre-timestomp/pre-wipe states, \
+and prior registry hives that live only inside the shadow copy. Cross-reference \
+vss_files_not_to_backup (the registry exclusion list, NOT the snapshot data), mft/mft_file, and \
+ntfs_timestomping_si_fn (a snapshot that predates a forgery may preserve earlier timestamp state).",
     mitre_techniques: &[
         "T1490", // Inhibit System Recovery (attackers delete shadow copies)
         "T1006", // Direct Volume Access

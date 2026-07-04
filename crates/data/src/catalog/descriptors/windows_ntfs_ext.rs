@@ -205,7 +205,7 @@ pub(crate) static NTFS_LOGFILE_RECORDS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "undo_op",
         value_type: ValueType::Text,
-        description: "Undo operation code — the inverse action to REPLAY to roll the change back; the redo/undo pair reconstructs both the before and after state of the affected metadata",
+        description: "Undo operation code — the inverse action to REPLAY to roll the change back; the redo/undo pair can reconstruct before and after metadata for interpretable records (payloads may be complete or partial depending on opcode and NTFS version)",
         is_uid_component: false,
     },
     FieldSchema {
@@ -242,11 +242,12 @@ pub(crate) static NTFS_LOGFILE_RECORDS_FIELDS: &[FieldSchema] = &[
 /// index) is written as a log record before the change is committed, and each
 /// record carries a $LogFile Sequence Number (LSN) plus a redo operation (the
 /// action to roll the change forward) and an undo operation (the inverse to
-/// roll it back), each with its own data payload. Because both the before
-/// (undo) and after (redo) images are logged, `$LogFile` lets an analyst
-/// recover short-lived metadata that the live $MFT no longer shows: deleted
-/// files whose MFT entry was reused, the original name behind a rename, and the
-/// sequence of index operations in a directory. The journal is a fixed-size
+/// roll it back), each with its own data payload. Because before (undo) and
+/// after (redo) images are logged for many operations, `$LogFile` can often help
+/// an analyst recover short-lived metadata that the live $MFT no longer shows:
+/// deleted files whose MFT entry was reused, the original name behind a rename,
+/// and the sequence of index operations in a directory (records may be partial
+/// or version-dependent). The journal is a fixed-size
 /// circular buffer, so only recent transactions survive. Field names follow the
 /// settled reverse-engineered reference (LogFileParser) and the libyal NTFS
 /// on-disk spec.
@@ -268,10 +269,11 @@ pub(crate) static NTFS_LOGFILE_RECORDS: ArtifactDescriptor = ArtifactDescriptor 
 Each metadata change (file create/delete/rename, $DATA run growth, directory index update) is \
 logged as a record before it commits. A record carries a $LogFile Sequence Number (LSN), the \
 previous-LSN and undo-next-LSN chain links, and a paired redo operation (roll forward) and undo \
-operation (roll back), each with its own data payload. Because both the pre-change (undo) and \
-post-change (redo) images are recorded, $LogFile recovers metadata the live $MFT no longer shows: \
-deleted files whose MFT entry was reused, the original name behind a rename (from the undo \
-payload), and the operation sequence in a directory. Redo/undo payloads for file-name operations \
+operation (roll back), each with its own data payload. Because pre-change (undo) and post-change \
+(redo) images are recorded for many operations, $LogFile can often recover metadata the live $MFT \
+no longer shows: deleted files whose MFT entry was reused, the original name behind a rename (from \
+the undo payload), and the operation sequence in a directory (payloads may be complete or partial \
+depending on opcode and NTFS version). Redo/undo payloads for file-name operations \
 contain the $FILE_NAME structure with its name and timestamps, enabling reconstruction of a \
 deleted entry. The journal is a fixed-size circular buffer, so only recent transactions survive — \
 it is higher-volatility than the $MFT. Cross-reference usnjrnl (a coarser, longer-retained change \

@@ -1,9 +1,10 @@
 //! Windows WMI-persistence descriptor (CIM repository + WMI-Activity log).
 //!
-//! WMI permanent event subscriptions are a fileless persistence mechanism: an
+//! WMI permanent event subscriptions are often used as fileless persistence: an
 //! __EventFilter (the trigger query) bound via a __FilterToConsumerBinding to an
-//! __EventConsumer (the payload) survives reboots and runs with SYSTEM
-//! privileges. The subscription objects live in the CIM repository on disk
+//! __EventConsumer (the payload) survives reboots; the execution context depends
+//! on the consumer configuration. The subscription objects live in the CIM
+//! repository on disk
 //! (OBJECTS.DATA / INDEX.BTR / MAPPING[1-3].MAP), and the WMI-Activity/
 //! Operational event log records the runtime traces. This closes the GCFA gap
 //! where __EventFilter/__EventConsumer existed only as MITRE technique names.
@@ -78,17 +79,19 @@ pub(crate) static WMI_PERSISTENCE_CIM_REPOSITORY_FIELDS: &[FieldSchema] = &[
 
 /// WMI persistence — permanent event subscription in the CIM repository.
 ///
-/// A WMI permanent event subscription is a fileless, reboot-surviving,
-/// SYSTEM-privileged persistence mechanism built from three linked objects: an
+/// A WMI permanent event subscription is a reboot-surviving persistence
+/// mechanism, often used filelessly, built from three linked objects: an
 /// __EventFilter holding a WQL trigger query, an __EventConsumer holding the
 /// payload (CommandLineEventConsumer runs a command; ActiveScriptEventConsumer
 /// runs an inline script), and a __FilterToConsumerBinding joining the two. All
 /// three are stored in the CIM repository on disk — OBJECTS.DATA (the object
 /// store), INDEX.BTR (the B-tree index), and MAPPING[1-3].MAP (the logical-to-
-/// physical page maps) under `%SystemRoot%\System32\wbem\Repository`. Because
-/// nothing lands on disk as a script/EXE and the subscription is invisible to a
-/// casual file-system triage, it is a favourite living-off-the-land persistence
-/// (the offensive triple filter+consumer+binding). Recovery parses the CIM
+/// physical page maps) under `%SystemRoot%\System32\wbem\Repository`. When a
+/// standard consumer carries an inline command/script payload no script/EXE need
+/// land on disk, so it evades casual file-system triage; custom consumers may
+/// instead rely on registered COM/executable components, and the execution
+/// context depends on the consumer/provider configuration (commonly the WMI
+/// service context for standard consumers). Recovery parses the CIM
 /// repository (the settled reference is Mandiant's flare-wmi / python-cim) to
 /// enumerate the subscription objects and their payloads, and correlates with
 /// the Microsoft-Windows-WMI-Activity/Operational event log, which records
@@ -113,8 +116,10 @@ repository. The mechanism is a triple: an __EventFilter (WQL trigger query) link
 __FilterToConsumerBinding to an __EventConsumer (payload — CommandLineEventConsumer runs a command, \
 ActiveScriptEventConsumer runs an inline script). All three objects live in the CIM repository \
 files OBJECTS.DATA (object store), INDEX.BTR (B-tree index), and MAPPING[1-3].MAP (page maps) under \
-%SystemRoot%\\System32\\wbem\\Repository. The subscription is fileless (no script/EXE on disk), \
-reboot-surviving, and runs as SYSTEM, making it a favourite living-off-the-land persistence. \
+%SystemRoot%\\System32\\wbem\\Repository. It is often used as fileless persistence when a standard \
+consumer stores an inline command/script payload; custom consumers may rely on registered \
+COM/executable components. It is reboot-surviving, and the execution context depends on the \
+consumer/provider configuration (commonly the WMI service context for standard consumers). \
 Recovery parses the CIM repository (settled reference: Mandiant flare-wmi / python-cim) to \
 enumerate the filter query, consumer subclass, and consumer payload (CommandLineTemplate or \
 ScriptText — the actual code run), and correlates with the Microsoft-Windows-WMI-Activity/\
