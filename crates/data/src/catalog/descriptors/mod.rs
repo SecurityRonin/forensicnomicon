@@ -17,9 +17,12 @@ mod windows_evtx_ext;
 mod windows_files_ext;
 mod windows_logs_ext;
 mod windows_memory_ext;
+mod windows_ntfs_ext;
 mod windows_registry_ext;
 mod windows_registry_ext2;
 mod windows_registry_ext3;
+mod windows_vss_ext;
+mod windows_wmi_ext;
 
 use super::types::{
     ArtifactDescriptor, ArtifactLocation, BinaryField, BinaryFieldType, DataScope, Decoder,
@@ -15489,6 +15492,11 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     windows_memory_ext::MEM_HANDLES_THREADS,
     windows_memory_ext::MEM_KERNEL_CALLBACKS,
     windows_memory_ext::MEM_HIDDEN_PROCESSES,
+    // ── Disk / NTFS / registry (timestomping, VSS, $LogFile, WMI persistence) ──
+    windows_ntfs_ext::NTFS_TIMESTOMPING_SI_FN,
+    windows_ntfs_ext::NTFS_LOGFILE_RECORDS,
+    windows_vss_ext::VSS_SNAPSHOT_ANALYSIS,
+    windows_wmi_ext::WMI_PERSISTENCE_CIM_REPOSITORY,
     // ── Cloud services (Google Takeout, AWS CloudTrail) ────────────────────
     cloud_ext::GOOGLE_TAKEOUT_LOCATION_RECORDS,
     cloud_ext::GOOGLE_TAKEOUT_SEMANTIC_LOCATION_HISTORY,
