@@ -18,6 +18,7 @@
 //!     default mise path), and
 //!   * the Windows memory image is present (env `FORENSICNOMICON_VOL3_IMAGE`
 //!     or the default extracted memlabs-lab1 path).
+//!
 //! Otherwise it prints a `skipped: …` line and returns cleanly, so the default
 //! `cargo test` run and the coverage gate are unaffected. On any vol failure or
 //! timeout it SKIPS (returns) rather than failing — a missing oracle is not a
@@ -26,6 +27,7 @@
 //! vol3 may download symbol tables on first run (needs network) and can be slow;
 //! per-plugin runs use a generous timeout and their stdout is cached under /tmp
 //! so reruns are fast.
+#![allow(clippy::unwrap_used, clippy::expect_used)]
 
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
@@ -36,8 +38,6 @@ use forensicnomicon_data::catalog::CATALOG;
 /// A vol3 plugin and its real output column set, populated at runtime by running
 /// the plugin and parsing the header row.
 struct PluginColumns {
-    /// vol3 plugin name, e.g. `windows.handles`.
-    plugin: &'static str,
     /// Real TitleCase column headers emitted by the plugin, lowercased and with
     /// spaces stripped for tolerant matching (e.g. `Start VPN` -> `startvpn`).
     columns_norm: Vec<String>,
@@ -198,7 +198,7 @@ fn image_path() -> Option<PathBuf> {
 /// normalized column header set, or `None` on any failure/timeout (caller skips).
 fn run_plugin(vol: &Path, image: &Path, plugin: &str) -> Option<PluginColumns> {
     let cache = PathBuf::from(format!("/tmp/voloracle_{plugin}.txt"));
-    let text = if cache.exists() && std::fs::metadata(&cache).map(|m| m.len()).unwrap_or(0) > 0 {
+    let text = if cache.exists() && std::fs::metadata(&cache).map_or(0, |m| m.len()) > 0 {
         std::fs::read_to_string(&cache).ok()?
     } else {
         // vol has no per-run timeout flag; wrap in `timeout` when available so a
@@ -244,7 +244,6 @@ fn run_plugin(vol: &Path, image: &Path, plugin: &str) -> Option<PluginColumns> {
     let header = text.lines().find(|l| l.contains('\t'))?;
     let columns_norm = header.split('\t').map(normalize).collect();
     Some(PluginColumns {
-        plugin: Box::leak(plugin.to_string().into_boxed_str()),
         columns_norm,
         raw_header: header.to_string(),
     })
@@ -288,11 +287,9 @@ fn vol3_oracle_field_fidelity() {
     let mut needed: Vec<&'static str> = map
         .iter()
         .flat_map(|(_, fields)| {
-            fields.iter().flat_map(|fo| {
-                fo.plugin
-                    .into_iter()
-                    .chain(fo.absent_from_plugin.into_iter())
-            })
+            fields
+                .iter()
+                .flat_map(|fo| fo.plugin.into_iter().chain(fo.absent_from_plugin))
         })
         .collect();
     needed.sort_unstable();
@@ -300,15 +297,12 @@ fn vol3_oracle_field_fidelity() {
 
     let mut cols: BTreeMap<&'static str, PluginColumns> = BTreeMap::new();
     for plugin in &needed {
-        match run_plugin(&vol, &image, plugin) {
-            Some(pc) => {
-                eprintln!("  ran {plugin}: columns = [{}]", pc.raw_header);
-                cols.insert(*plugin, pc);
-            }
-            None => {
-                eprintln!("skipped: vol plugin {plugin} did not produce a header (see above)");
-                return;
-            }
+        if let Some(pc) = run_plugin(&vol, &image, plugin) {
+            eprintln!("  ran {plugin}: columns = [{}]", pc.raw_header);
+            cols.insert(*plugin, pc);
+        } else {
+            eprintln!("skipped: vol plugin {plugin} did not produce a header (see above)");
+            return;
         }
     }
 
@@ -329,34 +323,30 @@ fn vol3_oracle_field_fidelity() {
                 fo.field
             );
 
-            match fo.plugin {
-                Some(plugin) => {
-                    let pc = &cols[plugin];
-                    let present = pc.columns_norm.iter().any(|c| c == fo.expect_column_norm);
-                    if !present {
-                        failures.push(format!(
-                            "descriptor '{id}' field '{}' is attributed to {plugin} column '{}', \
-                             but {plugin}'s real columns are [{}]",
-                            fo.field, fo.expect_column_norm, pc.raw_header
-                        ));
-                    }
+            if let Some(plugin) = fo.plugin {
+                let pc = &cols[plugin];
+                let present = pc.columns_norm.iter().any(|c| c == fo.expect_column_norm);
+                if !present {
+                    failures.push(format!(
+                        "descriptor '{id}' field '{}' is attributed to {plugin} column '{}', \
+                         but {plugin}'s real columns are [{}]",
+                        fo.field, fo.expect_column_norm, pc.raw_header
+                    ));
                 }
-                None => {
-                    // Derived field: assert the column is ABSENT from the primary
-                    // plugin's real output (miss-attribution guard).
-                    let plugin = fo
-                        .absent_from_plugin
-                        .expect("derived field must name the plugin it must be absent from");
-                    let pc = &cols[plugin];
-                    let wrongly_present =
-                        pc.columns_norm.iter().any(|c| c == fo.expect_column_norm);
-                    if wrongly_present {
-                        failures.push(format!(
-                            "descriptor '{id}' field '{}' is DERIVED and must not be a {plugin} \
-                             column, but {plugin} emits it: [{}]",
-                            fo.field, pc.raw_header
-                        ));
-                    }
+            } else {
+                // Derived field: assert the column is ABSENT from the primary
+                // plugin's real output (miss-attribution guard).
+                let plugin = fo
+                    .absent_from_plugin
+                    .expect("derived field must name the plugin it must be absent from");
+                let pc = &cols[plugin];
+                let wrongly_present = pc.columns_norm.iter().any(|c| c == fo.expect_column_norm);
+                if wrongly_present {
+                    failures.push(format!(
+                        "descriptor '{id}' field '{}' is DERIVED and must not be a {plugin} \
+                         column, but {plugin} emits it: [{}]",
+                        fo.field, pc.raw_header
+                    ));
                 }
             }
         }
