@@ -1,15 +1,17 @@
 # Feed Update Report
 
-Generated: 2026-07-04T06:32:08Z
+Generated: 2026-07-05T06:52:10Z
 
 ## Windows Incident Response
 
 - Site: https://windowsir.blogspot.com/
 - Feed: https://windowsir.blogspot.com/feeds/posts/default
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-07-04T09:57:10-05:00 — [Finding Initial Access](https://windowsir.blogspot.com/2026/07/finding-initial-access.html)
+- 2026-07-04T08:09:34-05:00 — [LNK Files in CTI](https://windowsir.blogspot.com/2026/07/lnk-files-in-cti.html)
+- 2026-07-04T08:02:18-05:00 — [Rigor in Threat Intel](https://windowsir.blogspot.com/2026/07/rigor-in-threat-intel.html)
 
 ## dfir.blog
 
@@ -246,13 +248,37 @@ Generated: 2026-07-04T06:32:08Z
 
 - Site: https://www.msab.com/
 - Feed: https://www.msab.com/feed/
-- Status: error: mismatched tag: line 93, column 2
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-06-16T11:30:45+00:00 — [Q2 2026 Major Release is now available](https://www.msab.com/updates/q2-2026-major-release-is-now-available/)
+- 2026-05-12T17:00:00+00:00 — [Bulletin from the Annual General Meeting of Micro Systemation AB (publ)](https://www.msab.com/updates/bulletin-from-the-annual-general-meeting-of-micro-systemation-ab-publ-2/)
+- 2026-05-12T13:00:00+00:00 — [MSAB Secures Contract Worth SEK 12,7 Million with Australian Law Enforcement Agency](https://www.msab.com/updates/msab-secures-contract-worth-sek-127-million-with-australian-law-enforcement-agency/)
+- 2026-05-07T05:00:00+00:00 — [MSAB Sets Long-term Financial Targets](https://www.msab.com/updates/msab-sets-long-term-financial-targets/)
+- 2026-04-28T05:00:00+00:00 — [MSAB Interim Report – Q1 2026](https://www.msab.com/updates/msab-interim-report-q1-2026/)
+- 2026-04-21T11:00:00+00:00 — [MSAB publishes Annual Report for 2025](https://www.msab.com/updates/msab-publishes-annual-report-for-2025/)
+- 2026-04-14T05:00:00+00:00 — [Invitation to the Presentation of MSAB’s Interim Report January-March 2026](https://www.msab.com/updates/invitation-to-the-presentation-of-msabs-interim-report-january-march-2026/)
+- 2026-04-07T07:00:00+00:00 — [NOTICE OF ANNUAL GENERAL MEETING IN MICRO SYSTEMATION AB (publ)](https://www.msab.com/updates/notice-of-annual-general-meeting-in-micro-systemation-ab-publ-3/)
+- 2026-03-26T12:30:45+00:00 — [Q1 2026 Major Release is now available](https://www.msab.com/updates/q1-2026-major-release-is-now-available/)
+- 2026-03-24T06:00:00+00:00 — [Invitation to MSAB’s Capital Markets Day on May 7th, 2026](https://www.msab.com/updates/invitation-to-msabs-capital-markets-day-on-may-7th-2026/)
 
 ## AboutDFIR
 
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
-- Status: error: mismatched tag: line 93, column 2
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-07-02T10:50:48+00:00 — [Infosec News Nuggets — July 2, 2026](https://aboutdfir.com/infosec-news-nuggets-july-2-2026/)
+- 2026-07-01T12:58:09+00:00 — [Infosec News Nuggets — July 1, 2026](https://aboutdfir.com/infosec-news-nuggets-july-1-2026/)
+- 2026-06-30T10:13:34+00:00 — [Infosec News Nuggets — June 30, 2026](https://aboutdfir.com/infosec-news-nuggets-june-30-2026/)
+- 2026-06-26T13:04:46+00:00 — [Infosec News Nuggets — June 26, 2026](https://aboutdfir.com/infosec-news-nuggets-june-26-2026/)
+- 2026-06-25T13:06:15+00:00 — [Infosec News Nuggets — June 25, 2026](https://aboutdfir.com/infosec-news-nuggets-june-25-2026/)
+- 2026-06-24T11:37:51+00:00 — [Infosec News Nuggets — June 24, 2026](https://aboutdfir.com/infosec-news-nuggets-june-24-2026/)
+- 2026-06-23T11:42:20+00:00 — [Infosec News Nuggets — June 23, 2026](https://aboutdfir.com/infosec-news-nuggets-june-23-2026/)
+- 2026-06-22T12:33:53+00:00 — [InfoSec News Nuggets – 06/22/2026](https://aboutdfir.com/infosec-news-nuggets-06-22-2026/)
+- 2026-06-19T13:58:42+00:00 — [InfoSec News Nuggets – 06/19/2026](https://aboutdfir.com/infosec-news-nuggets-06-19-2026/)
+- 2026-06-18T12:11:51+00:00 — [InfoSec News Nuggets – 06/18/2026](https://aboutdfir.com/infosec-news-nuggets-06-18-2026/)
 
 ## Forensic 4cast
 
@@ -285,7 +311,19 @@ Generated: 2026-07-04T06:32:08Z
 
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
-- Status: error: mismatched tag: line 93, column 2
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-07-01T13:00:00+00:00 — [AI-generated CSAM: Artificial Images, Real Harm](https://blog.ampedsoftware.com/2026/07/01/ai-generated-csam)
+- 2026-06-25T13:37:08+00:00 — [Authenticate Update 40960: Introducing Video Deepfake Detection, a New Filter for Detecting the Adobe Watermark, Faster Image Deepfake Detection, and more!](https://blog.ampedsoftware.com/2026/06/25/authenticate-update-40960)
+- 2026-06-03T13:31:37+00:00 — [How To Investigate Video Evidence: Workflows, Pitfalls and Best Practices](https://blog.ampedsoftware.com/2026/06/03/investigate-video-evidence)
+- 2026-05-27T14:00:00+00:00 — [Deepfake Forensics Workflow for Image Analysis](https://blog.ampedsoftware.com/2026/05/27/deepfake-forensics-workflow-for-image-analysis)
+- 2026-05-20T13:30:00+00:00 — [Amped FIVE Update 40823: New Formats, Assistant Automation, New Motion Detection, and updates to Change Frame Rate, Timeline, and Much More](https://blog.ampedsoftware.com/2026/05/20/amped-five-update-40823)
+- 2026-04-24T13:30:00+00:00 — [Learn from the Experts at Amped Connect U.S. 2026](https://blog.ampedsoftware.com/2026/04/24/learn-from-the-experts-at-amped-connect-u-s-2026)
+- 2026-04-16T13:30:00+00:00 — [Fifty Shades of Fake: Deepfakes, AI Enhancement, and Media Authenticity](https://blog.ampedsoftware.com/2026/04/16/fifty-shades-of-fake)
+- 2026-04-01T13:30:00+00:00 — [Amped DVRConv and Engine Update 40286](https://blog.ampedsoftware.com/2026/04/01/dvrconv-and-engine-update-40286)
+- 2026-03-25T14:30:00+00:00 — [Amped Replay Update 40205: Magnify and Spotlight Improvements, Bookmarks Updates and More!](https://blog.ampedsoftware.com/2026/03/25/amped-replay-update-40205)
+- 2026-03-11T14:30:00+00:00 — [Authenticate Update 40165: Faster and Updated Deepfake Detection, Improved Geometrical Analysis, New Inspector Panel, and more!](https://blog.ampedsoftware.com/2026/03/11/authenticate-update-40165)
 
 ## Didier Stevens Blog
 
@@ -364,9 +402,11 @@ Generated: 2026-07-04T06:32:08Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 3
 
-- 2026-07-03T11:30:31+00:00 — [Great Ladies of Impressionism: Marie Bracquemond](https://eclecticlight.co/2026/07/03/great-ladies-of-impressionism-marie-bracquemond/)
+- 2026-07-04T11:30:00+00:00 — [Happy 250th birthday America 1](https://eclecticlight.co/2026/07/04/happy-250th-birthday-america-1/)
+- 2026-07-04T08:00:00+00:00 — [Saturday Mac riddles 367](https://eclecticlight.co/2026/07/04/saturday-mac-riddles-367/)
+- 2026-07-04T07:00:00+00:00 — [Spotlight and Core Spotlight are different](https://eclecticlight.co/2026/07/04/spotlight-and-core-spotlight-are-different/)
 
 ## JPCERT/CC
 
@@ -526,9 +566,9 @@ Generated: 2026-07-04T06:32:08Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-03T13:30:36+00:00 — [Verified X ad spreads Mac malware, while ConsentFix steals Microsoft accounts](https://www.malwarebytes.com/blog/news/2026/07/verified-x-ad-spreads-mac-malware-while-consentfix-steals-microsoft-accounts)
+- No new entries detected
 
 ## Krebs on Security
 
@@ -544,19 +584,18 @@ Generated: 2026-07-04T06:32:08Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-07-03T13:50:04-04:00 — [NetNut proxy network disrupted, 2 million infected devices cut off](https://www.bleepingcomputer.com/news/security/netnut-proxy-network-disrupted-2-million-infected-devices-cut-off/)
-- 2026-07-03T10:12:22-04:00 — [ARToken PhaaS exposes EvilTokens' Microsoft 365 phishing toolkit](https://www.bleepingcomputer.com/news/security/artoken-phaas-exposes-eviltokens-microsoft-365-phishing-toolkit/)
+- 2026-07-04T10:16:38-04:00 — [JadePuffer ransomware used AI agent to automate entire attack](https://www.bleepingcomputer.com/news/security/jadepuffer-ransomware-used-ai-agent-to-automate-entire-attack/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-03T13:01:00+00:00 — [Chinese LLMs Broaden the Gap Between Attackers &amp; Defenders](https://www.darkreading.com/cyber-risk/chinese-llms-broaden-gap-between-attackers-and-defenders)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -812,19 +851,18 @@ Generated: 2026-07-04T06:32:08Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-07-03T22:07:00+00:00 — [Sigma Rule Supported Modifier Update (2026-07-03  22:06:52) (#1043)](https://github.com/Yamato-Security/hayabusa-rules/commit/8b0309b5ce63a4883ea674540101325108415b9f)
-- 2026-07-03T20:55:44+00:00 — [Sigma Rule Update (2026-07-03  20:55:37) (#1042)](https://github.com/Yamato-Security/hayabusa-rules/commit/79cfd0e6116ad1f713f41ec6f4fe6d3b9600df6e)
+- No new entries detected
 
 ## Hayabusa releases
 
 - Site: https://github.com/Yamato-Security/hayabusa
 - Feed: https://github.com/Yamato-Security/hayabusa/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-04T16:08:31+00:00 — [v3.10.0 - Happy Independence Day Release](https://github.com/Yamato-Security/hayabusa/releases/tag/v3.10.0)
 
 ## Chainsaw releases
 
