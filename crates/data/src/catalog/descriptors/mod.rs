@@ -6625,12 +6625,12 @@ pub static SRUM_NETWORK_USAGE: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some(r"C:\Windows\System32\sru\SRUDB.dat:{973F5D5C-1D90-11D3-AE08-00A0C90F57DA}"),
+    file_path: Some(r"C:\Windows\System32\sru\SRUDB.dat:{973F5D5C-1D90-4944-BE8E-24B94231A174}"),
     scope: DataScope::System,
     os_scope: OsScope::Win8Plus,
     decoder: Decoder::Identity,
     meaning:
-        "ESE table {973F5D5C-1D90-11D3-AE08-00A0C90F57DA} records per-app bytes sent/received \
+        "ESE table {973F5D5C-1D90-4944-BE8E-24B94231A174} records per-app bytes sent/received \
               per network interface per hour. ~30-day retention. Proves data exfiltration volume \
               even after log deletion; correlate AppId + UserId + BytesSent for exfil attribution.",
     mitre_techniques: &["T1049", "T1048"],

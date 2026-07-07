@@ -20,7 +20,7 @@ pub const TABLE_NETWORK_USAGE: &str = "{973F5D5C-1D90-4944-BE8E-24B94231A174}";
 /// Application Resource Usage — foreground/background CPU cycles per process.
 ///
 /// Available since Windows 8.1.  Maps to `sr apps`.
-pub const TABLE_APP_RESOURCE_USAGE: &str = "{5C8CF1C7-7257-4F13-B223-970EF5939312}";
+pub const TABLE_APP_RESOURCE_USAGE: &str = "{D10CA2FE-6FCF-4F6D-848E-B2E99266FA89}";
 
 /// Network Connectivity Usage — L2 connection sessions per process.
 ///
@@ -35,7 +35,7 @@ pub const TABLE_ENERGY_USAGE: &str = "{FEE4E14F-02A9-4550-B5CE-5FA2DA202E37}";
 /// Push Notifications (WPN provider) — notification type and count per app.
 ///
 /// Available since Windows 8.1.  Maps to `sr notifications`.
-pub const TABLE_PUSH_NOTIFICATIONS: &str = "{D10CA2FE-6FCF-4F6D-848E-B2E99266FA89}";
+pub const TABLE_PUSH_NOTIFICATIONS: &str = "{D10CA2FE-6FCF-4F6D-848E-B2E99266FA86}";
 
 /// Application Timeline — in-focus duration and user input time per app.
 ///
