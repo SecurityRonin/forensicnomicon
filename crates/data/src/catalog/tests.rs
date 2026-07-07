@@ -2259,7 +2259,7 @@ mod tests_batch_d {
     #[test]
     fn edge_webcache_md() {
         assert_eq!(EDGE_WEBCACHE.id, "edge_webcache");
-        assert_eq!(EDGE_WEBCACHE.artifact_type, ArtifactLocation::Directory);
+        assert_eq!(EDGE_WEBCACHE.artifact_type, ArtifactLocation::File);
         assert_eq!(EDGE_WEBCACHE.scope, DataScope::User);
         assert!(EDGE_WEBCACHE.mitre_techniques.contains(&"T1539"));
     }

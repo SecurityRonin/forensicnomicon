@@ -5622,11 +5622,11 @@ pub static CHROME_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
 pub static EDGE_WEBCACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "edge_webcache",
     name: "IE/Edge Legacy WebCacheV01.dat",
-    artifact_type: ArtifactLocation::Directory,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some(r"%LOCALAPPDATA%\Microsoft\Windows\INetCache\"),
+    file_path: Some(r"%LOCALAPPDATA%\Microsoft\Windows\WebCache\WebCacheV01.dat"),
     scope: DataScope::User,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
