@@ -214,8 +214,8 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
     },
     EventIdEntry {
         event_id: 1029,
-        channel: "Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Operational",
-        description: "RDP Core: SHA1 hash of the connecting username (correlation aid)",
+        channel: "Microsoft-Windows-TerminalServices-RDPClient/Operational",
+        description: "RDP client: Base64(SHA-256(UTF-16LE(username))) of the connecting username, logged on the SOURCE host (Win10+); correlation aid, reversible via a username wordlist",
         mitre_techniques: &["T1021.001"],
         artifact_ids: &["evtx_rdp_client", "evtx_terminal_services"],
         high_value: false,
@@ -472,7 +472,7 @@ mod tests {
         ),
         (
             1029,
-            "Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Operational",
+            "Microsoft-Windows-TerminalServices-RDPClient/Operational",
         ),
         // Task Scheduler operational
         (106, "Microsoft-Windows-TaskScheduler/Operational"),
