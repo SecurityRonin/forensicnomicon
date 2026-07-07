@@ -249,12 +249,12 @@ pub(crate) static PCA_PIPE_FIELDS: &[&str] = &["exe_path", "timestamp"];
 /// A pipe-delimited text file where each line records an application launch.
 pub static PCA_APPLAUNCH_DIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "pca_applaunch_dic",
-    name: "PCA AppLaunch.dic",
+    name: "PCA PcaAppLaunchDic.txt",
     artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some(r"C:\Windows\appcompat\pca\AppLaunch.dic"),
+    file_path: Some(r"C:\Windows\appcompat\pca\PcaAppLaunchDic.txt"),
     scope: DataScope::System,
     os_scope: OsScope::Win11_22H2,
     decoder: Decoder::PipeDelimited {
