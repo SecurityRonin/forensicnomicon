@@ -404,6 +404,30 @@ mod tests {
         assert!(!e.mitre_techniques.is_empty());
     }
 
+    /// EID 1029 (RDP client username hash) is Base64(SHA-256(UTF-16LE(username)))
+    /// on the TerminalServices-RDPClient/Operational channel (provider
+    /// ClientActiveXCore), logged on the SOURCE host. Win7/2008R2 used SHA1 but
+    /// do not log 1029. Sources: nullsec.us (Event ID 1029 Hashes), Aon/Stroz
+    /// Friedberg (Variations in Logging for Event ID 1029), EricZimmerman evtx maps.
+    #[test]
+    fn event_1029_username_hash_is_sha256_on_rdpclient_channel() {
+        let e = event_entry(1029).expect("Event 1029 should exist");
+        assert_eq!(
+            e.channel, "Microsoft-Windows-TerminalServices-RDPClient/Operational",
+            "1029 username-hash artifact is on the RDPClient/Operational channel, not RdpCoreTS"
+        );
+        assert!(
+            e.description.contains("SHA-256") || e.description.contains("SHA256"),
+            "1029 hash is SHA-256, not SHA1: got {:?}",
+            e.description
+        );
+        assert!(
+            !e.description.contains("SHA1") && !e.description.contains("SHA-1"),
+            "1029 description must not claim SHA1: got {:?}",
+            e.description
+        );
+    }
+
     #[test]
     fn unknown_event_returns_none() {
         assert!(event_entry(99999).is_none());
