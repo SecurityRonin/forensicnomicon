@@ -89,6 +89,29 @@ mod catalog_integrity {
         );
     }
 
+    /// ComDlg32 common-dialog MRU keys are the Win7+ PIDL variants
+    /// (`OpenSavePidlMRU` / `LastVisitedPidlMRU`); the non-PIDL `OpenSaveMRU` /
+    /// `LastVisitedMRU` are XP-only and absent on modern hives. Sources: forensafe,
+    /// forensics.wiki OpenSaveMRU, DFIR gitbooks.
+    #[test]
+    fn comdlg32_mru_keys_are_pidl_variants() {
+        for (id, want) in [
+            ("opensave_mru", "OpenSavePidlMRU"),
+            ("lastvisited_mru", "LastVisitedPidlMRU"),
+        ] {
+            let d = CATALOG
+                .list()
+                .iter()
+                .find(|d| d.id == id)
+                .unwrap_or_else(|| panic!("{id} must be cataloged"));
+            assert!(
+                d.key_path.ends_with(want),
+                "{id} must use the Win7+ PIDL key {want}, not the XP-only non-PIDL key, got {:?}",
+                d.key_path
+            );
+        }
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
