@@ -38,6 +38,35 @@ mod catalog_integrity {
         assert_eq!(d.os_scope, crate::catalog::types::OsScope::MacOS);
     }
 
+    /// `edge_webcache` must point at the WebCacheV01.dat ESE database
+    /// (`%LOCALAPPDATA%\Microsoft\Windows\WebCache\WebCacheV01.dat`), not the
+    /// `INetCache` cached-content folder. Sources: Forensic Focus (ESE DB in IE10+),
+    /// forensics.wiki Internet Explorer, qazeer browsers-forensics notes.
+    #[test]
+    fn edge_webcache_points_at_the_ese_db_not_content_cache() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "edge_webcache")
+            .expect("edge_webcache descriptor must be cataloged");
+        let p = d.file_path.unwrap_or_default();
+        assert!(
+            p.contains(r"WebCache\WebCacheV01.dat"),
+            "edge_webcache must point at the WebCacheV01.dat ESE database, got {p:?}"
+        );
+        assert!(
+            !p.contains("INetCache"),
+            "INetCache is the cached-content folder, not the WebCache ESE database: {p:?}"
+        );
+        assert!(
+            matches!(
+                d.artifact_type,
+                crate::catalog::types::ArtifactLocation::File
+            ),
+            "WebCacheV01.dat is a single ESE file, not a directory"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
