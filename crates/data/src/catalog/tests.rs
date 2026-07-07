@@ -1002,7 +1002,7 @@ mod decode_tests {
     fn uid_file_artifact() {
         let rec = CATALOG.decode(&PCA_APPLAUNCH_DIC, "line1", b"").unwrap();
         assert!(rec.uid.starts_with("file://"));
-        assert!(rec.uid.contains("AppLaunch.dic"));
+        assert!(rec.uid.contains("PcaAppLaunchDic.txt"));
     }
 
     // ── DecodeError Display ──────────────────────────────────────────────
