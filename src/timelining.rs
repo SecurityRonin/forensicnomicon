@@ -234,7 +234,7 @@ pub static TIMELINE_TOOLS: &[TimelineTool] = &[
         command: "psort.py -o l2tcsv {OUTPUT}.plaso > supertimeline.csv",
         output_format: TimelineOutputFormat::L2tCsv,
         caveats: &[
-            "-o l2tcsv produces the industry-standard L2T CSV format readable by Timeline Explorer",
+            "-o l2tcsv produces the legacy fixed 17-field L2T CSV format readable by Timeline Explorer; plaso's default module is 'dynamic', which supports customizable fields",
             "Apply --slice and --slice_size to focus on a time window and reduce noise",
             "Use pinfo.py first to inspect the .plaso store for parser warnings and event counts",
         ],
