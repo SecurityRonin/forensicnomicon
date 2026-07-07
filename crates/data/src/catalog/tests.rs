@@ -112,6 +112,28 @@ mod catalog_integrity {
         }
     }
 
+    /// `srum_network_usage` must reference the Network Data Usage table GUID
+    /// `{973F5D5C-1D90-4944-BE8E-24B94231A174}`, not the unrelated
+    /// `{973F5D5C-1D90-11D3-AE08-00A0C90F57DA}`. Source: libyal esedb-kb,
+    /// Velociraptor SRUM artifact.
+    #[test]
+    fn srum_network_usage_has_correct_table_guid() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "srum_network_usage")
+            .expect("srum_network_usage must be cataloged");
+        let p = d.file_path.unwrap_or_default();
+        assert!(
+            p.contains("{973F5D5C-1D90-4944-BE8E-24B94231A174}"),
+            "srum_network_usage must reference the Network Data Usage GUID, got {p:?}"
+        );
+        assert!(
+            !p.contains("11D3-AE08"),
+            "the 973F5D5C-1D90-11D3-AE08-00A0C90F57DA GUID is not the SRUM network table: {p:?}"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();

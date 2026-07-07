@@ -99,9 +99,22 @@ mod tests {
 
     #[test]
     fn app_resource_usage_guid_is_correct() {
+        // Application Resource Usage table is {D10CA2FE-...-FA89} (appsruprov.dll).
+        // Source: libyal esedb-kb, Velociraptor SRUM artifact.
         assert_eq!(
             TABLE_APP_RESOURCE_USAGE,
-            "{5C8CF1C7-7257-4F13-B223-970EF5939312}"
+            "{D10CA2FE-6FCF-4F6D-848E-B2E99266FA89}"
+        );
+    }
+
+    #[test]
+    fn push_notifications_guid_is_correct() {
+        // Push Notifications (WPN, wpnsruprov.dll) is {D10CA2FE-...-FA86} — the FA86
+        // suffix is distinct from Application Resource Usage's FA89.
+        // Source: libyal esedb-kb, Velociraptor SRUM artifact.
+        assert_eq!(
+            TABLE_PUSH_NOTIFICATIONS,
+            "{D10CA2FE-6FCF-4F6D-848E-B2E99266FA86}"
         );
     }
 
