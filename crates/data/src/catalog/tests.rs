@@ -67,6 +67,28 @@ mod catalog_integrity {
         );
     }
 
+    /// PCA launch-dictionary file is `PcaAppLaunchDic.txt` (in
+    /// `C:\Windows\appcompat\pca\`), not `AppLaunch.dic` — a collector keyed on the
+    /// wrong name misses it. Sources: AboutDFIR + Sygnia PCA writeups (already cited
+    /// by the descriptor).
+    #[test]
+    fn pca_applaunch_dic_filename_is_pcaapplaunchdic_txt() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "pca_applaunch_dic")
+            .expect("pca_applaunch_dic must be cataloged");
+        let p = d.file_path.unwrap_or_default();
+        assert!(
+            p.ends_with("PcaAppLaunchDic.txt"),
+            "PCA launch-dictionary file is PcaAppLaunchDic.txt, got {p:?}"
+        );
+        assert!(
+            !p.contains("AppLaunch.dic"),
+            "AppLaunch.dic is the wrong filename: {p:?}"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
