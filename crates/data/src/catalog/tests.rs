@@ -1590,14 +1590,14 @@ mod tests_batch_c {
         assert_eq!(OPENSAVE_MRU.id, "opensave_mru");
         assert_eq!(OPENSAVE_MRU.hive, Some(HiveTarget::NtUser));
         assert_eq!(OPENSAVE_MRU.scope, DataScope::User);
-        assert!(OPENSAVE_MRU.key_path.contains("OpenSaveMRU"));
+        assert!(OPENSAVE_MRU.key_path.contains("OpenSavePidlMRU"));
     }
     #[test]
     fn lastvisited_mru_md() {
         assert_eq!(LASTVISITED_MRU.id, "lastvisited_mru");
         assert_eq!(LASTVISITED_MRU.hive, Some(HiveTarget::NtUser));
         assert_eq!(LASTVISITED_MRU.scope, DataScope::User);
-        assert!(LASTVISITED_MRU.key_path.contains("LastVisitedMRU"));
+        assert!(LASTVISITED_MRU.key_path.contains("LastVisitedPidlMRU"));
     }
     #[test]
     fn prefetch_dir_md() {
