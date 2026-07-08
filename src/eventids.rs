@@ -428,6 +428,35 @@ mod tests {
         );
     }
 
+    /// Lateral-movement / discovery / service-install / network-telemetry events
+    /// surfaced by the IWE reconciliation. Verified against Microsoft Learn
+    /// Security-auditing docs + the Ultimate Windows Security encyclopedia — never
+    /// 13cubed. (id, channel, a keyword the description must contain)
+    const NEW_SECURITY_EVENTS: &[(u32, &str, &str)] = &[
+        (5140, "Security", "share"),              // network share accessed
+        (5145, "Security", "share"),              // detailed file share
+        (4798, "Security", "local group"),        // user's local group membership enumerated
+        (4799, "Security", "local group"),        // security-enabled local group enumerated
+        (4778, "Security", "reconnect"),          // session reconnected to a window station
+        (4779, "Security", "disconnect"),         // session disconnected from a window station
+        (4697, "Security", "service"), // service installed (Security log; cf. 7045 in System)
+        (5156, "Security", "filtering platform"), // WFP permitted a connection
+    ];
+
+    #[test]
+    fn new_security_events_present_with_correct_channel() {
+        for &(id, channel, desc_kw) in NEW_SECURITY_EVENTS {
+            let e = event_entry(id)
+                .unwrap_or_else(|| panic!("Event {id} must be present in EVENT_ID_TABLE"));
+            assert_eq!(e.channel, channel, "Event {id} channel mismatch");
+            assert!(
+                e.description.to_lowercase().contains(desc_kw),
+                "Event {id} description should mention {desc_kw:?}: got {:?}",
+                e.description
+            );
+        }
+    }
+
     #[test]
     fn unknown_event_returns_none() {
         assert!(event_entry(99999).is_none());
