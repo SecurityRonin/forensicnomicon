@@ -91,6 +91,7 @@ mod tests {
 
     #[test]
     fn network_usage_guid_is_correct() {
+        // Network Data Usage table. Source: libyal esedb-kb, Velociraptor SRUM artifact.
         assert_eq!(
             TABLE_NETWORK_USAGE,
             "{973F5D5C-1D90-4944-BE8E-24B94231A174}"
@@ -120,6 +121,7 @@ mod tests {
 
     #[test]
     fn network_connectivity_guid_is_correct() {
+        // Network Connectivity Usage table (ncuprov.dll). Source: libyal esedb-kb.
         assert_eq!(
             TABLE_NETWORK_CONNECTIVITY,
             "{DD6636C4-8929-4683-974E-22C046A43763}"
@@ -133,9 +135,48 @@ mod tests {
 
     #[test]
     fn energy_usage_lt_guid_is_correct() {
+        // Energy Usage (long-term) table (energyprov.dll). Source: libyal esedb-kb.
         assert_eq!(
             TABLE_ENERGY_USAGE_LT,
             "{FEE4E14F-02A9-4550-B5CE-5FA2DA202E37}LT"
         );
+    }
+
+    /// Cross-representation invariant: every SRUM catalog descriptor embeds its
+    /// ESE-table GUID in the `SRUDB.dat:{GUID}` file_path, and that GUID must be one
+    /// of the table GUIDs defined in this module. This forces the two independent
+    /// representations (the `crates/data` descriptor and this module's const) to
+    /// agree — the guard that was missing when the `srum_network_usage` descriptor
+    /// held an unrelated GUID and `TABLE_PUSH_NOTIFICATIONS` collided with the
+    /// app-resource GUID. It cannot self-deceive: a value wrong on only one side
+    /// fails the check. Source of truth for the GUIDs: libyal esedb-kb SRUM registry.
+    #[test]
+    fn catalog_srum_descriptor_guids_match_module_consts() {
+        let known = [
+            TABLE_NETWORK_USAGE,
+            TABLE_APP_RESOURCE_USAGE,
+            TABLE_NETWORK_CONNECTIVITY,
+            TABLE_ENERGY_USAGE,
+            TABLE_ENERGY_USAGE_LT,
+            TABLE_PUSH_NOTIFICATIONS,
+            TABLE_APP_TIMELINE,
+        ];
+        for d in crate::catalog::CATALOG
+            .list()
+            .iter()
+            .filter(|d| d.id.starts_with("srum_"))
+        {
+            let path = d.file_path.unwrap_or_default();
+            let Some(brace) = path.find('{') else {
+                continue; // e.g. the top-level srum_db file has no table GUID
+            };
+            let guid = &path[brace..];
+            assert!(
+                known.contains(&guid),
+                "SRUM descriptor {} embeds table GUID {guid}, which is not defined in \
+                 srum.rs — the descriptor and module-const representations have drifted",
+                d.id
+            );
+        }
     }
 }

@@ -338,6 +338,8 @@ mod tests {
         assert_eq!(filename_namespace::name(9), None);
     }
 
+    // NTFS index-record signature. Source: Brian Carrier, File System Forensic
+    // Analysis; libyal libfsntfs (INDX index-allocation record magic).
     #[test]
     fn indx_signature_is_correct() {
         assert_eq!(&SIGNATURE_INDX, b"INDX");
