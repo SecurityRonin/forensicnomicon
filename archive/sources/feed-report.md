@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-07-07T06:57:39Z
+Generated: 2026-07-08T06:08:44Z
 
 ## Windows Incident Response
 
@@ -202,9 +202,9 @@ Generated: 2026-07-07T06:57:39Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-07T17:35:47+00:00 — [Bringing C2PA to the desktop: Enhancing media analysis in Magnet Verify](https://www.magnetforensics.com/blog/bringing-c2pa-to-the-desktop-enhancing-media-analysis-in-magnet-verify/)
 
 ## The DFIR Report
 
@@ -226,56 +226,46 @@ Generated: 2026-07-07T06:57:39Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-07-07T02:00:02+00:00 — [ISC Stormcast For Tuesday, July 7th, 2026 https://isc.sans.edu/podcastdetail/9996, (Tue, Jul 7th)](https://isc.sans.edu/diary/rss/33126)
-- 2026-07-06T13:35:58+00:00 — [RCS and DNS: The NAPTR Record, (Mon, Jul 6th)](https://isc.sans.edu/diary/rss/33124)
-- 2026-07-06T11:36:06+00:00 — [ISC Stormcast For Monday, July 6th, 2026 https://isc.sans.edu/podcastdetail/9994, (Mon, Jul 6th)](https://isc.sans.edu/diary/rss/33122)
+- 2026-07-08T02:00:02+00:00 — [ISC Stormcast For Wednesday, July 8th, 2026 https://isc.sans.edu/podcastdetail/9998, (Wed, Jul 8th)](https://isc.sans.edu/diary/rss/33136)
+- 2026-07-07T18:09:04+00:00 — [More Odd DNS Records: NIMLOC, (Tue, Jul 7th)](https://isc.sans.edu/diary/rss/33128)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
+- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
+- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
+- unknown date — [AI-enhanced crime will expose DFIR practitioners who ignore AI.](https://www.dfir.training/blog/ai-enhanced-crime-will-expose-dfir-practitioners-who-ignore-ai)
 
 ## MSAB
 
 - Site: https://www.msab.com/
 - Feed: https://www.msab.com/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-06-16T11:30:45+00:00 — [Q2 2026 Major Release is now available](https://www.msab.com/updates/q2-2026-major-release-is-now-available/)
-- 2026-05-12T17:00:00+00:00 — [Bulletin from the Annual General Meeting of Micro Systemation AB (publ)](https://www.msab.com/updates/bulletin-from-the-annual-general-meeting-of-micro-systemation-ab-publ-2/)
-- 2026-05-12T13:00:00+00:00 — [MSAB Secures Contract Worth SEK 12,7 Million with Australian Law Enforcement Agency](https://www.msab.com/updates/msab-secures-contract-worth-sek-127-million-with-australian-law-enforcement-agency/)
-- 2026-05-07T05:00:00+00:00 — [MSAB Sets Long-term Financial Targets](https://www.msab.com/updates/msab-sets-long-term-financial-targets/)
-- 2026-04-28T05:00:00+00:00 — [MSAB Interim Report – Q1 2026](https://www.msab.com/updates/msab-interim-report-q1-2026/)
-- 2026-04-21T11:00:00+00:00 — [MSAB publishes Annual Report for 2025](https://www.msab.com/updates/msab-publishes-annual-report-for-2025/)
-- 2026-04-14T05:00:00+00:00 — [Invitation to the Presentation of MSAB’s Interim Report January-March 2026](https://www.msab.com/updates/invitation-to-the-presentation-of-msabs-interim-report-january-march-2026/)
-- 2026-04-07T07:00:00+00:00 — [NOTICE OF ANNUAL GENERAL MEETING IN MICRO SYSTEMATION AB (publ)](https://www.msab.com/updates/notice-of-annual-general-meeting-in-micro-systemation-ab-publ-3/)
-- 2026-03-26T12:30:45+00:00 — [Q1 2026 Major Release is now available](https://www.msab.com/updates/q1-2026-major-release-is-now-available/)
-- 2026-03-24T06:00:00+00:00 — [Invitation to MSAB’s Capital Markets Day on May 7th, 2026](https://www.msab.com/updates/invitation-to-msabs-capital-markets-day-on-may-7th-2026/)
+- No new entries detected
 
 ## AboutDFIR
 
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 1
 
-- 2026-07-06T11:35:09+00:00 — [Infosec News Nuggets — July 6, 2026](https://aboutdfir.com/infosec-news-nuggets-july-6-2026/)
-- 2026-07-02T10:50:48+00:00 — [Infosec News Nuggets — July 2, 2026](https://aboutdfir.com/infosec-news-nuggets-july-2-2026/)
-- 2026-07-01T12:58:09+00:00 — [Infosec News Nuggets — July 1, 2026](https://aboutdfir.com/infosec-news-nuggets-july-1-2026/)
-- 2026-06-30T10:13:34+00:00 — [Infosec News Nuggets — June 30, 2026](https://aboutdfir.com/infosec-news-nuggets-june-30-2026/)
-- 2026-06-26T13:04:46+00:00 — [Infosec News Nuggets — June 26, 2026](https://aboutdfir.com/infosec-news-nuggets-june-26-2026/)
-- 2026-06-25T13:06:15+00:00 — [Infosec News Nuggets — June 25, 2026](https://aboutdfir.com/infosec-news-nuggets-june-25-2026/)
-- 2026-06-24T11:37:51+00:00 — [Infosec News Nuggets — June 24, 2026](https://aboutdfir.com/infosec-news-nuggets-june-24-2026/)
-- 2026-06-23T11:42:20+00:00 — [Infosec News Nuggets — June 23, 2026](https://aboutdfir.com/infosec-news-nuggets-june-23-2026/)
-- 2026-06-22T12:33:53+00:00 — [InfoSec News Nuggets – 06/22/2026](https://aboutdfir.com/infosec-news-nuggets-06-22-2026/)
-- 2026-06-19T13:58:42+00:00 — [InfoSec News Nuggets – 06/19/2026](https://aboutdfir.com/infosec-news-nuggets-06-19-2026/)
+- 2026-07-07T11:49:53+00:00 — [Infosec News Nuggets — July 7, 2026](https://aboutdfir.com/infosec-news-nuggets-july-7-2026/)
 
 ## Forensic 4cast
 
@@ -309,18 +299,9 @@ Generated: 2026-07-07T06:57:39Z
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-07-01T13:00:00+00:00 — [AI-generated CSAM: Artificial Images, Real Harm](https://blog.ampedsoftware.com/2026/07/01/ai-generated-csam)
-- 2026-06-25T13:37:08+00:00 — [Authenticate Update 40960: Introducing Video Deepfake Detection, a New Filter for Detecting the Adobe Watermark, Faster Image Deepfake Detection, and more!](https://blog.ampedsoftware.com/2026/06/25/authenticate-update-40960)
-- 2026-06-03T13:31:37+00:00 — [How To Investigate Video Evidence: Workflows, Pitfalls and Best Practices](https://blog.ampedsoftware.com/2026/06/03/investigate-video-evidence)
-- 2026-05-27T14:00:00+00:00 — [Deepfake Forensics Workflow for Image Analysis](https://blog.ampedsoftware.com/2026/05/27/deepfake-forensics-workflow-for-image-analysis)
-- 2026-05-20T13:30:00+00:00 — [Amped FIVE Update 40823: New Formats, Assistant Automation, New Motion Detection, and updates to Change Frame Rate, Timeline, and Much More](https://blog.ampedsoftware.com/2026/05/20/amped-five-update-40823)
-- 2026-04-24T13:30:00+00:00 — [Learn from the Experts at Amped Connect U.S. 2026](https://blog.ampedsoftware.com/2026/04/24/learn-from-the-experts-at-amped-connect-u-s-2026)
-- 2026-04-16T13:30:00+00:00 — [Fifty Shades of Fake: Deepfakes, AI Enhancement, and Media Authenticity](https://blog.ampedsoftware.com/2026/04/16/fifty-shades-of-fake)
-- 2026-04-01T13:30:00+00:00 — [Amped DVRConv and Engine Update 40286](https://blog.ampedsoftware.com/2026/04/01/dvrconv-and-engine-update-40286)
-- 2026-03-25T14:30:00+00:00 — [Amped Replay Update 40205: Magnify and Spotlight Improvements, Bookmarks Updates and More!](https://blog.ampedsoftware.com/2026/03/25/amped-replay-update-40205)
-- 2026-03-11T14:30:00+00:00 — [Authenticate Update 40165: Faster and Updated Deepfake Detection, Improved Geometrical Analysis, New Inspector Panel, and more!](https://blog.ampedsoftware.com/2026/03/11/authenticate-update-40165)
+- No new entries detected
 
 ## Didier Stevens Blog
 
@@ -399,11 +380,9 @@ Generated: 2026-07-07T06:57:39Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 1
 
-- 2026-07-07T06:30:00+00:00 — [Should you try Golden Gate beta?](https://eclecticlight.co/2026/07/07/should-you-try-golden-gate-beta/)
-- 2026-07-06T11:30:00+00:00 — [Hero or hooligan: Achilles re-enters the war](https://eclecticlight.co/2026/07/06/hero-or-hooligan-achilles-re-enters-the-war/)
-- 2026-07-06T08:00:00+00:00 — [Solutions to Saturday Mac riddles 367](https://eclecticlight.co/2026/07/06/solutions-to-saturday-mac-riddles-367/)
+- 2026-07-07T11:30:00+00:00 — [Portraits of trees: Cypress](https://eclecticlight.co/2026/07/07/portraits-of-trees-cypress/)
 
 ## JPCERT/CC
 
@@ -455,27 +434,27 @@ Generated: 2026-07-07T06:57:39Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-07T22:00:21+00:00 — [Vidar Stealer Unmasked: Code Signing Abuse, Go Loaders and File Inflation](https://unit42.paloaltonetworks.com/vidar-stealer-xmrig-miner-campaign-analysis/)
 
 ## Mandiant Threat Intelligence
 
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-07T14:00:00+00:00 — [The ‘Ghost’ in the Database: Recovering Active ADFS Signing Keys via Machine DPAPI](https://cloud.google.com/blog/topics/threat-intelligence/recovering-active-adfs-signing-keys-machine-dpapi/)
 
 ## Cisco Talos Blog
 
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-07T10:00:05+00:00 — [UAT-7810 continues building ORB networks using new malware](https://blog.talosintelligence.com/uat-7810/)
 
 ## SANS Blog
 
@@ -491,9 +470,9 @@ Generated: 2026-07-07T06:57:39Z
 - Site: https://www.elastic.co/security-labs/
 - Feed: https://www.elastic.co/security-labs/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- unknown date — [ClickFix to Cash-Out: Anatomy of a Mexican Banking-Fraud Toolkit](https://www.elastic.co/security-labs/mexican-banking-fraud-scmbanker-ref6045)
 
 ## Flare.io Threat Research Blog
 
@@ -502,7 +481,7 @@ Generated: 2026-07-07T06:57:39Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-06T13:10:21+00:00 — [15,000+ Leaked Healthcare Secrets Found: Code Blue in the Server Room](https://flare.io/learn/resources/blog/15000-leaked-healthcare-secrets)
+- 2026-07-07T13:00:00+00:00 — [Mycelium Framework: First Ever Witnessed AI-as-a-Service Botnet](https://flare.io/learn/resources/blog/mycelium-framework-ai-as-a-service-botnet)
 
 ## Binalyze Blog
 
@@ -527,9 +506,9 @@ Generated: 2026-07-07T06:57:39Z
 - Site: https://www.forensafe.com/blogs/
 - Feed: https://www.forensafe.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- Fri, 03 July 2026 — [ArtiFast MCP Features](https://forensafe.com/blogs/mcp-features.html)
+- No new entries detected
 
 ## Cellebrite Blog
 
@@ -538,7 +517,7 @@ Generated: 2026-07-07T06:57:39Z
 - Entries checked: 5
 - New since last snapshot: 1
 
-- 2026-07-06T12:28:36+00:00 — [Cleared for the Cloud: What FedRAMP® High Means for Your Agency](https://cellebrite.com/en/resources/webinars/cleared-for-the-cloud-what-fedramp-high-means-for-your-agency/)
+- 2026-07-08T03:18:57+00:00 — [Genesis Live: From Data Dump to Smoking Gun](https://cellebrite.com/en/resources/webinars/genesis-live-from-data-dump-to-smoking-gun/)
 
 ## DFIR Science
 
@@ -556,18 +535,19 @@ Generated: 2026-07-07T06:57:39Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-06T00:00:00-05:00 — [How AI-leading Security Teams Are Building the Agentic SOC](https://www.crowdstrike.com/en-us/blog/how-ai-leading-security-teams-are-building-the-agentic-soc/)
+- 2026-07-07T00:00:00-05:00 — [CrowdStrike Uncovers New Prompt Injection Techniques](https://www.crowdstrike.com/en-us/blog/crowdstrike-uncovers-new-prompt-injection-techniques/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 4
 
-- 2026-07-06T16:22:32+00:00 — [How to tell if an image is AI-generated](https://www.malwarebytes.com/blog/ai/2026/07/how-to-tell-if-an-image-is-ai-generated)
-- 2026-07-06T12:51:52+00:00 — [Choose your WhatsApp username carefully](https://www.malwarebytes.com/blog/news/2026/07/choose-your-whatsapp-username-carefully)
-- 2026-07-06T11:52:14+00:00 — [NetNut botnet takes a hit. Don’t be part of the next one.](https://www.malwarebytes.com/blog/news/2026/07/netnut-botnet-takes-a-hit-dont-be-part-of-the-next-one)
+- 2026-07-07T17:45:35+00:00 — [How the Reddit and Discord false report scam steals accounts](https://www.malwarebytes.com/blog/threat-intel/2026/07/how-the-reddit-and-discord-false-report-scam-steals-accounts)
+- 2026-07-07T13:43:44+00:00 — [Fake Netflix, Coca-Cola, and FIFA job scams target marketers](https://www.malwarebytes.com/blog/scams/2026/07/fake-netflix-coca-cola-and-fifa-job-scams-target-marketers)
+- 2026-07-07T11:20:28+00:00 — [Claude Code’s hidden tracker was an “experiment,” says Anthropic](https://www.malwarebytes.com/blog/news/2026/07/claude-codes-hidden-tracker-was-an-experiment-says-anthropic)
+- 2026-07-07T09:31:52+00:00 — [Scammers are using AI to sell impossible flowers](https://www.malwarebytes.com/blog/scams/2026/07/scammers-are-using-ai-to-sell-impossible-flowers)
 
 ## Krebs on Security
 
@@ -583,13 +563,18 @@ Generated: 2026-07-07T06:57:39Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 10
 
-- 2026-07-06T16:27:37-04:00 — [Phishing poses as big-brand job interview to steal Google accounts](https://www.bleepingcomputer.com/news/security/phishing-poses-as-big-brand-job-interview-to-steal-google-accounts/)
-- 2026-07-06T16:23:45-04:00 — [Fake IT support calls on Microsoft Teams push EtherRAT malware](https://www.bleepingcomputer.com/news/security/fake-it-support-calls-on-microsoft-teams-push-etherrat-malware/)
-- 2026-07-06T14:25:06-04:00 — [Vietnam arrests suspects behind HiAnime anime piracy service](https://www.bleepingcomputer.com/news/security/vietnam-arrests-suspects-behind-hianime-anime-piracy-service/)
-- 2026-07-06T10:00:10-04:00 — [Software Is Now Written at the Speed of Thought. Security Isn't.](https://www.bleepingcomputer.com/news/security/software-is-now-written-at-the-speed-of-thought-security-isnt/)
-- 2026-07-06T09:18:37-04:00 — [Max severity Adobe ColdFusion flaw now exploited in attacks](https://www.bleepingcomputer.com/news/security/max-severity-adobe-coldfusion-flaw-now-exploited-in-attacks/)
+- 2026-07-07T18:06:07-04:00 — [Accenture confirms breach after hacker offers stolen data for sale](https://www.bleepingcomputer.com/news/security/accenture-confirms-breach-after-hacker-offers-stolen-data-for-sale/)
+- 2026-07-07T14:52:19-04:00 — [Chinese hackers develop LONGLEASH malware to expand ORB network](https://www.bleepingcomputer.com/news/security/chinese-hackers-develop-longleash-malware-to-expand-orb-network/)
+- 2026-07-07T13:27:22-04:00 — [Hidden backdoor in Tenda router firmware grants admin access](https://www.bleepingcomputer.com/news/security/hidden-backdoor-in-tenda-router-firmware-grants-admin-access/)
+- 2026-07-07T11:21:21-04:00 — [Spain arrests suspected member of pro-Russian hacktivist groups](https://www.bleepingcomputer.com/news/security/spain-arrests-suspected-member-of-pro-russian-hacktivist-groups/)
+- 2026-07-07T10:01:11-04:00 — [The GitHub Actions Attack Pattern Your CI Security Scanners Miss](https://www.bleepingcomputer.com/news/security/the-github-actions-attack-pattern-your-ci-security-scanners-miss/)
+- 2026-07-07T08:12:20-04:00 — [Webinar tomorrow: Why modern email attacks require a new approach to defense](https://www.bleepingcomputer.com/news/security/webinar-tomorrow-why-modern-email-attacks-require-a-new-approach-to-defense/)
+- 2026-07-07T08:06:09-04:00 — [New Januscape Linux flaw allows VM escape on Intel, AMD devices](https://www.bleepingcomputer.com/news/linux/new-januscape-linux-kernel-flaw-allows-vm-escape-on-intel-amd-devices/)
+- 2026-07-07T05:41:19-04:00 — [Microsoft to enable Windows settings backup by default for orgs](https://www.bleepingcomputer.com/news/microsoft/microsoft-to-enable-windows-backup-for-organizations-by-default/)
+- 2026-07-07T04:12:10-04:00 — [BeyondTrust warns of critical flaws in remote access software](https://www.bleepingcomputer.com/news/security/beyondtrust-warns-of-critical-flaws-in-remote-access-software/)
+- 2026-07-07T03:37:38-04:00 — [Microsoft testing new Cloud Rebuild Windows 11 recovery feature](https://www.bleepingcomputer.com/news/microsoft/microsoft-testing-new-cloud-rebuild-windows-11-recovery-feature/)
 
 ## Dark Reading
 
@@ -598,9 +583,9 @@ Generated: 2026-07-07T06:57:39Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-07-06T21:37:56+00:00 — ['BusySnake' Infostealer Slithers into Critical Infrastructure Networks](https://www.darkreading.com/cyberattacks-data-breaches/busysnake-infostealer-critical-infrastructure-networks)
-- 2026-07-06T21:17:42+00:00 — [CitrixBleed-ing Again? NetScaler Vulnerability Under Attack](https://www.darkreading.com/vulnerabilities-threats/citrixbleed-ing-again-netscaler-vulnerability-under-attack)
-- 2026-07-06T16:36:50+00:00 — [JadePuffer: The First Complete LLM-Driven Ransomware Attack](https://www.darkreading.com/cyberattacks-data-breaches/jadepuffer-first-complete-llm-driven-ransomware-attack)
+- 2026-07-07T21:02:29+00:00 — [Big Brand Jobs Scam Targets Marketing Pros' Google Accounts](https://www.darkreading.com/cyberattacks-data-breaches/big-brand-jobs-scam-marketing-pros-google-accounts)
+- 2026-07-07T20:36:43+00:00 — [Dialogflow CX 'Rogue Agent' Flaw Enabled AI Chatbot Data Theft](https://www.darkreading.com/application-security/dialogflow-cx-rogue-agent-flaw-enabled-ai-chatbot-data-theft)
+- 2026-07-07T15:24:30+00:00 — ['GitLost' Flaw Leaks Private Data From GitHub's Agentic Workflows](https://www.darkreading.com/cyber-risk/gitlost-leaks-private-data-github-agentic-workflows)
 
 ## Volexity Blog
 
@@ -622,9 +607,9 @@ Generated: 2026-07-07T06:57:39Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-06T16:00:00+00:00 — [5 insights from Frost & Sullivan’s 2025 Frost Radar™ for Cloud Security Posture Management](https://www.microsoft.com/en-us/security/blog/2026/07/06/5-insights-from-frost-sullivans-2025-frost-radar-for-cloud-security-posture-management/)
+- No new entries detected
 
 ## LOLBAS Project (Windows)
 
@@ -720,7 +705,19 @@ Generated: 2026-07-07T06:57:39Z
 
 - Site: https://github.com/EricZimmerman/AmcacheParser
 - Feed: https://github.com/EricZimmerman/AmcacheParser/releases.atom
-- Status: error: Remote end closed connection without response
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-05-22T19:12:06+00:00 — [2026.5.3](https://github.com/EricZimmerman/AmcacheParser/releases/tag/2026.5.3)
+- 2026-05-22T17:16:26+00:00 — [2026.5.2](https://github.com/EricZimmerman/AmcacheParser/releases/tag/2026.5.2)
+- 2026-05-21T15:33:08+00:00 — [2026.5.0](https://github.com/EricZimmerman/AmcacheParser/releases/tag/2026.5.0)
+- 2026-04-24T18:55:14+00:00 — [2026.5.1](https://github.com/EricZimmerman/AmcacheParser/releases/tag/2026.5.1)
+- 2025-01-10T18:34:19+00:00 — [1.3.1](https://github.com/EricZimmerman/AmcacheParser/releases/tag/1.3.1)
+- 2025-01-08T15:44:16+00:00 — [1.3.0](https://github.com/EricZimmerman/AmcacheParser/releases/tag/1.3.0)
+- 2023-07-07T14:32:48+00:00 — [1.2.0](https://github.com/EricZimmerman/AmcacheParser/releases/tag/1.2.0)
+- 2018-10-16T19:20:27+00:00 — [1.2.0.0](https://github.com/EricZimmerman/AmcacheParser/releases/tag/1.2.0.0)
+- 2018-05-30T23:43:22+00:00 — [1.0.0.3](https://github.com/EricZimmerman/AmcacheParser/releases/tag/1.0.0.3)
+- 2018-05-01T16:59:59+00:00 — [1.0.0.1](https://github.com/EricZimmerman/AmcacheParser/releases/tag/1.0.0.1)
 
 ## EZ SQLECmd releases
 
@@ -853,9 +850,9 @@ Generated: 2026-07-07T06:57:39Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-06T21:23:01+00:00 — [Sigma Rule Update (2026-07-06  21:22:54) (#1044)](https://github.com/Yamato-Security/hayabusa-rules/commit/619d444326c614d72170516fb1638ce5bb003d51)
+- No new entries detected
 
 ## Hayabusa releases
 
@@ -880,9 +877,13 @@ Generated: 2026-07-07T06:57:39Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 5
 
-- 2026-07-06T14:22:05+00:00 — [dev-v1.7.8](https://github.com/elastic/detection-rules/releases/tag/dev-v1.7.8)
+- 2026-07-07T07:12:22+00:00 — [integration-v9.4.7: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6396)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.4.7)
+- 2026-07-07T07:11:33+00:00 — [integration-v9.3.15: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6396)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.3.15)
+- 2026-07-07T07:10:48+00:00 — [integration-v9.2.19: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6396)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.2.19)
+- 2026-07-07T07:09:57+00:00 — [integration-v8.19.27: Lock versions for releases: 8.19,9.2,9.3,9.4 (#6396)](https://github.com/elastic/detection-rules/releases/tag/integration-v8.19.27)
+- 2026-07-07T07:08:56+00:00 — [dev-v1.7.9](https://github.com/elastic/detection-rules/releases/tag/dev-v1.7.9)
 
 ## regipy releases
 
