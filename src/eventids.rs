@@ -362,6 +362,73 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         artifact_ids: &["evtx_application"],
         high_value: false,
     },
+    // ── Lateral movement / discovery / service-install / network telemetry ──
+    // Verified against Microsoft Learn Security-auditing docs + Ultimate Windows
+    // Security encyclopedia (never 13cubed).
+    EventIdEntry {
+        event_id: 5140,
+        channel: "Security",
+        description: "A network share object was accessed (records the share connection, e.g. C$/ADMIN$/IPC$; does not list the individual files)",
+        mitre_techniques: &["T1021.002"],
+        artifact_ids: &["evtx_security"],
+        high_value: false,
+    },
+    EventIdEntry {
+        event_id: 5145,
+        channel: "Security",
+        description: "Detailed File Share: a network share object was checked for desired access, logging the accessed file/relative path (very high volume)",
+        mitre_techniques: &["T1021.002"],
+        artifact_ids: &["evtx_security"],
+        high_value: false,
+    },
+    EventIdEntry {
+        event_id: 4798,
+        channel: "Security",
+        description: "A user's local group membership was enumerated (common during host reconnaissance)",
+        mitre_techniques: &["T1069.001", "T1087.001"],
+        artifact_ids: &["evtx_security"],
+        high_value: false,
+    },
+    EventIdEntry {
+        event_id: 4799,
+        channel: "Security",
+        description: "A security-enabled local group membership was enumerated (recon tell of net localgroup / BloodHound-class enumeration)",
+        mitre_techniques: &["T1069.001", "T1087.001"],
+        artifact_ids: &["evtx_security"],
+        high_value: true,
+    },
+    EventIdEntry {
+        event_id: 4778,
+        channel: "Security",
+        description: "A session was reconnected to a window station (RDP reconnect; records only reconnects, not new connections)",
+        mitre_techniques: &["T1021.001"],
+        artifact_ids: &["evtx_security", "evtx_terminal_services"],
+        high_value: true,
+    },
+    EventIdEntry {
+        event_id: 4779,
+        channel: "Security",
+        description: "A session was disconnected from a window station (RDP/console disconnect)",
+        mitre_techniques: &["T1021.001"],
+        artifact_ids: &["evtx_security", "evtx_terminal_services"],
+        high_value: false,
+    },
+    EventIdEntry {
+        event_id: 4697,
+        channel: "Security",
+        description: "A service was installed in the system (Security log; requires audit policy — complements System-log 7045; inspect the service binary path)",
+        mitre_techniques: &["T1543.003"],
+        artifact_ids: &["evtx_security", "services_hklm"],
+        high_value: true,
+    },
+    EventIdEntry {
+        event_id: 5156,
+        channel: "Security",
+        description: "The Windows Filtering Platform permitted a connection (source/destination IP+port, PID, protocol); enables process-to-network correlation when Sysmon is absent (very high volume)",
+        mitre_techniques: &[],
+        artifact_ids: &["evtx_security"],
+        high_value: false,
+    },
 ];
 
 /// Look up enrichment for an event ID.
