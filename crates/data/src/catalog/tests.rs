@@ -352,6 +352,38 @@ mod catalog_integrity {
         );
     }
 
+    /// EMDMgmt / ReadyBoost external-device volume cache must be cataloged — one of the
+    /// few registry locations tying a USB iSerialNumber to a volume serial number (VSN,
+    /// stored in DECIMAL in the subkey name), for correlating a device to VSNs in LNK
+    /// files and Jump Lists. Sources: MS GUID_DEVINTERFACE_DISK doc; woanware
+    /// usbdeviceforensics; RegRipper emdmgmt.pl.
+    #[test]
+    fn emdmgmt_readyboost_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "emdmgmt_readyboost")
+            .expect(
+                "emdmgmt_readyboost (ReadyBoost external-device volume cache) must be cataloged",
+            );
+        assert_eq!(d.artifact_type, ArtifactLocation::RegistryKey);
+        assert_eq!(d.hive, Some(HiveTarget::HklmSoftware));
+        assert!(
+            d.key_path.contains("EMDMgmt"),
+            "key_path must reference the EMDMgmt key"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "volume_serial_number"),
+            "must expose volume_serial_number (the VSN correlation value)"
+        );
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.to_uppercase().contains("DECIMAL")),
+            "must caveat that the VSN is stored in DECIMAL (convert before matching LNK/JumpList)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
