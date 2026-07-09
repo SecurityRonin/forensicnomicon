@@ -373,7 +373,7 @@ pub(crate) static EVTX_NTLM: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Records NTLM authentication events when NTLM audit policy is enabled. Shows NTLM challenge/response pairs that may indicate pass-the-hash attacks, NTLM relay, or legacy application authentication from unexpected sources.",
+    meaning: "Records NTLM authentication events when NTLM audit policy is enabled. Shows NTLM challenge/response pairs that may indicate pass-the-hash attacks, NTLM relay, or legacy application authentication from unexpected sources. Forced-authentication coercion abuses low-privilege RPC methods that force a victim (frequently a domain controller's machine account) to authenticate outbound over NTLM to an attacker-chosen host: PetitPotam drives EFSRPC methods (e.g. EfsRpcOpenFileRaw) over the \\pipe\\lsarpc or \\pipe\\efsrpc named pipe ([MS-EFSR]); PrinterBug/Dementor drives RpcRemoteFindFirstPrinterChangeNotificationEx over \\pipe\\spoolss ([MS-RPRN]); Coercer and DFSCoerce cover further RPC interfaces. The coerced NTLM authentication is then relayed (ntlmrelayx) to LDAP/ADCS/SMB. Here, a DC or server machine account ($) authenticating to an unexpected host is CONSISTENT WITH coercion + relay — it does not by itself prove it.",
     mitre_techniques: &["T1550.002", "T1187"],
     fields: &[
         FieldSchema { name: "user_name", value_type: ValueType::Text, description: "Authenticating username", is_uid_component: true },
@@ -381,14 +381,22 @@ pub(crate) static EVTX_NTLM: ArtifactDescriptor = ArtifactDescriptor {
     ],
     retention: Some("Default 1 MB"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["evtx_security", "dcc2_cache"],
+    related_artifacts: &["evtx_security", "dcc2_cache", "evtx_smb_client", "evtx_print_service"],
     sources: &[
         "https://github.com/Yamato-Security/hayabusa-rules",
+        // [MS-EFSR] Standards Assignments — \pipe\lsarpc / \pipe\efsrpc + UUIDs (PetitPotam vector):
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-efsr/1baaad2f-7a84-4238-b113-f32827a39cd2",
+        // [MS-RPRN] Standards Assignments — \pipe\spoolss + UUID (PrinterBug vector):
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-rprn/848b8334-134a-4d02-aea4-03b673d6c515",
+        // Microsoft — Event 5145 (Detailed File Share) — the upstream coercion signal:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5145",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
     evidence_caveats: &[
         "Disabled by default; only populated when NTLM audit policy is enabled",
         "Legacy applications generate substantial benign NTLM traffic",
+        "Upstream coercion is best seen in Security.evtx (evtx_security) via event 5145 — the sole event of the Object Access > Detailed File Share subcategory — showing access to Share Name IPC$ with a Relative Target Name of the coercion pipe (efsrpc, lsarpc, or spoolss); that subcategory is OFF by default and high-volume, so absence of 5145 is not absence of coercion",
+        "A machine-account NTLM authentication to an unexpected destination is consistent with coercion/relay but also occurs during benign cross-host service auth; corroborate with evtx_smb_client (relay victim), evtx_print_service (spooler coercion), and Security 4624/4768 machine-account logons",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
