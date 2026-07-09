@@ -784,6 +784,31 @@ mod catalog_integrity {
         );
     }
 
+    /// USBSTOR must expose the per-device connection FILETIMEs stored under
+    /// Properties\{83da6326-...}\0064-0067 (documented DEVPKEYs), not only setupapi
+    /// correlation, and relate to the MountPoints2 attribution join. Sources: MS SDK
+    /// devpkey.h; swiftforensics; winreg-kb.
+    #[test]
+    fn usb_stor_enum_exposes_connection_filetimes() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "usb_stor_enum")
+            .expect("usb_stor_enum descriptor must exist");
+        assert!(
+            d.fields.iter().any(|f| f.name == "last_arrival_date"),
+            "must expose last_arrival_date (0x66 FILETIME — authoritative last-connect)"
+        );
+        assert!(
+            d.meaning.contains("83da6326"),
+            "meaning must name the 83da6326 device-property GUID"
+        );
+        assert!(
+            d.related_artifacts.contains(&"mountpoints2"),
+            "must relate to mountpoints2 (the user-attribution join)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
