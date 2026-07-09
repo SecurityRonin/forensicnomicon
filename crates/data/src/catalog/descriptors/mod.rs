@@ -9449,6 +9449,77 @@ preserved (except an optional embedded title).",
     volatility_rationale: "Carved output files persist on disk until explicitly deleted",
 };
 
+pub(crate) static WZCSVC_WIRELESS_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "interface_guid",
+        value_type: ValueType::Text,
+        description: "Subkey name = GUID of the wireless network adapter",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "ssid",
+        value_type: ValueType::Text,
+        description: "Connected network SSID; length = DWORD (LE) at binary offset 0x10, name bytes begin at offset 0x14 (per RegRipper ssid.pl)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "ap_mac",
+        value_type: ValueType::Text,
+        description: "Access-point BSSID/MAC address, 6 bytes at binary offset 0x08",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "last_write",
+        value_type: ValueType::Timestamp,
+        description: "LastWrite time of the interface-GUID subkey; consistent with last wireless-config update / last association on that adapter",
+        is_uid_component: false,
+    },
+];
+
+/// WZCSVC Wireless Interface Connection History — Windows XP / Server 2003 Wireless
+/// Zero Configuration wireless SSID history (predecessor of Vista+ NetworkList).
+///
+/// Source: https://github.com/keydet89/RegRipper3.0/blob/master/plugins/ssid.pl (tool oracle: key path, SSID/MAC binary offsets)
+/// Source: http://windowsir.blogspot.com/2005/07/where-oh-where-did-my-little-ssid-go.html (Carvey RE — corroboration)
+pub static WZCSVC_WIRELESS_INTERFACES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "wzcsvc_wireless_interfaces",
+    name: "WZCSVC Wireless Interface Connection History (Windows XP)",
+    artifact_type: ArtifactLocation::RegistryKey,
+    hive: Some(HiveTarget::HklmSoftware),
+    key_path: "Microsoft\\WZCSVC\\Parameters\\Interfaces",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "Windows XP / Server 2003 Wireless Zero Configuration Service (WZCSVC) wireless \
+connection history. Each subkey under Parameters\\Interfaces is named by the wireless adapter's \
+interface GUID; its LastWrite time is consistent with the last time that adapter's wireless \
+configuration was updated (approximate last-connect). Under each GUID subkey, ActiveSettings \
+(REG_BINARY) holds the current/last-active profile and Static#0000, Static#0001, … each hold a \
+previously-connected wireless network (SSID at binary offset 0x14 with its length DWORD at 0x10, and \
+the AP BSSID/MAC at offset 0x08). It is the XP-era predecessor of the Vista+ NetworkList profile \
+history. Wireless-only — it does not record wired or broadband networks, and the wired/wireless/\
+broadband NameType classification is a NetworkList (Vista+) feature, not WZCSVC.",
+    mitre_techniques: &[],
+    fields: WZCSVC_WIRELESS_FIELDS,
+    retention: Some("Registry subkeys persist in the SOFTWARE hive until explicit deletion or profile removal"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["networklist_profiles", "wifi_profiles", "dhcp_ipv4_interface", "network_interfaces"],
+    sources: &[
+        "https://github.com/keydet89/RegRipper3.0/blob/master/plugins/ssid.pl",
+        "http://windowsir.blogspot.com/2005/07/where-oh-where-did-my-little-ssid-go.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "WZCSVC is Windows XP / Server 2003 ONLY — replaced by WLAN AutoConfig (WlanSvc) + NetworkList on Vista and later; the key is absent on modern systems",
+        "SSID history is populated only when wireless is managed by WZCSVC; vendor clients (Broadcom, Cisco, Intel) may store SSIDs in their own keys instead",
+        "Interface-GUID LastWrite reflects the most recent config write — consistent with, but not proof of, the exact last connection time",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key in the SOFTWARE hive; persists until explicit deletion or profile removal",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -9464,6 +9535,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     NTFS_ADS,
     NTFS_REPARSE_POINT,
     PHOTOREC_RECUP_DIR,
+    WZCSVC_WIRELESS_INTERFACES,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
