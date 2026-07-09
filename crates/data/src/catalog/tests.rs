@@ -874,6 +874,32 @@ mod catalog_integrity {
         );
     }
 
+    /// RecentFileCache.bcf must expose the decoded entry_path field and caveat that it
+    /// is Win7-only (superseded by Amcache.hve on Win8+), carries no timestamps/hashes.
+    /// Sources: libyal dtformats RecentFileCache.bcf; ANSSI Amcache; EZ RecentFileCacheParser.
+    #[test]
+    fn recentfilecache_bcf_documents_win7_scope_and_entry() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "fa_file_programs_recentfilecache_bcf")
+            .expect("fa_file_programs_recentfilecache_bcf descriptor must exist");
+        assert!(
+            d.fields.iter().any(|f| f.name == "entry_path"),
+            "must expose the decoded entry_path field"
+        );
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("Windows 7") || c.contains("Amcache")),
+            "must caveat Win7-only / superseded-by-Amcache scope"
+        );
+        assert_eq!(
+            d.evidence_strength,
+            Some(crate::evidence::EvidenceStrength::Corroborative),
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
