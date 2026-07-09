@@ -594,6 +594,19 @@ mod tests {
         );
     }
 
+    /// l2tcsv is deprecated in Plaso (second-only timestamps), so a forensic timeline
+    /// loses sub-second ordering of near-simultaneous events. psort's caveats must warn
+    /// of this. Source: Plaso tool_options.py _DEPRECATED_OUTPUT_FORMATS + l2t_csv.py.
+    #[test]
+    fn psort_caveat_flags_l2tcsv_deprecation() {
+        let t = tool_by_id("psort").unwrap();
+        let all = t.caveats.join(" ");
+        assert!(
+            all.contains("DEPRECATED") && all.contains("second-only"),
+            "psort caveats must flag l2tcsv as deprecated with second-only resolution"
+        );
+    }
+
     #[test]
     fn log2timeline_caveat_mentions_wsl_path() {
         let t = tool_by_id("log2timeline").unwrap();
