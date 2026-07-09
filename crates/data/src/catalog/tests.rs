@@ -626,6 +626,32 @@ mod catalog_integrity {
         );
     }
 
+    /// ShimCache stores the $SI last-modified snapshot, so a mismatch vs the live $SI
+    /// time is consistent with timestomping, and an identical timestamp across paths is
+    /// consistent with a rename/move. Enrich with those "consistent-with" inferences +
+    /// T1070.006/T1036.003. Sources: Mandiant "Caching Out"; MS File Times.
+    #[test]
+    fn shimcache_documents_timestomp_and_rename_inferences() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "shimcache")
+            .expect("shimcache descriptor must exist");
+        assert!(
+            d.mitre_techniques.contains(&"T1070.006"),
+            "must map to T1070.006 (the artifact helps detect timestomping)"
+        );
+        let caveats = d.evidence_caveats.join(" ").to_lowercase();
+        assert!(
+            caveats.contains("timestomp"),
+            "must carry the timestomping-exposure 'consistent with' caveat"
+        );
+        assert!(
+            caveats.contains("rename") || caveats.contains("moved"),
+            "must carry the rename/move detection 'consistent with' caveat"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
