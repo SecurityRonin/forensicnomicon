@@ -900,6 +900,27 @@ mod catalog_integrity {
         );
     }
 
+    /// The RDP client log's EID 1029 records the connecting username as a
+    /// Base64(SHA-256(UTF-16LE(username))) digest on the source host — wordlist-
+    /// reversible and correlatable to the target's 21/22/4624. The descriptor must
+    /// carry it. Sources: EZ EvtxECmd 1029 map; Stroz Friedberg RE.
+    #[test]
+    fn evtx_rdp_client_documents_event_1029() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "evtx_rdp_client")
+            .expect("evtx_rdp_client descriptor must exist");
+        assert!(
+            d.meaning.contains("1029"),
+            "meaning must document EID 1029 (username-hash source pivot)"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "username_hash"),
+            "must expose the username_hash field"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
