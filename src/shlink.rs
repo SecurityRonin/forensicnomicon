@@ -165,6 +165,16 @@ mod tests {
     }
 
     #[test]
+    fn header_timestamp_offsets() {
+        // Derived from the fixed-width preceding fields: HeaderSize(4)@0x00 +
+        // LinkCLSID(16)@0x04 + LinkFlags(4)@0x14 + FileAttributes(4)@0x18.
+        assert_eq!(OFFSET_CREATION_TIME, 0x1C);
+        assert_eq!(OFFSET_ACCESS_TIME, 0x24);
+        assert_eq!(OFFSET_WRITE_TIME, 0x2C);
+        assert_eq!(FILETIME_FIELD_SIZE, 8);
+    }
+
+    #[test]
     fn link_flags_bit_positions() {
         assert_eq!(LINK_FLAG_HAS_LINK_TARGET_ID_LIST, 1 << 0);
         assert_eq!(LINK_FLAG_HAS_LINK_INFO, 1 << 1);
