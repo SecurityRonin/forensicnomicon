@@ -48,20 +48,28 @@ pub(crate) static EVTX_RDP_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::User,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Records outbound RDP connection attempts (1024 = success, 1102 = disconnect). Shows which systems this machine connected to via RDP — lateral movement source artifact. Complements the registry-based RDP MRU.",
+    meaning: "Records outbound RDP connection attempts (1024 = success, 1102 = disconnect). Shows which systems this machine connected to via RDP — lateral movement source artifact. Complements the registry-based RDP MRU. EID 1029 records the connecting username as a case-sensitive Base64(SHA-256(UTF-16LE(username))) digest (provider Microsoft-Windows-TerminalServices-ClientActiveXCore), logged on the SOURCE/client host; the TraceMessage payload holds zero, one, or two hash-hash values (username and/or domain). Recover the plaintext by hashing candidate usernames through the same UTF-16LE->SHA-256->Base64 pipeline and matching the string (EvtxECmd's 1029 map does this automatically), then correlate against the DESTINATION host's TerminalServices-LocalSessionManager/Operational EID 21/22 and Security 4624 Type 10 to tie the source pivot to the target logon.",
     mitre_techniques: &["T1021.001"],
     fields: &[
         FieldSchema { name: "server_name", value_type: ValueType::Text, description: "RDP target server hostname or IP", is_uid_component: true },
-        FieldSchema { name: "event_id", value_type: ValueType::UnsignedInt, description: "1024=connect, 1102=disconnect", is_uid_component: false },
+        FieldSchema { name: "event_id", value_type: ValueType::UnsignedInt, description: "1024=connect, 1102=disconnect, 1029=connecting-username hash", is_uid_component: false },
+        FieldSchema { name: "username_hash", value_type: ValueType::Text, description: "EID 1029: Base64(SHA-256(UTF-16LE(username))) of the connecting user (and optionally the domain), logged on the source host; one-way but wordlist-reversible by re-hashing candidate usernames", is_uid_component: false },
     ],
     retention: Some("Default 1 MB"),
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &["rdp_client_servers", "evtx_rdp_inbound", "rdp_bitmap_cache"],
+    related_artifacts: &["rdp_client_servers", "evtx_rdp_inbound", "rdp_bitmap_cache", "evtx_security"],
     sources: &[
         "https://ponderthebits.com/2018/02/windows-rdp-related-event-logs-identification-tracking-and-investigation/",
+        // Stroz Friedberg / Aon — EID 1029 SHA-256+domain dual-hash + the three no-hash conditions:
+        "https://www.strozfriedberg.com/",
+        // Eric Zimmerman EvtxECmd — the 1029 map (channel/provider/Base64-SHA256 decode):
+        "https://github.com/EricZimmerman/evtx",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["Outbound RDP; proves this host pivoted to another"],
+    evidence_caveats: &[
+        "Outbound RDP; proves this host pivoted to another",
+        "No EID 1029 hash is logged when NLA is disabled on the target, when 'Save Credentials' is used, or on Windows 7 / Windows Server 2008 (which record no events in this log); Windows 8 records some events but not EID 1029 — absence of 1029 does NOT mean no RDP connection occurred",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Event log; rotated on size limit",
 };
