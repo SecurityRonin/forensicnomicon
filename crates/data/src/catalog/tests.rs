@@ -759,6 +759,31 @@ mod catalog_integrity {
         );
     }
 
+    /// The PCA general-db record is UTF-16LE pipe-delimited with 8 fields; expose the
+    /// program_id (AmCache ProgramId join key) and the PE version fields, and correct
+    /// the timestamp (UTC datetime string at process termination). Shared schema, so
+    /// both Db0 and Db1 gain the fields. Sources: AboutDFIR + Sygnia RE.
+    #[test]
+    fn pca_general_db_documents_full_record() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "pca_general_db")
+            .expect("pca_general_db descriptor must exist");
+        assert!(
+            d.fields.iter().any(|f| f.name == "program_id"),
+            "must expose program_id (the AmCache ProgramId join key)"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "software_vendor"),
+            "must expose the PE CompanyName / software_vendor field"
+        );
+        assert!(
+            d.related_artifacts.contains(&"amcache_app_file"),
+            "must relate to amcache_app_file (the ProgramId join target)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
