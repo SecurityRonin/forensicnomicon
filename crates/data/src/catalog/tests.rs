@@ -853,6 +853,27 @@ mod catalog_integrity {
         );
     }
 
+    /// System.evtx also carries DistributedCOM activation events relevant to DCOM
+    /// lateral movement (T1021.003): 10036 (server-side, records source IP + SID of a
+    /// remote activation attempt post-CVE-2021-26414 hardening), 10037/10038 client,
+    /// 10016 (mostly benign). Sources: MS KB5004442 + event-10016 doc.
+    #[test]
+    fn evtx_system_documents_dcom_activation_events() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "evtx_system")
+            .expect("evtx_system descriptor must exist");
+        assert!(
+            d.meaning.contains("10036") && d.meaning.contains("DistributedCOM"),
+            "meaning must document the DCOM activation events (10036 server-side source-IP pivot)"
+        );
+        assert!(
+            d.mitre_techniques.contains(&"T1021.003"),
+            "must map to T1021.003 (DCOM lateral movement)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
