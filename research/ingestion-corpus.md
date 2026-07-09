@@ -22,6 +22,26 @@ drafted against an independent primary source and adversarially verified. Apply 
 via TDD on branch `iwe-corrections`. STATUS: `confirmed` = ready; `needs-fix` = apply the
 listed correction first. Items already shipped this session are omitted.
 
+## RESUME PLAN (next session — read this first)
+
+**Branch:** `iwe-corrections` (local, rebased onto old main; `origin/iwe-corrections`@ec35759 is the IMMUTABLE backup — do NOT force-push it). All commits UNSIGNED (gitsign off to dodge OIDC storm) — batch re-sign before any push.
+
+**Catalog count is at 6677** (18 assertions in tests.rs). Each new descriptor bumps all 18 (`perl -0pi -e 's/CATALOG\.list\(\)\.len\(\), N\)/...N+1.../g; s/\n            N,/\n            N+1,/g'`).
+
+**Apply rhythm per new descriptor (proven this session):** read spec from this file → verify related_artifacts ids exist + enum variants valid → RED test in tests.rs::catalog_integrity (before `all_related_artifacts_exist`) → run (expect 101) → commit RED → add descriptor before the `/// All descriptor instances` anchor in mod.rs → register in CATALOG_ENTRIES → bump 18 counts → `cargo test -p forensicnomicon-data --lib` + clippy → commit GREEN. WATCH: any spec with `evidence_strength: Some` MUST have `volatility: Some` + non-empty rationale (invariant `assessed_entries_have_complete_metadata`) — the corpus specs sometimes set volatility:None wrongly (fixed ntfs_ads this way).
+
+**Remaining confirmed NEW (2):**
+- `ntfs_macb_rules` — interpretive MACB-update-rules baseline anchored to $MFT; fields encode the per-operation matrix (op_copy_xvolume etc.) — READ THE FULL FIELD LIST in this file before applying (unconventional). mitre T1070.006.
+- `mem_findevil` — MemProcFS FindEvil anomaly taxonomy (MemoryRegion). Tripped the cyber safeguard during drafting; apply with defensive-DFIR framing (detection-of-malware artifact, not attack method). Full flag table + sources already in the Confirmed section above.
+
+**Remaining needs-fix NEW (7):** srum_app_timeline, file_carving (re-attribute no-metadata caveat to Garfinkel not PhotoRec), mem_extracted_pe_images, ntfs_objid (soften 'MFT record 25' → dynamically-allocated under $Extend), mem_access_tokens, ie_recovery_session, kansa_collection_output. Each has its FIX FIRST note inline.
+
+**Enrichments (43):** in the ENRICHMENTS section below. Many target src/eventids.rs EVENT_ID_TABLE (216/325/326/327, 4776, 4688, 104/1102, 4104), src/timelining.rs (fls l2tcsv-deprecation caveat, psort), src/lolbins.rs (ntdsutil), and catalog descriptors (run_mru, muicache, mountpoints2, shimcache, windows_search_db_win11, evtx_ntlm, evtx_security). NOTE: several eventids.rs items (104/1102 log-clearing, injection heuristics) tripped the cyber safeguard in the workflow — apply manually with defensive framing.
+
+**Shipped this session from corpus (6):** emdmgmt_readyboost, ntfs_ads, ntfs_reparse_point, photorec_recup_dir, wzcsvc_wireless_interfaces, pca_general_db1.
+
+---
+
 ## Confirmed (ready to apply)
 
 ### `mem_findevil` — FindEvil Anomaly Detections (Memory)  [new_descriptor]
