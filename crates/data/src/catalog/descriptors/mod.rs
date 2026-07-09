@@ -7562,9 +7562,13 @@ pub static RUN_MRU: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/mkorman90/regipy/blob/master/regipy/plugins/validated_plugins.json",
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
+        "https://github.com/EricZimmerman/RegistryPlugins/blob/master/RegistryPlugin.RunMRU/RunMRU.cs",
     ],
     evidence_strength: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "Each command value ends with a trailing \\1 marker (backslash + '1'); it is a storage/terminator artifact appended by Explorer, not part of the user-typed command — strip it before display (EZ RunMRU.cs strips the literal \\1, regipy strips a 0x01 byte; the two tools disagree on the exact byte form, but either way it is a terminator, not typed text)",
+        "Command entries use single-character value names (a, b, c, …); the separate MRUList value is an ordering string of those letters whose FIRST character identifies the most recently used entry. Only that most-recent entry can be time-anchored to the key's LastWrite time — the remaining entries carry no individual timestamp",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
