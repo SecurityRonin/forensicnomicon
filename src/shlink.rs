@@ -34,6 +34,21 @@
 //! `LinkInfo`/string-data decode, ExtraData dispatch) lives in the consuming
 //! reader (`lnk-core`), per forensicnomicon's knowledge-only charter.
 //!
+//! # Forensic interpretation — an automatic LNK is not proof the target was opened
+//!
+//! Prior to Windows 10, a LNK in the `Recent` folder generally meant the user
+//! opened or accessed the target (Jones 2020). On Windows 10/11 the shell also
+//! creates automatic LNKs for actions that never open the target's contents — a
+//! `Save As` to a new location, a print-to-file / "create new file", and similar
+//! save/create operations — so a file that was *created or saved* but never
+//! opened still yields a LNK (with application-specific exceptions, e.g. 7-Zip).
+//! Consequently the presence of an automatic LNK is *consistent with* the target
+//! having existed and been created or saved on the system; it does not, by
+//! itself, establish that the user opened or viewed the target's contents.
+//! Corroborate against the LNK-vs-target timestamps and independent execution/
+//! access artifacts. (Empirically established on a single build — Windows 10 Pro
+//! 1903, Jones 2020 — so behaviour may vary across builds.)
+//!
 //! # Authoritative sources
 //!
 //! - `[MS-SHLLINK]` — *Shell Link (.LNK) Binary File Format*, the primary spec.
@@ -44,6 +59,10 @@
 //!   reverse-engineered reference; documents every ExtraData block signature
 //!   and size:
 //!   <https://github.com/libyal/liblnk/blob/main/documentation/Windows%20Shortcut%20File%20(LNK)%20format.asciidoc>
+//! - Jones, N. (2020), *LNK Files and the Windows 10 shell* — DFIR Review
+//!   (open peer review), the behavioural source for the Win10/11 create-on-save
+//!   triggers (single study, Windows 10 Pro build 1903):
+//!   <https://dfir.pubpub.org/pub/lhaf5ohxg> (DOI 10.21428/b0ac9c28.92ca3973)
 
 /// `ShellLinkHeader.HeaderSize` — MUST be `0x0000004C` (`[MS-SHLLINK]` §2.1).
 pub const HEADER_SIZE: u32 = 0x0000_004C;
