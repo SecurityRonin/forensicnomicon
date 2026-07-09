@@ -506,6 +506,32 @@ mod catalog_integrity {
         );
     }
 
+    /// NTFS MACB update-rule baseline must be cataloged — the per-operation reference
+    /// frame for reading $SI/$FN timestamps and detecting forgery. Encodes which MACB
+    /// values move on create/access/modify/rename/move/copy/delete; the copy-across-
+    /// volumes case yields the M<B tell. Sources: MS $MFT doc; dfir.ru; senturean RE.
+    #[test]
+    fn ntfs_macb_rules_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "ntfs_macb_rules")
+            .expect("ntfs_macb_rules (per-operation MACB baseline) must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.file_path.unwrap_or_default().contains("$MFT"),
+            "file_path must anchor to $MFT where $SI/$FN timestamps live"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "op_copy_xvolume"),
+            "must encode the cross-volume copy rule (the M<B forgery tell)"
+        );
+        assert!(
+            d.mitre_techniques.contains(&"T1070.006"),
+            "must map to T1070.006 (Timestomp) as the detection reference frame"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
