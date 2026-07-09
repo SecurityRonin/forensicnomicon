@@ -154,6 +154,7 @@ pub mod boot_signatures;
 pub mod bootkit;
 pub mod cadet;
 pub mod cloud_ranges;
+pub mod timestamp_artifacts;
 pub use forensicnomicon_data::catalog;
 pub mod chainsaw;
 pub use forensicnomicon_core::decmpfs;
