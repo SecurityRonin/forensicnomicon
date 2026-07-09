@@ -555,6 +555,27 @@ mod catalog_integrity {
         );
     }
 
+    /// run_mru must carry its decode gotchas: the trailing \1 terminator artifact (strip
+    /// before display) and the MRUList ordering whose first letter is the only
+    /// time-anchorable (most-recent) entry. Sources: EZ RunMRU.cs; regipy runmru.py.
+    #[test]
+    fn run_mru_documents_decode_gotchas() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "run_mru")
+            .expect("run_mru descriptor must exist");
+        let caveats = d.evidence_caveats.join(" ");
+        assert!(
+            caveats.contains("MRUList"),
+            "run_mru must document the MRUList ordering (only the most-recent entry is time-anchorable)"
+        );
+        assert!(
+            caveats.contains("\\1"),
+            "run_mru must document the trailing \\1 terminator artifact (strip before display)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
