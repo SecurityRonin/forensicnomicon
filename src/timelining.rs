@@ -453,6 +453,25 @@ mod tests {
         assert!(tool_by_id("nonexistent").is_none());
     }
 
+    /// psteal fuses log2timeline + psort in a single pass, writing a timeline directly
+    /// (no intermediate .plaso store), so it deserves its own entry alongside the
+    /// two-step tools. Source: plaso.readthedocs.io (psteal).
+    #[test]
+    fn tool_by_id_psteal() {
+        let t = tool_by_id("psteal").expect("psteal (one-step log2timeline+psort) must exist");
+        assert!(t.command.contains("psteal"), "command must invoke psteal");
+        let ctx = format!("{} {}", t.covers, t.caveats.join(" ")).to_lowercase();
+        assert!(
+            ctx.contains("log2timeline") && ctx.contains("psort"),
+            "psteal must be described as fusing log2timeline + psort in one pass"
+        );
+        assert_ne!(
+            t.output_format,
+            TimelineOutputFormat::PlasoStore,
+            "psteal writes a timeline directly, not an intermediate .plaso store"
+        );
+    }
+
     #[test]
     fn fls_output_is_bodyfile() {
         let fls = tool_by_id("fls").unwrap();
