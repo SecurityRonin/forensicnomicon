@@ -410,6 +410,33 @@ mod catalog_integrity {
         );
     }
 
+    /// NTFS reparse points must be cataloged — the $REPARSE_POINT (0xC0) attribute and
+    /// the volume-wide $Extend\$Reparse:$R index. The reparse tag's Name-Surrogate (N)
+    /// bit splits path redirections (junction/symlink/mount) from data-overlay tags
+    /// (WOF/Dedup/Cloud) whose real bytes are elsewhere. Sources: [MS-FSCC] reparse
+    /// tags §2.1.2.1; libfsntfs; linux-ntfs.
+    #[test]
+    fn ntfs_reparse_point_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "ntfs_reparse_point")
+            .expect("ntfs_reparse_point ($REPARSE_POINT / $Extend\\$Reparse) must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.file_path.unwrap_or_default().contains("$REPARSE_POINT"),
+            "file_path must reference the $REPARSE_POINT attribute"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "reparse_tag"),
+            "must expose reparse_tag"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "name_surrogate"),
+            "must expose name_surrogate (the redirection-vs-overlay discriminator)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
