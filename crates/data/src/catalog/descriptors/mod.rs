@@ -8916,6 +8916,83 @@ folder. Decode with an OLE compound-file parser (e.g. Vinetto).",
     volatility_rationale: "",
 };
 
+pub(crate) static CDP_GDID_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "device_puid",
+        value_type: ValueType::Text,
+        description: "The 64-bit MSA Device PUID stored as 16 hex digits in the LID value (e.g. 0018000FC8CB93CC). This is the same identifier Microsoft's device graph writes as g:<decimal> (the court's g:6755467234350028 == 0x0018000FC8CB93CC). Server-assigned at Microsoft Account provisioning; identifies a Windows installation, not the underlying hardware",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "puid_class_prefix",
+        value_type: ValueType::Text,
+        description: "Leading 4 hex digits classify the PUID: 0018 = device PUID (the GDID), 0003 = user account PUID. Lets an examiner confirm the value is the device identifier rather than the signed-in user's PUID",
+        is_uid_component: false,
+    },
+];
+
+/// Connected Devices Platform (CDP) Global Device Identifier (GDID) — the persistent
+/// 64-bit MSA Device PUID.
+///
+/// Distinct from the ActivitiesCache.db timeline (`windows_timeline`): same CDP
+/// subsystem, but a registry-resident device-identity value rather than the SQLite
+/// activity store. Surfaced publicly in the July 2026 Scattered Spider complaint
+/// (US v. Stokes, N.D. Ill.) as `Global Device Identifier g:6755467234350028`.
+///
+/// The blog that surfaced this (hackingpassion.com) is a discovery pointer only; the
+/// facts below are grounded in the independent primary sources cited in `sources`.
+///
+/// Source: US v. Peter Stokes, N.D. Ill. (Jul 2026) — court filing naming the GDID [COURT]
+/// Source: https://github.com/SmtimesIWndr/gdid-reversal — ETW + static RE, Win11 26200 [OBSERVED/STATIC]
+/// Source: Microsoft Delivery Optimization / UCDOStatus.GlobalDeviceId column docs [VENDOR]
+pub static CDP_GDID: ArtifactDescriptor = ArtifactDescriptor {
+    id: "cdp_gdid",
+    name: "CDP Global Device Identifier (GDID / MSA Device PUID)",
+    artifact_type: ArtifactLocation::RegistryValue,
+    hive: Some(HiveTarget::NtUser),
+    key_path: r"Software\Microsoft\IdentityCRL\ExtendedProperties",
+    value_name: Some("LID"),
+    file_path: None,
+    scope: DataScope::User,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "A persistent, device-level identifier for a Windows installation, minted by the \
+Microsoft Account service (wlidsvc: CDeviceIdentityBase::CreateNewDeviceIdentity -> \
+DeviceIdStore::LogToRegistry) via a SOAP exchange with login.live.com, which returns a \
+server-assigned 64-bit Passport Unique ID (PUID). The Connected Devices Platform (cdp.dll, \
+services CDPSvc + CDPUserSvc) reads this PUID and registers it into Microsoft's Device \
+Directory Service (DDS) as the string g:<decimal> (format string \"g:%s\"), and Delivery \
+Optimization reports it as the documented UCDOStatus.GlobalDeviceId. Because the PUID is \
+server-assigned, it stays constant across OS updates but changes on a clean reinstall, so it \
+identifies an installation rather than fixed hardware. Forensically it is an attribution pivot: \
+the local LID value shows the device's PUID, and Microsoft-held DDS/telemetry records tie that \
+same GDID to the account, IP addresses, geolocation and last-seen times across sessions, so it \
+can link one machine across VPNs and locations over time. Present since Windows 10 (2015); CDP \
+also has an anonymous device path, so a GDID can exist without a Microsoft Account.",
+    mitre_techniques: &[],
+    fields: CDP_GDID_FIELDS,
+    retention: Some("Persists in NTUSER.DAT; server-backed, so it survives local deletion (re-fetched from Microsoft on next CDP sync) and OS updates; changes only on reinstall/re-provision"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["windows_timeline", "windows_timeline_devicecache"],
+    sources: &[
+        // Primary: US federal criminal complaint naming the GDID (Scattered Spider case).
+        "https://www.justice.gov/usao-ndil",
+        // Reverse-engineering writeup: ETW capture + static RE against Windows 11 (26200) public PDBs.
+        "https://github.com/SmtimesIWndr/gdid-reversal",
+        // Microsoft vendor doc: Delivery Optimization UCDOStatus.GlobalDeviceId column.
+        "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/ucdostatus",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "The LID value is the device PUID; correlating it to a person requires Microsoft-held records (DDS device graph, account, IP, geolocation, last-seen) obtained by legal process",
+        "A clean reinstall yields a NEW server-assigned PUID, so the value identifies an installation, not hardware; a changed or absent GDID does not exclude the same physical machine",
+        "Server-backed: deleting the LID key does not durably remove the GDID — CDP re-populates it from Microsoft on the next sync (observed returning identical after opening the Microsoft Store)",
+        "Present with a Microsoft Account sign-in; CDP's anonymous device path can also produce a GDID without an MSA — verify per build",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Server-backed device PUID persisted in NTUSER.DAT; survives local deletion (re-fetched from Microsoft) and OS updates",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -8926,6 +9003,7 @@ folder. Decode with an OLE compound-file parser (e.g. Vinetto).",
 pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     ZONE_IDENTIFIER,
     THUMBS_DB,
+    CDP_GDID,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
