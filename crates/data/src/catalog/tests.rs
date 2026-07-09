@@ -181,6 +181,41 @@ mod catalog_integrity {
         );
     }
 
+    /// CDP Global Device Identifier (GDID) must be cataloged — the persistent 64-bit
+    /// MSA Device PUID that Connected Devices Platform registers into the Device
+    /// Directory Service as `g:<decimal>`. Named in the July 2026 Scattered Spider
+    /// complaint (US v. Stokes, N.D. Ill.) as `g:6755467234350028`. The device PUID is
+    /// readable from the user hive at IdentityCRL\ExtendedProperties value `LID` as 16
+    /// hex digits (0018-class = device PUID). Distinct from the ActivitiesCache.db
+    /// timeline: same subsystem, a registry-resident device-identity value.
+    /// Sources: US v. Stokes court filing; SmtimesIWndr/gdid-reversal RE writeup;
+    /// Microsoft Delivery Optimization UCDOStatus.GlobalDeviceId docs.
+    #[test]
+    fn cdp_gdid_device_puid_is_cataloged() {
+        let d = CATALOG.list().iter().find(|d| d.id == "cdp_gdid").expect(
+            "cdp_gdid (Connected Devices Platform Global Device Identifier) must be cataloged",
+        );
+        assert_eq!(
+            d.artifact_type,
+            ArtifactLocation::RegistryValue,
+            "GDID device PUID is read from a registry value"
+        );
+        assert_eq!(
+            d.hive,
+            Some(HiveTarget::NtUser),
+            "LID lives in the user hive (HKCU)"
+        );
+        assert!(
+            d.key_path.contains(r"IdentityCRL\ExtendedProperties"),
+            "key_path must reference IdentityCRL\\ExtendedProperties"
+        );
+        assert_eq!(
+            d.value_name,
+            Some("LID"),
+            "the device PUID is stored in the LID value"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
