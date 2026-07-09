@@ -296,8 +296,39 @@ pub(crate) static PCA_GENERAL_DB_FIELDS_SCHEMA: &[FieldSchema] = &[
     FieldSchema {
         name: "timestamp",
         value_type: ValueType::Text,
-        description: "Unix epoch seconds — Carvey 2024 parsed records use this format; \
-                      raw on-disk records embed FILETIME on Sygnia/AboutDFIR analysis",
+        description: "Raw on-disk format is a UTC datetime string 'YYYY-MM-DD HH:MM:SS.f' \
+                      (e.g. 2022-05-12 21:32:42.556), reported as recorded when the process \
+                      terminates (not at launch); Carvey's PCAParse re-emits it as Unix epoch seconds",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "run_status",
+        value_type: ValueType::Text,
+        description: "Numeric record/run-status code (pipe field 2), analogous to an Event ID for the record; observed values 0-4 per AboutDFIR/Sygnia analysis (3 = a PCA Resolve call, the component that applies compatibility fixes)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "file_description",
+        value_type: ValueType::Text,
+        description: "PE FileDescription of the executable (e.g. \"git\"); blank when the program was run from a UNC path",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "software_vendor",
+        value_type: ValueType::Text,
+        description: "CompanyName / publisher from the PE version resource (e.g. \"the git development community\"); blank for UNC-launched programs",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "file_version",
+        value_type: ValueType::Text,
+        description: "ProductVersion / FileVersion from the PE version resource (e.g. \"2.32.0.windows.2\"); blank for UNC-launched programs",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "program_id",
+        value_type: ValueType::Text,
+        description: "AmCache ProgramId (e.g. 0006ea6a66e62a303f7b974dc4952647a80300000904) — the join key to the AmCache InventoryApplicationFile entry of the same name. Per Blanche Lagny's AmCache research the ProgramId is derived from the file Name, Version, Publisher and Language, so it is stable for identical software across systems and enables cross-artifact and cross-host correlation. Blank for UNC-launched programs",
         is_uid_component: false,
     },
 ];
@@ -335,7 +366,7 @@ pub static PCA_GENERAL_DB: ArtifactDescriptor = ArtifactDescriptor {
     fields: PCA_GENERAL_DB_FIELDS_SCHEMA,
     retention: None,
     triage_priority: TriagePriority::High,
-    related_artifacts: &["pca_applaunch_dic"],
+    related_artifacts: &["pca_applaunch_dic", "amcache_app_file"],
     // Source: Harlan Carvey, "PCAParse" (2024-02-26) — first public DFIR-side
     // documentation of PcaGeneralDb0.txt's "Abnormal process exit with code 0xNN" format.
     sources: &[
