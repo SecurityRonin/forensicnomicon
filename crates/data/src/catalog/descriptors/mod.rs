@@ -9264,6 +9264,100 @@ content, not from ADS presence alone.",
     volatility_rationale: "On-disk NTFS metadata; a named $DATA stream persists with the host file until the file or the named stream is deleted",
 };
 
+pub(crate) static NTFS_REPARSE_POINT_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "reparse_tag",
+        value_type: ValueType::UnsignedInt,
+        description: "32-bit reparse tag from the $REPARSE_POINT (0xC0) attribute; identifies the owning filter driver. Decode per [MS-FSCC] bit-field (M/R/N/D flags + 16-bit Value). Show the raw hex tag when not one of the predefined values",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "tag_name",
+        value_type: ValueType::Text,
+        description: "Symbolic name when recognised (IO_REPARSE_TAG_MOUNT_POINT 0xA0000003, IO_REPARSE_TAG_SYMLINK 0xA000000C, IO_REPARSE_TAG_WOF 0x80000017, IO_REPARSE_TAG_DEDUP 0x80000013, IO_REPARSE_TAG_CLOUD 0x9000001A, IO_REPARSE_TAG_APPEXECLINK 0x8000001B, IO_REPARSE_TAG_LX_SYMLINK 0xA000001D); for an unrecognised tag report the raw 0x-hex value verbatim",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "name_surrogate",
+        value_type: ValueType::Bool,
+        description: "The N bit (29) of the tag: true = a path redirection (junction/symlink/mount point) whose SubstituteName names another object; false = a data-overlay tag (WOF/Dedup/Cloud) that virtualises the file's own data in place",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "substitute_name",
+        value_type: ValueType::Text,
+        description: "For MOUNT_POINT/SYMLINK, the kernel target path (often \\??\\-prefixed) the point redirects to — reveals where a path actually resolves",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "print_name",
+        value_type: ValueType::Text,
+        description: "The display path shown to the user for a junction/symlink (may differ from the substitute/kernel path)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "reparse_data_length",
+        value_type: ValueType::UnsignedInt,
+        description: "Length in bytes of the filter-specific reparse data following the tag header (0xC0 attribute ReparseDataLength)",
+        is_uid_component: false,
+    },
+];
+
+/// NTFS Reparse Points — $REPARSE_POINT (0xC0) attribute + volume-wide $Extend\$Reparse:$R index.
+///
+/// Source: https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4 ([MS-FSCC] Reparse Tags — tag bit-field + predefined tag/value table)
+/// Source: https://github.com/libyal/libfsntfs (RE: $Extend\$Reparse $R index + 0xC0 layout)
+/// Source: https://flatcap.github.io/linux-ntfs/ntfs/attributes/reparse_point.html (linux-ntfs RE: 0xC0 structure)
+pub static NTFS_REPARSE_POINT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ntfs_reparse_point",
+    name: "NTFS Reparse Points ($REPARSE_POINT / $Extend\\$Reparse)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"<NTFS file/dir>:$REPARSE_POINT (attr 0xC0); enumerated volume-wide via $Extend\$Reparse:$R"),
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "A reparse point is an NTFS extensibility mechanism: any file or directory can carry a \
+$REPARSE_POINT attribute (MFT type 0xC0), and its $STANDARD_INFORMATION flags carry \
+FILE_ATTRIBUTE_REPARSE_POINT (0x400). The attribute begins with a 32-bit reparse tag naming the \
+filter driver that owns the point. Per [MS-FSCC] the tag is a bit-field: bit 31 = M (Microsoft-owned), \
+bit 30 = R (reserved), bit 29 = N (Name Surrogate — the entry is an alias/redirection), bit 28 = D \
+(Directory), bits 0-15 = the tag Value. The N bit is the key discriminator: N=1 tags are true path \
+redirections (junctions 0xA0000003, symlinks 0xA000000C, mount points, WSL symlinks 0xA000001D); N=0 \
+tags overlay or virtualise the file's own data in place (WOF/compression 0x80000017, Dedup 0x80000013, \
+OneDrive/Cloud placeholders 0x9000001A). For MOUNT_POINT/SYMLINK the data holds a SubstituteName (the \
+kernel target, often \\??\\-prefixed) and a PrintName (display path). NTFS also maintains a volume-wide \
+index in the metadata file $Extend\\$Reparse: an index named $R enumerates every reparse point on the \
+volume keyed by MFT file_id (keys only, no data — the reparse data lives in each file's 0xC0 attribute). \
+Forensic relevance: junctions/symlinks are abused for path redirection, TOCTOU races and sandbox escapes \
+(inspect the SubstituteName to see where a path really resolves); WOF/Dedup tags mean the file's bytes \
+are NOT in a plain $DATA run, so a naive carve returns a stub while the content sits in the WIM/overlay \
+or Dedup chunk store; CLOUD/OneDrive tags mark placeholder (dehydrated) files whose data is not resident \
+locally. Enumerate with fsutil reparsepoint query, MFTECmd, or libfsntfs.",
+    mitre_techniques: &[],
+    fields: NTFS_REPARSE_POINT_FIELDS,
+    retention: Some("Persists in the file's on-disk 0xC0 attribute and the $Extend\\$Reparse index until the reparse point is removed or the file is deleted"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["mft", "mft_file", "ntfs_i30_index", "usn_journal", "logfile_ntfs"],
+    sources: &[
+        "https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4",
+        "https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/ca069dad-ed16-42aa-b057-b6b207f447cc",
+        "https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/b41f1cbf-10df-4a47-98d4-1c52a833d913",
+        "https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc",
+        "https://flatcap.github.io/linux-ntfs/ntfs/attributes/reparse_point.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "The $Extend\\$Reparse $R index enumerates points by MFT file_id but stores no reparse data; the authoritative data is each file's 0xC0 attribute — reconcile the two",
+        "A WOF/Dedup/Cloud tag means the file's real bytes are NOT in a plain $DATA run; a naive $DATA carve returns a stub — resolve the overlay/chunk-store/cloud source before concluding the content was present",
+        "A CLOUD/OneDrive placeholder is an online-only/dehydrated file whose data is not resident locally; corroborate with cloud-sync artifacts before concluding the content was ever on the machine",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Reparse data is stored in the file's on-disk $REPARSE_POINT (0xC0) MFT attribute and indexed in $Extend\\$Reparse; it persists until the reparse point is removed or the file is deleted",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -9277,6 +9371,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     CDP_GDID,
     NTFS_I30_INDEX,
     NTFS_ADS,
+    NTFS_REPARSE_POINT,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
