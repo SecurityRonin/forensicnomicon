@@ -7370,8 +7370,24 @@ pub static EVTX_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
               -w hidden flags, embedding base64-encoded (often UTF-16LE or gzip-compressed) \
               payloads directly in the event log entry. Subsequent Event IDs 7000 and 7009 \
               (service timeout/failure) are misleading — the PowerShell payload still executes \
-              successfully even when Windows reports the service failed to start.",
-    mitre_techniques: &["T1543.003", "T1070.001", "T1059.001"],
+              successfully even when Windows reports the service failed to start. \
+              DistributedCOM (Source: Microsoft-Windows-DistributedCOM) also writes DCOM \
+              activation-permission events, relevant to DCOM lateral movement (T1021.003 — abuse of \
+              MMC20.Application / ShellWindows / ShellBrowserWindow / Excel.Application objects). Event \
+              10036 is SERVER-SIDE ('The server-side authentication level policy does not allow the \
+              user <DOMAIN>\\<user> SID (<SID>) from address <IP> to activate DCOM server') and, as a \
+              by-product of the CVE-2021-26414 DCOM hardening (KB5004442; \
+              RequireIntegrityActivationAuthenticationLevel DWORD under \
+              HKLM\\SOFTWARE\\Microsoft\\Ole\\AppCompat), records the SOURCE IP and SID of a remote \
+              DCOM activation attempt — an activation-source pivot even when the activation is blocked. \
+              Its client-side counterparts are 10037 (explicitly-set auth level) and 10038 (default \
+              auth level). Event 10016 records a denied DCOM activation-permission grant (CLSID, APPID, \
+              user SID, 'from address') but is overwhelmingly benign by-design noise — Microsoft \
+              documents the LocalHost/LRPC records for NT AUTHORITY\\LOCAL SERVICE / SYSTEM against \
+              ShellExperienceHost and generic shell CLSIDs as expected and safely ignored. Filter \
+              10016/10036 to the forensic subset: 'from address' = a REMOTE host (not LocalHost / \
+              (Using LRPC)) paired with an interactive or domain user SID and a non-standard CLSID.",
+    mitre_techniques: &["T1543.003", "T1070.001", "T1059.001", "T1021.003"],
     fields: EVTX_FIELDS,
     retention: Some("configurable; default ~20MB rolling per channel"),
     triage_priority: TriagePriority::High,
@@ -7380,6 +7396,12 @@ pub static EVTX_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/posters/windows-forensic-analysis/",
         "https://learn.microsoft.com/en-us/windows/win32/eventlog/event-logging",
         "https://github.com/EricZimmerman/evtx",
+        // Microsoft: Event 10016 (DistributedCOM) fields CLSID/APPID/SID/from-address;
+        // states LocalHost/LRPC records for LOCAL SERVICE/SYSTEM are by-design "can be safely ignored":
+        "https://learn.microsoft.com/en-us/troubleshoot/windows-client/application-management/event-10016-logged-when-accessing-dcom",
+        // Microsoft KB5004442 (CVE-2021-26414 DCOM hardening): server-side Event 10036 text incl.
+        // "from address" (client IP) + RequireIntegrityActivationAuthenticationLevel:
+        "https://support.microsoft.com/en-us/topic/kb5004442-manage-changes-for-windows-dcom-server-security-feature-bypass-cve-2021-26414-f1400b52-c141-43d2-941e-37ed901c769c",
         // Source: https://az4n6.blogspot.com/2017/10/finding-and-decoding-malicious.html
         // — PowerShell-as-service abuse via 7045, misleading 7000/7009 errors,
         //   base64+gzip deobfuscation chain
