@@ -1526,12 +1526,26 @@ pub static USB_ENUM: ArtifactDescriptor = ArtifactDescriptor {
 
 // ── MUICache ──────────────────────────────────────────────────────────────────
 
-pub(crate) static MUICACHE_FIELDS: &[FieldSchema] = &[FieldSchema {
-    name: "display_name",
-    value_type: ValueType::Text,
-    description: "Localized display name of the executed application",
-    is_uid_component: false,
-}];
+pub(crate) static MUICACHE_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "display_name",
+        value_type: ValueType::Text,
+        description: "Localized display name of the executed application",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "friendly_app_name",
+        value_type: ValueType::Text,
+        description: "Value-name suffix .FriendlyAppName; copied from the executable's PE VersionInfo FileDescription string. Recorded verbatim by the shell, so it SURVIVES a filesystem rename — a renamed binary retains its original embedded identity (renamed-executable / masquerade detection)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "application_company",
+        value_type: ValueType::Text,
+        description: "Value-name suffix .ApplicationCompany; copied from the executable's PE VersionInfo CompanyName string. Survives a filesystem rename",
+        is_uid_component: false,
+    },
+];
 
 /// MUICache — cached display names of executed applications.
 ///
@@ -1553,18 +1567,27 @@ pub static MUICACHE: ArtifactDescriptor = ArtifactDescriptor {
     fields: MUICACHE_FIELDS,
     retention: Some("persists until registry cleanup"),
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
+    related_artifacts: &["userassist_exe", "bam_user", "amcache_app_file", "prefetch_file", "shimcache"],
     sources: &[
         "https://windowsir.blogspot.com/2012/08/no-more-mr-nice-guy.html",
         "https://www.sans.org/blog/digital-forensics-windows-muicache/",
         "http://windowsir.blogspot.com/2005/12/mystery-of-muicachesolved.html",
         "https://www.magnetforensics.com/blog/forensic-analysis-of-muicache-files-in-windows/",
         "https://forensafe.com/blogs/muicache.html",
+        // PE VersionInfo string keys (FileDescription / CompanyName) that .FriendlyAppName / .ApplicationCompany are copied from:
+        "https://learn.microsoft.com/en-us/windows/win32/menurc/stringfileinfo-block",
+        // RE-derived DFIR reference: the two suffix values, rename-detection use, no-timestamp property:
+        "https://artefacts.help/windows_registry_muicache.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "MUICache carries NO execution timestamp — the values are stored directly and the key last-write time only tracks the most-recent change, not any specific program launch",
+        "Populated by the shell on GUI-program interaction, not proof of a full process launch — corroborate with UserAssist / Prefetch / Amcache before concluding execution",
+        ".FriendlyAppName / .ApplicationCompany are absent when the binary has no PE VersionInfo resource (common for packed/stripped malware), so their absence is not exculpatory",
+        "An attacker can forge the PE VersionInfo strings, so a matching FriendlyAppName is consistent-with, not proof-of, a given identity",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry values in UsrClass.dat; persist until registry cleanup",
 };
 
 // ── AppInit_DLLs ──────────────────────────────────────────────────────────────
