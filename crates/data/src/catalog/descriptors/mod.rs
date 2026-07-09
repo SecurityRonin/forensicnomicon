@@ -2506,16 +2506,25 @@ pub static WORDWHEEL_QUERY: ArtifactDescriptor = ArtifactDescriptor {
     fields: MRU_RECENT_DOCS_FIELDS,
     retention: None,
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
+    related_artifacts: &["lnk_files"],
     sources: &[
         "https://windowsir.blogspot.com/2012/08/wordwheelquery.html",
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
+        // Mandiant "The Missing LNK" — timestamp-interpretation limit + LNK-correlation method:
+        "https://cloud.google.com/blog/topics/threat-intelligence/the-missing-lnk-correlating-user-search-lnk-files/",
+        // RegRipper wordwheelquery.pl — MRUListEx u32-array + 0xFFFFFFFF terminator + UTF-16LE decode:
+        "https://github.com/keydet89/RegRipper3.0/blob/master/plugins/wordwheelquery.pl",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Derived-timestamp rule: the key LastWrite time dates ONLY the single most-recent search term. Every other term can be bounded only as searched BEFORE that LastWrite; the Registry stores no per-term timestamp (Mandiant, 2020)",
+        "Recency order is recovered from the MRUListEx value: an array of little-endian u32 value-indices, most-recent-first, whose final entry is the 0xFFFFFFFF terminator (dropped before use). The FIRST element of that most-recent-first array identifies the term the LastWrite dates (RegRipper wordwheelquery.pl: unpack(\"V*\"), pop if 0xffffffff)",
+        "Older search times can be recovered by correlating each term with user-search LNK files, which carry their own target MAC timestamps for when a file was opened from the search results; combining the LNK times with the MRUListEx order lets the analyst infer the relative sequence of earlier searches (Mandiant 'The Missing LNK', 2020)",
+        "Scope: this key records File Explorer search-bar terms",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated when the user types a term into Explorer search; persists in NTUSER.DAT",
 };
 
 /// OpenSaveMRU — files opened/saved via Windows common dialog (T1083).
