@@ -154,6 +154,9 @@ pub enum TimelineOutputFormat {
     L2tCsv,
     /// CSV output from `mactime`.
     MacTimeCsv,
+    /// Plaso "dynamic" CSV — the psort/psteal default module, with customizable
+    /// columns (written directly by `psteal.py -o dynamic -w timeline.csv`).
+    DynamicCsv,
 }
 
 /// A timelining tool with its scope and canonical command template.
@@ -250,6 +253,26 @@ pub static TIMELINE_TOOLS: &[TimelineTool] = &[
             "--blf includes both $STANDARD_INFORMATION and $FILE_NAME timestamps (two rows per file)",
             "Pass -m flag when processing $UsnJrnl to resolve parent paths from $MFT",
             "MFTECmd does not yet parse $LogFile; use for $MFT, $UsnJrnl, $I30 only",
+        ],
+    },
+    TimelineTool {
+        id: "psteal",
+        name: "Plaso — psteal.py",
+        covers: "One-step super timeline: fuses log2timeline (extraction) and psort \
+                 (post-processing) in a single pass over a disk image, same source \
+                 coverage as log2timeline",
+        command: "psteal.py --source {IMAGE} -o dynamic -w supertimeline.csv",
+        output_format: TimelineOutputFormat::DynamicCsv,
+        caveats: &[
+            "Fuses log2timeline + psort in one pass; output is equivalent to running the \
+             two-step log2timeline.py then psort.py pipeline",
+            "Writes a timeline directly (no reusable intermediate .plaso store is kept) — \
+             use the explicit log2timeline.py + psort.py pipeline when you need to re-sort, \
+             re-filter, or inspect the store with pinfo.py without reprocessing the image",
+            "-o dynamic is the default customizable-column module; pass -o l2tcsv for the \
+             legacy fixed 17-field format Timeline Explorer expects",
+            "-o list enumerates the available output modules (same set as psort.py)",
+            "Same WSL path caveats as log2timeline: use /mnt/... notation, not C:\\ paths",
         ],
     },
 ];
@@ -439,6 +462,7 @@ mod tests {
         assert!(ids.contains(&"log2timeline"), "missing log2timeline");
         assert!(ids.contains(&"psort"), "missing psort");
         assert!(ids.contains(&"mftecmd_body"), "missing mftecmd_body");
+        assert!(ids.contains(&"psteal"), "missing psteal");
     }
 
     #[test]
