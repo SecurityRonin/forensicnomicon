@@ -717,6 +717,27 @@ mod catalog_integrity {
         );
     }
 
+    /// MountedDevices must encode the two attribution joins: device serial → drive
+    /// letter / Volume GUID (USBSTOR), and Volume GUID → user (NTUSER MountPoints2).
+    /// The trailing {53f5630d-…} is GUID_DEVINTERFACE_VOLUME. Sources: MS WDK; regipy
+    /// mountdev.py; RegRipper mp2.pl.
+    #[test]
+    fn mounted_devices_encodes_attribution_joins() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "mounted_devices")
+            .expect("mounted_devices descriptor must exist");
+        assert!(
+            d.fields.iter().any(|f| f.name == "volume_guid"),
+            "must expose volume_guid (the Volume-GUID → user join key)"
+        );
+        assert!(
+            d.meaning.contains("MountPoints2"),
+            "meaning must document the Volume-GUID → user join via MountPoints2"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
