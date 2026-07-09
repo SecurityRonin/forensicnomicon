@@ -532,6 +532,29 @@ mod catalog_integrity {
         );
     }
 
+    /// MemProcFS FindEvil anomaly detections must be cataloged — the defensive
+    /// memory-triage output (/forensic/findevil/findevil.txt) that flags process/module
+    /// anomalies for an examiner to investigate. Honestly Corroborative (documented
+    /// false positives). Source: MemProcFS modules.h VMMEVIL_TYPE table + FS_FindEvil wiki.
+    #[test]
+    fn mem_findevil_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "mem_findevil")
+            .expect("mem_findevil (FindEvil anomaly detections) must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::MemoryRegion);
+        assert!(
+            d.fields.iter().any(|f| f.name == "detection_type"),
+            "must expose detection_type (the anomaly flag)"
+        );
+        assert_eq!(
+            d.evidence_strength,
+            Some(crate::evidence::EvidenceStrength::Corroborative),
+            "a heuristic anomaly flag is corroborative, not proof (FindEvil documents false positives)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
