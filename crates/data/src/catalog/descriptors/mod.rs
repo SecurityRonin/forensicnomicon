@@ -8781,6 +8781,74 @@ pub static MEM_USER_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
 
 // ── Global catalog entries ────────────────────────────────────────────────────
 
+/// Field schema for the NTFS `Zone.Identifier` alternate data stream
+/// (Mark-of-the-Web). The stream is INI-formatted under a `[ZoneTransfer]` section.
+/// Source: MS-FSCC named streams; Microsoft Attachment Manager Zone.Identifier docs.
+pub(crate) static ZONE_IDENTIFIER_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "zone_id",
+        value_type: ValueType::UnsignedInt,
+        description: "ZoneId under [ZoneTransfer]: 0=Local machine, 1=Local intranet, 2=Trusted sites, 3=Internet, 4=Restricted sites. A value of 3 or 4 is the Mark-of-the-Web, indicating the file originated from an untrusted zone",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "host_url",
+        value_type: ValueType::Text,
+        description: "HostUrl (Windows 10+): the direct URL the file was downloaded from — direct attribution of a downloaded binary or document to its source",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "referrer_url",
+        value_type: ValueType::Text,
+        description: "ReferrerUrl (Windows 10+): the page or location from which the download was initiated (may reveal the delivery site even when HostUrl is a CDN or storage endpoint)",
+        is_uid_component: false,
+    },
+];
+
+/// NTFS `Zone.Identifier` alternate data stream — Mark-of-the-Web (MOTW).
+///
+/// Windows Attachment Manager writes a `Zone.Identifier` alternate data stream to
+/// files saved from an untrusted origin (web browsers, email clients, archive
+/// extraction). INI-formatted under `[ZoneTransfer]`, it carries the ZoneId plus,
+/// on Windows 10+, HostUrl and ReferrerUrl.
+///
+/// Source: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/
+/// Source: https://learn.microsoft.com/en-us/windows/win32/shell/attachment-manager
+pub static ZONE_IDENTIFIER: ArtifactDescriptor = ArtifactDescriptor {
+    id: "zone_identifier",
+    name: "NTFS Zone.Identifier ADS (Mark-of-the-Web)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"<any-file>:Zone.Identifier"),
+    scope: DataScope::User,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "An NTFS alternate data stream named 'Zone.Identifier' that Windows Attachment \
+Manager writes to files saved from an untrusted origin (browsers, email, archive extraction). \
+INI-formatted under [ZoneTransfer]: ZoneId (0=Local, 1=Intranet, 2=Trusted, 3=Internet, \
+4=Restricted) plus, on Windows 10+, HostUrl (the direct download URL) and ReferrerUrl (the \
+originating page). Presence with ZoneId 3 or 4 is the Mark-of-the-Web and proves the file was \
+downloaded from an untrusted zone; the URLs attribute a downloaded tool or malware to its source. \
+The stream is lost when the file is moved to a non-NTFS volume (FAT/exFAT/network) or when the \
+MOTW is deliberately stripped (right-click Unblock, PowerShell Unblock-File, or Remove-Item \
+-Stream), so absence does not prove local origin.",
+    mitre_techniques: &["T1553.005", "T1105"],
+    fields: ZONE_IDENTIFIER_FIELDS,
+    retention: Some("Persists with the file on NTFS until the file or the stream is removed; not carried to non-NTFS volumes"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["mft", "mft_file", "lnk_files"],
+    sources: &[
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/",
+        "https://learn.microsoft.com/en-us/windows/win32/shell/attachment-manager",
+    ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -8789,6 +8857,7 @@ pub static MEM_USER_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
 /// the descriptor's `sources` field. Archived source corpora are discovery input;
 /// they do not replace per-artifact attribution.
 pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
+    ZONE_IDENTIFIER,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
