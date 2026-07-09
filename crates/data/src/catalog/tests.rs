@@ -216,6 +216,38 @@ mod catalog_integrity {
         );
     }
 
+    /// NTFS directory-index ($I30) slack must be cataloged — the B-tree slack of a
+    /// directory's $INDEX_ALLOCATION retains removed entries' filenames, sizes and $FN
+    /// MACB set, so a deleted file's name survives Shift+Delete even after its $MFT
+    /// record is reused. The "$I30" name derives from the $FILE_NAME attribute type
+    /// (0x30) that the index sorts on. MFTECmd surfaces these as From Slack = true.
+    /// Sources: Carrier, File System Forensic Analysis ch.13; libyal libfsntfs; MFTECmd.
+    #[test]
+    fn ntfs_i30_index_slack_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "ntfs_i30_index")
+            .expect("ntfs_i30_index ($I30 directory-index slack) descriptor must be cataloged");
+        assert_eq!(
+            d.artifact_type,
+            ArtifactLocation::File,
+            "$I30 is read as an NTFS filesystem structure ($INDEX_ALLOCATION)"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "recovered_filename"),
+            "must expose recovered_filename (the deleted-name recovery value)"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "from_slack"),
+            "must expose the from_slack flag (MFTECmd From Slack = true)"
+        );
+        assert!(
+            d.meaning.contains("INDX"),
+            "meaning must name the INDX index-allocation signature"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
