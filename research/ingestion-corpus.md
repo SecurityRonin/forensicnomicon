@@ -6,7 +6,7 @@ Applied serially via TDD on `iwe-corrections` (each RED+GREEN committed). Update
 **Also shipped earlier this session (pre-corpus):** cdp_gdid, ntfs_i30_index, psexesvc_dropped_binary, psteal, pinfo, image_export, amcache_program, lsass_dump_file, zone_identifier, thumbs_db
 
 **Remaining confirmed NEW descriptors:** NONE — all 8 shipped ✅
-**Enrichments shipped (12/43):** fls, psort/L2tCsv, run_mru, muicache, mountpoints2, shimcache, evtx_ntlm, windows_search_db_win11, wordwheel_query, mounted_devices, thumbcache, pca_general_db ✅ (deferred: regedit_system_select — generated-stub conversion)
+**Enrichments shipped (13/43):** fls, psort/L2tCsv, run_mru, muicache, mountpoints2, shimcache, evtx_ntlm, windows_search_db_win11, wordwheel_query, mounted_devices, thumbcache, pca_general_db, usb_stor_enum ✅ (deferred: regedit_system_select)
 **Enrichments remaining (36):** windows_search_db_win11, evtx_ntlm, evtx_security(x3), fa_file..recentfilecache, evtx_rdp_client, usb_stor_enum, ntds_dit, edge_webcache, thumbcache, windows_timeline, evtx_system, mounted_devices, wordwheel_query, regedit_system_select, pca_general_db, src/shlink.rs(x3), mactime, mftecmd_body, log2timeline, and the EVENT_ID_TABLE/eventids.rs items (216/325/326/327, 4776, 4688, 104/1102, 4104) + lolbins ntdsutil — several eventids items tripped the cyber safeguard in the workflow, apply manually with defensive framing.
 
 **DEFERRED (structural, do in fresh context):** `regedit_system_select` — the existing
@@ -22,7 +22,7 @@ boot-menu removed Win8+, but os_scope is Win7Plus). Duplicate-id risk — do car
 **Remaining needs-fix NEW:** srum_app_timeline, file_carving, mem_extracted_pe_images, ntfs_objid, mem_access_tokens, ie_recovery_session, kansa_collection_output
 **Enrichments (43):** see sections below — apply after new descriptors.
 
-WATCH: some corpus specs set volatility:None WITH evidence_strength:Some — this violates the
+WATCH: NO braces {} in assert! message strings (parsed as format placeholders -> compile error; escape as {{}} or omit). WATCH: some corpus specs set volatility:None WITH evidence_strength:Some — this violates the
 catalog `assessed_entries_have_complete_metadata` invariant. Fix volatility at apply time
 (ntfs_ads needed this). 
 
