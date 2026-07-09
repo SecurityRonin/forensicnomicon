@@ -8849,6 +8849,73 @@ MOTW is deliberately stripped (right-click Unblock, PowerShell Unblock-File, or 
     volatility_rationale: "",
 };
 
+/// Field schema for the per-folder `Thumbs.db` OLE compound-file thumbnail cache.
+/// The XP-format Catalog stream indexes cached items by original filename + modified
+/// time; the modern network/UNC variant is OLE without the Catalog stream.
+/// Source: forensics.wiki Thumbs.db; libyal libolecf; Parsonage "Under My Thumbs".
+pub(crate) static THUMBS_DB_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "catalog_entry_filename",
+        value_type: ValueType::Text,
+        description: "Original filename of the cached item, recorded in the Thumbs.db Catalog stream (XP format). Recoverable even after the source file is deleted, so it proves the named file once existed in the folder",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "catalog_entry_modified",
+        value_type: ValueType::Timestamp,
+        description: "Modified time recorded for the catalog entry in the Catalog stream",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "catalog_entry_id",
+        value_type: ValueType::UnsignedInt,
+        description: "Catalog index / thumbnail identifier tying a Catalog entry to its thumbnail stream within the OLE compound file",
+        is_uid_component: false,
+    },
+];
+
+/// Thumbs.db — per-folder OLE compound-file thumbnail cache (Mark: distinct from the
+/// centralized `thumbcache`).
+///
+/// Source: https://forensics.wiki/thumbs.db/
+/// Source: https://github.com/libyal/libolecf
+/// Source: http://computerforensics.parsonage.co.uk/thumbs/thumbs.htm
+pub static THUMBS_DB: ArtifactDescriptor = ArtifactDescriptor {
+    id: "thumbs_db",
+    name: "Thumbs.db (per-folder thumbnail cache)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"<folder>\Thumbs.db"),
+    scope: DataScope::User,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "A hidden per-folder OLE compound-file thumbnail cache written by Windows Explorer in \
+each folder viewed in Thumbnails/Filmstrip mode. Default on Windows XP; on Vista+ the cache moved to \
+the centralized thumbcache_*.db, but a per-folder Thumbs.db is STILL created when a folder is reached \
+over the network or via a UNC path (for example \\\\localhost\\c$), so its presence on a modern system \
+is a behavioural fingerprint that the folder was accessed by a network path rather than normal local \
+browsing. The XP Catalog stream records each cached item's original filename and modified time; the \
+modern UNC variant is an OLE container without the Catalog stream. Cached thumbnails and metadata \
+survive deletion of the source files, so a Thumbs.db can prove a now-deleted image existed in the \
+folder. Decode with an OLE compound-file parser (e.g. Vinetto).",
+    mitre_techniques: &[],
+    fields: THUMBS_DB_FIELDS,
+    retention: Some("Persists in the folder until deleted or the folder is removed; may survive deletion of the images it cached"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["thumbcache", "mft", "recycle_bin"],
+    sources: &[
+        "https://forensics.wiki/thumbs.db/",
+        "https://github.com/libyal/libolecf",
+        "http://computerforensics.parsonage.co.uk/thumbs/thumbs.htm",
+    ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -8858,6 +8925,7 @@ MOTW is deliberately stripped (right-click Unblock, PowerShell Unblock-File, or 
 /// they do not replace per-artifact attribution.
 pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     ZONE_IDENTIFIER,
+    THUMBS_DB,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
