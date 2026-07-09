@@ -384,6 +384,32 @@ mod catalog_integrity {
         );
     }
 
+    /// Generic NTFS Alternate Data Stream must be cataloged — a named $DATA attribute
+    /// (`<file>:<stream>:$DATA`), distinct from the specific zone_identifier MOTW ADS.
+    /// Presence is a filesystem fact; benign-vs-malicious is inferred from the stream
+    /// name + bytes. Sources: [MS-FSCC] NTFS Streams; MITRE T1564.004.
+    #[test]
+    fn ntfs_ads_generic_stream_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "ntfs_ads")
+            .expect("ntfs_ads (generic named $DATA stream) descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.file_path.unwrap_or_default().contains(":$DATA"),
+            "file_path must reference the :$DATA stream form"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "stream_name"),
+            "must expose stream_name"
+        );
+        assert!(
+            d.mitre_techniques.contains(&"T1564.004"),
+            "must map to T1564.004 (Hide Artifacts: NTFS File Attributes)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
