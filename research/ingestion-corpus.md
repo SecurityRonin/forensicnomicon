@@ -1,3 +1,20 @@
+## Application Progress
+
+Applied serially via TDD on `iwe-corrections` (each RED+GREEN committed). Update as items ship.
+
+**Shipped from corpus:** emdmgmt_readyboost ✅, ntfs_ads ✅
+**Also shipped earlier this session (pre-corpus):** cdp_gdid, ntfs_i30_index, psexesvc_dropped_binary, psteal, pinfo, image_export, amcache_program, lsass_dump_file, zone_identifier, thumbs_db
+
+**Remaining confirmed NEW descriptors:** mem_findevil, photorec_recup_dir, ntfs_reparse_point, wzcsvc_wireless_interfaces, pca_general_db1, ntfs_macb_rules
+**Remaining needs-fix NEW:** srum_app_timeline, file_carving, mem_extracted_pe_images, ntfs_objid, mem_access_tokens, ie_recovery_session, kansa_collection_output
+**Enrichments (43):** see sections below — apply after new descriptors.
+
+WATCH: some corpus specs set volatility:None WITH evidence_strength:Some — this violates the
+catalog `assessed_entries_have_complete_metadata` invariant. Fix volatility at apply time
+(ntfs_ads needed this). 
+
+---
+
 # IWE + GCFA Ingestion Corpus (source-verified)
 
 Generated from the `iwe-gcfa-ingestion` workflow (run wf_7b8f95ec-847). Each spec was
