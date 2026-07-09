@@ -134,6 +134,31 @@ mod catalog_integrity {
         );
     }
 
+    /// Zone.Identifier / Mark-of-the-Web ADS must be cataloged: presence with
+    /// ZoneId 3/4 proves a file was downloaded from an untrusted origin, and (Win10+)
+    /// HostUrl attributes it to a source URL. Source: MS-FSCC named streams,
+    /// Microsoft Attachment Manager.
+    #[test]
+    fn zone_identifier_motw_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "zone_identifier")
+            .expect("zone_identifier (Mark-of-the-Web) descriptor must be cataloged");
+        assert!(
+            d.file_path.unwrap_or_default().contains("Zone.Identifier"),
+            "file_path must reference the Zone.Identifier ADS"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "zone_id"),
+            "must expose the zone_id field"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "host_url"),
+            "must expose the host_url field (download attribution)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
