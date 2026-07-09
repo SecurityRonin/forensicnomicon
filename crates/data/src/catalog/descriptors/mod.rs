@@ -5878,8 +5878,14 @@ pub static EDGE_WEBCACHE: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::User,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "ESE database recording all IE/Edge Legacy web history, downloads, and cached \
-              content; reveals browsing patterns and potential data exfiltration URLs.",
+    meaning: "ESE (JET Blue) database recording IE / Edge Legacy web activity, organised into \
+named containers by the Containers master table, each mapped to a Container_<id> table: History \
+(navigated URLs), Content (cache metadata), Cookies (per-container CookieEntryEx_<id> tables holding \
+cookie name/value/domain/expiry), iedownload (download records), DOMStore, plus per-day MSHist* \
+history containers; LeakFiles tracks orphaned cache files. The History container stores the raw \
+navigated URL verbatim, INCLUDING file:///C:/folder/file entries for local and network file opens via \
+Explorer/IE — evidence of local file access, not only web browsing. Reveals browsing patterns, \
+downloads, cookie origins, and locally-opened files.",
     mitre_techniques: &["T1539", "T1217"],
     fields: FILE_PATH_FIELDS,
     retention: None,
@@ -5888,9 +5894,16 @@ pub static EDGE_WEBCACHE: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/EricZimmerman/SQLECmd",
         "https://www.sans.org/blog/digital-forensics-windows-browser-artifacts/",
+        // plaso msie_webcache.py — byte-level container/table map (Containers, Container_#, CookieEntryEx_#):
+        "https://github.com/log2timeline/plaso/blob/main/plaso/parsers/esedb_plugins/msie_webcache.py",
+        // libyal libesedb — ESE database format reference:
+        "https://github.com/libyal/libesedb",
     ],
     evidence_strength: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "Recent activity may reside in the V01.log / V01nnnn.log transaction logs (with V01.chk) rather than in WebCacheV01.dat until a clean shutdown flushes them; the .dat is locked live by taskhostw and is often 'dirty' when copied, requiring esentutl /r recovery before parsing",
+        "The History container records all navigation URLs including file:///C:/folder/file — this is evidence of local/network file access via the shell/IE, distinct from web browsing, and should not be read as internet activity",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
