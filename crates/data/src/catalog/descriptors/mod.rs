@@ -3208,33 +3208,62 @@ pub static WINDOWS_SEARCH_DB_WIN11: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win11_22H2,
     decoder: Decoder::Identity,
-    meaning: "Win11 22H2+ replacement for Windows.edb. Same forensic value — \
-              gather_time independent of NTFS timestamps — but SQLite3 format. \
-              Different path: note 'Search' (not 'Windows Search') and 'windows.db' (lowercase). \
-              Check for both files on Win11 systems.",
+    meaning: "Win11 22H2+ replacement for Windows.edb. Same forensic value — gather_time \
+independent of NTFS timestamps — but SQLite3. The index is SPLIT across THREE co-resident \
+SQLite files in C:\\ProgramData\\Microsoft\\Search\\Data\\Applications\\Windows\\: windows.db \
+(property store — SystemIndex_1_PropertyStore, one row per property, WorkId join key), \
+Windows-gather.db (the gatherer DB, HIGHEST value — SystemIndex_Gthr holds FileName, \
+LastModified/GatherTime, ScopeID, DocumentID; SystemIndex_GthrPth + ScopeID reconstructs the \
+full path; WorkId in windows.db maps to DocumentID here), and Windows-usn.db (little/no \
+forensic value). Collect ALL THREE — the filename/path/gather-time evidence lives in \
+Windows-gather.db, NOT windows.db, so grabbing only windows.db loses it.",
     mitre_techniques: &["T1070.004", "T1070.006"],
     fields: &[
         FieldSchema {
             name: "file_path",
             value_type: ValueType::Text,
-            description: "Indexed file or folder path",
+            description: "Indexed file or folder path — reconstructed from Windows-gather.db SystemIndex_Gthr.FileName joined with SystemIndex_GthrPth via ScopeID (NOT windows.db)",
             is_uid_component: true,
         },
         FieldSchema {
             name: "gather_time",
             value_type: ValueType::Timestamp,
-            description: "Last indexed time — independent of NTFS timestamps",
+            description: "Last indexed time (SIDR: System_Search_GatherTime) from Windows-gather.db SystemIndex_Gthr.LastModified — independent of NTFS timestamps",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "document_id",
+            value_type: ValueType::UnsignedInt,
+            description: "Per-object UID (SystemIndex_Gthr.DocumentID); joins to WorkId in windows.db's SystemIndex_1_PropertyStore",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "scope_id",
+            value_type: ValueType::UnsignedInt,
+            description: "Parent-scope link (SystemIndex_Gthr.ScopeID) used with SystemIndex_GthrPth to reconstruct the full path",
             is_uid_component: false,
         },
     ],
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["windows_search_edb", "mft", "usnjrnl"],
-    sources: &["https://github.com/kacos2000/WinEDB"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    sources: &[
+        "https://github.com/kacos2000/WinEDB",
+        // AON / Trustwave-SpiderLabs RE: the three co-resident files + table/column layout:
+        "https://www.levelblue.com/blogs/spiderlabs-blog/windows-search-index-the-forensic-artifact-youve-been-searching-for/",
+        // Securelist/Kaspersky RE: corroborates the three-file split + SystemIndex_Gthr columns:
+        "https://securelist.com/forensic-artifacts-in-windows-11/117680/",
+        // SIDR (Stroz Friedberg) — parses windows.db SQLite, surfaces System_Search_GatherTime:
+        "https://github.com/strozfriedberg/sidr",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Win11 Search splits across THREE co-resident SQLite files (windows.db, Windows-gather.db, Windows-usn.db) in the same Applications\\Windows dir; collect all three — filename/path/gather-time evidence is in Windows-gather.db, not windows.db",
+        "Windows-usn.db has little forensic value and is excluded from most write-ups; collect for completeness, analyse gather.db + windows.db",
+        "gather_time is a present-on-system / last-indexed indicator independent of NTFS timestamps — consistent with a file having been present and indexed, not proof of a specific access",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "On-disk SQLite index files; persist until the index is rebuilt or the files are deleted",
 };
 
 /// PowerShell PSReadLine command history (T1059.001).
