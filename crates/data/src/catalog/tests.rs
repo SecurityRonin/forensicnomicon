@@ -695,6 +695,28 @@ mod catalog_integrity {
         );
     }
 
+    /// WordWheelQuery must carry the derived-timestamp rule: the key LastWrite dates
+    /// ONLY the most-recent term (first MRUListEx element, most-recent-first); older
+    /// searches are recovered by correlating with user-search LNK files. Sources:
+    /// Mandiant "The Missing LNK"; RegRipper wordwheelquery.pl.
+    #[test]
+    fn wordwheel_query_documents_timestamp_limit() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "wordwheel_query")
+            .expect("wordwheel_query descriptor must exist");
+        let caveats = d.evidence_caveats.join(" ");
+        assert!(
+            caveats.contains("MRUListEx") && caveats.contains("most-recent"),
+            "must document the MRUListEx most-recent-first ordering + single-term LastWrite rule"
+        );
+        assert!(
+            d.related_artifacts.contains(&"lnk_files"),
+            "must relate to lnk_files (the older-search recovery correlation)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
