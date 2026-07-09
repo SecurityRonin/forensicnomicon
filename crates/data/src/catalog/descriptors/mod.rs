@@ -3174,11 +3174,19 @@ pub static WINDOWS_TIMELINE: ArtifactDescriptor = ArtifactDescriptor {
         "https://aboutdfir.com/windows-10-timeline/",
         "http://windowsir.blogspot.com/2019/11/activitescachedb-vs-ntuserdat.html",
         "https://github.com/EricZimmerman/WxTCmd",
+        // Microsoft — Windows activity history & your privacy (Win11 local-storage statement):
+        "https://support.microsoft.com/en-us/windows/windows-activity-history-and-your-privacy-2b279964-44ec-8c2f-e0c2-6779b07d2cbd",
+        // Microsoft — Get help with Timeline (Timeline retired in Win11, remains on Win10; 2021 MSA-sync deprecation):
+        "https://support.microsoft.com/en-us/windows/get-help-with-timeline-febc28db-034c-d2b0-3bbe-79adc0f7f513",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Windows 11 retired the Timeline user experience (Task View no longer shows activity history); it remains only on Windows 10. Local activity history is still stored on-device when the Activity History setting is enabled, so ActivitiesCache.db can still exist on Windows 11 — its absence from Task View is a UI change, not deletion (Microsoft: activity-history privacy page)",
+        "Cross-device sync history: local upload to a Microsoft account was deprecated in 2021 (the July-2021 month is per kacos2000's WindowsTimeline research; Microsoft documents only the year), and the send-to-Microsoft toggle was removed entirely on 23 Jan 2024 (KB5034204 for Win11 22H2/23H2, KB5034203 for Win10 22H2)",
+        "Forensic bottom line — NOT exculpatory: on Windows 11 the on-device ActivitiesCache.db is commonly sparse, with rich application/file-execution history no longer populated; surviving entries are typically clipboard (ActivityType 10 = clipboard text present; ActivityType 16 = copy-vs-paste indicator) plus minimal system activity. A sparse or missing ActivitiesCache.db on Windows 11 is the expected, documented consequence of the Timeline deprecation — it does NOT indicate anti-forensic deletion or that the user was inactive. Check ActivitiesCache.db-wal for buffered/deleted entries. (The clipboard-only population pattern is a DFIR-community observation — inversecos, Cellebrite — not vendor-documented; treat as observed, not proven)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "On-disk SQLite updated as the user works; entries persist (with a -wal buffer) until pruned or the DB is cleared",
 };
 
 /// Windows Timeline DeviceCache registry — resolves PlatformDeviceId GUIDs to names.
