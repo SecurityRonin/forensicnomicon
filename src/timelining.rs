@@ -579,6 +579,20 @@ mod tests {
         assert_eq!(fls.output_format, TimelineOutputFormat::Bodyfile);
     }
 
+    /// A whole-disk image fails fls auto-detect ("Cannot determine file system type")
+    /// and -f does not fix it (fls still reads sector 0); the fix is spatial — mmls
+    /// then -o <start-sector>. The caveat must carry this so an analyst is not misled
+    /// into forcing -f. Source: TSK fls/mmls usage.
+    #[test]
+    fn fls_caveat_covers_whole_disk_offset() {
+        let t = tool_by_id("fls").unwrap();
+        let all = t.caveats.join(" ");
+        assert!(
+            all.contains("mmls") && all.contains("-o"),
+            "fls caveats must document the whole-disk mmls + -o <sector> offset fix"
+        );
+    }
+
     #[test]
     fn log2timeline_caveat_mentions_wsl_path() {
         let t = tool_by_id("log2timeline").unwrap();
