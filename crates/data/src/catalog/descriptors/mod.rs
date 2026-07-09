@@ -9457,6 +9457,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     windows_registry_ext::USER_ACCOUNT_SID,
     windows_registry_ext::TERMINAL_SERVER_CLIENT_SERVERS,
     windows_registry_ext::INTERNET_EXPLORER_TYPED_URLS,
+    windows_registry_ext::EMDMGMT_READYBOOST,
     // Extended Windows EVTX artifacts (windows_evtx_ext)
     windows_evtx_ext::EVTX_TASK_SCHEDULER,
     windows_evtx_ext::EVTX_RDP_CLIENT,

@@ -849,3 +849,71 @@ pub(crate) static INTERNET_EXPLORER_TYPED_URLS: ArtifactDescriptor = ArtifactDes
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Updated per user URL typing; FIFO eviction as new URLs are typed",
 };
+
+/// EMDMgmt / ReadyBoost external-device volume cache — USB iSerialNumber ↔ volume
+/// serial number (VSN) linkage.
+///
+/// Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/install/guid-devinterface-disk (GUID_DEVINTERFACE_DISK embedded in subkey names)
+/// Source: https://github.com/woanware/usbdeviceforensics/blob/master/usbdeviceforensics.py (parse oracle: key path, subkey format, decimal VSN)
+/// Source: https://github.com/keydet89/RegRipper3.0/blob/master/plugins/emdmgmt.pl (second independent parse oracle)
+pub(crate) static EMDMGMT_READYBOOST: ArtifactDescriptor = ArtifactDescriptor {
+    id: "emdmgmt_readyboost",
+    name: "EMDMgmt / ReadyBoost External Device Volume Cache",
+    artifact_type: ArtifactLocation::RegistryKey,
+    hive: Some(HiveTarget::HklmSoftware),
+    key_path: "Microsoft\\Windows NT\\CurrentVersion\\EMDMgmt",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "EMDMgmt (External Memory Device Management) is the registry store written by the \
+ReadyBoost service (Emdmgmt.dll). When a non-system-drive external volume is attached, ReadyBoost \
+profiles it and writes a subkey whose NAME embeds three forensically valuable fields: the device \
+instance ID (e.g. _??_USBSTOR#Disk&Ven_...#<iSerialNumber>#), the GUID_DEVINTERFACE_DISK class GUID \
+{53F56307-B6BF-11D0-94F2-00A0C91EFB8B}, the volume label, then the volume serial number in DECIMAL. \
+It is one of the few registry locations (besides MountedDevices/MountPoints) that ties a device's \
+USB iSerialNumber to a volume serial number (VSN), letting an examiner correlate the device to VSNs \
+recorded in LNK files and Jump Lists — decisive when a drive letter has been reused across several \
+devices. The same iSerialNumber appearing with multiple different VSNs is consistent with the volume \
+having been reformatted (a new VSN is generated on each format).",
+    mitre_techniques: &["T1052.001", "T1025"],
+    fields: &[
+        FieldSchema {
+            name: "device_instance_id",
+            value_type: ValueType::Text,
+            description: "USBSTOR/USB device instance ID embedded in the subkey name, including enumerator prefix, vendor/product/revision, and iSerialNumber",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "volume_label",
+            value_type: ValueType::Text,
+            description: "Volume label string, taken from the subkey name between the disk class GUID and the trailing underscore",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "volume_serial_number",
+            value_type: ValueType::Text,
+            description: "Volume serial number (VSN), stored in DECIMAL as the final underscore-delimited component of the subkey name; convert to hex (XXXX-XXXX) to match VSNs in LNK/Jump List records",
+            is_uid_component: true,
+        },
+    ],
+    retention: Some("Persists after device removal; entries are not cleared automatically"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["usb_stor_enum", "mounted_devices", "lnk_files", "setupapi_dev_log"],
+    sources: &[
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/install/guid-devinterface-disk",
+        "https://github.com/woanware/usbdeviceforensics/blob/master/usbdeviceforensics.py",
+        "https://github.com/keydet89/RegRipper3.0/blob/master/plugins/emdmgmt.pl",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Volume serial number is stored in DECIMAL in the subkey name — convert to hex (compare as XXXX-XXXX) before matching against LNK/Jump List VSNs",
+        "Populated only by the ReadyBoost service, which Windows DISABLES when the system drive is an SSD or is deemed fast enough; an absent or empty key on such systems is EXPECTED and is NOT evidence of tampering/anti-forensics",
+        "ReadyBoost was removed in Windows 11 22H2, so the key may be unpopulated on that build and later regardless of drive type",
+        "Records non-system EXTERNAL volumes broadly (USB, eSATA, FireWire, non-system local disks) — not USB-only; MTP/PTP devices (phones, cameras) are not captured",
+        "Corroborate with USBSTOR, MountedDevices, setupapi.dev.log, and Microsoft-Windows-Partition/Diagnostic; do not treat EMDMgmt absence in isolation as an investigative conclusion",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry subkeys survive device removal and reboot until manually deleted",
+};
