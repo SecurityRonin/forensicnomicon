@@ -150,7 +150,8 @@ pub enum TimelineOutputFormat {
     Bodyfile,
     /// Plaso binary store (`.plaso`); post-process with `psort.py`.
     PlasoStore,
-    /// L2T CSV — human-readable, sortable by `psort.py -o l2tcsv`.
+    /// L2T CSV — legacy/deprecated in Plaso (second-only timestamps, fixed 17 fields);
+    /// superseded by the 'dynamic' module. Readable by Timeline Explorer.
     L2tCsv,
     /// CSV output from `mactime`.
     MacTimeCsv,
@@ -244,7 +245,7 @@ pub static TIMELINE_TOOLS: &[TimelineTool] = &[
         command: "psort.py -o l2tcsv {OUTPUT}.plaso > supertimeline.csv",
         output_format: TimelineOutputFormat::L2tCsv,
         caveats: &[
-            "-o l2tcsv produces the legacy fixed 17-field L2T CSV format readable by Timeline Explorer; plaso's default module is 'dynamic', which supports customizable fields",
+            "-o l2tcsv is DEPRECATED in Plaso (member of _DEPRECATED_OUTPUT_FORMATS); psort/psteal print a user-warning that it has 'significant limitations such as second-only date and time values and/or a limited predefined set of output fields' and recommend 'dynamic'. It emits a fixed 17-field row (date, time, timezone, MACB, source, sourcetype, type, user, host, short, desc, version, filename, inode, notes, format, extra) at second-only resolution — so sub-second ordering of near-simultaneous events is LOST. Prefer -o dynamic; l2tcsv only when a tool requires the legacy Timeline Explorer 17-field layout",
             "Apply --slice and --slice_size to focus on a time window and reduce noise",
             "Use pinfo.py first to inspect the .plaso store for parser warnings and event counts",
         ],
