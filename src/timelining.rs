@@ -157,6 +157,12 @@ pub enum TimelineOutputFormat {
     /// Plaso "dynamic" CSV — the psort/psteal default module, with customizable
     /// columns (written directly by `psteal.py -o dynamic -w timeline.csv`).
     DynamicCsv,
+    /// Textual metadata report about a `.plaso` store (event counts, time range,
+    /// parsers, warnings) written to stdout by `pinfo.py`; not a timeline.
+    StoreReport,
+    /// Files carved out of a storage-media image to an output directory by
+    /// `image_export.py` (with a `hashes.json` manifest); targeted collection, not a timeline.
+    ExtractedFiles,
 }
 
 /// A timelining tool with its scope and canonical command template.
@@ -273,6 +279,43 @@ pub static TIMELINE_TOOLS: &[TimelineTool] = &[
              legacy fixed 17-field format Timeline Explorer expects",
             "-o list enumerates the available output modules (same set as psort.py)",
             "Same WSL path caveats as log2timeline: use /mnt/... notation, not C:\\ paths",
+        ],
+    },
+    TimelineTool {
+        id: "pinfo",
+        name: "Plaso — pinfo.py",
+        covers: "Inspection: reports .plaso store metadata — how it was collected, total \
+                 event count, earliest/latest event timestamps, the parsers/data-source \
+                 types that ran, and processing warnings/errors",
+        command: "pinfo.py {OUTPUT}.plaso",
+        output_format: TimelineOutputFormat::StoreReport,
+        caveats: &[
+            "Sanity check before psort: a 0-event count, a wrong time range, or parser \
+             warnings reveal a failed or partial extraction before you build a timeline",
+            "--compare old.plaso new.plaso diffs two stores (versions, counters) — useful \
+             to confirm two runs over the same source agree",
+            "--output_format json emits a machine-readable report; --sections limits output",
+            "Inspection only — it reads a store and never modifies it or produces a timeline",
+        ],
+    },
+    TimelineTool {
+        id: "image_export",
+        name: "Plaso — image_export.py",
+        covers: "Targeted collection: exports files from a storage-media image (RAW or \
+                 inside VSS) by filter — extension (-x), filename (--names), file-format \
+                 signature (--signatures), path (-f), or creation date range (--date-filter) \
+                 — to isolate evidence from a large dataset; not timelining",
+        command: "image_export.py -w output_dir --signatures esedb,lnk {IMAGE}",
+        output_format: TimelineOutputFormat::ExtractedFiles,
+        caveats: &[
+            "Extraction, not timelining — use it to pull files of interest, then process \
+             those with log2timeline/other tools",
+            "By default a SHA-256 is computed per file and duplicates are skipped; a \
+             hashes.json manifest is written unless --no_hashes, and --include_duplicates keeps dupes",
+            "--signatures list shows supported file-format signatures; --enable_artifacts_map \
+             writes a JSON map of extracted files to artifact definitions",
+            "Filter paths use the same targeted-filter syntax as a plaso collection filter; \
+             --partitions / --vss_stores select where to look",
         ],
     },
 ];
@@ -463,6 +506,8 @@ mod tests {
         assert!(ids.contains(&"psort"), "missing psort");
         assert!(ids.contains(&"mftecmd_body"), "missing mftecmd_body");
         assert!(ids.contains(&"psteal"), "missing psteal");
+        assert!(ids.contains(&"pinfo"), "missing pinfo");
+        assert!(ids.contains(&"image_export"), "missing image_export");
     }
 
     #[test]
