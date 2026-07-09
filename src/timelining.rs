@@ -496,6 +496,38 @@ mod tests {
         );
     }
 
+    /// pinfo inspects a .plaso store (event counts, time range, parsers, warnings) and
+    /// image_export extracts files from an image by filter. Both are plaso toolchain
+    /// members that do not emit a timeline, so they round out the plaso tool set.
+    /// Source: plaso.readthedocs.io (Using-pinfo, Using-image_export).
+    #[test]
+    fn tool_by_id_pinfo_and_image_export() {
+        let pinfo = tool_by_id("pinfo").expect("pinfo (.plaso store inspection) must exist");
+        assert!(pinfo.command.contains("pinfo"), "command must invoke pinfo");
+        assert!(
+            pinfo.covers.to_lowercase().contains("metadata")
+                || pinfo.covers.to_lowercase().contains("inspect"),
+            "pinfo must describe store inspection / metadata"
+        );
+        assert_ne!(
+            pinfo.output_format,
+            TimelineOutputFormat::PlasoStore,
+            "pinfo reads a .plaso store; it does not produce one"
+        );
+
+        let ie =
+            tool_by_id("image_export").expect("image_export (targeted file extraction) must exist");
+        assert!(
+            ie.command.contains("image_export"),
+            "command must invoke image_export"
+        );
+        assert!(
+            ie.covers.to_lowercase().contains("extract")
+                || ie.covers.to_lowercase().contains("collect"),
+            "image_export must describe targeted file extraction/collection"
+        );
+    }
+
     #[test]
     fn fls_output_is_bodyfile() {
         let fls = tool_by_id("fls").unwrap();
