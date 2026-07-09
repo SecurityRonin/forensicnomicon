@@ -692,21 +692,35 @@ pub(crate) static USB_STOR_ENUM: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Complete USB storage device connection history: device type, vendor, model, serial number, and first/last connection timestamps (via setupapi log correlation). The primary artifact for USB data theft investigations — persists after device removal.",
+    meaning: "Complete USB storage device connection history: device type, vendor, model, serial number, and per-device connection timestamps. On Windows 8+ the connect/disconnect times are stored directly under USBSTOR\\<device>\\<serial>\\Properties\\{83da6326-97a6-4088-9453-a1923f573b29}\\ as decimal-named subkeys 0064-0067 (hex 0x64-0x67), each a REG_BINARY little-endian FILETIME and all documented DEVPKEYs (DEVPROP_TYPE_FILETIME): 0064 InstallDate, 0065 FirstInstallDate, 0066 LastArrivalDate (last connect), 0067 LastRemovalDate (last disconnect). setupapi.dev.log remains the corroborating first-install source. The primary artifact for USB data theft investigations — persists after device removal.",
     mitre_techniques: &["T1052.001", "T1025"],
     fields: &[
         FieldSchema { name: "device_id", value_type: ValueType::Text, description: "USB device instance ID including serial number", is_uid_component: true },
         FieldSchema { name: "friendly_name", value_type: ValueType::Text, description: "Vendor and model string", is_uid_component: false },
+        FieldSchema { name: "install_date", value_type: ValueType::Timestamp, description: "DEVPKEY_Device_InstallDate (property 0x64, FILETIME) — when the device driver was installed on this machine (present on Win7 under the nested {GUID}\\00xx\\00000000\\Data path; flattened to Properties\\{GUID}\\0064 on Win8+)", is_uid_component: false },
+        FieldSchema { name: "first_install_date", value_type: ValueType::Timestamp, description: "DEVPKEY_Device_FirstInstallDate (property 0x65, FILETIME) — first time this device was connected to this machine; present since Windows 7 (nested path pre-Win8, flattened on Win8+)", is_uid_component: false },
+        FieldSchema { name: "last_arrival_date", value_type: ValueType::Timestamp, description: "DEVPKEY_Device_LastArrivalDate (property 0x66, FILETIME) — the authoritative LAST-CONNECT time; a Windows 8+ addition", is_uid_component: false },
+        FieldSchema { name: "last_removal_date", value_type: ValueType::Timestamp, description: "DEVPKEY_Device_LastRemovalDate (property 0x67, FILETIME) — the last DISCONNECT time; a Windows 8+ addition", is_uid_component: false },
     ],
     retention: Some("Persists until device entry is manually deleted"),
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &["usb_enum", "portable_devices", "setupapi_dev_log"],
+    related_artifacts: &["usb_enum", "portable_devices", "setupapi_dev_log", "mountpoints2", "mounted_devices"],
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
         "https://www.sans.org/blog/computer-forensic-guide-to-profiling-usb-device-thumbdrives-on-win7-xp-2003/",
+        // Microsoft Windows 10 SDK devpkey.h — GUID {83da6326-...} + property IDs 0x64-0x67 = DEVPROP_TYPE_FILETIME:
+        "https://github.com/tpn/winsdk-10/blob/master/Include/10.0.16299.0/shared/devpkey.h",
+        // Yogesh Khatri — RE writeup: forensic Last-Insertion/Last-Removal meaning + Win8 introduction:
+        "https://www.swiftforensics.com/2013/11/windows-8-new-registry-artifacts-part-1.html",
+        // libyal winreg-kb — Enum\USBSTOR\...\Properties layout RE reference:
+        "https://github.com/libyal/winreg-kb/blob/main/documentation/USB%20storage%20device%20keys.asciidoc",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
-    evidence_caveats: &["Device serial numbers persist; device may have been removed"],
+    evidence_caveats: &[
+        "Device serial numbers persist; device may have been removed",
+        "Last-connect three-source corroboration: 0066 LastArrivalDate (documented FILETIME) is the authoritative last-connect; it should agree with the LastWrite time of the USBSTOR\\<device>\\<serial> subkey and the LastWrite of the per-user NTUSER MountPoints2 subkey for the same volume GUID (which also attributes the connection to a specific user). Registry subkey LastWrite times are corroborative (any write updates them), not equal in precision to the 0066 FILETIME",
+        "The FLAT Properties\\{GUID}\\0064-0067 layout is Windows 8+; on Windows 7 InstallDate/FirstInstallDate live under the nested {GUID}\\00xx\\00000000\\Data path, and LastArrivalDate/LastRemovalDate (0066/0067) are Win8 additions — on Win7/XP fall back to USBSTOR subkey LastWrite plus setupapi.dev.log for first-connect",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Registry key; survives device removal",
 };
