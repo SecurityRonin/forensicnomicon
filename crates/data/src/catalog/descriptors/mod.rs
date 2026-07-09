@@ -349,6 +349,51 @@ pub static PCA_GENERAL_DB: ArtifactDescriptor = ArtifactDescriptor {
     volatility_rationale: "",
 };
 
+/// PCA PcaGeneralDb1.txt — the rotating SECONDARY of the abnormal-exit log pair.
+///
+/// Sibling of `pca_general_db` (Db0). Db0 is primary until it reaches 2 MB (2×10^6
+/// bytes); the secondary (Db1) is then cleared, becomes the new primary, and the cycle
+/// repeats — so the pair retains ~2-4 MB of history. Same UTF-16LE/CRLF pipe-delimited
+/// format as Db0. A collector keyed only on Db0 silently loses Db1's older window.
+///
+/// Source: https://www.sygnia.co/blog/new-windows-11-pca-artifact/ (RE: rotation, 2 MB threshold, encoding, 8-field layout)
+/// Source: https://windowsir.blogspot.com/2024/02/pcaparse.html (Carvey PCAParse — parses the pca folder pair)
+pub static PCA_GENERAL_DB1: ArtifactDescriptor = ArtifactDescriptor {
+    id: "pca_general_db1",
+    name: "PCA PcaGeneralDb1.txt",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"C:\Windows\appcompat\pca\PcaGeneralDb1.txt"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win11_22H2,
+    decoder: Decoder::Identity,
+    meaning: "Secondary/rotating half of the Program Compatibility Assistant abnormal-exit log pair. \
+PcaGeneralDb0.txt is the primary file and PcaGeneralDb1.txt the secondary; new records go to whichever \
+is primary until it reaches 2 MB (2x10^6 bytes), at which point the secondary is cleared and becomes \
+the new primary and the cycle repeats — so 2-4 MB of historical data is retained across the pair. Same \
+record format and encoding as Db0 (UTF-16LE, CRLF, one pipe-delimited record per line). Frequently \
+empty or sparse (a clean-install Win11 Pro VM did not populate Db1 at all, while a real-use machine \
+populated it, less than Db0). Must be collected and parsed alongside Db0 to avoid losing the older \
+rotation window. No user attribution is recorded in the file itself — correlate with EVTX / EDR \
+telemetry to assign activity to a user.",
+    mitre_techniques: &["T1059", "T1204.002"],
+    fields: PCA_GENERAL_DB_FIELDS_SCHEMA,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["pca_general_db", "pca_applaunch_dic"],
+    sources: &[
+        "https://www.sygnia.co/blog/new-windows-11-pca-artifact/",
+        "https://windowsir.blogspot.com/2024/02/pcaparse.html",
+        "https://aboutdfir.com/new-windows-11-pro-22h2-evidence-of-execution-artifact/",
+    ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
+};
+
 /// Windows `hosts` file (`C:\Windows\System32\drivers\etc\hosts`).
 ///
 /// Static name → IP mapping consulted *before* DNS in Microsoft's TCP/IP
@@ -9549,6 +9594,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     TYPED_URLS_TIME,
     PCA_APPLAUNCH_DIC,
     PCA_GENERAL_DB,
+    PCA_GENERAL_DB1,
     WINDOWS_HOSTS_FILE,
     DNS_POLICY_CONFIG_NRPT,
     IFEO_DEBUGGER,
