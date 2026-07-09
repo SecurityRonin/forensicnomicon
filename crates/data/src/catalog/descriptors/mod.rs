@@ -8993,6 +8993,98 @@ also has an anonymous device path, so a GDID can exist without a Microsoft Accou
     volatility_rationale: "Server-backed device PUID persisted in NTUSER.DAT; survives local deletion (re-fetched from Microsoft) and OS updates",
 };
 
+pub(crate) static NTFS_I30_INDEX_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "recovered_filename",
+        value_type: ValueType::Text,
+        description: "Filename of a removed directory entry recovered from B-tree slack in the $INDEX_ALLOCATION. Because the entry is a copy of the file's $FILE_NAME attribute, it survives Shift+Delete and $MFT-record reuse — often the only proof a now-deleted file once existed in the folder",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "from_slack",
+        value_type: ValueType::Bool,
+        description: "True when the entry was carved from index slack (a stale entry left behind by B-tree node splits/merges) rather than read from the live index. MFTECmd reports this as 'From Slack' = true",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "fn_macb",
+        value_type: ValueType::Timestamp,
+        description: "The four $FILE_NAME timestamps (Created / Modified / MFT-modified / Accessed) preserved in the slack entry. These are the $FN set — set at file creation and harder to spoof than $STANDARD_INFORMATION — reflecting state when the entry was written, not the deletion time",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "logical_size",
+        value_type: ValueType::UnsignedInt,
+        description: "Logical file size recorded in the slack $FILE_NAME entry; corroborates the recovered filename and can differ from any surviving $DATA run",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "parent_reference",
+        value_type: ValueType::Text,
+        description: "MFT reference (entry number + sequence) of the parent directory whose $I30 index holds this entry, locating where the deleted file resided",
+        is_uid_component: false,
+    },
+];
+
+/// NTFS directory index ($I30) slack — deleted-filename recovery from B-tree slack.
+///
+/// A directory's filename index is named `$I30` after the $FILE_NAME attribute type
+/// code (0x30) it sorts on. It is a virtual view of three attributes on the
+/// directory's $MFT record: $INDEX_ROOT (0x90, the resident B-tree root),
+/// $INDEX_ALLOCATION (0xA0, non-resident INDX blocks — each begins with the "INDX"
+/// signature), and $BITMAP (0xB0, which INDX blocks are in use). B-tree rebalancing
+/// (node splits/merges on add/remove) leaves *slack* — stale entry copies — distinct
+/// from file slack. Each entry is a copy of a file's $FILE_NAME attribute, so a
+/// removed file's name, logical size and $FN MACB set survive in slack even after
+/// Shift+Delete and reuse of its $MFT record. Complements $MFT recovery: it can name
+/// a file whose $MFT entry is already overwritten.
+///
+/// Source: Brian Carrier, "File System Forensic Analysis" (2005) ch.13 — NTFS indexes,
+///         B-trees and $INDEX_ALLOCATION (authoritative reference).
+/// Source: https://github.com/libyal/libfsntfs — index entry / $INDEX_ALLOCATION layout.
+/// Source: https://github.com/EricZimmerman/MFTECmd — surfaces slack entries (From Slack).
+pub static NTFS_I30_INDEX: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ntfs_i30_index",
+    name: "NTFS Directory Index ($I30) slack",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"<NTFS directory>:$I30:$INDEX_ALLOCATION"),
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "The filename index of an NTFS directory ($I30, named after the $FILE_NAME \
+attribute type 0x30). It is a B-tree spread across the directory's $INDEX_ROOT (0x90, \
+resident root), $INDEX_ALLOCATION (0xA0, non-resident blocks each starting with the INDX \
+signature) and $BITMAP (0xB0). Node splits and merges during add/remove leave slack — stale \
+copies of entries — that retain a removed file's name, logical size and full $FILE_NAME MACB \
+set. Because those copies persist independently of the file's $MFT record, a deleted \
+filename can be recovered from $I30 slack even after Shift+Delete and after the $MFT entry \
+is reused, making it frequently the only proof a file existed in a folder. Parse from $MFT / \
+raw disk with MFTECmd, which flags carved entries as From Slack = true.",
+    mitre_techniques: &["T1070.004"],
+    fields: NTFS_I30_INDEX_FIELDS,
+    retention: Some("Slack entries persist in $INDEX_ALLOCATION until B-tree rebalancing or new entries overwrite the slack region"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["mft", "mft_file", "usn_journal", "recycle_bin"],
+    sources: &[
+        // Carrier, File System Forensic Analysis (2005) ch.13 — NTFS indexes / B-trees (book, no stable URL).
+        "https://github.com/libyal/libfsntfs",
+        "https://github.com/EricZimmerman/MFTECmd",
+        "https://forensics.wiki/ntfs/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Slack entries can be partially overwritten by later B-tree rebalancing; a recovered name may be truncated and its size/timestamps stale",
+        "The $FN timestamps reflect when the entry was written (file creation), not the deletion time; do not read them as a deletion timestamp",
+        "Presence proves the name existed in the directory index; it does not prove the file content survived, nor which user created or deleted it",
+        "Requires raw disk / $MFT access; MFTECmd marks carved entries From Slack = true",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Index-slack entries persist in the directory's $INDEX_ALLOCATION until rebalancing or new entries overwrite the slack region",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -9004,6 +9096,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     ZONE_IDENTIFIER,
     THUMBS_DB,
     CDP_GDID,
+    NTFS_I30_INDEX,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
