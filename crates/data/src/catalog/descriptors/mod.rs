@@ -9185,6 +9185,85 @@ raw disk with MFTECmd, which flags carved entries as From Slack = true.",
     volatility_rationale: "Index-slack entries persist in the directory's $INDEX_ALLOCATION until rebalancing or new entries overwrite the slack region",
 };
 
+pub(crate) static NTFS_ADS_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "stream_name",
+        value_type: ValueType::Text,
+        description: "Name of the alternate $DATA stream (the <stream name> in <filename>:<stream name>:$DATA). Empty for default file content; non-empty names such as 'Zone.Identifier', '$J', or an arbitrary attacker-chosen name identify an ADS. Any legal filename character, including spaces, is permitted",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "stream_type",
+        value_type: ValueType::Text,
+        description: "The <stream type> component, normally '$DATA' for a data stream (directories use '$INDEX_ALLOCATION'; the default directory index is '$I30'). Confirms the attribute is a data stream rather than an index",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "stream_size",
+        value_type: ValueType::UnsignedInt,
+        description: "Logical byte length of the named stream from its $DATA attribute — the size Explorer and plain `dir` do NOT report for the host file. A non-trivial size on an otherwise small file is a hiding indicator",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "host_path",
+        value_type: ValueType::Text,
+        description: "Full path of the host file or directory that owns the stream (the <filename> component), tying the hidden stream to its visible carrier for pivoting to the $MFT record",
+        is_uid_component: true,
+    },
+];
+
+/// Generic NTFS Alternate Data Stream — any named $DATA attribute.
+///
+/// Distinct from `zone_identifier` (the specific Zone.Identifier/MOTW ADS with its own
+/// [ZoneTransfer] INI schema): this is the generic parent for arbitrary named streams
+/// and their hiding/execution abuse.
+///
+/// Source: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c54dec26-1551-4d3a-a0ea-4fa40f848eb3 ([MS-FSCC] NTFS Streams: naming syntax, default ::$DATA, dir /R visibility)
+/// MITRE: T1564.004 (Hide Artifacts: NTFS File Attributes)
+pub static NTFS_ADS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ntfs_ads",
+    name: "NTFS Alternate Data Stream (generic named $DATA stream)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"<any-file-or-dir>:<stream-name>:$DATA"),
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "An NTFS file or directory may carry more than one $DATA attribute. The first, unnamed \
+$DATA attribute is the ordinary file content; any additional NAMED $DATA attribute is an Alternate \
+Data Stream (ADS). Per [MS-FSCC] a stream's full name is <filename>:<stream name>:<stream type>, so \
+default content is file.txt::$DATA and a named ADS is file.txt:secret:$DATA. Any character legal in a \
+filename (including spaces) is legal in a stream name, and directories can carry named data streams. \
+ADS are NOT shown by default `dir` or Explorer (which report only the unnamed stream's size); they \
+surface with `dir /R`, `Get-Item -Stream *`, `fsutil file streams`, or an $MFT parser that enumerates \
+every $DATA attribute. Legitimate ADS exist across the OS — Zone.Identifier (Mark-of-the-Web), the \
+$UsnJrnl:$J and :$Max change-journal streams, SmartScreen/Wof metadata, and Finder/SMB resource forks. \
+Abuse is the mirror image: an adversary hides a payload, script, or exfil data in a named stream so it \
+occupies no visible file, is skipped by tools scanning only unnamed streams, and can be executed \
+directly. ADS do not survive a copy to a non-NTFS volume (FAT/exFAT), most SMB shares, or many \
+archive/email round-trips, so absence never proves a stream was never present. The presence, name, \
+size and bytes of a named stream are the facts; benign vs malicious is inferred from the name and \
+content, not from ADS presence alone.",
+    mitre_techniques: &["T1564.004"],
+    fields: NTFS_ADS_FIELDS,
+    retention: Some("Persists with the host file on NTFS until the file, the named stream, or the $DATA attribute is removed; lost on copy to FAT/exFAT, most SMB shares, and many archive/email round-trips"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["mft", "mft_file", "zone_identifier", "usnjrnl"],
+    sources: &[
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c54dec26-1551-4d3a-a0ea-4fa40f848eb3",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "ADS presence is a filesystem fact; benign vs malicious is inferred from the stream name and its bytes, not from the mere existence of a named stream (Zone.Identifier, $UsnJrnl:$J and resource-fork streams are all legitimate)",
+        "Requires an $MFT parser or raw enumeration (dir /R, Get-Item -Stream, fsutil file streams); default `dir` and Explorer hide named streams and report only the unnamed stream's size",
+        "Streams are not carried to non-NTFS volumes (FAT/exFAT), most SMB/network shares, or many archive/email round-trips, so absence does not prove a stream was never present",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "On-disk NTFS metadata; a named $DATA stream persists with the host file until the file or the named stream is deleted",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -9197,6 +9276,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     THUMBS_DB,
     CDP_GDID,
     NTFS_I30_INDEX,
+    NTFS_ADS,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
