@@ -576,6 +576,32 @@ mod catalog_integrity {
         );
     }
 
+    /// MUICache must expose the .FriendlyAppName / .ApplicationCompany suffix fields
+    /// (sourced from PE VersionInfo, so they survive a rename → masquerade detection)
+    /// and be honestly tiered Corroborative (no execution timestamp). Sources: MS
+    /// StringFileInfo doc; artefacts.help MUICache.
+    #[test]
+    fn muicache_documents_renamed_binary_detection() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "muicache")
+            .expect("muicache descriptor must exist");
+        assert!(
+            d.fields.iter().any(|f| f.name == "friendly_app_name"),
+            "must expose friendly_app_name (PE FileDescription — survives rename)"
+        );
+        assert_eq!(
+            d.evidence_strength,
+            Some(crate::evidence::EvidenceStrength::Corroborative),
+            "MUICache is execution-adjacent presence evidence, not standalone proof"
+        );
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains("timestamp")),
+            "must caveat that MUICache carries NO execution timestamp"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
