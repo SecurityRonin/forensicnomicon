@@ -345,6 +345,47 @@ mod tests {
         assert_eq!(&SIGNATURE_INDX, b"INDX");
     }
 
+    /// Cross-representation invariant: the `ntfs_i30_index` catalog descriptor's prose
+    /// must stay consistent with the authoritative NTFS constants in this module.
+    /// If `SIGNATURE_INDX` or the `$INDEX_ROOT`/`$INDEX_ALLOCATION`/`$BITMAP` codes
+    /// change here, or the descriptor's `meaning` drifts from them, this fails —
+    /// closing the LZNT1 trap where a descriptor documents a signature/code the parser
+    /// no longer uses. Neither side can self-deceive: they are authored independently.
+    #[test]
+    fn catalog_i30_descriptor_matches_ntfs_module_consts() {
+        let d = crate::catalog::CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "ntfs_i30_index")
+            .expect("ntfs_i30_index descriptor must exist");
+        let indx = std::str::from_utf8(&SIGNATURE_INDX).expect("INDX signature is ASCII");
+        assert!(
+            d.meaning.contains(indx),
+            "descriptor meaning must name the INDX signature ({indx}) from SIGNATURE_INDX"
+        );
+        for (code, name) in [
+            (attr_types::INDEX_ROOT, "$INDEX_ROOT"),
+            (attr_types::INDEX_ALLOCATION, "$INDEX_ALLOCATION"),
+            (attr_types::BITMAP, "$BITMAP"),
+        ] {
+            let hex = format!("0x{code:02X}");
+            assert!(
+                d.meaning.contains(name),
+                "descriptor meaning must name {name}"
+            );
+            assert!(
+                d.meaning.contains(&hex),
+                "descriptor meaning must cite {name}'s code {hex} (derived from attr_types)"
+            );
+        }
+        // The $I30 index is named after the $FILE_NAME attribute type code (0x30).
+        assert_eq!(
+            attr_types::FILE_NAME,
+            0x30,
+            "$I30 derives its name from the $FILE_NAME attribute type 0x30"
+        );
+    }
+
     #[test]
     fn file_attribute_flags_are_distinct_single_bits() {
         use file_attributes as fa;
