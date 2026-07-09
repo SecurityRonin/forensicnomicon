@@ -459,6 +459,29 @@ mod catalog_integrity {
         );
     }
 
+    /// WZCSVC wireless connection history (Windows XP) must be cataloged — the XP-era
+    /// predecessor of NetworkList: per-adapter-GUID subkeys under Microsoft\WZCSVC\
+    /// Parameters\Interfaces whose Static#000x binary values hold connected SSIDs +
+    /// AP MACs. Sources: RegRipper ssid.pl (offsets); Carvey 2005 RE.
+    #[test]
+    fn wzcsvc_wireless_interfaces_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "wzcsvc_wireless_interfaces")
+            .expect("wzcsvc_wireless_interfaces (XP wireless history) must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::RegistryKey);
+        assert_eq!(d.hive, Some(HiveTarget::HklmSoftware));
+        assert!(
+            d.key_path.contains("WZCSVC"),
+            "key_path must reference the WZCSVC Interfaces key"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "ssid"),
+            "must expose ssid (the connected-network history value)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
