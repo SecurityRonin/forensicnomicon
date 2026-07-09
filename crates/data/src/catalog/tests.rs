@@ -602,6 +602,30 @@ mod catalog_integrity {
         );
     }
 
+    /// MountPoints2 must record that per-subkey LastWrite dates the mount event and that
+    /// mapped network/UNC shares (##server#share) are recorded, not only removable media.
+    /// Sources: RegRipper mp2.pl; EZ RECmd.
+    #[test]
+    fn mountpoints2_documents_unc_shares_and_subkey_lastwrite() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "mountpoints2")
+            .expect("mountpoints2 descriptor must exist");
+        assert!(
+            d.meaning.contains("##") || d.meaning.contains("network"),
+            "meaning must record that mapped network/UNC shares are captured"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "resource_class"),
+            "must expose resource_class (GUID / drive-letter / UNC-share discriminator)"
+        );
+        assert_eq!(
+            d.evidence_strength,
+            Some(crate::evidence::EvidenceStrength::Corroborative),
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
