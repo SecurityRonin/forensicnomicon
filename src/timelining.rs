@@ -202,6 +202,7 @@ pub static TIMELINE_TOOLS: &[TimelineTool] = &[
         output_format: TimelineOutputFormat::Bodyfile,
         caveats: &[
             "File-system only — does not include Event Logs, registry, or execution artifacts",
+            "Whole-disk (multi-partition) image fails with 'Cannot determine file system type', and forcing a type with -f (e.g. -f ntfs/-f fat) does NOT fix it — fls then reads sector 0 (the partition table) where no filesystem boot sector exists. Run mmls first to get the partition's Start sector, then pass -o <start-sector> (offset in SECTORS); e.g. fls -r -m / -o 2048 image.raw. It is a partition-offset problem, not a filesystem-type one, so the same -o fix applies to every fs type",
             "Timestamps come from $STANDARD_INFORMATION only; add -f ntfs for $FILE_NAME column",
             "Run inside WSL on Windows; use /mnt/... paths, not C:\\ style paths",
             "Deleted files appear with (deleted) prefix and may have partial metadata",
