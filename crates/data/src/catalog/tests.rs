@@ -809,6 +809,28 @@ mod catalog_integrity {
         );
     }
 
+    /// edge_webcache must be container-aware (Containers master table -> Container_<id>;
+    /// History holds file:/// local-file-access URLs) and caveat the dirty-ESE recovery.
+    /// Source: plaso msie_webcache.py; libesedb.
+    #[test]
+    fn edge_webcache_documents_containers_and_file_urls() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "edge_webcache")
+            .expect("edge_webcache descriptor must exist");
+        assert!(
+            d.meaning.contains("Container") && d.meaning.contains("file:///"),
+            "meaning must be container-aware and note file:/// local-file-access URLs"
+        );
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("esentutl") || c.contains("V01.log")),
+            "must caveat the dirty-ESE / transaction-log recovery"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
