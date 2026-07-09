@@ -652,6 +652,26 @@ mod catalog_integrity {
         );
     }
 
+    /// evtx_ntlm must carry forced-authentication coercion context (PetitPotam/PrinterBug
+    /// over lsarpc/efsrpc/spoolss) and the caveat that upstream coercion shows as
+    /// Security 5145 (off by default). Sources: [MS-EFSR]/[MS-RPRN]; MS event-5145 doc.
+    #[test]
+    fn evtx_ntlm_documents_coercion_relay() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "evtx_ntlm")
+            .expect("evtx_ntlm descriptor must exist");
+        assert!(
+            d.meaning.contains("coercion") || d.meaning.contains("PetitPotam"),
+            "meaning must add forced-authentication coercion context"
+        );
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains("5145")),
+            "must caveat that upstream coercion is best seen in Security 5145"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
