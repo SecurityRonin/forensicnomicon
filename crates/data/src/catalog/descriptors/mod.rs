@@ -1144,12 +1144,16 @@ pub static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
     meaning: "Executable metadata cache; presence proves binary existed on disk",
-    mitre_techniques: &["T1218", "T1059"],
+    mitre_techniques: &["T1218", "T1059", "T1070.006", "T1036.003"],
     fields: SHIMCACHE_FIELDS,
     retention: Some("written at clean shutdown only; lost on crash/hard-power-off"),
     triage_priority: TriagePriority::Critical,
     related_artifacts: &["amcache_app_file", "prefetch_dir", "bam_user", "shimcache_memory"],
     sources: &[
+        // Mandiant "Caching Out: The Value of Shimcache for Investigators" — entry timestamp is $SI last-modified, NOT execution:
+        "https://cloud.google.com/blog/topics/threat-intelligence/caching-out-the-val/",
+        // Microsoft — File Times: last-write semantics + SetFileTime altering $SI without changing $DATA:
+        "https://learn.microsoft.com/en-us/windows/win32/sysinfo/file-times",
         "https://www.sans.org/blog/digital-forensics-shimcache/",
         "https://redcanary.com/blog/threat-detection/appcompatcache/",
         "https://www.sans.org/blog/mass-triage-part-4-processing-returned-files-appcache-shimcache/",
@@ -1168,6 +1172,8 @@ pub static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
         "Written only on clean shutdown; live system registry shows entries from last reboot only — use shimcache_memory to capture entries since last reboot",
         "Copying a file at the Command Prompt without opening it in Windows Explorer does NOT create a Shimcache entry — the file must be accessed through the shell (Explorer view, rename, or move) to be shimmed",
         "Collection method matters: ShimCache records exposure, not execution — a responder browsing the live system under review (e.g. opening the folder in Explorer) can CREATE entries, making the analyst the source. Treat entries as evidence of exposure rather than proof of execution",
+        "The stored value is a historical snapshot of the executable's $STANDARD_INFORMATION last-modified (last-write) FILETIME captured when the entry was created (Mandiant, 'Caching Out'). A mismatch between this ShimCache-recorded timestamp and the LIVE filesystem $SI last-modified time for the same path is CONSISTENT WITH timestomping of that file between the two capture points (SetFileTime alters on-disk $SI without changing $DATA). Direction-dependent: detectable only when the shim predates the timestomp",
+        "An identical 64-bit last-modified FILETIME appearing under two or more different paths is CONSISTENT WITH the same binary having been renamed/moved (rename/move within a volume preserves $SI last-modified while each new path is re-shimmed), useful for tracing malware relocation and renamed-utility masquerading. Not proof — unrelated files could share a modified time; note the psexec exception (it rewrites its own $DATA each run, so same-name entries carry DIFFERENT timestamps)",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Registry value persists until hive is overwritten; see shimcache_memory for the Volatile in-memory counterpart",
