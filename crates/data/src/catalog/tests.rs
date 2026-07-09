@@ -831,6 +831,28 @@ mod catalog_integrity {
         );
     }
 
+    /// Windows Timeline must carry the Win11-degradation story: Win11 retired the UI
+    /// (Task View) but ActivitiesCache.db can still exist locally; a sparse/missing DB
+    /// on Win11 is the documented Timeline-deprecation consequence, NOT anti-forensic
+    /// deletion. Sources: MS activity-history/Timeline pages.
+    #[test]
+    fn windows_timeline_documents_win11_degradation() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "windows_timeline")
+            .expect("windows_timeline descriptor must exist");
+        let caveats = d.evidence_caveats.join(" ");
+        assert!(
+            caveats.contains("Windows 11") && caveats.to_lowercase().contains("not"),
+            "must document the Win11 degradation and that a sparse DB is not anti-forensic"
+        );
+        assert_eq!(
+            d.evidence_strength,
+            Some(crate::evidence::EvidenceStrength::Corroborative),
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
