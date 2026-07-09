@@ -608,6 +608,48 @@ mod tests {
         );
     }
 
+    /// mactime renders a fixed M-A-C-B column (letter=equals row time, dot=not); an
+    /// all-macb row is produced by ordinary file creation too, so it is NOT by itself
+    /// indicative of timestomping. Source: TSK mactime.base.
+    #[test]
+    fn mactime_documents_macb_rendering_without_overstatement() {
+        let t = tool_by_id("mactime").unwrap();
+        let all = t.caveats.join(" ");
+        assert!(
+            all.contains("M-A-C-B"),
+            "must document the fixed M-A-C-B column rendering"
+        );
+        assert!(
+            all.contains("not by itself") || all.contains("NOT by itself"),
+            "must avoid overstating an all-macb row as a timestomping indicator"
+        );
+    }
+
+    /// The MFTECmd --body command requires --bdl <letter>; without it MFTECmd exits.
+    /// The command in both the descriptor and the module doc must include it. Source:
+    /// MFTECmd Program.cs.
+    #[test]
+    fn mftecmd_body_command_includes_bdl() {
+        let t = tool_by_id("mftecmd_body").unwrap();
+        assert!(
+            t.command.contains("--bdl"),
+            "mftecmd_body command must include --bdl <letter> (required with --body)"
+        );
+    }
+
+    /// log2timeline targeted-collection filters cut timeline noise; the filter-file flag
+    /// is --artifact_filters_file (underscore before 'file'). Source: plaso
+    /// artifact_filters.py.
+    #[test]
+    fn log2timeline_documents_artifact_filters() {
+        let t = tool_by_id("log2timeline").unwrap();
+        let all = t.caveats.join(" ");
+        assert!(
+            all.contains("--artifact-filters") && all.contains("--artifact_filters_file"),
+            "must document --artifact-filters and the correctly-spelled --artifact_filters_file"
+        );
+    }
+
     #[test]
     fn log2timeline_caveat_mentions_wsl_path() {
         let t = tool_by_id("log2timeline").unwrap();
