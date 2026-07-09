@@ -973,6 +973,106 @@ pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
     volatility_rationale: "Persists until Windows Update or manual clear",
 };
 
+pub(crate) static AMCACHE_PROGRAM_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "program_id",
+        value_type: ValueType::Text,
+        description: "ProgramId — the subkey name and the pivot to InventoryApplicationFile: a file whose ProgramId appears in both keys was installed as part of an application, whereas a ProgramId absent here indicates a merely dropped/standalone executable",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "name",
+        value_type: ValueType::Text,
+        description: "Application display name (e.g. \"CrystalDiskMark 8.0.4c\")",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "publisher",
+        value_type: ValueType::Text,
+        description: "Software publisher / vendor",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "version",
+        value_type: ValueType::Text,
+        description: "Application version string",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "source",
+        value_type: ValueType::Text,
+        description: "How the install was discovered — AddRemoveProgram, Msi, or a Store/UWP source; drives which InstallDate values populate",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "install_date",
+        value_type: ValueType::Timestamp,
+        description: "InstallDate — when the OS first recorded the application; day-level granularity and populates mainly for AddRemoveProgram/Msi sources, so treat as approximate",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "install_date_arp_last_modified",
+        value_type: ValueType::Timestamp,
+        description: "InstallDateArpLastModified — last modification of the Add/Remove Programs uninstall entry; a large gap from InstallDate can flag a replaced binary (e.g. a DLL side-load left in a legitimate installer's directory)",
+        is_uid_component: false,
+    },
+];
+
+/// Amcache InventoryApplication — installed-application inventory (evidence of
+/// program presence, not execution).
+///
+/// Distinct from `amcache_app_file` (InventoryApplicationFile, per-PE-file entries):
+/// this key has one subkey per *installed application*, named by its ProgramId, which
+/// links the two keys.
+///
+/// Source: https://github.com/EricZimmerman/AmcacheParser (parser; -i includes installed apps)
+/// Source: https://securelist.com/amcache-forensic-artifact/117622/ (Securelist AmCache analysis)
+/// Source: https://github.com/Psmths/windows-forensic-artifacts/blob/main/execution/amcache.md
+pub static AMCACHE_PROGRAM: ArtifactDescriptor = ArtifactDescriptor {
+    id: "amcache_program",
+    name: "Amcache InventoryApplication (installed programs)",
+    artifact_type: ArtifactLocation::RegistryKey,
+    hive: Some(HiveTarget::Amcache),
+    key_path: r"Root\InventoryApplication",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win8Plus,
+    decoder: Decoder::Identity,
+    meaning: "Inventory of applications that were INSTALLED on the system — one subkey per \
+application, named by its ProgramId, recording Name, Publisher, Version, Source \
+(AddRemoveProgram / Msi / Store), InstallDate and the uninstall registry key. It records \
+installation/presence, NOT execution: an entry proves the application was installed, not \
+that it ran. The ProgramId links to InventoryApplicationFile — a file present in both was \
+installed as part of an application, while a file absent from InventoryApplication was \
+merely dropped or run standalone, which is a core triage distinction. The key is not \
+real-time: it is populated by the Microsoft Compatibility Appraiser (compattelrunner.exe \
+scheduled task) and carries a LastScanTime, so software installed since the last appraiser \
+run may be missing. Parse with AmcacheParser (-i) after replaying the .LOG1/.LOG2 \
+transaction logs.",
+    mitre_techniques: &[],
+    fields: AMCACHE_PROGRAM_FIELDS,
+    retention: Some("Persists in Amcache.hve across reboots; entries may survive application uninstall until the appraiser prunes them"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["amcache_app_file", "shimcache", "prefetch_dir"],
+    sources: &[
+        "https://github.com/EricZimmerman/AmcacheParser",
+        "https://securelist.com/amcache-forensic-artifact/117622/",
+        "https://github.com/Psmths/windows-forensic-artifacts/blob/main/execution/amcache.md",
+        "https://www.sans.org/blog/new-amcache-hve-in-windows-8-1-update-1/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Records installation/presence, not execution — an installed application need not have run; prove execution with Prefetch/UserAssist",
+        "Not real-time: populated by the Compatibility Appraiser (compattelrunner.exe); a LastScanTime marks the last run and software installed since then may be absent",
+        "InstallDate is day-granularity and populates mainly for AddRemoveProgram/Msi sources; treat as approximate",
+        "Compare ProgramId against InventoryApplicationFile to distinguish an installed application from a merely dropped/executed file; a large InstallDate vs InstallDateArpLastModified gap can flag a replaced binary (DLL side-load)",
+        "Replay the .LOG1/.LOG2 transaction logs into Amcache.hve before parsing; behaviour tracks the appraiser library version, not the OS version",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Persists in Amcache.hve; entries remain after uninstall until pruned by the appraiser or a Windows Update",
+};
+
 // ── ShimCache (AppCompatCache) ────────────────────────────────────────────────
 
 pub(crate) static SHIMCACHE_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -9115,6 +9215,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     IFEO_DEBUGGER,
     SHELLBAGS_USER,
     AMCACHE_APP_FILE,
+    AMCACHE_PROGRAM,
     SHIMCACHE,
     SHIMCACHE_MEMORY,
     BAM_USER,
