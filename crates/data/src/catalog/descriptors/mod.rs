@@ -3461,16 +3461,21 @@ pub static THUMBCACHE: ArtifactDescriptor = ArtifactDescriptor {
     fields: DIR_ENTRY_FIELDS,
     retention: None,
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
+    related_artifacts: &["thumbs_db"],
     sources: &[
         "https://www.sans.org/blog/thumbnail-cache-forensics/",
         "https://www.nirsoft.net/utils/thumbcache_viewer.html",
         "https://www.pentestpartners.com/security-blog/thumbnail-forensics-dfir-techniques-for-analysing-windows-thumbcache/",
         "https://thumbcacheviewer.github.io/",
         "https://forensics.wiki/windows_thumbcache/",
+        // Joachim Metz / libyal — byte-level RE spec (24-byte header, per-version cache-type ordinal map):
+        "https://github.com/libyal/libwtcdb/blob/main/documentation/Windows%20Explorer%20Thumbnail%20Cache%20database%20format.asciidoc",
     ],
     evidence_strength: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "The number in thumbcache_<N>.db is the maximum thumbnail EDGE length in pixels. The bucket set is VERSION-DEPENDENT and the cache-type ordinal->filename mapping is REDEFINED (not merely extended) per format version — read the 4-byte 'Cache type' field at header offset 8 first: v20/v21 (Vista/7) = 32/96/256/1024x768/sr; v30 (Win8) adds 16/48/wide/exif; v31 (Win8.1) adds 1600/wide_alternate; v32 (Win10/11) = 16/32/48/96/256/768/1280/1920/2560/sr/wide/exif/wide_alternate/custom_stream. The same ordinal names different files across versions (e.g. value 5 = 1024 in v30/31 but 768 in v32), so the version must be resolved before mapping. The 1280/1920/2560 buckets correspond to the pixel WIDTHS of 720p/1080p/1440p displays (a mnemonic; the spec gives explicit dimensions only for 32x32/96x96/256x256/1024x768)",
+        "Empty-vs-populated tell: an initialized-but-empty thumbcache_<N>.db is exactly the 24-byte 'CMMM' file header (signature @0, format version @4, cache type @8, first-cache-entry offset @12, first-available offset @16, entry count @20); a bucket much larger than 24 bytes holds actual cached thumbnails. Treat file size as 'larger than the 24-byte header', not a hard tens-of-MB threshold (a few small thumbnails are only a few KB)",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
