@@ -314,6 +314,44 @@ mod catalog_integrity {
         );
     }
 
+    /// Task-Manager LSASS dump file must be cataloged — the lsass.DMP that Task Manager's
+    /// "Create dump file" writes to %LOCALAPPDATA%\Temp via MiniDumpWriteDump, a
+    /// GUI credential-dump that Defender does not flag by default and that is parsed
+    /// offline with Mimikatz/pypykatz. The name is attacker-renamable, so the descriptor
+    /// must point to the content signature (MDMP). Sources: MITRE T1003.001; Atomic Red
+    /// Team; The DFIR Report (Diavol) Sigma rule.
+    #[test]
+    fn lsass_task_manager_dump_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "lsass_dump_file")
+            .expect("lsass_dump_file (Task Manager LSASS dump) descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        let path = d.file_path.unwrap_or_default();
+        assert!(
+            path.contains("lsass.DMP"),
+            "file_path must reference lsass.DMP"
+        );
+        assert!(path.contains("Temp"), "file_path must be in the Temp dir");
+        assert!(
+            d.meaning.contains("MDMP"),
+            "meaning must name the MDMP minidump signature (rename-resistant hunt)"
+        );
+        assert!(
+            d.mitre_techniques.contains(&"T1003.001"),
+            "must map to T1003.001 (LSASS Memory)"
+        );
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains("renam")),
+            "caveats must note the file is attacker-renamable"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "dump_filename"),
+            "must expose the dump_filename field"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
