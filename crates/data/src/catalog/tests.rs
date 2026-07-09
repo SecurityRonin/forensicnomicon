@@ -482,6 +482,30 @@ mod catalog_integrity {
         );
     }
 
+    /// PCA PcaGeneralDb1.txt must be cataloged — the secondary/rotating half of the PCA
+    /// abnormal-exit log pair. Db0 is primary until it hits 2 MB, then the secondary
+    /// (Db1) is cleared and becomes primary. A catalog-driven collector keyed only on
+    /// Db0 silently loses Db1's older rotation window. Source: Sygnia PCA RE.
+    #[test]
+    fn pca_general_db1_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "pca_general_db1")
+            .expect("pca_general_db1 (PcaGeneralDb1.txt) must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.file_path
+                .unwrap_or_default()
+                .contains("PcaGeneralDb1.txt"),
+            "file_path must reference the rotating secondary PcaGeneralDb1.txt"
+        );
+        assert!(
+            d.related_artifacts.contains(&"pca_general_db"),
+            "must relate to its primary sibling pca_general_db (Db0)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
