@@ -9684,6 +9684,96 @@ prove tampering (account for OS-version drift, last-access policy and File Syste
     volatility_rationale: "Interpretive baseline; the underlying $MFT timestamps persist until overwritten",
 };
 
+pub(crate) static MEM_FINDEVIL_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "pid",
+        value_type: ValueType::UnsignedInt,
+        description: "Owning process identifier of the flagged artifact",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "process_name",
+        value_type: ValueType::Text,
+        description: "Short process image name (max 15 chars as shown by MemProcFS)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "detection_type",
+        value_type: ValueType::Text,
+        description: "FindEvil anomaly flag identifying the type of memory anomaly detected (e.g. PEB_MASQ, PROC_NOLINK, PE_NOLINK, PE_PATCHED, NOIMAGE_RWX); higher-severity flags sort to the top of findevil.txt",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "virtual_address",
+        value_type: ValueType::UnsignedInt,
+        description: "Virtual address of the flagged region/module/PEB within the process address space",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "description",
+        value_type: ValueType::Text,
+        description: "Detection-specific detail — e.g. the module name and backing VAD for a hidden/unlinked module finding, or page/protection detail for a patched-image or floating-executable-memory finding",
+        is_uid_component: false,
+    },
+];
+
+/// MemProcFS FindEvil anomaly detections — defensive memory-triage output.
+///
+/// FindEvil is MemProcFS's built-in memory anomaly scanner; it writes flagged
+/// process/module/page anomalies to the virtual file `/forensic/findevil/findevil.txt`
+/// for an examiner to investigate. This descriptor lets a tool recognise and triage
+/// that output; it is a detection aid, not proof of compromise (FindEvil documents
+/// false positives and coverage gaps).
+///
+/// Source: https://github.com/ufrisk/MemProcFS/blob/master/vmm/modules/modules.h (VMMEVIL_TYPE flag table)
+/// Source: https://github.com/ufrisk/MemProcFS/wiki/FS_FindEvil (per-flag descriptions, output format, 64-bit Win10/11 scope, false-positive caveat)
+pub static MEM_FINDEVIL: ArtifactDescriptor = ArtifactDescriptor {
+    id: "mem_findevil",
+    name: "FindEvil Anomaly Detections (Memory)",
+    artifact_type: ArtifactLocation::MemoryRegion,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "MemProcFS FindEvil scans process and kernel memory for indicators of user-mode malware \
+and reports anomalies in the virtual file /forensic/findevil/findevil.txt (columns: PID, ProcessName, \
+Type, VirtualAddress, Module/Description), ranked by severity. It is a defensive triage aid: each row \
+flags a memory anomaly for an examiner to investigate, not a confirmed detection. The flag categories \
+group into process-level deception (a process whose kernel image path differs from its user-land path, \
+a process object unlinked from the kernel's active-process list, or a masqueraded page-table base), \
+hidden or injected modules (an executable image present in the VAD map but not linked from the \
+in-process module lists), in-memory image patches (an image page whose physical page differs from the \
+kernel's on-disk-backed prototype page), and floating executable memory (executable pages in private or \
+non-image regions — the classic signature of injected shellcode). Triage by the built-in severity \
+ranking, then pivot: process-deception flags to a kernel-vs-user process comparison, hidden/injected \
+modules to the loaded-module list and VAD map, patched images to an on-disk image diff, and floating \
+executable memory to the owning process and its network connections. Note a suppression side-effect: a \
+process-level masquerade or unlink finding suppresses per-module hidden-module rows for the same \
+process, so the absence of a module-level flag is not exculpatory.",
+    mitre_techniques: &["T1055", "T1055.012", "T1036", "T1620", "T1134.004"],
+    fields: MEM_FINDEVIL_FIELDS,
+    retention: Some("Derived from live RAM; present only in a memory image / live acquisition"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["mem_running_processes", "mem_loaded_modules", "mem_network_connections"],
+    sources: &[
+        "https://github.com/ufrisk/MemProcFS/blob/master/vmm/modules/modules.h",
+        "https://github.com/ufrisk/MemProcFS/wiki/FS_FindEvil",
+        "https://www.forrest-orr.net/post/malicious-memory-artifacts-part-i-dll-hollowing",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "MemProcFS documents that FindEvil has false positives and will miss certain malware — a flag is an anomaly indicator CONSISTENT WITH malicious code, warranting manual triage, not proof",
+        "Enabled only for 64-bit Windows 10/11 targets (to keep the false-positive ratio low); not produced on 32-bit or older systems",
+        "Detects user-mode anomalies; kernel/rootkit techniques and not-yet-modelled techniques are missed",
+        "A process-level masquerade or unlink finding suppresses per-module hidden-module rows for the same process, so the absence of a module-level flag does not exclude a hidden module",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Derived from live RAM; lost on power-off and re-computed per acquisition",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -9701,6 +9791,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     PHOTOREC_RECUP_DIR,
     WZCSVC_WIRELESS_INTERFACES,
     NTFS_MACB_RULES,
+    MEM_FINDEVIL,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
