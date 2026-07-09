@@ -672,6 +672,29 @@ mod catalog_integrity {
         );
     }
 
+    /// Win11 22H2+ Search splits into THREE co-resident SQLite files; the filename/
+    /// path/gather-time payload is in Windows-gather.db (SystemIndex_Gthr), NOT
+    /// windows.db. The descriptor must say so, or a collector grabs the wrong file.
+    /// Sources: AON/SpiderLabs + Securelist RE; SIDR (GatherTime field).
+    #[test]
+    fn windows_search_db_win11_documents_gather_db() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "windows_search_db_win11")
+            .expect("windows_search_db_win11 descriptor must exist");
+        assert!(
+            d.meaning.contains("Windows-gather.db"),
+            "meaning must locate the filename/gather-time payload in Windows-gather.db"
+        );
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("three") || c.contains("Windows-gather.db")),
+            "must caveat that all three co-resident files must be collected"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
