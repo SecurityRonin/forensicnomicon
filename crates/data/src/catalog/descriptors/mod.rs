@@ -9564,6 +9564,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     windows_files_ext::NTUSER_MAN_PERSISTENCE,
     windows_files_ext::WINDOWS_CLIPBOARD_DATA_FILES,
     windows_files_ext::WINDOWS_DEFENDER_MPWPPTRACING,
+    windows_files_ext::PSEXESVC_DROPPED_BINARY,
     // ── Generated artifact descriptors (mass-import pipeline) ────────────────
     // Total: 6187 generated entries
     // ── browsers_generated (37 entries) ────────────────────────────────────

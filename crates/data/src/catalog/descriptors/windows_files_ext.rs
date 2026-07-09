@@ -2025,3 +2025,78 @@ pub(crate) static WINDOWS_DEFENDER_MPWPPTRACING: ArtifactDescriptor = ArtifactDe
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Defender support trace files rotate with size limits",
 };
+
+/// PSEXESVC.exe — the service binary Sysinternals PsExec drops on the TARGET host on
+/// every remote run. Distinct from the generic 7045 service-installed event: this is
+/// the on-disk file, whose presence and MFT birth (B) timestamp prove the host was the
+/// target of PsExec and date the execution.
+///
+/// Source: https://learn.microsoft.com/en-us/sysinternals/downloads/psexec (behaviour)
+/// Source: https://www.sans.org/blog/protecting-privileged-domain-accounts-psexec-deep-dive (artifact set)
+/// MITRE: T1569.002 (Service Execution), T1570 (Lateral Tool Transfer), T1021.002 (SMB/Admin Shares)
+pub(crate) static PSEXESVC_DROPPED_BINARY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "psexesvc_dropped_binary",
+    name: "PsExec service binary (PSEXESVC.exe) on target",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"C:\Windows\PSEXESVC.exe"),
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "On a REMOTE PsExec run, the source host stages a service binary (default \
+PSEXESVC.exe) to the target's ADMIN$ share, landing it in C:\\Windows, then installs and \
+starts it as the PSEXESVC service running as NT AUTHORITY\\SYSTEM (generating a 7045) and \
+deletes it when the command finishes. Its presence, and its MFT birth (B) timestamp, prove \
+the host was the TARGET of PsExec and date the execution; because it is recreated fresh on \
+every run and removed afterwards, the drop is a per-run artifact usually recovered from the \
+USN journal ($j), $I30 directory-index slack, or unallocated $MFT rather than as a live file. \
+LOCAL PsExec drops no binary (it uses the Service Control Manager APIs directly), so this \
+artifact is specific to remote/lateral use. The name is not a reliable signature: the -r flag \
+renames the service, binary and named pipes to an attacker-chosen string, and Impacket's \
+psexec drops a RemCom-derived binary instead — identify by scanning the binary, and correlate \
+a matching PSEXESVC prefetch entry and a Type 3 (4624) logon a few milliseconds before the \
+service install.",
+    mitre_techniques: &["T1569.002", "T1570", "T1021.002"],
+    fields: &[
+        FieldSchema {
+            name: "binary_name",
+            value_type: ValueType::Text,
+            description: "Service binary filename. Default PSEXESVC.exe, but renamable with -r (attacker-chosen) and Impacket's psexec drops a RemCom-derived binary — treat the name as non-authoritative and confirm by scanning the binary",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "mft_birth_time",
+            value_type: ValueType::Timestamp,
+            description: "$STANDARD_INFORMATION / $FILE_NAME Created (B) timestamp of the dropped binary, dating the PsExec execution; a fresh value on each run",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "recovered_from",
+            value_type: ValueType::Text,
+            description: "Where the (usually deleted) binary was observed: live file, $MFT unallocated, USN journal $j record, or $I30 index slack — reflecting that it is removed after each run",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Deleted at end of each run; recover from USN journal / $I30 slack / $MFT unallocated"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["prefetch_dir", "usnjrnl", "ntfs_i30_index", "sysinternals_eula"],
+    sources: &[
+        // Sysinternals PsExec — official tool behaviour (ADMIN$ staging, service install).
+        "https://learn.microsoft.com/en-us/sysinternals/downloads/psexec",
+        // SANS — PsExec deep-dive: the full target-side artifact set and -r caveat.
+        "https://www.sans.org/blog/protecting-privileged-domain-accounts-psexec-deep-dive",
+        // AboutDFIR — identifying PsExec across source/target artifacts.
+        "https://aboutdfir.com/the-key-to-identify-psexec/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Remote use only — LOCAL PsExec drops no binary (SCM APIs), so absence does not exclude PsExec on the host as a source",
+        "The name is renamable with -r and Impacket drops RemCom instead, so the literal filename is not a reliable signature — scan the binary and correlate the service/prefetch/logon",
+        "Deleted after each run; a live file may be absent even when PsExec ran — pivot to USN journal / $I30 slack / $MFT unallocated",
+        "Proves the host was a PsExec target and dates the run; it does not by itself identify the source host or the command executed",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Residual),
+    volatility_rationale: "Live binary exists only during a run; afterwards it survives as residual $MFT/USN/$I30 traces until overwritten",
+};
