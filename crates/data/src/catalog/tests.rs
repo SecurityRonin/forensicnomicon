@@ -738,6 +738,27 @@ mod catalog_integrity {
         );
     }
 
+    /// thumbcache must document the version-dependent size-bucket mapping (the ordinal
+    /// is REDEFINED per format version, read v32=Win10/11 first) and the 24-byte empty-
+    /// bucket tell. Source: libwtcdb byte-level RE spec.
+    #[test]
+    fn thumbcache_documents_size_buckets_and_empty_tell() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "thumbcache")
+            .expect("thumbcache descriptor must exist");
+        let caveats = d.evidence_caveats.join(" ");
+        assert!(
+            caveats.contains("v32") && caveats.contains("24-byte"),
+            "must document the v32 bucket set and the 24-byte empty-bucket tell"
+        );
+        assert!(
+            d.related_artifacts.contains(&"thumbs_db"),
+            "must back-link to thumbs_db (bidirectional)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
