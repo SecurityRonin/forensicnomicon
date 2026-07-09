@@ -7751,6 +7751,18 @@ pub(crate) static MOUNTED_DEVICES_FIELDS: &[FieldSchema] = &[
         value_type: ValueType::Text,
         is_uid_component: false,
     },
+    FieldSchema {
+        name: "usb_serial",
+        description: "USB device iSerialNumber decoded from the REG_BINARY device path — the instance-ID segment (<serial>&0) that precedes the trailing #{volume-interface GUID}; joins to the USBSTOR instance ID under SYSTEM\\CurrentControlSet\\Enum\\USBSTOR. A serial whose second character is '&' is generally a Windows-generated (non-unique) identifier for a device lacking a spec-compliant unique serial",
+        value_type: ValueType::Text,
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "volume_guid",
+        description: "Volume GUID from a \\??\\Volume{GUID} value name; the same GUID appears as a subkey under each user's NTUSER MountPoints2, which is the join that attributes the device to a specific user account",
+        value_type: ValueType::Text,
+        is_uid_component: false,
+    },
 ];
 
 pub static MOUNTED_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
@@ -7764,22 +7776,30 @@ pub static MOUNTED_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
-    meaning: "Drive-letter and volume mappings including device paths, signatures, and removable-media assignments preserved under HKLM\\SYSTEM\\MountedDevices.",
+    meaning: "Drive-letter and volume mappings under HKLM\\SYSTEM\\MountedDevices. Value names are either \\DosDevices\\<letter>: (a drive-letter assignment) or \\??\\Volume{GUID} (a volume record); the REG_BINARY data is a UTF-16-LE device path whose trailing {53f5630d-b6bf-11d0-94f2-00a0c91efb8b} is GUID_DEVINTERFACE_VOLUME (MOUNTDEV_MOUNTED_DEVICE_GUID). Supports two attribution joins for removable-media analysis: (1) device serial → drive letter / Volume GUID — the USBSTOR iSerialNumber embedded in the device path links a \\DosDevices\\<letter>: entry (which letter the device mounted as) and a \\??\\Volume{GUID} entry (its Volume GUID) back to the same physical device in SYSTEM\\...\\Enum\\USBSTOR; (2) Volume GUID → user — the \\??\\Volume{GUID} value's GUID is matched against the subkeys of each user's NTUSER MountPoints2, identifying which user account mounted the device. Non-USBSTOR entries instead carry a 12-byte MBR record (4-byte disk signature + 8-byte partition offset) or a 24-byte GPT record (partition GUID + offset).",
     mitre_techniques: &["T1091"],
     fields: MOUNTED_DEVICES_FIELDS,
     retention: None,
     triage_priority: TriagePriority::High,
-    related_artifacts: &["usb_enum", "wifi_profiles"],
+    related_artifacts: &["usb_enum", "wifi_profiles", "usb_stor_enum", "mountpoints2"],
     sources: &[
         "https://github.com/mkorman90/regipy/blob/master/regipy/plugins/system/mountdev.py",
         "https://github.com/mkorman90/regipy/blob/master/regipy/plugins/validated_plugins.json",
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
+        // Microsoft WDK — GUID_DEVINTERFACE_VOLUME / MOUNTDEV_MOUNTED_DEVICE_GUID {53f5630d-...}:
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/install/guid-devinterface-volume",
+        // RegRipper mp2.pl (canonical) — the Volume-GUID -> MountPoints2 user join Analysis Tip:
+        "https://github.com/keydet89/RegRipper3.0/blob/master/plugins/mp2.pl",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "The two joins attribute a device and a user reliably, but MountedDevices carries no timestamp — pair with USBSTOR/setupapi.dev.log/EMDMgmt for the connection timeline",
+        "A drive letter is reused across devices over time; the current MountedDevices value reflects only the latest assignment for that letter",
+        "A device serial whose second character is '&' is generally a Windows-generated (non-unique) identifier, so serial-based device identity is weaker for those devices",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry values in the SYSTEM hive; persist until overwritten by a new assignment or the key is cleared",
 };
 
 pub(crate) static NETWORKLIST_FIELDS: &[FieldSchema] = &[
