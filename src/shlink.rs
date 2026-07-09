@@ -6,6 +6,28 @@
 //! timestamps, machine NetBIOS name, and a distributed-link-tracking droid
 //! GUID — evidence of files that may no longer exist.
 //!
+//! A `.LNK` carries **two distinct timestamp sets that must not be conflated**:
+//!
+//! 1. **The host filesystem's `$STANDARD_INFORMATION` (`$SI`) MACB times of the
+//!    `.lnk` file itself** — when the shortcut was created/modified/accessed on
+//!    *this* machine. For shell-managed shortcuts (the `Recent` /
+//!    `AutomaticDestinations` folders) the shell rewrites the `.lnk` when the
+//!    target is accessed, so these track target-access on this host; a static
+//!    desktop `.lnk` is not rewritten on every open.
+//! 2. **The embedded target timestamps** — `CreationTime` (offset `0x1C`),
+//!    `AccessTime` (`0x24`) and `WriteTime` (`0x2C`), each an 8-byte FILETIME
+//!    (`[MS-DTYP]` §2.3.3) recording the link *target's* MAC times captured at
+//!    the moment the shortcut was last written. Because they are copied into the
+//!    `.lnk`, they survive deletion of the target: a `.lnk` in a Recent /
+//!    AutoDest / jump-list can preserve a deleted file's creation/access/write
+//!    times when the file itself is gone. A zero value denotes an unset field
+//!    (per `[MS-SHLLINK]` §2.1 for CreationTime, AccessTime *and* WriteTime),
+//!    not the 1601 epoch — treat `0` as *absent*, never render it as a real
+//!    timestamp. These are the target's metadata as seen at link-write time, so
+//!    they are *consistent with* (not proof of) the target's true filesystem
+//!    times and can be stale or forged; a divergence from the host `$SI` set
+//!    supports no stronger inference on its own.
+//!
 //! This module is knowledge only — the fixed `HeaderSize`, the `LinkCLSID`, the
 //! `LinkFlags` and `FileAttributesFlags` bit definitions, and the `ExtraData`
 //! block signatures. The parser (header parse, `LinkTargetIDList` walk,
@@ -29,6 +51,25 @@ pub const HEADER_SIZE: u32 = 0x0000_004C;
 /// `ShellLinkHeader.LinkCLSID` — MUST be this class identifier
 /// (`[MS-SHLLINK]` §2.1).
 pub const LINK_CLSID: &str = "00021401-0000-0000-C000-000000000046";
+
+/// Byte width of each `ShellLinkHeader` FILETIME field (`[MS-DTYP]` §2.3.3).
+pub const FILETIME_FIELD_SIZE: usize = 8;
+
+/// Offset of `ShellLinkHeader.CreationTime` — an 8-byte FILETIME
+/// (`[MS-DTYP]` §2.3.3) recording the link *target's* creation time
+/// (`[MS-SHLLINK]` §2.1). Zero means no creation time was set on the target.
+/// Derived: HeaderSize(4)@0x00 + LinkCLSID(16)@0x04 + LinkFlags(4)@0x14 + FileAttributes(4)@0x18.
+pub const OFFSET_CREATION_TIME: usize = 0x1C;
+
+/// Offset of `ShellLinkHeader.AccessTime` — an 8-byte FILETIME
+/// (`[MS-DTYP]` §2.3.3) recording the target's last-access time
+/// (`[MS-SHLLINK]` §2.1). Zero means no access time was set on the target.
+pub const OFFSET_ACCESS_TIME: usize = 0x24;
+
+/// Offset of `ShellLinkHeader.WriteTime` — an 8-byte FILETIME
+/// (`[MS-DTYP]` §2.3.3) recording the target's last-write time
+/// (`[MS-SHLLINK]` §2.1). Zero means no write time was set on the target.
+pub const OFFSET_WRITE_TIME: usize = 0x2C;
 
 // ── LinkFlags (`[MS-SHLLINK]` §2.1.1) ────────────────────────────────────────
 // Bit A is the least-significant bit (1 << 0); bits are listed MSB-first in the
