@@ -9358,6 +9358,97 @@ locally. Enumerate with fsutil reparsepoint query, MFTECmd, or libfsntfs.",
     volatility_rationale: "Reparse data is stored in the file's on-disk $REPARSE_POINT (0xC0) MFT attribute and indexed in $Extend\\$Reparse; it persists until the reparse point is removed or the file is deleted",
 };
 
+pub(crate) static PHOTOREC_RECUP_DIR_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "recovered_file",
+        value_type: ValueType::Text,
+        description: "Recovered file, named f<sector><ext> (e.g. f0017088.txt); 'f' = file, number = logical sector of file start",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "start_sector",
+        value_type: ValueType::UnsignedInt,
+        description: "Sector where the file begins, embedded in the filename = (file location - partition offset) / sector size; equals the original cluster/block number when block size == sector size",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "embedded_title",
+        value_type: ValueType::Text,
+        description: "Optional title extracted from file metadata and appended to the name (Office/PDF etc.)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "thumbnail_file",
+        value_type: ValueType::Text,
+        description: "t*.jpg — thumbnail carved from inside a picture",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "broken_file",
+        value_type: ValueType::Text,
+        description: "b<sector><ext> — corrupted file or fragment retained when 'keep corrupted files' was enabled",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "report_xml",
+        value_type: ValueType::Text,
+        description: "report.xml in the first recup_dir; records sectorsize and img_offset (partition offset) for the run, letting an examiner map each f<sector> file back to a byte offset in the source image",
+        is_uid_component: false,
+    },
+];
+
+/// PhotoRec / QPhotoRec carving output — the recup_dir.N tree signature that a file
+/// carver was run.
+///
+/// Source: https://www.cgsecurity.org/testdisk_doc/photorec.html (f<sector> naming, 500-files/dir, report.xml sectorsize/img_offset, t*/b prefixes)
+/// Source: https://www.cgsecurity.org/wiki/PhotoRec_FAQ (logical-sector filename convention)
+/// Source: https://www.cgsecurity.org/testdisk_doc/running.html (Windows binaries photorec_win.exe / qphotorec_win.exe)
+pub static PHOTOREC_RECUP_DIR: ArtifactDescriptor = ArtifactDescriptor {
+    id: "photorec_recup_dir",
+    name: "PhotoRec Carving Output (recup_dir.N)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"recup_dir.N"),
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "Output directory tree produced by PhotoRec / QPhotoRec file carving. PhotoRec writes \
+recovered files into sequentially-numbered sub-directories recup_dir.1, recup_dir.2, ... under a \
+user-chosen destination, creating a new sub-directory every 500 recovered files. Each recovered file \
+is named by a single letter + a >=7-digit number + the detected extension: 'f' = a normally recovered \
+file whose number is the logical sector where the file begins ((file location - partition offset) / \
+sector size), e.g. f0017088.txt begins at sector 17088; when PhotoRec can extract an embedded title it \
+appends it. Thumbnails carved from inside pictures are saved as t*.jpg; corrupted files/fragments (if \
+kept) begin with 'b' (broken). The first recup_dir also contains report.xml recording the run's \
+sectorsize and img_offset (partition offset). The mere presence of this directory tree is a strong \
+signature that PhotoRec/QPhotoRec was executed and used to carve/recover files on that system or against \
+that image. Carving loses filesystem context: original filenames and directory structure are not \
+preserved (except an optional embedded title).",
+    mitre_techniques: &[],
+    fields: PHOTOREC_RECUP_DIR_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["prefetch_dir", "amcache_app_file", "userassist_exe"],
+    sources: &[
+        "https://www.cgsecurity.org/testdisk_doc/photorec.html",
+        "https://www.cgsecurity.org/wiki/PhotoRec_Step_By_Step",
+        "https://www.cgsecurity.org/wiki/PhotoRec_FAQ",
+        "https://www.cgsecurity.org/testdisk_doc/running.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Destination directory is chosen by whoever runs PhotoRec; there is no fixed path — match on the 'recup_dir.<N>' name pattern plus f/t/b-prefixed sector-named files and a sibling report.xml",
+        "Cross-platform: identical output convention on Linux, macOS and Windows; only the executable names (photorec_win.exe / qphotorec_win.exe) are Windows-specific",
+        "Carving loses filesystem context: original filenames and directory structure are not preserved (except an optional embedded title); the sector number in the name locates the file start within the source, not the original path",
+        "Presence evidences that a carving/recovery run occurred (legitimate examiner, a user recovering their own data, or an adversary staging data) — it does not by itself establish intent",
+        "report.xml records the run's sectorsize and img_offset, letting an examiner map each f<sector> file back to a byte offset in the source image",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Carved output files persist on disk until explicitly deleted",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -9372,6 +9463,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     NTFS_I30_INDEX,
     NTFS_ADS,
     NTFS_REPARSE_POINT,
+    PHOTOREC_RECUP_DIR,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
