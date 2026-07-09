@@ -8163,12 +8163,26 @@ pub static HIBERFIL_SYS: ArtifactDescriptor = ArtifactDescriptor {
     volatility_rationale: "",
 };
 
-pub(crate) static MOUNTPOINTS2_FIELDS: &[FieldSchema] = &[FieldSchema {
-    name: "mount_point",
-    description: "Per-user mount point or device reference cached by Explorer",
-    value_type: ValueType::Text,
-    is_uid_component: true,
-}];
+pub(crate) static MOUNTPOINTS2_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "mount_point",
+        description: "Subkey name identifying the mounted resource: a volume GUID ({...}), a drive letter (A-Z), or a mapped network/UNC share encoded as ##server#share (each backslash in \\\\server\\share replaced by # because backslashes are illegal in key names)",
+        value_type: ValueType::Text,
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "resource_class",
+        description: "Resource class derived from the subkey-name prefix: '{' = volume GUID (removable/fixed media), 'A'-'Z' = drive letter, '#' = mapped network/UNC share (##server#share)",
+        value_type: ValueType::Text,
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "subkey_last_write",
+        description: "LastWrite time of the individual resource subkey — consistent with when this user last mounted (connected) that volume/share; the per-subkey time, not the parent key's, is the forensically valuable one",
+        value_type: ValueType::Timestamp,
+        is_uid_component: false,
+    },
+];
 
 pub static MOUNTPOINTS2: ArtifactDescriptor = ArtifactDescriptor {
     id: "mountpoints2",
@@ -8181,7 +8195,7 @@ pub static MOUNTPOINTS2: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::User,
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
-    meaning: "Per-user record of mounted removable media and mapped resources, useful for attributing USB or volume interaction to a specific logged-in user.",
+    meaning: "Per-user record of resources Explorer has mounted — removable/fixed media (volume-GUID subkeys), drive letters, and mapped network/UNC shares (subkeys named ##server#share). Each subkey's LastWrite time is consistent with when this user last mounted that resource, and entries persist after disconnection, so the key attributes device and network-share interaction to a specific logged-in user.",
     mitre_techniques: &["T1091"],
     fields: MOUNTPOINTS2_FIELDS,
     retention: None,
@@ -8192,10 +8206,14 @@ pub static MOUNTPOINTS2: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "The per-SUBKEY LastWrite dates the mount, not the parent key's LastWrite; read each resource subkey's own time",
+        "Entries are retained after a device is removed or a mapped drive is disconnected, so presence does not imply the resource is still mounted",
+        "LastWrite-as-last-mount is the accepted convention but carries no explicit event record — corroborate with USBSTOR/MountedDevices/setupapi.dev.log for the connection timeline",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Subkeys are written when the user mounts a resource; persist in NTUSER.DAT after disconnection",
 };
 
 pub static PORTABLE_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
