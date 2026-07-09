@@ -9565,6 +9565,125 @@ broadband NameType classification is a NetworkList (Vista+) feature, not WZCSVC.
     volatility_rationale: "Registry key in the SOFTWARE hive; persists until explicit deletion or profile removal",
 };
 
+pub(crate) static NTFS_MACB_RULES_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "op_create",
+        value_type: ValueType::Text,
+        description: "File create: SI + FN M,A,C,B all set to the creation time",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "op_access",
+        value_type: ValueType::Text,
+        description: "File access: SI A only (gated by the Last-Access policy — often disabled); FN unchanged",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "op_modify",
+        value_type: ValueType::Text,
+        description: "Data modify: SI M,C update (A too if Last-Access enabled); B unchanged; FN unchanged",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "op_rename_local",
+        value_type: ValueType::Text,
+        description: "Local rename: SI C only; FN rewritten from the current SI values (indirect propagation — defeats naive $FN-vs-$SI comparison after a rename)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "op_move_local",
+        value_type: ValueType::Text,
+        description: "Same-volume move: SI C updates; FN C updates; M,A,B preserved",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "op_move_xvolume",
+        value_type: ValueType::Text,
+        description: "Cross-volume move: SI A,C update to move time; M,B preserved; FN reset to move time",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "op_copy_xvolume",
+        value_type: ValueType::Text,
+        description: "Cross-volume copy: SI M,C inherited from the SOURCE; A,B = copy time; FN MACB all = copy time. Yields the classic COPY tell — SI Modified EARLIER than SI Born (M < B) — which no create/write path produces",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "op_delete",
+        value_type: ValueType::Text,
+        description: "Delete: no SI/FN timestamp change; the MFT record is marked inactive",
+        is_uid_component: false,
+    },
+];
+
+/// NTFS MACB Timestamp Update Rules — per-operation interpretive baseline.
+///
+/// An interpretive descriptor anchored to $MFT (where the $STANDARD_INFORMATION 0x10 and
+/// $FILE_NAME 0x30 timestamp sets live). It encodes which of the four MACB values move on
+/// each file operation, so an observed set that no single operation can produce (or an
+/// internally impossible SI ordering like M < B) is the reference frame for detecting
+/// forgery. Judge observed timestamps against this frame; it does not by itself prove
+/// tampering — account for OS-version drift, last-access policy and File System Tunneling.
+///
+/// Source: https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table ($MFT, $SI vs $FN)
+/// Source: https://dfir.ru/2021/01/10/standard_information-vs-file_name/ (SI vs FN update RE)
+/// Source: https://www.senturean.com/posts/19_04_22_win10_ntfs_time_rules/ (empirical Win10 per-operation matrix)
+pub static NTFS_MACB_RULES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ntfs_macb_rules",
+    name: "NTFS MACB Timestamp Update Rules (Per-Operation Baseline)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"\\.\<volume>\$MFT"),
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "Interpretive baseline for reading NTFS timestamps: which of the four MACB values move on \
+each file operation. Each MFT record holds two timestamp sets — $STANDARD_INFORMATION (SI, attr 0x10, \
+user-writable via SetFileTime) and $FILE_NAME (FN, attr 0x30, kernel-maintained). M=Modified (data), \
+A=Accessed, C=MFT/metadata changed (entry-modified), B=Born/created; all are 64-bit FILETIME (100ns \
+since 1601-01-01 UTC). Legitimate operations move a KNOWN subset; a set that cannot be produced by any \
+single operation, or SI values that are internally impossible (e.g. M earlier than B), is the reference \
+frame for detecting forgery (T1070.006). The strongest single-record tell encoded here is the COPY tell \
+— on a cross-volume copy, SI M and C are inherited from the source while SI A and B are the copy time, \
+so SI Modified is EARLIER than SI Born (M < B), which no create/write path produces. Local rename \
+rewrites FN from the current SI values, so a naive $FN-vs-$SI comparison is defeated after a rename — \
+cross-check operation sequencing against the USN journal (reason codes) and $LogFile (LSN ordering), and \
+note that the directory index ($I30) retains a $SI snapshot that can predate a later $SI timestomp. Use \
+as the frame against which observed $SI/$FN sets and MACB orderings are judged; it does not by itself \
+prove tampering (account for OS-version drift, last-access policy and File System Tunneling first).",
+    mitre_techniques: &["T1070.006"],
+    fields: NTFS_MACB_RULES_FIELDS,
+    retention: Some("Interpretive baseline; the underlying $MFT timestamps persist until overwritten"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[
+        "mft",
+        "mft_file",
+        "ntfs_i30_index",
+        "ntfs_last_access_status",
+        "logfile_ntfs",
+        "usnjrnl",
+        "usn_journal",
+        "recycle_bin",
+    ],
+    sources: &[
+        "https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table",
+        "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-behavior",
+        "https://dfir.ru/2021/01/10/standard_information-vs-file_name/",
+        "https://dfir.ru/2018/12/08/the-last-access-updates-are-almost-back/",
+        "https://www.senturean.com/posts/19_04_22_win10_ntfs_time_rules/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "A deviation from the baseline is CONSISTENT WITH forgery, not proof of it — account for OS-version drift, the last-access policy, and File System Tunneling before concluding tampering",
+        "Local rename rewrites $FN from the current $SI values, so $FN-vs-$SI comparison is unreliable after a rename; corroborate operation ordering with the USN journal and $LogFile",
+        "The COPY tell (SI M < B) flags a cross-volume copy or crude timestomping from a single record without needing $FN; a matched, self-consistent set does not exclude a careful full-set timestomp",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Interpretive baseline; the underlying $MFT timestamps persist until overwritten",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -9581,6 +9700,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     NTFS_REPARSE_POINT,
     PHOTOREC_RECUP_DIR,
     WZCSVC_WIRELESS_INTERFACES,
+    NTFS_MACB_RULES,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
