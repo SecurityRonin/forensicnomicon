@@ -437,6 +437,28 @@ mod catalog_integrity {
         );
     }
 
+    /// PhotoRec carving output (recup_dir.N) must be cataloged — the tool-usage
+    /// signature that PhotoRec/QPhotoRec was run to carve files: sequentially-numbered
+    /// recup_dir.N dirs (new one per 500 files) holding f<sector>.<ext> files + a
+    /// report.xml recording sectorsize/img_offset. Source: cgsecurity testdisk_doc.
+    #[test]
+    fn photorec_recup_dir_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "photorec_recup_dir")
+            .expect("photorec_recup_dir (PhotoRec carving output) must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::Directory);
+        assert!(
+            d.file_path.unwrap_or_default().contains("recup_dir"),
+            "file_path must reference the recup_dir.N pattern"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "start_sector"),
+            "must expose start_sector (the sector embedded in each f<sector> filename)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
