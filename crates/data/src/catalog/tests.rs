@@ -159,6 +159,28 @@ mod catalog_integrity {
         );
     }
 
+    /// Thumbs.db (per-folder OLE thumbnail cache) must be cataloged — distinct from
+    /// the centralized `thumbcache`. A surviving thumbnail proves a now-deleted image
+    /// existed in the folder; on Vista+ its presence is a network/UNC-access
+    /// fingerprint. Source: forensics.wiki Thumbs.db; libyal libolecf; Parsonage
+    /// "Under My Thumbs".
+    #[test]
+    fn thumbs_db_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "thumbs_db")
+            .expect("thumbs_db (per-folder thumbnail cache) descriptor must be cataloged");
+        assert!(
+            d.file_path.unwrap_or_default().contains("Thumbs.db"),
+            "file_path must reference Thumbs.db"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "catalog_entry_filename"),
+            "must expose the catalog_entry_filename field (source-file name recovery)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
