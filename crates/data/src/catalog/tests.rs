@@ -921,6 +921,28 @@ mod catalog_integrity {
         );
     }
 
+    /// File carving (signature-based recovery) must be cataloged — content-based
+    /// recovery from unallocated/slack/raw storage that recovers file DATA only (no
+    /// filename/path/timestamps), and basic carving cannot reassemble fragmented files
+    /// (Garfinkel DFRWS 2007). Sources: PhotoRec; Garfinkel 2007.
+    #[test]
+    fn file_carving_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "file_carving")
+            .expect("file_carving (signature-based recovery) descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.meaning.contains("content") || d.meaning.contains("signature"),
+            "meaning must frame carving as content/signature-based recovery"
+        );
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains("fragmented")),
+            "must carry the fragmented-file limitation (Garfinkel 2007)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
