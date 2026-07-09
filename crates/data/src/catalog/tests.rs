@@ -248,6 +248,39 @@ mod catalog_integrity {
         );
     }
 
+    /// PSEXESVC.exe dropped-binary must be cataloged — the service binary Sysinternals
+    /// PsExec writes to C:\Windows on the *target* (via ADMIN$) on every REMOTE run,
+    /// proving the host was the PsExec target and dating the run by its MFT birth
+    /// timestamp. Deleted after each run, so it is recreated fresh each time and often
+    /// recovered from USN journal / $I30 slack / MFT unallocated. The name is renamable
+    /// (-r) and Impacket drops RemCom instead, so the literal name is not a reliable
+    /// signature. Sources: Sysinternals PsExec docs; SANS PsExec deep-dive; MITRE T1569.002.
+    #[test]
+    fn psexesvc_dropped_binary_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "psexesvc_dropped_binary")
+            .expect("psexesvc_dropped_binary descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.file_path.unwrap_or_default().contains("PSEXESVC.exe"),
+            "file_path must reference the default PSEXESVC.exe drop"
+        );
+        assert!(
+            d.meaning.to_lowercase().contains("target"),
+            "meaning must state this proves the host was the PsExec TARGET"
+        );
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains("-r")),
+            "caveats must note the -r rename (name is not a reliable signature)"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "binary_name"),
+            "must expose the binary_name field"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
