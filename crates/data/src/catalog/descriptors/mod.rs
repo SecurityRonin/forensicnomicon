@@ -9962,6 +9962,53 @@ process, so the absence of a module-level flag is not exculpatory.",
     volatility_rationale: "Derived from live RAM; lost on power-off and re-computed per acquisition",
 };
 
+/// File Carving — content/signature-based recovery of files from raw storage.
+///
+/// A recovery *technique* over unallocated/slack/raw regions, not a fixed on-disk path
+/// (modelled as File with file_path: None, like the pagefile_sys/hiberfil_sys concept
+/// entries). os_scope is recorded as All (the catalog's broadest value) purely as a
+/// schema placeholder — carving is filesystem- and OS-independent; see the caveat.
+///
+/// Source: https://www.cgsecurity.org/wiki/PhotoRec (ignores the filesystem, matches signatures)
+/// Source: Garfinkel, "Carving contiguous and fragmented files with fast object validation", DFRWS 2007
+///         https://calhoun.nps.edu/server/api/core/bitstreams/22c52db8-a881-475e-9a66-7709b50176fb/content
+pub static FILE_CARVING: ArtifactDescriptor = ArtifactDescriptor {
+    id: "file_carving",
+    name: "File Carving (Signature-Based Recovery)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "Content/signature-based recovery of files from unallocated space, slack, or a raw disk \
+image, reconstructing files from their byte content rather than from filesystem metadata that points \
+to the content (Garfinkel, DFRWS 2007). Works after the filesystem is damaged, reformatted, or the \
+directory/inode/MFT entry deleted. Recovers file DATA ONLY — the original filename, full path, and MAC \
+timestamps are lost with the metadata and are NOT reconstructible by carving. Because it operates on \
+raw bytes, carving is filesystem- and OS-independent (see the os_scope caveat).",
+    mitre_techniques: &[],
+    fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["mft", "usnjrnl", "recycle_bin", "pagefile_sys", "hiberfil_sys"],
+    sources: &[
+        "https://www.cgsecurity.org/wiki/PhotoRec",
+        "https://www.sciencedirect.com/science/article/pii/S1742287607000369",
+        "https://calhoun.nps.edu/server/api/core/bitstreams/22c52db8-a881-475e-9a66-7709b50176fb/content",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Carved content proves the byte sequence existed on the medium, but without recoverable filename/path/timestamps it cannot alone establish when it was written or by whom — needs corroboration for attribution/timeline",
+        "Basic header/footer (contiguous) carving cannot reassemble FRAGMENTED files — Garfinkel (DFRWS 2007): 'no file carvers can automatically reassemble fragmented files'; fragmented recoveries emerge truncated or corrupt",
+        "Carving is filesystem- and OS-independent; os_scope is recorded as All (the catalog's broadest value) as a schema limitation, NOT a claim that carving is Windows-specific",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Carving targets unallocated and slack space, which is reused (overwritten) by ordinary new file allocations; recoverability degrades with continued system use",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -9980,6 +10027,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     WZCSVC_WIRELESS_INTERFACES,
     NTFS_MACB_RULES,
     MEM_FINDEVIL,
+    FILE_CARVING,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
