@@ -22,7 +22,7 @@
 //!   psort.py -o l2tcsv evidence.plaso > supertimeline.csv
 //!
 //! $MFT bodyfile via MFTECmd (Windows host):
-//!   MFTECmd.exe -f \\.\C: --body out\ --bodyf mft.body --blf
+//!   MFTECmd.exe -f \\.\C: --body out\ --bdl c --bodyf mft.body --blf
 //!   mactime -b out\mft.body -d > mft_timeline.csv
 //! ```
 //!
@@ -219,6 +219,12 @@ pub static TIMELINE_TOOLS: &[TimelineTool] = &[
             "Input is a bodyfile; mactime itself performs no parsing — it only sorts and formats",
             "-d flag outputs CSV; omit for human-readable table format",
             "-z flag specifies timezone (default UTC); always use -z UTC for forensic outputs",
+            "The MACB column is a fixed 4-character M-A-C-B field: a letter appears when that \
+             timestamp equals the row's time and a dot (.) when it does not; the order is always \
+             M,A,C,B regardless of which times are set",
+            "When all four timestamps coincide, mactime collapses them into a single 'macb' row. \
+             This is produced BOTH by timestomping tools AND by ordinary file creation (which sets \
+             M=A=C=B), so an all-macb row is NOT by itself indicative of tampering",
         ],
     },
     TimelineTool {
@@ -236,6 +242,13 @@ pub static TIMELINE_TOOLS: &[TimelineTool] = &[
              run: sudo apt purge plaso-tools && sudo apt autoremove && sudo apt install plaso-tools",
             "Pass --vss_stores all to include Volume Shadow Copies, extending the $UsnJrnl window",
             "Output is a binary .plaso store; post-process with psort.py to get human-readable CSV",
+            "--artifact-filters takes a comma-separated list of ForensicArtifacts definition names \
+             (e.g. WindowsEventLogSystem, WindowsEventLogs) for targeted collection — only files \
+             matched by those definitions are parsed; --artifact_filters_file reads one definition \
+             name per line from a file (note the underscore before 'file'). The two are mutually \
+             exclusive, and filtering is applied at the source level, not inside archives",
+            "--custom_artifact_definitions supplies a custom artifacts YAML when a needed definition \
+             is not in the bundled ForensicArtifacts set",
         ],
     },
     TimelineTool {
@@ -254,9 +267,10 @@ pub static TIMELINE_TOOLS: &[TimelineTool] = &[
         id: "mftecmd_body",
         name: "MFTECmd — bodyfile export",
         covers: "$MFT entries (MACB timestamps, filename, size, MFT record number, allocated/deleted flag)",
-        command: r"MFTECmd.exe -f \\.\C: --body out\ --bodyf mft.body --blf",
+        command: r"MFTECmd.exe -f \\.\C: --body out\ --bdl c --bodyf mft.body --blf",
         output_format: TimelineOutputFormat::Bodyfile,
         caveats: &[
+            "--bdl <letter> (body drive letter) is REQUIRED whenever --body is used; MFTECmd exits with '--bdl is required when using --body. Exiting' otherwise. The check fires before any source-specific handling, so it applies even to a raw volume",
             "Escape $ in PowerShell: MFTECmd.exe -f C:\\...\\`$MFT",
             "--blf includes both $STANDARD_INFORMATION and $FILE_NAME timestamps (two rows per file)",
             "Pass -m flag when processing $UsnJrnl to resolve parent paths from $MFT",
