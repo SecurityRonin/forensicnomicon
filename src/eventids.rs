@@ -543,6 +543,22 @@ mod tests {
         );
     }
 
+    /// Event 4688 process-creation carries two GPO-gated collection caveats: the event is
+    /// off by default (Audit Process Creation) and the command-line field is a second,
+    /// separate toggle. Source: MS event-4688 + command-line-process-auditing docs.
+    #[test]
+    fn event_4688_documents_gpo_toggles() {
+        let e = event_entry(4688).expect("4688 exists");
+        assert!(
+            e.caveats.contains("Audit Process Creation"),
+            "4688 must caveat that the event is off by default (Audit Process Creation)"
+        );
+        assert!(
+            e.caveats.contains("command line"),
+            "4688 must caveat that ProcessCommandLine is a second, separate GPO toggle"
+        );
+    }
+
     /// Log-clearing (104 System / 1102 Security) cross-log semantics and 4104 PowerShell
     /// auto-suspicious Warning logging. Sources: nasbench eventlog manifest; MS event-1102;
     /// MS PowerShell CompiledScriptBlock.cs / "PowerShell the Blue Team" devblog.
