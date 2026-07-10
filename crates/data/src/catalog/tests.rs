@@ -1075,6 +1075,28 @@ mod catalog_integrity {
         );
     }
 
+    /// Kansa live-response collection output must be cataloged — the Output_<timestamp>
+    /// tree from the davehull/Kansa PowerShell-remoting IR framework: one subdir per
+    /// Get-*.ps1 module, one file per host, -OutputFormat serialization. Source:
+    /// kansa.ps1 (tool source); Kansa README.
+    #[test]
+    fn kansa_collection_output_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "kansa_collection_output")
+            .expect("kansa_collection_output descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::LiveResponse);
+        assert!(
+            d.fields.iter().any(|f| f.name == "module"),
+            "must expose the module field (the Get-*.ps1 collector name)"
+        );
+        assert!(
+            d.mitre_techniques.is_empty(),
+            "a defensive collection framework has no attacker ATT&CK technique"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
