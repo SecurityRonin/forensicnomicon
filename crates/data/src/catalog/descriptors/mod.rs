@@ -10121,6 +10121,87 @@ Object-ID tampering surfaces as USN_REASON_OBJECT_ID_CHANGE (0x00080000) in the 
     volatility_rationale: "On-disk NTFS metadata ($Extend\\$ObjId index + per-file $OBJECT_ID attribute); persists until the object ID or file is deleted",
 };
 
+pub(crate) static MEM_EXTRACTED_PE_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "artifact_kind",
+        value_type: ValueType::Text,
+        description: "What was recovered: process_image | full_process_dump | dll | kernel_driver — determines whether the output is a reconstructed PE or a raw resident-memory blob",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "pid",
+        value_type: ValueType::UnsignedInt,
+        description: "Owning process id for process-image / full-process / DLL dumps (absent for kernel drivers)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "base_addr",
+        value_type: ValueType::UnsignedInt,
+        description: "Virtual base address the PE was mapped at (ImageBaseAddress for a process, LDR entry DllBase for a DLL, driver base for a kernel module)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "name",
+        value_type: ValueType::Text,
+        description: "Image / module file name recovered from the PE or loader entry — attacker-controllable; may be forged or blank for injected code",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "fully_resident",
+        value_type: ValueType::Bool,
+        description: "True only if every page of the image was resident in RAM at capture. False means one or more pages were paged out and were zero-filled during reconstruction — the recovered file is incomplete and will NOT hash-match the on-disk original",
+        is_uid_component: false,
+    },
+];
+
+/// Executables / DLLs / Drivers extracted from a memory image — defensive recovery of
+/// in-memory-only code.
+///
+/// Distinct from on-disk minidump .dmp files (lsass_dump_file / fa_file_minidump_dmp):
+/// this is a PE reconstructed OUT of RAM by a memory-forensics engine.
+///
+/// Source: https://github.com/volatilityfoundation/volatility/wiki/command-reference (procdump/memdump/dlldump/moddump; --unsafe; resident-only; DumpFileOffset)
+/// Source: https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.pedump.html (Vol3 pedump dump_pe_at_base/dump_ldr_entry/dump_kernel_pe_at_base)
+pub static MEM_EXTRACTED_PE_IMAGES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "mem_extracted_pe_images",
+    name: "Executables/DLLs/Drivers Extracted from Memory",
+    artifact_type: ArtifactLocation::MemoryRegion,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "PE images (process executables, mapped DLLs, and kernel drivers) reconstructed OUT of a \
+RAM capture by a memory-forensics engine. Two extraction modes: (1) code-focused PE reconstruction — \
+Volatility procdump/procexedump (Vol2) or windows.pedump / windows.pslist --dump (Vol3) for a process \
+image, dlldump / windows.dlllist --dump for a mapped DLL, moddump / windows.modules --dump for a kernel \
+driver — walks the PE header and writes each section, rebuilding a file that resembles the on-disk \
+binary; (2) full process dump — memdump (Vol2) / windows.memmap --dump (Vol3) writes ALL memory-resident \
+pages of a process (code + heap + stack) into one raw, virtual-address-ordered blob (not a PE, ideal for \
+strings/YARA). The highest-value use is recovering in-memory-only payloads: reflectively loaded / \
+injected code that never touched disk, and unsigned modules absent from the loader lists.",
+    mitre_techniques: &["T1055", "T1620"],
+    fields: MEM_EXTRACTED_PE_FIELDS,
+    retention: Some("RAM only; lost on power-off — the output exists only once an examiner extracts it from a memory image"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["mem_running_processes", "mem_loaded_modules", "lsass_dump_file", "fa_file_minidump_dmp"],
+    sources: &[
+        "https://github.com/volatilityfoundation/volatility/wiki/command-reference",
+        "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.pedump.html",
+        "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.memmap.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "A code-focused PE dump (procdump/pedump) rebuilds the file from PE-header section metadata; malware can forge PE size fields to break the dump, requiring --unsafe/-u to bypass sanity checks — a --unsafe reconstruction is lower-fidelity",
+        "dlldump/moddump can fail outright when critical PE-header pages are non-resident; a full-memory (memmap/memdump) dump captures only resident pages and is virtual-address-ordered raw memory, not a runnable PE",
+        "When fully_resident is false, paged-out pages were zero-filled — the extracted image is incomplete and will not hash-match the on-disk original, so a hash mismatch is not by itself evidence of tampering",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Reconstructed from live RAM; the source pages are lost on power-off",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -10141,6 +10222,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     MEM_FINDEVIL,
     FILE_CARVING,
     NTFS_OBJID,
+    MEM_EXTRACTED_PE_IMAGES,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
