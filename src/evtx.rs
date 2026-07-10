@@ -254,6 +254,9 @@ impl EvtxEvent {
 mod tests {
     use super::*;
 
+    // EVTX on-disk signatures. Source: libyal libevtx format spec
+    // (Windows XML Event Log (EVTX) format): file header "ElfFile\0", chunk header
+    // "ElfChnk\0", event record "**\0\0" (0x2A 0x2A 0x00 0x00).
     #[test]
     fn file_magic_is_correct() {
         assert_eq!(&ELFFILE_MAGIC, b"ElfFile\0");

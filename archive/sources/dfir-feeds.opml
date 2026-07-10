@@ -149,6 +149,8 @@
       <outline type="rss" text="SentinelOne Labs" title="SentinelOne Labs" xmlUrl="https://www.sentinelone.com/labs/feed/" htmlUrl="https://www.sentinelone.com/labs/"/>
       <!-- Microsoft Security Blog — Windows security, threat intelligence, detection engineering; first-party artifact detail -->
       <outline type="rss" text="Microsoft Security Blog" title="Microsoft Security Blog" xmlUrl="https://www.microsoft.com/en-us/security/blog/feed/" htmlUrl="https://www.microsoft.com/en-us/security/blog/"/>
+      <!-- HackingPassion — security news and Windows/Linux internals writeups; occasional artifact detail (e.g. CDP GDID). Discovery pointer only; verify against primary sources before cataloging -->
+      <outline type="rss" text="HackingPassion" title="HackingPassion" xmlUrl="https://hackingpassion.com/index.xml" htmlUrl="https://hackingpassion.com/"/>
     </outline>
     <outline text="Living Off the Land Datasets" title="Living Off the Land Datasets">
       <!-- GitHub commit atom feeds — one entry per new binary/driver/tool added to dataset -->

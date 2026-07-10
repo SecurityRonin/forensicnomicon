@@ -38,6 +38,1142 @@ mod catalog_integrity {
         assert_eq!(d.os_scope, crate::catalog::types::OsScope::MacOS);
     }
 
+    /// `edge_webcache` must point at the WebCacheV01.dat ESE database
+    /// (`%LOCALAPPDATA%\Microsoft\Windows\WebCache\WebCacheV01.dat`), not the
+    /// `INetCache` cached-content folder. Sources: Forensic Focus (ESE DB in IE10+),
+    /// forensics.wiki Internet Explorer, qazeer browsers-forensics notes.
+    #[test]
+    fn edge_webcache_points_at_the_ese_db_not_content_cache() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "edge_webcache")
+            .expect("edge_webcache descriptor must be cataloged");
+        let p = d.file_path.unwrap_or_default();
+        assert!(
+            p.contains(r"WebCache\WebCacheV01.dat"),
+            "edge_webcache must point at the WebCacheV01.dat ESE database, got {p:?}"
+        );
+        assert!(
+            !p.contains("INetCache"),
+            "INetCache is the cached-content folder, not the WebCache ESE database: {p:?}"
+        );
+        assert!(
+            matches!(
+                d.artifact_type,
+                crate::catalog::types::ArtifactLocation::File
+            ),
+            "WebCacheV01.dat is a single ESE file, not a directory"
+        );
+    }
+
+    /// PCA launch-dictionary file is `PcaAppLaunchDic.txt` (in
+    /// `C:\Windows\appcompat\pca\`), not `AppLaunch.dic` — a collector keyed on the
+    /// wrong name misses it. Sources: AboutDFIR + Sygnia PCA writeups (already cited
+    /// by the descriptor).
+    #[test]
+    fn pca_applaunch_dic_filename_is_pcaapplaunchdic_txt() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "pca_applaunch_dic")
+            .expect("pca_applaunch_dic must be cataloged");
+        let p = d.file_path.unwrap_or_default();
+        assert!(
+            p.ends_with("PcaAppLaunchDic.txt"),
+            "PCA launch-dictionary file is PcaAppLaunchDic.txt, got {p:?}"
+        );
+        assert!(
+            !p.contains("AppLaunch.dic"),
+            "AppLaunch.dic is the wrong filename: {p:?}"
+        );
+    }
+
+    /// ComDlg32 common-dialog MRU keys are the Win7+ PIDL variants
+    /// (`OpenSavePidlMRU` / `LastVisitedPidlMRU`); the non-PIDL `OpenSaveMRU` /
+    /// `LastVisitedMRU` are XP-only and absent on modern hives. Sources: forensafe,
+    /// forensics.wiki OpenSaveMRU, DFIR gitbooks.
+    #[test]
+    fn comdlg32_mru_keys_are_pidl_variants() {
+        for (id, want) in [
+            ("opensave_mru", "OpenSavePidlMRU"),
+            ("lastvisited_mru", "LastVisitedPidlMRU"),
+        ] {
+            let d = CATALOG
+                .list()
+                .iter()
+                .find(|d| d.id == id)
+                .unwrap_or_else(|| panic!("{id} must be cataloged"));
+            assert!(
+                d.key_path.ends_with(want),
+                "{id} must use the Win7+ PIDL key {want}, not the XP-only non-PIDL key, got {:?}",
+                d.key_path
+            );
+        }
+    }
+
+    /// `srum_network_usage` must reference the Network Data Usage table GUID
+    /// `{973F5D5C-1D90-4944-BE8E-24B94231A174}`, not the unrelated
+    /// `{973F5D5C-1D90-11D3-AE08-00A0C90F57DA}`. Source: libyal esedb-kb,
+    /// Velociraptor SRUM artifact.
+    #[test]
+    fn srum_network_usage_has_correct_table_guid() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "srum_network_usage")
+            .expect("srum_network_usage must be cataloged");
+        let p = d.file_path.unwrap_or_default();
+        assert!(
+            p.contains("{973F5D5C-1D90-4944-BE8E-24B94231A174}"),
+            "srum_network_usage must reference the Network Data Usage GUID, got {p:?}"
+        );
+        assert!(
+            !p.contains("11D3-AE08"),
+            "the 973F5D5C-1D90-11D3-AE08-00A0C90F57DA GUID is not the SRUM network table: {p:?}"
+        );
+    }
+
+    /// Zone.Identifier / Mark-of-the-Web ADS must be cataloged: presence with
+    /// ZoneId 3/4 proves a file was downloaded from an untrusted origin, and (Win10+)
+    /// HostUrl attributes it to a source URL. Source: MS-FSCC named streams,
+    /// Microsoft Attachment Manager.
+    #[test]
+    fn zone_identifier_motw_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "zone_identifier")
+            .expect("zone_identifier (Mark-of-the-Web) descriptor must be cataloged");
+        assert!(
+            d.file_path.unwrap_or_default().contains("Zone.Identifier"),
+            "file_path must reference the Zone.Identifier ADS"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "zone_id"),
+            "must expose the zone_id field"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "host_url"),
+            "must expose the host_url field (download attribution)"
+        );
+    }
+
+    /// Thumbs.db (per-folder OLE thumbnail cache) must be cataloged — distinct from
+    /// the centralized `thumbcache`. A surviving thumbnail proves a now-deleted image
+    /// existed in the folder; on Vista+ its presence is a network/UNC-access
+    /// fingerprint. Source: forensics.wiki Thumbs.db; libyal libolecf; Parsonage
+    /// "Under My Thumbs".
+    #[test]
+    fn thumbs_db_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "thumbs_db")
+            .expect("thumbs_db (per-folder thumbnail cache) descriptor must be cataloged");
+        assert!(
+            d.file_path.unwrap_or_default().contains("Thumbs.db"),
+            "file_path must reference Thumbs.db"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "catalog_entry_filename"),
+            "must expose the catalog_entry_filename field (source-file name recovery)"
+        );
+    }
+
+    /// CDP Global Device Identifier (GDID) must be cataloged — the persistent 64-bit
+    /// MSA Device PUID that Connected Devices Platform registers into the Device
+    /// Directory Service as `g:<decimal>`. Named in the July 2026 Scattered Spider
+    /// complaint (US v. Stokes, N.D. Ill.) as `g:6755467234350028`. The device PUID is
+    /// readable from the user hive at IdentityCRL\ExtendedProperties value `LID` as 16
+    /// hex digits (0018-class = device PUID). Distinct from the ActivitiesCache.db
+    /// timeline: same subsystem, a registry-resident device-identity value.
+    /// Sources: US v. Stokes court filing; SmtimesIWndr/gdid-reversal RE writeup;
+    /// Microsoft Delivery Optimization UCDOStatus.GlobalDeviceId docs.
+    #[test]
+    fn cdp_gdid_device_puid_is_cataloged() {
+        let d = CATALOG.list().iter().find(|d| d.id == "cdp_gdid").expect(
+            "cdp_gdid (Connected Devices Platform Global Device Identifier) must be cataloged",
+        );
+        assert_eq!(
+            d.artifact_type,
+            ArtifactLocation::RegistryValue,
+            "GDID device PUID is read from a registry value"
+        );
+        assert_eq!(
+            d.hive,
+            Some(HiveTarget::NtUser),
+            "LID lives in the user hive (HKCU)"
+        );
+        assert!(
+            d.key_path.contains(r"IdentityCRL\ExtendedProperties"),
+            "key_path must reference IdentityCRL\\ExtendedProperties"
+        );
+        assert_eq!(
+            d.value_name,
+            Some("LID"),
+            "the device PUID is stored in the LID value"
+        );
+    }
+
+    /// NTFS directory-index ($I30) slack must be cataloged — the B-tree slack of a
+    /// directory's $INDEX_ALLOCATION retains removed entries' filenames, sizes and $FN
+    /// MACB set, so a deleted file's name survives Shift+Delete even after its $MFT
+    /// record is reused. The "$I30" name derives from the $FILE_NAME attribute type
+    /// (0x30) that the index sorts on. MFTECmd surfaces these as From Slack = true.
+    /// Sources: Carrier, File System Forensic Analysis ch.13; libyal libfsntfs; MFTECmd.
+    #[test]
+    fn ntfs_i30_index_slack_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "ntfs_i30_index")
+            .expect("ntfs_i30_index ($I30 directory-index slack) descriptor must be cataloged");
+        assert_eq!(
+            d.artifact_type,
+            ArtifactLocation::File,
+            "$I30 is read as an NTFS filesystem structure ($INDEX_ALLOCATION)"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "recovered_filename"),
+            "must expose recovered_filename (the deleted-name recovery value)"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "from_slack"),
+            "must expose the from_slack flag (MFTECmd From Slack = true)"
+        );
+        assert!(
+            d.meaning.contains("INDX"),
+            "meaning must name the INDX index-allocation signature"
+        );
+    }
+
+    /// PSEXESVC.exe dropped-binary must be cataloged — the service binary Sysinternals
+    /// PsExec writes to C:\Windows on the *target* (via ADMIN$) on every REMOTE run,
+    /// proving the host was the PsExec target and dating the run by its MFT birth
+    /// timestamp. Deleted after each run, so it is recreated fresh each time and often
+    /// recovered from USN journal / $I30 slack / MFT unallocated. The name is renamable
+    /// (-r) and Impacket drops RemCom instead, so the literal name is not a reliable
+    /// signature. Sources: Sysinternals PsExec docs; SANS PsExec deep-dive; MITRE T1569.002.
+    #[test]
+    fn psexesvc_dropped_binary_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "psexesvc_dropped_binary")
+            .expect("psexesvc_dropped_binary descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.file_path.unwrap_or_default().contains("PSEXESVC.exe"),
+            "file_path must reference the default PSEXESVC.exe drop"
+        );
+        assert!(
+            d.meaning.to_lowercase().contains("target"),
+            "meaning must state this proves the host was the PsExec TARGET"
+        );
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains("-r")),
+            "caveats must note the -r rename (name is not a reliable signature)"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "binary_name"),
+            "must expose the binary_name field"
+        );
+    }
+
+    /// Amcache InventoryApplication (installed-programs inventory) must be cataloged —
+    /// distinct from InventoryApplicationFile (per-PE-file entries). One subkey per
+    /// installed application, named by ProgramId (the pivot to InventoryApplicationFile:
+    /// a file present in both is installed, not merely dropped). Populated by the
+    /// Compatibility Appraiser, so it proves installation/presence, not execution.
+    /// Sources: EZ AmcacheParser; Securelist AmCache; Psmths Windows Forensic Handbook.
+    #[test]
+    fn amcache_inventory_application_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "amcache_program")
+            .expect("amcache_program (InventoryApplication installed programs) must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::RegistryKey);
+        assert_eq!(d.hive, Some(HiveTarget::Amcache));
+        assert!(
+            d.key_path.ends_with(r"Root\InventoryApplication"),
+            "key_path must be Root\\InventoryApplication"
+        );
+        assert!(
+            !d.key_path.contains("InventoryApplicationFile"),
+            "must be distinct from the InventoryApplicationFile descriptor"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "program_id"),
+            "must expose program_id (the pivot to InventoryApplicationFile)"
+        );
+        assert!(
+            d.meaning.to_lowercase().contains("install"),
+            "meaning must frame this as installation/presence evidence"
+        );
+    }
+
+    /// Task-Manager LSASS dump file must be cataloged — the lsass.DMP that Task Manager's
+    /// "Create dump file" writes to %LOCALAPPDATA%\Temp via MiniDumpWriteDump, a
+    /// GUI credential-dump that Defender does not flag by default and that is parsed
+    /// offline with Mimikatz/pypykatz. The name is attacker-renamable, so the descriptor
+    /// must point to the content signature (MDMP). Sources: MITRE T1003.001; Atomic Red
+    /// Team; The DFIR Report (Diavol) Sigma rule.
+    #[test]
+    fn lsass_task_manager_dump_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "lsass_dump_file")
+            .expect("lsass_dump_file (Task Manager LSASS dump) descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        let path = d.file_path.unwrap_or_default();
+        assert!(
+            path.contains("lsass.DMP"),
+            "file_path must reference lsass.DMP"
+        );
+        assert!(path.contains("Temp"), "file_path must be in the Temp dir");
+        assert!(
+            d.meaning.contains("MDMP"),
+            "meaning must name the MDMP minidump signature (rename-resistant hunt)"
+        );
+        assert!(
+            d.mitre_techniques.contains(&"T1003.001"),
+            "must map to T1003.001 (LSASS Memory)"
+        );
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains("renam")),
+            "caveats must note the file is attacker-renamable"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "dump_filename"),
+            "must expose the dump_filename field"
+        );
+    }
+
+    /// EMDMgmt / ReadyBoost external-device volume cache must be cataloged — one of the
+    /// few registry locations tying a USB iSerialNumber to a volume serial number (VSN,
+    /// stored in DECIMAL in the subkey name), for correlating a device to VSNs in LNK
+    /// files and Jump Lists. Sources: MS GUID_DEVINTERFACE_DISK doc; woanware
+    /// usbdeviceforensics; RegRipper emdmgmt.pl.
+    #[test]
+    fn emdmgmt_readyboost_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "emdmgmt_readyboost")
+            .expect(
+                "emdmgmt_readyboost (ReadyBoost external-device volume cache) must be cataloged",
+            );
+        assert_eq!(d.artifact_type, ArtifactLocation::RegistryKey);
+        assert_eq!(d.hive, Some(HiveTarget::HklmSoftware));
+        assert!(
+            d.key_path.contains("EMDMgmt"),
+            "key_path must reference the EMDMgmt key"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "volume_serial_number"),
+            "must expose volume_serial_number (the VSN correlation value)"
+        );
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.to_uppercase().contains("DECIMAL")),
+            "must caveat that the VSN is stored in DECIMAL (convert before matching LNK/JumpList)"
+        );
+    }
+
+    /// Generic NTFS Alternate Data Stream must be cataloged — a named $DATA attribute
+    /// (`<file>:<stream>:$DATA`), distinct from the specific zone_identifier MOTW ADS.
+    /// Presence is a filesystem fact; benign-vs-malicious is inferred from the stream
+    /// name + bytes. Sources: [MS-FSCC] NTFS Streams; MITRE T1564.004.
+    #[test]
+    fn ntfs_ads_generic_stream_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "ntfs_ads")
+            .expect("ntfs_ads (generic named $DATA stream) descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.file_path.unwrap_or_default().contains(":$DATA"),
+            "file_path must reference the :$DATA stream form"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "stream_name"),
+            "must expose stream_name"
+        );
+        assert!(
+            d.mitre_techniques.contains(&"T1564.004"),
+            "must map to T1564.004 (Hide Artifacts: NTFS File Attributes)"
+        );
+    }
+
+    /// NTFS reparse points must be cataloged — the $REPARSE_POINT (0xC0) attribute and
+    /// the volume-wide $Extend\$Reparse:$R index. The reparse tag's Name-Surrogate (N)
+    /// bit splits path redirections (junction/symlink/mount) from data-overlay tags
+    /// (WOF/Dedup/Cloud) whose real bytes are elsewhere. Sources: [MS-FSCC] reparse
+    /// tags §2.1.2.1; libfsntfs; linux-ntfs.
+    #[test]
+    fn ntfs_reparse_point_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "ntfs_reparse_point")
+            .expect("ntfs_reparse_point ($REPARSE_POINT / $Extend\\$Reparse) must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.file_path.unwrap_or_default().contains("$REPARSE_POINT"),
+            "file_path must reference the $REPARSE_POINT attribute"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "reparse_tag"),
+            "must expose reparse_tag"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "name_surrogate"),
+            "must expose name_surrogate (the redirection-vs-overlay discriminator)"
+        );
+    }
+
+    /// PhotoRec carving output (recup_dir.N) must be cataloged — the tool-usage
+    /// signature that PhotoRec/QPhotoRec was run to carve files: sequentially-numbered
+    /// recup_dir.N dirs (new one per 500 files) holding f<sector>.<ext> files + a
+    /// report.xml recording sectorsize/img_offset. Source: cgsecurity testdisk_doc.
+    #[test]
+    fn photorec_recup_dir_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "photorec_recup_dir")
+            .expect("photorec_recup_dir (PhotoRec carving output) must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::Directory);
+        assert!(
+            d.file_path.unwrap_or_default().contains("recup_dir"),
+            "file_path must reference the recup_dir.N pattern"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "start_sector"),
+            "must expose start_sector (the sector embedded in each f<sector> filename)"
+        );
+    }
+
+    /// WZCSVC wireless connection history (Windows XP) must be cataloged — the XP-era
+    /// predecessor of NetworkList: per-adapter-GUID subkeys under Microsoft\WZCSVC\
+    /// Parameters\Interfaces whose Static#000x binary values hold connected SSIDs +
+    /// AP MACs. Sources: RegRipper ssid.pl (offsets); Carvey 2005 RE.
+    #[test]
+    fn wzcsvc_wireless_interfaces_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "wzcsvc_wireless_interfaces")
+            .expect("wzcsvc_wireless_interfaces (XP wireless history) must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::RegistryKey);
+        assert_eq!(d.hive, Some(HiveTarget::HklmSoftware));
+        assert!(
+            d.key_path.contains("WZCSVC"),
+            "key_path must reference the WZCSVC Interfaces key"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "ssid"),
+            "must expose ssid (the connected-network history value)"
+        );
+    }
+
+    /// PCA PcaGeneralDb1.txt must be cataloged — the secondary/rotating half of the PCA
+    /// abnormal-exit log pair. Db0 is primary until it hits 2 MB, then the secondary
+    /// (Db1) is cleared and becomes primary. A catalog-driven collector keyed only on
+    /// Db0 silently loses Db1's older rotation window. Source: Sygnia PCA RE.
+    #[test]
+    fn pca_general_db1_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "pca_general_db1")
+            .expect("pca_general_db1 (PcaGeneralDb1.txt) must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.file_path
+                .unwrap_or_default()
+                .contains("PcaGeneralDb1.txt"),
+            "file_path must reference the rotating secondary PcaGeneralDb1.txt"
+        );
+        assert!(
+            d.related_artifacts.contains(&"pca_general_db"),
+            "must relate to its primary sibling pca_general_db (Db0)"
+        );
+    }
+
+    /// NTFS MACB update-rule baseline must be cataloged — the per-operation reference
+    /// frame for reading $SI/$FN timestamps and detecting forgery. Encodes which MACB
+    /// values move on create/access/modify/rename/move/copy/delete; the copy-across-
+    /// volumes case yields the M<B tell. Sources: MS $MFT doc; dfir.ru; senturean RE.
+    #[test]
+    fn ntfs_macb_rules_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "ntfs_macb_rules")
+            .expect("ntfs_macb_rules (per-operation MACB baseline) must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.file_path.unwrap_or_default().contains("$MFT"),
+            "file_path must anchor to $MFT where $SI/$FN timestamps live"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "op_copy_xvolume"),
+            "must encode the cross-volume copy rule (the M<B forgery tell)"
+        );
+        assert!(
+            d.mitre_techniques.contains(&"T1070.006"),
+            "must map to T1070.006 (Timestomp) as the detection reference frame"
+        );
+    }
+
+    /// MemProcFS FindEvil anomaly detections must be cataloged — the defensive
+    /// memory-triage output (/forensic/findevil/findevil.txt) that flags process/module
+    /// anomalies for an examiner to investigate. Honestly Corroborative (documented
+    /// false positives). Source: MemProcFS modules.h VMMEVIL_TYPE table + FS_FindEvil wiki.
+    #[test]
+    fn mem_findevil_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "mem_findevil")
+            .expect("mem_findevil (FindEvil anomaly detections) must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::MemoryRegion);
+        assert!(
+            d.fields.iter().any(|f| f.name == "detection_type"),
+            "must expose detection_type (the anomaly flag)"
+        );
+        assert_eq!(
+            d.evidence_strength,
+            Some(crate::evidence::EvidenceStrength::Corroborative),
+            "a heuristic anomaly flag is corroborative, not proof (FindEvil documents false positives)"
+        );
+    }
+
+    /// run_mru must carry its decode gotchas: the trailing \1 terminator artifact (strip
+    /// before display) and the MRUList ordering whose first letter is the only
+    /// time-anchorable (most-recent) entry. Sources: EZ RunMRU.cs; regipy runmru.py.
+    #[test]
+    fn run_mru_documents_decode_gotchas() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "run_mru")
+            .expect("run_mru descriptor must exist");
+        let caveats = d.evidence_caveats.join(" ");
+        assert!(
+            caveats.contains("MRUList"),
+            "run_mru must document the MRUList ordering (only the most-recent entry is time-anchorable)"
+        );
+        assert!(
+            caveats.contains("\\1"),
+            "run_mru must document the trailing \\1 terminator artifact (strip before display)"
+        );
+    }
+
+    /// MUICache must expose the .FriendlyAppName / .ApplicationCompany suffix fields
+    /// (sourced from PE VersionInfo, so they survive a rename → masquerade detection)
+    /// and be honestly tiered Corroborative (no execution timestamp). Sources: MS
+    /// StringFileInfo doc; artefacts.help MUICache.
+    #[test]
+    fn muicache_documents_renamed_binary_detection() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "muicache")
+            .expect("muicache descriptor must exist");
+        assert!(
+            d.fields.iter().any(|f| f.name == "friendly_app_name"),
+            "must expose friendly_app_name (PE FileDescription — survives rename)"
+        );
+        assert_eq!(
+            d.evidence_strength,
+            Some(crate::evidence::EvidenceStrength::Corroborative),
+            "MUICache is execution-adjacent presence evidence, not standalone proof"
+        );
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains("timestamp")),
+            "must caveat that MUICache carries NO execution timestamp"
+        );
+    }
+
+    /// MountPoints2 must record that per-subkey LastWrite dates the mount event and that
+    /// mapped network/UNC shares (##server#share) are recorded, not only removable media.
+    /// Sources: RegRipper mp2.pl; EZ RECmd.
+    #[test]
+    fn mountpoints2_documents_unc_shares_and_subkey_lastwrite() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "mountpoints2")
+            .expect("mountpoints2 descriptor must exist");
+        assert!(
+            d.meaning.contains("##") || d.meaning.contains("network"),
+            "meaning must record that mapped network/UNC shares are captured"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "resource_class"),
+            "must expose resource_class (GUID / drive-letter / UNC-share discriminator)"
+        );
+        assert_eq!(
+            d.evidence_strength,
+            Some(crate::evidence::EvidenceStrength::Corroborative),
+        );
+    }
+
+    /// ShimCache stores the $SI last-modified snapshot, so a mismatch vs the live $SI
+    /// time is consistent with timestomping, and an identical timestamp across paths is
+    /// consistent with a rename/move. Enrich with those "consistent-with" inferences +
+    /// T1070.006/T1036.003. Sources: Mandiant "Caching Out"; MS File Times.
+    #[test]
+    fn shimcache_documents_timestomp_and_rename_inferences() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "shimcache")
+            .expect("shimcache descriptor must exist");
+        assert!(
+            d.mitre_techniques.contains(&"T1070.006"),
+            "must map to T1070.006 (the artifact helps detect timestomping)"
+        );
+        let caveats = d.evidence_caveats.join(" ").to_lowercase();
+        assert!(
+            caveats.contains("timestomp"),
+            "must carry the timestomping-exposure 'consistent with' caveat"
+        );
+        assert!(
+            caveats.contains("rename") || caveats.contains("moved"),
+            "must carry the rename/move detection 'consistent with' caveat"
+        );
+    }
+
+    /// evtx_ntlm must carry forced-authentication coercion context (PetitPotam/PrinterBug
+    /// over lsarpc/efsrpc/spoolss) and the caveat that upstream coercion shows as
+    /// Security 5145 (off by default). Sources: [MS-EFSR]/[MS-RPRN]; MS event-5145 doc.
+    #[test]
+    fn evtx_ntlm_documents_coercion_relay() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "evtx_ntlm")
+            .expect("evtx_ntlm descriptor must exist");
+        assert!(
+            d.meaning.contains("coercion") || d.meaning.contains("PetitPotam"),
+            "meaning must add forced-authentication coercion context"
+        );
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains("5145")),
+            "must caveat that upstream coercion is best seen in Security 5145"
+        );
+    }
+
+    /// Win11 22H2+ Search splits into THREE co-resident SQLite files; the filename/
+    /// path/gather-time payload is in Windows-gather.db (SystemIndex_Gthr), NOT
+    /// windows.db. The descriptor must say so, or a collector grabs the wrong file.
+    /// Sources: AON/SpiderLabs + Securelist RE; SIDR (GatherTime field).
+    #[test]
+    fn windows_search_db_win11_documents_gather_db() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "windows_search_db_win11")
+            .expect("windows_search_db_win11 descriptor must exist");
+        assert!(
+            d.meaning.contains("Windows-gather.db"),
+            "meaning must locate the filename/gather-time payload in Windows-gather.db"
+        );
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("three") || c.contains("Windows-gather.db")),
+            "must caveat that all three co-resident files must be collected"
+        );
+    }
+
+    /// WordWheelQuery must carry the derived-timestamp rule: the key LastWrite dates
+    /// ONLY the most-recent term (first MRUListEx element, most-recent-first); older
+    /// searches are recovered by correlating with user-search LNK files. Sources:
+    /// Mandiant "The Missing LNK"; RegRipper wordwheelquery.pl.
+    #[test]
+    fn wordwheel_query_documents_timestamp_limit() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "wordwheel_query")
+            .expect("wordwheel_query descriptor must exist");
+        let caveats = d.evidence_caveats.join(" ");
+        assert!(
+            caveats.contains("MRUListEx") && caveats.contains("most-recent"),
+            "must document the MRUListEx most-recent-first ordering + single-term LastWrite rule"
+        );
+        assert!(
+            d.related_artifacts.contains(&"lnk_files"),
+            "must relate to lnk_files (the older-search recovery correlation)"
+        );
+    }
+
+    /// MountedDevices must encode the two attribution joins: device serial → drive
+    /// letter / Volume GUID (USBSTOR), and Volume GUID → user (NTUSER MountPoints2).
+    /// The trailing {53f5630d-…} is GUID_DEVINTERFACE_VOLUME. Sources: MS WDK; regipy
+    /// mountdev.py; RegRipper mp2.pl.
+    #[test]
+    fn mounted_devices_encodes_attribution_joins() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "mounted_devices")
+            .expect("mounted_devices descriptor must exist");
+        assert!(
+            d.fields.iter().any(|f| f.name == "volume_guid"),
+            "must expose volume_guid (the Volume-GUID → user join key)"
+        );
+        assert!(
+            d.meaning.contains("MountPoints2"),
+            "meaning must document the Volume-GUID → user join via MountPoints2"
+        );
+    }
+
+    /// thumbcache must document the version-dependent size-bucket mapping (the ordinal
+    /// is REDEFINED per format version, read v32=Win10/11 first) and the 24-byte empty-
+    /// bucket tell. Source: libwtcdb byte-level RE spec.
+    #[test]
+    fn thumbcache_documents_size_buckets_and_empty_tell() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "thumbcache")
+            .expect("thumbcache descriptor must exist");
+        let caveats = d.evidence_caveats.join(" ");
+        assert!(
+            caveats.contains("v32") && caveats.contains("24-byte"),
+            "must document the v32 bucket set and the 24-byte empty-bucket tell"
+        );
+        assert!(
+            d.related_artifacts.contains(&"thumbs_db"),
+            "must back-link to thumbs_db (bidirectional)"
+        );
+    }
+
+    /// The PCA general-db record is UTF-16LE pipe-delimited with 8 fields; expose the
+    /// program_id (AmCache ProgramId join key) and the PE version fields, and correct
+    /// the timestamp (UTC datetime string at process termination). Shared schema, so
+    /// both Db0 and Db1 gain the fields. Sources: AboutDFIR + Sygnia RE.
+    #[test]
+    fn pca_general_db_documents_full_record() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "pca_general_db")
+            .expect("pca_general_db descriptor must exist");
+        assert!(
+            d.fields.iter().any(|f| f.name == "program_id"),
+            "must expose program_id (the AmCache ProgramId join key)"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "software_vendor"),
+            "must expose the PE CompanyName / software_vendor field"
+        );
+        assert!(
+            d.related_artifacts.contains(&"amcache_app_file"),
+            "must relate to amcache_app_file (the ProgramId join target)"
+        );
+    }
+
+    /// USBSTOR must expose the per-device connection FILETIMEs stored under
+    /// Properties\{83da6326-...}\0064-0067 (documented DEVPKEYs), not only setupapi
+    /// correlation, and relate to the MountPoints2 attribution join. Sources: MS SDK
+    /// devpkey.h; swiftforensics; winreg-kb.
+    #[test]
+    fn usb_stor_enum_exposes_connection_filetimes() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "usb_stor_enum")
+            .expect("usb_stor_enum descriptor must exist");
+        assert!(
+            d.fields.iter().any(|f| f.name == "last_arrival_date"),
+            "must expose last_arrival_date (0x66 FILETIME — authoritative last-connect)"
+        );
+        assert!(
+            d.meaning.contains("83da6326"),
+            "meaning must name the 83da6326 device-property GUID"
+        );
+        assert!(
+            d.related_artifacts.contains(&"mountpoints2"),
+            "must relate to mountpoints2 (the user-attribution join)"
+        );
+    }
+
+    /// edge_webcache must be container-aware (Containers master table -> Container_<id>;
+    /// History holds file:/// local-file-access URLs) and caveat the dirty-ESE recovery.
+    /// Source: plaso msie_webcache.py; libesedb.
+    #[test]
+    fn edge_webcache_documents_containers_and_file_urls() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "edge_webcache")
+            .expect("edge_webcache descriptor must exist");
+        assert!(
+            d.meaning.contains("Container") && d.meaning.contains("file:///"),
+            "meaning must be container-aware and note file:/// local-file-access URLs"
+        );
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("esentutl") || c.contains("V01.log")),
+            "must caveat the dirty-ESE / transaction-log recovery"
+        );
+    }
+
+    /// Windows Timeline must carry the Win11-degradation story: Win11 retired the UI
+    /// (Task View) but ActivitiesCache.db can still exist locally; a sparse/missing DB
+    /// on Win11 is the documented Timeline-deprecation consequence, NOT anti-forensic
+    /// deletion. Sources: MS activity-history/Timeline pages.
+    #[test]
+    fn windows_timeline_documents_win11_degradation() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "windows_timeline")
+            .expect("windows_timeline descriptor must exist");
+        let caveats = d.evidence_caveats.join(" ");
+        assert!(
+            caveats.contains("Windows 11") && caveats.to_lowercase().contains("not"),
+            "must document the Win11 degradation and that a sparse DB is not anti-forensic"
+        );
+        assert_eq!(
+            d.evidence_strength,
+            Some(crate::evidence::EvidenceStrength::Corroborative),
+        );
+    }
+
+    /// System.evtx also carries DistributedCOM activation events relevant to DCOM
+    /// lateral movement (T1021.003): 10036 (server-side, records source IP + SID of a
+    /// remote activation attempt post-CVE-2021-26414 hardening), 10037/10038 client,
+    /// 10016 (mostly benign). Sources: MS KB5004442 + event-10016 doc.
+    #[test]
+    fn evtx_system_documents_dcom_activation_events() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "evtx_system")
+            .expect("evtx_system descriptor must exist");
+        assert!(
+            d.meaning.contains("10036") && d.meaning.contains("DistributedCOM"),
+            "meaning must document the DCOM activation events (10036 server-side source-IP pivot)"
+        );
+        assert!(
+            d.mitre_techniques.contains(&"T1021.003"),
+            "must map to T1021.003 (DCOM lateral movement)"
+        );
+    }
+
+    /// RecentFileCache.bcf must expose the decoded entry_path field and caveat that it
+    /// is Win7-only (superseded by Amcache.hve on Win8+), carries no timestamps/hashes.
+    /// Sources: libyal dtformats RecentFileCache.bcf; ANSSI Amcache; EZ RecentFileCacheParser.
+    #[test]
+    fn recentfilecache_bcf_documents_win7_scope_and_entry() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "fa_file_programs_recentfilecache_bcf")
+            .expect("fa_file_programs_recentfilecache_bcf descriptor must exist");
+        assert!(
+            d.fields.iter().any(|f| f.name == "entry_path"),
+            "must expose the decoded entry_path field"
+        );
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("Windows 7") || c.contains("Amcache")),
+            "must caveat Win7-only / superseded-by-Amcache scope"
+        );
+        assert_eq!(
+            d.evidence_strength,
+            Some(crate::evidence::EvidenceStrength::Corroborative),
+        );
+    }
+
+    /// The RDP client log's EID 1029 records the connecting username as a
+    /// Base64(SHA-256(UTF-16LE(username))) digest on the source host — wordlist-
+    /// reversible and correlatable to the target's 21/22/4624. The descriptor must
+    /// carry it. Sources: EZ EvtxECmd 1029 map; Stroz Friedberg RE.
+    #[test]
+    fn evtx_rdp_client_documents_event_1029() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "evtx_rdp_client")
+            .expect("evtx_rdp_client descriptor must exist");
+        assert!(
+            d.meaning.contains("1029"),
+            "meaning must document EID 1029 (username-hash source pivot)"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "username_hash"),
+            "must expose the username_hash field"
+        );
+    }
+
+    /// File carving (signature-based recovery) must be cataloged — content-based
+    /// recovery from unallocated/slack/raw storage that recovers file DATA only (no
+    /// filename/path/timestamps), and basic carving cannot reassemble fragmented files
+    /// (Garfinkel DFRWS 2007). Sources: PhotoRec; Garfinkel 2007.
+    #[test]
+    fn file_carving_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "file_carving")
+            .expect("file_carving (signature-based recovery) descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.meaning.contains("content") || d.meaning.contains("signature"),
+            "meaning must frame carving as content/signature-based recovery"
+        );
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains("fragmented")),
+            "must carry the fragmented-file limitation (Garfinkel 2007)"
+        );
+    }
+
+    /// mem_network_connections must expose all 10 volatility3 netscan columns; the
+    /// existing 4 cover 6, so add protocol, owner_process, created (C2 beacon timing),
+    /// and offset. Source: volatility3 netscan.py.
+    #[test]
+    fn mem_network_connections_has_netscan_columns() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "mem_network_connections")
+            .expect("mem_network_connections descriptor must exist");
+        for f in ["protocol", "owner_process", "created", "offset"] {
+            assert!(
+                d.fields.iter().any(|x| x.name == f),
+                "must expose the netscan {f} column"
+            );
+        }
+    }
+
+    /// NTFS Object ID index ($Extend\$ObjId:$O) must be cataloged — maps object-ID GUIDs
+    /// to MFT file references for distributed link tracking; BirthObjectId persists across
+    /// renames/cross-volume moves even after the current ObjectId changes. Sources:
+    /// [MS-FSCC] 2.1.3.1 / 2.4.36.1; libfsntfs.
+    #[test]
+    fn ntfs_objid_index_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "ntfs_objid")
+            .expect("ntfs_objid ($Extend\\$ObjId:$O) descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.file_path.unwrap_or_default().contains("$ObjId"),
+            "file_path must reference $Extend\\$ObjId"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "birth_object_id"),
+            "must expose birth_object_id (the stable cross-volume/rename tracking key)"
+        );
+    }
+
+    /// PE images extracted from a RAM capture must be cataloged — the defensive recovery
+    /// of process/DLL/driver PEs (and full resident dumps) that catches in-memory-only
+    /// injected/reflective code; the fully_resident flag warns when paged-out pages were
+    /// zero-filled. Source: Volatility command-reference + pedump/memmap.
+    #[test]
+    fn mem_extracted_pe_images_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "mem_extracted_pe_images")
+            .expect("mem_extracted_pe_images descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::MemoryRegion);
+        assert!(
+            d.fields.iter().any(|f| f.name == "fully_resident"),
+            "must expose fully_resident (the zero-fill / incomplete-reconstruction warning)"
+        );
+        assert!(
+            d.mitre_techniques.contains(&"T1055"),
+            "must map to T1055 (the injected code this recovery targets)"
+        );
+    }
+
+    /// SRUM AppTimelineProvider table must be cataloged under the CORRECT GUID
+    /// {5C8CF1C7-...} (registry provider 'AppTimelineProvider'); {7ACBBAA3-...} is
+    /// vfuprov, not this table. Its keyboard/mouse/input-duration columns distinguish
+    /// interactive human use from automated execution. Sources: EZ Srum issue #8
+    /// (registry Extensions ground truth); chainsaw SRUM wiki; AboutDFIR.
+    #[test]
+    fn srum_app_timeline_uses_correct_guid() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "srum_app_timeline")
+            .expect("srum_app_timeline (AppTimelineProvider) descriptor must be cataloged");
+        let path = d.file_path.unwrap_or_default();
+        assert!(
+            path.contains("5C8CF1C7"),
+            "file_path must use the AppTimelineProvider GUID {{5C8CF1C7-...}}, not vfuprov"
+        );
+        assert!(
+            !path.contains("7ACBBAA3"),
+            "{{7ACBBAA3-...}} is vfuprov, not the App Timeline table"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "keyboard_input_s"),
+            "must expose keyboard_input_s (the interactive-presence signal)"
+        );
+    }
+
+    /// Access tokens recovered from RAM must be cataloged — token_type (Primary vs
+    /// Impersonation), integrity level, and privileges, for detecting token
+    /// theft/impersonation and privilege escalation. Sources: MS winnt.h TOKEN_TYPE;
+    /// well-known SIDs.
+    #[test]
+    fn mem_access_tokens_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "mem_access_tokens")
+            .expect("mem_access_tokens descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::MemoryRegion);
+        assert!(
+            d.fields.iter().any(|f| f.name == "token_type"),
+            "must expose token_type (Primary vs Impersonation)"
+        );
+        assert!(
+            d.mitre_techniques.contains(&"T1134.001"),
+            "must map to T1134.001 (Access Token Manipulation: Token Impersonation/Theft)"
+        );
+    }
+
+    /// IE Automatic Crash Recovery store must be cataloged — OLE/CFBF .dat files whose
+    /// TravelLog streams hold navigated URLs/titles, persisting even after history and
+    /// WebCache are cleared. Source: Khatri RE (IE8/9); forensics.wiki CFBF.
+    #[test]
+    fn ie_recovery_session_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "ie_recovery_session")
+            .expect("ie_recovery_session (RecoveryStore) descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.file_path.unwrap_or_default().contains("Recovery"),
+            "file_path must reference the IE Recovery folder"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "url"),
+            "must expose the recovered url field"
+        );
+    }
+
+    /// Kansa live-response collection output must be cataloged — the Output_<timestamp>
+    /// tree from the davehull/Kansa PowerShell-remoting IR framework: one subdir per
+    /// Get-*.ps1 module, one file per host, -OutputFormat serialization. Source:
+    /// kansa.ps1 (tool source); Kansa README.
+    #[test]
+    fn kansa_collection_output_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "kansa_collection_output")
+            .expect("kansa_collection_output descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::LiveResponse);
+        assert!(
+            d.fields.iter().any(|f| f.name == "module"),
+            "must expose the module field (the Get-*.ps1 collector name)"
+        );
+        assert!(
+            d.mitre_techniques.is_empty(),
+            "a defensive collection framework has no attacker ATT&CK technique"
+        );
+    }
+
+    /// ntds_dit must document the ntdsutil IFM extraction footprint: an ad-hoc folder
+    /// with sibling `Active Directory\` (ntds.dit + ntds.jfm) and `registry\` (SYSTEM +
+    /// SECURITY, carrying the BootKey) subdirs — a .dit anywhere but %SystemRoot%\NTDS\
+    /// is strong evidence of extraction. Source: MS IFM ref; ESENT 326/327 doc.
+    #[test]
+    fn ntds_dit_documents_ifm_extraction_footprint() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "ntds_dit")
+            .expect("ntds_dit descriptor must exist");
+        assert!(
+            d.meaning.contains("IFM") || d.evidence_caveats.iter().any(|c| c.contains("IFM")),
+            "must document the ntdsutil IFM dump footprint"
+        );
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("SYSTEM") && c.contains("SECURITY")),
+            "must note the sibling registry\\SYSTEM+SECURITY hives that decrypt the .dit"
+        );
+    }
+
+    /// Security.evtx must enumerate the DC-side/lateral-movement event IDs: 4776 (NTLM
+    /// credential validation — source-workstation pivot), 5140/5145 (SMB share/admin-share
+    /// access), and the 4624-LogonType-as-pivot caveat (Type3=Network, Type10=RDP).
+    /// Sources: MS event-4776/5140/5145/4624 docs.
+    #[test]
+    fn evtx_security_documents_dc_and_lateral_events() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "evtx_security")
+            .expect("evtx_security descriptor must exist");
+        assert!(
+            d.meaning.contains("4776") && d.meaning.contains("5145"),
+            "meaning must enumerate 4776 (NTLM) and 5145 (detailed file share)"
+        );
+        for t in ["T1550.002", "T1021.002"] {
+            assert!(d.mitre_techniques.contains(&t), "must map to {t}");
+        }
+        let caveats = d.evidence_caveats.join(" ");
+        assert!(
+            caveats.contains("LogonType") && !caveats.contains("Full enum"),
+            "must add the 4624 LogonType pivot caveat without overstating a 9-of-12 subset as 'Full enum'"
+        );
+    }
+
+    /// HKLM\SYSTEM\Select must carry the dead-box resolution knowledge: its four
+    /// REG_DWORD values (Current/Default/Failed/LastKnownGood) resolve ControlSet00N,
+    /// and on an offline hive there is NO CurrentControlSet key — read Select\Current.
+    /// Source: winreg-kb; MS CurrentControlSet doc.
+    #[test]
+    fn regedit_system_select_resolves_control_set() {
+        let matches: Vec<_> = CATALOG
+            .list()
+            .iter()
+            .filter(|d| d.id == "regedit_system_select")
+            .collect();
+        assert_eq!(
+            matches.len(),
+            1,
+            "exactly one regedit_system_select (no generated-stub duplicate)"
+        );
+        let d = matches[0];
+        assert!(
+            d.fields.iter().any(|f| f.name == "Current"),
+            "must expose the Current REG_DWORD (resolves ControlSet00N)"
+        );
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("CurrentControlSet")),
+            "must caveat the dead-box CurrentControlSet-is-volatile gotcha"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
@@ -282,7 +1418,7 @@ mod decode_tests {
     #[test]
     fn catalog_has_entries() {
         assert!(!CATALOG.list().is_empty());
-        assert_eq!(CATALOG.list().len(), 6664);
+        assert_eq!(CATALOG.list().len(), 6686);
     }
 
     #[test]
@@ -906,7 +2042,7 @@ mod decode_tests {
     fn uid_file_artifact() {
         let rec = CATALOG.decode(&PCA_APPLAUNCH_DIC, "line1", b"").unwrap();
         assert!(rec.uid.starts_with("file://"));
-        assert!(rec.uid.contains("AppLaunch.dic"));
+        assert!(rec.uid.contains("PcaAppLaunchDic.txt"));
     }
 
     // ── DecodeError Display ──────────────────────────────────────────────
@@ -1516,14 +2652,14 @@ mod tests_batch_c {
         assert_eq!(OPENSAVE_MRU.id, "opensave_mru");
         assert_eq!(OPENSAVE_MRU.hive, Some(HiveTarget::NtUser));
         assert_eq!(OPENSAVE_MRU.scope, DataScope::User);
-        assert!(OPENSAVE_MRU.key_path.contains("OpenSaveMRU"));
+        assert!(OPENSAVE_MRU.key_path.contains("OpenSavePidlMRU"));
     }
     #[test]
     fn lastvisited_mru_md() {
         assert_eq!(LASTVISITED_MRU.id, "lastvisited_mru");
         assert_eq!(LASTVISITED_MRU.hive, Some(HiveTarget::NtUser));
         assert_eq!(LASTVISITED_MRU.scope, DataScope::User);
-        assert!(LASTVISITED_MRU.key_path.contains("LastVisitedMRU"));
+        assert!(LASTVISITED_MRU.key_path.contains("LastVisitedPidlMRU"));
     }
     #[test]
     fn prefetch_dir_md() {
@@ -2230,7 +3366,7 @@ mod tests_batch_d {
     #[test]
     fn edge_webcache_md() {
         assert_eq!(EDGE_WEBCACHE.id, "edge_webcache");
-        assert_eq!(EDGE_WEBCACHE.artifact_type, ArtifactLocation::Directory);
+        assert_eq!(EDGE_WEBCACHE.artifact_type, ArtifactLocation::File);
         assert_eq!(EDGE_WEBCACHE.scope, DataScope::User);
         assert!(EDGE_WEBCACHE.mitre_techniques.contains(&"T1539"));
     }
@@ -2726,7 +3862,7 @@ mod tests_batch_d {
     #[test]
     fn catalog_count_after_srum_network_connections() {
         // +1 from srum_network_connections, +1 from evtx_application_msiinstaller
-        assert_eq!(CATALOG.list().len(), 6664);
+        assert_eq!(CATALOG.list().len(), 6686);
     }
 
     // ── EVTX channels ─────────────────────────────────────────────────────
@@ -3732,7 +4868,7 @@ mod phase2_registry_tests {
     #[test]
     fn catalog_count_includes_phase2() {
         // Updated to 354 after phase-2b file artifact additions
-        assert_eq!(CATALOG.list().len(), 6664);
+        assert_eq!(CATALOG.list().len(), 6686);
     }
 
     #[test]
@@ -3877,7 +5013,7 @@ mod phase2b_files_tests {
     fn catalog_count_includes_phase2b() {
         // phase2a adds 30 registry artifacts (284→314), phase2b adds 40 file artifacts (314→354)
         // Note: chrome_login_data was already present from Phase 1; not duplicated here.
-        assert_eq!(CATALOG.list().len(), 6664);
+        assert_eq!(CATALOG.list().len(), 6686);
     }
 
     #[test]
@@ -4180,7 +5316,7 @@ mod phase3_persistence_tests {
         // phase3 adds 7 net-new artifacts not already in catalog (354 → 361)
         // Note: winlogon_shell, winlogon_userinit, appinit_dlls, boot_execute,
         //       ifeo_debugger, netsh_helper_dlls, mountpoints2 were already present.
-        assert_eq!(CATALOG.list().len(), 6664);
+        assert_eq!(CATALOG.list().len(), 6686);
     }
 
     // ── Pre-existing artifacts verified present ───────────────────────────────
@@ -5342,7 +6478,7 @@ mod tests_batch_i_presence {
     fn catalog_count_includes_batch_i() {
         assert_eq!(
             CATALOG.list().len(),
-            6664,
+            6686,
             "catalog count after batch I + quicklook + install_date + winscp + wifi + clipboard + unified_log + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -5601,7 +6737,7 @@ mod tests_quicklook_install_date {
     fn catalog_count_includes_quicklook_and_install_date() {
         assert_eq!(
             CATALOG.list().len(),
-            6664,
+            6686,
             "catalog count after quicklook + install_date + winscp + wifi + clipboard + unified_log + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -5759,7 +6895,7 @@ mod tests_winscp_ini {
     fn catalog_count_includes_winscp_ini() {
         assert_eq!(
             CATALOG.list().len(),
-            6664,
+            6686,
             "catalog count after winscp + wifi + clipboard + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -6094,7 +7230,7 @@ mod tests_windows_clipboard_history {
     fn catalog_count_includes_clipboard_history() {
         assert_eq!(
             CATALOG.list().len(),
-            6664,
+            6686,
             "catalog count after valley_rat + ntuser_man + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -8471,7 +9607,7 @@ mod tests_android_gboard_trainingcache {
 
     #[test]
     fn catalog_count_updated() {
-        assert_eq!(CATALOG.list().len(), 6664);
+        assert_eq!(CATALOG.list().len(), 6686);
     }
 }
 
@@ -8574,7 +9710,7 @@ mod tests_hyperv_guest_params {
     fn catalog_count_after_hyperv_guest_params() {
         assert_eq!(
             CATALOG.list().len(),
-            6664,
+            6686,
             "catalog count after hyperv_guest_params"
         );
     }
@@ -8767,7 +9903,7 @@ mod tests_registry_featureusage {
     fn catalog_count_after_registry_featureusage() {
         assert_eq!(
             CATALOG.list().len(),
-            6664,
+            6686,
             "catalog count after registry_featureusage"
         );
     }
@@ -8912,7 +10048,7 @@ mod tests_pca_general_db {
     fn catalog_count_after_pca_general_db() {
         assert_eq!(
             CATALOG.list().len(),
-            6664,
+            6686,
             "catalog count after pca_general_db"
         );
     }
@@ -9032,7 +10168,7 @@ mod tests_windows_hosts_file {
     fn catalog_count_after_windows_hosts_file() {
         assert_eq!(
             CATALOG.list().len(),
-            6664,
+            6686,
             "catalog count after windows_hosts_file"
         );
     }
@@ -9188,7 +10324,7 @@ mod tests_enable_periodic_backup {
     fn catalog_count_after_enable_periodic_backup() {
         assert_eq!(
             CATALOG.list().len(),
-            6664,
+            6686,
             "catalog count after enable_periodic_backup (+1)"
         );
     }
@@ -9344,7 +10480,7 @@ mod tests_dns_policy_config_nrpt {
     fn catalog_count_after_dns_policy_config_nrpt() {
         assert_eq!(
             CATALOG.list().len(),
-            6664,
+            6686,
             "catalog count after dns_policy_config_nrpt"
         );
     }
@@ -9543,7 +10679,7 @@ mod tests_dns_policy_config_nrpt {
     fn catalog_count_after_carvey_windows_registry_post() {
         assert_eq!(
             CATALOG.list().len(),
-            6664,
+            6686,
             "catalog count after adding rdp_enable_registry, special_accounts_userlist, logontype_winlogon, windows_clipboard_data_files"
         );
     }
@@ -9796,7 +10932,7 @@ mod tests_catalog_count_after_defender_support_logs {
     fn catalog_count_after_carvey_defender_support_logs_post() {
         assert_eq!(
             CATALOG.list().len(),
-            6664,
+            6686,
             "catalog count after adding windows_defender_mpwpptracing"
         );
     }

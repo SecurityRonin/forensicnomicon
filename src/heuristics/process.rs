@@ -18,12 +18,17 @@ pub fn is_child_born_before_parent(child_create_ns: i64, parent_create_ns: i64) 
 
 // ── Windows logon type constants (Event ID 4624) ──────────────────────────
 
+/// System — used only by the System account, e.g. at system startup.
+pub const LOGON_SYSTEM: u32 = 0;
 pub const LOGON_INTERACTIVE: u32 = 2;
 pub const LOGON_NETWORK: u32 = 3;
 pub const LOGON_BATCH: u32 = 4;
 pub const LOGON_SERVICE: u32 = 5;
+/// Unlock — this workstation was unlocked.
+pub const LOGON_UNLOCK: u32 = 7;
 pub const LOGON_NETWORK_CLEARTEXT: u32 = 8;
 pub const LOGON_NEW_CREDENTIALS: u32 = 9; // pass-the-hash / pass-the-ticket
+                                          // (Microsoft's SECURITY_LOGON_TYPE table deliberately skips Type 1 and Type 6.)
 /// RDP session logon (without NLA pre-authentication).
 ///
 /// **Field interpretation caveat (Event 4624):** For Type 10 events, the
@@ -34,6 +39,14 @@ pub const LOGON_NEW_CREDENTIALS: u32 = 9; // pass-the-hash / pass-the-ticket
 /// `WorkstationName` alone for Type 10. Confirmed by Ahmed Thabit / Ahmed Abdo
 /// (2025) across Windows 10 Pro 20H2; reproduced in EvtxECmd and Events-Ripper.
 pub const LOGON_REMOTE_INTERACTIVE: u32 = 10;
+/// CachedInteractive — logged on with locally-cached network credentials; the domain
+/// controller was NOT contacted to verify them.
+pub const LOGON_CACHED_INTERACTIVE: u32 = 11;
+/// CachedRemoteInteractive — "Same as RemoteInteractive. This type is used for internal
+/// auditing." (Microsoft event-4624).
+pub const LOGON_CACHED_REMOTE_INTERACTIVE: u32 = 12;
+/// CachedUnlock — workstation logon (unlock with cached credentials).
+pub const LOGON_CACHED_UNLOCK: u32 = 13;
 
 /// Returns `true` for network-originating logon types (lateral movement candidates).
 #[must_use]
@@ -263,6 +276,20 @@ mod tests {
     #[test]
     fn remote_logon_network() {
         assert!(is_remote_logon(LOGON_NETWORK));
+    }
+
+    /// The full SECURITY_LOGON_TYPE map per the Microsoft event-4624 "Logon types and
+    /// descriptions" table — including the five that were missing (0/7/11/12/13). The
+    /// table deliberately skips Type 1 and Type 6.
+    #[test]
+    fn logon_type_map_is_complete() {
+        assert_eq!(LOGON_SYSTEM, 0);
+        assert_eq!(LOGON_UNLOCK, 7);
+        assert_eq!(LOGON_CACHED_INTERACTIVE, 11);
+        assert_eq!(LOGON_CACHED_REMOTE_INTERACTIVE, 12);
+        assert_eq!(LOGON_CACHED_UNLOCK, 13);
+        // Cached (locally-verified) network logons are NOT network-originating.
+        assert!(!is_remote_logon(LOGON_CACHED_INTERACTIVE));
     }
 
     #[test]

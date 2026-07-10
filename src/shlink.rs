@@ -6,11 +6,48 @@
 //! timestamps, machine NetBIOS name, and a distributed-link-tracking droid
 //! GUID — evidence of files that may no longer exist.
 //!
+//! A `.LNK` carries **two distinct timestamp sets that must not be conflated**:
+//!
+//! 1. **The host filesystem's `$STANDARD_INFORMATION` (`$SI`) MACB times of the
+//!    `.lnk` file itself** — when the shortcut was created/modified/accessed on
+//!    *this* machine. For shell-managed shortcuts (the `Recent` /
+//!    `AutomaticDestinations` folders) the shell rewrites the `.lnk` when the
+//!    target is accessed, so these track target-access on this host; a static
+//!    desktop `.lnk` is not rewritten on every open.
+//! 2. **The embedded target timestamps** — `CreationTime` (offset `0x1C`),
+//!    `AccessTime` (`0x24`) and `WriteTime` (`0x2C`), each an 8-byte FILETIME
+//!    (`[MS-DTYP]` §2.3.3) recording the link *target's* MAC times captured at
+//!    the moment the shortcut was last written. Because they are copied into the
+//!    `.lnk`, they survive deletion of the target: a `.lnk` in a Recent /
+//!    AutoDest / jump-list can preserve a deleted file's creation/access/write
+//!    times when the file itself is gone. A zero value denotes an unset field
+//!    (per `[MS-SHLLINK]` §2.1 for CreationTime, AccessTime *and* WriteTime),
+//!    not the 1601 epoch — treat `0` as *absent*, never render it as a real
+//!    timestamp. These are the target's metadata as seen at link-write time, so
+//!    they are *consistent with* (not proof of) the target's true filesystem
+//!    times and can be stale or forged; a divergence from the host `$SI` set
+//!    supports no stronger inference on its own.
+//!
 //! This module is knowledge only — the fixed `HeaderSize`, the `LinkCLSID`, the
 //! `LinkFlags` and `FileAttributesFlags` bit definitions, and the `ExtraData`
 //! block signatures. The parser (header parse, `LinkTargetIDList` walk,
 //! `LinkInfo`/string-data decode, ExtraData dispatch) lives in the consuming
 //! reader (`lnk-core`), per forensicnomicon's knowledge-only charter.
+//!
+//! # Forensic interpretation — an automatic LNK is not proof the target was opened
+//!
+//! Prior to Windows 10, a LNK in the `Recent` folder generally meant the user
+//! opened or accessed the target (Jones 2020). On Windows 10/11 the shell also
+//! creates automatic LNKs for actions that never open the target's contents — a
+//! `Save As` to a new location, a print-to-file / "create new file", and similar
+//! save/create operations — so a file that was *created or saved* but never
+//! opened still yields a LNK (with application-specific exceptions, e.g. 7-Zip).
+//! Consequently the presence of an automatic LNK is *consistent with* the target
+//! having existed and been created or saved on the system; it does not, by
+//! itself, establish that the user opened or viewed the target's contents.
+//! Corroborate against the LNK-vs-target timestamps and independent execution/
+//! access artifacts. (Empirically established on a single build — Windows 10 Pro
+//! 1903, Jones 2020 — so behaviour may vary across builds.)
 //!
 //! # Authoritative sources
 //!
@@ -22,6 +59,10 @@
 //!   reverse-engineered reference; documents every ExtraData block signature
 //!   and size:
 //!   <https://github.com/libyal/liblnk/blob/main/documentation/Windows%20Shortcut%20File%20(LNK)%20format.asciidoc>
+//! - Jones, N. (2020), *LNK Files and the Windows 10 shell* — DFIR Review
+//!   (open peer review), the behavioural source for the Win10/11 create-on-save
+//!   triggers (single study, Windows 10 Pro build 1903):
+//!   <https://dfir.pubpub.org/pub/lhaf5ohxg> (DOI 10.21428/b0ac9c28.92ca3973)
 
 /// `ShellLinkHeader.HeaderSize` — MUST be `0x0000004C` (`[MS-SHLLINK]` §2.1).
 pub const HEADER_SIZE: u32 = 0x0000_004C;
@@ -29,6 +70,25 @@ pub const HEADER_SIZE: u32 = 0x0000_004C;
 /// `ShellLinkHeader.LinkCLSID` — MUST be this class identifier
 /// (`[MS-SHLLINK]` §2.1).
 pub const LINK_CLSID: &str = "00021401-0000-0000-C000-000000000046";
+
+/// Byte width of each `ShellLinkHeader` FILETIME field (`[MS-DTYP]` §2.3.3).
+pub const FILETIME_FIELD_SIZE: usize = 8;
+
+/// Offset of `ShellLinkHeader.CreationTime` — an 8-byte FILETIME
+/// (`[MS-DTYP]` §2.3.3) recording the link *target's* creation time
+/// (`[MS-SHLLINK]` §2.1). Zero means no creation time was set on the target.
+/// Derived: HeaderSize(4)@0x00 + LinkCLSID(16)@0x04 + LinkFlags(4)@0x14 + FileAttributes(4)@0x18.
+pub const OFFSET_CREATION_TIME: usize = 0x1C;
+
+/// Offset of `ShellLinkHeader.AccessTime` — an 8-byte FILETIME
+/// (`[MS-DTYP]` §2.3.3) recording the target's last-access time
+/// (`[MS-SHLLINK]` §2.1). Zero means no access time was set on the target.
+pub const OFFSET_ACCESS_TIME: usize = 0x24;
+
+/// Offset of `ShellLinkHeader.WriteTime` — an 8-byte FILETIME
+/// (`[MS-DTYP]` §2.3.3) recording the target's last-write time
+/// (`[MS-SHLLINK]` §2.1). Zero means no write time was set on the target.
+pub const OFFSET_WRITE_TIME: usize = 0x2C;
 
 // ── LinkFlags (`[MS-SHLLINK]` §2.1.1) ────────────────────────────────────────
 // Bit A is the least-significant bit (1 << 0); bits are listed MSB-first in the
@@ -162,6 +222,16 @@ mod tests {
     fn header_size_and_clsid() {
         assert_eq!(HEADER_SIZE, 0x0000_004C);
         assert_eq!(LINK_CLSID, "00021401-0000-0000-C000-000000000046");
+    }
+
+    #[test]
+    fn header_timestamp_offsets() {
+        // Derived from the fixed-width preceding fields: HeaderSize(4)@0x00 +
+        // LinkCLSID(16)@0x04 + LinkFlags(4)@0x14 + FileAttributes(4)@0x18.
+        assert_eq!(OFFSET_CREATION_TIME, 0x1C);
+        assert_eq!(OFFSET_ACCESS_TIME, 0x24);
+        assert_eq!(OFFSET_WRITE_TIME, 0x2C);
+        assert_eq!(FILETIME_FIELD_SIZE, 8);
     }
 
     #[test]

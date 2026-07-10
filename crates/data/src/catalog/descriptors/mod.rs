@@ -249,12 +249,12 @@ pub(crate) static PCA_PIPE_FIELDS: &[&str] = &["exe_path", "timestamp"];
 /// A pipe-delimited text file where each line records an application launch.
 pub static PCA_APPLAUNCH_DIC: ArtifactDescriptor = ArtifactDescriptor {
     id: "pca_applaunch_dic",
-    name: "PCA AppLaunch.dic",
+    name: "PCA PcaAppLaunchDic.txt",
     artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some(r"C:\Windows\appcompat\pca\AppLaunch.dic"),
+    file_path: Some(r"C:\Windows\appcompat\pca\PcaAppLaunchDic.txt"),
     scope: DataScope::System,
     os_scope: OsScope::Win11_22H2,
     decoder: Decoder::PipeDelimited {
@@ -296,8 +296,39 @@ pub(crate) static PCA_GENERAL_DB_FIELDS_SCHEMA: &[FieldSchema] = &[
     FieldSchema {
         name: "timestamp",
         value_type: ValueType::Text,
-        description: "Unix epoch seconds — Carvey 2024 parsed records use this format; \
-                      raw on-disk records embed FILETIME on Sygnia/AboutDFIR analysis",
+        description: "Raw on-disk format is a UTC datetime string 'YYYY-MM-DD HH:MM:SS.f' \
+                      (e.g. 2022-05-12 21:32:42.556), reported as recorded when the process \
+                      terminates (not at launch); Carvey's PCAParse re-emits it as Unix epoch seconds",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "run_status",
+        value_type: ValueType::Text,
+        description: "Numeric record/run-status code (pipe field 2), analogous to an Event ID for the record; observed values 0-4 per AboutDFIR/Sygnia analysis (3 = a PCA Resolve call, the component that applies compatibility fixes)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "file_description",
+        value_type: ValueType::Text,
+        description: "PE FileDescription of the executable (e.g. \"git\"); blank when the program was run from a UNC path",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "software_vendor",
+        value_type: ValueType::Text,
+        description: "CompanyName / publisher from the PE version resource (e.g. \"the git development community\"); blank for UNC-launched programs",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "file_version",
+        value_type: ValueType::Text,
+        description: "ProductVersion / FileVersion from the PE version resource (e.g. \"2.32.0.windows.2\"); blank for UNC-launched programs",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "program_id",
+        value_type: ValueType::Text,
+        description: "AmCache ProgramId (e.g. 0006ea6a66e62a303f7b974dc4952647a80300000904) — the join key to the AmCache InventoryApplicationFile entry of the same name. Per Blanche Lagny's AmCache research the ProgramId is derived from the file Name, Version, Publisher and Language, so it is stable for identical software across systems and enables cross-artifact and cross-host correlation. Blank for UNC-launched programs",
         is_uid_component: false,
     },
 ];
@@ -335,12 +366,57 @@ pub static PCA_GENERAL_DB: ArtifactDescriptor = ArtifactDescriptor {
     fields: PCA_GENERAL_DB_FIELDS_SCHEMA,
     retention: None,
     triage_priority: TriagePriority::High,
-    related_artifacts: &["pca_applaunch_dic"],
+    related_artifacts: &["pca_applaunch_dic", "amcache_app_file"],
     // Source: Harlan Carvey, "PCAParse" (2024-02-26) — first public DFIR-side
     // documentation of PcaGeneralDb0.txt's "Abnormal process exit with code 0xNN" format.
     sources: &[
         "https://windowsir.blogspot.com/2024/02/pcaparse.html",
         "https://www.sygnia.co/blog/new-windows-11-pca-artifact/",
+        "https://aboutdfir.com/new-windows-11-pro-22h2-evidence-of-execution-artifact/",
+    ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
+};
+
+/// PCA PcaGeneralDb1.txt — the rotating SECONDARY of the abnormal-exit log pair.
+///
+/// Sibling of `pca_general_db` (Db0). Db0 is primary until it reaches 2 MB (2×10^6
+/// bytes); the secondary (Db1) is then cleared, becomes the new primary, and the cycle
+/// repeats — so the pair retains ~2-4 MB of history. Same UTF-16LE/CRLF pipe-delimited
+/// format as Db0. A collector keyed only on Db0 silently loses Db1's older window.
+///
+/// Source: https://www.sygnia.co/blog/new-windows-11-pca-artifact/ (RE: rotation, 2 MB threshold, encoding, 8-field layout)
+/// Source: https://windowsir.blogspot.com/2024/02/pcaparse.html (Carvey PCAParse — parses the pca folder pair)
+pub static PCA_GENERAL_DB1: ArtifactDescriptor = ArtifactDescriptor {
+    id: "pca_general_db1",
+    name: "PCA PcaGeneralDb1.txt",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"C:\Windows\appcompat\pca\PcaGeneralDb1.txt"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win11_22H2,
+    decoder: Decoder::Identity,
+    meaning: "Secondary/rotating half of the Program Compatibility Assistant abnormal-exit log pair. \
+PcaGeneralDb0.txt is the primary file and PcaGeneralDb1.txt the secondary; new records go to whichever \
+is primary until it reaches 2 MB (2x10^6 bytes), at which point the secondary is cleared and becomes \
+the new primary and the cycle repeats — so 2-4 MB of historical data is retained across the pair. Same \
+record format and encoding as Db0 (UTF-16LE, CRLF, one pipe-delimited record per line). Frequently \
+empty or sparse (a clean-install Win11 Pro VM did not populate Db1 at all, while a real-use machine \
+populated it, less than Db0). Must be collected and parsed alongside Db0 to avoid losing the older \
+rotation window. No user attribution is recorded in the file itself — correlate with EVTX / EDR \
+telemetry to assign activity to a user.",
+    mitre_techniques: &["T1059", "T1204.002"],
+    fields: PCA_GENERAL_DB_FIELDS_SCHEMA,
+    retention: None,
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["pca_general_db", "pca_applaunch_dic"],
+    sources: &[
+        "https://www.sygnia.co/blog/new-windows-11-pca-artifact/",
+        "https://windowsir.blogspot.com/2024/02/pcaparse.html",
         "https://aboutdfir.com/new-windows-11-pro-22h2-evidence-of-execution-artifact/",
     ],
     evidence_strength: None,
@@ -973,6 +1049,106 @@ pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
     volatility_rationale: "Persists until Windows Update or manual clear",
 };
 
+pub(crate) static AMCACHE_PROGRAM_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "program_id",
+        value_type: ValueType::Text,
+        description: "ProgramId — the subkey name and the pivot to InventoryApplicationFile: a file whose ProgramId appears in both keys was installed as part of an application, whereas a ProgramId absent here indicates a merely dropped/standalone executable",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "name",
+        value_type: ValueType::Text,
+        description: "Application display name (e.g. \"CrystalDiskMark 8.0.4c\")",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "publisher",
+        value_type: ValueType::Text,
+        description: "Software publisher / vendor",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "version",
+        value_type: ValueType::Text,
+        description: "Application version string",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "source",
+        value_type: ValueType::Text,
+        description: "How the install was discovered — AddRemoveProgram, Msi, or a Store/UWP source; drives which InstallDate values populate",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "install_date",
+        value_type: ValueType::Timestamp,
+        description: "InstallDate — when the OS first recorded the application; day-level granularity and populates mainly for AddRemoveProgram/Msi sources, so treat as approximate",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "install_date_arp_last_modified",
+        value_type: ValueType::Timestamp,
+        description: "InstallDateArpLastModified — last modification of the Add/Remove Programs uninstall entry; a large gap from InstallDate can flag a replaced binary (e.g. a DLL side-load left in a legitimate installer's directory)",
+        is_uid_component: false,
+    },
+];
+
+/// Amcache InventoryApplication — installed-application inventory (evidence of
+/// program presence, not execution).
+///
+/// Distinct from `amcache_app_file` (InventoryApplicationFile, per-PE-file entries):
+/// this key has one subkey per *installed application*, named by its ProgramId, which
+/// links the two keys.
+///
+/// Source: https://github.com/EricZimmerman/AmcacheParser (parser; -i includes installed apps)
+/// Source: https://securelist.com/amcache-forensic-artifact/117622/ (Securelist AmCache analysis)
+/// Source: https://github.com/Psmths/windows-forensic-artifacts/blob/main/execution/amcache.md
+pub static AMCACHE_PROGRAM: ArtifactDescriptor = ArtifactDescriptor {
+    id: "amcache_program",
+    name: "Amcache InventoryApplication (installed programs)",
+    artifact_type: ArtifactLocation::RegistryKey,
+    hive: Some(HiveTarget::Amcache),
+    key_path: r"Root\InventoryApplication",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win8Plus,
+    decoder: Decoder::Identity,
+    meaning: "Inventory of applications that were INSTALLED on the system — one subkey per \
+application, named by its ProgramId, recording Name, Publisher, Version, Source \
+(AddRemoveProgram / Msi / Store), InstallDate and the uninstall registry key. It records \
+installation/presence, NOT execution: an entry proves the application was installed, not \
+that it ran. The ProgramId links to InventoryApplicationFile — a file present in both was \
+installed as part of an application, while a file absent from InventoryApplication was \
+merely dropped or run standalone, which is a core triage distinction. The key is not \
+real-time: it is populated by the Microsoft Compatibility Appraiser (compattelrunner.exe \
+scheduled task) and carries a LastScanTime, so software installed since the last appraiser \
+run may be missing. Parse with AmcacheParser (-i) after replaying the .LOG1/.LOG2 \
+transaction logs.",
+    mitre_techniques: &[],
+    fields: AMCACHE_PROGRAM_FIELDS,
+    retention: Some("Persists in Amcache.hve across reboots; entries may survive application uninstall until the appraiser prunes them"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["amcache_app_file", "shimcache", "prefetch_dir"],
+    sources: &[
+        "https://github.com/EricZimmerman/AmcacheParser",
+        "https://securelist.com/amcache-forensic-artifact/117622/",
+        "https://github.com/Psmths/windows-forensic-artifacts/blob/main/execution/amcache.md",
+        "https://www.sans.org/blog/new-amcache-hve-in-windows-8-1-update-1/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Records installation/presence, not execution — an installed application need not have run; prove execution with Prefetch/UserAssist",
+        "Not real-time: populated by the Compatibility Appraiser (compattelrunner.exe); a LastScanTime marks the last run and software installed since then may be absent",
+        "InstallDate is day-granularity and populates mainly for AddRemoveProgram/Msi sources; treat as approximate",
+        "Compare ProgramId against InventoryApplicationFile to distinguish an installed application from a merely dropped/executed file; a large InstallDate vs InstallDateArpLastModified gap can flag a replaced binary (DLL side-load)",
+        "Replay the .LOG1/.LOG2 transaction logs into Amcache.hve before parsing; behaviour tracks the appraiser library version, not the OS version",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Persists in Amcache.hve; entries remain after uninstall until pruned by the appraiser or a Windows Update",
+};
+
 // ── ShimCache (AppCompatCache) ────────────────────────────────────────────────
 
 pub(crate) static SHIMCACHE_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -999,12 +1175,16 @@ pub static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
     meaning: "Executable metadata cache; presence proves binary existed on disk",
-    mitre_techniques: &["T1218", "T1059"],
+    mitre_techniques: &["T1218", "T1059", "T1070.006", "T1036.003"],
     fields: SHIMCACHE_FIELDS,
     retention: Some("written at clean shutdown only; lost on crash/hard-power-off"),
     triage_priority: TriagePriority::Critical,
     related_artifacts: &["amcache_app_file", "prefetch_dir", "bam_user", "shimcache_memory"],
     sources: &[
+        // Mandiant "Caching Out: The Value of Shimcache for Investigators" — entry timestamp is $SI last-modified, NOT execution:
+        "https://cloud.google.com/blog/topics/threat-intelligence/caching-out-the-val/",
+        // Microsoft — File Times: last-write semantics + SetFileTime altering $SI without changing $DATA:
+        "https://learn.microsoft.com/en-us/windows/win32/sysinfo/file-times",
         "https://www.sans.org/blog/digital-forensics-shimcache/",
         "https://redcanary.com/blog/threat-detection/appcompatcache/",
         "https://www.sans.org/blog/mass-triage-part-4-processing-returned-files-appcache-shimcache/",
@@ -1023,6 +1203,8 @@ pub static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
         "Written only on clean shutdown; live system registry shows entries from last reboot only — use shimcache_memory to capture entries since last reboot",
         "Copying a file at the Command Prompt without opening it in Windows Explorer does NOT create a Shimcache entry — the file must be accessed through the shell (Explorer view, rename, or move) to be shimmed",
         "Collection method matters: ShimCache records exposure, not execution — a responder browsing the live system under review (e.g. opening the folder in Explorer) can CREATE entries, making the analyst the source. Treat entries as evidence of exposure rather than proof of execution",
+        "The stored value is a historical snapshot of the executable's $STANDARD_INFORMATION last-modified (last-write) FILETIME captured when the entry was created (Mandiant, 'Caching Out'). A mismatch between this ShimCache-recorded timestamp and the LIVE filesystem $SI last-modified time for the same path is CONSISTENT WITH timestomping of that file between the two capture points (SetFileTime alters on-disk $SI without changing $DATA). Direction-dependent: detectable only when the shim predates the timestomp",
+        "An identical 64-bit last-modified FILETIME appearing under two or more different paths is CONSISTENT WITH the same binary having been renamed/moved (rename/move within a volume preserves $SI last-modified while each new path is re-shimmed), useful for tracing malware relocation and renamed-utility masquerading. Not proof — unrelated files could share a modified time; note the psexec exception (it rewrites its own $DATA each run, so same-name entries carry DIFFERENT timestamps)",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Registry value persists until hive is overwritten; see shimcache_memory for the Volatile in-memory counterpart",
@@ -1381,12 +1563,26 @@ pub static USB_ENUM: ArtifactDescriptor = ArtifactDescriptor {
 
 // ── MUICache ──────────────────────────────────────────────────────────────────
 
-pub(crate) static MUICACHE_FIELDS: &[FieldSchema] = &[FieldSchema {
-    name: "display_name",
-    value_type: ValueType::Text,
-    description: "Localized display name of the executed application",
-    is_uid_component: false,
-}];
+pub(crate) static MUICACHE_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "display_name",
+        value_type: ValueType::Text,
+        description: "Localized display name of the executed application",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "friendly_app_name",
+        value_type: ValueType::Text,
+        description: "Value-name suffix .FriendlyAppName; copied from the executable's PE VersionInfo FileDescription string. Recorded verbatim by the shell, so it SURVIVES a filesystem rename — a renamed binary retains its original embedded identity (renamed-executable / masquerade detection)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "application_company",
+        value_type: ValueType::Text,
+        description: "Value-name suffix .ApplicationCompany; copied from the executable's PE VersionInfo CompanyName string. Survives a filesystem rename",
+        is_uid_component: false,
+    },
+];
 
 /// MUICache — cached display names of executed applications.
 ///
@@ -1408,18 +1604,27 @@ pub static MUICACHE: ArtifactDescriptor = ArtifactDescriptor {
     fields: MUICACHE_FIELDS,
     retention: Some("persists until registry cleanup"),
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
+    related_artifacts: &["userassist_exe", "bam_user", "amcache_app_file", "prefetch_file", "shimcache"],
     sources: &[
         "https://windowsir.blogspot.com/2012/08/no-more-mr-nice-guy.html",
         "https://www.sans.org/blog/digital-forensics-windows-muicache/",
         "http://windowsir.blogspot.com/2005/12/mystery-of-muicachesolved.html",
         "https://www.magnetforensics.com/blog/forensic-analysis-of-muicache-files-in-windows/",
         "https://forensafe.com/blogs/muicache.html",
+        // PE VersionInfo string keys (FileDescription / CompanyName) that .FriendlyAppName / .ApplicationCompany are copied from:
+        "https://learn.microsoft.com/en-us/windows/win32/menurc/stringfileinfo-block",
+        // RE-derived DFIR reference: the two suffix values, rename-detection use, no-timestamp property:
+        "https://artefacts.help/windows_registry_muicache.html",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "MUICache carries NO execution timestamp — the values are stored directly and the key last-write time only tracks the most-recent change, not any specific program launch",
+        "Populated by the shell on GUI-program interaction, not proof of a full process launch — corroborate with UserAssist / Prefetch / Amcache before concluding execution",
+        ".FriendlyAppName / .ApplicationCompany are absent when the binary has no PE VersionInfo resource (common for packed/stripped malware), so their absence is not exculpatory",
+        "An attacker can forge the PE VersionInfo strings, so a matching FriendlyAppName is consistent-with, not proof-of, a given identity",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry values in UsrClass.dat; persist until registry cleanup",
 };
 
 // ── AppInit_DLLs ──────────────────────────────────────────────────────────────
@@ -2332,16 +2537,25 @@ pub static WORDWHEEL_QUERY: ArtifactDescriptor = ArtifactDescriptor {
     fields: MRU_RECENT_DOCS_FIELDS,
     retention: None,
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
+    related_artifacts: &["lnk_files"],
     sources: &[
         "https://windowsir.blogspot.com/2012/08/wordwheelquery.html",
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
+        // Mandiant "The Missing LNK" — timestamp-interpretation limit + LNK-correlation method:
+        "https://cloud.google.com/blog/topics/threat-intelligence/the-missing-lnk-correlating-user-search-lnk-files/",
+        // RegRipper wordwheelquery.pl — MRUListEx u32-array + 0xFFFFFFFF terminator + UTF-16LE decode:
+        "https://github.com/keydet89/RegRipper3.0/blob/master/plugins/wordwheelquery.pl",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Derived-timestamp rule: the key LastWrite time dates ONLY the single most-recent search term. Every other term can be bounded only as searched BEFORE that LastWrite; the Registry stores no per-term timestamp (Mandiant, 2020)",
+        "Recency order is recovered from the MRUListEx value: an array of little-endian u32 value-indices, most-recent-first, whose final entry is the 0xFFFFFFFF terminator (dropped before use). The FIRST element of that most-recent-first array identifies the term the LastWrite dates (RegRipper wordwheelquery.pl: unpack(\"V*\"), pop if 0xffffffff)",
+        "Older search times can be recovered by correlating each term with user-search LNK files, which carry their own target MAC timestamps for when a file was opened from the search results; combining the LNK times with the MRUListEx order lets the analyst infer the relative sequence of earlier searches (Mandiant 'The Missing LNK', 2020)",
+        "Scope: this key records File Explorer search-bar terms",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated when the user types a term into Explorer search; persists in NTUSER.DAT",
 };
 
 /// OpenSaveMRU — files opened/saved via Windows common dialog (T1083).
@@ -2353,13 +2567,13 @@ pub static OPENSAVE_MRU: ArtifactDescriptor = ArtifactDescriptor {
     name: "OpenSaveMRU (Common Dialog)",
     artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
-    key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSaveMRU",
+    key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSavePidlMRU",
     value_name: None,
     file_path: None,
     scope: DataScope::User,
-    os_scope: OsScope::All,
+    os_scope: OsScope::Win7Plus,
     decoder: Decoder::MruListEx,
-    meaning: "Paths of files opened or saved via Win32 common dialog boxes; per-extension history",
+    meaning: "Paths of files opened or saved via Win32 common dialog boxes, stored as shell PIDLs per file extension (Win7+ key; Windows XP used the non-PIDL OpenSaveMRU)",
     mitre_techniques: &["T1083"],
     fields: MRU_RECENT_DOCS_FIELDS,
     retention: None,
@@ -2384,13 +2598,13 @@ pub static LASTVISITED_MRU: ArtifactDescriptor = ArtifactDescriptor {
     name: "LastVisitedMRU (Common Dialog)",
     artifact_type: ArtifactLocation::RegistryKey,
     hive: Some(HiveTarget::NtUser),
-    key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedMRU",
+    key_path: r"Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRU",
     value_name: None,
     file_path: None,
     scope: DataScope::User,
-    os_scope: OsScope::All,
+    os_scope: OsScope::Win7Plus,
     decoder: Decoder::MruListEx,
-    meaning: "Application + last-used folder from common dialog; reveals programs accessing files",
+    meaning: "Application executable + last-used folder from common dialog; reveals programs accessing files (Win7+ key; Windows XP used the non-PIDL LastVisitedMRU)",
     mitre_techniques: &["T1083"],
     fields: MRU_RECENT_DOCS_FIELDS,
     retention: None,
@@ -2840,9 +3054,10 @@ pub(crate) static SRUM_FIELDS: &[FieldSchema] = &[
 
 /// System Resource Usage Monitor database — rich execution timeline (Win8+).
 ///
-/// SQLite database at `C:\Windows\System32\sru\SRUDB.dat`. Key tables:
+/// ESE (JET Blue) database at `C:\Windows\System32\sru\SRUDB.dat`. Key tables:
 /// `{D10CA2FE-...}` = Application Resource Usage (network, CPU per app),
-/// `{5C8CF1C7-...}` = Network Data Usage. Retains ~30-60 days of history.
+/// `{973F5D5C-...}` = Network Data Usage, `{5C8CF1C7-...}` = App Timeline Provider.
+/// Retains ~30-60 days of history overall (the App Timeline table only ~7 days).
 pub static SRUM_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "srum_db",
     name: "SRUM Database (SRUDB.dat)",
@@ -2960,11 +3175,19 @@ pub static WINDOWS_TIMELINE: ArtifactDescriptor = ArtifactDescriptor {
         "https://aboutdfir.com/windows-10-timeline/",
         "http://windowsir.blogspot.com/2019/11/activitescachedb-vs-ntuserdat.html",
         "https://github.com/EricZimmerman/WxTCmd",
+        // Microsoft — Windows activity history & your privacy (Win11 local-storage statement):
+        "https://support.microsoft.com/en-us/windows/windows-activity-history-and-your-privacy-2b279964-44ec-8c2f-e0c2-6779b07d2cbd",
+        // Microsoft — Get help with Timeline (Timeline retired in Win11, remains on Win10; 2021 MSA-sync deprecation):
+        "https://support.microsoft.com/en-us/windows/get-help-with-timeline-febc28db-034c-d2b0-3bbe-79adc0f7f513",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Windows 11 retired the Timeline user experience (Task View no longer shows activity history); it remains only on Windows 10. Local activity history is still stored on-device when the Activity History setting is enabled, so ActivitiesCache.db can still exist on Windows 11 — its absence from Task View is a UI change, not deletion (Microsoft: activity-history privacy page)",
+        "Cross-device sync history: local upload to a Microsoft account was deprecated in 2021 (the July-2021 month is per kacos2000's WindowsTimeline research; Microsoft documents only the year), and the send-to-Microsoft toggle was removed entirely on 23 Jan 2024 (KB5034204 for Win11 22H2/23H2, KB5034203 for Win10 22H2)",
+        "Forensic bottom line — NOT exculpatory: on Windows 11 the on-device ActivitiesCache.db is commonly sparse, with rich application/file-execution history no longer populated; surviving entries are typically clipboard (ActivityType 10 = clipboard text present; ActivityType 16 = copy-vs-paste indicator) plus minimal system activity. A sparse or missing ActivitiesCache.db on Windows 11 is the expected, documented consequence of the Timeline deprecation — it does NOT indicate anti-forensic deletion or that the user was inactive. Check ActivitiesCache.db-wal for buffered/deleted entries. (The clipboard-only population pattern is a DFIR-community observation — inversecos, Cellebrite — not vendor-documented; treat as observed, not proven)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "On-disk SQLite updated as the user works; entries persist (with a -wal buffer) until pruned or the DB is cleared",
 };
 
 /// Windows Timeline DeviceCache registry — resolves PlatformDeviceId GUIDs to names.
@@ -3034,33 +3257,62 @@ pub static WINDOWS_SEARCH_DB_WIN11: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win11_22H2,
     decoder: Decoder::Identity,
-    meaning: "Win11 22H2+ replacement for Windows.edb. Same forensic value — \
-              gather_time independent of NTFS timestamps — but SQLite3 format. \
-              Different path: note 'Search' (not 'Windows Search') and 'windows.db' (lowercase). \
-              Check for both files on Win11 systems.",
+    meaning: "Win11 22H2+ replacement for Windows.edb. Same forensic value — gather_time \
+independent of NTFS timestamps — but SQLite3. The index is SPLIT across THREE co-resident \
+SQLite files in C:\\ProgramData\\Microsoft\\Search\\Data\\Applications\\Windows\\: windows.db \
+(property store — SystemIndex_1_PropertyStore, one row per property, WorkId join key), \
+Windows-gather.db (the gatherer DB, HIGHEST value — SystemIndex_Gthr holds FileName, \
+LastModified/GatherTime, ScopeID, DocumentID; SystemIndex_GthrPth + ScopeID reconstructs the \
+full path; WorkId in windows.db maps to DocumentID here), and Windows-usn.db (little/no \
+forensic value). Collect ALL THREE — the filename/path/gather-time evidence lives in \
+Windows-gather.db, NOT windows.db, so grabbing only windows.db loses it.",
     mitre_techniques: &["T1070.004", "T1070.006"],
     fields: &[
         FieldSchema {
             name: "file_path",
             value_type: ValueType::Text,
-            description: "Indexed file or folder path",
+            description: "Indexed file or folder path — reconstructed from Windows-gather.db SystemIndex_Gthr.FileName joined with SystemIndex_GthrPth via ScopeID (NOT windows.db)",
             is_uid_component: true,
         },
         FieldSchema {
             name: "gather_time",
             value_type: ValueType::Timestamp,
-            description: "Last indexed time — independent of NTFS timestamps",
+            description: "Last indexed time (SIDR: System_Search_GatherTime) from Windows-gather.db SystemIndex_Gthr.LastModified — independent of NTFS timestamps",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "document_id",
+            value_type: ValueType::UnsignedInt,
+            description: "Per-object UID (SystemIndex_Gthr.DocumentID); joins to WorkId in windows.db's SystemIndex_1_PropertyStore",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "scope_id",
+            value_type: ValueType::UnsignedInt,
+            description: "Parent-scope link (SystemIndex_Gthr.ScopeID) used with SystemIndex_GthrPth to reconstruct the full path",
             is_uid_component: false,
         },
     ],
     retention: None,
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["windows_search_edb", "mft", "usnjrnl"],
-    sources: &["https://github.com/kacos2000/WinEDB"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    sources: &[
+        "https://github.com/kacos2000/WinEDB",
+        // AON / Trustwave-SpiderLabs RE: the three co-resident files + table/column layout:
+        "https://www.levelblue.com/blogs/spiderlabs-blog/windows-search-index-the-forensic-artifact-youve-been-searching-for/",
+        // Securelist/Kaspersky RE: corroborates the three-file split + SystemIndex_Gthr columns:
+        "https://securelist.com/forensic-artifacts-in-windows-11/117680/",
+        // SIDR (Stroz Friedberg) — parses windows.db SQLite, surfaces System_Search_GatherTime:
+        "https://github.com/strozfriedberg/sidr",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Win11 Search splits across THREE co-resident SQLite files (windows.db, Windows-gather.db, Windows-usn.db) in the same Applications\\Windows dir; collect all three — filename/path/gather-time evidence is in Windows-gather.db, not windows.db",
+        "Windows-usn.db has little forensic value and is excluded from most write-ups; collect for completeness, analyse gather.db + windows.db",
+        "gather_time is a present-on-system / last-indexed indicator independent of NTFS timestamps — consistent with a file having been present and indexed, not proof of a specific access",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "On-disk SQLite index files; persist until the index is rebuilt or the files are deleted",
 };
 
 /// PowerShell PSReadLine command history (T1059.001).
@@ -3249,16 +3501,21 @@ pub static THUMBCACHE: ArtifactDescriptor = ArtifactDescriptor {
     fields: DIR_ENTRY_FIELDS,
     retention: None,
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &[],
+    related_artifacts: &["thumbs_db"],
     sources: &[
         "https://www.sans.org/blog/thumbnail-cache-forensics/",
         "https://www.nirsoft.net/utils/thumbcache_viewer.html",
         "https://www.pentestpartners.com/security-blog/thumbnail-forensics-dfir-techniques-for-analysing-windows-thumbcache/",
         "https://thumbcacheviewer.github.io/",
         "https://forensics.wiki/windows_thumbcache/",
+        // Joachim Metz / libyal — byte-level RE spec (24-byte header, per-version cache-type ordinal map):
+        "https://github.com/libyal/libwtcdb/blob/main/documentation/Windows%20Explorer%20Thumbnail%20Cache%20database%20format.asciidoc",
     ],
     evidence_strength: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "The number in thumbcache_<N>.db is the maximum thumbnail EDGE length in pixels. The bucket set is VERSION-DEPENDENT and the cache-type ordinal->filename mapping is REDEFINED (not merely extended) per format version — read the 4-byte 'Cache type' field at header offset 8 first: v20/v21 (Vista/7) = 32/96/256/1024x768/sr; v30 (Win8) adds 16/48/wide/exif; v31 (Win8.1) adds 1600/wide_alternate; v32 (Win10/11) = 16/32/48/96/256/768/1280/1920/2560/sr/wide/exif/wide_alternate/custom_stream. The same ordinal names different files across versions (e.g. value 5 = 1024 in v30/31 but 768 in v32), so the version must be resolved before mapping. The 1280/1920/2560 buckets correspond to the pixel WIDTHS of 720p/1080p/1440p displays (a mnemonic; the spec gives explicit dimensions only for 32x32/96x96/256x256/1024x768)",
+        "Empty-vs-populated tell: an initialized-but-empty thumbcache_<N>.db is exactly the 24-byte 'CMMM' file header (signature @0, format version @4, cache type @8, first-cache-entry offset @12, first-available offset @16, entry count @20); a bucket much larger than 24 bytes holds actual cached thumbnails. Treat file size as 'larger than the 24-byte header', not a hard tens-of-MB threshold (a few small thumbnails are only a few KB)",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
@@ -3573,15 +3830,29 @@ pub static NTDS_DIT: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
-    meaning: "Domain controller AD database; contains NTLM hashes for all domain accounts",
+    meaning: "Domain controller AD database; contains NTLM hashes for all domain accounts. A \
+ntdsutil \"ac i ntds\" \"ifm\" \"create full <path>\" dump leaves a portable copy at an ad-hoc path: the \
+target folder holds two sibling subdirs — Active Directory\\ (ntds.dit + ntds.jfm ESE flush map) and \
+registry\\ (SYSTEM + SECURITY hives) — i.e. everything offline secretsdump needs, since the SYSTEM hive \
+carries the BootKey/SYSKEY that decrypts the .dit.",
     mitre_techniques: &["T1003.003"],
     fields: NTDS_FIELDS,
     retention: None,
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://www.sans.org/blog/protecting-ad-from-credential-theft/"],
+    related_artifacts: &["evtx_application", "shimcache"],
+    sources: &[
+        "https://www.sans.org/blog/protecting-ad-from-credential-theft/",
+        // MS ifm reference — media stored in an 'Active Directory' subfolder; full AD DS media includes the registry:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc732530(v=ws.11)",
+        // MS — ESENT event source (Application-log 216/325/326/327 accompany the dump):
+        "https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/esent-event-327-326",
+    ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["All domain hashes present; requires parsing with secretsdump or ntdsutil"],
+    evidence_caveats: &[
+        "All domain hashes present; requires parsing with secretsdump or ntdsutil",
+        "ntdsutil IFM dump footprint: an ad-hoc target folder with sibling Active Directory\\ (ntds.dit + ntds.jfm flush map) and registry\\ (SYSTEM + SECURITY) subdirs — per the MS IFM doc the media is stored in an 'Active Directory' subfolder and full AD DS media 'includes the registry'. A ntds.dit found anywhere other than the default %SystemRoot%\\NTDS\\ is strong evidence of extraction; the non-default PATH (not the accompanying ESENT event alone) is the discriminator",
+        "The Application-log ESENT events 216/325/326/327 (216=location change, 325=new DB, 326/327=database attach/detach) accompany a dump but also fire during legitimate VSS backups — corroborate the 325 destination path, not the event's mere presence",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "AD database; persists until account deleted",
 };
@@ -5622,16 +5893,22 @@ pub static CHROME_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
 pub static EDGE_WEBCACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "edge_webcache",
     name: "IE/Edge Legacy WebCacheV01.dat",
-    artifact_type: ArtifactLocation::Directory,
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some(r"%LOCALAPPDATA%\Microsoft\Windows\INetCache\"),
+    file_path: Some(r"%LOCALAPPDATA%\Microsoft\Windows\WebCache\WebCacheV01.dat"),
     scope: DataScope::User,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "ESE database recording all IE/Edge Legacy web history, downloads, and cached \
-              content; reveals browsing patterns and potential data exfiltration URLs.",
+    meaning: "ESE (JET Blue) database recording IE / Edge Legacy web activity, organised into \
+named containers by the Containers master table, each mapped to a Container_<id> table: History \
+(navigated URLs), Content (cache metadata), Cookies (per-container CookieEntryEx_<id> tables holding \
+cookie name/value/domain/expiry), iedownload (download records), DOMStore, plus per-day MSHist* \
+history containers; LeakFiles tracks orphaned cache files. The History container stores the raw \
+navigated URL verbatim, INCLUDING file:///C:/folder/file entries for local and network file opens via \
+Explorer/IE — evidence of local file access, not only web browsing. Reveals browsing patterns, \
+downloads, cookie origins, and locally-opened files.",
     mitre_techniques: &["T1539", "T1217"],
     fields: FILE_PATH_FIELDS,
     retention: None,
@@ -5640,9 +5917,16 @@ pub static EDGE_WEBCACHE: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://github.com/EricZimmerman/SQLECmd",
         "https://www.sans.org/blog/digital-forensics-windows-browser-artifacts/",
+        // plaso msie_webcache.py — byte-level container/table map (Containers, Container_#, CookieEntryEx_#):
+        "https://github.com/log2timeline/plaso/blob/main/plaso/parsers/esedb_plugins/msie_webcache.py",
+        // libyal libesedb — ESE database format reference:
+        "https://github.com/libyal/libesedb",
     ],
     evidence_strength: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "Recent activity may reside in the V01.log / V01nnnn.log transaction logs (with V01.chk) rather than in WebCacheV01.dat until a clean shutdown flushes them; the .dat is locked live by taskhostw and is often 'dirty' when copied, requiring esentutl /r recovery before parsing",
+        "The History container records all navigation URLs including file:///C:/folder/file — this is evidence of local/network file access via the shell/IE, distinct from web browsing, and should not be read as internet activity",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
@@ -6625,12 +6909,12 @@ pub static SRUM_NETWORK_USAGE: ArtifactDescriptor = ArtifactDescriptor {
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some(r"C:\Windows\System32\sru\SRUDB.dat:{973F5D5C-1D90-11D3-AE08-00A0C90F57DA}"),
+    file_path: Some(r"C:\Windows\System32\sru\SRUDB.dat:{973F5D5C-1D90-4944-BE8E-24B94231A174}"),
     scope: DataScope::System,
     os_scope: OsScope::Win8Plus,
     decoder: Decoder::Identity,
     meaning:
-        "ESE table {973F5D5C-1D90-11D3-AE08-00A0C90F57DA} records per-app bytes sent/received \
+        "ESE table {973F5D5C-1D90-4944-BE8E-24B94231A174} records per-app bytes sent/received \
               per network interface per hour. ~30-day retention. Proves data exfiltration volume \
               even after log deletion; correlate AppId + UserId + BytesSent for exfil attribution.",
     mitre_techniques: &["T1049", "T1048"],
@@ -7015,8 +7299,22 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
               5152 (WFP blocked a packet — pivot for EDR-silencer detection and inbound \
               recon/exploitation; source IP recorded but direction is usually inbound), \
               5379 (Credential Manager credential read — detects tools like CredentialsFileView harvesting stored passwords), \
+              4776 (NTLM credential validation — 'The computer attempted to validate the credentials \
+              for an account'; generated ONLY on the computer authoritative for the account: the DC \
+              for domain accounts, the local machine for local accounts. Records the Logon Account and \
+              the SOURCE Workstation the NTLM auth came FROM (never the destination server), plus a \
+              Status code (0x0 success, 0xC000006A bad password, 0xC0000234 locked). On a DC this is a \
+              central view of all NTLM auth for domain accounts including the source workstation — a \
+              primary pass-the-hash / NTLM lateral-movement pivot that 4624 alone does not give), \
+              5140 (network share object accessed — Audit File Share; ShareName in \\\\*\\SHARE form, so \
+              admin-share access shows as \\\\*\\C$, \\\\*\\ADMIN$, \\\\*\\IPC$ — an SMB admin-share \
+              lateral-movement signal when the Source IpAddress is a remote host), \
+              5145 (detailed network share object check — Audit Detailed File Share, off by default and \
+              high-volume; fires per file/folder with RelativeTargetName + a fuller AccessMask and an \
+              AccessReason SDDL trail, giving file-level visibility of what a remote account touched over \
+              SMB, e.g. staged tools or exfiltrated files under an admin share), \
               1102 (audit log cleared — high-priority anti-forensics indicator).",
-    mitre_techniques: &["T1070.001", "T1059", "T1078", "T1555"],
+    mitre_techniques: &["T1070.001", "T1059", "T1078", "T1555", "T1550.002", "T1021.002", "T1021.001", "T1039"],
     fields: EVTX_FIELDS,
     retention: Some("configurable; default ~20MB rolling per channel"),
     triage_priority: TriagePriority::Critical,
@@ -7028,6 +7326,14 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
     ],
     sources: &[
         "https://www.sans.org/posters/windows-forensic-analysis/",
+        // Microsoft — Event 4776 (NTLM credential validation): Logon Account + Source Workstation + Status:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4776",
+        // Microsoft — Event 5140 (network share accessed): IpAddress, ShareName (\\*\SHARE), ShareLocalPath:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5140",
+        // Microsoft — Event 5145 (detailed file share): RelativeTargetName, Accesses, AccessReason:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5145",
+        // Microsoft — Event 4624 LogonType table + Source Network Address:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624",
         "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-security-audit-policies",
         "https://www.13cubed.com/downloads/windows_event_log_cheat_sheet.pdf",
         "https://www.magnetforensics.com/blog/the-importance-of-powershell-logs-in-digital-forensics/",
@@ -7074,6 +7380,18 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
          For RDP source attribution always use IpAddress (Source Network Address), \
          never WorkstationName alone. Using WorkstationName as the source on a Type 10 \
          event misattributes the victim host as the actor.",
+        "Event 4624 LogonType isolates the logon vector for a lateral-movement timeline: Type 3 \
+         (Network) = authenticated to this host from the network — the inbound SMB / net-use / \
+         admin-share (C$/ADMIN$/IPC$) and pass-the-hash vector; Type 10 (RemoteInteractive) = Terminal \
+         Services / RDP; Type 2 (Interactive) = local console. Filtering Security.evtx 4624 by LogonType \
+         separates remote network auth (Type 3) from RDP (Type 10) and local logons (Type 2) when \
+         reconstructing how an actor moved between hosts. Key logon types (Microsoft): 2 Interactive, \
+         3 Network, 4 Batch, 5 Service, 7 Unlock, 8 NetworkCleartext, 9 NewCredentials, \
+         10 RemoteInteractive, 11 CachedInteractive.",
+        "Event 4776 is generated only on the account-authoritative host (DC for domain accounts) and \
+         records the SOURCE workstation, not the destination — it also fires on workstation-unlock and \
+         does NOT fire when a domain account logs on locally at a DC; a Type-3 4624 alone does not \
+         attribute the NTLM source the way DC-side 4776 does",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Circular EVTX log; default 128 MB max",
@@ -7101,8 +7419,24 @@ pub static EVTX_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
               -w hidden flags, embedding base64-encoded (often UTF-16LE or gzip-compressed) \
               payloads directly in the event log entry. Subsequent Event IDs 7000 and 7009 \
               (service timeout/failure) are misleading — the PowerShell payload still executes \
-              successfully even when Windows reports the service failed to start.",
-    mitre_techniques: &["T1543.003", "T1070.001", "T1059.001"],
+              successfully even when Windows reports the service failed to start. \
+              DistributedCOM (Source: Microsoft-Windows-DistributedCOM) also writes DCOM \
+              activation-permission events, relevant to DCOM lateral movement (T1021.003 — abuse of \
+              MMC20.Application / ShellWindows / ShellBrowserWindow / Excel.Application objects). Event \
+              10036 is SERVER-SIDE ('The server-side authentication level policy does not allow the \
+              user <DOMAIN>\\<user> SID (<SID>) from address <IP> to activate DCOM server') and, as a \
+              by-product of the CVE-2021-26414 DCOM hardening (KB5004442; \
+              RequireIntegrityActivationAuthenticationLevel DWORD under \
+              HKLM\\SOFTWARE\\Microsoft\\Ole\\AppCompat), records the SOURCE IP and SID of a remote \
+              DCOM activation attempt — an activation-source pivot even when the activation is blocked. \
+              Its client-side counterparts are 10037 (explicitly-set auth level) and 10038 (default \
+              auth level). Event 10016 records a denied DCOM activation-permission grant (CLSID, APPID, \
+              user SID, 'from address') but is overwhelmingly benign by-design noise — Microsoft \
+              documents the LocalHost/LRPC records for NT AUTHORITY\\LOCAL SERVICE / SYSTEM against \
+              ShellExperienceHost and generic shell CLSIDs as expected and safely ignored. Filter \
+              10016/10036 to the forensic subset: 'from address' = a REMOTE host (not LocalHost / \
+              (Using LRPC)) paired with an interactive or domain user SID and a non-standard CLSID.",
+    mitre_techniques: &["T1543.003", "T1070.001", "T1059.001", "T1021.003"],
     fields: EVTX_FIELDS,
     retention: Some("configurable; default ~20MB rolling per channel"),
     triage_priority: TriagePriority::High,
@@ -7111,6 +7445,12 @@ pub static EVTX_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/posters/windows-forensic-analysis/",
         "https://learn.microsoft.com/en-us/windows/win32/eventlog/event-logging",
         "https://github.com/EricZimmerman/evtx",
+        // Microsoft: Event 10016 (DistributedCOM) fields CLSID/APPID/SID/from-address;
+        // states LocalHost/LRPC records for LOCAL SERVICE/SYSTEM are by-design "can be safely ignored":
+        "https://learn.microsoft.com/en-us/troubleshoot/windows-client/application-management/event-10016-logged-when-accessing-dcom",
+        // Microsoft KB5004442 (CVE-2021-26414 DCOM hardening): server-side Event 10036 text incl.
+        // "from address" (client IP) + RequireIntegrityActivationAuthenticationLevel:
+        "https://support.microsoft.com/en-us/topic/kb5004442-manage-changes-for-windows-dcom-server-security-feature-bypass-cve-2021-26414-f1400b52-c141-43d2-941e-37ed901c769c",
         // Source: https://az4n6.blogspot.com/2017/10/finding-and-decoding-malicious.html
         // — PowerShell-as-service abuse via 7045, misleading 7000/7009 errors,
         //   base64+gzip deobfuscation chain
@@ -7417,9 +7757,13 @@ pub static RUN_MRU: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/mkorman90/regipy/blob/master/regipy/plugins/validated_plugins.json",
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
+        "https://github.com/EricZimmerman/RegistryPlugins/blob/master/RegistryPlugin.RunMRU/RunMRU.cs",
     ],
     evidence_strength: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "Each command value ends with a trailing \\1 marker (backslash + '1'); it is a storage/terminator artifact appended by Explorer, not part of the user-typed command — strip it before display (EZ RunMRU.cs strips the literal \\1, regipy strips a 0x01 byte; the two tools disagree on the exact byte form, but either way it is a terminator, not typed text)",
+        "Command entries use single-character value names (a, b, c, …); the separate MRUList value is an ordering string of those letters whose FIRST character identifies the most recently used entry. Only that most-recent entry can be time-anchored to the key's LastWrite time — the remaining entries carry no individual timestamp",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
@@ -7535,6 +7879,18 @@ pub(crate) static MOUNTED_DEVICES_FIELDS: &[FieldSchema] = &[
         value_type: ValueType::Text,
         is_uid_component: false,
     },
+    FieldSchema {
+        name: "usb_serial",
+        description: "USB device iSerialNumber decoded from the REG_BINARY device path — the instance-ID segment (<serial>&0) that precedes the trailing #{volume-interface GUID}; joins to the USBSTOR instance ID under SYSTEM\\CurrentControlSet\\Enum\\USBSTOR. A serial whose second character is '&' is generally a Windows-generated (non-unique) identifier for a device lacking a spec-compliant unique serial",
+        value_type: ValueType::Text,
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "volume_guid",
+        description: "Volume GUID from a \\??\\Volume{GUID} value name; the same GUID appears as a subkey under each user's NTUSER MountPoints2, which is the join that attributes the device to a specific user account",
+        value_type: ValueType::Text,
+        is_uid_component: false,
+    },
 ];
 
 pub static MOUNTED_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
@@ -7548,22 +7904,30 @@ pub static MOUNTED_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
-    meaning: "Drive-letter and volume mappings including device paths, signatures, and removable-media assignments preserved under HKLM\\SYSTEM\\MountedDevices.",
+    meaning: "Drive-letter and volume mappings under HKLM\\SYSTEM\\MountedDevices. Value names are either \\DosDevices\\<letter>: (a drive-letter assignment) or \\??\\Volume{GUID} (a volume record); the REG_BINARY data is a UTF-16-LE device path whose trailing {53f5630d-b6bf-11d0-94f2-00a0c91efb8b} is GUID_DEVINTERFACE_VOLUME (MOUNTDEV_MOUNTED_DEVICE_GUID). Supports two attribution joins for removable-media analysis: (1) device serial → drive letter / Volume GUID — the USBSTOR iSerialNumber embedded in the device path links a \\DosDevices\\<letter>: entry (which letter the device mounted as) and a \\??\\Volume{GUID} entry (its Volume GUID) back to the same physical device in SYSTEM\\...\\Enum\\USBSTOR; (2) Volume GUID → user — the \\??\\Volume{GUID} value's GUID is matched against the subkeys of each user's NTUSER MountPoints2, identifying which user account mounted the device. Non-USBSTOR entries instead carry a 12-byte MBR record (4-byte disk signature + 8-byte partition offset) or a 24-byte GPT record (partition GUID + offset).",
     mitre_techniques: &["T1091"],
     fields: MOUNTED_DEVICES_FIELDS,
     retention: None,
     triage_priority: TriagePriority::High,
-    related_artifacts: &["usb_enum", "wifi_profiles"],
+    related_artifacts: &["usb_enum", "wifi_profiles", "usb_stor_enum", "mountpoints2"],
     sources: &[
         "https://github.com/mkorman90/regipy/blob/master/regipy/plugins/system/mountdev.py",
         "https://github.com/mkorman90/regipy/blob/master/regipy/plugins/validated_plugins.json",
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
+        // Microsoft WDK — GUID_DEVINTERFACE_VOLUME / MOUNTDEV_MOUNTED_DEVICE_GUID {53f5630d-...}:
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/install/guid-devinterface-volume",
+        // RegRipper mp2.pl (canonical) — the Volume-GUID -> MountPoints2 user join Analysis Tip:
+        "https://github.com/keydet89/RegRipper3.0/blob/master/plugins/mp2.pl",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "The two joins attribute a device and a user reliably, but MountedDevices carries no timestamp — pair with USBSTOR/setupapi.dev.log/EMDMgmt for the connection timeline",
+        "A drive letter is reused across devices over time; the current MountedDevices value reflects only the latest assignment for that letter",
+        "A device serial whose second character is '&' is generally a Windows-generated (non-unique) identifier, so serial-based device identity is weaker for those devices",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry values in the SYSTEM hive; persist until overwritten by a new assignment or the key is cleared",
 };
 
 pub(crate) static NETWORKLIST_FIELDS: &[FieldSchema] = &[
@@ -7991,12 +8355,26 @@ pub static HIBERFIL_SYS: ArtifactDescriptor = ArtifactDescriptor {
     volatility_rationale: "",
 };
 
-pub(crate) static MOUNTPOINTS2_FIELDS: &[FieldSchema] = &[FieldSchema {
-    name: "mount_point",
-    description: "Per-user mount point or device reference cached by Explorer",
-    value_type: ValueType::Text,
-    is_uid_component: true,
-}];
+pub(crate) static MOUNTPOINTS2_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "mount_point",
+        description: "Subkey name identifying the mounted resource: a volume GUID ({...}), a drive letter (A-Z), or a mapped network/UNC share encoded as ##server#share (each backslash in \\\\server\\share replaced by # because backslashes are illegal in key names)",
+        value_type: ValueType::Text,
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "resource_class",
+        description: "Resource class derived from the subkey-name prefix: '{' = volume GUID (removable/fixed media), 'A'-'Z' = drive letter, '#' = mapped network/UNC share (##server#share)",
+        value_type: ValueType::Text,
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "subkey_last_write",
+        description: "LastWrite time of the individual resource subkey — consistent with when this user last mounted (connected) that volume/share; the per-subkey time, not the parent key's, is the forensically valuable one",
+        value_type: ValueType::Timestamp,
+        is_uid_component: false,
+    },
+];
 
 pub static MOUNTPOINTS2: ArtifactDescriptor = ArtifactDescriptor {
     id: "mountpoints2",
@@ -8009,7 +8387,7 @@ pub static MOUNTPOINTS2: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::User,
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
-    meaning: "Per-user record of mounted removable media and mapped resources, useful for attributing USB or volume interaction to a specific logged-in user.",
+    meaning: "Per-user record of resources Explorer has mounted — removable/fixed media (volume-GUID subkeys), drive letters, and mapped network/UNC shares (subkeys named ##server#share). Each subkey's LastWrite time is consistent with when this user last mounted that resource, and entries persist after disconnection, so the key attributes device and network-share interaction to a specific logged-in user.",
     mitre_techniques: &["T1091"],
     fields: MOUNTPOINTS2_FIELDS,
     retention: None,
@@ -8020,10 +8398,14 @@ pub static MOUNTPOINTS2: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "The per-SUBKEY LastWrite dates the mount, not the parent key's LastWrite; read each resource subkey's own time",
+        "Entries are retained after a device is removed or a mapped drive is disconnected, so presence does not imply the resource is still mounted",
+        "LastWrite-as-last-mount is the accepted convention but carries no explicit event record — corroborate with USBSTOR/MountedDevices/setupapi.dev.log for the connection timeline",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Subkeys are written when the user mounts a resource; persist in NTUSER.DAT after disconnection",
 };
 
 pub static PORTABLE_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
@@ -8621,6 +9003,30 @@ pub(crate) static MEM_NETWORK_CONNECTIONS_FIELDS: &[FieldSchema] = &[
         description: "Owning process identifier",
         is_uid_component: false,
     },
+    FieldSchema {
+        name: "protocol",
+        value_type: ValueType::Text,
+        description: "Transport protocol and IP version (TCPv4, TCPv6, UDPv4, UDPv6) — netscan 'Proto' column, derived from the object type (TCP vs UDP vs listener) and the address family",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "owner_process",
+        value_type: ValueType::Text,
+        description: "Owning process image name (netscan 'Owner' column), resolved from the owning EPROCESS",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "created",
+        value_type: ValueType::Timestamp,
+        description: "Endpoint creation time (netscan 'Created' column); carried by TCP listeners/endpoints and UDP endpoints (TcpL/TcpE/UdpA all expose CreateTime), enabling C2 beacon-timing correlation",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "offset",
+        value_type: ValueType::UnsignedInt,
+        description: "Offset of the pool-tagged network object in the memory image (netscan 'Offset' column)",
+        is_uid_component: false,
+    },
 ];
 
 pub static MEM_NETWORK_CONNECTIONS: ArtifactDescriptor = ArtifactDescriptor {
@@ -8634,7 +9040,7 @@ pub static MEM_NETWORK_CONNECTIONS: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Active and recently closed network connections from kernel socket structures; reveals C2 channels and lateral movement paths",
+    meaning: "Active and recently closed network connections from kernel socket structures; reveals C2 channels and lateral movement paths. Volatility3's netscan renders 10 columns (Offset, Proto, LocalAddr, LocalPort, ForeignAddr, ForeignPort, State, PID, Owner, Created) by pool-tag scanning for TcpL (listener), TcpE (endpoint) and UdpA (UDP) objects; the extra TTcb tag applies on Windows Server 2022 (build 20348). The Created timestamp on TCP/UDP endpoints supports C2 beacon-timing correlation.",
     mitre_techniques: &["T1049"],
     fields: MEM_NETWORK_CONNECTIONS_FIELDS,
     retention: Some("RAM only; connections may close during acquisition"),
@@ -8642,9 +9048,14 @@ pub static MEM_NETWORK_CONNECTIONS: ArtifactDescriptor = ArtifactDescriptor {
     related_artifacts: &["mem_running_processes"],
     sources: &[
         "https://volatilityfoundation.org/",
+        // Volatility3 netscan.py — the 10-column layout, pool tags (TcpL/TcpE/UdpA, TTcb@20348), Created:
+        "https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/netscan.py",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["Volatile; connections may close during acquisition"],
+    evidence_caveats: &[
+        "Volatile; connections may close during acquisition",
+        "Pool-tag scanning recovers active AND recently-closed/freed endpoints, so a listed connection may already have terminated; the Created time bounds when the endpoint object was allocated",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Volatile),
     volatility_rationale: "RAM; lost on power-off",
 };
@@ -8781,6 +9192,1476 @@ pub static MEM_USER_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
 
 // ── Global catalog entries ────────────────────────────────────────────────────
 
+/// Field schema for the NTFS `Zone.Identifier` alternate data stream
+/// (Mark-of-the-Web). The stream is INI-formatted under a `[ZoneTransfer]` section.
+/// Source: MS-FSCC named streams; Microsoft Attachment Manager Zone.Identifier docs.
+pub(crate) static ZONE_IDENTIFIER_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "zone_id",
+        value_type: ValueType::UnsignedInt,
+        description: "ZoneId under [ZoneTransfer]: 0=Local machine, 1=Local intranet, 2=Trusted sites, 3=Internet, 4=Restricted sites. A value of 3 or 4 is the Mark-of-the-Web, indicating the file originated from an untrusted zone",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "host_url",
+        value_type: ValueType::Text,
+        description: "HostUrl (Windows 10+): the direct URL the file was downloaded from — direct attribution of a downloaded binary or document to its source",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "referrer_url",
+        value_type: ValueType::Text,
+        description: "ReferrerUrl (Windows 10+): the page or location from which the download was initiated (may reveal the delivery site even when HostUrl is a CDN or storage endpoint)",
+        is_uid_component: false,
+    },
+];
+
+/// NTFS `Zone.Identifier` alternate data stream — Mark-of-the-Web (MOTW).
+///
+/// Windows Attachment Manager writes a `Zone.Identifier` alternate data stream to
+/// files saved from an untrusted origin (web browsers, email clients, archive
+/// extraction). INI-formatted under `[ZoneTransfer]`, it carries the ZoneId plus,
+/// on Windows 10+, HostUrl and ReferrerUrl.
+///
+/// Source: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/
+/// Source: https://learn.microsoft.com/en-us/windows/win32/shell/attachment-manager
+pub static ZONE_IDENTIFIER: ArtifactDescriptor = ArtifactDescriptor {
+    id: "zone_identifier",
+    name: "NTFS Zone.Identifier ADS (Mark-of-the-Web)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"<any-file>:Zone.Identifier"),
+    scope: DataScope::User,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "An NTFS alternate data stream named 'Zone.Identifier' that Windows Attachment \
+Manager writes to files saved from an untrusted origin (browsers, email, archive extraction). \
+INI-formatted under [ZoneTransfer]: ZoneId (0=Local, 1=Intranet, 2=Trusted, 3=Internet, \
+4=Restricted) plus, on Windows 10+, HostUrl (the direct download URL) and ReferrerUrl (the \
+originating page). Presence with ZoneId 3 or 4 is the Mark-of-the-Web and proves the file was \
+downloaded from an untrusted zone; the URLs attribute a downloaded tool or malware to its source. \
+The stream is lost when the file is moved to a non-NTFS volume (FAT/exFAT/network) or when the \
+MOTW is deliberately stripped (right-click Unblock, PowerShell Unblock-File, or Remove-Item \
+-Stream), so absence does not prove local origin.",
+    mitre_techniques: &["T1553.005", "T1105"],
+    fields: ZONE_IDENTIFIER_FIELDS,
+    retention: Some("Persists with the file on NTFS until the file or the stream is removed; not carried to non-NTFS volumes"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["mft", "mft_file", "lnk_files"],
+    sources: &[
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/",
+        "https://learn.microsoft.com/en-us/windows/win32/shell/attachment-manager",
+    ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
+};
+
+/// Field schema for the per-folder `Thumbs.db` OLE compound-file thumbnail cache.
+/// The XP-format Catalog stream indexes cached items by original filename + modified
+/// time; the modern network/UNC variant is OLE without the Catalog stream.
+/// Source: forensics.wiki Thumbs.db; libyal libolecf; Parsonage "Under My Thumbs".
+pub(crate) static THUMBS_DB_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "catalog_entry_filename",
+        value_type: ValueType::Text,
+        description: "Original filename of the cached item, recorded in the Thumbs.db Catalog stream (XP format). Recoverable even after the source file is deleted, so it proves the named file once existed in the folder",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "catalog_entry_modified",
+        value_type: ValueType::Timestamp,
+        description: "Modified time recorded for the catalog entry in the Catalog stream",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "catalog_entry_id",
+        value_type: ValueType::UnsignedInt,
+        description: "Catalog index / thumbnail identifier tying a Catalog entry to its thumbnail stream within the OLE compound file",
+        is_uid_component: false,
+    },
+];
+
+/// Thumbs.db — per-folder OLE compound-file thumbnail cache (Mark: distinct from the
+/// centralized `thumbcache`).
+///
+/// Source: https://forensics.wiki/thumbs.db/
+/// Source: https://github.com/libyal/libolecf
+/// Source: http://computerforensics.parsonage.co.uk/thumbs/thumbs.htm
+pub static THUMBS_DB: ArtifactDescriptor = ArtifactDescriptor {
+    id: "thumbs_db",
+    name: "Thumbs.db (per-folder thumbnail cache)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"<folder>\Thumbs.db"),
+    scope: DataScope::User,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "A hidden per-folder OLE compound-file thumbnail cache written by Windows Explorer in \
+each folder viewed in Thumbnails/Filmstrip mode. Default on Windows XP; on Vista+ the cache moved to \
+the centralized thumbcache_*.db, but a per-folder Thumbs.db is STILL created when a folder is reached \
+over the network or via a UNC path (for example \\\\localhost\\c$), so its presence on a modern system \
+is a behavioural fingerprint that the folder was accessed by a network path rather than normal local \
+browsing. The XP Catalog stream records each cached item's original filename and modified time; the \
+modern UNC variant is an OLE container without the Catalog stream. Cached thumbnails and metadata \
+survive deletion of the source files, so a Thumbs.db can prove a now-deleted image existed in the \
+folder. Decode with an OLE compound-file parser (e.g. Vinetto).",
+    mitre_techniques: &[],
+    fields: THUMBS_DB_FIELDS,
+    retention: Some("Persists in the folder until deleted or the folder is removed; may survive deletion of the images it cached"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["thumbcache", "mft", "recycle_bin"],
+    sources: &[
+        "https://forensics.wiki/thumbs.db/",
+        "https://github.com/libyal/libolecf",
+        "http://computerforensics.parsonage.co.uk/thumbs/thumbs.htm",
+    ],
+    evidence_strength: None,
+    evidence_caveats: &[],
+    volatility: None,
+    volatility_rationale: "",
+};
+
+pub(crate) static CDP_GDID_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "device_puid",
+        value_type: ValueType::Text,
+        description: "The 64-bit MSA Device PUID stored as 16 hex digits in the LID value (e.g. 0018000FC8CB93CC). This is the same identifier Microsoft's device graph writes as g:<decimal> (the court's g:6755467234350028 == 0x0018000FC8CB93CC). Server-assigned at Microsoft Account provisioning; identifies a Windows installation, not the underlying hardware",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "puid_class_prefix",
+        value_type: ValueType::Text,
+        description: "Leading 4 hex digits classify the PUID: 0018 = device PUID (the GDID), 0003 = user account PUID. Lets an examiner confirm the value is the device identifier rather than the signed-in user's PUID",
+        is_uid_component: false,
+    },
+];
+
+/// Connected Devices Platform (CDP) Global Device Identifier (GDID) — the persistent
+/// 64-bit MSA Device PUID.
+///
+/// Distinct from the ActivitiesCache.db timeline (`windows_timeline`): same CDP
+/// subsystem, but a registry-resident device-identity value rather than the SQLite
+/// activity store. Surfaced publicly in the July 2026 Scattered Spider complaint
+/// (US v. Stokes, N.D. Ill.) as `Global Device Identifier g:6755467234350028`.
+///
+/// The blog that surfaced this (hackingpassion.com) is a discovery pointer only; the
+/// facts below are grounded in the independent primary sources cited in `sources`.
+///
+/// Source: US v. Peter Stokes, N.D. Ill. (Jul 2026) — court filing naming the GDID [COURT]
+/// Source: https://github.com/SmtimesIWndr/gdid-reversal — ETW + static RE, Win11 26200 [OBSERVED/STATIC]
+/// Source: Microsoft Delivery Optimization / UCDOStatus.GlobalDeviceId column docs [VENDOR]
+pub static CDP_GDID: ArtifactDescriptor = ArtifactDescriptor {
+    id: "cdp_gdid",
+    name: "CDP Global Device Identifier (GDID / MSA Device PUID)",
+    artifact_type: ArtifactLocation::RegistryValue,
+    hive: Some(HiveTarget::NtUser),
+    key_path: r"Software\Microsoft\IdentityCRL\ExtendedProperties",
+    value_name: Some("LID"),
+    file_path: None,
+    scope: DataScope::User,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "A persistent, device-level identifier for a Windows installation, minted by the \
+Microsoft Account service (wlidsvc: CDeviceIdentityBase::CreateNewDeviceIdentity -> \
+DeviceIdStore::LogToRegistry) via a SOAP exchange with login.live.com, which returns a \
+server-assigned 64-bit Passport Unique ID (PUID). The Connected Devices Platform (cdp.dll, \
+services CDPSvc + CDPUserSvc) reads this PUID and registers it into Microsoft's Device \
+Directory Service (DDS) as the string g:<decimal> (format string \"g:%s\"), and Delivery \
+Optimization reports it as the documented UCDOStatus.GlobalDeviceId. Because the PUID is \
+server-assigned, it stays constant across OS updates but changes on a clean reinstall, so it \
+identifies an installation rather than fixed hardware. Forensically it is an attribution pivot: \
+the local LID value shows the device's PUID, and Microsoft-held DDS/telemetry records tie that \
+same GDID to the account, IP addresses, geolocation and last-seen times across sessions, so it \
+can link one machine across VPNs and locations over time. Present since Windows 10 (2015); CDP \
+also has an anonymous device path, so a GDID can exist without a Microsoft Account.",
+    mitre_techniques: &[],
+    fields: CDP_GDID_FIELDS,
+    retention: Some("Persists in NTUSER.DAT; server-backed, so it survives local deletion (re-fetched from Microsoft on next CDP sync) and OS updates; changes only on reinstall/re-provision"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["windows_timeline", "windows_timeline_devicecache"],
+    sources: &[
+        // Primary: US federal criminal complaint naming the GDID (Scattered Spider case).
+        "https://www.justice.gov/usao-ndil",
+        // Reverse-engineering writeup: ETW capture + static RE against Windows 11 (26200) public PDBs.
+        "https://github.com/SmtimesIWndr/gdid-reversal",
+        // Microsoft vendor doc: Delivery Optimization UCDOStatus.GlobalDeviceId column.
+        "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/ucdostatus",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "The LID value is the device PUID; correlating it to a person requires Microsoft-held records (DDS device graph, account, IP, geolocation, last-seen) obtained by legal process",
+        "A clean reinstall yields a NEW server-assigned PUID, so the value identifies an installation, not hardware; a changed or absent GDID does not exclude the same physical machine",
+        "Server-backed: deleting the LID key does not durably remove the GDID — CDP re-populates it from Microsoft on the next sync (observed returning identical after opening the Microsoft Store)",
+        "Present with a Microsoft Account sign-in; CDP's anonymous device path can also produce a GDID without an MSA — verify per build",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Server-backed device PUID persisted in NTUSER.DAT; survives local deletion (re-fetched from Microsoft) and OS updates",
+};
+
+pub(crate) static NTFS_I30_INDEX_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "recovered_filename",
+        value_type: ValueType::Text,
+        description: "Filename of a removed directory entry recovered from B-tree slack in the $INDEX_ALLOCATION. Because the entry is a copy of the file's $FILE_NAME attribute, it survives Shift+Delete and $MFT-record reuse — often the only proof a now-deleted file once existed in the folder",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "from_slack",
+        value_type: ValueType::Bool,
+        description: "True when the entry was carved from index slack (a stale entry left behind by B-tree node splits/merges) rather than read from the live index. MFTECmd reports this as 'From Slack' = true",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "fn_macb",
+        value_type: ValueType::Timestamp,
+        description: "The four $FILE_NAME timestamps (Created / Modified / MFT-modified / Accessed) preserved in the slack entry. These are the $FN set — set at file creation and harder to spoof than $STANDARD_INFORMATION — reflecting state when the entry was written, not the deletion time",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "logical_size",
+        value_type: ValueType::UnsignedInt,
+        description: "Logical file size recorded in the slack $FILE_NAME entry; corroborates the recovered filename and can differ from any surviving $DATA run",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "parent_reference",
+        value_type: ValueType::Text,
+        description: "MFT reference (entry number + sequence) of the parent directory whose $I30 index holds this entry, locating where the deleted file resided",
+        is_uid_component: false,
+    },
+];
+
+/// NTFS directory index ($I30) slack — deleted-filename recovery from B-tree slack.
+///
+/// A directory's filename index is named `$I30` after the $FILE_NAME attribute type
+/// code (0x30) it sorts on. It is a virtual view of three attributes on the
+/// directory's $MFT record: $INDEX_ROOT (0x90, the resident B-tree root),
+/// $INDEX_ALLOCATION (0xA0, non-resident INDX blocks — each begins with the "INDX"
+/// signature), and $BITMAP (0xB0, which INDX blocks are in use). B-tree rebalancing
+/// (node splits/merges on add/remove) leaves *slack* — stale entry copies — distinct
+/// from file slack. Each entry is a copy of a file's $FILE_NAME attribute, so a
+/// removed file's name, logical size and $FN MACB set survive in slack even after
+/// Shift+Delete and reuse of its $MFT record. Complements $MFT recovery: it can name
+/// a file whose $MFT entry is already overwritten.
+///
+/// Source: Brian Carrier, "File System Forensic Analysis" (2005) ch.13 — NTFS indexes,
+///         B-trees and $INDEX_ALLOCATION (authoritative reference).
+/// Source: https://github.com/libyal/libfsntfs — index entry / $INDEX_ALLOCATION layout.
+/// Source: https://github.com/EricZimmerman/MFTECmd — surfaces slack entries (From Slack).
+pub static NTFS_I30_INDEX: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ntfs_i30_index",
+    name: "NTFS Directory Index ($I30) slack",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"<NTFS directory>:$I30:$INDEX_ALLOCATION"),
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "The filename index of an NTFS directory ($I30, named after the $FILE_NAME \
+attribute type 0x30). It is a B-tree spread across the directory's $INDEX_ROOT (0x90, \
+resident root), $INDEX_ALLOCATION (0xA0, non-resident blocks each starting with the INDX \
+signature) and $BITMAP (0xB0). Node splits and merges during add/remove leave slack — stale \
+copies of entries — that retain a removed file's name, logical size and full $FILE_NAME MACB \
+set. Because those copies persist independently of the file's $MFT record, a deleted \
+filename can be recovered from $I30 slack even after Shift+Delete and after the $MFT entry \
+is reused, making it frequently the only proof a file existed in a folder. Parse from $MFT / \
+raw disk with MFTECmd, which flags carved entries as From Slack = true.",
+    mitre_techniques: &["T1070.004"],
+    fields: NTFS_I30_INDEX_FIELDS,
+    retention: Some("Slack entries persist in $INDEX_ALLOCATION until B-tree rebalancing or new entries overwrite the slack region"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["mft", "mft_file", "usn_journal", "recycle_bin"],
+    sources: &[
+        // Carrier, File System Forensic Analysis (2005) ch.13 — NTFS indexes / B-trees (book, no stable URL).
+        "https://github.com/libyal/libfsntfs",
+        "https://github.com/EricZimmerman/MFTECmd",
+        "https://forensics.wiki/ntfs/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Slack entries can be partially overwritten by later B-tree rebalancing; a recovered name may be truncated and its size/timestamps stale",
+        "The $FN timestamps reflect when the entry was written (file creation), not the deletion time; do not read them as a deletion timestamp",
+        "Presence proves the name existed in the directory index; it does not prove the file content survived, nor which user created or deleted it",
+        "Requires raw disk / $MFT access; MFTECmd marks carved entries From Slack = true",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Index-slack entries persist in the directory's $INDEX_ALLOCATION until rebalancing or new entries overwrite the slack region",
+};
+
+pub(crate) static NTFS_ADS_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "stream_name",
+        value_type: ValueType::Text,
+        description: "Name of the alternate $DATA stream (the <stream name> in <filename>:<stream name>:$DATA). Empty for default file content; non-empty names such as 'Zone.Identifier', '$J', or an arbitrary attacker-chosen name identify an ADS. Any legal filename character, including spaces, is permitted",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "stream_type",
+        value_type: ValueType::Text,
+        description: "The <stream type> component, normally '$DATA' for a data stream (directories use '$INDEX_ALLOCATION'; the default directory index is '$I30'). Confirms the attribute is a data stream rather than an index",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "stream_size",
+        value_type: ValueType::UnsignedInt,
+        description: "Logical byte length of the named stream from its $DATA attribute — the size Explorer and plain `dir` do NOT report for the host file. A non-trivial size on an otherwise small file is a hiding indicator",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "host_path",
+        value_type: ValueType::Text,
+        description: "Full path of the host file or directory that owns the stream (the <filename> component), tying the hidden stream to its visible carrier for pivoting to the $MFT record",
+        is_uid_component: true,
+    },
+];
+
+/// Generic NTFS Alternate Data Stream — any named $DATA attribute.
+///
+/// Distinct from `zone_identifier` (the specific Zone.Identifier/MOTW ADS with its own
+/// [ZoneTransfer] INI schema): this is the generic parent for arbitrary named streams
+/// and their hiding/execution abuse.
+///
+/// Source: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c54dec26-1551-4d3a-a0ea-4fa40f848eb3 ([MS-FSCC] NTFS Streams: naming syntax, default ::$DATA, dir /R visibility)
+/// MITRE: T1564.004 (Hide Artifacts: NTFS File Attributes)
+pub static NTFS_ADS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ntfs_ads",
+    name: "NTFS Alternate Data Stream (generic named $DATA stream)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"<any-file-or-dir>:<stream-name>:$DATA"),
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "An NTFS file or directory may carry more than one $DATA attribute. The first, unnamed \
+$DATA attribute is the ordinary file content; any additional NAMED $DATA attribute is an Alternate \
+Data Stream (ADS). Per [MS-FSCC] a stream's full name is <filename>:<stream name>:<stream type>, so \
+default content is file.txt::$DATA and a named ADS is file.txt:secret:$DATA. Any character legal in a \
+filename (including spaces) is legal in a stream name, and directories can carry named data streams. \
+ADS are NOT shown by default `dir` or Explorer (which report only the unnamed stream's size); they \
+surface with `dir /R`, `Get-Item -Stream *`, `fsutil file streams`, or an $MFT parser that enumerates \
+every $DATA attribute. Legitimate ADS exist across the OS — Zone.Identifier (Mark-of-the-Web), the \
+$UsnJrnl:$J and :$Max change-journal streams, SmartScreen/Wof metadata, and Finder/SMB resource forks. \
+Abuse is the mirror image: an adversary hides a payload, script, or exfil data in a named stream so it \
+occupies no visible file, is skipped by tools scanning only unnamed streams, and can be executed \
+directly. ADS do not survive a copy to a non-NTFS volume (FAT/exFAT), most SMB shares, or many \
+archive/email round-trips, so absence never proves a stream was never present. The presence, name, \
+size and bytes of a named stream are the facts; benign vs malicious is inferred from the name and \
+content, not from ADS presence alone.",
+    mitre_techniques: &["T1564.004"],
+    fields: NTFS_ADS_FIELDS,
+    retention: Some("Persists with the host file on NTFS until the file, the named stream, or the $DATA attribute is removed; lost on copy to FAT/exFAT, most SMB shares, and many archive/email round-trips"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["mft", "mft_file", "zone_identifier", "usnjrnl"],
+    sources: &[
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c54dec26-1551-4d3a-a0ea-4fa40f848eb3",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "ADS presence is a filesystem fact; benign vs malicious is inferred from the stream name and its bytes, not from the mere existence of a named stream (Zone.Identifier, $UsnJrnl:$J and resource-fork streams are all legitimate)",
+        "Requires an $MFT parser or raw enumeration (dir /R, Get-Item -Stream, fsutil file streams); default `dir` and Explorer hide named streams and report only the unnamed stream's size",
+        "Streams are not carried to non-NTFS volumes (FAT/exFAT), most SMB/network shares, or many archive/email round-trips, so absence does not prove a stream was never present",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "On-disk NTFS metadata; a named $DATA stream persists with the host file until the file or the named stream is deleted",
+};
+
+pub(crate) static NTFS_REPARSE_POINT_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "reparse_tag",
+        value_type: ValueType::UnsignedInt,
+        description: "32-bit reparse tag from the $REPARSE_POINT (0xC0) attribute; identifies the owning filter driver. Decode per [MS-FSCC] bit-field (M/R/N/D flags + 16-bit Value). Show the raw hex tag when not one of the predefined values",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "tag_name",
+        value_type: ValueType::Text,
+        description: "Symbolic name when recognised (IO_REPARSE_TAG_MOUNT_POINT 0xA0000003, IO_REPARSE_TAG_SYMLINK 0xA000000C, IO_REPARSE_TAG_WOF 0x80000017, IO_REPARSE_TAG_DEDUP 0x80000013, IO_REPARSE_TAG_CLOUD 0x9000001A, IO_REPARSE_TAG_APPEXECLINK 0x8000001B, IO_REPARSE_TAG_LX_SYMLINK 0xA000001D); for an unrecognised tag report the raw 0x-hex value verbatim",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "name_surrogate",
+        value_type: ValueType::Bool,
+        description: "The N bit (29) of the tag: true = a path redirection (junction/symlink/mount point) whose SubstituteName names another object; false = a data-overlay tag (WOF/Dedup/Cloud) that virtualises the file's own data in place",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "substitute_name",
+        value_type: ValueType::Text,
+        description: "For MOUNT_POINT/SYMLINK, the kernel target path (often \\??\\-prefixed) the point redirects to — reveals where a path actually resolves",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "print_name",
+        value_type: ValueType::Text,
+        description: "The display path shown to the user for a junction/symlink (may differ from the substitute/kernel path)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "reparse_data_length",
+        value_type: ValueType::UnsignedInt,
+        description: "Length in bytes of the filter-specific reparse data following the tag header (0xC0 attribute ReparseDataLength)",
+        is_uid_component: false,
+    },
+];
+
+/// NTFS Reparse Points — $REPARSE_POINT (0xC0) attribute + volume-wide $Extend\$Reparse:$R index.
+///
+/// Source: https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4 ([MS-FSCC] Reparse Tags — tag bit-field + predefined tag/value table)
+/// Source: https://github.com/libyal/libfsntfs (RE: $Extend\$Reparse $R index + 0xC0 layout)
+/// Source: https://flatcap.github.io/linux-ntfs/ntfs/attributes/reparse_point.html (linux-ntfs RE: 0xC0 structure)
+pub static NTFS_REPARSE_POINT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ntfs_reparse_point",
+    name: "NTFS Reparse Points ($REPARSE_POINT / $Extend\\$Reparse)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"<NTFS file/dir>:$REPARSE_POINT (attr 0xC0); enumerated volume-wide via $Extend\$Reparse:$R"),
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "A reparse point is an NTFS extensibility mechanism: any file or directory can carry a \
+$REPARSE_POINT attribute (MFT type 0xC0), and its $STANDARD_INFORMATION flags carry \
+FILE_ATTRIBUTE_REPARSE_POINT (0x400). The attribute begins with a 32-bit reparse tag naming the \
+filter driver that owns the point. Per [MS-FSCC] the tag is a bit-field: bit 31 = M (Microsoft-owned), \
+bit 30 = R (reserved), bit 29 = N (Name Surrogate — the entry is an alias/redirection), bit 28 = D \
+(Directory), bits 0-15 = the tag Value. The N bit is the key discriminator: N=1 tags are true path \
+redirections (junctions 0xA0000003, symlinks 0xA000000C, mount points, WSL symlinks 0xA000001D); N=0 \
+tags overlay or virtualise the file's own data in place (WOF/compression 0x80000017, Dedup 0x80000013, \
+OneDrive/Cloud placeholders 0x9000001A). For MOUNT_POINT/SYMLINK the data holds a SubstituteName (the \
+kernel target, often \\??\\-prefixed) and a PrintName (display path). NTFS also maintains a volume-wide \
+index in the metadata file $Extend\\$Reparse: an index named $R enumerates every reparse point on the \
+volume keyed by MFT file_id (keys only, no data — the reparse data lives in each file's 0xC0 attribute). \
+Forensic relevance: junctions/symlinks are abused for path redirection, TOCTOU races and sandbox escapes \
+(inspect the SubstituteName to see where a path really resolves); WOF/Dedup tags mean the file's bytes \
+are NOT in a plain $DATA run, so a naive carve returns a stub while the content sits in the WIM/overlay \
+or Dedup chunk store; CLOUD/OneDrive tags mark placeholder (dehydrated) files whose data is not resident \
+locally. Enumerate with fsutil reparsepoint query, MFTECmd, or libfsntfs.",
+    mitre_techniques: &[],
+    fields: NTFS_REPARSE_POINT_FIELDS,
+    retention: Some("Persists in the file's on-disk 0xC0 attribute and the $Extend\\$Reparse index until the reparse point is removed or the file is deleted"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["mft", "mft_file", "ntfs_i30_index", "usn_journal", "logfile_ntfs"],
+    sources: &[
+        "https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4",
+        "https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/ca069dad-ed16-42aa-b057-b6b207f447cc",
+        "https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/b41f1cbf-10df-4a47-98d4-1c52a833d913",
+        "https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc",
+        "https://flatcap.github.io/linux-ntfs/ntfs/attributes/reparse_point.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "The $Extend\\$Reparse $R index enumerates points by MFT file_id but stores no reparse data; the authoritative data is each file's 0xC0 attribute — reconcile the two",
+        "A WOF/Dedup/Cloud tag means the file's real bytes are NOT in a plain $DATA run; a naive $DATA carve returns a stub — resolve the overlay/chunk-store/cloud source before concluding the content was present",
+        "A CLOUD/OneDrive placeholder is an online-only/dehydrated file whose data is not resident locally; corroborate with cloud-sync artifacts before concluding the content was ever on the machine",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Reparse data is stored in the file's on-disk $REPARSE_POINT (0xC0) MFT attribute and indexed in $Extend\\$Reparse; it persists until the reparse point is removed or the file is deleted",
+};
+
+pub(crate) static PHOTOREC_RECUP_DIR_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "recovered_file",
+        value_type: ValueType::Text,
+        description: "Recovered file, named f<sector><ext> (e.g. f0017088.txt); 'f' = file, number = logical sector of file start",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "start_sector",
+        value_type: ValueType::UnsignedInt,
+        description: "Sector where the file begins, embedded in the filename = (file location - partition offset) / sector size; equals the original cluster/block number when block size == sector size",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "embedded_title",
+        value_type: ValueType::Text,
+        description: "Optional title extracted from file metadata and appended to the name (Office/PDF etc.)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "thumbnail_file",
+        value_type: ValueType::Text,
+        description: "t*.jpg — thumbnail carved from inside a picture",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "broken_file",
+        value_type: ValueType::Text,
+        description: "b<sector><ext> — corrupted file or fragment retained when 'keep corrupted files' was enabled",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "report_xml",
+        value_type: ValueType::Text,
+        description: "report.xml in the first recup_dir; records sectorsize and img_offset (partition offset) for the run, letting an examiner map each f<sector> file back to a byte offset in the source image",
+        is_uid_component: false,
+    },
+];
+
+/// PhotoRec / QPhotoRec carving output — the recup_dir.N tree signature that a file
+/// carver was run.
+///
+/// Source: https://www.cgsecurity.org/testdisk_doc/photorec.html (f<sector> naming, 500-files/dir, report.xml sectorsize/img_offset, t*/b prefixes)
+/// Source: https://www.cgsecurity.org/wiki/PhotoRec_FAQ (logical-sector filename convention)
+/// Source: https://www.cgsecurity.org/testdisk_doc/running.html (Windows binaries photorec_win.exe / qphotorec_win.exe)
+pub static PHOTOREC_RECUP_DIR: ArtifactDescriptor = ArtifactDescriptor {
+    id: "photorec_recup_dir",
+    name: "PhotoRec Carving Output (recup_dir.N)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"recup_dir.N"),
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "Output directory tree produced by PhotoRec / QPhotoRec file carving. PhotoRec writes \
+recovered files into sequentially-numbered sub-directories recup_dir.1, recup_dir.2, ... under a \
+user-chosen destination, creating a new sub-directory every 500 recovered files. Each recovered file \
+is named by a single letter + a >=7-digit number + the detected extension: 'f' = a normally recovered \
+file whose number is the logical sector where the file begins ((file location - partition offset) / \
+sector size), e.g. f0017088.txt begins at sector 17088; when PhotoRec can extract an embedded title it \
+appends it. Thumbnails carved from inside pictures are saved as t*.jpg; corrupted files/fragments (if \
+kept) begin with 'b' (broken). The first recup_dir also contains report.xml recording the run's \
+sectorsize and img_offset (partition offset). The mere presence of this directory tree is a strong \
+signature that PhotoRec/QPhotoRec was executed and used to carve/recover files on that system or against \
+that image. Carving loses filesystem context: original filenames and directory structure are not \
+preserved (except an optional embedded title).",
+    mitre_techniques: &[],
+    fields: PHOTOREC_RECUP_DIR_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["prefetch_dir", "amcache_app_file", "userassist_exe"],
+    sources: &[
+        "https://www.cgsecurity.org/testdisk_doc/photorec.html",
+        "https://www.cgsecurity.org/wiki/PhotoRec_Step_By_Step",
+        "https://www.cgsecurity.org/wiki/PhotoRec_FAQ",
+        "https://www.cgsecurity.org/testdisk_doc/running.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Destination directory is chosen by whoever runs PhotoRec; there is no fixed path — match on the 'recup_dir.<N>' name pattern plus f/t/b-prefixed sector-named files and a sibling report.xml",
+        "Cross-platform: identical output convention on Linux, macOS and Windows; only the executable names (photorec_win.exe / qphotorec_win.exe) are Windows-specific",
+        "Carving loses filesystem context: original filenames and directory structure are not preserved (except an optional embedded title); the sector number in the name locates the file start within the source, not the original path",
+        "Presence evidences that a carving/recovery run occurred (legitimate examiner, a user recovering their own data, or an adversary staging data) — it does not by itself establish intent",
+        "report.xml records the run's sectorsize and img_offset, letting an examiner map each f<sector> file back to a byte offset in the source image",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Carved output files persist on disk until explicitly deleted",
+};
+
+pub(crate) static WZCSVC_WIRELESS_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "interface_guid",
+        value_type: ValueType::Text,
+        description: "Subkey name = GUID of the wireless network adapter",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "ssid",
+        value_type: ValueType::Text,
+        description: "Connected network SSID; length = DWORD (LE) at binary offset 0x10, name bytes begin at offset 0x14 (per RegRipper ssid.pl)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "ap_mac",
+        value_type: ValueType::Text,
+        description: "Access-point BSSID/MAC address, 6 bytes at binary offset 0x08",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "last_write",
+        value_type: ValueType::Timestamp,
+        description: "LastWrite time of the interface-GUID subkey; consistent with last wireless-config update / last association on that adapter",
+        is_uid_component: false,
+    },
+];
+
+/// WZCSVC Wireless Interface Connection History — Windows XP / Server 2003 Wireless
+/// Zero Configuration wireless SSID history (predecessor of Vista+ NetworkList).
+///
+/// Source: https://github.com/keydet89/RegRipper3.0/blob/master/plugins/ssid.pl (tool oracle: key path, SSID/MAC binary offsets)
+/// Source: http://windowsir.blogspot.com/2005/07/where-oh-where-did-my-little-ssid-go.html (Carvey RE — corroboration)
+pub static WZCSVC_WIRELESS_INTERFACES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "wzcsvc_wireless_interfaces",
+    name: "WZCSVC Wireless Interface Connection History (Windows XP)",
+    artifact_type: ArtifactLocation::RegistryKey,
+    hive: Some(HiveTarget::HklmSoftware),
+    key_path: "Microsoft\\WZCSVC\\Parameters\\Interfaces",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "Windows XP / Server 2003 Wireless Zero Configuration Service (WZCSVC) wireless \
+connection history. Each subkey under Parameters\\Interfaces is named by the wireless adapter's \
+interface GUID; its LastWrite time is consistent with the last time that adapter's wireless \
+configuration was updated (approximate last-connect). Under each GUID subkey, ActiveSettings \
+(REG_BINARY) holds the current/last-active profile and Static#0000, Static#0001, … each hold a \
+previously-connected wireless network (SSID at binary offset 0x14 with its length DWORD at 0x10, and \
+the AP BSSID/MAC at offset 0x08). It is the XP-era predecessor of the Vista+ NetworkList profile \
+history. Wireless-only — it does not record wired or broadband networks, and the wired/wireless/\
+broadband NameType classification is a NetworkList (Vista+) feature, not WZCSVC.",
+    mitre_techniques: &[],
+    fields: WZCSVC_WIRELESS_FIELDS,
+    retention: Some("Registry subkeys persist in the SOFTWARE hive until explicit deletion or profile removal"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["networklist_profiles", "wifi_profiles", "dhcp_ipv4_interface", "network_interfaces"],
+    sources: &[
+        "https://github.com/keydet89/RegRipper3.0/blob/master/plugins/ssid.pl",
+        "http://windowsir.blogspot.com/2005/07/where-oh-where-did-my-little-ssid-go.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "WZCSVC is Windows XP / Server 2003 ONLY — replaced by WLAN AutoConfig (WlanSvc) + NetworkList on Vista and later; the key is absent on modern systems",
+        "SSID history is populated only when wireless is managed by WZCSVC; vendor clients (Broadcom, Cisco, Intel) may store SSIDs in their own keys instead",
+        "Interface-GUID LastWrite reflects the most recent config write — consistent with, but not proof of, the exact last connection time",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key in the SOFTWARE hive; persists until explicit deletion or profile removal",
+};
+
+pub(crate) static NTFS_MACB_RULES_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "op_create",
+        value_type: ValueType::Text,
+        description: "File create: SI + FN M,A,C,B all set to the creation time",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "op_access",
+        value_type: ValueType::Text,
+        description: "File access: SI A only (gated by the Last-Access policy — often disabled); FN unchanged",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "op_modify",
+        value_type: ValueType::Text,
+        description: "Data modify: SI M,C update (A too if Last-Access enabled); B unchanged; FN unchanged",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "op_rename_local",
+        value_type: ValueType::Text,
+        description: "Local rename: SI C only; FN rewritten from the current SI values (indirect propagation — defeats naive $FN-vs-$SI comparison after a rename)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "op_move_local",
+        value_type: ValueType::Text,
+        description: "Same-volume move: SI C updates; FN C updates; M,A,B preserved",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "op_move_xvolume",
+        value_type: ValueType::Text,
+        description: "Cross-volume move: SI A,C update to move time; M,B preserved; FN reset to move time",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "op_copy_xvolume",
+        value_type: ValueType::Text,
+        description: "Cross-volume copy: SI M,C inherited from the SOURCE; A,B = copy time; FN MACB all = copy time. Yields the classic COPY tell — SI Modified EARLIER than SI Born (M < B) — which no create/write path produces",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "op_delete",
+        value_type: ValueType::Text,
+        description: "Delete: no SI/FN timestamp change; the MFT record is marked inactive",
+        is_uid_component: false,
+    },
+];
+
+/// NTFS MACB Timestamp Update Rules — per-operation interpretive baseline.
+///
+/// An interpretive descriptor anchored to $MFT (where the $STANDARD_INFORMATION 0x10 and
+/// $FILE_NAME 0x30 timestamp sets live). It encodes which of the four MACB values move on
+/// each file operation, so an observed set that no single operation can produce (or an
+/// internally impossible SI ordering like M < B) is the reference frame for detecting
+/// forgery. Judge observed timestamps against this frame; it does not by itself prove
+/// tampering — account for OS-version drift, last-access policy and File System Tunneling.
+///
+/// Source: https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table ($MFT, $SI vs $FN)
+/// Source: https://dfir.ru/2021/01/10/standard_information-vs-file_name/ (SI vs FN update RE)
+/// Source: https://www.senturean.com/posts/19_04_22_win10_ntfs_time_rules/ (empirical Win10 per-operation matrix)
+pub static NTFS_MACB_RULES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ntfs_macb_rules",
+    name: "NTFS MACB Timestamp Update Rules (Per-Operation Baseline)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"\\.\<volume>\$MFT"),
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "Interpretive baseline for reading NTFS timestamps: which of the four MACB values move on \
+each file operation. Each MFT record holds two timestamp sets — $STANDARD_INFORMATION (SI, attr 0x10, \
+user-writable via SetFileTime) and $FILE_NAME (FN, attr 0x30, kernel-maintained). M=Modified (data), \
+A=Accessed, C=MFT/metadata changed (entry-modified), B=Born/created; all are 64-bit FILETIME (100ns \
+since 1601-01-01 UTC). Legitimate operations move a KNOWN subset; a set that cannot be produced by any \
+single operation, or SI values that are internally impossible (e.g. M earlier than B), is the reference \
+frame for detecting forgery (T1070.006). The strongest single-record tell encoded here is the COPY tell \
+— on a cross-volume copy, SI M and C are inherited from the source while SI A and B are the copy time, \
+so SI Modified is EARLIER than SI Born (M < B), which no create/write path produces. Local rename \
+rewrites FN from the current SI values, so a naive $FN-vs-$SI comparison is defeated after a rename — \
+cross-check operation sequencing against the USN journal (reason codes) and $LogFile (LSN ordering), and \
+note that the directory index ($I30) retains a $SI snapshot that can predate a later $SI timestomp. Use \
+as the frame against which observed $SI/$FN sets and MACB orderings are judged; it does not by itself \
+prove tampering (account for OS-version drift, last-access policy and File System Tunneling first).",
+    mitre_techniques: &["T1070.006"],
+    fields: NTFS_MACB_RULES_FIELDS,
+    retention: Some("Interpretive baseline; the underlying $MFT timestamps persist until overwritten"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[
+        "mft",
+        "mft_file",
+        "ntfs_i30_index",
+        "ntfs_last_access_status",
+        "logfile_ntfs",
+        "usnjrnl",
+        "usn_journal",
+        "recycle_bin",
+    ],
+    sources: &[
+        "https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table",
+        "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-behavior",
+        "https://dfir.ru/2021/01/10/standard_information-vs-file_name/",
+        "https://dfir.ru/2018/12/08/the-last-access-updates-are-almost-back/",
+        "https://www.senturean.com/posts/19_04_22_win10_ntfs_time_rules/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "A deviation from the baseline is CONSISTENT WITH forgery, not proof of it — account for OS-version drift, the last-access policy, and File System Tunneling before concluding tampering",
+        "Local rename rewrites $FN from the current $SI values, so $FN-vs-$SI comparison is unreliable after a rename; corroborate operation ordering with the USN journal and $LogFile",
+        "The COPY tell (SI M < B) flags a cross-volume copy or crude timestomping from a single record without needing $FN; a matched, self-consistent set does not exclude a careful full-set timestomp",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Interpretive baseline; the underlying $MFT timestamps persist until overwritten",
+};
+
+pub(crate) static MEM_FINDEVIL_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "pid",
+        value_type: ValueType::UnsignedInt,
+        description: "Owning process identifier of the flagged artifact",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "process_name",
+        value_type: ValueType::Text,
+        description: "Short process image name (max 15 chars as shown by MemProcFS)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "detection_type",
+        value_type: ValueType::Text,
+        description: "FindEvil anomaly flag identifying the type of memory anomaly detected (e.g. PEB_MASQ, PROC_NOLINK, PE_NOLINK, PE_PATCHED, NOIMAGE_RWX); higher-severity flags sort to the top of findevil.txt",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "virtual_address",
+        value_type: ValueType::UnsignedInt,
+        description: "Virtual address of the flagged region/module/PEB within the process address space",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "description",
+        value_type: ValueType::Text,
+        description: "Detection-specific detail — e.g. the module name and backing VAD for a hidden/unlinked module finding, or page/protection detail for a patched-image or floating-executable-memory finding",
+        is_uid_component: false,
+    },
+];
+
+/// MemProcFS FindEvil anomaly detections — defensive memory-triage output.
+///
+/// FindEvil is MemProcFS's built-in memory anomaly scanner; it writes flagged
+/// process/module/page anomalies to the virtual file `/forensic/findevil/findevil.txt`
+/// for an examiner to investigate. This descriptor lets a tool recognise and triage
+/// that output; it is a detection aid, not proof of compromise (FindEvil documents
+/// false positives and coverage gaps).
+///
+/// Source: https://github.com/ufrisk/MemProcFS/blob/master/vmm/modules/modules.h (VMMEVIL_TYPE flag table)
+/// Source: https://github.com/ufrisk/MemProcFS/wiki/FS_FindEvil (per-flag descriptions, output format, 64-bit Win10/11 scope, false-positive caveat)
+pub static MEM_FINDEVIL: ArtifactDescriptor = ArtifactDescriptor {
+    id: "mem_findevil",
+    name: "FindEvil Anomaly Detections (Memory)",
+    artifact_type: ArtifactLocation::MemoryRegion,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "MemProcFS FindEvil scans process and kernel memory for indicators of user-mode malware \
+and reports anomalies in the virtual file /forensic/findevil/findevil.txt (columns: PID, ProcessName, \
+Type, VirtualAddress, Module/Description), ranked by severity. It is a defensive triage aid: each row \
+flags a memory anomaly for an examiner to investigate, not a confirmed detection. The flag categories \
+group into process-level deception (a process whose kernel image path differs from its user-land path, \
+a process object unlinked from the kernel's active-process list, or a masqueraded page-table base), \
+hidden or injected modules (an executable image present in the VAD map but not linked from the \
+in-process module lists), in-memory image patches (an image page whose physical page differs from the \
+kernel's on-disk-backed prototype page), and floating executable memory (executable pages in private or \
+non-image regions — the classic signature of injected shellcode). Triage by the built-in severity \
+ranking, then pivot: process-deception flags to a kernel-vs-user process comparison, hidden/injected \
+modules to the loaded-module list and VAD map, patched images to an on-disk image diff, and floating \
+executable memory to the owning process and its network connections. Note a suppression side-effect: a \
+process-level masquerade or unlink finding suppresses per-module hidden-module rows for the same \
+process, so the absence of a module-level flag is not exculpatory.",
+    mitre_techniques: &["T1055", "T1055.012", "T1036", "T1620", "T1134.004"],
+    fields: MEM_FINDEVIL_FIELDS,
+    retention: Some("Derived from live RAM; present only in a memory image / live acquisition"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["mem_running_processes", "mem_loaded_modules", "mem_network_connections"],
+    sources: &[
+        "https://github.com/ufrisk/MemProcFS/blob/master/vmm/modules/modules.h",
+        "https://github.com/ufrisk/MemProcFS/wiki/FS_FindEvil",
+        "https://www.forrest-orr.net/post/malicious-memory-artifacts-part-i-dll-hollowing",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "MemProcFS documents that FindEvil has false positives and will miss certain malware — a flag is an anomaly indicator CONSISTENT WITH malicious code, warranting manual triage, not proof",
+        "Enabled only for 64-bit Windows 10/11 targets (to keep the false-positive ratio low); not produced on 32-bit or older systems",
+        "Detects user-mode anomalies; kernel/rootkit techniques and not-yet-modelled techniques are missed",
+        "A process-level masquerade or unlink finding suppresses per-module hidden-module rows for the same process, so the absence of a module-level flag does not exclude a hidden module",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Derived from live RAM; lost on power-off and re-computed per acquisition",
+};
+
+/// File Carving — content/signature-based recovery of files from raw storage.
+///
+/// A recovery *technique* over unallocated/slack/raw regions, not a fixed on-disk path
+/// (modelled as File with file_path: None, like the pagefile_sys/hiberfil_sys concept
+/// entries). os_scope is recorded as All (the catalog's broadest value) purely as a
+/// schema placeholder — carving is filesystem- and OS-independent; see the caveat.
+///
+/// Source: https://www.cgsecurity.org/wiki/PhotoRec (ignores the filesystem, matches signatures)
+/// Source: Garfinkel, "Carving contiguous and fragmented files with fast object validation", DFRWS 2007
+///         https://calhoun.nps.edu/server/api/core/bitstreams/22c52db8-a881-475e-9a66-7709b50176fb/content
+pub static FILE_CARVING: ArtifactDescriptor = ArtifactDescriptor {
+    id: "file_carving",
+    name: "File Carving (Signature-Based Recovery)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "Content/signature-based recovery of files from unallocated space, slack, or a raw disk \
+image, reconstructing files from their byte content rather than from filesystem metadata that points \
+to the content (Garfinkel, DFRWS 2007). Works after the filesystem is damaged, reformatted, or the \
+directory/inode/MFT entry deleted. Recovers file DATA ONLY — the original filename, full path, and MAC \
+timestamps are lost with the metadata and are NOT reconstructible by carving. Because it operates on \
+raw bytes, carving is filesystem- and OS-independent (see the os_scope caveat).",
+    mitre_techniques: &[],
+    fields: FILE_PATH_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["mft", "usnjrnl", "recycle_bin", "pagefile_sys", "hiberfil_sys"],
+    sources: &[
+        "https://www.cgsecurity.org/wiki/PhotoRec",
+        "https://www.sciencedirect.com/science/article/pii/S1742287607000369",
+        "https://calhoun.nps.edu/server/api/core/bitstreams/22c52db8-a881-475e-9a66-7709b50176fb/content",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Carved content proves the byte sequence existed on the medium, but without recoverable filename/path/timestamps it cannot alone establish when it was written or by whom — needs corroboration for attribution/timeline",
+        "Basic header/footer (contiguous) carving cannot reassemble FRAGMENTED files — Garfinkel (DFRWS 2007): 'no file carvers can automatically reassemble fragmented files'; fragmented recoveries emerge truncated or corrupt",
+        "Carving is filesystem- and OS-independent; os_scope is recorded as All (the catalog's broadest value) as a schema limitation, NOT a claim that carving is Windows-specific",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Carving targets unallocated and slack space, which is reused (overwritten) by ordinary new file allocations; recoverability degrades with continued system use",
+};
+
+pub(crate) static NTFS_OBJID_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "object_id",
+        value_type: ValueType::Guid,
+        description: "16-byte GUID (key of the $O index / offset 0 of the $OBJECT_ID attribute) uniquely identifying the file within this volume; can repeat on a different volume but never on the same one (MS-FSCC 2.1.3.1). Version-1 GUIDs embed the origin machine's MAC address + a 60-bit creation timestamp",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "file_reference",
+        value_type: ValueType::Integer,
+        description: "8-byte MFT file reference (48-bit record number + 16-bit sequence) stored in the $O index value data, linking the object ID back to its MFT entry",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "birth_volume_id",
+        value_type: ValueType::Guid,
+        description: "16-byte GUID of the volume the file was created on. Its first byte's low-order bit is the CrossVolumeMoveFlag (MS-DLTW), set when the file has moved across volumes",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "birth_object_id",
+        value_type: ValueType::Guid,
+        description: "16-byte GUID = the object ID assigned at creation; copy/move/other operations MAY change ObjectId but not BirthObjectId, so it persists as a stable cross-volume/rename tracking key (MS-FSCC 2.1.3.1)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "birth_domain_id",
+        value_type: ValueType::Guid,
+        description: "16-byte DomainId — unused; SHOULD be zero and MUST be ignored on all volumes (MS-FSCC 2.1.3.1)",
+        is_uid_component: false,
+    },
+];
+
+/// NTFS Object ID Index ($Extend\$ObjId:$O) — distributed-link-tracking GUIDs.
+///
+/// $Extend\$ObjId is an NTFS metadata file dynamically allocated under the $Extend
+/// directory (MFT record 11); it is commonly placed around MFT entry 24-27 on a default
+/// format but that is not a fixed/spec-guaranteed record number. Its $O index maps each
+/// file's object-ID GUID to the file's MFT reference; the per-file record also lives in
+/// the resident $OBJECT_ID attribute (type 0x40).
+///
+/// Source: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/34a727a2-960a-4825-9cd2-6100c84e3a81 ([MS-FSCC] 2.1.3.1 — 64-byte FILE_OBJECTID_BUFFER)
+/// Source: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/63cdde16-85ac-480c-95bf-0bb8f5f09de8 ([MS-FSCC] 2.4.36.1 — 8-byte FileReferenceNumber prefix)
+/// Source: https://github.com/libyal/libfsntfs (RE: $Extend\$ObjId, $OBJECT_ID 0x40, $O index layout)
+pub static NTFS_OBJID: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ntfs_objid",
+    name: "NTFS Object ID Index ($Extend\\$ObjId:$O)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"\\.\<volume>\$Extend\$ObjId"),
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "Maps NTFS object-identifier GUIDs to MFT file references for distributed link tracking; \
+each 64-byte record carries an object ID plus the birth volume/object/domain IDs recorded when the ID \
+was first assigned, so a file can be correlated across renames and cross-volume copy/move operations \
+even after its current object ID changes. The BirthObjectId is the stable key: operations may rewrite \
+ObjectId but not BirthObjectId. Version-1 object-ID GUIDs embed the origin machine's MAC address and a \
+creation timestamp, and the same droid/birth-droid GUIDs are copied into LNK shortcuts and jump lists \
+— so a shortcut or its target can be tied back to the $ObjId record and to the machine that created it. \
+Object-ID tampering surfaces as USN_REASON_OBJECT_ID_CHANGE (0x00080000) in the USN journal.",
+    mitre_techniques: &[],
+    fields: NTFS_OBJID_FIELDS,
+    retention: Some("Object-ID record persists for the life of the file's MFT entry; the $O index entry survives until the object ID is deleted (FSCTL_DELETE_OBJECT_ID) or the file is removed"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["mft", "usnjrnl", "logfile_ntfs", "lnk_files", "jump_list_auto", "jump_list_custom"],
+    sources: &[
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/34a727a2-960a-4825-9cd2-6100c84e3a81",
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/63cdde16-85ac-480c-95bf-0bb8f5f09de8",
+        "https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "ObjectId is unique per volume, not globally — the same GUID can legitimately appear on a different volume; use BirthVolumeId/BirthObjectId for cross-volume correlation",
+        "A version-1 object-ID GUID embeds a MAC address + creation time, but those are set at assignment and can be stale or (with effort) forged — consistent with, not proof of, the origin machine/time",
+        "The object-ID record does not itself carry the file's MAC timestamps; correlate with the $MFT entry it references for timeline",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "On-disk NTFS metadata ($Extend\\$ObjId index + per-file $OBJECT_ID attribute); persists until the object ID or file is deleted",
+};
+
+pub(crate) static MEM_EXTRACTED_PE_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "artifact_kind",
+        value_type: ValueType::Text,
+        description: "What was recovered: process_image | full_process_dump | dll | kernel_driver — determines whether the output is a reconstructed PE or a raw resident-memory blob",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "pid",
+        value_type: ValueType::UnsignedInt,
+        description: "Owning process id for process-image / full-process / DLL dumps (absent for kernel drivers)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "base_addr",
+        value_type: ValueType::UnsignedInt,
+        description: "Virtual base address the PE was mapped at (ImageBaseAddress for a process, LDR entry DllBase for a DLL, driver base for a kernel module)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "name",
+        value_type: ValueType::Text,
+        description: "Image / module file name recovered from the PE or loader entry — attacker-controllable; may be forged or blank for injected code",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "fully_resident",
+        value_type: ValueType::Bool,
+        description: "True only if every page of the image was resident in RAM at capture. False means one or more pages were paged out and were zero-filled during reconstruction — the recovered file is incomplete and will NOT hash-match the on-disk original",
+        is_uid_component: false,
+    },
+];
+
+/// Executables / DLLs / Drivers extracted from a memory image — defensive recovery of
+/// in-memory-only code.
+///
+/// Distinct from on-disk minidump .dmp files (lsass_dump_file / fa_file_minidump_dmp):
+/// this is a PE reconstructed OUT of RAM by a memory-forensics engine.
+///
+/// Source: https://github.com/volatilityfoundation/volatility/wiki/command-reference (procdump/memdump/dlldump/moddump; --unsafe; resident-only; DumpFileOffset)
+/// Source: https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.pedump.html (Vol3 pedump dump_pe_at_base/dump_ldr_entry/dump_kernel_pe_at_base)
+pub static MEM_EXTRACTED_PE_IMAGES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "mem_extracted_pe_images",
+    name: "Executables/DLLs/Drivers Extracted from Memory",
+    artifact_type: ArtifactLocation::MemoryRegion,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "PE images (process executables, mapped DLLs, and kernel drivers) reconstructed OUT of a \
+RAM capture by a memory-forensics engine. Two extraction modes: (1) code-focused PE reconstruction — \
+Volatility procdump/procexedump (Vol2) or windows.pedump / windows.pslist --dump (Vol3) for a process \
+image, dlldump / windows.dlllist --dump for a mapped DLL, moddump / windows.modules --dump for a kernel \
+driver — walks the PE header and writes each section, rebuilding a file that resembles the on-disk \
+binary; (2) full process dump — memdump (Vol2) / windows.memmap --dump (Vol3) writes ALL memory-resident \
+pages of a process (code + heap + stack) into one raw, virtual-address-ordered blob (not a PE, ideal for \
+strings/YARA). The highest-value use is recovering in-memory-only payloads: reflectively loaded / \
+injected code that never touched disk, and unsigned modules absent from the loader lists.",
+    mitre_techniques: &["T1055", "T1620"],
+    fields: MEM_EXTRACTED_PE_FIELDS,
+    retention: Some("RAM only; lost on power-off — the output exists only once an examiner extracts it from a memory image"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["mem_running_processes", "mem_loaded_modules", "lsass_dump_file", "fa_file_minidump_dmp"],
+    sources: &[
+        "https://github.com/volatilityfoundation/volatility/wiki/command-reference",
+        "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.pedump.html",
+        "https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.memmap.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "A code-focused PE dump (procdump/pedump) rebuilds the file from PE-header section metadata; malware can forge PE size fields to break the dump, requiring --unsafe/-u to bypass sanity checks — a --unsafe reconstruction is lower-fidelity",
+        "dlldump/moddump can fail outright when critical PE-header pages are non-resident; a full-memory (memmap/memdump) dump captures only resident pages and is virtual-address-ordered raw memory, not a runnable PE",
+        "When fully_resident is false, paged-out pages were zero-filled — the extracted image is incomplete and will not hash-match the on-disk original, so a hash mismatch is not by itself evidence of tampering",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Reconstructed from live RAM; the source pages are lost on power-off",
+};
+
+pub(crate) static SRUM_APP_TIMELINE_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "app_id",
+        value_type: ValueType::Text,
+        description: "AppId — application path / executable identity (resolved via SruDbIdMapTable)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "user_id",
+        value_type: ValueType::Text,
+        description: "UserId — SID of the user account (resolved via SruDbIdMapTable)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "end_time",
+        value_type: ValueType::Timestamp,
+        description: "Approximate execution EndTime of the activity interval",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "duration_ms",
+        value_type: ValueType::UnsignedInt,
+        description: "DurationMS — total length of the activity interval in milliseconds",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "in_focus_s",
+        value_type: ValueType::UnsignedInt,
+        description: "InFocus seconds — how long the application held the foreground window during the interval",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "keyboard_input_s",
+        value_type: ValueType::UnsignedInt,
+        description: "Seconds of actual keyboard input while the app was focused — non-zero is strong evidence of interactive HUMAN presence, distinguishing real use from unattended/automated execution",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "mouse_input_s",
+        value_type: ValueType::UnsignedInt,
+        description: "Seconds of actual mouse input while the app was focused (interactive-presence signal)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "exe_timestamp",
+        value_type: ValueType::Timestamp,
+        description: "ExeTimestamp — a per-executable timestamp reported by community analysis to correspond to the binary's PE compile/link time, NOT the run time",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "flags",
+        value_type: ValueType::UnsignedInt,
+        description: "Flags — bitfield whose semantics are undocumented",
+        is_uid_component: false,
+    },
+];
+
+/// SRUM Application Timeline Table (AppTimelineProvider) — per-app interactive-use
+/// telemetry.
+///
+/// GUID is {5C8CF1C7-...} (registry provider `AppTimelineProvider`); {7ACBBAA3-...} is
+/// vfuprov, NOT this table (an earlier revision had them swapped — see src/srum.rs).
+///
+/// Source: https://github.com/EricZimmerman/Srum/issues/8 (registry Extensions default values — GUID ground truth)
+/// Source: https://github.com/WithSecureLabs/chainsaw/wiki/SRUM-Analysis
+/// Source: https://aboutdfir.com/app-timeline-provider-srum-database/
+pub static SRUM_APP_TIMELINE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "srum_app_timeline",
+    name: "SRUM Application Timeline Table (AppTimelineProvider)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"C:\Windows\System32\sru\SRUDB.dat:{5C8CF1C7-7257-4F13-B223-970EF5939312}"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "ESE table {5C8CF1C7-7257-4F13-B223-970EF5939312} (registry provider name 'AppTimelineProvider') \
+records per-app, per-user activity intervals with rich human-interaction telemetry: how long each \
+application held the foreground window (InFocus), and how long there was actual keyboard, mouse, audio-in \
+and audio-out activity while focused. Because it captures real user-input duration, it distinguishes \
+interactive human use from unattended/automated execution far better than the CPU-cycle App Resource \
+Usage table. Each row also carries an approximate execution EndTime, total DurationMS, and a distinct \
+ExeTimestamp (a per-executable timestamp reported by community analysis to correspond to the binary's PE \
+compile/link time, NOT the run time). This table retains only ~7 days of data — a much shorter window \
+than the ~30-60 day SRUDB.dat whole-database retention.",
+    mitre_techniques: &[],
+    fields: SRUM_APP_TIMELINE_FIELDS,
+    retention: Some("~7 days per this table (shorter than the ~30-60 day whole-SRUDB.dat window)"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["srum_app_resource", "srum_db", "prefetch_file", "shimcache"],
+    sources: &[
+        "https://github.com/EricZimmerman/Srum/issues/8",
+        "https://github.com/EricZimmerman/Srum/pull/10/files",
+        "https://github.com/WithSecureLabs/chainsaw/wiki/SRUM-Analysis",
+        "https://aboutdfir.com/app-timeline-provider-srum-database/",
+        "https://github.com/MarkBaggett/srum-dump",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Field/column semantics are reverse-engineered (no Microsoft [MS-*] spec); the Flags meaning is unknown",
+        "ExeTimestamp is community-reported as the executable's PE compile/link time, NOT execution time — do not read it as a run timestamp",
+        "Strong specifically for interactive presence: non-zero keyboard/mouse/user-input seconds is strong evidence a human was at the keyboard during the interval; corroborative for execution overall",
+        "Retains only ~7 days — activity older than that is not here even though SRUDB.dat overall keeps ~30-60 days",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "ESE table pruned to ~7 days; older intervals are aged out",
+};
+
+pub(crate) static MEM_ACCESS_TOKENS_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "pid",
+        value_type: ValueType::UnsignedInt,
+        description: "Owning process identifier",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "token_type",
+        value_type: ValueType::Text,
+        description: "TOKEN_TYPE: 'Primary' (TokenPrimary=1) or 'Impersonation' (TokenImpersonation=2)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "impersonation_level",
+        value_type: ValueType::Text,
+        description: "SECURITY_IMPERSONATION_LEVEL for impersonation tokens: Anonymous(0)/Identification(1)/Impersonation(2)/Delegation(3); empty for primary tokens",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "user_sid",
+        value_type: ValueType::Text,
+        description: "Token owner/user SID (e.g. S-1-5-18 = LocalSystem)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "integrity_level",
+        value_type: ValueType::Text,
+        description: "Mandatory integrity-level SID: Untrusted S-1-16-0 / Low S-1-16-4096 / Medium S-1-16-8192 / High S-1-16-12288 / System S-1-16-16384 (the SID field is Windows Vista and later)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "privileges",
+        value_type: ValueType::List,
+        description: "Privileges present and their enabled/disabled state (e.g. SeDebugPrivilege, SeImpersonatePrivilege, SeAssignPrimaryTokenPrivilege)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "group_sids",
+        value_type: ValueType::List,
+        description: "Group SIDs carried in the token, including any injected SID-History entries",
+        is_uid_component: false,
+    },
+];
+
+/// Access Tokens (Memory) — Primary vs Impersonation, for token-manipulation detection.
+///
+/// Source: https://learn.microsoft.com/en-us/windows/win32/api/winnt/ne-winnt-token_type (TokenPrimary=1, TokenImpersonation=2)
+/// Source: https://learn.microsoft.com/en-us/windows/win32/secauthz/well-known-sids (integrity RIDs/SIDs, S-1-5-18)
+/// MITRE: T1134 (Access Token Manipulation), .001 (Token Impersonation/Theft), .005 (SID-History Injection)
+pub static MEM_ACCESS_TOKENS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "mem_access_tokens",
+    name: "Access Tokens (Memory) — Primary vs Impersonation",
+    artifact_type: ArtifactLocation::MemoryRegion,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "Windows access tokens (_TOKEN kernel objects) recovered from RAM. Each token carries the \
+security context a thread/process runs under: the user SID, group SIDs (incl. any injected SID-History \
+entries), the enabled/disabled privilege set, the mandatory integrity-level SID, the token TYPE (Primary \
+vs Impersonation), and — for impersonation tokens — the impersonation level. A process holding an \
+impersonation token whose user SID differs from its own primary token is consistent with token theft/\
+impersonation; a Medium-integrity process with SeDebugPrivilege or SeImpersonatePrivilege enabled, or a \
+non-SYSTEM process wielding a SYSTEM (S-1-5-18) impersonation token, is consistent with privilege \
+escalation via token manipulation. The observed token facts are definitive; the theft/escalation \
+conclusion is an inference the token contents are consistent with, not proof of.",
+    mitre_techniques: &["T1134", "T1134.001", "T1134.005"],
+    fields: MEM_ACCESS_TOKENS_FIELDS,
+    retention: Some("RAM only; lost on power-off — present in a memory image / live capture"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["mem_running_processes", "mem_user_credentials", "mem_loaded_modules", "evtx_security"],
+    sources: &[
+        "https://learn.microsoft.com/en-us/windows/win32/api/winnt/ne-winnt-token_type",
+        "https://learn.microsoft.com/en-us/windows/win32/api/winnt/ne-winnt-security_impersonation_level",
+        "https://learn.microsoft.com/en-us/windows/win32/secauthz/mandatory-integrity-control",
+        "https://learn.microsoft.com/en-us/windows/win32/secauthz/well-known-sids",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "The token fields (type, user SID, integrity, privileges, groups) are definitive; token theft / privilege escalation is an inference the contents are CONSISTENT WITH, not proof of",
+        "The integrity-level SID field is Windows Vista and later; on XP it is absent (token type and impersonation level exist since XP)",
+        "A snapshot from RAM shows the token as held at capture; it does not by itself reveal HOW the token was obtained (that is a separate technique surface)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Kernel _TOKEN objects live in RAM and are lost on power-off",
+};
+
+pub(crate) static IE_RECOVERY_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "url",
+        value_type: ValueType::Text,
+        description: "Base URL of a navigated entry recovered from a TravelLog stream",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "title",
+        value_type: ValueType::Text,
+        description: "Page title of the navigated entry",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "referrer_url",
+        value_type: ValueType::Text,
+        description: "Referrer URL stored alongside the entry in the TravelLog stream",
+        is_uid_component: false,
+    },
+];
+
+/// Internet Explorer Automatic Crash Recovery Store (RecoveryStore / TravelLog).
+///
+/// Source: http://www.swiftforensics.com/2011/09/internet-explorer-recoverystore-aka.html (Khatri RE — the community reference; covers IE8/9)
+/// Source: https://forensics.wiki/ole_compound_file/ (CFBF/OLE container format)
+/// Source: https://forensics.wiki/internet_explorer/ (IE artifact overview incl. the Recovery folder)
+pub static IE_RECOVERY_SESSION: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ie_recovery_session",
+    name: "Internet Explorer Automatic Crash Recovery Store (RecoveryStore / TravelLog)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"C:\Users\*\AppData\Local\Microsoft\Internet Explorer\Recovery\*\*.dat"),
+    scope: DataScope::User,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Internet Explorer's Automatic Crash Recovery store, written continuously as tabs are \
+opened/navigated so IE can restore the session after a crash. Each Recovery subfolder (Active, \
+LastActive, occasionally High/Low/AdminActive) holds a RecoveryStore.{GUID}.dat — an OLE/CFBF compound \
+file whose streams (FrameList, TravelLog, and a |Kjjaqfaj...-named stream) record tab order and the tab \
+GUIDs — plus one {GUID}.dat per open tab, an OLE/CFBF file whose TravelLog streams hold each navigated \
+entry's base URL, referrer URL and page title. The {GUID} is an RFC 4122 v1 UUID whose low 6 bytes are \
+a NIC MAC address and whose first 60 bits are a FILETIME-style 100 ns timestamp (epoch 1582-10-15), \
+giving the tab/store creation time. It provides evidence of open tabs and navigation — including full \
+URLs and titles — that persists on disk even after browsing history and the WebCache are cleared, \
+because the recovery store is a separate mechanism from history. (Format established for IE8/9 by the \
+Khatri reverse-engineering writeup; persistence into IE10/11 is presumed, not source-verified here.)",
+    mitre_techniques: &["T1217"],
+    fields: IE_RECOVERY_FIELDS,
+    retention: Some("Persists on disk in the Recovery subfolders until IE clears/rotates them; survives history and WebCache clearing"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["browsers_ie_webcache_db", "browsers_ie_typed_urls", "fa_file_cookies_index_dat", "firefox_session_restore"],
+    sources: &[
+        "http://www.swiftforensics.com/2011/09/internet-explorer-recoverystore-aka.html",
+        "https://forensics.wiki/ole_compound_file/",
+        "https://forensics.wiki/internet_explorer/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "The OLE/CFBF container is standard, but the inner TravelLog stream layout is reverse-engineered (no Microsoft spec); parse the CFBF with any compound-file reader and treat the stream decoding as RE-derived",
+        "Format is source-established for IE8/9; later-IE persistence is presumed and should be verified on the exact IE version when case-critical",
+        "The {GUID}'s embedded MAC + creation timestamp are set at tab/store creation and can be stale; consistent with, not proof of, the originating NIC/time",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "On-disk .dat files in the user's IE Recovery folder; persist until cleared/rotated",
+};
+
+pub(crate) static KANSA_COLLECTION_OUTPUT_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "hostname",
+        value_type: ValueType::Text,
+        description: "Target host the row was collected from (left of the '-' in Hostname-ModuleName.ext)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "module",
+        value_type: ValueType::Text,
+        description: "Collector module, i.e. the Get-*.ps1 name with the Get- prefix stripped (also the subdirectory name)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "output_format",
+        value_type: ValueType::Text,
+        description: "Serialization chosen with -OutputFormat: CSV (default), JSON, TSV, XML, GL, or SPLUNK",
+        is_uid_component: false,
+    },
+];
+
+/// Kansa Live-Response Collection (PowerShell Remoting) — a fleet-wide IR snapshot.
+///
+/// Source: https://github.com/davehull/Kansa/blob/master/kansa.ps1 (tool source — OutputFormat/Port/Modules.conf/naming)
+/// Source: https://github.com/davehull/Kansa/blob/master/README.md
+pub static KANSA_COLLECTION_OUTPUT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kansa_collection_output",
+    name: "Kansa Live-Response Collection (PowerShell Remoting)",
+    artifact_type: ArtifactLocation::LiveResponse,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Output tree produced by Kansa, an open-source PowerShell incident-response framework \
+(davehull/Kansa). Kansa fans a set of collector modules out across an enterprise over PowerShell \
+Remoting (WinRM, default TCP 5985; -UseSSL enables WinRM-over-HTTPS but keeps the -Port value, so the \
+operator sets -Port 5986 for the standard HTTPS port) and gathers the results centrally. Only scripts \
+named Get-*.ps1 under .\\Modules\\ run; if .\\Modules\\Modules.conf exists it controls WHICH modules run \
+and in what ORDER (blank/# lines ignored), otherwise every Get-*.ps1 is discovered recursively. Targets \
+come from -Target (single host), -TargetList (a file, one hostname per line), or an Active Directory \
+query. Results land in a new Output_<timestamp>\\ directory with one subdirectory per module (module name \
+minus the Get- prefix) holding one file per host named Hostname-ModuleName.ext (e.g. \
+Get-PrefetchListing.ps1 -> Output_<ts>\\PrefetchListing\\Hostname-PrefetchListing.txt). -OutputFormat \
+selects the serialization (CSV default; also JSON/TSV/XML/GL/SPLUNK). Non-terminating errors, per-host \
+module failures, binary-push failures and MAX_PATH (260-char) truncations are logged to Error.Log. \
+-Pushbin copies module-declared third-party binaries to each target's ADMIN$ share before execution; \
+-Rmbin removes them afterward. For an examiner, a Kansa Output_<timestamp> tree is a point-in-time, \
+fleet-wide snapshot of execution, persistence, network and account state.",
+    mitre_techniques: &[],
+    fields: KANSA_COLLECTION_OUTPUT_FIELDS,
+    retention: Some("Written to Output_<timestamp>\\ under the Kansa working directory; persists until the operator deletes it (a saved case artifact, not auto-rotated)"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["evtx_winrm", "amcache_program", "fa_file_prefetch_pf", "cmd_autorun_hklm", "shimcache"],
+    sources: &[
+        "https://github.com/davehull/Kansa",
+        "https://github.com/davehull/Kansa/blob/master/kansa.ps1",
+        "https://github.com/davehull/Kansa/blob/master/README.md",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "The framework is a collection wrapper — evidentiary weight lives in the specific module output (e.g. Get-PrefetchListing, Get-Autorunsc), not in Kansa itself",
+        "Modules collect through PowerShell cmdlets / WMI, which read the live OS via APIs a kernel-mode rootkit can subvert; corroborate with raw on-disk artifacts or memory forensics",
+        "A Kansa tree is a point-in-time snapshot at collection; it does not capture activity before the run or after it completed",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Collected output written to disk; persists as a saved case artifact until the operator deletes it",
+};
+
+pub(crate) static REGEDIT_SYSTEM_SELECT_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "Current",
+        value_type: ValueType::UnsignedInt,
+        description: "REG_DWORD; number N of the control set the system is booted from -> ControlSet00N. This is the set 'CurrentControlSet' aliases at run time; the one to analyse on a live box",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "Default",
+        value_type: ValueType::UnsignedInt,
+        description: "REG_DWORD; the Default Control Set number (winreg-kb)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "Failed",
+        value_type: ValueType::UnsignedInt,
+        description: "REG_DWORD; the Control Set number that was marked as failing to boot Windows (winreg-kb)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "LastKnownGood",
+        value_type: ValueType::UnsignedInt,
+        description: "REG_DWORD; the Last Known Good Control Set — the control set that last successfully booted Windows (winreg-kb)",
+        is_uid_component: false,
+    },
+];
+
+/// HKLM\SYSTEM\Select — the Current Control Set selector (dead-box resolution).
+///
+/// Hand-written manual descriptor (the codegen cannot carry rich fields/caveats); the
+/// generated stub was removed from regedit_generated.rs to avoid a duplicate id.
+///
+/// Source: https://winreg-kb.readthedocs.io/en/latest/sources/system-keys/Current-control-set.html
+/// Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/install/hklm-system-currentcontrolset-control-registry-tree
+pub static REGEDIT_SYSTEM_SELECT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "regedit_system_select",
+    name: "Current Control Set Selector (HKLM\\SYSTEM\\Select)",
+    artifact_type: ArtifactLocation::RegistryKey,
+    hive: Some(HiveTarget::HklmSystem),
+    key_path: "Select",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "HKLM\\SYSTEM\\Select holds four REG_DWORD values (Current, Default, Failed, \
+LastKnownGood), each a number N that resolves the control set ControlSet00N (e.g. Current=1 -> \
+ControlSet001). Current identifies the control set the running system booted from — i.e. what the \
+live-only 'CurrentControlSet' symlink points to. On a dead-box/offline SYSTEM hive there is NO \
+CurrentControlSet key (it is a volatile, boot-time-created registry link, not stored on disk); the \
+examiner must read Select\\Current and follow it to the correct numbered ControlSet00N. Values other \
+than 1/2 (e.g. 3, 47) occur after Last Known Good recovery or repeated boot failures.",
+    mitre_techniques: &[],
+    fields: REGEDIT_SYSTEM_SELECT_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &["regedit_controlset00_control_windows"],
+    sources: &[
+        "https://winreg-kb.readthedocs.io/en/latest/sources/system-keys/Current-control-set.html",
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/install/hklm-system-currentcontrolset-control-registry-tree",
+        "https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "'CurrentControlSet' is a live-only volatile symlink created at boot and is NOT present in an offline/dead-box SYSTEM hive; resolve the active set via Select\\Current -> ControlSet00N instead of expecting a CurrentControlSet key",
+        "Configuration data is often duplicated across ControlSet001/002 (and any 003+); analysing the wrong set, or assuming both agree, can produce stale or divergent findings — pin analysis to the set named by Select\\Current, and diff sets when they differ",
+        "Control-set numbers above 2 (e.g. 3, 47) indicate prior Last Known Good recovery or repeated boot failures; Failed pointing at a set is consistent with a boot that was rolled back",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "The Select key and the numbered ControlSet00N keys are stored in the on-disk SYSTEM hive and survive reboots; only the CurrentControlSet alias itself is volatile (rebuilt at each boot)",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -8789,6 +10670,23 @@ pub static MEM_USER_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
 /// the descriptor's `sources` field. Archived source corpora are discovery input;
 /// they do not replace per-artifact attribution.
 pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
+    ZONE_IDENTIFIER,
+    THUMBS_DB,
+    CDP_GDID,
+    NTFS_I30_INDEX,
+    NTFS_ADS,
+    NTFS_REPARSE_POINT,
+    PHOTOREC_RECUP_DIR,
+    WZCSVC_WIRELESS_INTERFACES,
+    NTFS_MACB_RULES,
+    MEM_FINDEVIL,
+    FILE_CARVING,
+    NTFS_OBJID,
+    MEM_EXTRACTED_PE_IMAGES,
+    SRUM_APP_TIMELINE,
+    MEM_ACCESS_TOKENS,
+    IE_RECOVERY_SESSION,
+    KANSA_COLLECTION_OUTPUT,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
@@ -8802,11 +10700,13 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     TYPED_URLS_TIME,
     PCA_APPLAUNCH_DIC,
     PCA_GENERAL_DB,
+    PCA_GENERAL_DB1,
     WINDOWS_HOSTS_FILE,
     DNS_POLICY_CONFIG_NRPT,
     IFEO_DEBUGGER,
     SHELLBAGS_USER,
     AMCACHE_APP_FILE,
+    AMCACHE_PROGRAM,
     SHIMCACHE,
     SHIMCACHE_MEMORY,
     BAM_USER,
@@ -9048,6 +10948,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     windows_registry_ext::USER_ACCOUNT_SID,
     windows_registry_ext::TERMINAL_SERVER_CLIENT_SERVERS,
     windows_registry_ext::INTERNET_EXPLORER_TYPED_URLS,
+    windows_registry_ext::EMDMGMT_READYBOOST,
     // Extended Windows EVTX artifacts (windows_evtx_ext)
     windows_evtx_ext::EVTX_TASK_SCHEDULER,
     windows_evtx_ext::EVTX_RDP_CLIENT,
@@ -9256,6 +11157,8 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     windows_files_ext::NTUSER_MAN_PERSISTENCE,
     windows_files_ext::WINDOWS_CLIPBOARD_DATA_FILES,
     windows_files_ext::WINDOWS_DEFENDER_MPWPPTRACING,
+    windows_files_ext::PSEXESVC_DROPPED_BINARY,
+    windows_files_ext::LSASS_DUMP_FILE,
     // ── Generated artifact descriptors (mass-import pipeline) ────────────────
     // Total: 6187 generated entries
     // ── browsers_generated (37 entries) ────────────────────────────────────
@@ -15322,7 +17225,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     generated::regedit_generated::REGEDIT_PARAMETERS_INTERFACES,
     generated::regedit_generated::REGEDIT_SYSTEM_MOUNTEDDEVICES,
     generated::regedit_generated::REGEDIT_SYSTEM_SETUP,
-    generated::regedit_generated::REGEDIT_SYSTEM_SELECT,
+    REGEDIT_SYSTEM_SELECT,
     generated::regedit_generated::REGEDIT_CONTROLSET00_CONTROL_WINDOWS,
     generated::regedit_generated::REGEDIT_CURRENTVERSION_PROFILELIST,
     generated::regedit_generated::REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_PRO,

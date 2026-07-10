@@ -692,21 +692,35 @@ pub(crate) static USB_STOR_ENUM: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Complete USB storage device connection history: device type, vendor, model, serial number, and first/last connection timestamps (via setupapi log correlation). The primary artifact for USB data theft investigations — persists after device removal.",
+    meaning: "Complete USB storage device connection history: device type, vendor, model, serial number, and per-device connection timestamps. On Windows 8+ the connect/disconnect times are stored directly under USBSTOR\\<device>\\<serial>\\Properties\\{83da6326-97a6-4088-9453-a1923f573b29}\\ as decimal-named subkeys 0064-0067 (hex 0x64-0x67), each a REG_BINARY little-endian FILETIME and all documented DEVPKEYs (DEVPROP_TYPE_FILETIME): 0064 InstallDate, 0065 FirstInstallDate, 0066 LastArrivalDate (last connect), 0067 LastRemovalDate (last disconnect). setupapi.dev.log remains the corroborating first-install source. The primary artifact for USB data theft investigations — persists after device removal.",
     mitre_techniques: &["T1052.001", "T1025"],
     fields: &[
         FieldSchema { name: "device_id", value_type: ValueType::Text, description: "USB device instance ID including serial number", is_uid_component: true },
         FieldSchema { name: "friendly_name", value_type: ValueType::Text, description: "Vendor and model string", is_uid_component: false },
+        FieldSchema { name: "install_date", value_type: ValueType::Timestamp, description: "DEVPKEY_Device_InstallDate (property 0x64, FILETIME) — when the device driver was installed on this machine (present on Win7 under the nested {GUID}\\00xx\\00000000\\Data path; flattened to Properties\\{GUID}\\0064 on Win8+)", is_uid_component: false },
+        FieldSchema { name: "first_install_date", value_type: ValueType::Timestamp, description: "DEVPKEY_Device_FirstInstallDate (property 0x65, FILETIME) — first time this device was connected to this machine; present since Windows 7 (nested path pre-Win8, flattened on Win8+)", is_uid_component: false },
+        FieldSchema { name: "last_arrival_date", value_type: ValueType::Timestamp, description: "DEVPKEY_Device_LastArrivalDate (property 0x66, FILETIME) — the authoritative LAST-CONNECT time; a Windows 8+ addition", is_uid_component: false },
+        FieldSchema { name: "last_removal_date", value_type: ValueType::Timestamp, description: "DEVPKEY_Device_LastRemovalDate (property 0x67, FILETIME) — the last DISCONNECT time; a Windows 8+ addition", is_uid_component: false },
     ],
     retention: Some("Persists until device entry is manually deleted"),
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &["usb_enum", "portable_devices", "setupapi_dev_log"],
+    related_artifacts: &["usb_enum", "portable_devices", "setupapi_dev_log", "mountpoints2", "mounted_devices"],
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
         "https://www.sans.org/blog/computer-forensic-guide-to-profiling-usb-device-thumbdrives-on-win7-xp-2003/",
+        // Microsoft Windows 10 SDK devpkey.h — GUID {83da6326-...} + property IDs 0x64-0x67 = DEVPROP_TYPE_FILETIME:
+        "https://github.com/tpn/winsdk-10/blob/master/Include/10.0.16299.0/shared/devpkey.h",
+        // Yogesh Khatri — RE writeup: forensic Last-Insertion/Last-Removal meaning + Win8 introduction:
+        "https://www.swiftforensics.com/2013/11/windows-8-new-registry-artifacts-part-1.html",
+        // libyal winreg-kb — Enum\USBSTOR\...\Properties layout RE reference:
+        "https://github.com/libyal/winreg-kb/blob/main/documentation/USB%20storage%20device%20keys.asciidoc",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
-    evidence_caveats: &["Device serial numbers persist; device may have been removed"],
+    evidence_caveats: &[
+        "Device serial numbers persist; device may have been removed",
+        "Last-connect three-source corroboration: 0066 LastArrivalDate (documented FILETIME) is the authoritative last-connect; it should agree with the LastWrite time of the USBSTOR\\<device>\\<serial> subkey and the LastWrite of the per-user NTUSER MountPoints2 subkey for the same volume GUID (which also attributes the connection to a specific user). Registry subkey LastWrite times are corroborative (any write updates them), not equal in precision to the 0066 FILETIME",
+        "The FLAT Properties\\{GUID}\\0064-0067 layout is Windows 8+; on Windows 7 InstallDate/FirstInstallDate live under the nested {GUID}\\00xx\\00000000\\Data path, and LastArrivalDate/LastRemovalDate (0066/0067) are Win8 additions — on Win7/XP fall back to USBSTOR subkey LastWrite plus setupapi.dev.log for first-connect",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Registry key; survives device removal",
 };
@@ -848,4 +862,72 @@ pub(crate) static INTERNET_EXPLORER_TYPED_URLS: ArtifactDescriptor = ArtifactDes
     ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Updated per user URL typing; FIFO eviction as new URLs are typed",
+};
+
+/// EMDMgmt / ReadyBoost external-device volume cache — USB iSerialNumber ↔ volume
+/// serial number (VSN) linkage.
+///
+/// Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/install/guid-devinterface-disk (GUID_DEVINTERFACE_DISK embedded in subkey names)
+/// Source: https://github.com/woanware/usbdeviceforensics/blob/master/usbdeviceforensics.py (parse oracle: key path, subkey format, decimal VSN)
+/// Source: https://github.com/keydet89/RegRipper3.0/blob/master/plugins/emdmgmt.pl (second independent parse oracle)
+pub(crate) static EMDMGMT_READYBOOST: ArtifactDescriptor = ArtifactDescriptor {
+    id: "emdmgmt_readyboost",
+    name: "EMDMgmt / ReadyBoost External Device Volume Cache",
+    artifact_type: ArtifactLocation::RegistryKey,
+    hive: Some(HiveTarget::HklmSoftware),
+    key_path: "Microsoft\\Windows NT\\CurrentVersion\\EMDMgmt",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "EMDMgmt (External Memory Device Management) is the registry store written by the \
+ReadyBoost service (Emdmgmt.dll). When a non-system-drive external volume is attached, ReadyBoost \
+profiles it and writes a subkey whose NAME embeds three forensically valuable fields: the device \
+instance ID (e.g. _??_USBSTOR#Disk&Ven_...#<iSerialNumber>#), the GUID_DEVINTERFACE_DISK class GUID \
+{53F56307-B6BF-11D0-94F2-00A0C91EFB8B}, the volume label, then the volume serial number in DECIMAL. \
+It is one of the few registry locations (besides MountedDevices/MountPoints) that ties a device's \
+USB iSerialNumber to a volume serial number (VSN), letting an examiner correlate the device to VSNs \
+recorded in LNK files and Jump Lists — decisive when a drive letter has been reused across several \
+devices. The same iSerialNumber appearing with multiple different VSNs is consistent with the volume \
+having been reformatted (a new VSN is generated on each format).",
+    mitre_techniques: &["T1052.001", "T1025"],
+    fields: &[
+        FieldSchema {
+            name: "device_instance_id",
+            value_type: ValueType::Text,
+            description: "USBSTOR/USB device instance ID embedded in the subkey name, including enumerator prefix, vendor/product/revision, and iSerialNumber",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "volume_label",
+            value_type: ValueType::Text,
+            description: "Volume label string, taken from the subkey name between the disk class GUID and the trailing underscore",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "volume_serial_number",
+            value_type: ValueType::Text,
+            description: "Volume serial number (VSN), stored in DECIMAL as the final underscore-delimited component of the subkey name; convert to hex (XXXX-XXXX) to match VSNs in LNK/Jump List records",
+            is_uid_component: true,
+        },
+    ],
+    retention: Some("Persists after device removal; entries are not cleared automatically"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["usb_stor_enum", "mounted_devices", "lnk_files", "setupapi_dev_log"],
+    sources: &[
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/install/guid-devinterface-disk",
+        "https://github.com/woanware/usbdeviceforensics/blob/master/usbdeviceforensics.py",
+        "https://github.com/keydet89/RegRipper3.0/blob/master/plugins/emdmgmt.pl",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Volume serial number is stored in DECIMAL in the subkey name — convert to hex (compare as XXXX-XXXX) before matching against LNK/Jump List VSNs",
+        "Populated only by the ReadyBoost service, which Windows DISABLES when the system drive is an SSD or is deemed fast enough; an absent or empty key on such systems is EXPECTED and is NOT evidence of tampering/anti-forensics",
+        "ReadyBoost was removed in Windows 11 22H2, so the key may be unpopulated on that build and later regardless of drive type",
+        "Records non-system EXTERNAL volumes broadly (USB, eSATA, FireWire, non-system local disks) — not USB-only; MTP/PTP devices (phones, cameras) are not captured",
+        "Corroborate with USBSTOR, MountedDevices, setupapi.dev.log, and Microsoft-Windows-Partition/Diagnostic; do not treat EMDMgmt absence in isolation as an investigative conclusion",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry subkeys survive device removal and reboot until manually deleted",
 };

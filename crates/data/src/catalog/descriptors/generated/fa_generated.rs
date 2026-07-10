@@ -6,7 +6,8 @@
 #![allow(clippy::too_many_lines)]
 
 use super::super::super::types::{
-    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, HiveTarget, OsScope, TriagePriority,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, FieldSchema, HiveTarget, OsScope,
+    TriagePriority, ValueType,
 };
 pub(crate) static FA_FILE_PARITY_AGENT_CACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "fa_file_parity_agent_cache",
@@ -60576,19 +60577,46 @@ pub(crate) static FA_FILE_PROGRAMS_RECENTFILECACHE_BCF: ArtifactDescriptor = Art
     scope: DataScope::Mixed,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "The RecentFileCache.bcf file.",
+    meaning: "RecentFileCache.bcf — the Windows 7 Application Experience (ProgramDataUpdater) \
+inventory of executables newly encountered on the system, the predecessor of Amcache.hve. On-disk it \
+is a variable-length file header beginning with a 4-byte signature at offset 0, followed by a sequence \
+of entry records, each a 4-byte UTF-16 character count (including the null terminator) plus a UTF-16LE \
+full-path string (per libyal dtformats). It records no timestamps and no hashes.",
     mitre_techniques: &[],
-    fields: &[],
+    fields: &[
+        FieldSchema {
+            name: "entry_path",
+            value_type: ValueType::Text,
+            description: "UTF-16LE full path of an executable inventoried by Application Experience; the decoded record content (one per entry)",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "entry_char_count",
+            value_type: ValueType::UnsignedInt,
+            description: "UTF-16 character count of the entry's path string, including the null terminator (the 4-byte length prefix preceding each path)",
+            is_uid_component: false,
+        },
+    ],
     retention: None,
     triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
+    related_artifacts: &["amcache_app_file"],
     sources: &[
         "https://artifacts-kb.readthedocs.io/en/latest/sources/windows/RecentFileCache.html",
+        // libyal dtformats — RecentFileCache.bcf on-disk format (RE reference):
+        "https://raw.githubusercontent.com/libyal/dtformats/main/documentation/RecentFileCache.bcf%20format.asciidoc",
+        // ANSSI CoRIIN 2019 — Amcache analysis; RecentFileCache.bcf is the Win7 predecessor:
+        "https://cyber.gouv.fr/uploads/2019/01/anssi-coriin_2019-analysis_amcache.pdf",
+        // Eric Zimmerman — RecentFileCacheParser (tool source):
+        "https://github.com/EricZimmerman/RecentFileCacheParser",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Windows 7 only — replaced by Amcache.hve on Windows 8 and later; absence on Win8+ is expected, not evidentiary (os_scope is stored as Win7Plus for enum compatibility, but the artifact is Win7-specific)",
+        "Contains no embedded timestamps and no hashes; only the file's own MFT/last-write time bounds the entries — individual entries cannot be independently dated",
+        "Lists executables the Application Experience inventory newly encountered; presence is consistent with the file having existed / been inventoried on the system, not proof a user executed it",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "On-disk file in %SystemRoot%\\AppCompat\\Programs; persists until deleted",
 };
 
 pub(crate) static FA_FILE_RECYCLE_BIN: ArtifactDescriptor = ArtifactDescriptor {

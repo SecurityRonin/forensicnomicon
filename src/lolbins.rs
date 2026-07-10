@@ -287,7 +287,13 @@ pub const LOLBAS_WINDOWS: &[LolbasEntry] = &[
         name: "ntdsutil.exe",
         mitre_techniques: &["T1003.003"],
         use_cases: UC_CREDENTIALS | UC_EXECUTE,
-        description: "NTDS database utility; abused to dump ntds.dit for offline cracking.",
+        description: "NTDS database utility (legitimate for DC Install-From-Media provisioning). \
+                      The 'activate instance ntds -> ifm -> create full <path>' sequence writes an IFM \
+                      set at <path>: 'Active Directory\\ntds.dit' plus 'registry\\SYSTEM' and \
+                      'registry\\SECURITY' — the SYSTEM hive carries the boot key/SysKey needed to \
+                      decrypt the hashes, so a full IFM set to a non-provisioning path is consistent \
+                      with credential-theft staging. Leaves ESENT 325 (new DB created) + 327 (detached) \
+                      in the Application log at the destination path.",
     },
     // ── T1055 — Process Injection ─────────────────────────────────────────────
     LolbasEntry {

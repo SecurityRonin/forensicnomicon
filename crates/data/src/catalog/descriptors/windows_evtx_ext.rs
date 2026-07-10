@@ -48,20 +48,28 @@ pub(crate) static EVTX_RDP_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::User,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Records outbound RDP connection attempts (1024 = success, 1102 = disconnect). Shows which systems this machine connected to via RDP — lateral movement source artifact. Complements the registry-based RDP MRU.",
+    meaning: "Records outbound RDP connection attempts (1024 = success, 1102 = disconnect). Shows which systems this machine connected to via RDP — lateral movement source artifact. Complements the registry-based RDP MRU. EID 1029 records the connecting username as a case-sensitive Base64(SHA-256(UTF-16LE(username))) digest (provider Microsoft-Windows-TerminalServices-ClientActiveXCore), logged on the SOURCE/client host; the TraceMessage payload holds zero, one, or two hash-hash values (username and/or domain). Recover the plaintext by hashing candidate usernames through the same UTF-16LE->SHA-256->Base64 pipeline and matching the string (EvtxECmd's 1029 map does this automatically), then correlate against the DESTINATION host's TerminalServices-LocalSessionManager/Operational EID 21/22 and Security 4624 Type 10 to tie the source pivot to the target logon.",
     mitre_techniques: &["T1021.001"],
     fields: &[
         FieldSchema { name: "server_name", value_type: ValueType::Text, description: "RDP target server hostname or IP", is_uid_component: true },
-        FieldSchema { name: "event_id", value_type: ValueType::UnsignedInt, description: "1024=connect, 1102=disconnect", is_uid_component: false },
+        FieldSchema { name: "event_id", value_type: ValueType::UnsignedInt, description: "1024=connect, 1102=disconnect, 1029=connecting-username hash", is_uid_component: false },
+        FieldSchema { name: "username_hash", value_type: ValueType::Text, description: "EID 1029: Base64(SHA-256(UTF-16LE(username))) of the connecting user (and optionally the domain), logged on the source host; one-way but wordlist-reversible by re-hashing candidate usernames", is_uid_component: false },
     ],
     retention: Some("Default 1 MB"),
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &["rdp_client_servers", "evtx_rdp_inbound", "rdp_bitmap_cache"],
+    related_artifacts: &["rdp_client_servers", "evtx_rdp_inbound", "rdp_bitmap_cache", "evtx_security"],
     sources: &[
         "https://ponderthebits.com/2018/02/windows-rdp-related-event-logs-identification-tracking-and-investigation/",
+        // Stroz Friedberg / Aon — EID 1029 SHA-256+domain dual-hash + the three no-hash conditions:
+        "https://www.strozfriedberg.com/",
+        // Eric Zimmerman EvtxECmd — the 1029 map (channel/provider/Base64-SHA256 decode):
+        "https://github.com/EricZimmerman/evtx",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["Outbound RDP; proves this host pivoted to another"],
+    evidence_caveats: &[
+        "Outbound RDP; proves this host pivoted to another",
+        "No EID 1029 hash is logged when NLA is disabled on the target, when 'Save Credentials' is used, or on Windows 7 / Windows Server 2008 (which record no events in this log); Windows 8 records some events but not EID 1029 — absence of 1029 does NOT mean no RDP connection occurred",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Event log; rotated on size limit",
 };
@@ -373,7 +381,7 @@ pub(crate) static EVTX_NTLM: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Records NTLM authentication events when NTLM audit policy is enabled. Shows NTLM challenge/response pairs that may indicate pass-the-hash attacks, NTLM relay, or legacy application authentication from unexpected sources.",
+    meaning: "Records NTLM authentication events when NTLM audit policy is enabled. Shows NTLM challenge/response pairs that may indicate pass-the-hash attacks, NTLM relay, or legacy application authentication from unexpected sources. Forced-authentication coercion abuses low-privilege RPC methods that force a victim (frequently a domain controller's machine account) to authenticate outbound over NTLM to an attacker-chosen host: PetitPotam drives EFSRPC methods (e.g. EfsRpcOpenFileRaw) over the \\pipe\\lsarpc or \\pipe\\efsrpc named pipe ([MS-EFSR]); PrinterBug/Dementor drives RpcRemoteFindFirstPrinterChangeNotificationEx over \\pipe\\spoolss ([MS-RPRN]); Coercer and DFSCoerce cover further RPC interfaces. The coerced NTLM authentication is then relayed (ntlmrelayx) to LDAP/ADCS/SMB. Here, a DC or server machine account ($) authenticating to an unexpected host is CONSISTENT WITH coercion + relay — it does not by itself prove it.",
     mitre_techniques: &["T1550.002", "T1187"],
     fields: &[
         FieldSchema { name: "user_name", value_type: ValueType::Text, description: "Authenticating username", is_uid_component: true },
@@ -381,14 +389,22 @@ pub(crate) static EVTX_NTLM: ArtifactDescriptor = ArtifactDescriptor {
     ],
     retention: Some("Default 1 MB"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["evtx_security", "dcc2_cache"],
+    related_artifacts: &["evtx_security", "dcc2_cache", "evtx_smb_client", "evtx_print_service"],
     sources: &[
         "https://github.com/Yamato-Security/hayabusa-rules",
+        // [MS-EFSR] Standards Assignments — \pipe\lsarpc / \pipe\efsrpc + UUIDs (PetitPotam vector):
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-efsr/1baaad2f-7a84-4238-b113-f32827a39cd2",
+        // [MS-RPRN] Standards Assignments — \pipe\spoolss + UUID (PrinterBug vector):
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-rprn/848b8334-134a-4d02-aea4-03b673d6c515",
+        // Microsoft — Event 5145 (Detailed File Share) — the upstream coercion signal:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5145",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
     evidence_caveats: &[
         "Disabled by default; only populated when NTLM audit policy is enabled",
         "Legacy applications generate substantial benign NTLM traffic",
+        "Upstream coercion is best seen in Security.evtx (evtx_security) via event 5145 — the sole event of the Object Access > Detailed File Share subcategory — showing access to Share Name IPC$ with a Relative Target Name of the coercion pipe (efsrpc, lsarpc, or spoolss); that subcategory is OFF by default and high-volume, so absence of 5145 is not absence of coercion",
+        "A machine-account NTLM authentication to an unexpected destination is consistent with coercion/relay but also occurs during benign cross-host service auth; corroborate with evtx_smb_client (relay victim), evtx_print_service (spooler coercion), and Security 4624/4768 machine-account logons",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "EVTX channel; oldest records purged when size limit reached",

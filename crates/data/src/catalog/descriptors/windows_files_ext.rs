@@ -2025,3 +2025,150 @@ pub(crate) static WINDOWS_DEFENDER_MPWPPTRACING: ArtifactDescriptor = ArtifactDe
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Defender support trace files rotate with size limits",
 };
+
+/// PSEXESVC.exe — the service binary Sysinternals PsExec drops on the TARGET host on
+/// every remote run. Distinct from the generic 7045 service-installed event: this is
+/// the on-disk file, whose presence and MFT birth (B) timestamp prove the host was the
+/// target of PsExec and date the execution.
+///
+/// Source: https://learn.microsoft.com/en-us/sysinternals/downloads/psexec (behaviour)
+/// Source: https://www.sans.org/blog/protecting-privileged-domain-accounts-psexec-deep-dive (artifact set)
+/// MITRE: T1569.002 (Service Execution), T1570 (Lateral Tool Transfer), T1021.002 (SMB/Admin Shares)
+pub(crate) static PSEXESVC_DROPPED_BINARY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "psexesvc_dropped_binary",
+    name: "PsExec service binary (PSEXESVC.exe) on target",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"C:\Windows\PSEXESVC.exe"),
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "On a REMOTE PsExec run, the source host stages a service binary (default \
+PSEXESVC.exe) to the target's ADMIN$ share, landing it in C:\\Windows, then installs and \
+starts it as the PSEXESVC service running as NT AUTHORITY\\SYSTEM (generating a 7045) and \
+deletes it when the command finishes. Its presence, and its MFT birth (B) timestamp, prove \
+the host was the TARGET of PsExec and date the execution; because it is recreated fresh on \
+every run and removed afterwards, the drop is a per-run artifact usually recovered from the \
+USN journal ($j), $I30 directory-index slack, or unallocated $MFT rather than as a live file. \
+LOCAL PsExec drops no binary (it uses the Service Control Manager APIs directly), so this \
+artifact is specific to remote/lateral use. The name is not a reliable signature: the -r flag \
+renames the service, binary and named pipes to an attacker-chosen string, and Impacket's \
+psexec drops a RemCom-derived binary instead — identify by scanning the binary, and correlate \
+a matching PSEXESVC prefetch entry and a Type 3 (4624) logon a few milliseconds before the \
+service install.",
+    mitre_techniques: &["T1569.002", "T1570", "T1021.002"],
+    fields: &[
+        FieldSchema {
+            name: "binary_name",
+            value_type: ValueType::Text,
+            description: "Service binary filename. Default PSEXESVC.exe, but renamable with -r (attacker-chosen) and Impacket's psexec drops a RemCom-derived binary — treat the name as non-authoritative and confirm by scanning the binary",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "mft_birth_time",
+            value_type: ValueType::Timestamp,
+            description: "$STANDARD_INFORMATION / $FILE_NAME Created (B) timestamp of the dropped binary, dating the PsExec execution; a fresh value on each run",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "recovered_from",
+            value_type: ValueType::Text,
+            description: "Where the (usually deleted) binary was observed: live file, $MFT unallocated, USN journal $j record, or $I30 index slack — reflecting that it is removed after each run",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Deleted at end of each run; recover from USN journal / $I30 slack / $MFT unallocated"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["prefetch_dir", "usnjrnl", "ntfs_i30_index", "sysinternals_eula"],
+    sources: &[
+        // Sysinternals PsExec — official tool behaviour (ADMIN$ staging, service install).
+        "https://learn.microsoft.com/en-us/sysinternals/downloads/psexec",
+        // SANS — PsExec deep-dive: the full target-side artifact set and -r caveat.
+        "https://www.sans.org/blog/protecting-privileged-domain-accounts-psexec-deep-dive",
+        // AboutDFIR — identifying PsExec across source/target artifacts.
+        "https://aboutdfir.com/the-key-to-identify-psexec/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Remote use only — LOCAL PsExec drops no binary (SCM APIs), so absence does not exclude PsExec on the host as a source",
+        "The name is renamable with -r and Impacket drops RemCom instead, so the literal filename is not a reliable signature — scan the binary and correlate the service/prefetch/logon",
+        "Deleted after each run; a live file may be absent even when PsExec ran — pivot to USN journal / $I30 slack / $MFT unallocated",
+        "Proves the host was a PsExec target and dates the run; it does not by itself identify the source host or the command executed",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Residual),
+    volatility_rationale: "Live binary exists only during a run; afterwards it survives as residual $MFT/USN/$I30 traces until overwritten",
+};
+
+/// Task-Manager LSASS dump file (`lsass.DMP`) — an on-disk credential-dump artifact.
+///
+/// Distinct from `mem_user_credentials` (live LSASS creds) and `windows_minidump`
+/// (crash dumps): this is the attacker-produced full-memory dump that Task Manager's
+/// "Create dump file" writes, from which credentials are extracted offline.
+///
+/// Source: https://attack.mitre.org/techniques/T1003/001/ (LSASS Memory)
+/// Source: https://www.atomicredteam.io/docs/atomics/T1003.001 (Task Manager variant)
+/// Source: https://thedfirreport.com/ (Diavol case — taskmgr.exe -> lsass.DMP Sigma rule)
+pub(crate) static LSASS_DUMP_FILE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "lsass_dump_file",
+    name: "Task-Manager LSASS dump (lsass.DMP)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"C:\Users\<user>\AppData\Local\Temp\lsass.DMP"),
+    scope: DataScope::User,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "A full-memory minidump of lsass.exe on disk — a high-fidelity credential-dump \
+artifact. The simplest way to produce it is Task Manager (Details tab, right-click lsass.exe, \
+\"Create dump file\"), which calls the legitimate MiniDumpWriteDump API (dbghelp.dll) and \
+writes <process>.DMP (so lsass.DMP) to the user's %LOCALAPPDATA%\\Temp; Windows Defender does \
+not flag this by default. The dump is normally exfiltrated and parsed OFFLINE with Mimikatz \
+(sekurlsa::minidump) or pypykatz (pypykatz lsa minidump lsass.dmp) to recover plaintext \
+passwords, NTLM hashes and Kerberos tickets. Because the filename is trivially changed (Task \
+Manager's default is <process>.DMP; the -r style rename and other tools use arbitrary names), \
+hunt by the minidump content signature MDMP (0x504D444D) plus a large file in a user-writable/\
+Temp directory, not the literal name. Corroborate the Task-Manager method with a file-create \
+event where the creating image is taskmgr.exe and the target ends in lsass.DMP, and the \
+broader technique with a handle to lsass.exe whose call trace references dbgcore.dll/dbghelp.dll.",
+    mitre_techniques: &["T1003.001"],
+    fields: &[
+        FieldSchema {
+            name: "dump_filename",
+            value_type: ValueType::Text,
+            description: "Dump file name. Task Manager defaults to <process>.DMP (lsass.DMP), but it is trivially renamable and other tools use arbitrary names — treat the name as non-authoritative and confirm by the MDMP minidump signature",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "created_time",
+            value_type: ValueType::Timestamp,
+            description: "File creation (B) timestamp — the moment LSASS memory was captured",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "minidump_signature",
+            value_type: ValueType::Text,
+            description: "Minidump files begin with the ASCII signature MDMP (0x504D444D); a content check that identifies an LSASS dump even when the file has been renamed",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Typically deleted after the dump is parsed/exfiltrated; recover from $MFT unallocated, USN journal, or $I30 slack"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["mem_user_credentials", "windows_minidump", "prefetch_dir"],
+    sources: &[
+        "https://www.atomicredteam.io/docs/atomics/T1003.001",
+        "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md",
+        "https://thedfirreport.com/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "The name is attacker-renamable (Task Manager's default is <process>.DMP; other tools use any name), so hunt by the MDMP minidump signature and a large file in a Temp/user-writable dir, not the literal name",
+        "A dump on disk shows LSASS memory was captured; it does not by itself prove credentials were extracted (that happens offline) or identify who ran it",
+        "Legitimate crash/debug tooling can also produce LSASS minidumps — corroborate with the creating process (file-create by taskmgr.exe -> lsass.DMP, or an lsass handle whose call trace hits dbgcore.dll/dbghelp.dll) and surrounding context",
+        "Requires administrative privilege — its presence implies the host was already compromised to that level, usually a prelude to lateral movement",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Residual),
+    volatility_rationale: "Usually deleted after offline parsing/exfiltration; recover from $MFT unallocated, USN journal, or $I30 slack",
+};
