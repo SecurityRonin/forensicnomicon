@@ -1227,7 +1227,7 @@ mod decode_tests {
     #[test]
     fn catalog_has_entries() {
         assert!(!CATALOG.list().is_empty());
-        assert_eq!(CATALOG.list().len(), 6680);
+        assert_eq!(CATALOG.list().len(), 6681);
     }
 
     #[test]
@@ -3671,7 +3671,7 @@ mod tests_batch_d {
     #[test]
     fn catalog_count_after_srum_network_connections() {
         // +1 from srum_network_connections, +1 from evtx_application_msiinstaller
-        assert_eq!(CATALOG.list().len(), 6680);
+        assert_eq!(CATALOG.list().len(), 6681);
     }
 
     // ── EVTX channels ─────────────────────────────────────────────────────
@@ -4677,7 +4677,7 @@ mod phase2_registry_tests {
     #[test]
     fn catalog_count_includes_phase2() {
         // Updated to 354 after phase-2b file artifact additions
-        assert_eq!(CATALOG.list().len(), 6680);
+        assert_eq!(CATALOG.list().len(), 6681);
     }
 
     #[test]
@@ -4822,7 +4822,7 @@ mod phase2b_files_tests {
     fn catalog_count_includes_phase2b() {
         // phase2a adds 30 registry artifacts (284→314), phase2b adds 40 file artifacts (314→354)
         // Note: chrome_login_data was already present from Phase 1; not duplicated here.
-        assert_eq!(CATALOG.list().len(), 6680);
+        assert_eq!(CATALOG.list().len(), 6681);
     }
 
     #[test]
@@ -5125,7 +5125,7 @@ mod phase3_persistence_tests {
         // phase3 adds 7 net-new artifacts not already in catalog (354 → 361)
         // Note: winlogon_shell, winlogon_userinit, appinit_dlls, boot_execute,
         //       ifeo_debugger, netsh_helper_dlls, mountpoints2 were already present.
-        assert_eq!(CATALOG.list().len(), 6680);
+        assert_eq!(CATALOG.list().len(), 6681);
     }
 
     // ── Pre-existing artifacts verified present ───────────────────────────────
@@ -6287,7 +6287,7 @@ mod tests_batch_i_presence {
     fn catalog_count_includes_batch_i() {
         assert_eq!(
             CATALOG.list().len(),
-            6680,
+            6681,
             "catalog count after batch I + quicklook + install_date + winscp + wifi + clipboard + unified_log + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -6546,7 +6546,7 @@ mod tests_quicklook_install_date {
     fn catalog_count_includes_quicklook_and_install_date() {
         assert_eq!(
             CATALOG.list().len(),
-            6680,
+            6681,
             "catalog count after quicklook + install_date + winscp + wifi + clipboard + unified_log + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -6704,7 +6704,7 @@ mod tests_winscp_ini {
     fn catalog_count_includes_winscp_ini() {
         assert_eq!(
             CATALOG.list().len(),
-            6680,
+            6681,
             "catalog count after winscp + wifi + clipboard + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -7039,7 +7039,7 @@ mod tests_windows_clipboard_history {
     fn catalog_count_includes_clipboard_history() {
         assert_eq!(
             CATALOG.list().len(),
-            6680,
+            6681,
             "catalog count after valley_rat + ntuser_man + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
         );
     }
@@ -9416,7 +9416,7 @@ mod tests_android_gboard_trainingcache {
 
     #[test]
     fn catalog_count_updated() {
-        assert_eq!(CATALOG.list().len(), 6680);
+        assert_eq!(CATALOG.list().len(), 6681);
     }
 }
 
@@ -9519,7 +9519,7 @@ mod tests_hyperv_guest_params {
     fn catalog_count_after_hyperv_guest_params() {
         assert_eq!(
             CATALOG.list().len(),
-            6680,
+            6681,
             "catalog count after hyperv_guest_params"
         );
     }
@@ -9712,7 +9712,7 @@ mod tests_registry_featureusage {
     fn catalog_count_after_registry_featureusage() {
         assert_eq!(
             CATALOG.list().len(),
-            6680,
+            6681,
             "catalog count after registry_featureusage"
         );
     }
@@ -9857,7 +9857,7 @@ mod tests_pca_general_db {
     fn catalog_count_after_pca_general_db() {
         assert_eq!(
             CATALOG.list().len(),
-            6680,
+            6681,
             "catalog count after pca_general_db"
         );
     }
@@ -9977,7 +9977,7 @@ mod tests_windows_hosts_file {
     fn catalog_count_after_windows_hosts_file() {
         assert_eq!(
             CATALOG.list().len(),
-            6680,
+            6681,
             "catalog count after windows_hosts_file"
         );
     }
@@ -10133,7 +10133,7 @@ mod tests_enable_periodic_backup {
     fn catalog_count_after_enable_periodic_backup() {
         assert_eq!(
             CATALOG.list().len(),
-            6680,
+            6681,
             "catalog count after enable_periodic_backup (+1)"
         );
     }
@@ -10289,7 +10289,7 @@ mod tests_dns_policy_config_nrpt {
     fn catalog_count_after_dns_policy_config_nrpt() {
         assert_eq!(
             CATALOG.list().len(),
-            6680,
+            6681,
             "catalog count after dns_policy_config_nrpt"
         );
     }
@@ -10488,7 +10488,7 @@ mod tests_dns_policy_config_nrpt {
     fn catalog_count_after_carvey_windows_registry_post() {
         assert_eq!(
             CATALOG.list().len(),
-            6680,
+            6681,
             "catalog count after adding rdp_enable_registry, special_accounts_userlist, logontype_winlogon, windows_clipboard_data_files"
         );
     }
@@ -10741,7 +10741,7 @@ mod tests_catalog_count_after_defender_support_logs {
     fn catalog_count_after_carvey_defender_support_logs_post() {
         assert_eq!(
             CATALOG.list().len(),
-            6680,
+            6681,
             "catalog count after adding windows_defender_mpwpptracing"
         );
     }

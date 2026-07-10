@@ -10038,6 +10038,89 @@ raw bytes, carving is filesystem- and OS-independent (see the os_scope caveat)."
     volatility_rationale: "Carving targets unallocated and slack space, which is reused (overwritten) by ordinary new file allocations; recoverability degrades with continued system use",
 };
 
+pub(crate) static NTFS_OBJID_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "object_id",
+        value_type: ValueType::Guid,
+        description: "16-byte GUID (key of the $O index / offset 0 of the $OBJECT_ID attribute) uniquely identifying the file within this volume; can repeat on a different volume but never on the same one (MS-FSCC 2.1.3.1). Version-1 GUIDs embed the origin machine's MAC address + a 60-bit creation timestamp",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "file_reference",
+        value_type: ValueType::Integer,
+        description: "8-byte MFT file reference (48-bit record number + 16-bit sequence) stored in the $O index value data, linking the object ID back to its MFT entry",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "birth_volume_id",
+        value_type: ValueType::Guid,
+        description: "16-byte GUID of the volume the file was created on. Its first byte's low-order bit is the CrossVolumeMoveFlag (MS-DLTW), set when the file has moved across volumes",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "birth_object_id",
+        value_type: ValueType::Guid,
+        description: "16-byte GUID = the object ID assigned at creation; copy/move/other operations MAY change ObjectId but not BirthObjectId, so it persists as a stable cross-volume/rename tracking key (MS-FSCC 2.1.3.1)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "birth_domain_id",
+        value_type: ValueType::Guid,
+        description: "16-byte DomainId — unused; SHOULD be zero and MUST be ignored on all volumes (MS-FSCC 2.1.3.1)",
+        is_uid_component: false,
+    },
+];
+
+/// NTFS Object ID Index ($Extend\$ObjId:$O) — distributed-link-tracking GUIDs.
+///
+/// $Extend\$ObjId is an NTFS metadata file dynamically allocated under the $Extend
+/// directory (MFT record 11); it is commonly placed around MFT entry 24-27 on a default
+/// format but that is not a fixed/spec-guaranteed record number. Its $O index maps each
+/// file's object-ID GUID to the file's MFT reference; the per-file record also lives in
+/// the resident $OBJECT_ID attribute (type 0x40).
+///
+/// Source: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/34a727a2-960a-4825-9cd2-6100c84e3a81 ([MS-FSCC] 2.1.3.1 — 64-byte FILE_OBJECTID_BUFFER)
+/// Source: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/63cdde16-85ac-480c-95bf-0bb8f5f09de8 ([MS-FSCC] 2.4.36.1 — 8-byte FileReferenceNumber prefix)
+/// Source: https://github.com/libyal/libfsntfs (RE: $Extend\$ObjId, $OBJECT_ID 0x40, $O index layout)
+pub static NTFS_OBJID: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ntfs_objid",
+    name: "NTFS Object ID Index ($Extend\\$ObjId:$O)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"\\.\<volume>\$Extend\$ObjId"),
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "Maps NTFS object-identifier GUIDs to MFT file references for distributed link tracking; \
+each 64-byte record carries an object ID plus the birth volume/object/domain IDs recorded when the ID \
+was first assigned, so a file can be correlated across renames and cross-volume copy/move operations \
+even after its current object ID changes. The BirthObjectId is the stable key: operations may rewrite \
+ObjectId but not BirthObjectId. Version-1 object-ID GUIDs embed the origin machine's MAC address and a \
+creation timestamp, and the same droid/birth-droid GUIDs are copied into LNK shortcuts and jump lists \
+— so a shortcut or its target can be tied back to the $ObjId record and to the machine that created it. \
+Object-ID tampering surfaces as USN_REASON_OBJECT_ID_CHANGE (0x00080000) in the USN journal.",
+    mitre_techniques: &[],
+    fields: NTFS_OBJID_FIELDS,
+    retention: Some("Object-ID record persists for the life of the file's MFT entry; the $O index entry survives until the object ID is deleted (FSCTL_DELETE_OBJECT_ID) or the file is removed"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["mft", "usnjrnl", "logfile_ntfs", "lnk_files", "jump_list_auto", "jump_list_custom"],
+    sources: &[
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/34a727a2-960a-4825-9cd2-6100c84e3a81",
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/63cdde16-85ac-480c-95bf-0bb8f5f09de8",
+        "https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "ObjectId is unique per volume, not globally — the same GUID can legitimately appear on a different volume; use BirthVolumeId/BirthObjectId for cross-volume correlation",
+        "A version-1 object-ID GUID embeds a MAC address + creation time, but those are set at assignment and can be stale or (with effort) forged — consistent with, not proof of, the origin machine/time",
+        "The object-ID record does not itself carry the file's MAC timestamps; correlate with the $MFT entry it references for timeline",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "On-disk NTFS metadata ($Extend\\$ObjId index + per-file $OBJECT_ID attribute); persists until the object ID or file is deleted",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -10057,6 +10140,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     NTFS_MACB_RULES,
     MEM_FINDEVIL,
     FILE_CARVING,
+    NTFS_OBJID,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
