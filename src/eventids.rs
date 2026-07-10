@@ -495,6 +495,34 @@ mod tests {
         );
     }
 
+    /// ESENT 216/325 are the ntdsutil-IFM-dump discriminators, but 216 alone is benign
+    /// VSS-backup noise (low_value) while 325's out-of-standard DB path is the high-value
+    /// signal. Source: MS esent-event-327-326; ntdsutil ifm ref; Cyberis; SigmaHQ.
+    #[test]
+    fn esent_216_is_low_fidelity_325_flags_ifm_staging() {
+        let e216 = event_entry(216).expect("Event 216 should exist");
+        assert!(
+            !e216.high_value,
+            "ESENT 216 fires on every VSS backup — it is corroboration, not a standalone red flag"
+        );
+        assert!(
+            e216.description.contains("VSS") || e216.description.contains("backup"),
+            "216 description must note the benign VSS-backup baseline: got {:?}",
+            e216.description
+        );
+        let e325 = event_entry(325).expect("Event 325 should exist");
+        assert!(
+            e325.description.contains("IFM") || e325.description.contains("create full"),
+            "325 must name the ntdsutil IFM 'create full' dump path: got {:?}",
+            e325.description
+        );
+        assert!(
+            e325.description.contains("PerfLogs") || e325.description.contains("staging"),
+            "325 must flag world-writable staging as the discriminator: got {:?}",
+            e325.description
+        );
+    }
+
     /// Lateral-movement / discovery / service-install / network-telemetry events
     /// surfaced by the IWE reconciliation. Verified against Microsoft Learn
     /// Security-auditing docs + the Ultimate Windows Security encyclopedia — never
