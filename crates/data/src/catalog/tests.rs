@@ -1032,6 +1032,28 @@ mod catalog_integrity {
         );
     }
 
+    /// Access tokens recovered from RAM must be cataloged — token_type (Primary vs
+    /// Impersonation), integrity level, and privileges, for detecting token
+    /// theft/impersonation and privilege escalation. Sources: MS winnt.h TOKEN_TYPE;
+    /// well-known SIDs.
+    #[test]
+    fn mem_access_tokens_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "mem_access_tokens")
+            .expect("mem_access_tokens descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::MemoryRegion);
+        assert!(
+            d.fields.iter().any(|f| f.name == "token_type"),
+            "must expose token_type (Primary vs Impersonation)"
+        );
+        assert!(
+            d.mitre_techniques.contains(&"T1134.001"),
+            "must map to T1134.001 (Access Token Manipulation: Token Impersonation/Theft)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
