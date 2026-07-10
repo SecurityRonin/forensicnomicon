@@ -3830,15 +3830,29 @@ pub static NTDS_DIT: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
-    meaning: "Domain controller AD database; contains NTLM hashes for all domain accounts",
+    meaning: "Domain controller AD database; contains NTLM hashes for all domain accounts. A \
+ntdsutil \"ac i ntds\" \"ifm\" \"create full <path>\" dump leaves a portable copy at an ad-hoc path: the \
+target folder holds two sibling subdirs — Active Directory\\ (ntds.dit + ntds.jfm ESE flush map) and \
+registry\\ (SYSTEM + SECURITY hives) — i.e. everything offline secretsdump needs, since the SYSTEM hive \
+carries the BootKey/SYSKEY that decrypts the .dit.",
     mitre_techniques: &["T1003.003"],
     fields: NTDS_FIELDS,
     retention: None,
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://www.sans.org/blog/protecting-ad-from-credential-theft/"],
+    related_artifacts: &["evtx_application", "shimcache"],
+    sources: &[
+        "https://www.sans.org/blog/protecting-ad-from-credential-theft/",
+        // MS ifm reference — media stored in an 'Active Directory' subfolder; full AD DS media includes the registry:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc732530(v=ws.11)",
+        // MS — ESENT event source (Application-log 216/325/326/327 accompany the dump):
+        "https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/esent-event-327-326",
+    ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["All domain hashes present; requires parsing with secretsdump or ntdsutil"],
+    evidence_caveats: &[
+        "All domain hashes present; requires parsing with secretsdump or ntdsutil",
+        "ntdsutil IFM dump footprint: an ad-hoc target folder with sibling Active Directory\\ (ntds.dit + ntds.jfm flush map) and registry\\ (SYSTEM + SECURITY) subdirs — per the MS IFM doc the media is stored in an 'Active Directory' subfolder and full AD DS media 'includes the registry'. A ntds.dit found anywhere other than the default %SystemRoot%\\NTDS\\ is strong evidence of extraction; the non-default PATH (not the accompanying ESENT event alone) is the discriminator",
+        "The Application-log ESENT events 216/325/326/327 (216=location change, 325=new DB, 326/327=database attach/detach) accompany a dump but also fire during legitimate VSS backups — corroborate the 325 destination path, not the event's mere presence",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "AD database; persists until account deleted",
 };
