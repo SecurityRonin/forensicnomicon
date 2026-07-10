@@ -7299,8 +7299,22 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
               5152 (WFP blocked a packet — pivot for EDR-silencer detection and inbound \
               recon/exploitation; source IP recorded but direction is usually inbound), \
               5379 (Credential Manager credential read — detects tools like CredentialsFileView harvesting stored passwords), \
+              4776 (NTLM credential validation — 'The computer attempted to validate the credentials \
+              for an account'; generated ONLY on the computer authoritative for the account: the DC \
+              for domain accounts, the local machine for local accounts. Records the Logon Account and \
+              the SOURCE Workstation the NTLM auth came FROM (never the destination server), plus a \
+              Status code (0x0 success, 0xC000006A bad password, 0xC0000234 locked). On a DC this is a \
+              central view of all NTLM auth for domain accounts including the source workstation — a \
+              primary pass-the-hash / NTLM lateral-movement pivot that 4624 alone does not give), \
+              5140 (network share object accessed — Audit File Share; ShareName in \\\\*\\SHARE form, so \
+              admin-share access shows as \\\\*\\C$, \\\\*\\ADMIN$, \\\\*\\IPC$ — an SMB admin-share \
+              lateral-movement signal when the Source IpAddress is a remote host), \
+              5145 (detailed network share object check — Audit Detailed File Share, off by default and \
+              high-volume; fires per file/folder with RelativeTargetName + a fuller AccessMask and an \
+              AccessReason SDDL trail, giving file-level visibility of what a remote account touched over \
+              SMB, e.g. staged tools or exfiltrated files under an admin share), \
               1102 (audit log cleared — high-priority anti-forensics indicator).",
-    mitre_techniques: &["T1070.001", "T1059", "T1078", "T1555"],
+    mitre_techniques: &["T1070.001", "T1059", "T1078", "T1555", "T1550.002", "T1021.002", "T1021.001", "T1039"],
     fields: EVTX_FIELDS,
     retention: Some("configurable; default ~20MB rolling per channel"),
     triage_priority: TriagePriority::Critical,
@@ -7312,6 +7326,14 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
     ],
     sources: &[
         "https://www.sans.org/posters/windows-forensic-analysis/",
+        // Microsoft — Event 4776 (NTLM credential validation): Logon Account + Source Workstation + Status:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4776",
+        // Microsoft — Event 5140 (network share accessed): IpAddress, ShareName (\\*\SHARE), ShareLocalPath:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5140",
+        // Microsoft — Event 5145 (detailed file share): RelativeTargetName, Accesses, AccessReason:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-5145",
+        // Microsoft — Event 4624 LogonType table + Source Network Address:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624",
         "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-security-audit-policies",
         "https://www.13cubed.com/downloads/windows_event_log_cheat_sheet.pdf",
         "https://www.magnetforensics.com/blog/the-importance-of-powershell-logs-in-digital-forensics/",
@@ -7358,6 +7380,18 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
          For RDP source attribution always use IpAddress (Source Network Address), \
          never WorkstationName alone. Using WorkstationName as the source on a Type 10 \
          event misattributes the victim host as the actor.",
+        "Event 4624 LogonType isolates the logon vector for a lateral-movement timeline: Type 3 \
+         (Network) = authenticated to this host from the network — the inbound SMB / net-use / \
+         admin-share (C$/ADMIN$/IPC$) and pass-the-hash vector; Type 10 (RemoteInteractive) = Terminal \
+         Services / RDP; Type 2 (Interactive) = local console. Filtering Security.evtx 4624 by LogonType \
+         separates remote network auth (Type 3) from RDP (Type 10) and local logons (Type 2) when \
+         reconstructing how an actor moved between hosts. Key logon types (Microsoft): 2 Interactive, \
+         3 Network, 4 Batch, 5 Service, 7 Unlock, 8 NetworkCleartext, 9 NewCredentials, \
+         10 RemoteInteractive, 11 CachedInteractive.",
+        "Event 4776 is generated only on the account-authoritative host (DC for domain accounts) and \
+         records the SOURCE workstation, not the destination — it also fires on workstation-unlock and \
+         does NOT fire when a domain account logs on locally at a DC; a Type-3 4624 alone does not \
+         attribute the NTLM source the way DC-side 4776 does",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Circular EVTX log; default 128 MB max",
