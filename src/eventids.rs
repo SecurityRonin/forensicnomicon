@@ -332,16 +332,24 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
     EventIdEntry {
         event_id: 216,
         channel: "Application",
-        description: "ESENT: database location change detected (NTDS.dit move ⇒ red flag)",
+        description: "ESENT: a database location change was detected — embeds the from->to paths \
+                      (e.g. C:\\Windows\\NTDS\\ntds.dit -> a HarddiskVolumeShadowCopyN device path). \
+                      Fires routinely during VSS-based backups, so low-fidelity alone — a shadow-copy \
+                      device path is expected/benign; corroborate with 325 to an unusual path",
         mitre_techniques: &["T1003.003"],
         artifact_ids: &["evtx_application"],
-        high_value: true,
+        high_value: false,
     },
     EventIdEntry {
         event_id: 325,
         channel: "Application",
-        description: "ESENT: database engine created a new database (NTDS.dit in unexpected \
-                      location ⇒ red flag)",
+        description: "ESENT: the database engine created a new database — records the full DB path. \
+                      ntdsutil IFM 'create full <path>' writes a fresh (defragmented) ntds.dit copy, so \
+                      a 325 whose path is OUTSIDE the standard %SystemRoot%\\NTDS\\ — especially \
+                      world-writable staging (C:\\Users\\Public, C:\\ProgramData, C:\\Windows\\Temp, \
+                      C:\\PerfLogs) — is strongly consistent with credential-theft staging. Correlate \
+                      with a following 327 (detach) on the same path and an ntdsutil.exe process-create \
+                      (4688 / Sysmon 1)",
         mitre_techniques: &["T1003.003"],
         artifact_ids: &["evtx_application"],
         high_value: true,
