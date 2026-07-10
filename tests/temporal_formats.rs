@@ -6,7 +6,9 @@
 //! conversion table, and the cross-table invariant that every artifact→format
 //! mapping in [`ARTIFACT_TIMESTAMPS`] resolves to a real format.
 
-use forensicnomicon::temporal_formats::{time_format, Encoding, TzSemantics, Unit, TIME_FORMATS};
+use forensicnomicon::temporal_formats::{
+    time_format, Encoding, TzSemantics, Unit, FILETIME_EPOCH_NS, TIME_FORMATS,
+};
 use forensicnomicon::timestamp_artifacts::ARTIFACT_TIMESTAMPS;
 
 #[test]
@@ -25,18 +27,22 @@ fn all_ids_are_unique() {
 
 #[test]
 fn filetime_is_linearint_hundrednanos_since_1601_utc() {
-    let f = match time_format("filetime") {
-        Some(f) => f,
-        None => panic!("filetime must be catalogued"),
-    };
-    assert_eq!(f.tz, TzSemantics::Utc);
-    match f.encoding {
-        Encoding::LinearInt { epoch_ns, unit } => {
-            assert_eq!(epoch_ns, -11_644_473_600_i128 * 1_000_000_000);
-            assert_eq!(unit, Unit::HundredNanos);
-        }
-        other => panic!("filetime must be LinearInt, got {other:?}"),
-    }
+    // FILETIME: LinearInt, 100-ns ticks, 1601-01-01 epoch, UTC — the epoch offset
+    // stated as the raw literal so a wrong sign/scale fails here, not silently.
+    let expected = (
+        TzSemantics::Utc,
+        Encoding::LinearInt {
+            epoch_ns: -11_644_473_600_i128 * 1_000_000_000,
+            unit: Unit::HundredNanos,
+        },
+    );
+    assert_eq!(
+        time_format("filetime").map(|f| (f.tz, f.encoding)),
+        Some(expected),
+        "filetime must be LinearInt(HundredNanos, 1601-01-01, UTC)"
+    );
+    // The named epoch constant matches the literal (public knowledge API).
+    assert_eq!(FILETIME_EPOCH_NS, -11_644_473_600_i128 * 1_000_000_000);
 }
 
 #[test]
