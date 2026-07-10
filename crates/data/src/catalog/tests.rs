@@ -1145,6 +1145,35 @@ mod catalog_integrity {
         );
     }
 
+    /// HKLM\SYSTEM\Select must carry the dead-box resolution knowledge: its four
+    /// REG_DWORD values (Current/Default/Failed/LastKnownGood) resolve ControlSet00N,
+    /// and on an offline hive there is NO CurrentControlSet key — read Select\Current.
+    /// Source: winreg-kb; MS CurrentControlSet doc.
+    #[test]
+    fn regedit_system_select_resolves_control_set() {
+        let matches: Vec<_> = CATALOG
+            .list()
+            .iter()
+            .filter(|d| d.id == "regedit_system_select")
+            .collect();
+        assert_eq!(
+            matches.len(),
+            1,
+            "exactly one regedit_system_select (no generated-stub duplicate)"
+        );
+        let d = matches[0];
+        assert!(
+            d.fields.iter().any(|f| f.name == "Current"),
+            "must expose the Current REG_DWORD (resolves ControlSet00N)"
+        );
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("CurrentControlSet")),
+            "must caveat the dead-box CurrentControlSet-is-volatile gotcha"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
