@@ -1120,6 +1120,31 @@ mod catalog_integrity {
         );
     }
 
+    /// Security.evtx must enumerate the DC-side/lateral-movement event IDs: 4776 (NTLM
+    /// credential validation — source-workstation pivot), 5140/5145 (SMB share/admin-share
+    /// access), and the 4624-LogonType-as-pivot caveat (Type3=Network, Type10=RDP).
+    /// Sources: MS event-4776/5140/5145/4624 docs.
+    #[test]
+    fn evtx_security_documents_dc_and_lateral_events() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "evtx_security")
+            .expect("evtx_security descriptor must exist");
+        assert!(
+            d.meaning.contains("4776") && d.meaning.contains("5145"),
+            "meaning must enumerate 4776 (NTLM) and 5145 (detailed file share)"
+        );
+        for t in ["T1550.002", "T1021.002"] {
+            assert!(d.mitre_techniques.contains(&t), "must map to {t}");
+        }
+        let caveats = d.evidence_caveats.join(" ");
+        assert!(
+            caveats.contains("LogonType") && !caveats.contains("Full enum"),
+            "must add the 4624 LogonType pivot caveat without overstating a 9-of-12 subset as 'Full enum'"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
