@@ -37,10 +37,21 @@ pub const TABLE_ENERGY_USAGE: &str = "{FEE4E14F-02A9-4550-B5CE-5FA2DA202E37}";
 /// Available since Windows 8.1.  Maps to `sr notifications`.
 pub const TABLE_PUSH_NOTIFICATIONS: &str = "{D10CA2FE-6FCF-4F6D-848E-B2E99266FA86}";
 
-/// Application Timeline — in-focus duration and user input time per app.
+/// Application Timeline (registry provider `AppTimelineProvider`, `eeprov.dll`) —
+/// in-focus duration and keyboard/mouse/audio input time per app.
 ///
 /// Available since Windows 10 Anniversary Update (1607).  Maps to `sr app-timeline`.
-pub const TABLE_APP_TIMELINE: &str = "{7ACBBAA3-D029-4BE4-9A7A-0885927F1D8F}";
+///
+/// GUID ground truth: the `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SRUM\
+/// Extensions` default values register `{5C8CF1C7-...}` = `AppTimelineProvider` and
+/// `{7ACBBAA3-...}` = `vfuprov` (see [`TABLE_VFUPROV`]); an earlier revision had these
+/// swapped (EricZimmerman/Srum issue #8).
+pub const TABLE_APP_TIMELINE: &str = "{5C8CF1C7-7257-4F13-B223-970EF5939312}";
+
+/// `vfuprov` (`vfuprov.dll`) SRUM extension GUID. Registered under `SRUM\Extensions`
+/// but its column schema/purpose is not documented by the community, so no descriptor
+/// is provided — this const only preserves the correct label for the GUID.
+pub const TABLE_VFUPROV: &str = "{7ACBBAA3-D029-4BE4-9A7A-0885927F1D8F}";
 
 /// Energy Usage Long-Term — same schema as `TABLE_ENERGY_USAGE`, longer accumulation window.
 ///

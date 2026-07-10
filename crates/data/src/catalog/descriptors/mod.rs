@@ -3054,9 +3054,10 @@ pub(crate) static SRUM_FIELDS: &[FieldSchema] = &[
 
 /// System Resource Usage Monitor database — rich execution timeline (Win8+).
 ///
-/// SQLite database at `C:\Windows\System32\sru\SRUDB.dat`. Key tables:
+/// ESE (JET Blue) database at `C:\Windows\System32\sru\SRUDB.dat`. Key tables:
 /// `{D10CA2FE-...}` = Application Resource Usage (network, CPU per app),
-/// `{5C8CF1C7-...}` = Network Data Usage. Retains ~30-60 days of history.
+/// `{973F5D5C-...}` = Network Data Usage, `{5C8CF1C7-...}` = App Timeline Provider.
+/// Retains ~30-60 days of history overall (the App Timeline table only ~7 days).
 pub static SRUM_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "srum_db",
     name: "SRUM Database (SRUDB.dat)",
@@ -10202,6 +10203,115 @@ injected code that never touched disk, and unsigned modules absent from the load
     volatility_rationale: "Reconstructed from live RAM; the source pages are lost on power-off",
 };
 
+pub(crate) static SRUM_APP_TIMELINE_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "app_id",
+        value_type: ValueType::Text,
+        description: "AppId — application path / executable identity (resolved via SruDbIdMapTable)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "user_id",
+        value_type: ValueType::Text,
+        description: "UserId — SID of the user account (resolved via SruDbIdMapTable)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "end_time",
+        value_type: ValueType::Timestamp,
+        description: "Approximate execution EndTime of the activity interval",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "duration_ms",
+        value_type: ValueType::UnsignedInt,
+        description: "DurationMS — total length of the activity interval in milliseconds",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "in_focus_s",
+        value_type: ValueType::UnsignedInt,
+        description: "InFocus seconds — how long the application held the foreground window during the interval",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "keyboard_input_s",
+        value_type: ValueType::UnsignedInt,
+        description: "Seconds of actual keyboard input while the app was focused — non-zero is strong evidence of interactive HUMAN presence, distinguishing real use from unattended/automated execution",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "mouse_input_s",
+        value_type: ValueType::UnsignedInt,
+        description: "Seconds of actual mouse input while the app was focused (interactive-presence signal)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "exe_timestamp",
+        value_type: ValueType::Timestamp,
+        description: "ExeTimestamp — a per-executable timestamp reported by community analysis to correspond to the binary's PE compile/link time, NOT the run time",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "flags",
+        value_type: ValueType::UnsignedInt,
+        description: "Flags — bitfield whose semantics are undocumented",
+        is_uid_component: false,
+    },
+];
+
+/// SRUM Application Timeline Table (AppTimelineProvider) — per-app interactive-use
+/// telemetry.
+///
+/// GUID is {5C8CF1C7-...} (registry provider `AppTimelineProvider`); {7ACBBAA3-...} is
+/// vfuprov, NOT this table (an earlier revision had them swapped — see src/srum.rs).
+///
+/// Source: https://github.com/EricZimmerman/Srum/issues/8 (registry Extensions default values — GUID ground truth)
+/// Source: https://github.com/WithSecureLabs/chainsaw/wiki/SRUM-Analysis
+/// Source: https://aboutdfir.com/app-timeline-provider-srum-database/
+pub static SRUM_APP_TIMELINE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "srum_app_timeline",
+    name: "SRUM Application Timeline Table (AppTimelineProvider)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"C:\Windows\System32\sru\SRUDB.dat:{5C8CF1C7-7257-4F13-B223-970EF5939312}"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "ESE table {5C8CF1C7-7257-4F13-B223-970EF5939312} (registry provider name 'AppTimelineProvider') \
+records per-app, per-user activity intervals with rich human-interaction telemetry: how long each \
+application held the foreground window (InFocus), and how long there was actual keyboard, mouse, audio-in \
+and audio-out activity while focused. Because it captures real user-input duration, it distinguishes \
+interactive human use from unattended/automated execution far better than the CPU-cycle App Resource \
+Usage table. Each row also carries an approximate execution EndTime, total DurationMS, and a distinct \
+ExeTimestamp (a per-executable timestamp reported by community analysis to correspond to the binary's PE \
+compile/link time, NOT the run time). This table retains only ~7 days of data — a much shorter window \
+than the ~30-60 day SRUDB.dat whole-database retention.",
+    mitre_techniques: &[],
+    fields: SRUM_APP_TIMELINE_FIELDS,
+    retention: Some("~7 days per this table (shorter than the ~30-60 day whole-SRUDB.dat window)"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["srum_app_resource", "srum_db", "prefetch_file", "shimcache"],
+    sources: &[
+        "https://github.com/EricZimmerman/Srum/issues/8",
+        "https://github.com/EricZimmerman/Srum/pull/10/files",
+        "https://github.com/WithSecureLabs/chainsaw/wiki/SRUM-Analysis",
+        "https://aboutdfir.com/app-timeline-provider-srum-database/",
+        "https://github.com/MarkBaggett/srum-dump",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Field/column semantics are reverse-engineered (no Microsoft [MS-*] spec); the Flags meaning is unknown",
+        "ExeTimestamp is community-reported as the executable's PE compile/link time, NOT execution time — do not read it as a run timestamp",
+        "Strong specifically for interactive presence: non-zero keyboard/mouse/user-input seconds is strong evidence a human was at the keyboard during the interval; corroborative for execution overall",
+        "Retains only ~7 days — activity older than that is not here even though SRUDB.dat overall keeps ~30-60 days",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "ESE table pruned to ~7 days; older intervals are aged out",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -10223,6 +10333,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     FILE_CARVING,
     NTFS_OBJID,
     MEM_EXTRACTED_PE_IMAGES,
+    SRUM_APP_TIMELINE,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
