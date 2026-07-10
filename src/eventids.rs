@@ -531,6 +531,34 @@ mod tests {
         );
     }
 
+    /// Log-clearing (104 System / 1102 Security) cross-log semantics and 4104 PowerShell
+    /// auto-suspicious Warning logging. Sources: nasbench eventlog manifest; MS event-1102;
+    /// MS PowerShell CompiledScriptBlock.cs / "PowerShell the Blue Team" devblog.
+    #[test]
+    fn log_clearing_and_ps_scriptblock_semantics() {
+        let e104 = event_entry(104).expect("104 exists");
+        assert!(
+            e104.description.contains("1102"),
+            "104 should cross-reference Security's own 1102 self-log: got {:?}",
+            e104.description
+        );
+        let e1102 = event_entry(1102).expect("1102 exists");
+        assert!(
+            !e1102.description.contains("exception to the 104 pattern"),
+            "1102 must not assert the unverified exclusivity claim"
+        );
+        let e4104 = event_entry(4104).expect("4104 exists");
+        assert!(
+            e4104.description.contains("Warning"),
+            "4104 must document the auto-suspicious Warning-level record-of-last-resort"
+        );
+        assert!(
+            !e4104.description.contains("Informational")
+                && !e4104.description.contains("(decoded)"),
+            "4104: Level 5 is Verbose not Informational, and drop the blanket (decoded) claim"
+        );
+    }
+
     /// Lateral-movement / discovery / service-install / network-telemetry events
     /// surfaced by the IWE reconciliation. Verified against Microsoft Learn
     /// Security-auditing docs + the Ultimate Windows Security encyclopedia — never
