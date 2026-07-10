@@ -943,6 +943,24 @@ mod catalog_integrity {
         );
     }
 
+    /// mem_network_connections must expose all 10 volatility3 netscan columns; the
+    /// existing 4 cover 6, so add protocol, owner_process, created (C2 beacon timing),
+    /// and offset. Source: volatility3 netscan.py.
+    #[test]
+    fn mem_network_connections_has_netscan_columns() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "mem_network_connections")
+            .expect("mem_network_connections descriptor must exist");
+        for f in ["protocol", "owner_process", "created", "offset"] {
+            assert!(
+                d.fields.iter().any(|x| x.name == f),
+                "must expose the netscan {f} column"
+            );
+        }
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
