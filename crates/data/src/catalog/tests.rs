@@ -1097,6 +1097,29 @@ mod catalog_integrity {
         );
     }
 
+    /// ntds_dit must document the ntdsutil IFM extraction footprint: an ad-hoc folder
+    /// with sibling `Active Directory\` (ntds.dit + ntds.jfm) and `registry\` (SYSTEM +
+    /// SECURITY, carrying the BootKey) subdirs — a .dit anywhere but %SystemRoot%\NTDS\
+    /// is strong evidence of extraction. Source: MS IFM ref; ESENT 326/327 doc.
+    #[test]
+    fn ntds_dit_documents_ifm_extraction_footprint() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "ntds_dit")
+            .expect("ntds_dit descriptor must exist");
+        assert!(
+            d.meaning.contains("IFM") || d.evidence_caveats.iter().any(|c| c.contains("IFM")),
+            "must document the ntdsutil IFM dump footprint"
+        );
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("SYSTEM") && c.contains("SECURITY")),
+            "must note the sibling registry\\SYSTEM+SECURITY hives that decrypt the .dit"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
