@@ -20,6 +20,8 @@ pub struct EventIdEntry {
     pub artifact_ids: &'static [&'static str],
     /// Triage relevance: is this a high-value event to look for?
     pub high_value: bool,
+    /// Collection/interpretation caveats specific to this event ID (empty when none).
+    pub caveats: &'static str,
 }
 
 /// Static table of well-known Windows Event IDs with forensic enrichment.
@@ -34,6 +36,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1070.001"],
         artifact_ids: &["evtx_system"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 1102,
@@ -45,6 +48,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1070.001"],
         artifact_ids: &["evtx_security"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4624,
@@ -53,6 +57,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1078"],
         artifact_ids: &["evtx_security"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4625,
@@ -61,6 +66,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1110"],
         artifact_ids: &["evtx_security"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4648,
@@ -69,6 +75,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1550.002"],
         artifact_ids: &["evtx_security"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4663,
@@ -77,6 +84,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1005"],
         artifact_ids: &["evtx_security"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4688,
@@ -85,6 +93,15 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1059"],
         artifact_ids: &["evtx_security"],
         high_value: true,
+        caveats: "Two independent GPO toggles gate this event. (1) The event itself is OFF by \
+                  default: it requires the 'Audit Process Creation' policy (Advanced Audit \
+                  Configuration > Detailed Tracking), default Not Configured — absence of 4688 does \
+                  not prove absence of process execution, only that auditing was disabled. (2) The \
+                  ProcessCommandLine field is a SECOND, separate toggle: 'Include command line in \
+                  process creation events' (Administrative Templates\\System\\Audit Process Creation), \
+                  default Not Configured, effective only when Audit Process Creation is already \
+                  enabled; when on it writes each process's full command line in plaintext (which can \
+                  itself leak secrets passed on the command line)",
     },
     EventIdEntry {
         event_id: 4698,
@@ -93,6 +110,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1053.005"],
         artifact_ids: &["evtx_security", "scheduled_tasks_dir"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4702,
@@ -101,6 +119,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1053.005"],
         artifact_ids: &["evtx_security"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4720,
@@ -109,6 +128,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1136.001"],
         artifact_ids: &["evtx_security", "sam_users"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4732,
@@ -117,6 +137,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1098"],
         artifact_ids: &["evtx_security"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4768,
@@ -125,6 +146,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1558.003"],
         artifact_ids: &["evtx_security"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4769,
@@ -133,6 +155,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1558.003"],
         artifact_ids: &["evtx_security"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4771,
@@ -141,6 +164,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1110"],
         artifact_ids: &["evtx_security"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4776,
@@ -149,6 +173,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1550.002"],
         artifact_ids: &["evtx_security"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 7045,
@@ -157,6 +182,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1543.003"],
         artifact_ids: &["evtx_system"],
         high_value: true,
+        caveats: "",
     },
     // ── 13Cubed IWE additions ─────────────────────────────────────────────────
     // Security — logon / privilege / account lifecycle
@@ -167,6 +193,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &[],
         artifact_ids: &["evtx_security"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4647,
@@ -175,6 +202,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &[],
         artifact_ids: &["evtx_security"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4672,
@@ -183,6 +211,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1078"],
         artifact_ids: &["evtx_security"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4722,
@@ -191,6 +220,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1098"],
         artifact_ids: &["evtx_security"],
         high_value: true,
+        caveats: "",
     },
     // RDP / TerminalServices
     EventIdEntry {
@@ -200,6 +230,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1021.001"],
         artifact_ids: &["evtx_rdp_session", "evtx_terminal_services"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 22,
@@ -208,6 +239,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1021.001"],
         artifact_ids: &["evtx_rdp_session", "evtx_terminal_services"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 1149,
@@ -217,6 +249,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1021.001"],
         artifact_ids: &["evtx_rdp_inbound", "evtx_terminal_services"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 1029,
@@ -225,6 +258,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1021.001"],
         artifact_ids: &["evtx_rdp_client", "evtx_terminal_services"],
         high_value: false,
+        caveats: "",
     },
     // Task Scheduler operational
     EventIdEntry {
@@ -234,6 +268,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1053.005"],
         artifact_ids: &["evtx_task_scheduler", "scheduled_tasks_dir"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 140,
@@ -242,6 +277,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1053.005"],
         artifact_ids: &["evtx_task_scheduler"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 141,
@@ -250,6 +286,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1053.005"],
         artifact_ids: &["evtx_task_scheduler"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 200,
@@ -258,6 +295,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1053.005"],
         artifact_ids: &["evtx_task_scheduler"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 201,
@@ -266,6 +304,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1053.005"],
         artifact_ids: &["evtx_task_scheduler"],
         high_value: false,
+        caveats: "",
     },
     // PowerShell
     EventIdEntry {
@@ -275,6 +314,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1059.001"],
         artifact_ids: &["evtx_powershell"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4104,
@@ -289,6 +329,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1059.001"],
         artifact_ids: &["evtx_powershell"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 400,
@@ -297,6 +338,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1059.001"],
         artifact_ids: &["evtx_powershell_classic"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 600,
@@ -305,6 +347,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1059.001"],
         artifact_ids: &["evtx_powershell_classic"],
         high_value: false,
+        caveats: "",
     },
     // System — services
     EventIdEntry {
@@ -314,6 +357,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1543.003"],
         artifact_ids: &["evtx_system"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 7036,
@@ -322,6 +366,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1543.003"],
         artifact_ids: &["evtx_system"],
         high_value: false,
+        caveats: "",
     },
     // Defender
     EventIdEntry {
@@ -331,6 +376,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1059"],
         artifact_ids: &["evtx_defender"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 1117,
@@ -339,6 +385,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &[],
         artifact_ids: &["evtx_defender"],
         high_value: false,
+        caveats: "",
     },
     // ESENT / NTDS.dit (Application log) — unusual NTDS location ⇒ credential theft
     EventIdEntry {
@@ -351,6 +398,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1003.003"],
         artifact_ids: &["evtx_application"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 325,
@@ -365,6 +413,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1003.003"],
         artifact_ids: &["evtx_application"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 326,
@@ -373,6 +422,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1003.003"],
         artifact_ids: &["evtx_application"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 327,
@@ -381,6 +431,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1003.003"],
         artifact_ids: &["evtx_application"],
         high_value: false,
+        caveats: "",
     },
     // ── Lateral movement / discovery / service-install / network telemetry ──
     // Verified against Microsoft Learn Security-auditing docs + Ultimate Windows
@@ -392,6 +443,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1021.002"],
         artifact_ids: &["evtx_security"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 5145,
@@ -400,6 +452,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1021.002"],
         artifact_ids: &["evtx_security"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4798,
@@ -408,6 +461,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1069.001", "T1087.001"],
         artifact_ids: &["evtx_security"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4799,
@@ -416,6 +470,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1069.001", "T1087.001"],
         artifact_ids: &["evtx_security"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4778,
@@ -424,6 +479,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1021.001"],
         artifact_ids: &["evtx_security", "evtx_terminal_services"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4779,
@@ -432,6 +488,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1021.001"],
         artifact_ids: &["evtx_security", "evtx_terminal_services"],
         high_value: false,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 4697,
@@ -440,6 +497,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &["T1543.003"],
         artifact_ids: &["evtx_security", "services_hklm"],
         high_value: true,
+        caveats: "",
     },
     EventIdEntry {
         event_id: 5156,
@@ -448,6 +506,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         mitre_techniques: &[],
         artifact_ids: &["evtx_security"],
         high_value: false,
+        caveats: "",
     },
 ];
 
