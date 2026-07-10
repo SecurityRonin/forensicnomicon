@@ -27,7 +27,10 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
     EventIdEntry {
         event_id: 104,
         channel: "System",
-        description: "System log cleared",
+        description: "Event log cleared (provider Microsoft-Windows-Eventlog, LogFileCleared) — \
+                      System records the clearing of ANY channel here (the message names the cleared \
+                      {Channel}); Security additionally records its own clearing in the Security channel \
+                      itself via event 1102",
         mitre_techniques: &["T1070.001"],
         artifact_ids: &["evtx_system"],
         high_value: true,
@@ -35,7 +38,10 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
     EventIdEntry {
         event_id: 1102,
         channel: "Security",
-        description: "Audit log cleared",
+        description: "The audit log was cleared — recorded in the Security log itself (with the \
+                      SubjectUserSid/SubjectLogonId of the account that cleared it). Unlike other \
+                      channels, whose clearing is recorded by System event 104, Security records its \
+                      own clearing here via 1102",
         mitre_techniques: &["T1070.001"],
         artifact_ids: &["evtx_security"],
         high_value: true,
@@ -273,7 +279,13 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
     EventIdEntry {
         event_id: 4104,
         channel: "Microsoft-Windows-PowerShell/Operational",
-        description: "PowerShell script block logging — captures full (decoded) script content",
+        description: "PowerShell script block logging — captures full script content. PowerShell v5+ \
+                      auto-logs script blocks whose text matches its built-in suspicious-content \
+                      signature list at WARNING level (LevelDisplayName='Warning') even when Script \
+                      Block Logging is NOT configured via policy — a record-of-last-resort that yields \
+                      free evidence on unconfigured hosts. Ordinary (fully-configured) 4104 logs at \
+                      Verbose (Level 5). Triage tip: filter 4104 on Level=Warning to surface the flagged \
+                      subset; dynamically generated / Invoke-Expression'd code emits its own 4104",
         mitre_techniques: &["T1059.001"],
         artifact_ids: &["evtx_powershell"],
         high_value: true,
