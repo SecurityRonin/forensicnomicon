@@ -8954,6 +8954,30 @@ pub(crate) static MEM_NETWORK_CONNECTIONS_FIELDS: &[FieldSchema] = &[
         description: "Owning process identifier",
         is_uid_component: false,
     },
+    FieldSchema {
+        name: "protocol",
+        value_type: ValueType::Text,
+        description: "Transport protocol and IP version (TCPv4, TCPv6, UDPv4, UDPv6) — netscan 'Proto' column, derived from the object type (TCP vs UDP vs listener) and the address family",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "owner_process",
+        value_type: ValueType::Text,
+        description: "Owning process image name (netscan 'Owner' column), resolved from the owning EPROCESS",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "created",
+        value_type: ValueType::Timestamp,
+        description: "Endpoint creation time (netscan 'Created' column); carried by TCP listeners/endpoints and UDP endpoints (TcpL/TcpE/UdpA all expose CreateTime), enabling C2 beacon-timing correlation",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "offset",
+        value_type: ValueType::UnsignedInt,
+        description: "Offset of the pool-tagged network object in the memory image (netscan 'Offset' column)",
+        is_uid_component: false,
+    },
 ];
 
 pub static MEM_NETWORK_CONNECTIONS: ArtifactDescriptor = ArtifactDescriptor {
@@ -8967,7 +8991,7 @@ pub static MEM_NETWORK_CONNECTIONS: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Active and recently closed network connections from kernel socket structures; reveals C2 channels and lateral movement paths",
+    meaning: "Active and recently closed network connections from kernel socket structures; reveals C2 channels and lateral movement paths. Volatility3's netscan renders 10 columns (Offset, Proto, LocalAddr, LocalPort, ForeignAddr, ForeignPort, State, PID, Owner, Created) by pool-tag scanning for TcpL (listener), TcpE (endpoint) and UdpA (UDP) objects; the extra TTcb tag applies on Windows Server 2022 (build 20348). The Created timestamp on TCP/UDP endpoints supports C2 beacon-timing correlation.",
     mitre_techniques: &["T1049"],
     fields: MEM_NETWORK_CONNECTIONS_FIELDS,
     retention: Some("RAM only; connections may close during acquisition"),
@@ -8975,9 +8999,14 @@ pub static MEM_NETWORK_CONNECTIONS: ArtifactDescriptor = ArtifactDescriptor {
     related_artifacts: &["mem_running_processes"],
     sources: &[
         "https://volatilityfoundation.org/",
+        // Volatility3 netscan.py — the 10-column layout, pool tags (TcpL/TcpE/UdpA, TTcb@20348), Created:
+        "https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/netscan.py",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["Volatile; connections may close during acquisition"],
+    evidence_caveats: &[
+        "Volatile; connections may close during acquisition",
+        "Pool-tag scanning recovers active AND recently-closed/freed endpoints, so a listed connection may already have terminated; the Created time bounds when the endpoint object was allocated",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Volatile),
     volatility_rationale: "RAM; lost on power-off",
 };
