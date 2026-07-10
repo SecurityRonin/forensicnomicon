@@ -10403,6 +10403,74 @@ conclusion is an inference the token contents are consistent with, not proof of.
     volatility_rationale: "Kernel _TOKEN objects live in RAM and are lost on power-off",
 };
 
+pub(crate) static IE_RECOVERY_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "url",
+        value_type: ValueType::Text,
+        description: "Base URL of a navigated entry recovered from a TravelLog stream",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "title",
+        value_type: ValueType::Text,
+        description: "Page title of the navigated entry",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "referrer_url",
+        value_type: ValueType::Text,
+        description: "Referrer URL stored alongside the entry in the TravelLog stream",
+        is_uid_component: false,
+    },
+];
+
+/// Internet Explorer Automatic Crash Recovery Store (RecoveryStore / TravelLog).
+///
+/// Source: http://www.swiftforensics.com/2011/09/internet-explorer-recoverystore-aka.html (Khatri RE — the community reference; covers IE8/9)
+/// Source: https://forensics.wiki/ole_compound_file/ (CFBF/OLE container format)
+/// Source: https://forensics.wiki/internet_explorer/ (IE artifact overview incl. the Recovery folder)
+pub static IE_RECOVERY_SESSION: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ie_recovery_session",
+    name: "Internet Explorer Automatic Crash Recovery Store (RecoveryStore / TravelLog)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"C:\Users\*\AppData\Local\Microsoft\Internet Explorer\Recovery\*\*.dat"),
+    scope: DataScope::User,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Internet Explorer's Automatic Crash Recovery store, written continuously as tabs are \
+opened/navigated so IE can restore the session after a crash. Each Recovery subfolder (Active, \
+LastActive, occasionally High/Low/AdminActive) holds a RecoveryStore.{GUID}.dat — an OLE/CFBF compound \
+file whose streams (FrameList, TravelLog, and a |Kjjaqfaj...-named stream) record tab order and the tab \
+GUIDs — plus one {GUID}.dat per open tab, an OLE/CFBF file whose TravelLog streams hold each navigated \
+entry's base URL, referrer URL and page title. The {GUID} is an RFC 4122 v1 UUID whose low 6 bytes are \
+a NIC MAC address and whose first 60 bits are a FILETIME-style 100 ns timestamp (epoch 1582-10-15), \
+giving the tab/store creation time. It provides evidence of open tabs and navigation — including full \
+URLs and titles — that persists on disk even after browsing history and the WebCache are cleared, \
+because the recovery store is a separate mechanism from history. (Format established for IE8/9 by the \
+Khatri reverse-engineering writeup; persistence into IE10/11 is presumed, not source-verified here.)",
+    mitre_techniques: &["T1217"],
+    fields: IE_RECOVERY_FIELDS,
+    retention: Some("Persists on disk in the Recovery subfolders until IE clears/rotates them; survives history and WebCache clearing"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["browsers_ie_webcache_db", "browsers_ie_typed_urls", "fa_file_cookies_index_dat", "firefox_session_restore"],
+    sources: &[
+        "http://www.swiftforensics.com/2011/09/internet-explorer-recoverystore-aka.html",
+        "https://forensics.wiki/ole_compound_file/",
+        "https://forensics.wiki/internet_explorer/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "The OLE/CFBF container is standard, but the inner TravelLog stream layout is reverse-engineered (no Microsoft spec); parse the CFBF with any compound-file reader and treat the stream decoding as RE-derived",
+        "Format is source-established for IE8/9; later-IE persistence is presumed and should be verified on the exact IE version when case-critical",
+        "The {GUID}'s embedded MAC + creation timestamp are set at tab/store creation and can be stale; consistent with, not proof of, the originating NIC/time",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "On-disk .dat files in the user's IE Recovery folder; persist until cleared/rotated",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -10426,6 +10494,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     MEM_EXTRACTED_PE_IMAGES,
     SRUM_APP_TIMELINE,
     MEM_ACCESS_TOKENS,
+    IE_RECOVERY_SESSION,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
