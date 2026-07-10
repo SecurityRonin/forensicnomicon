@@ -265,6 +265,20 @@ mod tests {
         assert!(is_remote_logon(LOGON_NETWORK));
     }
 
+    /// The full SECURITY_LOGON_TYPE map per the Microsoft event-4624 "Logon types and
+    /// descriptions" table — including the five that were missing (0/7/11/12/13). The
+    /// table deliberately skips Type 1 and Type 6.
+    #[test]
+    fn logon_type_map_is_complete() {
+        assert_eq!(LOGON_SYSTEM, 0);
+        assert_eq!(LOGON_UNLOCK, 7);
+        assert_eq!(LOGON_CACHED_INTERACTIVE, 11);
+        assert_eq!(LOGON_CACHED_REMOTE_INTERACTIVE, 12);
+        assert_eq!(LOGON_CACHED_UNLOCK, 13);
+        // Cached (locally-verified) network logons are NOT network-originating.
+        assert!(!is_remote_logon(LOGON_CACHED_INTERACTIVE));
+    }
+
     #[test]
     fn remote_logon_rdp() {
         assert!(is_remote_logon(LOGON_REMOTE_INTERACTIVE));
