@@ -961,6 +961,28 @@ mod catalog_integrity {
         }
     }
 
+    /// NTFS Object ID index ($Extend\$ObjId:$O) must be cataloged — maps object-ID GUIDs
+    /// to MFT file references for distributed link tracking; BirthObjectId persists across
+    /// renames/cross-volume moves even after the current ObjectId changes. Sources:
+    /// [MS-FSCC] 2.1.3.1 / 2.4.36.1; libfsntfs.
+    #[test]
+    fn ntfs_objid_index_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "ntfs_objid")
+            .expect("ntfs_objid ($Extend\\$ObjId:$O) descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.file_path.unwrap_or_default().contains("$ObjId"),
+            "file_path must reference $Extend\\$ObjId"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "birth_object_id"),
+            "must expose birth_object_id (the stable cross-volume/rename tracking key)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
