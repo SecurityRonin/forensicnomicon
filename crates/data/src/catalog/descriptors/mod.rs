@@ -10471,6 +10471,77 @@ Khatri reverse-engineering writeup; persistence into IE10/11 is presumed, not so
     volatility_rationale: "On-disk .dat files in the user's IE Recovery folder; persist until cleared/rotated",
 };
 
+pub(crate) static KANSA_COLLECTION_OUTPUT_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "hostname",
+        value_type: ValueType::Text,
+        description: "Target host the row was collected from (left of the '-' in Hostname-ModuleName.ext)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "module",
+        value_type: ValueType::Text,
+        description: "Collector module, i.e. the Get-*.ps1 name with the Get- prefix stripped (also the subdirectory name)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "output_format",
+        value_type: ValueType::Text,
+        description: "Serialization chosen with -OutputFormat: CSV (default), JSON, TSV, XML, GL, or SPLUNK",
+        is_uid_component: false,
+    },
+];
+
+/// Kansa Live-Response Collection (PowerShell Remoting) — a fleet-wide IR snapshot.
+///
+/// Source: https://github.com/davehull/Kansa/blob/master/kansa.ps1 (tool source — OutputFormat/Port/Modules.conf/naming)
+/// Source: https://github.com/davehull/Kansa/blob/master/README.md
+pub static KANSA_COLLECTION_OUTPUT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kansa_collection_output",
+    name: "Kansa Live-Response Collection (PowerShell Remoting)",
+    artifact_type: ArtifactLocation::LiveResponse,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Output tree produced by Kansa, an open-source PowerShell incident-response framework \
+(davehull/Kansa). Kansa fans a set of collector modules out across an enterprise over PowerShell \
+Remoting (WinRM, default TCP 5985; -UseSSL enables WinRM-over-HTTPS but keeps the -Port value, so the \
+operator sets -Port 5986 for the standard HTTPS port) and gathers the results centrally. Only scripts \
+named Get-*.ps1 under .\\Modules\\ run; if .\\Modules\\Modules.conf exists it controls WHICH modules run \
+and in what ORDER (blank/# lines ignored), otherwise every Get-*.ps1 is discovered recursively. Targets \
+come from -Target (single host), -TargetList (a file, one hostname per line), or an Active Directory \
+query. Results land in a new Output_<timestamp>\\ directory with one subdirectory per module (module name \
+minus the Get- prefix) holding one file per host named Hostname-ModuleName.ext (e.g. \
+Get-PrefetchListing.ps1 -> Output_<ts>\\PrefetchListing\\Hostname-PrefetchListing.txt). -OutputFormat \
+selects the serialization (CSV default; also JSON/TSV/XML/GL/SPLUNK). Non-terminating errors, per-host \
+module failures, binary-push failures and MAX_PATH (260-char) truncations are logged to Error.Log. \
+-Pushbin copies module-declared third-party binaries to each target's ADMIN$ share before execution; \
+-Rmbin removes them afterward. For an examiner, a Kansa Output_<timestamp> tree is a point-in-time, \
+fleet-wide snapshot of execution, persistence, network and account state.",
+    mitre_techniques: &[],
+    fields: KANSA_COLLECTION_OUTPUT_FIELDS,
+    retention: Some("Written to Output_<timestamp>\\ under the Kansa working directory; persists until the operator deletes it (a saved case artifact, not auto-rotated)"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["evtx_winrm", "amcache_program", "fa_file_prefetch_pf", "cmd_autorun_hklm", "shimcache"],
+    sources: &[
+        "https://github.com/davehull/Kansa",
+        "https://github.com/davehull/Kansa/blob/master/kansa.ps1",
+        "https://github.com/davehull/Kansa/blob/master/README.md",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "The framework is a collection wrapper — evidentiary weight lives in the specific module output (e.g. Get-PrefetchListing, Get-Autorunsc), not in Kansa itself",
+        "Modules collect through PowerShell cmdlets / WMI, which read the live OS via APIs a kernel-mode rootkit can subvert; corroborate with raw on-disk artifacts or memory forensics",
+        "A Kansa tree is a point-in-time snapshot at collection; it does not capture activity before the run or after it completed",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Collected output written to disk; persists as a saved case artifact until the operator deletes it",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -10495,6 +10566,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     SRUM_APP_TIMELINE,
     MEM_ACCESS_TOKENS,
     IE_RECOVERY_SESSION,
+    KANSA_COLLECTION_OUTPUT,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
