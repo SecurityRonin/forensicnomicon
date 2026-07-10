@@ -10590,6 +10590,78 @@ fleet-wide snapshot of execution, persistence, network and account state.",
     volatility_rationale: "Collected output written to disk; persists as a saved case artifact until the operator deletes it",
 };
 
+pub(crate) static REGEDIT_SYSTEM_SELECT_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "Current",
+        value_type: ValueType::UnsignedInt,
+        description: "REG_DWORD; number N of the control set the system is booted from -> ControlSet00N. This is the set 'CurrentControlSet' aliases at run time; the one to analyse on a live box",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "Default",
+        value_type: ValueType::UnsignedInt,
+        description: "REG_DWORD; the Default Control Set number (winreg-kb)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "Failed",
+        value_type: ValueType::UnsignedInt,
+        description: "REG_DWORD; the Control Set number that was marked as failing to boot Windows (winreg-kb)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "LastKnownGood",
+        value_type: ValueType::UnsignedInt,
+        description: "REG_DWORD; the Last Known Good Control Set — the control set that last successfully booted Windows (winreg-kb)",
+        is_uid_component: false,
+    },
+];
+
+/// HKLM\SYSTEM\Select — the Current Control Set selector (dead-box resolution).
+///
+/// Hand-written manual descriptor (the codegen cannot carry rich fields/caveats); the
+/// generated stub was removed from regedit_generated.rs to avoid a duplicate id.
+///
+/// Source: https://winreg-kb.readthedocs.io/en/latest/sources/system-keys/Current-control-set.html
+/// Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/install/hklm-system-currentcontrolset-control-registry-tree
+pub static REGEDIT_SYSTEM_SELECT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "regedit_system_select",
+    name: "Current Control Set Selector (HKLM\\SYSTEM\\Select)",
+    artifact_type: ArtifactLocation::RegistryKey,
+    hive: Some(HiveTarget::HklmSystem),
+    key_path: "Select",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "HKLM\\SYSTEM\\Select holds four REG_DWORD values (Current, Default, Failed, \
+LastKnownGood), each a number N that resolves the control set ControlSet00N (e.g. Current=1 -> \
+ControlSet001). Current identifies the control set the running system booted from — i.e. what the \
+live-only 'CurrentControlSet' symlink points to. On a dead-box/offline SYSTEM hive there is NO \
+CurrentControlSet key (it is a volatile, boot-time-created registry link, not stored on disk); the \
+examiner must read Select\\Current and follow it to the correct numbered ControlSet00N. Values other \
+than 1/2 (e.g. 3, 47) occur after Last Known Good recovery or repeated boot failures.",
+    mitre_techniques: &[],
+    fields: REGEDIT_SYSTEM_SELECT_FIELDS,
+    retention: None,
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &["regedit_controlset00_control_windows"],
+    sources: &[
+        "https://winreg-kb.readthedocs.io/en/latest/sources/system-keys/Current-control-set.html",
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/install/hklm-system-currentcontrolset-control-registry-tree",
+        "https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "'CurrentControlSet' is a live-only volatile symlink created at boot and is NOT present in an offline/dead-box SYSTEM hive; resolve the active set via Select\\Current -> ControlSet00N instead of expecting a CurrentControlSet key",
+        "Configuration data is often duplicated across ControlSet001/002 (and any 003+); analysing the wrong set, or assuming both agree, can produce stale or divergent findings — pin analysis to the set named by Select\\Current, and diff sets when they differ",
+        "Control-set numbers above 2 (e.g. 3, 47) indicate prior Last Known Good recovery or repeated boot failures; Failed pointing at a set is consistent with a boot that was rolled back",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "The Select key and the numbered ControlSet00N keys are stored in the on-disk SYSTEM hive and survive reboots; only the CurrentControlSet alias itself is volatile (rebuilt at each boot)",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -17153,7 +17225,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     generated::regedit_generated::REGEDIT_PARAMETERS_INTERFACES,
     generated::regedit_generated::REGEDIT_SYSTEM_MOUNTEDDEVICES,
     generated::regedit_generated::REGEDIT_SYSTEM_SETUP,
-    generated::regedit_generated::REGEDIT_SYSTEM_SELECT,
+    REGEDIT_SYSTEM_SELECT,
     generated::regedit_generated::REGEDIT_CONTROLSET00_CONTROL_WINDOWS,
     generated::regedit_generated::REGEDIT_CURRENTVERSION_PROFILELIST,
     generated::regedit_generated::REGEDIT_CURRENTVERSION_PROFILELIST_PROFILELIST_PRO,

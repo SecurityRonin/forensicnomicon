@@ -895,29 +895,9 @@ pub(crate) static REGEDIT_SYSTEM_SETUP: ArtifactDescriptor = ArtifactDescriptor 
     volatility_rationale: "",
 };
 
-pub(crate) static REGEDIT_SYSTEM_SELECT: ArtifactDescriptor = ArtifactDescriptor {
-    id: "regedit_system_select",
-    name: "Current Control Set Name",
-    artifact_type: ArtifactLocation::RegistryKey,
-    hive: Some(HiveTarget::HklmSystem),
-    key_path: "Select",
-    value_name: None,
-    file_path: None,
-    scope: DataScope::System,
-    os_scope: OsScope::Win7Plus,
-    decoder: Decoder::Identity,
-    meaning: "Current Control Set Name",
-    mitre_techniques: &[],
-    fields: &[],
-    retention: None,
-    triage_priority: TriagePriority::Low,
-    related_artifacts: &[],
-    sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
-};
+// NOTE: regedit_system_select was promoted to a hand-written manual descriptor in
+// descriptors/mod.rs (REGEDIT_SYSTEM_SELECT) — the codegen cannot carry its rich
+// fields/evidence/caveats. The generated stub was removed here to avoid a duplicate id.
 
 pub(crate) static REGEDIT_CONTROLSET00_CONTROL_WINDOWS: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_controlset00_control_windows",

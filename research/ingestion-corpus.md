@@ -6,7 +6,7 @@ Applied serially via TDD on `iwe-corrections` (each RED+GREEN committed). Update
 **Also shipped earlier this session (pre-corpus):** cdp_gdid, ntfs_i30_index, psexesvc_dropped_binary, psteal, pinfo, image_export, amcache_program, lsass_dump_file, zone_identifier, thumbs_db
 
 **Remaining confirmed NEW descriptors:** NONE — all 8 shipped ✅
-**Enrichments shipped (33/43):** ...+4624 SECURITY_LOGON_TYPE map completed ✅
+**Enrichments shipped (43/43 — COMPLETE):** all applied, incl. regedit_system_select (generated-stub -> manual) + 4688 caveats-seam ✅
 
 **REMAINING — 2 structural defers only** (both need fresh context, high-risk in an exhausted window):
 1. `regedit_system_select` — remove the generated stub + its CATALOG_ENTRIES registration, add a hand-written manual descriptor with the 4 REG_DWORD fields (duplicate-id risk).
