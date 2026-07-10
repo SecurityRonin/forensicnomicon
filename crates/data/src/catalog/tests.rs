@@ -1005,6 +1005,33 @@ mod catalog_integrity {
         );
     }
 
+    /// SRUM AppTimelineProvider table must be cataloged under the CORRECT GUID
+    /// {5C8CF1C7-...} (registry provider 'AppTimelineProvider'); {7ACBBAA3-...} is
+    /// vfuprov, not this table. Its keyboard/mouse/input-duration columns distinguish
+    /// interactive human use from automated execution. Sources: EZ Srum issue #8
+    /// (registry Extensions ground truth); chainsaw SRUM wiki; AboutDFIR.
+    #[test]
+    fn srum_app_timeline_uses_correct_guid() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "srum_app_timeline")
+            .expect("srum_app_timeline (AppTimelineProvider) descriptor must be cataloged");
+        let path = d.file_path.unwrap_or_default();
+        assert!(
+            path.contains("5C8CF1C7"),
+            "file_path must use the AppTimelineProvider GUID {{5C8CF1C7-...}}, not vfuprov"
+        );
+        assert!(
+            !path.contains("7ACBBAA3"),
+            "{{7ACBBAA3-...}} is vfuprov, not the App Timeline table"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "keyboard_input_s"),
+            "must expose keyboard_input_s (the interactive-presence signal)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
