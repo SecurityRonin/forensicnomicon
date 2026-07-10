@@ -10312,6 +10312,97 @@ than the ~30-60 day SRUDB.dat whole-database retention.",
     volatility_rationale: "ESE table pruned to ~7 days; older intervals are aged out",
 };
 
+pub(crate) static MEM_ACCESS_TOKENS_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "pid",
+        value_type: ValueType::UnsignedInt,
+        description: "Owning process identifier",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "token_type",
+        value_type: ValueType::Text,
+        description: "TOKEN_TYPE: 'Primary' (TokenPrimary=1) or 'Impersonation' (TokenImpersonation=2)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "impersonation_level",
+        value_type: ValueType::Text,
+        description: "SECURITY_IMPERSONATION_LEVEL for impersonation tokens: Anonymous(0)/Identification(1)/Impersonation(2)/Delegation(3); empty for primary tokens",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "user_sid",
+        value_type: ValueType::Text,
+        description: "Token owner/user SID (e.g. S-1-5-18 = LocalSystem)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "integrity_level",
+        value_type: ValueType::Text,
+        description: "Mandatory integrity-level SID: Untrusted S-1-16-0 / Low S-1-16-4096 / Medium S-1-16-8192 / High S-1-16-12288 / System S-1-16-16384 (the SID field is Windows Vista and later)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "privileges",
+        value_type: ValueType::List,
+        description: "Privileges present and their enabled/disabled state (e.g. SeDebugPrivilege, SeImpersonatePrivilege, SeAssignPrimaryTokenPrivilege)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "group_sids",
+        value_type: ValueType::List,
+        description: "Group SIDs carried in the token, including any injected SID-History entries",
+        is_uid_component: false,
+    },
+];
+
+/// Access Tokens (Memory) — Primary vs Impersonation, for token-manipulation detection.
+///
+/// Source: https://learn.microsoft.com/en-us/windows/win32/api/winnt/ne-winnt-token_type (TokenPrimary=1, TokenImpersonation=2)
+/// Source: https://learn.microsoft.com/en-us/windows/win32/secauthz/well-known-sids (integrity RIDs/SIDs, S-1-5-18)
+/// MITRE: T1134 (Access Token Manipulation), .001 (Token Impersonation/Theft), .005 (SID-History Injection)
+pub static MEM_ACCESS_TOKENS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "mem_access_tokens",
+    name: "Access Tokens (Memory) — Primary vs Impersonation",
+    artifact_type: ArtifactLocation::MemoryRegion,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::Identity,
+    meaning: "Windows access tokens (_TOKEN kernel objects) recovered from RAM. Each token carries the \
+security context a thread/process runs under: the user SID, group SIDs (incl. any injected SID-History \
+entries), the enabled/disabled privilege set, the mandatory integrity-level SID, the token TYPE (Primary \
+vs Impersonation), and — for impersonation tokens — the impersonation level. A process holding an \
+impersonation token whose user SID differs from its own primary token is consistent with token theft/\
+impersonation; a Medium-integrity process with SeDebugPrivilege or SeImpersonatePrivilege enabled, or a \
+non-SYSTEM process wielding a SYSTEM (S-1-5-18) impersonation token, is consistent with privilege \
+escalation via token manipulation. The observed token facts are definitive; the theft/escalation \
+conclusion is an inference the token contents are consistent with, not proof of.",
+    mitre_techniques: &["T1134", "T1134.001", "T1134.005"],
+    fields: MEM_ACCESS_TOKENS_FIELDS,
+    retention: Some("RAM only; lost on power-off — present in a memory image / live capture"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["mem_running_processes", "mem_user_credentials", "mem_loaded_modules", "evtx_security"],
+    sources: &[
+        "https://learn.microsoft.com/en-us/windows/win32/api/winnt/ne-winnt-token_type",
+        "https://learn.microsoft.com/en-us/windows/win32/api/winnt/ne-winnt-security_impersonation_level",
+        "https://learn.microsoft.com/en-us/windows/win32/secauthz/mandatory-integrity-control",
+        "https://learn.microsoft.com/en-us/windows/win32/secauthz/well-known-sids",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "The token fields (type, user SID, integrity, privileges, groups) are definitive; token theft / privilege escalation is an inference the contents are CONSISTENT WITH, not proof of",
+        "The integrity-level SID field is Windows Vista and later; on XP it is absent (token type and impersonation level exist since XP)",
+        "A snapshot from RAM shows the token as held at capture; it does not by itself reveal HOW the token was obtained (that is a separate technique surface)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Kernel _TOKEN objects live in RAM and are lost on power-off",
+};
+
 /// All descriptor instances that make up the global catalog.
 ///
 /// Maintainer note:
@@ -10334,6 +10425,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     NTFS_OBJID,
     MEM_EXTRACTED_PE_IMAGES,
     SRUM_APP_TIMELINE,
+    MEM_ACCESS_TOKENS,
     USERASSIST_EXE,
     USERASSIST_FOLDER,
     USERASSIST_XP_EXE,
