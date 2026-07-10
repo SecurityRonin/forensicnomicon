@@ -983,6 +983,28 @@ mod catalog_integrity {
         );
     }
 
+    /// PE images extracted from a RAM capture must be cataloged — the defensive recovery
+    /// of process/DLL/driver PEs (and full resident dumps) that catches in-memory-only
+    /// injected/reflective code; the fully_resident flag warns when paged-out pages were
+    /// zero-filled. Source: Volatility command-reference + pedump/memmap.
+    #[test]
+    fn mem_extracted_pe_images_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "mem_extracted_pe_images")
+            .expect("mem_extracted_pe_images descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::MemoryRegion);
+        assert!(
+            d.fields.iter().any(|f| f.name == "fully_resident"),
+            "must expose fully_resident (the zero-fill / incomplete-reconstruction warning)"
+        );
+        assert!(
+            d.mitre_techniques.contains(&"T1055"),
+            "must map to T1055 (the injected code this recovery targets)"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
