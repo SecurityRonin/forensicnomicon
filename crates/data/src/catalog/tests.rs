@@ -1054,6 +1054,27 @@ mod catalog_integrity {
         );
     }
 
+    /// IE Automatic Crash Recovery store must be cataloged — OLE/CFBF .dat files whose
+    /// TravelLog streams hold navigated URLs/titles, persisting even after history and
+    /// WebCache are cleared. Source: Khatri RE (IE8/9); forensics.wiki CFBF.
+    #[test]
+    fn ie_recovery_session_is_cataloged() {
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "ie_recovery_session")
+            .expect("ie_recovery_session (RecoveryStore) descriptor must be cataloged");
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(
+            d.file_path.unwrap_or_default().contains("Recovery"),
+            "file_path must reference the IE Recovery folder"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "url"),
+            "must expose the recovered url field"
+        );
+    }
+
     #[test]
     fn all_related_artifacts_exist() {
         let ids: std::collections::HashSet<&str> = CATALOG.list().iter().map(|d| d.id).collect();
