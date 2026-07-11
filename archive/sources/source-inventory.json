@@ -4,7 +4,7 @@
     "directories": "archive/sources/catalog-directories.json",
     "manual": "archive/sources/manual-sources.json"
   },
-  "total_sources": 117,
+  "total_sources": 118,
   "sources": [
     {
       "id": "aboutdfir-blogs",
@@ -429,6 +429,19 @@
       "kind": "rss-feed",
       "html_url": "https://forensicphotoshop.blogspot.com/",
       "feed_url": "https://forensicphotoshop.blogspot.com/feeds/posts/default",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
+      "id": "hackingpassion",
+      "title": "HackingPassion",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://hackingpassion.com/",
+      "feed_url": "https://hackingpassion.com/index.xml",
       "update_strategy": "rss",
       "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [

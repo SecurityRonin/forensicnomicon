@@ -7,7 +7,7 @@ Generated from:
 
 Category counts:
 - directory: 3
-- feed: 64
+- feed: 65
 - knowledge-base: 37
 - practitioner-blog: 5
 - primary-reference: 8
@@ -82,6 +82,8 @@ Category counts:
 - Forensic Focus: https://www.forensicfocus.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Forensic Multimedia Analysis Blog: https://forensicphotoshop.blogspot.com/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
+- HackingPassion: https://hackingpassion.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - HECF / Hacking Exposed Computer Forensics Blog: https://www.hecfblog.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`
