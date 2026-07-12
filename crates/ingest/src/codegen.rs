@@ -31,7 +31,7 @@ fn hive_variant(hive: &str) -> &'static str {
     }
 }
 
-/// Map an `IngestType` to the `ArtifactType` variant name.
+/// Map an `IngestType` to the `ArtifactLocation` variant name.
 fn artifact_type_variant(t: &IngestType) -> &'static str {
     match t {
         IngestType::RegistryKey => "RegistryKey",
@@ -138,7 +138,7 @@ pub fn generate_static(rec: &IngestRecord) -> String {
         r#"pub(crate) static {static_name}: ArtifactDescriptor = ArtifactDescriptor {{
     id: "{id}",
     name: "{name}",
-    artifact_type: ArtifactType::{artifact_type},
+    artifact_type: ArtifactLocation::{artifact_type},
     hive: {hive_field},
     key_path: "{key_path}",
     value_name: {value_name_field},
@@ -173,7 +173,7 @@ pub fn generate_module_header(source_name: &str, count: usize) -> String {
 #![allow(clippy::too_many_lines)]
 
 use super::super::super::types::{{
-    ArtifactDescriptor, ArtifactType, DataScope, Decoder, HiveTarget, OsScope,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, HiveTarget, OsScope,
     TriagePriority,
 }};
 "
@@ -271,7 +271,7 @@ mod tests {
         let rec = sample_registry_record();
         let output = generate_static(&rec);
         assert!(
-            output.contains("ArtifactType::RegistryKey"),
+            output.contains("ArtifactLocation::RegistryKey"),
             "wrong artifact type in:\n{output}"
         );
     }
@@ -291,7 +291,7 @@ mod tests {
         let rec = sample_file_record();
         let output = generate_static(&rec);
         assert!(
-            output.contains("ArtifactType::File"),
+            output.contains("ArtifactLocation::File"),
             "wrong type in:\n{output}"
         );
         assert!(
