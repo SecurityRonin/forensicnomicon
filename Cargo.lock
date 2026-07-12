@@ -540,7 +540,7 @@ dependencies = [
 
 [[package]]
 name = "forensicnomicon-data"
-version = "1.2.0"
+version = "1.2.1"
 dependencies = [
  "forensicnomicon-core",
  "serde",

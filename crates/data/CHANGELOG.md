@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-data-v1.2.0...forensicnomicon-data-v1.2.1) - 2026-07-12
+
+### Fixed
+
+- *(ci)* fmt generated descriptors + eventids doc-lazy-continuation (rust 1.96)
+
 ## [1.2.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-data-v1.1.0...forensicnomicon-data-v1.2.0) - 2026-07-12
 
 ### Added
