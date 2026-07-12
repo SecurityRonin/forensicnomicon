@@ -1085,4 +1085,68 @@ mod tests {
             );
         }
     }
+
+    /// Additional event channels surfaced by the dfir-scripts.github.io diff and
+    /// verified against Microsoft Learn:
+    ///   - Microsoft-Windows-Windows Defender/Operational — Defender AV event IDs
+    ///     (learn.microsoft.com/defender-endpoint/troubleshoot-microsoft-defender-antivirus):
+    ///     1006 MALWARE_DETECTED, 1015 BEHAVIOR_DETECTED, 5001 RTP_DISABLED,
+    ///     5007 CONFIG_CHANGED, 5010 ANTISPYWARE_DISABLED, 5012 ANTIVIRUS_DISABLED.
+    ///   - System — service-control + shutdown/power events (Microsoft provider docs).
+    /// (id, channel, keyword the description must contain, lowercased)
+    const NEW_CHANNEL_EVENTS: &[(u32, &str, &str)] = &[
+        (
+            1006,
+            "Microsoft-Windows-Windows Defender/Operational",
+            "malware",
+        ),
+        (
+            1015,
+            "Microsoft-Windows-Windows Defender/Operational",
+            "suspicious behavior",
+        ),
+        (
+            5001,
+            "Microsoft-Windows-Windows Defender/Operational",
+            "real-time protection",
+        ),
+        (
+            5007,
+            "Microsoft-Windows-Windows Defender/Operational",
+            "configuration changed",
+        ),
+        (
+            5010,
+            "Microsoft-Windows-Windows Defender/Operational",
+            "scanning",
+        ),
+        (
+            5012,
+            "Microsoft-Windows-Windows Defender/Operational",
+            "viruses",
+        ),
+        (7031, "System", "terminated unexpectedly"),
+        (7040, "System", "start type"),
+        (7009, "System", "timeout"),
+        (1074, "System", "shutdown"),
+        (6005, "System", "event log service was started"),
+        (6006, "System", "event log service was stopped"),
+        (6008, "System", "unexpected"),
+        (6013, "System", "uptime"),
+        (41, "System", "without cleanly"),
+    ];
+
+    #[test]
+    fn new_channel_events_present_with_correct_channel() {
+        for &(id, channel, kw) in NEW_CHANNEL_EVENTS {
+            let e = event_entry(id)
+                .unwrap_or_else(|| panic!("Event {id} must be present in EVENT_ID_TABLE"));
+            assert_eq!(e.channel, channel, "Event {id} channel mismatch");
+            assert!(
+                e.description.to_lowercase().contains(kw),
+                "Event {id} description should contain {kw:?}: got {:?}",
+                e.description
+            );
+        }
+    }
 }
