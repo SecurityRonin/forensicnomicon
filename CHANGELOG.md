@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.4.0...forensicnomicon-v1.5.0) - 2026-07-12
+
+### Added
+
+- *(browser_profiles)* GREEN — profile shapes + embedded-Chromium catalog
+
+### Fixed
+
+- *(ci)* fmt generated descriptors + eventids doc-lazy-continuation (rust 1.96)
+
 ## [1.4.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.3.0...forensicnomicon-v1.4.0) - 2026-07-12
 
 ### Added
