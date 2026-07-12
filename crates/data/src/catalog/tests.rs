@@ -12225,3 +12225,112 @@ mod tests_browser_session_memory {
         );
     }
 }
+
+/// GCFA/FOR508 memory-forensics coverage-gap descriptors (VAD/malfind,
+/// netscan, handles/threads, kernel callbacks, DKOM-hidden processes).
+/// These assert the five new curated descriptors are queryable by ID and
+/// carry at least one primary-source citation (Volatility3 plugin source or
+/// Microsoft kernel-structure docs).
+mod tests_memory_gcfa_ext {
+    use super::*;
+
+    /// The five memory-forensics descriptors added to close the GCFA gap.
+    const MEMORY_GCFA_IDS: &[&str] = &[
+        "mem_process_injection",
+        "mem_network_scan",
+        "mem_handles_threads",
+        "mem_kernel_callbacks",
+        "mem_hidden_processes",
+    ];
+
+    #[test]
+    fn catalog_has_all_memory_gcfa_descriptors() {
+        for id in MEMORY_GCFA_IDS {
+            assert!(
+                CATALOG.by_id(id).is_some(),
+                "memory GCFA descriptor '{id}' missing from catalog"
+            );
+        }
+    }
+
+    #[test]
+    fn memory_gcfa_descriptors_have_primary_source_citations() {
+        for id in MEMORY_GCFA_IDS {
+            let d = CATALOG
+                .by_id(id)
+                .unwrap_or_else(|| panic!("descriptor '{id}' missing"));
+            assert!(!d.sources.is_empty(), "descriptor '{id}' has no sources");
+            assert!(
+                d.sources.iter().all(|s| s.starts_with("https://")),
+                "descriptor '{id}' has a non-URL source citation"
+            );
+            let has_primary = d.sources.iter().any(|s| {
+                s.contains("github.com/volatilityfoundation/volatility3")
+                    || s.contains("learn.microsoft.com")
+            });
+            assert!(
+                has_primary,
+                "descriptor '{id}' must cite a primary source \
+                 (Volatility3 plugin src or Microsoft kernel docs)"
+            );
+        }
+    }
+}
+
+/// GCFA/FOR508 disk / NTFS / registry coverage-gap descriptors (timestomping
+/// $SI-vs-$FN discrepancy, Volume Shadow Copy snapshot analysis, $LogFile
+/// transaction-log record analysis, WMI persistence in the CIM repository).
+/// These assert the four new curated descriptors are queryable by ID and each
+/// carries at least one primary-source citation (libyal format spec, the
+/// settled community reverse-engineered reference, or Microsoft/Mandiant docs).
+mod tests_disk_gcfa_ext {
+    use super::*;
+
+    /// The four disk/NTFS/registry descriptors added to close the GCFA gap.
+    const DISK_GCFA_IDS: &[&str] = &[
+        "ntfs_timestomping_si_fn",
+        "vss_snapshot_analysis",
+        "ntfs_logfile_records",
+        "wmi_persistence_cim_repository",
+    ];
+
+    #[test]
+    fn catalog_has_all_disk_gcfa_descriptors() {
+        for id in DISK_GCFA_IDS {
+            assert!(
+                CATALOG.by_id(id).is_some(),
+                "disk GCFA descriptor '{id}' missing from catalog"
+            );
+        }
+    }
+
+    #[test]
+    fn disk_gcfa_descriptors_have_primary_source_citations() {
+        for id in DISK_GCFA_IDS {
+            let d = CATALOG
+                .by_id(id)
+                .unwrap_or_else(|| panic!("descriptor '{id}' missing"));
+            assert!(!d.sources.is_empty(), "descriptor '{id}' has no sources");
+            assert!(
+                d.sources.iter().all(|s| s.starts_with("https://")),
+                "descriptor '{id}' has a non-URL source citation"
+            );
+            // A primary source is a format spec (libyal), the settled
+            // reverse-engineered community reference (LogFileParser, flare-wmi),
+            // or an authoritative vendor writeup (Microsoft, Mandiant).
+            let has_primary = d.sources.iter().any(|s| {
+                s.contains("github.com/libyal")
+                    || s.contains("github.com/jschicht/LogFileParser")
+                    || s.contains("github.com/mandiant/flare-wmi")
+                    || s.contains("github.com/fireeye/flare-wmi")
+                    || s.contains("learn.microsoft.com")
+                    || s.contains("cloud.google.com/blog/topics/threat-intelligence")
+            });
+            assert!(
+                has_primary,
+                "descriptor '{id}' must cite a primary source \
+                 (libyal format spec, settled community reference, or Microsoft/Mandiant docs)"
+            );
+        }
+    }
+}
