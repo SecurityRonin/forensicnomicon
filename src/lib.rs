@@ -196,6 +196,8 @@ pub mod version_history;
 pub mod vhd;
 pub mod vhdx;
 pub mod vmdk;
+pub use forensicnomicon_core::volume_encryption;
+pub use forensicnomicon_core::volume_serial;
 pub use forensicnomicon_data::volatility;
 pub mod yara;
 pub use forensicnomicon_data::catalog as artifact;
