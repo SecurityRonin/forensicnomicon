@@ -643,3 +643,16 @@ pub forensicnomicon_core::volatility::VolatilityClass::Persistent = 1
 pub forensicnomicon_core::volatility::VolatilityClass::Residual = 0
 pub forensicnomicon_core::volatility::VolatilityClass::RotatingBuffer = 3
 pub forensicnomicon_core::volatility::VolatilityClass::Volatile = 4
+pub mod forensicnomicon_core::volume_encryption
+pub enum forensicnomicon_core::volume_encryption::VolumeEncryption
+pub forensicnomicon_core::volume_encryption::VolumeEncryption::BitLocker
+pub forensicnomicon_core::volume_encryption::VolumeEncryption::BitLockerToGo
+pub const forensicnomicon_core::volume_encryption::BITLOCKER_IDENTIFIER_GUID: [u8; 16]
+pub fn forensicnomicon_core::volume_encryption::detect_encryption(&[u8]) -> core::option::Option<forensicnomicon_core::volume_encryption::VolumeEncryption>
+pub mod forensicnomicon_core::volume_serial
+pub enum forensicnomicon_core::volume_serial::VolumeSerial
+pub forensicnomicon_core::volume_serial::VolumeSerial::Long(u64)
+pub forensicnomicon_core::volume_serial::VolumeSerial::Short(u32)
+impl forensicnomicon_core::volume_serial::VolumeSerial
+pub fn forensicnomicon_core::volume_serial::VolumeSerial::display(self) -> alloc::string::String
+pub fn forensicnomicon_core::volume_serial::volume_serial(&[u8]) -> core::option::Option<forensicnomicon_core::volume_serial::VolumeSerial>
