@@ -20,11 +20,39 @@ pub const SQLITE_HEADER_SIZE: usize = 100;
 /// a page size of 65536 bytes.
 pub const SQLITE_PAGE_SIZE_OFFSET: usize = 16;
 
+/// Byte offset of the "reserved space per page" field in the SQLite header.
+///
+/// 1-byte unsigned integer (file-format §1.3). Standard SQLite leaves this 0; a
+/// non-zero value is claimed by page-level extensions — encryption (SQLCipher/SEE)
+/// or a checksum VFS — and reduces the usable bytes per page.
+pub const SQLITE_RESERVED_SPACE_OFFSET: usize = 20;
+
+/// Byte offset of the in-header database size (in pages) in the SQLite header.
+///
+/// 4-byte big-endian unsigned integer (file-format §1.3). The size of the database
+/// file in pages; may be 0 in legacy files, where the size is derived from the
+/// file length instead.
+pub const SQLITE_DB_SIZE_OFFSET: usize = 28;
+
 /// Byte offset of the freelist trunk page number in the SQLite header.
 ///
 /// 4-byte big-endian unsigned integer. Points to the first freelist trunk page;
 /// 0 if no free pages exist. Carving free pages recovers deleted records.
 pub const SQLITE_FREELIST_TRUNK_OFFSET: usize = 32;
+
+/// Byte offset of the total freelist page count in the SQLite header.
+///
+/// 4-byte big-endian unsigned integer (file-format §1.3). The number of pages on
+/// the freelist; a claim the trunk-chain walk verifies (a mismatch is a
+/// tampering/corruption signal).
+pub const SQLITE_FREELIST_COUNT_OFFSET: usize = 36;
+
+/// Byte offset of the database text encoding field in the SQLite header.
+///
+/// 4-byte big-endian unsigned integer (file-format §1.3): 1 = UTF-8,
+/// 2 = UTF-16 little-endian, 3 = UTF-16 big-endian. Determines how TEXT column
+/// bytes are decoded.
+pub const SQLITE_TEXT_ENCODING_OFFSET: usize = 56;
 
 /// Size of the SQLite WAL file header in bytes.
 ///
