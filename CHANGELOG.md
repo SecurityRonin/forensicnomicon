@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.3.0...forensicnomicon-v1.4.0) - 2026-07-12
+
+### Added
+
+- *(eventids)* GREEN — Defender/Operational + System channel event enrichment
+- *(eventids)* GREEN — add Sysmon 1-20, 23-29 event-ID enrichment
+
 ## [1.3.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.2.0...forensicnomicon-v1.3.0) - 2026-07-10
 
 ### Added
