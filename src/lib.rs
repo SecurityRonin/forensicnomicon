@@ -152,6 +152,7 @@ pub mod attack_flow;
 pub mod beaconing;
 pub mod boot_signatures;
 pub mod bootkit;
+pub mod browser_profiles;
 pub mod cadet;
 pub mod cloud_ranges;
 pub mod temporal_formats;
