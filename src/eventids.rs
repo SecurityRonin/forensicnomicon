@@ -784,4 +784,63 @@ mod tests {
             }
         }
     }
+
+    /// Sysmon (Microsoft-Windows-Sysmon/Operational) operation codes. The event
+    /// IDs and their meanings are the authoritative Sysmon schema (Microsoft
+    /// Sysinternals — learn.microsoft.com/sysinternals/downloads/sysmon and the
+    /// `sysmon -s` config schema); dfir-scripts.github.io only surfaced the gap.
+    /// Sysmon 21 (WmiEventConsumerToFilter) and 22 (DNS query) are intentionally
+    /// omitted here: the table keys on numeric event_id alone and those two
+    /// collide with the existing TerminalServices RDP 21/22 entries — holding
+    /// both needs a (channel, id) key (tracked as follow-up). (id, keyword the
+    /// description must contain, lowercased)
+    const SYSMON_EVENTS: &[(u32, &str)] = &[
+        (1, "process creation"),
+        (2, "creation time"),
+        (3, "network connection"),
+        (5, "process terminated"),
+        (6, "driver loaded"),
+        (7, "image loaded"),
+        (8, "createremotethread"),
+        (9, "rawaccessread"),
+        (10, "process accessed"),
+        (11, "file created"),
+        (12, "registry object"),
+        (13, "registry value"),
+        (14, "renamed"),
+        (15, "alternate data stream"),
+        (16, "configuration"),
+        (17, "named pipe created"),
+        (18, "named pipe connected"),
+        (19, "wmi event filter"),
+        (20, "wmi event consumer"),
+        (23, "archived"),
+        (24, "clipboard"),
+        (25, "tampering"),
+        (26, "logged"),
+        (27, "blocked"),
+        (28, "shredding"),
+        (29, "executable file detected"),
+    ];
+
+    #[test]
+    fn sysmon_events_present_on_operational_channel() {
+        for &(id, kw) in SYSMON_EVENTS {
+            let e = event_entry(id)
+                .unwrap_or_else(|| panic!("Sysmon Event {id} must be present in EVENT_ID_TABLE"));
+            assert_eq!(
+                e.channel, "Microsoft-Windows-Sysmon/Operational",
+                "Sysmon Event {id} must be on the Sysmon/Operational channel"
+            );
+            assert!(
+                e.description.to_lowercase().contains(kw),
+                "Sysmon Event {id} description should contain {kw:?}: got {:?}",
+                e.description
+            );
+            assert!(
+                e.artifact_ids.contains(&"evtx_sysmon"),
+                "Sysmon Event {id} should associate the evtx_sysmon artifact"
+            );
+        }
+    }
 }
