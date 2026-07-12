@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-data-v1.1.0...forensicnomicon-data-v1.2.0) - 2026-07-12
+
+### Added
+
+- *(catalog)* GREEN — dfir-scripts registry ingest source (+404 descriptors)
+
+### Fixed
+
+- *(catalog)* count 7103 after merging apple-atx + gcfa descriptors
+
+### Other
+
+- Merge branch 'gcfa-disk-descriptors' into worktree-merge-feature-branches
+- Merge branch 'feat/apple-atx-knowledge' into worktree-merge-feature-branches
+
 ## [1.1.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-data-v1.0.0...forensicnomicon-data-v1.1.0) - 2026-07-10
 
 ### Added
