@@ -8,6 +8,7 @@
 //! | Source      | Count |
 //! |-------------|-------|
 //! | browsers    |    37 |
+//! | dfir_scripts|   404 |
 //! | evtx        |   995 |
 //! | fa          |  2545 |
 //! | kape        |  2422 |
@@ -17,6 +18,7 @@
 //! | **Total**   |**6187**|
 
 pub(super) mod browsers_generated;
+pub(super) mod dfir_scripts_generated;
 pub(super) mod evtx_generated;
 pub(super) mod fa_generated;
 pub(super) mod kape_generated;

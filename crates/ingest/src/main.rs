@@ -131,6 +131,7 @@ fn run_source(name: &str, limit: Option<usize>, verbose: bool) -> Vec<IngestReco
         "evtx" => sources::evtx::fetch_evtx_records(),
         "browsers" => sources::browsers::browser_artifacts(),
         "nirsoft" => sources::nirsoft::nirsoft_artifacts(),
+        "dfir_scripts" => sources::dfir_scripts::fetch_dfir_scripts_artifacts(),
         other => {
             eprintln!("WARN: unknown source '{other}', skipping");
             Vec::new()
@@ -199,6 +200,7 @@ fn main() {
         "evtx",
         "browsers",
         "nirsoft",
+        "dfir_scripts",
     ];
     let source_names: Vec<&str> = if opts.sources.iter().any(|s| s == "all") {
         all_sources.to_vec()
