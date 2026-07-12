@@ -1233,6 +1233,7 @@ mod tests {
     ///     1006 MALWARE_DETECTED, 1015 BEHAVIOR_DETECTED, 5001 RTP_DISABLED,
     ///     5007 CONFIG_CHANGED, 5010 ANTISPYWARE_DISABLED, 5012 ANTIVIRUS_DISABLED.
     ///   - System — service-control + shutdown/power events (Microsoft provider docs).
+    ///
     /// (id, channel, keyword the description must contain, lowercased)
     const NEW_CHANNEL_EVENTS: &[(u32, &str, &str)] = &[
         (
