@@ -66,6 +66,20 @@ mod tests {
     }
 
     #[test]
+    fn sqlite_header_field_offsets_match_the_spec() {
+        // File-format §1.3: fixed byte offsets of the page-1 database header fields.
+        assert_eq!(SQLITE_RESERVED_SPACE_OFFSET, 20);
+        assert_eq!(SQLITE_DB_SIZE_OFFSET, 28);
+        assert_eq!(SQLITE_FREELIST_COUNT_OFFSET, 36);
+        assert_eq!(SQLITE_TEXT_ENCODING_OFFSET, 56);
+        // Every field lies within the 100-byte header.
+        const _: () = assert!(SQLITE_RESERVED_SPACE_OFFSET < SQLITE_HEADER_SIZE);
+        const _: () = assert!(SQLITE_DB_SIZE_OFFSET + 4 <= SQLITE_HEADER_SIZE);
+        const _: () = assert!(SQLITE_FREELIST_COUNT_OFFSET + 4 <= SQLITE_HEADER_SIZE);
+        const _: () = assert!(SQLITE_TEXT_ENCODING_OFFSET + 4 <= SQLITE_HEADER_SIZE);
+    }
+
+    #[test]
     fn wal_sizes_are_correct() {
         assert_eq!(SQLITE_WAL_HEADER_SIZE, 32);
         assert_eq!(SQLITE_WAL_FRAME_HEADER_SIZE, 24);
