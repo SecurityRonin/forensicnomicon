@@ -238,6 +238,8 @@
       <outline type="rss" text="MITRE ATT&amp;CK CTI releases" title="MITRE ATT&amp;CK CTI releases" xmlUrl="https://github.com/mitre/cti/releases.atom" htmlUrl="https://attack.mitre.org/"/>
       <!-- Velociraptor — open-source DFIR platform; each release adds new VQL artifacts and artifact schema changes -->
       <outline type="rss" text="Velociraptor releases" title="Velociraptor releases" xmlUrl="https://github.com/Velocidex/velociraptor/releases.atom" htmlUrl="https://docs.velociraptor.app/"/>
+      <!-- dfir-scripts.github.io — Windows forensic reference dataset (registry artifacts, security/Sysmon event IDs, Sigma rules). No content RSS; watch the repo's commits as a change-signal for dataset growth (v0.1, actively adding entries), then re-run the extraction/diff. Not a post feed — do NOT triage its rows as pending items. -->
+      <outline type="rss" text="dfir-scripts DFIR Reference" title="dfir-scripts DFIR Reference" xmlUrl="https://github.com/dfir-scripts/dfir-scripts.github.io/commits/main.atom" htmlUrl="https://dfir-scripts.github.io/"/>
       <!-- Web monitors for documentation sites with no RSS — scraped for new/updated page links -->
       <!-- Microsoft Learn What's New — each Windows build update adds new feature documentation -->
       <outline type="web" text="Microsoft Learn Windows What's New" title="Microsoft Learn — Windows What's New" htmlUrl="https://learn.microsoft.com/en-us/windows/whats-new/"/>
