@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-07-11T05:55:55Z
+Generated: 2026-07-12T06:14:57Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-07-11T05:55:55Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-10T00:00:00+00:00 — [Chat control survives, encrypted messaging doesn’t count](https://andreafortuna.org/2026/07/10/chatcontrol-survives/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -142,18 +142,9 @@ Generated: 2026-07-11T05:55:55Z
 - Site: https://tisiphone.net/
 - Feed: https://tisiphone.net/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-04-14T02:52:01+00:00 — [Just for Fun – An Unofficial Pen Test Game Module for D&D 5e](https://tisiphone.net/2026/04/13/just-for-fun-an-unofficial-pen-test-game-module-for-dd-5e/)
-- 2026-01-13T12:05:53+00:00 — [Podcast – GirlsTalkCyber – Episode 24](https://tisiphone.net/2026/01/13/podcast-girlstalkcyber-episode-24/)
-- 2026-01-08T03:38:08+00:00 — [Smashing Security – 449: How to scam someone in seven days](https://tisiphone.net/2026/01/07/smashing-security-449-how-to-scam-someone-in-seven-days/)
-- 2026-01-05T04:21:55+00:00 — [My Top 5 Recommendations on OT Cybersecurity Student Upskilling](https://tisiphone.net/2026/01/04/my-top-5-recommendations-on-ot-cybersecurity-student-upskilling/)
-- 2026-01-05T03:52:11+00:00 — [Destination Cyber Podcast on OT](https://tisiphone.net/2026/01/04/destination-cyber-podcast-on-ot/)
-- 2025-09-24T12:34:07+00:00 — [Reasonable Expectations for Cybersecurity Mentees](https://tisiphone.net/2025/09/24/reasonable-expectations-for-cybersecurity-mentees/)
-- 2025-09-11T03:00:00+00:00 — [The Top 10 Things I’d Like to See in University OT Cybersecurity Curriculum (2025 Edition)](https://tisiphone.net/2025/09/10/the-top-10-things-id-like-to-see-in-university-ot-cybersecurity-curriculum-2025-edition/)
-- 2025-09-02T03:52:55+00:00 — [Open Online Mentoring Guide](https://tisiphone.net/2025/09/01/open-online-mentoring-guide/)
-- 2025-09-02T03:20:12+00:00 — [Stories Ink Interviewed Me, and I love Stories.](https://tisiphone.net/2025/09/01/stories-ink-interviewed-me-and-i-love-stories/)
-- 2025-06-27T14:53:13+00:00 — [The National Cryptologic Foundation Podcast](https://tisiphone.net/2025/06/27/the-national-cryptologic-foundation-podcast/)
+- No new entries detected
 
 ## Smarter Forensics
 
@@ -229,18 +220,9 @@ Generated: 2026-07-11T05:55:55Z
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-06-19T00:57:00+00:00 — [How the USN Journal Really Works](https://www.youtube.com/watch?v=eSLHyqZlglk)
-- 2026-06-16T20:23:08+00:00 — [The Korvath Incident: A macOS Forensics Challenge](https://www.youtube.com/watch?v=tRvw13e3Qn0)
-- 2026-06-28T16:30:49+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
-- 2026-04-24T09:44:12+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
-- 2026-05-28T20:26:20+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
-- 2026-04-23T00:04:55+00:00 — [Tracking Program Execution with a Little Known Registry Key](https://www.youtube.com/watch?v=yoFkF-NHZvo)
-- 2026-05-28T20:27:51+00:00 — [The Truth About Windows Explorer Timestamps](https://www.youtube.com/watch?v=PdyVkmhMcOA)
-- 2026-05-01T22:55:06+00:00 — [Major Update to 13Cubed Courses: Chaos at Cobalt](https://www.youtube.com/watch?v=CzF6DFhSfHw)
-- 2026-04-30T06:35:14+00:00 — [13Cubed AMA - Answering Your Questions!](https://www.youtube.com/watch?v=duz5BoZUly8)
-- 2026-04-22T18:55:48+00:00 — [The Easy Way to Analyze Linux Memory](https://www.youtube.com/watch?v=W40gdWNdwUI)
+- No new entries detected
 
 ## SANS Internet Storm Center
 
@@ -249,7 +231,7 @@ Generated: 2026-07-11T05:55:55Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-10T09:09:29+00:00 — ["Comment stuffing" in an HTML phishing attachment as a mechanism for evading AI-based detection&#x3f;, (Fri, Jul 10th)](https://isc.sans.edu/diary/rss/33144)
+- 2026-07-11T09:07:06+00:00 — [Wireshark 4.6.7 Released, (Sat, Jul 11th)](https://isc.sans.edu/diary/rss/33146)
 
 ## DFIR Training Blog
 
@@ -274,9 +256,9 @@ Generated: 2026-07-11T05:55:55Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-10T11:00:39+00:00 — [Infosec News Nuggets — July 10, 2026](https://aboutdfir.com/infosec-news-nuggets-july-10-2026/)
+- No new entries detected
 
 ## Forensic 4cast
 
@@ -391,9 +373,11 @@ Generated: 2026-07-11T05:55:55Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 3
 
-- 2026-07-10T11:30:00+00:00 — [Great Ladies of Impressionism: Eva Gonzalès](https://eclecticlight.co/2026/07/10/great-ladies-of-impressionism-eva-gonzales/)
+- 2026-07-11T11:30:00+00:00 — [Ohioan woman painter in Paris: Elizabeth Nourse, 1](https://eclecticlight.co/2026/07/11/ohioan-woman-painter-in-paris-elizabeth-nourse-1/)
+- 2026-07-11T08:00:00+00:00 — [Saturday Mac riddles 368](https://eclecticlight.co/2026/07/11/saturday-mac-riddles-368/)
+- 2026-07-11T07:00:00+00:00 — [Explainer: Language and locale](https://eclecticlight.co/2026/07/11/explainer-language-and-locale/)
 
 ## JPCERT/CC
 
@@ -418,9 +402,9 @@ Generated: 2026-07-11T05:55:55Z
 - Site: https://blog.elcomsoft.com/
 - Feed: https://blog.elcomsoft.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-10T15:40:25+00:00 — [Four Tools, One Workflow: Using Elcomsoft Desktop Forensic Tools on the Same Case](https://blog.elcomsoft.com/2026/07/four-tools-one-workflow-using-elcomsoft-desktop-forensic-tools-on-the-same-case/)
+- No new entries detected
 
 ## Huntress Blog
 
@@ -445,9 +429,9 @@ Generated: 2026-07-11T05:55:55Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-10T22:00:39+00:00 — [No Manners Here: The Ruthless Rise of The Gentlemen Ransomware](https://unit42.paloaltonetworks.com/the-gentlemen-ransomware/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
@@ -553,11 +537,9 @@ Generated: 2026-07-11T05:55:55Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-07-10T13:25:41+00:00 — [This new Windows malware can take over your PC and wipe it clean](https://www.malwarebytes.com/blog/news/2026/07/this-new-windows-malware-can-take-over-your-pc-and-wipe-it-clean)
-- 2026-07-10T11:02:40+00:00 — [How mule betting scams recruit ordinary people](https://www.malwarebytes.com/blog/scams/2026/07/how-mule-betting-scams-recruit-ordinary-people)
-- 2026-07-10T10:32:54+00:00 — [Two Chrome updates in two days fix critical vulnerabilities](https://www.malwarebytes.com/blog/news/2026/07/two-chrome-updates-in-two-days-fix-critical-vulnerabilities)
+- No new entries detected
 
 ## Krebs on Security
 
@@ -573,30 +555,19 @@ Generated: 2026-07-11T05:55:55Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 9
+- New since last snapshot: 2
 
-- 2026-07-10T17:59:02-04:00 — [New U-Boot flaws could enable stealthy firmware attacks](https://www.bleepingcomputer.com/news/security/new-u-boot-flaws-could-enable-stealthy-firmware-attacks/)
-- 2026-07-10T13:46:10-04:00 — [Ryuk ransomware member pleads guilty in the US, faces 15 years in prison](https://www.bleepingcomputer.com/news/security/ryuk-ransomware-member-pleads-guilty-in-the-us-faces-15-years-in-prison/)
-- 2026-07-10T12:37:01-04:00 — [Police suspects Dutch hackers were involved in Odido breach](https://www.bleepingcomputer.com/news/security/police-suspects-dutch-hackers-were-involved-in-odido-breach/)
-- 2026-07-10T12:26:10-04:00 — [Progress urges ShareFile admins to shut down servers over “credible” threat](https://www.bleepingcomputer.com/news/security/progress-urges-sharefile-customers-to-shut-down-servers-over-credible-threat/)
-- 2026-07-10T11:48:38-04:00 — [Hackers exploit critical auth bypass in Gitea Docker image](https://www.bleepingcomputer.com/news/security/hackers-exploit-critical-auth-bypass-in-gitea-docker-image/)
-- 2026-07-10T11:30:19-04:00 — [Money launderer accused of stealing seized crypto while in prison](https://www.bleepingcomputer.com/news/security/money-launderer-accused-of-stealing-seized-crypto-while-in-prison/)
-- 2026-07-10T10:00:10-04:00 — [The Replicant in Your Directory: AI Agents and the Identity Security Gap](https://www.bleepingcomputer.com/news/security/the-replicant-in-your-directory-ai-agents-and-the-identity-security-gap/)
-- 2026-07-10T07:47:38-04:00 — [Zimbra urges customers to patch critical web client XSS flaw](https://www.bleepingcomputer.com/news/security/zimbra-urges-customers-to-patch-critical-web-client-xss-flaw/)
-- 2026-07-10T04:17:52-04:00 — [Former ransomware negotiator gets 4 years for BlackCat attacks](https://www.bleepingcomputer.com/news/security/us-ransomware-negotiator-gets-4-years-in-prison-for-blackcat-attacks/)
+- 2026-07-11T10:18:23-04:00 — [Australia warns of global campaign targeting vulnerable CMS platforms](https://www.bleepingcomputer.com/news/security/australia-warns-of-global-campaign-targeting-vulnerable-cms-platforms/)
+- 2026-07-11T05:03:57-04:00 — ['Ghostcommit' hides prompt injection in images to fool AI agents, steal secrets](https://www.bleepingcomputer.com/news/security/ghostcommit-hides-prompt-injection-in-images-to-fool-ai-agents-steal-secrets/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 0
 
-- 2026-07-10T19:08:04+00:00 — [Jen Ellis: Connecting Cyber Community With Political Machinery](https://www.darkreading.com/cybersecurity-operations/jen-ellis-connecting-cyber-community-political-machinery)
-- 2026-07-10T16:51:34+00:00 — [Cybercriminals Flock to Healthcare Businesses as Attacks Surge](https://www.darkreading.com/threat-intelligence/cybercriminals-healthcare-businesses-attacks-surge)
-- 2026-07-10T14:00:00+00:00 — [Fresh ATM Crypto Software Bugs: Jackpot or Bust?](https://www.darkreading.com/vulnerabilities-threats/atm-crypto-software-bugs-jackpot-bust)
-- 2026-07-10T13:50:24+00:00 — [More Countries Jump on the Social Media 'Ban Wagon'](https://www.darkreading.com/cyber-risk/more-countries-jump-on-the-social-media-ban-wagon)
-- 2026-07-10T13:00:00+00:00 — [AI Coding: Do Security Risks Outweigh Productivity Gains?](https://www.darkreading.com/application-security/ai-coding-security-risks-productivity-gains)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -618,27 +589,18 @@ Generated: 2026-07-11T05:55:55Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-10T16:00:00+00:00 — [Securing our future: July 2026 progress report on Microsoft’s Secure Future Initiative](https://www.microsoft.com/en-us/security/blog/2026/07/10/securing-our-future-july-2026-progress-report-on-microsofts-secure-future-initiative/)
+- No new entries detected
 
 ## HackingPassion
 
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 1
 
-- 2026-07-09T12:52:22+02:00 — [IonStack Turns One Link Into Full Root on Your Android Phone](https://hackingpassion.com/ionstack-android-root-one-link/)
-- 2026-07-08T11:29:27+02:00 — [Windows Hands Your Name to the Police Through One Hidden Number](https://hackingpassion.com/windows-gdid-tracking/)
-- 2026-07-07T13:10:18+02:00 — [TrojPix Steals Data From Air Gapped Computers Through the Screen](https://hackingpassion.com/trojpix-air-gap-attack/)
-- 2026-07-06T14:26:26+02:00 — [Why a Vpn Is Not Privacy](https://hackingpassion.com/why-a-vpn-is-not-privacy/)
-- 2026-07-05T13:22:17+02:00 — [JADEPUFFER Is the First Ransomware Attack Run Entirely by an AI Agent](https://hackingpassion.com/jadepuffer-ai-ransomware/)
-- 2026-07-04T12:06:45+02:00 — [FatFs Flaw Lets One SD Card Take Over Millions of Devices](https://hackingpassion.com/fatfs-sd-card-jailbreak/)
-- 2026-07-01T13:25:22+02:00 — [Phantom Squatting Lets Hackers Buy the Fake Websites Your AI Invents](https://hackingpassion.com/phantom-squatting-ai-domains/)
-- 2026-06-30T11:05:19+02:00 — [WinRAR Can Still Drop Malware Into Your Startup Folder a Year After the Patch](https://hackingpassion.com/winrar-rar-startup-folder-attack/)
-- 2026-06-28T15:28:45+02:00 — [Your Gitea Docker Runner Gives Up Root Even With Privileged Mode Off](https://hackingpassion.com/gitea-act-runner-container-escape/)
-- 2026-06-27T09:56:35+02:00 — [Pedit COW Turns a Normal Linux User Into Root While the Disk Stays Clean](https://hackingpassion.com/pedit-cow-linux-root/)
+- 2026-07-11T13:01:35+02:00 — [Signed by Microsoft Does Not Mean Safe](https://hackingpassion.com/byovd-signed-driver-attacks/)
 
 ## LOLBAS Project (Windows)
 
@@ -672,18 +634,9 @@ Generated: 2026-07-11T05:55:55Z
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-07-10T14:41:13+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/35d5ade5c33246ab6cc9565bded5fd7aff0e689e)
-- 2026-07-10T14:30:34+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/0970ed51fcc610b41a502b02293b7fd9b3d408db)
-- 2026-07-10T14:29:33+00:00 — [Merge pull request #392 from magicsword-io/issue-362-tower-driver-family](https://github.com/magicsword-io/LOLDrivers/commit/62a0f79a3dad0f14c7c3dafebc6fb7142cac30b7)
-- 2026-07-10T14:26:00+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/329a81dc44461562cd8e1ec5d55cf9f76f60b5aa)
-- 2026-07-10T14:23:10+00:00 — [Expand Tower of Fantasy driver family samples](https://github.com/magicsword-io/LOLDrivers/commit/668e705acb489b0c8e56fd611e1a7299ad967558)
-- 2026-07-10T14:15:37+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/00d744bec809e6be439a71c7bbfebefc26dd39fe)
-- 2026-07-10T14:14:38+00:00 — [Merge pull request #389 from valium007/qiomem](https://github.com/magicsword-io/LOLDrivers/commit/aace82492d7e71faaaca69c106ea91feb8a339f1)
-- 2026-07-10T14:09:23+00:00 — [Correct and enrich QIOMem driver metadata](https://github.com/magicsword-io/LOLDrivers/commit/4619d2c7959a569b2d08c398e0bedb07107fb606)
-- 2026-07-10T14:08:40+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/7f520249c3f5eefcc919507f30c682be14259420)
-- 2026-07-10T14:01:40+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/8670672ab39eea3b585bb1f9122d99c462701aa7)
+- No new entries detected
 
 ## LOFL Project (RMM C2 indicators)
 
@@ -879,11 +832,9 @@ Generated: 2026-07-11T05:55:55Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-07-11T03:18:47+00:00 — [Merge pull request #1048 from Yamato-Security/bump-python-deps-pytest…](https://github.com/Yamato-Security/hayabusa-rules/commit/027ee46ca12af44f1ca1bfc446e0ee5fcddad906)
-- 2026-07-11T02:21:44+00:00 — [build(deps): update the Python script dependencies (fixes pytest tmpd…](https://github.com/Yamato-Security/hayabusa-rules/commit/69fc925d4d008bca1d91c996e0c8fddaba8ea978)
-- 2026-07-10T21:02:26+00:00 — [Sigma Rule Update (2026-07-10  21:02:19) (#1047)](https://github.com/Yamato-Security/hayabusa-rules/commit/68063889bbf669c8198fc9ee1a458e831aea3ff8)
+- No new entries detected
 
 ## Hayabusa releases
 
@@ -1064,6 +1015,24 @@ Generated: 2026-07-11T05:55:55Z
 - New since last snapshot: 0
 
 - No new entries detected
+
+## dfir-scripts DFIR Reference
+
+- Site: https://dfir-scripts.github.io/
+- Feed: https://github.com/dfir-scripts/dfir-scripts.github.io/commits/main.atom
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-07-05T17:27:13+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/94bffc38efddbf0103d5fbf4333056de2ba765ed)
+- 2026-07-05T16:42:28+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/7bd54f7f06e82f7ab73dc107ed8e5968158d885d)
+- 2026-07-05T16:28:28+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/471254915a50988bec2e592109d92c9199e7b723)
+- 2026-07-05T16:19:49+00:00 — [Rename favicon.svg to .favicon.svg](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/f997c33e90c496b12baa41f5851057b449df447c)
+- 2026-07-05T16:18:08+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/3887db2e1065668da3429bbdc441ed32f638b2ff)
+- 2026-07-05T15:46:38+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/186ff97c3656d68a95f46973480791f4ad524119)
+- 2026-07-05T15:35:56+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/4f8205783832cf9e297fc1e6dde8c2ea536e8c26)
+- 2026-07-05T14:59:12+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/43dacf0df75c493772b76e7fc23b89eb2cc717a4)
+- 2026-07-05T14:58:26+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/a6e9fc529f28f156dd7cae481d50204380ca5d45)
+- 2026-07-05T14:43:36+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/8789def076dcbdd9198cabbcd12778baf7e30665)
 
 ## Microsoft Learn Windows What's New
 

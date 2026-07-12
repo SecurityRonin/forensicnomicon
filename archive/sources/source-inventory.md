@@ -7,7 +7,7 @@ Generated from:
 
 Category counts:
 - directory: 3
-- feed: 65
+- feed: 66
 - knowledge-base: 37
 - practitioner-blog: 5
 - primary-reference: 8
@@ -60,6 +60,8 @@ Category counts:
 - DFIR Review: https://dfir.pubpub.org/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - DFIR Science: https://dfir.science/
+  update: `rss`; kind: `rss-feed`; sources: `opml`
+- dfir-scripts DFIR Reference: https://dfir-scripts.github.io/
   update: `rss`; kind: `rss-feed`; sources: `opml`
 - Didier Stevens Blog: https://blog.didierstevens.com/
   update: `rss`; kind: `rss-feed`; sources: `opml`

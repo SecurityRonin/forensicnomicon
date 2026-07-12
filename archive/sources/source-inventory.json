@@ -4,7 +4,7 @@
     "directories": "archive/sources/catalog-directories.json",
     "manual": "archive/sources/manual-sources.json"
   },
-  "total_sources": 118,
+  "total_sources": 119,
   "sources": [
     {
       "id": "aboutdfir-blogs",
@@ -286,6 +286,19 @@
       "kind": "rss-feed",
       "html_url": "https://dfir.science/",
       "feed_url": "https://dfir.science/feed.xml",
+      "update_strategy": "rss",
+      "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
+      "sources": [
+        "opml"
+      ]
+    },
+    {
+      "id": "dfir-scripts-dfir-reference",
+      "title": "dfir-scripts DFIR Reference",
+      "category": "feed",
+      "kind": "rss-feed",
+      "html_url": "https://dfir-scripts.github.io/",
+      "feed_url": "https://github.com/dfir-scripts/dfir-scripts.github.io/commits/main.atom",
       "update_strategy": "rss",
       "notes": "Subscribed RSS/Atom feed from the maintained OPML manifest.",
       "sources": [
