@@ -35,3 +35,4 @@ pub mod partition_schemes;
 pub mod partition_types;
 pub mod report;
 pub mod volatility;
+pub mod volume_encryption;
