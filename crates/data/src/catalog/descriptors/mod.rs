@@ -17378,6 +17378,10 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::UBER_IOS_LEVELDB,
     macos_ext::IOS_GOOGLE_CHAT_CACHEV0,
     macos_ext::IOS_MOBILE_CONTAINER_MANAGER,
+    macos_ext::APPLE_ATX_TEXTURE_CONTAINER,
+    macos_ext::IOS_ATX_POSTERBOARD_RUNTIME_SNAPSHOT,
+    macos_ext::IOS_ATX_POSTER_SNAPSHOT_CACHE,
+    macos_ext::IOS_ATX_AVATAR_ANIMOJI_TEXTURE,
     macos_ext::MACOS_BTM_BACKGROUND_TASKS,
     windows_files_ext::ONEDRIVE_ODL_LOGS,
     // ── Android ─────────────────────────────────────────────────────────────
