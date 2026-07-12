@@ -5,8 +5,7 @@
 #![allow(clippy::too_many_lines)]
 
 use super::super::super::types::{
-    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, HiveTarget, OsScope,
-    TriagePriority,
+    ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, HiveTarget, OsScope, TriagePriority,
 };
 pub(crate) static DFIR_SCRIPTS_COMMON_OPEN_FIND: ArtifactDescriptor = ArtifactDescriptor {
     id: "dfir_scripts_common_open_find",
