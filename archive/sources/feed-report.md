@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-07-12T06:14:57Z
+Generated: 2026-07-13T06:32:36Z
 
 ## Windows Incident Response
 
@@ -219,19 +219,17 @@ Generated: 2026-07-12T06:14:57Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 404
 
 ## SANS Internet Storm Center
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-07-11T09:07:06+00:00 — [Wireshark 4.6.7 Released, (Sat, Jul 11th)](https://isc.sans.edu/diary/rss/33146)
+- 2026-07-13T04:22:02+00:00 — [Someone Is Scanning for Your MCP Servers and AI Assistant Credentials, (Mon, Jul 13th)](https://isc.sans.edu/diary/rss/33150)
+- 2026-07-13T02:00:03+00:00 — [ISC Stormcast For Monday, July 13th, 2026 https://isc.sans.edu/podcastdetail/10004, (Mon, Jul 13th)](https://isc.sans.edu/diary/rss/33148)
 
 ## DFIR Training Blog
 
@@ -274,9 +272,9 @@ Generated: 2026-07-12T06:14:57Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-12T07:34:46+00:00 — [Week 28 – 2026](https://thisweekin4n6.com/2026/07/12/week-28-2026/)
 
 ## The Sleuth Kit updates
 
@@ -375,18 +373,18 @@ Generated: 2026-07-12T06:14:57Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-07-11T11:30:00+00:00 — [Ohioan woman painter in Paris: Elizabeth Nourse, 1](https://eclecticlight.co/2026/07/11/ohioan-woman-painter-in-paris-elizabeth-nourse-1/)
-- 2026-07-11T08:00:00+00:00 — [Saturday Mac riddles 368](https://eclecticlight.co/2026/07/11/saturday-mac-riddles-368/)
-- 2026-07-11T07:00:00+00:00 — [Explainer: Language and locale](https://eclecticlight.co/2026/07/11/explainer-language-and-locale/)
+- 2026-07-13T06:30:00+00:00 — [How does Spotlight rank search results?](https://eclecticlight.co/2026/07/13/how-does-spotlight-rank-search-results/)
+- 2026-07-12T11:30:00+00:00 — [Ohioan woman painter in Paris: Elizabeth Nourse, 2](https://eclecticlight.co/2026/07/12/ohioan-woman-painter-in-paris-elizabeth-nourse-2/)
+- 2026-07-12T07:00:00+00:00 — [Last Week on My Mac: Spotlight’s eternal quest](https://eclecticlight.co/2026/07/12/last-week-on-my-mac-spotlights-eternal-quest/)
 
 ## JPCERT/CC
 
 - Site: https://blogs.jpcert.or.jp/en/
 - Feed: https://blogs.jpcert.or.jp/en/atom.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-13T04:23:44+00:00 — [Update on Attacks by Threat Group APT-C-60 in 2026](https://blogs.jpcert.or.jp/en/2026/07/apt-c-60_2026.html)
 
 ## DFIR Review
 
@@ -555,10 +553,11 @@ Generated: 2026-07-12T06:14:57Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-07-11T10:18:23-04:00 — [Australia warns of global campaign targeting vulnerable CMS platforms](https://www.bleepingcomputer.com/news/security/australia-warns-of-global-campaign-targeting-vulnerable-cms-platforms/)
-- 2026-07-11T05:03:57-04:00 — ['Ghostcommit' hides prompt injection in images to fool AI agents, steal secrets](https://www.bleepingcomputer.com/news/security/ghostcommit-hides-prompt-injection-in-images-to-fool-ai-agents-steal-secrets/)
+- 2026-07-12T20:44:44-04:00 — [OpenAI temporarily relaxes GPT-5.6 Sol usage limits](https://www.bleepingcomputer.com/news/artificial-intelligence/openai-temporarily-relaxes-gpt-56-sol-usage-limits/)
+- 2026-07-12T15:39:12-04:00 — [Claude Fable 5 stays free for paid users until July 19 as Anthropic buys more time](https://www.bleepingcomputer.com/news/artificial-intelligence/claude-fable-5-stays-free-for-paid-users-until-july-19-as-anthropic-buys-more-time/)
+- 2026-07-12T10:27:32-04:00 — [RedHook Android malware now uses Wireless ADB for shell access](https://www.bleepingcomputer.com/news/security/redhook-android-malware-now-uses-wireless-adb-for-shell-access/)
 
 ## Dark Reading
 
@@ -598,9 +597,9 @@ Generated: 2026-07-12T06:14:57Z
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-11T13:01:35+02:00 — [Signed by Microsoft Does Not Mean Safe](https://hackingpassion.com/byovd-signed-driver-attacks/)
+- No new entries detected
 
 ## LOLBAS Project (Windows)
 
@@ -1021,18 +1020,10 @@ Generated: 2026-07-12T06:14:57Z
 - Site: https://dfir-scripts.github.io/
 - Feed: https://github.com/dfir-scripts/dfir-scripts.github.io/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 2
 
-- 2026-07-05T17:27:13+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/94bffc38efddbf0103d5fbf4333056de2ba765ed)
-- 2026-07-05T16:42:28+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/7bd54f7f06e82f7ab73dc107ed8e5968158d885d)
-- 2026-07-05T16:28:28+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/471254915a50988bec2e592109d92c9199e7b723)
-- 2026-07-05T16:19:49+00:00 — [Rename favicon.svg to .favicon.svg](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/f997c33e90c496b12baa41f5851057b449df447c)
-- 2026-07-05T16:18:08+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/3887db2e1065668da3429bbdc441ed32f638b2ff)
-- 2026-07-05T15:46:38+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/186ff97c3656d68a95f46973480791f4ad524119)
-- 2026-07-05T15:35:56+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/4f8205783832cf9e297fc1e6dde8c2ea536e8c26)
-- 2026-07-05T14:59:12+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/43dacf0df75c493772b76e7fc23b89eb2cc717a4)
-- 2026-07-05T14:58:26+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/a6e9fc529f28f156dd7cae481d50204380ca5d45)
-- 2026-07-05T14:43:36+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/8789def076dcbdd9198cabbcd12778baf7e30665)
+- 2026-07-12T11:30:12+00:00 — [Create CNAME](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/696218bb46fc9c3339802f14b7219ed92b91cebb)
+- 2026-07-12T09:19:30+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/42cb13c2dceda9dafed7b1048312b9d3fb6bdc0f)
 
 ## Microsoft Learn Windows What's New
 
