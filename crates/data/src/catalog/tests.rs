@@ -216,6 +216,86 @@ mod catalog_integrity {
         );
     }
 
+    /// Apple Hardware UUID (IOPlatformUUID / Provisioning UDID) — the firmware/SMBIOS
+    /// machine identifier whose highest-value on-disk locus is the Data-Protection
+    /// keychain directory ~/Library/Keychains/<Hardware-UUID>/. macOS-scoped, File
+    /// artifact, Strong evidence (identifies hardware, not a person).
+    #[test]
+    fn apple_hardware_uuid_is_cataloged() {
+        use crate::evidence::EvidenceStrength;
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "apple_hardware_uuid")
+            .expect("apple_hardware_uuid (IOPlatformUUID / Provisioning UDID) must be cataloged");
+        assert_eq!(
+            d.artifact_type,
+            ArtifactLocation::File,
+            "Hardware UUID is recovered from an on-disk keychain folder name"
+        );
+        assert_eq!(
+            d.os_scope,
+            crate::catalog::types::OsScope::MacOS,
+            "Hardware UUID is a macOS identifier"
+        );
+        assert_eq!(
+            d.evidence_strength,
+            Some(EvidenceStrength::Strong),
+            "Hardware UUID is Strong — a firmware-derived machine identifier"
+        );
+    }
+
+    /// Apple DSID (Directory Services Identifier) — the server-assigned Apple ID /
+    /// iCloud account number, stable across Apple ID email changes and the preferred
+    /// value to compel from Apple. iOS-scoped, Strong evidence, cross-linked to cdp_gdid.
+    #[test]
+    fn apple_dsid_is_cataloged() {
+        use crate::evidence::EvidenceStrength;
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "apple_dsid")
+            .expect("apple_dsid (Apple ID / iCloud account number) must be cataloged");
+        assert_eq!(
+            d.os_scope,
+            crate::catalog::types::OsScope::IOS,
+            "DSID descriptor is scoped to iOS"
+        );
+        assert_eq!(
+            d.evidence_strength,
+            Some(EvidenceStrength::Strong),
+            "DSID is Strong — the stable account pivot to a person via Apple"
+        );
+        assert!(
+            d.related_artifacts.contains(&"cdp_gdid"),
+            "DSID must cross-link to cdp_gdid as its Windows counterpart"
+        );
+    }
+
+    /// Apple IDFA (Identifier for Advertisers) — a per-device, user-resettable,
+    /// ATT-zeroed advertising UUID. A weak, corroborative identifier; the live value is
+    /// API-only and unstable, so it is Volatile.
+    #[test]
+    fn apple_idfa_is_cataloged() {
+        use crate::evidence::EvidenceStrength;
+        use crate::volatility::VolatilityClass;
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "apple_idfa")
+            .expect("apple_idfa (Identifier for Advertisers) must be cataloged");
+        assert_eq!(
+            d.evidence_strength,
+            Some(EvidenceStrength::Corroborative),
+            "IDFA is Corroborative — resettable, per-device, usually zeroed"
+        );
+        assert_eq!(
+            d.volatility,
+            Some(VolatilityClass::Volatile),
+            "IDFA is Volatile — user-resettable and ATT-zeroed"
+        );
+    }
+
     /// NTFS directory-index ($I30) slack must be cataloged — the B-tree slack of a
     /// directory's $INDEX_ALLOCATION retains removed entries' filenames, sizes and $FN
     /// MACB set, so a deleted file's name survives Shift+Delete even after its $MFT
@@ -1418,7 +1498,7 @@ mod decode_tests {
     #[test]
     fn catalog_has_entries() {
         assert!(!CATALOG.list().is_empty());
-        assert_eq!(CATALOG.list().len(), 7103);
+        assert_eq!(CATALOG.list().len(), 7106);
     }
 
     #[test]
@@ -3862,7 +3942,7 @@ mod tests_batch_d {
     #[test]
     fn catalog_count_after_srum_network_connections() {
         // +1 from srum_network_connections, +1 from evtx_application_msiinstaller
-        assert_eq!(CATALOG.list().len(), 7103);
+        assert_eq!(CATALOG.list().len(), 7106);
     }
 
     // ── EVTX channels ─────────────────────────────────────────────────────
@@ -4868,7 +4948,7 @@ mod phase2_registry_tests {
     #[test]
     fn catalog_count_includes_phase2() {
         // Updated to 354 after phase-2b file artifact additions
-        assert_eq!(CATALOG.list().len(), 7103);
+        assert_eq!(CATALOG.list().len(), 7106);
     }
 
     #[test]
@@ -5013,7 +5093,7 @@ mod phase2b_files_tests {
     fn catalog_count_includes_phase2b() {
         // phase2a adds 30 registry artifacts (284→314), phase2b adds 40 file artifacts (314→354)
         // Note: chrome_login_data was already present from Phase 1; not duplicated here.
-        assert_eq!(CATALOG.list().len(), 7103);
+        assert_eq!(CATALOG.list().len(), 7106);
     }
 
     #[test]
@@ -5316,7 +5396,7 @@ mod phase3_persistence_tests {
         // phase3 adds 7 net-new artifacts not already in catalog (354 → 361)
         // Note: winlogon_shell, winlogon_userinit, appinit_dlls, boot_execute,
         //       ifeo_debugger, netsh_helper_dlls, mountpoints2 were already present.
-        assert_eq!(CATALOG.list().len(), 7103);
+        assert_eq!(CATALOG.list().len(), 7106);
     }
 
     // ── Pre-existing artifacts verified present ───────────────────────────────
@@ -9607,7 +9687,7 @@ mod tests_android_gboard_trainingcache {
 
     #[test]
     fn catalog_count_updated() {
-        assert_eq!(CATALOG.list().len(), 7103);
+        assert_eq!(CATALOG.list().len(), 7106);
     }
 }
 
