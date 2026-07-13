@@ -9388,7 +9388,7 @@ also has an anonymous device path, so a GDID can exist without a Microsoft Accou
     fields: CDP_GDID_FIELDS,
     retention: Some("Persists in NTUSER.DAT; server-backed, so it survives local deletion (re-fetched from Microsoft on next CDP sync) and OS updates; changes only on reinstall/re-provision"),
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &["windows_timeline", "windows_timeline_devicecache"],
+    related_artifacts: &["windows_timeline", "windows_timeline_devicecache", "apple_hardware_uuid", "apple_dsid", "apple_idfa"],
     sources: &[
         // Primary: US federal criminal complaint naming the GDID (Scattered Spider case).
         "https://www.justice.gov/usao-ndil",
@@ -9406,6 +9406,234 @@ also has an anonymous device path, so a GDID can exist without a Microsoft Accou
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Server-backed device PUID persisted in NTUSER.DAT; survives local deletion (re-fetched from Microsoft) and OS updates",
+};
+
+pub(crate) static APPLE_HARDWARE_UUID_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "hardware_uuid",
+        value_type: ValueType::Text,
+        description: "36-char RFC-4122 UUID identifying the Mac logic board (e.g. 801920CF-222C-595E-83F7-D71BD49D8BB4); read from IOPlatformUUID or recovered as the ~/Library/Keychains/<UUID>/ folder name",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "provisioning_udid",
+        value_type: ValueType::Text,
+        description: "Apple Silicon second machine identifier in <8-hex ChipID>-<16-hex ECID> form (e.g. 00008122-000850493AE9001C); required to register an Apple Silicon Mac; distinct from the 36-char Hardware UUID",
+        is_uid_component: false,
+    },
+];
+
+/// Apple Hardware UUID (IOPlatformUUID / Provisioning UDID) — the firmware/SMBIOS
+/// machine identifier for a specific Mac logic board.
+///
+/// The Apple counterpart to the Windows `cdp_gdid`: a machine-identity value rather
+/// than an account identifier. Its highest-value on-disk locus is the Data-Protection
+/// ("Local Items") keychain directory `~/Library/Keychains/<Hardware-UUID>/keychain-2.db`,
+/// whose folder name IS the Hardware UUID — recoverable from a dead image.
+///
+/// Source: Apple Developer documentation — provisioning / Hardware UUID [VENDOR]
+/// Source: Forensic Focus — Apple keychain decryption deep dive [OBSERVED]
+/// Source: MITRE ATT&CK T1555.001 (Keychain) [FRAMEWORK]
+pub static APPLE_HARDWARE_UUID: ArtifactDescriptor = ArtifactDescriptor {
+    id: "apple_hardware_uuid",
+    name: "Apple Hardware UUID (IOPlatformUUID / Provisioning UDID)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("~/Library/Keychains/<Hardware-UUID>/keychain-2.db"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "A 128-bit RFC-4122 UUID identifying a specific Mac logic board, exposed by IOKit as \
+the IOPlatformUUID property of IOPlatformExpertDevice (ioreg -rd1 -c IOPlatformExpertDevice | grep \
+IOPlatformUUID; kIOPlatformUUIDKey) and shown in System Information as 'Hardware UUID' (macOS 10.15 \
+and earlier) or 'Provisioning UDID' (macOS 11+). It is derived from the SMBIOS System UUID baked \
+into the logic-board firmware, not stored on the boot volume, so it survives OS reinstalls. Its \
+highest-value on-disk locus is the Data-Protection ('Local Items') keychain directory \
+~/Library/Keychains/<Hardware-UUID>/keychain-2.db, whose folder name IS the Hardware UUID and which \
+feeds keychain key derivation on non-T2 Macs -- recoverable from a dead image without the live \
+registry. Intel and Apple Silicon diverge: Intel exposes a 36-char UUID; Apple Silicon adds a \
+separate 'Provisioning UDID' in <8-hex ChipID>-<16-hex ECID> form (e.g. 00008122-...), required to \
+register the Mac with Apple's developer portal, so an Apple Silicon Mac has two distinct machine \
+identifiers. Forensically it identifies hardware (not a person) and pivots keychains, Unified Logs \
+/ MDM command correlation, and software-licensing records; malware routinely reads \
+IOPlatformExpertDevice/IOPlatformUUID as a victim tag.",
+    mitre_techniques: &["T1555.001", "T1082"],
+    fields: APPLE_HARDWARE_UUID_FIELDS,
+    retention: Some("Firmware/SMBIOS-derived, not on the OS volume: survives OS reinstall, updates, and disk erase-and-reinstall; changes only on logic-board replacement or in a VM/spoofed SMBIOS"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["apple_dsid", "apple_idfa", "cdp_gdid"],
+    sources: &[
+        "https://help.apple.com/xcode/mac/current/en.lproj/dev93ef696c6.html",
+        "https://www.forensicfocus.com/articles/a-deep-dive-into-apple-keychain-decryption/",
+        "https://eclecticlight.co/2023/08/07/an-introduction-to-keychains-and-how-theyve-changed/",
+        "https://github.com/AsahiLinux/docs/issues/187",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Identifies hardware, not a person; it does not prove who used the Mac",
+        "Virtual machines present a synthetic UUID: VMware guests take the SMBIOS uuid.bios and VMware-generated UUIDs often begin with 564D (ASCII 'VM') -- a non-Apple-pattern UUID is a VM/emulation tell, not bare metal",
+        "Logic-board replacement changes it, so one physical chassis can present different UUIDs over its life and a keychain keyed to the old UUID can break",
+        "A disk image restored onto different hardware shows a mismatch between the on-disk ~/Library/Keychains/<UUID>/ folder name and the live ioreg value -- that mismatch is itself an artifact (image moved between machines)",
+        "On Apple Silicon the 36-char Hardware UUID and the ChipID-ECID Provisioning UDID are different strings for the same machine; mismatched fields across sources may both be legitimate",
+        "UNVERIFIED: a widely-repeated claim that on older Intel Macs the IOPlatformUUID was derived from the built-in Ethernet MAC could not be confirmed against a primary source -- do not rely on it",
+        "UNVERIFIED: whether the Hardware UUID specifically appears in /var/log/install.log was not confirmed",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Firmware/SMBIOS-derived machine UUID; the ~/Library/Keychains/<UUID>/ folder name reflects it and is recreated to match after reinstall",
+};
+
+pub(crate) static APPLE_DSID_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "dsid",
+        value_type: ValueType::Text,
+        description: "Server-assigned decimal numeric identifier for the Apple ID / iCloud account; stable across Apple ID email changes; the ~/Library/Application Support/iCloud/Accounts/<DSID> folder is named by it. Canonical digit-length not authoritatively documented",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "account_class",
+        value_type: ValueType::Text,
+        description: "Which account the DSID belongs to -- iCloud vs Media/iTunes & App Store can be different Apple IDs and thus different DSIDs on one device; attribution must state which",
+        is_uid_component: false,
+    },
+];
+
+/// Apple DSID (Directory Services Identifier) — Apple's server-assigned decimal
+/// account number for an Apple ID / iCloud account.
+///
+/// The account-pivot counterpart to `cdp_gdid`: it ties a device/backup/purchases to
+/// one Apple account and (via Apple) to a person. Stable across Apple ID email changes,
+/// so it is the preferred value to compel from Apple and is frequently the only
+/// unredacted personal identifier in Apple's returned data-request records.
+///
+/// Source: d204n6 — iOS device-migration DSID tracking [OBSERVED]
+/// Source: Forensafe / cyberengage — Apple account artifacts on iOS/macOS [OBSERVED]
+/// Source: ElcomSoft — iCloud authentication tokens keyed by DSID [VENDOR]
+pub static APPLE_DSID: ArtifactDescriptor = ArtifactDescriptor {
+    id: "apple_dsid",
+    name: "Apple DSID (Directory Services Identifier -- Apple ID / iCloud account number)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/private/var/mobile/Library/Preferences/com.apple.icloud.fmfd.plist"),
+    scope: DataScope::User,
+    os_scope: OsScope::IOS,
+    decoder: Decoder::Identity,
+    meaning: "DSID (Directory Services Identifier) is Apple's server-assigned decimal numeric \
+identifier for an Apple ID / iCloud account -- the account's stable internal key. It does NOT \
+change when the user changes their Apple ID email, which makes it the preferred value to compel \
+from Apple under legal process and, in Apple's returned data-request records, frequently the only \
+personal identifier left entirely unredacted. On iOS it is recoverable from \
+com.apple.icloud.fmfd.plist and com.apple.itunescloud(.daemon).plist, from the Accounts database \
+/private/var/mobile/Library/Accounts/Accounts3.sqlite, from the iCloud Drive account.1 file, and \
+correlates with device-migration records in /private/var/root/Library/Lockdown/data_ark.plist; on \
+macOS it lives in ~/Library/Accounts/Accounts4.sqlite and, notably, the token directory \
+~/Library/Application Support/iCloud/Accounts/<DSID> is literally NAMED by the DSID (ElcomSoft \
+Phone Breaker requires the DSID to decrypt those tokens). Forensically it ties a \
+device/backup/purchases/iCloud data to one Apple account -> (via Apple) to a person, and the same \
+DSID across those plists on multiple devices ties them to a single account. Present since the \
+MobileMe/iCloud era.",
+    mitre_techniques: &[],
+    fields: APPLE_DSID_FIELDS,
+    retention: Some("Server-backed account identifier; persists across device wipe and re-add of the SAME Apple ID; on-device value changes only when a DIFFERENT Apple ID signs in; Apple retains the DSID<->account mapping for the life of the account"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["apple_hardware_uuid", "apple_idfa", "cdp_gdid"],
+    sources: &[
+        "https://blog.d204n6.com/2021/06/ios-tracking-device-migration.html",
+        "https://forensafe.com/blogs/AppleAccounts.html",
+        "https://www.cyberengage.org/post/understanding-macos-app-preference-files-mru-files-shared-file-lists-and-account-artifacts-for-di",
+        "https://blog.elcomsoft.com/2017/11/extracting-and-using-icloud-authentication-tokens/",
+        "https://pxlnv.com/blog/oh-the-places-your-apple-id-will-go/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "iCloud vs Media (iTunes & App Store) can be different Apple IDs on one device -> two different DSIDs; attribution must state WHICH account a given DSID belongs to",
+        "Family Sharing surfaces multiple related DSIDs (organiser + members) for shared purchases/subscriptions; a purchase-account DSID is not necessarily the device owner",
+        "Sign-out/sign-in of a different Apple ID changes the on-device DSID; backups and cached plists may still carry a PRIOR account's DSID, so a DSID on disk is not proof it was the current account at time X without temporal correlation",
+        "UNVERIFIED: the exact SQLite table/column (or ZACCOUNTPROPERTY ZKEY) storing the raw DSID inside Accounts3/4.sqlite was not confirmed; the fmfd/itunescloud plists and the iCloud/Accounts/<DSID> folder name are the reliably-cited carriers",
+        "UNVERIFIED: the DSID vs altDSID vs aDSID distinction -- altDSID and DSID are observed as coexisting fields on one account, but the precise semantics are Apple-internal",
+        "UNVERIFIED: the DSID's canonical digit-length/format is not authoritatively documented (a large decimal integer)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Server-assigned per-account identifier reflected in on-device plists/DBs; survives wipe + re-add of the same Apple ID",
+};
+
+pub(crate) static APPLE_IDFA_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "idfa",
+        value_type: ValueType::Text,
+        description: "Per-device resettable advertising UUID (ASIdentifierManager.advertisingIdentifier); returns all-zeros 00000000-0000-0000-0000-000000000000 when App Tracking Transparency is not authorised, which is the default state since iOS 14.5",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "ad_tracking_state",
+        value_type: ValueType::Text,
+        description: "Ad-tracking preference state from com.apple.AdLib.plist (e.g. allowIdentifierForAdvertising / forceLimitAdTracking) -- typically more durable than the transient API value",
+        is_uid_component: false,
+    },
+];
+
+/// Apple IDFA (Identifier for Advertisers) — a per-device, user-resettable,
+/// ATT-zeroed advertising UUID.
+///
+/// A weak, corroborative Apple identifier alongside the machine-level
+/// `apple_hardware_uuid` and account-level `apple_dsid`. Since iOS 14.5 it is gated by
+/// App Tracking Transparency and returns the all-zeros nil UUID unless the user grants
+/// permission — so all-zeros is the NORMAL post-14.5 state, not tampering.
+///
+/// Source: Apple Developer — user privacy and data use (ATT) [VENDOR]
+/// Source: blochberger/IDFA — advertisingIdentifier behaviour [OBSERVED]
+/// Source: Firebase — supporting iOS 14 / device.advertising_id [VENDOR]
+pub static APPLE_IDFA: ArtifactDescriptor = ArtifactDescriptor {
+    id: "apple_idfa",
+    name: "Apple IDFA (Identifier for Advertisers)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/private/var/mobile/Library/Preferences/com.apple.AdLib.plist"),
+    scope: DataScope::User,
+    os_scope: OsScope::IOS,
+    decoder: Decoder::Identity,
+    meaning: "IDFA (Identifier for Advertisers) is a per-device, user-resettable RFC-4122 UUID \
+Apple provides to apps for advertising attribution via ASIdentifierManager.advertisingIdentifier \
+(AdSupport framework). Since iOS/iPadOS/tvOS 14.5 it is gated by App Tracking Transparency: unless \
+the user grants permission it returns the all-zeros nil UUID 00000000-0000-0000-0000-000000000000 \
+(also returned when the device-wide 'Allow Apps to Request to Track' toggle is off, or on the iOS \
+Simulator) -- so all-zeros is the NORMAL post-14.5 state, not tampering. There is no single OS file \
+holding the live app-visible IDFA; forensically it surfaces as (a) the ad-tracking preference state \
+in com.apple.AdLib.plist (keys such as allowIdentifierForAdvertising / forceLimitAdTracking -- often \
+more durable than the transient API value), (b) cached copies inside ad/analytics/attribution SDK \
+stores in app sandboxes (AppsFlyer, Adjust, Branch, Meta -- SQLite/plist queues under .../Library/), \
+(c) server-side, e.g. Firebase/GA4 BigQuery export device.advertising_id, and (d) network captures \
+to attribution endpoints. Contrast IDFV (identifierForVendor): per app-vendor, NOT ATT-gated, stable \
+while any of a vendor's apps is installed. IDFA is a weak, corroborative identifier -- per device \
+not per account, resettable, and usually zeroed -- and should never be sole proof of device or user \
+identity.",
+    mitre_techniques: &[],
+    fields: APPLE_IDFA_FIELDS,
+    retention: Some("Ephemeral: user-resettable at any time (mints a new UUID with no link to the old), zeroed whenever App Tracking Transparency is not authorised, and reset on device erase or backup restore"),
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &["apple_hardware_uuid", "apple_dsid", "cdp_gdid"],
+    sources: &[
+        "https://developer.apple.com/app-store/user-privacy-and-data-use/",
+        "https://github.com/blochberger/IDFA",
+        "https://www.eff.org/deeplinks/2022/05/how-disable-ad-id-tracking-ios-and-android-and-why-you-should-do-it-now",
+        "https://firebase.google.com/docs/ios/supporting-ios-14",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "All-zeros (00000000-0000-0000-0000-000000000000) is the norm post-iOS 14.5 (most users do not authorise ATT) and means 'tracking not authorised / Simulator / Limit Ad Tracking' -- not a corrupt or missing record",
+        "A user reset mints a NEW IDFA with no logged link to the prior value: two different IDFAs can be the same device at different times, and one IDFA is not one device forever",
+        "Some SDKs fall back to sending IDFV when the IDFA is blank -- do not mistake a vendor-scoped IDFV for a device-scoped IDFA in a captured payload; IDFV also changes when all of a vendor's apps are uninstalled",
+        "The iOS Simulator always returns all-zeros regardless of ATT state",
+        "UNVERIFIED: the exact iOS path /private/var/mobile/Library/Preferences/com.apple.AdLib.plist and its key names are from community consensus (the macOS per-sandbox-container path ~/Library/Containers/<bundleId>/.../com.apple.AdLib.plist is primary-sourced); the iOS path and keys want confirmation against a live acquisition",
+        "UNVERIFIED: named per-SDK cache DB filenames (AppsFlyer/Adjust/Firebase) were not confirmed to a documented path",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "User-resettable, ATT-zeroed advertising UUID; the live value is API-only and unstable, only preference state and cached historical values persist",
 };
 
 pub(crate) static NTFS_I30_INDEX_FIELDS: &[FieldSchema] = &[
@@ -10677,6 +10905,9 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     ZONE_IDENTIFIER,
     THUMBS_DB,
     CDP_GDID,
+    APPLE_HARDWARE_UUID,
+    APPLE_DSID,
+    APPLE_IDFA,
     NTFS_I30_INDEX,
     NTFS_ADS,
     NTFS_REPARSE_POINT,
