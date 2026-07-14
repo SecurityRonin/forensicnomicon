@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-07-13T06:32:36Z
+Generated: 2026-07-14T05:42:16Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-07-13T06:32:36Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-13T00:00:00+00:00 — [Living with impostor syndrome](https://andreafortuna.org/2026/07/13/impostor-syndrome/)
 
 ## Salt Forensics
 
@@ -97,9 +97,9 @@ Generated: 2026-07-13T06:32:36Z
 - Site: https://sethenoka.com/windows-artefacts/
 - Feed: https://sethenoka.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-13T20:00:00+00:00 — [GCFE vs GCFA: What Actually Changes (and When You’re Ready)](https://sethenoka.com/gcfe-vs-gcfa-what-actually-changes/)
 
 ## DoubleBlak
 
@@ -226,10 +226,9 @@ Generated: 2026-07-13T06:32:36Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-07-13T04:22:02+00:00 — [Someone Is Scanning for Your MCP Servers and AI Assistant Credentials, (Mon, Jul 13th)](https://isc.sans.edu/diary/rss/33150)
-- 2026-07-13T02:00:03+00:00 — [ISC Stormcast For Monday, July 13th, 2026 https://isc.sans.edu/podcastdetail/10004, (Mon, Jul 13th)](https://isc.sans.edu/diary/rss/33148)
+- 2026-07-14T02:15:11+00:00 — [ISC Stormcast For Tuesday, July 14th, 2026 https://isc.sans.edu/podcastdetail/10006, (Tue, Jul 14th)](https://isc.sans.edu/diary/rss/33152)
 
 ## DFIR Training Blog
 
@@ -254,9 +253,10 @@ Generated: 2026-07-13T06:32:36Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-07-13T11:30:59+00:00 — [Infosec News Nuggets — July 13, 2026](https://aboutdfir.com/infosec-news-nuggets-july-13-2026-2/)
+- 2026-07-13T11:14:32+00:00 — [Infosec News Nuggets — July 13, 2026](https://aboutdfir.com/infosec-news-nuggets-july-13-2026/)
 
 ## Forensic 4cast
 
@@ -272,9 +272,9 @@ Generated: 2026-07-13T06:32:36Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-12T07:34:46+00:00 — [Week 28 – 2026](https://thisweekin4n6.com/2026/07/12/week-28-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
@@ -371,20 +371,19 @@ Generated: 2026-07-13T06:32:36Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-07-13T06:30:00+00:00 — [How does Spotlight rank search results?](https://eclecticlight.co/2026/07/13/how-does-spotlight-rank-search-results/)
-- 2026-07-12T11:30:00+00:00 — [Ohioan woman painter in Paris: Elizabeth Nourse, 2](https://eclecticlight.co/2026/07/12/ohioan-woman-painter-in-paris-elizabeth-nourse-2/)
-- 2026-07-12T07:00:00+00:00 — [Last Week on My Mac: Spotlight’s eternal quest](https://eclecticlight.co/2026/07/12/last-week-on-my-mac-spotlights-eternal-quest/)
+- 2026-07-13T11:30:00+00:00 — [Hero or hooligan: Achilles’ final victory](https://eclecticlight.co/2026/07/13/hero-or-hooligan-achilles-final-victory/)
+- 2026-07-13T08:00:00+00:00 — [Solutions to Saturday Mac riddles 368](https://eclecticlight.co/2026/07/13/solutions-to-saturday-mac-riddles-368/)
 
 ## JPCERT/CC
 
 - Site: https://blogs.jpcert.or.jp/en/
 - Feed: https://blogs.jpcert.or.jp/en/atom.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-13T04:23:44+00:00 — [Update on Attacks by Threat Group APT-C-60 in 2026](https://blogs.jpcert.or.jp/en/2026/07/apt-c-60_2026.html)
+- No new entries detected
 
 ## DFIR Review
 
@@ -409,9 +408,11 @@ Generated: 2026-07-13T06:32:36Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-07-13T15:00:00+00:00 — [Effective Patch Management Strategies: 7 Best Practices | Huntress](https://www.huntress.com/blog/patch-management-strategy)
+- 2026-07-13T13:00:00+00:00 — [Threat Actors Achieve Persistence After SQL Injection](https://www.huntress.com/blog/sql-injection-attacker-persistence)
+- 2026-07-10T13:00:00+00:00 — [Guide to System Hardening: Checklist & Best Practices [2026] | Huntress](https://www.huntress.com/blog/system-hardening-checklist)
 
 ## Red Canary Blog
 
@@ -472,9 +473,9 @@ Generated: 2026-07-13T06:32:36Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-13T15:04:17+00:00 — [Arrest and Sentencing Disparities Across Russian-Speaking Threat Actors](https://flare.io/learn/resources/blog/arrest-sentencing-disparities-across-russian-speaking-threat-actors)
 
 ## Binalyze Blog
 
@@ -508,9 +509,9 @@ Generated: 2026-07-13T06:32:36Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-13T14:46:17+00:00 — [Genesis Live: Clear the Backlog, Find the Lead](https://cellebrite.com/en/resources/webinars/genesis-live-clear-the-backlog-find-the-lead/)
 
 ## DFIR Science
 
@@ -535,38 +536,50 @@ Generated: 2026-07-13T06:32:36Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-07-13T14:33:41+00:00 — [Trusting your kids online isn&#8217;t enough (Lock and Code S07E14)](https://www.malwarebytes.com/blog/podcast/2026/07/trusting-your-kids-online-isnt-enough-lock-and-code-s07e14)
+- 2026-07-13T13:18:50+00:00 — [Ghostcommit attack hides malicious AI instructions in images](https://www.malwarebytes.com/blog/ai/2026/07/ghostcommit-attack-hides-malicious-ai-instructions-in-images)
+- 2026-07-13T11:05:28+00:00 — [Fake crypto gift card sites are getting harder to spot](https://www.malwarebytes.com/blog/threat-intel/2026/07/fake-crypto-gift-card-sites-are-getting-harder-to-spot)
+- 2026-07-13T07:01:00+00:00 — [A week in security (July 6 &#8211; July 12)](https://www.malwarebytes.com/blog/news/2026/07/a-week-in-security-july-6-july-12)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-13T15:03:28+00:00 — [Lessons Learned from CISA’s Recent GitHub Leak](https://krebsonsecurity.com/2026/07/lessons-learned-from-cisas-recent-github-leak/)
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 9
 
-- 2026-07-12T20:44:44-04:00 — [OpenAI temporarily relaxes GPT-5.6 Sol usage limits](https://www.bleepingcomputer.com/news/artificial-intelligence/openai-temporarily-relaxes-gpt-56-sol-usage-limits/)
-- 2026-07-12T15:39:12-04:00 — [Claude Fable 5 stays free for paid users until July 19 as Anthropic buys more time](https://www.bleepingcomputer.com/news/artificial-intelligence/claude-fable-5-stays-free-for-paid-users-until-july-19-as-anthropic-buys-more-time/)
-- 2026-07-12T10:27:32-04:00 — [RedHook Android malware now uses Wireless ADB for shell access](https://www.bleepingcomputer.com/news/security/redhook-android-malware-now-uses-wireless-adb-for-shell-access/)
+- 2026-07-13T16:18:59-04:00 — [Japan's largest taxi operator shuts systems after cyberattack](https://www.bleepingcomputer.com/news/security/japans-largest-taxi-operator-shuts-systems-after-cyberattack/)
+- 2026-07-13T15:44:19-04:00 — [Hackers backdoor Jscrambler npm package with infostealer malware](https://www.bleepingcomputer.com/news/security/hackers-backdoor-jscrambler-npm-package-with-infostealer-malware/)
+- 2026-07-13T15:04:02-04:00 — [New CrashStealer malware poses as Apple crash reporting tool](https://www.bleepingcomputer.com/news/security/new-crashstealer-malware-poses-as-apple-crash-reporting-tool/)
+- 2026-07-13T11:20:16-04:00 — [CISA warns of actively exploited RCE flaws in Joomla extensions](https://www.bleepingcomputer.com/news/security/cisa-warns-of-actively-exploited-rce-flaws-in-joomla-extensions/)
+- 2026-07-13T10:19:43-04:00 — [Lidl discloses online shop breach after service provider hack](https://www.bleepingcomputer.com/news/security/lidl-discloses-online-shop-breach-after-service-provider-hack/)
+- 2026-07-13T10:01:11-04:00 — [Breach at the Beach: Play the Ultimate Entra ID CTF](https://www.bleepingcomputer.com/news/security/breach-at-the-beach-play-the-ultimate-entra-id-ctf/)
+- 2026-07-13T09:23:30-04:00 — [UK charges suspects linked to Russian Coms call spoofing platform](https://www.bleepingcomputer.com/news/security/uk-charges-suspects-linked-to-russian-coms-call-spoofing-platform/)
+- 2026-07-13T07:19:05-04:00 — [EU sanctions Russian GRU military hackers over cyberattacks](https://www.bleepingcomputer.com/news/security/eu-and-uk-hit-russia-with-first-joint-cyber-sanctions-package/)
+- 2026-07-13T05:32:23-04:00 — [US and allies warn of Russian critical infrastructure attacks](https://www.bleepingcomputer.com/news/security/us-and-allies-share-defense-tips-against-russian-hackers-targeting-critical-infrastructure/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-07-13T21:24:59+00:00 — [Weak Security Continues to Fuel Russian Cyberattacks](https://www.darkreading.com/endpoint-security/weak-security-fuel-russian-cyberattacks)
+- 2026-07-13T18:18:30+00:00 — ['Yellow Teams' Are Defining the Future of AI Security](https://www.darkreading.com/cybersecurity-operations/yellow-teams-defining-future-ai-security)
+- 2026-07-13T16:50:54+00:00 — [GigaWiper Lets Threat Actors Choose Their Own Destructive Attack](https://www.darkreading.com/cyberattacks-data-breaches/gigawiper-threat-actors-choose-their-own-destructive-attack)
+- 2026-07-13T13:00:00+00:00 — [Turning the Tables on Email Scammers With 'ScamBuster'](https://www.darkreading.com/cyberattacks-data-breaches/turning-tables-email-scammers-scambuster)
 
 ## Volexity Blog
 
@@ -588,9 +601,10 @@ Generated: 2026-07-13T06:32:36Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-07-13T22:02:41+00:00 — [Defending SaaS-based applications against ShinyHunters OAuth abuse](https://www.microsoft.com/en-us/security/blog/2026/07/13/defending-saas-based-applications-against-shinyhunters-oauth-abuse/)
+- 2026-07-13T17:00:00+00:00 — [Microsoft Entra ID security updates: Passkeys are the default authentication method in Entra ID](https://www.microsoft.com/en-us/security/blog/2026/07/13/microsoft-entra-id-security-updates-passkeys-are-the-default-authentication-method-in-entra-id/)
 
 ## HackingPassion
 
@@ -1020,10 +1034,9 @@ Generated: 2026-07-13T06:32:36Z
 - Site: https://dfir-scripts.github.io/
 - Feed: https://github.com/dfir-scripts/dfir-scripts.github.io/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-07-12T11:30:12+00:00 — [Create CNAME](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/696218bb46fc9c3339802f14b7219ed92b91cebb)
-- 2026-07-12T09:19:30+00:00 — [Add files via upload](https://github.com/dfir-scripts/dfir-scripts.github.io/commit/42cb13c2dceda9dafed7b1048312b9d3fb6bdc0f)
+- No new entries detected
 
 ## Microsoft Learn Windows What's New
 
@@ -1075,6 +1088,8 @@ Generated: 2026-07-13T06:32:36Z
 - Site: https://www.misp-project.org/
 - Feed: https://github.com/MISP/misp-taxonomies/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-07-14T03:57:52+00:00 — [chg: [manifest] updated](https://github.com/MISP/misp-taxonomies/commit/8ac0b8e08b9ed38b12695be6d40fdab361eca0f4)
+- 2026-07-14T03:50:00+00:00 — [Merge pull request #338 from eeee2345/chore/refresh-atr-taxonomy-3.5.6](https://github.com/MISP/misp-taxonomies/commit/7447165e706e3d1f735098f1f04369f9b0ecfc7c)
+- 2026-07-10T12:46:11+00:00 — [chore: refresh agent-threat-rules taxonomy 330 -> 713 rules (ATR 3.5.6)](https://github.com/MISP/misp-taxonomies/commit/5ac30335e2e489ce2d30a1e07298c389351ac97d)
