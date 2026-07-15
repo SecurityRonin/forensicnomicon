@@ -9388,10 +9388,12 @@ also has an anonymous device path, so a GDID can exist without a Microsoft Accou
     fields: CDP_GDID_FIELDS,
     retention: Some("Persists in NTUSER.DAT; server-backed, so it survives local deletion (re-fetched from Microsoft on next CDP sync) and OS updates; changes only on reinstall/re-provision"),
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &["windows_timeline", "windows_timeline_devicecache", "apple_hardware_uuid", "apple_dsid", "apple_idfa"],
+    related_artifacts: &["windows_timeline", "windows_timeline_devicecache", "apple_hardware_uuid", "apple_dsid", "apple_idfa", "linux_machine_id"],
     sources: &[
         // Primary: US federal criminal complaint naming the GDID (Scattered Spider case).
         "https://www.justice.gov/usao-ndil",
+        // Press corroboration of the arrest tied to the Windows device id (reporting/interpretation, not a court-stated mechanism).
+        "https://www.theregister.com/cyber-crime/2026/07/07/windows-is-watching-anti-piracy-tool-fingers-scattered-spider-suspect/",
         // Reverse-engineering writeup: ETW capture + static RE against Windows 11 (26200) public PDBs.
         "https://github.com/SmtimesIWndr/gdid-reversal",
         // Microsoft vendor doc: Delivery Optimization UCDOStatus.GlobalDeviceId column.
@@ -9463,7 +9465,7 @@ IOPlatformExpertDevice/IOPlatformUUID as a victim tag.",
     fields: APPLE_HARDWARE_UUID_FIELDS,
     retention: Some("Firmware/SMBIOS-derived, not on the OS volume: survives OS reinstall, updates, and disk erase-and-reinstall; changes only on logic-board replacement or in a VM/spoofed SMBIOS"),
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &["apple_dsid", "apple_idfa", "cdp_gdid"],
+    related_artifacts: &["apple_dsid", "apple_idfa", "cdp_gdid", "linux_machine_id"],
     sources: &[
         "https://help.apple.com/xcode/mac/current/en.lproj/dev93ef696c6.html",
         "https://www.forensicfocus.com/articles/a-deep-dive-into-apple-keychain-decryption/",
@@ -9539,7 +9541,7 @@ MobileMe/iCloud era.",
     fields: APPLE_DSID_FIELDS,
     retention: Some("Server-backed account identifier; persists across device wipe and re-add of the SAME Apple ID; on-device value changes only when a DIFFERENT Apple ID signs in; Apple retains the DSID<->account mapping for the life of the account"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["apple_hardware_uuid", "apple_idfa", "cdp_gdid"],
+    related_artifacts: &["apple_hardware_uuid", "apple_idfa", "cdp_gdid", "linux_machine_id"],
     sources: &[
         "https://blog.d204n6.com/2021/06/ios-tracking-device-migration.html",
         "https://forensafe.com/blogs/AppleAccounts.html",
@@ -9616,7 +9618,7 @@ identity.",
     fields: APPLE_IDFA_FIELDS,
     retention: Some("Ephemeral: user-resettable at any time (mints a new UUID with no link to the old), zeroed whenever App Tracking Transparency is not authorised, and reset on device erase or backup restore"),
     triage_priority: TriagePriority::Low,
-    related_artifacts: &["apple_hardware_uuid", "apple_dsid", "cdp_gdid"],
+    related_artifacts: &["apple_hardware_uuid", "apple_dsid", "cdp_gdid", "linux_machine_id"],
     sources: &[
         "https://developer.apple.com/app-store/user-privacy-and-data-use/",
         "https://github.com/blochberger/IDFA",
@@ -9634,6 +9636,90 @@ identity.",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Volatile),
     volatility_rationale: "User-resettable, ATT-zeroed advertising UUID; the live value is API-only and unstable, only preference state and cached historical values persist",
+};
+
+pub(crate) static LINUX_MACHINE_ID_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "machine_id",
+        value_type: ValueType::Text,
+        description: "The 128-bit local machine ID as a single newline-terminated, lowercase, 32-hex-character string (e.g. 3d9a1c2f5b6e4780a1b2c3d4e5f60718); per machine-id(5) it may not be all zeros, and the literal \"uninitialized\" or an empty file denote a first-boot/unset state",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "dbus_machine_id",
+        value_type: ValueType::Text,
+        description: "The D-Bus copy at /var/lib/dbus/machine-id, normally a symlink to /etc/machine-id and thus the same value; a non-symlink copy that DIFFERS from /etc/machine-id is itself an artifact (image moved, manual edit, or a legacy pre-systemd D-Bus id)",
+        is_uid_component: false,
+    },
+];
+
+/// Linux machine-id (/etc/machine-id) -- the systemd/D-Bus 128-bit local-install
+/// identifier, the Linux counterpart to the Windows `cdp_gdid` and Apple
+/// `apple_hardware_uuid`. Stable across reboots/updates/hardware change, world-readable,
+/// and read by apps as a device fingerprint -- but Strong, not Definitive: a fallback
+/// chain lets VM clones share one and it is root-editable.
+///
+/// Sourced from the systemd man pages (machine-id(5), sd_id128_get_machine(3)) and the
+/// D-Bus spec; the ransomware.sh post that surfaced it is a discovery pointer only.
+///
+/// Source: systemd machine-id(5) -- format, first-boot, confidential clause [VENDOR/PRIMARY]
+/// Source: sd_id128_get_machine_app_specific(3) -- per-app HMAC-SHA256 derivation [VENDOR/PRIMARY]
+/// Source: D-Bus specification -- machine UUID origin [VENDOR/PRIMARY]
+pub static LINUX_MACHINE_ID: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_machine_id",
+    name: "Linux machine-id (/etc/machine-id -- systemd/D-Bus local install ID)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/etc/machine-id"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "The 128-bit local machine identifier that systemd/D-Bus assigns to one Linux \
+installation, written to /etc/machine-id as a single newline-terminated, lowercase, 32-character \
+hex string (16 bytes; per machine-id(5) it may not be all zeros). It is set at install time by \
+systemd-machine-id-setup(1) or, failing that, generated on first boot, and -- per the man page -- \
+does NOT change across reboots, kernel changes, OS updates or hardware replacement, which makes it \
+a stable attribution pivot for a specific install (the Linux analogue of the Windows CDP GDID and \
+the Apple Hardware UUID). It shares the D-Bus machine-id format and is also found at \
+/var/lib/dbus/machine-id, usually a symlink to /etc/machine-id. systemd documents the value as \
+\"confidential\" and says it must not be exposed in untrusted environments, in particular on the \
+network; when a program needs an externally-shared id it should call \
+sd_id128_get_machine_app_specific(3), an HMAC-SHA256 keyed by the machine-id that yields a stable \
+but per-application value which cannot be reversed or matched across apps. Nothing enforces that, \
+and the file is world-readable, so any process can read the raw id -- the common desktop path is \
+the node-machine-id package, which hashes `cat /var/lib/dbus/machine-id /etc/machine-id` with a \
+fixed (non-per-app) SHA-256, producing the SAME fingerprint in every app, so telemetry/analytics \
+can line one host's accounts up against each other. Since systemd v30 newly-generated ids are \
+Variant-1 Version-4 RFC-4122 UUIDs. Malware and licensing code routinely read it as a victim/host \
+tag.",
+    mitre_techniques: &["T1082"],
+    fields: LINUX_MACHINE_ID_FIELDS,
+    retention: Some("Set at install or first boot; persists unchanged across reboots, kernel changes, OS updates and hardware replacement (machine-id(5)); changes only on explicit reset (file wipe + regenerate), a fresh install, or a clone that regenerates it"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["cdp_gdid", "apple_hardware_uuid", "apple_dsid", "apple_idfa"],
+    sources: &[
+        // Primary vendor spec: format, first-boot semantics, the "confidential" clause.
+        "https://man7.org/linux/man-pages/man5/machine-id.5.html",
+        // Primary vendor spec: per-app HMAC-SHA256 derivation systemd recommends for sharing.
+        "https://man7.org/linux/man-pages/man3/sd_id128_get_machine.3.html",
+        // D-Bus specification: the machine UUID the format originates from.
+        "https://dbus.freedesktop.org/doc/dbus-specification.html#uuids",
+        // Observed app-read vector (SHA-256 of the raw file, no per-app key) into desktop apps.
+        "https://github.com/automation-stack/node-machine-id",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "NOT guaranteed unique: on a blank/first-boot file systemd walks a fallback chain (D-Bus id, then kernel container_uuid, then KVM DMI product_uuid, then devicetree vm,uuid, then Xen id, and only then a random UUID), so VMs cloned from one image or containers off one base can SHARE a machine-id -- a match is strong correlation, not proof of one physical host",
+        "Root-editable and regenerable (rm + systemd-machine-id-setup, or the systemd.machine_id= / --machine-id= override): the value is spoofable and a changed id does not exclude the same machine, so this is Strong, never Definitive",
+        "First-boot / stateless states: the literal string \"uninitialized\" or an empty file both mean 'first boot' (systemd overmounts a temporary id); an all-zeros value is invalid per machine-id(5)",
+        "The /var/lib/dbus/machine-id copy is normally a symlink to /etc/machine-id; a divergence between the two (a non-symlink copy with a different value) is itself an artifact worth noting",
+        "node-machine-id and similar (SHA-256 of the raw file, no per-app key) produce identical hashes across apps, so a fingerprint in telemetry can be reversed to a host by hashing a candidate /etc/machine-id -- whereas per-app sd_id128_get_machine_app_specific values cannot be correlated at all",
+        "Sandboxing changes it: flatpak read-only-binds the host machine-id INTO the sandbox (so it leaks through and does NOT protect), whereas firejail --machine-id presents a fresh in-sandbox id -- verify whether a read came from a sandbox",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Stable local-install identifier persisted in /etc/machine-id; unchanged across reboots, kernel changes, OS updates and hardware replacement per machine-id(5)",
 };
 
 pub(crate) static NTFS_I30_INDEX_FIELDS: &[FieldSchema] = &[
@@ -10908,6 +10994,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     APPLE_HARDWARE_UUID,
     APPLE_DSID,
     APPLE_IDFA,
+    LINUX_MACHINE_ID,
     NTFS_I30_INDEX,
     NTFS_ADS,
     NTFS_REPARSE_POINT,
