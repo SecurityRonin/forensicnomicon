@@ -296,6 +296,55 @@ mod catalog_integrity {
         );
     }
 
+    /// Linux machine-id (/etc/machine-id, D-Bus /var/lib/dbus/machine-id) — the systemd
+    /// 128-bit local-install identifier, the Linux counterpart to the Windows cdp_gdid.
+    /// Strong but not Definitive: a fallback chain (D-Bus / container_uuid / DMI
+    /// product_uuid / Xen) lets VM clones share one, and it is root-editable. Linux-scoped,
+    /// File artifact, cross-linked to cdp_gdid and apple_hardware_uuid.
+    #[test]
+    fn linux_machine_id_is_cataloged() {
+        use crate::evidence::EvidenceStrength;
+        use crate::volatility::VolatilityClass;
+        let d = CATALOG
+            .list()
+            .iter()
+            .find(|d| d.id == "linux_machine_id")
+            .expect("linux_machine_id (/etc/machine-id) must be cataloged");
+        assert_eq!(
+            d.artifact_type,
+            ArtifactLocation::File,
+            "machine-id is read from the on-disk /etc/machine-id file"
+        );
+        assert_eq!(
+            d.os_scope,
+            crate::catalog::types::OsScope::Linux,
+            "machine-id is a Linux identifier"
+        );
+        assert_eq!(
+            d.evidence_strength,
+            Some(EvidenceStrength::Strong),
+            "machine-id is Strong — a stable local-install identifier"
+        );
+        assert_eq!(
+            d.volatility,
+            Some(VolatilityClass::Persistent),
+            "machine-id persists across reboots, kernel changes and updates"
+        );
+        assert!(
+            d.file_path.unwrap_or_default().contains("machine-id"),
+            "file_path must point at /etc/machine-id"
+        );
+        assert!(
+            d.fields.iter().any(|f| f.name == "machine_id"),
+            "must expose the machine_id value field"
+        );
+        assert!(
+            d.related_artifacts.contains(&"cdp_gdid")
+                && d.related_artifacts.contains(&"apple_hardware_uuid"),
+            "machine-id must cross-link to its Windows (cdp_gdid) and Apple (hardware UUID) counterparts"
+        );
+    }
+
     /// NTFS directory-index ($I30) slack must be cataloged — the B-tree slack of a
     /// directory's $INDEX_ALLOCATION retains removed entries' filenames, sizes and $FN
     /// MACB set, so a deleted file's name survives Shift+Delete even after its $MFT
