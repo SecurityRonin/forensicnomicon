@@ -54,3 +54,15 @@ commit_parsers = [
 name = "ingest"
 release = false
 publish = false
+
+# forensicnomicon-core is the stable engine every downstream analyzer pins at `^1`
+# (ADR-0002). cargo-semver-checks flags even a bug-fix that removes `const` (e.g.
+# 1.2.1's `known()` MSRV fix) as "breaking" and would auto-bump to a MAJOR — which
+# would strand every `= "1"` pin on the broken version, so the fix never reaches
+# them. API changes are already gated for human review by the committed
+# `public-api/` baseline, so semver_check's auto-major is redundant AND harmful
+# here. Version bumps come from conventional-commit type (fix→patch, feat→minor);
+# a genuine breaking change is a deliberate major, done by hand.
+[[package]]
+name = "forensicnomicon-core"
+semver_check = false
