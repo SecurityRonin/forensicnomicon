@@ -7153,6 +7153,11 @@ pub fn is_technique_in_known_campaign(technique_id: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn artifacts_in_flow_unknown_id_is_empty() {
+        assert!(artifacts_in_flow("no-such-flow-id").is_empty());
+    }
     use super::*;
     use crate::catalog::CATALOG;
 
@@ -7180,7 +7185,7 @@ mod tests {
                 flow.actions.len() >= 2,
                 "flow '{}' has only {} action(s) — flows should model sequences",
                 flow.id,
-                flow.actions.len()
+                flow.actions.len() // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
             );
         }
     }
@@ -7315,7 +7320,7 @@ mod tests {
         assert!(
             ATTACK_FLOWS.len() >= 5,
             "expected at least 5 flows from CTID corpus, got {}",
-            ATTACK_FLOWS.len()
+            ATTACK_FLOWS.len() // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
     }
 
@@ -7455,7 +7460,7 @@ mod tests {
                         action.name
                     );
                 }
-            }
+            } // cov:unreachable: if-let no-match arm unreachable; all listed CTID flow ids resolve
         }
     }
 
@@ -7468,7 +7473,7 @@ mod tests {
         assert!(
             all_flows().len() >= 40,
             "expected at least 40 CTID flows, got {}",
-            all_flows().len()
+            all_flows().len() // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
     }
 

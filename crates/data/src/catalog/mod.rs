@@ -70,6 +70,29 @@ mod tests;
 
 #[cfg(test)]
 mod refactor_contract {
+
+    #[test]
+    fn artifact_facade_fns_delegate_to_catalog() {
+        for id in [
+            "userassist_exe",
+            "prefetch_file",
+            "run_key_hklm",
+            "not-a-real-id",
+        ] {
+            assert_eq!(
+                container_profile_for_artifact(id).is_some(),
+                CATALOG.container_profile(id).is_some(),
+            );
+            assert_eq!(
+                container_signature_for_artifact(id).is_some(),
+                CATALOG.container_signature(id).is_some(),
+            );
+            assert_eq!(
+                record_signatures_for_artifact(id).len(),
+                CATALOG.record_signatures(id).len(),
+            );
+        }
+    }
     use super::*;
 
     /// Verifies that the public API surface of the catalog module remains

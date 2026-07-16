@@ -111,7 +111,7 @@ mod tests {
             m.score >= PRISM.class_threshold,
             "score {} < class_threshold {}",
             m.score,
-            PRISM.class_threshold
+            PRISM.class_threshold // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         assert!(m.classification >= Classification::ClassMatch);
     }
@@ -129,7 +129,7 @@ mod tests {
             m.score >= PRISM.probable_threshold,
             "score {} < probable_threshold {}",
             m.score,
-            PRISM.probable_threshold
+            PRISM.probable_threshold // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         assert!(m.classification >= Classification::Probable);
     }

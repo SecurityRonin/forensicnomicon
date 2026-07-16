@@ -63,7 +63,7 @@ mod tests {
             m.score >= REPTILE.class_threshold,
             "score {} < class_threshold {}",
             m.score,
-            REPTILE.class_threshold
+            REPTILE.class_threshold // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         assert!(m.classification >= Classification::ClassMatch);
     }
@@ -80,7 +80,7 @@ mod tests {
             m.score >= REPTILE.probable_threshold,
             "score {} < probable_threshold {}",
             m.score,
-            REPTILE.probable_threshold
+            REPTILE.probable_threshold // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         assert!(m.classification >= Classification::Probable);
     }

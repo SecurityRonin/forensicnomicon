@@ -314,7 +314,7 @@ mod tests {
             for change in history.changes {
                 assert!(
                     change.reference.starts_with("https://")
-                        || change.reference.starts_with("http://"),
+                        || change.reference.starts_with("http://"), // cov:unreachable: short-circuit alternative; all current references use https
                     "artifact '{}' has change without a valid URL reference",
                     history.artifact_id
                 );

@@ -166,6 +166,18 @@ pub fn stash_sectors_at(lba: u64) -> impl Iterator<Item = &'static StashSector> 
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn stash_sectors_at_finds_documented_lba() {
+        let first = ORIGINAL_MBR_STASH_SECTORS
+            .first()
+            .expect("stash table must be non-empty");
+        let hits: Vec<_> = stash_sectors_at(first.lba).collect();
+        assert!(!hits.is_empty());
+        assert!(hits.iter().all(|s| s.lba == first.lba));
+        // An LBA no documented stash uses yields nothing.
+        assert_eq!(stash_sectors_at(u64::MAX).count(), 0);
+    }
     use super::*;
 
     #[test]

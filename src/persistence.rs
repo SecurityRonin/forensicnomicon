@@ -210,6 +210,13 @@ pub fn is_persistence_location(path: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn suspicious_ifeo_debugger_empty_is_false() {
+        assert!(!is_suspicious_ifeo_debugger(""));
+        assert!(is_suspicious_ifeo_debugger(r"C:\Temp\evil.exe"));
+        assert!(!is_suspicious_ifeo_debugger("ntsd"));
+    }
     use super::*;
 
     #[test]

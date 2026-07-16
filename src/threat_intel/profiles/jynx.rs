@@ -84,7 +84,7 @@ mod tests {
             m.score >= JYNX.class_threshold,
             "score {} < class_threshold {}",
             m.score,
-            JYNX.class_threshold
+            JYNX.class_threshold // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         assert!(m.classification >= Classification::ClassMatch);
     }

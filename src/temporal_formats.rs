@@ -837,6 +837,34 @@ pub fn time_format(id: &str) -> Option<&'static TimeFormat> {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn unit_nanos_and_sub_second_digits() {
+        let units = [
+            Unit::Seconds,
+            Unit::Millis,
+            Unit::CentiSecond,
+            Unit::Micros,
+            Unit::HundredNanos,
+            Unit::Nanos,
+            Unit::Days,
+        ];
+        let nanos: Vec<i128> = units.iter().map(|u| u.nanos()).collect();
+        assert_eq!(
+            nanos,
+            vec![
+                1_000_000_000,
+                1_000_000,
+                10_000_000,
+                1_000,
+                100,
+                1,
+                86_400 * 1_000_000_000
+            ],
+        );
+        let digits: Vec<u32> = units.iter().map(|u| u.sub_second_digits()).collect();
+        assert_eq!(digits, vec![0, 3, 2, 6, 7, 9, 0]);
+    }
     use super::*;
 
     #[test]

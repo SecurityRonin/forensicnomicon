@@ -160,7 +160,7 @@ mod api_shape_tests {
                 assert_eq!(frame_seq, 7);
                 assert_eq!(commit_seq, 3);
             }
-            _ => panic!("wrong variant"),
+            _ => panic!("wrong variant"), // cov:unreachable: test constructs only the matched variant above
         }
     }
 

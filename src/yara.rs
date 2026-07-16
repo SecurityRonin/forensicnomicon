@@ -56,7 +56,7 @@ pub fn yara_rule_template(artifact_id: &str) -> Option<String> {
         TriagePriority::Medium => "medium",
         TriagePriority::Low => "low",
         // Forward-compat for future `#[non_exhaustive]` TriagePriority variants.
-        _ => "unknown",
+        _ => "unknown", // cov:unreachable: forward-compat for future #[non_exhaustive] TriagePriority variants
     };
 
     // Truncate meaning and sanitize quotes so the YARA string literal stays valid.
@@ -70,7 +70,7 @@ pub fn yara_rule_template(artifact_id: &str) -> Option<String> {
             let full_path = if let Some(hive) = artifact.hive {
                 let prefix = hive_prefix(hive);
                 if artifact.key_path.is_empty() {
-                    prefix.to_string()
+                    prefix.to_string() // cov:unreachable: no shipped registry artifact has a hive set with an empty key_path
                 } else {
                     format!(r"{}\{}", prefix, artifact.key_path)
                 }
@@ -132,6 +132,15 @@ pub fn all_yara_templates() -> Vec<(&'static str, String)> {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn hive_prefix_bcd() {
+        use crate::catalog::HiveTarget;
+        assert_eq!(
+            hive_prefix(HiveTarget::Bcd),
+            r"HKEY_LOCAL_MACHINE\BCD00000000"
+        );
+    }
     use super::*;
 
     #[test]
@@ -148,8 +157,8 @@ mod tests {
                 rule.contains("T1059") || rule.contains("mitre"),
                 "Should reference MITRE"
             );
-        }
-        // It's OK if prefetch has no container signature — test that it doesn't panic
+        } // cov:unreachable: yara_rule_template("prefetch_file") always resolves in the shipped catalog
+          // It's OK if prefetch has no container signature — test that it doesn't panic
     }
 
     #[test]
@@ -206,6 +215,6 @@ mod tests {
                 rule.contains("$key_path") || rule.contains("Run"),
                 "Registry artifact should include key path in YARA rule"
             );
-        }
+        } // cov:unreachable: yara_rule_template("run_key_hklm") always resolves in the shipped catalog
     }
 }

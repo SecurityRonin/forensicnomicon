@@ -64,7 +64,7 @@ mod tests {
             m.score >= MEDUSA.class_threshold,
             "score {} < class_threshold {}",
             m.score,
-            MEDUSA.class_threshold
+            MEDUSA.class_threshold // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         assert!(m.classification >= Classification::ClassMatch);
     }
@@ -83,7 +83,7 @@ mod tests {
             m.score >= MEDUSA.probable_threshold,
             "score {} < probable_threshold {}",
             m.score,
-            MEDUSA.probable_threshold
+            MEDUSA.probable_threshold // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         assert!(m.classification >= Classification::Probable);
     }

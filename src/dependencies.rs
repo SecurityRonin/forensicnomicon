@@ -282,6 +282,24 @@ pub fn full_collection_set(artifact_ids: &[&str]) -> Vec<&'static str> {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn full_collection_set_handles_pure_dependency_and_unknown_ids() {
+        let artifact_ids: std::collections::BTreeSet<&str> = ARTIFACT_DEPENDENCIES
+            .iter()
+            .map(|d| d.artifact_id)
+            .collect();
+        // A depends_on target that never appears as an artifact_id exercises the
+        // "only on the depends_on side" fallback branch.
+        let pure_dep = ARTIFACT_DEPENDENCIES
+            .iter()
+            .map(|d| d.depends_on)
+            .find(|d| !artifact_ids.contains(d));
+        let dep = pure_dep.expect("dependency graph has at least one pure-dependency target");
+        assert!(full_collection_set(&[dep]).contains(&dep));
+        // An id absent from the table entirely is silently skipped -> empty.
+        assert!(full_collection_set(&["totally-unknown-id"]).is_empty());
+    }
     use super::*;
     use crate::catalog::CATALOG;
 

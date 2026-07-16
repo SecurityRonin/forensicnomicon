@@ -567,7 +567,7 @@ mod tests {
         assert!(pinfo.command.contains("pinfo"), "command must invoke pinfo");
         assert!(
             pinfo.covers.to_lowercase().contains("metadata")
-                || pinfo.covers.to_lowercase().contains("inspect"),
+                || pinfo.covers.to_lowercase().contains("inspect"), // cov:unreachable: short-circuit alternative; first operand already matches
             "pinfo must describe store inspection / metadata"
         );
         assert_ne!(

@@ -77,6 +77,13 @@ pub fn classify_ipv4(ip: Ipv4Addr) -> Option<CloudProvider> {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn classify_ipv4_below_first_range_is_none() {
+        use std::net::Ipv4Addr;
+        // 0.0.0.0 sorts below every cloud range start -> partition_point == 0.
+        assert_eq!(classify_ipv4(Ipv4Addr::UNSPECIFIED), None);
+    }
     use super::*;
 
     // Sample addresses taken verbatim from the committed snapshot (the start of a

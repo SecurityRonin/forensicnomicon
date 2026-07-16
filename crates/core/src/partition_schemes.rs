@@ -101,6 +101,78 @@ pub fn looks_like_vbr(sector0: &[u8]) -> bool {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn detect_scheme_covers_gpt_mbr_apm_vbr_and_none() {
+        // Protective MBR signature + GPT header magic at offset 512 -> Gpt.
+        let mut gpt = vec![0u8; 520];
+        gpt[MBR_BOOT_SIGNATURE_OFFSET] = MBR_BOOT_SIGNATURE[0];
+        gpt[MBR_BOOT_SIGNATURE_OFFSET + 1] = MBR_BOOT_SIGNATURE[1];
+        gpt[512..520].copy_from_slice(GPT_HEADER_MAGIC);
+        assert_eq!(detect_scheme(&gpt), Some(Scheme::Gpt));
+
+        // 0x55AA present, no GPT, not a filesystem VBR -> Mbr.
+        let mut mbr = vec![0u8; 512];
+        mbr[MBR_BOOT_SIGNATURE_OFFSET] = 0x55;
+        mbr[MBR_BOOT_SIGNATURE_OFFSET + 1] = 0xAA;
+        assert_eq!(detect_scheme(&mbr), Some(Scheme::Mbr));
+
+        // 0x55AA present but it is an NTFS volume boot record -> None.
+        let mut vbr = vec![0u8; 512];
+        vbr[0] = 0xEB;
+        vbr[3..11].copy_from_slice(b"NTFS    ");
+        vbr[510] = 0x55;
+        vbr[511] = 0xAA;
+        assert_eq!(detect_scheme(&vbr), None);
+
+        // Apple Partition Map DDR "ER" at offset 0, no MBR signature -> Apm.
+        let mut apm = vec![0u8; 8];
+        apm[0..2].copy_from_slice(APM_DDR_MAGIC);
+        assert_eq!(detect_scheme(&apm), Some(Scheme::Apm));
+
+        // Unrecognized and too-short inputs -> None.
+        assert_eq!(detect_scheme(&[0u8; 4]), None);
+        assert_eq!(detect_scheme(&[]), None);
+    }
+
+    #[test]
+    fn looks_like_vbr_accepts_ntfs_exfat_fat_and_rejects_others() {
+        let mut ntfs = vec![0u8; 512];
+        ntfs[0] = 0xEB;
+        ntfs[3..11].copy_from_slice(b"NTFS    ");
+        ntfs[510] = 0x55;
+        ntfs[511] = 0xAA;
+        assert!(looks_like_vbr(&ntfs));
+
+        let mut exfat = vec![0u8; 512];
+        exfat[0] = 0xE9;
+        exfat[3..11].copy_from_slice(b"EXFAT   ");
+        exfat[510] = 0x55;
+        exfat[511] = 0xAA;
+        assert!(looks_like_vbr(&exfat));
+
+        let mut fat16 = vec![0u8; 512];
+        fat16[0] = 0xEB;
+        fat16[54..62].copy_from_slice(b"FAT16   ");
+        fat16[510] = 0x55;
+        fat16[511] = 0xAA;
+        assert!(looks_like_vbr(&fat16));
+
+        let mut fat32 = vec![0u8; 512];
+        fat32[0] = 0xEB;
+        fat32[82..90].copy_from_slice(b"FAT32   ");
+        fat32[510] = 0x55;
+        fat32[511] = 0xAA;
+        assert!(looks_like_vbr(&fat32));
+
+        // No 0x55AA -> false; jump byte missing -> false; too short -> false.
+        assert!(!looks_like_vbr(&[0u8; 512]));
+        let mut nojump = vec![0u8; 512];
+        nojump[510] = 0x55;
+        nojump[511] = 0xAA;
+        assert!(!looks_like_vbr(&nojump));
+        assert!(!looks_like_vbr(&[0x55, 0xAA]));
+    }
     use super::*;
 
     #[test]

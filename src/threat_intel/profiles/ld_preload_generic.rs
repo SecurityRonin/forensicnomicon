@@ -91,7 +91,7 @@ mod tests {
             m.score >= LD_PRELOAD_GENERIC.class_threshold,
             "score {} < class_threshold {}",
             m.score,
-            LD_PRELOAD_GENERIC.class_threshold
+            LD_PRELOAD_GENERIC.class_threshold // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         assert!(m.classification >= Classification::ClassMatch);
     }

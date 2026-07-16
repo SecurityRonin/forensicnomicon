@@ -105,7 +105,7 @@ mod tests {
             m.score >= NECRO.class_threshold,
             "score {} < class_threshold {}",
             m.score,
-            NECRO.class_threshold
+            NECRO.class_threshold // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         assert!(m.classification >= Classification::ClassMatch);
     }
@@ -122,7 +122,7 @@ mod tests {
             m.score >= NECRO.probable_threshold,
             "score {} < probable_threshold {}",
             m.score,
-            NECRO.probable_threshold
+            NECRO.probable_threshold // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         assert!(m.classification >= Classification::Probable);
     }

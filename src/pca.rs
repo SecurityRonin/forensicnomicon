@@ -110,6 +110,12 @@ pub fn decode_pca_utf16le(bytes: &[u8]) -> Vec<(String, String)> {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn parse_pca_line_empty_exe_is_none() {
+        // Leading separator -> empty exe path -> None.
+        assert!(parse_pca_line("|2024-01-01 10:00:00").is_none());
+    }
     use super::*;
 
     // ── is_pca_file ──────────────────────────────────────────────────────

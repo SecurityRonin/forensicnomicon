@@ -340,6 +340,17 @@ impl ArtifactDescriptorCadetExt for crate::catalog::ArtifactDescriptor {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn display_covers_all_variants_and_from_code_rejects_unknown() {
+        for &cat in ALL {
+            let shown = cat.to_string();
+            assert!(!shown.is_empty(), "Display must be non-empty");
+            // code() round-trips through from_code().
+            assert_eq!(ActivityCategory::from_code(cat.code()), Some(cat));
+        }
+        assert_eq!(ActivityCategory::from_code("not-a-category"), None);
+    }
     use super::{ActivityCategory, ArtifactDescriptorCadetExt};
 
     /// The full set, for exhaustive round-trip / coverage checks.

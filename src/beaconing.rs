@@ -117,6 +117,17 @@ pub fn assess_periodicity(
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn assess_periodicity_needs_two_intervals() {
+        let thresholds = BeaconingThresholds {
+            min_occurrences: 2,
+            max_coefficient_of_variation: 0.25,
+            min_interval_seconds: 30.0,
+        };
+        // Two occurrences pass min_occurrences but yield only one interval -> None.
+        assert!(assess_periodicity(&[0, 1_000_000_000], &thresholds).is_none());
+    }
     use super::*;
 
     /// Build ascending ns timestamps from a start and a list of second-gaps.

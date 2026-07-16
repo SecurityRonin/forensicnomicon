@@ -721,6 +721,16 @@ pub fn sites_above_risk(minimum_risk: BlockingRisk) -> impl Iterator<Item = &'st
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn abuse_tag_accessors_agree_with_bitflags() {
+        for site in ABUSABLE_SITES {
+            assert_eq!(site.is_c2(), site.abuse_tags & TAG_C2 != 0);
+            assert_eq!(site.is_phishing(), site.abuse_tags & TAG_PHISHING != 0);
+            assert_eq!(site.is_download(), site.abuse_tags & TAG_DOWNLOAD != 0);
+            assert_eq!(site.is_exfil(), site.abuse_tags & TAG_EXFIL != 0);
+        }
+    }
     use super::*;
 
     #[test]
@@ -1044,7 +1054,7 @@ mod expansion_tests {
         assert!(
             ABUSABLE_SITES.len() >= 50,
             "expected ≥50 sites after LOTS expansion, got {}",
-            ABUSABLE_SITES.len()
+            ABUSABLE_SITES.len() // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
     }
 }

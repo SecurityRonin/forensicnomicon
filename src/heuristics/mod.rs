@@ -282,6 +282,12 @@ pub fn is_potential_container(size_bytes: u64) -> bool {
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn even_length_uses_average_of_two_middle_intervals() {
+        // Four equal intervals (even count) forces the two-middle-average branch.
+        assert!(is_regular_interval(&[1_000, 1_000, 1_000, 1_000]));
+    }
     use super::*;
 
     // ── Constants ─────────────────────────────────────────────────────────────

@@ -242,6 +242,16 @@ pub mod boot_offsets {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn filename_namespace_names_cover_all_codes() {
+        use super::filename_namespace::{name, DOS, POSIX, WIN32, WIN32_AND_DOS};
+        assert_eq!(name(POSIX), Some("POSIX"));
+        assert_eq!(name(WIN32), Some("Win32"));
+        assert_eq!(name(DOS), Some("DOS"));
+        assert_eq!(name(WIN32_AND_DOS), Some("Win32+DOS"));
+        assert_eq!(name(99), None);
+    }
     use super::*;
 
     #[test]

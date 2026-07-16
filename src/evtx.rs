@@ -252,6 +252,80 @@ impl EvtxEvent {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn evtx_event_timestamp_and_event_id_cover_all_variants() {
+        let events = [
+            EvtxEvent::LateralMovement(LateralMovementEvent {
+                timestamp: "t-lm".into(),
+                event_id: 4648,
+                source_user: None,
+                target_user: None,
+                target_host: None,
+                logon_type: None,
+                auth_package: None,
+                encryption_type: None,
+            }),
+            EvtxEvent::RdpSession(RdpSessionEvent {
+                timestamp: "t-rdp".into(),
+                event_id: 4778,
+                user: None,
+                session_id: None,
+                source_ip: None,
+            }),
+            EvtxEvent::SmbAccess(SmbAccessEvent {
+                timestamp: "t-smb".into(),
+                event_id: 5140,
+                subject_user: None,
+                share_name: None,
+                share_path: None,
+                relative_target: None,
+                ip_address: None,
+            }),
+            EvtxEvent::Defender(DefenderEvent {
+                timestamp: "t-def".into(),
+                event_id: 1116,
+                threat_name: None,
+                severity: None,
+                path: None,
+                action_taken: None,
+                process_name: None,
+            }),
+            EvtxEvent::Wmi(WmiEvent {
+                timestamp: "t-wmi".into(),
+                event_id: 5861,
+                provider: None,
+                filter_name: None,
+                consumer_name: None,
+                query: None,
+            }),
+            EvtxEvent::ScheduledTask(ScheduledTask {
+                timestamp: "t-task".into(),
+                event_id: 4698,
+                task_name: None,
+                task_content: None,
+                subject_user: None,
+            }),
+            EvtxEvent::ProcessExecution(ProcessExecution {
+                timestamp: "t-proc".into(),
+                event_id: 4688,
+                pid: 1,
+                parent_pid: 0,
+                image: "x.exe".into(),
+                command_line: String::new(),
+                parent_image: None,
+                is_lolbin: false,
+            }),
+        ];
+        let expected_ids = [4648u32, 4778, 5140, 1116, 5861, 4698, 4688];
+        let expected_ts = [
+            "t-lm", "t-rdp", "t-smb", "t-def", "t-wmi", "t-task", "t-proc",
+        ];
+        for (i, e) in events.iter().enumerate() {
+            assert_eq!(e.event_id(), expected_ids[i]);
+            assert_eq!(e.timestamp(), expected_ts[i]);
+        }
+    }
     use super::*;
 
     // EVTX on-disk signatures. Source: libyal libevtx format spec

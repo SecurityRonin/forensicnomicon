@@ -91,7 +91,7 @@ mod tests {
             m.score >= XMRIG.class_threshold,
             "score {} < class_threshold {}",
             m.score,
-            XMRIG.class_threshold
+            XMRIG.class_threshold // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         assert!(m.classification >= Classification::ClassMatch);
     }
@@ -104,7 +104,7 @@ mod tests {
             m.score >= XMRIG.probable_threshold,
             "score {} < probable_threshold {}",
             m.score,
-            XMRIG.probable_threshold
+            XMRIG.probable_threshold // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         assert!(m.classification >= Classification::Probable);
     }

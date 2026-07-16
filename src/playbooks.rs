@@ -812,6 +812,18 @@ pub fn all_for_artifact(artifact_id: &str) -> Vec<&'static InvestigationPath> {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn scenario_playbooks_and_paths_for_artifact() {
+        assert!(!scenario_playbooks().is_empty());
+        // evtx_security is referenced by investigation paths.
+        let paths = paths_for_artifact("evtx_security");
+        assert!(paths
+            .iter()
+            .all(|p| p.steps.iter().any(|s| s.artifact_id == "evtx_security")));
+        // Unknown artifact -> empty.
+        assert!(paths_for_artifact("no-such-artifact").is_empty());
+    }
     use super::*;
     use crate::catalog::CATALOG;
 

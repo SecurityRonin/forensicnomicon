@@ -125,7 +125,7 @@ mod tests {
             m.score >= BEURK.class_threshold,
             "score {} < class_threshold {}",
             m.score,
-            BEURK.class_threshold
+            BEURK.class_threshold // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         assert!(m.classification >= Classification::ClassMatch);
     }
@@ -144,7 +144,7 @@ mod tests {
             m.score >= BEURK.probable_threshold,
             "score {} < probable_threshold {}",
             m.score,
-            BEURK.probable_threshold
+            BEURK.probable_threshold // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         assert!(m.classification >= Classification::Probable);
     }

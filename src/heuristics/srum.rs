@@ -289,7 +289,7 @@ pub fn is_beaconing(timestamps_secs: &[i64]) -> bool {
 
     let mean = intervals.iter().sum::<f64>() / intervals.len() as f64;
     if mean == 0.0 {
-        return false;
+        return false; // cov:unreachable: intervals are pre-filtered to >= BEACON_MIN_INTERVAL_SECS (60s), so mean is always > 0
     }
 
     let variance =
@@ -303,6 +303,13 @@ pub fn is_beaconing(timestamps_secs: &[i64]) -> bool {
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn suspicious_path_double_extension() {
+        // A doc extension (".pdf.") followed by a non-first executable extension
+        // (".scr") exercises both the match and the inner-loop continuation.
+        assert!(is_suspicious_path(r"report.pdf.scr"));
+    }
     use super::*;
 
     #[test]

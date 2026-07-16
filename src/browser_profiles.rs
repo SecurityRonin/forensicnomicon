@@ -609,6 +609,11 @@ pub fn attribute_container(path: &str) -> Option<&'static ContainerApp> {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn path_contains_empty_token_is_true() {
+        assert!(path_contains(r"c:\users\bob", ""));
+    }
     use super::*;
 
     fn marker(markers: &[ProfileMarker], rel: &str) -> Option<MarkerKind> {
@@ -672,7 +677,7 @@ mod tests {
         assert!(
             CONTAINER_APPS.len() >= 25,
             "expected a broad catalog, got {}",
-            CONTAINER_APPS.len()
+            CONTAINER_APPS.len() // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         for (i, a) in CONTAINER_APPS.iter().enumerate() {
             for b in &CONTAINER_APPS[i + 1..] {

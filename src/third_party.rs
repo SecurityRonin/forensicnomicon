@@ -185,6 +185,18 @@ pub fn identify_application(path: &str) -> Option<&'static str> {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn identify_application_covers_all_branches() {
+        assert_eq!(identify_application(PUTTY_PATHS[0]), Some("PuTTY"));
+        assert_eq!(identify_application(KITTY_PATHS[0]), Some("KiTTY"));
+        assert_eq!(identify_application(WINSCP_PATHS[0]), Some("WinSCP"));
+        assert_eq!(identify_application(ONEDRIVE_PATHS[0]), Some("OneDrive"));
+        assert_eq!(identify_application(DROPBOX_PATHS[0]), Some("Dropbox"));
+        assert_eq!(identify_application(CHROME_PATHS[0]), Some("Chrome"));
+        assert_eq!(identify_application(WINRAR_PATHS[0]), Some("WinRAR"));
+        assert_eq!(identify_application(r"SOFTWARE\Unknown\App"), None);
+    }
     use super::*;
 
     #[test]

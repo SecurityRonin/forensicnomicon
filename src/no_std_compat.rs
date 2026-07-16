@@ -114,7 +114,7 @@ mod tests {
         assert!(
             entries.len() > 100,
             "CATALOG should contain >100 entries, got {}",
-            entries.len()
+            entries.len() // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
 
         // by_id is a slice scan — core-only, no allocation

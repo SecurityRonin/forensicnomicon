@@ -191,8 +191,8 @@ mod tests {
             assert!(
                 w[0].score >= w[1].score,
                 "results not sorted: {} < {}",
-                w[0].score,
-                w[1].score
+                w[0].score, // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
+                w[1].score // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
             );
         }
     }

@@ -85,7 +85,7 @@ mod tests {
             m.score >= BDVL.class_threshold,
             "score {} < class_threshold {}",
             m.score,
-            BDVL.class_threshold
+            BDVL.class_threshold // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
         assert!(m.classification >= Classification::ClassMatch);
     }

@@ -616,7 +616,7 @@ mod tests {
         assert!(
             RANSOM_NOTE_FILENAMES.len() >= 50,
             "Expected at least 50 ransom note filenames for meaningful coverage, got {}",
-            RANSOM_NOTE_FILENAMES.len()
+            RANSOM_NOTE_FILENAMES.len() // cov:unreachable: assert failure-message arg, evaluated only on assertion failure
         );
     }
 

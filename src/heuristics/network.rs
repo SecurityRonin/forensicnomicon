@@ -137,6 +137,24 @@ pub fn is_likely_dga(subdomain: &str) -> bool {
 // ── Tests ─────────────────────────────────────────────────────────────────────
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn vowel_ratio_ppt_branches() {
+        // No alphabetic characters -> 0 (alpha == 0 guard).
+        assert_eq!(vowel_ratio_ppt("123.456"), 0);
+        // All vowels -> 1000 ppt; mixed -> 500.
+        assert_eq!(vowel_ratio_ppt("aeiou"), 1000);
+        assert_eq!(vowel_ratio_ppt("ab"), 500);
+    }
+
+    #[test]
+    fn consonant_run_max_branches() {
+        // Vowel resets the run; non-alpha resets the run; consonants extend it.
+        assert_eq!(consonant_run_max("aeiou"), 0);
+        assert_eq!(consonant_run_max("bcdfg"), 5);
+        assert_eq!(consonant_run_max("bcd.fg"), 3);
+        assert_eq!(consonant_run_max("bcae"), 2);
+    }
     use super::*;
 
     // ── IPv4 private ──────────────────────────────────────────────────────────

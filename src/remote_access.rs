@@ -205,6 +205,36 @@ pub fn is_known_rat_name(name: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn identify_remote_access_tool_covers_all_branches() {
+        assert_eq!(
+            identify_remote_access_tool(TEAMVIEWER_PATHS[0]),
+            Some("TeamViewer")
+        );
+        assert_eq!(
+            identify_remote_access_tool(ANYDESK_PATHS[0]),
+            Some("AnyDesk")
+        );
+        assert_eq!(
+            identify_remote_access_tool(SPLASHTOP_PATHS[0]),
+            Some("Splashtop")
+        );
+        assert_eq!(identify_remote_access_tool(ATERA_PATHS[0]), Some("Atera"));
+        assert_eq!(
+            identify_remote_access_tool(GOTOASSIST_PATHS[0]),
+            Some("GoToAssist")
+        );
+        assert_eq!(
+            identify_remote_access_tool(ACTION1_PATHS[0]),
+            Some("Action1")
+        );
+        assert_eq!(
+            identify_remote_access_tool(MANAGEENGINE_PATHS[0]),
+            Some("ManageEngine")
+        );
+        assert_eq!(identify_remote_access_tool(r"SOFTWARE\Nothing\Here"), None);
+    }
     use super::*;
 
     #[test]

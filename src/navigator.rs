@@ -201,6 +201,37 @@ pub fn covered_techniques() -> Vec<AttackTechnique> {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn non_mitre_external_refs_are_skipped() {
+        use crate::report::{Category, ExternalRef, Finding, Severity};
+        let finding = Finding::observation(Severity::High, Category::Threat, "TEST-NAV-1")
+            .external_ref(ExternalRef {
+                scheme: "cve".to_string(),
+                id: "CVE-2024-0001".to_string(),
+                url: None,
+            })
+            .build();
+        // The only ref is non-mitre, so it is skipped and never emitted.
+        let layer = findings_to_navigator_layer(&[finding], "nav-test");
+        assert!(layer.contains("\"name\": \"nav-test\""));
+        assert!(!layer.contains("CVE-2024-0001"));
+    }
+
+    #[test]
+    fn severity_score_and_color_cover_all_arms() {
+        use crate::report::Severity;
+        assert_eq!(severity_score(Some(Severity::Critical)), 100);
+        assert_eq!(severity_score(Some(Severity::High)), 78);
+        assert_eq!(severity_score(Some(Severity::Medium)), 55);
+        assert_eq!(severity_score(Some(Severity::Low)), 35);
+        assert_eq!(severity_score(Some(Severity::Info)), 15);
+        assert_eq!(severity_score(None), 5);
+        assert_eq!(severity_color(Some(Severity::Critical)), "#c0392b");
+        assert_eq!(severity_color(Some(Severity::Medium)), "#f1c40f");
+        assert_eq!(severity_color(Some(Severity::Info)), "#7fb069");
+        assert_eq!(severity_color(None), "#9e9e9e");
+    }
     use super::*;
 
     #[test]
