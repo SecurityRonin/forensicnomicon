@@ -101,8 +101,6 @@ const DOC_EXTENSIONS: &[&str] = &[
     ".pdf.", ".docx.", ".xlsx.", ".doc.", ".xls.", ".pptx.", ".txt.", ".jpg.", ".png.",
 ];
 
-const EXEC_EXTENSIONS: &[&str] = &[".exe", ".dll", ".bat", ".ps1", ".vbs", ".js"];
-
 /// Returns `true` if the Windows executable path suggests malware staging.
 ///
 /// Flags paths that:
@@ -153,7 +151,7 @@ pub fn is_suspicious_path(path: &str) -> bool {
     // Double extension: doc-type extension followed by exec extension at end
     for doc_ext in DOC_EXTENSIONS {
         if lower.contains(doc_ext) {
-            for exec_ext in EXEC_EXTENSIONS {
+            for exec_ext in crate::heuristics::paths::EXECUTABLE_IMAGE_EXTENSIONS {
                 if lower.ends_with(exec_ext) {
                     return true;
                 }

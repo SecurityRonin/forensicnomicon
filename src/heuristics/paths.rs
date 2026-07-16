@@ -83,6 +83,31 @@ pub fn is_suspicious_exec_path(path: &str) -> bool {
         .any(|p| lower.contains(&p.to_ascii_lowercase()))
 }
 
+/// Windows executable-image and script file extensions (leading `.`, lower-case).
+///
+/// The set an execution-location heuristic applies to: a program image or script,
+/// as opposed to a `.lnk` shortcut, a document, or a shell token (`AppUserModelId`,
+/// KNOWNFOLDER string). Artifacts such as UserAssist and Amcache record a mix of
+/// these, so a caller flagging "an executable staged in a malware directory" must
+/// first confirm the path names an executable at all — see [`is_executable_image`].
+pub const EXECUTABLE_IMAGE_EXTENSIONS: &[&str] = &[
+    ".exe", ".scr", ".com", ".pif", ".bat", ".cmd", ".ps1", ".vbs", ".vbe", ".js", ".jse", ".wsf",
+    ".hta", ".cpl", ".dll", ".msi",
+];
+
+/// Returns `true` if `path` names an executable image or script (by extension).
+///
+/// Matching is case-insensitive (Windows paths are, and artifacts record mixed
+/// case). Shortcuts (`.lnk`), documents, and non-file shell tokens return `false`,
+/// so an execution-from-staging heuristic does not misfire on them.
+#[must_use]
+pub fn is_executable_image(path: &str) -> bool {
+    let lower = path.to_ascii_lowercase();
+    EXECUTABLE_IMAGE_EXTENSIONS
+        .iter()
+        .any(|ext| lower.ends_with(ext))
+}
+
 // ── HKCU\Console value-name allowlist (Valley RAT) ─────────────────────────
 //
 // The legitimate `HKCU\Console` key normally contains only a small,
