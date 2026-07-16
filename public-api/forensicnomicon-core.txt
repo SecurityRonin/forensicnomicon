@@ -526,6 +526,7 @@ pub forensicnomicon_core::filesystems::FsSignature::name: &'static str
 pub forensicnomicon_core::filesystems::FsSignature::offset: usize
 pub const forensicnomicon_core::filesystems::FILESYSTEM_SIGNATURES: &[forensicnomicon_core::filesystems::FsSignature]
 pub fn forensicnomicon_core::filesystems::detect_name(&[u8]) -> core::option::Option<&'static str>
+pub fn forensicnomicon_core::filesystems::detect_zfs(&[u8]) -> bool
 pub mod forensicnomicon_core::partition_schemes
 pub enum forensicnomicon_core::partition_schemes::Scheme
 pub forensicnomicon_core::partition_schemes::Scheme::Apm

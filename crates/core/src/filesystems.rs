@@ -86,22 +86,20 @@ pub struct FsSignature {
 ///   `NSR03` at `0x8801`); a UDF-bridged disc that pushes NSR past sector 17
 ///   needs the multi-sector VRS scan libblkid performs. Source:
 ///   <https://raw.githubusercontent.com/util-linux/util-linux/master/libblkid/src/superblocks/udf.c>
-/// - **ZFS** — *intentionally absent.* ZFS has no single fixed-offset magic that
-///   the current [`FsSignature`] struct can honestly carry. util-linux
+/// - **ZFS** — *not in this table by design.* ZFS has no single fixed-offset
+///   magic the [`FsSignature`] struct can carry: util-linux
 ///   `libblkid/src/superblocks/zfs.c` uses `.magics = BLKID_NONE_MAGIC` and
 ///   `probe_zfs` scans **four** 256-KiB vdev labels (two at the device start,
-///   two at the device *end*, so their offsets depend on the device size),
-///   matching on the XDR **NVList** header (`nvh_encoding == 0x1`), not a magic.
-///   The uberblock magic `0x00bab10c` (`ub_magic`, host-endian — both LE
-///   `0c b1 ba 00…` and BE occur) lives in each label's **uberblock ring** at
-///   label-offset `+128 KiB`, but the *active* slot is `txg % slot_count`, so the
-///   magic's byte position is **data-dependent**. Empirically, on the OpenZFS
-///   `zol-0.6.1` real vdev label the magic occurs 32× starting at `0x21000`,
-///   while byte `131072` (the ring start) is all zeros — a fixed-offset entry of
-///   `131072` would yield a **false negative**. Representing ZFS correctly needs
-///   a richer signature type (multi-offset / endianness-agnostic / range-scan);
-///   this is flagged for a future `FsSignature` extension rather than forced into
-///   a wrong entry. Source:
+///   two at the device *end*, so their offsets depend on the device size). The
+///   uberblock magic `0x00bab10c` (`ub_magic`, host-endian — both LE
+///   `0c b1 ba 00` and BE `00 ba b1 0c` occur) lives in each label's **uberblock
+///   ring** at label-offset `+128 KiB`, but the *active* slot is
+///   `txg % slot_count`, so the magic's byte position is **data-dependent**
+///   (on the OpenZFS `zol-0.6.1` real label the magic first appears at `0x21000`,
+///   not at the ring start `0x20000`, which is zeros — a fixed-offset entry would
+///   false-negative). ZFS is therefore detected by the structural [`detect_zfs`]
+///   scan, which [`detect_name`] falls through to after this table misses.
+///   Source:
 ///   <https://raw.githubusercontent.com/util-linux/util-linux/master/libblkid/src/superblocks/zfs.c>
 pub const FILESYSTEM_SIGNATURES: &[FsSignature] = &[
     FsSignature {
@@ -209,12 +207,86 @@ pub const FILESYSTEM_SIGNATURES: &[FsSignature] = &[
 /// Identify the filesystem from a volume's leading bytes, returning the first
 /// matching signature's name. Returns `None` when nothing matches (the slice may
 /// simply be too short to reach a deeper magic).
+///
+/// ZFS has no fixed-offset magic the [`FsSignature`] table can carry (see the
+/// [`FILESYSTEM_SIGNATURES`] doc comment), so after the fixed-offset table
+/// misses this falls through to the structural [`detect_zfs`] scan and reports
+/// `"ZFS"` on a hit.
 #[must_use]
 pub fn detect_name(data: &[u8]) -> Option<&'static str> {
-    FILESYSTEM_SIGNATURES.iter().find_map(|sig| {
-        let end = sig.offset.checked_add(sig.magic.len())?;
-        (data.len() >= end && &data[sig.offset..end] == sig.magic).then_some(sig.name)
-    })
+    FILESYSTEM_SIGNATURES
+        .iter()
+        .find_map(|sig| {
+            let end = sig.offset.checked_add(sig.magic.len())?;
+            (data.len() >= end && &data[sig.offset..end] == sig.magic).then_some(sig.name)
+        })
+        .or_else(|| detect_zfs(data).then_some("ZFS"))
+}
+
+/// Device offset of the L0 vdev label (labels L0/L1 sit at the device start).
+const ZFS_L0_LABEL_OFFSET: usize = 0;
+/// Offset of the uberblock ring within a vdev label (`VDEV_LABEL_NVPAIR` end).
+const ZFS_UBERBLOCK_RING_OFFSET: usize = 128 * 1024;
+/// A vdev label is 256 KiB (`VDEV_LABEL_SIZE`).
+const ZFS_VDEV_LABEL_SIZE: usize = 256 * 1024;
+/// Smallest uberblock slot (1 KiB at the default ashift); larger slots (up to
+/// 8 KiB) still start on a 1 KiB boundary, so scanning at this stride reaches
+/// every possible active slot.
+const ZFS_UBERBLOCK_MIN_SLOT: usize = 1024;
+/// ZFS uberblock magic `0x00bab10c` (`ub_magic`), little-endian byte order.
+const ZFS_UBERBLOCK_MAGIC_LE: [u8; 4] = [0x0c, 0xb1, 0xba, 0x00];
+/// ZFS uberblock magic `0x00bab10c` (`ub_magic`), big-endian byte order.
+const ZFS_UBERBLOCK_MAGIC_BE: [u8; 4] = [0x00, 0xba, 0xb1, 0x0c];
+
+/// Structural ZFS detector: scan the **L0 vdev label's uberblock ring** for the
+/// `0x00bab10c` uberblock magic (`ub_magic`) in **either** endianness.
+///
+/// ZFS writes no single fixed-offset magic (unlike the [`FsSignature`] table
+/// entries): a vdev label is 256 KiB and its uberblock ring begins at label
+/// offset `+128 KiB`. Uberblocks are slot-sized (1 KiB by default, up to 8 KiB
+/// by `ashift`) and the *active* slot is `txg % slot_count`, so the magic's byte
+/// position is **data-dependent** — a single fixed offset false-negatives (on a
+/// real OpenZFS `zol-0.6.1` label the magic first appears at `0x21000`, not at
+/// the ring start `0x20000`, which is zeros). So this scans the whole ring
+/// region — device offsets `0x20000..0x40000` (label end) — at a 1 KiB stride
+/// (the smallest slot boundary, which every larger slot also lands on) and
+/// returns `true` on the first magic in either byte order.
+///
+/// The magic is stored **host-endian**, so both little-endian (`0c b1 ba 00`)
+/// and big-endian (`00 ba b1 0c`) occur in the wild and both are matched. Every
+/// access is bounds-checked (via `slice::get`), so a short or truncated slice
+/// yields `false` rather than panicking, and no allocation is performed.
+///
+/// # Scope and known limitation
+///
+/// This is a **partial, heuristic** check: it inspects only the **L0 label at
+/// device offset 0** and matches the uberblock magic — it does **not** validate
+/// the XDR NVList header the way libblkid's `probe_zfs` does (`nvh_encoding ==
+/// 0x1`), so it is a lighter (but accepted) signal than a full NVList parse. A
+/// device whose front labels are wiped (leaving only the two labels ZFS mirrors
+/// at the *device end*, whose offsets depend on the total device size) is **not**
+/// covered here and would need an end-of-device label scan.
+///
+/// Cross-checked against util-linux `libblkid/src/superblocks/zfs.c`
+/// (`VDEV_LABEL_SIZE = 256 KiB`, `VDEV_LABEL_NVPAIR = 16 KiB`, four labels, the
+/// "128x1kB host-endian root blocks... #4 @ 132kB is the first one written"
+/// comment) and the OpenZFS on-disk-format `uberblock_t` / `ub_magic`
+/// definition. Source:
+/// <https://raw.githubusercontent.com/util-linux/util-linux/master/libblkid/src/superblocks/zfs.c>
+#[must_use]
+pub fn detect_zfs(data: &[u8]) -> bool {
+    let ring_start = ZFS_L0_LABEL_OFFSET + ZFS_UBERBLOCK_RING_OFFSET;
+    let ring_end = ZFS_L0_LABEL_OFFSET + ZFS_VDEV_LABEL_SIZE;
+    let mut off = ring_start;
+    while off < ring_end {
+        if let Some(slot) = data.get(off..off + 4) {
+            if slot == ZFS_UBERBLOCK_MAGIC_LE || slot == ZFS_UBERBLOCK_MAGIC_BE {
+                return true;
+            }
+        }
+        off += ZFS_UBERBLOCK_MIN_SLOT;
+    }
+    false
 }
 
 /// Canonical identity of a filesystem, content-addressed by a stable lowercase
@@ -526,25 +598,15 @@ mod tests {
         // Slices shorter than the ring start (0x20000) simply yield false.
         assert!(!detect_zfs(&[]));
         assert!(!detect_zfs(&[0u8; 8]));
-        assert!(!detect_zfs(&[0u8; 0x20000]));
+        assert!(!detect_zfs(&vec![0u8; 0x20000]));
         // A slice reaching just one byte past a slot boundary but not a full
         // 4-byte magic must not panic and must return false.
-        assert!(!detect_zfs(&[0u8; 0x20001]));
+        assert!(!detect_zfs(&vec![0u8; 0x20001]));
     }
 
-    /// Tier-2 (real artifact, env-gated): the OpenZFS `zol-0.6.1` vdev label.
-    /// Skips cleanly when `ZFS_LABEL_FIXTURE` is unset. Provenance + md5 in the
-    /// module doc comment; the file lives in the `zfs-forensic` repo, not here.
-    #[test]
-    fn detect_zfs_on_real_openzfs_label() {
-        let Ok(path) = std::env::var("ZFS_LABEL_FIXTURE") else {
-            eprintln!("skipping: ZFS_LABEL_FIXTURE not set");
-            return;
-        };
-        let bytes = std::fs::read(&path).expect("read ZFS_LABEL_FIXTURE");
-        assert!(detect_zfs(&bytes), "real OpenZFS label must be detected");
-        assert_eq!(detect_name(&bytes), Some("ZFS"));
-    }
+    // The tier-2 real-artifact assertion (OpenZFS `zol-0.6.1` vdev label, env-gated
+    // by `ZFS_LABEL_FIXTURE`) lives in `crates/core/tests/zfs_label_oracle.rs`,
+    // alongside the other env-gated oracle tests, so `--lib` coverage stays exact.
 
     #[test]
     fn short_slice_does_not_panic() {
