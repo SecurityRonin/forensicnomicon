@@ -467,6 +467,85 @@ mod tests {
         assert_eq!(detect_name(&[0u8; 512]), None);
     }
 
+    /// Build a 256 KiB L0 vdev label with the uberblock magic placed at a given
+    /// device offset, in the requested endianness.
+    fn zfs_label_with_magic(offset: usize, be: bool) -> Vec<u8> {
+        let mut v = vec![0u8; 256 * 1024];
+        let magic: [u8; 4] = if be {
+            [0x00, 0xba, 0xb1, 0x0c]
+        } else {
+            [0x0c, 0xb1, 0xba, 0x00]
+        };
+        v[offset..offset + 4].copy_from_slice(&magic);
+        v
+    }
+
+    #[test]
+    fn detect_zfs_finds_le_magic_in_uberblock_ring() {
+        // Tier-3 (synthetic): magic at 0x21000 (the real-label first-write slot),
+        // little-endian `0c b1 ba 00`. Ring start 0x20000 is zeros, proving the
+        // scan (not a single fixed offset) is what finds it.
+        let label = zfs_label_with_magic(0x21000, false);
+        assert!(detect_zfs(&label));
+        assert_eq!(detect_name(&label), Some("ZFS"));
+    }
+
+    #[test]
+    fn detect_zfs_finds_be_magic_in_uberblock_ring() {
+        // Tier-3 (synthetic): host-endian ZFS also writes big-endian
+        // `00 ba b1 0c`; both must match. Placed at ring start 0x20000.
+        let label = zfs_label_with_magic(0x20000, true);
+        assert!(detect_zfs(&label));
+        assert_eq!(detect_name(&label), Some("ZFS"));
+    }
+
+    #[test]
+    fn detect_zfs_finds_magic_at_ring_end() {
+        // Tier-3: last scanned 1 KiB slot before the label end (0x40000 - 0x400).
+        let label = zfs_label_with_magic(0x40000 - 0x400, false);
+        assert!(detect_zfs(&label));
+    }
+
+    #[test]
+    fn detect_zfs_rejects_zeros_and_wrong_magic() {
+        // Tier-3 negatives: all-zeros, and the magic sitting *before* the ring
+        // (at offset 0) must NOT be detected as ZFS.
+        assert!(!detect_zfs(&vec![0u8; 256 * 1024]));
+        let mut before_ring = vec![0u8; 256 * 1024];
+        before_ring[0..4].copy_from_slice(&[0x0c, 0xb1, 0xba, 0x00]);
+        assert!(!detect_zfs(&before_ring));
+        // Magic present but at a non-1-KiB-aligned position within the ring is
+        // not on any slot boundary, so the stride scan does not spuriously hit.
+        let mut misaligned = vec![0u8; 256 * 1024];
+        misaligned[0x21000 + 3..0x21000 + 7].copy_from_slice(&[0x0c, 0xb1, 0xba, 0x00]);
+        assert!(!detect_zfs(&misaligned));
+    }
+
+    #[test]
+    fn detect_zfs_does_not_panic_on_short_slices() {
+        // Slices shorter than the ring start (0x20000) simply yield false.
+        assert!(!detect_zfs(&[]));
+        assert!(!detect_zfs(&[0u8; 8]));
+        assert!(!detect_zfs(&[0u8; 0x20000]));
+        // A slice reaching just one byte past a slot boundary but not a full
+        // 4-byte magic must not panic and must return false.
+        assert!(!detect_zfs(&[0u8; 0x20001]));
+    }
+
+    /// Tier-2 (real artifact, env-gated): the OpenZFS `zol-0.6.1` vdev label.
+    /// Skips cleanly when `ZFS_LABEL_FIXTURE` is unset. Provenance + md5 in the
+    /// module doc comment; the file lives in the `zfs-forensic` repo, not here.
+    #[test]
+    fn detect_zfs_on_real_openzfs_label() {
+        let Ok(path) = std::env::var("ZFS_LABEL_FIXTURE") else {
+            eprintln!("skipping: ZFS_LABEL_FIXTURE not set");
+            return;
+        };
+        let bytes = std::fs::read(&path).expect("read ZFS_LABEL_FIXTURE");
+        assert!(detect_zfs(&bytes), "real OpenZFS label must be detected");
+        assert_eq!(detect_name(&bytes), Some("ZFS"));
+    }
+
     #[test]
     fn short_slice_does_not_panic() {
         // A slice shorter than a deep magic's offset must simply not match.
