@@ -593,3 +593,208 @@ impl Report {
         self.findings.iter().filter(|f| f.severity.is_none())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn severity_display_renders_uppercase_labels() {
+        assert_eq!(Severity::Info.to_string(), "INFO");
+        assert_eq!(Severity::Low.to_string(), "LOW");
+        assert_eq!(Severity::Medium.to_string(), "MEDIUM");
+        assert_eq!(Severity::High.to_string(), "HIGH");
+        assert_eq!(Severity::Critical.to_string(), "CRITICAL");
+    }
+
+    #[test]
+    fn category_from_code_classifies_each_lens() {
+        // Integrity — lowercase input also exercises the ASCII-uppercasing.
+        assert_eq!(Category::from_code("crc-bad"), Category::Integrity);
+        assert_eq!(Category::from_code("HASH-MISMATCH"), Category::Integrity);
+        // Structure — first (OVERLAP) and last (MAP-COUNT) disjuncts.
+        assert_eq!(
+            Category::from_code("GPT-PARTITION-OVERLAP"),
+            Category::Structure
+        );
+        assert_eq!(Category::from_code("MAP-COUNT"), Category::Structure);
+        // Concealment checked before Residue (PROTECTIVE is the last disjunct).
+        assert_eq!(Category::from_code("PROTECTIVE-MBR"), Category::Concealment);
+        // Residue — ZEROLEN is the last disjunct.
+        assert_eq!(Category::from_code("ZEROLEN-GAP-ONLY"), Category::Residue);
+        // Threat — bare BOOT keyword.
+        assert_eq!(Category::from_code("BOOT-CODE"), Category::Threat);
+        // Fallthrough default.
+        assert_eq!(Category::from_code("MYSTERY"), Category::Structure);
+    }
+
+    #[test]
+    fn confidence_validates_range() {
+        assert_eq!(Confidence::new(0.5).map(Confidence::get), Some(0.5));
+        assert_eq!(Confidence::new(0.0).map(Confidence::get), Some(0.0));
+        assert!(Confidence::new(f32::NAN).is_none());
+        assert!(Confidence::new(1.5).is_none());
+        assert!(Confidence::new(-0.1).is_none());
+    }
+
+    #[test]
+    fn confidence_try_from_and_into_f32() {
+        let c = Confidence::try_from(0.25_f32).expect("0.25 is in range");
+        assert_eq!(c.get(), 0.25);
+        assert!(Confidence::try_from(2.0_f32).is_err());
+        let back: f32 = c.into();
+        assert_eq!(back, 0.25);
+    }
+
+    #[test]
+    fn finding_builder_populates_all_fields() {
+        let source = Source {
+            analyzer: "test-forensic".to_string(),
+            scope: "partition 1".to_string(),
+            version: Some("1.0".to_string()),
+        };
+        let conf = Confidence::new(0.9).expect("0.9 is in range");
+        let finding = Finding::observation(Severity::High, Category::Structure, "TEST-CODE")
+            .note("consistent with tampering")
+            .source(source.clone())
+            .evidence("field", "value")
+            .evidence_at("lba", "42", Location::Lba(42))
+            .evidence_item(Evidence {
+                field: "raw".to_string(),
+                value: "bytes".to_string(),
+                location: None,
+            })
+            .subject(SubjectRef {
+                scheme: "memory".to_string(),
+                kind: "process".to_string(),
+                id: "pid:4".to_string(),
+                label: Some("system".to_string()),
+            })
+            .confidence(conf)
+            .occurrences(7)
+            .timestamp(Timestamp {
+                value: "2026-01-01T00:00:00Z".to_string(),
+                kind: "observed".to_string(),
+                location: None,
+            })
+            .tag("flagged")
+            .build();
+
+        assert_eq!(finding.severity, Some(Severity::High));
+        assert_eq!(finding.note, "consistent with tampering");
+        assert_eq!(finding.source, source);
+        assert_eq!(finding.evidence.len(), 3);
+        assert_eq!(finding.subjects.len(), 1);
+        assert_eq!(finding.context.confidence, Some(conf));
+        assert_eq!(finding.context.occurrences, NonZeroU64::new(7));
+        assert_eq!(finding.context.timestamps.len(), 1);
+        assert_eq!(finding.context.tags, vec![Cow::Borrowed("flagged")]);
+    }
+
+    #[test]
+    fn unrated_finding_has_no_severity() {
+        let finding = Finding::unrated(Category::Provenance, "PROV-TOOL").build();
+        assert_eq!(finding.severity, None);
+        assert_eq!(finding.category, Category::Provenance);
+    }
+
+    /// Overrides every hook so `to_finding` walks all of its assembly loops.
+    struct RatedKind;
+    impl Observation for RatedKind {
+        fn severity(&self) -> Option<Severity> {
+            Some(Severity::Critical)
+        }
+        fn code(&self) -> &'static str {
+            "GPT-PARTITION-OVERLAP"
+        }
+        fn note(&self) -> String {
+            "overlap".to_string()
+        }
+        fn subjects(&self) -> Vec<SubjectRef> {
+            vec![SubjectRef {
+                scheme: "disk".to_string(),
+                kind: "partition".to_string(),
+                id: "1".to_string(),
+                label: None,
+            }]
+        }
+        fn evidence(&self) -> Vec<Evidence> {
+            vec![Evidence {
+                field: "range".to_string(),
+                value: "0..10".to_string(),
+                location: Some(Location::Lba(0)),
+            }]
+        }
+        fn mitre(&self) -> &'static [&'static str] {
+            &["T1542"]
+        }
+        fn confidence(&self) -> Option<Confidence> {
+            Confidence::new(0.8)
+        }
+    }
+
+    /// Uses only the required methods so the trait's default hooks are exercised.
+    struct UnratedKind;
+    impl Observation for UnratedKind {
+        fn severity(&self) -> Option<Severity> {
+            None
+        }
+        fn code(&self) -> &'static str {
+            "PE-WX-SECTION"
+        }
+        fn note(&self) -> String {
+            "writable+executable".to_string()
+        }
+    }
+
+    #[test]
+    fn observation_to_finding_assembles_rated() {
+        let finding = RatedKind.to_finding(Source::default());
+        assert_eq!(finding.severity, Some(Severity::Critical));
+        // Default category() delegates to from_code -> Structure.
+        assert_eq!(finding.category, Category::Structure);
+        assert_eq!(finding.code, "GPT-PARTITION-OVERLAP");
+        assert_eq!(finding.note, "overlap");
+        assert_eq!(finding.subjects.len(), 1);
+        assert_eq!(finding.evidence.len(), 1);
+        assert_eq!(finding.context.external_refs.len(), 1);
+        assert_eq!(finding.context.external_refs[0].scheme, "mitre-attack");
+        assert_eq!(finding.context.external_refs[0].id, "T1542");
+        assert_eq!(finding.context.confidence, Confidence::new(0.8));
+    }
+
+    #[test]
+    fn observation_to_finding_assembles_unrated_with_defaults() {
+        let finding = UnratedKind.to_finding(Source::default());
+        assert_eq!(finding.severity, None);
+        assert_eq!(finding.category, Category::Structure);
+        assert!(finding.subjects.is_empty());
+        assert!(finding.evidence.is_empty());
+        assert!(finding.context.external_refs.is_empty());
+        assert!(finding.context.confidence.is_none());
+    }
+
+    #[test]
+    fn report_severity_queries() {
+        let mut report = Report::default();
+        report
+            .findings
+            .push(Finding::observation(Severity::Low, Category::Provenance, "A").build());
+        report
+            .findings
+            .push(Finding::observation(Severity::Critical, Category::Structure, "B").build());
+        report
+            .findings
+            .push(Finding::unrated(Category::History, "C").build());
+
+        assert_eq!(report.max_severity(), Some(Severity::Critical));
+        assert_eq!(report.findings_at_least(Severity::Medium).count(), 1);
+        assert_eq!(report.unrated_findings().count(), 1);
+    }
+
+    #[test]
+    fn report_max_severity_none_when_empty() {
+        let report = Report::default();
+        assert_eq!(report.max_severity(), None);
+    }
+}
