@@ -210,4 +210,82 @@ mod tests {
             assert!(!s.name.is_empty());
         }
     }
+
+    #[test]
+    fn fskind_as_str_is_canonical_lowercase() {
+        assert_eq!(FsKind::XFS.as_str(), "xfs");
+        assert_eq!(FsKind::HFS_PLUS.as_str(), "hfsplus");
+        assert_eq!(FsKind::ISO9660.as_str(), "iso9660");
+    }
+
+    #[test]
+    fn fskind_from_name_round_trips_every_const() {
+        for &k in FsKind::known() {
+            assert_eq!(FsKind::from_name(k.as_str()), k);
+        }
+    }
+
+    #[test]
+    fn fskind_known_has_every_const_and_no_duplicate_name() {
+        let expected = [
+            FsKind::NTFS,
+            FsKind::FAT,
+            FsKind::EXFAT,
+            FsKind::EXT,
+            FsKind::XFS,
+            FsKind::APFS,
+            FsKind::HFS_PLUS,
+            FsKind::ISO9660,
+            FsKind::UDF,
+            FsKind::BTRFS,
+            FsKind::ZFS,
+            FsKind::UFS,
+            FsKind::REFS,
+            FsKind::ZIP,
+            FsKind::AD1,
+            FsKind::DAR,
+        ];
+        for k in expected {
+            assert!(FsKind::known().contains(&k), "known() missing {k}");
+        }
+        assert_eq!(FsKind::known().len(), expected.len());
+        let mut names: Vec<&str> = FsKind::known().iter().map(FsKind::as_str).collect();
+        let total = names.len();
+        names.sort_unstable();
+        names.dedup();
+        assert_eq!(names.len(), total, "duplicate as_str in known()");
+    }
+
+    #[test]
+    fn fskind_display_writes_as_str() {
+        assert_eq!(FsKind::BTRFS.to_string(), "btrfs");
+        assert_eq!(format!("{}", FsKind::ZFS), "zfs");
+    }
+
+    #[test]
+    fn fskind_debug_is_readable() {
+        let s = format!("{:?}", FsKind::APFS);
+        assert!(s.contains("FsKind"), "{s}");
+        assert!(s.contains("apfs"), "{s}");
+    }
+
+    #[cfg(feature = "serde")]
+    #[test]
+    fn fskind_serde_round_trips_bare_string() {
+        assert_eq!(serde_json::to_string(&FsKind::BTRFS).unwrap(), "\"btrfs\"");
+        let back: FsKind = serde_json::from_str("\"btrfs\"").unwrap();
+        assert_eq!(back, FsKind::BTRFS);
+        for &k in FsKind::known() {
+            let json = serde_json::to_string(&k).unwrap();
+            assert_eq!(json, format!("\"{}\"", k.as_str()));
+            assert_eq!(serde_json::from_str::<FsKind>(&json).unwrap(), k);
+        }
+    }
+
+    #[cfg(feature = "serde")]
+    #[test]
+    fn fskind_deserialize_unknown_name_maps_to_sentinel() {
+        let back: FsKind = serde_json::from_str("\"nonesuch-fs\"").unwrap();
+        assert_eq!(back, FsKind::UNKNOWN_FALLBACK);
+    }
 }
