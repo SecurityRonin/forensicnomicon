@@ -326,6 +326,64 @@ mod tests {
     }
 
     #[test]
+    fn detects_ufs1_at_9564() {
+        // libblkid `ufs.c`: `fs_magic` (offset 1372 in `struct fs`) checked at
+        // superblock KiB positions {0,8,64,256}. The canonical UFS1 primary
+        // superblock is at 8192 (`SBLOCK_UFS1`), so `fs_magic` = 8192 + 1372 =
+        // 9564. Magic `UFS_MAGIC = 0x00011954`, little-endian on disk.
+        assert_eq!(
+            detect_name(&buf_with(9564, &[0x54, 0x19, 0x01, 0x00])),
+            Some("UFS1")
+        );
+        // Same magic at the wrong offset (e.g. the superblock start, not
+        // `fs_magic`) must not match.
+        assert_eq!(
+            detect_name(&buf_with(8192, &[0x54, 0x19, 0x01, 0x00])),
+            None
+        );
+    }
+
+    #[test]
+    fn detects_ufs2_at_66908() {
+        // libblkid `ufs.c`: UFS2 primary superblock at 65536 (`SBLOCK_UFS2`), so
+        // `fs_magic` = 65536 + 1372 = 66908. Magic `UFS2_MAGIC = 0x19540119`, LE.
+        assert_eq!(
+            detect_name(&buf_with(66908, &[0x19, 0x01, 0x54, 0x19])),
+            Some("UFS2")
+        );
+        assert_eq!(
+            detect_name(&buf_with(65536, &[0x19, 0x01, 0x54, 0x19])),
+            None
+        );
+    }
+
+    #[test]
+    fn detects_refs_at_zero() {
+        // libblkid `refs.c`: magic `"\0\0\0ReFS\0"` (len 8) at offset 0 — the
+        // OEM-ID field (offset 3, zeroed by NTFS/FAT) holds NUL-framed "ReFS".
+        assert_eq!(
+            detect_name(&buf_with(0, b"\x00\x00\x00ReFS\x00")),
+            Some("ReFS")
+        );
+        // "ReFS" at offset 3 WITHOUT the trailing NUL frame (e.g. a stray string)
+        // must not match the full 8-byte pattern.
+        assert_eq!(detect_name(&buf_with(3, b"ReFSxxxx")), None);
+    }
+
+    #[test]
+    fn detects_udf_nsr02_nsr03_at_0x8801() {
+        // libblkid `udf.c` / ECMA-167: the Volume Recognition Sequence begins at
+        // sector 16 (0x8000); each 2048-byte descriptor is `structType`(1) +
+        // `stdIdent[5]`. The UDF-defining NSR descriptor sits at sector 17, so its
+        // 5-byte id is at 0x8000 + 2048 + 1 = 0x8801 (34817). Verified on a real
+        // macOS `newfs_udf` image (NSR03 at 0x8801).
+        assert_eq!(detect_name(&buf_with(0x8801, b"NSR02")), Some("UDF"));
+        assert_eq!(detect_name(&buf_with(0x8801, b"NSR03")), Some("UDF"));
+        // A bare "NSR" prefix or wrong id at the same offset must not match.
+        assert_eq!(detect_name(&buf_with(0x8801, b"NSRxx")), None);
+    }
+
+    #[test]
     fn empty_and_unknown_are_none() {
         assert_eq!(detect_name(&[]), None);
         assert_eq!(detect_name(&[0u8; 512]), None);
