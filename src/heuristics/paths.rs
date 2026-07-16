@@ -271,6 +271,39 @@ mod tests {
     }
 
     #[test]
+    fn executable_image_recognizes_binaries_and_scripts() {
+        for p in [
+            r"C:\Users\a\Downloads\dropper.exe",
+            r"C:\Temp\payload.scr",
+            r"C:\Temp\loader.dll",
+            r"C:\Temp\run.ps1",
+            r"install.msi",
+        ] {
+            assert!(is_executable_image(p), "{p} should be an executable image");
+        }
+    }
+
+    #[test]
+    fn executable_image_rejects_shortcuts_and_tokens() {
+        for p in [
+            r"C:\Users\Public\Desktop\Google Chrome.lnk",
+            r"C:\Users\a\Documents\report.pdf",
+            "Microsoft.Windows.GettingStarted",
+            r"C:\Users\a\notes.txt",
+        ] {
+            assert!(
+                !is_executable_image(p),
+                "{p} should not be an executable image"
+            );
+        }
+    }
+
+    #[test]
+    fn executable_image_extension_match_is_case_insensitive() {
+        assert!(is_executable_image(r"C:\Temp\DROPPER.EXE"));
+    }
+
+    #[test]
     fn double_extension_pdf_exe() {
         assert!(is_double_extension("invoice.pdf.exe"));
     }
