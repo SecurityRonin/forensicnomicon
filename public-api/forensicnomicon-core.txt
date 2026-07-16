@@ -490,6 +490,36 @@ pub forensicnomicon_core::evidence::EvidenceStrength::Definitive = 4
 pub forensicnomicon_core::evidence::EvidenceStrength::Strong = 3
 pub forensicnomicon_core::evidence::EvidenceStrength::Unreliable = 0
 pub mod forensicnomicon_core::filesystems
+pub struct forensicnomicon_core::filesystems::FsKind(_)
+impl forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::AD1: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::APFS: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::BTRFS: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::DAR: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::EXFAT: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::EXT: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::FAT: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::HFS_PLUS: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::ISO9660: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::NTFS: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::REFS: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::UDF: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::UFS: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::UNKNOWN_FALLBACK: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::XFS: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::ZFS: forensicnomicon_core::filesystems::FsKind
+pub const forensicnomicon_core::filesystems::FsKind::ZIP: forensicnomicon_core::filesystems::FsKind
+pub const fn forensicnomicon_core::filesystems::FsKind::as_str(&self) -> &'static str
+pub const fn forensicnomicon_core::filesystems::FsKind::from_name(&'static str) -> forensicnomicon_core::filesystems::FsKind
+pub const fn forensicnomicon_core::filesystems::FsKind::known() -> &'static [forensicnomicon_core::filesystems::FsKind]
+impl core::fmt::Debug for forensicnomicon_core::filesystems::FsKind
+pub fn forensicnomicon_core::filesystems::FsKind::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for forensicnomicon_core::filesystems::FsKind
+pub fn forensicnomicon_core::filesystems::FsKind::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl serde_core::ser::Serialize for forensicnomicon_core::filesystems::FsKind
+pub fn forensicnomicon_core::filesystems::FsKind::serialize<S: serde_core::ser::Serializer>(&self, S) -> core::result::Result<<S as serde_core::ser::Serializer>::Ok, <S as serde_core::ser::Serializer>::Error>
+impl<'de> serde_core::de::Deserialize<'de> for forensicnomicon_core::filesystems::FsKind
+pub fn forensicnomicon_core::filesystems::FsKind::deserialize<D: serde_core::de::Deserializer<'de>>(D) -> core::result::Result<Self, <D as serde_core::de::Deserializer>::Error>
 pub struct forensicnomicon_core::filesystems::FsSignature
 pub forensicnomicon_core::filesystems::FsSignature::magic: &'static [u8]
 pub forensicnomicon_core::filesystems::FsSignature::name: &'static str
