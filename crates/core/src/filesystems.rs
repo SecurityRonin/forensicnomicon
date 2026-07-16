@@ -139,6 +139,140 @@ pub fn detect_name(data: &[u8]) -> Option<&'static str> {
     })
 }
 
+/// Canonical identity of a filesystem, content-addressed by a stable lowercase
+/// name.
+///
+/// A newtype over `&'static str` (not an enum) so the set is **open**: adding a
+/// filesystem is a new `const` here, never a breaking change to a downstream
+/// contract crate. Every filesystem is a uniform `const` — none is a
+/// first-class variant and none is a stringly-typed `Other`.
+///
+/// Intended as the single source of the identity that `forensic-vfs::FsKind`
+/// re-exports, retiring its named-variants-plus-`Other` enum.
+///
+/// The names here are the canonical *identity* labels; they intentionally
+/// differ from the human-facing detection names in [`FILESYSTEM_SIGNATURES`]
+/// (e.g. identity `ext` vs. the signature label `ext2/3/4`). Identity and
+/// detection are kept as two separate concerns; this type carries no magics.
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
+pub struct FsKind(&'static str);
+
+impl FsKind {
+    /// NTFS.
+    pub const NTFS: FsKind = FsKind("ntfs");
+    /// FAT (FAT12/16/32 family).
+    pub const FAT: FsKind = FsKind("fat");
+    /// exFAT.
+    pub const EXFAT: FsKind = FsKind("exfat");
+    /// ext2/3/4 family.
+    pub const EXT: FsKind = FsKind("ext");
+    /// XFS.
+    pub const XFS: FsKind = FsKind("xfs");
+    /// Apple APFS.
+    pub const APFS: FsKind = FsKind("apfs");
+    /// Apple HFS+.
+    pub const HFS_PLUS: FsKind = FsKind("hfsplus");
+    /// ISO 9660 optical filesystem.
+    pub const ISO9660: FsKind = FsKind("iso9660");
+    /// UDF optical filesystem.
+    pub const UDF: FsKind = FsKind("udf");
+    /// Btrfs.
+    pub const BTRFS: FsKind = FsKind("btrfs");
+    /// ZFS.
+    pub const ZFS: FsKind = FsKind("zfs");
+    /// UFS/FFS.
+    pub const UFS: FsKind = FsKind("ufs");
+    /// Microsoft ReFS.
+    pub const REFS: FsKind = FsKind("refs");
+    /// ZIP archive-as-container.
+    pub const ZIP: FsKind = FsKind("zip");
+    /// AccessData AD1 logical-image container.
+    pub const AD1: FsKind = FsKind("ad1");
+    /// DAR (Disk ARchive) container.
+    pub const DAR: FsKind = FsKind("dar");
+
+    /// Documented fallback for a name outside [`known`](FsKind::known). A
+    /// runtime string cannot be promoted to a `&'static str` without leaking, so
+    /// deserializing an unrecognized name collapses to this single sentinel
+    /// (the first registered kind) rather than allocating or panicking. Callers
+    /// needing strict validation compare the input against
+    /// [`known`](FsKind::known) before trusting a deserialized value.
+    pub const UNKNOWN_FALLBACK: FsKind = FsKind::NTFS;
+
+    /// The stable lowercase identifier — round-trips, safe for logs / JSON / URIs.
+    #[must_use]
+    pub const fn as_str(&self) -> &'static str {
+        self.0
+    }
+
+    /// Construct from a compile-time name. Returns a kind wrapping the given
+    /// static string; pass one of the const names to get a registered kind.
+    #[must_use]
+    pub const fn from_name(name: &'static str) -> FsKind {
+        FsKind(name)
+    }
+
+    /// All registered kinds — lets consumers enumerate/validate without a closed
+    /// enum.
+    #[must_use]
+    pub const fn known() -> &'static [FsKind] {
+        KNOWN
+    }
+}
+
+static KNOWN: &[FsKind] = &[
+    FsKind::NTFS,
+    FsKind::FAT,
+    FsKind::EXFAT,
+    FsKind::EXT,
+    FsKind::XFS,
+    FsKind::APFS,
+    FsKind::HFS_PLUS,
+    FsKind::ISO9660,
+    FsKind::UDF,
+    FsKind::BTRFS,
+    FsKind::ZFS,
+    FsKind::UFS,
+    FsKind::REFS,
+    FsKind::ZIP,
+    FsKind::AD1,
+    FsKind::DAR,
+];
+
+impl core::fmt::Display for FsKind {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        f.write_str(self.0)
+    }
+}
+
+impl core::fmt::Debug for FsKind {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        f.debug_tuple("FsKind").field(&self.0).finish()
+    }
+}
+
+#[cfg(feature = "serde")]
+impl serde::Serialize for FsKind {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        serializer.serialize_str(self.0)
+    }
+}
+
+#[cfg(feature = "serde")]
+impl<'de> serde::Deserialize<'de> for FsKind {
+    fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+        // Borrow the bare string; resolve it against the registered kinds so the
+        // result holds a `&'static str`, never runtime-owned memory. An
+        // unrecognized name maps to `UNKNOWN_FALLBACK` (see its docs).
+        let name: &str = <&str as serde::Deserialize>::deserialize(deserializer)?;
+        Ok(KNOWN
+            .iter()
+            .copied()
+            .find(|k| k.0 == name)
+            .unwrap_or(FsKind::UNKNOWN_FALLBACK))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
