@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.6.0...forensicnomicon-v1.7.0) - 2026-07-16
+
+### Added
+
+- *(filesystems)* GREEN — FsKind open string-backed FS-identity registry
+- *(paths)* GREEN — is_executable_image + retire srum EXEC_EXTENSIONS dup
+
+### Documentation
+
+- reverse-engineer PRD + ADRs from the codebase
+
 ## [1.5.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.4.0...forensicnomicon-v1.5.0) - 2026-07-12
 
 ### Added
