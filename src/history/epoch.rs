@@ -183,3 +183,36 @@ impl CohortTopology {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn epoch_tag_from_bytes_preserves_digest() {
+        let digest = [0xAB; 32];
+        assert_eq!(EpochTag::from_bytes(digest), EpochTag(digest));
+        // The sentinel is distinct from any non-zero digest.
+        assert_ne!(EpochTag::from_bytes(digest), EpochTag::ZERO);
+    }
+
+    #[test]
+    fn kind_maps_every_topology_to_its_payload_free_discriminant() {
+        assert_eq!(
+            CohortTopology::DiscreteSet.kind(),
+            TopologyKind::DiscreteSet
+        );
+        assert_eq!(
+            CohortTopology::LinearJournal {
+                lsn_type: LsnKind::EseLsn(1),
+            }
+            .kind(),
+            TopologyKind::LinearJournal
+        );
+        assert_eq!(
+            CohortTopology::SubJournalCommits.kind(),
+            TopologyKind::SubJournalCommits
+        );
+        assert_eq!(CohortTopology::Dag.kind(), TopologyKind::Dag);
+    }
+}

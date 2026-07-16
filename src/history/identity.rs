@@ -295,3 +295,330 @@ fn claim_fingerprint(claim: &IdentityClaim) -> Vec<u8> {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn path_claim(vol: &str, p: &str) -> IdentityClaim {
+        IdentityClaim::CanonicalPath {
+            volume: vol.to_string(),
+            path: PathBuf::from(p),
+        }
+    }
+
+    fn content_claim(digest: &[u8]) -> IdentityClaim {
+        IdentityClaim::ContentHash {
+            algo: HashAlgo::Sha256,
+            digest: digest.to_vec(),
+        }
+    }
+
+    #[test]
+    fn cohort_key_new_roundtrips_bytes() {
+        let raw = [7u8; 32];
+        let k = CohortKey::new(raw);
+        assert_eq!(k.as_bytes(), &raw);
+    }
+
+    #[test]
+    fn cohort_key_mixes_discipline_into_first_byte_when_no_claim_matches() {
+        // An ApfsFileId matches no discipline, so cohort_key is just the discipline seed.
+        let art = ArtifactRef {
+            claims: vec![IdentityClaim::ApfsFileId {
+                volume_uuid: [1u8; 16],
+                file_id: 9,
+            }],
+        };
+        let k = art.cohort_key(IdentityDiscipline::ContentStable);
+        let mut expected = [0u8; 32];
+        expected[0] = IdentityDiscipline::ContentStable as u8;
+        assert_eq!(k.as_bytes(), &expected);
+    }
+
+    #[test]
+    fn cohort_key_folds_single_matching_claim_by_documented_construction() {
+        // Single claim at index 0: key[0]=discipline seed, key[(0+j+1)%32]^=digest[j].
+        let art = ArtifactRef {
+            claims: vec![content_claim(&[0xAB, 0xCD])],
+        };
+        let k = art.cohort_key(IdentityDiscipline::ContentStable);
+        let b = k.as_bytes();
+        assert_eq!(b[0], IdentityDiscipline::ContentStable as u8);
+        assert_eq!(b[1], 0xAB);
+        assert_eq!(b[2], 0xCD);
+        assert!(b[3..].iter().all(|&x| x == 0));
+    }
+
+    #[test]
+    fn cohort_key_is_deterministic_and_content_sensitive() {
+        let a = ArtifactRef {
+            claims: vec![content_claim(&[1, 2, 3])],
+        };
+        let a_again = ArtifactRef {
+            claims: vec![content_claim(&[1, 2, 3])],
+        };
+        let b = ArtifactRef {
+            claims: vec![content_claim(&[1, 2, 4])],
+        };
+        assert_eq!(
+            a.cohort_key(IdentityDiscipline::ContentStable),
+            a_again.cohort_key(IdentityDiscipline::ContentStable)
+        );
+        assert_ne!(
+            a.cohort_key(IdentityDiscipline::ContentStable),
+            b.cohort_key(IdentityDiscipline::ContentStable)
+        );
+    }
+
+    #[test]
+    fn matches_true_under_path_stable_and_false_on_divergent_path() {
+        let a = ArtifactRef {
+            claims: vec![path_claim("C:", "/x")],
+        };
+        let b = ArtifactRef {
+            claims: vec![path_claim("C:", "/x")],
+        };
+        let c = ArtifactRef {
+            claims: vec![path_claim("C:", "/y")],
+        };
+        assert!(a.matches(&b, IdentityDiscipline::PathStable));
+        assert!(!a.matches(&c, IdentityDiscipline::PathStable));
+    }
+
+    #[test]
+    fn matches_false_when_no_claim_pair_agrees() {
+        let a = ArtifactRef {
+            claims: vec![content_claim(&[1])],
+        };
+        let b = ArtifactRef {
+            claims: vec![path_claim("C:", "/x")],
+        };
+        assert!(!a.matches(&b, IdentityDiscipline::ContentStable));
+    }
+
+    #[test]
+    fn claims_match_path_stable_arms() {
+        let a = path_claim("C:", "/x");
+        let b = path_claim("C:", "/x");
+        let d = path_claim("D:", "/x");
+        assert!(claims_match_under(&a, &b, IdentityDiscipline::PathStable));
+        assert!(!claims_match_under(&a, &d, IdentityDiscipline::PathStable));
+        // Mismatched variant hits the `_ => false` arm.
+        assert!(!claims_match_under(
+            &a,
+            &content_claim(&[1]),
+            IdentityDiscipline::PathStable
+        ));
+    }
+
+    #[test]
+    fn claims_match_content_stable_arms() {
+        let a = content_claim(&[1, 2]);
+        let b = content_claim(&[1, 2]);
+        assert!(claims_match_under(
+            &a,
+            &b,
+            IdentityDiscipline::ContentStable
+        ));
+        assert!(!claims_match_under(
+            &a,
+            &path_claim("C:", "/x"),
+            IdentityDiscipline::ContentStable
+        ));
+    }
+
+    #[test]
+    fn claims_match_object_stable_inode_and_ntfs_arms() {
+        let inode = |gen| IdentityClaim::InodeIdentity {
+            volume: "v".to_string(),
+            inode: 42,
+            generation: gen,
+        };
+        assert!(claims_match_under(
+            &inode(Some(1)),
+            &inode(Some(1)),
+            IdentityDiscipline::ObjectStable
+        ));
+        let ntfs = |seq| IdentityClaim::NtfsFileRef {
+            volume: "v".to_string(),
+            mft_record: 7,
+            sequence: seq,
+        };
+        assert!(claims_match_under(
+            &ntfs(3),
+            &ntfs(3),
+            IdentityDiscipline::ObjectStable
+        ));
+        assert!(!claims_match_under(
+            &ntfs(3),
+            &ntfs(4),
+            IdentityDiscipline::ObjectStable
+        ));
+        // Cross-variant hits the `_ => false` arm.
+        assert!(!claims_match_under(
+            &inode(Some(1)),
+            &ntfs(3),
+            IdentityDiscipline::ObjectStable
+        ));
+    }
+
+    #[test]
+    fn claims_match_record_stable_arms() {
+        let rec = |k: &[u8]| IdentityClaim::RecordIdentity {
+            schema: "sqlite:msgstore#messages".to_string(),
+            primary_key: k.to_vec(),
+        };
+        assert!(claims_match_under(
+            &rec(&[9]),
+            &rec(&[9]),
+            IdentityDiscipline::RecordStable
+        ));
+        assert!(!claims_match_under(
+            &rec(&[9]),
+            &path_claim("C:", "/x"),
+            IdentityDiscipline::RecordStable
+        ));
+    }
+
+    #[test]
+    fn logical_stable_delegates_to_path_and_record() {
+        let path = path_claim("C:", "/x");
+        let rec = IdentityClaim::RecordIdentity {
+            schema: "s".to_string(),
+            primary_key: vec![1],
+        };
+        // Path branch of the delegation.
+        assert!(claims_match_under(
+            &path,
+            &path.clone(),
+            IdentityDiscipline::LogicalStable
+        ));
+        // Record branch of the delegation.
+        assert!(claims_match_under(
+            &rec,
+            &rec.clone(),
+            IdentityDiscipline::LogicalStable
+        ));
+        // Neither branch agrees.
+        assert!(!claims_match_under(
+            &path,
+            &content_claim(&[1]),
+            IdentityDiscipline::LogicalStable
+        ));
+    }
+
+    #[test]
+    fn claim_matches_discipline_true_and_false() {
+        assert!(claim_matches_discipline(
+            &path_claim("C:", "/x"),
+            IdentityDiscipline::PathStable
+        ));
+        assert!(claim_matches_discipline(
+            &content_claim(&[1]),
+            IdentityDiscipline::ContentStable
+        ));
+        assert!(claim_matches_discipline(
+            &IdentityClaim::InodeIdentity {
+                volume: "v".to_string(),
+                inode: 1,
+                generation: None,
+            },
+            IdentityDiscipline::ObjectStable
+        ));
+        // A claim that matches no discipline.
+        assert!(!claim_matches_discipline(
+            &IdentityClaim::ApfsFileId {
+                volume_uuid: [0u8; 16],
+                file_id: 1,
+            },
+            IdentityDiscipline::ObjectStable
+        ));
+    }
+
+    #[test]
+    fn fingerprint_canonical_path() {
+        let fp = claim_fingerprint(&path_claim("C:", "/a"));
+        assert_eq!(fp, b"C:/a".to_vec());
+    }
+
+    #[test]
+    fn fingerprint_inode_with_and_without_generation() {
+        let with = claim_fingerprint(&IdentityClaim::InodeIdentity {
+            volume: "v".to_string(),
+            inode: 1,
+            generation: Some(2),
+        });
+        let mut expected = b"v".to_vec();
+        expected.extend_from_slice(&1u64.to_le_bytes());
+        expected.extend_from_slice(&2u32.to_le_bytes());
+        assert_eq!(with, expected);
+
+        let without = claim_fingerprint(&IdentityClaim::InodeIdentity {
+            volume: "v".to_string(),
+            inode: 1,
+            generation: None,
+        });
+        let mut expected_none = b"v".to_vec();
+        expected_none.extend_from_slice(&1u64.to_le_bytes());
+        assert_eq!(without, expected_none);
+    }
+
+    #[test]
+    fn fingerprint_ntfs_ref() {
+        let fp = claim_fingerprint(&IdentityClaim::NtfsFileRef {
+            volume: "n".to_string(),
+            mft_record: 5,
+            sequence: 3,
+        });
+        let mut expected = b"n".to_vec();
+        expected.extend_from_slice(&5u64.to_le_bytes());
+        expected.extend_from_slice(&3u16.to_le_bytes());
+        assert_eq!(fp, expected);
+    }
+
+    #[test]
+    fn fingerprint_apfs_file_id() {
+        let fp = claim_fingerprint(&IdentityClaim::ApfsFileId {
+            volume_uuid: [0u8; 16],
+            file_id: 7,
+        });
+        let mut expected = vec![0u8; 16];
+        expected.extend_from_slice(&7u64.to_le_bytes());
+        assert_eq!(fp, expected);
+    }
+
+    #[test]
+    fn fingerprint_content_hash_is_the_digest() {
+        let fp = claim_fingerprint(&content_claim(&[1, 2, 3]));
+        assert_eq!(fp, vec![1, 2, 3]);
+    }
+
+    #[test]
+    fn fingerprint_record_identity() {
+        let fp = claim_fingerprint(&IdentityClaim::RecordIdentity {
+            schema: "s".to_string(),
+            primary_key: vec![9],
+        });
+        assert_eq!(fp, b"s\x09".to_vec());
+    }
+
+    #[test]
+    fn fingerprint_application_guid_is_the_guid() {
+        let guid = [4u8; 16];
+        let fp = claim_fingerprint(&IdentityClaim::ApplicationGuid {
+            app: "com.whatsapp".to_string(),
+            guid,
+        });
+        assert_eq!(fp, guid.to_vec());
+    }
+
+    #[test]
+    fn fingerprint_signing_subject_concatenates_issuer_subject() {
+        let fp = claim_fingerprint(&IdentityClaim::SigningSubject {
+            issuer: "i".to_string(),
+            subject: "s".to_string(),
+        });
+        assert_eq!(fp, b"is".to_vec());
+    }
+}

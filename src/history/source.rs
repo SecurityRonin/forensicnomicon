@@ -121,3 +121,15 @@ pub trait StateMaterializer {
         wc: &mut WorkingCopy,
     ) -> Result<std::path::PathBuf, String>;
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn cohort_query_all_leaves_both_filters_unset() {
+        let q = CohortQuery::all();
+        assert!(q.artifact.is_none());
+        assert!(q.discipline.is_none());
+    }
+}

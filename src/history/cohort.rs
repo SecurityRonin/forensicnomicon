@@ -125,3 +125,99 @@ pub struct IdentityDiscontinuity {
     /// Human-readable description of the inconsistency.
     pub description: String,
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::history::clock::{ClockSource, TamperResistance, TrustGrade};
+
+    fn clock() -> ClockProvenance {
+        ClockProvenance {
+            source: ClockSource::SequenceOnly,
+            trust_grade: TrustGrade::OrderingOnly,
+            tamper_resistance: TamperResistance::UserWritable,
+            ordering_only: false,
+            skew_known: None,
+            authenticated: None,
+        }
+    }
+
+    fn state(handle: u32, secs: Option<i64>) -> TemporalState<u32> {
+        TemporalState {
+            epoch: EpochTag([handle as u8; 32]),
+            ordering_key: None,
+            wall_time: secs.map(Timestamp::from_secs),
+            clock: clock(),
+            safety: MaterializationSafety::ReadOnlySafe,
+            handle,
+        }
+    }
+
+    fn cohort(states: Vec<TemporalState<u32>>) -> TemporalCohort<u32> {
+        TemporalCohort {
+            artifact: ArtifactRef { claims: vec![] },
+            discipline: IdentityDiscipline::PathStable,
+            topology: CohortTopology::DiscreteSet,
+            states,
+        }
+    }
+
+    #[test]
+    fn from_secs_zeroes_nanos() {
+        let t = Timestamp::from_secs(1_700_000_000);
+        assert_eq!(t.secs, 1_700_000_000);
+        assert_eq!(t.nanos, 0);
+    }
+
+    #[test]
+    fn at_selects_latest_state_at_or_before_t() {
+        // A `None` wall_time state must be filtered out, never selected.
+        let c = cohort(vec![
+            state(1, Some(100)),
+            state(2, Some(200)),
+            state(3, Some(300)),
+            state(9, None),
+        ]);
+        // Between 200 and 300 -> the 200 state.
+        assert_eq!(c.at(Timestamp::from_secs(250)).unwrap().handle, 2);
+        // Exact match on the last state.
+        assert_eq!(c.at(Timestamp::from_secs(300)).unwrap().handle, 3);
+        // Before the first state -> None.
+        assert!(c.at(Timestamp::from_secs(50)).is_none());
+    }
+
+    #[test]
+    fn at_returns_none_when_no_state_has_wall_time() {
+        let c = cohort(vec![state(1, None)]);
+        assert!(c.at(Timestamp::from_secs(100)).is_none());
+    }
+
+    #[test]
+    fn nearest_picks_closest_and_breaks_ties_toward_first() {
+        let c = cohort(vec![
+            state(1, Some(100)),
+            state(2, Some(200)),
+            state(3, Some(300)),
+            state(9, None),
+        ]);
+        // 280 is closest to 300.
+        assert_eq!(c.nearest(Timestamp::from_secs(280)).unwrap().handle, 3);
+        // 250 is equidistant to 200 and 300; min_by_key keeps the first-seen (200).
+        assert_eq!(c.nearest(Timestamp::from_secs(250)).unwrap().handle, 2);
+        // A time before every state still returns the nearest (100).
+        assert_eq!(c.nearest(Timestamp::from_secs(0)).unwrap().handle, 1);
+    }
+
+    #[test]
+    fn nearest_returns_none_without_wall_times() {
+        let c = cohort(vec![state(1, None)]);
+        assert!(c.nearest(Timestamp::from_secs(100)).is_none());
+    }
+
+    #[test]
+    fn epochs_yields_epoch_tags_in_state_order() {
+        let c = cohort(vec![state(1, Some(100)), state(2, Some(200))]);
+        let epochs: Vec<EpochTag> = c.epochs().collect();
+        assert_eq!(epochs, vec![EpochTag([1u8; 32]), EpochTag([2u8; 32])]);
+    }
+}
