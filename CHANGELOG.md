@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.7.0...forensicnomicon-v1.8.0) - 2026-07-16
+
+### Added
+
+- *(filesystems)* GREEN — structural ZFS uberblock-ring detection
+
+### Fixed
+
+- *(filesystems)* FsKind::known() is not const fn (restores MSRV 1.75)
+
 ## [1.7.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.6.0...forensicnomicon-v1.7.0) - 2026-07-16
 
 ### Added
