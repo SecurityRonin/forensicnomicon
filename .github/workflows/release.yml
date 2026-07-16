@@ -2,7 +2,12 @@ name: Release
 
 on:
   push:
-    tags: ["v*"]
+    # Bare version tags only (v1.2.3). NOT `v*`: release-plz cuts per-crate library
+    # tags like `<crate>-vX.Y.Z`, and a crate whose name starts with `v`
+    # (vmdk, vhd, vhdx, vsc, veracrypt, volume-core…) would produce `v…-vX.Y.Z`,
+    # which `v*` matches — wrongly firing a binary build on a library release.
+    # `v[0-9]*` requires a digit right after the `v`, which no `<name>-v…` tag has.
+    tags: ["v[0-9]*"]
 
 permissions:
   contents: write
