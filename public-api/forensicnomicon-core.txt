@@ -511,7 +511,7 @@ pub const forensicnomicon_core::filesystems::FsKind::ZFS: forensicnomicon_core::
 pub const forensicnomicon_core::filesystems::FsKind::ZIP: forensicnomicon_core::filesystems::FsKind
 pub const fn forensicnomicon_core::filesystems::FsKind::as_str(&self) -> &'static str
 pub const fn forensicnomicon_core::filesystems::FsKind::from_name(&'static str) -> forensicnomicon_core::filesystems::FsKind
-pub const fn forensicnomicon_core::filesystems::FsKind::known() -> &'static [forensicnomicon_core::filesystems::FsKind]
+pub fn forensicnomicon_core::filesystems::FsKind::known() -> &'static [forensicnomicon_core::filesystems::FsKind]
 impl core::fmt::Debug for forensicnomicon_core::filesystems::FsKind
 pub fn forensicnomicon_core::filesystems::FsKind::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
 impl core::fmt::Display for forensicnomicon_core::filesystems::FsKind

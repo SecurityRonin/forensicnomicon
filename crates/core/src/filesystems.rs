@@ -364,8 +364,12 @@ impl FsKind {
 
     /// All registered kinds — lets consumers enumerate/validate without a closed
     /// enum.
+    ///
+    /// Not `const fn`: referencing a `static` from a `const fn` (`const_refs_to_static`)
+    /// only stabilized in Rust 1.83, and this crate's MSRV is 1.75. A plain `fn` returning
+    /// the `'static` slice works on every supported toolchain.
     #[must_use]
-    pub const fn known() -> &'static [FsKind] {
+    pub fn known() -> &'static [FsKind] {
         KNOWN
     }
 }
