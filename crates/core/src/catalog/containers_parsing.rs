@@ -907,3 +907,98 @@ pub fn record_signatures_for_container(id: &str) -> Vec<&'static RecordSignature
 pub(super) fn artifact_container_bindings() -> &'static [ArtifactContainerBinding] {
     ARTIFACT_CONTAINER_BINDINGS
 }
+
+#[cfg(test)]
+#[allow(clippy::unwrap_used, clippy::expect_used)]
+mod tests {
+    use super::*;
+    use crate::catalog::types::{DataScope, Decoder, HiveTarget, OsScope, TriagePriority};
+
+    fn desc(artifact_type: ArtifactLocation, hive: Option<HiveTarget>) -> ArtifactDescriptor {
+        ArtifactDescriptor {
+            id: "x",
+            name: "n",
+            artifact_type,
+            hive,
+            key_path: "",
+            value_name: None,
+            file_path: None,
+            scope: DataScope::System,
+            os_scope: OsScope::All,
+            decoder: Decoder::Identity,
+            meaning: "m",
+            mitre_techniques: &[],
+            fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::Medium,
+            related_artifacts: &[],
+            sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
+        }
+    }
+
+    #[test]
+    fn infer_container_profile_covers_every_arm() {
+        // hive present -> registry hive (regardless of artifact_type).
+        assert_eq!(
+            infer_container_profile(&desc(
+                ArtifactLocation::RegistryValue,
+                Some(HiveTarget::NtUser)
+            ))
+            .unwrap()
+            .id,
+            "windows_registry_hive"
+        );
+        // EventLog -> windows_evtx.
+        assert_eq!(
+            infer_container_profile(&desc(ArtifactLocation::EventLog, None))
+                .unwrap()
+                .id,
+            "windows_evtx"
+        );
+        // File / Directory -> flat_file.
+        for at in [ArtifactLocation::File, ArtifactLocation::Directory] {
+            assert_eq!(
+                infer_container_profile(&desc(at, None)).unwrap().id,
+                "flat_file"
+            );
+        }
+        // Anything else with no hive -> None.
+        assert!(infer_container_profile(&desc(ArtifactLocation::MemoryRegion, None)).is_none());
+
+        // Public wrapper delegates identically.
+        assert_eq!(
+            infer_container_profile_pub(&desc(ArtifactLocation::EventLog, None))
+                .unwrap()
+                .id,
+            "windows_evtx"
+        );
+    }
+
+    #[test]
+    fn free_lookup_functions() {
+        assert!(!all_container_profiles().is_empty());
+        assert!(!all_container_signatures().is_empty());
+        assert!(!all_parsing_profiles().is_empty());
+        assert!(!all_record_signatures().is_empty());
+        assert!(!artifact_container_bindings().is_empty());
+
+        // Case-insensitive id lookups.
+        assert!(container_profile("SQLITE_DATABASE").is_some());
+        assert!(container_profile("does_not_exist").is_none());
+        assert!(container_signature("windows_registry_hive").is_some());
+        assert!(container_signature("does_not_exist").is_none());
+        assert_eq!(
+            parsing_profile("USERASSIST_EXE").unwrap().artifact_id,
+            "userassist_exe"
+        );
+        assert!(parsing_profile("nope").is_none());
+
+        let regsigs = record_signatures_for_container("windows_registry_hive");
+        assert!(regsigs.iter().any(|s| s.id == "registry_nk_cell"));
+        assert!(record_signatures_for_container("no_such_container").is_empty());
+    }
+}

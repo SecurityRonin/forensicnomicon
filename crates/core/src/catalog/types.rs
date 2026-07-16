@@ -720,3 +720,302 @@ impl ForensicCatalog {
             .collect()
     }
 }
+
+#[cfg(test)]
+#[allow(clippy::unwrap_used, clippy::expect_used)]
+mod tests {
+    use super::*;
+    use crate::evidence::EvidenceStrength;
+
+    // ── Platform ──────────────────────────────────────────────────────────
+    #[test]
+    fn platform_bit_and_label_for_every_variant() {
+        let expected = [
+            (Platform::Windows, 0u8, "Win"),
+            (Platform::MacOS, 1, "Mac"),
+            (Platform::Linux, 2, "Lin"),
+            (Platform::IOS, 3, "iOS"),
+            (Platform::Android, 4, "And"),
+        ];
+        for (p, bit, label) in expected {
+            assert_eq!(p.bit(), bit);
+            assert_eq!(p.label(), label);
+        }
+        assert_eq!(Platform::ALL.len(), 5);
+    }
+
+    // ── OsScope::platform ─────────────────────────────────────────────────
+    #[test]
+    fn os_scope_maps_to_platform_group() {
+        let windows = [
+            OsScope::All,
+            OsScope::Win7Plus,
+            OsScope::Win8Plus,
+            OsScope::Win10Plus,
+            OsScope::Win11Plus,
+            OsScope::Win11_22H2,
+        ];
+        for os in windows {
+            assert_eq!(os.platform(), Platform::Windows);
+        }
+        for os in [
+            OsScope::MacOS,
+            OsScope::MacOS12Plus,
+            OsScope::MacOS13Plus,
+            OsScope::MacOS14Plus,
+        ] {
+            assert_eq!(os.platform(), Platform::MacOS);
+        }
+        for os in [
+            OsScope::Linux,
+            OsScope::LinuxSystemd,
+            OsScope::LinuxDebian,
+            OsScope::LinuxRhel,
+        ] {
+            assert_eq!(os.platform(), Platform::Linux);
+        }
+        assert_eq!(OsScope::IOS.platform(), Platform::IOS);
+        assert_eq!(OsScope::Android.platform(), Platform::Android);
+    }
+
+    // ── PlatformMask ──────────────────────────────────────────────────────
+    #[test]
+    fn platform_mask_operations() {
+        assert!(PlatformMask::NONE.is_empty());
+        // Empty mask matches everything but contains nothing.
+        assert!(PlatformMask::NONE.matches(Platform::Windows));
+        assert!(!PlatformMask::NONE.contains(Platform::Windows));
+
+        let mask = PlatformMask::NONE
+            .with(Platform::Windows)
+            .with(Platform::MacOS);
+        assert!(!mask.is_empty());
+        assert!(mask.contains(Platform::Windows));
+        assert!(mask.contains(Platform::MacOS));
+        assert!(!mask.contains(Platform::Linux));
+        assert!(mask.matches(Platform::MacOS));
+        assert!(!mask.matches(Platform::Linux));
+
+        // toggle flips a bit both ways.
+        let toggled = mask.toggle(Platform::Windows);
+        assert!(!toggled.contains(Platform::Windows));
+        assert!(toggled
+            .toggle(Platform::Windows)
+            .contains(Platform::Windows));
+    }
+
+    // ── DecodeError Display ───────────────────────────────────────────────
+    #[test]
+    fn decode_error_display_for_every_variant() {
+        assert_eq!(
+            DecodeError::BufferTooShort {
+                expected: 8,
+                actual: 3
+            }
+            .to_string(),
+            "buffer too short: need 8 bytes, got 3"
+        );
+        assert_eq!(
+            DecodeError::InvalidUtf8.to_string(),
+            "invalid UTF-8 in raw data"
+        );
+        assert_eq!(
+            DecodeError::InvalidUtf16.to_string(),
+            "invalid UTF-16LE in raw data"
+        );
+        assert_eq!(
+            DecodeError::FieldOutOfBounds {
+                field: "f",
+                offset: 2,
+                size: 4,
+                buf_len: 5
+            }
+            .to_string(),
+            "field 'f' at offset 2 size 4 exceeds buffer length 5"
+        );
+        assert_eq!(
+            DecodeError::UnsupportedDecoder("nope").to_string(),
+            "unsupported decoder: nope"
+        );
+    }
+
+    // ── ForensicCatalog query engine ──────────────────────────────────────
+    // Struct-literal template; overridden per entry via `..TEMPLATE`. Kept as
+    // inline literals (not a `const fn`) so llvm-cov attributes coverage to the
+    // runtime tests rather than to const-evaluation of a helper.
+    const TEMPLATE: ArtifactDescriptor = ArtifactDescriptor {
+        id: "",
+        name: "",
+        artifact_type: ArtifactLocation::RegistryValue,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::All,
+        decoder: Decoder::Identity,
+        meaning: "",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Medium,
+        related_artifacts: &[],
+        sources: &[],
+        evidence_strength: None,
+        evidence_caveats: &[],
+        volatility: None,
+        volatility_rationale: "",
+    };
+
+    static TEST_ENTRIES: &[ArtifactDescriptor] = &[
+        ArtifactDescriptor {
+            id: "run_key",
+            name: "Run Key",
+            scope: DataScope::System,
+            os_scope: OsScope::All,
+            artifact_type: ArtifactLocation::RegistryValue,
+            hive: Some(HiveTarget::HklmSoftware),
+            mitre_techniques: &["T1547"],
+            triage_priority: TriagePriority::Low,
+            evidence_strength: Some(EvidenceStrength::Strong),
+            meaning: "Autostart persistence via Run key.",
+            ..TEMPLATE
+        },
+        ArtifactDescriptor {
+            id: "bash_history",
+            name: "Bash History",
+            scope: DataScope::User,
+            os_scope: OsScope::Linux,
+            artifact_type: ArtifactLocation::File,
+            hive: None,
+            mitre_techniques: &["T1059", "T1552"],
+            triage_priority: TriagePriority::Critical,
+            evidence_strength: None,
+            meaning: "Shell command history.",
+            ..TEMPLATE
+        },
+        ArtifactDescriptor {
+            id: "userassist",
+            name: "UserAssist",
+            scope: DataScope::User,
+            os_scope: OsScope::Win7Plus,
+            artifact_type: ArtifactLocation::RegistryValue,
+            hive: Some(HiveTarget::NtUser),
+            mitre_techniques: &["T1204"],
+            triage_priority: TriagePriority::High,
+            evidence_strength: None,
+            meaning: "GUI program execution counts.",
+            ..TEMPLATE
+        },
+    ];
+
+    fn catalog() -> ForensicCatalog {
+        ForensicCatalog::new(TEST_ENTRIES)
+    }
+
+    #[test]
+    fn new_list_and_by_id() {
+        let cat = catalog();
+        assert_eq!(cat.list().len(), 3);
+        assert_eq!(cat.by_id("userassist").unwrap().name, "UserAssist");
+        assert!(cat.by_id("missing").is_none());
+    }
+
+    #[test]
+    fn filter_by_each_field() {
+        let cat = catalog();
+        // scope
+        assert_eq!(
+            cat.filter(&ArtifactQuery {
+                scope: Some(DataScope::User),
+                ..Default::default()
+            })
+            .len(),
+            2
+        );
+        // os_scope
+        let os = cat.filter(&ArtifactQuery {
+            os_scope: Some(OsScope::Linux),
+            ..Default::default()
+        });
+        assert_eq!(os.len(), 1);
+        assert_eq!(os[0].id, "bash_history");
+        // artifact_type
+        assert_eq!(
+            cat.filter(&ArtifactQuery {
+                artifact_type: Some(ArtifactLocation::File),
+                ..Default::default()
+            })
+            .len(),
+            1
+        );
+        // hive
+        assert_eq!(
+            cat.filter(&ArtifactQuery {
+                hive: Some(HiveTarget::NtUser),
+                ..Default::default()
+            })
+            .len(),
+            1
+        );
+        // mitre technique
+        assert_eq!(
+            cat.filter(&ArtifactQuery {
+                mitre_technique: Some("T1552"),
+                ..Default::default()
+            })
+            .len(),
+            1
+        );
+        // id
+        assert_eq!(
+            cat.filter(&ArtifactQuery {
+                id: Some("run_key"),
+                ..Default::default()
+            })
+            .len(),
+            1
+        );
+        // empty query matches all
+        assert_eq!(cat.filter(&ArtifactQuery::default()).len(), 3);
+        // non-matching os_scope excludes everything
+        assert_eq!(
+            cat.filter(&ArtifactQuery {
+                os_scope: Some(OsScope::Android),
+                ..Default::default()
+            })
+            .len(),
+            0
+        );
+    }
+
+    #[test]
+    fn by_mitre_for_triage_unassessed_and_coverage() {
+        let cat = catalog();
+        assert_eq!(cat.by_mitre("T1547").len(), 1);
+        assert_eq!(cat.by_mitre("T9999").len(), 0);
+
+        // for_triage: Critical first, Low last.
+        let triaged = cat.for_triage();
+        assert_eq!(triaged[0].id, "bash_history"); // Critical
+        assert_eq!(triaged[2].id, "run_key"); // Low
+
+        // unassessed: only the two with None evidence_strength, triage-sorted.
+        let un = cat.unassessed();
+        assert_eq!(un.len(), 2);
+        assert_eq!(un[0].id, "bash_history"); // Critical before High
+
+        assert_eq!(cat.assessment_coverage(), (1, 3));
+    }
+
+    #[test]
+    fn filter_by_keyword_matches_name_or_meaning_case_insensitively() {
+        let cat = catalog();
+        // matches meaning
+        assert_eq!(cat.filter_by_keyword("PERSISTENCE").len(), 1);
+        // matches name
+        assert_eq!(cat.filter_by_keyword("userassist").len(), 1);
+        // matches nothing
+        assert_eq!(cat.filter_by_keyword("zzz").len(), 0);
+    }
+}

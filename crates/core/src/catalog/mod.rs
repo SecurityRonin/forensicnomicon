@@ -106,3 +106,160 @@ impl ForensicCatalog {
         decode::decode_artifact(descriptor, name, raw)
     }
 }
+
+#[cfg(test)]
+#[allow(clippy::unwrap_used, clippy::expect_used)]
+mod tests {
+    use super::*;
+    use types::{DataScope, OsScope, TriagePriority};
+
+    fn desc(
+        id: &'static str,
+        artifact_type: ArtifactLocation,
+        hive: Option<HiveTarget>,
+    ) -> ArtifactDescriptor {
+        ArtifactDescriptor {
+            id,
+            name: "n",
+            artifact_type,
+            hive,
+            key_path: "",
+            value_name: None,
+            file_path: None,
+            scope: DataScope::System,
+            os_scope: OsScope::All,
+            decoder: Decoder::Identity,
+            meaning: "m",
+            mitre_techniques: &[],
+            fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::Medium,
+            related_artifacts: &[],
+            sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
+        }
+    }
+
+    static ENTRIES: &[ArtifactDescriptor] = &[
+        ArtifactDescriptor {
+            id: "userassist_exe",
+            name: "UserAssist",
+            artifact_type: ArtifactLocation::RegistryValue,
+            hive: Some(HiveTarget::NtUser),
+            key_path: "",
+            value_name: None,
+            file_path: None,
+            scope: DataScope::User,
+            os_scope: OsScope::Win7Plus,
+            decoder: Decoder::Identity,
+            meaning: "m",
+            mitre_techniques: &[],
+            fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::High,
+            related_artifacts: &[],
+            sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
+        },
+        ArtifactDescriptor {
+            id: "reg_only",
+            name: "RegOnly",
+            artifact_type: ArtifactLocation::RegistryValue,
+            hive: Some(HiveTarget::HklmSystem),
+            key_path: "",
+            value_name: None,
+            file_path: None,
+            scope: DataScope::System,
+            os_scope: OsScope::All,
+            decoder: Decoder::Identity,
+            meaning: "m",
+            mitre_techniques: &[],
+            fields: &[],
+            retention: None,
+            triage_priority: TriagePriority::Low,
+            related_artifacts: &[],
+            sources: &[],
+            evidence_strength: None,
+            evidence_caveats: &[],
+            volatility: None,
+            volatility_rationale: "",
+        },
+    ];
+
+    fn cat() -> ForensicCatalog {
+        ForensicCatalog::new(ENTRIES)
+    }
+
+    #[test]
+    fn parsing_profile_delegates() {
+        let cat = cat();
+        assert_eq!(
+            cat.parsing_profile("userassist_exe").unwrap().artifact_id,
+            "userassist_exe"
+        );
+        assert!(cat.parsing_profile("nope").is_none());
+    }
+
+    #[test]
+    fn container_profile_binding_infer_and_none() {
+        let cat = cat();
+        // Binding path: windows_timeline -> sqlite_database (no descriptor needed).
+        assert_eq!(
+            cat.container_profile("windows_timeline").unwrap().id,
+            "sqlite_database"
+        );
+        // Infer path: registry descriptor with a hive -> windows_registry_hive.
+        assert_eq!(
+            cat.container_profile("reg_only").unwrap().id,
+            "windows_registry_hive"
+        );
+        // Unknown id, no binding, not in catalog -> None.
+        assert!(cat.container_profile("ghost").is_none());
+    }
+
+    #[test]
+    fn container_signature_resolves_via_profile() {
+        let cat = cat();
+        assert_eq!(
+            cat.container_signature("windows_timeline")
+                .unwrap()
+                .container_id,
+            "sqlite_database"
+        );
+        assert!(cat.container_signature("ghost").is_none());
+    }
+
+    #[test]
+    fn record_signatures_direct_container_and_empty() {
+        let cat = cat();
+        // Direct: userassist_exe is the artifact_id of a record signature.
+        let direct = cat.record_signatures("userassist_exe");
+        assert_eq!(direct.len(), 1);
+        assert_eq!(direct[0].id, "userassist_count_payload");
+
+        // Container fallback: windows_timeline -> sqlite_database container sigs.
+        let via_container = cat.record_signatures("windows_timeline");
+        assert!(via_container.iter().any(|s| s.id == "sqlite_btree_page"));
+
+        // No direct match and no resolvable container -> empty.
+        assert!(cat.record_signatures("ghost").is_empty());
+    }
+
+    #[test]
+    fn decode_delegates_to_decoder() {
+        let cat = cat();
+        let d = desc(
+            "x",
+            ArtifactLocation::RegistryValue,
+            Some(HiveTarget::NtUser),
+        );
+        let rec = cat.decode(&d, "val", b"hi").unwrap();
+        assert_eq!(rec.fields[0], ("value", ArtifactValue::Text("hi".into())));
+    }
+}
