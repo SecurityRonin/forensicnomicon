@@ -50,6 +50,59 @@ pub struct FsSignature {
 ///   is sector 0 **or** sector 1 (offset `0` or `512`; the default is sector 1):
 ///   util-linux `libblkid/src/superblocks/lvm.c` (checks `buf` and `buf + 512`);
 ///   libvslvm "Logical Volume Manager (LVM) format".
+/// - **UFS1** — `fs_magic` `0x00011954` (LE `54 19 01 00`) at offset `9564`:
+///   util-linux `libblkid/src/superblocks/ufs.c` reads `fs_magic` at
+///   `offsets[i]*1024 + offsetof(struct ufs_super_block, fs_magic)`, with
+///   `offsets[] = {0, 8, 64, 256}` (KiB) and `offsetof(fs_magic) = 1372` (the
+///   final field of the 1376-byte superblock). The canonical UFS1 primary
+///   superblock is `SBLOCK_UFS1 = 8192`, so `8192 + 1372 = 9564`. Magic
+///   `UFS_MAGIC = 0x00011954`; FreeBSD `sys/ufs/ffs/fs.h` (`FS_UFS1_MAGIC`,
+///   `SBLOCK_UFS1`). Source:
+///   <https://raw.githubusercontent.com/util-linux/util-linux/master/libblkid/src/superblocks/ufs.c>
+/// - **UFS2** — `fs_magic` `0x19540119` (LE `19 01 54 19`) at offset `66908`:
+///   same `ufs.c` reader; UFS2 primary superblock is `SBLOCK_UFS2 = 65536`, so
+///   `65536 + 1372 = 66908`. Magic `UFS2_MAGIC = 0x19540119`; FreeBSD
+///   `sys/ufs/ffs/fs.h` (`FS_UFS2_MAGIC`, `SBLOCK_UFS2`).
+/// - **ReFS** — magic `"\0\0\0ReFS\0"` (8 bytes) at offset `0`: util-linux
+///   `libblkid/src/superblocks/refs.c`
+///   (`{ .magic = "\000\000\000ReFS\000", .len = 8 }`, `kboff`/`sboff` default
+///   `0`). The `"ReFS"` string sits at byte `3` (the OEM-ID field NTFS/FAT use,
+///   zeroed on ReFS) framed by leading `00 00 00` and a trailing `00`; the
+///   `"FSRS"` File-System-Recognition-Structure id follows at `0x10`. DFRWS 2020
+///   "Forensic Analysis of the Resilient File System (ReFS) Version 3.4" (Prade
+///   et al.); <https://www.resilientfilesystem.co.uk/refs-volume-boot-record>.
+///   Source:
+///   <https://raw.githubusercontent.com/util-linux/util-linux/master/libblkid/src/superblocks/refs.c>
+/// - **UDF** — Volume-Structure-Descriptor `stdIdent` `"NSR02"`/`"NSR03"` at
+///   offset `0x8801` (`34817`): the ECMA-167 Volume Recognition Sequence begins
+///   at sector 16 (`UDF_VSD_OFFSET = 0x8000`); each 2048-byte descriptor is
+///   `structType`(1 byte) + `stdIdent[5]`, so `stdIdent` is at `+1`. The
+///   UDF-defining NSR descriptor follows `BEA01` at sector 17, giving
+///   `0x8000 + 2048 + 1 = 0x8801`. util-linux `libblkid/src/superblocks/udf.c`
+///   scans up to 64 VRS descriptors (`.magic = "NSR02"/"NSR03", .kboff = 32,
+///   .sboff = 1`) and treats NSR02/NSR03 as the positive UDF match; ECMA-167
+///   3rd ed. 2/9.1, 3/9.1. This fixed-offset entry captures the standard
+///   layout (BEA01→NSR→TEA01, verified on a real macOS `newfs_udf` image with
+///   `NSR03` at `0x8801`); a UDF-bridged disc that pushes NSR past sector 17
+///   needs the multi-sector VRS scan libblkid performs. Source:
+///   <https://raw.githubusercontent.com/util-linux/util-linux/master/libblkid/src/superblocks/udf.c>
+/// - **ZFS** — *intentionally absent.* ZFS has no single fixed-offset magic that
+///   the current [`FsSignature`] struct can honestly carry. util-linux
+///   `libblkid/src/superblocks/zfs.c` uses `.magics = BLKID_NONE_MAGIC` and
+///   `probe_zfs` scans **four** 256-KiB vdev labels (two at the device start,
+///   two at the device *end*, so their offsets depend on the device size),
+///   matching on the XDR **NVList** header (`nvh_encoding == 0x1`), not a magic.
+///   The uberblock magic `0x00bab10c` (`ub_magic`, host-endian — both LE
+///   `0c b1 ba 00…` and BE occur) lives in each label's **uberblock ring** at
+///   label-offset `+128 KiB`, but the *active* slot is `txg % slot_count`, so the
+///   magic's byte position is **data-dependent**. Empirically, on the OpenZFS
+///   `zol-0.6.1` real vdev label the magic occurs 32× starting at `0x21000`,
+///   while byte `131072` (the ring start) is all zeros — a fixed-offset entry of
+///   `131072` would yield a **false negative**. Representing ZFS correctly needs
+///   a richer signature type (multi-offset / endianness-agnostic / range-scan);
+///   this is flagged for a future `FsSignature` extension rather than forced into
+///   a wrong entry. Source:
+///   <https://raw.githubusercontent.com/util-linux/util-linux/master/libblkid/src/superblocks/zfs.c>
 pub const FILESYSTEM_SIGNATURES: &[FsSignature] = &[
     FsSignature {
         name: "ext2/3/4",
@@ -125,6 +178,31 @@ pub const FILESYSTEM_SIGNATURES: &[FsSignature] = &[
         name: "Btrfs",
         offset: 65600,
         magic: b"_BHRfS_M",
+    },
+    FsSignature {
+        name: "UFS1",
+        offset: 9564,
+        magic: &[0x54, 0x19, 0x01, 0x00],
+    },
+    FsSignature {
+        name: "UFS2",
+        offset: 66908,
+        magic: &[0x19, 0x01, 0x54, 0x19],
+    },
+    FsSignature {
+        name: "ReFS",
+        offset: 0,
+        magic: b"\x00\x00\x00ReFS\x00",
+    },
+    FsSignature {
+        name: "UDF",
+        offset: 0x8801,
+        magic: b"NSR02",
+    },
+    FsSignature {
+        name: "UDF",
+        offset: 0x8801,
+        magic: b"NSR03",
     },
 ];
 
