@@ -1,0 +1,56 @@
+[package]
+name = "forensicnomicon-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[workspace]
+
+[dependencies]
+libfuzzer-sys = "0.4"
+forensicnomicon = { path = ".." }
+
+[[bin]]
+name = "fuzz_pe"
+path = "fuzz_targets/fuzz_pe.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_pca"
+path = "fuzz_targets/fuzz_pca.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_boot"
+path = "fuzz_targets/fuzz_boot.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_obf"
+path = "fuzz_targets/fuzz_obf.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_entropy"
+path = "fuzz_targets/fuzz_entropy.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_history"
+path = "fuzz_targets/fuzz_history.rs"
+test = false
+doc = false
+bench = false
