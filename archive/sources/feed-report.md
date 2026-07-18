@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-07-17T05:57:46Z
+Generated: 2026-07-18T05:38:22Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-07-17T05:57:46Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-17T00:00:00+00:00 — [ClickLock Stealer turns a locked screen into a forensics case](https://andreafortuna.org/2026/07/17/clicklock/)
 
 ## Salt Forensics
 
@@ -202,9 +202,9 @@ Generated: 2026-07-17T05:57:46Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-16T18:06:10+00:00 — [Introducing Time-Based Metadata: Unlocking a new layer of data in media forensics](https://www.magnetforensics.com/blog/introducing-time-based-metadata-unlocking-a-new-layer-of-data-in-media-forensics/)
+- No new entries detected
 
 ## The DFIR Report
 
@@ -219,16 +219,28 @@ Generated: 2026-07-17T05:57:46Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Status: error: HTTP 404
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-06-19T00:57:00+00:00 — [How the USN Journal Really Works](https://www.youtube.com/watch?v=eSLHyqZlglk)
+- 2026-07-08T07:33:38+00:00 — [The Korvath Incident: A macOS Forensics Challenge](https://www.youtube.com/watch?v=tRvw13e3Qn0)
+- 2026-06-28T16:30:49+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
+- 2026-04-24T09:44:12+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
+- 2026-05-28T20:26:20+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
+- 2026-04-23T00:04:55+00:00 — [Tracking Program Execution with a Little Known Registry Key](https://www.youtube.com/watch?v=yoFkF-NHZvo)
+- 2026-05-28T20:27:51+00:00 — [The Truth About Windows Explorer Timestamps](https://www.youtube.com/watch?v=PdyVkmhMcOA)
+- 2026-05-01T22:55:06+00:00 — [Major Update to 13Cubed Courses: Chaos at Cobalt](https://www.youtube.com/watch?v=CzF6DFhSfHw)
+- 2026-04-30T06:35:14+00:00 — [13Cubed AMA - Answering Your Questions!](https://www.youtube.com/watch?v=duz5BoZUly8)
+- 2026-04-22T18:55:48+00:00 — [The Easy Way to Analyze Linux Memory](https://www.youtube.com/watch?v=W40gdWNdwUI)
 
 ## SANS Internet Storm Center
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-17T02:00:02+00:00 — [ISC Stormcast For Friday, July 17th, 2026 https://isc.sans.edu/podcastdetail/10012, (Fri, Jul 17th)](https://isc.sans.edu/diary/rss/33162)
+- No new entries detected
 
 ## DFIR Training Blog
 
@@ -255,7 +267,7 @@ Generated: 2026-07-17T05:57:46Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-16T11:34:35+00:00 — [Infosec News Nuggets — July 16, 2026](https://aboutdfir.com/infosec-news-nuggets-july-16-2026/)
+- 2026-07-17T11:22:06+00:00 — [Infosec News Nuggets — July 17, 2026](https://aboutdfir.com/infosec-news-nuggets-july-17-2026/)
 
 ## Forensic 4cast
 
@@ -372,8 +384,8 @@ Generated: 2026-07-17T05:57:46Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-07-16T11:30:00+00:00 — [Brushstrokes: Eugène Delacroix](https://eclecticlight.co/2026/07/16/brushstrokes-eugene-delacroix/)
-- 2026-07-16T06:30:00+00:00 — [Fix background activities that don’t run](https://eclecticlight.co/2026/07/16/fix-background-activities-that-dont-run/)
+- 2026-07-17T11:30:00+00:00 — [In memoriam Viktor Mikhailovich Vasnetsov: 1, 1874-82](https://eclecticlight.co/2026/07/17/in-memoriam-viktor-mikhailovich-vasnetsov-1-1874-82/)
+- 2026-07-17T06:30:00+00:00 — [SpotTest 1.3 identifies file types using file(1)](https://eclecticlight.co/2026/07/17/spottest-1-3-identifies-file-types-using-file1/)
 
 ## JPCERT/CC
 
@@ -400,7 +412,7 @@ Generated: 2026-07-17T05:57:46Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-16T12:30:18+00:00 — [Two-Factor Authentication and iCloud: A Short History, and What We Fixed in Phone Breaker 11.03](https://blog.elcomsoft.com/2026/07/two-factor-authentication-and-icloud-a-short-history-and-what-we-fixed-in-phone-breaker-11-03/)
+- 2026-07-17T09:08:07+00:00 — [The Long, Strange History of PDF (In)Security – And the Arrest That Made It Personal](https://blog.elcomsoft.com/2026/07/the-long-strange-history-of-pdf-insecurity-and-the-arrest-that-made-it-personal/)
 
 ## Huntress Blog
 
@@ -427,27 +439,25 @@ Generated: 2026-07-17T05:57:46Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-16T23:00:59+00:00 — [AI, Automation and Attacks: Unpacking the Unit 42 2026 Global Incident Response Report](https://unit42.paloaltonetworks.com/ai-incident-response-report/)
+- 2026-07-17T10:00:24+00:00 — [Three Steps to the Terminal: A Siemens ROX II Zero-Day Trilogy](https://unit42.paloaltonetworks.com/siemens-rox-ii-zero-day-vulnerabilities/)
 
 ## Mandiant Threat Intelligence
 
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-16T14:00:00+00:00 — [Demystifying AI Exploits: A Blueprint for AI-Assisted Vulnerability Management](https://cloud.google.com/blog/topics/threat-intelligence/ai-assisted-vulnerability-management/)
+- No new entries detected
 
 ## Cisco Talos Blog
 
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-07-16T18:00:50+00:00 — [Begun, the Patch Wars have](https://blog.talosintelligence.com/begun-the-patch-wars-have/)
-- 2026-07-16T10:00:07+00:00 — [The Hunter's Paradox: Is it time to embrace automated threat hunting?](https://blog.talosintelligence.com/the-hunters-paradox-is-it-time-to-embrace-automated-threat-hunting/)
-- 2026-07-16T10:00:01+00:00 — [UAT-11795 deploys novel Starland RAT and bespoke WLDR C2 implant in financially motivated campaign](https://blog.talosintelligence.com/uat-11795-deploys-novel-starland-rat-and-bespoke-wldr-c2-implant-in-financially-motivated-campaign/)
+- No new entries detected
 
 ## SANS Blog
 
@@ -463,9 +473,9 @@ Generated: 2026-07-17T05:57:46Z
 - Site: https://www.elastic.co/security-labs/
 - Feed: https://www.elastic.co/security-labs/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- unknown date — [New North Korean campaign uses fake coding interviews to steal developer credentials](https://www.elastic.co/security-labs/contagious-interview-malware-svg-steganography)
 
 ## Flare.io Threat Research Blog
 
@@ -496,9 +506,9 @@ Generated: 2026-07-17T05:57:46Z
 - Site: https://www.forensafe.com/blogs/
 - Feed: https://www.forensafe.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- Fri, 10 July 2026 — [Android Google Pay Account](https://forensafe.com/blogs/android-google-pay.html)
+- No new entries detected
 
 ## Cellebrite Blog
 
@@ -532,11 +542,10 @@ Generated: 2026-07-17T05:57:46Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-07-16T13:56:14+00:00 — [The backlash against Flock cameras is spreading](https://www.malwarebytes.com/blog/news/2026/07/the-backlash-against-flock-cameras-is-spreading)
-- 2026-07-16T10:47:22+00:00 — [Security updates available for Adobe, Chrome, Firefox, VMWare, and Zoom](https://www.malwarebytes.com/blog/bugs/2026/07/security-updates-available-for-adobe-chrome-firefox-vmware-and-zoom)
-- 2026-07-16T09:25:59+00:00 — [Samsung backs down on threat to delete health data](https://www.malwarebytes.com/blog/privacy/2026/07/samsung-backs-down-on-threat-to-delete-health-data)
+- 2026-07-17T12:29:56+00:00 — [Shark vacuum flaw exposes cameras, home maps and Wi-Fi passwords](https://www.malwarebytes.com/blog/news/2026/07/shark-vacuum-flaw-exposes-cameras-home-maps-and-wi-fi-passwords)
+- 2026-07-17T10:43:29+00:00 — [How to use GitHub safely](https://www.malwarebytes.com/blog/how-to/2026/07/how-to-use-github-safely)
 
 ## Krebs on Security
 
@@ -552,29 +561,28 @@ Generated: 2026-07-17T05:57:46Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 8
 
-- 2026-07-16T17:52:54-04:00 — [New ClickLock macOS malware traps users into revealing login password](https://www.bleepingcomputer.com/news/security/new-clicklock-macos-malware-traps-users-into-revealing-login-password/)
-- 2026-07-16T17:09:41-04:00 — [Coca-Cola says Fairlife ransomware attack halts US dairy production](https://www.bleepingcomputer.com/news/security/coca-cola-says-fairlife-ransomware-attack-halts-us-dairy-production/)
-- 2026-07-16T15:26:07-04:00 — [Claude Chrome extension flaw lets malicious extensions trigger AI actions](https://www.bleepingcomputer.com/news/security/claude-chrome-extension-flaw-lets-malicious-extensions-trigger-ai-actions/)
-- 2026-07-16T15:09:35-04:00 — [New OkoBot framework deploys 20 payloads to steal data, crypto](https://www.bleepingcomputer.com/news/security/new-okobot-framework-deploys-20-payloads-to-steal-data-crypto/)
-- 2026-07-16T10:00:10-04:00 — [AI Agents Broke the Security Playbook. Here's What Replaces It.](https://www.bleepingcomputer.com/news/security/ai-agents-broke-the-security-playbook-heres-what-replaces-it/)
-- 2026-07-16T09:47:23-04:00 — [23andMe to pay $18 million in new genetics data breach settlement](https://www.bleepingcomputer.com/news/security/23andme-to-pay-18-million-in-new-genetics-data-breach-settlement/)
-- 2026-07-16T08:31:29-04:00 — [Scattered Spider members behind TfL hack get five years in prison](https://www.bleepingcomputer.com/news/security/scattered-spider-members-behind-transport-for-london-hack-get-five-years-in-prison/)
-- 2026-07-16T07:59:24-04:00 — [Windows 11 24H2 Home and Pro reach end of support in 90 days](https://www.bleepingcomputer.com/news/microsoft/windows-11-24h2-home-and-pro-reach-end-of-support-in-90-days/)
-- 2026-07-16T06:56:03-04:00 — [CISA orders feds to patch actively exploited Oracle flaw by Saturday](https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-actively-exploited-oracle-flaw-by-saturday/)
-- 2026-07-16T06:19:34-04:00 — [Russian hackers trojanize WebEx, Zoom apps to push Starland malware](https://www.bleepingcomputer.com/news/security/russian-hackers-trojanize-webex-zoom-apps-to-push-starland-malware/)
+- 2026-07-17T16:45:52-04:00 — [Abbott probes two cyber incidents amid extortion claims](https://www.bleepingcomputer.com/news/security/abbott-laboratories-probes-two-cyber-incidents-amid-extortion-claims/)
+- 2026-07-17T13:56:21-04:00 — [HollowByte DDoS flaw bloats OpenSSL server memory with 11-byte payload](https://www.bleepingcomputer.com/news/security/hollowbyte-ddos-flaw-bloats-openssl-server-memory-with-11-byte-payload/)
+- 2026-07-17T10:55:28-04:00 — [Ernst & Young discloses data breach after support system hack](https://www.bleepingcomputer.com/news/security/ernst-and-young-discloses-data-breach-after-support-system-hack/)
+- 2026-07-17T10:00:10-04:00 — [Inside the Search for "Clean" Residential Proxies for Carding](https://www.bleepingcomputer.com/news/security/inside-the-search-for-clean-residential-proxies-for-carding/)
+- 2026-07-17T07:05:30-04:00 — [New Windows LegacyHive zero-day gives hackers admin privileges](https://www.bleepingcomputer.com/news/security/new-windows-legacyhive-zero-day-exploit-grants-hackers-admin-access/)
+- 2026-07-17T05:10:15-04:00 — [Windows Server 2022 reach end of mainstream support in 90 days](https://www.bleepingcomputer.com/news/microsoft/windows-server-2022-reach-end-of-mainstream-support-in-90-days/)
+- 2026-07-17T04:13:37-04:00 — [US charges two over laundering $43 million from investment fraud](https://www.bleepingcomputer.com/news/security/us-charges-two-over-laundering-43-million-from-investment-fraud/)
+- 2026-07-17T03:03:33-04:00 — [CISA urges immediate action on actively exploited Fortinet flaws](https://www.bleepingcomputer.com/news/security/cisa-warns-feds-to-patch-exploited-fortinet-fortisandbox-flaws-by-sunday/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 4
 
-- 2026-07-16T20:57:47+00:00 — [Agentic AI Is Untamable: Ask the Right Security Questions](https://www.darkreading.com/cybersecurity-operations/agentic-ai-untamable-ask-the-right-security-questions)
-- 2026-07-16T19:41:31+00:00 — [1M+ Emails Use Hidden Text to Dupe AI Security Filters](https://www.darkreading.com/threat-intelligence/1m-emails-hidden-text-dupe-ai-security-filters)
-- 2026-07-16T07:00:00+00:00 — [Police Disrupt a €140M Cyber Fraud Ring in Spain](https://www.darkreading.com/threat-intelligence/police-disrupt-140m-euro-cyber-fraud-ring-spain)
+- 2026-07-17T20:01:13+00:00 — [Inc Ransomware Exploits SonicWall SMA Zero-Days](https://www.darkreading.com/vulnerabilities-threats/inc-ransomware-exploits-sonicwall-sma-zero-days)
+- 2026-07-17T16:43:13+00:00 — [The Real AI Threat Is Blind Trust](https://www.darkreading.com/application-security/real-ai-threat-blind-trust)
+- 2026-07-17T13:00:00+00:00 — [Gold Eagle Clearinghouse Targets Security Gap, but How Is Unclear](https://www.darkreading.com/vulnerabilities-threats/gold-eagle-clearinghouse-targets-security-gap)
+- 2026-07-17T11:50:25+00:00 — [Google Bets 'Agentic Defense' Strategy Can Outpace Attackers](https://www.darkreading.com/cloud-security/google-bets-agentic-defense-strategy-outpace-attackers)
 
 ## Volexity Blog
 
@@ -596,10 +604,9 @@ Generated: 2026-07-17T05:57:46Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-07-16T23:12:02+00:00 — [ACR Stealer: Two observed intrusion chains amid increased threat activity](https://www.microsoft.com/en-us/security/blog/2026/07/16/acr-stealer-two-observed-intrusion-chains-amid-increased-threat-activity/)
-- 2026-07-16T16:00:00+00:00 — [Least privilege for AI agents: Identity, access, and tool binding](https://www.microsoft.com/en-us/security/blog/2026/07/16/least-privilege-for-ai-agents-identity-access-and-tool-binding/)
+- 2026-07-17T16:00:00+00:00 — [Microsoft at Black Hat USA 2026: Defending trust in the age of AI and supply chain attacks](https://www.microsoft.com/en-us/security/blog/2026/07/17/microsoft-at-black-hat-usa-2026-defending-trust-in-the-age-of-ai-and-supply-chain-attacks/)
 
 ## HackingPassion
 
@@ -867,9 +874,9 @@ Generated: 2026-07-17T05:57:46Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-17T20:47:19+00:00 — [dev-v2.0.0](https://github.com/elastic/detection-rules/releases/tag/dev-v2.0.0)
 
 ## regipy releases
 
