@@ -30,6 +30,7 @@
 pub mod catalog;
 pub mod decmpfs;
 pub mod evidence;
+pub mod file_id;
 pub mod filesystems;
 pub mod partition_schemes;
 pub mod partition_types;
@@ -37,3 +38,8 @@ pub mod report;
 pub mod volatility;
 pub mod volume_encryption;
 pub mod volume_serial;
+
+/// Filesystem-object identity, re-exported at the crate root so consumers write
+/// `forensicnomicon_core::FileId` (ADR 0009). `forensic-vfs` re-exports this in
+/// turn, keeping every existing `forensic_vfs::FileId` import working unchanged.
+pub use file_id::FileId;
