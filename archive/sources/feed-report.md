@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-07-18T05:38:22Z
+Generated: 2026-07-19T06:10:06Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-07-18T05:38:22Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-17T00:00:00+00:00 — [ClickLock Stealer turns a locked screen into a forensics case](https://andreafortuna.org/2026/07/17/clicklock/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -220,18 +220,9 @@ Generated: 2026-07-18T05:38:22Z
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-06-19T00:57:00+00:00 — [How the USN Journal Really Works](https://www.youtube.com/watch?v=eSLHyqZlglk)
-- 2026-07-08T07:33:38+00:00 — [The Korvath Incident: A macOS Forensics Challenge](https://www.youtube.com/watch?v=tRvw13e3Qn0)
-- 2026-06-28T16:30:49+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
-- 2026-04-24T09:44:12+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
-- 2026-05-28T20:26:20+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
-- 2026-04-23T00:04:55+00:00 — [Tracking Program Execution with a Little Known Registry Key](https://www.youtube.com/watch?v=yoFkF-NHZvo)
-- 2026-05-28T20:27:51+00:00 — [The Truth About Windows Explorer Timestamps](https://www.youtube.com/watch?v=PdyVkmhMcOA)
-- 2026-05-01T22:55:06+00:00 — [Major Update to 13Cubed Courses: Chaos at Cobalt](https://www.youtube.com/watch?v=CzF6DFhSfHw)
-- 2026-04-30T06:35:14+00:00 — [13Cubed AMA - Answering Your Questions!](https://www.youtube.com/watch?v=duz5BoZUly8)
-- 2026-04-22T18:55:48+00:00 — [The Easy Way to Analyze Linux Memory](https://www.youtube.com/watch?v=W40gdWNdwUI)
+- No new entries detected
 
 ## SANS Internet Storm Center
 
@@ -265,9 +256,9 @@ Generated: 2026-07-18T05:38:22Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-17T11:22:06+00:00 — [Infosec News Nuggets — July 17, 2026](https://aboutdfir.com/infosec-news-nuggets-july-17-2026/)
+- No new entries detected
 
 ## Forensic 4cast
 
@@ -382,10 +373,11 @@ Generated: 2026-07-18T05:38:22Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-07-17T11:30:00+00:00 — [In memoriam Viktor Mikhailovich Vasnetsov: 1, 1874-82](https://eclecticlight.co/2026/07/17/in-memoriam-viktor-mikhailovich-vasnetsov-1-1874-82/)
-- 2026-07-17T06:30:00+00:00 — [SpotTest 1.3 identifies file types using file(1)](https://eclecticlight.co/2026/07/17/spottest-1-3-identifies-file-types-using-file1/)
+- 2026-07-18T11:30:00+00:00 — [William Merritt Chase and the independence of American painting 1](https://eclecticlight.co/2026/07/18/william-merritt-chase-and-the-independence-of-american-painting-1/)
+- 2026-07-18T08:00:00+00:00 — [Saturday Mac riddles 369](https://eclecticlight.co/2026/07/18/saturday-mac-riddles-369/)
+- 2026-07-18T07:00:00+00:00 — [What makes a volume bootable?](https://eclecticlight.co/2026/07/18/what-makes-a-volume-bootable/)
 
 ## JPCERT/CC
 
@@ -410,9 +402,9 @@ Generated: 2026-07-18T05:38:22Z
 - Site: https://blog.elcomsoft.com/
 - Feed: https://blog.elcomsoft.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-17T09:08:07+00:00 — [The Long, Strange History of PDF (In)Security – And the Arrest That Made It Personal](https://blog.elcomsoft.com/2026/07/the-long-strange-history-of-pdf-insecurity-and-the-arrest-that-made-it-personal/)
+- No new entries detected
 
 ## Huntress Blog
 
@@ -437,9 +429,9 @@ Generated: 2026-07-18T05:38:22Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-17T10:00:24+00:00 — [Three Steps to the Terminal: A Siemens ROX II Zero-Day Trilogy](https://unit42.paloaltonetworks.com/siemens-rox-ii-zero-day-vulnerabilities/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
@@ -473,9 +465,9 @@ Generated: 2026-07-18T05:38:22Z
 - Site: https://www.elastic.co/security-labs/
 - Feed: https://www.elastic.co/security-labs/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- unknown date — [New North Korean campaign uses fake coding interviews to steal developer credentials](https://www.elastic.co/security-labs/contagious-interview-malware-svg-steganography)
+- No new entries detected
 
 ## Flare.io Threat Research Blog
 
@@ -542,10 +534,9 @@ Generated: 2026-07-18T05:38:22Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-07-17T12:29:56+00:00 — [Shark vacuum flaw exposes cameras, home maps and Wi-Fi passwords](https://www.malwarebytes.com/blog/news/2026/07/shark-vacuum-flaw-exposes-cameras-home-maps-and-wi-fi-passwords)
-- 2026-07-17T10:43:29+00:00 — [How to use GitHub safely](https://www.malwarebytes.com/blog/how-to/2026/07/how-to-use-github-safely)
+- No new entries detected
 
 ## Krebs on Security
 
@@ -561,28 +552,21 @@ Generated: 2026-07-18T05:38:22Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 8
+- New since last snapshot: 4
 
-- 2026-07-17T16:45:52-04:00 — [Abbott probes two cyber incidents amid extortion claims](https://www.bleepingcomputer.com/news/security/abbott-laboratories-probes-two-cyber-incidents-amid-extortion-claims/)
-- 2026-07-17T13:56:21-04:00 — [HollowByte DDoS flaw bloats OpenSSL server memory with 11-byte payload](https://www.bleepingcomputer.com/news/security/hollowbyte-ddos-flaw-bloats-openssl-server-memory-with-11-byte-payload/)
-- 2026-07-17T10:55:28-04:00 — [Ernst & Young discloses data breach after support system hack](https://www.bleepingcomputer.com/news/security/ernst-and-young-discloses-data-breach-after-support-system-hack/)
-- 2026-07-17T10:00:10-04:00 — [Inside the Search for "Clean" Residential Proxies for Carding](https://www.bleepingcomputer.com/news/security/inside-the-search-for-clean-residential-proxies-for-carding/)
-- 2026-07-17T07:05:30-04:00 — [New Windows LegacyHive zero-day gives hackers admin privileges](https://www.bleepingcomputer.com/news/security/new-windows-legacyhive-zero-day-exploit-grants-hackers-admin-access/)
-- 2026-07-17T05:10:15-04:00 — [Windows Server 2022 reach end of mainstream support in 90 days](https://www.bleepingcomputer.com/news/microsoft/windows-server-2022-reach-end-of-mainstream-support-in-90-days/)
-- 2026-07-17T04:13:37-04:00 — [US charges two over laundering $43 million from investment fraud](https://www.bleepingcomputer.com/news/security/us-charges-two-over-laundering-43-million-from-investment-fraud/)
-- 2026-07-17T03:03:33-04:00 — [CISA urges immediate action on actively exploited Fortinet flaws](https://www.bleepingcomputer.com/news/security/cisa-warns-feds-to-patch-exploited-fortinet-fortisandbox-flaws-by-sunday/)
+- 2026-07-18T15:32:02-04:00 — [Update now: 7-Zip fixes RCE flaw exploitable with malicious archives](https://www.bleepingcomputer.com/news/security/update-now-7-zip-fixes-rce-flaw-exploitable-with-malicious-archives/)
+- 2026-07-18T13:22:47-04:00 — [WordPress Core "wp2shell" RCE flaws get public exploits, patch now](https://www.bleepingcomputer.com/news/security/wordpress-core-wp2shell-rce-flaws-get-public-exploits-patch-now/)
+- 2026-07-18T10:17:19-04:00 — [Microsoft warns of surge in ACR Stealer attacks on customers](https://www.bleepingcomputer.com/news/security/microsoft-warns-of-surge-in-acr-stealer-attacks-on-customers/)
+- 2026-07-18T09:15:24-04:00 — [The Future of Age Verification: Your Face Never Leaves Your Device](https://www.bleepingcomputer.com/news/security/the-future-of-age-verification-your-face-never-leaves-your-device/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-07-17T20:01:13+00:00 — [Inc Ransomware Exploits SonicWall SMA Zero-Days](https://www.darkreading.com/vulnerabilities-threats/inc-ransomware-exploits-sonicwall-sma-zero-days)
-- 2026-07-17T16:43:13+00:00 — [The Real AI Threat Is Blind Trust](https://www.darkreading.com/application-security/real-ai-threat-blind-trust)
-- 2026-07-17T13:00:00+00:00 — [Gold Eagle Clearinghouse Targets Security Gap, but How Is Unclear](https://www.darkreading.com/vulnerabilities-threats/gold-eagle-clearinghouse-targets-security-gap)
-- 2026-07-17T11:50:25+00:00 — [Google Bets 'Agentic Defense' Strategy Can Outpace Attackers](https://www.darkreading.com/cloud-security/google-bets-agentic-defense-strategy-outpace-attackers)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -604,18 +588,18 @@ Generated: 2026-07-18T05:38:22Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-17T16:00:00+00:00 — [Microsoft at Black Hat USA 2026: Defending trust in the age of AI and supply chain attacks](https://www.microsoft.com/en-us/security/blog/2026/07/17/microsoft-at-black-hat-usa-2026-defending-trust-in-the-age-of-ai-and-supply-chain-attacks/)
+- No new entries detected
 
 ## HackingPassion
 
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-18T12:59:44+02:00 — [WordPress Let One Request Read Your Database for 227 Days](https://hackingpassion.com/wordpress-wp2shell-rce/)
 
 ## LOLBAS Project (Windows)
 
@@ -874,18 +858,19 @@ Generated: 2026-07-18T05:38:22Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-17T20:47:19+00:00 — [dev-v2.0.0](https://github.com/elastic/detection-rules/releases/tag/dev-v2.0.0)
+- No new entries detected
 
 ## regipy releases
 
 - Site: https://github.com/mkorman90/regipy
 - Feed: https://github.com/mkorman90/regipy/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-07-18T14:16:36+00:00 — [6.3.0](https://github.com/mkorman90/regipy/releases/tag/6.3.0)
+- 2026-07-18T13:38:49+00:00 — [regipy-rs 0.1.0a1](https://github.com/mkorman90/regipy/releases/tag/regipy-rs-0.1.0a1)
 
 ## EZ Registry commits
 
