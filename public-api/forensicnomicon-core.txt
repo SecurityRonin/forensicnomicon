@@ -489,6 +489,23 @@ pub forensicnomicon_core::evidence::EvidenceStrength::Corroborative = 2
 pub forensicnomicon_core::evidence::EvidenceStrength::Definitive = 4
 pub forensicnomicon_core::evidence::EvidenceStrength::Strong = 3
 pub forensicnomicon_core::evidence::EvidenceStrength::Unreliable = 0
+pub mod forensicnomicon_core::file_id
+#[non_exhaustive] pub enum forensicnomicon_core::file_id::FileId
+pub forensicnomicon_core::file_id::FileId::ApfsOid
+pub forensicnomicon_core::file_id::FileId::ApfsOid::oid: u64
+pub forensicnomicon_core::file_id::FileId::ApfsOid::xid: u64
+pub forensicnomicon_core::file_id::FileId::ExtInode
+pub forensicnomicon_core::file_id::FileId::ExtInode::gen: u32
+pub forensicnomicon_core::file_id::FileId::ExtInode::ino: u64
+pub forensicnomicon_core::file_id::FileId::FatDirEntry
+pub forensicnomicon_core::file_id::FileId::FatDirEntry::cluster: u32
+pub forensicnomicon_core::file_id::FileId::FatDirEntry::index: u16
+pub forensicnomicon_core::file_id::FileId::IsoExtent
+pub forensicnomicon_core::file_id::FileId::IsoExtent::block: u32
+pub forensicnomicon_core::file_id::FileId::NtfsRef
+pub forensicnomicon_core::file_id::FileId::NtfsRef::entry: u64
+pub forensicnomicon_core::file_id::FileId::NtfsRef::seq: u16
+pub forensicnomicon_core::file_id::FileId::Opaque(u64)
 pub mod forensicnomicon_core::filesystems
 pub struct forensicnomicon_core::filesystems::FsKind(_)
 impl forensicnomicon_core::filesystems::FsKind
@@ -687,3 +704,19 @@ pub forensicnomicon_core::volume_serial::VolumeSerial::Short(u32)
 impl forensicnomicon_core::volume_serial::VolumeSerial
 pub fn forensicnomicon_core::volume_serial::VolumeSerial::display(self) -> alloc::string::String
 pub fn forensicnomicon_core::volume_serial::volume_serial(&[u8]) -> core::option::Option<forensicnomicon_core::volume_serial::VolumeSerial>
+#[non_exhaustive] pub enum forensicnomicon_core::FileId
+pub forensicnomicon_core::FileId::ApfsOid
+pub forensicnomicon_core::FileId::ApfsOid::oid: u64
+pub forensicnomicon_core::FileId::ApfsOid::xid: u64
+pub forensicnomicon_core::FileId::ExtInode
+pub forensicnomicon_core::FileId::ExtInode::gen: u32
+pub forensicnomicon_core::FileId::ExtInode::ino: u64
+pub forensicnomicon_core::FileId::FatDirEntry
+pub forensicnomicon_core::FileId::FatDirEntry::cluster: u32
+pub forensicnomicon_core::FileId::FatDirEntry::index: u16
+pub forensicnomicon_core::FileId::IsoExtent
+pub forensicnomicon_core::FileId::IsoExtent::block: u32
+pub forensicnomicon_core::FileId::NtfsRef
+pub forensicnomicon_core::FileId::NtfsRef::entry: u64
+pub forensicnomicon_core::FileId::NtfsRef::seq: u16
+pub forensicnomicon_core::FileId::Opaque(u64)
