@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-core-v1.3.0...forensicnomicon-core-v1.4.0) - 2026-07-19
+
+### Added
+
+- *(core)* relocate FileId into forensicnomicon-core (ADR 0009)
+
+### Other
+
+- Merge feat/evidential-address: relocate FileId into forensicnomicon-core (ADR 0009)
+
 ## [1.3.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-core-v1.2.0...forensicnomicon-core-v1.3.0) - 2026-07-16
 
 ### Added
