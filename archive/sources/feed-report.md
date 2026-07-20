@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-07-19T06:10:06Z
+Generated: 2026-07-20T06:27:55Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-07-19T06:10:06Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-19T00:00:00+00:00 — [Weekly Wire #1: AI-fueled vulnerability boom](https://andreafortuna.org/2026/07/19/weekly-wire-1/)
 
 ## Salt Forensics
 
@@ -219,25 +219,23 @@ Generated: 2026-07-19T06:10:06Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 404
 
 ## SANS Internet Storm Center
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-07-20T02:00:02+00:00 — [ISC Stormcast For Monday, July 20th, 2026 https://isc.sans.edu/podcastdetail/10014, (Mon, Jul 20th)](https://isc.sans.edu/diary/rss/33166)
+- 2026-07-19T15:00:38+00:00 — [Scans for Hikvision Intelligent Security API, (Sun, Jul 19th)](https://isc.sans.edu/diary/rss/33164)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
+- Entries checked: 0
 - New since last snapshot: 0
 
 - No new entries detected
@@ -246,19 +244,13 @@ Generated: 2026-07-19T06:10:06Z
 
 - Site: https://www.msab.com/
 - Feed: https://www.msab.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## AboutDFIR
 
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## Forensic 4cast
 
@@ -274,9 +266,9 @@ Generated: 2026-07-19T06:10:06Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-19T11:18:57+00:00 — [Week 29 – 2026](https://thisweekin4n6.com/2026/07/19/week-29-2026/)
 
 ## The Sleuth Kit updates
 
@@ -291,10 +283,7 @@ Generated: 2026-07-19T06:10:06Z
 
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## Didier Stevens Blog
 
@@ -373,11 +362,10 @@ Generated: 2026-07-19T06:10:06Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-07-18T11:30:00+00:00 — [William Merritt Chase and the independence of American painting 1](https://eclecticlight.co/2026/07/18/william-merritt-chase-and-the-independence-of-american-painting-1/)
-- 2026-07-18T08:00:00+00:00 — [Saturday Mac riddles 369](https://eclecticlight.co/2026/07/18/saturday-mac-riddles-369/)
-- 2026-07-18T07:00:00+00:00 — [What makes a volume bootable?](https://eclecticlight.co/2026/07/18/what-makes-a-volume-bootable/)
+- 2026-07-19T11:30:00+00:00 — [William Merritt Chase and the independence of American painting 2](https://eclecticlight.co/2026/07/19/william-merritt-chase-and-the-independence-of-american-painting-2/)
+- 2026-07-19T07:00:00+00:00 — [Last Week on My Mac: The problems of structured data](https://eclecticlight.co/2026/07/19/last-week-on-my-mac-the-problems-of-structured-data/)
 
 ## JPCERT/CC
 
@@ -552,12 +540,9 @@ Generated: 2026-07-19T06:10:06Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 1
 
-- 2026-07-18T15:32:02-04:00 — [Update now: 7-Zip fixes RCE flaw exploitable with malicious archives](https://www.bleepingcomputer.com/news/security/update-now-7-zip-fixes-rce-flaw-exploitable-with-malicious-archives/)
-- 2026-07-18T13:22:47-04:00 — [WordPress Core "wp2shell" RCE flaws get public exploits, patch now](https://www.bleepingcomputer.com/news/security/wordpress-core-wp2shell-rce-flaws-get-public-exploits-patch-now/)
-- 2026-07-18T10:17:19-04:00 — [Microsoft warns of surge in ACR Stealer attacks on customers](https://www.bleepingcomputer.com/news/security/microsoft-warns-of-surge-in-acr-stealer-attacks-on-customers/)
-- 2026-07-18T09:15:24-04:00 — [The Future of Age Verification: Your Face Never Leaves Your Device](https://www.bleepingcomputer.com/news/security/the-future-of-age-verification-your-face-never-leaves-your-device/)
+- 2026-07-19T10:23:46-04:00 — [Hackers abuse ViPNet software to target Russian govt agencies](https://www.bleepingcomputer.com/news/security/hackers-abuse-vipnet-software-to-target-russian-govt-agencies/)
 
 ## Dark Reading
 
@@ -599,7 +584,7 @@ Generated: 2026-07-19T06:10:06Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-18T12:59:44+02:00 — [WordPress Let One Request Read Your Database for 227 Days](https://hackingpassion.com/wordpress-wp2shell-rce/)
+- 2026-07-19T12:01:44+02:00 — [LegacyHive Reopens a Windows Privilege Hole Microsoft Closed 11 Years Ago](https://hackingpassion.com/legacyhive-windows-user-profile-hive/)
 
 ## LOLBAS Project (Windows)
 
@@ -867,10 +852,9 @@ Generated: 2026-07-19T06:10:06Z
 - Site: https://github.com/mkorman90/regipy
 - Feed: https://github.com/mkorman90/regipy/releases.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-07-18T14:16:36+00:00 — [6.3.0](https://github.com/mkorman90/regipy/releases/tag/6.3.0)
-- 2026-07-18T13:38:49+00:00 — [regipy-rs 0.1.0a1](https://github.com/mkorman90/regipy/releases/tag/regipy-rs-0.1.0a1)
+- No new entries detected
 
 ## EZ Registry commits
 
