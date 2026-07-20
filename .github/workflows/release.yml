@@ -14,6 +14,14 @@ permissions:
 
 jobs:
   build:
+    # Windows Authenticode signing (SOP §5): environment: release scopes the OIDC
+    # subject to repo:SecurityRonin/forensicnomicon:environment:release; id-token:
+    # write lets azure/login mint the token exchanged for the signing session
+    # (the workflow's top-level permissions grant only contents: write).
+    environment: release
+    permissions:
+      id-token: write
+      contents: read
     strategy:
       matrix:
         include:
@@ -56,6 +64,27 @@ jobs:
       - name: Build
         run: cargo build --release --target ${{ matrix.target }} -p forensicnomicon-cli
 
+      # Windows Authenticode signing (Azure Trusted Signing, SOP §5). OIDC login
+      # FIRST; sign the .exe BEFORE cargo-wix packages it.
+      - name: Azure login (OIDC)
+        if: runner.os == 'Windows'
+        uses: azure/login@93381592711f247e165c389ebb30b596c84cdc48 # v3.0.0
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Sign Windows .exe (Azure Trusted Signing)
+        if: runner.os == 'Windows'
+        uses: azure/trusted-signing-action@208f8af4bf26cf2af8597424e3cb5582801523ba # v2.0.0
+        with:
+          endpoint: https://neu.codesigning.azure.net
+          trusted-signing-account-name: securityronin
+          certificate-profile-name: securityronin-public
+          files-folder: target/${{ matrix.target }}/release
+          files-folder-filter: exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+
       - name: Package (Unix)
         if: runner.os != 'Windows'
         run: |
@@ -74,6 +103,19 @@ jobs:
         # --nocapture surfaces candle/light output so a Source-path failure names
         # the offending file instead of a bare "candle exit 104".
         run: cargo wix --package forensicnomicon-cli --no-build --nocapture --target ${{ matrix.target }} --output 4n6query-${{ steps.version.outputs.version }}-${{ matrix.target }}.msi
+
+      # Sign the MSI too, so winget/UAC shows the verified publisher on install.
+      - name: Sign Windows .msi (Azure Trusted Signing)
+        if: runner.os == 'Windows'
+        uses: azure/trusted-signing-action@208f8af4bf26cf2af8597424e3cb5582801523ba # v2.0.0
+        with:
+          endpoint: https://neu.codesigning.azure.net
+          trusted-signing-account-name: securityronin
+          certificate-profile-name: securityronin-public
+          files-folder: ${{ github.workspace }}
+          files-folder-filter: msi
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
