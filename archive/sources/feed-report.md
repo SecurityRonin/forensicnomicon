@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-07-22T06:06:52Z
+Generated: 2026-07-23T06:11:54Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-07-22T06:06:52Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-21T00:00:00+00:00 — [Chasing ghosts through serverless forensics in Lambda and Azure Functions](https://andreafortuna.org/2026/07/21/serverless-forensics/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -142,9 +142,9 @@ Generated: 2026-07-22T06:06:52Z
 - Site: https://tisiphone.net/
 - Feed: https://tisiphone.net/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-21T22:08:52+00:00 — [We Wrote an Academic Paper on Conficker in 2026](https://tisiphone.net/2026/07/21/we-wrote-an-academic-paper-on-conficker-in-2026/)
+- No new entries detected
 
 ## Smarter Forensics
 
@@ -228,14 +228,14 @@ Generated: 2026-07-22T06:06:52Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-07-22T02:00:02+00:00 — [ISC Stormcast For Wednesday, July 22nd, 2026 https://isc.sans.edu/podcastdetail/10018, (Wed, Jul 22nd)](https://isc.sans.edu/diary/rss/33174)
-- 2026-07-21T13:44:56+00:00 — [Captive Portal Detection, (Tue, Jul 21st)](https://isc.sans.edu/diary/rss/33172)
+- 2026-07-23T02:00:03+00:00 — [ISC Stormcast For Thursday, July 23rd, 2026 https://isc.sans.edu/podcastdetail/10020, (Thu, Jul 23rd)](https://isc.sans.edu/diary/rss/33178)
+- 2026-07-22T17:35:33+00:00 — [Rondo Meets Geoserver, (Wed, Jul 22nd)](https://isc.sans.edu/diary/rss/33176)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
+- Entries checked: 0
 - New since last snapshot: 0
 
 - No new entries detected
@@ -256,7 +256,7 @@ Generated: 2026-07-22T06:06:52Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-21T11:29:52+00:00 — [Infosec News Nuggets — July 21, 2026](https://aboutdfir.com/infosec-news-nuggets-july-21-2026/)
+- 2026-07-22T11:47:46+00:00 — [Infosec News Nuggets — July 22, 2026](https://aboutdfir.com/infosec-news-nuggets-july-22-2026/)
 
 ## Forensic 4cast
 
@@ -373,17 +373,17 @@ Generated: 2026-07-22T06:06:52Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-07-21T11:30:00+00:00 — [Portraits of trees: John Constable](https://eclecticlight.co/2026/07/21/portraits-of-trees-john-constable/)
-- 2026-07-21T06:30:00+00:00 — [SilentKnight version 3.02 fixes menus and auto-updates](https://eclecticlight.co/2026/07/21/silentknight-version-3-02-fixes-menus-and-auto-updates/)
+- 2026-07-22T11:30:00+00:00 — [In the shadow: The Enlightenment of Joseph Wright](https://eclecticlight.co/2026/07/22/in-the-shadow-the-enlightenment-of-joseph-wright/)
+- 2026-07-22T06:30:00+00:00 — [Understand APFS version numbers](https://eclecticlight.co/2026/07/22/understand-apfs-version-numbers/)
 
 ## JPCERT/CC
 
 - Site: https://blogs.jpcert.or.jp/en/
 - Feed: https://blogs.jpcert.or.jp/en/atom.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-23T02:32:28+00:00 — [TSUBAME Report Overflow (Jan-Mar 2026)](https://blogs.jpcert.or.jp/en/2026/07/tsubame_overflow_2026-01-03.html)
 
 ## DFIR Review
 
@@ -401,7 +401,7 @@ Generated: 2026-07-22T06:06:52Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-21T12:00:53+00:00 — [Digital Triage and the Rules of Evidence: What Holds Up, and Where](https://blog.elcomsoft.com/2026/07/digital-triage-and-the-rules-of-evidence-what-holds-up-and-where/)
+- 2026-07-22T09:46:03+00:00 — [An AI agent broke into Hugging Face. Five days later, OpenAI said it was theirs](https://blog.elcomsoft.com/2026/07/an-ai-agent-broke-into-hugging-face-five-days-later-openai-said-it-was-theirs/)
 
 ## Huntress Blog
 
@@ -462,18 +462,18 @@ Generated: 2026-07-22T06:06:52Z
 - Site: https://www.elastic.co/security-labs/
 - Feed: https://www.elastic.co/security-labs/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- unknown date — [wp2shell hits WordPress: detecting pre-auth RCE from plugin drop to command execution](https://www.elastic.co/security-labs/wp2shell-wordpress-rce-detection-elastic-defend)
 
 ## Flare.io Threat Research Blog
 
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-21T18:15:44+00:00 — [NULLZEREPTOOL: Inside a Telegram-Controlled DDoS and Multi-Function Attack Framework](https://flare.io/learn/resources/blog/nullzereptool-telegram-controlled-ddos-multi-function-attack-framework)
+- No new entries detected
 
 ## Binalyze Blog
 
@@ -495,21 +495,18 @@ Generated: 2026-07-22T06:06:52Z
 - Site: https://www.forensafe.com/blogs/
 - Feed: https://www.forensafe.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- Fri, 17 July 2026 — [iOS SplitWise](https://forensafe.com/blogs/ios-splitwise.html)
+- No new entries detected
 
 ## Cellebrite Blog
 
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-07-21T07:45:01+00:00 — [Cellebrite Genesis : Plus qu’une révolution — un tout nouveau paradigme](https://cellebrite.com/en/resources/webinars/cellebrite-genesis-plus-quune-revolution-un-tout-nouveau-paradigme/)
-- 2026-07-21T07:42:28+00:00 — [Counsel’s Casebook: What the Drone Cases Teach About Evidence](https://cellebrite.com/en/blog/counsels-casebook-what-the-drone-cases-teach-about-evidence/)
-- 2026-07-21T06:39:00+00:00 — [Cellebrite to Report Second-Quarter 2026 Financial Results on August 13, 2026](https://cellebrite.com/en/resources/cellebrite-to-report-second-quarter-2026-financial-results-on-august-13-2026/)
-- 2026-07-21T05:03:40+00:00 — [The Three Ways Mobile Security Teams Are Flying Blind — And How to Fix It](https://cellebrite.com/en/blog/mobile-security-testing-alternatives-ios-blind-spot/)
+- No new entries detected
 
 ## DFIR Science
 
@@ -525,30 +522,28 @@ Generated: 2026-07-22T06:06:52Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-21T00:00:00-05:00 — [Denying the Worm: Detecting SANDWORM_MODE and the Emerging Class of AI Toolchain Supply Chain Attacks](https://www.crowdstrike.com/en-us/blog/denying-the-worm-sandworm-mode-and-ai-toolchain-supply-chain-attacks/)
+- No new entries detected
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 2
 
-- 2026-07-21T14:57:27+00:00 — [What happens if you visit a WordPress site hacked through wp2shell?](https://www.malwarebytes.com/blog/bugs/2026/07/what-happens-if-you-visit-a-wordpress-site-hacked-through-wp2shell)
-- 2026-07-21T11:59:31+00:00 — [New ClickLock Stealer locks your Mac until you hand over your password](https://www.malwarebytes.com/blog/news/2026/07/new-clicklock-stealer-locks-your-mac-until-you-hand-over-your-password)
-- 2026-07-21T11:33:35+00:00 — [Don&#8217;t trust that &#8220;FBI agent&#8221; in your DMs](https://www.malwarebytes.com/blog/news/2026/07/dont-trust-that-fbi-agent-in-your-dms)
-- 2026-07-21T09:48:44+00:00 — [AI nudify apps spark legal scrutiny of Apple and Google&#8217;s profits](https://www.malwarebytes.com/blog/privacy/2026/07/ai-nudify-apps-spark-legal-scrutiny-of-apple-and-googles-profits)
+- 2026-07-22T12:46:18+00:00 — [Chick-fil-A loyalty accounts hijacked using stolen passwords](https://www.malwarebytes.com/blog/data-breaches/2026/07/chick-fil-a-loyalty-accounts-hijacked-using-stolen-passwords)
+- 2026-07-22T11:34:49+00:00 — [Paidwork breach exposes data of 23 million users: Check if you&#8217;re affected](https://www.malwarebytes.com/blog/data-breaches/2026/07/paidwork-breach-exposes-data-of-23-million-users-check-if-youre-affected)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-22T01:10:38+00:00 — [LG to Ban Residential Proxies from Smart TV Apps](https://krebsonsecurity.com/2026/07/lg-to-ban-residential-proxies-from-smart-tv-apps/)
+- No new entries detected
 
 ## BleepingComputer
 
@@ -557,16 +552,16 @@ Generated: 2026-07-22T06:06:52Z
 - Entries checked: 10
 - New since last snapshot: 10
 
-- 2026-07-22T01:19:20-04:00 — [OpenAI says its AI models hacked Hugging Face during testing](https://www.bleepingcomputer.com/news/security/openai-says-its-ai-models-hacked-hugging-face-during-testing/)
-- 2026-07-21T19:07:33-04:00 — [Police dismantle Kratos phishing platform, arrest developer](https://www.bleepingcomputer.com/news/security/police-dismantle-kratos-phishing-platform-arrest-developer/)
-- 2026-07-21T18:34:17-04:00 — [FakeGit campaign uses 7,600 GitHub repos to push SmartLoader malware](https://www.bleepingcomputer.com/news/security/fakegit-campaign-uses-7-600-github-repos-to-push-smartloader-malware/)
-- 2026-07-21T16:06:55-04:00 — [Critical SharePoint RCE flaw exploited to steal machine keys](https://www.bleepingcomputer.com/news/security/critical-sharepoint-rce-flaw-exploited-to-steal-machine-keys/)
-- 2026-07-21T14:50:54-04:00 — [Anubis ransomware claims Coca-Cola Fairlife attack, threatens data leak](https://www.bleepingcomputer.com/news/security/anubis-ransomware-claims-coca-cola-fairlife-attack-threatens-data-leak/)
-- 2026-07-21T12:41:50-04:00 — [Critical wp2shell WordPress flaws exploited to install webshells](https://www.bleepingcomputer.com/news/security/critical-wp2shell-wordpress-flaws-exploited-to-install-webshells/)
-- 2026-07-21T10:00:10-04:00 — [Closing the Identity Gaps in Critical Infrastructure Security](https://www.bleepingcomputer.com/news/security/closing-the-identity-gaps-in-critical-infrastructure-security/)
-- 2026-07-21T07:07:07-04:00 — [US seizes over 1,000 websites in FIFA World Cup piracy crackdown](https://www.bleepingcomputer.com/news/security/us-seizes-over-1-000-fifa-world-cup-illegal-streaming-domains/)
-- 2026-07-21T06:12:24-04:00 — [Critical Palo Alto VPN bug now exploited by Qilin ransomware gang](https://www.bleepingcomputer.com/news/security/critical-globalprotect-vpn-bug-now-exploited-in-ransomware-attacks/)
-- 2026-07-21T05:05:50-04:00 — [Microsoft shares manual fix for WSUS sync delays and timeouts](https://www.bleepingcomputer.com/news/microsoft/microsoft-shares-manual-fix-for-wsus-sync-delays-and-timeouts/)
+- 2026-07-22T17:43:39-04:00 — [Upbound says hack caused $13 million in fraudulent Acima leases](https://www.bleepingcomputer.com/news/security/upbound-says-hack-caused-13-million-in-fraudulent-acima-leases/)
+- 2026-07-22T16:06:54-04:00 — [South Korea discloses data breach impacting diplomats worldwide](https://www.bleepingcomputer.com/news/security/south-korea-discloses-data-breach-impacting-diplomats-worldwide/)
+- 2026-07-22T12:59:17-04:00 — [Swiss rail giant Stadler rejects $12.3M ransom demand after cyberattack](https://www.bleepingcomputer.com/news/security/swiss-rail-giant-stadler-rejects-123m-ransom-demand-after-cyberattack/)
+- 2026-07-22T11:30:00-04:00 — [How enterprise GenAI can amplify ransomware risk — and how to contain it](https://www.bleepingcomputer.com/news/security/how-enterprise-genai-can-amplify-ransomware-risk-and-how-to-contain-it/)
+- 2026-07-22T10:15:00-04:00 — [New InfraTrust report reveals infrastructure flaws admins should patch first](https://www.bleepingcomputer.com/news/security/new-infratrust-report-reveals-infrastructure-flaws-admins-should-patch-first/)
+- 2026-07-22T09:22:20-04:00 — [Adobe Chrome extension flaw let sites access private WhatsApp chats](https://www.bleepingcomputer.com/news/security/adobe-chrome-extension-flaw-let-sites-access-private-whatsapp-chats/)
+- 2026-07-22T07:43:28-04:00 — [CISA orders urgent action on actively exploited Langflow RCE flaw](https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-actively-exploited-langflow-rce-flaw/)
+- 2026-07-22T07:09:16-04:00 — [Stop renting storage space — this lifetime 2TB plan is yours for $59](https://www.bleepingcomputer.com/news/security/stop-renting-storage-space-this-lifetime-2tb-plan-is-yours-for-59/)
+- 2026-07-22T06:44:52-04:00 — [Microsoft to stop Exchange 2016 / 2019 security updates in October](https://www.bleepingcomputer.com/news/microsoft/microsoft-exchange-2016-and-2019-esu-program-ends-in-october/)
+- 2026-07-22T02:40:29-04:00 — [Chick-fil-A discloses data breach after credential stuffing attacks](https://www.bleepingcomputer.com/news/security/chick-fil-a-discloses-data-breach-after-credential-stuffing-attacks/)
 
 ## Dark Reading
 
@@ -575,11 +570,11 @@ Generated: 2026-07-22T06:06:52Z
 - Entries checked: 10
 - New since last snapshot: 5
 
-- 2026-07-21T21:48:05+00:00 — [Ransomware Is Accelerating, But It's Not Because of AI](https://www.darkreading.com/cyberattacks-data-breaches/ransomware-is-accelerating-not-ai)
-- 2026-07-21T21:27:37+00:00 — [Using LLMs to Find and Prioritize Vulnerabilities Is No Easy Task](https://www.darkreading.com/application-security/finding-and-prioritizing-vulnerabilities-no-easy-task)
-- 2026-07-21T18:38:52+00:00 — [Hacker Turns AI Jailbreaks Into Offensive Attack Platform](https://www.darkreading.com/cyber-risk/hacker-ai-jailbreaks-offensive-attack-platform)
-- 2026-07-21T13:00:00+00:00 — [Choose Wisely: AI-Generated Coding Risk Varies, a Lot](https://www.darkreading.com/application-security/choose-wisely-ai-generated-coding-risk-varies)
-- 2026-07-20T19:32:04+00:00 — [25 Years After Code Red: What the Worm Era Can Teach Us About AI Security](https://www.darkreading.com/vulnerabilities-threats/25-years-after-code-red-what-the-worm-era-can-teach-us-about-ai-security-2)
+- 2026-07-23T01:00:00+00:00 — [Ransomware Attack Puts a Chill On Japanese Frozen-Food Chain](https://www.darkreading.com/cyberattacks-data-breaches/ransomware-attack-japanese-frozen-food-chain)
+- 2026-07-22T21:29:01+00:00 — [Attackers Are Learning to Live Off the AI Toolchain](https://www.darkreading.com/cyber-risk/attackers-live-off-ai-toolchain)
+- 2026-07-22T19:42:42+00:00 — [Fake Bahrain Alert App Deploys Android Surveillance Malware](https://www.darkreading.com/mobile-security/fake-bahrain-alert-apps-android-surveillance-malware)
+- 2026-07-22T15:53:47+00:00 — [When AI Attacks: OpenAI Models Autonomously Hack Hugging Face](https://www.darkreading.com/cyber-risk/openai-models-autonomously-hack-hugging-face)
+- 2026-07-22T11:30:00+00:00 — [EU Financial Institutions Leak Data Through Cookie Trackers](https://www.darkreading.com/data-privacy/eu-financial-institutions-cookie-trackers)
 
 ## Volexity Blog
 
@@ -594,13 +589,25 @@ Generated: 2026-07-22T06:06:52Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-21T13:00:21+00:00 — [Iran War Cyber Threat Landscape | A Midyear Assessment on What Matters](https://www.sentinelone.com/labs/iran-war-cyber-threat-landscape-a-midyear-assessment-on-what-matters/)
+- 2026-07-22T16:55:29+00:00 — [Sol Searching | Can Frontier Models Tackle Autonomous Long-Horizon Malware Analysis?](https://www.sentinelone.com/labs/frontier-models-tackle-autonomous-long-horizon-malware-analysis/)
 
 ## Microsoft Security Blog
 
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
-- Status: error: HTTP 403
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-07-22T16:00:00+00:00 — [Real world incident response: Microsoft and AXA XL strengthen cyber resilience](https://www.microsoft.com/en-us/security/blog/2026/07/22/real-world-incident-response-microsoft-and-axa-xl-strengthen-cyber-resilience/)
+- 2026-07-17T16:00:00+00:00 — [Microsoft at Black Hat USA 2026: Defending trust in the age of AI and supply chain attacks](https://www.microsoft.com/en-us/security/blog/2026/07/17/microsoft-at-black-hat-usa-2026-defending-trust-in-the-age-of-ai-and-supply-chain-attacks/)
+- 2026-07-16T23:12:02+00:00 — [ACR Stealer: Two observed intrusion chains amid increased threat activity](https://www.microsoft.com/en-us/security/blog/2026/07/16/acr-stealer-two-observed-intrusion-chains-amid-increased-threat-activity/)
+- 2026-07-16T16:00:00+00:00 — [Least privilege for AI agents: Identity, access, and tool binding](https://www.microsoft.com/en-us/security/blog/2026/07/16/least-privilege-for-ai-agents-identity-access-and-tool-binding/)
+- 2026-07-16T01:36:21+00:00 — [Unpacking the AsyncAPI npm supply chain compromise and import-time payload delivery](https://www.microsoft.com/en-us/security/blog/2026/07/15/unpacking-asyncapi-npm-supply-chain-compromise-import-time-payload-delivery/)
+- 2026-07-15T16:00:35+00:00 — [Turning threat intelligence into decisive action with Defender Experts](https://www.microsoft.com/en-us/security/blog/2026/07/15/turning-threat-intelligence-into-decisive-action-with-defender-experts/)
+- 2026-07-13T22:02:41+00:00 — [Defending SaaS-based applications against ShinyHunters OAuth abuse](https://www.microsoft.com/en-us/security/blog/2026/07/13/defending-saas-based-applications-against-shinyhunters-oauth-abuse/)
+- 2026-07-13T17:00:00+00:00 — [Microsoft Entra ID security updates: Passkeys are the default authentication method in Entra ID](https://www.microsoft.com/en-us/security/blog/2026/07/13/microsoft-entra-id-security-updates-passkeys-are-the-default-authentication-method-in-entra-id/)
+- 2026-07-10T16:00:00+00:00 — [Securing our future: July 2026 progress report on Microsoft’s Secure Future Initiative](https://www.microsoft.com/en-us/security/blog/2026/07/10/securing-our-future-july-2026-progress-report-on-microsofts-secure-future-initiative/)
+- 2026-07-09T15:00:00+00:00 — [GigaWiper: Anatomy of a destructive backdoor assembled from multiple malware](https://www.microsoft.com/en-us/security/blog/2026/07/09/gigawiper-anatomy-of-a-destructive-backdoor-assembled-from-multiple-malware/)
 
 ## HackingPassion
 
@@ -609,7 +616,7 @@ Generated: 2026-07-22T06:06:52Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-21T13:12:48+02:00 — [Nginx Map Regex Flaw Lets One Request Take Over a Server](https://hackingpassion.com/nginx-map-regex-rce/)
+- 2026-07-22T15:01:21+02:00 — [Exploitarium Dropped 204 Live Exploits for curl libssh2 and Nmap With No Warning](https://hackingpassion.com/exploitarium-github-zero-day-dump/)
 
 ## LOLBAS Project (Windows)
 
@@ -634,9 +641,10 @@ Generated: 2026-07-22T06:06:52Z
 - Site: https://loobins.io/
 - Feed: https://github.com/infosecB/LOOBins/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-07-23T01:32:40+00:00 — [Harden PyLOOBins code correctness and CI (#258)](https://github.com/infosecB/LOOBins/commit/58b069fc989d6f5aad60e60f26bab5d007528a6c)
+- 2026-07-23T00:47:04+00:00 — [Add JSON download link to site nav (#257)](https://github.com/infosecB/LOOBins/commit/68d9fd80fafbf78cacc07a367357d89882d95977)
 
 ## LOLDrivers (BYOVD)
 
@@ -868,13 +876,9 @@ Generated: 2026-07-22T06:06:52Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 0
 
-- 2026-07-21T07:17:33+00:00 — [integration-v9.5.1: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6478)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.5.1)
-- 2026-07-21T07:16:42+00:00 — [integration-v9.4.8: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6478)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.4.8)
-- 2026-07-21T07:15:49+00:00 — [integration-v9.3.16: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6478)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.3.16)
-- 2026-07-21T07:14:59+00:00 — [integration-v8.19.28: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6478)](https://github.com/elastic/detection-rules/releases/tag/integration-v8.19.28)
-- 2026-07-21T07:13:36+00:00 — [dev-v2.0.4](https://github.com/elastic/detection-rules/releases/tag/dev-v2.0.4)
+- No new entries detected
 
 ## regipy releases
 
