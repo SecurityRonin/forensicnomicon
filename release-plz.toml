@@ -12,6 +12,7 @@
 # Per-package git tags, e.g. `forensicnomicon-core-v0.1.1`. These deliberately do
 # NOT match release.yml's `v*` trigger, so a library release never kicks off a
 # binary build. Cutting a binary release stays a deliberate `v*` tag push.
+git_tag_name = "{{ package }}-v{{ version }}"
 git_tag_enable = true
 # GitHub Releases (with downloadable assets) are owned by release.yml; library
 # crates get a git tag + CHANGELOG entry, not a separate GitHub Release.
