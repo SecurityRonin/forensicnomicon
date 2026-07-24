@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-07-23T06:11:54Z
+Generated: 2026-07-24T06:06:19Z
 
 ## Windows Incident Response
 
@@ -202,9 +202,9 @@ Generated: 2026-07-23T06:11:54Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-23T17:48:57+00:00 — [Don’t be the anchor: Rethinking the DFIR workflow loop](https://www.magnetforensics.com/blog/dont-be-the-anchor-rethinking-the-dfir-workflow-loop/)
 
 ## The DFIR Report
 
@@ -228,17 +228,26 @@ Generated: 2026-07-23T06:11:54Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-07-23T02:00:03+00:00 — [ISC Stormcast For Thursday, July 23rd, 2026 https://isc.sans.edu/podcastdetail/10020, (Thu, Jul 23rd)](https://isc.sans.edu/diary/rss/33178)
-- 2026-07-22T17:35:33+00:00 — [Rondo Meets Geoserver, (Wed, Jul 22nd)](https://isc.sans.edu/diary/rss/33176)
+- 2026-07-24T02:00:02+00:00 — [ISC Stormcast For Friday, July 24th, 2026 https://isc.sans.edu/podcastdetail/10022, (Fri, Jul 24th)](https://isc.sans.edu/diary/rss/33182)
+- 2026-07-23T13:40:27+00:00 — [When the "Autonomous Attacker" Is Your Own AI Model, (Thu, Jul 23rd)](https://isc.sans.edu/diary/rss/33180)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [Where Are Digital Investigations Breaking Down?](https://www.dfir.training/blog/where-are-digital-investigations-breaking-down)
+- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
+- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
+- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
 
 ## MSAB
 
@@ -256,7 +265,7 @@ Generated: 2026-07-23T06:11:54Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-22T11:47:46+00:00 — [Infosec News Nuggets — July 22, 2026](https://aboutdfir.com/infosec-news-nuggets-july-22-2026/)
+- 2026-07-23T13:16:01+00:00 — [Infosec News Nuggets — July 23, 2026](https://aboutdfir.com/infosec-news-nuggets-july-23-2026/)
 
 ## Forensic 4cast
 
@@ -373,17 +382,17 @@ Generated: 2026-07-23T06:11:54Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-07-22T11:30:00+00:00 — [In the shadow: The Enlightenment of Joseph Wright](https://eclecticlight.co/2026/07/22/in-the-shadow-the-enlightenment-of-joseph-wright/)
-- 2026-07-22T06:30:00+00:00 — [Understand APFS version numbers](https://eclecticlight.co/2026/07/22/understand-apfs-version-numbers/)
+- 2026-07-23T11:30:00+00:00 — [In memoriam Viktor Mikhailovich Vasnetsov: 2, 1887-1926](https://eclecticlight.co/2026/07/23/in-memoriam-viktor-mikhailovich-vasnetsov-2-1887-1926/)
+- 2026-07-23T06:30:00+00:00 — [Stand by for macOS updates](https://eclecticlight.co/2026/07/23/stand-by-for-macos-updates/)
 
 ## JPCERT/CC
 
 - Site: https://blogs.jpcert.or.jp/en/
 - Feed: https://blogs.jpcert.or.jp/en/atom.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-23T02:32:28+00:00 — [TSUBAME Report Overflow (Jan-Mar 2026)](https://blogs.jpcert.or.jp/en/2026/07/tsubame_overflow_2026-01-03.html)
+- No new entries detected
 
 ## DFIR Review
 
@@ -401,7 +410,7 @@ Generated: 2026-07-23T06:11:54Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-22T09:46:03+00:00 — [An AI agent broke into Hugging Face. Five days later, OpenAI said it was theirs](https://blog.elcomsoft.com/2026/07/an-ai-agent-broke-into-hugging-face-five-days-later-openai-said-it-was-theirs/)
+- 2026-07-23T10:14:45+00:00 — [The RAR Mystery: Breaking RAR4 and RAR5 Encryption](https://blog.elcomsoft.com/2026/07/the-rar-mystery-breaking-rar4-and-rar5-encryption/)
 
 ## Huntress Blog
 
@@ -417,18 +426,18 @@ Generated: 2026-07-23T06:11:54Z
 - Site: https://redcanary.com/blog/
 - Feed: https://redcanary.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-23T17:12:43+00:00 — [Intelligence Insights: July 2026](https://redcanary.com/blog/threat-intelligence/intelligence-insights-july-2026/)
 
 ## Palo Alto Unit 42
 
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-23T14:10:53+00:00 — [Russian Global Webmail Espionage](https://unit42.paloaltonetworks.com/russian-webmail-espionage/)
 
 ## Mandiant Threat Intelligence
 
@@ -444,9 +453,11 @@ Generated: 2026-07-23T06:11:54Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-07-23T18:00:46+00:00 — [Don’t swing at everything](https://blog.talosintelligence.com/dont-swing-at-everything/)
+- 2026-07-23T10:00:38+00:00 — [Chaos ransomware's msaRAT: Living off the browser to build a covert C2 channel](https://blog.talosintelligence.com/chaos-msarat-living-off-the-browser-to-build-covert-c2-channel/)
+- 2026-07-23T10:00:14+00:00 — [Preview: Cisco Talos at Black Hat USA 2026](https://blog.talosintelligence.com/preview-cisco-talos-at-black-hat-usa-2026/)
 
 ## SANS Blog
 
@@ -464,16 +475,16 @@ Generated: 2026-07-23T06:11:54Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- unknown date — [wp2shell hits WordPress: detecting pre-auth RCE from plugin drop to command execution](https://www.elastic.co/security-labs/wp2shell-wordpress-rce-detection-elastic-defend)
+- unknown date — [How Elasticsearch ES|QL COMPLETION turns noisy curl and wget rules into high-fidelity cloud security alerts](https://www.elastic.co/security-labs/esql-completion-curl-wget-detection-triage)
 
 ## Flare.io Threat Research Blog
 
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-23T13:00:00+00:00 — [Impact Analysis of Ransomware Attacks on EMEA Healthcare](https://flare.io/learn/resources/blog/impact-analysis-ransomware-attacks-emea-healthcare)
 
 ## Binalyze Blog
 
@@ -522,9 +533,9 @@ Generated: 2026-07-23T06:11:54Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-22T00:00:00-05:00 — [CrowdStrike Falcon Platform Helps Meet U.S. Government Mandates for CISA BOD-26-04](https://www.crowdstrike.com/en-us/blog/crowdstrike-falcon-platform-helps-meet-us-goverment-mandates-cisa-bod-26-04/)
 
 ## Malwarebytes Labs
 
@@ -533,8 +544,8 @@ Generated: 2026-07-23T06:11:54Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-07-22T12:46:18+00:00 — [Chick-fil-A loyalty accounts hijacked using stolen passwords](https://www.malwarebytes.com/blog/data-breaches/2026/07/chick-fil-a-loyalty-accounts-hijacked-using-stolen-passwords)
-- 2026-07-22T11:34:49+00:00 — [Paidwork breach exposes data of 23 million users: Check if you&#8217;re affected](https://www.malwarebytes.com/blog/data-breaches/2026/07/paidwork-breach-exposes-data-of-23-million-users-check-if-youre-affected)
+- 2026-07-23T11:24:58+00:00 — [Millions of cars could be tracked and unlocked  by a hidden security flaw](https://www.malwarebytes.com/blog/bugs/2026/07/millions-of-cars-could-be-tracked-and-unlocked-by-a-hidden-security-flaw)
+- 2026-07-23T11:24:04+00:00 — [WhatsApp Web chats exposed by Adobe&#8217;s Acrobat extension flaw](https://www.malwarebytes.com/blog/bugs/2026/07/whatsapp-web-chats-exposed-by-adobes-acrobat-extension-flaw)
 
 ## Krebs on Security
 
@@ -552,29 +563,28 @@ Generated: 2026-07-23T06:11:54Z
 - Entries checked: 10
 - New since last snapshot: 10
 
-- 2026-07-22T17:43:39-04:00 — [Upbound says hack caused $13 million in fraudulent Acima leases](https://www.bleepingcomputer.com/news/security/upbound-says-hack-caused-13-million-in-fraudulent-acima-leases/)
-- 2026-07-22T16:06:54-04:00 — [South Korea discloses data breach impacting diplomats worldwide](https://www.bleepingcomputer.com/news/security/south-korea-discloses-data-breach-impacting-diplomats-worldwide/)
-- 2026-07-22T12:59:17-04:00 — [Swiss rail giant Stadler rejects $12.3M ransom demand after cyberattack](https://www.bleepingcomputer.com/news/security/swiss-rail-giant-stadler-rejects-123m-ransom-demand-after-cyberattack/)
-- 2026-07-22T11:30:00-04:00 — [How enterprise GenAI can amplify ransomware risk — and how to contain it](https://www.bleepingcomputer.com/news/security/how-enterprise-genai-can-amplify-ransomware-risk-and-how-to-contain-it/)
-- 2026-07-22T10:15:00-04:00 — [New InfraTrust report reveals infrastructure flaws admins should patch first](https://www.bleepingcomputer.com/news/security/new-infratrust-report-reveals-infrastructure-flaws-admins-should-patch-first/)
-- 2026-07-22T09:22:20-04:00 — [Adobe Chrome extension flaw let sites access private WhatsApp chats](https://www.bleepingcomputer.com/news/security/adobe-chrome-extension-flaw-let-sites-access-private-whatsapp-chats/)
-- 2026-07-22T07:43:28-04:00 — [CISA orders urgent action on actively exploited Langflow RCE flaw](https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-actively-exploited-langflow-rce-flaw/)
-- 2026-07-22T07:09:16-04:00 — [Stop renting storage space — this lifetime 2TB plan is yours for $59](https://www.bleepingcomputer.com/news/security/stop-renting-storage-space-this-lifetime-2tb-plan-is-yours-for-59/)
-- 2026-07-22T06:44:52-04:00 — [Microsoft to stop Exchange 2016 / 2019 security updates in October](https://www.bleepingcomputer.com/news/microsoft/microsoft-exchange-2016-and-2019-esu-program-ends-in-october/)
-- 2026-07-22T02:40:29-04:00 — [Chick-fil-A discloses data breach after credential stuffing attacks](https://www.bleepingcomputer.com/news/security/chick-fil-a-discloses-data-breach-after-credential-stuffing-attacks/)
+- 2026-07-23T17:20:34-04:00 — [New Dolphin X malware uses AI to rank high-value targets](https://www.bleepingcomputer.com/news/security/new-dolphin-x-malware-uses-ai-to-rank-high-value-targets/)
+- 2026-07-23T16:14:35-04:00 — [Australian energy provider Origin says data breach exposes client data](https://www.bleepingcomputer.com/news/security/australian-energy-provider-origin-says-data-breach-exposes-client-data/)
+- 2026-07-23T15:48:30-04:00 — [Fake Claude app promoted by Bing ads pushes SectopRAT malware](https://www.bleepingcomputer.com/news/security/fake-claude-app-promoted-by-bing-ads-pushes-sectoprat-malware/)
+- 2026-07-23T12:49:27-04:00 — [Russian hackers exploit Zimbra zero-click flaw for email theft](https://www.bleepingcomputer.com/news/security/russian-hackers-exploit-zimbra-zero-click-flaw-for-email-theft/)
+- 2026-07-23T12:32:35-04:00 — [Hackers abuse Notepad++ plugins to stealthily install malware](https://www.bleepingcomputer.com/news/security/hackers-abuse-notepad-plus-plus-plugins-to-stealthily-install-malware/)
+- 2026-07-23T11:34:43-04:00 — [Microsoft 365 outage affects Teams, SharePoint and other services](https://www.bleepingcomputer.com/news/microsoft/microsoft-365-outage-affects-teams-sharepoint-and-other-services/)
+- 2026-07-23T10:00:10-04:00 — [FedRAMP Rev5 Is Ending: What the 20x Transition Really Requires](https://www.bleepingcomputer.com/news/security/fedramp-rev5-is-ending-what-the-20x-transition-really-requires/)
+- 2026-07-23T08:33:19-04:00 — [EU fines Google $1 billion for search, app store antitrust violations](https://www.bleepingcomputer.com/news/google/eu-fines-google-1-billion-for-digital-markets-act-breaches-in-search-and-play-store/)
+- 2026-07-23T07:40:16-04:00 — [New RefluXFS Linux flaw lets attackers gain root privileges](https://www.bleepingcomputer.com/news/linux/new-refluxfs-linux-flaw-lets-attackers-gain-root-privileges/)
+- 2026-07-23T06:00:00-04:00 — [New msaRAT malware uses Chrome, Edge browsers to route C2 traffic](https://www.bleepingcomputer.com/news/security/new-msarat-malware-uses-chrome-edge-browsers-to-route-c2-traffic/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 4
 
-- 2026-07-23T01:00:00+00:00 — [Ransomware Attack Puts a Chill On Japanese Frozen-Food Chain](https://www.darkreading.com/cyberattacks-data-breaches/ransomware-attack-japanese-frozen-food-chain)
-- 2026-07-22T21:29:01+00:00 — [Attackers Are Learning to Live Off the AI Toolchain](https://www.darkreading.com/cyber-risk/attackers-live-off-ai-toolchain)
-- 2026-07-22T19:42:42+00:00 — [Fake Bahrain Alert App Deploys Android Surveillance Malware](https://www.darkreading.com/mobile-security/fake-bahrain-alert-apps-android-surveillance-malware)
-- 2026-07-22T15:53:47+00:00 — [When AI Attacks: OpenAI Models Autonomously Hack Hugging Face](https://www.darkreading.com/cyber-risk/openai-models-autonomously-hack-hugging-face)
-- 2026-07-22T11:30:00+00:00 — [EU Financial Institutions Leak Data Through Cookie Trackers](https://www.darkreading.com/data-privacy/eu-financial-institutions-cookie-trackers)
+- 2026-07-23T21:23:18+00:00 — [Russian Hackers Exploit Zimbra Zero-Day Against US, Ukraine Targets](https://www.darkreading.com/cyberattacks-data-breaches/russian-hackers-zimbra-zero-day-us-ukraine-targets)
+- 2026-07-23T11:17:51+00:00 — [Agentic AI Challenges Progress in Confidential Computing](https://www.darkreading.com/endpoint-security/agentic-ai-challenges-progress-in-confidential-computing)
+- 2026-07-23T07:00:00+00:00 — [Brazilian Banking Trojan Actively Spreading in Portugal](https://www.darkreading.com/cyberattacks-data-breaches/brazilian-banking-trojan-spreading-portugal)
+- 2026-07-22T23:50:01+00:00 — [Flaws in Passkey Implementation Show Old Attacks Still Work](https://www.darkreading.com/identity-access-management-security/flaws-passkeys-implementation-old-attacks-work)
 
 ## Volexity Blog
 
@@ -587,27 +597,18 @@ Generated: 2026-07-23T06:11:54Z
 - Site: https://www.sentinelone.com/labs/
 - Feed: https://www.sentinelone.com/labs/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-22T16:55:29+00:00 — [Sol Searching | Can Frontier Models Tackle Autonomous Long-Horizon Malware Analysis?](https://www.sentinelone.com/labs/frontier-models-tackle-autonomous-long-horizon-malware-analysis/)
+- No new entries detected
 
 ## Microsoft Security Blog
 
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 1
 
-- 2026-07-22T16:00:00+00:00 — [Real world incident response: Microsoft and AXA XL strengthen cyber resilience](https://www.microsoft.com/en-us/security/blog/2026/07/22/real-world-incident-response-microsoft-and-axa-xl-strengthen-cyber-resilience/)
-- 2026-07-17T16:00:00+00:00 — [Microsoft at Black Hat USA 2026: Defending trust in the age of AI and supply chain attacks](https://www.microsoft.com/en-us/security/blog/2026/07/17/microsoft-at-black-hat-usa-2026-defending-trust-in-the-age-of-ai-and-supply-chain-attacks/)
-- 2026-07-16T23:12:02+00:00 — [ACR Stealer: Two observed intrusion chains amid increased threat activity](https://www.microsoft.com/en-us/security/blog/2026/07/16/acr-stealer-two-observed-intrusion-chains-amid-increased-threat-activity/)
-- 2026-07-16T16:00:00+00:00 — [Least privilege for AI agents: Identity, access, and tool binding](https://www.microsoft.com/en-us/security/blog/2026/07/16/least-privilege-for-ai-agents-identity-access-and-tool-binding/)
-- 2026-07-16T01:36:21+00:00 — [Unpacking the AsyncAPI npm supply chain compromise and import-time payload delivery](https://www.microsoft.com/en-us/security/blog/2026/07/15/unpacking-asyncapi-npm-supply-chain-compromise-import-time-payload-delivery/)
-- 2026-07-15T16:00:35+00:00 — [Turning threat intelligence into decisive action with Defender Experts](https://www.microsoft.com/en-us/security/blog/2026/07/15/turning-threat-intelligence-into-decisive-action-with-defender-experts/)
-- 2026-07-13T22:02:41+00:00 — [Defending SaaS-based applications against ShinyHunters OAuth abuse](https://www.microsoft.com/en-us/security/blog/2026/07/13/defending-saas-based-applications-against-shinyhunters-oauth-abuse/)
-- 2026-07-13T17:00:00+00:00 — [Microsoft Entra ID security updates: Passkeys are the default authentication method in Entra ID](https://www.microsoft.com/en-us/security/blog/2026/07/13/microsoft-entra-id-security-updates-passkeys-are-the-default-authentication-method-in-entra-id/)
-- 2026-07-10T16:00:00+00:00 — [Securing our future: July 2026 progress report on Microsoft’s Secure Future Initiative](https://www.microsoft.com/en-us/security/blog/2026/07/10/securing-our-future-july-2026-progress-report-on-microsofts-secure-future-initiative/)
-- 2026-07-09T15:00:00+00:00 — [GigaWiper: Anatomy of a destructive backdoor assembled from multiple malware](https://www.microsoft.com/en-us/security/blog/2026/07/09/gigawiper-anatomy-of-a-destructive-backdoor-assembled-from-multiple-malware/)
+- 2026-07-23T15:00:00+00:00 — [Email threat landscape: Q2 2026 trends and insights](https://www.microsoft.com/en-us/security/blog/2026/07/23/email-threat-landscape-q2-2026-trends-and-insights/)
 
 ## HackingPassion
 
@@ -616,7 +617,7 @@ Generated: 2026-07-23T06:11:54Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-22T15:01:21+02:00 — [Exploitarium Dropped 204 Live Exploits for curl libssh2 and Nmap With No Warning](https://hackingpassion.com/exploitarium-github-zero-day-dump/)
+- 2026-07-23T14:13:33+02:00 — [KARR Car Alarm Bluetooth Flaw Exposes 2.2 Million Cars to Silent Theft](https://hackingpassion.com/karr-alarm-bluetooth-car-theft/)
 
 ## LOLBAS Project (Windows)
 
@@ -643,8 +644,8 @@ Generated: 2026-07-23T06:11:54Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-07-23T01:32:40+00:00 — [Harden PyLOOBins code correctness and CI (#258)](https://github.com/infosecB/LOOBins/commit/58b069fc989d6f5aad60e60f26bab5d007528a6c)
-- 2026-07-23T00:47:04+00:00 — [Add JSON download link to site nav (#257)](https://github.com/infosecB/LOOBins/commit/68d9fd80fafbf78cacc07a367357d89882d95977)
+- 2026-07-23T12:52:11+00:00 — [Skip missing Python interpreters in tox run (#260)](https://github.com/infosecB/LOOBins/commit/2843d33291c86a17b594a4a366bd165cfdfa745a)
+- 2026-07-23T12:48:00+00:00 — [Add type-checking support and bundle LOOBin data into the wheel (#259)](https://github.com/infosecB/LOOBins/commit/7244cd2eda317b500628a617586e4fc1577f31cb)
 
 ## LOLDrivers (BYOVD)
 
@@ -876,9 +877,9 @@ Generated: 2026-07-23T06:11:54Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-23T20:29:21+00:00 — [dev-v2.0.5](https://github.com/elastic/detection-rules/releases/tag/dev-v2.0.5)
 
 ## regipy releases
 
