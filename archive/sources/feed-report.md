@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-07-25T05:58:16Z
+Generated: 2026-07-26T06:17:24Z
 
 ## Windows Incident Response
 
@@ -202,9 +202,9 @@ Generated: 2026-07-25T05:58:16Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-24T20:09:20+00:00 — [Digital forensics and eDiscovery: Your questions, answered](https://www.magnetforensics.com/blog/digital-forensics-and-ediscovery-your-questions-answered/)
+- No new entries detected
 
 ## The DFIR Report
 
@@ -219,7 +219,19 @@ Generated: 2026-07-25T05:58:16Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Status: error: HTTP 404
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-07-22T01:20:51+00:00 — [Automate Volatility 3 Memory Analysis with This Tool](https://www.youtube.com/watch?v=0GMTydimOP4)
+- 2026-06-19T00:57:00+00:00 — [How the USN Journal Really Works](https://www.youtube.com/watch?v=eSLHyqZlglk)
+- 2026-07-08T07:33:38+00:00 — [The Korvath Incident: A macOS Forensics Challenge](https://www.youtube.com/watch?v=tRvw13e3Qn0)
+- 2026-06-28T16:30:49+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
+- 2026-04-24T09:44:12+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
+- 2026-05-28T20:26:20+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
+- 2026-04-23T00:04:55+00:00 — [Tracking Program Execution with a Little Known Registry Key](https://www.youtube.com/watch?v=yoFkF-NHZvo)
+- 2026-05-28T20:27:51+00:00 — [The Truth About Windows Explorer Timestamps](https://www.youtube.com/watch?v=PdyVkmhMcOA)
+- 2026-05-01T22:55:06+00:00 — [Major Update to 13Cubed Courses: Chaos at Cobalt](https://www.youtube.com/watch?v=CzF6DFhSfHw)
+- 2026-04-30T06:35:14+00:00 — [13Cubed AMA - Answering Your Questions!](https://www.youtube.com/watch?v=duz5BoZUly8)
 
 ## SANS Internet Storm Center
 
@@ -253,9 +265,9 @@ Generated: 2026-07-25T05:58:16Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-24T11:34:44+00:00 — [Infosec News Nuggets — July 24, 2026](https://aboutdfir.com/infosec-news-nuggets-july-24-2026/)
+- No new entries detected
 
 ## Forensic 4cast
 
@@ -372,9 +384,9 @@ Generated: 2026-07-25T05:58:16Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-07-24T18:17:21+00:00 — [Apple has released an update to XProtect for all macOS](https://eclecticlight.co/2026/07/24/apple-has-released-an-update-to-xprotect-for-all-macos-37/)
-- 2026-07-24T11:30:00+00:00 — [Brushstrokes: Pre-Impressionism](https://eclecticlight.co/2026/07/24/brushstrokes-pre-impressionism/)
-- 2026-07-24T06:30:00+00:00 — [Open a file with the right app](https://eclecticlight.co/2026/07/24/open-a-file-with-the-right-app/)
+- 2026-07-25T11:30:00+00:00 — [Herald of Impressionism: Charles Daubigny 1](https://eclecticlight.co/2026/07/25/herald-of-impressionism-charles-daubigny-1/)
+- 2026-07-25T08:00:00+00:00 — [Saturday Mac riddles 370](https://eclecticlight.co/2026/07/25/saturday-mac-riddles-370/)
+- 2026-07-25T07:00:00+00:00 — [What determines a file’s type?](https://eclecticlight.co/2026/07/25/what-determines-a-files-type/)
 
 ## JPCERT/CC
 
@@ -399,9 +411,9 @@ Generated: 2026-07-25T05:58:16Z
 - Site: https://blog.elcomsoft.com/
 - Feed: https://blog.elcomsoft.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-24T08:12:46+00:00 — [Why Digital Forensic Reports Don’t Survive Cross-Examination](https://blog.elcomsoft.com/2026/07/why-digital-forensic-reports-dont-survive-cross-examination/)
+- No new entries detected
 
 ## Huntress Blog
 
@@ -435,9 +447,9 @@ Generated: 2026-07-25T05:58:16Z
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-24T14:00:00+00:00 — [Updated Cyber Threat Actor Naming System](https://cloud.google.com/blog/topics/threat-intelligence/updated-cyber-threat-actor-naming-system/)
+- No new entries detected
 
 ## Cisco Talos Blog
 
@@ -462,18 +474,18 @@ Generated: 2026-07-25T05:58:16Z
 - Site: https://www.elastic.co/security-labs/
 - Feed: https://www.elastic.co/security-labs/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- unknown date — [Inside Elastic InfoSec&#x27;s agentic SOC: When to inline your agent&#x27;s skills for a 5× cost reduction](https://www.elastic.co/security-labs/agentic-soc-token-budget-architecture)
+- No new entries detected
 
 ## Flare.io Threat Research Blog
 
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-24T16:53:30+00:00 — [Detection Without Automated Response Fails: Lessons for Identity-First CTI](https://flare.io/learn/resources/blog/detection-without-automated-response-fails-lessons-for-identity-first-cti)
+- No new entries detected
 
 ## Binalyze Blog
 
@@ -531,13 +543,9 @@ Generated: 2026-07-25T05:58:16Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 0
 
-- 2026-07-24T14:56:34+00:00 — [Don&#8217;t get fooled by TikTok resin art scams](https://www.malwarebytes.com/blog/scams/2026/07/dont-get-fooled-by-tiktok-resin-art-scams)
-- 2026-07-24T14:54:23+00:00 — [Call of Duty Mobile scam uses fake free points to steal player accounts](https://www.malwarebytes.com/blog/threat-intel/2026/07/call-of-duty-mobile-scam-uses-fake-free-points-to-steal-player-accounts)
-- 2026-07-24T14:51:45+00:00 — [OpenAI&#8217;s agent escaped its sandbox during a security test](https://www.malwarebytes.com/blog/news/2026/07/openais-agent-escaped-its-sandbox-during-a-security-test)
-- 2026-07-24T13:41:45+00:00 — [Google wants to store a selfie video of your face](https://www.malwarebytes.com/blog/privacy/2026/07/google-wants-to-store-a-selfie-video-of-your-face)
-- 2026-07-24T12:00:00+00:00 — [Beyond the Play Store: How Android threats really spread](https://www.malwarebytes.com/blog/inside-malwarebytes/2026/07/beyond-the-play-store-how-android-threats-really-spread)
+- No new entries detected
 
 ## Krebs on Security
 
@@ -553,30 +561,21 @@ Generated: 2026-07-25T05:58:16Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 9
+- New since last snapshot: 4
 
-- 2026-07-24T15:55:01-04:00 — [OnTrac notifies customers of data breach after network hack](https://www.bleepingcomputer.com/news/security/ontrac-notifies-customers-of-data-breach-after-network-hack/)
-- 2026-07-24T15:09:09-04:00 — [Hermes AI agent used to automate attack on Thai Finance Ministry](https://www.bleepingcomputer.com/news/security/hermes-ai-agent-used-to-automate-attack-on-thai-finance-ministry/)
-- 2026-07-24T13:50:37-04:00 — [Hackers hijack hotel Wi-Fi DNS to steal Microsoft 365 accounts](https://www.bleepingcomputer.com/news/security/hackers-hijack-hotel-wi-fi-dns-to-steal-microsoft-365-accounts/)
-- 2026-07-24T11:41:44-04:00 — [Microsoft blames massive Microsoft 365 outage on maintenance bug](https://www.bleepingcomputer.com/news/microsoft/microsoft-blames-massive-microsoft-365-outage-on-maintenance-bug/)
-- 2026-07-24T10:04:29-04:00 — [Chick-fil-A data breach affects more than 13,000 customers](https://www.bleepingcomputer.com/news/security/chick-fil-a-data-breach-affects-more-than-13-000-customers/)
-- 2026-07-24T10:01:11-04:00 — [Slopsquatting, Phantom Domains, and HalluSquatting Are the Same AI Attack](https://www.bleepingcomputer.com/news/security/slopsquatting-phantom-domains-and-hallusquatting-are-the-same-ai-attack/)
-- 2026-07-24T08:56:53-04:00 — [Europol flags 4,340 URLs for removal in 'The Com' crackdown](https://www.bleepingcomputer.com/news/security/europol-flags-4-340-urls-for-removal-in-the-com-crackdown/)
-- 2026-07-24T07:17:19-04:00 — [Man gets six years for hacking 750 women's Snapchat accounts](https://www.bleepingcomputer.com/news/security/man-gets-six-years-for-hacking-750-womens-snapchat-accounts/)
-- 2026-07-24T03:36:39-04:00 — [Clop ransomware targets Windchill, FlexPLM in data theft attacks](https://www.bleepingcomputer.com/news/security/clop-ransomware-targets-windchill-flexplm-in-data-theft-attacks/)
+- 2026-07-25T18:37:47-04:00 — [Steam forum ClickFix attacks infect gamers with XMRig cryptominers](https://www.bleepingcomputer.com/news/security/steam-forum-clickfix-attacks-infect-gamers-with-xmrig-cryptominers/)
+- 2026-07-25T11:21:09-04:00 — [Malicious sites use JavaScript to build malware in browser memory](https://www.bleepingcomputer.com/news/security/malicious-sites-use-javascript-to-build-malware-in-browser-memory/)
+- 2026-07-25T10:16:26-04:00 — [ShinyHunters data leaks fuel $2,000 sextortion email scam](https://www.bleepingcomputer.com/news/security/shinyhunters-data-leaks-fuel-2-000-sextortion-email-scam/)
+- 2026-07-25T05:31:09-04:00 — [OpenAI confirms ChatGPT is down worldwide](https://www.bleepingcomputer.com/news/artificial-intelligence/openai-confirms-chatgpt-is-down-worldwide/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 0
 
-- 2026-07-24T21:31:53+00:00 — [CISOs vs. Boards: Myth or Misunderstanding?](https://www.darkreading.com/cybersecurity-operations/cisos-vs-boards-myth-or-misunderstanding-)
-- 2026-07-24T19:45:02+00:00 — [Escape Artists: 'Incorrigible' AI Models Resist Rehabilitation](https://www.darkreading.com/cybersecurity-operations/incorrigible-ai-models-resist-rehabilitation)
-- 2026-07-24T13:00:00+00:00 — [Vatican's Official Prayer App Leaks 700K+ Global Users' PII](https://www.darkreading.com/vulnerabilities-threats/vatican-official-prayer-app-leaks-700k-pii)
-- 2026-07-24T12:48:16+00:00 — [Default Azure Automation Setting Enables Cross-Tenant Identity Takeover](https://www.darkreading.com/cloud-security/default-azure-automation-setting-cross-tenant-identity-takeover)
-- 2026-07-24T07:00:00+00:00 — [Europe's Multilingual Reality Exposes AI Security Gaps](https://www.darkreading.com/cybersecurity-operations/europes-multilingual-reality-exposes-ai-security-gaps)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -607,9 +606,9 @@ Generated: 2026-07-25T05:58:16Z
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-25T12:13:24+02:00 — [HermeticReader Turned Adobe Acrobat Into a WhatsApp Spy on 329 Million Browsers](https://hackingpassion.com/hermeticreader-adobe-whatsapp-flaw/)
 
 ## LOLBAS Project (Windows)
 
@@ -843,7 +842,7 @@ Generated: 2026-07-25T05:58:16Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-24T21:58:33+00:00 — [Sigma Rule Supported Modifier Update (2026-07-24  21:58:25) (#1051)](https://github.com/Yamato-Security/hayabusa-rules/commit/64f64936b324fdf80be1821e29f954fec5933301)
+- 2026-07-25T20:43:31+00:00 — [Sigma Rule Update (2026-07-25  20:43:24) (#1052)](https://github.com/Yamato-Security/hayabusa-rules/commit/125f4fa375969b4cc28703c2516914288f18c37f)
 
 ## Hayabusa releases
 
