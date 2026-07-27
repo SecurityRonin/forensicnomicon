@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-07-26T06:17:24Z
+Generated: 2026-07-27T06:47:41Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-07-26T06:17:24Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-26T00:00:00+00:00 — [Weekly Wire #2: Autonomy unleashed](https://andreafortuna.org/2026/07/26/weekly-wire-2/)
 
 ## Salt Forensics
 
@@ -219,28 +219,17 @@ Generated: 2026-07-26T06:17:24Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Entries checked: 10
-- New since last snapshot: 10
-
-- 2026-07-22T01:20:51+00:00 — [Automate Volatility 3 Memory Analysis with This Tool](https://www.youtube.com/watch?v=0GMTydimOP4)
-- 2026-06-19T00:57:00+00:00 — [How the USN Journal Really Works](https://www.youtube.com/watch?v=eSLHyqZlglk)
-- 2026-07-08T07:33:38+00:00 — [The Korvath Incident: A macOS Forensics Challenge](https://www.youtube.com/watch?v=tRvw13e3Qn0)
-- 2026-06-28T16:30:49+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
-- 2026-04-24T09:44:12+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
-- 2026-05-28T20:26:20+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
-- 2026-04-23T00:04:55+00:00 — [Tracking Program Execution with a Little Known Registry Key](https://www.youtube.com/watch?v=yoFkF-NHZvo)
-- 2026-05-28T20:27:51+00:00 — [The Truth About Windows Explorer Timestamps](https://www.youtube.com/watch?v=PdyVkmhMcOA)
-- 2026-05-01T22:55:06+00:00 — [Major Update to 13Cubed Courses: Chaos at Cobalt](https://www.youtube.com/watch?v=CzF6DFhSfHw)
-- 2026-04-30T06:35:14+00:00 — [13Cubed AMA - Answering Your Questions!](https://www.youtube.com/watch?v=duz5BoZUly8)
+- Status: error: HTTP 404
 
 ## SANS Internet Storm Center
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-07-27T02:00:02+00:00 — [ISC Stormcast For Monday, July 27th, 2026 https://isc.sans.edu/podcastdetail/10024, (Mon, Jul 27th)](https://isc.sans.edu/diary/rss/33186)
+- 2026-07-26T15:26:14+00:00 — [Scans for ESAFENET CDG 3 Document Management System Weak Logins, (Sun, Jul 26th)](https://isc.sans.edu/diary/rss/33184)
 
 ## DFIR Training Blog
 
@@ -283,9 +272,9 @@ Generated: 2026-07-26T06:17:24Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-26T07:47:44+00:00 — [Week 30 – 2026](https://thisweekin4n6.com/2026/07/26/week-30-2026/)
 
 ## The Sleuth Kit updates
 
@@ -384,9 +373,9 @@ Generated: 2026-07-26T06:17:24Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-07-25T11:30:00+00:00 — [Herald of Impressionism: Charles Daubigny 1](https://eclecticlight.co/2026/07/25/herald-of-impressionism-charles-daubigny-1/)
-- 2026-07-25T08:00:00+00:00 — [Saturday Mac riddles 370](https://eclecticlight.co/2026/07/25/saturday-mac-riddles-370/)
-- 2026-07-25T07:00:00+00:00 — [What determines a file’s type?](https://eclecticlight.co/2026/07/25/what-determines-a-files-type/)
+- 2026-07-27T06:30:00+00:00 — [How does an app launch? An exploration with LogUI](https://eclecticlight.co/2026/07/27/how-does-an-app-launch-an-exploration-with-logui/)
+- 2026-07-26T11:30:00+00:00 — [Herald of Impressionism: Charles Daubigny 2](https://eclecticlight.co/2026/07/26/herald-of-impressionism-charles-daubigny-2/)
+- 2026-07-26T07:00:00+00:00 — [Last Week on My Mac: Annotate your log for fun and profit](https://eclecticlight.co/2026/07/26/last-week-on-my-mac-annotate-your-log-for-fun-and-profit/)
 
 ## JPCERT/CC
 
@@ -561,12 +550,9 @@ Generated: 2026-07-26T06:17:24Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 1
 
-- 2026-07-25T18:37:47-04:00 — [Steam forum ClickFix attacks infect gamers with XMRig cryptominers](https://www.bleepingcomputer.com/news/security/steam-forum-clickfix-attacks-infect-gamers-with-xmrig-cryptominers/)
-- 2026-07-25T11:21:09-04:00 — [Malicious sites use JavaScript to build malware in browser memory](https://www.bleepingcomputer.com/news/security/malicious-sites-use-javascript-to-build-malware-in-browser-memory/)
-- 2026-07-25T10:16:26-04:00 — [ShinyHunters data leaks fuel $2,000 sextortion email scam](https://www.bleepingcomputer.com/news/security/shinyhunters-data-leaks-fuel-2-000-sextortion-email-scam/)
-- 2026-07-25T05:31:09-04:00 — [OpenAI confirms ChatGPT is down worldwide](https://www.bleepingcomputer.com/news/artificial-intelligence/openai-confirms-chatgpt-is-down-worldwide/)
+- 2026-07-26T10:13:39-04:00 — [GitHub, PyPI add time-based defenses against supply chain attacks](https://www.bleepingcomputer.com/news/security/github-pypi-add-time-absed-defenses-against-supply-chain-attacks/)
 
 ## Dark Reading
 
@@ -608,7 +594,7 @@ Generated: 2026-07-26T06:17:24Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-25T12:13:24+02:00 — [HermeticReader Turned Adobe Acrobat Into a WhatsApp Spy on 329 Million Browsers](https://hackingpassion.com/hermeticreader-adobe-whatsapp-flaw/)
+- 2026-07-26T14:31:59+02:00 — [Bitchat Is a Bluetooth Mesh Chat That Needs No Internet](https://hackingpassion.com/bitchat-bluetooth-mesh-messaging/)
 
 ## LOLBAS Project (Windows)
 
@@ -840,9 +826,9 @@ Generated: 2026-07-26T06:17:24Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-25T20:43:31+00:00 — [Sigma Rule Update (2026-07-25  20:43:24) (#1052)](https://github.com/Yamato-Security/hayabusa-rules/commit/125f4fa375969b4cc28703c2516914288f18c37f)
+- No new entries detected
 
 ## Hayabusa releases
 
@@ -858,9 +844,9 @@ Generated: 2026-07-26T06:17:24Z
 - Site: https://github.com/WithSecureLabs/chainsaw
 - Feed: https://github.com/WithSecureLabs/chainsaw/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-26T15:00:14+00:00 — [v2.16.3-beta.0](https://github.com/WithSecureLabs/chainsaw/releases/tag/v2.16.3-beta.0)
 
 ## Elastic detection-rules releases
 
