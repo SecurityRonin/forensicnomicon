@@ -46,33 +46,33 @@
 
 /// `SimpleFileHeader::initial_magic_number` — the magic that opens every entry
 /// file (`kSimpleInitialMagicNumber`).
-pub const INITIAL_MAGIC: u64 = 0; // RED
+pub const INITIAL_MAGIC: u64 = 0xfcfb_6d1b_a772_5c30;
 
 /// `SimpleFileEOF::final_magic_number` — the magic that closes every entry
 /// stream trailer (`kSimpleFinalMagicNumber`).
-pub const FINAL_MAGIC: u64 = 0; // RED
+pub const FINAL_MAGIC: u64 = 0xf4fa_6f45_970d_41d8;
 
 /// `SimpleFileSparseRangeHeader::sparse_range_magic_number` — opens each sparse
 /// range record.
-pub const SPARSE_RANGE_MAGIC: u64 = 0; // RED
+pub const SPARSE_RANGE_MAGIC: u64 = 0xeb97_bf01_6553_676b;
 
 /// `kSimpleIndexMagicNumber` — the magic in the `the-real-index` pickle header
 /// (ASCII `"enter yo"` read as a little-endian u64).
-pub const INDEX_MAGIC: u64 = 0; // RED
+pub const INDEX_MAGIC: u64 = 0x656e_7465_7220_796f;
 
 // ── Versions ─────────────────────────────────────────────────────────────────
 
 /// `kSimpleVersion` — current fake-index / backend format version.
-pub const SIMPLE_VERSION: u32 = 0; // RED
+pub const SIMPLE_VERSION: u32 = 9;
 
 /// `kSimpleEntryVersionOnDisk` — version written into each entry file's header.
-pub const ENTRY_VERSION_ON_DISK: u32 = 0; // RED
+pub const ENTRY_VERSION_ON_DISK: u32 = 5;
 
 /// `kMinVersionAbleToUpgrade` — the oldest version the backend can migrate.
-pub const MIN_VERSION_ABLE_TO_UPGRADE: u32 = 0; // RED
+pub const MIN_VERSION_ABLE_TO_UPGRADE: u32 = 8;
 
 /// `kSimpleEntryStreamCount` — number of data streams stored per entry.
-pub const ENTRY_STREAM_COUNT: usize = 0; // RED
+pub const ENTRY_STREAM_COUNT: usize = 3;
 
 // ── SimpleFileHeader field offsets (24-byte struct) ──────────────────────────
 
@@ -103,11 +103,11 @@ pub const EOF_LEN: usize = 24;
 // ── SimpleFileEOF flag bits ──────────────────────────────────────────────────
 
 /// `SimpleFileEOF::FLAG_HAS_CRC32` — the trailer carries a valid `data_crc32`.
-pub const FLAG_HAS_CRC32: u32 = 0; // RED
+pub const FLAG_HAS_CRC32: u32 = 1 << 0;
 
 /// `SimpleFileEOF::FLAG_HAS_KEY_SHA256` — the trailer is followed by a SHA-256 of
 /// the key.
-pub const FLAG_HAS_KEY_SHA256: u32 = 0; // RED
+pub const FLAG_HAS_KEY_SHA256: u32 = 1 << 1;
 
 // ── Sparse range header offsets (32-byte struct) ─────────────────────────────
 
@@ -139,20 +139,26 @@ pub enum Structure {
 /// Returns `None` for any value that is not one of the four documented magics —
 /// the caller must fail loud rather than assume a structure.
 #[must_use]
-pub fn identify_magic(_magic: u64) -> Option<Structure> {
-    None // RED
+pub fn identify_magic(magic: u64) -> Option<Structure> {
+    match magic {
+        INITIAL_MAGIC => Some(Structure::EntryHeader),
+        FINAL_MAGIC => Some(Structure::EntryEof),
+        SPARSE_RANGE_MAGIC => Some(Structure::SparseRange),
+        INDEX_MAGIC => Some(Structure::Index),
+        _ => None,
+    }
 }
 
 /// Whether an EOF `flags` word asserts a valid `data_crc32`.
 #[must_use]
-pub const fn has_crc32(_flags: u32) -> bool {
-    false // RED
+pub const fn has_crc32(flags: u32) -> bool {
+    flags & FLAG_HAS_CRC32 != 0
 }
 
 /// Whether an EOF `flags` word asserts a trailing key SHA-256.
 #[must_use]
-pub const fn has_key_sha256(_flags: u32) -> bool {
-    false // RED
+pub const fn has_key_sha256(flags: u32) -> bool {
+    flags & FLAG_HAS_KEY_SHA256 != 0
 }
 
 #[cfg(test)]

@@ -67,8 +67,12 @@ pub enum ValueEncoding {
 /// Returns `None` for any byte other than the two documented markers — the caller
 /// must fail loud rather than guess a transcoding.
 #[must_use]
-pub const fn value_encoding(_marker: u8) -> Option<ValueEncoding> {
-    None // RED
+pub const fn value_encoding(marker: u8) -> Option<ValueEncoding> {
+    match marker {
+        ENCODING_UTF16LE => Some(ValueEncoding::Utf16Le),
+        ENCODING_LATIN1 => Some(ValueEncoding::Latin1),
+        _ => None,
+    }
 }
 
 #[cfg(test)]

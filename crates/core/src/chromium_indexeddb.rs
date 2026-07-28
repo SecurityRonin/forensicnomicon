@@ -119,12 +119,12 @@ pub struct KeyPrefixLengths {
 /// Top 3 bits → `database_id_len − 1`, next 3 bits → `object_store_id_len − 1`,
 /// bottom 2 bits → `index_id_len − 1` (each stored value is length minus one).
 #[must_use]
-pub const fn decode_key_prefix_lengths(_first_byte: u8) -> KeyPrefixLengths {
+pub const fn decode_key_prefix_lengths(first_byte: u8) -> KeyPrefixLengths {
     KeyPrefixLengths {
-        database_id_len: 0,
-        object_store_id_len: 0,
-        index_id_len: 0,
-    } // RED
+        database_id_len: (first_byte >> 5) + 1,
+        object_store_id_len: ((first_byte >> 2) & 0b111) + 1,
+        index_id_len: (first_byte & 0b11) + 1,
+    }
 }
 
 #[cfg(test)]
@@ -182,10 +182,10 @@ mod tests {
 
     #[test]
     fn prefix_mixed_fields() {
-        // db len 2 (bits 001), os len 3 (bits 010), idx len 1 (bits 00).
-        // 0b001_010_00 = 0x28.
+        // db len 2 (bits 001), os len 3 (bits 010), idx len 1 (bits 00):
+        // 001_010_00 = 0b0010_1000 = 0x28.
         assert_eq!(
-            decode_key_prefix_lengths(0b001_010_00),
+            decode_key_prefix_lengths(0b0010_1000),
             KeyPrefixLengths {
                 database_id_len: 2,
                 object_store_id_len: 3,
