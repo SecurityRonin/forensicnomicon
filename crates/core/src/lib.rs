@@ -28,6 +28,9 @@
 //! continue to resolve unchanged.
 
 pub mod catalog;
+pub mod chromium_indexeddb;
+pub mod chromium_local_storage;
+pub mod chromium_simple_cache;
 pub mod decmpfs;
 pub mod evidence;
 pub mod file_id;
