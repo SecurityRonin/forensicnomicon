@@ -35,6 +35,7 @@ pub mod decmpfs;
 pub mod evidence;
 pub mod file_id;
 pub mod filesystems;
+pub mod messenger_desktop;
 pub mod partition_schemes;
 pub mod partition_types;
 pub mod report;
