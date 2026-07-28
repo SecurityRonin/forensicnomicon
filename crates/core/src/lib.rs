@@ -35,6 +35,7 @@ pub mod filesystems;
 pub mod partition_schemes;
 pub mod partition_types;
 pub mod report;
+pub mod usb_vendors;
 pub mod volatility;
 pub mod volume_encryption;
 pub mod volume_serial;
