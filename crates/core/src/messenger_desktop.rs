@@ -176,8 +176,218 @@ impl MessengerSpec {
     }
 }
 
+/// All platforms — a store present under every listed profile.
+const ALL_PLATFORMS: &[Platform] = &[Platform::Windows, Platform::MacOS, Platform::Linux];
+
 /// Every desktop-messenger spec, keyed by [`MessengerSpec::app`].
-pub const DESKTOP_MESSENGERS: &[MessengerSpec] = &[]; // RED
+pub const DESKTOP_MESSENGERS: &[MessengerSpec] = &[
+    // ── Signal Desktop (Electron; SQLCipher) ─────────────────────────────────
+    MessengerSpec {
+        app: "Signal Desktop",
+        app_kind: AppKind::Electron,
+        // Source: https://www.alexbilz.com/post/2021-06-07-forensic-artifacts-signal-desktop/
+        profiles: &[
+            ProfilePath {
+                platform: Platform::Windows,
+                base_dir: r"%AppData%\Signal",
+            },
+            ProfilePath {
+                platform: Platform::MacOS,
+                base_dir: "~/Library/Application Support/Signal",
+            },
+            ProfilePath {
+                platform: Platform::Linux,
+                base_dir: "~/.config/Signal",
+            },
+        ],
+        stores: &[
+            MessengerStore {
+                role: StoreRole::Messages,
+                relative_path: "sql/db.sqlite",
+                format: StoreFormat::SqlCipher,
+                encrypted: true,
+                platforms: ALL_PLATFORMS,
+                // Source: https://www.alexbilz.com/post/2021-06-07-forensic-artifacts-signal-desktop/
+                note: "SQLCipher (use SQLCipher 4 defaults); `messages` table = chat body, `conversations` table = contacts/groups.",
+            },
+            MessengerStore {
+                role: StoreRole::Contacts,
+                relative_path: "sql/db.sqlite",
+                format: StoreFormat::SqlCipher,
+                encrypted: true,
+                platforms: ALL_PLATFORMS,
+                note: "Same DB as messages; the `conversations` table holds contact/group rows.",
+            },
+            MessengerStore {
+                role: StoreRole::EncryptionKey,
+                relative_path: "config.json",
+                format: StoreFormat::Json,
+                encrypted: true,
+                platforms: ALL_PLATFORMS,
+                // Source: https://www.alexbilz.com/post/2021-06-07-forensic-artifacts-signal-desktop/
+                note: "Legacy: plaintext `key`. Modern: `encryptedKey` wrapped by the OS keystore via `Local State` (Windows DPAPI / macOS Keychain 'Signal Safe Storage' / Linux libsecret).",
+            },
+            MessengerStore {
+                role: StoreRole::Attachments,
+                relative_path: "attachments.noindex",
+                format: StoreFormat::EncryptedFiles,
+                encrypted: true,
+                platforms: ALL_PLATFORMS,
+                note: "Per-attachment key derived from the SQLCipher master key.",
+            },
+        ],
+        note: "Also carries Chromium `Local Storage/leveldb` and `IndexedDB/file__0.indexeddb.leveldb` app-state stores.",
+        sources: &["https://www.alexbilz.com/post/2021-06-07-forensic-artifacts-signal-desktop/"],
+    },
+    // ── Discord (Electron/Chromium; no local message DB) ─────────────────────
+    MessengerSpec {
+        app: "Discord",
+        app_kind: AppKind::Electron,
+        // Source: https://sankara-ns.medium.com/simple-forensic-analysis-on-discord-in-windows-10-d530506dcd81
+        profiles: &[
+            ProfilePath {
+                platform: Platform::Windows,
+                base_dir: r"%AppData%\discord",
+            },
+            // macOS/Linux follow the Electron userData convention.
+            // Source: https://www.electronjs.org/docs/latest/api/app
+            ProfilePath {
+                platform: Platform::MacOS,
+                base_dir: "~/Library/Application Support/discord",
+            },
+            ProfilePath {
+                platform: Platform::Linux,
+                base_dir: "~/.config/discord",
+            },
+        ],
+        stores: &[
+            MessengerStore {
+                role: StoreRole::Account,
+                relative_path: "Local Storage/leveldb",
+                format: StoreFormat::ChromiumLevelDb,
+                encrypted: true,
+                platforms: ALL_PLATFORMS,
+                // Source: https://asec.ahnlab.com/en/24512/
+                note: "Auth token in the `.ldb`/`.log` files (DPAPI-protected in newer clients); prime info-stealer target. Test-build variants live under `discordptb` / `discordcanary`.",
+            },
+            MessengerStore {
+                role: StoreRole::MediaCache,
+                relative_path: "Cache/Cache_Data",
+                format: StoreFormat::ChromiumSimpleCache,
+                encrypted: false,
+                platforms: ALL_PLATFORMS,
+                // Source: https://www.forensafe.com/blogs/discord.html
+                note: "Chromium Simple Cache: cached attachments, media, webhook URLs and API JSON. Survives message/channel/server deletion.",
+            },
+        ],
+        // Source: https://sankara-ns.medium.com/simple-forensic-analysis-on-discord-in-windows-10-d530506dcd81
+        note: "No local message database — chats are fetched from the server and only cached; recoverable message evidence is the Simple Cache, not a chat DB.",
+        sources: &[
+            "https://www.forensafe.com/blogs/discord.html",
+            "https://asec.ahnlab.com/en/24512/",
+            "https://sankara-ns.medium.com/simple-forensic-analysis-on-discord-in-windows-10-d530506dcd81",
+        ],
+    },
+    // ── Wire (Electron/Chromium; messages in IndexedDB) ──────────────────────
+    MessengerSpec {
+        app: "Wire",
+        app_kind: AppKind::Electron,
+        // Source: https://velog.io/@hunjison/Forensic-Analysis-of-Wire-Messenger-in-Windows-OS
+        profiles: &[
+            ProfilePath {
+                platform: Platform::Windows,
+                base_dir: r"%AppData%\Wire",
+            },
+            // macOS/Linux follow the Electron userData convention.
+            // Source: https://www.electronjs.org/docs/latest/api/app
+            ProfilePath {
+                platform: Platform::MacOS,
+                base_dir: "~/Library/Application Support/Wire",
+            },
+            ProfilePath {
+                platform: Platform::Linux,
+                base_dir: "~/.config/Wire",
+            },
+        ],
+        stores: &[
+            MessengerStore {
+                role: StoreRole::Messages,
+                relative_path: "IndexedDB/https_app.wire.com_0.indexeddb.leveldb",
+                format: StoreFormat::ChromiumLevelDb,
+                encrypted: false,
+                platforms: ALL_PLATFORMS,
+                // Source: https://velog.io/@hunjison/Forensic-Analysis-of-Wire-Messenger-in-Windows-OS
+                note: "Chat logs in the IndexedDB object stores: conversation id, sender, timestamp, message body.",
+            },
+            MessengerStore {
+                role: StoreRole::Account,
+                relative_path: "IndexedDB/https_app.wire.com_0.indexeddb.leveldb",
+                format: StoreFormat::ChromiumLevelDb,
+                encrypted: false,
+                platforms: ALL_PLATFORMS,
+                note: "Device class/model, verification status and account domain live in the same IndexedDB.",
+            },
+            MessengerStore {
+                role: StoreRole::EncryptionKey,
+                relative_path: "IndexedDB/https_app.wire.com_0.indexeddb.leveldb",
+                format: StoreFormat::ChromiumLevelDb,
+                encrypted: false,
+                platforms: ALL_PLATFORMS,
+                // Source: https://velog.io/@hunjison/Forensic-Analysis-of-Wire-Messenger-in-Windows-OS
+                note: "`otr_key` (stored as decimal, convert to hex) decrypts attachments.",
+            },
+        ],
+        note: "Electron wrapper over the Wire web client; all evidence is in the Chromium IndexedDB.",
+        sources: &["https://velog.io/@hunjison/Forensic-Analysis-of-Wire-Messenger-in-Windows-OS"],
+    },
+    // ── WhatsApp Desktop (native; SEE/DPAPI-encrypted SQLite) ────────────────
+    MessengerSpec {
+        app: "WhatsApp Desktop",
+        app_kind: AppKind::Native,
+        profiles: &[
+            // Windows Store UWP/WebView2 client.
+            // Source: https://medium.com/@alberto.magno/whatsapp-desktop-and-web-live-forensics-4n6-233f640e9fb3
+            ProfilePath {
+                platform: Platform::Windows,
+                base_dir: r"%LocalAppData%\Packages\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\LocalState",
+            },
+            // macOS Catalyst client container.
+            // Source: https://belkasoft.com/whatsapp_forensics_on_computers
+            ProfilePath {
+                platform: Platform::MacOS,
+                base_dir: "~/Library/Containers/desktop.WhatsApp",
+            },
+        ],
+        stores: &[
+            MessengerStore {
+                role: StoreRole::Messages,
+                relative_path: "genericStorageDB",
+                format: StoreFormat::EncryptedSqlite,
+                encrypted: true,
+                platforms: &[Platform::Windows],
+                // Source: https://medium.com/@alberto.magno/whatsapp-desktop-and-web-live-forensics-4n6-233f640e9fb3
+                note: "WebView2 arch: `genericStorageDB` holds messages, SEE + DPAPI-NG encrypted. Older UWP arch used SEE-encrypted SQLite with `nondb_settings[0-9]{2}.dat` key files.",
+            },
+            MessengerStore {
+                role: StoreRole::EncryptionKey,
+                relative_path: "Session.db",
+                format: StoreFormat::EncryptedSqlite,
+                encrypted: true,
+                platforms: &[Platform::Windows],
+                // Source: https://medium.com/@alberto.magno/whatsapp-desktop-and-web-live-forensics-4n6-233f640e9fb3
+                note: "`Session.db`/`session.db-wal` store the session clientKeys; per-session `nativeSettings.db` holds further key material (DPAPI-NG protected).",
+            },
+        ],
+        // The macOS Catalyst client mirrors the iOS Core Data schema (ChatStorage.sqlite /
+        // ZWAMESSAGE), but the cited desktop sources did not confirm its exact on-disk path,
+        // so only the container is asserted here.
+        note: "macOS Catalyst client stores chats in a Core Data SQLite under the container; the exact desktop DB path was not confirmed by the cited sources.",
+        sources: &[
+            "https://medium.com/@alberto.magno/whatsapp-desktop-and-web-live-forensics-4n6-233f640e9fb3",
+            "https://belkasoft.com/whatsapp_forensics_on_computers",
+        ],
+    },
+];
 
 /// Look up a desktop messenger spec by its canonical [`MessengerSpec::app`] name.
 #[must_use]
