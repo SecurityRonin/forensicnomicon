@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-07-27T06:47:41Z
+Generated: 2026-07-28T06:05:29Z
 
 ## Windows Incident Response
 
@@ -34,9 +34,9 @@ Generated: 2026-07-27T06:47:41Z
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-28T01:53:25+00:00 — [The Events Site is Being Rebuilt](https://dfirdiva.com/the-events-site-is-being-rebuilt/)
 
 ## mac4n6
 
@@ -63,7 +63,7 @@ Generated: 2026-07-27T06:47:41Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-26T00:00:00+00:00 — [Weekly Wire #2: Autonomy unleashed](https://andreafortuna.org/2026/07/26/weekly-wire-2/)
+- 2026-07-27T00:00:00+00:00 — [Horizontal mobbing among peers and what happens when cybersecurity teams turn on each other](https://andreafortuna.org/2026/07/27/mobbing-horizontal-cybersecurity/)
 
 ## Salt Forensics
 
@@ -202,9 +202,9 @@ Generated: 2026-07-27T06:47:41Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-27T19:37:13+00:00 — [Mobile devices and insider threat investigations: Why access keeps getting harder](https://www.magnetforensics.com/blog/mobile-devices-and-insider-threat-investigations-why-access-keeps-getting-harder/)
 
 ## The DFIR Report
 
@@ -228,35 +228,38 @@ Generated: 2026-07-27T06:47:41Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-07-27T02:00:02+00:00 — [ISC Stormcast For Monday, July 27th, 2026 https://isc.sans.edu/podcastdetail/10024, (Mon, Jul 27th)](https://isc.sans.edu/diary/rss/33186)
-- 2026-07-26T15:26:14+00:00 — [Scans for ESAFENET CDG 3 Document Management System Weak Logins, (Sun, Jul 26th)](https://isc.sans.edu/diary/rss/33184)
+- 2026-07-28T02:00:03+00:00 — [ISC Stormcast For Tuesday, July 28th, 2026 https://isc.sans.edu/podcastdetail/10026, (Tue, Jul 28th)](https://isc.sans.edu/diary/rss/33190)
+- 2026-07-27T10:04:51+00:00 — [Java Spring Boot "heapdump" scans, (Mon, Jul 27th)](https://isc.sans.edu/diary/rss/33188)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [Where Are Digital Investigations Breaking Down?](https://www.dfir.training/blog/where-are-digital-investigations-breaking-down)
+- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
+- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
+- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
 
 ## MSAB
 
 - Site: https://www.msab.com/
 - Feed: https://www.msab.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## AboutDFIR
 
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## Forensic 4cast
 
@@ -272,9 +275,9 @@ Generated: 2026-07-27T06:47:41Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-26T07:47:44+00:00 — [Week 30 – 2026](https://thisweekin4n6.com/2026/07/26/week-30-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
@@ -289,10 +292,7 @@ Generated: 2026-07-27T06:47:41Z
 
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## Didier Stevens Blog
 
@@ -371,11 +371,12 @@ Generated: 2026-07-27T06:47:41Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 4
 
-- 2026-07-27T06:30:00+00:00 — [How does an app launch? An exploration with LogUI](https://eclecticlight.co/2026/07/27/how-does-an-app-launch-an-exploration-with-logui/)
-- 2026-07-26T11:30:00+00:00 — [Herald of Impressionism: Charles Daubigny 2](https://eclecticlight.co/2026/07/26/herald-of-impressionism-charles-daubigny-2/)
-- 2026-07-26T07:00:00+00:00 — [Last Week on My Mac: Annotate your log for fun and profit](https://eclecticlight.co/2026/07/26/last-week-on-my-mac-annotate-your-log-for-fun-and-profit/)
+- 2026-07-27T20:38:24+00:00 — [What has changed in macOS Tahoe 26.6?](https://eclecticlight.co/2026/07/27/what-has-changed-in-macos-tahoe-26-6/)
+- 2026-07-27T18:33:33+00:00 — [Apple has released updates to Tahoe 26.6, Sequoia 15.7.8 and Sonoma 14.8.8](https://eclecticlight.co/2026/07/27/apple-has-released-updates-to-tahoe-26-6-sequoia-15-7-8-and-sonoma-14-8-8/)
+- 2026-07-27T11:30:00+00:00 — [Hero or hooligan: Odysseus with Circe](https://eclecticlight.co/2026/07/27/hero-or-hooligan-odysseus-with-circe/)
+- 2026-07-27T08:00:00+00:00 — [Solutions to Saturday Mac riddles 370](https://eclecticlight.co/2026/07/27/solutions-to-saturday-mac-riddles-370/)
 
 ## JPCERT/CC
 
@@ -400,9 +401,9 @@ Generated: 2026-07-27T06:47:41Z
 - Site: https://blog.elcomsoft.com/
 - Feed: https://blog.elcomsoft.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-27T08:40:31+00:00 — [Microsoft Office Passwords: What Comes Off in Seconds,  What Takes Longer, and Why](https://blog.elcomsoft.com/2026/07/microsoft-office-passwords-what-comes-off-in-seconds-what-takes-longer-and-why/)
 
 ## Huntress Blog
 
@@ -463,18 +464,18 @@ Generated: 2026-07-27T06:47:41Z
 - Site: https://www.elastic.co/security-labs/
 - Feed: https://www.elastic.co/security-labs/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- unknown date — [Inside Elastic InfoSec&#x27;s agentic SOC: How we cut AI agent LLM calls by 60%](https://www.elastic.co/security-labs/ai-agent-optimization-production-scale)
 
 ## Flare.io Threat Research Blog
 
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-27T14:00:00+00:00 — [Kali365: The Phishing-as-a-Service Operation Expanding Beyond Microsoft 365](https://flare.io/learn/resources/blog/kali365)
 
 ## Binalyze Blog
 
@@ -496,18 +497,18 @@ Generated: 2026-07-27T06:47:41Z
 - Site: https://www.forensafe.com/blogs/
 - Feed: https://www.forensafe.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- Fri, 24 July 2026 — [iOS Spotify](https://forensafe.com/blogs/ios-spotify.html)
 
 ## Cellebrite Blog
 
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-27T20:11:40+00:00 — [When a Drone Is Recovered, the Clock Starts](https://cellebrite.com/en/blog/drone-investigations-law-enforcement/)
 
 ## DFIR Science
 
@@ -523,18 +524,21 @@ Generated: 2026-07-27T06:47:41Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-07-27T00:00:00-04:00 — [CrowdStrike Joins the Open Secure AI Alliance to Advance AI Safety and Security](https://www.crowdstrike.com/en-us/blog/crowdstrike-joins-the-open-secure-ai-alliance/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-07-27T19:00:05+00:00 — [Aftercall ads are driving Android users crazy](https://www.malwarebytes.com/blog/news/2026/07/aftercall-ads-are-driving-android-users-crazy)
+- 2026-07-27T15:00:23+00:00 — [Sextortion scammers are exploiting ShinyHunters data leaks](https://www.malwarebytes.com/blog/scams/2026/07/sextortion-scammers-are-exploiting-shinyhunters-data-leaks)
+- 2026-07-27T14:35:34+00:00 — [What&#8217;s your data worth on the dark web? (Lock and Code S07E15)](https://www.malwarebytes.com/blog/podcast/2026/07/whats-your-data-worth-on-the-dark-web-lock-and-code-s07e15)
+- 2026-07-27T07:01:00+00:00 — [A week in security (July 20 &#8211; July 26)](https://www.malwarebytes.com/blog/news/2026/07/a-week-in-security-july-20-july-26)
 
 ## Krebs on Security
 
@@ -550,18 +554,28 @@ Generated: 2026-07-27T06:47:41Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 8
 
-- 2026-07-26T10:13:39-04:00 — [GitHub, PyPI add time-based defenses against supply chain attacks](https://www.bleepingcomputer.com/news/security/github-pypi-add-time-absed-defenses-against-supply-chain-attacks/)
+- 2026-07-27T19:49:44-04:00 — [Hackers target US firms in FastJson RCE zero-day attacks](https://www.bleepingcomputer.com/news/security/hackers-target-us-firms-in-fastjson-rce-zero-day-attacks/)
+- 2026-07-27T18:49:44-04:00 — [Arista patches VeloCloud Orchestrator zero-day exploited in attacks](https://www.bleepingcomputer.com/news/security/arista-patches-velocloud-orchestrator-zero-day-exploited-in-attacks/)
+- 2026-07-27T17:08:15-04:00 — [New Dysphoria DDoS botnet spreads to 200k devices worldwide](https://www.bleepingcomputer.com/news/security/new-dysphoria-ddos-botnet-spreads-to-200k-devices-worldwide/)
+- 2026-07-27T17:00:25-04:00 — [New Certighost PoC exploit lets attackers hijack Windows domains](https://www.bleepingcomputer.com/news/security/new-certighost-poc-exploit-lets-attackers-hijack-windows-domains/)
+- 2026-07-27T13:29:07-04:00 — [Apple sued over fake App Store crypto wallet app stealing $1.8M in Bitcoin](https://www.bleepingcomputer.com/news/apple/apple-sued-over-fake-app-store-crypto-wallet-app-stealing-18m-in-bitcoin/)
+- 2026-07-27T11:39:51-04:00 — [Coca-Cola confirms data theft in Fairlife ransomware attack](https://www.bleepingcomputer.com/news/security/coca-cola-confirms-data-theft-in-fairlife-ransomware-attack/)
+- 2026-07-27T11:12:27-04:00 — [Ernst & Young data breach claimed by ShinyHunters extortion gang](https://www.bleepingcomputer.com/news/security/ernst-and-young-data-breach-claimed-by-shinyhunters-extortion-gang/)
+- 2026-07-27T10:01:11-04:00 — [Shadow AI agents are multiplying. Here's how to find and secure them.](https://www.bleepingcomputer.com/news/security/shadow-ai-agents-are-multiplying-heres-how-to-find-and-secure-them/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-07-28T01:00:00+00:00 — [AI Agent Drives Espionage Attack on Thai Ministry of Finance](https://www.darkreading.com/cyberattacks-data-breaches/ai-agent-espionage-attack-thai-ministry-finance)
+- 2026-07-27T20:57:26+00:00 — ['Confused Deputy' Flaws Persist in Google Cloud, Microsoft Azure](https://www.darkreading.com/cloud-security/confused-deputy-flaws-google-cloud-microsoft-azure)
+- 2026-07-27T20:33:29+00:00 — [FBI: Breaking Affiliate Trust Sped Along LockBit's Takedown](https://www.darkreading.com/cybersecurity-operations/fbi-breaking-affiliate-trust-lockbit-takedown)
+- 2026-07-27T17:31:18+00:00 — [Adversaries Don't Need a Zero-Day — They Read Your Rulebook](https://www.darkreading.com/threat-intelligence/adversaries-do-not-need-zero-day-they-read-your-rulebook)
 
 ## Volexity Blog
 
@@ -583,9 +597,10 @@ Generated: 2026-07-27T06:47:41Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-07-27T16:40:00+00:00 — [Rethinking security for the age of AI](https://blogs.microsoft.com/blog/2026/07/27/rethinking-security-for-the-age-of-ai/)
+- 2026-07-27T16:25:00+00:00 — [Enhancing AI security through global AI red teaming](https://www.microsoft.com/en-us/security/blog/2026/07/27/enhancing-ai-security-through-global-ai-red-teaming/)
 
 ## HackingPassion
 
@@ -594,7 +609,7 @@ Generated: 2026-07-27T06:47:41Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-07-26T14:31:59+02:00 — [Bitchat Is a Bluetooth Mesh Chat That Needs No Internet](https://hackingpassion.com/bitchat-bluetooth-mesh-messaging/)
+- 2026-07-27T13:59:58+02:00 — [Shared AI Chats Are Sitting Exposed on Search Engines](https://hackingpassion.com/shared-ai-chats-exposed-search-engines/)
 
 ## LOLBAS Project (Windows)
 
@@ -826,9 +841,10 @@ Generated: 2026-07-27T06:47:41Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-07-27T21:59:29+00:00 — [Sigma Rule Supported Modifier Update (2026-07-27  21:59:21) (#1054)](https://github.com/Yamato-Security/hayabusa-rules/commit/b51cae701e94255927b830afe932991f3db54831)
+- 2026-07-27T21:04:12+00:00 — [Sigma Rule Update (2026-07-27  21:04:04) (#1053)](https://github.com/Yamato-Security/hayabusa-rules/commit/8b08e3403bbc8854abb0de19a10006c60284ce0d)
 
 ## Hayabusa releases
 
@@ -844,9 +860,9 @@ Generated: 2026-07-27T06:47:41Z
 - Site: https://github.com/WithSecureLabs/chainsaw
 - Feed: https://github.com/WithSecureLabs/chainsaw/releases.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-07-26T15:00:14+00:00 — [v2.16.3-beta.0](https://github.com/WithSecureLabs/chainsaw/releases/tag/v2.16.3-beta.0)
+- No new entries detected
 
 ## Elastic detection-rules releases
 
