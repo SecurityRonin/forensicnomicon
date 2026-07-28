@@ -29,7 +29,7 @@
 
 /// `kLatestVersion` — the current V8 structured-clone format version written
 /// after the `0xFF` version tag.
-pub const V8_LATEST_VERSION: u32 = 0; // RED
+pub const V8_LATEST_VERSION: u32 = 16;
 
 /// `kVersion` / `kVersionTag` — leads a stream, followed by a `VarInt` version.
 /// Shared byte between the V8 and Blink enums.
@@ -47,22 +47,149 @@ pub const BLINK_TRAILER_OFFSET_TAG: u8 = 0xFE;
 pub const BLINK_TRAILER_REQUIRES_INTERFACES_TAG: u8 = 0xA0;
 
 /// The V8 core `SerializationTag` table: tag byte → C++ enumerator name.
-pub const V8_TAGS: &[(u8, &str)] = &[]; // RED
+///
+/// Verbatim from V8's `SerializationTag : uint8_t` enum, including the fourteen
+/// `kLegacyReserved*` bytes V8 keeps unusable so a modern stream never collides
+/// with a pre-2017 Blink serialization. Every byte is distinct.
+// Source: https://github.com/v8/v8/blob/main/src/objects/value-serializer.cc
+pub const V8_TAGS: &[(u8, &str)] = &[
+    (0xFF, "kVersion"),
+    (b'\0', "kPadding"),
+    (b'?', "kVerifyObjectCount"),
+    (b'-', "kTheHole"),
+    (b'_', "kUndefined"),
+    (b'0', "kNull"),
+    (b'T', "kTrue"),
+    (b'F', "kFalse"),
+    (b'I', "kInt32"),
+    (b'U', "kUint32"),
+    (b'N', "kDouble"),
+    (b'Z', "kBigInt"),
+    (b'S', "kUtf8String"),
+    (b'"', "kOneByteString"),
+    (b'c', "kTwoByteString"),
+    (b'^', "kObjectReference"),
+    (b'o', "kBeginJSObject"),
+    (b'{', "kEndJSObject"),
+    (b'a', "kBeginSparseJSArray"),
+    (b'@', "kEndSparseJSArray"),
+    (b'A', "kBeginDenseJSArray"),
+    (b'$', "kEndDenseJSArray"),
+    (b'D', "kDate"),
+    (b'y', "kTrueObject"),
+    (b'x', "kFalseObject"),
+    (b'n', "kNumberObject"),
+    (b'z', "kBigIntObject"),
+    (b's', "kStringObject"),
+    (b'R', "kRegExp"),
+    (b';', "kBeginJSMap"),
+    (b':', "kEndJSMap"),
+    (b'\'', "kBeginJSSet"),
+    (b',', "kEndJSSet"),
+    (b'B', "kArrayBuffer"),
+    (b'C', "kImmutableArrayBuffer"),
+    (b'~', "kResizableArrayBuffer"),
+    (b't', "kArrayBufferTransfer"),
+    (b'V', "kArrayBufferView"),
+    (b'u', "kSharedArrayBuffer"),
+    (b'p', "kSharedObject"),
+    (b'w', "kWasmModuleTransfer"),
+    (b'\\', "kHostObject"),
+    (b'm', "kWasmMemoryTransfer"),
+    (b'r', "kError"),
+    (b'M', "kLegacyReservedMessagePort"),
+    (b'b', "kLegacyReservedBlob"),
+    (b'i', "kLegacyReservedBlobIndex"),
+    (b'f', "kLegacyReservedFile"),
+    (b'e', "kLegacyReservedFileIndex"),
+    (b'd', "kLegacyReservedDOMFileSystem"),
+    (b'l', "kLegacyReservedFileList"),
+    (b'L', "kLegacyReservedFileListIndex"),
+    (b'#', "kLegacyReservedImageData"),
+    (b'g', "kLegacyReservedImageBitmap"),
+    (b'G', "kLegacyReservedImageBitmapTransfer"),
+    (b'H', "kLegacyReservedOffscreenCanvas"),
+    (b'K', "kLegacyReservedCryptoKey"),
+    (b'k', "kLegacyReservedRTCCertificate"),
+];
 
 /// The Blink `SerializationTag` table: tag byte → C++ enumerator name. Meaningful
 /// only inside a V8 [`HOST_OBJECT_TAG`] payload.
-pub const BLINK_TAGS: &[(u8, &str)] = &[]; // RED
+///
+/// Verbatim from Blink's `SerializationTag : uint8_t` enum. The bytes overlap the
+/// V8 table numerically but occupy a distinct namespace — a Blink tag is only
+/// valid after a V8 [`HOST_OBJECT_TAG`] (`'\\'`). `kVersionTag`/`kTrailerOffsetTag`/
+/// `kTrailerRequiresInterfacesTag` are the framing bytes exported above.
+// Source: https://github.com/chromium/chromium/blob/main/third_party/blink/renderer/bindings/core/v8/serialization/serialization_tag.h
+pub const BLINK_TAGS: &[(u8, &str)] = &[
+    (b'M', "kMessagePortTag"),
+    (b'h', "kMojoHandleTag"),
+    (b'b', "kBlobTag"),
+    (b'i', "kBlobIndexTag"),
+    (b'f', "kFileTag"),
+    (b'e', "kFileIndexTag"),
+    (b'd', "kDOMFileSystemTag"),
+    (b'n', "kFileSystemFileHandleTag"),
+    (b'N', "kFileSystemDirectoryHandleTag"),
+    (b'l', "kFileListTag"),
+    (b'L', "kFileListIndexTag"),
+    (b'#', "kImageDataTag"),
+    (b'g', "kImageBitmapTag"),
+    (b'G', "kImageBitmapTransferTag"),
+    (b'J', "kElementImageTransferTag"),
+    (b'H', "kOffscreenCanvasTransferTag"),
+    (b'r', "kReadableStreamTransferTag"),
+    (b'm', "kTransformStreamTransferTag"),
+    (b'w', "kWritableStreamTransferTag"),
+    (b's', "kMediaStreamTrack"),
+    (b'Q', "kDOMPointTag"),
+    (b'W', "kDOMPointReadOnlyTag"),
+    (b'E', "kDOMRectTag"),
+    (b'R', "kDOMRectReadOnlyTag"),
+    (b'T', "kDOMQuadTag"),
+    (b'Y', "kDOMMatrixTag"),
+    (b'U', "kDOMMatrixReadOnlyTag"),
+    (b'I', "kDOMMatrix2DTag"),
+    (b'O', "kDOMMatrix2DReadOnlyTag"),
+    (b'K', "kCryptoKeyTag"),
+    (b'k', "kRTCCertificateTag"),
+    (b'A', "kRTCEncodedAudioFrameTag"),
+    (b'V', "kRTCEncodedVideoFrameTag"),
+    (b'p', "kRTCDataChannel"),
+    (b'a', "kAudioDataTag"),
+    (b'v', "kVideoFrameTag"),
+    (b'y', "kEncodedAudioChunkTag"),
+    (b'z', "kEncodedVideoChunkTag"),
+    (b'c', "kCropTargetTag"),
+    (b'D', "kRestrictionTargetTag"),
+    (b'S', "kMediaSourceHandleTag"),
+    (b'B', "kDeprecatedDetectedBarcodeTag"),
+    (b'F', "kDeprecatedDetectedFaceTag"),
+    (b't', "kDeprecatedDetectedTextTag"),
+    (b'C', "kFencedFrameConfigTag"),
+    (b'x', "kDOMExceptionTag"),
+    (b'q', "kQuotaExceededErrorTag"),
+    (0xFE, "kTrailerOffsetTag"),
+    (0xFF, "kVersionTag"),
+    (0xA0, "kTrailerRequiresInterfacesTag"),
+];
 
 /// Resolve a top-level V8 structured-clone tag byte to its enumerator name.
 #[must_use]
-pub fn v8_tag_name(_tag: u8) -> Option<&'static str> {
-    None // RED
+pub fn v8_tag_name(tag: u8) -> Option<&'static str> {
+    V8_TAGS
+        .iter()
+        .find(|(byte, _)| *byte == tag)
+        .map(|(_, name)| *name)
 }
 
 /// Resolve a Blink (host-object) serialization tag byte to its enumerator name.
 #[must_use]
-pub fn blink_tag_name(_tag: u8) -> Option<&'static str> {
-    None // RED
+pub fn blink_tag_name(tag: u8) -> Option<&'static str> {
+    BLINK_TAGS
+        .iter()
+        .find(|(byte, _)| *byte == tag)
+        .map(|(_, name)| *name)
 }
 
 #[cfg(test)]
