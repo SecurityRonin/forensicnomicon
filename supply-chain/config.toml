@@ -17,16 +17,16 @@ url = "https://raw.githubusercontent.com/google/rust-crate-audits/main/audits.to
 url = "https://raw.githubusercontent.com/mozilla/supply-chain/main/audits.toml"
 
 [policy.forensicnomicon]
-audit-as-crates-io = true
+audit-as-crates-io = false
 
 [policy.forensicnomicon-cli]
-audit-as-crates-io = true
+audit-as-crates-io = false
 
 [policy.forensicnomicon-core]
-audit-as-crates-io = true
+audit-as-crates-io = false
 
 [policy.forensicnomicon-data]
-audit-as-crates-io = true
+audit-as-crates-io = false
 
 [[exemptions.aho-corasick]]
 version = "1.1.4"
