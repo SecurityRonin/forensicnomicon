@@ -94,6 +94,28 @@ mod tests {
     use super::*;
 
     #[test]
+    #[cfg(unix)]
+    fn scan_tolerates_an_entry_that_vanishes_between_listing_and_read() {
+        // `read_dir` yields a point-in-time snapshot; under concurrent filesystem
+        // load an entry can be listed yet gone by the time it is read (a transient
+        // `NotFound`). This intermittently reddened CI: a workspace test run would
+        // panic in `load_catalog_ids` with `NotFound` while the committed catalog
+        // was fully intact. A broken `.rs` symlink reproduces the class
+        // deterministically — it resolves at listing time but errors `NotFound` on
+        // read. The scan must skip the vanished entry and still return the real ids.
+        use std::os::unix::fs::symlink;
+        let dir = tempfile::tempdir().expect("tempdir");
+        std::fs::write(dir.path().join("good.rs"), "    id: \"real_id\",\n").expect("write good");
+        symlink(
+            dir.path().join("does_not_exist.rs"),
+            dir.path().join("ghost.rs"),
+        )
+        .expect("symlink");
+        let set = load_catalog_ids(dir.path()).expect("scan must tolerate a vanished entry");
+        assert!(set.is_duplicate("real_id"));
+    }
+
+    #[test]
     fn is_duplicate_returns_true_for_known_id() {
         let mut set = IdSet::default();
         set.insert("userassist_exe".to_string());
