@@ -74,15 +74,33 @@ pub fn load_catalog_ids(catalog_dir: impl AsRef<Path>) -> io::Result<IdSet> {
 }
 
 fn scan_dir(dir: &Path, set: &mut IdSet) -> io::Result<()> {
+    // `read_dir` returns a point-in-time snapshot; under concurrent filesystem
+    // activity an entry can be listed yet gone by the time it is accessed. Tolerate
+    // that transient per-entry `NotFound` (skip the vanished entry) so a scan of a
+    // live directory never crashes on a TOCTOU. The directory itself going missing
+    // (`read_dir` below, and the recursion's own `read_dir`) still fails loud.
     for entry in fs::read_dir(dir)? {
-        let entry = entry?;
+        let entry = match entry {
+            Ok(e) => e,
+            Err(e) if e.kind() == io::ErrorKind::NotFound => continue,
+            Err(e) => return Err(e),
+        };
         let path = entry.path();
         if path.is_dir() {
-            scan_dir(&path, set)?;
+            match scan_dir(&path, set) {
+                Ok(()) => {}
+                Err(e) if e.kind() == io::ErrorKind::NotFound => {}
+                Err(e) => return Err(e),
+            }
         } else if path.extension().is_some_and(|e| e == "rs") {
-            let source = fs::read_to_string(&path)?;
-            for id in extract_ids_from_source(&source) {
-                set.insert(id);
+            match fs::read_to_string(&path) {
+                Ok(source) => {
+                    for id in extract_ids_from_source(&source) {
+                        set.insert(id);
+                    }
+                }
+                Err(e) if e.kind() == io::ErrorKind::NotFound => {}
+                Err(e) => return Err(e),
             }
         }
     }
