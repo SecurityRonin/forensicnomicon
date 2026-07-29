@@ -24,6 +24,18 @@
 //! database** — chats are fetched from the server and only *cached* — so its
 //! recoverable message evidence is the Simple Cache, not a chat DB.
 //!
+//! # Desktop app vs web client — same format, different location
+//!
+//! Each Electron messenger also has a browser-hosted **web client** ([`WebClient`]).
+//! The web version stores nothing in an app-named directory: its Chromium storage
+//! is a slice of *the browser's* profile, partitioned by web **origin**. The
+//! on-disk formats are identical to the desktop app's; only the location differs
+//! (browser profile root + per-origin subtree vs the app's `userData` dir). The
+//! browser-profile root is a browser-forensic concern, so [`WebClient`] records
+//! the origin (and derives the per-origin IndexedDB directory) and leaves profile
+//! discovery to the consumer. Signal has no web client; on Linux, WhatsApp's *only*
+//! artifact is its web client (there is no native Linux WhatsApp desktop app).
+//!
 //! [`chromium_simple_cache`]: crate::chromium_simple_cache
 //! [`chromium_indexeddb`]: crate::chromium_indexeddb
 //! [`chromium_local_storage`]: crate::chromium_local_storage
@@ -141,6 +153,49 @@ pub struct ProfilePath {
     pub base_dir: &'static str,
 }
 
+/// The web-client counterpart of a desktop messenger.
+///
+/// Unlike the desktop app — which owns an app-named Electron `userData`
+/// directory (see [`ProfilePath`]) — the web client stores nothing app-named:
+/// its Chromium storage is a *slice of the browser's profile*, partitioned by
+/// web origin. The browser-profile root is a browser-forensic concern (profile
+/// discovery); what is messenger-specific is the **origin**, and from it the
+/// per-origin IndexedDB directory name and the Local Storage key prefix follow
+/// by Chromium's naming convention. Same on-disk formats as the desktop app
+/// ([`chromium_indexeddb`](crate::chromium_indexeddb),
+/// [`chromium_local_storage`](crate::chromium_local_storage),
+/// [`chromium_simple_cache`](crate::chromium_simple_cache)) — different location.
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct WebClient {
+    /// Serialized web origin, e.g. `https://discord.com`.
+    pub origin: &'static str,
+    /// Additional origins the same app serves (release channels, legacy hosts).
+    pub alt_origins: &'static [&'static str],
+    /// Analyst note: which browser-profile stores carry this origin's evidence.
+    pub note: &'static str,
+    /// Authoritative sources (all `https://`).
+    pub sources: &'static [&'static str],
+}
+
+impl WebClient {
+    /// Chromium's per-origin IndexedDB directory, relative to a browser profile
+    /// root — e.g. `https://discord.com` → `IndexedDB/https_discord.com_0.indexeddb.leveldb`.
+    ///
+    /// Chromium names the directory `<scheme>_<host>_<port>.indexeddb.leveldb`
+    /// (port `0` is the default-port placeholder). Join under any Chromium
+    /// browser profile root (obtained from browser-forensic profile discovery).
+    #[must_use]
+    pub fn indexeddb_dir(&self) -> String {
+        // `unwrap_or` (not `unwrap`) keeps this panic-free on a malformed origin.
+        let (scheme, host) = self
+            .origin
+            .split_once("://")
+            .unwrap_or(("https", self.origin));
+        format!("IndexedDB/{scheme}_{host}_0.indexeddb.leveldb")
+    }
+}
+
 /// A desktop messenger artifact spec.
 #[cfg_attr(feature = "serde", derive(serde::Serialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -153,6 +208,8 @@ pub struct MessengerSpec {
     pub profiles: &'static [ProfilePath],
     /// The stores within the profile.
     pub stores: &'static [MessengerStore],
+    /// The browser-hosted web client, if the app has one (`None` for Signal).
+    pub web: Option<WebClient>,
     /// Spec-level caveat (e.g. "no local message DB").
     pub note: &'static str,
     /// Authoritative sources that informed this spec (all `https://`).
@@ -236,6 +293,8 @@ pub const DESKTOP_MESSENGERS: &[MessengerSpec] = &[
                 note: "Per-attachment key derived from the SQLCipher master key.",
             },
         ],
+        // Signal ships desktop + mobile only — no web client.
+        web: None,
         note: "Also carries Chromium `Local Storage/leveldb` and `IndexedDB/file__0.indexeddb.leveldb` app-state stores.",
         sources: &["https://www.alexbilz.com/post/2021-06-07-forensic-artifacts-signal-desktop/"],
     },
@@ -280,6 +339,17 @@ pub const DESKTOP_MESSENGERS: &[MessengerSpec] = &[
                 note: "Chromium Simple Cache: cached attachments, media, webhook URLs and API JSON. Survives message/channel/server deletion.",
             },
         ],
+        web: Some(WebClient {
+            origin: "https://discord.com",
+            // Test/beta release channels serve the same app under distinct origins;
+            // the desktop `discordptb`/`discordcanary` variants mirror these.
+            alt_origins: &["https://ptb.discord.com", "https://canary.discord.com"],
+            note: "In a browser profile: the auth token/app state is in the shared `Local Storage/leveldb` (keys prefixed with the origin), per-origin `IndexedDB/https_discord.com_0.indexeddb.leveldb`, and cached media in the browser's Simple Cache. Same formats as the desktop app, under the browser profile root.",
+            sources: &[
+                "https://asec.ahnlab.com/en/24512/",
+                "https://www.forensafe.com/blogs/discord.html",
+            ],
+        }),
         // Source: https://sankara-ns.medium.com/simple-forensic-analysis-on-discord-in-windows-10-d530506dcd81
         note: "No local message database — chats are fetched from the server and only cached; recoverable message evidence is the Simple Cache, not a chat DB.",
         sources: &[
@@ -337,6 +407,12 @@ pub const DESKTOP_MESSENGERS: &[MessengerSpec] = &[
                 note: "`otr_key` (stored as decimal, convert to hex) decrypts attachments.",
             },
         ],
+        web: Some(WebClient {
+            origin: "https://app.wire.com",
+            alt_origins: &[],
+            note: "Same IndexedDB object stores as the desktop app (the Electron wrapper points at this origin), under the browser profile root instead of `userData`: `IndexedDB/https_app.wire.com_0.indexeddb.leveldb`.",
+            sources: &["https://velog.io/@hunjison/Forensic-Analysis-of-Wire-Messenger-in-Windows-OS"],
+        }),
         note: "Electron wrapper over the Wire web client; all evidence is in the Chromium IndexedDB.",
         sources: &["https://velog.io/@hunjison/Forensic-Analysis-of-Wire-Messenger-in-Windows-OS"],
     },
@@ -381,7 +457,15 @@ pub const DESKTOP_MESSENGERS: &[MessengerSpec] = &[
         // The macOS Catalyst client mirrors the iOS Core Data schema (ChatStorage.sqlite /
         // ZWAMESSAGE), but the cited desktop sources did not confirm its exact on-disk path,
         // so only the container is asserted here.
-        note: "macOS Catalyst client stores chats in a Core Data SQLite under the container; the exact desktop DB path was not confirmed by the cited sources.",
+        web: Some(WebClient {
+            origin: "https://web.whatsapp.com",
+            alt_origins: &[],
+            note: "WhatsApp Web keeps chats/contacts in the browser's per-origin `IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb` (model-storage object stores, Blink/V8-serialized values). There is NO native Linux desktop client, so on Linux this browser-profile store is the only WhatsApp artifact.",
+            sources: &[
+                "https://medium.com/@alberto.magno/whatsapp-desktop-and-web-live-forensics-4n6-233f640e9fb3",
+            ],
+        }),
+        note: "macOS Catalyst client stores chats in a Core Data SQLite under the container; the exact desktop DB path was not confirmed by the cited sources. No native Linux desktop client — see the `web` client for Linux (and browser-based) coverage.",
         sources: &[
             "https://medium.com/@alberto.magno/whatsapp-desktop-and-web-live-forensics-4n6-233f640e9fb3",
             "https://belkasoft.com/whatsapp_forensics_on_computers",
