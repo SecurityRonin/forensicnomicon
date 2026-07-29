@@ -463,6 +463,79 @@ pub fn forensicnomicon_core::catalog::container_profile(&str) -> core::option::O
 pub fn forensicnomicon_core::catalog::container_signature(&str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ContainerSignature>
 pub fn forensicnomicon_core::catalog::parsing_profile(&str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ArtifactParsingProfile>
 pub fn forensicnomicon_core::catalog::record_signatures_for_container(&str) -> alloc::vec::Vec<&'static forensicnomicon_core::catalog::types::RecordSignature>
+pub mod forensicnomicon_core::chromium_indexeddb
+pub struct forensicnomicon_core::chromium_indexeddb::KeyPrefixLengths
+pub forensicnomicon_core::chromium_indexeddb::KeyPrefixLengths::database_id_len: u8
+pub forensicnomicon_core::chromium_indexeddb::KeyPrefixLengths::index_id_len: u8
+pub forensicnomicon_core::chromium_indexeddb::KeyPrefixLengths::object_store_id_len: u8
+pub const forensicnomicon_core::chromium_indexeddb::DB_META_BLOB_KEY_GENERATOR: u8
+pub const forensicnomicon_core::chromium_indexeddb::DB_META_DATABASE_NAME: u8
+pub const forensicnomicon_core::chromium_indexeddb::DB_META_INTEGER_VERSION: u8
+pub const forensicnomicon_core::chromium_indexeddb::DB_META_MAX_OBJECT_STORE_ID: u8
+pub const forensicnomicon_core::chromium_indexeddb::DB_META_ORIGIN_NAME: u8
+pub const forensicnomicon_core::chromium_indexeddb::DB_META_USER_STRING_VERSION: u8
+pub const forensicnomicon_core::chromium_indexeddb::GLOBAL_ACTIVE_BLOB_JOURNAL: u8
+pub const forensicnomicon_core::chromium_indexeddb::GLOBAL_DATA_VERSION: u8
+pub const forensicnomicon_core::chromium_indexeddb::GLOBAL_EARLIEST_SWEEP_TIME: u8
+pub const forensicnomicon_core::chromium_indexeddb::GLOBAL_MAX_DATABASE_ID: u8
+pub const forensicnomicon_core::chromium_indexeddb::GLOBAL_RECOVERY_BLOB_JOURNAL: u8
+pub const forensicnomicon_core::chromium_indexeddb::GLOBAL_SCHEMA_VERSION: u8
+pub const forensicnomicon_core::chromium_indexeddb::INDEX_ID_BLOB_ENTRY: u32
+pub const forensicnomicon_core::chromium_indexeddb::INDEX_ID_EXISTS_ENTRY: u32
+pub const forensicnomicon_core::chromium_indexeddb::INDEX_ID_OBJECT_STORE_DATA: u32
+pub const forensicnomicon_core::chromium_indexeddb::OBJECT_STORE_META_TYPE: u8
+pub const forensicnomicon_core::chromium_indexeddb::OS_META_AUTO_INCREMENT: u8
+pub const forensicnomicon_core::chromium_indexeddb::OS_META_HAS_KEY_PATH: u8
+pub const forensicnomicon_core::chromium_indexeddb::OS_META_IS_EVICTABLE: u8
+pub const forensicnomicon_core::chromium_indexeddb::OS_META_KEY_GENERATOR: u8
+pub const forensicnomicon_core::chromium_indexeddb::OS_META_KEY_PATH: u8
+pub const forensicnomicon_core::chromium_indexeddb::OS_META_LAST_VERSION: u8
+pub const forensicnomicon_core::chromium_indexeddb::OS_META_MAX_INDEX_ID: u8
+pub const forensicnomicon_core::chromium_indexeddb::OS_META_NAME: u8
+pub const fn forensicnomicon_core::chromium_indexeddb::decode_key_prefix_lengths(u8) -> forensicnomicon_core::chromium_indexeddb::KeyPrefixLengths
+pub mod forensicnomicon_core::chromium_local_storage
+#[non_exhaustive] pub enum forensicnomicon_core::chromium_local_storage::ValueEncoding
+pub forensicnomicon_core::chromium_local_storage::ValueEncoding::Latin1
+pub forensicnomicon_core::chromium_local_storage::ValueEncoding::Utf16Le
+pub const forensicnomicon_core::chromium_local_storage::DATA_KEY_PREFIX: u8
+pub const forensicnomicon_core::chromium_local_storage::ENCODING_LATIN1: u8
+pub const forensicnomicon_core::chromium_local_storage::ENCODING_UTF16LE: u8
+pub const forensicnomicon_core::chromium_local_storage::KEY_SEPARATOR: u8
+pub const forensicnomicon_core::chromium_local_storage::META_PREFIX: &[u8]
+pub const fn forensicnomicon_core::chromium_local_storage::value_encoding(u8) -> core::option::Option<forensicnomicon_core::chromium_local_storage::ValueEncoding>
+pub mod forensicnomicon_core::chromium_simple_cache
+#[non_exhaustive] pub enum forensicnomicon_core::chromium_simple_cache::Structure
+pub forensicnomicon_core::chromium_simple_cache::Structure::EntryEof
+pub forensicnomicon_core::chromium_simple_cache::Structure::EntryHeader
+pub forensicnomicon_core::chromium_simple_cache::Structure::Index
+pub forensicnomicon_core::chromium_simple_cache::Structure::SparseRange
+pub const forensicnomicon_core::chromium_simple_cache::ENTRY_STREAM_COUNT: usize
+pub const forensicnomicon_core::chromium_simple_cache::ENTRY_VERSION_ON_DISK: u32
+pub const forensicnomicon_core::chromium_simple_cache::EOF_DATA_CRC32_OFFSET: usize
+pub const forensicnomicon_core::chromium_simple_cache::EOF_FLAGS_OFFSET: usize
+pub const forensicnomicon_core::chromium_simple_cache::EOF_LEN: usize
+pub const forensicnomicon_core::chromium_simple_cache::EOF_MAGIC_OFFSET: usize
+pub const forensicnomicon_core::chromium_simple_cache::EOF_STREAM_SIZE_OFFSET: usize
+pub const forensicnomicon_core::chromium_simple_cache::FINAL_MAGIC: u64
+pub const forensicnomicon_core::chromium_simple_cache::FLAG_HAS_CRC32: u32
+pub const forensicnomicon_core::chromium_simple_cache::FLAG_HAS_KEY_SHA256: u32
+pub const forensicnomicon_core::chromium_simple_cache::HEADER_KEY_HASH_OFFSET: usize
+pub const forensicnomicon_core::chromium_simple_cache::HEADER_KEY_LENGTH_OFFSET: usize
+pub const forensicnomicon_core::chromium_simple_cache::HEADER_LEN: usize
+pub const forensicnomicon_core::chromium_simple_cache::HEADER_MAGIC_OFFSET: usize
+pub const forensicnomicon_core::chromium_simple_cache::HEADER_VERSION_OFFSET: usize
+pub const forensicnomicon_core::chromium_simple_cache::INDEX_MAGIC: u64
+pub const forensicnomicon_core::chromium_simple_cache::INITIAL_MAGIC: u64
+pub const forensicnomicon_core::chromium_simple_cache::MIN_VERSION_ABLE_TO_UPGRADE: u32
+pub const forensicnomicon_core::chromium_simple_cache::SIMPLE_VERSION: u32
+pub const forensicnomicon_core::chromium_simple_cache::SPARSE_DATA_CRC32_OFFSET: usize
+pub const forensicnomicon_core::chromium_simple_cache::SPARSE_HEADER_LEN: usize
+pub const forensicnomicon_core::chromium_simple_cache::SPARSE_LENGTH_OFFSET: usize
+pub const forensicnomicon_core::chromium_simple_cache::SPARSE_OFFSET_OFFSET: usize
+pub const forensicnomicon_core::chromium_simple_cache::SPARSE_RANGE_MAGIC: u64
+pub const fn forensicnomicon_core::chromium_simple_cache::has_crc32(u32) -> bool
+pub const fn forensicnomicon_core::chromium_simple_cache::has_key_sha256(u32) -> bool
+pub fn forensicnomicon_core::chromium_simple_cache::identify_magic(u64) -> core::option::Option<forensicnomicon_core::chromium_simple_cache::Structure>
 pub mod forensicnomicon_core::decmpfs
 #[non_exhaustive] pub enum forensicnomicon_core::decmpfs::Algorithm
 pub forensicnomicon_core::decmpfs::Algorithm::LzBitmap
@@ -544,6 +617,55 @@ pub forensicnomicon_core::filesystems::FsSignature::offset: usize
 pub const forensicnomicon_core::filesystems::FILESYSTEM_SIGNATURES: &[forensicnomicon_core::filesystems::FsSignature]
 pub fn forensicnomicon_core::filesystems::detect_name(&[u8]) -> core::option::Option<&'static str>
 pub fn forensicnomicon_core::filesystems::detect_zfs(&[u8]) -> bool
+pub mod forensicnomicon_core::messenger_desktop
+#[non_exhaustive] pub enum forensicnomicon_core::messenger_desktop::AppKind
+pub forensicnomicon_core::messenger_desktop::AppKind::Electron
+pub forensicnomicon_core::messenger_desktop::AppKind::Native
+#[non_exhaustive] pub enum forensicnomicon_core::messenger_desktop::StoreFormat
+pub forensicnomicon_core::messenger_desktop::StoreFormat::ChromiumLevelDb
+pub forensicnomicon_core::messenger_desktop::StoreFormat::ChromiumSimpleCache
+pub forensicnomicon_core::messenger_desktop::StoreFormat::EncryptedFiles
+pub forensicnomicon_core::messenger_desktop::StoreFormat::EncryptedSqlite
+pub forensicnomicon_core::messenger_desktop::StoreFormat::Json
+pub forensicnomicon_core::messenger_desktop::StoreFormat::SqlCipher
+pub forensicnomicon_core::messenger_desktop::StoreFormat::Sqlite
+#[non_exhaustive] pub enum forensicnomicon_core::messenger_desktop::StoreRole
+pub forensicnomicon_core::messenger_desktop::StoreRole::Account
+pub forensicnomicon_core::messenger_desktop::StoreRole::Attachments
+pub forensicnomicon_core::messenger_desktop::StoreRole::Contacts
+pub forensicnomicon_core::messenger_desktop::StoreRole::EncryptionKey
+pub forensicnomicon_core::messenger_desktop::StoreRole::MediaCache
+pub forensicnomicon_core::messenger_desktop::StoreRole::Messages
+pub struct forensicnomicon_core::messenger_desktop::MessengerSpec
+pub forensicnomicon_core::messenger_desktop::MessengerSpec::app: &'static str
+pub forensicnomicon_core::messenger_desktop::MessengerSpec::app_kind: forensicnomicon_core::messenger_desktop::AppKind
+pub forensicnomicon_core::messenger_desktop::MessengerSpec::note: &'static str
+pub forensicnomicon_core::messenger_desktop::MessengerSpec::profiles: &'static [forensicnomicon_core::messenger_desktop::ProfilePath]
+pub forensicnomicon_core::messenger_desktop::MessengerSpec::sources: &'static [&'static str]
+pub forensicnomicon_core::messenger_desktop::MessengerSpec::stores: &'static [forensicnomicon_core::messenger_desktop::MessengerStore]
+pub forensicnomicon_core::messenger_desktop::MessengerSpec::web: core::option::Option<forensicnomicon_core::messenger_desktop::WebClient>
+impl forensicnomicon_core::messenger_desktop::MessengerSpec
+pub fn forensicnomicon_core::messenger_desktop::MessengerSpec::base_dir(&self, forensicnomicon_core::catalog::types::Platform) -> core::option::Option<&'static str>
+pub fn forensicnomicon_core::messenger_desktop::MessengerSpec::store(&self, forensicnomicon_core::messenger_desktop::StoreRole) -> core::option::Option<&'static forensicnomicon_core::messenger_desktop::MessengerStore>
+pub struct forensicnomicon_core::messenger_desktop::MessengerStore
+pub forensicnomicon_core::messenger_desktop::MessengerStore::encrypted: bool
+pub forensicnomicon_core::messenger_desktop::MessengerStore::format: forensicnomicon_core::messenger_desktop::StoreFormat
+pub forensicnomicon_core::messenger_desktop::MessengerStore::note: &'static str
+pub forensicnomicon_core::messenger_desktop::MessengerStore::platforms: &'static [forensicnomicon_core::catalog::types::Platform]
+pub forensicnomicon_core::messenger_desktop::MessengerStore::relative_path: &'static str
+pub forensicnomicon_core::messenger_desktop::MessengerStore::role: forensicnomicon_core::messenger_desktop::StoreRole
+pub struct forensicnomicon_core::messenger_desktop::ProfilePath
+pub forensicnomicon_core::messenger_desktop::ProfilePath::base_dir: &'static str
+pub forensicnomicon_core::messenger_desktop::ProfilePath::platform: forensicnomicon_core::catalog::types::Platform
+pub struct forensicnomicon_core::messenger_desktop::WebClient
+pub forensicnomicon_core::messenger_desktop::WebClient::alt_origins: &'static [&'static str]
+pub forensicnomicon_core::messenger_desktop::WebClient::note: &'static str
+pub forensicnomicon_core::messenger_desktop::WebClient::origin: &'static str
+pub forensicnomicon_core::messenger_desktop::WebClient::sources: &'static [&'static str]
+impl forensicnomicon_core::messenger_desktop::WebClient
+pub fn forensicnomicon_core::messenger_desktop::WebClient::indexeddb_dir(&self) -> alloc::string::String
+pub const forensicnomicon_core::messenger_desktop::DESKTOP_MESSENGERS: &[forensicnomicon_core::messenger_desktop::MessengerSpec]
+pub fn forensicnomicon_core::messenger_desktop::spec(&str) -> core::option::Option<&'static forensicnomicon_core::messenger_desktop::MessengerSpec>
 pub mod forensicnomicon_core::partition_schemes
 pub enum forensicnomicon_core::partition_schemes::Scheme
 pub forensicnomicon_core::partition_schemes::Scheme::Apm
@@ -684,6 +806,22 @@ pub fn forensicnomicon_core::report::Observation::note(&self) -> alloc::string::
 pub fn forensicnomicon_core::report::Observation::severity(&self) -> core::option::Option<forensicnomicon_core::report::Severity>
 pub fn forensicnomicon_core::report::Observation::subjects(&self) -> alloc::vec::Vec<forensicnomicon_core::report::SubjectRef>
 pub fn forensicnomicon_core::report::Observation::to_finding(&self, forensicnomicon_core::report::Source) -> forensicnomicon_core::report::Finding
+pub mod forensicnomicon_core::usb_vendors
+pub struct forensicnomicon_core::usb_vendors::UsbVendor
+pub forensicnomicon_core::usb_vendors::UsbVendor::name: &'static str
+pub forensicnomicon_core::usb_vendors::UsbVendor::vid: u16
+pub const forensicnomicon_core::usb_vendors::COMMON_USB_VENDORS: &[forensicnomicon_core::usb_vendors::UsbVendor]
+pub fn forensicnomicon_core::usb_vendors::vendor_name(u16) -> core::option::Option<&'static str>
+pub mod forensicnomicon_core::v8_serialization
+pub const forensicnomicon_core::v8_serialization::BLINK_TAGS: &[(u8, &str)]
+pub const forensicnomicon_core::v8_serialization::BLINK_TRAILER_OFFSET_TAG: u8
+pub const forensicnomicon_core::v8_serialization::BLINK_TRAILER_REQUIRES_INTERFACES_TAG: u8
+pub const forensicnomicon_core::v8_serialization::HOST_OBJECT_TAG: u8
+pub const forensicnomicon_core::v8_serialization::V8_LATEST_VERSION: u32
+pub const forensicnomicon_core::v8_serialization::V8_TAGS: &[(u8, &str)]
+pub const forensicnomicon_core::v8_serialization::VERSION_TAG: u8
+pub fn forensicnomicon_core::v8_serialization::blink_tag_name(u8) -> core::option::Option<&'static str>
+pub fn forensicnomicon_core::v8_serialization::v8_tag_name(u8) -> core::option::Option<&'static str>
 pub mod forensicnomicon_core::volatility
 #[non_exhaustive] pub enum forensicnomicon_core::volatility::VolatilityClass
 pub forensicnomicon_core::volatility::VolatilityClass::ActivityDriven = 2
