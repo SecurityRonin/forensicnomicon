@@ -483,6 +483,73 @@ mod tests {
     }
 
     #[test]
+    fn signal_has_no_web_client() {
+        // Signal ships desktop + mobile only — there is no Signal web client.
+        let s = spec("Signal Desktop").expect("signal spec");
+        assert!(s.web.is_none());
+    }
+
+    #[test]
+    fn web_clients_carry_the_right_origin() {
+        assert_eq!(
+            spec("Discord").expect("discord").web.expect("web").origin,
+            "https://discord.com"
+        );
+        assert_eq!(
+            spec("Wire").expect("wire").web.expect("web").origin,
+            "https://app.wire.com"
+        );
+        assert_eq!(
+            spec("WhatsApp Desktop")
+                .expect("wa")
+                .web
+                .expect("web")
+                .origin,
+            "https://web.whatsapp.com"
+        );
+    }
+
+    #[test]
+    fn web_indexeddb_dir_follows_chromium_origin_naming() {
+        let d = spec("Discord").expect("discord").web.expect("web");
+        assert_eq!(
+            d.indexeddb_dir(),
+            "IndexedDB/https_discord.com_0.indexeddb.leveldb"
+        );
+        let wa = spec("WhatsApp Desktop").expect("wa").web.expect("web");
+        assert_eq!(
+            wa.indexeddb_dir(),
+            "IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb"
+        );
+    }
+
+    #[test]
+    fn wire_web_and_desktop_indexeddb_paths_coincide() {
+        // The Electron app is a Chromium pointed at the web origin, so the
+        // per-origin IndexedDB directory name is identical to the web client's.
+        let w = spec("Wire").expect("wire");
+        let desktop_msgs = w.store(StoreRole::Messages).expect("wire messages");
+        let web = w.web.expect("wire web");
+        assert_eq!(desktop_msgs.relative_path, web.indexeddb_dir());
+    }
+
+    #[test]
+    fn every_web_client_cites_https_sources() {
+        for m in DESKTOP_MESSENGERS {
+            if let Some(w) = m.web {
+                assert!(!w.sources.is_empty(), "{} web has no sources", m.app);
+                for url in w.sources {
+                    assert!(
+                        url.starts_with("https://"),
+                        "{} web source is not https: {url}",
+                        m.app
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
     fn relative_paths_use_forward_slashes() {
         for m in DESKTOP_MESSENGERS {
             for s in m.stores {
