@@ -4,7 +4,7 @@ name = "forensicnomicon-core"
 # are the semver-stable surface the fleet's analyzer crates pin against
 # (forensicnomicon-core = "1"). Bump majors deliberately — see
 # docs/plans/2026-06-28-knowledge-propagation-and-crate-split.md.
-version = "1.4.0"
+version = "1.5.0"
 description = "Stable engine layer of the ForensicNomicon: the normalized DFIR report model (Finding/Severity/Observation) and structural format constants. Zero deps."
 edition.workspace = true
 rust-version = "1.75"
