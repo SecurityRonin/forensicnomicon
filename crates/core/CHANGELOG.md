@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-core-v1.4.0...forensicnomicon-core-v1.5.0) - 2026-07-29
+
+### Added
+
+- *(messenger-desktop)* GREEN — web-client origins + per-origin IndexedDB path
+- *(messenger-desktop)* GREEN — Discord/Signal/Wire/WhatsApp desktop specs
+- *(v8-serialization)* GREEN — V8/Blink structured-clone tag tables
+- *(chromium-storage)* GREEN — Simple Cache / IndexedDB / Local Storage constants
+- *(usb-vendors)* GREEN — 44 curated common USB vendors + vendor_name lookup
+
 ## [1.4.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-core-v1.3.0...forensicnomicon-core-v1.4.0) - 2026-07-19
 
 ### Added

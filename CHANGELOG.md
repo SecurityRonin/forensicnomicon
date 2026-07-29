@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.8.1...forensicnomicon-v1.9.0) - 2026-07-29
+
+### Added
+
+- *(chromium-storage)* GREEN — Simple Cache / IndexedDB / Local Storage constants
+
+### Other
+
+- bump anyhow ≥1.0.104 (RUSTSEC-2026-0190) ([#20](https://github.com/SecurityRonin/forensicnomicon/pull/20))
+
 ## [1.8.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.7.0...forensicnomicon-v1.8.0) - 2026-07-16
 
 ### Added
