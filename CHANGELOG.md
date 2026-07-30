@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.9.0...forensicnomicon-v1.10.0) - 2026-07-30
+
+### Added
+
+- *(facade)* re-export file_id/messenger_desktop/usb_vendors/v8_serialization
+
 ## [1.9.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.8.1...forensicnomicon-v1.9.0) - 2026-07-29
 
 ### Added
