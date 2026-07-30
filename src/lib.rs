@@ -163,6 +163,13 @@ pub use forensicnomicon_core::chromium_indexeddb;
 pub use forensicnomicon_core::chromium_local_storage;
 pub use forensicnomicon_core::chromium_simple_cache;
 pub use forensicnomicon_core::decmpfs;
+pub use forensicnomicon_core::file_id;
+pub use forensicnomicon_core::messenger_desktop;
+pub use forensicnomicon_core::usb_vendors;
+pub use forensicnomicon_core::v8_serialization;
+/// Filesystem-object identity, re-exported at the facade root so consumers write
+/// `forensicnomicon::FileId` (mirrors `forensicnomicon_core`'s root re-export).
+pub use forensicnomicon_core::FileId;
 pub mod dependencies;
 pub mod dmg;
 pub mod dpapi;
