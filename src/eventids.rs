@@ -1626,4 +1626,104 @@ mod tests {
             );
         }
     }
+
+    /// Extract inline `<id>=<phrase>` claims from a descriptor `meaning`, e.g.
+    /// `"(3=job created, 59=transfer started)"` -> `[(3, "job created"), …]`.
+    /// Hand-parsed: the facade is zero-dependency, so no regex crate.
+    fn inline_event_id_claims(meaning: &str) -> Vec<(u32, String)> {
+        let bytes = meaning.as_bytes();
+        let mut out = Vec::new();
+        let mut i = 0;
+        while i < bytes.len() {
+            if !bytes[i].is_ascii_digit() {
+                i += 1;
+                continue;
+            }
+            let start = i;
+            while i < bytes.len() && bytes[i].is_ascii_digit() {
+                i += 1;
+            }
+            // Only a `<digits>=` run is a claim; anything else is prose.
+            if i >= bytes.len() || bytes[i] != b'=' {
+                continue;
+            }
+            let Ok(id) = meaning[start..i].parse::<u32>() else {
+                continue;
+            };
+            i += 1; // skip '='
+            let phrase_start = i;
+            while i < bytes.len() && !matches!(bytes[i], b',' | b')' | b';') {
+                i += 1;
+            }
+            out.push((id, meaning[phrase_start..i].trim().to_lowercase()));
+        }
+        out
+    }
+
+    /// `evtx_bits_client`'s prose must not contradict `EVENT_ID_TABLE`, which is
+    /// the authoritative home for event-ID meanings.
+    ///
+    /// Regression guard for a real defect: the descriptor shipped
+    /// "59=job created, 60=completed, 61=error" while Microsoft's BITS manifest
+    /// (`qmgr.dll`) defines **3**=job created, **59**=transfer *started*, and
+    /// 60/61 as the SAME "transfer stopped" event separated only by Level.
+    ///
+    /// Deliberately scoped to this descriptor rather than every `evtx_*` one:
+    /// comparing prose to prose is not soundly automatable. A catalog-wide sweep
+    /// flagged `evtx_defender`'s correct "1117=action taken" against the table's
+    /// "took action" — a morphological variant, not a contradiction. A guard that
+    /// fails on correct prose only teaches people to add exceptions, so the broad
+    /// version was dropped on purpose.
+    #[test]
+    fn bits_client_prose_agrees_with_event_id_table() {
+        use crate::catalog::CATALOG;
+
+        // Words too generic to carry meaning in a comparison.
+        const STOPWORDS: &[&str] = &[
+            "the", "and", "for", "with", "from", "that", "this", "into", "when", "via", "its",
+        ];
+
+        let mut violations: Vec<String> = Vec::new();
+
+        for d in CATALOG.list() {
+            if d.id != "evtx_bits_client" {
+                continue;
+            }
+            for (id, phrase) in inline_event_id_claims(d.meaning) {
+                // Only ids the authoritative table actually defines can be checked.
+                let authoritative: Vec<&str> = EVENT_ID_TABLE
+                    .iter()
+                    .filter(|e| e.event_id == id)
+                    .map(|e| e.description)
+                    .collect();
+                if authoritative.is_empty() {
+                    continue;
+                }
+                let keywords: Vec<&str> = phrase
+                    .split_whitespace()
+                    .filter(|w| w.len() >= 4 && !STOPWORDS.contains(w))
+                    .collect();
+                if keywords.is_empty() {
+                    continue;
+                }
+                // The claim holds if SOME entry for that id supports every keyword.
+                let supported = authoritative.iter().any(|desc| {
+                    let lower = desc.to_lowercase();
+                    keywords.iter().all(|kw| lower.contains(kw))
+                });
+                if !supported {
+                    violations.push(format!(
+                        "{}: claims {id}={phrase:?}, but EVENT_ID_TABLE says {:?}",
+                        d.id, authoritative
+                    ));
+                }
+            }
+        }
+
+        assert!(
+            violations.is_empty(),
+            "descriptor prose contradicts EVENT_ID_TABLE:\n  {}",
+            violations.join("\n  ")
+        );
+    }
 }
