@@ -233,7 +233,7 @@ fn baseline_for_source(catalog_dir: &Path, source_name: &str) -> io::Result<Cata
 fn select_new_records(
     records: Vec<IngestRecord>,
     baseline: &CatalogIndex,
-    already_generated: &HashSet<String>,
+    already_generated: &mut HashSet<String>,
 ) -> Vec<IngestRecord> {
     records
         .into_iter()
@@ -321,7 +321,7 @@ fn main() {
             eprintln!("       Every record would look net-new; refusing to generate duplicates.");
             std::process::exit(1);
         });
-        let new_records = select_new_records(records, &baseline, &all_generated_ids);
+        let new_records = select_new_records(records, &baseline, &mut all_generated_ids);
         let new_count = new_records.len();
 
         for r in &new_records {
@@ -555,7 +555,7 @@ mod tests {
         ];
 
         let baseline = baseline_for_source(dir.path(), "regedit").expect("baseline");
-        let kept = select_new_records(fetched, &baseline, &HashSet::new());
+        let kept = select_new_records(fetched, &baseline, &mut HashSet::new());
 
         assert_eq!(
             kept.len(),
@@ -563,6 +563,40 @@ mod tests {
             "regenerating regedit must rewrite its module with the full corpus, \
              not the delta against itself; kept: {:?}",
             kept.iter().map(|r| r.id.as_str()).collect::<Vec<_>>()
+        );
+    }
+
+    #[test]
+    fn a_source_that_yields_one_id_twice_generates_it_once() {
+        // Two upstream entries can reduce to the same id — velociraptor yields
+        // 44 such collisions across 26 ids (five distinct rules all name
+        // `velociraptor_file_users`). Emitting each one writes two
+        // `pub(crate) static` items with the same name, and the generated
+        // module stops compiling. The run-scoped id set is what makes an id
+        // generatable at most once, so it has to be consulted and extended per
+        // record, not once per finished source.
+        let dir = catalog_with_generated_module("velociraptor", &[]);
+        let twice = |key: &str| {
+            IngestRecord::registry_key(
+                "velociraptor_file_users",
+                "Users",
+                "velociraptor",
+                Some("HKLM\\SOFTWARE".to_string()),
+                key,
+                "collides on id",
+            )
+        };
+        let fetched = vec![twice(r"Alpha\Users"), twice(r"Beta\Users")];
+
+        let baseline = baseline_for_source(dir.path(), "velociraptor").expect("baseline");
+        let mut generated = HashSet::new();
+        let kept = select_new_records(fetched, &baseline, &mut generated);
+
+        assert_eq!(
+            kept.len(),
+            1,
+            "an id may be generated once per run; a second record carrying it \
+             would emit a duplicate static name"
         );
     }
 
@@ -608,7 +642,7 @@ mod tests {
         ];
 
         let baseline = baseline_for_source(dir.path(), "regedit").expect("baseline");
-        let kept = select_new_records(fetched, &baseline, &HashSet::new());
+        let kept = select_new_records(fetched, &baseline, &mut HashSet::new());
         let kept_ids: Vec<&str> = kept.iter().map(|r| r.id.as_str()).collect();
 
         assert_eq!(
