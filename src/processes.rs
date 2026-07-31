@@ -75,10 +75,13 @@ pub fn is_masquerade_target(name: &str) -> bool {
 /// one of these executed from any other directory is a strong masquerade /
 /// relocation indicator (MITRE T1036.005).
 ///
-/// This is the location-bound subset of [`WINDOWS_MASQUERADE_TARGETS`] — it
-/// deliberately omits `explorer.exe` (canonically in `\Windows\`, not
-/// `System32`) and the `system` / `registry` kernel pseudo-processes (no image
-/// path), so a relocation check over it does not false-positive on them.
+/// Curated for that location question, so it tracks [`WINDOWS_MASQUERADE_TARGETS`]
+/// closely without mirroring it: 13 of these 15 names are shared. It omits
+/// `explorer.exe` (canonically in `\Windows\`, not `System32`) and the `system` /
+/// `registry` kernel pseudo-processes (no image path), so a relocation check over
+/// it does not false-positive on them, and it adds two System32-resident binaries
+/// the name-masquerade list does not carry: `lsaiso.exe` (Credential Guard's
+/// isolated LSA process) and `rundll32.exe`.
 ///
 /// Sources:
 /// - MITRE ATT&CK T1036.005 — Masquerading: Match Legitimate Name or Location:
@@ -419,6 +422,44 @@ mod tests {
     #[test]
     fn masquerade_targets_contains_lsass() {
         assert!(WINDOWS_MASQUERADE_TARGETS.contains(&"lsass.exe"));
+    }
+
+    /// `WINDOWS_SYSTEM32_BINARIES` is curated for a location question, so it
+    /// neither mirrors nor is contained by `WINDOWS_MASQUERADE_TARGETS`; its doc
+    /// comment states exactly how the two differ. Pin both directions so a data
+    /// edit cannot silently make that statement false — and so the additions are
+    /// visible to `heuristics::srum`, which builds its name baseline on this list.
+    #[test]
+    fn system32_binaries_differ_from_masquerade_targets_as_documented() {
+        let added: Vec<&str> = WINDOWS_SYSTEM32_BINARIES
+            .iter()
+            .copied()
+            .filter(|name| !WINDOWS_MASQUERADE_TARGETS.contains(name))
+            .collect();
+        assert_eq!(
+            added,
+            ["lsaiso.exe", "rundll32.exe"],
+            "System32 names absent from WINDOWS_MASQUERADE_TARGETS changed — \
+             update the WINDOWS_SYSTEM32_BINARIES doc comment to match"
+        );
+
+        let omitted: Vec<&str> = WINDOWS_MASQUERADE_TARGETS
+            .iter()
+            .copied()
+            .filter(|name| !WINDOWS_SYSTEM32_BINARIES.contains(name))
+            .collect();
+        assert_eq!(
+            omitted,
+            ["explorer.exe", "system", "registry"],
+            "masquerade targets deliberately omitted from the System32 list changed — \
+             update the WINDOWS_SYSTEM32_BINARIES doc comment to match"
+        );
+
+        assert_eq!(
+            WINDOWS_SYSTEM32_BINARIES.len() - added.len(),
+            13,
+            "shared-entry count changed — update the WINDOWS_SYSTEM32_BINARIES doc comment"
+        );
     }
 
     #[test]

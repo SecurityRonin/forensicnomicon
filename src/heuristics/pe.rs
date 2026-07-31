@@ -219,9 +219,16 @@ pub const QWCRYPT_PE_STRING_IOCS: &[&str] = &[
 
 /// Windows API names whose primary purpose in malware is debugger/analysis detection.
 ///
-/// These narrow the general [`SUSPICIOUS_IMPORT_NAMES`] set to functions that,
-/// when present together, form a strong signal for debugger evasion (T1622).
-/// Individual hits are low confidence; clusters of 3+ are high confidence.
+/// Curated independently of [`SUSPICIOUS_IMPORT_NAMES`]; the two tables overlap
+/// in exactly five names: `IsDebuggerPresent`,
+/// `CheckRemoteDebuggerPresent`, `NtQueryInformationProcess`,
+/// `OutputDebugStringA`, `OutputDebugStringW`. The other 22 stay off the general
+/// list by design — `CloseHandle`, `GetTickCount`, and `Process32Next` are
+/// unremarkable in isolation and would drown it in noise; here they earn their
+/// place as members of a cluster.
+///
+/// Together they form a strong signal for debugger evasion (T1622). Individual
+/// hits are low confidence; clusters of 3+ are high confidence.
 pub const ANTI_DEBUG_IMPORT_NAMES: &[&str] = &[
     // Explicit debugger presence queries
     "IsDebuggerPresent",
@@ -649,6 +656,130 @@ pub fn parse_section_entry(bytes: &[u8]) -> Option<SectionEntry> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Collects the `///` doc comment immediately above `pub const <name>` in
+    /// `source`, so a documented relationship can be checked against the data.
+    fn doc_comment_above(source: &str, const_name: &str) -> String {
+        let needle = format!("pub const {const_name}:");
+        let (head, _) = source
+            .split_once(needle.as_str())
+            .unwrap_or_else(|| panic!("{const_name} not found in source"));
+        let mut lines: Vec<&str> = head
+            .lines()
+            .rev()
+            .skip_while(|line| line.trim().is_empty())
+            .take_while(|line| line.trim_start().starts_with("///"))
+            .collect();
+        lines.reverse();
+        lines.join("\n")
+    }
+
+    struct SubsetClaim {
+        source: &'static str,
+        child_name: &'static str,
+        child: &'static [&'static str],
+        parent_name: &'static str,
+        parent: &'static [&'static str],
+    }
+
+    /// Doc-claim guard (repo Accuracy Standards): a constant table's doc comment
+    /// may state that it is a subset of — or narrows — another table only when
+    /// the data satisfies `child ⊆ parent`. A false relationship claim makes an
+    /// analyst reason wrongly about coverage, and nothing else in the build
+    /// checks prose against data.
+    ///
+    /// The guard is generic over the claim rather than over one table: any table
+    /// that grows such a phrase in future is checked the same way.
+    #[test]
+    fn subset_doc_claims_hold_in_the_data() {
+        const CLAIM_PHRASES: &[&str] = &["subset of", "narrow the general", "narrows the general"];
+
+        let claims = [
+            SubsetClaim {
+                source: include_str!("pe.rs"),
+                child_name: "ANTI_DEBUG_IMPORT_NAMES",
+                child: ANTI_DEBUG_IMPORT_NAMES,
+                parent_name: "SUSPICIOUS_IMPORT_NAMES",
+                parent: SUSPICIOUS_IMPORT_NAMES,
+            },
+            SubsetClaim {
+                source: include_str!("pe.rs"),
+                child_name: "PROCESS_HOLLOWING_APIS",
+                child: PROCESS_HOLLOWING_APIS,
+                parent_name: "SUSPICIOUS_IMPORT_NAMES",
+                parent: SUSPICIOUS_IMPORT_NAMES,
+            },
+            SubsetClaim {
+                source: include_str!("../processes.rs"),
+                child_name: "WINDOWS_SYSTEM32_BINARIES",
+                child: crate::processes::WINDOWS_SYSTEM32_BINARIES,
+                parent_name: "WINDOWS_MASQUERADE_TARGETS",
+                parent: crate::processes::WINDOWS_MASQUERADE_TARGETS,
+            },
+        ];
+
+        let mut violations = Vec::new();
+        for claim in &claims {
+            let doc = doc_comment_above(claim.source, claim.child_name);
+            if !doc.contains(claim.parent_name) {
+                continue;
+            }
+            let Some(phrase) = CLAIM_PHRASES.iter().find(|p| doc.contains(**p)) else {
+                continue;
+            };
+            let missing: Vec<&str> = claim
+                .child
+                .iter()
+                .copied()
+                .filter(|name| !claim.parent.contains(name))
+                .collect();
+            if !missing.is_empty() {
+                violations.push(format!(
+                    "{} doc claims \"{phrase}\" against {}, but {} of its {} members are \
+                     absent from {}: {missing:?}",
+                    claim.child_name,
+                    claim.parent_name,
+                    missing.len(),
+                    claim.child.len(),
+                    claim.parent_name,
+                ));
+            }
+        }
+        assert!(
+            violations.is_empty(),
+            "false subset claim(s) in doc comments:\n{}",
+            violations.join("\n")
+        );
+    }
+
+    /// The anti-debug table is curated independently of the general suspicious
+    /// import list, and its doc comment names the exact overlap. Pin that overlap
+    /// so an edit to either table cannot silently make the doc false.
+    #[test]
+    fn anti_debug_overlap_with_suspicious_imports_is_the_documented_five() {
+        let shared: Vec<&str> = ANTI_DEBUG_IMPORT_NAMES
+            .iter()
+            .copied()
+            .filter(|name| SUSPICIOUS_IMPORT_NAMES.contains(name))
+            .collect();
+        assert_eq!(
+            shared,
+            [
+                "IsDebuggerPresent",
+                "CheckRemoteDebuggerPresent",
+                "NtQueryInformationProcess",
+                "OutputDebugStringA",
+                "OutputDebugStringW",
+            ],
+            "overlap with SUSPICIOUS_IMPORT_NAMES changed — update the \
+             ANTI_DEBUG_IMPORT_NAMES doc comment to match"
+        );
+        assert_eq!(
+            ANTI_DEBUG_IMPORT_NAMES.len() - shared.len(),
+            22,
+            "count of anti-debug names unique to this table changed — update its doc comment"
+        );
+    }
 
     #[test]
     fn anti_debug_import_names_not_empty() {
