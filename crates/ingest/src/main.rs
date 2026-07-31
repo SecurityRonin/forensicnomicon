@@ -426,6 +426,21 @@ struct RefusedMerge {
     location: String,
 }
 
+/// What the merge did, for the run summary.
+#[derive(Default)]
+struct MergeStats {
+    /// Records the catalog already covered, so never candidates.
+    suppressed: usize,
+    /// Records folded into another describing the same artifact.
+    merged: usize,
+    /// Descriptors that ended up carrying a technique only a folded-in record
+    /// supplied — a mapping a winner-takes-all rule would have dropped.
+    gained_techniques: usize,
+    /// Descriptors that ended up carrying a citation only a folded-in record
+    /// supplied.
+    gained_sources: usize,
+}
+
 /// The records of `fetched`, merged, keyed back to the source that produced them.
 ///
 /// The catalog already carries some of what a run fetches: an id the `baseline`
@@ -441,23 +456,46 @@ struct RefusedMerge {
 ///
 /// Records whose paths coincide but whose artifact *types* disagree are left
 /// separate and reported: they are not the same thing.
+#[cfg(test)]
 fn select_records(fetched: &Fetched, baseline: &CatalogIndex) -> Fetched {
-    let (merged, refused) = merge_records(fetched, baseline);
+    merge_and_report(fetched, baseline, false)
+}
+
+/// [`select_records`], printing what the merge did when `verbose`.
+fn merge_and_report(fetched: &Fetched, baseline: &CatalogIndex, verbose: bool) -> Fetched {
+    let (merged, refused, stats) = merge_records(fetched, baseline);
     for r in &refused {
         eprintln!(
             "WARN: kept '{}' and '{}' separate — same {} but different artifact types",
             r.kept, r.refused, r.location
         );
     }
+    if verbose {
+        eprintln!(
+            "Merge: {} records already catalogued, {} folded into another describing the same \
+             artifact ({} of those contributed a technique the descriptor would otherwise lack, \
+             {} a citation); {} refused as different artifact types",
+            stats.suppressed,
+            stats.merged,
+            stats.gained_techniques,
+            stats.gained_sources,
+            refused.len(),
+        );
+    }
     merged
 }
 
 /// [`select_records`], also reporting the merges it refused.
-fn merge_records(fetched: &Fetched, baseline: &CatalogIndex) -> (Fetched, Vec<RefusedMerge>) {
+fn merge_records(
+    fetched: &Fetched,
+    baseline: &CatalogIndex,
+) -> (Fetched, Vec<RefusedMerge>, MergeStats) {
+    let mut stats = MergeStats::default();
     let mut candidates: Vec<(usize, IngestRecord)> = Vec::new();
     for (rank, (_, records)) in fetched.iter().enumerate() {
         for rec in records {
             if baseline.ids.is_duplicate(&rec.id) || baseline.paths.covers(&rec.key_path) {
+                stats.suppressed += 1;
                 continue;
             }
             candidates.push((rank, rec.clone()));
@@ -472,7 +510,16 @@ fn merge_records(fetched: &Fetched, baseline: &CatalogIndex) -> (Fetched, Vec<Re
     let mut refused: Vec<RefusedMerge> = Vec::new();
     for (rank, rec) in candidates {
         if let Some((_, into)) = kept.iter_mut().find(|(_, k)| same_artifact(k, &rec)) {
+            let techniques = into.mitre_techniques.len();
+            let sources = into.sources.len();
             merge_into(into, &rec);
+            stats.merged += 1;
+            if into.mitre_techniques.len() > techniques {
+                stats.gained_techniques += 1;
+            }
+            if into.sources.len() > sources {
+                stats.gained_sources += 1;
+            }
             continue;
         }
         // Same key, different kind of artifact: report rather than force it.
@@ -499,7 +546,7 @@ fn merge_records(fetched: &Fetched, baseline: &CatalogIndex) -> (Fetched, Vec<Re
     for (rank, rec) in kept {
         out[rank].1.push(rec);
     }
-    (out, refused)
+    (out, refused, stats)
 }
 
 fn main() {
@@ -576,7 +623,7 @@ fn main() {
         eprintln!("       Every record would look net-new; refusing to generate duplicates.");
         std::process::exit(1);
     });
-    let selected = select_records(&fetched, &baseline);
+    let selected = merge_and_report(&fetched, &baseline, opts.verbose);
 
     for ((source_name, new_records), fetched) in selected.into_iter().zip(fetched_counts) {
         let source_name = &source_name;
