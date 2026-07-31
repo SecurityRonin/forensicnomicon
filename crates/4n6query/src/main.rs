@@ -38,7 +38,7 @@ use forensicnomicon::abusable_sites::{
 use forensicnomicon::attack_flow::{all_flows, AttackFlow};
 use forensicnomicon::catalog::{TriagePriority, CATALOG};
 use forensicnomicon::drivers::{DriverCategory, VulnerableDriver, BYOVD_DRIVERS};
-use forensicnomicon::eventids::{event_entry, EventIdEntry, EVENT_ID_TABLE};
+use forensicnomicon::eventids::{events_for_id, EventIdEntry, EVENT_ID_TABLE};
 use forensicnomicon::lolbins::{
     lolbas_entry, LolbasEntry, LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS, LOLBAS_WINDOWS_CMDLETS,
     LOLBAS_WINDOWS_MMC, LOLBAS_WINDOWS_WMI,
@@ -145,6 +145,14 @@ enum Commands {
 
     /// List Critical and High priority artifacts for triage.
     Triage,
+
+    /// Report how much of the catalog carries an evidence assessment, and which
+    /// unassessed artifacts matter most.
+    Coverage {
+        /// Output format.
+        #[arg(long, short = 'f', value_enum, default_value = "human")]
+        format: Format,
+    },
 }
 
 #[derive(Clone, Copy, ValueEnum, PartialEq, Eq)]
@@ -267,9 +275,14 @@ fn indicator_to_json(src: &IndicatorSource, matched: &str) -> serde_json::Value 
 }
 
 /// Windows Event ID lookup: an all-digit term is matched against the table.
+///
+/// A number on its own carries no channel, and the same number means different
+/// things on different ones (21 is a Sysmon WMI consumer-to-filter binding and
+/// an RDP session logon). Every match is returned so the analyst sees both
+/// meanings rather than whichever the table happened to list first.
 fn lookup_events(term: &str) -> Vec<&'static EventIdEntry> {
     match term.trim().parse::<u32>() {
-        Ok(id) => event_entry(id).into_iter().collect(),
+        Ok(id) => events_for_id(id).collect(),
         Err(_) => vec![],
     }
 }
@@ -382,6 +395,7 @@ fn main() {
             Commands::Search { keyword } => explore::run_search(&keyword),
             Commands::Show { id } => explore::run_show(&id),
             Commands::Triage => explore::run_triage_view(),
+            Commands::Coverage { format } => run_coverage(format),
         }
     } else if cli.triage {
         run_triage(
@@ -456,8 +470,11 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
         if is_mitre_id(term) {
             // Roll up the ATT&CK hierarchy: a parent ID (T1053) must reach the
             // artifacts tagged with its sub-techniques (T1053.005), which is
-            // where the catalog actually tags them.
-            CATALOG.by_mitre_including_subtechniques(term)
+            // where the catalog actually tags them. Uppercased first because
+            // is_mitre_id accepts a lowercase t while the catalog match is
+            // case-sensitive — without this, `t1053` is recognised as a
+            // technique, looked up, and found to be nothing.
+            CATALOG.by_mitre_including_subtechniques(&term.to_ascii_uppercase())
         } else {
             CATALOG.filter_by_keyword(term)
         }
@@ -848,6 +865,78 @@ fn run_triage(
 }
 
 // ---------------------------------------------------------------------------
+// Assessment coverage
+// ---------------------------------------------------------------------------
+
+/// Percentage of `total` that `assessed` represents; `0.0` for an empty catalog.
+///
+/// Shared with the TUI's about modal so the two surfaces cannot report different
+/// ratios for the same catalog.
+#[allow(clippy::cast_precision_loss)]
+pub fn assessment_coverage_pct(assessed: usize, total: usize) -> f64 {
+    if total == 0 {
+        return 0.0;
+    }
+    (assessed as f64) * 100.0 / (total as f64)
+}
+
+/// Rows of the unassessed queue the human view prints before summarising the rest.
+const COVERAGE_HUMAN_ROWS: usize = 15;
+
+fn run_coverage(format: Format) -> i32 {
+    let (assessed, total) = CATALOG.assessment_coverage();
+    let unassessed = CATALOG.unassessed();
+    let pct = assessment_coverage_pct(assessed, total);
+
+    match format {
+        Format::Json | Format::Yaml => {
+            // Machine view: every unassessed artifact, never a sample.
+            let arr: Vec<_> = unassessed.iter().map(|d| descriptor_to_json(d)).collect();
+            let val = serde_json::json!({
+                "assessment_coverage": {
+                    "assessed": assessed,
+                    "unassessed": unassessed.len(),
+                    "total": total,
+                    "assessed_percent": pct,
+                    "unassessed_artifacts": arr,
+                }
+            });
+            match format {
+                Format::Json => println!("{}", json_pretty(&val)),
+                Format::Yaml => print!("{}", yaml_str(&val)),
+                Format::Human => unreachable!(),
+            }
+        }
+        Format::Human => {
+            println!("Evidence assessment coverage");
+            println!("  Assessed   : {assessed} / {total}  ({pct:.1}%)");
+            println!(
+                "  Unassessed : {} / {total}  ({:.1}%)",
+                unassessed.len(),
+                assessment_coverage_pct(unassessed.len(), total)
+            );
+            if !unassessed.is_empty() {
+                println!();
+                println!("Highest-priority artifacts still unassessed:");
+                for d in unassessed.iter().take(COVERAGE_HUMAN_ROWS) {
+                    println!(
+                        "  [{}]  {}  {}",
+                        triage_label(d.triage_priority),
+                        d.id,
+                        d.name
+                    );
+                }
+                let rest = unassessed.len().saturating_sub(COVERAGE_HUMAN_ROWS);
+                if rest > 0 {
+                    println!("  … {rest} more (use --format json for the full list)");
+                }
+            }
+        }
+    }
+    0
+}
+
+// ---------------------------------------------------------------------------
 // Dump
 // ---------------------------------------------------------------------------
 
@@ -1163,5 +1252,37 @@ mod indicator_tests {
     fn unknown_term_no_hits() {
         assert!(lookup_drivers("definitely-not-a-driver").is_empty());
         assert!(lookup_indicators("zzqxnotarealthing").is_empty());
+    }
+}
+
+#[cfg(test)]
+mod event_lookup_tests {
+    use super::*;
+
+    /// A bare number is all the CLI has — no channel — so the honest answer is
+    /// every channel that defines it. Returning only the first (the old
+    /// behaviour) means someone typing 21 for the Sysmon WMI binding silently
+    /// gets an RDP session logon instead.
+    #[test]
+    fn bare_number_returns_every_channel_defining_it() {
+        let hits = lookup_events("21");
+        assert_eq!(hits.len(), 2, "21 is defined on two channels");
+        let channels: Vec<&str> = hits.iter().map(|e| e.channel).collect();
+        assert!(channels.contains(&"Microsoft-Windows-Sysmon/Operational"));
+        assert!(channels
+            .contains(&"Microsoft-Windows-TerminalServices-LocalSessionManager/Operational"));
+    }
+
+    #[test]
+    fn unique_number_still_returns_exactly_one() {
+        let hits = lookup_events("4624");
+        assert_eq!(hits.len(), 1);
+        assert_eq!(hits[0].channel, "Security");
+    }
+
+    #[test]
+    fn non_numeric_and_unknown_numbers_return_nothing() {
+        assert!(lookup_events("certutil.exe").is_empty());
+        assert!(lookup_events("99999").is_empty());
     }
 }

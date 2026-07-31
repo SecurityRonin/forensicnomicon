@@ -19,7 +19,7 @@ use forensicnomicon::{
     attack_flow::all_flows,
     catalog::{ArtifactDescriptor, OsScope, Platform, CATALOG},
     drivers::{DriverCategory, BYOVD_DRIVERS},
-    eventids::EVENT_ID_TABLE,
+    eventids::{event_entry_on, EventIdEntry, EVENT_ID_TABLE},
     lolbins::{
         lolbas_entry, LolbasEntry, LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS,
         LOLBAS_WINDOWS_CMDLETS, LOLBAS_WINDOWS_MMC, LOLBAS_WINDOWS_WMI, UC_ARCHIVE, UC_BYPASS,
@@ -166,6 +166,29 @@ fn catalog_passes(app: &app::App, d: &ArtifactDescriptor) -> bool {
     platform_ok && app.crit_filter.passes(d.triage_priority)
 }
 
+/// Render one event-ID row for the list pane.
+///
+/// The table is keyed by `(channel, event_id)`, so the channel is part of the
+/// row's identity, not decoration — [`event_entry_for_row`] reads it back out.
+/// Both halves of that format live here so they cannot drift apart.
+fn event_row(e: &EventIdEntry) -> String {
+    format!("{:<6}  [{:<10}]  {}", e.event_id, e.channel, e.description)
+}
+
+/// Resolve a rendered row back to its entry, channel-qualified.
+///
+/// The selection the TUI carries is the rendered string (search reorders the
+/// list, so an index would not survive), so the channel is recovered from the
+/// bracketed segment and the lookup is done on the full key. Falling back to a
+/// numeric lookup when the channel cannot be read would reintroduce exactly the
+/// ambiguity this exists to remove, so it does not.
+fn event_entry_for_row(row: &str) -> Option<&'static EventIdEntry> {
+    let (id_part, rest) = row.split_once('[')?;
+    let (channel, _) = rest.split_once(']')?;
+    let id = id_part.trim().parse::<u32>().ok()?;
+    event_entry_on(channel.trim(), id)
+}
+
 fn build_render_data(app: &app::App) -> RenderData {
     // Build the raw display list applying platform + crit filters for catalog (dataset 0).
     let all_display: Vec<String> = match app.dataset_idx {
@@ -216,10 +239,7 @@ fn build_render_data(app: &app::App) -> RenderData {
             .iter()
             .map(|f| format!("{:<40}  {}", f.id, f.name))
             .collect(),
-        9 => EVENT_ID_TABLE
-            .iter()
-            .map(|e| format!("{:<6}  [{:<10}]  {}", e.event_id, e.channel, e.description))
-            .collect(),
+        9 => EVENT_ID_TABLE.iter().map(event_row).collect(),
         10 => SIGMA_TABLE.iter().map(|r| r.title.to_string()).collect(),
         11 => {
             const MECHANISMS: &[(&str, &[&str])] = &[
@@ -535,10 +555,7 @@ fn build_render_data(app: &app::App) -> RenderData {
             }
         }
         9 => {
-            let entry = selected_name
-                .and_then(|s| s.split_whitespace().next())
-                .and_then(|id_str| id_str.parse::<u32>().ok())
-                .and_then(|id| EVENT_ID_TABLE.iter().find(|e| e.event_id == id));
+            let entry = selected_name.and_then(event_entry_for_row);
             match entry {
                 Some(e) => {
                     let mut lines = vec![
@@ -948,6 +965,48 @@ mod tests {
             first_id,
             &rd.list_items[..rd.list_items.len().min(3)]
         );
+    }
+
+    /// The list pane renders one row per (channel, id) pair, so the detail pane
+    /// has to resolve the row back with the channel in hand. Selecting the
+    /// Sysmon 21 row and being shown an RDP session logon is the drift this
+    /// test exists to prevent.
+    #[test]
+    fn selecting_the_sysmon_21_row_shows_the_wmi_binding_not_rdp() {
+        let mut a = make_app(9, "", 0);
+        let rd = build_render_data(&a);
+        let idx = rd
+            .list_items
+            .iter()
+            .position(|s| s.starts_with("21 ") && s.contains("Sysmon"))
+            .expect("the Sysmon 21 row must be listed");
+        a.selected = idx;
+        let detail = build_render_data(&a).detail_lines.join("\n").to_lowercase();
+        assert!(
+            detail.contains("wmieventconsumertofilter"),
+            "selecting Sysmon 21 must show the WMI binding; got: {detail}"
+        );
+        assert!(
+            !detail.contains("terminalservices"),
+            "selecting Sysmon 21 must not show the RDP entry; got: {detail}"
+        );
+    }
+
+    /// The row renderer and the row parser are two halves of one format; a
+    /// round-trip over the whole table is what keeps them from drifting apart.
+    #[test]
+    fn every_rendered_row_resolves_back_to_its_own_entry() {
+        use forensicnomicon::eventids::EVENT_ID_TABLE;
+        for e in EVENT_ID_TABLE {
+            let row = event_row(e);
+            let back = event_entry_for_row(row.trim())
+                .unwrap_or_else(|| panic!("row {row:?} must resolve back to an entry"));
+            assert_eq!(
+                (back.event_id, back.channel),
+                (e.event_id, e.channel),
+                "row {row:?} resolved to the wrong entry"
+            );
+        }
     }
 
     #[test]

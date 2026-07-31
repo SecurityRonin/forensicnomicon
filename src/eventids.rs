@@ -513,9 +513,9 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
     // schema (learn.microsoft.com/sysinternals/downloads/sysmon). Gap surfaced by
     // the dfir-scripts.github.io diff; verified against the Sysinternals docs.
     // ATT&CK mappings are the forensic interpretation (the technique the event is
-    // evidence of), left empty for pure-visibility events. EIDs 21/22
-    // (WmiEventConsumerToFilter, DNS) are omitted — they collide with the RDP
-    // TerminalServices 21/22 in this event_id-keyed table (needs a (channel,id) key).
+    // evidence of), left empty for pure-visibility events. EIDs 21 and 22 share
+    // their numbers with the TerminalServices RDP channel; the table is keyed by
+    // (channel, event_id), so both meanings coexist — see event_entry_on.
     EventIdEntry {
         event_id: 1,
         channel: "Microsoft-Windows-Sysmon/Operational",
@@ -688,6 +688,24 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         caveats: "",
     },
     EventIdEntry {
+        event_id: 21,
+        channel: "Microsoft-Windows-Sysmon/Operational",
+        description: "WMI consumer bound to a filter (WmiEvent, WmiEventConsumerToFilter) — logs the consumer name and filter path; the binding is what arms a WMI permanent event subscription, so it completes the pair recorded by EIDs 19 and 20",
+        mitre_techniques: &["T1546.003"],
+        artifact_ids: &["evtx_sysmon"],
+        high_value: true,
+        caveats: "Shares its number with RDP session logon on the TerminalServices-LocalSessionManager/Operational channel — resolve by (channel, id)",
+    },
+    EventIdEntry {
+        event_id: 22,
+        channel: "Microsoft-Windows-Sysmon/Operational",
+        description: "DNS query (DnsQuery) — the queried name, the results, and the process that asked; recorded whether the query succeeded or failed, cached or not, so it maps C2 and staging domains back to a PID",
+        mitre_techniques: &[],
+        artifact_ids: &["evtx_sysmon"],
+        high_value: true,
+        caveats: "Telemetry added for Windows 8.1 — not available on Windows 7 and earlier. Shares its number with RDP session disconnect on the TerminalServices-LocalSessionManager/Operational channel — resolve by (channel, id)",
+    },
+    EventIdEntry {
         event_id: 23,
         channel: "Microsoft-Windows-Sysmon/Operational",
         description: "File deleted and archived (FileDelete) — Sysmon captured the deleted file's contents to its archive directory before removal; recovers anti-forensically deleted artifacts",
@@ -749,6 +767,83 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         artifact_ids: &["evtx_sysmon"],
         high_value: false,
         caveats: "Only emitted when FileExecutableDetected is configured (Sysmon 14.0+)",
+    },
+    // --- BITS client (Microsoft-Windows-Bits-Client/Operational) ----------------
+    // Meanings are Microsoft's own message templates and EventData field names,
+    // taken from the provider manifest shipped in qmgr.dll (provider
+    // Microsoft-Windows-Bits-Client, GUID {EF1CC15B-46C1-414E-BB95-E76B077BD51E}).
+    // Source: https://github.com/nasbench/EVTX-ETW-Resources (ETWProvidersManifests
+    // .../WEPExplorer/Microsoft-Windows-Bits-Client.xml — a mechanical dump of the
+    // OS binary's manifest). Lineage checked against Microsoft Learn, which
+    // publishes 16404 (EVT_SERVICE_FAILED) with the same message string the dump
+    // carries, so the dump reproduces Microsoft's strings rather than a
+    // third-party paraphrase:
+    // https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc734722(v=ws.10)
+    // ATT&CK is left to the events that carry the abuse observables — who created
+    // the job, what URL, what local path; the pure lifecycle/status events get
+    // none. EIDs 3 and 5 share their numbers with Sysmon, hence the (channel, id) key.
+    EventIdEntry {
+        event_id: 3,
+        channel: "Microsoft-Windows-Bits-Client/Operational",
+        description: "The BITS service created a new job — transfer job name, Job ID (GUID), owner and, from manifest version 2, the creating Process Path and Process ID; that process path is what ties a background download to the tool that requested it",
+        mitre_techniques: &["T1197"],
+        artifact_ids: &["evtx_bits_client"],
+        high_value: true,
+        caveats: "Older manifest versions carry only the job name and owner — Process Path and Process ID were added in version 2. Shares its number with Sysmon network connection — resolve by (channel, id)",
+    },
+    EventIdEntry {
+        event_id: 4,
+        channel: "Microsoft-Windows-Bits-Client/Operational",
+        description: "The transfer job is complete — user, transfer job name, Job ID, owner and file count (manifest version 1 adds bytes transferred, and bytes sourced from a peer); the clean end of a BITS job",
+        mitre_techniques: &[],
+        artifact_ids: &["evtx_bits_client"],
+        high_value: false,
+        caveats: "",
+    },
+    EventIdEntry {
+        event_id: 5,
+        channel: "Microsoft-Windows-Bits-Client/Operational",
+        description: "Job cancelled — user, job name, Job ID, owner and file count for a job removed before it completed (bitsadmin /cancel, Remove-BitsTransfer, or the owning client dropping it)",
+        mitre_techniques: &[],
+        artifact_ids: &["evtx_bits_client"],
+        high_value: false,
+        caveats: "Shares its number with Sysmon process terminated — resolve by (channel, id)",
+    },
+    EventIdEntry {
+        event_id: 16403,
+        channel: "Microsoft-Windows-Bits-Client/Operational",
+        description: "BITS job file parameters — RemoteName (the source URL) and LocalName (the local destination path), alongside user, job title, Job ID, owner, file count and process ID; the one event that says what a job fetched and where it landed",
+        mitre_techniques: &["T1197"],
+        artifact_ids: &["evtx_bits_client"],
+        high_value: true,
+        caveats: "The provider manifest carries no message string for this ID, only a template — Event Viewer renders 'the description for Event ID 16403 cannot be found' and the evidence sits entirely in the EventData fields. Join to events 3/59/60/61 on the Job ID",
+    },
+    EventIdEntry {
+        event_id: 59,
+        channel: "Microsoft-Windows-Bits-Client/Operational",
+        description: "BITS started the transfer job associated with a URL — job name, the URL, and the transfer/job GUIDs; the URL is the download destination an abused BITS job reaches out to",
+        mitre_techniques: &["T1197"],
+        artifact_ids: &["evtx_bits_client"],
+        high_value: true,
+        caveats: "Carries the URL but not the local path — pair with 16403 on the Job ID to learn where the file landed",
+    },
+    EventIdEntry {
+        event_id: 60,
+        channel: "Microsoft-Windows-Bits-Client/Operational",
+        description: "BITS stopped transferring the job associated with a URL, with an hr status code — the same message text event 61 carries, logged here at Information level (61 is the Warning-level twin)",
+        mitre_techniques: &[],
+        artifact_ids: &["evtx_bits_client"],
+        high_value: false,
+        caveats: "The message template is byte-identical to 61; only the Level and the hr status code separate them",
+    },
+    EventIdEntry {
+        event_id: 61,
+        channel: "Microsoft-Windows-Bits-Client/Operational",
+        description: "BITS stopped transferring the job associated with a URL, with an hr status code — the same message text as event 60, logged here at Warning level, which is what marks the stop as an error or transient failure rather than a clean one",
+        mitre_techniques: &[],
+        artifact_ids: &["evtx_bits_client"],
+        high_value: false,
+        caveats: "Warning level and the hr code are the only discriminators against 60. BITS retries transient failures, so a 61 followed by a 59 is a retry of the same job, not a new one",
     },
     // --- Microsoft Defender Antivirus (Microsoft-Windows-Windows Defender/Operational) ---
     // Verified against Microsoft Learn (defender-endpoint/troubleshoot-microsoft-defender-antivirus):
@@ -892,9 +987,46 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
     },
 ];
 
-/// Look up enrichment for an event ID.
+/// Look up enrichment for an event ID, ignoring the channel.
+///
+/// The table's real key is `(channel, event_id)`: the same number means
+/// different things on different channels — 21 is a Sysmon
+/// `WmiEventConsumerToFilter` binding *and* an RDP session logon, 3 is a Sysmon
+/// network connection *and* a BITS job creation. This function returns the
+/// **first** entry in table order that carries the number, which is only the
+/// entry the caller meant when the id happens to be unique.
+///
+/// Use [`event_entry_on`] whenever the channel is known — that is the
+/// unambiguous lookup — and [`events_for_id`] to see every channel that defines
+/// the number. This function is kept for callers who genuinely have nothing but
+/// a number, and its first-match behaviour is deliberate rather than incidental.
 pub fn event_entry(event_id: u32) -> Option<&'static EventIdEntry> {
     EVENT_ID_TABLE.iter().find(|e| e.event_id == event_id)
+}
+
+/// Look up enrichment for an event ID **on a specific channel** — the
+/// unambiguous lookup, and the one to reach for whenever the record being
+/// enriched carries its channel (every EVTX record does).
+///
+/// `channel` is compared case-insensitively (ASCII), because Windows channel
+/// names are case-insensitive and tools round-trip them in varying case. There
+/// is no numeric fallback: a channel that does not define the id yields `None`
+/// rather than some other channel's meaning.
+pub fn event_entry_on(channel: &str, event_id: u32) -> Option<&'static EventIdEntry> {
+    EVENT_ID_TABLE
+        .iter()
+        .find(|e| e.event_id == event_id && e.channel.eq_ignore_ascii_case(channel))
+}
+
+/// Every entry that defines `event_id`, across all channels.
+///
+/// This is the honest answer when the channel is unknown: an id shared by two
+/// channels yields both, so the caller can show the analyst the ambiguity
+/// instead of silently picking one.
+pub fn events_for_id(event_id: u32) -> impl Iterator<Item = &'static EventIdEntry> {
+    EVENT_ID_TABLE
+        .iter()
+        .filter(move |e| e.event_id == event_id)
 }
 
 /// Look up all events associated with a catalog artifact.
@@ -1130,8 +1262,11 @@ mod tests {
     #[test]
     fn iwe_course_event_ids_present() {
         for &(id, channel) in IWE_REQUIRED {
-            let e = event_entry(id)
-                .unwrap_or_else(|| panic!("IWE Event ID {id} missing from EVENT_ID_TABLE"));
+            // Channel-qualified: 21 and 22 are shared with Sysmon, so a numeric
+            // lookup would assert against whichever entry the table lists first.
+            let e = event_entry_on(channel, id).unwrap_or_else(|| {
+                panic!("IWE Event ID {id} missing from EVENT_ID_TABLE on channel {channel:?}")
+            });
             assert_eq!(
                 e.channel, channel,
                 "Event {id} channel mismatch: got {:?}, want {channel:?}",
@@ -1149,6 +1284,68 @@ mod tests {
         let e = event_entry(4104).expect("Event 4104 (script block logging) should exist");
         assert!(e.high_value, "4104 (decoded script content) is high-value");
         assert!(e.mitre_techniques.contains(&"T1059.001"));
+    }
+
+    /// `(channel, event_id)` is the real key of this table — the numeric id
+    /// alone is not unique across channels (Sysmon and the TerminalServices RDP
+    /// channels both define 21 and 22). Two entries sharing a pair would make
+    /// [`event_entry_on`] silently return whichever came first, which is a wrong
+    /// forensic meaning rather than an error. This is the structural guard that
+    /// keeps that impossible.
+    #[test]
+    fn channel_event_id_pairs_are_unique() {
+        let mut seen: std::collections::HashSet<(&str, u32)> = std::collections::HashSet::new();
+        for e in EVENT_ID_TABLE {
+            assert!(
+                seen.insert((e.channel, e.event_id)),
+                "duplicate (channel, event_id) key: ({:?}, {})",
+                e.channel,
+                e.event_id
+            );
+        }
+    }
+
+    /// The channel-qualified lookup must actually filter on the channel, not
+    /// fall back to a numeric match — otherwise it is `event_entry` with extra
+    /// steps and inherits the first-match-wins defect.
+    #[test]
+    fn event_entry_on_requires_the_channel_to_match() {
+        let e = event_entry_on("Security", 4624).expect("4624 is on Security");
+        assert_eq!(e.event_id, 4624);
+        assert_eq!(e.channel, "Security");
+        assert!(
+            event_entry_on("System", 4624).is_none(),
+            "4624 is not on the System channel — a numeric fallback would wrongly return it"
+        );
+    }
+
+    /// Windows channel names are matched case-insensitively: an analyst pasting
+    /// a channel out of a tool that lowercased it still gets the entry.
+    #[test]
+    fn event_entry_on_ignores_channel_case() {
+        let e = event_entry_on("microsoft-windows-sysmon/OPERATIONAL", 1)
+            .expect("Sysmon 1 resolves regardless of channel case");
+        assert_eq!(e.event_id, 1);
+        assert_eq!(e.channel, "Microsoft-Windows-Sysmon/Operational");
+    }
+
+    /// `events_for_id` is the honest answer when the channel is unknown: every
+    /// entry that defines the id, not just the first one in table order.
+    #[test]
+    fn events_for_id_yields_every_channel_defining_the_id() {
+        let all: Vec<_> = events_for_id(4624).collect();
+        assert_eq!(all.len(), 1, "4624 is defined on exactly one channel");
+        assert_eq!(all[0].channel, "Security");
+        assert_eq!(
+            events_for_id(99999).count(),
+            0,
+            "an unknown id yields no entries"
+        );
+        assert_eq!(
+            events_for_id(4688).count(),
+            EVENT_ID_TABLE.iter().filter(|e| e.event_id == 4688).count(),
+            "events_for_id must agree with a direct scan of the table"
+        );
     }
 
     #[test]
@@ -1171,11 +1368,7 @@ mod tests {
     /// IDs and their meanings are the authoritative Sysmon schema (Microsoft
     /// Sysinternals — learn.microsoft.com/sysinternals/downloads/sysmon and the
     /// `sysmon -s` config schema); dfir-scripts.github.io only surfaced the gap.
-    /// Sysmon 21 (WmiEventConsumerToFilter) and 22 (DNS query) are intentionally
-    /// omitted here: the table keys on numeric event_id alone and those two
-    /// collide with the existing TerminalServices RDP 21/22 entries — holding
-    /// both needs a (channel, id) key (tracked as follow-up). (id, keyword the
-    /// description must contain, lowercased)
+    /// (id, keyword the description must contain, lowercased)
     const SYSMON_EVENTS: &[(u32, &str)] = &[
         (1, "process creation"),
         (2, "creation time"),
@@ -1196,6 +1389,8 @@ mod tests {
         (18, "named pipe connected"),
         (19, "wmi event filter"),
         (20, "wmi event consumer"),
+        (21, "wmieventconsumertofilter"),
+        (22, "dns query"),
         (23, "archived"),
         (24, "clipboard"),
         (25, "tampering"),
@@ -1205,13 +1400,15 @@ mod tests {
         (29, "executable file detected"),
     ];
 
+    const SYSMON_CHANNEL: &str = "Microsoft-Windows-Sysmon/Operational";
+
     #[test]
     fn sysmon_events_present_on_operational_channel() {
         for &(id, kw) in SYSMON_EVENTS {
-            let e = event_entry(id)
+            let e = event_entry_on(SYSMON_CHANNEL, id)
                 .unwrap_or_else(|| panic!("Sysmon Event {id} must be present in EVENT_ID_TABLE"));
             assert_eq!(
-                e.channel, "Microsoft-Windows-Sysmon/Operational",
+                e.channel, SYSMON_CHANNEL,
                 "Sysmon Event {id} must be on the Sysmon/Operational channel"
             );
             assert!(
@@ -1224,6 +1421,145 @@ mod tests {
                 "Sysmon Event {id} should associate the evtx_sysmon artifact"
             );
         }
+    }
+
+    /// The collision this table's key change exists for, demonstrated on real
+    /// entries rather than argued: 21 and 22 are Sysmon `WmiEventConsumerToFilter`
+    /// and `DnsQuery` *and* TerminalServices RDP session logon/disconnect. Ask
+    /// for a number alone and you get whichever entry the table lists first —
+    /// here the RDP one — which is a wrong forensic meaning, not an error. Only
+    /// the channel-qualified lookup answers the question the analyst asked.
+    #[test]
+    fn sysmon_21_22_collide_with_rdp_and_only_the_channel_separates_them() {
+        const RDP: &str = "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational";
+        for id in [21u32, 22] {
+            assert_eq!(
+                events_for_id(id).count(),
+                2,
+                "event {id} is defined on both the Sysmon and the RDP channel"
+            );
+            let sysmon = event_entry_on(SYSMON_CHANNEL, id)
+                .unwrap_or_else(|| panic!("Sysmon {id} must be reachable by channel"));
+            let rdp = event_entry_on(RDP, id)
+                .unwrap_or_else(|| panic!("RDP {id} must still be reachable by channel"));
+            assert_ne!(
+                sysmon.description, rdp.description,
+                "the two {id} entries carry different forensic meanings"
+            );
+            assert_eq!(
+                event_entry(id).map(|e| e.channel),
+                Some(RDP),
+                "event_entry({id}) is channel-blind and returns the first table entry — \
+                 documented, and exactly why event_entry_on exists"
+            );
+        }
+    }
+
+    /// BITS-Client job lifecycle. Meanings are the message strings and templates
+    /// in Microsoft's own provider manifest (`qmgr.dll`, provider
+    /// Microsoft-Windows-Bits-Client, GUID {EF1CC15B-46C1-414E-BB95-E76B077BD51E}),
+    /// as dumped in nasbench/EVTX-ETW-Resources. Cross-checked against Microsoft
+    /// Learn, which publishes 16404 (EVT_SERVICE_FAILED) with the same message
+    /// text the dump carries — so the dump reproduces Microsoft's own strings.
+    /// (id, keyword the description must contain, lowercased)
+    const BITS_EVENTS: &[(u32, &str)] = &[
+        (3, "created a new job"),
+        (4, "transfer job is complete"),
+        (5, "job cancelled"),
+        (16403, "remotename"),
+        (59, "started"),
+        (60, "stopped transferring"),
+        (61, "stopped transferring"),
+    ];
+
+    const BITS_CHANNEL: &str = "Microsoft-Windows-Bits-Client/Operational";
+
+    #[test]
+    fn bits_client_events_present_on_operational_channel() {
+        for &(id, kw) in BITS_EVENTS {
+            let e = event_entry_on(BITS_CHANNEL, id)
+                .unwrap_or_else(|| panic!("BITS Event {id} must be present in EVENT_ID_TABLE"));
+            assert_eq!(e.channel, BITS_CHANNEL, "BITS Event {id} channel mismatch");
+            assert!(
+                e.description.to_lowercase().contains(kw),
+                "BITS Event {id} description should contain {kw:?}: got {:?}",
+                e.description
+            );
+            assert!(
+                e.artifact_ids.contains(&"evtx_bits_client"),
+                "BITS Event {id} should associate the evtx_bits_client artifact"
+            );
+        }
+    }
+
+    /// BITS 3 and 5 sit on the numeric slots Sysmon already owns — the same
+    /// collision class as 21/22, and the reason these entries could not land
+    /// under the old numeric-only key.
+    #[test]
+    fn bits_3_and_5_collide_with_sysmon_and_stay_separable() {
+        for id in [3u32, 5] {
+            assert_eq!(
+                events_for_id(id).count(),
+                2,
+                "event {id} is defined on both the BITS and the Sysmon channel"
+            );
+            let bits = event_entry_on(BITS_CHANNEL, id)
+                .unwrap_or_else(|| panic!("BITS {id} must be reachable by channel"));
+            assert!(
+                bits.description.to_lowercase().contains("bits")
+                    || bits.description.to_lowercase().contains("job"),
+                "BITS {id} must read as a BITS job event: got {:?}",
+                bits.description
+            );
+        }
+    }
+
+    /// 60 and 61 share one message template verbatim ("BITS stopped transferring
+    /// the %2 transfer job that is associated with the %4 URL. The status code is
+    /// %6."). What separates them is the manifest's Level — 60 Information, 61
+    /// Warning — plus the `hr` status code, so a description that says "60 =
+    /// completed, 61 = error" without naming the level is guesswork. Both
+    /// descriptions must name their level.
+    #[test]
+    fn bits_60_and_61_are_separated_by_level_not_by_message() {
+        let e60 = event_entry_on(BITS_CHANNEL, 60).expect("BITS 60 exists");
+        let e61 = event_entry_on(BITS_CHANNEL, 61).expect("BITS 61 exists");
+        assert!(
+            e60.description.to_lowercase().contains("information"),
+            "BITS 60 must name its Information level: got {:?}",
+            e60.description
+        );
+        assert!(
+            e61.description.to_lowercase().contains("warning"),
+            "BITS 61 must name its Warning level: got {:?}",
+            e61.description
+        );
+        assert!(
+            e60.description.contains("61") && e61.description.contains("60"),
+            "each must point at its twin — the message text alone cannot tell them apart"
+        );
+    }
+
+    /// 16403 carries no `<Message>` element in the provider manifest at all, only
+    /// a template. Event Viewer therefore renders "the description for Event ID
+    /// 16403 cannot be found" and the evidence lives entirely in the EventData
+    /// fields — RemoteName (source URL) and LocalName (local destination path).
+    /// The entry must say so instead of inventing a message Microsoft never
+    /// shipped.
+    #[test]
+    fn bits_16403_documents_its_absent_message_string() {
+        let e = event_entry_on(BITS_CHANNEL, 16403).expect("BITS 16403 exists");
+        let d = e.description.to_lowercase();
+        assert!(
+            d.contains("remotename") && d.contains("localname"),
+            "16403's value is the RemoteName/LocalName pair: got {:?}",
+            e.description
+        );
+        assert!(
+            e.caveats.to_lowercase().contains("no message"),
+            "16403 must caveat that the manifest defines no message string: got {:?}",
+            e.caveats
+        );
     }
 
     /// Additional event channels surfaced by the dfir-scripts.github.io diff and
