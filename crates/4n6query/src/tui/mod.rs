@@ -800,6 +800,41 @@ mod tests {
         );
     }
 
+    /// A technique ID typed into the catalog search must be resolved through the
+    /// ATT&CK hierarchy, not the prose text index: `scheduled_tasks_dir` is
+    /// tagged `T1053.005` and never mentions `T1053` in its text, so a
+    /// substring search alone silently drops it.
+    #[test]
+    fn catalog_search_parent_technique_rolls_up_subtechniques() {
+        let rd = build_render_data(&make_app(0, "T1053", 0));
+        assert!(
+            rd.list_items
+                .iter()
+                .any(|s| s.starts_with("scheduled_tasks_dir")),
+            "catalog search for T1053 must list its T1053.005 artifacts; got: {:?}",
+            rd.list_items
+        );
+    }
+
+    /// Every hit for a technique query is genuinely tagged with that technique
+    /// (or one of its sub-techniques) — no prose false positives.
+    #[test]
+    fn catalog_search_technique_hits_are_all_tagged() {
+        let rd = build_render_data(&make_app(0, "T1053", 0));
+        assert!(!rd.list_items.is_empty());
+        for item in &rd.list_items {
+            let id = item.split_whitespace().next().unwrap_or_default();
+            let d = CATALOG.by_id(id).expect("listed id must exist in catalog");
+            assert!(
+                d.mitre_techniques
+                    .iter()
+                    .any(|t| *t == "T1053" || t.starts_with("T1053.")),
+                "{id} was listed for T1053 but is tagged {:?}",
+                d.mitre_techniques
+            );
+        }
+    }
+
     #[test]
     fn dataset_count_is_15() {
         assert_eq!(

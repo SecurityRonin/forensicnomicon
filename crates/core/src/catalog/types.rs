@@ -913,6 +913,84 @@ mod tests {
         ForensicCatalog::new(TEST_ENTRIES)
     }
 
+    /// Fixture for the ATT&CK dotted-hierarchy rollup, kept separate from
+    /// `TEST_ENTRIES` so the exact-count assertions above stay stable.
+    static HIERARCHY_ENTRIES: &[ArtifactDescriptor] = &[
+        ArtifactDescriptor {
+            id: "sched_task_xml",
+            mitre_techniques: &["T1053.005"],
+            ..TEMPLATE
+        },
+        ArtifactDescriptor {
+            id: "at_job",
+            mitre_techniques: &["T1053.002"],
+            ..TEMPLATE
+        },
+        ArtifactDescriptor {
+            id: "cron_parent",
+            mitre_techniques: &["T1053"],
+            ..TEMPLATE
+        },
+        ArtifactDescriptor {
+            id: "proc_inject",
+            mitre_techniques: &["T1055"],
+            ..TEMPLATE
+        },
+        // Boundary guard: a longer ID that merely shares the `T1055` prefix must
+        // never roll up under it. Not a real ATT&CK ID — the point is that the
+        // rule is structural (the `.` separator), not a lookup table.
+        ArtifactDescriptor {
+            id: "prefix_trap",
+            mitre_techniques: &["T10555"],
+            ..TEMPLATE
+        },
+    ];
+
+    fn hierarchy_catalog() -> ForensicCatalog {
+        ForensicCatalog::new(HIERARCHY_ENTRIES)
+    }
+
+    fn ids(hits: &[&ArtifactDescriptor]) -> Vec<&'static str> {
+        hits.iter().map(|d| d.id).collect()
+    }
+
+    #[test]
+    fn by_mitre_including_subtechniques_rolls_up_parent() {
+        let cat = hierarchy_catalog();
+        // T1053 must reach every T1053.* artifact, not just the one tagged with
+        // the bare parent ID.
+        assert_eq!(
+            ids(&cat.by_mitre_including_subtechniques("T1053")),
+            vec!["sched_task_xml", "at_job", "cron_parent"]
+        );
+    }
+
+    #[test]
+    fn by_mitre_including_subtechniques_does_not_match_sibling_sub() {
+        let cat = hierarchy_catalog();
+        assert_eq!(
+            ids(&cat.by_mitre_including_subtechniques("T1053.005")),
+            vec!["sched_task_xml"]
+        );
+    }
+
+    #[test]
+    fn by_mitre_including_subtechniques_requires_dot_boundary() {
+        let cat = hierarchy_catalog();
+        assert_eq!(
+            ids(&cat.by_mitre_including_subtechniques("T1055")),
+            vec!["proc_inject"],
+            "T1055 must not swallow T10555 — a sub-technique extends its parent at a '.'"
+        );
+    }
+
+    #[test]
+    fn by_mitre_keeps_exact_match_semantics() {
+        let cat = hierarchy_catalog();
+        // by_mitre stays an exact-tag lookup; the rollup is the opt-in method.
+        assert_eq!(ids(&cat.by_mitre("T1053")), vec!["cron_parent"]);
+    }
+
     #[test]
     fn new_list_and_by_id() {
         let cat = catalog();
