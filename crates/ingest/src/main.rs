@@ -686,6 +686,129 @@ mod tests {
         rec
     }
 
+    /// The Shell Folders startup key as fa and dfir-scripts each describe it.
+    fn shell_folders_pair() -> Fetched {
+        let mut fa = described(
+            "fa_currentversion_explorer_shell_folders",
+            "fa",
+            r"HKEY_USERS\%%users.sid%%\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",
+            "The Shell Folders information for Windows users.",
+            &[],
+        );
+        fa.sources = vec!["https://github.com/ForensicArtifacts/artifacts".to_string()];
+        let mut dfir = described(
+            "dfir_scripts_currentversion_explorer_shell_folders",
+            "dfir_scripts",
+            r"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",
+            "Startup Folder Paths — Windows registry artifact (autostart and persistence). \
+             Parse with RegRipper, Autoruns or SBECmd.",
+            &["T1547.001"],
+        );
+        dfir.sources = vec!["https://dfir-scripts.github.io/".to_string()];
+        vec![("fa", vec![fa]), ("dfir_scripts", vec![dfir])]
+    }
+
+    #[test]
+    fn two_sources_describing_one_key_are_merged_not_decided_between() {
+        // fa carries the upstream definition and its own citation; dfir-scripts
+        // carries T1547.001, the parser guidance and a different citation. Both
+        // describe the same key, so keeping either one alone throws away
+        // something real — the technique an analyst queries by, or the provenance
+        // of the definition. The merged descriptor keeps both citations, so no
+        // sentence is left without a source that backs it.
+        let dir = catalog_with_generated_module("fa", &[]);
+        let baseline = baseline_for_run(dir.path(), &["fa", "dfir_scripts"]).expect("baseline");
+        let merged: Vec<IngestRecord> = select_records(&shell_folders_pair(), &baseline)
+            .into_iter()
+            .flat_map(|(_, recs)| recs)
+            .collect();
+
+        assert_eq!(merged.len(), 1, "one artifact, one descriptor");
+        let d = &merged[0];
+        assert_eq!(d.mitre_techniques, vec!["T1547.001"]);
+        assert!(
+            d.meaning.contains("Startup Folder Paths"),
+            "the richer description wins, not a splice of both: {}",
+            d.meaning
+        );
+        let mut sources = d.sources.clone();
+        sources.sort();
+        assert_eq!(
+            sources,
+            vec![
+                "https://dfir-scripts.github.io/".to_string(),
+                "https://github.com/ForensicArtifacts/artifacts".to_string(),
+            ],
+            "both citations must survive the merge"
+        );
+    }
+
+    #[test]
+    fn the_merge_does_not_depend_on_the_order_the_sources_arrive_in() {
+        // The bug this replaces existed because the outcome depended on which
+        // source was written first. Order-independence is the property that makes
+        // that class of bug impossible, so it is asserted directly.
+        let dir = catalog_for_merge_tests();
+        let baseline =
+            baseline_for_run(dir.path(), &["fa", "dfir_scripts", "regedit"]).expect("baseline");
+
+        let forward = shuffled_merge(&baseline, false);
+        let reversed = shuffled_merge(&baseline, true);
+        assert_eq!(
+            forward, reversed,
+            "the merged catalog must not depend on source or record order"
+        );
+    }
+
+    fn catalog_for_merge_tests() -> tempfile::TempDir {
+        catalog_with_generated_module("fa", &[])
+    }
+
+    /// The merged result rendered as comparable text, from input presented in one
+    /// order or the exact opposite.
+    fn shuffled_merge(baseline: &CatalogIndex, reverse: bool) -> Vec<String> {
+        let mut fetched = shell_folders_pair();
+        // Tied with dfir-scripts on everything richness ranks by — both carry a
+        // technique and their meanings are the same length — so only the
+        // tiebreak decides, which is exactly what an order-dependent one gets
+        // wrong.
+        let target = fetched[1].1[0].meaning.len();
+        let stem = "Startup folder paths, tied with the dfir-scripts meaning on length.";
+        let tied = format!("{stem}{}", ".".repeat(target - stem.len()));
+        assert_eq!(
+            tied.len(),
+            target,
+            "the fixture must tie on meaning length or it tests nothing"
+        );
+        let tied = tied.as_str();
+        let mut third = described(
+            "regedit_currentversion_explorer_shell_folders",
+            "regedit",
+            r"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",
+            tied,
+            &["T1547.009"],
+        );
+        third.sources = vec!["https://example.invalid/regedit".to_string()];
+        fetched.push(("regedit", vec![third]));
+        if reverse {
+            fetched.reverse();
+            for (_, recs) in &mut fetched {
+                recs.reverse();
+            }
+        }
+        let mut out: Vec<String> = select_records(&fetched, baseline)
+            .into_iter()
+            .flat_map(|(_, recs)| recs)
+            .map(|r| {
+                let mut s = r.sources.clone();
+                s.sort();
+                format!("{}|{}|{:?}|{:?}", r.id, r.meaning, r.mitre_techniques, s)
+            })
+            .collect();
+        out.sort();
+        out
+    }
+
     #[test]
     fn the_survivor_absorbs_the_techniques_of_what_it_displaced() {
         // Sources disagree about which technique a key serves, not about the key.
