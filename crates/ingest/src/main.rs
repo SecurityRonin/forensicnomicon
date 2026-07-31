@@ -226,7 +226,7 @@ fn generated_file_name(source_name: &str) -> String {
 
 /// How much of a module a regeneration may drop before it looks like a failed
 /// fetch rather than an upstream change.
-const SHRINK_TOLERANCE: f64 = 1.00;
+const SHRINK_TOLERANCE: f64 = 0.10;
 
 /// Descriptor statics already committed in `module`, or `None` when there is no
 /// module yet to compare against.
