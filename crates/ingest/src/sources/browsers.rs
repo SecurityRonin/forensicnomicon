@@ -635,6 +635,42 @@ mod tests {
     use super::*;
 
     #[test]
+    fn every_record_cites_an_authoritative_source() {
+        // The catalog requires every entry to carry a citation
+        // (`no_descriptor_in_catalog_has_empty_sources`). Those citations were
+        // being added to browsers_generated.rs by hand *after* generation, so a
+        // regeneration silently emptied 33 of them. A citation only survives if
+        // the adapter emits it, which is what this pins.
+        let artifacts = browser_artifacts();
+        let missing: Vec<&str> = artifacts
+            .iter()
+            .filter(|r| r.sources.is_empty())
+            .map(|r| r.id.as_str())
+            .collect();
+        assert!(
+            missing.is_empty(),
+            "{} browser records cite no source, so the generated descriptors would fail the \
+             catalog's sources rule: {missing:?}",
+            missing.len()
+        );
+    }
+
+    #[test]
+    fn every_source_is_a_url() {
+        // "Source: Magnet Forensics" is a stub, not a citation — a reader must
+        // be able to verify without guessing which page.
+        for rec in browser_artifacts() {
+            for s in &rec.sources {
+                assert!(
+                    s.starts_with("https://") || s.starts_with("http://"),
+                    "{} cites a non-URL source: {s}",
+                    rec.id
+                );
+            }
+        }
+    }
+
+    #[test]
     fn returns_at_least_15_browsers_worth_of_artifacts() {
         let artifacts = browser_artifacts();
         // We cover 20+ browsers, each with 2-5 artifacts
