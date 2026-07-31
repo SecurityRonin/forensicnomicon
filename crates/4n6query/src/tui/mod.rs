@@ -19,7 +19,7 @@ use forensicnomicon::{
     attack_flow::all_flows,
     catalog::{ArtifactDescriptor, OsScope, Platform, CATALOG},
     drivers::{DriverCategory, BYOVD_DRIVERS},
-    eventids::EVENT_ID_TABLE,
+    eventids::{event_entry_on, EventIdEntry, EVENT_ID_TABLE},
     lolbins::{
         lolbas_entry, LolbasEntry, LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS,
         LOLBAS_WINDOWS_CMDLETS, LOLBAS_WINDOWS_MMC, LOLBAS_WINDOWS_WMI, UC_ARCHIVE, UC_BYPASS,
@@ -166,6 +166,29 @@ fn catalog_passes(app: &app::App, d: &ArtifactDescriptor) -> bool {
     platform_ok && app.crit_filter.passes(d.triage_priority)
 }
 
+/// Render one event-ID row for the list pane.
+///
+/// The table is keyed by `(channel, event_id)`, so the channel is part of the
+/// row's identity, not decoration — [`event_entry_for_row`] reads it back out.
+/// Both halves of that format live here so they cannot drift apart.
+fn event_row(e: &EventIdEntry) -> String {
+    format!("{:<6}  [{:<10}]  {}", e.event_id, e.channel, e.description)
+}
+
+/// Resolve a rendered row back to its entry, channel-qualified.
+///
+/// The selection the TUI carries is the rendered string (search reorders the
+/// list, so an index would not survive), so the channel is recovered from the
+/// bracketed segment and the lookup is done on the full key. Falling back to a
+/// numeric lookup when the channel cannot be read would reintroduce exactly the
+/// ambiguity this exists to remove, so it does not.
+fn event_entry_for_row(row: &str) -> Option<&'static EventIdEntry> {
+    let (id_part, rest) = row.split_once('[')?;
+    let (channel, _) = rest.split_once(']')?;
+    let id = id_part.trim().parse::<u32>().ok()?;
+    event_entry_on(channel.trim(), id)
+}
+
 fn build_render_data(app: &app::App) -> RenderData {
     // Build the raw display list applying platform + crit filters for catalog (dataset 0).
     let all_display: Vec<String> = match app.dataset_idx {
@@ -216,10 +239,7 @@ fn build_render_data(app: &app::App) -> RenderData {
             .iter()
             .map(|f| format!("{:<40}  {}", f.id, f.name))
             .collect(),
-        9 => EVENT_ID_TABLE
-            .iter()
-            .map(|e| format!("{:<6}  [{:<10}]  {}", e.event_id, e.channel, e.description))
-            .collect(),
+        9 => EVENT_ID_TABLE.iter().map(event_row).collect(),
         10 => SIGMA_TABLE.iter().map(|r| r.title.to_string()).collect(),
         11 => {
             const MECHANISMS: &[(&str, &[&str])] = &[
@@ -535,10 +555,7 @@ fn build_render_data(app: &app::App) -> RenderData {
             }
         }
         9 => {
-            let entry = selected_name
-                .and_then(|s| s.split_whitespace().next())
-                .and_then(|id_str| id_str.parse::<u32>().ok())
-                .and_then(|id| EVENT_ID_TABLE.iter().find(|e| e.event_id == id));
+            let entry = selected_name.and_then(event_entry_for_row);
             match entry {
                 Some(e) => {
                     let mut lines = vec![

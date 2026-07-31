@@ -38,7 +38,7 @@ use forensicnomicon::abusable_sites::{
 use forensicnomicon::attack_flow::{all_flows, AttackFlow};
 use forensicnomicon::catalog::{TriagePriority, CATALOG};
 use forensicnomicon::drivers::{DriverCategory, VulnerableDriver, BYOVD_DRIVERS};
-use forensicnomicon::eventids::{event_entry, EventIdEntry, EVENT_ID_TABLE};
+use forensicnomicon::eventids::{events_for_id, EventIdEntry, EVENT_ID_TABLE};
 use forensicnomicon::lolbins::{
     lolbas_entry, LolbasEntry, LOLBAS_LINUX, LOLBAS_MACOS, LOLBAS_WINDOWS, LOLBAS_WINDOWS_CMDLETS,
     LOLBAS_WINDOWS_MMC, LOLBAS_WINDOWS_WMI,
@@ -267,9 +267,14 @@ fn indicator_to_json(src: &IndicatorSource, matched: &str) -> serde_json::Value 
 }
 
 /// Windows Event ID lookup: an all-digit term is matched against the table.
+///
+/// A number on its own carries no channel, and the same number means different
+/// things on different ones (21 is a Sysmon WMI consumer-to-filter binding and
+/// an RDP session logon). Every match is returned so the analyst sees both
+/// meanings rather than whichever the table happened to list first.
 fn lookup_events(term: &str) -> Vec<&'static EventIdEntry> {
     match term.trim().parse::<u32>() {
-        Ok(id) => event_entry(id).into_iter().collect(),
+        Ok(id) => events_for_id(id).collect(),
         Err(_) => vec![],
     }
 }
