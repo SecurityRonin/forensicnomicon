@@ -99,14 +99,74 @@ impl Opts {
     }
 }
 
-fn print_usage() {
-    println!(
+/// A source's fetcher: everything it takes to turn an upstream corpus into
+/// records.
+type Fetcher = fn() -> Vec<IngestRecord>;
+
+/// Every ingestable source. Registering one here is the only edit needed — the
+/// lookup, the `--source all` expansion and the `--help` text all derive from
+/// this table.
+const SOURCES: &[(&str, Fetcher)] = &[
+    ("regedit", sources::regedit::fetch_regedit_records),
+    ("kape", fetch_kape),
+    ("fa", sources::fa::fetch_all_fa_artifacts),
+    (
+        "velociraptor",
+        sources::velociraptor::fetch_velociraptor_artifacts,
+    ),
+    ("evtx", sources::evtx::fetch_evtx_records),
+    ("browsers", sources::browsers::browser_artifacts),
+    ("nirsoft", sources::nirsoft::nirsoft_artifacts),
+    (
+        "dfir_scripts",
+        sources::dfir_scripts::fetch_dfir_scripts_artifacts,
+    ),
+];
+
+/// KAPE reports a failed fetch; the other sources warn internally and return
+/// what they have.
+fn fetch_kape() -> Vec<IngestRecord> {
+    sources::kape::fetch_kape_targets().unwrap_or_else(|e| {
+        eprintln!("WARN: kape fetch error: {e}");
+        Vec::new()
+    })
+}
+
+/// The fetcher registered under `name`, if any.
+fn fetcher_for(name: &str) -> Option<Fetcher> {
+    SOURCES
+        .iter()
+        .find(|(registered, _)| *registered == name)
+        .map(|(_, fetcher)| *fetcher)
+}
+
+/// Resolve the requested source names, expanding `all` to every registered
+/// source.
+fn expand_sources(requested: &[String]) -> Vec<&'static str> {
+    if requested.iter().any(|s| s == "all") {
+        return SOURCES.iter().map(|(name, _)| *name).collect();
+    }
+    requested
+        .iter()
+        .filter_map(|name| {
+            let resolved = SOURCES.iter().find(|(registered, _)| registered == name);
+            if resolved.is_none() {
+                eprintln!("WARN: unknown source '{name}', skipping");
+            }
+            resolved.map(|(name, _)| *name)
+        })
+        .collect()
+}
+
+fn usage() -> String {
+    let names: Vec<&str> = SOURCES.iter().map(|(name, _)| *name).collect();
+    format!(
         r"forensicnomicon ingest pipeline
 
 Usage: ingest [OPTIONS]
 
 Options:
-  --source <SOURCE>   regedit|kape|fa|velociraptor|evtx|browsers|nirsoft|all
+  --source <SOURCE>   {}|all
                       (comma-separated for multiple)
   --output <DIR>      Output directory for .rs files
                       [default: crates/data/src/catalog/descriptors/generated]
@@ -114,31 +174,24 @@ Options:
   --limit <N>         Max records per source (for testing)
   -v, --verbose       Verbose output
   -h, --help          Show this help
-"
-    );
+",
+        names.join("|")
+    )
+}
+
+fn print_usage() {
+    println!("{}", usage());
 }
 
 fn run_source(name: &str, limit: Option<usize>, verbose: bool) -> Vec<IngestRecord> {
     if verbose {
         eprintln!("  Fetching source: {name}");
     }
-    let mut records = match name {
-        "regedit" => sources::regedit::fetch_regedit_records(),
-        "kape" => sources::kape::fetch_kape_targets().unwrap_or_else(|e| {
-            eprintln!("WARN: kape fetch error: {e}");
-            Vec::new()
-        }),
-        "fa" => sources::fa::fetch_all_fa_artifacts(),
-        "velociraptor" => sources::velociraptor::fetch_velociraptor_artifacts(),
-        "evtx" => sources::evtx::fetch_evtx_records(),
-        "browsers" => sources::browsers::browser_artifacts(),
-        "nirsoft" => sources::nirsoft::nirsoft_artifacts(),
-        "dfir_scripts" => sources::dfir_scripts::fetch_dfir_scripts_artifacts(),
-        other => {
-            eprintln!("WARN: unknown source '{other}', skipping");
-            Vec::new()
-        }
+    let Some(fetch) = fetcher_for(name) else {
+        eprintln!("WARN: unknown source '{name}', skipping");
+        return Vec::new();
     };
+    let mut records = fetch();
 
     if let Some(n) = limit {
         records.truncate(n);
@@ -149,55 +202,6 @@ fn run_source(name: &str, limit: Option<usize>, verbose: bool) -> Vec<IngestReco
     }
 
     records
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn every_registered_source_resolves_to_a_fetcher() {
-        assert!(!SOURCES.is_empty(), "no sources registered");
-        for (name, _) in SOURCES {
-            assert!(
-                fetcher_for(name).is_some(),
-                "registered source '{name}' does not resolve"
-            );
-        }
-    }
-
-    #[test]
-    fn source_names_are_unique() {
-        let mut seen = HashSet::new();
-        for (name, _) in SOURCES {
-            assert!(seen.insert(*name), "'{name}' is registered twice");
-        }
-    }
-
-    #[test]
-    fn an_unregistered_name_resolves_to_nothing() {
-        assert!(fetcher_for("not_a_source").is_none());
-    }
-
-    #[test]
-    fn every_registered_source_runs_under_source_all() {
-        // A source missing from the "all" expansion is silently never run.
-        let all = expand_sources(&["all".to_string()]);
-        for (name, _) in SOURCES {
-            assert!(all.contains(name), "'{name}' is never run by --source all");
-        }
-        assert_eq!(all.len(), SOURCES.len());
-    }
-
-    #[test]
-    fn help_lists_every_registered_source() {
-        // The help text is the only place a user learns a source exists.
-        let help = usage();
-        for (name, _) in SOURCES {
-            assert!(help.contains(name), "'{name}' is missing from --help");
-        }
-        assert!(help.contains("all"), "--help omits the 'all' pseudo-source");
-    }
 }
 
 struct SourceSummary {
@@ -250,22 +254,7 @@ fn main() {
         );
     }
 
-    // Expand "all" to every source
-    let all_sources = [
-        "regedit",
-        "kape",
-        "fa",
-        "velociraptor",
-        "evtx",
-        "browsers",
-        "nirsoft",
-        "dfir_scripts",
-    ];
-    let source_names: Vec<&str> = if opts.sources.iter().any(|s| s == "all") {
-        all_sources.to_vec()
-    } else {
-        opts.sources.iter().map(String::as_str).collect()
-    };
+    let source_names = expand_sources(&opts.sources);
 
     if !opts.dry_run {
         fs::create_dir_all(&output_dir).unwrap_or_else(|e| {
@@ -407,5 +396,54 @@ fn main() {
                 s.source
             );
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn every_registered_source_resolves_to_a_fetcher() {
+        assert!(!SOURCES.is_empty(), "no sources registered");
+        for (name, _) in SOURCES {
+            assert!(
+                fetcher_for(name).is_some(),
+                "registered source '{name}' does not resolve"
+            );
+        }
+    }
+
+    #[test]
+    fn source_names_are_unique() {
+        let mut seen = HashSet::new();
+        for (name, _) in SOURCES {
+            assert!(seen.insert(*name), "'{name}' is registered twice");
+        }
+    }
+
+    #[test]
+    fn an_unregistered_name_resolves_to_nothing() {
+        assert!(fetcher_for("not_a_source").is_none());
+    }
+
+    #[test]
+    fn every_registered_source_runs_under_source_all() {
+        // A source missing from the "all" expansion is silently never run.
+        let all = expand_sources(&["all".to_string()]);
+        for (name, _) in SOURCES {
+            assert!(all.contains(name), "'{name}' is never run by --source all");
+        }
+        assert_eq!(all.len(), SOURCES.len());
+    }
+
+    #[test]
+    fn help_lists_every_registered_source() {
+        // The help text is the only place a user learns a source exists.
+        let help = usage();
+        for (name, _) in SOURCES {
+            assert!(help.contains(name), "'{name}' is missing from --help");
+        }
+        assert!(help.contains("all"), "--help omits the 'all' pseudo-source");
     }
 }
