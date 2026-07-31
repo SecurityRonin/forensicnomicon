@@ -617,4 +617,38 @@ mod tests {
     fn empty_string_not_defense_evasion() {
         assert!(!is_defense_evasion_command(""));
     }
+
+    // --- T1490 single-home agreement ---
+
+    /// Both predicates must give the same verdict on every T1490
+    /// (inhibit-system-recovery) command: an analyst's answer cannot depend on
+    /// which entry point the caller happened to reach for.
+    #[test]
+    fn defense_evasion_flags_every_shadow_copy_deletion_pattern() {
+        for pattern in crate::antiforensics::SHADOW_COPY_DELETION_PATTERNS {
+            assert!(
+                crate::antiforensics::is_shadow_copy_deletion_command(pattern),
+                "{pattern:?} is in SHADOW_COPY_DELETION_PATTERNS but not flagged by \
+                 is_shadow_copy_deletion_command"
+            );
+            assert!(
+                is_defense_evasion_command(pattern),
+                "{pattern:?} is flagged by is_shadow_copy_deletion_command but not by \
+                 is_defense_evasion_command — the two predicates disagree on a T1490 command"
+            );
+        }
+    }
+
+    /// T1490 patterns live in `antiforensics` only; `DEFENSE_EVASION_PATTERNS`
+    /// must not re-declare them.
+    #[test]
+    fn defense_evasion_patterns_do_not_duplicate_shadow_copy_patterns() {
+        for pattern in DEFENSE_EVASION_PATTERNS {
+            assert!(
+                !crate::antiforensics::SHADOW_COPY_DELETION_PATTERNS.contains(pattern),
+                "{pattern:?} is duplicated between DEFENSE_EVASION_PATTERNS and \
+                 SHADOW_COPY_DELETION_PATTERNS — T1490 has one home"
+            );
+        }
+    }
 }
