@@ -461,8 +461,11 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
         if is_mitre_id(term) {
             // Roll up the ATT&CK hierarchy: a parent ID (T1053) must reach the
             // artifacts tagged with its sub-techniques (T1053.005), which is
-            // where the catalog actually tags them.
-            CATALOG.by_mitre_including_subtechniques(term)
+            // where the catalog actually tags them. Uppercased first because
+            // is_mitre_id accepts a lowercase t while the catalog match is
+            // case-sensitive — without this, `t1053` is recognised as a
+            // technique, looked up, and found to be nothing.
+            CATALOG.by_mitre_including_subtechniques(&term.to_ascii_uppercase())
         } else {
             CATALOG.filter_by_keyword(term)
         }
