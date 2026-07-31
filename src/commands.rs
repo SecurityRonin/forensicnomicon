@@ -114,7 +114,7 @@ pub fn is_download_tool_usage(cmd: &str) -> bool {
 /// almost exclusively seen in offensive tradecraft. Generic WMI queries (`Get-WmiObject`,
 /// `wmic os get`) are intentionally excluded — they are used routinely by administrators
 /// and would produce unacceptable false-positive rates. Shadow-copy deletion via WMI is
-/// covered by [`DEFENSE_EVASION_PATTERNS`] and shadow-copy deletion patterns.
+/// covered by [`crate::antiforensics::SHADOW_COPY_DELETION_PATTERNS`].
 ///
 /// Sources:
 /// - MITRE ATT&CK T1047 — Windows Management Instrumentation:
@@ -203,13 +203,24 @@ pub const LATERAL_MOVEMENT_PATTERNS: &[&str] = &[
     "mmc \\\\",
 ];
 
+/// Substrings indicative of security-control tampering — disabling or
+/// excluding AV/EDR, turning off the host firewall, and silencing event-log
+/// channels (T1562.001 / T1562.002 / T1562.004).
+///
+/// Recovery-inhibition commands (shadow-copy and backup destruction, T1490)
+/// are **not** listed here: their single home is
+/// [`crate::antiforensics::SHADOW_COPY_DELETION_PATTERNS`], and
+/// [`is_defense_evasion_command`] consults it directly so both predicates
+/// always give the same verdict.
+///
+/// Sources:
+/// - MITRE ATT&CK T1562.001 — Impair Defenses: Disable or Modify Tools:
+///   <https://attack.mitre.org/techniques/T1562/001/>
+/// - MITRE ATT&CK T1562.002 — Impair Defenses: Disable Windows Event Logging:
+///   <https://attack.mitre.org/techniques/T1562/002/>
+/// - MITRE ATT&CK T1562.004 — Impair Defenses: Disable or Modify System Firewall:
+///   <https://attack.mitre.org/techniques/T1562/004/>
 pub const DEFENSE_EVASION_PATTERNS: &[&str] = &[
-    "vssadmin delete shadows",
-    "vssadmin resize shadowstorage",
-    "bcdedit /set recoveryenabled no",
-    "bcdedit /set bootstatuspolicy ignoreallfailures",
-    "wmic shadowcopy delete",
-    "Get-WmiObject Win32_Shadowcopy | Remove",
     "Set-MpPreference -DisableRealtimeMonitoring",
     "Set-MpPreference -DisableAntiSpyware",
     "Set-MpPreference -DisableAntiVirus",
@@ -255,11 +266,17 @@ pub fn is_lateral_movement_command(cmd: &str) -> bool {
 }
 
 /// Returns `true` if `cmd` contains a defense-evasion pattern (case-insensitive).
+///
+/// Covers security-control tampering ([`DEFENSE_EVASION_PATTERNS`]) and
+/// recovery inhibition, the latter by delegating to
+/// [`crate::antiforensics::is_shadow_copy_deletion_command`] rather than
+/// keeping a second copy of the T1490 patterns.
 pub fn is_defense_evasion_command(cmd: &str) -> bool {
     let lower = cmd.to_ascii_lowercase();
     DEFENSE_EVASION_PATTERNS
         .iter()
         .any(|p| lower.contains(&p.to_ascii_lowercase()))
+        || crate::antiforensics::is_shadow_copy_deletion_command(cmd)
 }
 
 #[cfg(test)]
@@ -576,12 +593,39 @@ mod tests {
 
     // --- DEFENSE_EVASION_PATTERNS / is_defense_evasion_command ---
     #[test]
-    fn defense_evasion_patterns_contains_vssadmin() {
-        assert!(DEFENSE_EVASION_PATTERNS.contains(&"vssadmin delete shadows"));
+    fn defense_evasion_covers_vssadmin() {
+        // T1490 lives in antiforensics; the predicate still flags it.
+        assert!(crate::antiforensics::SHADOW_COPY_DELETION_PATTERNS
+            .contains(&"vssadmin delete shadows"));
+        assert!(is_defense_evasion_command("vssadmin delete shadows"));
     }
     #[test]
-    fn defense_evasion_patterns_contains_bcdedit() {
-        assert!(DEFENSE_EVASION_PATTERNS.contains(&"bcdedit /set recoveryenabled no"));
+    fn defense_evasion_covers_bcdedit() {
+        assert!(crate::antiforensics::SHADOW_COPY_DELETION_PATTERNS
+            .contains(&"bcdedit /set recoveryenabled no"));
+        assert!(is_defense_evasion_command(
+            "bcdedit /set recoveryenabled no"
+        ));
+    }
+    #[test]
+    fn defense_evasion_patterns_contains_defender_tampering() {
+        assert!(DEFENSE_EVASION_PATTERNS.contains(&"Set-MpPreference -DisableRealtimeMonitoring"));
+    }
+    #[test]
+    fn detects_wmic_shadowcopy_delete_as_evasion() {
+        assert!(is_defense_evasion_command(
+            "wmic shadowcopy delete /nointeractive"
+        ));
+    }
+    #[test]
+    fn detects_get_wmiobject_shadowcopy_remove_as_evasion() {
+        assert!(is_defense_evasion_command(
+            "Get-WmiObject Win32_Shadowcopy | Remove-WmiObject"
+        ));
+    }
+    #[test]
+    fn detects_wbadmin_delete_catalog_as_evasion() {
+        assert!(is_defense_evasion_command("wbadmin delete catalog -quiet"));
     }
     #[test]
     fn detects_vssadmin_delete_shadows() {
@@ -616,5 +660,39 @@ mod tests {
     #[test]
     fn empty_string_not_defense_evasion() {
         assert!(!is_defense_evasion_command(""));
+    }
+
+    // --- T1490 single-home agreement ---
+
+    /// Both predicates must give the same verdict on every T1490
+    /// (inhibit-system-recovery) command: an analyst's answer cannot depend on
+    /// which entry point the caller happened to reach for.
+    #[test]
+    fn defense_evasion_flags_every_shadow_copy_deletion_pattern() {
+        for pattern in crate::antiforensics::SHADOW_COPY_DELETION_PATTERNS {
+            assert!(
+                crate::antiforensics::is_shadow_copy_deletion_command(pattern),
+                "{pattern:?} is in SHADOW_COPY_DELETION_PATTERNS but not flagged by \
+                 is_shadow_copy_deletion_command"
+            );
+            assert!(
+                is_defense_evasion_command(pattern),
+                "{pattern:?} is flagged by is_shadow_copy_deletion_command but not by \
+                 is_defense_evasion_command — the two predicates disagree on a T1490 command"
+            );
+        }
+    }
+
+    /// T1490 patterns live in `antiforensics` only; `DEFENSE_EVASION_PATTERNS`
+    /// must not re-declare them.
+    #[test]
+    fn defense_evasion_patterns_do_not_duplicate_shadow_copy_patterns() {
+        for pattern in DEFENSE_EVASION_PATTERNS {
+            assert!(
+                !crate::antiforensics::SHADOW_COPY_DELETION_PATTERNS.contains(pattern),
+                "{pattern:?} is duplicated between DEFENSE_EVASION_PATTERNS and \
+                 SHADOW_COPY_DELETION_PATTERNS — T1490 has one home"
+            );
+        }
     }
 }

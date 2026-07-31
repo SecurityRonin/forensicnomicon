@@ -1281,6 +1281,20 @@ mod tests {
             .any(|p| p.contains("Clear-EventLog")),);
     }
 
+    /// This table is the PowerShell/wevtutil-scoped view of log clearing; the
+    /// general home for log-wipe commands is `antiforensics::LOG_WIPE_COMMANDS`.
+    /// Every member here must also be flagged there, so the two never diverge
+    /// into different verdicts for the same script block.
+    #[test]
+    fn ps_clear_eventlog_patterns_agree_with_antiforensics_log_wipe() {
+        for pattern in PS_CLEAR_EVENTLOG_PATTERNS {
+            assert!(
+                crate::antiforensics::is_log_wipe_command(pattern),
+                "{pattern:?} is a PS log-clear pattern but is_log_wipe_command does not flag it"
+            );
+        }
+    }
+
     // ── comsvcs MiniDump patterns ─────────────────────────────────────────────
 
     #[test]
