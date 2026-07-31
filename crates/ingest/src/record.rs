@@ -19,7 +19,10 @@ pub struct IngestRecord {
     pub hive: Option<String>,
     pub key_path: String,
     pub value_name: Option<String>,
-    /// OsScope variant name as a Rust identifier string, e.g. `"Win7Plus"`, `"Linux"`, `"MacOs"`, `"All"`.
+    /// `OsScope` variant name, spelled exactly as the catalog declares it —
+    /// e.g. `"Win7Plus"`, `"Linux"`, `"MacOS"`, `"All"`. Codegen emits
+    /// `OsScope::{this}` verbatim, so a wrong spelling is a compile error in
+    /// the generated descriptors.
     pub os_scope: String,
     pub file_path: Option<String>,
     pub meaning: String,
