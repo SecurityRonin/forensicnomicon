@@ -64,8 +64,10 @@ impl ExtendedCatalog {
     }
 
     /// Returns the total number of descriptors (base + custom).
+    // `list()` borrows the base slice; `for_triage()` would allocate a Vec of
+    // every descriptor and sort it only for its length to be read.
     pub fn len(&self) -> usize {
-        self.base.for_triage().len() + self.custom_descriptors.len()
+        self.base.list().len() + self.custom_descriptors.len()
     }
 
     /// Returns true if there are no descriptors.
