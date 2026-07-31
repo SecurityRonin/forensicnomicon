@@ -10,11 +10,11 @@
 //! - `Comment` (optional)
 
 use std::collections::HashSet;
+use std::time::Duration;
 
-use crate::github::github_client;
 use crate::normalize::{ensure_unique, normalize_file_id, to_snake_case};
 use crate::record::{IngestRecord, IngestType};
-use crate::sources::common::extract_mitre;
+use crate::sources::common::{extract_mitre, for_each_github_file, GithubFiles};
 use crate::triage::infer_triage;
 
 const KAPE_TREE_URL: &str =
@@ -98,53 +98,34 @@ pub fn parse_tkape(content: &str, file_name: &str) -> Vec<IngestRecord> {
 
 /// Fetch all KAPE .tkape target files from GitHub and return parsed records.
 pub fn fetch_kape_targets() -> Result<Vec<IngestRecord>, Box<dyn std::error::Error>> {
-    let client = github_client()?;
-
-    // Get the file tree
-    let tree: serde_json::Value = client.get(KAPE_TREE_URL).send()?.json()?;
-
-    let files = tree["tree"]
-        .as_array()
-        .ok_or("no tree array")?
-        .iter()
-        .filter_map(|f| f["path"].as_str())
-        .filter(|p| p.ends_with(".tkape") && p.starts_with("Targets/"))
-        .map(str::to_string)
-        .collect::<Vec<_>>();
+    let spec = GithubFiles {
+        source: "kape",
+        listing_url: KAPE_TREE_URL,
+        raw_base: KAPE_RAW_BASE,
+        delay: Duration::ZERO,
+    };
 
     let mut all_records = Vec::new();
     let mut global_seen = HashSet::new();
 
-    for file_path in &files {
-        let url = format!("{KAPE_RAW_BASE}{file_path}");
-        let content = match client.get(&url).send() {
-            Ok(resp) => match resp.text() {
-                Ok(t) => t,
-                Err(e) => {
-                    eprintln!("WARN: failed to read {file_path}: {e}");
-                    continue;
-                }
-            },
-            Err(e) => {
-                eprintln!("WARN: failed to fetch {file_path}: {e}");
-                continue;
+    for_each_github_file(
+        &spec,
+        |p| p.ends_with(".tkape") && p.starts_with("Targets/"),
+        |file_path, content| {
+            // Base name from path ("Targets/Browsers/Chrome.tkape" -> "Chrome")
+            let base_name = std::path::Path::new(file_path)
+                .file_stem()
+                .and_then(|s| s.to_str())
+                .unwrap_or("unknown");
+
+            for mut rec in parse_tkape(content, base_name) {
+                // Ensure global uniqueness
+                rec.id = ensure_unique(std::mem::take(&mut rec.id), &global_seen);
+                global_seen.insert(rec.id.clone());
+                all_records.push(rec);
             }
-        };
-
-        // Extract base name from path (e.g. "Targets/Browsers/Chrome.tkape" -> "Chrome")
-        let base_name = std::path::Path::new(file_path)
-            .file_stem()
-            .and_then(|s| s.to_str())
-            .unwrap_or("unknown");
-
-        let records = parse_tkape(&content, base_name);
-        for mut rec in records {
-            // Ensure global uniqueness
-            rec.id = ensure_unique(std::mem::take(&mut rec.id), &global_seen);
-            global_seen.insert(rec.id.clone());
-            all_records.push(rec);
-        }
-    }
+        },
+    )?;
 
     Ok(all_records)
 }

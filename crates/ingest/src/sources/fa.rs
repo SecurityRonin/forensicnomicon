@@ -8,12 +8,18 @@
 //! - `urls`
 
 use std::collections::HashSet;
+use std::time::Duration;
 
 use crate::github::github_client;
 use crate::hive::{detect_hive, strip_hive_from_path};
 use crate::normalize::{ensure_unique, normalize_file_id, normalize_registry_id};
 use crate::record::{IngestRecord, IngestType};
+use crate::sources::common::{for_each_github_file, GithubFiles};
 use crate::triage::infer_triage;
+
+const FA_TREE_URL: &str =
+    "https://api.github.com/repos/forensicartifacts/artifacts/git/trees/main?recursive=1";
+const FA_RAW_BASE: &str = "https://raw.githubusercontent.com/forensicartifacts/artifacts/main/";
 
 /// Parse a ForensicArtifacts YAML string (possibly multi-document) into IngestRecords.
 #[cfg_attr(not(test), allow(dead_code))]
@@ -209,11 +215,7 @@ fn parse_supported_os(value: &serde_yaml::Value) -> String {
 /// Fetch and parse ForensicArtifacts YAML from a single URL.
 #[cfg_attr(not(test), allow(dead_code))]
 pub fn fetch_fa_artifacts(url: &str) -> Result<Vec<IngestRecord>, Box<dyn std::error::Error>> {
-    let client = reqwest::blocking::Client::builder()
-        .user_agent("forensicnomicon-ingest/0.1")
-        .timeout(std::time::Duration::from_secs(30))
-        .build()?;
-    let content = client.get(url).send()?.text()?;
+    let content = github_client()?.get(url).send()?.text()?;
     Ok(parse_fa_yaml(&content))
 }
 
@@ -221,56 +223,22 @@ pub fn fetch_fa_artifacts(url: &str) -> Result<Vec<IngestRecord>, Box<dyn std::e
 // extension comparison is intentionally exact
 #[allow(clippy::case_sensitive_file_extension_comparisons)]
 pub fn fetch_all_fa_artifacts() -> Vec<IngestRecord> {
-    let tree_url =
-        "https://api.github.com/repos/forensicartifacts/artifacts/git/trees/main?recursive=1";
-    let client = match github_client() {
-        Ok(c) => c,
-        Err(e) => {
-            eprintln!("WARN: fa: failed to build HTTP client: {e}");
-            return Vec::new();
-        }
+    let spec = GithubFiles {
+        source: "fa",
+        listing_url: FA_TREE_URL,
+        raw_base: FA_RAW_BASE,
+        delay: Duration::from_millis(200),
     };
 
-    let tree: serde_json::Value = match client
-        .get(tree_url)
-        .send()
-        .and_then(reqwest::blocking::Response::json)
-    {
-        Ok(v) => v,
-        Err(e) => {
-            eprintln!("WARN: fa: failed to fetch tree: {e}");
-            return Vec::new();
-        }
-    };
-
-    let base_url = "https://raw.githubusercontent.com/forensicartifacts/artifacts/main/";
     let mut all_records = Vec::new();
     let mut global_seen: HashSet<String> = HashSet::new();
 
-    if let Some(tree_items) = tree.get("tree").and_then(|t| t.as_array()) {
-        let yaml_paths: Vec<String> = tree_items
-            .iter()
-            .filter_map(|item| item.get("path").and_then(|p| p.as_str()))
-            .filter(|p| p.ends_with(".yaml") && p.starts_with("artifacts/"))
-            .map(std::string::ToString::to_string)
-            .collect();
-
-        for path in yaml_paths {
-            let url = format!("{base_url}{path}");
-            std::thread::sleep(std::time::Duration::from_millis(200));
-            match client
-                .get(&url)
-                .send()
-                .and_then(reqwest::blocking::Response::text)
-            {
-                Ok(content) => {
-                    parse_fa_yaml_into(&content, &mut all_records, &mut global_seen);
-                }
-                Err(e) => {
-                    eprintln!("WARN: fa: failed to fetch {url}: {e}");
-                }
-            }
-        }
+    if let Err(e) = for_each_github_file(
+        &spec,
+        |p| p.ends_with(".yaml") && p.starts_with("artifacts/"),
+        |_path, content| parse_fa_yaml_into(content, &mut all_records, &mut global_seen),
+    ) {
+        eprintln!("WARN: fa: {e}");
     }
 
     all_records

@@ -5,10 +5,12 @@
 //! parameter defaults.
 
 use std::collections::HashSet;
+use std::time::Duration;
 
 use crate::hive::{detect_hive, strip_hive_from_path};
 use crate::normalize::{ensure_unique, normalize_file_id, normalize_registry_id};
 use crate::record::{IngestRecord, IngestType};
+use crate::sources::common::{for_each_github_file, GithubFiles};
 use crate::triage::infer_triage;
 
 const VELO_TREE_URL: &str =
@@ -171,57 +173,21 @@ fn try_parse_as_file(
 
 /// Fetch and parse all Velociraptor artifact YAMLs from GitHub.
 pub fn fetch_velociraptor_artifacts() -> Vec<IngestRecord> {
-    let client = match reqwest::blocking::Client::builder()
-        .user_agent("forensicnomicon-ingest/0.1")
-        .timeout(std::time::Duration::from_secs(30))
-        .build()
-    {
-        Ok(c) => c,
-        Err(e) => {
-            eprintln!("WARN: velociraptor: failed to build HTTP client: {e}");
-            return Vec::new();
-        }
-    };
-
-    let tree: serde_json::Value = match client
-        .get(VELO_TREE_URL)
-        .send()
-        .and_then(reqwest::blocking::Response::json)
-    {
-        Ok(v) => v,
-        Err(e) => {
-            eprintln!("WARN: velociraptor: failed to fetch tree: {e}");
-            return Vec::new();
-        }
+    let spec = GithubFiles {
+        source: "velociraptor",
+        listing_url: VELO_TREE_URL,
+        raw_base: VELO_RAW_BASE,
+        delay: Duration::from_millis(200),
     };
 
     let mut all_records = Vec::new();
 
-    if let Some(tree_items) = tree.get("tree").and_then(|t| t.as_array()) {
-        let yaml_paths: Vec<String> = tree_items
-            .iter()
-            .filter_map(|item| item.get("path").and_then(|p| p.as_str()))
-            .filter(|p| p.starts_with("artifacts/definitions/") && p.ends_with(".yaml"))
-            .map(str::to_string)
-            .collect();
-
-        for path in yaml_paths {
-            let url = format!("{VELO_RAW_BASE}{path}");
-            std::thread::sleep(std::time::Duration::from_millis(200));
-            match client
-                .get(&url)
-                .send()
-                .and_then(reqwest::blocking::Response::text)
-            {
-                Ok(content) => {
-                    let records = parse_velociraptor_yaml(&content);
-                    all_records.extend(records);
-                }
-                Err(e) => {
-                    eprintln!("WARN: velociraptor: failed to fetch {url}: {e}");
-                }
-            }
-        }
+    if let Err(e) = for_each_github_file(
+        &spec,
+        |p| p.starts_with("artifacts/definitions/") && p.ends_with(".yaml"),
+        |_path, content| all_records.extend(parse_velociraptor_yaml(content)),
+    ) {
+        eprintln!("WARN: velociraptor: {e}");
     }
 
     all_records

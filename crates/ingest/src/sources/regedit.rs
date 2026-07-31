@@ -10,6 +10,7 @@
 
 use std::collections::HashSet;
 
+use crate::github::github_client;
 use crate::hive::map_hive_type;
 use crate::normalize::{ensure_unique, normalize_registry_id, to_snake_case};
 use crate::record::{IngestRecord, IngestType};
@@ -80,7 +81,11 @@ pub fn parse_reb(content: &str) -> Vec<IngestRecord> {
 
 /// Fetch and parse a `.reb` file from a URL.
 pub fn parse_reb_url(url: &str) -> Result<Vec<IngestRecord>, Box<dyn std::error::Error>> {
-    let content = reqwest::blocking::get(url)?.text()?;
+    let content = github_client()?
+        .get(url)
+        .send()?
+        .error_for_status()?
+        .text()?;
     Ok(parse_reb(&content))
 }
 
