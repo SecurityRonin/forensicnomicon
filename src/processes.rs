@@ -421,6 +421,44 @@ mod tests {
         assert!(WINDOWS_MASQUERADE_TARGETS.contains(&"lsass.exe"));
     }
 
+    /// `WINDOWS_SYSTEM32_BINARIES` is curated for a location question, so it
+    /// neither mirrors nor is contained by `WINDOWS_MASQUERADE_TARGETS`; its doc
+    /// comment states exactly how the two differ. Pin both directions so a data
+    /// edit cannot silently make that statement false — and so the additions are
+    /// visible to `heuristics::srum`, which builds its name baseline on this list.
+    #[test]
+    fn system32_binaries_differ_from_masquerade_targets_as_documented() {
+        let added: Vec<&str> = WINDOWS_SYSTEM32_BINARIES
+            .iter()
+            .copied()
+            .filter(|name| !WINDOWS_MASQUERADE_TARGETS.contains(name))
+            .collect();
+        assert_eq!(
+            added,
+            ["lsaiso.exe", "rundll32.exe"],
+            "System32 names absent from WINDOWS_MASQUERADE_TARGETS changed — \
+             update the WINDOWS_SYSTEM32_BINARIES doc comment to match"
+        );
+
+        let omitted: Vec<&str> = WINDOWS_MASQUERADE_TARGETS
+            .iter()
+            .copied()
+            .filter(|name| !WINDOWS_SYSTEM32_BINARIES.contains(name))
+            .collect();
+        assert_eq!(
+            omitted,
+            ["explorer.exe", "system", "registry"],
+            "masquerade targets deliberately omitted from the System32 list changed — \
+             update the WINDOWS_SYSTEM32_BINARIES doc comment to match"
+        );
+
+        assert_eq!(
+            WINDOWS_SYSTEM32_BINARIES.len() - added.len(),
+            13,
+            "shared-entry count changed — update the WINDOWS_SYSTEM32_BINARIES doc comment"
+        );
+    }
+
     #[test]
     fn system32_binary_recognizes_svchost_case_insensitively() {
         assert!(is_system32_binary("svchost.exe"));
