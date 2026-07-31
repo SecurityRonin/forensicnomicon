@@ -200,7 +200,7 @@ pub(crate) static EVTX_BITS_CLIENT: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Records BITS (Background Intelligent Transfer Service) job creation, progress, and completion (59=job created, 60=completed, 61=error). BITS is abused for stealthy file downloads and C2 — transfers appear as legitimate background Windows traffic.",
+    meaning: "Records the BITS (Background Intelligent Transfer Service) job lifecycle (3=job created, 59=transfer started, 60=transfer stopped at Information level, 61=transfer stopped at Warning level). Events 60 and 61 carry identical message text and differ only by level and the hr status code. BITS is abused for stealthy file downloads and C2 — transfers appear as legitimate background Windows traffic.",
     mitre_techniques: &["T1197"],
     fields: &[
         FieldSchema { name: "job_name", value_type: ValueType::Text, description: "BITS job name", is_uid_component: true },
