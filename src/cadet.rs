@@ -444,7 +444,7 @@ mod tests {
             ),
             ("userassist_exe", ActivityCategory::Execution),
             ("shimcache", ActivityCategory::Execution),
-            ("browsers_ie_typed_urls", ActivityCategory::BrowserActivity),
+            ("ie_typed_urls", ActivityCategory::BrowserActivity),
             ("typed_urls", ActivityCategory::BrowserActivity),
             ("fa_system_mounteddevices", ActivityCategory::DeviceInstall),
             ("profile_list_users", ActivityCategory::AccountActivity),

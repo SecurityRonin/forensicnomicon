@@ -1384,3 +1384,187 @@ pub(crate) static CREDENTIAL_PROVIDER_FILTERS: ArtifactDescriptor = ArtifactDesc
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Registry key; persists until explicitly deleted",
 };
+
+// ── Assessed artifacts (moved out of descriptors/generated/) ──────────────────
+//
+// Each of these carries a curated evidence strength and volatility class. No
+// upstream corpus supplies that judgement, so it used to be written into the
+// generated module by hand after every run — which a full-corpus regeneration
+// erased. Here the ingest pipeline sees the id is already catalogued and skips
+// its own record, so the judgement survives, and the triage priority is the
+// artifact's own rather than the generator's High ceiling.
+
+pub(crate) static NIRSOFT_SAM_HIVE_REG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "nirsoft_sam_hive_reg",
+    name: "SAM Hive — Account Database",
+    artifact_type: ArtifactLocation::RegistryKey,
+    hive: Some(HiveTarget::HklmSam),
+    key_path: "SAM\\Domains\\Account\\Users",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "SAM hive users sub-key contains NT/LM password hashes for local accounts. Relevant to NirSoft's password recovery tools.",
+    mitre_techniques: &["T1003.002"],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://www.nirsoft.net/utils/sam_password_recovery.html"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Local account credential hashes; NTLM offline cracking risk"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SAM hive persists across reboots; protected in-use by Windows",
+};
+
+pub(crate) static REGEDIT_DOMAINS_ACCOUNT_USERS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "regedit_domains_account_users",
+    name: "SAM Users",
+    artifact_type: ArtifactLocation::RegistryKey,
+    hive: Some(HiveTarget::HklmSam),
+    key_path: "SAM\\Domains\\Account\\Users",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "User accounts in SAM file",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Local account enumeration via registry; compare against expected user list"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SAM account registry persists until account deletion",
+};
+
+pub(crate) static VELOCIRAPTOR_CURRENTVERSION_IMAGE_FILE_EXECUTION_OPTIONS: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_currentversion_image_file_execution_options",
+        name: "Windows.Persistence.Debug",
+        artifact_type: ArtifactLocation::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path:
+            "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\*",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "Windows allows specific configuration of various executables via a
+registry key. Some keys allow defining a debugger to attach to a
+program as it is run. If this debugger is launched for commonly used
+programs (e.g. notepad) then another program can be launched at the
+same time (with the same privileges).
+
+There is an additional key for x86 executables `HKEY_LOCAL_MACHINE\\
+SOFTWARE\\wow6432node\\Microsoft\\Windows NT\\CurrentVersion\\Image File
+Execution Options\\*` however this is kept inline with the x64 key and
+therefore does not need to be processed.
+
+Limitations: This queries the live registry and therefore does not
+parse data in Windows.old or Regback folders, or VSS.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Critical,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+        evidence_caveats: &[
+            "Non-zero GlobalFlag with Debugger value indicates silent process exit / hijack",
+        ],
+        volatility: Some(crate::volatility::VolatilityClass::Persistent),
+        volatility_rationale: "IFEO GlobalFlag registry persists until key deletion",
+    };
+
+pub(crate) static VELOCIRAPTOR_SECURITYPROVIDERS_WDIGEST: ArtifactDescriptor = ArtifactDescriptor {
+    id: "velociraptor_securityproviders_wdigest",
+    name: "Windows.Registry.WDigest",
+    artifact_type: ArtifactLocation::RegistryKey,
+    hive: Some(HiveTarget::HklmSystem),
+    key_path: "SYSTEM\\*ControlSet*\\Control\\SecurityProviders\\WDigest\\**",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Find WDigest registry values on the filesystem. The artifact will also use
+GROUP BY to limit all ControlSet output to a single row.
+
+To prevent a clear-text password from being placed in
+LSASS, the following registry key needs to be set to “0” (Digest
+Disabled):
+
+ - HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest
+    “UseLogonCredential”(DWORD)
+    “Negotiate”(DWORD)
+
+These registry keys are worth monitoring in an environment as an
+attacker may wish to set it to 1 to enable Digest password support
+which forces “clear-text” passwords to be placed in LSASS on any
+version of Windows from Windows 7 / 2008R2 up to Windows 10 /
+2012R2. Furthermore, Windows 8.1 / 2012 R2 and newer do not have a
+“UseLogonCredential” DWORD value, so the key needs to be
+added. The existence of the key is suspicious, if not expected.
+
+* ATT&CK tactic: Defense Evasion, Credential Access
+* ATT&CK technique: T1112, T1003.001",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "UseLogonCredential=1 enables plaintext credential caching in LSASS — critical IOC",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "WDigest registry value persists across reboots",
+};
+
+pub(crate) static VELOCIRAPTOR_CURRENTVERSION_PROFILELIST: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "velociraptor_currentversion_profilelist",
+        name: "Windows.Sys.AllUsers",
+        artifact_type: ArtifactLocation::RegistryKey,
+        hive: Some(HiveTarget::HklmSoftware),
+        key_path: "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\*",
+        value_name: None,
+        file_path: None,
+        scope: DataScope::System,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "List User accounts. We combine two data sources - the output from
+the `NetUserEnum` API (termed `local` users) and the list of SIDs in
+the registry (termed `remote` users).
+
+In this artifact, 'remote' means that user profile was cached in the
+registry, but the user does not appear in the output of the
+`NetUserEnum` API - this normally happens for users remotely logging
+into the system using domain credentials.
+
+On Domain Controllers the `NetUserEnum` API will return the contents
+of the entire ActiveDirectory as a list of 'local' users, however
+this does not mean that the users have logged into the DC
+locally. In this artifact we limit the number of users to 1000. If
+you need to obtain the full list from the AD, customize this
+artifact.",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Critical,
+        related_artifacts: &[],
+        sources: &["https://github.com/Velocidex/velociraptor"],
+        evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+        evidence_caveats: &[
+            "User SID enumeration; compare against expected user base for rogue accounts",
+        ],
+        volatility: Some(crate::volatility::VolatilityClass::Persistent),
+        volatility_rationale: "ProfileList registry persists until profile deletion",
+    };

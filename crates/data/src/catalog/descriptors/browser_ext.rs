@@ -423,3 +423,38 @@ pub(crate) static BROWSER_SAFARI_HISTORY: ArtifactDescriptor = ArtifactDescripto
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Overwritten by browser activity; tombstones provide deletion evidence",
 };
+
+// ── Assessed artifacts (moved out of descriptors/generated/) ──────────────────
+//
+// Each of these carries a curated evidence strength and volatility class. No
+// upstream corpus supplies that judgement, so it used to be written into the
+// generated module by hand after every run — which a full-corpus regeneration
+// erased. Here the ingest pipeline sees the id is already catalogued and skips
+// its own record, so the judgement survives, and the triage priority is the
+// artifact's own rather than the generator's High ceiling.
+
+pub(crate) static BROWSERS_FIREFOX_LOGINS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "browsers_firefox_logins",
+    name: "Firefox Saved Logins",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%APPDATA%\\Mozilla\\Firefox\\Profiles\\*.default-release\\logins.json"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Firefox saved passwords (encrypted). If master password not set, decryptable.",
+    mitre_techniques: &["T1555.003"],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://forensicswiki.xyz/wiki/index.php?title=Mozilla_Firefox"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Encrypted browser passwords; key in OS credential store; timestamp shows last use",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Credential store persists until browser profile deletion",
+};

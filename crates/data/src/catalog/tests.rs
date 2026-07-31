@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 7159;
+const EXPECTED_CATALOG_LEN: usize = 6754;
 
 #[cfg(test)]
 mod catalog_integrity {

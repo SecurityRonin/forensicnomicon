@@ -2172,3 +2172,914 @@ broader technique with a handle to lsass.exe whose call trace references dbgcore
     volatility: Some(crate::volatility::VolatilityClass::Residual),
     volatility_rationale: "Usually deleted after offline parsing/exfiltration; recover from $MFT unallocated, USN journal, or $I30 slack",
 };
+
+// ── Assessed artifacts (moved out of descriptors/generated/) ──────────────────
+//
+// Each of these carries a curated evidence strength and volatility class. No
+// upstream corpus supplies that judgement, so it used to be written into the
+// generated module by hand after every run — which a full-corpus regeneration
+// erased. Here the ingest pipeline sees the id is already catalogued and skips
+// its own record, so the judgement survives, and the triage priority is the
+// artifact's own rather than the generator's High ceiling.
+
+pub(crate) static FA_FILE_PROGRAMS_RECENTFILECACHE_BCF: ArtifactDescriptor = ArtifactDescriptor {
+    id: "fa_file_programs_recentfilecache_bcf",
+    name: "WindowsRecentFileCacheBCF",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%%environ_systemroot%%\\AppCompat\\Programs\\RecentFileCache.bcf"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "RecentFileCache.bcf — the Windows 7 Application Experience (ProgramDataUpdater) \
+inventory of executables newly encountered on the system, the predecessor of Amcache.hve. On-disk it \
+is a variable-length file header beginning with a 4-byte signature at offset 0, followed by a sequence \
+of entry records, each a 4-byte UTF-16 character count (including the null terminator) plus a UTF-16LE \
+full-path string (per libyal dtformats). It records no timestamps and no hashes.",
+    mitre_techniques: &[],
+    fields: &[
+        FieldSchema {
+            name: "entry_path",
+            value_type: ValueType::Text,
+            description: "UTF-16LE full path of an executable inventoried by Application Experience; the decoded record content (one per entry)",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "entry_char_count",
+            value_type: ValueType::UnsignedInt,
+            description: "UTF-16 character count of the entry's path string, including the null terminator (the 4-byte length prefix preceding each path)",
+            is_uid_component: false,
+        },
+    ],
+    retention: None,
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &["amcache_app_file"],
+    sources: &[
+        "https://artifacts-kb.readthedocs.io/en/latest/sources/windows/RecentFileCache.html",
+        // libyal dtformats — RecentFileCache.bcf on-disk format (RE reference):
+        "https://raw.githubusercontent.com/libyal/dtformats/main/documentation/RecentFileCache.bcf%20format.asciidoc",
+        // ANSSI CoRIIN 2019 — Amcache analysis; RecentFileCache.bcf is the Win7 predecessor:
+        "https://cyber.gouv.fr/uploads/2019/01/anssi-coriin_2019-analysis_amcache.pdf",
+        // Eric Zimmerman — RecentFileCacheParser (tool source):
+        "https://github.com/EricZimmerman/RecentFileCacheParser",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Windows 7 only — replaced by Amcache.hve on Windows 8 and later; absence on Win8+ is expected, not evidentiary (os_scope is stored as Win7Plus for enum compatibility, but the artifact is Win7-specific)",
+        "Contains no embedded timestamps and no hashes; only the file's own MFT/last-write time bounds the entries — individual entries cannot be independently dated",
+        "Lists executables the Application Experience inventory newly encountered; presence is consistent with the file having existed / been inventoried on the system, not proof a user executed it",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "On-disk file in %SystemRoot%\\AppCompat\\Programs; persists until deleted",
+};
+
+pub(crate) static KAPE_FILE_1PASSWORD_DATA_1PASSWORD10_SQLITE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_1password_data_1password10_sqlite",
+    name: "1Password Database",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\1password\\data'1Password10.sqlite'"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "\"Database which holds information about 1Password installation, such as accounts, categories, settings and more\"",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/1Password.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Credential store persists until browser profile deletion",
+};
+
+pub(crate) static KAPE_FILE_1PASSWORD_BACKUPS_1PASSWORD10_SQLITE: ArtifactDescriptor =
+    ArtifactDescriptor {
+        id: "kape_file_1password_backups_1password10_sqlite",
+        name: "1Password Backup Databases",
+        artifact_type: ArtifactLocation::File,
+        hive: None,
+        key_path: "",
+        value_name: None,
+        file_path: Some(
+            "C:\\Users\\%user%\\AppData\\Local\\1password\\backups'1Password10.sqlite'",
+        ),
+        scope: DataScope::Mixed,
+        os_scope: OsScope::Win7Plus,
+        decoder: Decoder::Identity,
+        meaning: "\"Backups of 1Password Database\"",
+        mitre_techniques: &[],
+        fields: &[],
+        retention: None,
+        triage_priority: TriagePriority::Critical,
+        related_artifacts: &[],
+        sources: &[
+            "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/1Password.tkape",
+        ],
+        evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+        evidence_caveats: &[
+            "Encrypted browser passwords; key in OS credential store; timestamp shows last use",
+        ],
+        volatility: Some(crate::volatility::VolatilityClass::Persistent),
+        volatility_rationale: "Credential store persists until browser profile deletion",
+    };
+
+pub(crate) static KAPE_FILE_1PASSWORD_LOGS_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_1password_logs_log",
+    name: "1Password Logs",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\1password\\logs'*.log'"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning:
+        "\"Log of usage of 1Password - can be useful for identifying periods of user activity\"",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/1Password.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Encrypted browser passwords; key in OS credential store; timestamp shows last use",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Credential store persists until browser profile deletion",
+};
+
+pub(crate) static KAPE_FILE_AWS_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_aws_credentials",
+    name: "AWS CLI Credentials",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Users\\%user%\\.aws\\'credentials'"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "\"Collects AWS CLI credential file\"",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/DeveloperCloudCredentials.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["AWS access key ID and secret; timestamp indicates when last modified"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Credential file persists until key rotation",
+};
+
+pub(crate) static KAPE_FILE_USER_GIT_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_user_git_credentials",
+    name: "Git Credentials",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Users\\%user%\\'.git-credentials'"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "\"Collects Git stored credentials\"",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/DeveloperCloudCredentials.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Repository tokens; check for non-corporate VCS hosts"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Git credential helper store persists until credential deletion",
+};
+
+pub(crate) static KAPE_FILE_FREE_DOWNLOAD_MANAGER_FDM_SQLITE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_free_download_manager_fdm_sqlite",
+    name: "FDM Database",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\Free Download Manager\\\"fdm.sqlite\""),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "\"fdm.sqlite shows Torrents, downloads, folder history, auth credentials and more. Will also pull fdm.sqlite in db_backup/\"",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/FreeDownloadManager.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["May contain saved FTP/HTTP credentials; check for non-standard download sources"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Download manager credential database persists until uninstall",
+};
+
+pub(crate) static KAPE_FILE_MY_CERTIFICATES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_my_certificates",
+    name: "RDCMan Personal Certificate",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(
+        "C:\\Users%user%\\AppData\\Roaming\\Microsoft\\SystemCertificates\\My\\Certificates",
+    ),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "\"Encryption Certificate for stored passwords\"",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RDCMan.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Personal certificates including private keys; check for self-signed or unexpected issuers",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Certificate store persists until certificate deletion",
+};
+
+pub(crate) static KAPE_FILE_LOGINS_JSON: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_logins_json",
+    name: "Mozilla Thunderbird logins.json",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Thunderbird\\Profiles\\*\\\"logins.json\""),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "\"Holds last time online login used, last time password changed, hostname, HTTP(s) URL and more\"",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Thunderbird.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Credential store persists until browser profile deletion",
+};
+
+pub(crate) static KAPE_FILE_MREMOTENG_CONFCONS_XML: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_mremoteng_confcons_xml",
+    name: "mRemoteNG Connection Configuration and Backups",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\mRemoteNG\\confCons.xml*"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Contains connection config, often with obfuscated credentials",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/mRemoteNG.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Encrypted vault; master password hash extractable for offline attack"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Password manager database persists until application uninstall",
+};
+
+pub(crate) static KAPE_FILE_KEY_DB: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_key_db",
+    name: "Password",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\key*.db"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Password — collected by KAPE Firefox target",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Firefox.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Encrypted vault; master password hash extractable for offline attack"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Password manager database persists until application uninstall",
+};
+
+pub(crate) static KAPE_FILE_SIGNON: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_signon",
+    name: "Password",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\signon*.*",
+    ),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Password — collected by KAPE Firefox target",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Firefox.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Encrypted browser passwords; key in OS credential store; timestamp shows last use",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Credential store persists until browser profile deletion",
+};
+
+pub(crate) static KAPE_FILE_LOGINS_JSON_2: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_logins_json_2",
+    name: "Password",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(
+        "C:\\Users\\%user%\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\*\\logins.json",
+    ),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Password — collected by KAPE Firefox target",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Firefox.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Encrypted browser passwords; key in OS credential store; timestamp shows last use",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Credential store persists until browser profile deletion",
+};
+
+pub(crate) static KAPE_FILE_PASSWORD_XP: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_password_xp",
+    name: "Password XP",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Documents and Settings\\%user%\\Application Data\\Mozilla\\Firefox\\Profiles\\*\\key*.db"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Password XP — collected by KAPE Firefox target",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Firefox.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Credential store persists until browser profile deletion",
+};
+
+pub(crate) static KAPE_FILE_SIGNON_2: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_signon_2",
+    name: "Password XP",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Documents and Settings\\%user%\\Application Data\\Mozilla\\Firefox\\Profiles\\*\\signon*.*"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Password XP — collected by KAPE Firefox target",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Firefox.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Credential store persists until browser profile deletion",
+};
+
+pub(crate) static KAPE_FILE_LOGINS_JSON_2_2: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_logins_json_2_2",
+    name: "Password XP",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Documents and Settings\\%user%\\Application Data\\Mozilla\\Firefox\\Profiles\\*\\logins.json"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Password XP — collected by KAPE Firefox target",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Firefox.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Credential store persists until browser profile deletion",
+};
+
+pub(crate) static KAPE_FILE_LOCAL_PUFFINSECUREBROWSERPASSWORDFORMS_DAT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_local_puffinsecurebrowserpasswordforms_dat",
+    name: "Puffin - Password Forms Data",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\PuffinSecureBrowserpasswordForms.dat"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "\"Grabs a file that stores some saved password data\"",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/PuffinSecureBrowser.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Credential store persists until browser profile deletion",
+};
+
+pub(crate) static KAPE_FILE_LOCAL_PUFFINSECUREBROWSERCREDENTIAL_DAT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_local_puffinsecurebrowsercredential_dat",
+    name: "Puffin - Password (Encrypted)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Users\\%user%\\AppData\\Local\\PuffinSecureBrowsercredential.dat"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "\"Grabs a file that stores passwords in an encrypted format\"",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/PuffinSecureBrowser.tkape"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Browser-saved form passwords; check timestamp against incident window"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Browser credential file persists until app data deletion",
+};
+
+pub(crate) static KAPE_FILE_WINDOWS_NTDS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_windows_ntds",
+    name: "NTDS",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Windows\\NTDS"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "NTDS — collected by KAPE ActiveDirectoryNTDS target",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/ActiveDirectoryNTDS.tkape",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Domain credential store; offline cracking risk; compare hash count against user count",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Active Directory database persists until DC decommission",
+};
+
+pub(crate) static KAPE_FILE_CONFIG_SAM_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_config_sam_log",
+    name: "SAM registry transaction files",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Windows\\System32\\config\\SAM.LOG*"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "SAM registry transaction files — collected by KAPE RegistryHivesSystem target",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Local account credential hashes; NTLM offline cracking risk"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SAM hive persists across reboots; protected in-use by Windows",
+};
+
+pub(crate) static KAPE_FILE_SAM_REGISTRY_TRANSAC: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_sam_registry_transac",
+    name: "SAM registry transaction files",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Windows.old\\Windows\\System32\\config\\SAM.LOG*"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "SAM registry transaction files — collected by KAPE RegistryHivesSystem target",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Verify presence against incident timeline; correlate with other triage artifacts",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Artifact persists until explicit deletion",
+};
+
+pub(crate) static KAPE_FILE_CONFIG_SAM: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_config_sam",
+    name: "SAM registry hive",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Windows\\System32\\config\\SAM"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "SAM registry hive — collected by KAPE RegistryHivesSystem target",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Local account credential hashes; NTLM offline cracking risk"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SAM hive persists across reboots; protected in-use by Windows",
+};
+
+pub(crate) static KAPE_FILE_SAM_REGISTRY_HIVE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_sam_registry_hive",
+    name: "SAM registry hive",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Windows.old\\Windows\\System32\\config\\SAM"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "SAM registry hive — collected by KAPE RegistryHivesSystem target",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Local account credential hashes; NTLM offline cracking risk"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SAM hive persists across reboots; protected in-use by Windows",
+};
+
+pub(crate) static KAPE_FILE_REGBACK_SAM: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_regback_sam",
+    name: "SAM registry hive (RegBack)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Windows\\System32\\config\\RegBack\\SAM"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "SAM registry hive (RegBack) — collected by KAPE RegistryHivesSystem target",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Verify presence against incident timeline; correlate with other triage artifacts",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Artifact persists until explicit deletion",
+};
+
+pub(crate) static KAPE_FILE_SAM_REGISTRY_HIVE_RE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "kape_file_sam_registry_hive_re",
+    name: "SAM registry hive (RegBack)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:\\Windows.old\\Windows\\System32\\config\\RegBack\\SAM"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "SAM registry hive (RegBack) — collected by KAPE RegistryHivesSystem target",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &[
+        "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/RegistryHivesSystem.tkape",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Local account credential hashes; NTLM offline cracking risk"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SAM hive persists across reboots; protected in-use by Windows",
+};
+
+pub(crate) static NIRSOFT_NETWORK_PASSWORDS_CRED_DIR: ArtifactDescriptor = ArtifactDescriptor {
+    id: "nirsoft_network_passwords_cred_dir",
+    name: "NetworkPasswordRecovery — Credentials Store",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%APPDATA%\\Microsoft\\Credentials"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Windows Credential Manager store. May contain cached network passwords and domain credentials. Parsed by NirSoft NetworkPasswordRecovery.",
+    mitre_techniques: &["T1555.004"],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://www.nirsoft.net/utils/network_password_recovery.html"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Encrypted browser passwords; key in OS credential store; timestamp shows last use"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Credential store persists until browser profile deletion",
+};
+
+pub(crate) static VELOCIRAPTOR_FILE_TMP_COLLECTION_ZIP: ArtifactDescriptor = ArtifactDescriptor {
+    id: "velociraptor_file_tmp_collection_zip",
+    name: "Windows.Collectors.Remapping",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/tmp/collection.zip"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Calculates a remapping config for a collection container (zip).
+
+The remapping allows Velociraptor to treat the collection container as a dead
+disk image in a similar way to `Generic.Utils.DeadDiskRemapping`. This means
+that you can directly analyze the files contained in the collection zip file,
+without needing to extract or import it.
+
+There are 2 ways to use the remapping generated by this artifact:
+
+1. Non-interactive command line analysis, as per the example below. \\
+   This approach only requires a Velociraptor binary, i.e. it  does not
+   require a server or client, and then uses either the CLI `artifacts
+   collect` or `query` commands.
+
+2. Interactive \"virtual\" client managed via the Velociraptor GUI (see
+   reference below). \\
+   This approach uses a client which connects to the server. The client
+   accesses the collection container as a simulated filesystem using the
+   remapping that this artifact generates.
+
+In both cases it uses the remapping impersonation feature to impersonate the
+original endpoint's name and platform (Windows). Because of this
+impersonation the virtual client can be run on Linux while still appearing as
+Windows to artifacts and queries.
+
+Collection containers are typically created by offline collectors using the
+`Windows.Triage.Targets` or `Windows.KapeFiles.Targets` artifacts and contain
+files collected from the endpoint, although any artifact that \"uploads\" files
+as part of the collection can be used.
+
+Collection containers can also be created by exporting collections from the
+GUI, using the \"Download Results\" facility. This allows you to port
+collections across servers - perhaps to allow an independent analyst to
+examine some files and run further collections without giving them access to
+your server. If they don't have their own Velociraptor server, they can do
+serverless collections/queries as in the following example.
+
+### Example - command line use
+
+1. Collect files using a bulk file collection artifact - For example
+   `Windows.Triage.Targets` with the `_BasicCollection` target is a good
+   option.
+
+2. Generate the remapping file:
+   ```
+   velociraptor artifacts collect -v Windows.Collectors.Remapping \\
+     --args ZipPath=/path/to/collection.zip \\
+     --args WriteRemappingPath=/tmp/remapping.yaml
+   ```
+
+3. Apply the remapping file when collecting further artifacts. These
+   collections will target the files in the container:
+   ```
+   velociraptor --remap /tmp/remapping.yaml \\
+     artifacts collect -v Windows.Registry.Hunter \\
+     --args RemappingStrategy=None
+   ```
+   The CLI query command can also be used for running ad-hoc queries:
+   ```
+   velociraptor --remap /tmp/remapping.yaml query \"SELECT * FROM ... \"
+   ```
+
+### Notes
+
+- Direct analysis of collection containers protected by fixed passwords or
+  X.509 certificates is supported. For password-protected containers you'll
+  need to provide the password explicitly as a parameter. For X.509-protected
+  containers they are transparently decrypted _if they are secured with your
+  servers cert and you are running this artifact in the GUI_. If you are
+  running this artifact on the command line then you'll need to supply the
+  server config as an additional command line argument (using the `-c` flag).
+  Alternatively you can remove the protection from the container first using
+  the `decrypt` CLI command. Removing the protection first is also necessary
+  if the container was secured using an X.509 (or PGP) cert other than your
+  server's one.
+
+- If you want to run `Windows.Registry.Hunter` against the data, you'll need
+  to disable its own remapping config (i.e. `RemappingStrategy: none`) so that
+  it doesn't interfere with the remapping created by this artifact.
+
+- The remapping currently doesn't support Volume Shadow Copies contained in
+  the collection, however you can still access these files via VQL by
+  specifying their paths (e.g.
+  `GLOBALROOT\\DEVICE\\HARDDISKVOLUMESHADOWCOPY1\\Windows\\...`)
+  which are located outside of any remapped drive roots.
+
+- VFS browsing of the collection container currently doesn't work.",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Presence indicates active Velociraptor collection; metadata reveals scope",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Temporary collection ZIP is volatile and deleted after upload",
+};
+
+pub(crate) static VELOCIRAPTOR_FILE_LOGS_SECURITY_EVTX: ArtifactDescriptor = ArtifactDescriptor {
+    id: "velociraptor_file_logs_security_evtx",
+    name: "Windows.EventLogs.AlternateLogon",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:/Windows/System32/Winevt/Logs/Security.evtx"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Logon specifying alternate credentials - if NLA enabled on
+destination Current logged-on User Name Alternate User Name
+Destination Host Name/IP Process Name",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Velociraptor-collected EVTX; check collection timestamp vs log timespan"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Collected EVTX rotates; velociraptor copy is point-in-time",
+};
+
+pub(crate) static VELOCIRAPTOR_FILE_LOGS_MICROSOFT_WINDOWS_TASKSCHEDULER_4OPER: ArtifactDescriptor = ArtifactDescriptor {
+    id: "velociraptor_file_logs_microsoft_windows_taskscheduler_4oper",
+    name: "Windows.EventLogs.ScheduledTasks",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%SystemRoot%\\System32\\Winevt\\Logs\\Microsoft-Windows-TaskScheduler%4Operational.evtx"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "This artifact will extract Event Logs related to ScheduledTasks and provide
+a nice format for simplified review.
+
+Adversaries may abuse tasks for execution, persistence, lateral movement or
+privilege escalation. This artifact collates all events from
+Microsoft-Windows-TaskScheduler/Operational event log channel and scheduled
+task events from the Security log if configured.
+
+A common hunting use case may be collection all deleted scheduled tasks (EID 141),
+all modified scheduled tasks (EID 140) then run frequency analysis and chase
+down any abnormalities for the environment. Similarly task execution (EID 129)
+and registration (EID 106) can be a good collection hunting for unusual paths.
+
+Pivoting can be via either: TaskSchedulerEventRegex, TaskName or IOC Regex
+(e.g taskname|delete|created|update)
+
+Note: Audit Other Object Access Events is required to be implemented to record
+scheduled tasks being registered, modified or disabled in the Security event
+log channel.
+See: Computer Configuration\\Policies\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\Object Access",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &["Scheduled task execution; correlate with persistence keys"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Task scheduler log rotates; collected copy is point-in-time",
+};
+
+pub(crate) static VELOCIRAPTOR_FILE_CONFIG_SAM: ArtifactDescriptor = ArtifactDescriptor {
+    id: "velociraptor_file_config_sam",
+    name: "Windows.Forensics.SAM",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("C:/Windows/System32/Config/SAM"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Parses user account information from the SAM hive.
+
+Based on Omer Yampel's parser",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[],
+    sources: &["https://github.com/Velocidex/velociraptor"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &["Local account credential hashes; NTLM offline cracking risk"],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SAM hive persists across reboots; protected in-use by Windows",
+};

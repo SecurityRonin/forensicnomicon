@@ -15,13 +15,12 @@ mod record;
 mod sources;
 mod triage;
 
-use std::collections::HashSet;
 use std::fmt::Write as _;
-use std::fs;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
+use std::{fs, io};
 
 use codegen::{generate_module_header, generate_static};
-use dedup::load_catalog;
+use dedup::{load_catalog, load_catalog_excluding, CatalogIndex, PathSet};
 use record::IngestRecord;
 
 /// CLI options parsed from argv.
@@ -31,6 +30,9 @@ struct Opts {
     dry_run: bool,
     limit: Option<usize>,
     verbose: bool,
+    /// Let a regenerated module shrink past the tolerance the partial-fetch
+    /// guard enforces. For a contraction the operator already intends.
+    allow_shrink: bool,
 }
 
 impl Opts {
@@ -41,6 +43,7 @@ impl Opts {
         let mut dry_run = false;
         let mut limit = None;
         let mut verbose = false;
+        let mut allow_shrink = false;
 
         let mut i = 0;
         while i < args.len() {
@@ -62,6 +65,7 @@ impl Opts {
                     output_dir = PathBuf::from(&args[i]);
                 }
                 "--dry-run" => dry_run = true,
+                "--allow-shrink" => allow_shrink = true,
                 "--limit" => {
                     i += 1;
                     if i >= args.len() {
@@ -95,6 +99,7 @@ impl Opts {
             dry_run,
             limit,
             verbose,
+            allow_shrink,
         })
     }
 }
@@ -171,6 +176,8 @@ Options:
   --output <DIR>      Output directory for .rs files
                       [default: crates/data/src/catalog/descriptors/generated]
   --dry-run           Print stats without writing files
+  --allow-shrink      Permit a module to lose more records than the
+                      partial-fetch guard allows (deliberate contraction)
   --limit <N>         Max records per source (for testing)
   -v, --verbose       Verbose output
   -h, --help          Show this help
@@ -209,6 +216,337 @@ struct SourceSummary {
     fetched: usize,
     new: usize,
     written: bool,
+}
+
+/// The file a source's records are generated into.
+fn generated_file_name(source_name: &str) -> String {
+    format!("{source_name}_generated.rs")
+}
+
+/// How much of a module a regeneration may drop before it looks like a failed
+/// fetch rather than an upstream change.
+const SHRINK_TOLERANCE: f64 = 0.10;
+
+/// Descriptor statics already committed in `module`, or `None` when there is no
+/// module yet to compare against.
+fn committed_statics(module: &Path) -> Option<usize> {
+    let source = fs::read_to_string(module).ok()?;
+    Some(
+        source
+            .split("pub(crate) static ")
+            .skip(1)
+            .filter(|block| block.contains("id: \""))
+            .count(),
+    )
+}
+
+/// Why a rewrite of `source_name` must not proceed, if it must not.
+///
+/// A rewrite emits the source's whole corpus, so a fetch that returns only part
+/// of one — a rate limit part-way through a paged listing, an upstream outage —
+/// silently replaces the module with the fragment it managed to collect. The
+/// records it dropped are indistinguishable from records upstream removed, so
+/// nothing downstream can tell the difference: the run exits 0 and the catalog
+/// is quietly smaller. Losing more than [`SHRINK_TOLERANCE`] of what is already
+/// committed is treated as that failure and refused; `--allow-shrink` is how a
+/// deliberate contraction says so.
+#[allow(clippy::cast_precision_loss)]
+fn shrink_refusal(source_name: &str, committed: usize, regenerated: usize) -> Option<String> {
+    if committed == 0 {
+        return None;
+    }
+    let floor = (committed as f64 * (1.0 - SHRINK_TOLERANCE)).floor();
+    if (regenerated as f64) >= floor {
+        return None;
+    }
+    let module = generated_file_name(source_name);
+    let lost = committed - regenerated;
+    let pct = (lost as f64 / committed as f64) * 100.0;
+    let tol = SHRINK_TOLERANCE * 100.0;
+    Some(format!(
+        "ERROR: [{source_name}] refusing to rewrite {module}: {regenerated} records regenerated \
+         against {committed} already committed — a loss of {lost} ({pct:.1}%), past the \
+         {tol:.0}% tolerance.\n       \
+         A full-corpus rewrite cannot tell a partial fetch from an upstream removal, so this is \
+         treated as a failed fetch and the module is left untouched.\n       \
+         Re-run once the source is reachable, or pass --allow-shrink if the contraction is \
+         intended."
+    ))
+}
+
+/// The dedup baseline for a run that regenerates `sources`.
+///
+/// A regeneration rewrites each of those modules in full, so none of them is a
+/// prior claim on its own records — including one would make every record its
+/// source already contributed look like a duplicate of itself and the rewrite
+/// would drop it. Excluding all of them at once also takes the *order* the
+/// sources happen to run in out of the result: a record no longer loses to a
+/// sibling merely for having been written first, it competes in
+/// [`select_records`]. The rest of the catalog — hand-written descriptors and
+/// the modules this run leaves alone — still dedups normally.
+fn baseline_for_run(catalog_dir: &Path, sources: &[&str]) -> io::Result<CatalogIndex> {
+    let regenerated: Vec<String> = sources.iter().map(|s| generated_file_name(s)).collect();
+    load_catalog_excluding(catalog_dir, &regenerated)
+}
+
+/// What a run fetched, per source, in source order.
+type Fetched = Vec<(&'static str, Vec<IngestRecord>)>;
+
+/// Where a source sits in [`SOURCES`], used only to break ties.
+///
+/// Derived from the record's own `source_name` rather than from the position it
+/// happens to occupy in a run, so it cannot vary with processing order.
+fn source_rank(source_name: &str) -> usize {
+    SOURCES
+        .iter()
+        .position(|(name, _)| *name == source_name)
+        .unwrap_or(SOURCES.len())
+}
+
+/// How much an ingested record tells an analyst, largest first.
+///
+/// Two sources describing one artifact rarely describe it equally well: one maps
+/// it to an ATT&CK technique and says what it is evidence of, the other gives a
+/// bare label. The merge keeps every additive fact from both, but `name` and
+/// `meaning` cannot be spliced — text assembled from two upstreams would leave
+/// sentences that no single `sources` entry backs — so one description is
+/// selected, and this is what selects it.
+///
+/// A technique mapping outranks everything: it is the only field an analyst can
+/// query the catalog *by*. Length of `meaning` then stands in for how much the
+/// source actually says. Source order and then the id break the remaining ties.
+/// Every term is intrinsic to the record, so the ordering — and the merge built
+/// on it — does not depend on the order records arrive in.
+fn richness(
+    rec: &IngestRecord,
+) -> (
+    bool,
+    usize,
+    std::cmp::Reverse<usize>,
+    std::cmp::Reverse<String>,
+) {
+    (
+        !rec.mitre_techniques.is_empty(),
+        rec.meaning.len(),
+        std::cmp::Reverse(source_rank(rec.source_name)),
+        std::cmp::Reverse(rec.id.clone()),
+    )
+}
+
+/// Severity of a triage priority, largest first, for merging.
+fn triage_rank(priority: &str) -> usize {
+    match priority.to_ascii_lowercase().as_str() {
+        "critical" => 3,
+        "high" => 2,
+        "medium" => 1,
+        _ => 0,
+    }
+}
+
+/// Fold what `other` knows about the same artifact into `into`.
+///
+/// The additive facts — techniques and citations — are unioned, `into`'s own
+/// first and duplicates skipped, so both upstreams keep their provenance. Triage
+/// takes the more severe of the two. `name` and `meaning` are left alone: they
+/// belong to the record richness already selected.
+///
+/// (`related_artifacts`, the field schema, evidence strength and volatility are
+/// not part of an ingested record — codegen emits them empty and the curated ones
+/// are hand-written — so there is nothing of them here to union.)
+fn merge_into(into: &mut IngestRecord, other: &IngestRecord) {
+    for technique in &other.mitre_techniques {
+        if !into.mitre_techniques.contains(technique) {
+            into.mitre_techniques.push(technique.clone());
+        }
+    }
+    for source in &other.sources {
+        if !into.sources.contains(source) {
+            into.sources.push(source.clone());
+        }
+    }
+    if triage_rank(&other.triage_priority) > triage_rank(&into.triage_priority) {
+        into.triage_priority.clone_from(&other.triage_priority);
+    }
+}
+
+/// Two key paths collide when either would suppress the other.
+///
+/// [`PathSet::covers`] is directional — a catalogued path covers any key that is
+/// its suffix at a path boundary, which is how a hive-qualified path matches a
+/// hive-relative one. Records being merged have no established direction, so the
+/// relation is the symmetric closure of that.
+fn paths_collide(a: &str, b: &str) -> bool {
+    if a.is_empty() || b.is_empty() {
+        return false;
+    }
+    let mut one = PathSet::default();
+    one.insert(a);
+    if one.covers(b) {
+        return true;
+    }
+    let mut other = PathSet::default();
+    other.insert(b);
+    other.covers(a)
+}
+
+/// A file path reduced so the same file written two ways compares equal.
+fn normalized_file_path(path: &str) -> String {
+    path.replace('/', "\\").replace("\\\\", "\\").to_uppercase()
+}
+
+/// Whether two records name the same artifact, and so should be merged.
+///
+/// Identity is the id, or the registry key / file the record points at together
+/// with the artifact type and value name. Registry paths compare through
+/// [`paths_collide`] because upstreams differ over whether to spell the hive;
+/// file paths compare only when equal once separators and case are normalized,
+/// which is deliberately strict — no two upstreams agree on how to spell an
+/// environment variable, and a wrong merge is worse than a missed one.
+fn same_artifact(a: &IngestRecord, b: &IngestRecord) -> bool {
+    if a.id == b.id {
+        return true;
+    }
+    if a.artifact_type != b.artifact_type || a.value_name != b.value_name {
+        return false;
+    }
+    if paths_collide(&a.key_path, &b.key_path) {
+        return true;
+    }
+    match (&a.file_path, &b.file_path) {
+        (Some(x), Some(y)) => normalized_file_path(x) == normalized_file_path(y),
+        _ => false,
+    }
+}
+
+/// Records that describe the same artifact but disagree on what kind of thing it
+/// is, which is a disagreement no merge can resolve.
+struct RefusedMerge {
+    kept: String,
+    refused: String,
+    location: String,
+}
+
+/// What the merge did, for the run summary.
+#[derive(Default)]
+struct MergeStats {
+    /// Records the catalog already covered, so never candidates.
+    suppressed: usize,
+    /// Records folded into another describing the same artifact.
+    merged: usize,
+    /// Descriptors that ended up carrying a technique only a folded-in record
+    /// supplied — a mapping a winner-takes-all rule would have dropped.
+    gained_techniques: usize,
+    /// Descriptors that ended up carrying a citation only a folded-in record
+    /// supplied.
+    gained_sources: usize,
+}
+
+/// The records of `fetched`, merged, keyed back to the source that produced them.
+///
+/// The catalog already carries some of what a run fetches: an id the `baseline`
+/// knows, or a registry key path it covers, retires a record outright — a
+/// hand-written descriptor is curated and is not something to fold an upstream
+/// label into.
+///
+/// What remains is grouped by [`same_artifact`]: several sources describing one
+/// registry key produce one descriptor carrying every technique and every
+/// citation any of them supplied, with the richest description selected rather
+/// than spliced. Grouping runs richest-first over an ordering intrinsic to the
+/// records, so the result does not depend on the order sources are fetched in.
+///
+/// Records whose paths coincide but whose artifact *types* disagree are left
+/// separate and reported: they are not the same thing.
+#[cfg(test)]
+fn select_records(fetched: &Fetched, baseline: &CatalogIndex) -> Fetched {
+    merge_and_report(fetched, baseline, false)
+}
+
+/// [`select_records`], printing what the merge did when `verbose`.
+fn merge_and_report(fetched: &Fetched, baseline: &CatalogIndex, verbose: bool) -> Fetched {
+    let (merged, refused, stats) = merge_records(fetched, baseline);
+    for r in &refused {
+        eprintln!(
+            "WARN: kept '{}' and '{}' separate — same {} but different artifact types",
+            r.kept, r.refused, r.location
+        );
+    }
+    if verbose {
+        eprintln!(
+            "Merge: {} records already catalogued, {} folded into another describing the same \
+             artifact ({} of those contributed a technique the descriptor would otherwise lack, \
+             {} a citation); {} refused as different artifact types",
+            stats.suppressed,
+            stats.merged,
+            stats.gained_techniques,
+            stats.gained_sources,
+            refused.len(),
+        );
+    }
+    merged
+}
+
+/// [`select_records`], also reporting the merges it refused.
+fn merge_records(
+    fetched: &Fetched,
+    baseline: &CatalogIndex,
+) -> (Fetched, Vec<RefusedMerge>, MergeStats) {
+    let mut stats = MergeStats::default();
+    let mut candidates: Vec<(usize, IngestRecord)> = Vec::new();
+    for (rank, (_, records)) in fetched.iter().enumerate() {
+        for rec in records {
+            if baseline.ids.is_duplicate(&rec.id) || baseline.paths.covers(&rec.key_path) {
+                stats.suppressed += 1;
+                continue;
+            }
+            candidates.push((rank, rec.clone()));
+        }
+    }
+
+    // Richest first, so the description that survives is the fullest one and the
+    // grouping is reproducible.
+    candidates.sort_by_key(|(_, rec)| std::cmp::Reverse(richness(rec)));
+
+    let mut kept: Vec<(usize, IngestRecord)> = Vec::new();
+    let mut refused: Vec<RefusedMerge> = Vec::new();
+    for (rank, rec) in candidates {
+        if let Some((_, into)) = kept.iter_mut().find(|(_, k)| same_artifact(k, &rec)) {
+            let techniques = into.mitre_techniques.len();
+            let sources = into.sources.len();
+            merge_into(into, &rec);
+            stats.merged += 1;
+            if into.mitre_techniques.len() > techniques {
+                stats.gained_techniques += 1;
+            }
+            if into.sources.len() > sources {
+                stats.gained_sources += 1;
+            }
+            continue;
+        }
+        // Same key, different kind of artifact: report rather than force it.
+        if let Some((_, clash)) = kept.iter().find(|(_, k)| {
+            k.value_name == rec.value_name
+                && k.artifact_type != rec.artifact_type
+                && paths_collide(&k.key_path, &rec.key_path)
+        }) {
+            refused.push(RefusedMerge {
+                kept: clash.id.clone(),
+                refused: rec.id.clone(),
+                location: format!("key path {}", rec.key_path),
+            });
+        }
+        kept.push((rank, rec));
+    }
+
+    // Back to per-source order: the merge decides what the catalog holds, never
+    // how a module is laid out.
+    let mut out: Fetched = fetched
+        .iter()
+        .map(|(name, _)| (*name, Vec::new()))
+        .collect();
+    for (rank, rec) in kept {
+        out[rank].1.push(rec);
+    }
+    (out, refused, stats)
 }
 
 fn main() {
@@ -267,28 +605,29 @@ fn main() {
     }
 
     let mut summaries: Vec<SourceSummary> = Vec::new();
-    let mut all_generated_ids: HashSet<String> = HashSet::new();
+    let mut refused = false;
 
-    for source_name in &source_names {
-        let records = run_source(source_name, opts.limit, opts.verbose);
-        let fetched = records.len();
+    // Every source is fetched before any is selected: a record must not lose a
+    // shared key path to a sibling merely for having been fetched later.
+    let fetched: Fetched = source_names
+        .iter()
+        .map(|name| (*name, run_source(name, opts.limit, opts.verbose)))
+        .collect();
+    let fetched_counts: Vec<usize> = fetched.iter().map(|(_, r)| r.len()).collect();
 
-        // Deduplicate against the catalog — by id, and by the registry key path
-        // a sibling source may already have catalogued under another id — and
-        // against what this run has already generated.
-        let new_records: Vec<IngestRecord> = records
-            .into_iter()
-            .filter(|r| {
-                !catalog.ids.is_duplicate(&r.id)
-                    && !catalog.paths.covers(&r.key_path)
-                    && !all_generated_ids.contains(&r.id)
-            })
-            .collect();
+    let baseline = baseline_for_run(&catalog_dir, &source_names).unwrap_or_else(|e| {
+        eprintln!(
+            "ERROR: could not read the catalog at {}: {e}",
+            catalog_dir.display()
+        );
+        eprintln!("       Every record would look net-new; refusing to generate duplicates.");
+        std::process::exit(1);
+    });
+    let selected = merge_and_report(&fetched, &baseline, opts.verbose);
+
+    for ((source_name, new_records), fetched) in selected.into_iter().zip(fetched_counts) {
+        let source_name = &source_name;
         let new_count = new_records.len();
-
-        for r in &new_records {
-            all_generated_ids.insert(r.id.clone());
-        }
 
         if opts.verbose && new_count < fetched {
             eprintln!(
@@ -297,20 +636,36 @@ fn main() {
             );
         }
 
+        let out_path = output_dir.join(generated_file_name(source_name));
+        if !opts.allow_shrink {
+            if let Some(refusal) = committed_statics(&out_path)
+                .and_then(|committed| shrink_refusal(source_name, committed, new_count))
+            {
+                eprintln!("{refusal}");
+                refused = true;
+                summaries.push(SourceSummary {
+                    source: (*source_name).to_string(),
+                    fetched,
+                    new: new_count,
+                    written: false,
+                });
+                continue;
+            }
+        }
+
         let written = if !opts.dry_run && !new_records.is_empty() {
-            let module_name = format!("{source_name}_generated");
-            let file_name = format!("{module_name}.rs");
-            let out_path = output_dir.join(&file_name);
-
-            let header = generate_module_header(source_name, new_records.len());
-            let mut content = header;
-
+            // The body is built first: the header's import list is derived from
+            // which types the statics actually reference.
+            let mut body = String::new();
             let mut static_names: Vec<String> = Vec::new();
             for rec in &new_records {
-                content.push_str(&generate_static(rec));
-                content.push('\n');
+                body.push_str(&generate_static(rec));
+                body.push('\n');
                 static_names.push(rec.id.to_ascii_uppercase());
             }
+
+            let mut content = generate_module_header(source_name, new_records.len(), &body);
+            content.push_str(&body);
 
             // Summary comment listing all statics
             let _ = writeln!(
@@ -397,6 +752,12 @@ fn main() {
             );
         }
     }
+
+    // A refused module is a failed run, not a quiet skip: exiting 0 here is
+    // exactly the silence the guard exists to break.
+    if refused {
+        std::process::exit(1);
+    }
 }
 
 #[cfg(test)]
@@ -416,7 +777,7 @@ mod tests {
 
     #[test]
     fn source_names_are_unique() {
-        let mut seen = HashSet::new();
+        let mut seen = std::collections::HashSet::new();
         for (name, _) in SOURCES {
             assert!(seen.insert(*name), "'{name}' is registered twice");
         }
@@ -435,6 +796,482 @@ mod tests {
             assert!(all.contains(name), "'{name}' is never run by --source all");
         }
         assert_eq!(all.len(), SOURCES.len());
+    }
+
+    /// The survivors of a single-source selection.
+    fn only(selected: Fetched) -> Vec<IngestRecord> {
+        assert_eq!(selected.len(), 1, "expected one source");
+        selected.into_iter().next().expect("one source").1
+    }
+
+    /// A record naming a registry key, with whatever meaning and techniques the
+    /// source in question happens to supply.
+    fn described(
+        id: &str,
+        source: &'static str,
+        key_path: &str,
+        meaning: &str,
+        mitre: &[&str],
+    ) -> IngestRecord {
+        let mut rec = IngestRecord::registry_key(
+            id,
+            "Shell Folders",
+            source,
+            Some("HKLM\\SOFTWARE".to_string()),
+            key_path,
+            meaning,
+        );
+        rec.mitre_techniques = mitre.iter().map(|t| (*t).to_string()).collect();
+        rec
+    }
+
+    /// The Shell Folders startup key as fa and dfir-scripts each describe it.
+    fn shell_folders_pair() -> Fetched {
+        let mut fa = described(
+            "fa_currentversion_explorer_shell_folders",
+            "fa",
+            r"HKEY_USERS\%%users.sid%%\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",
+            "The Shell Folders information for Windows users.",
+            &[],
+        );
+        fa.sources = vec!["https://github.com/ForensicArtifacts/artifacts".to_string()];
+        let mut dfir = described(
+            "dfir_scripts_currentversion_explorer_shell_folders",
+            "dfir_scripts",
+            r"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",
+            "Startup Folder Paths — Windows registry artifact (autostart and persistence). \
+             Parse with RegRipper, Autoruns or SBECmd.",
+            &["T1547.001"],
+        );
+        dfir.sources = vec!["https://dfir-scripts.github.io/".to_string()];
+        vec![("fa", vec![fa]), ("dfir_scripts", vec![dfir])]
+    }
+
+    #[test]
+    fn two_sources_describing_one_key_are_merged_not_decided_between() {
+        // fa carries the upstream definition and its own citation; dfir-scripts
+        // carries T1547.001, the parser guidance and a different citation. Both
+        // describe the same key, so keeping either one alone throws away
+        // something real — the technique an analyst queries by, or the provenance
+        // of the definition. The merged descriptor keeps both citations, so no
+        // sentence is left without a source that backs it.
+        let dir = catalog_with_generated_module("fa", &[]);
+        let baseline = baseline_for_run(dir.path(), &["fa", "dfir_scripts"]).expect("baseline");
+        let merged: Vec<IngestRecord> = select_records(&shell_folders_pair(), &baseline)
+            .into_iter()
+            .flat_map(|(_, recs)| recs)
+            .collect();
+
+        assert_eq!(merged.len(), 1, "one artifact, one descriptor");
+        let d = &merged[0];
+        assert_eq!(d.mitre_techniques, vec!["T1547.001"]);
+        assert!(
+            d.meaning.contains("Startup Folder Paths"),
+            "the richer description wins, not a splice of both: {}",
+            d.meaning
+        );
+        let mut sources = d.sources.clone();
+        sources.sort();
+        assert_eq!(
+            sources,
+            vec![
+                "https://dfir-scripts.github.io/".to_string(),
+                "https://github.com/ForensicArtifacts/artifacts".to_string(),
+            ],
+            "both citations must survive the merge"
+        );
+    }
+
+    #[test]
+    fn the_merge_does_not_depend_on_the_order_the_sources_arrive_in() {
+        // The bug this replaces existed because the outcome depended on which
+        // source was written first. Order-independence is the property that makes
+        // that class of bug impossible, so it is asserted directly.
+        let dir = catalog_for_merge_tests();
+        let baseline =
+            baseline_for_run(dir.path(), &["fa", "dfir_scripts", "regedit"]).expect("baseline");
+
+        let forward = shuffled_merge(&baseline, false);
+        let reversed = shuffled_merge(&baseline, true);
+        assert_eq!(
+            forward, reversed,
+            "the merged catalog must not depend on source or record order"
+        );
+    }
+
+    fn catalog_for_merge_tests() -> tempfile::TempDir {
+        catalog_with_generated_module("fa", &[])
+    }
+
+    /// The merged result rendered as comparable text, from input presented in one
+    /// order or the exact opposite.
+    fn shuffled_merge(baseline: &CatalogIndex, reverse: bool) -> Vec<String> {
+        let mut fetched = shell_folders_pair();
+        // Tied with dfir-scripts on everything richness ranks by — both carry a
+        // technique and their meanings are the same length — so only the
+        // tiebreak decides, which is exactly what an order-dependent one gets
+        // wrong.
+        let target = fetched[1].1[0].meaning.len();
+        let stem = "Startup folder paths, tied with the dfir-scripts meaning on length.";
+        let tied = format!("{stem}{}", ".".repeat(target - stem.len()));
+        assert_eq!(
+            tied.len(),
+            target,
+            "the fixture must tie on meaning length or it tests nothing"
+        );
+        let tied = tied.as_str();
+        let mut third = described(
+            "regedit_currentversion_explorer_shell_folders",
+            "regedit",
+            r"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",
+            tied,
+            &["T1547.009"],
+        );
+        third.sources = vec!["https://example.invalid/regedit".to_string()];
+        fetched.push(("regedit", vec![third]));
+        if reverse {
+            fetched.reverse();
+            for (_, recs) in &mut fetched {
+                recs.reverse();
+            }
+        }
+        let mut out: Vec<String> = select_records(&fetched, baseline)
+            .into_iter()
+            .flat_map(|(_, recs)| recs)
+            .map(|r| {
+                let mut s = r.sources.clone();
+                s.sort();
+                format!("{}|{}|{:?}|{:?}", r.id, r.meaning, r.mitre_techniques, s)
+            })
+            .collect();
+        out.sort();
+        out
+    }
+
+    #[test]
+    fn the_survivor_absorbs_the_techniques_of_what_it_displaced() {
+        // Sources disagree about which technique a key serves, not about the key.
+        // dfir-scripts maps ...\CurrentVersion\Policies\System to credential
+        // access under one entry, defense evasion under another and privilege
+        // escalation under a third — all true of that key. Keeping one and
+        // discarding the rest narrows which techniques the catalog can answer
+        // for it, whichever one wins.
+        let dir = catalog_with_generated_module("dfir_scripts", &[]);
+        let key = r"Software\Microsoft\Windows\CurrentVersion\Policies\System";
+        let fetched: Fetched = vec![(
+            "dfir_scripts",
+            vec![
+                described(
+                    "dfir_scripts_currentversion_policies_system",
+                    "dfir_scripts",
+                    key,
+                    "Policies System — a longer meaning, so this record wins the key path.",
+                    &["T1562.001", "T1003.001"],
+                ),
+                described(
+                    "dfir_scripts_currentversion_policies_system_2",
+                    "dfir_scripts",
+                    key,
+                    "Policies System — a middling meaning, second richest of the three.",
+                    &["T1486", "T1003.001"],
+                ),
+                described(
+                    "dfir_scripts_currentversion_policies_system_3",
+                    "dfir_scripts",
+                    key,
+                    "Policies System — terse.",
+                    &["T1548.002"],
+                ),
+            ],
+        )];
+
+        let baseline = baseline_for_run(dir.path(), &["dfir_scripts"]).expect("baseline");
+        let kept = only(select_records(&fetched, &baseline));
+
+        assert_eq!(kept.len(), 1, "one descriptor per key path");
+        assert_eq!(
+            kept[0].mitre_techniques,
+            vec!["T1562.001", "T1003.001", "T1486", "T1548.002"],
+            "the survivor must answer for every technique the key was mapped to, \
+             its own first and without repeats"
+        );
+    }
+
+    #[test]
+    fn a_partial_fetch_may_not_rewrite_the_module() {
+        // The rate-limited run that started this work fetched 0 records for four
+        // sources; the empty-corpus check caught that. A fetch that returns
+        // *part* of a corpus — a rate limit part-way through a paged listing —
+        // has nothing to catch it: the module is rewritten with the fragment and
+        // the run exits 0, so a silently smaller catalog is indistinguishable
+        // from upstream having removed the records.
+        let refusal = shrink_refusal("kape", 2435, 900).expect("a 63% loss must be refused");
+        assert!(refusal.contains("2435"), "must name what is committed");
+        assert!(refusal.contains("900"), "must name what was regenerated");
+        assert!(
+            refusal.contains("--allow-shrink"),
+            "must name the way to proceed deliberately"
+        );
+    }
+
+    #[test]
+    fn an_ordinary_upstream_change_is_not_a_partial_fetch() {
+        // Upstream corpora gain and lose a handful of entries between runs; only
+        // a loss big enough to look like a failed fetch is refused.
+        assert!(
+            shrink_refusal("fa", 2604, 2603).is_none(),
+            "one record fewer"
+        );
+        assert!(shrink_refusal("evtx", 995, 1014).is_none(), "a gain");
+        assert!(
+            shrink_refusal("browsers", 0, 36).is_none(),
+            "a module that does not exist yet has nothing to shrink from"
+        );
+    }
+
+    #[test]
+    fn committed_statics_counts_only_descriptors() {
+        // The trailing summary block of a generated module is a commented-out
+        // `pub(crate) static`; counting it would inflate the floor.
+        let dir = catalog_with_generated_module(
+            "regedit",
+            &[("regedit_a", r"Alpha"), ("regedit_b", r"Beta")],
+        );
+        let module = dir.path().join("generated").join("regedit_generated.rs");
+        assert_eq!(committed_statics(&module), Some(2));
+        assert_eq!(
+            committed_statics(&dir.path().join("generated").join("absent_generated.rs")),
+            None
+        );
+    }
+
+    #[test]
+    fn the_record_carrying_mitre_techniques_wins_a_shared_key_path() {
+        // fa and dfir-scripts both catalogue the Explorer Shell Folders startup
+        // key. fa calls it "The Shell Folders information for Windows users."
+        // and maps it to nothing; dfir-scripts names it as startup persistence
+        // and maps it to T1547.001. fa is fetched first, so first-come-wins
+        // retires the only record that answers a T1547.001 query — the analyst
+        // asking which artifacts show that technique stops being told about
+        // Shell Folders. Which source ran first is not evidence.
+        let dir = catalog_with_generated_module("fa", &[]);
+        let fetched: Fetched = vec![
+            (
+                "fa",
+                vec![described(
+                    "fa_currentversion_explorer_shell_folders",
+                    "fa",
+                    r"HKEY_USERS\%%users.sid%%\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",
+                    "The Shell Folders information for Windows users.",
+                    &[],
+                )],
+            ),
+            (
+                "dfir_scripts",
+                vec![described(
+                    "dfir_scripts_currentversion_explorer_shell_folders",
+                    "dfir_scripts",
+                    r"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",
+                    "Startup Folder Paths — Windows registry artifact (autostart and persistence).",
+                    &["T1547.001"],
+                )],
+            ),
+        ];
+
+        let baseline = baseline_for_run(dir.path(), &["fa", "dfir_scripts"]).expect("baseline");
+        let survivors: Vec<String> = select_records(&fetched, &baseline)
+            .into_iter()
+            .flat_map(|(_, recs)| recs)
+            .map(|r| format!("{} mitre={:?}", r.id, r.mitre_techniques))
+            .collect();
+
+        assert_eq!(
+            survivors,
+            vec![
+                "dfir_scripts_currentversion_explorer_shell_folders mitre=[\"T1547.001\"]"
+                    .to_string()
+            ],
+            "the survivor of a shared key path must be the record that carries the technique"
+        );
+    }
+
+    /// Write a catalog dir holding one hand-written descriptor plus a
+    /// `<source>_generated.rs` carrying `ids`, exactly as a prior run left it.
+    fn catalog_with_generated_module(source: &str, ids: &[(&str, &str)]) -> tempfile::TempDir {
+        let dir = tempfile::tempdir().expect("tempdir");
+        std::fs::write(
+            dir.path().join("mod.rs"),
+            "    id: \"handwritten_run_key\",\n    key_path: \"Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run\",\n",
+        )
+        .expect("write hand-written");
+        let mut generated = String::new();
+        for (id, key_path) in ids {
+            let _ = writeln!(
+                generated,
+                "pub(crate) static {}: ArtifactDescriptor = ArtifactDescriptor {{",
+                id.to_ascii_uppercase()
+            );
+            let _ = writeln!(generated, "    id: \"{id}\",");
+            let _ = writeln!(
+                generated,
+                "    key_path: \"{}\",",
+                key_path.replace('\\', "\\\\")
+            );
+            generated.push_str("};\n");
+        }
+        std::fs::create_dir_all(dir.path().join("generated")).expect("mkdir generated");
+        std::fs::write(
+            dir.path()
+                .join("generated")
+                .join(generated_file_name(source)),
+            generated,
+        )
+        .expect("write generated");
+        dir
+    }
+
+    #[test]
+    fn regenerating_a_source_keeps_its_whole_corpus() {
+        // The destructive-rewrite bug: each `{source}_generated.rs` is rebuilt
+        // from the *new* records only and written whole. If the dedup baseline
+        // includes the source's own previously-generated module, every record
+        // the source already contributed is treated as a duplicate of itself,
+        // and the rewrite empties the file — deleting thousands of descriptors
+        // that `descriptors/mod.rs` still references by name.
+        let dir = catalog_with_generated_module(
+            "regedit",
+            &[
+                ("regedit_portproxy", r"CurrentControlSet\Services\PortProxy"),
+                ("regedit_safeboot", r"CurrentControlSet\Control\SafeBoot"),
+                (
+                    "regedit_appinit",
+                    r"Microsoft\Windows NT\CurrentVersion\Windows",
+                ),
+            ],
+        );
+        let fetched = vec![
+            IngestRecord::registry_key(
+                "regedit_portproxy",
+                "PortProxy",
+                "regedit",
+                Some("HKLM\\SYSTEM".to_string()),
+                r"CurrentControlSet\Services\PortProxy",
+                "netsh portproxy mappings",
+            ),
+            IngestRecord::registry_key(
+                "regedit_safeboot",
+                "SafeBoot",
+                "regedit",
+                Some("HKLM\\SYSTEM".to_string()),
+                r"CurrentControlSet\Control\SafeBoot",
+                "safe-mode service allow-list",
+            ),
+            IngestRecord::registry_key(
+                "regedit_appinit",
+                "AppInit_DLLs",
+                "regedit",
+                Some("HKLM\\SOFTWARE".to_string()),
+                r"Microsoft\Windows NT\CurrentVersion\Windows",
+                "DLL injection persistence",
+            ),
+        ];
+
+        let baseline = baseline_for_run(dir.path(), &["regedit"]).expect("baseline");
+        let kept = only(select_records(&vec![("regedit", fetched)], &baseline));
+
+        assert_eq!(
+            kept.len(),
+            3,
+            "regenerating regedit must rewrite its module with the full corpus, \
+             not the delta against itself; kept: {:?}",
+            kept.iter().map(|r| r.id.as_str()).collect::<Vec<_>>()
+        );
+    }
+
+    #[test]
+    fn a_source_that_yields_one_id_twice_generates_it_once() {
+        // Two upstream entries can reduce to the same id — velociraptor yields
+        // 44 such collisions across 26 ids (five distinct rules all name
+        // `velociraptor_file_users`). Emitting each one writes two
+        // `pub(crate) static` items with the same name, and the generated
+        // module stops compiling. The run-scoped id set is what makes an id
+        // generatable at most once, so it has to be consulted and extended per
+        // record, not once per finished source.
+        let dir = catalog_with_generated_module("velociraptor", &[]);
+        let twice = |key: &str| {
+            IngestRecord::registry_key(
+                "velociraptor_file_users",
+                "Users",
+                "velociraptor",
+                Some("HKLM\\SOFTWARE".to_string()),
+                key,
+                "collides on id",
+            )
+        };
+        let fetched = vec![twice(r"Alpha\Users"), twice(r"Beta\Users")];
+
+        let baseline = baseline_for_run(dir.path(), &["velociraptor"]).expect("baseline");
+        let kept = only(select_records(&vec![("velociraptor", fetched)], &baseline));
+
+        assert_eq!(
+            kept.len(),
+            1,
+            "an id may be generated once per run; a second record carrying it \
+             would emit a duplicate static name"
+        );
+    }
+
+    #[test]
+    fn regenerating_a_source_still_dedups_against_the_rest_of_the_catalog() {
+        // The twin of the test above: excluding the source's own module must not
+        // blind the run to a hand-written descriptor or a sibling source that
+        // already covers the same id or registry key path.
+        let dir = catalog_with_generated_module(
+            "regedit",
+            &[("regedit_portproxy", r"CurrentControlSet\Services\PortProxy")],
+        );
+        // A sibling source's module — not the one being regenerated.
+        std::fs::write(
+            dir.path()
+                .join("generated")
+                .join(generated_file_name("kape")),
+            "    id: \"kape_amcache\",\n    key_path: \"\",\n",
+        )
+        .expect("write sibling");
+
+        let fetched = vec![
+            // duplicate id of a sibling source's record
+            IngestRecord::registry_key("kape_amcache", "Amcache", "regedit", None, "", "dup id"),
+            // duplicate key path of the hand-written descriptor
+            IngestRecord::registry_key(
+                "regedit_run_key",
+                "Run",
+                "regedit",
+                Some("HKLM\\SOFTWARE".to_string()),
+                r"Microsoft\Windows\CurrentVersion\Run",
+                "dup path",
+            ),
+            // genuinely new
+            IngestRecord::registry_key(
+                "regedit_portproxy",
+                "PortProxy",
+                "regedit",
+                Some("HKLM\\SYSTEM".to_string()),
+                r"CurrentControlSet\Services\PortProxy",
+                "its own prior record",
+            ),
+        ];
+
+        let baseline = baseline_for_run(dir.path(), &["regedit"]).expect("baseline");
+        let kept = only(select_records(&vec![("regedit", fetched)], &baseline));
+        let kept_ids: Vec<&str> = kept.iter().map(|r| r.id.as_str()).collect();
+
+        assert_eq!(
+            kept_ids,
+            vec!["regedit_portproxy"],
+            "only the source's own prior record survives; the sibling id and the \
+             hand-written key path must still dedup"
+        );
     }
 
     #[test]
