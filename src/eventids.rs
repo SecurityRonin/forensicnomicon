@@ -892,9 +892,46 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
     },
 ];
 
-/// Look up enrichment for an event ID.
+/// Look up enrichment for an event ID, ignoring the channel.
+///
+/// The table's real key is `(channel, event_id)`: the same number means
+/// different things on different channels — 21 is a Sysmon
+/// `WmiEventConsumerToFilter` binding *and* an RDP session logon, 3 is a Sysmon
+/// network connection *and* a BITS job creation. This function returns the
+/// **first** entry in table order that carries the number, which is only the
+/// entry the caller meant when the id happens to be unique.
+///
+/// Use [`event_entry_on`] whenever the channel is known — that is the
+/// unambiguous lookup — and [`events_for_id`] to see every channel that defines
+/// the number. This function is kept for callers who genuinely have nothing but
+/// a number, and its first-match behaviour is deliberate rather than incidental.
 pub fn event_entry(event_id: u32) -> Option<&'static EventIdEntry> {
     EVENT_ID_TABLE.iter().find(|e| e.event_id == event_id)
+}
+
+/// Look up enrichment for an event ID **on a specific channel** — the
+/// unambiguous lookup, and the one to reach for whenever the record being
+/// enriched carries its channel (every EVTX record does).
+///
+/// `channel` is compared case-insensitively (ASCII), because Windows channel
+/// names are case-insensitive and tools round-trip them in varying case. There
+/// is no numeric fallback: a channel that does not define the id yields `None`
+/// rather than some other channel's meaning.
+pub fn event_entry_on(channel: &str, event_id: u32) -> Option<&'static EventIdEntry> {
+    EVENT_ID_TABLE
+        .iter()
+        .find(|e| e.event_id == event_id && e.channel.eq_ignore_ascii_case(channel))
+}
+
+/// Every entry that defines `event_id`, across all channels.
+///
+/// This is the honest answer when the channel is unknown: an id shared by two
+/// channels yields both, so the caller can show the analyst the ambiguity
+/// instead of silently picking one.
+pub fn events_for_id(event_id: u32) -> impl Iterator<Item = &'static EventIdEntry> {
+    EVENT_ID_TABLE
+        .iter()
+        .filter(move |e| e.event_id == event_id)
 }
 
 /// Look up all events associated with a catalog artifact.
