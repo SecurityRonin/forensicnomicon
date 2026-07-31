@@ -339,15 +339,18 @@ fn main() {
         let written = if !opts.dry_run && !new_records.is_empty() {
             let out_path = output_dir.join(generated_file_name(source_name));
 
-            let header = generate_module_header(source_name, new_records.len());
-            let mut content = header;
-
+            // The body is built first: the header's import list is derived from
+            // which types the statics actually reference.
+            let mut body = String::new();
             let mut static_names: Vec<String> = Vec::new();
             for rec in &new_records {
-                content.push_str(&generate_static(rec));
-                content.push('\n');
+                body.push_str(&generate_static(rec));
+                body.push('\n');
                 static_names.push(rec.id.to_ascii_uppercase());
             }
+
+            let mut content = generate_module_header(source_name, new_records.len(), &body);
+            content.push_str(&body);
 
             // Summary comment listing all statics
             let _ = writeln!(
