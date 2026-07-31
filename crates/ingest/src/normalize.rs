@@ -75,14 +75,20 @@ pub fn normalize_registry_id(path: &str, source: &str) -> String {
 }
 
 /// Like `normalize_registry_id` but ensures uniqueness against an existing set.
-/// Appends `_2`, `_3`, etc. until unique.
-#[cfg_attr(not(test), allow(dead_code))]
 pub fn normalize_registry_id_unique(
     path: &str,
     source: &str,
     existing: &HashSet<String>,
 ) -> String {
-    let base = normalize_registry_id(path, source);
+    ensure_unique(normalize_registry_id(path, source), existing)
+}
+
+/// Return `base` if it is not in `existing`, otherwise the first free
+/// `base_2`, `base_3`, … suffix.
+///
+/// The caller inserts the result: a source adapter usually has other work to do
+/// with the id first, and every adapter already tracks its own seen-set.
+pub fn ensure_unique(base: String, existing: &HashSet<String>) -> String {
     if !existing.contains(&base) {
         return base;
     }
@@ -207,6 +213,21 @@ mod tests {
                 .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '_'),
             "ID contains non-snake-case chars: {id}"
         );
+    }
+
+    #[test]
+    fn ensure_unique_returns_base_when_free() {
+        let existing: HashSet<String> = HashSet::new();
+        assert_eq!(ensure_unique("fa_run".to_string(), &existing), "fa_run");
+    }
+
+    #[test]
+    fn ensure_unique_walks_past_every_taken_suffix() {
+        let existing: HashSet<String> = ["fa_run", "fa_run_2", "fa_run_3"]
+            .into_iter()
+            .map(str::to_string)
+            .collect();
+        assert_eq!(ensure_unique("fa_run".to_string(), &existing), "fa_run_4");
     }
 
     #[test]

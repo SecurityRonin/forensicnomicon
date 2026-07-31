@@ -5,9 +5,13 @@
 //! parameter defaults.
 
 use std::collections::HashSet;
+use std::time::Duration;
 
-use crate::normalize::{normalize_file_id, normalize_registry_id};
+use crate::hive::{detect_hive, strip_hive_from_path};
+use crate::normalize::{ensure_unique, normalize_file_id, normalize_registry_id};
 use crate::record::{IngestRecord, IngestType};
+use crate::sources::common::{for_each_github_file, GithubFiles};
+use crate::triage::infer_triage;
 
 const VELO_TREE_URL: &str =
     "https://api.github.com/repos/Velocidex/velociraptor/git/trees/master?recursive=1";
@@ -98,7 +102,7 @@ fn try_parse_as_registry(
     let id = ensure_unique(raw_id, seen);
     seen.insert(id.clone());
 
-    let hive = detect_hive_string(&normalized);
+    let hive = detect_hive(&normalized).map(str::to_string);
     let key_path = strip_hive_from_path(&normalized);
     let triage = infer_triage(artifact_name, description);
 
@@ -167,154 +171,23 @@ fn try_parse_as_file(
     })
 }
 
-fn detect_hive_string(path: &str) -> Option<String> {
-    let upper = path.to_ascii_uppercase();
-    if upper.starts_with("HKEY_LOCAL_MACHINE\\SYSTEM") || upper.starts_with("HKLM\\SYSTEM") {
-        Some("HKLM\\SYSTEM".to_string())
-    } else if upper.starts_with("HKEY_LOCAL_MACHINE\\SOFTWARE")
-        || upper.starts_with("HKLM\\SOFTWARE")
-    {
-        Some("HKLM\\SOFTWARE".to_string())
-    } else if upper.starts_with("HKEY_LOCAL_MACHINE\\SAM") || upper.starts_with("HKLM\\SAM") {
-        Some("HKLM\\SAM".to_string())
-    } else if upper.starts_with("HKEY_LOCAL_MACHINE\\SECURITY")
-        || upper.starts_with("HKLM\\SECURITY")
-    {
-        Some("HKLM\\SECURITY".to_string())
-    } else if upper.starts_with("HKEY_LOCAL_MACHINE") || upper.starts_with("HKLM") {
-        Some("HKLM\\SOFTWARE".to_string())
-    } else if upper.starts_with("HKEY_CURRENT_USER\\SOFTWARE\\CLASSES")
-        || upper.starts_with("HKCU\\SOFTWARE\\CLASSES")
-    {
-        Some("HKCU\\Software\\Classes".to_string())
-    } else if upper.starts_with("HKEY_CURRENT_USER") || upper.starts_with("HKCU") {
-        Some("HKCU".to_string())
-    } else {
-        None
-    }
-}
-
-fn strip_hive_from_path(path: &str) -> String {
-    let upper = path.to_ascii_uppercase();
-    let prefixes = [
-        "HKEY_LOCAL_MACHINE\\",
-        "HKEY_CURRENT_USER\\",
-        "HKLM\\",
-        "HKCU\\",
-    ];
-    for prefix in prefixes {
-        if upper.starts_with(prefix) {
-            return path[prefix.len()..].to_string();
-        }
-    }
-    path.to_string()
-}
-
-fn infer_triage(name: &str, description: &str) -> &'static str {
-    let combined = format!("{name} {description}").to_ascii_lowercase();
-    if combined.contains("credential")
-        || combined.contains("password")
-        || combined.contains("lsass")
-        || combined.contains("sam ")
-        || combined.contains("ntds")
-        || combined.contains("token")
-        || combined.contains("privilege")
-    {
-        "Critical"
-    } else if combined.contains("shimcache")
-        || combined.contains("appcompat")
-        || combined.contains("amcache")
-        || combined.contains("prefetch")
-        || combined.contains("registry")
-        || combined.contains("execution")
-        || combined.contains("persistence")
-        || combined.contains("run key")
-        || combined.contains("startup")
-        || combined.contains("service")
-        || combined.contains("scheduled task")
-        || combined.contains("autorun")
-    {
-        "High"
-    } else if combined.contains("browser")
-        || combined.contains("log")
-        || combined.contains("event")
-        || combined.contains("history")
-        || combined.contains("config")
-        || combined.contains("settings")
-    {
-        "Medium"
-    } else {
-        "Low"
-    }
-}
-
-fn ensure_unique(base: String, seen: &mut HashSet<String>) -> String {
-    if !seen.contains(&base) {
-        return base;
-    }
-    let mut n = 2u32;
-    loop {
-        let candidate = format!("{base}_{n}");
-        if !seen.contains(&candidate) {
-            return candidate;
-        }
-        n += 1;
-    }
-}
-
 /// Fetch and parse all Velociraptor artifact YAMLs from GitHub.
 pub fn fetch_velociraptor_artifacts() -> Vec<IngestRecord> {
-    let client = match reqwest::blocking::Client::builder()
-        .user_agent("forensicnomicon-ingest/0.1")
-        .timeout(std::time::Duration::from_secs(30))
-        .build()
-    {
-        Ok(c) => c,
-        Err(e) => {
-            eprintln!("WARN: velociraptor: failed to build HTTP client: {e}");
-            return Vec::new();
-        }
-    };
-
-    let tree: serde_json::Value = match client
-        .get(VELO_TREE_URL)
-        .send()
-        .and_then(reqwest::blocking::Response::json)
-    {
-        Ok(v) => v,
-        Err(e) => {
-            eprintln!("WARN: velociraptor: failed to fetch tree: {e}");
-            return Vec::new();
-        }
+    let spec = GithubFiles {
+        source: "velociraptor",
+        listing_url: VELO_TREE_URL,
+        raw_base: VELO_RAW_BASE,
+        delay: Duration::from_millis(200),
     };
 
     let mut all_records = Vec::new();
 
-    if let Some(tree_items) = tree.get("tree").and_then(|t| t.as_array()) {
-        let yaml_paths: Vec<String> = tree_items
-            .iter()
-            .filter_map(|item| item.get("path").and_then(|p| p.as_str()))
-            .filter(|p| p.starts_with("artifacts/definitions/") && p.ends_with(".yaml"))
-            .map(str::to_string)
-            .collect();
-
-        for path in yaml_paths {
-            let url = format!("{VELO_RAW_BASE}{path}");
-            std::thread::sleep(std::time::Duration::from_millis(200));
-            match client
-                .get(&url)
-                .send()
-                .and_then(reqwest::blocking::Response::text)
-            {
-                Ok(content) => {
-                    let records = parse_velociraptor_yaml(&content);
-                    all_records.extend(records);
-                }
-                Err(e) => {
-                    eprintln!("WARN: velociraptor: failed to fetch {url}: {e}");
-                }
-            }
-        }
+    if let Err(e) = for_each_github_file(
+        &spec,
+        |p| p.starts_with("artifacts/definitions/") && p.ends_with(".yaml"),
+        |_path, content| all_records.extend(parse_velociraptor_yaml(content)),
+    ) {
+        eprintln!("WARN: velociraptor: {e}");
     }
 
     all_records

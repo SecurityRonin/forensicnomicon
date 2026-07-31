@@ -8,10 +8,11 @@
 //! Event ID, Event Version, Level, Channel, Task, Opcode, Keyword, ...
 
 use std::collections::HashSet;
+use std::time::Duration;
 
-use crate::github::github_client;
-use crate::normalize::to_snake_case;
+use crate::normalize::{ensure_unique, to_snake_case};
 use crate::record::{IngestRecord, IngestType};
+use crate::sources::common::{for_each_github_file, GithubFiles};
 
 const EVTX_CONTENTS_URL: &str =
     "https://api.github.com/repos/nasbench/EVTX-ETW-Resources/contents/ETWProvidersCSVs/Internal";
@@ -22,53 +23,56 @@ const EVTX_RAW_BASE: &str = "https://raw.githubusercontent.com/nasbench/EVTX-ETW
 /// Expected header includes at minimum a "Channel" column (case-insensitive).
 #[cfg_attr(not(test), allow(dead_code))]
 pub fn parse_evtx_csv(content: &str) -> Vec<IngestRecord> {
-    let mut records = Vec::new();
     let mut seen_ids = HashSet::new();
+    extract_channels_from_csv(content)
+        .into_iter()
+        .map(|(provider, channel)| build_channel_record(&provider, &channel, &mut seen_ids))
+        .collect()
+}
 
-    let channels = extract_channels_from_csv(content);
+/// Build the record for one event log channel, giving it an id unique within
+/// `seen_ids` (which it joins).
+fn build_channel_record(
+    provider: &str,
+    channel: &str,
+    seen_ids: &mut HashSet<String>,
+) -> IngestRecord {
+    let channel_snake = to_snake_case(channel);
+    let raw_id = format!("evtx_{channel_snake}");
+    // Truncate to 60 chars
+    let id_base = if raw_id.len() > 60 {
+        raw_id[..60].trim_end_matches('_').to_string()
+    } else {
+        raw_id
+    };
+    let id = ensure_unique(id_base, seen_ids);
+    seen_ids.insert(id.clone());
 
-    for (provider, channel) in channels {
-        let channel_snake = to_snake_case(&channel);
-        let raw_id = format!("evtx_{channel_snake}");
-        // Truncate to 60 chars
-        let id_base = if raw_id.len() > 60 {
-            raw_id[..60].trim_end_matches('_').to_string()
-        } else {
-            raw_id
-        };
-        let id = ensure_unique(id_base, &mut seen_ids);
-        seen_ids.insert(id.clone());
+    // Build file path
+    let sanitized = channel.replace('/', "\\");
+    let file_path = format!(r"%SystemRoot%\System32\winevt\Logs\{sanitized}.evtx");
 
-        // Build file path
-        let sanitized = channel.replace('/', "\\");
-        let file_path = format!(r"%SystemRoot%\System32\winevt\Logs\{sanitized}.evtx");
+    let meaning = if provider.is_empty() {
+        format!("Windows Event Log channel '{channel}'.")
+    } else {
+        format!("Windows Event Log channel '{channel}' from provider '{provider}'.")
+    };
 
-        let meaning = if provider.is_empty() {
-            format!("Windows Event Log channel '{channel}'.")
-        } else {
-            format!("Windows Event Log channel '{channel}' from provider '{provider}'.")
-        };
-
-        let triage = infer_evtx_triage(&channel);
-
-        records.push(IngestRecord {
-            id,
-            name: channel.clone(),
-            source_name: "evtx",
-            artifact_type: IngestType::EventLog,
-            hive: None,
-            key_path: String::new(),
-            value_name: None,
-            os_scope: "Win7Plus".to_string(),
-            file_path: Some(file_path),
-            meaning,
-            mitre_techniques: Vec::new(),
-            triage_priority: triage.to_string(),
-            sources: vec!["https://github.com/nasbench/EVTX-ETW-Resources".to_string()],
-        });
+    IngestRecord {
+        id,
+        name: channel.to_string(),
+        source_name: "evtx",
+        artifact_type: IngestType::EventLog,
+        hive: None,
+        key_path: String::new(),
+        value_name: None,
+        os_scope: "Win7Plus".to_string(),
+        file_path: Some(file_path),
+        meaning,
+        mitre_techniques: Vec::new(),
+        triage_priority: infer_evtx_triage(channel).to_string(),
+        sources: vec!["https://github.com/nasbench/EVTX-ETW-Resources".to_string()],
     }
-
-    records
 }
 
 /// Extract unique (provider, channel) pairs from a CSV.
@@ -171,21 +175,6 @@ fn split_csv_line(line: &str) -> Vec<&str> {
     fields
 }
 
-#[cfg_attr(not(test), allow(dead_code))]
-fn ensure_unique(base: String, seen: &mut HashSet<String>) -> String {
-    if !seen.contains(&base) {
-        return base;
-    }
-    let mut n = 2u32;
-    loop {
-        let candidate = format!("{base}_{n}");
-        if !seen.contains(&candidate) {
-            return candidate;
-        }
-        n += 1;
-    }
-}
-
 /// Fetch EVTX channel records from the nasbench repository.
 ///
 /// Walks all per-provider CSV files under ETWProvidersCSVs/Internal/,
@@ -193,96 +182,31 @@ fn ensure_unique(base: String, seen: &mut HashSet<String>) -> String {
 // extension comparison is intentionally exact
 #[allow(clippy::case_sensitive_file_extension_comparisons)]
 pub fn fetch_evtx_records() -> Vec<IngestRecord> {
-    let client = match github_client() {
-        Ok(c) => c,
-        Err(e) => {
-            eprintln!("WARN: evtx: failed to build HTTP client: {e}");
-            return Vec::new();
-        }
-    };
-
-    // Use the Contents API (not the tree API, which gets truncated) to list
-    // the ETWProvidersCSVs/Internal/ directory.
-    let contents: Vec<serde_json::Value> = match client
-        .get(EVTX_CONTENTS_URL)
-        .send()
-        .and_then(reqwest::blocking::Response::json)
-    {
-        Ok(v) => v,
-        Err(e) => {
-            eprintln!("WARN: evtx: failed to fetch contents listing: {e}");
-            return Vec::new();
-        }
+    // The Contents API lists the directory; the tree API truncates on this repo.
+    let spec = GithubFiles {
+        source: "evtx",
+        listing_url: EVTX_CONTENTS_URL,
+        raw_base: EVTX_RAW_BASE,
+        delay: Duration::from_millis(50),
     };
 
     let mut all_channels: HashSet<String> = HashSet::new();
+    let mut seen_ids: HashSet<String> = HashSet::new();
     let mut all_records = Vec::new();
 
-    {
-        let csv_paths: Vec<String> = contents
-            .iter()
-            .filter_map(|item| item.get("path").and_then(|p| p.as_str()))
-            .filter(|p| p.ends_with(".csv"))
-            .map(std::string::ToString::to_string)
-            .collect();
-
-        for path in csv_paths {
-            let url = format!("{EVTX_RAW_BASE}{path}");
-            std::thread::sleep(std::time::Duration::from_millis(50));
-            match client
-                .get(&url)
-                .send()
-                .and_then(reqwest::blocking::Response::text)
-            {
-                Ok(content) => {
-                    let pairs = extract_channels_from_csv(&content);
-                    for (provider, channel) in pairs {
-                        if all_channels.insert(channel.clone()) {
-                            let channel_snake = to_snake_case(&channel);
-                            let raw_id = format!("evtx_{channel_snake}");
-                            let id = if raw_id.len() > 60 {
-                                raw_id[..60].trim_end_matches('_').to_string()
-                            } else {
-                                raw_id
-                            };
-
-                            let sanitized = channel.replace('/', "\\");
-                            let file_path =
-                                format!(r"%SystemRoot%\System32\winevt\Logs\{sanitized}.evtx");
-
-                            let meaning = if provider.is_empty() {
-                                format!("Windows Event Log channel '{channel}'.")
-                            } else {
-                                format!("Windows Event Log channel '{channel}' from provider '{provider}'.")
-                            };
-
-                            let triage = infer_evtx_triage(&channel);
-
-                            all_records.push(IngestRecord {
-                                id,
-                                name: channel.clone(),
-                                source_name: "evtx",
-                                artifact_type: IngestType::EventLog,
-                                hive: None,
-                                key_path: String::new(),
-                                value_name: None,
-                                os_scope: "Win7Plus".to_string(),
-                                file_path: Some(file_path),
-                                meaning,
-                                mitre_techniques: Vec::new(),
-                                triage_priority: triage.to_string(),
-                                sources: vec![
-                                    "https://github.com/nasbench/EVTX-ETW-Resources".to_string()
-                                ],
-                            });
-                        }
-                    }
-                }
-                Err(e) => {
-                    eprintln!("WARN: evtx: failed to fetch {url}: {e}");
+    if let Err(e) = for_each_github_file(
+        &spec,
+        |p| p.ends_with(".csv"),
+        |_path, content| {
+            for (provider, channel) in extract_channels_from_csv(content) {
+                // One record per channel, however many providers write to it.
+                if all_channels.insert(channel.clone()) {
+                    all_records.push(build_channel_record(&provider, &channel, &mut seen_ids));
                 }
             }
-        }
+        },
+    ) {
+        eprintln!("WARN: evtx: {e}");
     }
 
     all_records
