@@ -20,6 +20,14 @@ mod catalog_integrity {
         }
     }
 
+    /// The exact catalog size is asserted here and nowhere else: every other
+    /// `catalog_count_*` test asserts the *presence* of the artifacts its batch
+    /// added. An artifact addition therefore edits one constant, not N tests.
+    #[test]
+    fn catalog_len_matches_expected_catalog_len() {
+        assert_eq!(CATALOG.list().len(), EXPECTED_CATALOG_LEN);
+    }
+
     /// The Apple Biome `App.MenuItem` stream (macOS Tahoe 26) — a user-intent
     /// trail of menu selections (Unit 42, 2026) — must be in the catalog.
     #[test]
