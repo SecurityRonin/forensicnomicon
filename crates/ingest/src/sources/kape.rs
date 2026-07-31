@@ -14,6 +14,7 @@ use std::collections::HashSet;
 use crate::github::github_client;
 use crate::normalize::{normalize_file_id, to_snake_case};
 use crate::record::{IngestRecord, IngestType};
+use crate::triage::infer_triage;
 
 const KAPE_TREE_URL: &str =
     "https://api.github.com/repos/EricZimmerman/KapeFiles/git/trees/master?recursive=1";
@@ -246,33 +247,6 @@ fn build_record(
             "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/{source_file}.tkape"
         )],
     })
-}
-
-fn infer_triage(name: &str, comment: &str) -> &'static str {
-    let combined = format!("{name} {comment}").to_ascii_lowercase();
-    if combined.contains("credential")
-        || combined.contains("password")
-        || combined.contains("sam ")
-        || combined.contains("ntds")
-    {
-        "Critical"
-    } else if combined.contains("prefetch")
-        || combined.contains("event log")
-        || combined.contains("registry")
-        || combined.contains("mft")
-        || combined.contains("lnk")
-        || combined.contains("shellbag")
-    {
-        "High"
-    } else if combined.contains("browser")
-        || combined.contains("history")
-        || combined.contains("cookie")
-        || combined.contains("download")
-    {
-        "Medium"
-    } else {
-        "Low"
-    }
 }
 
 fn extract_mitre(text: &str) -> Vec<String> {

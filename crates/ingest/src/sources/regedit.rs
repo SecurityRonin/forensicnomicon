@@ -12,6 +12,7 @@ use std::collections::HashSet;
 
 use crate::normalize::{normalize_registry_id, to_snake_case};
 use crate::record::{IngestRecord, IngestType};
+use crate::triage::infer_triage;
 
 const SOURCE_URL: &str =
     "https://raw.githubusercontent.com/EricZimmerman/RECmd/master/BatchExamples/RECmd_Batch_MC.reb";
@@ -187,35 +188,6 @@ fn map_hive_type(hive_type: &str) -> Option<&'static str> {
         "BCD" => Some("BCD"),
         "AMCACHE" => Some("Amcache"),
         _ => None,
-    }
-}
-
-fn infer_triage(description: &str, comment: &str) -> &'static str {
-    let combined = format!("{description} {comment}").to_ascii_lowercase();
-    if combined.contains("credential")
-        || combined.contains("password")
-        || combined.contains("sam ")
-        || combined.contains("lateral")
-    {
-        "Critical"
-    } else if combined.contains("autorun")
-        || combined.contains("run key")
-        || combined.contains("persistence")
-        || combined.contains("execution")
-        || combined.contains("proxy")
-        || combined.contains("shell")
-        || combined.contains("service")
-    {
-        "High"
-    } else if combined.contains("config")
-        || combined.contains("log")
-        || combined.contains("mru")
-        || combined.contains("browser")
-        || combined.contains("history")
-    {
-        "Medium"
-    } else {
-        "Low"
     }
 }
 

@@ -12,6 +12,7 @@ mod github;
 mod normalize;
 mod record;
 mod sources;
+mod triage;
 
 use std::collections::HashSet;
 use std::fmt::Write as _;

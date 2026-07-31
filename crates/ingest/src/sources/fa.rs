@@ -12,6 +12,7 @@ use std::collections::HashSet;
 use crate::github::github_client;
 use crate::normalize::{normalize_file_id, normalize_registry_id};
 use crate::record::{IngestRecord, IngestType};
+use crate::triage::infer_triage;
 
 /// Parse a ForensicArtifacts YAML string (possibly multi-document) into IngestRecords.
 #[cfg_attr(not(test), allow(dead_code))]
@@ -259,40 +260,6 @@ fn strip_hive_from_path(path: &str) -> String {
         }
     }
     path.to_string()
-}
-
-fn infer_triage(name: &str, doc: &str) -> &'static str {
-    let combined = format!("{name} {doc}").to_ascii_lowercase();
-    // Cap at High — generated artifacts lack human-curated evidence assessments.
-    // Critical rating requires a handwritten descriptor with volatility/evidence filled in.
-    // Credential-access and execution/persistence artifacts both cap at High.
-    if combined.contains("credential")
-        || combined.contains("password")
-        || combined.contains("lsass")
-        || combined.contains("sam ")
-        || combined.contains("ntds")
-        || combined.contains("token")
-        || combined.contains("privilege")
-        || combined.contains("execution")
-        || combined.contains("persistence")
-        || combined.contains("run key")
-        || combined.contains("startup")
-        || combined.contains("service")
-        || combined.contains("scheduled task")
-        || combined.contains("autorun")
-    {
-        "High"
-    } else if combined.contains("browser")
-        || combined.contains("log")
-        || combined.contains("event")
-        || combined.contains("history")
-        || combined.contains("config")
-        || combined.contains("settings")
-    {
-        "Medium"
-    } else {
-        "Low"
-    }
 }
 
 /// Fetch and parse ForensicArtifacts YAML from a single URL.

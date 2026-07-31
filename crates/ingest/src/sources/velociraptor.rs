@@ -8,6 +8,7 @@ use std::collections::HashSet;
 
 use crate::normalize::{normalize_file_id, normalize_registry_id};
 use crate::record::{IngestRecord, IngestType};
+use crate::triage::infer_triage;
 
 const VELO_TREE_URL: &str =
     "https://api.github.com/repos/Velocidex/velociraptor/git/trees/master?recursive=1";
@@ -208,44 +209,6 @@ fn strip_hive_from_path(path: &str) -> String {
         }
     }
     path.to_string()
-}
-
-fn infer_triage(name: &str, description: &str) -> &'static str {
-    let combined = format!("{name} {description}").to_ascii_lowercase();
-    if combined.contains("credential")
-        || combined.contains("password")
-        || combined.contains("lsass")
-        || combined.contains("sam ")
-        || combined.contains("ntds")
-        || combined.contains("token")
-        || combined.contains("privilege")
-    {
-        "Critical"
-    } else if combined.contains("shimcache")
-        || combined.contains("appcompat")
-        || combined.contains("amcache")
-        || combined.contains("prefetch")
-        || combined.contains("registry")
-        || combined.contains("execution")
-        || combined.contains("persistence")
-        || combined.contains("run key")
-        || combined.contains("startup")
-        || combined.contains("service")
-        || combined.contains("scheduled task")
-        || combined.contains("autorun")
-    {
-        "High"
-    } else if combined.contains("browser")
-        || combined.contains("log")
-        || combined.contains("event")
-        || combined.contains("history")
-        || combined.contains("config")
-        || combined.contains("settings")
-    {
-        "Medium"
-    } else {
-        "Low"
-    }
 }
 
 fn ensure_unique(base: String, seen: &mut HashSet<String>) -> String {
