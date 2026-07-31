@@ -10,15 +10,15 @@
 //!
 //! | Source      | Count |
 //! |-------------|-------|
-//! | browsers    |    35 |
+//! | browsers    |    33 |
 //! | dfir_scripts|   374 |
-//! | evtx        |   990 |
-//! | fa          |  2518 |
-//! | kape        |  2411 |
+//! | evtx        |   989 |
+//! | fa          |  2486 |
+//! | kape        |  2153 |
 //! | nirsoft     |    13 |
 //! | regedit     |    17 |
-//! | velociraptor|   110 |
-//! | **Total**   |**6468**|
+//! | velociraptor|   108 |
+//! | **Total**   |**6173**|
 
 pub(super) mod browsers_generated;
 pub(super) mod dfir_scripts_generated;
