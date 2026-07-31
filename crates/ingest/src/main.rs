@@ -21,7 +21,7 @@ use std::path::{Path, PathBuf};
 use std::{fs, io};
 
 use codegen::{generate_module_header, generate_static};
-use dedup::{load_catalog, load_catalog_excluding, CatalogIndex};
+use dedup::{load_catalog, load_catalog_excluding, CatalogIndex, PathSet};
 use record::IngestRecord;
 
 /// CLI options parsed from argv.
@@ -216,38 +216,58 @@ fn generated_file_name(source_name: &str) -> String {
     format!("{source_name}_generated.rs")
 }
 
-/// The dedup baseline for regenerating `source_name`.
+/// The dedup baseline for a run that regenerates `sources`.
 ///
-/// A regeneration rewrites the source's module in full, so that module is not a
-/// prior claim on its own records — including it would make every record the
+/// A regeneration rewrites each of those modules in full, so none of them is a
+/// prior claim on its own records — including one would make every record its
 /// source already contributed look like a duplicate of itself and the rewrite
-/// would drop it. The rest of the catalog (hand-written descriptors and the
-/// other sources' modules) still dedups normally.
-fn baseline_for_source(catalog_dir: &Path, source_name: &str) -> io::Result<CatalogIndex> {
-    load_catalog_excluding(catalog_dir, &[generated_file_name(source_name)])
+/// would drop it. Excluding all of them at once also takes the *order* the
+/// sources happen to run in out of the result: a record no longer loses to a
+/// sibling merely for having been written first, it competes in
+/// [`select_records`]. The rest of the catalog — hand-written descriptors and
+/// the modules this run leaves alone — still dedups normally.
+fn baseline_for_run(catalog_dir: &Path, sources: &[&str]) -> io::Result<CatalogIndex> {
+    let regenerated: Vec<String> = sources.iter().map(|s| generated_file_name(s)).collect();
+    load_catalog_excluding(catalog_dir, &regenerated)
 }
 
-/// The records of `records` the catalog does not already carry: not an id the
-/// `baseline` knows, not a registry key path it already covers, and not an id
-/// this run has already generated.
+/// What a run fetched, per source, in source order.
+type Fetched = Vec<(&'static str, Vec<IngestRecord>)>;
+
+/// The records of `fetched` the catalog does not already carry, keyed back to
+/// the source that produced them.
 ///
-/// `already_generated` grows as records are kept, so it covers a collision with
-/// an earlier source *and* one inside this source's own corpus — an id is
-/// generatable at most once per run, which is what keeps two records that
-/// reduce to the same id from emitting the same static name twice.
-fn select_new_records(
-    records: Vec<IngestRecord>,
-    baseline: &CatalogIndex,
-    already_generated: &mut HashSet<String>,
-) -> Vec<IngestRecord> {
-    records
-        .into_iter()
-        .filter(|r| {
-            !baseline.ids.is_duplicate(&r.id)
-                && !baseline.paths.covers(&r.key_path)
-                && already_generated.insert(r.id.clone())
-        })
-        .collect()
+/// Three claims retire a record: an id the `baseline` already uses, a registry
+/// key path it already covers, and an id this run has already generated — the
+/// last covering a collision with an earlier source *and* one inside a source's
+/// own corpus, so two records that reduce to one id cannot emit the same static
+/// name twice.
+///
+/// Records that survive those still compete for a shared registry key path; see
+/// [`richness`].
+fn select_records(fetched: Fetched, baseline: &CatalogIndex) -> Fetched {
+    let mut generated_ids: HashSet<String> = HashSet::new();
+    let mut kept_paths = PathSet::default();
+    let mut out: Fetched = Vec::new();
+
+    for (source, records) in fetched {
+        let mut survivors = Vec::new();
+        for rec in records {
+            if baseline.ids.is_duplicate(&rec.id)
+                || baseline.paths.covers(&rec.key_path)
+                || !generated_ids.insert(rec.id.clone())
+                || kept_paths.covers(&rec.key_path)
+            {
+                continue;
+            }
+            if !rec.key_path.is_empty() {
+                kept_paths.insert(&rec.key_path);
+            }
+            survivors.push(rec);
+        }
+        out.push((source, survivors));
+    }
+    out
 }
 
 fn main() {
@@ -306,27 +326,27 @@ fn main() {
     }
 
     let mut summaries: Vec<SourceSummary> = Vec::new();
-    let mut all_generated_ids: HashSet<String> = HashSet::new();
 
-    for source_name in &source_names {
-        let records = run_source(source_name, opts.limit, opts.verbose);
-        let fetched = records.len();
+    // Every source is fetched before any is selected: a record must not lose a
+    // shared key path to a sibling merely for having been fetched later.
+    let fetched: Fetched = source_names
+        .iter()
+        .map(|name| (*name, run_source(name, opts.limit, opts.verbose)))
+        .collect();
+    let fetched_counts: Vec<usize> = fetched.iter().map(|(_, r)| r.len()).collect();
 
-        // Deduplicate against the catalog — by id, and by the registry key path
-        // a sibling source may already have catalogued under another id — and
-        // against what this run has already generated. The baseline is re-read
-        // per source so it reflects the modules rewritten earlier in this run,
-        // and it excludes this source's own module, which is about to be
-        // rewritten in full.
-        let baseline = baseline_for_source(&catalog_dir, source_name).unwrap_or_else(|e| {
-            eprintln!(
-                "ERROR: could not read the catalog at {}: {e}",
-                catalog_dir.display()
-            );
-            eprintln!("       Every record would look net-new; refusing to generate duplicates.");
-            std::process::exit(1);
-        });
-        let new_records = select_new_records(records, &baseline, &mut all_generated_ids);
+    let baseline = baseline_for_run(&catalog_dir, &source_names).unwrap_or_else(|e| {
+        eprintln!(
+            "ERROR: could not read the catalog at {}: {e}",
+            catalog_dir.display()
+        );
+        eprintln!("       Every record would look net-new; refusing to generate duplicates.");
+        std::process::exit(1);
+    });
+    let selected = select_records(fetched, &baseline);
+
+    for ((source_name, new_records), fetched) in selected.into_iter().zip(fetched_counts) {
+        let source_name = &source_name;
         let new_count = new_records.len();
 
         if opts.verbose && new_count < fetched {
@@ -477,6 +497,83 @@ mod tests {
         assert_eq!(all.len(), SOURCES.len());
     }
 
+    /// The survivors of a single-source selection.
+    fn only(selected: Fetched) -> Vec<IngestRecord> {
+        assert_eq!(selected.len(), 1, "expected one source");
+        selected.into_iter().next().expect("one source").1
+    }
+
+    /// A record naming a registry key, with whatever meaning and techniques the
+    /// source in question happens to supply.
+    fn described(
+        id: &str,
+        source: &'static str,
+        key_path: &str,
+        meaning: &str,
+        mitre: &[&str],
+    ) -> IngestRecord {
+        let mut rec = IngestRecord::registry_key(
+            id,
+            "Shell Folders",
+            source,
+            Some("HKLM\\SOFTWARE".to_string()),
+            key_path,
+            meaning,
+        );
+        rec.mitre_techniques = mitre.iter().map(|t| (*t).to_string()).collect();
+        rec
+    }
+
+    #[test]
+    fn the_record_carrying_mitre_techniques_wins_a_shared_key_path() {
+        // fa and dfir-scripts both catalogue the Explorer Shell Folders startup
+        // key. fa calls it "The Shell Folders information for Windows users."
+        // and maps it to nothing; dfir-scripts names it as startup persistence
+        // and maps it to T1547.001. fa is fetched first, so first-come-wins
+        // retires the only record that answers a T1547.001 query — the analyst
+        // asking which artifacts show that technique stops being told about
+        // Shell Folders. Which source ran first is not evidence.
+        let dir = catalog_with_generated_module("fa", &[]);
+        let fetched: Fetched = vec![
+            (
+                "fa",
+                vec![described(
+                    "fa_currentversion_explorer_shell_folders",
+                    "fa",
+                    r"HKEY_USERS\%%users.sid%%\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",
+                    "The Shell Folders information for Windows users.",
+                    &[],
+                )],
+            ),
+            (
+                "dfir_scripts",
+                vec![described(
+                    "dfir_scripts_currentversion_explorer_shell_folders",
+                    "dfir_scripts",
+                    r"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",
+                    "Startup Folder Paths — Windows registry artifact (autostart and persistence).",
+                    &["T1547.001"],
+                )],
+            ),
+        ];
+
+        let baseline = baseline_for_run(dir.path(), &["fa", "dfir_scripts"]).expect("baseline");
+        let survivors: Vec<String> = select_records(fetched, &baseline)
+            .into_iter()
+            .flat_map(|(_, recs)| recs)
+            .map(|r| format!("{} mitre={:?}", r.id, r.mitre_techniques))
+            .collect();
+
+        assert_eq!(
+            survivors,
+            vec![
+                "dfir_scripts_currentversion_explorer_shell_folders mitre=[\"T1547.001\"]"
+                    .to_string()
+            ],
+            "the survivor of a shared key path must be the record that carries the technique"
+        );
+    }
+
     /// Write a catalog dir holding one hand-written descriptor plus a
     /// `<source>_generated.rs` carrying `ids`, exactly as a prior run left it.
     fn catalog_with_generated_module(source: &str, ids: &[(&str, &str)]) -> tempfile::TempDir {
@@ -558,8 +655,8 @@ mod tests {
             ),
         ];
 
-        let baseline = baseline_for_source(dir.path(), "regedit").expect("baseline");
-        let kept = select_new_records(fetched, &baseline, &mut HashSet::new());
+        let baseline = baseline_for_run(dir.path(), &["regedit"]).expect("baseline");
+        let kept = only(select_records(vec![("regedit", fetched)], &baseline));
 
         assert_eq!(
             kept.len(),
@@ -592,9 +689,8 @@ mod tests {
         };
         let fetched = vec![twice(r"Alpha\Users"), twice(r"Beta\Users")];
 
-        let baseline = baseline_for_source(dir.path(), "velociraptor").expect("baseline");
-        let mut generated = HashSet::new();
-        let kept = select_new_records(fetched, &baseline, &mut generated);
+        let baseline = baseline_for_run(dir.path(), &["velociraptor"]).expect("baseline");
+        let kept = only(select_records(vec![("velociraptor", fetched)], &baseline));
 
         assert_eq!(
             kept.len(),
@@ -645,8 +741,8 @@ mod tests {
             ),
         ];
 
-        let baseline = baseline_for_source(dir.path(), "regedit").expect("baseline");
-        let kept = select_new_records(fetched, &baseline, &mut HashSet::new());
+        let baseline = baseline_for_run(dir.path(), &["regedit"]).expect("baseline");
+        let kept = only(select_records(vec![("regedit", fetched)], &baseline));
         let kept_ids: Vec<&str> = kept.iter().map(|r| r.id.as_str()).collect();
 
         assert_eq!(
