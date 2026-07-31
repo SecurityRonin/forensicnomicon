@@ -950,6 +950,48 @@ mod tests {
         );
     }
 
+    /// The list pane renders one row per (channel, id) pair, so the detail pane
+    /// has to resolve the row back with the channel in hand. Selecting the
+    /// Sysmon 21 row and being shown an RDP session logon is the drift this
+    /// test exists to prevent.
+    #[test]
+    fn selecting_the_sysmon_21_row_shows_the_wmi_binding_not_rdp() {
+        let mut a = make_app(9, "", 0);
+        let rd = build_render_data(&a);
+        let idx = rd
+            .list_items
+            .iter()
+            .position(|s| s.starts_with("21 ") && s.contains("Sysmon"))
+            .expect("the Sysmon 21 row must be listed");
+        a.selected = idx;
+        let detail = build_render_data(&a).detail_lines.join("\n").to_lowercase();
+        assert!(
+            detail.contains("wmieventconsumertofilter"),
+            "selecting Sysmon 21 must show the WMI binding; got: {detail}"
+        );
+        assert!(
+            !detail.contains("terminalservices"),
+            "selecting Sysmon 21 must not show the RDP entry; got: {detail}"
+        );
+    }
+
+    /// The row renderer and the row parser are two halves of one format; a
+    /// round-trip over the whole table is what keeps them from drifting apart.
+    #[test]
+    fn every_rendered_row_resolves_back_to_its_own_entry() {
+        use forensicnomicon::eventids::EVENT_ID_TABLE;
+        for e in EVENT_ID_TABLE {
+            let row = event_row(e);
+            let back = event_entry_for_row(row.trim())
+                .unwrap_or_else(|| panic!("row {row:?} must resolve back to an entry"));
+            assert_eq!(
+                (back.event_id, back.channel),
+                (e.event_id, e.channel),
+                "row {row:?} resolved to the wrong entry"
+            );
+        }
+    }
+
     #[test]
     fn event_id_detail_contains_channel_and_mitre() {
         let rd = build_render_data(&make_app(9, "", 0));

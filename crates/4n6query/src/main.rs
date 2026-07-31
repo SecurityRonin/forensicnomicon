@@ -1165,3 +1165,35 @@ mod indicator_tests {
         assert!(lookup_indicators("zzqxnotarealthing").is_empty());
     }
 }
+
+#[cfg(test)]
+mod event_lookup_tests {
+    use super::*;
+
+    /// A bare number is all the CLI has — no channel — so the honest answer is
+    /// every channel that defines it. Returning only the first (the old
+    /// behaviour) means someone typing 21 for the Sysmon WMI binding silently
+    /// gets an RDP session logon instead.
+    #[test]
+    fn bare_number_returns_every_channel_defining_it() {
+        let hits = lookup_events("21");
+        assert_eq!(hits.len(), 2, "21 is defined on two channels");
+        let channels: Vec<&str> = hits.iter().map(|e| e.channel).collect();
+        assert!(channels.contains(&"Microsoft-Windows-Sysmon/Operational"));
+        assert!(channels
+            .contains(&"Microsoft-Windows-TerminalServices-LocalSessionManager/Operational"));
+    }
+
+    #[test]
+    fn unique_number_still_returns_exactly_one() {
+        let hits = lookup_events("4624");
+        assert_eq!(hits.len(), 1);
+        assert_eq!(hits[0].channel, "Security");
+    }
+
+    #[test]
+    fn non_numeric_and_unknown_numbers_return_nothing() {
+        assert!(lookup_events("certutil.exe").is_empty());
+        assert!(lookup_events("99999").is_empty());
+    }
+}
