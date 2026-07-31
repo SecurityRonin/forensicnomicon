@@ -1,4 +1,8 @@
-//! Deduplication against existing catalog artifact IDs.
+//! Deduplication against the existing catalog.
+//!
+//! Two things make an ingested record a duplicate: an id the catalog already
+//! uses, and a registry key path the catalog already covers under some other
+//! id. Both are read from the descriptor sources in one walk.
 
 use std::collections::HashSet;
 use std::fs;
@@ -42,6 +46,50 @@ impl IdSet {
     }
 }
 
+/// Registry key paths the catalog already covers, uppercased and reduced to
+/// single backslashes so a descriptor literal (`"A\\B"`) and a path read from
+/// upstream JSON (`A\B`) compare equal.
+#[derive(Debug, Default, Clone)]
+pub struct PathSet {
+    paths: HashSet<String>,
+}
+
+impl PathSet {
+    /// Add a key path as written in a descriptor source.
+    pub fn insert(&mut self, key_path: &str) {
+        self.paths
+            .insert(key_path.replace("\\\\", "\\").to_uppercase());
+    }
+
+    /// Number of distinct key paths.
+    pub fn len(&self) -> usize {
+        self.paths.len()
+    }
+
+    /// Returns `true` when the catalog already covers this key path.
+    ///
+    /// Upstream sources give hive-relative keys while descriptors may carry the
+    /// hive, so a catalogued path also counts as covering any key that is its
+    /// suffix at a path boundary. An empty key path — every file, directory and
+    /// event-log record has one — is never covered.
+    pub fn covers(&self, key_path: &str) -> bool {
+        if key_path.is_empty() {
+            return false;
+        }
+        let key = key_path.replace("\\\\", "\\").to_uppercase();
+        let suffix = format!("\\{key}");
+        self.paths.iter().any(|c| *c == key || c.ends_with(&suffix))
+    }
+}
+
+/// Everything the pipeline needs to tell a net-new record from one the catalog
+/// already has.
+#[derive(Debug, Default, Clone)]
+pub struct CatalogIndex {
+    pub ids: IdSet,
+    pub paths: PathSet,
+}
+
 /// Extract all artifact IDs from a Rust source string.
 ///
 /// Matches lines of the form:
@@ -64,16 +112,26 @@ pub fn extract_ids_from_source(source: &str) -> HashSet<String> {
     ids
 }
 
-/// Scan all `.rs` files under `catalog_dir` and collect every `id: "..."` value.
-///
-/// Returns an `IdSet` ready for duplicate checks during ingestion.
-pub fn load_catalog_ids(catalog_dir: impl AsRef<Path>) -> io::Result<IdSet> {
-    let mut set = IdSet::default();
-    scan_dir(catalog_dir.as_ref(), &mut set)?;
-    Ok(set)
+/// Extract the string literal after `key_path:` on a line (handles `"..."`,
+/// `r"..."`, `r#"..."#`). Returns `None` for empty / non-matching lines.
+fn extract_key_path(line: &str) -> Option<&str> {
+    let after = line.split_once("key_path:")?.1.trim_start();
+    let after = after.trim_start_matches('r').trim_start_matches('#');
+    let after = after.strip_prefix('"')?;
+    let end = after.find('"')?;
+    let value = &after[..end];
+    (!value.is_empty()).then_some(value)
 }
 
-fn scan_dir(dir: &Path, set: &mut IdSet) -> io::Result<()> {
+/// Scan all `.rs` files under `catalog_dir` and collect every `id: "..."` and
+/// `key_path: "..."` value in one walk.
+pub fn load_catalog(catalog_dir: impl AsRef<Path>) -> io::Result<CatalogIndex> {
+    let mut index = CatalogIndex::default();
+    scan_dir(catalog_dir.as_ref(), &mut index)?;
+    Ok(index)
+}
+
+fn scan_dir(dir: &Path, index: &mut CatalogIndex) -> io::Result<()> {
     // `read_dir` returns a point-in-time snapshot; under concurrent filesystem
     // activity an entry can be listed yet gone by the time it is accessed. Tolerate
     // that transient per-entry `NotFound` (skip the vanished entry) so a scan of a
@@ -87,7 +145,7 @@ fn scan_dir(dir: &Path, set: &mut IdSet) -> io::Result<()> {
         };
         let path = entry.path();
         if path.is_dir() {
-            match scan_dir(&path, set) {
+            match scan_dir(&path, index) {
                 Ok(()) => {}
                 Err(e) if e.kind() == io::ErrorKind::NotFound => {}
                 Err(e) => return Err(e),
@@ -96,7 +154,10 @@ fn scan_dir(dir: &Path, set: &mut IdSet) -> io::Result<()> {
             match fs::read_to_string(&path) {
                 Ok(source) => {
                     for id in extract_ids_from_source(&source) {
-                        set.insert(id);
+                        index.ids.insert(id);
+                    }
+                    for key_path in source.lines().filter_map(extract_key_path) {
+                        index.paths.insert(key_path);
                     }
                 }
                 Err(e) if e.kind() == io::ErrorKind::NotFound => {}
@@ -181,9 +242,26 @@ mod tests {
     }
 
     #[test]
+    fn extract_key_path_handles_quote_forms() {
+        // escaped form (how descriptors are written)
+        assert_eq!(
+            extract_key_path(r#"    key_path: "Software\\Microsoft\\Run","#),
+            Some(r"Software\\Microsoft\\Run")
+        );
+        // raw-string form
+        assert_eq!(
+            extract_key_path(r##"    key_path: r"Software\Foo","##),
+            Some(r"Software\Foo")
+        );
+        // empty and non-matching lines
+        assert_eq!(extract_key_path(r#"    key_path: "","#), None);
+        assert_eq!(extract_key_path(r#"    name: "x","#), None);
+    }
+
+    #[test]
     fn path_set_matches_across_hive_prefix_and_escaping() {
         let mut paths = PathSet::default();
-        paths.insert(r"SOFTWARE\\MICROSOFT\\WINDOWS\\CURRENTVERSION\\RUN".to_string());
+        paths.insert(r"SOFTWARE\\MICROSOFT\\WINDOWS\\CURRENTVERSION\\RUN");
         // hive-relative key IS covered (suffix match past the SOFTWARE hive)
         assert!(paths.covers(r"Microsoft\Windows\CurrentVersion\Run"));
         // full path with the hive is covered too
@@ -198,7 +276,7 @@ mod tests {
         // empty needle must not suffix-match a catalogued registry path, or the
         // filter would drop every non-registry artifact.
         let mut paths = PathSet::default();
-        paths.insert(r"SOFTWARE\MICROSOFT\WINDOWS".to_string());
+        paths.insert(r"SOFTWARE\MICROSOFT\WINDOWS");
         assert!(!paths.covers(""));
     }
 

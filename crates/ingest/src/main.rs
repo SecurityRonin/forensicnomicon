@@ -21,7 +21,7 @@ use std::fs;
 use std::path::PathBuf;
 
 use codegen::{generate_module_header, generate_static};
-use dedup::load_catalog_ids;
+use dedup::load_catalog;
 use record::IngestRecord;
 
 /// CLI options parsed from argv.
@@ -181,16 +181,24 @@ fn main() {
         cwd.join(&opts.output_dir)
     };
 
-    // Load existing catalog IDs for deduplication
+    // Load the existing catalog for deduplication
     let catalog_dir =
         PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../data/src/catalog/descriptors");
-    let existing_ids = load_catalog_ids(&catalog_dir).unwrap_or_else(|e| {
-        eprintln!("WARN: could not load catalog IDs: {e}");
-        dedup::IdSet::default()
+    let catalog = load_catalog(&catalog_dir).unwrap_or_else(|e| {
+        eprintln!(
+            "ERROR: could not read the catalog at {}: {e}",
+            catalog_dir.display()
+        );
+        eprintln!("       Every record would look net-new; refusing to generate duplicates.");
+        std::process::exit(1);
     });
 
     if opts.verbose {
-        eprintln!("Loaded {} existing catalog IDs", existing_ids.len());
+        eprintln!(
+            "Loaded {} existing catalog IDs and {} key paths",
+            catalog.ids.len(),
+            catalog.paths.len()
+        );
     }
 
     // Expand "all" to every source
@@ -227,10 +235,16 @@ fn main() {
         let records = run_source(source_name, opts.limit, opts.verbose);
         let fetched = records.len();
 
-        // Deduplicate against catalog AND against already-generated this run
+        // Deduplicate against the catalog — by id, and by the registry key path
+        // a sibling source may already have catalogued under another id — and
+        // against what this run has already generated.
         let new_records: Vec<IngestRecord> = records
             .into_iter()
-            .filter(|r| !existing_ids.is_duplicate(&r.id) && !all_generated_ids.contains(&r.id))
+            .filter(|r| {
+                !catalog.ids.is_duplicate(&r.id)
+                    && !catalog.paths.covers(&r.key_path)
+                    && !all_generated_ids.contains(&r.id)
+            })
             .collect();
         let new_count = new_records.len();
 

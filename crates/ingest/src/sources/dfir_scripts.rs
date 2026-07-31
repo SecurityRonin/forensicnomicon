@@ -68,72 +68,9 @@ pub fn fetch_dfir_scripts_artifacts() -> Vec<IngestRecord> {
             return Vec::new();
         }
     };
-    let mut records = parse_dfir_scripts(&text);
-    // The pipeline dedups by id, and dfir's `dfir_scripts_*` ids never collide
-    // with existing source-prefixed ids for the SAME registry path. Drop keys a
-    // sibling source already covers so we don't add a duplicate descriptor.
-    let catalog_paths = catalog_registry_paths();
-    let before = records.len();
-    records.retain(|r| !path_already_catalogued(&r.key_path, &catalog_paths));
-    eprintln!(
-        "  dfir_scripts: dropped {} keys already in catalog; {} net-new of {}",
-        before - records.len(),
-        records.len(),
-        before
-    );
-    records
-}
-
-/// Registry key paths already present anywhere in the catalog descriptors
-/// (best-effort textual scan of the descriptor `.rs` files, uppercased).
-fn catalog_registry_paths() -> HashSet<String> {
-    let dir =
-        std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../data/src/catalog/descriptors");
-    let mut paths = HashSet::new();
-    collect_key_paths(&dir, &mut paths);
-    paths
-}
-
-fn collect_key_paths(dir: &std::path::Path, out: &mut HashSet<String>) {
-    let Ok(entries) = std::fs::read_dir(dir) else {
-        return;
-    };
-    for entry in entries.flatten() {
-        let p = entry.path();
-        if p.is_dir() {
-            collect_key_paths(&p, out);
-        } else if p.extension().is_some_and(|x| x == "rs") {
-            if let Ok(text) = std::fs::read_to_string(&p) {
-                for line in text.lines() {
-                    if let Some(v) = extract_key_path(line) {
-                        // Descriptors write key_path with escaped backslashes
-                        // ("A\\B"); dfir keys (from JSON) are single-backslash.
-                        // Collapse so both sides compare on single backslashes.
-                        out.insert(v.replace("\\\\", "\\").to_uppercase());
-                    }
-                }
-            }
-        }
-    }
-}
-
-/// Extract the string literal after `key_path:` on a line (handles `"..."`,
-/// `r"..."`, `r#"..."#`). Returns None for empty / non-matching lines.
-fn extract_key_path(line: &str) -> Option<String> {
-    let after = line.split_once("key_path:")?.1.trim_start();
-    let after = after.trim_start_matches('r').trim_start_matches('#');
-    let after = after.strip_prefix('"')?;
-    let end = after.find('"')?;
-    let v = &after[..end];
-    (!v.is_empty()).then(|| v.to_string())
-}
-
-/// True when the catalog already covers this exact registry key path, allowing
-/// for a hive prefix on the catalog side (dfir keys are hive-relative).
-fn path_already_catalogued(key: &str, catalog: &HashSet<String>) -> bool {
-    let key = key.to_uppercase();
-    let suffix = format!("\\{key}");
-    catalog.iter().any(|c| *c == key || c.ends_with(&suffix))
+    // Registry paths the catalog already covers are dropped by the pipeline's
+    // shared filter (see `dedup::PathSet`), for this source and every other.
+    parse_dfir_scripts(&text)
 }
 
 /// Parse the dfir-scripts registry schema JSON into ingest records — one per
@@ -283,40 +220,5 @@ mod tests {
         assert!(recs
             .iter()
             .all(|r| r.mitre_techniques.iter().all(|t| is_attack_technique(t))));
-    }
-
-    #[test]
-    fn extract_key_path_handles_quote_forms() {
-        // escaped form (how descriptors are written)
-        assert_eq!(
-            extract_key_path(r#"    key_path: "Software\\Microsoft\\Run","#).as_deref(),
-            Some(r"Software\\Microsoft\\Run")
-        );
-        // raw-string form
-        assert_eq!(
-            extract_key_path(r##"    key_path: r"Software\Foo","##).as_deref(),
-            Some(r"Software\Foo")
-        );
-        // empty and non-matching lines
-        assert_eq!(extract_key_path(r#"    key_path: "","#), None);
-        assert_eq!(extract_key_path(r#"    name: "x","#), None);
-    }
-
-    #[test]
-    fn path_dedup_matches_across_hive_prefix_and_escaping() {
-        // Catalog paths as extracted+normalized: escaped backslashes collapsed,
-        // uppercased, hive prefix present.
-        let mut cat = HashSet::new();
-        cat.insert(r"SOFTWARE\MICROSOFT\WINDOWS\CURRENTVERSION\RUN".to_string());
-        // hive-relative dfir key IS covered (suffix match past the SOFTWARE hive)
-        assert!(path_already_catalogued(
-            r"Microsoft\Windows\CurrentVersion\Run",
-            &cat
-        ));
-        // a sibling key that is NOT catalogued is kept
-        assert!(!path_already_catalogued(
-            r"Microsoft\Windows\CurrentVersion\RunOnceEx",
-            &cat
-        ));
     }
 }
