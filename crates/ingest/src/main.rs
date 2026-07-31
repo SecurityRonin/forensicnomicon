@@ -21,7 +21,7 @@ use std::path::{Path, PathBuf};
 use std::{fs, io};
 
 use codegen::{generate_module_header, generate_static};
-use dedup::{load_catalog, CatalogIndex};
+use dedup::{load_catalog, load_catalog_excluding, CatalogIndex};
 use record::IngestRecord;
 
 /// CLI options parsed from argv.
@@ -224,8 +224,7 @@ fn generated_file_name(source_name: &str) -> String {
 /// would drop it. The rest of the catalog (hand-written descriptors and the
 /// other sources' modules) still dedups normally.
 fn baseline_for_source(catalog_dir: &Path, source_name: &str) -> io::Result<CatalogIndex> {
-    let _ = source_name;
-    load_catalog(catalog_dir)
+    load_catalog_excluding(catalog_dir, &[generated_file_name(source_name)])
 }
 
 /// The records of `records` the catalog does not already carry: not an id the

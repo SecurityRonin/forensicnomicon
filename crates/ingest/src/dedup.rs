@@ -126,12 +126,26 @@ fn extract_key_path(line: &str) -> Option<&str> {
 /// Scan all `.rs` files under `catalog_dir` and collect every `id: "..."` and
 /// `key_path: "..."` value in one walk.
 pub fn load_catalog(catalog_dir: impl AsRef<Path>) -> io::Result<CatalogIndex> {
+    load_catalog_excluding(catalog_dir, &[])
+}
+
+/// [`load_catalog`], skipping any file whose name is in `exclude`.
+///
+/// A source's own generated module is not a prior claim on that source's
+/// records: regeneration rewrites it in full, so counting it would make every
+/// record the source already contributed look like a duplicate of itself.
+/// Excluding it keeps the rest of the catalog — hand-written descriptors and
+/// the other sources' modules — deduping normally.
+pub fn load_catalog_excluding(
+    catalog_dir: impl AsRef<Path>,
+    exclude: &[String],
+) -> io::Result<CatalogIndex> {
     let mut index = CatalogIndex::default();
-    scan_dir(catalog_dir.as_ref(), &mut index)?;
+    scan_dir(catalog_dir.as_ref(), exclude, &mut index)?;
     Ok(index)
 }
 
-fn scan_dir(dir: &Path, index: &mut CatalogIndex) -> io::Result<()> {
+fn scan_dir(dir: &Path, exclude: &[String], index: &mut CatalogIndex) -> io::Result<()> {
     // `read_dir` returns a point-in-time snapshot; under concurrent filesystem
     // activity an entry can be listed yet gone by the time it is accessed. Tolerate
     // that transient per-entry `NotFound` (skip the vanished entry) so a scan of a
@@ -145,12 +159,19 @@ fn scan_dir(dir: &Path, index: &mut CatalogIndex) -> io::Result<()> {
         };
         let path = entry.path();
         if path.is_dir() {
-            match scan_dir(&path, index) {
+            match scan_dir(&path, exclude, index) {
                 Ok(()) => {}
                 Err(e) if e.kind() == io::ErrorKind::NotFound => {}
                 Err(e) => return Err(e),
             }
         } else if path.extension().is_some_and(|e| e == "rs") {
+            if path
+                .file_name()
+                .and_then(|n| n.to_str())
+                .is_some_and(|n| exclude.iter().any(|x| x == n))
+            {
+                continue;
+            }
             match fs::read_to_string(&path) {
                 Ok(source) => {
                     for id in extract_ids_from_source(&source) {
@@ -239,6 +260,39 @@ mod tests {
                 .covers(r"Microsoft\Windows\CurrentVersion\Run"),
             "hive-relative key already in the catalog must be recognized"
         );
+    }
+
+    #[test]
+    fn load_catalog_excluding_skips_only_the_named_file() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        std::fs::write(
+            dir.path().join("regedit_generated.rs"),
+            "    id: \"regedit_portproxy\",\n    key_path: \"SYSTEM\\\\CurrentControlSet\\\\Services\\\\PortProxy\",\n",
+        )
+        .expect("write excluded");
+        std::fs::write(
+            dir.path().join("kape_generated.rs"),
+            "    id: \"kape_amcache\",\n    key_path: \"SOFTWARE\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run\",\n",
+        )
+        .expect("write kept");
+
+        let catalog = load_catalog_excluding(dir.path(), &["regedit_generated.rs".to_string()])
+            .expect("scan");
+
+        assert!(
+            !catalog.ids.is_duplicate("regedit_portproxy"),
+            "the excluded module must not claim its own ids"
+        );
+        assert!(
+            !catalog
+                .paths
+                .covers(r"CurrentControlSet\Services\PortProxy"),
+            "the excluded module must not claim its own key paths"
+        );
+        assert!(catalog.ids.is_duplicate("kape_amcache"));
+        assert!(catalog
+            .paths
+            .covers(r"Microsoft\Windows\CurrentVersion\Run"));
     }
 
     #[test]
