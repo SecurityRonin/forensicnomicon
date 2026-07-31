@@ -129,8 +129,77 @@ mod tests {
             dir.path().join("ghost.rs"),
         )
         .expect("symlink");
-        let set = load_catalog_ids(dir.path()).expect("scan must tolerate a vanished entry");
-        assert!(set.is_duplicate("real_id"));
+        let catalog = load_catalog(dir.path()).expect("scan must tolerate a vanished entry");
+        assert!(catalog.ids.is_duplicate("real_id"));
+    }
+
+    #[test]
+    #[cfg(unix)]
+    fn scan_fails_loud_on_an_error_that_is_not_a_vanished_entry() {
+        // The twin of the test above: a *transient* NotFound is skipped, but a
+        // real I/O error must propagate. Swallowing it (`let Ok(..) else
+        // return`, `entries.flatten()`) would silently under-report the catalog
+        // and let a duplicate through as if it were net-new.
+        use std::os::unix::fs::PermissionsExt;
+        let dir = tempfile::tempdir().expect("tempdir");
+        let locked = dir.path().join("locked");
+        std::fs::create_dir(&locked).expect("mkdir");
+        std::fs::write(locked.join("hidden.rs"), "    id: \"hidden\",\n").expect("write");
+        std::fs::set_permissions(&locked, std::fs::Permissions::from_mode(0o000)).expect("chmod");
+
+        let readable_anyway = std::fs::read_dir(&locked).is_ok();
+        let result = load_catalog(dir.path());
+        // Restore so the tempdir can be cleaned up.
+        let _ = std::fs::set_permissions(&locked, std::fs::Permissions::from_mode(0o755));
+
+        if readable_anyway {
+            // Running as root: permissions do not deny us, nothing to assert.
+            return;
+        }
+        assert!(
+            result.is_err(),
+            "an unreadable directory must surface, not be reported as an empty catalog"
+        );
+    }
+
+    #[test]
+    fn load_catalog_collects_ids_and_key_paths_in_one_walk() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        std::fs::write(
+            dir.path().join("descriptors.rs"),
+            "    id: \"run_key\",\n    key_path: \"Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run\",\n",
+        )
+        .expect("write");
+        let catalog = load_catalog(dir.path()).expect("scan");
+        assert!(catalog.ids.is_duplicate("run_key"));
+        assert!(
+            catalog
+                .paths
+                .covers(r"Microsoft\Windows\CurrentVersion\Run"),
+            "hive-relative key already in the catalog must be recognized"
+        );
+    }
+
+    #[test]
+    fn path_set_matches_across_hive_prefix_and_escaping() {
+        let mut paths = PathSet::default();
+        paths.insert(r"SOFTWARE\\MICROSOFT\\WINDOWS\\CURRENTVERSION\\RUN".to_string());
+        // hive-relative key IS covered (suffix match past the SOFTWARE hive)
+        assert!(paths.covers(r"Microsoft\Windows\CurrentVersion\Run"));
+        // full path with the hive is covered too
+        assert!(paths.covers(r"SOFTWARE\Microsoft\Windows\CurrentVersion\Run"));
+        // a sibling key that is NOT catalogued is kept
+        assert!(!paths.covers(r"Microsoft\Windows\CurrentVersion\RunOnceEx"));
+    }
+
+    #[test]
+    fn path_set_never_covers_a_record_that_has_no_key_path() {
+        // File, directory and event-log records carry an empty key_path. An
+        // empty needle must not suffix-match a catalogued registry path, or the
+        // filter would drop every non-registry artifact.
+        let mut paths = PathSet::default();
+        paths.insert(r"SOFTWARE\MICROSOFT\WINDOWS".to_string());
+        assert!(!paths.covers(""));
     }
 
     #[test]
@@ -195,17 +264,22 @@ pub(crate) static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
             env!("CARGO_MANIFEST_DIR"),
             "/../data/src/catalog/descriptors"
         );
-        let set = load_catalog_ids(catalog_dir).expect("should scan catalog dir");
+        let catalog = load_catalog(catalog_dir).expect("should scan catalog dir");
         // The catalog has hundreds of entries; just confirm we got some
         assert!(
-            set.len() > 50,
+            catalog.ids.len() > 50,
             "expected > 50 catalog IDs, got {}",
-            set.len()
+            catalog.ids.len()
         );
         // Check a known ID
         assert!(
-            set.is_duplicate("safeboot_minimal") || !set.is_empty(),
+            catalog.ids.is_duplicate("safeboot_minimal") || !catalog.ids.is_empty(),
             "catalog should contain known IDs"
+        );
+        assert!(
+            catalog.paths.len() > 50,
+            "expected > 50 catalog key paths, got {}",
+            catalog.paths.len()
         );
     }
 }
