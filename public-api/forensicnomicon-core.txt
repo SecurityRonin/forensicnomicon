@@ -196,6 +196,7 @@ impl forensicnomicon_core::catalog::types::ForensicCatalog
 pub fn forensicnomicon_core::catalog::types::ForensicCatalog::assessment_coverage(&self) -> (usize, usize)
 pub fn forensicnomicon_core::catalog::types::ForensicCatalog::by_id(&self, &str) -> core::option::Option<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
 pub fn forensicnomicon_core::catalog::types::ForensicCatalog::by_mitre(&self, &str) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::by_mitre_including_subtechniques(&self, &str) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
 pub fn forensicnomicon_core::catalog::types::ForensicCatalog::filter(&self, &forensicnomicon_core::catalog::types::ArtifactQuery) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
 pub fn forensicnomicon_core::catalog::types::ForensicCatalog::filter_by_keyword(&self, &str) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
 pub fn forensicnomicon_core::catalog::types::ForensicCatalog::for_triage(&self) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
@@ -423,6 +424,7 @@ impl forensicnomicon_core::catalog::types::ForensicCatalog
 pub fn forensicnomicon_core::catalog::types::ForensicCatalog::assessment_coverage(&self) -> (usize, usize)
 pub fn forensicnomicon_core::catalog::types::ForensicCatalog::by_id(&self, &str) -> core::option::Option<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
 pub fn forensicnomicon_core::catalog::types::ForensicCatalog::by_mitre(&self, &str) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub fn forensicnomicon_core::catalog::types::ForensicCatalog::by_mitre_including_subtechniques(&self, &str) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
 pub fn forensicnomicon_core::catalog::types::ForensicCatalog::filter(&self, &forensicnomicon_core::catalog::types::ArtifactQuery) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
 pub fn forensicnomicon_core::catalog::types::ForensicCatalog::filter_by_keyword(&self, &str) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>
 pub fn forensicnomicon_core::catalog::types::ForensicCatalog::for_triage(&self) -> alloc::vec::Vec<&forensicnomicon_core::catalog::types::ArtifactDescriptor>

@@ -270,6 +270,27 @@ fn build_render_data(app: &app::App) -> RenderData {
     // Apply search filter if query is non-empty.
     let list_items = if app.search_query.is_empty() {
         all_display
+    } else if app.dataset_idx == 0 && crate::is_mitre_id(&app.search_query) {
+        // ATT&CK technique query: resolve through the catalog's dotted hierarchy
+        // so a parent ID (T1053) reaches the artifacts tagged with its
+        // sub-techniques (T1053.005). The text index below carries no technique
+        // tags at all, so it would only surface artifacts whose prose happens to
+        // mention the ID. Uppercased because ATT&CK IDs are, and the search bar
+        // accepts either case.
+        let query = app.search_query.to_ascii_uppercase();
+        let hit_ids: Vec<&str> = CATALOG
+            .by_mitre_including_subtechniques(&query)
+            .iter()
+            .map(|d| d.id)
+            .collect();
+        CATALOG
+            .list()
+            .iter()
+            .filter(|d| catalog_passes(app, d))
+            .enumerate()
+            .filter(|(_, d)| hit_ids.contains(&d.id))
+            .map(|(i, _)| all_display[i].clone())
+            .collect()
     } else {
         let entries: Vec<search::SearchEntry> = if app.dataset_idx == 0 {
             // Catalog: rich multi-field index (id + name + meaning + file_path + key_path).

@@ -312,7 +312,7 @@ fn query_subtechnique_does_not_match_sibling() {
             .map(|arr| arr.iter().filter_map(|t| t.as_str()).collect())
             .unwrap_or_default();
         assert!(
-            techs.iter().any(|t| *t == "T1547.001"),
+            techs.contains(&"T1547.001"),
             "artifact {} was returned for T1547.001 but is tagged {:?}",
             a["id"],
             techs
