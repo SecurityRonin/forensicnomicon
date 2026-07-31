@@ -283,6 +283,31 @@ fn query_parent_mitre_technique_rolls_up_subtechniques() {
         .stdout(predicate::str::contains("scheduled_tasks_dir"));
 }
 
+/// `is_mitre_id` accepts a lowercase `t`, so `t1053` is recognised as a
+/// technique and routed to the catalog — but the catalog matches ATT&CK IDs
+/// case-sensitively, so it returned nothing and the CLI printed "Not found".
+/// Recognising an ID and then failing to look it up is the worst of both: the
+/// keyword fallback never runs either. The TUI has always uppercased before the
+/// same call; only the CLI diverged.
+#[test]
+fn query_lowercase_mitre_technique_matches_uppercase() {
+    q().arg("t1053")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("scheduled_tasks_dir"));
+}
+
+#[test]
+fn query_lowercase_subtechnique_matches_uppercase() {
+    let lower = run(&["t1547.001", "--format", "json"]);
+    let upper = run(&["T1547.001", "--format", "json"]);
+    assert_eq!(lower.code, 0, "lowercase sub-technique must resolve");
+    assert_eq!(
+        lower.stdout, upper.stdout,
+        "case must not change the result set"
+    );
+}
+
 #[test]
 fn query_parent_mitre_technique_json_has_artifacts() {
     let out = q()
