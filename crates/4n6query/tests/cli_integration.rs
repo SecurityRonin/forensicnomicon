@@ -272,6 +272,54 @@ fn query_unknown_mitre_technique_exits_nonzero() {
     q().arg("T9999.999").assert().failure();
 }
 
+/// A parent technique ID must reach the artifacts tagged only with its
+/// sub-techniques. `T1053` (Scheduled Task/Job) is among the most-typed IDs in
+/// IR work, and every catalog artifact for it is tagged `T1053.005`.
+#[test]
+fn query_parent_mitre_technique_rolls_up_subtechniques() {
+    q().arg("T1053")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("scheduled_tasks_dir"));
+}
+
+#[test]
+fn query_parent_mitre_technique_json_has_artifacts() {
+    let out = q()
+        .args(["T1053", "--format", "json"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let v: serde_json::Value = serde_json::from_str(std::str::from_utf8(&out).unwrap()).unwrap();
+    let artifacts = v["artifacts"].as_array().expect("missing artifacts array");
+    assert!(!artifacts.is_empty());
+}
+
+/// The rollup is bounded by the `.` separator: an exact sub-technique query
+/// must not pick up a sibling sub-technique's artifacts.
+#[test]
+fn query_subtechnique_does_not_match_sibling() {
+    let out = run(&["T1547.001", "--format", "json"]);
+    assert_eq!(out.code, 0);
+    let v: serde_json::Value = serde_json::from_str(&out.stdout).unwrap();
+    let artifacts = v["artifacts"].as_array().expect("missing artifacts array");
+    assert!(!artifacts.is_empty());
+    for a in artifacts {
+        let techs: Vec<&str> = a["mitre_techniques"]
+            .as_array()
+            .map(|arr| arr.iter().filter_map(|t| t.as_str()).collect())
+            .unwrap_or_default();
+        assert!(
+            techs.contains(&"T1547.001"),
+            "artifact {} was returned for T1547.001 but is tagged {:?}",
+            a["id"],
+            techs
+        );
+    }
+}
+
 // ---------------------------------------------------------------------------
 // Triage
 // ---------------------------------------------------------------------------

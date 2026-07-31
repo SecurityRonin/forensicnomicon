@@ -454,7 +454,10 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
     // specific LOLBin platform, not doing a broad keyword search.
     let artifact_hits = if platform.is_none() {
         if is_mitre_id(term) {
-            CATALOG.by_mitre(term)
+            // Roll up the ATT&CK hierarchy: a parent ID (T1053) must reach the
+            // artifacts tagged with its sub-techniques (T1053.005), which is
+            // where the catalog actually tags them.
+            CATALOG.by_mitre_including_subtechniques(term)
         } else {
             CATALOG.filter_by_keyword(term)
         }

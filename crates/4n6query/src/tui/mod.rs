@@ -270,6 +270,27 @@ fn build_render_data(app: &app::App) -> RenderData {
     // Apply search filter if query is non-empty.
     let list_items = if app.search_query.is_empty() {
         all_display
+    } else if app.dataset_idx == 0 && crate::is_mitre_id(&app.search_query) {
+        // ATT&CK technique query: resolve through the catalog's dotted hierarchy
+        // so a parent ID (T1053) reaches the artifacts tagged with its
+        // sub-techniques (T1053.005). The text index below carries no technique
+        // tags at all, so it would only surface artifacts whose prose happens to
+        // mention the ID. Uppercased because ATT&CK IDs are, and the search bar
+        // accepts either case.
+        let query = app.search_query.to_ascii_uppercase();
+        let hit_ids: Vec<&str> = CATALOG
+            .by_mitre_including_subtechniques(&query)
+            .iter()
+            .map(|d| d.id)
+            .collect();
+        CATALOG
+            .list()
+            .iter()
+            .filter(|d| catalog_passes(app, d))
+            .enumerate()
+            .filter(|(_, d)| hit_ids.contains(&d.id))
+            .map(|(i, _)| all_display[i].clone())
+            .collect()
     } else {
         let entries: Vec<search::SearchEntry> = if app.dataset_idx == 0 {
             // Catalog: rich multi-field index (id + name + meaning + file_path + key_path).
@@ -798,6 +819,41 @@ mod tests {
             "catalog must have >100 items, got {}",
             rd.list_items.len()
         );
+    }
+
+    /// A technique ID typed into the catalog search must be resolved through the
+    /// ATT&CK hierarchy, not the prose text index: `scheduled_tasks_dir` is
+    /// tagged `T1053.005` and never mentions `T1053` in its text, so a
+    /// substring search alone silently drops it.
+    #[test]
+    fn catalog_search_parent_technique_rolls_up_subtechniques() {
+        let rd = build_render_data(&make_app(0, "T1053", 0));
+        assert!(
+            rd.list_items
+                .iter()
+                .any(|s| s.starts_with("scheduled_tasks_dir")),
+            "catalog search for T1053 must list its T1053.005 artifacts; got: {:?}",
+            rd.list_items
+        );
+    }
+
+    /// Every hit for a technique query is genuinely tagged with that technique
+    /// (or one of its sub-techniques) — no prose false positives.
+    #[test]
+    fn catalog_search_technique_hits_are_all_tagged() {
+        let rd = build_render_data(&make_app(0, "T1053", 0));
+        assert!(!rd.list_items.is_empty());
+        for item in &rd.list_items {
+            let id = item.split_whitespace().next().unwrap_or_default();
+            let d = CATALOG.by_id(id).expect("listed id must exist in catalog");
+            assert!(
+                d.mitre_techniques
+                    .iter()
+                    .any(|t| *t == "T1053" || t.starts_with("T1053.")),
+                "{id} was listed for T1053 but is tagged {:?}",
+                d.mitre_techniques
+            );
+        }
     }
 
     #[test]

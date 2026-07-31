@@ -609,6 +609,19 @@ pub struct ForensicCatalog {
     entries: &'static [ArtifactDescriptor],
 }
 
+/// Does ATT&CK technique ID `tag` fall under `query` in the dotted hierarchy?
+///
+/// True when `tag` is the query itself, or a sub-technique of it — i.e. when it
+/// extends the query at a `.` separator. The separator check is load-bearing:
+/// without it a bare prefix test would make `T1055` match `T10555`.
+///
+/// Bounds-checked with `get` rather than indexing: when `tag != query` and
+/// `tag` starts with `query`, `tag` is strictly longer, but the safe read keeps
+/// that reasoning out of the panic budget.
+fn technique_covers(query: &str, tag: &str) -> bool {
+    tag == query || (tag.starts_with(query) && tag.as_bytes().get(query.len()) == Some(&b'.'))
+}
+
 impl ForensicCatalog {
     /// Create a new catalog from a static slice of descriptors.
     pub const fn new(entries: &'static [ArtifactDescriptor]) -> Self {
@@ -666,11 +679,46 @@ impl ForensicCatalog {
             .collect()
     }
 
-    /// Return all descriptors associated with the given MITRE ATT&CK technique ID.
+    /// Return all descriptors tagged with **exactly** the given MITRE ATT&CK
+    /// technique ID.
+    ///
+    /// A descriptor is normally tagged with the most specific ID it warrants, so
+    /// a parent query (`T1053`) does not reach artifacts tagged with one of its
+    /// sub-techniques (`T1053.005`). Use
+    /// [`Self::by_mitre_including_subtechniques`] for the analyst-facing lookup,
+    /// and this method when the exact tag is what matters — per-ID coverage
+    /// accounting, for instance, where rolling a sub-technique up under its
+    /// parent would double-count it.
     pub fn by_mitre(&self, technique: &str) -> Vec<&ArtifactDescriptor> {
         self.entries
             .iter()
             .filter(|d| d.mitre_techniques.contains(&technique))
+            .collect()
+    }
+
+    /// Return all descriptors tagged with the given MITRE ATT&CK technique ID
+    /// **or any of its sub-techniques**.
+    ///
+    /// ATT&CK sub-technique IDs extend their parent at a `.` — `T1053.005` is a
+    /// sub-technique of `T1053` — and artifacts carry the most specific ID only.
+    /// A parent query therefore has to roll up, or the IDs analysts type most
+    /// (`T1053` Scheduled Task/Job, `T1566` Phishing) return nothing at all.
+    ///
+    /// The match is structural rather than a table of known IDs: a tag matches
+    /// when it equals the query, or when it extends the query at a `.`. That
+    /// separator is what keeps `T1055` from swallowing `T10555`, and what keeps
+    /// `T1053.005` disjoint from its sibling `T1053.002`.
+    ///
+    /// Matching is case-sensitive, like [`Self::by_mitre`]; ATT&CK IDs are
+    /// uppercase, so normalise user input before calling.
+    pub fn by_mitre_including_subtechniques(&self, technique: &str) -> Vec<&ArtifactDescriptor> {
+        self.entries
+            .iter()
+            .filter(|d| {
+                d.mitre_techniques
+                    .iter()
+                    .any(|tag| technique_covers(technique, tag))
+            })
             .collect()
     }
 
@@ -911,6 +959,84 @@ mod tests {
 
     fn catalog() -> ForensicCatalog {
         ForensicCatalog::new(TEST_ENTRIES)
+    }
+
+    /// Fixture for the ATT&CK dotted-hierarchy rollup, kept separate from
+    /// `TEST_ENTRIES` so the exact-count assertions above stay stable.
+    static HIERARCHY_ENTRIES: &[ArtifactDescriptor] = &[
+        ArtifactDescriptor {
+            id: "sched_task_xml",
+            mitre_techniques: &["T1053.005"],
+            ..TEMPLATE
+        },
+        ArtifactDescriptor {
+            id: "at_job",
+            mitre_techniques: &["T1053.002"],
+            ..TEMPLATE
+        },
+        ArtifactDescriptor {
+            id: "cron_parent",
+            mitre_techniques: &["T1053"],
+            ..TEMPLATE
+        },
+        ArtifactDescriptor {
+            id: "proc_inject",
+            mitre_techniques: &["T1055"],
+            ..TEMPLATE
+        },
+        // Boundary guard: a longer ID that merely shares the `T1055` prefix must
+        // never roll up under it. Not a real ATT&CK ID — the point is that the
+        // rule is structural (the `.` separator), not a lookup table.
+        ArtifactDescriptor {
+            id: "prefix_trap",
+            mitre_techniques: &["T10555"],
+            ..TEMPLATE
+        },
+    ];
+
+    fn hierarchy_catalog() -> ForensicCatalog {
+        ForensicCatalog::new(HIERARCHY_ENTRIES)
+    }
+
+    fn ids(hits: &[&ArtifactDescriptor]) -> Vec<&'static str> {
+        hits.iter().map(|d| d.id).collect()
+    }
+
+    #[test]
+    fn by_mitre_including_subtechniques_rolls_up_parent() {
+        let cat = hierarchy_catalog();
+        // T1053 must reach every T1053.* artifact, not just the one tagged with
+        // the bare parent ID.
+        assert_eq!(
+            ids(&cat.by_mitre_including_subtechniques("T1053")),
+            vec!["sched_task_xml", "at_job", "cron_parent"]
+        );
+    }
+
+    #[test]
+    fn by_mitre_including_subtechniques_does_not_match_sibling_sub() {
+        let cat = hierarchy_catalog();
+        assert_eq!(
+            ids(&cat.by_mitre_including_subtechniques("T1053.005")),
+            vec!["sched_task_xml"]
+        );
+    }
+
+    #[test]
+    fn by_mitre_including_subtechniques_requires_dot_boundary() {
+        let cat = hierarchy_catalog();
+        assert_eq!(
+            ids(&cat.by_mitre_including_subtechniques("T1055")),
+            vec!["proc_inject"],
+            "T1055 must not swallow T10555 — a sub-technique extends its parent at a '.'"
+        );
+    }
+
+    #[test]
+    fn by_mitre_keeps_exact_match_semantics() {
+        let cat = hierarchy_catalog();
+        // by_mitre stays an exact-tag lookup; the rollup is the opt-in method.
+        assert_eq!(ids(&cat.by_mitre("T1053")), vec!["cron_parent"]);
     }
 
     #[test]
