@@ -15,7 +15,6 @@ mod record;
 mod sources;
 mod triage;
 
-use std::collections::HashSet;
 use std::fmt::Write as _;
 use std::path::{Path, PathBuf};
 use std::{fs, io};
@@ -293,40 +292,80 @@ fn baseline_for_run(catalog_dir: &Path, sources: &[&str]) -> io::Result<CatalogI
 /// What a run fetched, per source, in source order.
 type Fetched = Vec<(&'static str, Vec<IngestRecord>)>;
 
+/// Where a source sits in [`SOURCES`], used only to break ties.
+///
+/// Derived from the record's own `source_name` rather than from the position it
+/// happens to occupy in a run, so it cannot vary with processing order.
+fn source_rank(source_name: &str) -> usize {
+    SOURCES
+        .iter()
+        .position(|(name, _)| *name == source_name)
+        .unwrap_or(SOURCES.len())
+}
+
 /// How much an ingested record tells an analyst, largest first.
 ///
-/// Two sources describing one registry key rarely describe it equally well: one
-/// maps it to an ATT&CK technique and says what the key is evidence of, the
-/// other gives a bare label. When both cannot survive, that — not which source
-/// happened to be fetched first — is what should decide, or a technique
-/// mapping disappears from the catalog with the record that carried it.
+/// Two sources describing one artifact rarely describe it equally well: one maps
+/// it to an ATT&CK technique and says what it is evidence of, the other gives a
+/// bare label. The merge keeps every additive fact from both, but `name` and
+/// `meaning` cannot be spliced — text assembled from two upstreams would leave
+/// sentences that no single `sources` entry backs — so one description is
+/// selected, and this is what selects it.
 ///
 /// A technique mapping outranks everything: it is the only field an analyst can
 /// query the catalog *by*. Length of `meaning` then stands in for how much the
-/// source actually says. `source_rank` breaks the remaining ties so the order is
-/// total and the run reproducible.
-fn richness(rec: &IngestRecord, source_rank: usize) -> (bool, usize, std::cmp::Reverse<usize>) {
+/// source actually says. Source order and then the id break the remaining ties.
+/// Every term is intrinsic to the record, so the ordering — and the merge built
+/// on it — does not depend on the order records arrive in.
+fn richness(
+    rec: &IngestRecord,
+) -> (
+    bool,
+    usize,
+    std::cmp::Reverse<usize>,
+    std::cmp::Reverse<String>,
+) {
     (
         !rec.mitre_techniques.is_empty(),
         rec.meaning.len(),
-        std::cmp::Reverse(source_rank),
+        std::cmp::Reverse(source_rank(rec.source_name)),
+        std::cmp::Reverse(rec.id.clone()),
     )
 }
 
-/// Carry `retired`'s ATT&CK techniques over to the record that displaced it.
+/// Severity of a triage priority, largest first, for merging.
+fn triage_rank(priority: &str) -> usize {
+    match priority.to_ascii_lowercase().as_str() {
+        "critical" => 3,
+        "high" => 2,
+        "medium" => 1,
+        _ => 0,
+    }
+}
+
+/// Fold what `other` knows about the same artifact into `into`.
 ///
-/// Sources disagree about which technique a key serves rather than about the
-/// key: dfir-scripts maps `…\CurrentVersion\Policies\System` to credential
-/// access under one entry, to defense evasion under another and to privilege
-/// escalation under a third, all of them true. Picking a survivor and dropping
-/// the rest would silently narrow which techniques the catalog can answer for
-/// that key, so the survivor absorbs them. Its own come first and duplicates are
-/// skipped, so the result is stable.
-fn absorb_techniques(winner: &mut IngestRecord, retired: &IngestRecord) {
-    for technique in &retired.mitre_techniques {
-        if !winner.mitre_techniques.contains(technique) {
-            winner.mitre_techniques.push(technique.clone());
+/// The additive facts — techniques and citations — are unioned, `into`'s own
+/// first and duplicates skipped, so both upstreams keep their provenance. Triage
+/// takes the more severe of the two. `name` and `meaning` are left alone: they
+/// belong to the record richness already selected.
+///
+/// (`related_artifacts`, the field schema, evidence strength and volatility are
+/// not part of an ingested record — codegen emits them empty and the curated ones
+/// are hand-written — so there is nothing of them here to union.)
+fn merge_into(into: &mut IngestRecord, other: &IngestRecord) {
+    for technique in &other.mitre_techniques {
+        if !into.mitre_techniques.contains(technique) {
+            into.mitre_techniques.push(technique.clone());
         }
+    }
+    for source in &other.sources {
+        if !into.sources.contains(source) {
+            into.sources.push(source.clone());
+        }
+    }
+    if triage_rank(&other.triage_priority) > triage_rank(&into.triage_priority) {
+        into.triage_priority.clone_from(&other.triage_priority);
     }
 }
 
@@ -334,8 +373,8 @@ fn absorb_techniques(winner: &mut IngestRecord, retired: &IngestRecord) {
 ///
 /// [`PathSet::covers`] is directional — a catalogued path covers any key that is
 /// its suffix at a path boundary, which is how a hive-qualified path matches a
-/// hive-relative one. Competing records have no established direction, so a
-/// collision is the symmetric closure of that.
+/// hive-relative one. Records being merged have no established direction, so the
+/// relation is the symmetric closure of that.
 fn paths_collide(a: &str, b: &str) -> bool {
     if a.is_empty() || b.is_empty() {
         return false;
@@ -350,64 +389,117 @@ fn paths_collide(a: &str, b: &str) -> bool {
     other.covers(a)
 }
 
-/// The records of `fetched` the catalog does not already carry, keyed back to
-/// the source that produced them.
-///
-/// Three claims retire a record outright: an id the `baseline` already uses, a
-/// registry key path it already covers, and an id this run has already
-/// generated — the last covering a collision with another source *and* one
-/// inside a source's own corpus, so two records that reduce to one id cannot
-/// emit the same static name twice.
-///
-/// What remains competes for shared registry key paths by [`richness`], and each
-/// source's survivors come back in the order it produced them.
-fn select_records(fetched: &Fetched, baseline: &CatalogIndex) -> Fetched {
-    let mut generated_ids: HashSet<String> = HashSet::new();
-    let mut candidates: Vec<(usize, usize, IngestRecord)> = Vec::new();
+/// A file path reduced so the same file written two ways compares equal.
+fn normalized_file_path(path: &str) -> String {
+    path.replace('/', "\\").replace("\\\\", "\\").to_uppercase()
+}
 
+/// Whether two records name the same artifact, and so should be merged.
+///
+/// Identity is the id, or the registry key / file the record points at together
+/// with the artifact type and value name. Registry paths compare through
+/// [`paths_collide`] because upstreams differ over whether to spell the hive;
+/// file paths compare only when equal once separators and case are normalized,
+/// which is deliberately strict — no two upstreams agree on how to spell an
+/// environment variable, and a wrong merge is worse than a missed one.
+fn same_artifact(a: &IngestRecord, b: &IngestRecord) -> bool {
+    if a.id == b.id {
+        return true;
+    }
+    if a.artifact_type != b.artifact_type || a.value_name != b.value_name {
+        return false;
+    }
+    if paths_collide(&a.key_path, &b.key_path) {
+        return true;
+    }
+    match (&a.file_path, &b.file_path) {
+        (Some(x), Some(y)) => normalized_file_path(x) == normalized_file_path(y),
+        _ => false,
+    }
+}
+
+/// Records that describe the same artifact but disagree on what kind of thing it
+/// is, which is a disagreement no merge can resolve.
+struct RefusedMerge {
+    kept: String,
+    refused: String,
+    location: String,
+}
+
+/// The records of `fetched`, merged, keyed back to the source that produced them.
+///
+/// The catalog already carries some of what a run fetches: an id the `baseline`
+/// knows, or a registry key path it covers, retires a record outright — a
+/// hand-written descriptor is curated and is not something to fold an upstream
+/// label into.
+///
+/// What remains is grouped by [`same_artifact`]: several sources describing one
+/// registry key produce one descriptor carrying every technique and every
+/// citation any of them supplied, with the richest description selected rather
+/// than spliced. Grouping runs richest-first over an ordering intrinsic to the
+/// records, so the result does not depend on the order sources are fetched in.
+///
+/// Records whose paths coincide but whose artifact *types* disagree are left
+/// separate and reported: they are not the same thing.
+fn select_records(fetched: &Fetched, baseline: &CatalogIndex) -> Fetched {
+    let (merged, refused) = merge_records(fetched, baseline);
+    for r in &refused {
+        eprintln!(
+            "WARN: kept '{}' and '{}' separate — same {} but different artifact types",
+            r.kept, r.refused, r.location
+        );
+    }
+    merged
+}
+
+/// [`select_records`], also reporting the merges it refused.
+fn merge_records(fetched: &Fetched, baseline: &CatalogIndex) -> (Fetched, Vec<RefusedMerge>) {
+    let mut candidates: Vec<(usize, IngestRecord)> = Vec::new();
     for (rank, (_, records)) in fetched.iter().enumerate() {
-        for (position, rec) in records.iter().enumerate() {
-            if baseline.ids.is_duplicate(&rec.id)
-                || baseline.paths.covers(&rec.key_path)
-                || !generated_ids.insert(rec.id.clone())
-            {
+        for rec in records {
+            if baseline.ids.is_duplicate(&rec.id) || baseline.paths.covers(&rec.key_path) {
                 continue;
             }
-            candidates.push((rank, position, rec.clone()));
+            candidates.push((rank, rec.clone()));
         }
     }
 
-    // Richest first, so a record only ever loses a key path to a better one.
-    candidates.sort_by(|(a_rank, a_pos, a), (b_rank, b_pos, b)| {
-        richness(b, *b_rank)
-            .cmp(&richness(a, *a_rank))
-            .then(a_rank.cmp(b_rank))
-            .then(a_pos.cmp(b_pos))
-    });
+    // Richest first, so the description that survives is the fullest one and the
+    // grouping is reproducible.
+    candidates.sort_by_key(|(_, rec)| std::cmp::Reverse(richness(rec)));
 
-    let mut kept: Vec<(usize, usize, IngestRecord)> = Vec::new();
-    for candidate in candidates {
-        if let Some((_, _, winner)) = kept
-            .iter_mut()
-            .find(|(_, _, k)| paths_collide(&k.key_path, &candidate.2.key_path))
-        {
-            absorb_techniques(winner, &candidate.2);
+    let mut kept: Vec<(usize, IngestRecord)> = Vec::new();
+    let mut refused: Vec<RefusedMerge> = Vec::new();
+    for (rank, rec) in candidates {
+        if let Some((_, into)) = kept.iter_mut().find(|(_, k)| same_artifact(k, &rec)) {
+            merge_into(into, &rec);
             continue;
         }
-        kept.push(candidate);
+        // Same key, different kind of artifact: report rather than force it.
+        if let Some((_, clash)) = kept.iter().find(|(_, k)| {
+            k.value_name == rec.value_name
+                && k.artifact_type != rec.artifact_type
+                && paths_collide(&k.key_path, &rec.key_path)
+        }) {
+            refused.push(RefusedMerge {
+                kept: clash.id.clone(),
+                refused: rec.id.clone(),
+                location: format!("key path {}", rec.key_path),
+            });
+        }
+        kept.push((rank, rec));
     }
 
-    // Back into per-source fetch order: the competition decides *which* records
-    // survive, never how a module is laid out.
-    kept.sort_by_key(|(rank, position, _)| (*rank, *position));
+    // Back to per-source order: the merge decides what the catalog holds, never
+    // how a module is laid out.
     let mut out: Fetched = fetched
         .iter()
         .map(|(name, _)| (*name, Vec::new()))
         .collect();
-    for (rank, _, rec) in kept {
+    for (rank, rec) in kept {
         out[rank].1.push(rec);
     }
-    out
+    (out, refused)
 }
 
 fn main() {
@@ -638,7 +730,7 @@ mod tests {
 
     #[test]
     fn source_names_are_unique() {
-        let mut seen = HashSet::new();
+        let mut seen = std::collections::HashSet::new();
         for (name, _) in SOURCES {
             assert!(seen.insert(*name), "'{name}' is registered twice");
         }
