@@ -236,4 +236,26 @@ mod tests {
         let ec = ExtendedCatalog::default();
         assert!(!ec.is_empty());
     }
+
+    /// Characterization test pinning what `len()` counts: every base descriptor
+    /// plus every custom one. `for_triage()` only re-orders `list()`, so both
+    /// bases yield the same count — this holds before and after the counting
+    /// path changes.
+    #[test]
+    fn len_counts_all_base_descriptors_plus_custom() {
+        let base_total = CATALOG.list().len();
+        assert_eq!(
+            CATALOG.for_triage().len(),
+            base_total,
+            "for_triage() must be a re-ordering of list(), not a filter"
+        );
+
+        let mut ec = ExtendedCatalog::new();
+        assert_eq!(ec.len(), base_total);
+        assert!(!ec.is_empty());
+
+        ec.register_descriptor(make_test_descriptor());
+        assert_eq!(ec.len(), base_total + 1);
+        assert!(!ec.is_empty());
+    }
 }
