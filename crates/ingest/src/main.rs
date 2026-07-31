@@ -234,38 +234,101 @@ fn baseline_for_run(catalog_dir: &Path, sources: &[&str]) -> io::Result<CatalogI
 /// What a run fetched, per source, in source order.
 type Fetched = Vec<(&'static str, Vec<IngestRecord>)>;
 
+/// How much an ingested record tells an analyst, largest first.
+///
+/// Two sources describing one registry key rarely describe it equally well: one
+/// maps it to an ATT&CK technique and says what the key is evidence of, the
+/// other gives a bare label. When both cannot survive, that — not which source
+/// happened to be fetched first — is what should decide, or a technique
+/// mapping disappears from the catalog with the record that carried it.
+///
+/// A technique mapping outranks everything: it is the only field an analyst can
+/// query the catalog *by*. Length of `meaning` then stands in for how much the
+/// source actually says. `source_rank` breaks the remaining ties so the order is
+/// total and the run reproducible.
+fn richness(rec: &IngestRecord, source_rank: usize) -> (bool, usize, std::cmp::Reverse<usize>) {
+    (
+        !rec.mitre_techniques.is_empty(),
+        rec.meaning.len(),
+        std::cmp::Reverse(source_rank),
+    )
+}
+
+/// Two key paths collide when either would suppress the other.
+///
+/// [`PathSet::covers`] is directional — a catalogued path covers any key that is
+/// its suffix at a path boundary, which is how a hive-qualified path matches a
+/// hive-relative one. Competing records have no established direction, so a
+/// collision is the symmetric closure of that.
+fn paths_collide(a: &str, b: &str) -> bool {
+    if a.is_empty() || b.is_empty() {
+        return false;
+    }
+    let mut one = PathSet::default();
+    one.insert(a);
+    if one.covers(b) {
+        return true;
+    }
+    let mut other = PathSet::default();
+    other.insert(b);
+    other.covers(a)
+}
+
 /// The records of `fetched` the catalog does not already carry, keyed back to
 /// the source that produced them.
 ///
-/// Three claims retire a record: an id the `baseline` already uses, a registry
-/// key path it already covers, and an id this run has already generated — the
-/// last covering a collision with an earlier source *and* one inside a source's
-/// own corpus, so two records that reduce to one id cannot emit the same static
-/// name twice.
+/// Three claims retire a record outright: an id the `baseline` already uses, a
+/// registry key path it already covers, and an id this run has already
+/// generated — the last covering a collision with another source *and* one
+/// inside a source's own corpus, so two records that reduce to one id cannot
+/// emit the same static name twice.
 ///
-/// Records that survive those still compete for a shared registry key path; see
-/// [`richness`].
-fn select_records(fetched: Fetched, baseline: &CatalogIndex) -> Fetched {
+/// What remains competes for shared registry key paths by [`richness`], and each
+/// source's survivors come back in the order it produced them.
+fn select_records(fetched: &Fetched, baseline: &CatalogIndex) -> Fetched {
     let mut generated_ids: HashSet<String> = HashSet::new();
-    let mut kept_paths = PathSet::default();
-    let mut out: Fetched = Vec::new();
+    let mut candidates: Vec<(usize, usize, IngestRecord)> = Vec::new();
 
-    for (source, records) in fetched {
-        let mut survivors = Vec::new();
-        for rec in records {
+    for (rank, (_, records)) in fetched.iter().enumerate() {
+        for (position, rec) in records.iter().enumerate() {
             if baseline.ids.is_duplicate(&rec.id)
                 || baseline.paths.covers(&rec.key_path)
                 || !generated_ids.insert(rec.id.clone())
-                || kept_paths.covers(&rec.key_path)
             {
                 continue;
             }
-            if !rec.key_path.is_empty() {
-                kept_paths.insert(&rec.key_path);
-            }
-            survivors.push(rec);
+            candidates.push((rank, position, rec.clone()));
         }
-        out.push((source, survivors));
+    }
+
+    // Richest first, so a record only ever loses a key path to a better one.
+    candidates.sort_by(|(a_rank, a_pos, a), (b_rank, b_pos, b)| {
+        richness(b, *b_rank)
+            .cmp(&richness(a, *a_rank))
+            .then(a_rank.cmp(b_rank))
+            .then(a_pos.cmp(b_pos))
+    });
+
+    let mut kept: Vec<(usize, usize, IngestRecord)> = Vec::new();
+    for candidate in candidates {
+        if kept
+            .iter()
+            .any(|(_, _, k)| paths_collide(&k.key_path, &candidate.2.key_path))
+        {
+            continue;
+        }
+        kept.push(candidate);
+    }
+
+    // Back into per-source fetch order: the competition decides *which* records
+    // survive, never how a module is laid out.
+    kept.sort_by_key(|(rank, position, _)| (*rank, *position));
+    let mut out: Fetched = fetched
+        .iter()
+        .map(|(name, _)| (*name, Vec::new()))
+        .collect();
+    for (rank, _, rec) in kept {
+        out[rank].1.push(rec);
     }
     out
 }
@@ -343,7 +406,7 @@ fn main() {
         eprintln!("       Every record would look net-new; refusing to generate duplicates.");
         std::process::exit(1);
     });
-    let selected = select_records(fetched, &baseline);
+    let selected = select_records(&fetched, &baseline);
 
     for ((source_name, new_records), fetched) in selected.into_iter().zip(fetched_counts) {
         let source_name = &source_name;
@@ -558,7 +621,7 @@ mod tests {
         ];
 
         let baseline = baseline_for_run(dir.path(), &["fa", "dfir_scripts"]).expect("baseline");
-        let survivors: Vec<String> = select_records(fetched, &baseline)
+        let survivors: Vec<String> = select_records(&fetched, &baseline)
             .into_iter()
             .flat_map(|(_, recs)| recs)
             .map(|r| format!("{} mitre={:?}", r.id, r.mitre_techniques))
@@ -656,7 +719,7 @@ mod tests {
         ];
 
         let baseline = baseline_for_run(dir.path(), &["regedit"]).expect("baseline");
-        let kept = only(select_records(vec![("regedit", fetched)], &baseline));
+        let kept = only(select_records(&vec![("regedit", fetched)], &baseline));
 
         assert_eq!(
             kept.len(),
@@ -690,7 +753,7 @@ mod tests {
         let fetched = vec![twice(r"Alpha\Users"), twice(r"Beta\Users")];
 
         let baseline = baseline_for_run(dir.path(), &["velociraptor"]).expect("baseline");
-        let kept = only(select_records(vec![("velociraptor", fetched)], &baseline));
+        let kept = only(select_records(&vec![("velociraptor", fetched)], &baseline));
 
         assert_eq!(
             kept.len(),
@@ -742,7 +805,7 @@ mod tests {
         ];
 
         let baseline = baseline_for_run(dir.path(), &["regedit"]).expect("baseline");
-        let kept = only(select_records(vec![("regedit", fetched)], &baseline));
+        let kept = only(select_records(&vec![("regedit", fetched)], &baseline));
         let kept_ids: Vec<&str> = kept.iter().map(|r| r.id.as_str()).collect();
 
         assert_eq!(
