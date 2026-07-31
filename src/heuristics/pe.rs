@@ -219,9 +219,16 @@ pub const QWCRYPT_PE_STRING_IOCS: &[&str] = &[
 
 /// Windows API names whose primary purpose in malware is debugger/analysis detection.
 ///
-/// These narrow the general [`SUSPICIOUS_IMPORT_NAMES`] set to functions that,
-/// when present together, form a strong signal for debugger evasion (T1622).
-/// Individual hits are low confidence; clusters of 3+ are high confidence.
+/// Curated independently of [`SUSPICIOUS_IMPORT_NAMES`]; the two tables overlap
+/// in exactly five names: `IsDebuggerPresent`,
+/// `CheckRemoteDebuggerPresent`, `NtQueryInformationProcess`,
+/// `OutputDebugStringA`, `OutputDebugStringW`. The other 22 stay off the general
+/// list by design — `CloseHandle`, `GetTickCount`, and `Process32Next` are
+/// unremarkable in isolation and would drown it in noise; here they earn their
+/// place as members of a cluster.
+///
+/// Together they form a strong signal for debugger evasion (T1622). Individual
+/// hits are low confidence; clusters of 3+ are high confidence.
 pub const ANTI_DEBUG_IMPORT_NAMES: &[&str] = &[
     // Explicit debugger presence queries
     "IsDebuggerPresent",

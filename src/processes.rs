@@ -75,10 +75,13 @@ pub fn is_masquerade_target(name: &str) -> bool {
 /// one of these executed from any other directory is a strong masquerade /
 /// relocation indicator (MITRE T1036.005).
 ///
-/// This is the location-bound subset of [`WINDOWS_MASQUERADE_TARGETS`] — it
-/// deliberately omits `explorer.exe` (canonically in `\Windows\`, not
-/// `System32`) and the `system` / `registry` kernel pseudo-processes (no image
-/// path), so a relocation check over it does not false-positive on them.
+/// Curated for that location question, so it tracks [`WINDOWS_MASQUERADE_TARGETS`]
+/// closely without mirroring it: 13 of these 15 names are shared. It omits
+/// `explorer.exe` (canonically in `\Windows\`, not `System32`) and the `system` /
+/// `registry` kernel pseudo-processes (no image path), so a relocation check over
+/// it does not false-positive on them, and it adds two System32-resident binaries
+/// the name-masquerade list does not carry: `lsaiso.exe` (Credential Guard's
+/// isolated LSA process) and `rundll32.exe`.
 ///
 /// Sources:
 /// - MITRE ATT&CK T1036.005 — Masquerading: Match Legitimate Name or Location:
