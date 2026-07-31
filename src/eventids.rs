@@ -1151,6 +1151,68 @@ mod tests {
         assert!(e.mitre_techniques.contains(&"T1059.001"));
     }
 
+    /// `(channel, event_id)` is the real key of this table — the numeric id
+    /// alone is not unique across channels (Sysmon and the TerminalServices RDP
+    /// channels both define 21 and 22). Two entries sharing a pair would make
+    /// [`event_entry_on`] silently return whichever came first, which is a wrong
+    /// forensic meaning rather than an error. This is the structural guard that
+    /// keeps that impossible.
+    #[test]
+    fn channel_event_id_pairs_are_unique() {
+        let mut seen: std::collections::HashSet<(&str, u32)> = std::collections::HashSet::new();
+        for e in EVENT_ID_TABLE {
+            assert!(
+                seen.insert((e.channel, e.event_id)),
+                "duplicate (channel, event_id) key: ({:?}, {})",
+                e.channel,
+                e.event_id
+            );
+        }
+    }
+
+    /// The channel-qualified lookup must actually filter on the channel, not
+    /// fall back to a numeric match — otherwise it is `event_entry` with extra
+    /// steps and inherits the first-match-wins defect.
+    #[test]
+    fn event_entry_on_requires_the_channel_to_match() {
+        let e = event_entry_on("Security", 4624).expect("4624 is on Security");
+        assert_eq!(e.event_id, 4624);
+        assert_eq!(e.channel, "Security");
+        assert!(
+            event_entry_on("System", 4624).is_none(),
+            "4624 is not on the System channel — a numeric fallback would wrongly return it"
+        );
+    }
+
+    /// Windows channel names are matched case-insensitively: an analyst pasting
+    /// a channel out of a tool that lowercased it still gets the entry.
+    #[test]
+    fn event_entry_on_ignores_channel_case() {
+        let e = event_entry_on("microsoft-windows-sysmon/OPERATIONAL", 1)
+            .expect("Sysmon 1 resolves regardless of channel case");
+        assert_eq!(e.event_id, 1);
+        assert_eq!(e.channel, "Microsoft-Windows-Sysmon/Operational");
+    }
+
+    /// `events_for_id` is the honest answer when the channel is unknown: every
+    /// entry that defines the id, not just the first one in table order.
+    #[test]
+    fn events_for_id_yields_every_channel_defining_the_id() {
+        let all: Vec<_> = events_for_id(4624).collect();
+        assert_eq!(all.len(), 1, "4624 is defined on exactly one channel");
+        assert_eq!(all[0].channel, "Security");
+        assert_eq!(
+            events_for_id(99999).count(),
+            0,
+            "an unknown id yields no entries"
+        );
+        assert_eq!(
+            events_for_id(4688).count(),
+            EVENT_ID_TABLE.iter().filter(|e| e.event_id == 4688).count(),
+            "events_for_id must agree with a direct scan of the table"
+        );
+    }
+
     #[test]
     fn all_artifact_ids_valid() {
         use crate::catalog::CATALOG;
