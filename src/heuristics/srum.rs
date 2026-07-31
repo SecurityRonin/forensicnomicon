@@ -170,28 +170,44 @@ pub fn is_suspicious_path(path: &str) -> bool {
 
 // ── Process masquerade ────────────────────────────────────────────────────────
 
-const SYSTEM_BINARIES: &[&str] = &[
-    "svchost.exe",
-    "lsass.exe",
-    "services.exe",
-    "csrss.exe",
-    "winlogon.exe",
+/// Windows binaries that SRUM application records commonly carry which are
+/// **not** in [`crate::processes::WINDOWS_SYSTEM32_BINARIES`], the curated
+/// baseline this module builds on.
+///
+/// The curated list is deliberately *location-bound* (it exists to answer
+/// "was this System32 binary run from the wrong directory?"), so it omits
+/// names that are still worth comparing against here, where the question is
+/// name similarity rather than image path:
+///
+/// - `explorer.exe` — canonically `\Windows\`, not `System32`, so the curated
+///   list excludes it; it must stay in the name baseline or the shell's own
+///   entry becomes a distance-0 miss instead of an exact match.
+/// - `cmd.exe`, `powershell.exe`, `regsvr32.exe`, `msiexec.exe` —
+///   interpreters and installers that dominate SRUM application-resource rows
+///   and are among the most typosquatted Windows names (MITRE T1036.005).
+/// - `werfault.exe`, `sihost.exe` — high-frequency background binaries whose
+///   names attackers imitate for blend-in (`werfault.exe` vs `wermgr.exe`
+///   being the classic pair).
+///
+/// Names here must be additional to the curated list, never a copy of it:
+/// duplication is what let the previous private table drift.
+const SRUM_EXTRA_SYSTEM_BINARIES: &[&str] = &[
     "explorer.exe",
     "cmd.exe",
     "powershell.exe",
-    "rundll32.exe",
     "regsvr32.exe",
     "msiexec.exe",
     "werfault.exe",
-    "conhost.exe",
-    "dllhost.exe",
-    "taskhost.exe",
-    "smss.exe",
-    "wininit.exe",
-    "spoolsv.exe",
-    "taskhostw.exe",
     "sihost.exe",
 ];
+
+/// The full name baseline: the curated public list plus this module's extras.
+fn system_binaries() -> impl Iterator<Item = &'static str> {
+    crate::processes::WINDOWS_SYSTEM32_BINARIES
+        .iter()
+        .chain(SRUM_EXTRA_SYSTEM_BINARIES.iter())
+        .copied()
+}
 
 const SYSTEM_DIRS: &[&str] = &[
     r"\windows\system32",
@@ -244,13 +260,13 @@ pub fn is_process_masquerade(binary_name: &str, dir: &str) -> bool {
 
     // If the binary is an exact match for any known system binary, it's not a
     // masquerade (distance 0).  The wrong-directory case is handled elsewhere.
-    for &known in SYSTEM_BINARIES {
+    for known in system_binaries() {
         if bin_lower == known {
             return false;
         }
     }
 
-    for &known in SYSTEM_BINARIES {
+    for known in system_binaries() {
         let dist = levenshtein(&bin_lower, known);
         if (1..=2).contains(&dist) {
             return true;
@@ -570,6 +586,20 @@ mod tests {
     fn masquerade_exact_match_in_wrong_dir_not_flagged_by_this_fn() {
         // exact match: distance = 0, our fn only fires on distance 1-2
         assert!(!is_process_masquerade("svchost.exe", r"C:\Users\User"));
+    }
+
+    /// The extras are additional to the curated list, never a second copy of
+    /// it — and must be lowercase, since the baseline is compared against a
+    /// lowercased binary name.
+    #[test]
+    fn srum_extras_do_not_duplicate_curated_list() {
+        for extra in SRUM_EXTRA_SYSTEM_BINARIES {
+            assert!(
+                !crate::processes::WINDOWS_SYSTEM32_BINARIES.contains(extra),
+                "{extra:?} is already in processes::WINDOWS_SYSTEM32_BINARIES"
+            );
+            assert_eq!(*extra, extra.to_lowercase(), "{extra:?} must be lowercase");
+        }
     }
 
     /// The masquerade baseline must cover every binary the curated public list
