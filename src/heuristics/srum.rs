@@ -572,6 +572,22 @@ mod tests {
         assert!(!is_process_masquerade("svchost.exe", r"C:\Users\User"));
     }
 
+    /// The masquerade baseline must cover every binary the curated public list
+    /// carries, or a typosquat of a name only that list knows about goes
+    /// unflagged here. Asserted behaviourally (a distance-1 typo of each name
+    /// must be caught) so it holds however the baseline is stored.
+    #[test]
+    fn masquerade_baseline_covers_public_system32_binaries() {
+        for name in crate::processes::WINDOWS_SYSTEM32_BINARIES {
+            let typo = format!("{}{name}", name.chars().next().unwrap()); // doubled first char: distance 1
+            assert!(
+                is_process_masquerade(&typo, r"C:\Users\User"),
+                "typosquat {typo:?} of curated system binary {name:?} not flagged — \
+                 the SRUM baseline has drifted from processes::WINDOWS_SYSTEM32_BINARIES"
+            );
+        }
+    }
+
     // ── is_beaconing tests ────────────────────────────────────────────────────
 
     #[test]
