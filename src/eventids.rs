@@ -513,9 +513,9 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
     // schema (learn.microsoft.com/sysinternals/downloads/sysmon). Gap surfaced by
     // the dfir-scripts.github.io diff; verified against the Sysinternals docs.
     // ATT&CK mappings are the forensic interpretation (the technique the event is
-    // evidence of), left empty for pure-visibility events. EIDs 21/22
-    // (WmiEventConsumerToFilter, DNS) are omitted — they collide with the RDP
-    // TerminalServices 21/22 in this event_id-keyed table (needs a (channel,id) key).
+    // evidence of), left empty for pure-visibility events. EIDs 21 and 22 share
+    // their numbers with the TerminalServices RDP channel; the table is keyed by
+    // (channel, event_id), so both meanings coexist — see event_entry_on.
     EventIdEntry {
         event_id: 1,
         channel: "Microsoft-Windows-Sysmon/Operational",
@@ -688,6 +688,24 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         caveats: "",
     },
     EventIdEntry {
+        event_id: 21,
+        channel: "Microsoft-Windows-Sysmon/Operational",
+        description: "WMI consumer bound to a filter (WmiEvent, WmiEventConsumerToFilter) — logs the consumer name and filter path; the binding is what arms a WMI permanent event subscription, so it completes the pair recorded by EIDs 19 and 20",
+        mitre_techniques: &["T1546.003"],
+        artifact_ids: &["evtx_sysmon"],
+        high_value: true,
+        caveats: "Shares its number with RDP session logon on the TerminalServices-LocalSessionManager/Operational channel — resolve by (channel, id)",
+    },
+    EventIdEntry {
+        event_id: 22,
+        channel: "Microsoft-Windows-Sysmon/Operational",
+        description: "DNS query (DnsQuery) — the queried name, the results, and the process that asked; recorded whether the query succeeded or failed, cached or not, so it maps C2 and staging domains back to a PID",
+        mitre_techniques: &[],
+        artifact_ids: &["evtx_sysmon"],
+        high_value: true,
+        caveats: "Telemetry added for Windows 8.1 — not available on Windows 7 and earlier. Shares its number with RDP session disconnect on the TerminalServices-LocalSessionManager/Operational channel — resolve by (channel, id)",
+    },
+    EventIdEntry {
         event_id: 23,
         channel: "Microsoft-Windows-Sysmon/Operational",
         description: "File deleted and archived (FileDelete) — Sysmon captured the deleted file's contents to its archive directory before removal; recovers anti-forensically deleted artifacts",
@@ -749,6 +767,83 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         artifact_ids: &["evtx_sysmon"],
         high_value: false,
         caveats: "Only emitted when FileExecutableDetected is configured (Sysmon 14.0+)",
+    },
+    // --- BITS client (Microsoft-Windows-Bits-Client/Operational) ----------------
+    // Meanings are Microsoft's own message templates and EventData field names,
+    // taken from the provider manifest shipped in qmgr.dll (provider
+    // Microsoft-Windows-Bits-Client, GUID {EF1CC15B-46C1-414E-BB95-E76B077BD51E}).
+    // Source: https://github.com/nasbench/EVTX-ETW-Resources (ETWProvidersManifests
+    // .../WEPExplorer/Microsoft-Windows-Bits-Client.xml — a mechanical dump of the
+    // OS binary's manifest). Lineage checked against Microsoft Learn, which
+    // publishes 16404 (EVT_SERVICE_FAILED) with the same message string the dump
+    // carries, so the dump reproduces Microsoft's strings rather than a
+    // third-party paraphrase:
+    // https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc734722(v=ws.10)
+    // ATT&CK is left to the events that carry the abuse observables — who created
+    // the job, what URL, what local path; the pure lifecycle/status events get
+    // none. EIDs 3 and 5 share their numbers with Sysmon, hence the (channel, id) key.
+    EventIdEntry {
+        event_id: 3,
+        channel: "Microsoft-Windows-Bits-Client/Operational",
+        description: "The BITS service created a new job — transfer job name, Job ID (GUID), owner and, from manifest version 2, the creating Process Path and Process ID; that process path is what ties a background download to the tool that requested it",
+        mitre_techniques: &["T1197"],
+        artifact_ids: &["evtx_bits_client"],
+        high_value: true,
+        caveats: "Older manifest versions carry only the job name and owner — Process Path and Process ID were added in version 2. Shares its number with Sysmon network connection — resolve by (channel, id)",
+    },
+    EventIdEntry {
+        event_id: 4,
+        channel: "Microsoft-Windows-Bits-Client/Operational",
+        description: "The transfer job is complete — user, transfer job name, Job ID, owner and file count (manifest version 1 adds bytes transferred, and bytes sourced from a peer); the clean end of a BITS job",
+        mitre_techniques: &[],
+        artifact_ids: &["evtx_bits_client"],
+        high_value: false,
+        caveats: "",
+    },
+    EventIdEntry {
+        event_id: 5,
+        channel: "Microsoft-Windows-Bits-Client/Operational",
+        description: "Job cancelled — user, job name, Job ID, owner and file count for a job removed before it completed (bitsadmin /cancel, Remove-BitsTransfer, or the owning client dropping it)",
+        mitre_techniques: &[],
+        artifact_ids: &["evtx_bits_client"],
+        high_value: false,
+        caveats: "Shares its number with Sysmon process terminated — resolve by (channel, id)",
+    },
+    EventIdEntry {
+        event_id: 16403,
+        channel: "Microsoft-Windows-Bits-Client/Operational",
+        description: "BITS job file parameters — RemoteName (the source URL) and LocalName (the local destination path), alongside user, job title, Job ID, owner, file count and process ID; the one event that says what a job fetched and where it landed",
+        mitre_techniques: &["T1197"],
+        artifact_ids: &["evtx_bits_client"],
+        high_value: true,
+        caveats: "The provider manifest carries no message string for this ID, only a template — Event Viewer renders 'the description for Event ID 16403 cannot be found' and the evidence sits entirely in the EventData fields. Join to events 3/59/60/61 on the Job ID",
+    },
+    EventIdEntry {
+        event_id: 59,
+        channel: "Microsoft-Windows-Bits-Client/Operational",
+        description: "BITS started the transfer job associated with a URL — job name, the URL, and the transfer/job GUIDs; the URL is the download destination an abused BITS job reaches out to",
+        mitre_techniques: &["T1197"],
+        artifact_ids: &["evtx_bits_client"],
+        high_value: true,
+        caveats: "Carries the URL but not the local path — pair with 16403 on the Job ID to learn where the file landed",
+    },
+    EventIdEntry {
+        event_id: 60,
+        channel: "Microsoft-Windows-Bits-Client/Operational",
+        description: "BITS stopped transferring the job associated with a URL, with an hr status code — the same message text event 61 carries, logged here at Information level (61 is the Warning-level twin)",
+        mitre_techniques: &[],
+        artifact_ids: &["evtx_bits_client"],
+        high_value: false,
+        caveats: "The message template is byte-identical to 61; only the Level and the hr status code separate them",
+    },
+    EventIdEntry {
+        event_id: 61,
+        channel: "Microsoft-Windows-Bits-Client/Operational",
+        description: "BITS stopped transferring the job associated with a URL, with an hr status code — the same message text as event 60, logged here at Warning level, which is what marks the stop as an error or transient failure rather than a clean one",
+        mitre_techniques: &[],
+        artifact_ids: &["evtx_bits_client"],
+        high_value: false,
+        caveats: "Warning level and the hr code are the only discriminators against 60. BITS retries transient failures, so a 61 followed by a 59 is a retry of the same job, not a new one",
     },
     // --- Microsoft Defender Antivirus (Microsoft-Windows-Windows Defender/Operational) ---
     // Verified against Microsoft Learn (defender-endpoint/troubleshoot-microsoft-defender-antivirus):
