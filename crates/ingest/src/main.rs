@@ -151,6 +151,55 @@ fn run_source(name: &str, limit: Option<usize>, verbose: bool) -> Vec<IngestReco
     records
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn every_registered_source_resolves_to_a_fetcher() {
+        assert!(!SOURCES.is_empty(), "no sources registered");
+        for (name, _) in SOURCES {
+            assert!(
+                fetcher_for(name).is_some(),
+                "registered source '{name}' does not resolve"
+            );
+        }
+    }
+
+    #[test]
+    fn source_names_are_unique() {
+        let mut seen = HashSet::new();
+        for (name, _) in SOURCES {
+            assert!(seen.insert(*name), "'{name}' is registered twice");
+        }
+    }
+
+    #[test]
+    fn an_unregistered_name_resolves_to_nothing() {
+        assert!(fetcher_for("not_a_source").is_none());
+    }
+
+    #[test]
+    fn every_registered_source_runs_under_source_all() {
+        // A source missing from the "all" expansion is silently never run.
+        let all = expand_sources(&["all".to_string()]);
+        for (name, _) in SOURCES {
+            assert!(all.contains(name), "'{name}' is never run by --source all");
+        }
+        assert_eq!(all.len(), SOURCES.len());
+    }
+
+    #[test]
+    fn help_lists_every_registered_source() {
+        // The help text is the only place a user learns a source exists.
+        let help = usage();
+        for (name, _) in SOURCES {
+            assert!(help.contains(name), "'{name}' is missing from --help");
+        }
+        assert!(help.contains("all"), "--help omits the 'all' pseudo-source");
+    }
+}
+
 struct SourceSummary {
     source: String,
     fetched: usize,
