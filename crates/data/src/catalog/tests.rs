@@ -37,6 +37,77 @@ mod catalog_integrity {
         assert_eq!(CATALOG.list().len(), EXPECTED_CATALOG_LEN);
     }
 
+    /// Every `ArtifactDescriptor` static emitted into `descriptors/generated/`
+    /// must be referenced by `CATALOG_ENTRIES`.
+    ///
+    /// An unreferenced static still compiles and still costs binary size, but no
+    /// query can ever return it: `by_id`, keyword search and triage all read
+    /// `CATALOG_ENTRIES`. The artifact is in the crate and out of the catalog —
+    /// invisible to the analyst, and invisible to `dead_code` too, because the
+    /// statics are batch-generated and one hand-added `#![allow(dead_code)]`
+    /// silences the whole file.
+    #[test]
+    fn every_generated_descriptor_is_reachable_from_the_catalog() {
+        const GENERATED: &[(&str, &str)] = &[
+            (
+                "browsers_generated.rs",
+                include_str!("descriptors/generated/browsers_generated.rs"),
+            ),
+            (
+                "dfir_scripts_generated.rs",
+                include_str!("descriptors/generated/dfir_scripts_generated.rs"),
+            ),
+            (
+                "evtx_generated.rs",
+                include_str!("descriptors/generated/evtx_generated.rs"),
+            ),
+            (
+                "fa_generated.rs",
+                include_str!("descriptors/generated/fa_generated.rs"),
+            ),
+            (
+                "kape_generated.rs",
+                include_str!("descriptors/generated/kape_generated.rs"),
+            ),
+            (
+                "nirsoft_generated.rs",
+                include_str!("descriptors/generated/nirsoft_generated.rs"),
+            ),
+            (
+                "regedit_generated.rs",
+                include_str!("descriptors/generated/regedit_generated.rs"),
+            ),
+            (
+                "velociraptor_generated.rs",
+                include_str!("descriptors/generated/velociraptor_generated.rs"),
+            ),
+        ];
+
+        let mut orphans = Vec::new();
+        let mut checked = 0_usize;
+        for (file, src) in GENERATED {
+            // `id` is the first field of every generated descriptor, so the first
+            // `id: "` inside a `pub(crate) static` block is that descriptor's id.
+            for block in src.split("pub(crate) static ").skip(1) {
+                let Some((_, after)) = block.split_once("id: \"") else {
+                    continue;
+                };
+                let id = after.split('"').next().unwrap_or_default();
+                checked += 1;
+                if CATALOG.by_id(id).is_none() {
+                    orphans.push(format!("{file}::{id}"));
+                }
+            }
+        }
+
+        assert!(checked > 6_000, "descriptor scan found only {checked} ids");
+        assert!(
+            orphans.is_empty(),
+            "{} of {checked} generated descriptors are not wired into CATALOG_ENTRIES, so no query can return them: {orphans:#?}",
+            orphans.len()
+        );
+    }
+
     /// The Apple Biome `App.MenuItem` stream (macOS Tahoe 26) — a user-intent
     /// trail of menu selections (Unit 42, 2026) — must be in the catalog.
     #[test]
