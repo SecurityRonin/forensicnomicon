@@ -145,6 +145,14 @@ enum Commands {
 
     /// List Critical and High priority artifacts for triage.
     Triage,
+
+    /// Report how much of the catalog carries an evidence assessment, and which
+    /// unassessed artifacts matter most.
+    Coverage {
+        /// Output format.
+        #[arg(long, short = 'f', value_enum, default_value = "human")]
+        format: Format,
+    },
 }
 
 #[derive(Clone, Copy, ValueEnum, PartialEq, Eq)]
@@ -387,6 +395,7 @@ fn main() {
             Commands::Search { keyword } => explore::run_search(&keyword),
             Commands::Show { id } => explore::run_show(&id),
             Commands::Triage => explore::run_triage_view(),
+            Commands::Coverage { format } => run_coverage(format),
         }
     } else if cli.triage {
         run_triage(
@@ -849,6 +858,78 @@ fn run_triage(
                     d.id,
                     d.name
                 );
+            }
+        }
+    }
+    0
+}
+
+// ---------------------------------------------------------------------------
+// Assessment coverage
+// ---------------------------------------------------------------------------
+
+/// Percentage of `total` that `assessed` represents; `0.0` for an empty catalog.
+///
+/// Shared with the TUI's about modal so the two surfaces cannot report different
+/// ratios for the same catalog.
+#[allow(clippy::cast_precision_loss)]
+pub fn assessment_coverage_pct(assessed: usize, total: usize) -> f64 {
+    if total == 0 {
+        return 0.0;
+    }
+    (assessed as f64) * 100.0 / (total as f64)
+}
+
+/// Rows of the unassessed queue the human view prints before summarising the rest.
+const COVERAGE_HUMAN_ROWS: usize = 15;
+
+fn run_coverage(format: Format) -> i32 {
+    let (assessed, total) = CATALOG.assessment_coverage();
+    let unassessed = CATALOG.unassessed();
+    let pct = assessment_coverage_pct(assessed, total);
+
+    match format {
+        Format::Json | Format::Yaml => {
+            // Machine view: every unassessed artifact, never a sample.
+            let arr: Vec<_> = unassessed.iter().map(|d| descriptor_to_json(d)).collect();
+            let val = serde_json::json!({
+                "assessment_coverage": {
+                    "assessed": assessed,
+                    "unassessed": unassessed.len(),
+                    "total": total,
+                    "assessed_percent": pct,
+                    "unassessed_artifacts": arr,
+                }
+            });
+            match format {
+                Format::Json => println!("{}", json_pretty(&val)),
+                Format::Yaml => print!("{}", yaml_str(&val)),
+                Format::Human => unreachable!(),
+            }
+        }
+        Format::Human => {
+            println!("Evidence assessment coverage");
+            println!("  Assessed   : {assessed} / {total}  ({pct:.1}%)");
+            println!(
+                "  Unassessed : {} / {total}  ({:.1}%)",
+                unassessed.len(),
+                assessment_coverage_pct(unassessed.len(), total)
+            );
+            if !unassessed.is_empty() {
+                println!();
+                println!("Highest-priority artifacts still unassessed:");
+                for d in unassessed.iter().take(COVERAGE_HUMAN_ROWS) {
+                    println!(
+                        "  [{}]  {}  {}",
+                        triage_label(d.triage_priority),
+                        d.id,
+                        d.name
+                    );
+                }
+                let rest = unassessed.len().saturating_sub(COVERAGE_HUMAN_ROWS);
+                if rest > 0 {
+                    println!("  … {rest} more (use --format json for the full list)");
+                }
             }
         }
     }

@@ -422,6 +422,21 @@ fn draw_detail_pane(f: &mut Frame, app: &App, theme: &Theme, lines: &[String], a
     f.render_widget(para, area);
 }
 
+/// One line of evidence-assessment coverage for the about/legend modal.
+///
+/// A whole-catalog statistic has no home in a per-artifact detail pane, and the
+/// about modal already states what the catalog is — this says how much of it has
+/// been assessed. The ratio comes from the same helper the CLI's `coverage`
+/// subcommand uses, so the two surfaces cannot disagree.
+fn assessment_coverage_line() -> String {
+    use forensicnomicon::catalog::CATALOG;
+    let (assessed, total) = CATALOG.assessment_coverage();
+    format!(
+        "  Evidence assessed: {assessed} / {total} artifacts ({:.1}%)",
+        crate::assessment_coverage_pct(assessed, total)
+    )
+}
+
 fn draw_about(f: &mut Frame, theme: &Theme, area: Rect) {
     let modal_w = 64u16.min(area.width.saturating_sub(4));
     let modal_h = 52u16.min(area.height.saturating_sub(4));
@@ -449,6 +464,8 @@ fn draw_about(f: &mut Frame, theme: &Theme, area: Rect) {
         Line::from(""),
         Line::from("  DFIR artifact catalog + LOLBin navigator"),
         Line::from("  Offline. Zero I/O at runtime."),
+        Line::from(""),
+        Line::from(assessment_coverage_line()),
         Line::from(""),
         Line::from(Span::styled("  Keybindings", hdr)),
         Line::from(Span::styled(
