@@ -267,6 +267,103 @@ fn query_mitre_technique_json_has_artifacts() {
     assert!(!artifacts.is_empty());
 }
 
+// ---------------------------------------------------------------------------
+// coverage — how much of the catalog carries an evidence assessment
+// ---------------------------------------------------------------------------
+
+#[test]
+fn coverage_human_reports_both_counts_and_a_ratio() {
+    q().arg("coverage")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("Assessed"))
+        .stdout(predicate::str::contains("Unassessed"))
+        .stdout(predicate::str::contains('%'));
+}
+
+/// The human view lists only the head of the unassessed queue, so it has to say
+/// how many rows it left out — a silently truncated list reads as the whole set.
+#[test]
+fn coverage_human_says_how_many_rows_it_omitted() {
+    let out = run(&["coverage"]);
+    assert_eq!(out.code, 0);
+    assert!(
+        out.stdout.contains("more"),
+        "human view must account for the rows it did not print; got:\n{}",
+        out.stdout
+    );
+}
+
+/// The machine view stays faithful: every unassessed artifact, not a sample,
+/// and counts that add up.
+#[test]
+fn coverage_json_is_internally_consistent() {
+    let out = run(&["coverage", "--format", "json"]);
+    assert_eq!(out.code, 0);
+    let v: serde_json::Value = serde_json::from_str(&out.stdout).unwrap();
+    let c = &v["assessment_coverage"];
+    let assessed = c["assessed"].as_u64().expect("assessed");
+    let unassessed = c["unassessed"].as_u64().expect("unassessed");
+    let total = c["total"].as_u64().expect("total");
+    assert_eq!(
+        assessed + unassessed,
+        total,
+        "counts must add up to the total"
+    );
+    assert!(total > 0);
+
+    let pct = c["assessed_percent"].as_f64().expect("assessed_percent");
+    #[allow(clippy::cast_precision_loss)]
+    let expected = (assessed as f64) * 100.0 / (total as f64);
+    assert!(
+        (pct - expected).abs() < 0.05,
+        "assessed_percent {pct} does not match {expected}"
+    );
+
+    let list = c["unassessed_artifacts"]
+        .as_array()
+        .expect("unassessed_artifacts array");
+    assert_eq!(
+        list.len() as u64,
+        unassessed,
+        "the machine view lists every unassessed artifact, never a sample"
+    );
+}
+
+/// `unassessed()` is sorted Critical-first so the head of the list is the
+/// highest-impact gap; the surface must not resort or reorder it.
+#[test]
+fn coverage_json_lists_unassessed_critical_first() {
+    let out = run(&["coverage", "--format", "json"]);
+    let v: serde_json::Value = serde_json::from_str(&out.stdout).unwrap();
+    let list = v["assessment_coverage"]["unassessed_artifacts"]
+        .as_array()
+        .unwrap();
+    let rank = |p: &str| match p {
+        "critical" => 3,
+        "high" => 2,
+        "medium" => 1,
+        _ => 0,
+    };
+    let mut prev = 4;
+    for a in list {
+        let r = rank(a["triage_priority"].as_str().unwrap_or("low"));
+        assert!(
+            r <= prev,
+            "unassessed list must stay triage-sorted; {} broke the order",
+            a["id"]
+        );
+        prev = r;
+    }
+}
+
+#[test]
+fn coverage_yaml_is_supported() {
+    let out = run(&["coverage", "--format", "yaml"]);
+    assert_eq!(out.code, 0);
+    assert!(out.stdout.contains("assessment_coverage"));
+}
+
 #[test]
 fn query_unknown_mitre_technique_exits_nonzero() {
     q().arg("T9999.999").assert().failure();

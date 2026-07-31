@@ -524,6 +524,23 @@ mod tests {
         assert!(matches!(a, Constraint::Percentage(38)));
     }
 
+    // ── assessment_coverage_line ──────────────────────────────────────────
+
+    /// The about/legend modal already states what the catalog *is*; how much of
+    /// it carries an evidence assessment belongs in the same place, and it is
+    /// the only whole-catalog statistic the TUI has a natural home for.
+    #[test]
+    fn about_coverage_line_agrees_with_the_catalog() {
+        use forensicnomicon::catalog::CATALOG;
+        let (assessed, total) = CATALOG.assessment_coverage();
+        let line = assessment_coverage_line();
+        assert!(
+            line.contains(&assessed.to_string()) && line.contains(&total.to_string()),
+            "coverage line must carry both counts: got {line:?}"
+        );
+        assert!(line.contains('%'), "coverage line must carry the ratio");
+    }
+
     // ── header_text ───────────────────────────────────────────────────────
 
     #[test]
