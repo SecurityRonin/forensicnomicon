@@ -323,7 +323,11 @@ fn richness(rec: &IngestRecord, source_rank: usize) -> (bool, usize, std::cmp::R
 /// that key, so the survivor absorbs them. Its own come first and duplicates are
 /// skipped, so the result is stable.
 fn absorb_techniques(winner: &mut IngestRecord, retired: &IngestRecord) {
-    let _ = (winner, retired);
+    for technique in &retired.mitre_techniques {
+        if !winner.mitre_techniques.contains(technique) {
+            winner.mitre_techniques.push(technique.clone());
+        }
+    }
 }
 
 /// Two key paths collide when either would suppress the other.
@@ -706,14 +710,14 @@ mod tests {
                     "dfir_scripts_currentversion_policies_system_2",
                     "dfir_scripts",
                     key,
-                    "Policies System — shorter.",
+                    "Policies System — a middling meaning, second richest of the three.",
                     &["T1486", "T1003.001"],
                 ),
                 described(
                     "dfir_scripts_currentversion_policies_system_3",
                     "dfir_scripts",
                     key,
-                    "Policies System — shortest.",
+                    "Policies System — terse.",
                     &["T1548.002"],
                 ),
             ],
