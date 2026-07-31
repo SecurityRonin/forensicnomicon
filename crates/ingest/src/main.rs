@@ -17,11 +17,11 @@ mod triage;
 
 use std::collections::HashSet;
 use std::fmt::Write as _;
-use std::fs;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
+use std::{fs, io};
 
 use codegen::{generate_module_header, generate_static};
-use dedup::load_catalog;
+use dedup::{load_catalog, CatalogIndex};
 use record::IngestRecord;
 
 /// CLI options parsed from argv.
@@ -211,6 +211,41 @@ struct SourceSummary {
     written: bool,
 }
 
+/// The file a source's records are generated into.
+fn generated_file_name(source_name: &str) -> String {
+    format!("{source_name}_generated.rs")
+}
+
+/// The dedup baseline for regenerating `source_name`.
+///
+/// A regeneration rewrites the source's module in full, so that module is not a
+/// prior claim on its own records — including it would make every record the
+/// source already contributed look like a duplicate of itself and the rewrite
+/// would drop it. The rest of the catalog (hand-written descriptors and the
+/// other sources' modules) still dedups normally.
+fn baseline_for_source(catalog_dir: &Path, source_name: &str) -> io::Result<CatalogIndex> {
+    let _ = source_name;
+    load_catalog(catalog_dir)
+}
+
+/// The records of `records` the catalog does not already carry: not an id the
+/// `baseline` knows, not a registry key path it already covers, and not
+/// something an earlier source in this same run has just generated.
+fn select_new_records(
+    records: Vec<IngestRecord>,
+    baseline: &CatalogIndex,
+    already_generated: &HashSet<String>,
+) -> Vec<IngestRecord> {
+    records
+        .into_iter()
+        .filter(|r| {
+            !baseline.ids.is_duplicate(&r.id)
+                && !baseline.paths.covers(&r.key_path)
+                && !already_generated.contains(&r.id)
+        })
+        .collect()
+}
+
 fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
 
@@ -275,15 +310,19 @@ fn main() {
 
         // Deduplicate against the catalog — by id, and by the registry key path
         // a sibling source may already have catalogued under another id — and
-        // against what this run has already generated.
-        let new_records: Vec<IngestRecord> = records
-            .into_iter()
-            .filter(|r| {
-                !catalog.ids.is_duplicate(&r.id)
-                    && !catalog.paths.covers(&r.key_path)
-                    && !all_generated_ids.contains(&r.id)
-            })
-            .collect();
+        // against what this run has already generated. The baseline is re-read
+        // per source so it reflects the modules rewritten earlier in this run,
+        // and it excludes this source's own module, which is about to be
+        // rewritten in full.
+        let baseline = baseline_for_source(&catalog_dir, source_name).unwrap_or_else(|e| {
+            eprintln!(
+                "ERROR: could not read the catalog at {}: {e}",
+                catalog_dir.display()
+            );
+            eprintln!("       Every record would look net-new; refusing to generate duplicates.");
+            std::process::exit(1);
+        });
+        let new_records = select_new_records(records, &baseline, &all_generated_ids);
         let new_count = new_records.len();
 
         for r in &new_records {
@@ -298,9 +337,7 @@ fn main() {
         }
 
         let written = if !opts.dry_run && !new_records.is_empty() {
-            let module_name = format!("{source_name}_generated");
-            let file_name = format!("{module_name}.rs");
-            let out_path = output_dir.join(&file_name);
+            let out_path = output_dir.join(generated_file_name(source_name));
 
             let header = generate_module_header(source_name, new_records.len());
             let mut content = header;
@@ -435,6 +472,152 @@ mod tests {
             assert!(all.contains(name), "'{name}' is never run by --source all");
         }
         assert_eq!(all.len(), SOURCES.len());
+    }
+
+    /// Write a catalog dir holding one hand-written descriptor plus a
+    /// `<source>_generated.rs` carrying `ids`, exactly as a prior run left it.
+    fn catalog_with_generated_module(source: &str, ids: &[(&str, &str)]) -> tempfile::TempDir {
+        let dir = tempfile::tempdir().expect("tempdir");
+        std::fs::write(
+            dir.path().join("mod.rs"),
+            "    id: \"handwritten_run_key\",\n    key_path: \"Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run\",\n",
+        )
+        .expect("write hand-written");
+        let mut generated = String::new();
+        for (id, key_path) in ids {
+            let _ = writeln!(
+                generated,
+                "pub(crate) static {}: ArtifactDescriptor = ArtifactDescriptor {{",
+                id.to_ascii_uppercase()
+            );
+            let _ = writeln!(generated, "    id: \"{id}\",");
+            let _ = writeln!(
+                generated,
+                "    key_path: \"{}\",",
+                key_path.replace('\\', "\\\\")
+            );
+            generated.push_str("};\n");
+        }
+        std::fs::create_dir_all(dir.path().join("generated")).expect("mkdir generated");
+        std::fs::write(
+            dir.path()
+                .join("generated")
+                .join(generated_file_name(source)),
+            generated,
+        )
+        .expect("write generated");
+        dir
+    }
+
+    #[test]
+    fn regenerating_a_source_keeps_its_whole_corpus() {
+        // The destructive-rewrite bug: each `{source}_generated.rs` is rebuilt
+        // from the *new* records only and written whole. If the dedup baseline
+        // includes the source's own previously-generated module, every record
+        // the source already contributed is treated as a duplicate of itself,
+        // and the rewrite empties the file — deleting thousands of descriptors
+        // that `descriptors/mod.rs` still references by name.
+        let dir = catalog_with_generated_module(
+            "regedit",
+            &[
+                ("regedit_portproxy", r"CurrentControlSet\Services\PortProxy"),
+                ("regedit_safeboot", r"CurrentControlSet\Control\SafeBoot"),
+                (
+                    "regedit_appinit",
+                    r"Microsoft\Windows NT\CurrentVersion\Windows",
+                ),
+            ],
+        );
+        let fetched = vec![
+            IngestRecord::registry_key(
+                "regedit_portproxy",
+                "PortProxy",
+                "regedit",
+                Some("HKLM\\SYSTEM".to_string()),
+                r"CurrentControlSet\Services\PortProxy",
+                "netsh portproxy mappings",
+            ),
+            IngestRecord::registry_key(
+                "regedit_safeboot",
+                "SafeBoot",
+                "regedit",
+                Some("HKLM\\SYSTEM".to_string()),
+                r"CurrentControlSet\Control\SafeBoot",
+                "safe-mode service allow-list",
+            ),
+            IngestRecord::registry_key(
+                "regedit_appinit",
+                "AppInit_DLLs",
+                "regedit",
+                Some("HKLM\\SOFTWARE".to_string()),
+                r"Microsoft\Windows NT\CurrentVersion\Windows",
+                "DLL injection persistence",
+            ),
+        ];
+
+        let baseline = baseline_for_source(dir.path(), "regedit").expect("baseline");
+        let kept = select_new_records(fetched, &baseline, &HashSet::new());
+
+        assert_eq!(
+            kept.len(),
+            3,
+            "regenerating regedit must rewrite its module with the full corpus, \
+             not the delta against itself; kept: {:?}",
+            kept.iter().map(|r| r.id.as_str()).collect::<Vec<_>>()
+        );
+    }
+
+    #[test]
+    fn regenerating_a_source_still_dedups_against_the_rest_of_the_catalog() {
+        // The twin of the test above: excluding the source's own module must not
+        // blind the run to a hand-written descriptor or a sibling source that
+        // already covers the same id or registry key path.
+        let dir = catalog_with_generated_module(
+            "regedit",
+            &[("regedit_portproxy", r"CurrentControlSet\Services\PortProxy")],
+        );
+        // A sibling source's module — not the one being regenerated.
+        std::fs::write(
+            dir.path()
+                .join("generated")
+                .join(generated_file_name("kape")),
+            "    id: \"kape_amcache\",\n    key_path: \"\",\n",
+        )
+        .expect("write sibling");
+
+        let fetched = vec![
+            // duplicate id of a sibling source's record
+            IngestRecord::registry_key("kape_amcache", "Amcache", "regedit", None, "", "dup id"),
+            // duplicate key path of the hand-written descriptor
+            IngestRecord::registry_key(
+                "regedit_run_key",
+                "Run",
+                "regedit",
+                Some("HKLM\\SOFTWARE".to_string()),
+                r"Microsoft\Windows\CurrentVersion\Run",
+                "dup path",
+            ),
+            // genuinely new
+            IngestRecord::registry_key(
+                "regedit_portproxy",
+                "PortProxy",
+                "regedit",
+                Some("HKLM\\SYSTEM".to_string()),
+                r"CurrentControlSet\Services\PortProxy",
+                "its own prior record",
+            ),
+        ];
+
+        let baseline = baseline_for_source(dir.path(), "regedit").expect("baseline");
+        let kept = select_new_records(fetched, &baseline, &HashSet::new());
+        let kept_ids: Vec<&str> = kept.iter().map(|r| r.id.as_str()).collect();
+
+        assert_eq!(
+            kept_ids,
+            vec!["regedit_portproxy"],
+            "only the source's own prior record survives; the sibling id and the \
+             hand-written key path must still dedup"
+        );
     }
 
     #[test]
