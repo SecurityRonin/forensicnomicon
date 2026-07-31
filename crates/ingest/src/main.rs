@@ -228,8 +228,13 @@ fn baseline_for_source(catalog_dir: &Path, source_name: &str) -> io::Result<Cata
 }
 
 /// The records of `records` the catalog does not already carry: not an id the
-/// `baseline` knows, not a registry key path it already covers, and not
-/// something an earlier source in this same run has just generated.
+/// `baseline` knows, not a registry key path it already covers, and not an id
+/// this run has already generated.
+///
+/// `already_generated` grows as records are kept, so it covers a collision with
+/// an earlier source *and* one inside this source's own corpus — an id is
+/// generatable at most once per run, which is what keeps two records that
+/// reduce to the same id from emitting the same static name twice.
 fn select_new_records(
     records: Vec<IngestRecord>,
     baseline: &CatalogIndex,
@@ -240,7 +245,7 @@ fn select_new_records(
         .filter(|r| {
             !baseline.ids.is_duplicate(&r.id)
                 && !baseline.paths.covers(&r.key_path)
-                && !already_generated.contains(&r.id)
+                && already_generated.insert(r.id.clone())
         })
         .collect()
 }
@@ -323,10 +328,6 @@ fn main() {
         });
         let new_records = select_new_records(records, &baseline, &mut all_generated_ids);
         let new_count = new_records.len();
-
-        for r in &new_records {
-            all_generated_ids.insert(r.id.clone());
-        }
 
         if opts.verbose && new_count < fetched {
             eprintln!(
