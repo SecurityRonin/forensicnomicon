@@ -31,6 +31,9 @@ struct Opts {
     dry_run: bool,
     limit: Option<usize>,
     verbose: bool,
+    /// Let a regenerated module shrink past the tolerance the partial-fetch
+    /// guard enforces. For a contraction the operator already intends.
+    allow_shrink: bool,
 }
 
 impl Opts {
@@ -41,6 +44,7 @@ impl Opts {
         let mut dry_run = false;
         let mut limit = None;
         let mut verbose = false;
+        let mut allow_shrink = false;
 
         let mut i = 0;
         while i < args.len() {
@@ -62,6 +66,7 @@ impl Opts {
                     output_dir = PathBuf::from(&args[i]);
                 }
                 "--dry-run" => dry_run = true,
+                "--allow-shrink" => allow_shrink = true,
                 "--limit" => {
                     i += 1;
                     if i >= args.len() {
@@ -95,6 +100,7 @@ impl Opts {
             dry_run,
             limit,
             verbose,
+            allow_shrink,
         })
     }
 }
@@ -171,6 +177,8 @@ Options:
   --output <DIR>      Output directory for .rs files
                       [default: crates/data/src/catalog/descriptors/generated]
   --dry-run           Print stats without writing files
+  --allow-shrink      Permit a module to lose more records than the
+                      partial-fetch guard allows (deliberate contraction)
   --limit <N>         Max records per source (for testing)
   -v, --verbose       Verbose output
   -h, --help          Show this help
@@ -214,6 +222,57 @@ struct SourceSummary {
 /// The file a source's records are generated into.
 fn generated_file_name(source_name: &str) -> String {
     format!("{source_name}_generated.rs")
+}
+
+/// How much of a module a regeneration may drop before it looks like a failed
+/// fetch rather than an upstream change.
+const SHRINK_TOLERANCE: f64 = 1.00;
+
+/// Descriptor statics already committed in `module`, or `None` when there is no
+/// module yet to compare against.
+fn committed_statics(module: &Path) -> Option<usize> {
+    let source = fs::read_to_string(module).ok()?;
+    Some(
+        source
+            .split("pub(crate) static ")
+            .skip(1)
+            .filter(|block| block.contains("id: \""))
+            .count(),
+    )
+}
+
+/// Why a rewrite of `source_name` must not proceed, if it must not.
+///
+/// A rewrite emits the source's whole corpus, so a fetch that returns only part
+/// of one — a rate limit part-way through a paged listing, an upstream outage —
+/// silently replaces the module with the fragment it managed to collect. The
+/// records it dropped are indistinguishable from records upstream removed, so
+/// nothing downstream can tell the difference: the run exits 0 and the catalog
+/// is quietly smaller. Losing more than [`SHRINK_TOLERANCE`] of what is already
+/// committed is treated as that failure and refused; `--allow-shrink` is how a
+/// deliberate contraction says so.
+#[allow(clippy::cast_precision_loss)]
+fn shrink_refusal(source_name: &str, committed: usize, regenerated: usize) -> Option<String> {
+    if committed == 0 {
+        return None;
+    }
+    let floor = (committed as f64 * (1.0 - SHRINK_TOLERANCE)).floor();
+    if (regenerated as f64) >= floor {
+        return None;
+    }
+    let module = generated_file_name(source_name);
+    let lost = committed - regenerated;
+    let pct = (lost as f64 / committed as f64) * 100.0;
+    let tol = SHRINK_TOLERANCE * 100.0;
+    Some(format!(
+        "ERROR: [{source_name}] refusing to rewrite {module}: {regenerated} records regenerated \
+         against {committed} already committed — a loss of {lost} ({pct:.1}%), past the \
+         {tol:.0}% tolerance.\n       \
+         A full-corpus rewrite cannot tell a partial fetch from an upstream removal, so this is \
+         treated as a failed fetch and the module is left untouched.\n       \
+         Re-run once the source is reachable, or pass --allow-shrink if the contraction is \
+         intended."
+    ))
 }
 
 /// The dedup baseline for a run that regenerates `sources`.
@@ -389,6 +448,7 @@ fn main() {
     }
 
     let mut summaries: Vec<SourceSummary> = Vec::new();
+    let mut refused = false;
 
     // Every source is fetched before any is selected: a record must not lose a
     // shared key path to a sibling merely for having been fetched later.
@@ -419,9 +479,24 @@ fn main() {
             );
         }
 
-        let written = if !opts.dry_run && !new_records.is_empty() {
-            let out_path = output_dir.join(generated_file_name(source_name));
+        let out_path = output_dir.join(generated_file_name(source_name));
+        if !opts.allow_shrink {
+            if let Some(refusal) = committed_statics(&out_path)
+                .and_then(|committed| shrink_refusal(source_name, committed, new_count))
+            {
+                eprintln!("{refusal}");
+                refused = true;
+                summaries.push(SourceSummary {
+                    source: (*source_name).to_string(),
+                    fetched,
+                    new: new_count,
+                    written: false,
+                });
+                continue;
+            }
+        }
 
+        let written = if !opts.dry_run && !new_records.is_empty() {
             // The body is built first: the header's import list is derived from
             // which types the statics actually reference.
             let mut body = String::new();
@@ -520,6 +595,12 @@ fn main() {
             );
         }
     }
+
+    // A refused module is a failed run, not a quiet skip: exiting 0 here is
+    // exactly the silence the guard exists to break.
+    if refused {
+        std::process::exit(1);
+    }
 }
 
 #[cfg(test)]
@@ -585,6 +666,54 @@ mod tests {
         );
         rec.mitre_techniques = mitre.iter().map(|t| (*t).to_string()).collect();
         rec
+    }
+
+    #[test]
+    fn a_partial_fetch_may_not_rewrite_the_module() {
+        // The rate-limited run that started this work fetched 0 records for four
+        // sources; the empty-corpus check caught that. A fetch that returns
+        // *part* of a corpus — a rate limit part-way through a paged listing —
+        // has nothing to catch it: the module is rewritten with the fragment and
+        // the run exits 0, so a silently smaller catalog is indistinguishable
+        // from upstream having removed the records.
+        let refusal = shrink_refusal("kape", 2435, 900).expect("a 63% loss must be refused");
+        assert!(refusal.contains("2435"), "must name what is committed");
+        assert!(refusal.contains("900"), "must name what was regenerated");
+        assert!(
+            refusal.contains("--allow-shrink"),
+            "must name the way to proceed deliberately"
+        );
+    }
+
+    #[test]
+    fn an_ordinary_upstream_change_is_not_a_partial_fetch() {
+        // Upstream corpora gain and lose a handful of entries between runs; only
+        // a loss big enough to look like a failed fetch is refused.
+        assert!(
+            shrink_refusal("fa", 2604, 2603).is_none(),
+            "one record fewer"
+        );
+        assert!(shrink_refusal("evtx", 995, 1014).is_none(), "a gain");
+        assert!(
+            shrink_refusal("browsers", 0, 36).is_none(),
+            "a module that does not exist yet has nothing to shrink from"
+        );
+    }
+
+    #[test]
+    fn committed_statics_counts_only_descriptors() {
+        // The trailing summary block of a generated module is a commented-out
+        // `pub(crate) static`; counting it would inflate the floor.
+        let dir = catalog_with_generated_module(
+            "regedit",
+            &[("regedit_a", r"Alpha"), ("regedit_b", r"Beta")],
+        );
+        let module = dir.path().join("generated").join("regedit_generated.rs");
+        assert_eq!(committed_statics(&module), Some(2));
+        assert_eq!(
+            committed_statics(&dir.path().join("generated").join("absent_generated.rs")),
+            None
+        );
     }
 
     #[test]
