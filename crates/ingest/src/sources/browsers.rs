@@ -41,7 +41,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Chrome user profile directory containing history, cookies, extensions.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         IngestRecord {
             id: "browsers_chrome_cookies".to_string(),
@@ -58,7 +58,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Chrome cookies SQLite database — may contain session tokens.".to_string(),
             mitre_techniques: vec!["T1539".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome".to_string()],
         },
         IngestRecord {
             id: "browsers_chrome_cache_dir".to_string(),
@@ -73,7 +73,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Chrome disk cache. May contain cached pages and files from visited sites.".to_string(),
             mitre_techniques: vec![],
             triage_priority: "Low".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         IngestRecord {
             id: "browsers_chrome_extensions_dir".to_string(),
@@ -90,7 +90,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Chrome extensions directory. Malicious extensions may harvest credentials or intercept traffic.".to_string(),
             mitre_techniques: vec!["T1176".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         // ── Edge (Chromium) ───────────────────────────────────────────────
         IngestRecord {
@@ -108,7 +108,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Microsoft Edge (Chromium-based) browsing history SQLite database.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Microsoft_Edge".to_string()],
         },
         IngestRecord {
             id: "browsers_edge_cookies".to_string(),
@@ -125,7 +125,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Edge cookies database — may contain session tokens.".to_string(),
             mitre_techniques: vec!["T1539".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Microsoft_Edge".to_string()],
         },
         IngestRecord {
             id: "browsers_edge_profile_dir".to_string(),
@@ -142,7 +142,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Microsoft Edge user profile directory.".to_string(),
             mitre_techniques: vec![],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         // ── Firefox ───────────────────────────────────────────────────────
         IngestRecord {
@@ -177,7 +177,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Firefox history, bookmarks, and downloads SQLite database.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         IngestRecord {
             id: "browsers_firefox_cookies".to_string(),
@@ -194,7 +194,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Firefox cookies database — may contain active session tokens.".to_string(),
             mitre_techniques: vec!["T1539".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Mozilla_Firefox".to_string()],
         },
         IngestRecord {
             id: "browsers_firefox_logins".to_string(),
@@ -211,7 +211,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Firefox saved passwords (encrypted). If master password not set, decryptable.".to_string(),
             mitre_techniques: vec!["T1555.003".to_string()],
             triage_priority: "Critical".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Mozilla_Firefox".to_string()],
         },
         // ── Brave ─────────────────────────────────────────────────────────
         IngestRecord {
@@ -230,7 +230,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Brave browser browsing history SQLite database.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://brave.com/privacy/".to_string()],
         },
         IngestRecord {
             id: "browsers_brave_cookies".to_string(),
@@ -248,7 +248,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Brave cookies — may contain session tokens.".to_string(),
             mitre_techniques: vec!["T1539".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![],
+            sources: vec!["https://brave.com/privacy/".to_string()],
         },
         // ── Opera ─────────────────────────────────────────────────────────
         IngestRecord {
@@ -266,7 +266,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Opera (Chromium-based) browsing history SQLite database.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://www.opera.com/features/privacy".to_string()],
         },
         IngestRecord {
             id: "browsers_opera_profile_dir".to_string(),
@@ -281,7 +281,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Opera browser user profile directory.".to_string(),
             mitre_techniques: vec![],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         // ── Vivaldi ───────────────────────────────────────────────────────
         IngestRecord {
@@ -299,7 +299,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Vivaldi browsing history SQLite database.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://vivaldi.com/privacy/".to_string()],
         },
         IngestRecord {
             id: "browsers_vivaldi_profile_dir".to_string(),
@@ -314,7 +314,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Vivaldi browser user profile directory.".to_string(),
             mitre_techniques: vec![],
             triage_priority: "Low".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         // ── Safari (macOS) ────────────────────────────────────────────────
         IngestRecord {
@@ -332,7 +332,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Safari browsing history SQLite database (macOS).".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Apple_Safari".to_string()],
         },
         IngestRecord {
             id: "browsers_safari_cookies".to_string(),
@@ -347,7 +347,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Safari cookies binary file (macOS) — may contain session tokens.".to_string(),
             mitre_techniques: vec!["T1539".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Apple_Safari".to_string()],
         },
         IngestRecord {
             id: "browsers_safari_downloads".to_string(),
@@ -362,7 +362,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Safari download history plist (macOS).".to_string(),
             mitre_techniques: vec![],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Apple_Safari".to_string()],
         },
         // ── Internet Explorer ─────────────────────────────────────────────
         IngestRecord {
@@ -380,7 +380,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Internet Explorer cached history (WebCache). Contains visited URLs.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         IngestRecord {
             id: "browsers_ie_webcache_db".to_string(),
@@ -414,7 +414,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "URLs manually typed into the IE address bar (NTUSER.DAT).".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         // ── Tor Browser ───────────────────────────────────────────────────
         IngestRecord {
@@ -432,7 +432,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Tor Browser Firefox profile — usage indicates anonymous browsing intent.".to_string(),
             mitre_techniques: vec!["T1090".to_string(), "T1217".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         IngestRecord {
             id: "browsers_tor_places_db".to_string(),
@@ -449,7 +449,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Tor Browser history database — may contain .onion URLs.".to_string(),
             mitre_techniques: vec!["T1090".to_string()],
             triage_priority: "High".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         // ── Waterfox ──────────────────────────────────────────────────────
         IngestRecord {
@@ -465,7 +465,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Waterfox (Firefox fork) user profile directory.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         // ── LibreWolf ─────────────────────────────────────────────────────
         IngestRecord {
@@ -481,7 +481,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "LibreWolf (privacy-focused Firefox fork) user profile directory.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         // ── Chromium ──────────────────────────────────────────────────────
         IngestRecord {
@@ -497,7 +497,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Open-source Chromium browser browsing history database.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Medium".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome".to_string()],
         },
         // ── Pale Moon ─────────────────────────────────────────────────────
         IngestRecord {
@@ -513,7 +513,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Pale Moon (Goanna-based) browser user profile directory.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Low".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         // ── SeaMonkey ─────────────────────────────────────────────────────
         IngestRecord {
@@ -529,7 +529,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "SeaMonkey internet suite (browser + email) profile directory.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Low".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         // ── Basilisk ──────────────────────────────────────────────────────
         IngestRecord {
@@ -545,7 +545,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Basilisk (Goanna-based Firefox fork) browser profile directory.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Low".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         // ── Falkon ────────────────────────────────────────────────────────
         IngestRecord {
@@ -561,7 +561,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Falkon (formerly QupZilla) Qt-based browser profile directory.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Low".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         // ── Midori ────────────────────────────────────────────────────────
         IngestRecord {
@@ -577,7 +577,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Midori lightweight browser configuration and history (Linux/macOS).".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Low".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         // ── Min ───────────────────────────────────────────────────────────
         IngestRecord {
@@ -593,7 +593,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Min (Electron-based minimalist browser) history SQLite database.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Low".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         // ── Maxthon ───────────────────────────────────────────────────────
         IngestRecord {
@@ -609,7 +609,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Maxthon browser history directory.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Low".to_string(),
-            sources: vec![],
+            sources: vec!["https://forensicswiki.xyz/wiki/index.php?title=Browsers".to_string()],
         },
         // ── Slimjet ───────────────────────────────────────────────────────
         IngestRecord {
@@ -625,7 +625,7 @@ pub fn browser_artifacts() -> Vec<IngestRecord> {
             meaning: "Slimjet (Chromium-based) browsing history database.".to_string(),
             mitre_techniques: vec!["T1217".to_string()],
             triage_priority: "Low".to_string(),
-            sources: vec![],
+            sources: vec!["https://www.slimjet.com/".to_string()],
         },
     ]
 }
