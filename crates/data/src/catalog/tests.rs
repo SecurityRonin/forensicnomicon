@@ -8,6 +8,15 @@
 #[allow(unused_imports)]
 use crate::catalog::*;
 
+/// The exact number of entries in [`CATALOG`] — the single place the catalog
+/// size is written down.
+///
+/// Adding artifacts updates this constant and nothing else. Only
+/// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
+/// it; every `catalog_*` test belonging to a batch asserts that batch's
+/// artifacts are *present*, which is the invariant those tests are named for.
+const EXPECTED_CATALOG_LEN: usize = 7159;
+
 #[cfg(test)]
 mod catalog_integrity {
     use super::*;
@@ -18,6 +27,85 @@ mod catalog_integrity {
         for d in CATALOG.list() {
             assert!(seen.insert(d.id), "duplicate artifact id: {}", d.id);
         }
+    }
+
+    /// The exact catalog size is asserted here and nowhere else: every other
+    /// `catalog_count_*` test asserts the *presence* of the artifacts its batch
+    /// added. An artifact addition therefore edits one constant, not N tests.
+    #[test]
+    fn catalog_len_matches_expected_catalog_len() {
+        assert_eq!(CATALOG.list().len(), EXPECTED_CATALOG_LEN);
+    }
+
+    /// Every `ArtifactDescriptor` static emitted into `descriptors/generated/`
+    /// must be referenced by `CATALOG_ENTRIES`.
+    ///
+    /// An unreferenced static still compiles and still costs binary size, but no
+    /// query can ever return it: `by_id`, keyword search and triage all read
+    /// `CATALOG_ENTRIES`. The artifact is in the crate and out of the catalog —
+    /// invisible to the analyst, and invisible to `dead_code` too, because the
+    /// statics are batch-generated and one hand-added `#![allow(dead_code)]`
+    /// silences the whole file.
+    #[test]
+    fn every_generated_descriptor_is_reachable_from_the_catalog() {
+        const GENERATED: &[(&str, &str)] = &[
+            (
+                "browsers_generated.rs",
+                include_str!("descriptors/generated/browsers_generated.rs"),
+            ),
+            (
+                "dfir_scripts_generated.rs",
+                include_str!("descriptors/generated/dfir_scripts_generated.rs"),
+            ),
+            (
+                "evtx_generated.rs",
+                include_str!("descriptors/generated/evtx_generated.rs"),
+            ),
+            (
+                "fa_generated.rs",
+                include_str!("descriptors/generated/fa_generated.rs"),
+            ),
+            (
+                "kape_generated.rs",
+                include_str!("descriptors/generated/kape_generated.rs"),
+            ),
+            (
+                "nirsoft_generated.rs",
+                include_str!("descriptors/generated/nirsoft_generated.rs"),
+            ),
+            (
+                "regedit_generated.rs",
+                include_str!("descriptors/generated/regedit_generated.rs"),
+            ),
+            (
+                "velociraptor_generated.rs",
+                include_str!("descriptors/generated/velociraptor_generated.rs"),
+            ),
+        ];
+
+        let mut orphans = Vec::new();
+        let mut checked = 0_usize;
+        for (file, src) in GENERATED {
+            // `id` is the first field of every generated descriptor, so the first
+            // `id: "` inside a `pub(crate) static` block is that descriptor's id.
+            for block in src.split("pub(crate) static ").skip(1) {
+                let Some((_, after)) = block.split_once("id: \"") else {
+                    continue;
+                };
+                let id = after.split('"').next().unwrap_or_default();
+                checked += 1;
+                if CATALOG.by_id(id).is_none() {
+                    orphans.push(format!("{file}::{id}"));
+                }
+            }
+        }
+
+        assert!(checked > 6_000, "descriptor scan found only {checked} ids");
+        assert!(
+            orphans.is_empty(),
+            "{} of {checked} generated descriptors are not wired into CATALOG_ENTRIES, so no query can return them: {orphans:#?}",
+            orphans.len()
+        );
     }
 
     /// The Apple Biome `App.MenuItem` stream (macOS Tahoe 26) — a user-intent
@@ -1547,7 +1635,6 @@ mod decode_tests {
     #[test]
     fn catalog_has_entries() {
         assert!(!CATALOG.list().is_empty());
-        assert_eq!(CATALOG.list().len(), 7107);
     }
 
     #[test]
@@ -3989,9 +4076,10 @@ mod tests_batch_d {
     }
 
     #[test]
-    fn catalog_count_after_srum_network_connections() {
-        // +1 from srum_network_connections, +1 from evtx_application_msiinstaller
-        assert_eq!(CATALOG.list().len(), 7107);
+    fn catalog_includes_srum_network_connections() {
+        for id in ["srum_network_connections", "evtx_application_msiinstaller"] {
+            assert!(CATALOG.by_id(id).is_some(), "{id} missing from catalog");
+        }
     }
 
     // ── EVTX channels ─────────────────────────────────────────────────────
@@ -4995,9 +5083,24 @@ mod phase2_registry_tests {
     use super::*;
 
     #[test]
-    fn catalog_count_includes_phase2() {
-        // Updated to 354 after phase-2b file artifact additions
-        assert_eq!(CATALOG.list().len(), 7107);
+    fn catalog_includes_phase2_registry_artifacts() {
+        for id in [
+            "winlogon_autoadmin_logon",
+            "winlogon_default_password",
+            "portproxy_config",
+            "windows_defender_exclusions_local",
+            "vss_files_not_to_snapshot",
+            "ifeo_silent_exit",
+            "rdp_shadow_sessions",
+            "taskcache_tasks_path",
+            "event_log_channel_status",
+            "sysinternals_eula",
+            "startup_approved_run_system",
+            "profile_list_users",
+            "firewall_rules",
+        ] {
+            assert!(CATALOG.by_id(id).is_some(), "{id} missing from catalog");
+        }
     }
 
     #[test]
@@ -5139,10 +5242,50 @@ mod phase2b_files_tests {
     use super::*;
 
     #[test]
-    fn catalog_count_includes_phase2b() {
-        // phase2a adds 30 registry artifacts (284→314), phase2b adds 40 file artifacts (314→354)
-        // Note: chrome_login_data was already present from Phase 1; not duplicated here.
-        assert_eq!(CATALOG.list().len(), 7107);
+    fn catalog_includes_phase2b_file_artifacts() {
+        for id in [
+            "chrome_history",
+            "chrome_web_data",
+            "edge_chromium_history",
+            "edge_chromium_login_data",
+            "firefox_places",
+            "firefox_form_history",
+            "firefox_session_restore",
+            "psreadline_history",
+            "psreadline_history_system",
+            "powershell_transcripts",
+            "teamviewer_connection_log",
+            "anydesk_trace_user",
+            "anydesk_trace_system",
+            "anydesk_connection_trace",
+            "anydesk_file_transfer_log",
+            "screenconnect_session_db",
+            "rustdesk_logs",
+            "dropbox_instance_db",
+            "onedrive_metadata",
+            "google_drive_fs_metadata",
+            "megasync_data",
+            "teams_indexed_db",
+            "slack_indexed_db",
+            "discord_local_storage",
+            "signal_database",
+            "signal_config_json",
+            "windows_search_edb",
+            "event_transcript_db",
+            "certutil_cache",
+            "sdb_custom_files",
+            "wer_reports",
+            "iis_w3svc_logs",
+            "iis_config_applicationhost",
+            "dns_debug_log",
+            "dhcp_server_log",
+            "sum_db",
+            "copilot_recall_ukg",
+            "ntuser_dat_file",
+            "usrclass_dat_file",
+        ] {
+            assert!(CATALOG.by_id(id).is_some(), "{id} missing from catalog");
+        }
     }
 
     #[test]
@@ -5441,11 +5584,25 @@ mod phase3_persistence_tests {
     use super::*;
 
     #[test]
-    fn catalog_count_includes_phase3() {
-        // phase3 adds 7 net-new artifacts not already in catalog (354 → 361)
-        // Note: winlogon_shell, winlogon_userinit, appinit_dlls, boot_execute,
-        //       ifeo_debugger, netsh_helper_dlls, mountpoints2 were already present.
-        assert_eq!(CATALOG.list().len(), 7107);
+    fn catalog_includes_phase3_persistence_artifacts() {
+        for id in [
+            "winlogon_shell",
+            "winlogon_userinit",
+            "appinit_dlls",
+            "boot_execute",
+            "ifeo_debugger",
+            "netsh_helper_dlls",
+            "mountpoints2",
+            "active_setup",
+            "lsa_auth_packages",
+            "lsa_security_packages",
+            "lsa_notification_packages",
+            "screensaver_persistence",
+            "print_monitor_dlls",
+            "services_hklm",
+        ] {
+            assert!(CATALOG.by_id(id).is_some(), "{id} missing from catalog");
+        }
     }
 
     // ── Pre-existing artifacts verified present ───────────────────────────────
@@ -6604,12 +6761,35 @@ mod tests_batch_i_presence {
     }
 
     #[test]
-    fn catalog_count_includes_batch_i() {
-        assert_eq!(
-            CATALOG.list().len(),
-            7107,
-            "catalog count after batch I + quicklook + install_date + winscp + wifi + clipboard + unified_log + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
-        );
+    fn catalog_includes_all_batch_i_artifacts() {
+        for id in [
+            "cbs_log",
+            "pfro_log",
+            "setuperr_log",
+            "setupapi_upgrade_log",
+            "wer_reports_user",
+            "wer_reports_system",
+            "evtx_application",
+            "evtx_dns_client",
+            "evtx_terminal_services",
+            "evtx_security",
+            "evtx_application_msiinstaller",
+            "evtx_system",
+            "evtx_driver_frameworks",
+            "evtx_defender_operational",
+            "linux_kern_log",
+            "linux_dmesg",
+            "linux_proc_net_tcp",
+            "linux_proc_net_unix",
+            "linux_boot_log",
+            "linux_faillog",
+            "appx_packages_user",
+            "appx_install_log",
+            "diagnostic_data_dir",
+            "windows_update_session",
+        ] {
+            assert!(CATALOG.by_id(id).is_some(), "{id} missing from catalog");
+        }
     }
 }
 
@@ -6863,12 +7043,10 @@ mod tests_quicklook_install_date {
     // ── count ─────────────────────────────────────────────────────────────────
 
     #[test]
-    fn catalog_count_includes_quicklook_and_install_date() {
-        assert_eq!(
-            CATALOG.list().len(),
-            7107,
-            "catalog count after quicklook + install_date + winscp + wifi + clipboard + unified_log + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
-        );
+    fn catalog_includes_quicklook_and_install_date() {
+        for id in ["quicklook_thumbnails", "windows_install_date"] {
+            assert!(CATALOG.by_id(id).is_some(), "{id} missing from catalog");
+        }
     }
 }
 
@@ -7021,11 +7199,10 @@ mod tests_winscp_ini {
     }
 
     #[test]
-    fn catalog_count_includes_winscp_ini() {
-        assert_eq!(
-            CATALOG.list().len(),
-            7107,
-            "catalog count after winscp + wifi + clipboard + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
+    fn catalog_includes_winscp_ini() {
+        assert!(
+            CATALOG.by_id("winscp_ini").is_some(),
+            "winscp_ini missing from catalog"
         );
     }
 
@@ -7356,11 +7533,10 @@ mod tests_windows_clipboard_history {
     }
 
     #[test]
-    fn catalog_count_includes_clipboard_history() {
-        assert_eq!(
-            CATALOG.list().len(),
-            7107,
-            "catalog count after valley_rat + ntuser_man + apfs + samsung + honda + ios14_maps + garmin + aws_cloudtrail + btm"
+    fn catalog_includes_clipboard_history() {
+        assert!(
+            CATALOG.by_id("windows_clipboard_history").is_some(),
+            "windows_clipboard_history missing from catalog"
         );
     }
 }
@@ -9735,8 +9911,11 @@ mod tests_android_gboard_trainingcache {
     }
 
     #[test]
-    fn catalog_count_updated() {
-        assert_eq!(CATALOG.list().len(), 7107);
+    fn catalog_includes_android_gboard_trainingcache() {
+        assert!(
+            CATALOG.by_id("android_gboard_trainingcache").is_some(),
+            "android_gboard_trainingcache missing from catalog"
+        );
     }
 }
 
@@ -9836,11 +10015,10 @@ mod tests_hyperv_guest_params {
     }
 
     #[test]
-    fn catalog_count_after_hyperv_guest_params() {
-        assert_eq!(
-            CATALOG.list().len(),
-            7107,
-            "catalog count after hyperv_guest_params"
+    fn catalog_includes_hyperv_guest_params() {
+        assert!(
+            CATALOG.by_id("hyperv_guest_params").is_some(),
+            "hyperv_guest_params missing from catalog"
         );
     }
 }
@@ -10029,11 +10207,10 @@ mod tests_registry_featureusage {
     }
 
     #[test]
-    fn catalog_count_after_registry_featureusage() {
-        assert_eq!(
-            CATALOG.list().len(),
-            7107,
-            "catalog count after registry_featureusage"
+    fn catalog_includes_registry_featureusage() {
+        assert!(
+            CATALOG.by_id("registry_featureusage").is_some(),
+            "registry_featureusage missing from catalog"
         );
     }
 }
@@ -10174,11 +10351,10 @@ mod tests_pca_general_db {
     }
 
     #[test]
-    fn catalog_count_after_pca_general_db() {
-        assert_eq!(
-            CATALOG.list().len(),
-            7107,
-            "catalog count after pca_general_db"
+    fn catalog_includes_pca_general_db() {
+        assert!(
+            CATALOG.by_id("pca_general_db").is_some(),
+            "pca_general_db missing from catalog"
         );
     }
 }
@@ -10294,11 +10470,10 @@ mod tests_windows_hosts_file {
     }
 
     #[test]
-    fn catalog_count_after_windows_hosts_file() {
-        assert_eq!(
-            CATALOG.list().len(),
-            7107,
-            "catalog count after windows_hosts_file"
+    fn catalog_includes_windows_hosts_file() {
+        assert!(
+            CATALOG.by_id("windows_hosts_file").is_some(),
+            "windows_hosts_file missing from catalog"
         );
     }
 }
@@ -10450,11 +10625,10 @@ mod tests_enable_periodic_backup {
     }
 
     #[test]
-    fn catalog_count_after_enable_periodic_backup() {
-        assert_eq!(
-            CATALOG.list().len(),
-            7107,
-            "catalog count after enable_periodic_backup (+1)"
+    fn catalog_includes_enable_periodic_backup() {
+        assert!(
+            CATALOG.by_id("enable_periodic_backup").is_some(),
+            "enable_periodic_backup missing from catalog"
         );
     }
 }
@@ -10606,11 +10780,10 @@ mod tests_dns_policy_config_nrpt {
     }
 
     #[test]
-    fn catalog_count_after_dns_policy_config_nrpt() {
-        assert_eq!(
-            CATALOG.list().len(),
-            7107,
-            "catalog count after dns_policy_config_nrpt"
+    fn catalog_includes_dns_policy_config_nrpt() {
+        assert!(
+            CATALOG.by_id("dns_policy_config_nrpt").is_some(),
+            "dns_policy_config_nrpt missing from catalog"
         );
     }
 
@@ -10805,12 +10978,15 @@ mod tests_dns_policy_config_nrpt {
     }
 
     #[test]
-    fn catalog_count_after_carvey_windows_registry_post() {
-        assert_eq!(
-            CATALOG.list().len(),
-            7107,
-            "catalog count after adding rdp_enable_registry, special_accounts_userlist, logontype_winlogon, windows_clipboard_data_files"
-        );
+    fn catalog_includes_carvey_windows_registry_post_artifacts() {
+        for id in [
+            "rdp_enable_registry",
+            "special_accounts_userlist",
+            "logontype_winlogon",
+            "windows_clipboard_data_files",
+        ] {
+            assert!(CATALOG.by_id(id).is_some(), "{id} missing from catalog");
+        }
     }
 }
 
@@ -11054,15 +11230,14 @@ mod tests_windows_defender_mpwpptracing {
 }
 
 #[cfg(test)]
-mod tests_catalog_count_after_defender_support_logs {
+mod tests_defender_support_logs {
     use super::*;
 
     #[test]
-    fn catalog_count_after_carvey_defender_support_logs_post() {
-        assert_eq!(
-            CATALOG.list().len(),
-            7107,
-            "catalog count after adding windows_defender_mpwpptracing"
+    fn catalog_includes_windows_defender_mpwpptracing() {
+        assert!(
+            CATALOG.by_id("windows_defender_mpwpptracing").is_some(),
+            "windows_defender_mpwpptracing missing from catalog"
         );
     }
 }
