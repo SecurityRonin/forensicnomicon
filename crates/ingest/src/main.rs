@@ -313,6 +313,19 @@ fn richness(rec: &IngestRecord, source_rank: usize) -> (bool, usize, std::cmp::R
     )
 }
 
+/// Carry `retired`'s ATT&CK techniques over to the record that displaced it.
+///
+/// Sources disagree about which technique a key serves rather than about the
+/// key: dfir-scripts maps `…\CurrentVersion\Policies\System` to credential
+/// access under one entry, to defense evasion under another and to privilege
+/// escalation under a third, all of them true. Picking a survivor and dropping
+/// the rest would silently narrow which techniques the catalog can answer for
+/// that key, so the survivor absorbs them. Its own come first and duplicates are
+/// skipped, so the result is stable.
+fn absorb_techniques(winner: &mut IngestRecord, retired: &IngestRecord) {
+    let _ = (winner, retired);
+}
+
 /// Two key paths collide when either would suppress the other.
 ///
 /// [`PathSet::covers`] is directional — a catalogued path covers any key that is
@@ -370,10 +383,11 @@ fn select_records(fetched: &Fetched, baseline: &CatalogIndex) -> Fetched {
 
     let mut kept: Vec<(usize, usize, IngestRecord)> = Vec::new();
     for candidate in candidates {
-        if kept
-            .iter()
-            .any(|(_, _, k)| paths_collide(&k.key_path, &candidate.2.key_path))
+        if let Some((_, _, winner)) = kept
+            .iter_mut()
+            .find(|(_, _, k)| paths_collide(&k.key_path, &candidate.2.key_path))
         {
+            absorb_techniques(winner, &candidate.2);
             continue;
         }
         kept.push(candidate);
@@ -666,6 +680,55 @@ mod tests {
         );
         rec.mitre_techniques = mitre.iter().map(|t| (*t).to_string()).collect();
         rec
+    }
+
+    #[test]
+    fn the_survivor_absorbs_the_techniques_of_what_it_displaced() {
+        // Sources disagree about which technique a key serves, not about the key.
+        // dfir-scripts maps ...\CurrentVersion\Policies\System to credential
+        // access under one entry, defense evasion under another and privilege
+        // escalation under a third — all true of that key. Keeping one and
+        // discarding the rest narrows which techniques the catalog can answer
+        // for it, whichever one wins.
+        let dir = catalog_with_generated_module("dfir_scripts", &[]);
+        let key = r"Software\Microsoft\Windows\CurrentVersion\Policies\System";
+        let fetched: Fetched = vec![(
+            "dfir_scripts",
+            vec![
+                described(
+                    "dfir_scripts_currentversion_policies_system",
+                    "dfir_scripts",
+                    key,
+                    "Policies System — a longer meaning, so this record wins the key path.",
+                    &["T1562.001", "T1003.001"],
+                ),
+                described(
+                    "dfir_scripts_currentversion_policies_system_2",
+                    "dfir_scripts",
+                    key,
+                    "Policies System — shorter.",
+                    &["T1486", "T1003.001"],
+                ),
+                described(
+                    "dfir_scripts_currentversion_policies_system_3",
+                    "dfir_scripts",
+                    key,
+                    "Policies System — shortest.",
+                    &["T1548.002"],
+                ),
+            ],
+        )];
+
+        let baseline = baseline_for_run(dir.path(), &["dfir_scripts"]).expect("baseline");
+        let kept = only(select_records(&fetched, &baseline));
+
+        assert_eq!(kept.len(), 1, "one descriptor per key path");
+        assert_eq!(
+            kept[0].mitre_techniques,
+            vec!["T1562.001", "T1003.001", "T1486", "T1548.002"],
+            "the survivor must answer for every technique the key was mapped to, \
+             its own first and without repeats"
+        );
     }
 
     #[test]

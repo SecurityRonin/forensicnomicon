@@ -10,15 +10,15 @@
 //!
 //! | Source      | Count |
 //! |-------------|-------|
-//! | browsers    |    37 |
-//! | dfir_scripts|   404 |
-//! | evtx        |   995 |
-//! | fa          |  2597 |
-//! | kape        |  2422 |
-//! | nirsoft     |    22 |
-//! | regedit     |    43 |
-//! | velociraptor|   122 |
-//! | **Total**   |**6642**|
+//! | browsers    |    35 |
+//! | dfir_scripts|   374 |
+//! | evtx        |   990 |
+//! | fa          |  2518 |
+//! | kape        |  2411 |
+//! | nirsoft     |    13 |
+//! | regedit     |    17 |
+//! | velociraptor|   110 |
+//! | **Total**   |**6468**|
 
 pub(super) mod browsers_generated;
 pub(super) mod dfir_scripts_generated;
