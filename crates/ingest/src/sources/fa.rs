@@ -10,7 +10,8 @@
 use std::collections::HashSet;
 
 use crate::github::github_client;
-use crate::normalize::{normalize_file_id, normalize_registry_id};
+use crate::hive::{detect_hive, strip_hive_from_path};
+use crate::normalize::{ensure_unique, normalize_file_id, normalize_registry_id};
 use crate::record::{IngestRecord, IngestType};
 use crate::triage::infer_triage;
 
@@ -139,7 +140,7 @@ fn parse_document(
                 IngestType::RegistryKey | IngestType::RegistryValue => {
                     let raw_id = normalize_registry_id(&path, "fa");
                     let id = ensure_unique(raw_id, seen_ids);
-                    let hive = detect_hive_string(&path);
+                    let hive = detect_hive(&path).map(str::to_string);
                     let key_path = strip_hive_from_path(&path);
                     (id, hive, key_path, None)
                 }
@@ -203,63 +204,6 @@ fn parse_supported_os(value: &serde_yaml::Value) -> String {
         (false, false, true) => "MacOS".to_string(),
         _ => "Win7Plus".to_string(), // unknown / empty → conservative Windows default
     }
-}
-
-fn ensure_unique(base: String, seen: &mut HashSet<String>) -> String {
-    if !seen.contains(&base) {
-        return base;
-    }
-    let mut n = 2u32;
-    loop {
-        let candidate = format!("{base}_{n}");
-        if !seen.contains(&candidate) {
-            return candidate;
-        }
-        n += 1;
-    }
-}
-
-fn detect_hive_string(path: &str) -> Option<String> {
-    let upper = path.to_ascii_uppercase();
-    if upper.starts_with("HKEY_LOCAL_MACHINE\\SYSTEM") || upper.starts_with("HKLM\\SYSTEM") {
-        Some("HKLM\\SYSTEM".to_string())
-    } else if upper.starts_with("HKEY_LOCAL_MACHINE\\SOFTWARE")
-        || upper.starts_with("HKLM\\SOFTWARE")
-    {
-        Some("HKLM\\SOFTWARE".to_string())
-    } else if upper.starts_with("HKEY_LOCAL_MACHINE\\SAM") || upper.starts_with("HKLM\\SAM") {
-        Some("HKLM\\SAM".to_string())
-    } else if upper.starts_with("HKEY_LOCAL_MACHINE\\SECURITY")
-        || upper.starts_with("HKLM\\SECURITY")
-    {
-        Some("HKLM\\SECURITY".to_string())
-    } else if upper.starts_with("HKEY_LOCAL_MACHINE") || upper.starts_with("HKLM") {
-        Some("HKLM\\SOFTWARE".to_string())
-    } else if upper.starts_with("HKEY_CURRENT_USER\\SOFTWARE\\CLASSES")
-        || upper.starts_with("HKCU\\SOFTWARE\\CLASSES")
-    {
-        Some("HKCU\\Software\\Classes".to_string())
-    } else if upper.starts_with("HKEY_CURRENT_USER") || upper.starts_with("HKCU") {
-        Some("HKCU".to_string())
-    } else {
-        None
-    }
-}
-
-fn strip_hive_from_path(path: &str) -> String {
-    let upper = path.to_ascii_uppercase();
-    let prefixes = [
-        "HKEY_LOCAL_MACHINE\\",
-        "HKEY_CURRENT_USER\\",
-        "HKLM\\",
-        "HKCU\\",
-    ];
-    for prefix in prefixes {
-        if upper.starts_with(prefix) {
-            return path[prefix.len()..].to_string();
-        }
-    }
-    path.to_string()
 }
 
 /// Fetch and parse ForensicArtifacts YAML from a single URL.

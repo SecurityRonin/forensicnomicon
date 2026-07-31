@@ -1,35 +1,7 @@
 //! Code generation: emit valid `ArtifactDescriptor` Rust statics from `IngestRecord`s.
 
+use crate::hive::target_variant;
 use crate::record::{IngestRecord, IngestType};
-
-/// Map a hive string to the `HiveTarget` variant name.
-fn hive_variant(hive: &str) -> &'static str {
-    let upper = hive.to_ascii_uppercase();
-    if upper.contains("HKLM\\SYSTEM") || upper.contains("HKEY_LOCAL_MACHINE\\SYSTEM") {
-        "HklmSystem"
-    } else if upper.contains("HKLM\\SOFTWARE") || upper.contains("HKEY_LOCAL_MACHINE\\SOFTWARE") {
-        "HklmSoftware"
-    } else if upper.contains("HKLM\\SAM") || upper.contains("HKEY_LOCAL_MACHINE\\SAM") {
-        "HklmSam"
-    } else if upper.contains("HKLM\\SECURITY") || upper.contains("HKEY_LOCAL_MACHINE\\SECURITY") {
-        "HklmSecurity"
-    } else if upper.contains("HKCU\\SOFTWARE\\CLASSES")
-        || upper.contains("HKEY_CURRENT_USER\\SOFTWARE\\CLASSES")
-    {
-        "UsrClass"
-    } else if upper.contains("HKCU")
-        || upper.contains("HKEY_CURRENT_USER")
-        || upper.contains("NTUSER")
-    {
-        "NtUser"
-    } else if upper.contains("AMCACHE") {
-        "Amcache"
-    } else if upper.contains("BCD") {
-        "Bcd"
-    } else {
-        "None"
-    }
-}
 
 /// Map an `IngestType` to the `ArtifactLocation` variant name.
 fn artifact_type_variant(t: &IngestType) -> &'static str {
@@ -69,7 +41,7 @@ pub fn generate_static(rec: &IngestRecord) -> String {
 
     // Hive field
     let hive_field = if let Some(ref h) = rec.hive {
-        format!("Some(HiveTarget::{})", hive_variant(h))
+        format!("Some(HiveTarget::{})", target_variant(h))
     } else {
         "None".to_string()
     };

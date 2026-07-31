@@ -12,8 +12,9 @@
 use std::collections::HashSet;
 
 use crate::github::github_client;
-use crate::normalize::{normalize_file_id, to_snake_case};
+use crate::normalize::{ensure_unique, normalize_file_id, to_snake_case};
 use crate::record::{IngestRecord, IngestType};
+use crate::sources::common::extract_mitre;
 use crate::triage::infer_triage;
 
 const KAPE_TREE_URL: &str =
@@ -139,17 +140,7 @@ pub fn fetch_kape_targets() -> Result<Vec<IngestRecord>, Box<dyn std::error::Err
         let records = parse_tkape(&content, base_name);
         for mut rec in records {
             // Ensure global uniqueness
-            if global_seen.contains(&rec.id) {
-                let mut n = 2u32;
-                loop {
-                    let candidate = format!("{}_{n}", rec.id);
-                    if !global_seen.contains(&candidate) {
-                        rec.id = candidate;
-                        break;
-                    }
-                    n += 1;
-                }
-            }
+            rec.id = ensure_unique(std::mem::take(&mut rec.id), &global_seen);
             global_seen.insert(rec.id.clone());
             all_records.push(rec);
         }
@@ -206,14 +197,7 @@ fn build_record(
         );
         let candidate = candidate.trim_end_matches('_').to_string();
         if seen_ids.contains(&candidate) {
-            let mut n = 2u32;
-            loop {
-                let c = format!("{base_id}_{n}");
-                if !seen_ids.contains(&c) {
-                    break c;
-                }
-                n += 1;
-            }
+            ensure_unique(base_id, seen_ids)
         } else {
             candidate
         }
@@ -247,15 +231,6 @@ fn build_record(
             "https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/{source_file}.tkape"
         )],
     })
-}
-
-fn extract_mitre(text: &str) -> Vec<String> {
-    // Constant valid regex; degrade to no matches rather than panic if it ever
-    // fails to compile.
-    let Ok(re) = regex::Regex::new(r"T\d{4}(?:\.\d{3})?") else {
-        return Vec::new();
-    };
-    re.find_iter(text).map(|m| m.as_str().to_string()).collect()
 }
 
 #[cfg(test)]

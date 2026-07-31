@@ -9,6 +9,7 @@
 mod codegen;
 mod dedup;
 mod github;
+mod hive;
 mod normalize;
 mod record;
 mod sources;

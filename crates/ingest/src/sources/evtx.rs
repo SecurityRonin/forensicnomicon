@@ -10,7 +10,7 @@
 use std::collections::HashSet;
 
 use crate::github::github_client;
-use crate::normalize::to_snake_case;
+use crate::normalize::{ensure_unique, to_snake_case};
 use crate::record::{IngestRecord, IngestType};
 
 const EVTX_CONTENTS_URL: &str =
@@ -36,7 +36,7 @@ pub fn parse_evtx_csv(content: &str) -> Vec<IngestRecord> {
         } else {
             raw_id
         };
-        let id = ensure_unique(id_base, &mut seen_ids);
+        let id = ensure_unique(id_base, &seen_ids);
         seen_ids.insert(id.clone());
 
         // Build file path
@@ -169,21 +169,6 @@ fn split_csv_line(line: &str) -> Vec<&str> {
     }
     fields.push(&line[start..]);
     fields
-}
-
-#[cfg_attr(not(test), allow(dead_code))]
-fn ensure_unique(base: String, seen: &mut HashSet<String>) -> String {
-    if !seen.contains(&base) {
-        return base;
-    }
-    let mut n = 2u32;
-    loop {
-        let candidate = format!("{base}_{n}");
-        if !seen.contains(&candidate) {
-            return candidate;
-        }
-        n += 1;
-    }
 }
 
 /// Fetch EVTX channel records from the nasbench repository.

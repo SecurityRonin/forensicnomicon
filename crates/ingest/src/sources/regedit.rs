@@ -10,8 +10,10 @@
 
 use std::collections::HashSet;
 
-use crate::normalize::{normalize_registry_id, to_snake_case};
+use crate::hive::map_hive_type;
+use crate::normalize::{ensure_unique, normalize_registry_id, to_snake_case};
 use crate::record::{IngestRecord, IngestType};
+use crate::sources::common::extract_mitre;
 use crate::triage::infer_triage;
 
 const SOURCE_URL: &str =
@@ -134,14 +136,7 @@ fn build_record(
         let candidate = candidate.trim_end_matches('_').to_string();
         if seen_ids.contains(&candidate) {
             // Last resort: append counter
-            let mut n = 2u32;
-            loop {
-                let c = format!("{base_id}_{n}");
-                if !seen_ids.contains(&c) {
-                    break c;
-                }
-                n += 1;
-            }
+            ensure_unique(base_id, seen_ids)
         } else {
             candidate
         }
@@ -174,30 +169,6 @@ fn build_record(
         triage_priority: triage.to_string(),
         sources: vec![SOURCE_URL.to_string()],
     })
-}
-
-fn map_hive_type(hive_type: &str) -> Option<&'static str> {
-    match hive_type.trim().to_ascii_uppercase().as_str() {
-        "NTUSER" | "HKCU" | "HKEY_CURRENT_USER" => Some("HKCU"),
-        "HKLM" | "HKEY_LOCAL_MACHINE" => Some("HKLM"),
-        "SYSTEM" => Some("HKLM\\SYSTEM"),
-        "SOFTWARE" => Some("HKLM\\SOFTWARE"),
-        "SAM" => Some("HKLM\\SAM"),
-        "SECURITY" => Some("HKLM\\SECURITY"),
-        "USRCLASS" | "HKCR" | "HKEY_CLASSES_ROOT" => Some("HKCU\\Software\\Classes"),
-        "BCD" => Some("BCD"),
-        "AMCACHE" => Some("Amcache"),
-        _ => None,
-    }
-}
-
-fn extract_mitre(text: &str) -> Vec<String> {
-    // Constant valid regex; degrade to no matches rather than panic if it ever
-    // fails to compile.
-    let Ok(re) = regex::Regex::new(r"T\d{4}(?:\.\d{3})?") else {
-        return Vec::new();
-    };
-    re.find_iter(text).map(|m| m.as_str().to_string()).collect()
 }
 
 #[cfg(test)]
