@@ -60,9 +60,16 @@ pub fn filetime_to_iso8601(ft: u64) -> Option<String> {
     ))
 }
 
+/// True when the `size` bytes at `offset` lie entirely inside a `len`-byte
+/// buffer. `checked_add` so an `offset` near `usize::MAX` cannot wrap the
+/// comparison and let an out-of-bounds index through.
+fn fits(len: usize, offset: usize, size: usize) -> bool {
+    matches!(offset.checked_add(size), Some(end) if end <= len)
+}
+
 /// Read a u16 LE at `offset`, returning 0 if out of bounds.
 fn read_u16_le(data: &[u8], offset: usize) -> u16 {
-    if offset + 2 > data.len() {
+    if !fits(data.len(), offset, 2) {
         return 0;
     }
     u16::from_le_bytes([data[offset], data[offset + 1]])
@@ -70,7 +77,7 @@ fn read_u16_le(data: &[u8], offset: usize) -> u16 {
 
 /// Read a u32 LE at `offset`, returning 0 if out of bounds.
 fn read_u32_le(data: &[u8], offset: usize) -> u32 {
-    if offset + 4 > data.len() {
+    if !fits(data.len(), offset, 4) {
         return 0;
     }
     u32::from_le_bytes([
@@ -83,7 +90,7 @@ fn read_u32_le(data: &[u8], offset: usize) -> u32 {
 
 /// Read a u64 LE at `offset`, returning 0 if out of bounds.
 fn read_u64_le(data: &[u8], offset: usize) -> u64 {
-    if offset + 8 > data.len() {
+    if !fits(data.len(), offset, 8) {
         return 0;
     }
     u64::from_le_bytes([
@@ -100,7 +107,7 @@ fn read_u64_le(data: &[u8], offset: usize) -> u64 {
 
 /// Read an i32 LE at `offset`, returning 0 if out of bounds.
 fn read_i32_le(data: &[u8], offset: usize) -> i32 {
-    if offset + 4 > data.len() {
+    if !fits(data.len(), offset, 4) {
         return 0;
     }
     i32::from_le_bytes([
@@ -113,7 +120,7 @@ fn read_i32_le(data: &[u8], offset: usize) -> i32 {
 
 /// Read an i64 LE at `offset`, returning 0 if out of bounds.
 fn read_i64_le(data: &[u8], offset: usize) -> i64 {
-    if offset + 8 > data.len() {
+    if !fits(data.len(), offset, 8) {
         return 0;
     }
     i64::from_le_bytes([
@@ -136,7 +143,7 @@ fn decode_binary_field(field: &BinaryField, raw: &[u8]) -> Result<ArtifactValue,
         BinaryFieldType::U64Le | BinaryFieldType::I64Le | BinaryFieldType::FiletimeLe => 8,
         BinaryFieldType::Bytes { len } => len,
     };
-    if field.offset + size > raw.len() {
+    if !fits(raw.len(), field.offset, size) {
         return Err(DecodeError::FieldOutOfBounds {
             field: field.name,
             offset: field.offset,
@@ -241,9 +248,9 @@ pub(super) fn decode_artifact(
         }
 
         Decoder::FiletimeAt { offset } => {
-            if offset + 8 > raw.len() {
+            if !fits(raw.len(), offset, 8) {
                 return Err(DecodeError::BufferTooShort {
-                    expected: offset + 8,
+                    expected: offset.saturating_add(8),
                     actual: raw.len(),
                 });
             }
