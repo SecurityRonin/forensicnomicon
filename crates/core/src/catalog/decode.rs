@@ -500,6 +500,64 @@ mod tests {
         assert_eq!(read_i64_le(&[0x01], 0), 0);
     }
 
+    /// An `offset` close to `usize::MAX` must be rejected, not wrapped: a
+    /// `offset + N > len` guard overflows (debug) or wraps to a small value and
+    /// lets the index through (release).
+    #[test]
+    fn read_helpers_offset_near_usize_max_return_zero() {
+        let data = [0u8; 8];
+        assert_eq!(read_u16_le(&data, usize::MAX - 1), 0);
+        assert_eq!(read_u32_le(&data, usize::MAX - 3), 0);
+        assert_eq!(read_u64_le(&data, usize::MAX - 7), 0);
+        assert_eq!(read_i32_le(&data, usize::MAX - 3), 0);
+        assert_eq!(read_i64_le(&data, usize::MAX - 7), 0);
+        // usize::MAX itself: every size wraps.
+        assert_eq!(read_u16_le(&data, usize::MAX), 0);
+        assert_eq!(read_u64_le(&data, usize::MAX), 0);
+    }
+
+    /// `Decoder::FiletimeAt` guards with `offset + 8 > raw.len()`, which wraps
+    /// for a near-`usize::MAX` offset. It must report the buffer as too short.
+    #[test]
+    fn filetime_at_offset_near_usize_max_is_buffer_too_short() {
+        let desc = base(Decoder::FiletimeAt {
+            offset: usize::MAX - 3,
+        });
+        assert!(matches!(
+            decode_artifact(&desc, "", &[0u8; 8]).unwrap_err(),
+            DecodeError::BufferTooShort { actual: 8, .. }
+        ));
+    }
+
+    /// `decode_binary_field` guards with `field.offset + size > raw.len()`,
+    /// which wraps the same way — for every field type, including `Bytes`.
+    #[test]
+    fn binary_field_offset_near_usize_max_is_field_out_of_bounds() {
+        for field_type in [
+            BinaryFieldType::U16Le,
+            BinaryFieldType::U32Le,
+            BinaryFieldType::U64Le,
+            BinaryFieldType::I32Le,
+            BinaryFieldType::I64Le,
+            BinaryFieldType::FiletimeLe,
+            BinaryFieldType::Bytes { len: 4 },
+        ] {
+            let field = BinaryField {
+                name: "wrap",
+                offset: usize::MAX - 3,
+                field_type,
+                description: "",
+            };
+            assert!(
+                matches!(
+                    decode_binary_field(&field, &[0u8; 8]).unwrap_err(),
+                    DecodeError::FieldOutOfBounds { field: "wrap", .. }
+                ),
+                "{field_type:?} must be rejected, not wrapped"
+            );
+        }
+    }
+
     // ── decode_binary_field / BinaryRecord (all primitive types) ──────────
     const ALL_TYPES_FIELDS: &[BinaryField] = &[
         BinaryField {
