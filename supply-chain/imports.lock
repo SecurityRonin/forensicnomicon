@@ -87,6 +87,20 @@ version = "0.244.0"
 when = "2026-01-06"
 trusted-publisher = "github:bytecodealliance/wasm-tools"
 
+[[publisher.winreg-core]]
+version = "0.1.1"
+when = "2026-06-24"
+user-id = 347968
+user-login = "h4x0r"
+user-name = "Albert Hui"
+
+[[publisher.winreg-format]]
+version = "0.1.0"
+when = "2026-06-13"
+user-id = 347968
+user-login = "h4x0r"
+user-name = "Albert Hui"
+
 [[publisher.wit-bindgen]]
 version = "0.51.0"
 when = "2026-01-12"
