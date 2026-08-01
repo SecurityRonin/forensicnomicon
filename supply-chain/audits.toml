@@ -2,3 +2,15 @@
 # cargo-vet audits file
 
 [audits]
+
+[[trusted.winreg-core]]
+criteria = "safe-to-deploy"
+user-id = 347968 # Albert Hui (h4x0r)
+start = "2026-06-13"
+end = "2027-08-01"
+
+[[trusted.winreg-format]]
+criteria = "safe-to-deploy"
+user-id = 347968 # Albert Hui (h4x0r)
+start = "2026-06-13"
+end = "2027-08-01"
