@@ -1,4 +1,7 @@
-/target/
+# Unanchored: cargo puts a `target/` under every package root, not only the repo
+# root — `bindings/python/` and `fuzz/` each have one. A leading-slash pattern
+# matches the repo root only, which is how build artifacts got committed.
+target/
 /data/
 .DS_Store
 .playwright-mcp/
