@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-data-v1.3.3...forensicnomicon-data-v1.4.0) - 2026-08-04
+
+### Added
+
+- *(catalog)* regenerate with source-merging dedup
+
+### Fixed
+
+- *(catalog)* GREEN — correct evtx_bits_client event-ID mapping
+- *(catalog)* GREEN — wire the 52 orphaned fa descriptors, drop the dead_code mask
+- *(catalog)* GREEN — one EXPECTED_CATALOG_LEN, 17 count tests become presence tests
+
+### Other
+
+- *(catalog)* move assessed descriptors to hand-written homes
+
 ## [1.3.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-data-v1.2.1...forensicnomicon-data-v1.3.0) - 2026-07-16
 
 ### Added

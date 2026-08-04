@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.11.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.10.0...forensicnomicon-v1.11.0) - 2026-08-04
+
+### Added
+
+- *(eventids)* GREEN — land Sysmon 21/22 and seven BITS-Client events
+- *(eventids)* GREEN — add channel-qualified lookup, document first-match
+
+### Fixed
+
+- *(ci)* pin the nightly that renders the public-api baselines
+- *(catalog)* GREEN — roll parent ATT&CK IDs up to their sub-techniques
+
 ## [1.10.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.9.0...forensicnomicon-v1.10.0) - 2026-07-30
 
 ### Added
