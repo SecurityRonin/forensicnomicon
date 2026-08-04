@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.11](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-cli-v0.1.10...forensicnomicon-cli-v0.1.11) - 2026-08-04
+
+### Added
+
+- *(4n6query)* GREEN — 4n6query coverage, plus the figure in the TUI about modal
+
+### Fixed
+
+- *(4n6query)* GREEN — uppercase the term before the ATT&CK catalog lookup
+- *(4n6query)* GREEN — resolve event IDs by channel in the TUI and the CLI
+- *(catalog)* GREEN — roll parent ATT&CK IDs up to their sub-techniques
+
 ## [0.1.3](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-cli-v0.1.2...forensicnomicon-cli-v0.1.3) - 2026-06-29
 
 ### Documentation
