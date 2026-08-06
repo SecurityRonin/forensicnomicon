@@ -30,7 +30,7 @@ serde = { workspace = true }
 serde_json = { workspace = true }
 serde_yaml = { workspace = true }
 # TUI
-ratatui = "0.29"
+ratatui = "0.30"
 crossterm = "0.28"
 toml = "0.8"
 dirs = "5"
