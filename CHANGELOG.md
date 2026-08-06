@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.11.1](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.11.0...forensicnomicon-v1.11.1) - 2026-08-06
+
+### Fixed
+
+- *(security)* ratatui 0.29 -> 0.30 removes the lru dependency (RUSTSEC-2026-0002)
+
 ## [1.11.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.10.0...forensicnomicon-v1.11.0) - 2026-08-04
 
 ### Added
