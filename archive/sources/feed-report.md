@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-08-11T04:42:48Z
+Generated: 2026-08-12T05:07:45Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-08-11T04:42:48Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-10T00:00:00+00:00 — [How Pass-ta-key attacks steal passkeys instead of passwords](https://andreafortuna.org/2026/08/10/pass-ta-key-passkey-forensics/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -151,9 +151,9 @@ Generated: 2026-08-11T04:42:48Z
 - Site: https://smarterforensics.com/
 - Feed: https://smarterforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-10T14:50:49+00:00 — [The Idaho Murders: Remembering Kaylee, Xana, Maddie, and Ethan](https://smarterforensics.com/2026/08/the-idaho-murders-remembering-kaylee-xana-maddie-and-ethan/)
+- No new entries detected
 
 ## Initialization Vectors
 
@@ -228,17 +228,26 @@ Generated: 2026-08-11T04:42:48Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-08-11T02:00:03+00:00 — [ISC Stormcast For Tuesday, August 11th, 2026 https://isc.sans.edu/podcastdetail/10046, (Tue, Aug 11th)](https://isc.sans.edu/diary/rss/33232)
-- 2026-08-10T16:24:45+00:00 — [Scans for Solana (Surfpool&#x3f;) Endpoints, (Mon, Aug 10th)](https://isc.sans.edu/diary/rss/33230)
+- 2026-08-12T02:00:03+00:00 — [ISC Stormcast For Wednesday, August 12th, 2026 https://isc.sans.edu/podcastdetail/10048, (Wed, Aug 12th)](https://isc.sans.edu/diary/rss/33238)
+- 2026-08-11T17:54:49+00:00 — [Microsoft Patch Tuesday August 2026, (Tue, Aug 11th)](https://isc.sans.edu/diary/rss/33236)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [Where Are Digital Investigations Breaking Down?](https://www.dfir.training/blog/where-are-digital-investigations-breaking-down)
+- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
+- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
+- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
 
 ## MSAB
 
@@ -256,7 +265,7 @@ Generated: 2026-08-11T04:42:48Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-08-10T10:11:38+00:00 — [Infosec News Nuggets — August 10, 2026](https://aboutdfir.com/infosec-news-nuggets-august-10-2026/)
+- 2026-08-11T10:29:41+00:00 — [Infosec News Nuggets — August 11, 2026](https://aboutdfir.com/infosec-news-nuggets-august-11-2026/)
 
 ## Forensic 4cast
 
@@ -373,9 +382,9 @@ Generated: 2026-08-11T04:42:48Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-08-10T11:30:00+00:00 — [Hero or hooligan: Odysseus on Phaeacia](https://eclecticlight.co/2026/08/10/hero-or-hooligan-odysseus-on-phaeacia/)
-- 2026-08-10T08:00:00+00:00 — [Solutions to Saturday Mac riddles 372](https://eclecticlight.co/2026/08/10/solutions-to-saturday-mac-riddles-372/)
-- 2026-08-10T06:30:00+00:00 — [How much backup storage does your Mac need?](https://eclecticlight.co/2026/08/10/how-much-backup-storage-does-your-mac-need/)
+- 2026-08-11T18:24:12+00:00 — [Apple has just released an update to XProtect for all macOS](https://eclecticlight.co/2026/08/11/apple-has-just-released-an-update-to-xprotect-for-all-macos-19/)
+- 2026-08-11T11:30:00+00:00 — [Portraits of trees: Apple](https://eclecticlight.co/2026/08/11/portraits-of-trees-apple/)
+- 2026-08-11T06:30:00+00:00 — [How can you run code that hasn’t been notarised?](https://eclecticlight.co/2026/08/11/how-can-you-run-code-that-hasnt-been-notarised/)
 
 ## JPCERT/CC
 
@@ -429,7 +438,7 @@ Generated: 2026-08-11T04:42:48Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-08-10T22:00:02+00:00 — [The Permanent Threat: Analyzing Aeternum’s Blockchain-Based C2 Operations and Communications](https://unit42.paloaltonetworks.com/aeternum-blockchain-c2-analysis/)
+- 2026-08-11T10:00:16+00:00 — [Kimwolf v7: An Evolution of the Kimwolf Botnet](https://unit42.paloaltonetworks.com/kimwolf-v7-botnet-malware/)
 
 ## Mandiant Threat Intelligence
 
@@ -445,9 +454,9 @@ Generated: 2026-08-11T04:42:48Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-11T22:21:02+00:00 — [Microsoft Patch Tuesday for August 2026 — Snort rules and prominent vulnerabilities](https://blog.talosintelligence.com/microsoft-patch-tuesday-for-august-2026/)
 
 ## SANS Blog
 
@@ -505,9 +514,9 @@ Generated: 2026-08-11T04:42:48Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-10T13:45:12+00:00 — [From Evidence Overload to Case Clarity, Faster](https://cellebrite.com/en/resources/webinars/from-evidence-overload-to-case-clarity-faster/)
+- No new entries detected
 
 ## DFIR Science
 
@@ -523,30 +532,33 @@ Generated: 2026-08-11T04:42:48Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-11T00:00:00-05:00 — [August 2026 Patch Tuesday: One Exploited Zero-Day and 62 Critical Vulnerabilities Among 415 CVEs](https://www.crowdstrike.com/en-us/blog/patch-tuesday-analysis-august-2026/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 7
 
-- 2026-08-10T17:11:00+00:00 — [How to fake a data trail (and maybe lower prices) (Lock and Code S07E16)](https://www.malwarebytes.com/blog/podcast/2026/08/how-to-fake-a-data-trail-and-maybe-lower-prices-lock-and-code-s07e16)
-- 2026-08-10T15:27:33+00:00 — [New turnkey kit makes it easy for anyone to become a scammer](https://www.malwarebytes.com/blog/scams/2026/08/new-turnkey-kit-makes-it-easy-for-anyone-to-become-a-scammer)
-- 2026-08-10T12:47:20+00:00 — [Edge is dropping older extensions, affecting popular privacy tools](https://www.malwarebytes.com/blog/news/2026/08/edge-is-dropping-older-extensions-affecting-popular-privacy-tools)
-- 2026-08-10T07:01:00+00:00 — [A week in security (August 3 – August 9)](https://www.malwarebytes.com/blog/news/2026/08/a-week-in-security-august-3-august-9)
+- 2026-08-11T20:41:27+00:00 — [Fake CCleaner installs GhostDesk Chrome spyware](https://www.malwarebytes.com/blog/threat-intel/2026/08/fake-ccleaner-installs-ghostdesk-chrome-spyware)
+- 2026-08-11T16:31:55+00:00 — [Valve warns Steam hardware buyers: Expect fake delivery scams](https://www.malwarebytes.com/blog/data-breaches/2026/08/valve-warns-steam-hardware-buyers-expect-fake-delivery-scams)
+- 2026-08-11T16:05:56+00:00 — [Social media platforms crack down on drone factory recruiting game](https://www.malwarebytes.com/blog/news/2026/08/social-media-platforms-crack-down-on-drone-factory-recruiting-game)
+- 2026-08-11T13:39:07+00:00 — [Sexual predators targeting online accounts for intimate images, FBI warns](https://www.malwarebytes.com/blog/news/2026/08/sexual-predators-targeting-online-accounts-for-intimate-images-fbi-warns)
+- 2026-08-11T12:30:00+00:00 — [Love/hate relationship: The AI affair. Young people love AI, but it’s breaking their trust](https://www.malwarebytes.com/blog/ai/2026/08/love-hate-relationship-the-ai-affair-young-people-love-ai-but-its-breaking-their-trust)
+- 2026-08-11T09:05:57+00:00 — [Watch out for fake TikTok Shops trying to steal your money](https://www.malwarebytes.com/blog/scams/2026/08/watch-out-for-fake-tiktok-shops-trying-to-steal-your-money)
+- 2026-08-11T08:55:45+00:00 — [Fake popular sites offer a free app, instead take over PCs](https://www.malwarebytes.com/blog/threat-intel/2026/08/fake-popular-sites-offer-a-free-app-instead-take-over-pcs)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-11T21:28:35+00:00 — [Microsoft Plugs Nearly 400 Security Holes](https://krebsonsecurity.com/2026/08/microsoft-plugs-nearly-400-security-holes/)
 
 ## BleepingComputer
 
@@ -555,31 +567,26 @@ Generated: 2026-08-11T04:42:48Z
 - Entries checked: 10
 - New since last snapshot: 10
 
-- 2026-08-10T19:07:21-04:00 — [Hackers breached a small Polish energy plant via private APN last year](https://www.bleepingcomputer.com/news/security/hackers-breached-a-small-polish-energy-plant-via-private-apn-last-year/)
-- 2026-08-10T17:12:10-04:00 — [BdThemes plugins supply-chain hack creates rogue WordPress admins](https://www.bleepingcomputer.com/news/security/bdthemes-plugins-supply-chain-hack-creates-rogue-wordpress-admins/)
-- 2026-08-10T15:24:40-04:00 — [OpenAI releases ChatGPT 5.6 Cyber, but it's only for approved users](https://www.bleepingcomputer.com/news/security/openai-releases-chatgpt-56-cyber-but-its-only-for-approved-users/)
-- 2026-08-10T13:42:00-04:00 — [New StormEncryptor ransomware used by former Medusa affiliate](https://www.bleepingcomputer.com/news/security/new-stormencryptor-ransomware-used-by-former-medusa-affiliate/)
-- 2026-08-10T10:34:32-04:00 — [CISA: SonicWall SMA1000 flaws now exploited by ransomware gangs](https://www.bleepingcomputer.com/news/security/cisa-sonicwall-sma1000-flaws-now-exploited-by-ransomware-gangs/)
-- 2026-08-10T10:01:11-04:00 — [When Credentials Are No Longer Enough: Device Trust in the AI Era](https://www.bleepingcomputer.com/news/security/when-credentials-are-no-longer-enough-device-trust-in-the-ai-era/)
-- 2026-08-10T08:56:28-04:00 — [Member of The Com sent to prison for blackmail, sextortion](https://www.bleepingcomputer.com/news/security/member-of-the-com-sent-to-prison-for-blackmail-sextortion/)
-- 2026-08-10T08:11:52-04:00 — [LexisNexis shuts down services after suspicious activity on servers](https://www.bleepingcomputer.com/news/security/lexisnexis-shuts-down-services-after-suspicious-activity-on-servers/)
-- 2026-08-10T07:47:55-04:00 — [Valve notifies Steam hardware customers of a data breach](https://www.bleepingcomputer.com/news/security/valve-notifies-steam-hardware-customers-of-a-data-breach/)
-- 2026-08-10T05:49:37-04:00 — [Critical Progress LoadMaster flaw now actively exploited in attacks](https://www.bleepingcomputer.com/news/security/cisa-warns-of-critical-progress-loadmaster-flaw-exploited-in-attacks/)
+- 2026-08-11T21:15:55-04:00 — [Google says Chrome cuts 7 billion unwanted Android notifications a day to fight abuse](https://www.bleepingcomputer.com/news/security/google-says-chrome-cuts-7-billion-unwanted-android-notifications-a-day-to-fight-abuse/)
+- 2026-08-11T18:15:22-04:00 — [DeadLock ransomware uses blockchain to resist infrastructure takedown](https://www.bleepingcomputer.com/news/security/deadlock-ransomware-uses-blockchain-to-resist-infrastructure-takedown/)
+- 2026-08-11T17:07:24-04:00 — [Sandworm hackers target IT pros with trojanized WireGuard VPN client](https://www.bleepingcomputer.com/news/security/sandworm-hackers-target-it-pros-with-trojanized-wireguard-vpn-client/)
+- 2026-08-11T15:45:31-04:00 — [Cisco warns of ASA and FTD VPN flaw exploited to crash devices](https://www.bleepingcomputer.com/news/security/cisco-warns-of-asa-and-ftd-vpn-flaw-exploited-to-crash-devices/)
+- 2026-08-11T14:34:23-04:00 — [Delta probes Wi-Fi deauth attack on flight carrying DEF CON attendees](https://www.bleepingcomputer.com/news/security/delta-probes-wi-fi-deauth-attack-on-flight-carrying-def-con-attendees/)
+- 2026-08-11T14:26:03-04:00 — [Microsoft releases Windows 10 KB5120249 extended security update](https://www.bleepingcomputer.com/news/microsoft/windows-10-kb5120249-cumulative-update-released-with-fixes/)
+- 2026-08-11T14:08:50-04:00 — [Microsoft August 2026 Patch Tuesday fixes 400 flaws, 3 zero-days](https://www.bleepingcomputer.com/news/microsoft/microsoft-august-2026-patch-tuesday-fixes-400-flaws-3-zero-days/)
+- 2026-08-11T13:38:42-04:00 — [Windows 11 KB5121003 & KB5120240 cumulative updates released](https://www.bleepingcomputer.com/news/microsoft/windows-11-kb5121003-and-kb5120240-cumulative-updates-released/)
+- 2026-08-11T11:59:35-04:00 — [Wesco confirms security incident after ExfilSquad claims data theft](https://www.bleepingcomputer.com/news/security/wesco-confirms-security-incident-after-exfilsquad-claims-data-theft/)
+- 2026-08-11T09:20:28-04:00 — [Mozilla updates GPG signing key for Firefox releases after exposure](https://www.bleepingcomputer.com/news/security/mozilla-updates-gpg-key-for-signing-firefox-thunderbird-releases-after-exposure/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 7
+- New since last snapshot: 2
 
-- 2026-08-10T21:54:22+00:00 — ['GhostJacking' Exposes Identity Governance Gaps in AI Agents](https://www.darkreading.com/cyber-risk/ghostjacking-identity-governance-gaps-ai-agents)
-- 2026-08-10T21:34:38+00:00 — [Multistate Water System Attacks Widen, Iran Suspected](https://www.darkreading.com/ics-ot-security/multistate-water-system-attacks-widen-iran-suspected)
-- 2026-08-10T21:02:23+00:00 — [Metabase SQL Zero-Day Attacks Could Have Wide Blast Radius](https://www.darkreading.com/vulnerabilities-threats/metabase-sql-zero-day-attacks-wide-blast-radius)
-- 2026-08-10T17:56:34+00:00 — [The Patch Gap: Why Defenders Need to Think in Chains, Not Checklists](https://www.darkreading.com/cybersecurity-operations/patch-gap-defenders-chains-not-checklists)
-- 2026-08-10T17:09:20+00:00 — [Coruna, DarkSword iOS Exploits Proliferate Globally](https://www.darkreading.com/vulnerabilities-threats/coruna-darksword-ios-exploits-proliferate-globally)
-- 2026-08-10T16:25:22+00:00 — [Outdated Cybercrime Laws Put Security Researchers at Risk](https://www.darkreading.com/application-security/outdated-cybercrime-laws-security-researchers-risk)
-- 2026-08-10T15:59:27+00:00 — [Sherlock Holmes was the “OG” Social Engineer](https://www.darkreading.com/cyber-risk/sherlock-holmes-was-the-og-social-engineer)
+- 2026-08-11T21:42:34+00:00 — [Microsoft's Patch Tuesday Deluge Continues With August Updates](https://www.darkreading.com/application-security/microsofts-patch-tuesday-deluge-continues)
+- 2026-08-11T21:16:25+00:00 — [Gunra Ransomware Gang Exploits Fortinet Flaws, Bypasses MFA](https://www.darkreading.com/cyberattacks-data-breaches/gunra-ransomware-gang-fortinet-flaws-bypasses-mfa)
 
 ## Volexity Blog
 
@@ -601,10 +608,9 @@ Generated: 2026-08-11T04:42:48Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-08-10T16:00:00+00:00 — [Microsoft named a Leader in the 2026 IDC MarketScape for MDR/MXDR for the Enterprise](https://www.microsoft.com/en-us/security/blog/2026/08/10/microsoft-named-a-leader-in-the-2026-idc-marketscape-for-mdr-mxdr-for-the-enterprise/)
-- 2026-08-10T15:00:00+00:00 — [DeadLock ransomware: Breaking down a Rust-based encryptor with decentralized recovery infrastructure](https://www.microsoft.com/en-us/security/blog/2026/08/10/deadlock-ransomware-breaking-down-a-rust-based-encryptor-with-decentralized-recovery-infrastructure/)
+- No new entries detected
 
 ## HackingPassion
 
@@ -613,7 +619,7 @@ Generated: 2026-08-11T04:42:48Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-08-10T12:43:52+02:00 — [Linux Kernel SCTP Flaw Let Local Users Gain Root for 18 Years](https://hackingpassion.com/sctphantom-linux-kernel-sctp-root/)
+- 2026-08-11T14:15:01+02:00 — [Pass the Passkey Attack Bypasses Entra ID MFA Using a Windows Log](https://hackingpassion.com/pass-the-passkey-windows-entra-mfa-bypass/)
 
 ## LOLBAS Project (Windows)
 
@@ -872,14 +878,9 @@ Generated: 2026-08-11T04:42:48Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 6
+- New since last snapshot: 0
 
-- 2026-08-10T18:03:11+00:00 — [integration-v9.5.3: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6630)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.5.3)
-- 2026-08-10T18:02:03+00:00 — [integration-v9.4.10: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6630)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.4.10)
-- 2026-08-10T18:00:59+00:00 — [integration-v9.3.18: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6630)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.3.18)
-- 2026-08-10T17:59:51+00:00 — [integration-v8.19.30: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6630)](https://github.com/elastic/detection-rules/releases/tag/integration-v8.19.30)
-- 2026-08-10T17:59:39+00:00 — [dev-v2.1.1](https://github.com/elastic/detection-rules/releases/tag/dev-v2.1.1)
-- 2026-08-10T14:21:08+00:00 — [dev-v2.1.0](https://github.com/elastic/detection-rules/releases/tag/dev-v2.1.0)
+- No new entries detected
 
 ## regipy releases
 
@@ -1030,10 +1031,9 @@ Generated: 2026-08-11T04:42:48Z
 - Site: https://docs.velociraptor.app/
 - Feed: https://github.com/Velocidex/velociraptor/releases.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-08-10T11:18:05+00:00 — [Release 0.77.2](https://github.com/Velocidex/velociraptor/releases/tag/v0.77.2)
-- 2026-08-10T11:16:58+00:00 — [Release 0.76.7](https://github.com/Velocidex/velociraptor/releases/tag/v0.76.7)
+- No new entries detected
 
 ## dfir-scripts DFIR Reference
 
