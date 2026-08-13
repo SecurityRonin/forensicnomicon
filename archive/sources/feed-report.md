@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-08-12T05:07:45Z
+Generated: 2026-08-13T05:10:43Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-08-12T05:07:45Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-12T00:00:00+00:00 — [The security program that only works when everyone is at their desk](https://andreafortuna.org/2026/08/12/summer-cybersecurity-stress-test-nis2-dora/)
 
 ## Salt Forensics
 
@@ -186,7 +186,7 @@ Generated: 2026-08-12T05:07:45Z
 
 - Site: https://www.forensicfocus.com/
 - Feed: https://www.forensicfocus.com/rss/news2.php
-- Status: error: HTTP 404
+- Status: error: HTTP 508
 
 ## Forensic Multimedia Analysis Blog
 
@@ -226,28 +226,20 @@ Generated: 2026-08-12T05:07:45Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-08-12T02:00:03+00:00 — [ISC Stormcast For Wednesday, August 12th, 2026 https://isc.sans.edu/podcastdetail/10048, (Wed, Aug 12th)](https://isc.sans.edu/diary/rss/33238)
-- 2026-08-11T17:54:49+00:00 — [Microsoft Patch Tuesday August 2026, (Tue, Aug 11th)](https://isc.sans.edu/diary/rss/33236)
+- 2026-08-13T02:00:03+00:00 — [ISC Stormcast For Thursday, August 13th, 2026 https://isc.sans.edu/podcastdetail/10050, (Thu, Aug 13th)](https://isc.sans.edu/diary/rss/33244)
+- 2026-08-13T01:26:53+00:00 — [Using Gemma4 with Ollama - Testing File Hash Analysis and Recommendations with AI, (Wed, Aug 12th)](https://isc.sans.edu/diary/rss/33242)
+- 2026-08-12T14:21:10+00:00 — [Linux Kernel Process Accounting, (Wed, Aug 12th)](https://isc.sans.edu/diary/rss/33240)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- unknown date — [Training](https://www.dfir.training/training)
-- unknown date — [Tools](https://www.dfir.training/dfir-tools)
-- unknown date — [Library](https://www.dfir.training/resources)
-- unknown date — [Sponsors](https://www.dfir.training/sponsors)
-- unknown date — [Blog](https://www.dfir.training/blog)
-- unknown date — [Contact](https://www.dfir.training/contact-form)
-- unknown date — [Where Are Digital Investigations Breaking Down?](https://www.dfir.training/blog/where-are-digital-investigations-breaking-down)
-- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
-- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
-- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
+- No new entries detected
 
 ## MSAB
 
@@ -265,7 +257,7 @@ Generated: 2026-08-12T05:07:45Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-08-11T10:29:41+00:00 — [Infosec News Nuggets — August 11, 2026](https://aboutdfir.com/infosec-news-nuggets-august-11-2026/)
+- 2026-08-12T10:11:48+00:00 — [Infosec News Nuggets — August 12, 2026](https://aboutdfir.com/infosec-news-nuggets-august-12-2026/)
 
 ## Forensic 4cast
 
@@ -380,11 +372,10 @@ Generated: 2026-08-12T05:07:45Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-08-11T18:24:12+00:00 — [Apple has just released an update to XProtect for all macOS](https://eclecticlight.co/2026/08/11/apple-has-just-released-an-update-to-xprotect-for-all-macos-19/)
-- 2026-08-11T11:30:00+00:00 — [Portraits of trees: Apple](https://eclecticlight.co/2026/08/11/portraits-of-trees-apple/)
-- 2026-08-11T06:30:00+00:00 — [How can you run code that hasn’t been notarised?](https://eclecticlight.co/2026/08/11/how-can-you-run-code-that-hasnt-been-notarised/)
+- 2026-08-12T11:30:00+00:00 — [In the shadow: Not quite](https://eclecticlight.co/2026/08/12/in-the-shadow-not-quite/)
+- 2026-08-12T06:30:00+00:00 — [Why do macOS update sizes vary so much?](https://eclecticlight.co/2026/08/12/why-do-macos-update-sizes-vary-so-much/)
 
 ## JPCERT/CC
 
@@ -436,9 +427,9 @@ Generated: 2026-08-12T05:07:45Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-11T10:00:16+00:00 — [Kimwolf v7: An Evolution of the Kimwolf Botnet](https://unit42.paloaltonetworks.com/kimwolf-v7-botnet-malware/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
@@ -454,9 +445,9 @@ Generated: 2026-08-12T05:07:45Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-11T22:21:02+00:00 — [Microsoft Patch Tuesday for August 2026 — Snort rules and prominent vulnerabilities](https://blog.talosintelligence.com/microsoft-patch-tuesday-for-august-2026/)
+- No new entries detected
 
 ## SANS Blog
 
@@ -481,9 +472,9 @@ Generated: 2026-08-12T05:07:45Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-12T13:58:23+00:00 — [Plugged In and Exposed: The Growing Cybersecurity Threat to EV Charging Infrastructure](https://flare.io/learn/resources/blog/growing-cybersecurity-threat-ev-charging-infrastructure)
 
 ## Binalyze Blog
 
@@ -514,9 +505,13 @@ Generated: 2026-08-12T05:07:45Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 0
+- New since last snapshot: 5
 
-- No new entries detected
+- 2026-08-12T22:02:03+00:00 — [Investigations Don’t Arrive in One Tidy Format](https://cellebrite.com/en/blog/investigations-dont-arrive-in-one-tidy-format/)
+- 2026-08-12T21:06:59+00:00 — [10 Best Practices for AI-Assisted Investigations: A Guide for Legal and Compliance Teams](https://cellebrite.com/en/blog/10-best-practices-ai-assisted-investigations-legal-compliance/)
+- 2026-08-12T21:05:34+00:00 — [Finding Answers Faster: Genesis for Private Sector Investigations](https://cellebrite.com/en/resources/webinars/finding-answers-faster-genesis-for-private-sector-investigations/)
+- 2026-08-12T16:15:58+00:00 — [Full Perimeter: Complete Facility Security, From Confiscated Phones to Recovered Drones](https://cellebrite.com/en/resources/webinars/full-perimeter-complete-facility-security-from-confiscated-phones-to-recovered-drones/)
+- 2026-08-12T16:01:03+00:00 — [From Seizure to Command Decision: Mission Systems for APAC Defence, Intelligence and Border Security](https://cellebrite.com/en/resources/webinars/from-seizure-to-command-decision-mission-systems-for-apac-defence-intelligence-and-border-security/)
 
 ## DFIR Science
 
@@ -532,33 +527,28 @@ Generated: 2026-08-12T05:07:45Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-11T00:00:00-05:00 — [August 2026 Patch Tuesday: One Exploited Zero-Day and 62 Critical Vulnerabilities Among 415 CVEs](https://www.crowdstrike.com/en-us/blog/patch-tuesday-analysis-august-2026/)
+- No new entries detected
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 7
+- New since last snapshot: 2
 
-- 2026-08-11T20:41:27+00:00 — [Fake CCleaner installs GhostDesk Chrome spyware](https://www.malwarebytes.com/blog/threat-intel/2026/08/fake-ccleaner-installs-ghostdesk-chrome-spyware)
-- 2026-08-11T16:31:55+00:00 — [Valve warns Steam hardware buyers: Expect fake delivery scams](https://www.malwarebytes.com/blog/data-breaches/2026/08/valve-warns-steam-hardware-buyers-expect-fake-delivery-scams)
-- 2026-08-11T16:05:56+00:00 — [Social media platforms crack down on drone factory recruiting game](https://www.malwarebytes.com/blog/news/2026/08/social-media-platforms-crack-down-on-drone-factory-recruiting-game)
-- 2026-08-11T13:39:07+00:00 — [Sexual predators targeting online accounts for intimate images, FBI warns](https://www.malwarebytes.com/blog/news/2026/08/sexual-predators-targeting-online-accounts-for-intimate-images-fbi-warns)
-- 2026-08-11T12:30:00+00:00 — [Love/hate relationship: The AI affair. Young people love AI, but it’s breaking their trust](https://www.malwarebytes.com/blog/ai/2026/08/love-hate-relationship-the-ai-affair-young-people-love-ai-but-its-breaking-their-trust)
-- 2026-08-11T09:05:57+00:00 — [Watch out for fake TikTok Shops trying to steal your money](https://www.malwarebytes.com/blog/scams/2026/08/watch-out-for-fake-tiktok-shops-trying-to-steal-your-money)
-- 2026-08-11T08:55:45+00:00 — [Fake popular sites offer a free app, instead take over PCs](https://www.malwarebytes.com/blog/threat-intel/2026/08/fake-popular-sites-offer-a-free-app-instead-take-over-pcs)
+- 2026-08-12T14:43:13+00:00 — [“Zoomsday” flaws could let one Zoom participant attack another](https://www.malwarebytes.com/blog/bugs/2026/08/zoomsday-flaws-could-let-one-zoom-participant-attack-another)
+- 2026-08-12T13:48:49+00:00 — [Patch Tuesday: Update now to fix 421 flaws, including three zero-days](https://www.malwarebytes.com/blog/bugs/2026/08/patch-tuesday-update-now-to-fix-421-flaws-including-three-zero-days)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-11T21:28:35+00:00 — [Microsoft Plugs Nearly 400 Security Holes](https://krebsonsecurity.com/2026/08/microsoft-plugs-nearly-400-security-holes/)
+- No new entries detected
 
 ## BleepingComputer
 
@@ -567,26 +557,28 @@ Generated: 2026-08-12T05:07:45Z
 - Entries checked: 10
 - New since last snapshot: 10
 
-- 2026-08-11T21:15:55-04:00 — [Google says Chrome cuts 7 billion unwanted Android notifications a day to fight abuse](https://www.bleepingcomputer.com/news/security/google-says-chrome-cuts-7-billion-unwanted-android-notifications-a-day-to-fight-abuse/)
-- 2026-08-11T18:15:22-04:00 — [DeadLock ransomware uses blockchain to resist infrastructure takedown](https://www.bleepingcomputer.com/news/security/deadlock-ransomware-uses-blockchain-to-resist-infrastructure-takedown/)
-- 2026-08-11T17:07:24-04:00 — [Sandworm hackers target IT pros with trojanized WireGuard VPN client](https://www.bleepingcomputer.com/news/security/sandworm-hackers-target-it-pros-with-trojanized-wireguard-vpn-client/)
-- 2026-08-11T15:45:31-04:00 — [Cisco warns of ASA and FTD VPN flaw exploited to crash devices](https://www.bleepingcomputer.com/news/security/cisco-warns-of-asa-and-ftd-vpn-flaw-exploited-to-crash-devices/)
-- 2026-08-11T14:34:23-04:00 — [Delta probes Wi-Fi deauth attack on flight carrying DEF CON attendees](https://www.bleepingcomputer.com/news/security/delta-probes-wi-fi-deauth-attack-on-flight-carrying-def-con-attendees/)
-- 2026-08-11T14:26:03-04:00 — [Microsoft releases Windows 10 KB5120249 extended security update](https://www.bleepingcomputer.com/news/microsoft/windows-10-kb5120249-cumulative-update-released-with-fixes/)
-- 2026-08-11T14:08:50-04:00 — [Microsoft August 2026 Patch Tuesday fixes 400 flaws, 3 zero-days](https://www.bleepingcomputer.com/news/microsoft/microsoft-august-2026-patch-tuesday-fixes-400-flaws-3-zero-days/)
-- 2026-08-11T13:38:42-04:00 — [Windows 11 KB5121003 & KB5120240 cumulative updates released](https://www.bleepingcomputer.com/news/microsoft/windows-11-kb5121003-and-kb5120240-cumulative-updates-released/)
-- 2026-08-11T11:59:35-04:00 — [Wesco confirms security incident after ExfilSquad claims data theft](https://www.bleepingcomputer.com/news/security/wesco-confirms-security-incident-after-exfilsquad-claims-data-theft/)
-- 2026-08-11T09:20:28-04:00 — [Mozilla updates GPG signing key for Firefox releases after exposure](https://www.bleepingcomputer.com/news/security/mozilla-updates-gpg-key-for-signing-firefox-thunderbird-releases-after-exposure/)
+- 2026-08-12T19:07:23-04:00 — ["City-Forum" data-theft attacks target Salesforce, ServiceNow portals](https://www.bleepingcomputer.com/news/security/city-forum-data-theft-attacks-target-salesforce-servicenow-portals/)
+- 2026-08-12T18:22:57-04:00 — [Android malware combo takes out loans and relays victims' credit cards](https://www.bleepingcomputer.com/news/security/android-malware-combo-takes-out-loans-and-relays-victims-credit-cards/)
+- 2026-08-12T16:54:59-04:00 — [Hackers exploit critical Adobe Commerce flaw to hijack customer accounts](https://www.bleepingcomputer.com/news/security/hackers-exploit-critical-adobe-commerce-flaw-to-hijack-customer-accounts/)
+- 2026-08-12T14:54:57-04:00 — [Hundreds of fake Chrome VPN extensions route traffic through a proxy](https://www.bleepingcomputer.com/news/security/hundreds-of-fake-chrome-vpn-extensions-route-traffic-through-a-proxy/)
+- 2026-08-12T12:05:12-04:00 — [Plug and Pwn attack uses fake USB devices for Windows SYSTEM access](https://www.bleepingcomputer.com/news/security/plug-and-pwn-attack-uses-fake-usb-devices-for-windows-system-access/)
+- 2026-08-12T11:38:08-04:00 — [Lazarus hackers exploited Windows zero-day to target defense firms](https://www.bleepingcomputer.com/news/security/lazarus-hackers-exploited-windows-zero-day-to-target-defense-firms/)
+- 2026-08-12T10:15:09-04:00 — [FBI: Hackers target online accounts to steal nude photos](https://www.bleepingcomputer.com/news/security/fbi-warns-of-hackers-targeting-online-accounts-to-steal-explicit-photos/)
+- 2026-08-12T10:01:11-04:00 — [The Threat Hiding in Your Hiring Process: How Fake Remote Workers Get In](https://www.bleepingcomputer.com/news/security/the-threat-hiding-in-your-hiring-process-how-fake-remote-workers-get-in/)
+- 2026-08-12T08:25:37-04:00 — [Hackers leverage new Microsoft SharePoint exploit in attacks](https://www.bleepingcomputer.com/news/microsoft/hackers-leverage-new-microsoft-sharepoint-exploit-in-attacks/)
+- 2026-08-12T07:21:42-04:00 — [Signal adds new security feature to thwart man-in-the-middle attacks](https://www.bleepingcomputer.com/news/security/signal-adds-new-security-feature-to-thwart-man-in-the-middle-attacks/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 4
 
-- 2026-08-11T21:42:34+00:00 — [Microsoft's Patch Tuesday Deluge Continues With August Updates](https://www.darkreading.com/application-security/microsofts-patch-tuesday-deluge-continues)
-- 2026-08-11T21:16:25+00:00 — [Gunra Ransomware Gang Exploits Fortinet Flaws, Bypasses MFA](https://www.darkreading.com/cyberattacks-data-breaches/gunra-ransomware-gang-fortinet-flaws-bypasses-mfa)
+- 2026-08-12T21:08:54+00:00 — [Long-running Data Theft Campaign Targeting Salesforce, ServiceNow](https://www.darkreading.com/cyberattacks-data-breaches/long-running-data-theft-campaign-salesforce-servicenow)
+- 2026-08-12T16:28:04+00:00 — [Walmart's &quot;Trusted Agent&quot; Approach to Purple Teaming](https://www.darkreading.com/cybersecurity-operations/walmart-trusted-agent-approach-purple-teaming)
+- 2026-08-12T14:00:00+00:00 — [Ransomware Hits Colombian Justice Ministry Days Before Presidential Transition](https://www.darkreading.com/cyberattacks-data-breaches/ransomware-hits-colombian-justice-ministry-presidential-transition)
+- 2026-08-12T12:41:03+00:00 — [Walmart Leaders Transform Security Operations Without Going Bananas](https://www.darkreading.com/cybersecurity-operations/walmart-leaders-transform-security-operations-without-going-bananas)
 
 ## Volexity Blog
 
@@ -617,9 +609,9 @@ Generated: 2026-08-12T05:07:45Z
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-11T14:15:01+02:00 — [Pass the Passkey Attack Bypasses Entra ID MFA Using a Windows Log](https://hackingpassion.com/pass-the-passkey-windows-entra-mfa-bypass/)
+- No new entries detected
 
 ## LOLBAS Project (Windows)
 
@@ -653,9 +645,16 @@ Generated: 2026-08-12T05:07:45Z
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 8
 
-- No new entries detected
+- 2026-08-12T19:51:52+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/5554706c8350a7b4a8631f05f490e563cd4b6e0a)
+- 2026-08-12T19:44:34+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/076b6c2c18b63a12028a1d8a70d8decffb9820d9)
+- 2026-08-12T19:43:35+00:00 — [Merge pull request #406 from tsale/add-cve-2026-68820-afd](https://github.com/magicsword-io/LOLDrivers/commit/12ac6e51647fb94a808378fc5bff37ae6451bd3f)
+- 2026-08-12T19:43:04+00:00 — [Merge pull request #405 from Element2023H/Add-KKYUM](https://github.com/magicsword-io/LOLDrivers/commit/7aeab8e89de242df40cec8b0a7b3f9da36f5d58e)
+- 2026-08-12T19:42:14+00:00 — [Merge pull request #399 from 2XXE-SRA/main](https://github.com/magicsword-io/LOLDrivers/commit/b50c89fddb9912a92170049be923a9fc9e2b4d35)
+- 2026-08-12T06:31:40+00:00 — [Add CVE-2026-68820 to Afd.sys](https://github.com/magicsword-io/LOLDrivers/commit/052146e1668f1aa7da2bafca5960a6350e231242)
+- 2026-08-12T03:39:41+00:00 — [Add KKYUM.sys](https://github.com/magicsword-io/LOLDrivers/commit/dc290f049f040caba3e4a3c3b17fef5b720bde09)
+- 2026-07-29T14:56:02+00:00 — [remove duplicate yaml keys](https://github.com/magicsword-io/LOLDrivers/commit/43df30c2a25bc287736b244acc3279c02f3a6d91)
 
 ## LOFL Project (RMM C2 indicators)
 
