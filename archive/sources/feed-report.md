@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-08-13T05:10:43Z
+Generated: 2026-08-14T05:07:52Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-08-13T05:10:43Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-12T00:00:00+00:00 — [The security program that only works when everyone is at their desk](https://andreafortuna.org/2026/08/12/summer-cybersecurity-stress-test-nis2-dora/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -202,9 +202,9 @@ Generated: 2026-08-13T05:10:43Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-13T15:46:47+00:00 — [From alert to forensic insight, automatically, with the Magnet Nexus API](https://www.magnetforensics.com/blog/from-alert-to-forensic-insight-automatically-with-the-magnet-nexus-api/)
 
 ## The DFIR Report
 
@@ -219,18 +219,28 @@ Generated: 2026-08-13T05:10:43Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Status: error: HTTP 404
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-08-10T11:52:37+00:00 — [The Threat Hunting Course I Wish I Had](https://www.youtube.com/watch?v=cFxwYz5TOk0)
+- 2026-07-25T06:18:54+00:00 — [Automate Volatility 3 Memory Analysis with This Tool](https://www.youtube.com/watch?v=0GMTydimOP4)
+- 2026-06-19T00:57:00+00:00 — [How the USN Journal Really Works](https://www.youtube.com/watch?v=eSLHyqZlglk)
+- 2026-07-08T07:33:38+00:00 — [The Korvath Incident: A macOS Forensics Challenge](https://www.youtube.com/watch?v=tRvw13e3Qn0)
+- 2026-07-29T00:52:13+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
+- 2026-04-24T09:44:12+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
+- 2026-05-28T20:26:20+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
+- 2026-04-23T00:04:55+00:00 — [Tracking Program Execution with a Little Known Registry Key](https://www.youtube.com/watch?v=yoFkF-NHZvo)
+- 2026-05-28T20:27:51+00:00 — [The Truth About Windows Explorer Timestamps](https://www.youtube.com/watch?v=PdyVkmhMcOA)
+- 2026-05-01T22:55:06+00:00 — [Major Update to 13Cubed Courses: Chaos at Cobalt](https://www.youtube.com/watch?v=CzF6DFhSfHw)
 
 ## SANS Internet Storm Center
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 1
 
-- 2026-08-13T02:00:03+00:00 — [ISC Stormcast For Thursday, August 13th, 2026 https://isc.sans.edu/podcastdetail/10050, (Thu, Aug 13th)](https://isc.sans.edu/diary/rss/33244)
-- 2026-08-13T01:26:53+00:00 — [Using Gemma4 with Ollama - Testing File Hash Analysis and Recommendations with AI, (Wed, Aug 12th)](https://isc.sans.edu/diary/rss/33242)
-- 2026-08-12T14:21:10+00:00 — [Linux Kernel Process Accounting, (Wed, Aug 12th)](https://isc.sans.edu/diary/rss/33240)
+- 2026-08-14T02:00:03+00:00 — [ISC Stormcast For Friday, August 14th, 2026 https://isc.sans.edu/podcastdetail/10052, (Fri, Aug 14th)](https://isc.sans.edu/diary/rss/33246)
 
 ## DFIR Training Blog
 
@@ -257,7 +267,7 @@ Generated: 2026-08-13T05:10:43Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-08-12T10:11:48+00:00 — [Infosec News Nuggets — August 12, 2026](https://aboutdfir.com/infosec-news-nuggets-august-12-2026/)
+- 2026-08-13T10:13:15+00:00 — [Infosec News Nuggets — August 13, 2026](https://aboutdfir.com/infosec-news-nuggets-august-13-2026/)
 
 ## Forensic 4cast
 
@@ -374,8 +384,8 @@ Generated: 2026-08-13T05:10:43Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-08-12T11:30:00+00:00 — [In the shadow: Not quite](https://eclecticlight.co/2026/08/12/in-the-shadow-not-quite/)
-- 2026-08-12T06:30:00+00:00 — [Why do macOS update sizes vary so much?](https://eclecticlight.co/2026/08/12/why-do-macos-update-sizes-vary-so-much/)
+- 2026-08-13T11:30:00+00:00 — [Brushstrokes: Divisionism](https://eclecticlight.co/2026/08/13/brushstrokes-divisionism/)
+- 2026-08-13T06:30:00+00:00 — [Why and how to check your SSDs Trim correctly](https://eclecticlight.co/2026/08/13/why-and-how-to-check-your-ssds-trim-correctly/)
 
 ## JPCERT/CC
 
@@ -445,9 +455,10 @@ Generated: 2026-08-13T05:10:43Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-08-13T18:00:18+00:00 — [Curiouser and Curiouser](https://blog.talosintelligence.com/curiouser-and-curiouser/)
+- 2026-08-13T10:00:35+00:00 — [Dissecting the JWR phishing framework](https://blog.talosintelligence.com/dissecting-the-jwr-phishing-framework/)
 
 ## SANS Blog
 
@@ -463,18 +474,18 @@ Generated: 2026-08-13T05:10:43Z
 - Site: https://www.elastic.co/security-labs/
 - Feed: https://www.elastic.co/security-labs/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- unknown date — [13 million tool calls: auditing every AI coding agent action with Elastic Agent](https://www.elastic.co/security-labs/ai-coding-agent-audit-cursor-hooks)
 
 ## Flare.io Threat Research Blog
 
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-12T13:58:23+00:00 — [Plugged In and Exposed: The Growing Cybersecurity Threat to EV Charging Infrastructure](https://flare.io/learn/resources/blog/growing-cybersecurity-threat-ev-charging-infrastructure)
+- No new entries detected
 
 ## Binalyze Blog
 
@@ -505,13 +516,10 @@ Generated: 2026-08-13T05:10:43Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 5
+- New since last snapshot: 2
 
-- 2026-08-12T22:02:03+00:00 — [Investigations Don’t Arrive in One Tidy Format](https://cellebrite.com/en/blog/investigations-dont-arrive-in-one-tidy-format/)
-- 2026-08-12T21:06:59+00:00 — [10 Best Practices for AI-Assisted Investigations: A Guide for Legal and Compliance Teams](https://cellebrite.com/en/blog/10-best-practices-ai-assisted-investigations-legal-compliance/)
-- 2026-08-12T21:05:34+00:00 — [Finding Answers Faster: Genesis for Private Sector Investigations](https://cellebrite.com/en/resources/webinars/finding-answers-faster-genesis-for-private-sector-investigations/)
-- 2026-08-12T16:15:58+00:00 — [Full Perimeter: Complete Facility Security, From Confiscated Phones to Recovered Drones](https://cellebrite.com/en/resources/webinars/full-perimeter-complete-facility-security-from-confiscated-phones-to-recovered-drones/)
-- 2026-08-12T16:01:03+00:00 — [From Seizure to Command Decision: Mission Systems for APAC Defence, Intelligence and Border Security](https://cellebrite.com/en/resources/webinars/from-seizure-to-command-decision-mission-systems-for-apac-defence-intelligence-and-border-security/)
+- 2026-08-13T14:40:39+00:00 — [The Mission Comes First](https://cellebrite.com/en/blog/the-mission-comes-first/)
+- 2026-08-13T11:02:24+00:00 — [Cellebrite Appoints Shiven Ramji Chief Executive Officer, Succeeding Thomas E. Hogan](https://cellebrite.com/en/resources/press-releases/cellebrite-appoints-shiven-ramji-chief-executive-officer-succeeding-thomas-e-hogan/)
 
 ## DFIR Science
 
@@ -538,8 +546,8 @@ Generated: 2026-08-13T05:10:43Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-08-12T14:43:13+00:00 — [“Zoomsday” flaws could let one Zoom participant attack another](https://www.malwarebytes.com/blog/bugs/2026/08/zoomsday-flaws-could-let-one-zoom-participant-attack-another)
-- 2026-08-12T13:48:49+00:00 — [Patch Tuesday: Update now to fix 421 flaws, including three zero-days](https://www.malwarebytes.com/blog/bugs/2026/08/patch-tuesday-update-now-to-fix-421-flaws-including-three-zero-days)
+- 2026-08-13T11:34:25+00:00 — [New Android malware lets criminals use your bank card in real time](https://www.malwarebytes.com/blog/mobile/2026/08/new-android-malware-lets-criminals-use-your-bank-card-in-real-time)
+- 2026-08-13T09:59:48+00:00 — [Parents take on Meta, TikTok, Google, and Snap in 3,000 youth safety lawsuits](https://www.malwarebytes.com/blog/privacy/2026/08/parents-take-on-meta-tiktok-google-and-snap-in-3000-youth-safety-lawsuits)
 
 ## Krebs on Security
 
@@ -557,28 +565,27 @@ Generated: 2026-08-13T05:10:43Z
 - Entries checked: 10
 - New since last snapshot: 10
 
-- 2026-08-12T19:07:23-04:00 — ["City-Forum" data-theft attacks target Salesforce, ServiceNow portals](https://www.bleepingcomputer.com/news/security/city-forum-data-theft-attacks-target-salesforce-servicenow-portals/)
-- 2026-08-12T18:22:57-04:00 — [Android malware combo takes out loans and relays victims' credit cards](https://www.bleepingcomputer.com/news/security/android-malware-combo-takes-out-loans-and-relays-victims-credit-cards/)
-- 2026-08-12T16:54:59-04:00 — [Hackers exploit critical Adobe Commerce flaw to hijack customer accounts](https://www.bleepingcomputer.com/news/security/hackers-exploit-critical-adobe-commerce-flaw-to-hijack-customer-accounts/)
-- 2026-08-12T14:54:57-04:00 — [Hundreds of fake Chrome VPN extensions route traffic through a proxy](https://www.bleepingcomputer.com/news/security/hundreds-of-fake-chrome-vpn-extensions-route-traffic-through-a-proxy/)
-- 2026-08-12T12:05:12-04:00 — [Plug and Pwn attack uses fake USB devices for Windows SYSTEM access](https://www.bleepingcomputer.com/news/security/plug-and-pwn-attack-uses-fake-usb-devices-for-windows-system-access/)
-- 2026-08-12T11:38:08-04:00 — [Lazarus hackers exploited Windows zero-day to target defense firms](https://www.bleepingcomputer.com/news/security/lazarus-hackers-exploited-windows-zero-day-to-target-defense-firms/)
-- 2026-08-12T10:15:09-04:00 — [FBI: Hackers target online accounts to steal nude photos](https://www.bleepingcomputer.com/news/security/fbi-warns-of-hackers-targeting-online-accounts-to-steal-explicit-photos/)
-- 2026-08-12T10:01:11-04:00 — [The Threat Hiding in Your Hiring Process: How Fake Remote Workers Get In](https://www.bleepingcomputer.com/news/security/the-threat-hiding-in-your-hiring-process-how-fake-remote-workers-get-in/)
-- 2026-08-12T08:25:37-04:00 — [Hackers leverage new Microsoft SharePoint exploit in attacks](https://www.bleepingcomputer.com/news/microsoft/hackers-leverage-new-microsoft-sharepoint-exploit-in-attacks/)
-- 2026-08-12T07:21:42-04:00 — [Signal adds new security feature to thwart man-in-the-middle attacks](https://www.bleepingcomputer.com/news/security/signal-adds-new-security-feature-to-thwart-man-in-the-middle-attacks/)
+- 2026-08-13T21:19:12-04:00 — [Apple sends new ‘Threat Notification’ alerts over mercenary spyware attacks](https://www.bleepingcomputer.com/news/apple/apple-sends-new-threat-notification-alerts-over-mercenary-spyware-attacks/)
+- 2026-08-13T17:12:47-04:00 — [Ukraine shuts down 94 fraudulent call centers, seize millions in cash](https://www.bleepingcomputer.com/news/security/ukraine-shuts-down-94-fraudulent-call-centers-seize-millions-in-cash/)
+- 2026-08-13T16:47:02-04:00 — [Akira hackers disable EDR with Safe Mode, steal data but fail to encrypt](https://www.bleepingcomputer.com/news/security/akira-hackers-disable-edr-with-safe-mode-steal-data-but-fail-to-encrypt/)
+- 2026-08-13T14:15:19-04:00 — [Hackers breach govt webmail while running parallel crypto fraud](https://www.bleepingcomputer.com/news/security/hackers-breach-govt-webmail-while-running-parallel-crypto-fraud/)
+- 2026-08-13T13:46:20-04:00 — [Microsoft patches LegacyHive Windows zero-day vulnerability](https://www.bleepingcomputer.com/news/microsoft/microsoft-patches-legacyhive-windows-zero-day-vulnerability/)
+- 2026-08-13T13:33:28-04:00 — [AI 'watermark removers' flood the web. Almost none can prove they work.](https://www.bleepingcomputer.com/news/security/ai-watermark-removers-flood-the-web-almost-none-can-prove-they-work/)
+- 2026-08-13T12:40:23-04:00 — [Critical VMware vCenter RCE flaw exploited for reverse SSH access](https://www.bleepingcomputer.com/news/security/critical-vmware-vcenter-rce-flaw-exploited-for-reverse-ssh-access/)
+- 2026-08-13T11:13:19-04:00 — [Trezor discloses data breach affecting nearly 14,000 customers](https://www.bleepingcomputer.com/news/security/trezor-discloses-data-breach-affecting-nearly-14-000-customers/)
+- 2026-08-13T10:00:10-04:00 — [Who Vets AI’s Code? The Scale Challenge Facing Open Source Ingestion](https://www.bleepingcomputer.com/news/security/who-vets-ais-code-the-scale-challenge-facing-open-source-ingestion/)
+- 2026-08-13T09:30:53-04:00 — [White House taps security firms for offensive hack-back operations](https://www.bleepingcomputer.com/news/security/white-house-taps-security-firms-for-offensive-hack-back-operations/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 3
 
-- 2026-08-12T21:08:54+00:00 — [Long-running Data Theft Campaign Targeting Salesforce, ServiceNow](https://www.darkreading.com/cyberattacks-data-breaches/long-running-data-theft-campaign-salesforce-servicenow)
-- 2026-08-12T16:28:04+00:00 — [Walmart's &quot;Trusted Agent&quot; Approach to Purple Teaming](https://www.darkreading.com/cybersecurity-operations/walmart-trusted-agent-approach-purple-teaming)
-- 2026-08-12T14:00:00+00:00 — [Ransomware Hits Colombian Justice Ministry Days Before Presidential Transition](https://www.darkreading.com/cyberattacks-data-breaches/ransomware-hits-colombian-justice-ministry-presidential-transition)
-- 2026-08-12T12:41:03+00:00 — [Walmart Leaders Transform Security Operations Without Going Bananas](https://www.darkreading.com/cybersecurity-operations/walmart-leaders-transform-security-operations-without-going-bananas)
+- 2026-08-13T20:45:17+00:00 — [Global Threat Campaign Hits Critical VMware vCenter Flaw](https://www.darkreading.com/vulnerabilities-threats/global-threat-campaign-critical-vmware-vcenter-flaw)
+- 2026-08-13T10:00:00+00:00 — ['Jewelbug' APT Balances State Espionage &amp; Cryptocurrency Theft](https://www.darkreading.com/threat-intelligence/jewelbug-apt-state-espionage-cryptocurrency-theft)
+- 2026-08-13T07:00:00+00:00 — [Belgium's eID Authentication Opens Citizen Accounts to RCE](https://www.darkreading.com/application-security/belgium-eid-authentication-citizen-accounts-rce)
 
 ## Volexity Blog
 
@@ -591,27 +598,24 @@ Generated: 2026-08-13T05:10:43Z
 - Site: https://www.sentinelone.com/labs/
 - Feed: https://www.sentinelone.com/labs/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-13T13:00:40+00:00 — [The Model Is the Malware | What Four Agentic Intrusions Tell Defenders](https://www.sentinelone.com/labs/the-model-is-the-malware-what-four-agentic-intrusions-tell-defenders/)
 
 ## Microsoft Security Blog
 
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 403
 
 ## HackingPassion
 
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-13T14:09:08+02:00 — [Plug and Pwn Turns a Fake USB Device Into SYSTEM on Fully Patched Windows 11](https://hackingpassion.com/plug-and-pwn-windows-pnp-usb-system/)
 
 ## LOLBAS Project (Windows)
 
@@ -645,16 +649,9 @@ Generated: 2026-08-13T05:10:43Z
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 8
+- New since last snapshot: 0
 
-- 2026-08-12T19:51:52+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/5554706c8350a7b4a8631f05f490e563cd4b6e0a)
-- 2026-08-12T19:44:34+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/076b6c2c18b63a12028a1d8a70d8decffb9820d9)
-- 2026-08-12T19:43:35+00:00 — [Merge pull request #406 from tsale/add-cve-2026-68820-afd](https://github.com/magicsword-io/LOLDrivers/commit/12ac6e51647fb94a808378fc5bff37ae6451bd3f)
-- 2026-08-12T19:43:04+00:00 — [Merge pull request #405 from Element2023H/Add-KKYUM](https://github.com/magicsword-io/LOLDrivers/commit/7aeab8e89de242df40cec8b0a7b3f9da36f5d58e)
-- 2026-08-12T19:42:14+00:00 — [Merge pull request #399 from 2XXE-SRA/main](https://github.com/magicsword-io/LOLDrivers/commit/b50c89fddb9912a92170049be923a9fc9e2b4d35)
-- 2026-08-12T06:31:40+00:00 — [Add CVE-2026-68820 to Afd.sys](https://github.com/magicsword-io/LOLDrivers/commit/052146e1668f1aa7da2bafca5960a6350e231242)
-- 2026-08-12T03:39:41+00:00 — [Add KKYUM.sys](https://github.com/magicsword-io/LOLDrivers/commit/dc290f049f040caba3e4a3c3b17fef5b720bde09)
-- 2026-07-29T14:56:02+00:00 — [remove duplicate yaml keys](https://github.com/magicsword-io/LOLDrivers/commit/43df30c2a25bc287736b244acc3279c02f3a6d91)
+- No new entries detected
 
 ## LOFL Project (RMM C2 indicators)
 
@@ -850,9 +847,9 @@ Generated: 2026-08-13T05:10:43Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-13T21:37:39+00:00 — [Sigma Rule Supported Modifier Update (2026-08-13  21:37:32) (#1059)](https://github.com/Yamato-Security/hayabusa-rules/commit/3fcdde0e76e2a2903fc7681224c923ec8afabe7d)
 
 ## Hayabusa releases
 
@@ -1075,9 +1072,9 @@ Generated: 2026-08-13T05:10:43Z
 - Site: https://tb-manual.torproject.org/
 - Feed: https://tb-manual.torproject.org/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- unknown date — [polski (pl)](https://tb-manual.torproject.org/pl)
 
 ## Tor Protocol Specs
 
