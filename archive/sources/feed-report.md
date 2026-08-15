@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-08-14T05:07:52Z
+Generated: 2026-08-15T03:57:17Z
 
 ## Windows Incident Response
 
@@ -186,7 +186,7 @@ Generated: 2026-08-14T05:07:52Z
 
 - Site: https://www.forensicfocus.com/
 - Feed: https://www.forensicfocus.com/rss/news2.php
-- Status: error: HTTP 508
+- Status: error: HTTP 404
 
 ## Forensic Multimedia Analysis Blog
 
@@ -202,9 +202,9 @@ Generated: 2026-08-14T05:07:52Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-13T15:46:47+00:00 — [From alert to forensic insight, automatically, with the Magnet Nexus API](https://www.magnetforensics.com/blog/from-alert-to-forensic-insight-automatically-with-the-magnet-nexus-api/)
+- No new entries detected
 
 ## The DFIR Report
 
@@ -219,34 +219,22 @@ Generated: 2026-08-14T05:07:52Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Entries checked: 10
-- New since last snapshot: 10
-
-- 2026-08-10T11:52:37+00:00 — [The Threat Hunting Course I Wish I Had](https://www.youtube.com/watch?v=cFxwYz5TOk0)
-- 2026-07-25T06:18:54+00:00 — [Automate Volatility 3 Memory Analysis with This Tool](https://www.youtube.com/watch?v=0GMTydimOP4)
-- 2026-06-19T00:57:00+00:00 — [How the USN Journal Really Works](https://www.youtube.com/watch?v=eSLHyqZlglk)
-- 2026-07-08T07:33:38+00:00 — [The Korvath Incident: A macOS Forensics Challenge](https://www.youtube.com/watch?v=tRvw13e3Qn0)
-- 2026-07-29T00:52:13+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
-- 2026-04-24T09:44:12+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
-- 2026-05-28T20:26:20+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
-- 2026-04-23T00:04:55+00:00 — [Tracking Program Execution with a Little Known Registry Key](https://www.youtube.com/watch?v=yoFkF-NHZvo)
-- 2026-05-28T20:27:51+00:00 — [The Truth About Windows Explorer Timestamps](https://www.youtube.com/watch?v=PdyVkmhMcOA)
-- 2026-05-01T22:55:06+00:00 — [Major Update to 13Cubed Courses: Chaos at Cobalt](https://www.youtube.com/watch?v=CzF6DFhSfHw)
+- Status: error: HTTP 404
 
 ## SANS Internet Storm Center
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-14T02:00:03+00:00 — [ISC Stormcast For Friday, August 14th, 2026 https://isc.sans.edu/podcastdetail/10052, (Fri, Aug 14th)](https://isc.sans.edu/diary/rss/33246)
+- No new entries detected
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
+- Entries checked: 0
 - New since last snapshot: 0
 
 - No new entries detected
@@ -267,7 +255,7 @@ Generated: 2026-08-14T05:07:52Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-08-13T10:13:15+00:00 — [Infosec News Nuggets — August 13, 2026](https://aboutdfir.com/infosec-news-nuggets-august-13-2026/)
+- 2026-08-14T11:08:40+00:00 — [Infosec News Nuggets — August 14, 2026](https://aboutdfir.com/infosec-news-nuggets-august-14-2026/)
 
 ## Forensic 4cast
 
@@ -384,8 +372,8 @@ Generated: 2026-08-14T05:07:52Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-08-13T11:30:00+00:00 — [Brushstrokes: Divisionism](https://eclecticlight.co/2026/08/13/brushstrokes-divisionism/)
-- 2026-08-13T06:30:00+00:00 — [Why and how to check your SSDs Trim correctly](https://eclecticlight.co/2026/08/13/why-and-how-to-check-your-ssds-trim-correctly/)
+- 2026-08-14T11:30:00+00:00 — [A cold countryside: James Ward 2](https://eclecticlight.co/2026/08/14/a-cold-countryside-james-ward-2/)
+- 2026-08-14T06:30:00+00:00 — [What to do when a macOS update goes wrong](https://eclecticlight.co/2026/08/14/what-to-do-when-a-macos-update-goes-wrong-2/)
 
 ## JPCERT/CC
 
@@ -455,10 +443,9 @@ Generated: 2026-08-14T05:07:52Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-08-13T18:00:18+00:00 — [Curiouser and Curiouser](https://blog.talosintelligence.com/curiouser-and-curiouser/)
-- 2026-08-13T10:00:35+00:00 — [Dissecting the JWR phishing framework](https://blog.talosintelligence.com/dissecting-the-jwr-phishing-framework/)
+- No new entries detected
 
 ## SANS Blog
 
@@ -474,9 +461,9 @@ Generated: 2026-08-14T05:07:52Z
 - Site: https://www.elastic.co/security-labs/
 - Feed: https://www.elastic.co/security-labs/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- unknown date — [13 million tool calls: auditing every AI coding agent action with Elastic Agent](https://www.elastic.co/security-labs/ai-coding-agent-audit-cursor-hooks)
+- No new entries detected
 
 ## Flare.io Threat Research Blog
 
@@ -507,19 +494,18 @@ Generated: 2026-08-14T05:07:52Z
 - Site: https://www.forensafe.com/blogs/
 - Feed: https://www.forensafe.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- Fri, 07 Aug 2026 — [Android Auth Tokens](https://forensafe.com/blogs/android-auth-tokens.html)
 
 ## Cellebrite Blog
 
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-08-13T14:40:39+00:00 — [The Mission Comes First](https://cellebrite.com/en/blog/the-mission-comes-first/)
-- 2026-08-13T11:02:24+00:00 — [Cellebrite Appoints Shiven Ramji Chief Executive Officer, Succeeding Thomas E. Hogan](https://cellebrite.com/en/resources/press-releases/cellebrite-appoints-shiven-ramji-chief-executive-officer-succeeding-thomas-e-hogan/)
+- No new entries detected
 
 ## DFIR Science
 
@@ -546,46 +532,46 @@ Generated: 2026-08-14T05:07:52Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-08-13T11:34:25+00:00 — [New Android malware lets criminals use your bank card in real time](https://www.malwarebytes.com/blog/mobile/2026/08/new-android-malware-lets-criminals-use-your-bank-card-in-real-time)
-- 2026-08-13T09:59:48+00:00 — [Parents take on Meta, TikTok, Google, and Snap in 3,000 youth safety lawsuits](https://www.malwarebytes.com/blog/privacy/2026/08/parents-take-on-meta-tiktok-google-and-snap-in-3000-youth-safety-lawsuits)
+- 2026-08-14T12:46:29+00:00 — [Apple now uses iPhone alerts for targets of mercenary spyware](https://www.malwarebytes.com/blog/news/2026/08/apple-now-uses-iphone-alerts-for-targets-of-mercenary-spyware)
+- 2026-08-14T12:05:43+00:00 — [WhatsApp is testing a new warning for scam messages](https://www.malwarebytes.com/blog/news/2026/08/whatsapp-is-testing-a-new-warning-for-scam-messages)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-14T11:24:35+00:00 — [Who’s Tracking You? Use This New Service to Find Out](https://krebsonsecurity.com/2026/08/whos-tracking-you-use-this-new-service-to-find-out/)
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 8
 
-- 2026-08-13T21:19:12-04:00 — [Apple sends new ‘Threat Notification’ alerts over mercenary spyware attacks](https://www.bleepingcomputer.com/news/apple/apple-sends-new-threat-notification-alerts-over-mercenary-spyware-attacks/)
-- 2026-08-13T17:12:47-04:00 — [Ukraine shuts down 94 fraudulent call centers, seize millions in cash](https://www.bleepingcomputer.com/news/security/ukraine-shuts-down-94-fraudulent-call-centers-seize-millions-in-cash/)
-- 2026-08-13T16:47:02-04:00 — [Akira hackers disable EDR with Safe Mode, steal data but fail to encrypt](https://www.bleepingcomputer.com/news/security/akira-hackers-disable-edr-with-safe-mode-steal-data-but-fail-to-encrypt/)
-- 2026-08-13T14:15:19-04:00 — [Hackers breach govt webmail while running parallel crypto fraud](https://www.bleepingcomputer.com/news/security/hackers-breach-govt-webmail-while-running-parallel-crypto-fraud/)
-- 2026-08-13T13:46:20-04:00 — [Microsoft patches LegacyHive Windows zero-day vulnerability](https://www.bleepingcomputer.com/news/microsoft/microsoft-patches-legacyhive-windows-zero-day-vulnerability/)
-- 2026-08-13T13:33:28-04:00 — [AI 'watermark removers' flood the web. Almost none can prove they work.](https://www.bleepingcomputer.com/news/security/ai-watermark-removers-flood-the-web-almost-none-can-prove-they-work/)
-- 2026-08-13T12:40:23-04:00 — [Critical VMware vCenter RCE flaw exploited for reverse SSH access](https://www.bleepingcomputer.com/news/security/critical-vmware-vcenter-rce-flaw-exploited-for-reverse-ssh-access/)
-- 2026-08-13T11:13:19-04:00 — [Trezor discloses data breach affecting nearly 14,000 customers](https://www.bleepingcomputer.com/news/security/trezor-discloses-data-breach-affecting-nearly-14-000-customers/)
-- 2026-08-13T10:00:10-04:00 — [Who Vets AI’s Code? The Scale Challenge Facing Open Source Ingestion](https://www.bleepingcomputer.com/news/security/who-vets-ais-code-the-scale-challenge-facing-open-source-ingestion/)
-- 2026-08-13T09:30:53-04:00 — [White House taps security firms for offensive hack-back operations](https://www.bleepingcomputer.com/news/security/white-house-taps-security-firms-for-offensive-hack-back-operations/)
+- 2026-08-14T19:24:17-04:00 — [How Anthropic plans to watermark Claude's AI-generated text](https://www.bleepingcomputer.com/news/artificial-intelligence/how-anthropic-plans-to-watermark-claudes-ai-generated-text/)
+- 2026-08-14T14:04:26-04:00 — [Hackers arrested over €30M bank fraud exploiting service provider flaw](https://www.bleepingcomputer.com/news/security/hackers-arrested-over-30m-bank-fraud-exploiting-service-provider-flaw/)
+- 2026-08-14T10:59:55-04:00 — [Hackers exploit macOS Screen Sharing flaw to deploy Monero miner](https://www.bleepingcomputer.com/news/security/hackers-exploit-macos-screen-sharing-flaw-to-deploy-monero-miner/)
+- 2026-08-14T10:00:10-04:00 — [The Modern Attack Chain: Rethinking Google Workspace Security in the Age of AI](https://www.bleepingcomputer.com/news/security/the-modern-attack-chain-rethinking-google-workspace-security-in-the-age-of-ai/)
+- 2026-08-14T09:45:18-04:00 — [Max severity SAP Commerce Cloud flaw now targeted in attacks](https://www.bleepingcomputer.com/news/security/max-severity-sap-commerce-cloud-flaw-now-targeted-in-attacks/)
+- 2026-08-14T07:55:45-04:00 — [Shell investigates 'potential incident' after Clop data theft claims](https://www.bleepingcomputer.com/news/security/shell-investigates-potential-incident-after-clop-data-theft-claims/)
+- 2026-08-14T06:52:05-04:00 — [RingCentral data breach exposed info of 1.6 million accounts](https://www.bleepingcomputer.com/news/security/ringcentral-data-breach-exposed-info-of-16-million-accounts/)
+- 2026-08-14T04:27:18-04:00 — [Data analyst sent to prison for stealing data, extorting employer](https://www.bleepingcomputer.com/news/security/data-analyst-sent-to-prison-for-stealing-data-extorting-employer/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 5
 
-- 2026-08-13T20:45:17+00:00 — [Global Threat Campaign Hits Critical VMware vCenter Flaw](https://www.darkreading.com/vulnerabilities-threats/global-threat-campaign-critical-vmware-vcenter-flaw)
-- 2026-08-13T10:00:00+00:00 — ['Jewelbug' APT Balances State Espionage &amp; Cryptocurrency Theft](https://www.darkreading.com/threat-intelligence/jewelbug-apt-state-espionage-cryptocurrency-theft)
-- 2026-08-13T07:00:00+00:00 — [Belgium's eID Authentication Opens Citizen Accounts to RCE](https://www.darkreading.com/application-security/belgium-eid-authentication-citizen-accounts-rce)
+- 2026-08-14T19:24:18+00:00 — [Mission-Driven Security: Inside a Global Bank's Defense](https://www.darkreading.com/cybersecurity-operations/mission-driven-security-inside-global-bank-defense)
+- 2026-08-14T17:32:46+00:00 — [Amid AI-Driven Bug-Hunt Tsunami, NIST Looks to … AI](https://www.darkreading.com/vulnerabilities-threats/ai-driven-bug-tsunami-nist-looks-to-ai)
+- 2026-08-14T15:58:50+00:00 — [Scottish Govt Suffers Potentially Widening Data Breach at Prosecutor's Office](https://www.darkreading.com/cyberattacks-data-breaches/scottish-govt-data-breach-prosecutors-office)
+- 2026-08-14T14:00:00+00:00 — [What Boards Need to Know About Tech Risk](https://www.darkreading.com/cyber-risk/what-boards-must-know-tech-risk)
+- 2026-08-14T12:17:21+00:00 — [Cyera's Oasis Security Buy Is All About AI Agent Control](https://www.darkreading.com/identity-access-management-security/cyera-oasis-security-acquisition-ai-agent-control)
 
 ## Volexity Blog
 
@@ -598,24 +584,36 @@ Generated: 2026-08-14T05:07:52Z
 - Site: https://www.sentinelone.com/labs/
 - Feed: https://www.sentinelone.com/labs/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-13T13:00:40+00:00 — [The Model Is the Malware | What Four Agentic Intrusions Tell Defenders](https://www.sentinelone.com/labs/the-model-is-the-malware-what-four-agentic-intrusions-tell-defenders/)
+- No new entries detected
 
 ## Microsoft Security Blog
 
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
-- Status: error: HTTP 403
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-08-10T16:00:00+00:00 — [Microsoft named a Leader in the 2026 IDC MarketScape for MDR/MXDR for the Enterprise](https://www.microsoft.com/en-us/security/blog/2026/08/10/microsoft-named-a-leader-in-the-2026-idc-marketscape-for-mdr-mxdr-for-the-enterprise/)
+- 2026-08-10T15:00:00+00:00 — [DeadLock ransomware: Breaking down a Rust-based encryptor with decentralized recovery infrastructure](https://www.microsoft.com/en-us/security/blog/2026/08/10/deadlock-ransomware-breaking-down-a-rust-based-encryptor-with-decentralized-recovery-infrastructure/)
+- 2026-08-05T16:30:00+00:00 — [​​Microsoft named a Leader in the KuppingerCole Leadership Compass for Cloud Native Application Protection Platforms (CNAPP)](https://www.microsoft.com/en-us/security/blog/2026/08/05/microsoft-named-a-leader-in-the-kuppingercole-leadership-compass-for-cloud-native-application-protection-platforms-cnapp/)
+- 2026-08-05T15:48:39+00:00 — [From open lures to cloaked gates: How a macOS ClickFix campaign learned to hide](https://www.microsoft.com/en-us/security/blog/2026/08/05/macos-clickfix-campaign-learned-hide/)
+- 2026-08-04T23:46:41+00:00 — [ChainDrop supply chain compromise: Anatomy of a self-propagating worm](https://www.microsoft.com/en-us/security/blog/2026/08/04/chaindrop-supply-chain-compromise-anatomy-self-propagating-worm/)
+- 2026-08-04T18:30:00+00:00 — [Advance Zero Trust for AI: New tools and guidance to secure AI agents and DevSecOps](https://www.microsoft.com/en-us/security/blog/2026/08/04/advance-zero-trust-for-ai-new-tools-and-guidance-to-secure-ai-agents-and-devsecops/)
+- 2026-08-04T17:54:04+00:00 — [128 Seconds to disruption: Microsoft Defender stops ransomware at QNET](https://www.microsoft.com/en-us/security/blog/2026/08/04/129-seconds-disruption-microsoft-defender-stops-ransomware-qnet/)
+- 2026-07-31T21:01:37+00:00 — [CaptiveCrunch: Midnight Blizzard targets travelers worldwide for malware delivery and credential theft](https://www.microsoft.com/en-us/security/blog/2026/07/31/captivecrunch-midnight-blizzard-targets-travelers-worldwide-for-malware-delivery-and-credential-theft/)
+- 2026-07-30T16:00:00+00:00 — [​​​​What’s new in Microsoft Security: July 2026](https://www.microsoft.com/en-us/security/blog/2026/07/30/whats-new-in-microsoft-security-july-2026/)
+- 2026-07-29T16:00:00+00:00 — [​​Better security starts with better questions](https://www.microsoft.com/en-us/security/blog/2026/07/29/better-security-starts-with-better-questions/)
 
 ## HackingPassion
 
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-13T14:09:08+02:00 — [Plug and Pwn Turns a Fake USB Device Into SYSTEM on Fully Patched Windows 11](https://hackingpassion.com/plug-and-pwn-windows-pnp-usb-system/)
+- No new entries detected
 
 ## LOLBAS Project (Windows)
 
@@ -847,9 +845,9 @@ Generated: 2026-08-14T05:07:52Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-13T21:37:39+00:00 — [Sigma Rule Supported Modifier Update (2026-08-13  21:37:32) (#1059)](https://github.com/Yamato-Security/hayabusa-rules/commit/3fcdde0e76e2a2903fc7681224c923ec8afabe7d)
+- No new entries detected
 
 ## Hayabusa releases
 
@@ -874,9 +872,9 @@ Generated: 2026-08-14T05:07:52Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-14T15:52:17+00:00 — [dev-v2.1.2](https://github.com/elastic/detection-rules/releases/tag/dev-v2.1.2)
 
 ## regipy releases
 
@@ -1072,9 +1070,9 @@ Generated: 2026-08-14T05:07:52Z
 - Site: https://tb-manual.torproject.org/
 - Feed: https://tb-manual.torproject.org/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- unknown date — [polski (pl)](https://tb-manual.torproject.org/pl)
+- No new entries detected
 
 ## Tor Protocol Specs
 
