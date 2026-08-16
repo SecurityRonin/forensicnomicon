@@ -30,6 +30,8 @@ jobs:
         with:
           components: clippy
       - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
       - run: cargo clippy --workspace --all-targets --all-features -- -D warnings
 
   test:
@@ -43,6 +45,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
       # --workspace covers the ingest/4n6query bins too; the live-network fetch
       # tests are #[ignore]d so this stays deterministic (run them with
       # `cargo test --workspace -- --ignored` to refresh upstream data).
@@ -55,6 +59,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.75
       - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
       # Root only: MSRV 1.75 is a guarantee for the published library. The
       # ingest/4n6query tooling bins are not published and pull deps (reqwest,
       # ratatui) whose own MSRV exceeds 1.75, so they are excluded here.
@@ -78,6 +84,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
       - run: cargo run --example dump_lol --features serde
       - uses: actions/upload-artifact@v4
         with:

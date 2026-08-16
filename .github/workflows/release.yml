@@ -50,6 +50,8 @@ jobs:
           targets: ${{ matrix.target }}
 
       - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
 
       - name: Install musl tools (Linux)
         if: contains(matrix.target, 'musl')
@@ -190,6 +192,8 @@ jobs:
           toolchain: 1.96.0 # MUST match rust-toolchain.toml, else cross builds fail E0463
           targets: ${{ matrix.target }}
       - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
 
       - name: Install cross-compilation tools
         if: matrix.target == 'aarch64-unknown-linux-gnu'
