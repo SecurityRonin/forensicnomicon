@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-08-16T04:02:49Z
+Generated: 2026-08-17T04:05:48Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-08-16T04:02:49Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-16T00:00:00+00:00 — [Weekly Wire #5: Offense Goes Private and Autonomous](https://andreafortuna.org/2026/08/16/weekly-wire-5/)
 
 ## Salt Forensics
 
@@ -115,9 +115,9 @@ Generated: 2026-08-16T04:02:49Z
 - Site: https://thebinaryhick.blog/
 - Feed: https://thebinaryhick.blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-16T16:42:47+00:00 — [Timestamped](https://thebinaryhick.blog/2026/08/16/timestamped/)
 
 ## forensicmike1
 
@@ -220,45 +220,28 @@ Generated: 2026-08-16T04:02:49Z
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-08-10T11:52:37+00:00 — [The Threat Hunting Course I Wish I Had](https://www.youtube.com/watch?v=cFxwYz5TOk0)
-- 2026-07-25T06:18:54+00:00 — [Automate Volatility 3 Memory Analysis with This Tool](https://www.youtube.com/watch?v=0GMTydimOP4)
-- 2026-06-19T00:57:00+00:00 — [How the USN Journal Really Works](https://www.youtube.com/watch?v=eSLHyqZlglk)
-- 2026-07-08T07:33:38+00:00 — [The Korvath Incident: A macOS Forensics Challenge](https://www.youtube.com/watch?v=tRvw13e3Qn0)
-- 2026-07-29T00:52:13+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
-- 2026-04-24T09:44:12+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
-- 2026-05-28T20:26:20+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
-- 2026-04-23T00:04:55+00:00 — [Tracking Program Execution with a Little Known Registry Key](https://www.youtube.com/watch?v=yoFkF-NHZvo)
-- 2026-05-28T20:27:51+00:00 — [The Truth About Windows Explorer Timestamps](https://www.youtube.com/watch?v=PdyVkmhMcOA)
-- 2026-05-01T22:55:06+00:00 — [Major Update to 13Cubed Courses: Chaos at Cobalt](https://www.youtube.com/watch?v=CzF6DFhSfHw)
+- No new entries detected
 
 ## SANS Internet Storm Center
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-08-17T02:00:02+00:00 — [ISC Stormcast For Monday, August 17th, 2026 https://isc.sans.edu/podcastdetail/10054, (Mon, Aug 17th)](https://isc.sans.edu/diary/rss/33250)
+- 2026-08-16T21:31:48+00:00 — [Wireshark 4.6.8 Released, (Sun, Aug 16th)](https://isc.sans.edu/diary/rss/33248)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
-- New since last snapshot: 10
+- Entries checked: 0
+- New since last snapshot: 0
 
-- unknown date — [Training](https://www.dfir.training/training)
-- unknown date — [Tools](https://www.dfir.training/dfir-tools)
-- unknown date — [Library](https://www.dfir.training/resources)
-- unknown date — [Sponsors](https://www.dfir.training/sponsors)
-- unknown date — [Blog](https://www.dfir.training/blog)
-- unknown date — [Contact](https://www.dfir.training/contact-form)
-- unknown date — [Where Are Digital Investigations Breaking Down?](https://www.dfir.training/blog/where-are-digital-investigations-breaking-down)
-- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
-- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
-- unknown date — [DFIR + AI Is Moving From Chatbot to Workflow Layer](https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer)
+- No new entries detected
 
 ## MSAB
 
@@ -292,9 +275,9 @@ Generated: 2026-08-16T04:02:49Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-16T11:59:29+00:00 — [Week 33 – 2026](https://thisweekin4n6.com/2026/08/16/week-33-2026/)
 
 ## The Sleuth Kit updates
 
@@ -391,11 +374,10 @@ Generated: 2026-08-16T04:02:49Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-08-15T11:30:00+00:00 — [A volcanic weekend of paintings 1 Fuji to Hekla](https://eclecticlight.co/2026/08/15/a-volcanic-weekend-of-paintings-1-fuji-to-hekla/)
-- 2026-08-15T08:00:00+00:00 — [Saturday Mac riddles 373](https://eclecticlight.co/2026/08/15/saturday-mac-riddles-373/)
-- 2026-08-15T07:00:00+00:00 — [Identify files in APFS using inode numbers](https://eclecticlight.co/2026/08/15/identify-files-in-apfs-using-inode-numbers/)
+- 2026-08-16T11:30:00+00:00 — [A volcanic weekend of paintings 2 Vesuvius](https://eclecticlight.co/2026/08/16/a-volcanic-weekend-of-paintings-2-vesuvius/)
+- 2026-08-16T07:00:00+00:00 — [Last Week on My Mac: Due cause](https://eclecticlight.co/2026/08/16/last-week-on-my-mac-due-cause/)
 
 ## JPCERT/CC
 
@@ -570,9 +552,12 @@ Generated: 2026-08-16T04:02:49Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 4
 
-- 2026-08-15T10:14:38-04:00 — [New Evooo1Bot Linux botnet turns routers into traffic relay nodes](https://www.bleepingcomputer.com/news/security/new-evooo1bot-linux-botnet-turns-routers-into-traffic-relay-nodes/)
+- 2026-08-16T19:47:06-04:00 — [SafePal data breach impacts 39,798 customers, stolen info for sale](https://www.bleepingcomputer.com/news/security/safepal-data-breach-impacts-39-798-customers-stolen-info-for-sale/)
+- 2026-08-16T18:28:57-04:00 — [Anthropic confirms Claude is down in major outage affecting multiple services](https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-confirms-claude-is-down-in-major-outage-affecting-multiple-services/)
+- 2026-08-16T13:29:52-04:00 — [Large-scale DDoS attacks disrupted Threema secure messaging service](https://www.bleepingcomputer.com/news/security/large-scale-ddos-attacks-disrupted-threema-secure-messaging-service/)
+- 2026-08-16T11:07:44-04:00 — [New AmnesiaStealer macOS malware hijacks browser sessions via remote control](https://www.bleepingcomputer.com/news/security/new-amnesiastealer-macos-malware-hijacks-browser-sessions-via-remote-control/)
 
 ## Dark Reading
 
@@ -612,9 +597,9 @@ Generated: 2026-08-16T04:02:49Z
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-15T15:53:35+02:00 — [Windows Defender Dies to a One-Click Script While Defender Bypasses Sell for $30 a File](https://hackingpassion.com/windows-defender-one-click-script/)
+- No new entries detected
 
 ## LOLBAS Project (Windows)
 
