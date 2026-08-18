@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-08-17T04:05:48Z
+Generated: 2026-08-18T04:01:31Z
 
 ## Windows Incident Response
 
@@ -63,7 +63,7 @@ Generated: 2026-08-17T04:05:48Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-08-16T00:00:00+00:00 — [Weekly Wire #5: Offense Goes Private and Autonomous](https://andreafortuna.org/2026/08/16/weekly-wire-5/)
+- 2026-08-17T00:00:00+00:00 — [Three NTFS bugs, one VHD file, and what your logs should already be telling you](https://andreafortuna.org/2026/08/17/three-ntfs-bugs-one-vhd-file/)
 
 ## Salt Forensics
 
@@ -115,9 +115,9 @@ Generated: 2026-08-17T04:05:48Z
 - Site: https://thebinaryhick.blog/
 - Feed: https://thebinaryhick.blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-16T16:42:47+00:00 — [Timestamped](https://thebinaryhick.blog/2026/08/16/timestamped/)
+- No new entries detected
 
 ## forensicmike1
 
@@ -202,9 +202,9 @@ Generated: 2026-08-17T04:05:48Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-17T18:18:38+00:00 — [More tools, more friction: why DFIR toolkits need a connective layer](https://www.magnetforensics.com/blog/more-tools-more-friction-why-dfir-toolkits-need-a-connective-layer/)
 
 ## The DFIR Report
 
@@ -228,11 +228,7 @@ Generated: 2026-08-17T04:05:48Z
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
-- Entries checked: 10
-- New since last snapshot: 2
-
-- 2026-08-17T02:00:02+00:00 — [ISC Stormcast For Monday, August 17th, 2026 https://isc.sans.edu/podcastdetail/10054, (Mon, Aug 17th)](https://isc.sans.edu/diary/rss/33250)
-- 2026-08-16T21:31:48+00:00 — [Wireshark 4.6.8 Released, (Sun, Aug 16th)](https://isc.sans.edu/diary/rss/33248)
+- Status: error: syntax error: line 1, column 0
 
 ## DFIR Training Blog
 
@@ -247,19 +243,13 @@ Generated: 2026-08-17T04:05:48Z
 
 - Site: https://www.msab.com/
 - Feed: https://www.msab.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## AboutDFIR
 
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## Forensic 4cast
 
@@ -275,9 +265,9 @@ Generated: 2026-08-17T04:05:48Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-16T11:59:29+00:00 — [Week 33 – 2026](https://thisweekin4n6.com/2026/08/16/week-33-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
@@ -292,10 +282,7 @@ Generated: 2026-08-17T04:05:48Z
 
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: mismatched tag: line 93, column 2
 
 ## Didier Stevens Blog
 
@@ -374,10 +361,12 @@ Generated: 2026-08-17T04:05:48Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 4
 
-- 2026-08-16T11:30:00+00:00 — [A volcanic weekend of paintings 2 Vesuvius](https://eclecticlight.co/2026/08/16/a-volcanic-weekend-of-paintings-2-vesuvius/)
-- 2026-08-16T07:00:00+00:00 — [Last Week on My Mac: Due cause](https://eclecticlight.co/2026/08/16/last-week-on-my-mac-due-cause/)
+- 2026-08-17T18:34:51+00:00 — [Apple has released a security update to macOS Tahoe 26.6.2](https://eclecticlight.co/2026/08/17/apple-has-released-a-security-update-to-macos-tahoe-26-6-2/)
+- 2026-08-17T11:30:00+00:00 — [Hero or hooligan: Odysseus restored](https://eclecticlight.co/2026/08/17/hero-or-hooligan-odysseus-restored/)
+- 2026-08-17T08:00:00+00:00 — [Solutions to Saturday Mac riddles 373](https://eclecticlight.co/2026/08/17/solutions-to-saturday-mac-riddles-373/)
+- 2026-08-17T06:30:00+00:00 — [How long until my backup storage is full? DeltaFree can inform you](https://eclecticlight.co/2026/08/17/how-long-until-my-backup-storage-is-full-deltafree-can-inform-you/)
 
 ## JPCERT/CC
 
@@ -534,9 +523,13 @@ Generated: 2026-08-17T04:05:48Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 5
 
-- No new entries detected
+- 2026-08-17T13:34:31+00:00 — [ShieldBreak bypasses Microsoft’s patch for earlier Defender flaw](https://www.malwarebytes.com/blog/bugs/2026/08/shieldbreak-bypasses-microsofts-patch-for-earlier-defender-flaw)
+- 2026-08-17T11:15:35+00:00 — [Fake TikTok rewards promise cash you’ll never get](https://www.malwarebytes.com/blog/scams/2026/08/fake-tiktok-rewards-promise-cash-youll-never-get)
+- 2026-08-17T10:56:47+00:00 — [Update your Mac: Screen Sharing vulnerability exploited in the wild](https://www.malwarebytes.com/blog/bugs/2026/08/update-your-mac-screen-sharing-vulnerability-exploited-in-the-wild)
+- 2026-08-17T08:59:07+00:00 — [Why Facebook’s war on ad blockers could help scammers](https://www.malwarebytes.com/blog/news/2026/08/why-facebooks-war-on-ad-blockers-could-help-scammers)
+- 2026-08-17T07:01:00+00:00 — [A week in security (August 10 – August 16)](https://www.malwarebytes.com/blog/news/2026/08/a-week-in-security-august-10-august-16)
 
 ## Krebs on Security
 
@@ -552,21 +545,28 @@ Generated: 2026-08-17T04:05:48Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 8
 
-- 2026-08-16T19:47:06-04:00 — [SafePal data breach impacts 39,798 customers, stolen info for sale](https://www.bleepingcomputer.com/news/security/safepal-data-breach-impacts-39-798-customers-stolen-info-for-sale/)
-- 2026-08-16T18:28:57-04:00 — [Anthropic confirms Claude is down in major outage affecting multiple services](https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-confirms-claude-is-down-in-major-outage-affecting-multiple-services/)
-- 2026-08-16T13:29:52-04:00 — [Large-scale DDoS attacks disrupted Threema secure messaging service](https://www.bleepingcomputer.com/news/security/large-scale-ddos-attacks-disrupted-threema-secure-messaging-service/)
-- 2026-08-16T11:07:44-04:00 — [New AmnesiaStealer macOS malware hijacks browser sessions via remote control](https://www.bleepingcomputer.com/news/security/new-amnesiastealer-macos-malware-hijacks-browser-sessions-via-remote-control/)
+- 2026-08-17T15:35:01-04:00 — [Hacker claims 3.6 million Azure account records stolen from major companies](https://www.bleepingcomputer.com/news/security/hacker-claims-36-million-azure-account-records-stolen-from-major-companies/)
+- 2026-08-17T15:12:39-04:00 — [Pokémon Center data breach exposes customer info, cancels some orders](https://www.bleepingcomputer.com/news/security/pokemon-center-data-breach-exposes-customer-info-cancels-some-orders/)
+- 2026-08-17T10:47:08-04:00 — [Microsoft confirms GitHub is down worldwide](https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-github-is-down-worldwide/)
+- 2026-08-17T10:00:10-04:00 — [Certighost and the Privilege Hiding in Your Certificate Authority](https://www.bleepingcomputer.com/news/security/certighost-and-the-privilege-hiding-in-your-certificate-authority/)
+- 2026-08-17T08:33:11-04:00 — [Windows Server 2022 reaches end of mainstream support in 60 days](https://www.bleepingcomputer.com/news/microsoft/windows-server-2022-reaches-end-of-mainstream-support-in-60-days/)
+- 2026-08-17T07:25:02-04:00 — [Philips and GE investigating Clop ransomware data theft claims](https://www.bleepingcomputer.com/news/security/philips-and-ge-investigating-clop-ransomware-data-theft-claims/)
+- 2026-08-17T06:09:48-04:00 — [French tax authority data breach affects 678,000 individuals](https://www.bleepingcomputer.com/news/security/french-tax-authority-data-breach-affects-678-000-individuals/)
+- 2026-08-17T05:05:33-04:00 — [Microsoft working on Defender patch for ShieldBreak zero-day](https://www.bleepingcomputer.com/news/security/microsoft-working-on-defender-patch-for-shieldbreak-zero-day/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-08-17T21:37:23+00:00 — [Video Call Exploit Chains Two Flaws in Unisoc Modems](https://www.darkreading.com/mobile-security/video-call-exploit-chains-two-flaws-unisoc-modems)
+- 2026-08-17T20:26:34+00:00 — ['Turf War' Between Claude Agents Leads to Self-Replicating Malware](https://www.darkreading.com/threat-intelligence/turf-war-claude-agents-self-replicating-malware)
+- 2026-08-17T19:22:56+00:00 — [Adam Shostack Talks Hugging Face &amp; PHANTOM-B](https://www.darkreading.com/vulnerabilities-threats/adam-shostack-talks-hugging-face-phantom-b)
+- 2026-08-17T15:44:34+00:00 — [Linux Botnet Evooo1Bot Expands Mirai Capabilities Well Beyond DDoS](https://www.darkreading.com/cyber-risk/linux-botnet-evooo1bot-mirai-capabilities-beyond-ddos)
 
 ## Volexity Blog
 
@@ -597,9 +597,9 @@ Generated: 2026-08-17T04:05:48Z
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-17T13:15:09+02:00 — [Evooo1Bot Turns Home Routers Into Rented Proxies With a Bug From 2007](https://hackingpassion.com/evooo1bot-router-botnet/)
 
 ## LOLBAS Project (Windows)
 
@@ -858,9 +858,9 @@ Generated: 2026-08-17T04:05:48Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-17T21:26:50+00:00 — [dev-v2.1.3](https://github.com/elastic/detection-rules/releases/tag/dev-v2.1.3)
 
 ## regipy releases
 
@@ -1074,6 +1074,9 @@ Generated: 2026-08-17T04:05:48Z
 - Site: https://www.misp-project.org/
 - Feed: https://github.com/MISP/misp-taxonomies/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-08-17T18:48:48+00:00 — [fix: [hunt-ex] jq all the things](https://github.com/MISP/misp-taxonomies/commit/2082fc026e88a682aec826db83a205be8f2cab32)
+- 2026-08-17T18:45:46+00:00 — [Merge pull request #342 from RagS3c/add-hunt-ex-taxonomy](https://github.com/MISP/misp-taxonomies/commit/6a34f1a6862198b8c0d30888db55357621c66129)
+- 2026-08-17T16:26:52+00:00 — [Update MANIFEST.json](https://github.com/MISP/misp-taxonomies/commit/0c40c4885db1c742d8ba29bd8111c2b266b09c0d)
+- 2026-08-17T16:23:41+00:00 — [Add HUNT-EX taxonomy](https://github.com/MISP/misp-taxonomies/commit/0cd8786bc157408dac3537e8f5da58a9713ab3a0)
