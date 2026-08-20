@@ -106,7 +106,7 @@ pub mod header_offset {
     pub const INCOMPATIBLE_FLAGS: usize = 12;
     /// state: u8 at offset 16.
     pub const STATE: usize = 16;
-    /// reserved[7]: u8[7] at offset 17.
+    /// `reserved[7]: u8[7]` at offset 17.
     pub const RESERVED: usize = 17;
     /// file_id: [u8; 16] at offset 24.
     pub const FILE_ID: usize = 24;

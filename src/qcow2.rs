@@ -5,7 +5,7 @@
 //! header fields are big-endian.
 //!
 //! Source: QEMU `docs/interop/qcow2.txt`
-//!   https://github.com/qemu/qemu/blob/master/docs/interop/qcow2.txt
+//!   <https://github.com/qemu/qemu/blob/master/docs/interop/qcow2.txt>
 
 /// Magic `"QFI\xfb"` read as a big-endian `u32` at offset 0.
 pub const MAGIC: u32 = 0x5146_49FB;

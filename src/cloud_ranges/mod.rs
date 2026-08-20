@@ -55,7 +55,7 @@ impl CloudProvider {
 
 /// Classify an IPv4 address to its cloud provider, if any range contains it.
 ///
-/// Binary search over the disjoint ascending [`generated::CLOUD_RANGES`]:
+/// Binary search over the disjoint ascending `generated::CLOUD_RANGES`:
 /// find the last interval whose start is `<= ip`, then confirm `ip <= end`.
 /// Panic-free.
 #[must_use]

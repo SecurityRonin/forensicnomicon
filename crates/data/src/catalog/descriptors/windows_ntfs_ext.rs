@@ -29,7 +29,7 @@ use super::super::types::{
 /// 8/16/24/32 (after the 8-byte parent file reference at offset 0). The
 /// discrepancy flags are DERIVED from comparing the two sets — they are not
 /// stored on disk.
-/// Source: https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc
+/// Source: <https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20>(NTFS).asciidoc
 pub(crate) static NTFS_TIMESTOMPING_SI_FN_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "mft_record",
@@ -120,7 +120,7 @@ pub(crate) static NTFS_TIMESTOMPING_SI_FN_FIELDS: &[FieldSchema] = &[
 /// zeroed while $FN carries precision, is consistent with back-dating. Neither
 /// flag is stored on disk; both are derived by comparing the two attributes.
 ///
-/// Source: https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc
+/// Source: <https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20>(NTFS).asciidoc
 pub(crate) static NTFS_TIMESTOMPING_SI_FN: ArtifactDescriptor = ArtifactDescriptor {
     id: "ntfs_timestomping_si_fn",
     name: "Timestomping Detection ($SI vs $FN Timestamps)",
@@ -175,8 +175,8 @@ history. The Court may draw its own conclusions from the pattern.",
 /// records carry $LogFile Sequence Numbers (LSN), and each record describes a
 /// redo/undo operation on a metadata structure. Field names follow the settled
 /// reverse-engineered reference (LogFileParser) and the libyal NTFS spec.
-/// Source: https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc
-/// Source: https://github.com/jschicht/LogFileParser
+/// Source: <https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20>(NTFS).asciidoc
+/// Source: <https://github.com/jschicht/LogFileParser>
 pub(crate) static NTFS_LOGFILE_RECORDS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "lsn",
@@ -252,8 +252,8 @@ pub(crate) static NTFS_LOGFILE_RECORDS_FIELDS: &[FieldSchema] = &[
 /// settled reverse-engineered reference (LogFileParser) and the libyal NTFS
 /// on-disk spec.
 ///
-/// Source: https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc
-/// Source: https://github.com/jschicht/LogFileParser
+/// Source: <https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20>(NTFS).asciidoc
+/// Source: <https://github.com/jschicht/LogFileParser>
 pub(crate) static NTFS_LOGFILE_RECORDS: ArtifactDescriptor = ArtifactDescriptor {
     id: "ntfs_logfile_records",
     name: "$LogFile Transaction Records (NTFS Journal)",

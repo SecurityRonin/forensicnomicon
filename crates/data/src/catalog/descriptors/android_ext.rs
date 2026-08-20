@@ -2,7 +2,7 @@
 //!
 //! Samsung Gallery3d (com.sec.android.gallery3d) local.db — trash and log
 //! tables documenting image deletion activity on Samsung devices.
-//! Source: https://cheeky4n6monkey.blogspot.com/2022/01/mike-monkey-dumpster-dive-into-samsung.html
+//! Source: <https://cheeky4n6monkey.blogspot.com/2022/01/mike-monkey-dumpster-dive-into-samsung.html>
 
 use super::super::types::{
     ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
@@ -12,7 +12,7 @@ use super::super::types::{
 // ── Samsung Gallery3d Trash table ───────────────────────────────────────────
 
 /// Field schema for the `trash` table in local.db.
-/// Source: https://cheeky4n6monkey.blogspot.com/2022/01/mike-monkey-dumpster-dive-into-samsung.html
+/// Source: <https://cheeky4n6monkey.blogspot.com/2022/01/mike-monkey-dumpster-dive-into-samsung.html>
 pub(crate) static SAMSUNG_GALLERY3D_TRASH_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "__absPath",
@@ -187,7 +187,7 @@ pub(crate) static SAMSUNG_GALLERY3D_TRASH: ArtifactDescriptor = ArtifactDescript
 // ── Samsung Gallery3d Log table ─────────────────────────────────────────────
 
 /// Field schema for the `log` table in local.db.
-/// Source: https://cheeky4n6monkey.blogspot.com/2022/01/mike-monkey-dumpster-dive-into-samsung.html
+/// Source: <https://cheeky4n6monkey.blogspot.com/2022/01/mike-monkey-dumpster-dive-into-samsung.html>
 pub(crate) static SAMSUNG_GALLERY3D_LOG_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "_id",
@@ -267,7 +267,7 @@ pub(crate) static SAMSUNG_GALLERY3D_LOG: ArtifactDescriptor = ArtifactDescriptor
 // ── Android Tor Browser Thumbnails ──────────────────────────────────────────
 
 /// Field schema for Tor Browser thumbnail files.
-/// Source: https://abrignoni.blogspot.com/2021/12/tor-thumbnails-what.html
+/// Source: <https://abrignoni.blogspot.com/2021/12/tor-thumbnails-what.html>
 pub(crate) static ANDROID_TOR_BROWSER_THUMBNAILS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "filename",
@@ -315,7 +315,7 @@ pub(crate) static ANDROID_TOR_BROWSER_THUMBNAILS_FIELDS: &[FieldSchema] = &[
 /// viewed in opened tabs.
 ///
 /// Original discovery credited to Loicforensic@protonmail.com.
-/// Source: https://abrignoni.blogspot.com/2021/12/tor-thumbnails-what.html
+/// Source: <https://abrignoni.blogspot.com/2021/12/tor-thumbnails-what.html>
 pub(crate) static ANDROID_TOR_BROWSER_THUMBNAILS: ArtifactDescriptor = ArtifactDescriptor {
     id: "android_tor_browser_thumbnails",
     name: "Android Tor Browser Tab Thumbnails",
@@ -433,7 +433,7 @@ pub(crate) static ANDROID_GBOARD_TRAININGCACHE_FIELDS: &[FieldSchema] = &[
 /// Tested on Pixel 3 (Android 10/11) and Josh Hickman's Android 10 image.
 /// Verified that Telegram and WhatsApp sent messages appear in the cache.
 ///
-/// Source: https://www.swiftforensics.com/2021/01/gboard-has-some-interesting-data.html
+/// Source: <https://www.swiftforensics.com/2021/01/gboard-has-some-interesting-data.html>
 pub(crate) static ANDROID_GBOARD_TRAININGCACHE: ArtifactDescriptor = ArtifactDescriptor {
     id: "android_gboard_trainingcache",
     name: "Android Gboard Training Cache (Keystroke Recovery)",

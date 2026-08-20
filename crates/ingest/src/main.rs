@@ -282,7 +282,7 @@ fn shrink_refusal(source_name: &str, committed: usize, regenerated: usize) -> Op
 /// would drop it. Excluding all of them at once also takes the *order* the
 /// sources happen to run in out of the result: a record no longer loses to a
 /// sibling merely for having been written first, it competes in
-/// [`select_records`]. The rest of the catalog — hand-written descriptors and
+/// `select_records`. The rest of the catalog — hand-written descriptors and
 /// the modules this run leaves alone — still dedups normally.
 fn baseline_for_run(catalog_dir: &Path, sources: &[&str]) -> io::Result<CatalogIndex> {
     let regenerated: Vec<String> = sources.iter().map(|s| generated_file_name(s)).collect();
@@ -461,7 +461,7 @@ fn select_records(fetched: &Fetched, baseline: &CatalogIndex) -> Fetched {
     merge_and_report(fetched, baseline, false)
 }
 
-/// [`select_records`], printing what the merge did when `verbose`.
+/// `select_records`, printing what the merge did when `verbose`.
 fn merge_and_report(fetched: &Fetched, baseline: &CatalogIndex, verbose: bool) -> Fetched {
     let (merged, refused, stats) = merge_records(fetched, baseline);
     for r in &refused {
@@ -485,7 +485,7 @@ fn merge_and_report(fetched: &Fetched, baseline: &CatalogIndex, verbose: bool) -
     merged
 }
 
-/// [`select_records`], also reporting the merges it refused.
+/// `select_records`, also reporting the merges it refused.
 fn merge_records(
     fetched: &Fetched,
     baseline: &CatalogIndex,

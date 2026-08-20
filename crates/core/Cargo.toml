@@ -9,6 +9,7 @@ description = "Stable engine layer of the ForensicNomicon: the normalized DFIR r
 edition.workspace = true
 rust-version = "1.75"
 license = "Apache-2.0"
+readme = "README.md"
 repository = "https://github.com/SecurityRonin/forensicnomicon"
 homepage = "https://github.com/SecurityRonin/forensicnomicon"
 documentation = "https://docs.rs/forensicnomicon-core"

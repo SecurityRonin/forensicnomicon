@@ -5,7 +5,7 @@
 //! EWF2/Ex01, and the logical-evidence variants (`.L01`/`.Lx01`).
 //!
 //! Source: libewf documentation (EWF & EWF2 file format specs)
-//!   https://github.com/libyal/libewf/tree/main/documentation
+//!   <https://github.com/libyal/libewf/tree/main/documentation>
 
 /// Length of every EWF file signature.
 pub const SIGNATURE_LEN: usize = 8;

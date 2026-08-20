@@ -2456,7 +2456,7 @@ mod tests_new_descriptors {
 
     /// Per Magnet Forensics artifact profile, {F4E57C4B-...} tracks
     /// shortcut-initiated launches (.lnk), not folder navigation.
-    /// Source: https://www.magnetforensics.com/blog/artifact-profile-userassist/
+    /// Source: <https://www.magnetforensics.com/blog/artifact-profile-userassist/>
     #[test]
     fn userassist_folder_guid_tracks_shortcut_launches_not_folders() {
         // The Magnet Forensics article clarifies: {F4E57C4B-...} corresponds
@@ -2480,7 +2480,7 @@ mod tests_new_descriptors {
 
     /// {75048700-EF1F-11D0-9888-006097DEACF9} — Applications, files, links,
     /// and other objects accessed on Windows XP/2000.
-    /// Source: https://www.magnetforensics.com/blog/artifact-profile-userassist/
+    /// Source: <https://www.magnetforensics.com/blog/artifact-profile-userassist/>
     #[test]
     fn userassist_xp_exe_exists_in_catalog() {
         let d = CATALOG.by_id("userassist_xp_exe").expect(
@@ -2496,7 +2496,7 @@ mod tests_new_descriptors {
 
     /// {5E6AB780-7743-11CF-A12B-00AA004AE837} — IE Favorites and IE toolbar
     /// objects on Windows XP.
-    /// Source: https://www.magnetforensics.com/blog/artifact-profile-userassist/
+    /// Source: <https://www.magnetforensics.com/blog/artifact-profile-userassist/>
     #[test]
     fn userassist_xp_ie_favorites_exists_in_catalog() {
         let d = CATALOG.by_id("userassist_xp_ie_favorites").expect(
@@ -2511,7 +2511,7 @@ mod tests_new_descriptors {
 
     /// {0D6D4F41-2994-4BA0-8FEF-620E43CD2812} — IE7-specific UserAssist GUID
     /// on Windows XP with IE7 installed.
-    /// Source: https://www.magnetforensics.com/blog/artifact-profile-userassist/
+    /// Source: <https://www.magnetforensics.com/blog/artifact-profile-userassist/>
     #[test]
     fn userassist_xp_ie7_exists_in_catalog() {
         let d = CATALOG.by_id("userassist_xp_ie7").expect(

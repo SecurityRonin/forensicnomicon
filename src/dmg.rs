@@ -6,7 +6,7 @@
 //!
 //! Source: Apple Universal Disk Image Format (UDIF), as documented by libdmg /
 //! the `dmg2img` and Apple `hdiutil` reverse-engineering efforts.
-//!   http://newosxbook.com/DMG.html
+//!   <http://newosxbook.com/DMG.html>
 
 /// `koly` trailer magic, read as a big-endian `u32` (bytes `"koly"`).
 pub const KOLY_MAGIC: u32 = 0x6B6F_6C79;

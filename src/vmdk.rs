@@ -8,9 +8,9 @@
 //! than defining their own copies.
 //!
 //! Source: VMware Virtual Disk Format 1.1 (libyal reconstruction)
-//!   https://github.com/libyal/libvmdk/blob/main/documentation/VMware%20Virtual%20Disk%20Format%20(VMDK).asciidoc
+//!   <https://github.com/libyal/libvmdk/blob/main/documentation/VMware%20Virtual%20Disk%20Format%20>(VMDK).asciidoc
 //! Source: QEMU `block/vmdk.c`
-//!   https://github.com/qemu/qemu/blob/master/block/vmdk.c
+//!   <https://github.com/qemu/qemu/blob/master/block/vmdk.c>
 
 /// Sector size used throughout the format (all sector fields multiply by this).
 pub const SECTOR_SIZE: u64 = 512;
@@ -19,7 +19,7 @@ pub const SECTOR_SIZE: u64 = 512;
 
 /// VMDK4 sparse extent magic, read as a little-endian `u32` at offset 0.
 /// On disk the four bytes are `"KDMV"` (the ASCII of "VMDK" reversed).
-/// Source: https://github.com/libyal/libvmdk (VMDK 4 `_VMDK_SPARSE_EXTENT_HEADER`)
+/// Source: <https://github.com/libyal/libvmdk> (VMDK 4 `_VMDK_SPARSE_EXTENT_HEADER`)
 pub const VMDK4_MAGIC: u32 = 0x564D_444B;
 
 /// Header version 1 — base monolithicSparse.

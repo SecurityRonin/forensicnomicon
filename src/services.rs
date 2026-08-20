@@ -62,8 +62,8 @@
 //!   <https://attack.mitre.org/techniques/T1036/005/> ·
 //!   <https://attack.mitre.org/techniques/T1543/003/>
 //!
-//! [T1036.005 — Masquerading: Match Legitimate Name or Location]: https://attack.mitre.org/techniques/T1036/005/
-//! [T1543.003 — Create or Modify System Process: Windows Service]: https://attack.mitre.org/techniques/T1543/003/
+//! [T1036.005 — Masquerading: Match Legitimate Name or Location]: <https://attack.mitre.org/techniques/T1036/005/>
+//! [T1543.003 — Create or Modify System Process: Windows Service]: <https://attack.mitre.org/techniques/T1543/003/>
 
 /// The generic Windows service host binary. Most Windows services are NOT
 /// standalone executables — they are DLLs (a `ServiceDll` under the service's
@@ -224,8 +224,8 @@ pub fn is_known_service_binary(basename: &str) -> bool {
 /// - Ground truth: DFIRMadness "Szechuan Sauce" DC01 `SYSTEM` hive (the genuine
 ///   106-entry ServiceDll set), parsed via `winreg-core` in the validation test.
 ///
-/// [T1543.003 — Create or Modify System Process: Windows Service]: https://attack.mitre.org/techniques/T1543/003/
-/// [T1036.005 — Masquerading: Match Legitimate Name or Location]: https://attack.mitre.org/techniques/T1036/005/
+/// [T1543.003 — Create or Modify System Process: Windows Service]: <https://attack.mitre.org/techniques/T1543/003/>
+/// [T1036.005 — Masquerading: Match Legitimate Name or Location]: <https://attack.mitre.org/techniques/T1036/005/>
 pub const KNOWN_WINDOWS_SERVICE_DLLS: &[&str] = &[
     // === Core OS — RPC / COM / base platform svchost ServiceDlls ===
     // Sources: MS Windows Server service guidelines; Windows Internals 7th ed.

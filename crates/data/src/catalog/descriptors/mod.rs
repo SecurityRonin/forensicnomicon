@@ -391,8 +391,8 @@ pub static PCA_GENERAL_DB: ArtifactDescriptor = ArtifactDescriptor {
 /// repeats — so the pair retains ~2-4 MB of history. Same UTF-16LE/CRLF pipe-delimited
 /// format as Db0. A collector keyed only on Db0 silently loses Db1's older window.
 ///
-/// Source: https://www.sygnia.co/blog/new-windows-11-pca-artifact/ (RE: rotation, 2 MB threshold, encoding, 8-field layout)
-/// Source: https://windowsir.blogspot.com/2024/02/pcaparse.html (Carvey PCAParse — parses the pca folder pair)
+/// Source: <https://www.sygnia.co/blog/new-windows-11-pca-artifact/> (RE: rotation, 2 MB threshold, encoding, 8-field layout)
+/// Source: <https://windowsir.blogspot.com/2024/02/pcaparse.html> (Carvey PCAParse — parses the pca folder pair)
 pub static PCA_GENERAL_DB1: ArtifactDescriptor = ArtifactDescriptor {
     id: "pca_general_db1",
     name: "PCA PcaGeneralDb1.txt",
@@ -1105,9 +1105,9 @@ pub(crate) static AMCACHE_PROGRAM_FIELDS: &[FieldSchema] = &[
 /// this key has one subkey per *installed application*, named by its ProgramId, which
 /// links the two keys.
 ///
-/// Source: https://github.com/EricZimmerman/AmcacheParser (parser; -i includes installed apps)
-/// Source: https://securelist.com/amcache-forensic-artifact/117622/ (Securelist AmCache analysis)
-/// Source: https://github.com/Psmths/windows-forensic-artifacts/blob/main/execution/amcache.md
+/// Source: <https://github.com/EricZimmerman/AmcacheParser> (parser; -i includes installed apps)
+/// Source: <https://securelist.com/amcache-forensic-artifact/117622/> (Securelist AmCache analysis)
+/// Source: <https://github.com/Psmths/windows-forensic-artifacts/blob/main/execution/amcache.md>
 pub static AMCACHE_PROGRAM: ArtifactDescriptor = ArtifactDescriptor {
     id: "amcache_program",
     name: "Amcache InventoryApplication (installed programs)",
@@ -1783,8 +1783,8 @@ pub(crate) static DIR_ENTRY_FIELDS: &[FieldSchema] = &[FieldSchema {
 /// - `mft_record_number` — 48-bit NTFS record from BEEF0004 (low 32 + high 16 bits);
 ///   enables independent file identity verification after path changes or deletion
 ///
-/// Source: https://github.com/kacos2000/Jumplist-Browser
-///         https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-shllink/
+/// Source: <https://github.com/kacos2000/Jumplist-Browser>
+///         <https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-shllink/>
 pub(crate) static LNK_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "target_path",
@@ -1876,8 +1876,8 @@ pub(crate) static LNK_FIELDS: &[FieldSchema] = &[
 /// - `app_id_hash` — 8-byte CRC64 that identifies the application;
 ///   resolved via HKCU\...\Search\JumplistData or AppIdlist.csv
 ///
-/// Source: https://github.com/kacos2000/Jumplist-Browser
-///         https://www.hexacorn.com/blog/2013/04/30/jumplists-file-names-and-appid-calculator/
+/// Source: <https://github.com/kacos2000/Jumplist-Browser>
+///         <https://www.hexacorn.com/blog/2013/04/30/jumplists-file-names-and-appid-calculator/>
 pub(crate) static JUMP_LIST_AUTO_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "app_id_hash",
@@ -1953,8 +1953,8 @@ pub(crate) static JUMP_LIST_AUTO_FIELDS: &[FieldSchema] = &[
 /// - `arguments` — LNK StringData.Arguments; empty for legitimate entries;
 ///   malicious entries may carry encoded payloads or C2 URLs
 ///
-/// Source: https://github.com/kacos2000/Jumplist-Browser
-///         https://github.com/kacos2000/Jumplist-Browser/blob/master/CustomDestinations-ms.md
+/// Source: <https://github.com/kacos2000/Jumplist-Browser>
+///         <https://github.com/kacos2000/Jumplist-Browser/blob/master/CustomDestinations-ms.md>
 pub(crate) static JUMP_LIST_CUSTOM_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "group_name",
@@ -2898,7 +2898,7 @@ pub(crate) static USNJRNL_FIELDS: &[FieldSchema] = &[
 /// V2 records are 60 bytes minimum + variable-length filename. V3 records (rare)
 /// have a 128-bit file reference instead of 64-bit.
 ///
-/// Source: https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ns-winioctl-usn_record_v2
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ns-winioctl-usn_record_v2>
 pub static USNJRNL: ArtifactDescriptor = ArtifactDescriptor {
     id: "usnjrnl",
     name: "NTFS USN Change Journal ($UsnJrnl:$J)",
@@ -3356,7 +3356,7 @@ pub static POWERSHELL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
 
 /// $I file binary schema — Vista+ format.
 ///
-/// Offsets documented in https://github.com/akhil-dara/RecycleBin-Forensic-Explorer
+/// Offsets documented in <https://github.com/akhil-dara/RecycleBin-Forensic-Explorer>
 /// (parse_dollar_i_file function). Version 1 = Vista/7/8/8.1; Version 2 = Win10/11.
 /// Path offset differs between versions (24 vs 28); all other fields are identical.
 pub const RECYCLE_BIN_FIELDS: &[FieldSchema] = &[
@@ -6557,8 +6557,8 @@ pub static LINUX_APT_HOOKS: ArtifactDescriptor = ArtifactDescriptor {
 /// Without this key, AutomaticDestinations filenames (e.g. `db53b23fd1edbd46.automaticDestinations-ms`)
 /// cannot be resolved to human-readable application names without an external AppIdlist.csv lookup.
 ///
-/// Source: https://github.com/kacos2000/Jumplist-Browser
-///         https://www.hexacorn.com/blog/2013/04/30/jumplists-file-names-and-appid-calculator/
+/// Source: <https://github.com/kacos2000/Jumplist-Browser>
+///         <https://www.hexacorn.com/blog/2013/04/30/jumplists-file-names-and-appid-calculator/>
 pub static JUMP_LIST_APPID_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
     id: "jump_list_appid_registry",
     name: "JumplistData — AppID Hash Registry Index",
@@ -6613,7 +6613,7 @@ pub static JUMP_LIST_APPID_REGISTRY: ArtifactDescriptor = ArtifactDescriptor {
 /// pin malicious tools to the taskbar to ensure they survive reboots and are
 /// visually accessible, or to establish user trust by mimicking legitimate apps.
 ///
-/// Source: https://github.com/kacos2000/Jumplist-Browser README (confirmed via tool)
+/// Source: <https://github.com/kacos2000/Jumplist-Browser> README (confirmed via tool)
 pub static TASKBAND_FAVORITES: ArtifactDescriptor = ArtifactDescriptor {
     id: "taskband_favorites",
     name: "Taskband Favorites — Taskbar Pinned Applications",
@@ -9227,8 +9227,8 @@ pub(crate) static ZONE_IDENTIFIER_FIELDS: &[FieldSchema] = &[
 /// extraction). INI-formatted under `[ZoneTransfer]`, it carries the ZoneId plus,
 /// on Windows 10+, HostUrl and ReferrerUrl.
 ///
-/// Source: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/
-/// Source: https://learn.microsoft.com/en-us/windows/win32/shell/attachment-manager
+/// Source: <https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/shell/attachment-manager>
 pub static ZONE_IDENTIFIER: ArtifactDescriptor = ArtifactDescriptor {
     id: "zone_identifier",
     name: "NTFS Zone.Identifier ADS (Mark-of-the-Web)",
@@ -9292,9 +9292,9 @@ pub(crate) static THUMBS_DB_FIELDS: &[FieldSchema] = &[
 /// Thumbs.db — per-folder OLE compound-file thumbnail cache (Mark: distinct from the
 /// centralized `thumbcache`).
 ///
-/// Source: https://forensics.wiki/thumbs.db/
-/// Source: https://github.com/libyal/libolecf
-/// Source: http://computerforensics.parsonage.co.uk/thumbs/thumbs.htm
+/// Source: <https://forensics.wiki/thumbs.db/>
+/// Source: <https://github.com/libyal/libolecf>
+/// Source: <http://computerforensics.parsonage.co.uk/thumbs/thumbs.htm>
 pub static THUMBS_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "thumbs_db",
     name: "Thumbs.db (per-folder thumbnail cache)",
@@ -9358,7 +9358,7 @@ pub(crate) static CDP_GDID_FIELDS: &[FieldSchema] = &[
 /// facts below are grounded in the independent primary sources cited in `sources`.
 ///
 /// Source: US v. Peter Stokes, N.D. Ill. (Jul 2026) — court filing naming the GDID [COURT]
-/// Source: https://github.com/SmtimesIWndr/gdid-reversal — ETW + static RE, Win11 26200 [OBSERVED/STATIC]
+/// Source: <https://github.com/SmtimesIWndr/gdid-reversal> — ETW + static RE, Win11 26200 [OBSERVED/STATIC]
 /// Source: Microsoft Delivery Optimization / UCDOStatus.GlobalDeviceId column docs [VENDOR]
 pub static CDP_GDID: ArtifactDescriptor = ArtifactDescriptor {
     id: "cdp_gdid",
@@ -9770,8 +9770,8 @@ pub(crate) static NTFS_I30_INDEX_FIELDS: &[FieldSchema] = &[
 ///
 /// Source: Brian Carrier, "File System Forensic Analysis" (2005) ch.13 — NTFS indexes,
 ///         B-trees and $INDEX_ALLOCATION (authoritative reference).
-/// Source: https://github.com/libyal/libfsntfs — index entry / $INDEX_ALLOCATION layout.
-/// Source: https://github.com/EricZimmerman/MFTECmd — surfaces slack entries (From Slack).
+/// Source: <https://github.com/libyal/libfsntfs> — index entry / $INDEX_ALLOCATION layout.
+/// Source: <https://github.com/EricZimmerman/MFTECmd> — surfaces slack entries (From Slack).
 pub static NTFS_I30_INDEX: ArtifactDescriptor = ArtifactDescriptor {
     id: "ntfs_i30_index",
     name: "NTFS Directory Index ($I30) slack",
@@ -9847,7 +9847,7 @@ pub(crate) static NTFS_ADS_FIELDS: &[FieldSchema] = &[
 /// [ZoneTransfer] INI schema): this is the generic parent for arbitrary named streams
 /// and their hiding/execution abuse.
 ///
-/// Source: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c54dec26-1551-4d3a-a0ea-4fa40f848eb3 ([MS-FSCC] NTFS Streams: naming syntax, default ::$DATA, dir /R visibility)
+/// Source: <https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c54dec26-1551-4d3a-a0ea-4fa40f848eb3> ([MS-FSCC] NTFS Streams: naming syntax, default ::$DATA, dir /R visibility)
 /// MITRE: T1564.004 (Hide Artifacts: NTFS File Attributes)
 pub static NTFS_ADS: ArtifactDescriptor = ArtifactDescriptor {
     id: "ntfs_ads",
@@ -9934,9 +9934,9 @@ pub(crate) static NTFS_REPARSE_POINT_FIELDS: &[FieldSchema] = &[
 
 /// NTFS Reparse Points — $REPARSE_POINT (0xC0) attribute + volume-wide $Extend\$Reparse:$R index.
 ///
-/// Source: https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4 ([MS-FSCC] Reparse Tags — tag bit-field + predefined tag/value table)
-/// Source: https://github.com/libyal/libfsntfs (RE: $Extend\$Reparse $R index + 0xC0 layout)
-/// Source: https://flatcap.github.io/linux-ntfs/ntfs/attributes/reparse_point.html (linux-ntfs RE: 0xC0 structure)
+/// Source: <https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4> ([MS-FSCC] Reparse Tags — tag bit-field + predefined tag/value table)
+/// Source: <https://github.com/libyal/libfsntfs> (RE: $Extend\$Reparse $R index + 0xC0 layout)
+/// Source: <https://flatcap.github.io/linux-ntfs/ntfs/attributes/reparse_point.html> (linux-ntfs RE: 0xC0 structure)
 pub static NTFS_REPARSE_POINT: ArtifactDescriptor = ArtifactDescriptor {
     id: "ntfs_reparse_point",
     name: "NTFS Reparse Points ($REPARSE_POINT / $Extend\\$Reparse)",
@@ -10029,9 +10029,9 @@ pub(crate) static PHOTOREC_RECUP_DIR_FIELDS: &[FieldSchema] = &[
 /// PhotoRec / QPhotoRec carving output — the recup_dir.N tree signature that a file
 /// carver was run.
 ///
-/// Source: https://www.cgsecurity.org/testdisk_doc/photorec.html (f<sector> naming, 500-files/dir, report.xml sectorsize/img_offset, t*/b prefixes)
-/// Source: https://www.cgsecurity.org/wiki/PhotoRec_FAQ (logical-sector filename convention)
-/// Source: https://www.cgsecurity.org/testdisk_doc/running.html (Windows binaries photorec_win.exe / qphotorec_win.exe)
+/// Source: <https://www.cgsecurity.org/testdisk_doc/photorec.html> (f<sector> naming, 500-files/dir, report.xml sectorsize/img_offset, t*/b prefixes)
+/// Source: <https://www.cgsecurity.org/wiki/PhotoRec_FAQ> (logical-sector filename convention)
+/// Source: <https://www.cgsecurity.org/testdisk_doc/running.html> (Windows binaries photorec_win.exe / qphotorec_win.exe)
 pub static PHOTOREC_RECUP_DIR: ArtifactDescriptor = ArtifactDescriptor {
     id: "photorec_recup_dir",
     name: "PhotoRec Carving Output (recup_dir.N)",
@@ -10108,8 +10108,8 @@ pub(crate) static WZCSVC_WIRELESS_FIELDS: &[FieldSchema] = &[
 /// WZCSVC Wireless Interface Connection History — Windows XP / Server 2003 Wireless
 /// Zero Configuration wireless SSID history (predecessor of Vista+ NetworkList).
 ///
-/// Source: https://github.com/keydet89/RegRipper3.0/blob/master/plugins/ssid.pl (tool oracle: key path, SSID/MAC binary offsets)
-/// Source: http://windowsir.blogspot.com/2005/07/where-oh-where-did-my-little-ssid-go.html (Carvey RE — corroboration)
+/// Source: <https://github.com/keydet89/RegRipper3.0/blob/master/plugins/ssid.pl> (tool oracle: key path, SSID/MAC binary offsets)
+/// Source: <http://windowsir.blogspot.com/2005/07/where-oh-where-did-my-little-ssid-go.html> (Carvey RE — corroboration)
 pub static WZCSVC_WIRELESS_INTERFACES: ArtifactDescriptor = ArtifactDescriptor {
     id: "wzcsvc_wireless_interfaces",
     name: "WZCSVC Wireless Interface Connection History (Windows XP)",
@@ -10209,9 +10209,9 @@ pub(crate) static NTFS_MACB_RULES_FIELDS: &[FieldSchema] = &[
 /// forgery. Judge observed timestamps against this frame; it does not by itself prove
 /// tampering — account for OS-version drift, last-access policy and File System Tunneling.
 ///
-/// Source: https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table ($MFT, $SI vs $FN)
-/// Source: https://dfir.ru/2021/01/10/standard_information-vs-file_name/ (SI vs FN update RE)
-/// Source: https://www.senturean.com/posts/19_04_22_win10_ntfs_time_rules/ (empirical Win10 per-operation matrix)
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table> ($MFT, $SI vs $FN)
+/// Source: <https://dfir.ru/2021/01/10/standard_information-vs-file_name/> (SI vs FN update RE)
+/// Source: <https://www.senturean.com/posts/19_04_22_win10_ntfs_time_rules/> (empirical Win10 per-operation matrix)
 pub static NTFS_MACB_RULES: ArtifactDescriptor = ArtifactDescriptor {
     id: "ntfs_macb_rules",
     name: "NTFS MACB Timestamp Update Rules (Per-Operation Baseline)",
@@ -10309,8 +10309,8 @@ pub(crate) static MEM_FINDEVIL_FIELDS: &[FieldSchema] = &[
 /// that output; it is a detection aid, not proof of compromise (FindEvil documents
 /// false positives and coverage gaps).
 ///
-/// Source: https://github.com/ufrisk/MemProcFS/blob/master/vmm/modules/modules.h (VMMEVIL_TYPE flag table)
-/// Source: https://github.com/ufrisk/MemProcFS/wiki/FS_FindEvil (per-flag descriptions, output format, 64-bit Win10/11 scope, false-positive caveat)
+/// Source: <https://github.com/ufrisk/MemProcFS/blob/master/vmm/modules/modules.h> (VMMEVIL_TYPE flag table)
+/// Source: <https://github.com/ufrisk/MemProcFS/wiki/FS_FindEvil> (per-flag descriptions, output format, 64-bit Win10/11 scope, false-positive caveat)
 pub static MEM_FINDEVIL: ArtifactDescriptor = ArtifactDescriptor {
     id: "mem_findevil",
     name: "FindEvil Anomaly Detections (Memory)",
@@ -10365,9 +10365,9 @@ process, so the absence of a module-level flag is not exculpatory.",
 /// entries). os_scope is recorded as All (the catalog's broadest value) purely as a
 /// schema placeholder — carving is filesystem- and OS-independent; see the caveat.
 ///
-/// Source: https://www.cgsecurity.org/wiki/PhotoRec (ignores the filesystem, matches signatures)
+/// Source: <https://www.cgsecurity.org/wiki/PhotoRec> (ignores the filesystem, matches signatures)
 /// Source: Garfinkel, "Carving contiguous and fragmented files with fast object validation", DFRWS 2007
-///         https://calhoun.nps.edu/server/api/core/bitstreams/22c52db8-a881-475e-9a66-7709b50176fb/content
+///         <https://calhoun.nps.edu/server/api/core/bitstreams/22c52db8-a881-475e-9a66-7709b50176fb/content>
 pub static FILE_CARVING: ArtifactDescriptor = ArtifactDescriptor {
     id: "file_carving",
     name: "File Carving (Signature-Based Recovery)",
@@ -10446,9 +10446,9 @@ pub(crate) static NTFS_OBJID_FIELDS: &[FieldSchema] = &[
 /// file's object-ID GUID to the file's MFT reference; the per-file record also lives in
 /// the resident $OBJECT_ID attribute (type 0x40).
 ///
-/// Source: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/34a727a2-960a-4825-9cd2-6100c84e3a81 ([MS-FSCC] 2.1.3.1 — 64-byte FILE_OBJECTID_BUFFER)
-/// Source: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/63cdde16-85ac-480c-95bf-0bb8f5f09de8 ([MS-FSCC] 2.4.36.1 — 8-byte FileReferenceNumber prefix)
-/// Source: https://github.com/libyal/libfsntfs (RE: $Extend\$ObjId, $OBJECT_ID 0x40, $O index layout)
+/// Source: <https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/34a727a2-960a-4825-9cd2-6100c84e3a81> ([MS-FSCC] 2.1.3.1 — 64-byte FILE_OBJECTID_BUFFER)
+/// Source: <https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/63cdde16-85ac-480c-95bf-0bb8f5f09de8> ([MS-FSCC] 2.4.36.1 — 8-byte FileReferenceNumber prefix)
+/// Source: <https://github.com/libyal/libfsntfs> (RE: $Extend\$ObjId, $OBJECT_ID 0x40, $O index layout)
 pub static NTFS_OBJID: ArtifactDescriptor = ArtifactDescriptor {
     id: "ntfs_objid",
     name: "NTFS Object ID Index ($Extend\\$ObjId:$O)",
@@ -10527,8 +10527,8 @@ pub(crate) static MEM_EXTRACTED_PE_FIELDS: &[FieldSchema] = &[
 /// Distinct from on-disk minidump .dmp files (lsass_dump_file / fa_file_minidump_dmp):
 /// this is a PE reconstructed OUT of RAM by a memory-forensics engine.
 ///
-/// Source: https://github.com/volatilityfoundation/volatility/wiki/command-reference (procdump/memdump/dlldump/moddump; --unsafe; resident-only; DumpFileOffset)
-/// Source: https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.pedump.html (Vol3 pedump dump_pe_at_base/dump_ldr_entry/dump_kernel_pe_at_base)
+/// Source: <https://github.com/volatilityfoundation/volatility/wiki/command-reference> (procdump/memdump/dlldump/moddump; --unsafe; resident-only; DumpFileOffset)
+/// Source: <https://volatility3.readthedocs.io/en/latest/volatility3.plugins.windows.pedump.html> (Vol3 pedump dump_pe_at_base/dump_ldr_entry/dump_kernel_pe_at_base)
 pub static MEM_EXTRACTED_PE_IMAGES: ArtifactDescriptor = ArtifactDescriptor {
     id: "mem_extracted_pe_images",
     name: "Executables/DLLs/Drivers Extracted from Memory",
@@ -10632,9 +10632,9 @@ pub(crate) static SRUM_APP_TIMELINE_FIELDS: &[FieldSchema] = &[
 /// GUID is {5C8CF1C7-...} (registry provider `AppTimelineProvider`); {7ACBBAA3-...} is
 /// vfuprov, NOT this table (an earlier revision had them swapped — see src/srum.rs).
 ///
-/// Source: https://github.com/EricZimmerman/Srum/issues/8 (registry Extensions default values — GUID ground truth)
-/// Source: https://github.com/WithSecureLabs/chainsaw/wiki/SRUM-Analysis
-/// Source: https://aboutdfir.com/app-timeline-provider-srum-database/
+/// Source: <https://github.com/EricZimmerman/Srum/issues/8> (registry Extensions default values — GUID ground truth)
+/// Source: <https://github.com/WithSecureLabs/chainsaw/wiki/SRUM-Analysis>
+/// Source: <https://aboutdfir.com/app-timeline-provider-srum-database/>
 pub static SRUM_APP_TIMELINE: ArtifactDescriptor = ArtifactDescriptor {
     id: "srum_app_timeline",
     name: "SRUM Application Timeline Table (AppTimelineProvider)",
@@ -10725,8 +10725,8 @@ pub(crate) static MEM_ACCESS_TOKENS_FIELDS: &[FieldSchema] = &[
 
 /// Access Tokens (Memory) — Primary vs Impersonation, for token-manipulation detection.
 ///
-/// Source: https://learn.microsoft.com/en-us/windows/win32/api/winnt/ne-winnt-token_type (TokenPrimary=1, TokenImpersonation=2)
-/// Source: https://learn.microsoft.com/en-us/windows/win32/secauthz/well-known-sids (integrity RIDs/SIDs, S-1-5-18)
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/api/winnt/ne-winnt-token_type> (TokenPrimary=1, TokenImpersonation=2)
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/secauthz/well-known-sids> (integrity RIDs/SIDs, S-1-5-18)
 /// MITRE: T1134 (Access Token Manipulation), .001 (Token Impersonation/Theft), .005 (SID-History Injection)
 pub static MEM_ACCESS_TOKENS: ArtifactDescriptor = ArtifactDescriptor {
     id: "mem_access_tokens",
@@ -10792,9 +10792,9 @@ pub(crate) static IE_RECOVERY_FIELDS: &[FieldSchema] = &[
 
 /// Internet Explorer Automatic Crash Recovery Store (RecoveryStore / TravelLog).
 ///
-/// Source: http://www.swiftforensics.com/2011/09/internet-explorer-recoverystore-aka.html (Khatri RE — the community reference; covers IE8/9)
-/// Source: https://forensics.wiki/ole_compound_file/ (CFBF/OLE container format)
-/// Source: https://forensics.wiki/internet_explorer/ (IE artifact overview incl. the Recovery folder)
+/// Source: <http://www.swiftforensics.com/2011/09/internet-explorer-recoverystore-aka.html> (Khatri RE — the community reference; covers IE8/9)
+/// Source: <https://forensics.wiki/ole_compound_file/> (CFBF/OLE container format)
+/// Source: <https://forensics.wiki/internet_explorer/> (IE artifact overview incl. the Recovery folder)
 pub static IE_RECOVERY_SESSION: ArtifactDescriptor = ArtifactDescriptor {
     id: "ie_recovery_session",
     name: "Internet Explorer Automatic Crash Recovery Store (RecoveryStore / TravelLog)",
@@ -10860,8 +10860,8 @@ pub(crate) static KANSA_COLLECTION_OUTPUT_FIELDS: &[FieldSchema] = &[
 
 /// Kansa Live-Response Collection (PowerShell Remoting) — a fleet-wide IR snapshot.
 ///
-/// Source: https://github.com/davehull/Kansa/blob/master/kansa.ps1 (tool source — OutputFormat/Port/Modules.conf/naming)
-/// Source: https://github.com/davehull/Kansa/blob/master/README.md
+/// Source: <https://github.com/davehull/Kansa/blob/master/kansa.ps1> (tool source — OutputFormat/Port/Modules.conf/naming)
+/// Source: <https://github.com/davehull/Kansa/blob/master/README.md>
 pub static KANSA_COLLECTION_OUTPUT: ArtifactDescriptor = ArtifactDescriptor {
     id: "kansa_collection_output",
     name: "Kansa Live-Response Collection (PowerShell Remoting)",
@@ -10940,8 +10940,8 @@ pub(crate) static REGEDIT_SYSTEM_SELECT_FIELDS: &[FieldSchema] = &[
 /// Hand-written manual descriptor (the codegen cannot carry rich fields/caveats); the
 /// generated stub was removed from regedit_generated.rs to avoid a duplicate id.
 ///
-/// Source: https://winreg-kb.readthedocs.io/en/latest/sources/system-keys/Current-control-set.html
-/// Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/install/hklm-system-currentcontrolset-control-registry-tree
+/// Source: <https://winreg-kb.readthedocs.io/en/latest/sources/system-keys/Current-control-set.html>
+/// Source: <https://learn.microsoft.com/en-us/windows-hardware/drivers/install/hklm-system-currentcontrolset-control-registry-tree>
 pub static REGEDIT_SYSTEM_SELECT: ArtifactDescriptor = ArtifactDescriptor {
     id: "regedit_system_select",
     name: "Current Control Set Selector (HKLM\\SYSTEM\\Select)",

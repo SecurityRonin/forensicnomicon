@@ -4,106 +4,25 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
 
-env:
-  CARGO_TERM_COLOR: always
-  RUST_BACKTRACE: 1
+permissions:
+  contents: read
 
 jobs:
-  fmt:
-    name: Format
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-        with:
-          components: rustfmt
-      - run: cargo fmt --all --check
-
-  clippy:
-    name: Clippy
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-        with:
-          components: clippy
-      - uses: Swatinem/rust-cache@v2
-        with:
-          cache-on-failure: true
-      - run: cargo clippy --workspace --all-targets --all-features -- -D warnings
-
-  test:
-    name: Test — ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: Swatinem/rust-cache@v2
-        with:
-          cache-on-failure: true
-      # --workspace covers the ingest/4n6query bins too; the live-network fetch
-      # tests are #[ignore]d so this stays deterministic (run them with
-      # `cargo test --workspace -- --ignored` to refresh upstream data).
-      - run: cargo test --workspace --all-features
-
-  msrv:
-    name: MSRV (1.75)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.75
-      - uses: Swatinem/rust-cache@v2
-        with:
-          cache-on-failure: true
-      # Root only: MSRV 1.75 is a guarantee for the published library. The
-      # ingest/4n6query tooling bins are not published and pull deps (reqwest,
-      # ratatui) whose own MSRV exceeds 1.75, so they are excluded here.
-      - run: cargo test
-
-  deny:
-    name: Deny (licenses · advisories · bans)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: EmbarkStudios/cargo-deny-action@3c6349835b2b7b196a839186cb8b78e02f7b5f25 # v2.1.1
-        with:
-          command: check
-          arguments: --all-features
-
-  snapshot:
-    name: Snapshot — dump_lol
-    needs: [test]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: Swatinem/rust-cache@v2
-        with:
-          cache-on-failure: true
-      - run: cargo run --example dump_lol --features serde
-      - uses: actions/upload-artifact@v4
-        with:
-          name: forensicnomicon-snapshots
-          path: data/
-          retention-days: 90
-
-  vet:
-    name: Cargo Vet (supply-chain)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - name: Install cargo-vet
-        uses: taiki-e/install-action@59012be0884e296ca2da49b530610e72c49039ad # v2.81.6
-        with:
-          tool: cargo-vet
-      - name: Fetch dependencies
-        run: cargo fetch
-      - name: Check supply chain
-        run: cargo vet --locked
+  ci:
+    uses: SecurityRonin/fleet-ci/.github/workflows/rust-ci.yml@0e677831e286bec0fce2613f9958f6af72ed4a2c
+    with:
+      # MSRV is NOT overridden. Every member declares a floor and the shared
+      # workflow verifies each at its own. That is a real widening: the job this
+      # replaces ran `cargo test` at 1.75 against the ROOT package only, so the
+      # two binary crates were never checked -- and both declared 1.75 while
+      # depending on hashbrown 0.17, which needs edition2024 (cargo 1.85+).
+      # Both now declare the pinned toolchain, which is what they can keep.
+      msrv-check: test
+      # Coverage is a FLOOR and the number is measured: LINE coverage is 96.59%
+      # with binaries excluded, read from `cargo llvm-cov --json` rather than the
+      # summary table, whose first percentage column is regions. There was no
+      # coverage gate here before.
+      coverage-gate: floor
+      coverage-floor: 96
+      coverage-ignore-regex: '(^|/)src/(main\.rs|bin/)'

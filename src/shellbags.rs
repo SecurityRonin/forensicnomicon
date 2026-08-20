@@ -8,7 +8,7 @@
 //! after the folder, volume, or removable device is gone**. ShellBags are
 //! therefore evidence of folder access that outlives the folder itself.
 //!
-//! A `BagMRU` value holds an [`ITEMIDLIST`]: a list of variable-length
+//! A `BagMRU` value holds an `ITEMIDLIST`: a list of variable-length
 //! **shell items**, each beginning with a 2-byte size and a 1-byte **class
 //! type indicator**. The high nibble of that byte (mask [`CLASS_TYPE_MASK`])
 //! selects the *major* class (volume / file entry / network / …); the full

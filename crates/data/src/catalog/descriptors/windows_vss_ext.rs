@@ -25,7 +25,7 @@ use super::super::types::{
 /// context) come from the catalog entry (type 0x02) and the store information;
 /// the differential-recovery fields (original/store data-block offsets) come
 /// from the store block descriptors that implement copy-on-write.
-/// Source: https://github.com/libyal/libvshadow/blob/main/documentation/Volume%20Shadow%20Snapshot%20(VSS)%20format.asciidoc
+/// Source: <https://github.com/libyal/libvshadow/blob/main/documentation/Volume%20Shadow%20Snapshot%20>(VSS)%20format.asciidoc
 pub(crate) static VSS_SNAPSHOT_ANALYSIS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "store_guid",
@@ -108,8 +108,8 @@ pub(crate) static VSS_SNAPSHOT_ANALYSIS_FIELDS: &[FieldSchema] = &[
 /// `vss_files_not_to_backup` keys are the exclusion list, not the snapshot data;
 /// this descriptor is the store/diff-area analysis itself.
 ///
-/// Source: https://github.com/libyal/libvshadow/blob/main/documentation/Volume%20Shadow%20Snapshot%20(VSS)%20format.asciidoc
-/// Source: https://learn.microsoft.com/en-us/windows/win32/vss/volume-shadow-copy-service-overview
+/// Source: <https://github.com/libyal/libvshadow/blob/main/documentation/Volume%20Shadow%20Snapshot%20>(VSS)%20format.asciidoc
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/vss/volume-shadow-copy-service-overview>
 pub(crate) static VSS_SNAPSHOT_ANALYSIS: ArtifactDescriptor = ArtifactDescriptor {
     id: "vss_snapshot_analysis",
     name: "Volume Shadow Copy Snapshot Analysis (VSS Store / Diff Area)",

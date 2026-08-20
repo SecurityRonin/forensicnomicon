@@ -96,11 +96,11 @@
 //!   counterpart, HVCI/WDAC blocklist):
 //!   <https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/design/microsoft-recommended-driver-block-rules>
 //!
-//! [LOLDrivers]: https://www.loldrivers.io/
-//! [T1543.003 — Create or Modify System Process: Windows Service]: https://attack.mitre.org/techniques/T1543/003/
-//! [T1068 — Exploitation for Privilege Escalation]: https://attack.mitre.org/techniques/T1068/
+//! [LOLDrivers]: <https://www.loldrivers.io/>
+//! [T1543.003 — Create or Modify System Process: Windows Service]: <https://attack.mitre.org/techniques/T1543/003/>
+//! [T1068 — Exploitation for Privilege Escalation]: <https://attack.mitre.org/techniques/T1068/>
 
-/// Category of a BYOVD driver in the [LOLDrivers] dataset.
+/// Category of a BYOVD driver in the LOLDrivers dataset.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum DriverCategory {
     /// A legitimately-signed driver with an exploitable vulnerability.
@@ -120,7 +120,7 @@ pub enum DriverCategory {
 /// [`BYOVD_DRIVERS`] by `tools/refresh-drivers.py`, so the three views cannot
 /// drift; a LOLDrivers refresh is one mechanical step.
 ///
-/// [LOLDrivers]: https://www.loldrivers.io/
+/// [LOLDrivers]: <https://www.loldrivers.io/>
 #[derive(Debug, Clone, Copy)]
 pub struct VulnerableDriver {
     /// Lowercase `.sys` file basename.
@@ -163,7 +163,7 @@ pub use drivers_data::{BYOVD_DRIVERS, BYOVD_DRIVER_NAMES, KNOWN_VULNERABLE_DRIVE
 /// Corroborate with the on-disk hash (the precise form), the Authenticode
 /// signature, and the load path. See [`KNOWN_VULNERABLE_DRIVERS`].
 ///
-/// [LOLDrivers]: https://www.loldrivers.io/
+/// [LOLDrivers]: <https://www.loldrivers.io/>
 #[must_use]
 pub fn is_known_vulnerable_driver(basename: &str) -> bool {
     let mut lower = basename.trim().to_ascii_lowercase();

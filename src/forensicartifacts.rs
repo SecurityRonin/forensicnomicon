@@ -131,7 +131,7 @@ pub fn fa_ref_for(artifact_id: &str) -> Option<&'static ForensicArtifactsRef> {
 /// labels:
 /// - forensic_artifact
 /// urls:
-/// - https://forensicartifacts.com/
+/// - <https://forensicartifacts.com/>
 /// ```
 ///
 /// The path field is populated from the catalog artifact's `file_path` (preferred)
