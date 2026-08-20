@@ -966,7 +966,7 @@ pub const LOLBAS_WINDOWS: &[LolbasEntry] = &[
 ///
 /// Sources:
 /// - GTFOBins — curated list of Unix binaries that can bypass local security
-///   restrictions; individual pages confirmed at `https://gtfobins.github.io/gtfobins/<binary>/`:
+///   restrictions; individual pages confirmed at `<https://gtfobins.github.io/gtfobins/><binary>/`:
 ///   <https://gtfobins.github.io/>
 /// - MITRE ATT&CK T1059 — Command and Scripting Interpreter:
 ///   <https://attack.mitre.org/techniques/T1059/>

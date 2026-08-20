@@ -867,9 +867,9 @@ pub(crate) static INTERNET_EXPLORER_TYPED_URLS: ArtifactDescriptor = ArtifactDes
 /// EMDMgmt / ReadyBoost external-device volume cache — USB iSerialNumber ↔ volume
 /// serial number (VSN) linkage.
 ///
-/// Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/install/guid-devinterface-disk (GUID_DEVINTERFACE_DISK embedded in subkey names)
-/// Source: https://github.com/woanware/usbdeviceforensics/blob/master/usbdeviceforensics.py (parse oracle: key path, subkey format, decimal VSN)
-/// Source: https://github.com/keydet89/RegRipper3.0/blob/master/plugins/emdmgmt.pl (second independent parse oracle)
+/// Source: <https://learn.microsoft.com/en-us/windows-hardware/drivers/install/guid-devinterface-disk> (GUID_DEVINTERFACE_DISK embedded in subkey names)
+/// Source: <https://github.com/woanware/usbdeviceforensics/blob/master/usbdeviceforensics.py> (parse oracle: key path, subkey format, decimal VSN)
+/// Source: <https://github.com/keydet89/RegRipper3.0/blob/master/plugins/emdmgmt.pl> (second independent parse oracle)
 pub(crate) static EMDMGMT_READYBOOST: ArtifactDescriptor = ArtifactDescriptor {
     id: "emdmgmt_readyboost",
     name: "EMDMgmt / ReadyBoost External Device Volume Cache",

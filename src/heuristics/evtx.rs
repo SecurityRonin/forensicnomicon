@@ -55,7 +55,7 @@ pub fn is_reserved_event_id(event_id: u32) -> bool {
 /// a candidate covert-storage host per the post.
 ///
 /// The post identifies "Key Management Service" as an attractive repository
-/// because it is "enabled on the systems I have access to, [but] it's not
+/// because it is "enabled on the systems I have access to, \[but\] it's not
 /// populated on any of them." Channels normally carrying zero or a handful of
 /// records make even a single planted record stand out.
 pub const LOW_VOLUME_CHANNEL_MAX_RECORDS: u64 = 10;

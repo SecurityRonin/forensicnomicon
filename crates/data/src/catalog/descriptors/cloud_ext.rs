@@ -12,7 +12,7 @@ use super::super::types::{
 // ── Google Takeout Location Records ─────────────────────────────────────────
 
 /// Field schema for Records.json location elements.
-/// Source: https://cheeky4n6monkey.blogspot.com/2022/02/monkey-attempts-to-digest-some-google.html
+/// Source: <https://cheeky4n6monkey.blogspot.com/2022/02/monkey-attempts-to-digest-some-google.html>
 pub(crate) static GOOGLE_TAKEOUT_LOCATION_RECORDS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "timestamp",
@@ -112,7 +112,7 @@ pub(crate) static GOOGLE_TAKEOUT_LOCATION_RECORDS_FIELDS: &[FieldSchema] = &[
 /// Contains an array of location elements, each with coordinates, timestamps,
 /// and optional DetectedActivity classifications.
 ///
-/// Source: https://cheeky4n6monkey.blogspot.com/2022/02/monkey-attempts-to-digest-some-google.html
+/// Source: <https://cheeky4n6monkey.blogspot.com/2022/02/monkey-attempts-to-digest-some-google.html>
 pub(crate) static GOOGLE_TAKEOUT_LOCATION_RECORDS: ArtifactDescriptor = ArtifactDescriptor {
     id: "google_takeout_location_records",
     name: "Google Takeout Location Records",
@@ -155,7 +155,7 @@ Files can be very large (hundreds of MB); use streaming JSON parsers (e.g. Pytho
 // ── Google Takeout Semantic Location History ─────────────────────────────────
 
 /// Field schema for Semantic Location History monthly JSON files.
-/// Source: https://cheeky4n6monkey.blogspot.com/2022/02/monkey-attempts-to-digest-some-google.html
+/// Source: <https://cheeky4n6monkey.blogspot.com/2022/02/monkey-attempts-to-digest-some-google.html>
 pub(crate) static GOOGLE_TAKEOUT_SEMANTIC_LOCATION_HISTORY_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "placeVisit",
@@ -177,7 +177,7 @@ pub(crate) static GOOGLE_TAKEOUT_SEMANTIC_LOCATION_HISTORY_FIELDS: &[FieldSchema
 /// Organized by year/month under `Takeout/Location History/Semantic Location History/`.
 /// Provides higher-level interpreted location data compared to Records.json.
 ///
-/// Source: https://cheeky4n6monkey.blogspot.com/2022/02/monkey-attempts-to-digest-some-google.html
+/// Source: <https://cheeky4n6monkey.blogspot.com/2022/02/monkey-attempts-to-digest-some-google.html>
 pub(crate) static GOOGLE_TAKEOUT_SEMANTIC_LOCATION_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "google_takeout_semantic_location_history",
     name: "Google Takeout Semantic Location History",
@@ -215,7 +215,7 @@ Cross-reference with Records.json for raw coordinate and DetectedActivity detail
 // ── AWS CloudTrail IAM Events ───────────────────────────────────────────────
 
 /// Field schema for AWS CloudTrail IAM management events.
-/// Source: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html
+/// Source: <https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html>
 pub(crate) static AWS_CLOUDTRAIL_IAM_EVENTS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "eventTime",
@@ -313,10 +313,10 @@ absent on success",
 /// Note: ConsoleLogin events are region-specific (logged in the region of the login
 /// URL), unlike IAM management events which are always in us-east-1.
 ///
-/// Source: https://www.hecfblog.com/2025/04/daily-blog-808-testing-aws-log-latency.html
-/// Source: https://www.hecfblog.com/2025/04/daily-blog-809-testing-aws-log-latency.html
-/// Source: https://www.hecfblog.com/2025/04/daily-blog-810-testing-aws-log-latency.html
-/// Source: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html
+/// Source: <https://www.hecfblog.com/2025/04/daily-blog-808-testing-aws-log-latency.html>
+/// Source: <https://www.hecfblog.com/2025/04/daily-blog-809-testing-aws-log-latency.html>
+/// Source: <https://www.hecfblog.com/2025/04/daily-blog-810-testing-aws-log-latency.html>
+/// Source: <https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html>
 pub(crate) static AWS_CLOUDTRAIL_IAM_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "aws_cloudtrail_iam_events",
     name: "AWS CloudTrail IAM Management Events",

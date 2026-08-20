@@ -5,8 +5,8 @@
 //! navigation history, trip telemetry, Bluetooth call/contact sync, and paired
 //! device records.
 //!
-//! Source: https://cheeky4n6monkey.blogspot.com/2021/03/monkey-test-drives-honda-accord.html
-//! Scripts: https://github.com/cheeky4n6monkey/Honda_Accord_2016_scripts
+//! Source: <https://cheeky4n6monkey.blogspot.com/2021/03/monkey-test-drives-honda-accord.html>
+//! Scripts: <https://github.com/cheeky4n6monkey/Honda_Accord_2016_scripts>
 
 use super::super::types::{
     ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
@@ -17,7 +17,7 @@ use super::super::types::{
 
 /// Field schema for the `history` table in RecentStops.db.
 /// SQL: SELECT time, lat, lon, name FROM history ORDER BY time ASC;
-/// Source: https://cheeky4n6monkey.blogspot.com/2021/03/monkey-test-drives-honda-accord.html
+/// Source: <https://cheeky4n6monkey.blogspot.com/2021/03/monkey-test-drives-honda-accord.html>
 pub(crate) static HONDA_ACCORD_RECENTSTOPS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "time",
@@ -94,7 +94,7 @@ pub(crate) static HONDA_ACCORD_RECENTSTOPS: ArtifactDescriptor = ArtifactDescrip
 /// SQL: SELECT _id, trip_date, trip_id, mileage, start_pos_time, start_pos_odo,
 ///      finish_pos_time, finish_pos_odo, fuel_used, driving_range
 ///      FROM eco_logs ORDER BY _id ASC;
-/// Source: https://cheeky4n6monkey.blogspot.com/2021/03/monkey-test-drives-honda-accord.html
+/// Source: <https://cheeky4n6monkey.blogspot.com/2021/03/monkey-test-drives-honda-accord.html>
 pub(crate) static HONDA_ACCORD_CRM_ECO_LOGS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "_id",
@@ -209,7 +209,7 @@ pub(crate) static HONDA_ACCORD_CRM_ECO_LOGS: ArtifactDescriptor = ArtifactDescri
 ///               FROM contact JOIN contactnumber
 ///               ON contactnumber.contact_id = contact._id
 ///               ORDER BY contact._id ASC;
-/// Source: https://cheeky4n6monkey.blogspot.com/2021/03/monkey-test-drives-honda-accord.html
+/// Source: <https://cheeky4n6monkey.blogspot.com/2021/03/monkey-test-drives-honda-accord.html>
 pub(crate) static HONDA_ACCORD_PHONEDB_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "_id",
@@ -324,7 +324,7 @@ pub(crate) static HONDA_ACCORD_PHONEDB: ArtifactDescriptor = ArtifactDescriptor 
 /// Field schema for the `bluetooth_device` table in bluetoothsettings.db.
 /// SQL: SELECT device_bank, device_addr, device_name FROM bluetooth_device
 ///      ORDER BY device_bank ASC;
-/// Source: https://cheeky4n6monkey.blogspot.com/2021/03/monkey-test-drives-honda-accord.html
+/// Source: <https://cheeky4n6monkey.blogspot.com/2021/03/monkey-test-drives-honda-accord.html>
 pub(crate) static HONDA_ACCORD_BLUETOOTH_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "device_bank",
@@ -392,7 +392,7 @@ pub(crate) static HONDA_ACCORD_BLUETOOTH: ArtifactDescriptor = ArtifactDescripto
 /// Field schema for parsed lines from vpm_log_all.log on Garmin nuvi devices.
 /// Each log line follows the format:
 ///   D[YYYY/MM/DD HH:MM:SS] {hex_id} [source_file:function:line] Message
-/// Source: https://cheeky4n6monkey.blogspot.com/2020/05/recovering-and-replaying-garmin-voice.html
+/// Source: <https://cheeky4n6monkey.blogspot.com/2020/05/recovering-and-replaying-garmin-voice.html>
 pub(crate) static GARMIN_NUVI_VOICE_LOG_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "timestamp",

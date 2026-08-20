@@ -22,7 +22,7 @@ use super::super::types::{
 // ── Code injection / malicious VAD regions (malfind-class) ──────────────────
 
 /// Field schema for private, executable VAD regions flagged as injected code.
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/malfind.py
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/malfind.py>
 pub(crate) static MEM_PROCESS_INJECTION_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "pid",
@@ -98,8 +98,8 @@ pub(crate) static MEM_PROCESS_INJECTION_FIELDS: &[FieldSchema] = &[
 /// Columns emitted: PID, Process, Start VPN, End VPN, Tag, Protection,
 /// CommitCharge, PrivateMemory, plus a hexdump/disassembly of the region head.
 ///
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/malfind.py
-/// Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-vad
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/malfind.py>
+/// Source: <https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-vad>
 pub(crate) static MEM_PROCESS_INJECTION: ArtifactDescriptor = ArtifactDescriptor {
     id: "mem_process_injection",
     name: "Injected Code Regions (Memory VAD / malfind)",
@@ -159,7 +159,7 @@ hollowed process). Absence of a disk-backed module for executable memory is the 
 // ── Network connections & sockets from RAM (netscan-class) ──────────────────
 
 /// Field schema for network endpoints recovered by pool-tag scanning.
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/netscan.py
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/netscan.py>
 pub(crate) static MEM_NETWORK_SCAN_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "proto",
@@ -241,8 +241,8 @@ pub(crate) static MEM_NETWORK_SCAN_FIELDS: &[FieldSchema] = &[
 /// This exposes C2 channels, beaconing, and lateral-movement sessions that
 /// on-host tooling can miss.
 ///
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/netscan.py
-/// Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-poolused
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/netscan.py>
+/// Source: <https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-poolused>
 pub(crate) static MEM_NETWORK_SCAN: ArtifactDescriptor = ArtifactDescriptor {
     id: "mem_network_scan",
     name: "Network Endpoints (Memory Pool Scan / netscan)",
@@ -299,8 +299,8 @@ pslist) before concluding the process is hidden.",
 /// object_name) come from `windows.handles`; the thread fields (tid/
 /// start_address/create_time) come from `windows.threads` / `windows.thrdscan`,
 /// which handles.py does not emit.
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/handles.py
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/threads.py
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/handles.py>
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/threads.py>
 pub(crate) static MEM_HANDLES_THREADS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "pid",
@@ -374,10 +374,10 @@ pub(crate) static MEM_HANDLES_THREADS_FIELDS: &[FieldSchema] = &[
 /// code injection. handles columns emitted: PID, Process, Offset, HandleValue,
 /// Type, GrantedAccess, Name.
 ///
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/handles.py
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/threads.py
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/thrdscan.py
-/// Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/object-handles
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/handles.py>
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/threads.py>
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/thrdscan.py>
+/// Source: <https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/object-handles>
 pub(crate) static MEM_HANDLES_THREADS: ArtifactDescriptor = ArtifactDescriptor {
     id: "mem_handles_threads",
     name: "Process Handles & Threads (Memory)",
@@ -441,9 +441,9 @@ the object name are the highest-signal fields for attributing intent.",
 /// ssdt_index/ssdt_target fields come from `windows.ssdt`, and driver_name from
 /// `windows.driverscan` — callbacks.py itself neither enumerates SSDT rows nor
 /// scans _DRIVER_OBJECT allocations.
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/callbacks.py
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/ssdt.py
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/driverscan.py
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/callbacks.py>
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/ssdt.py>
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/driverscan.py>
 pub(crate) static MEM_KERNEL_CALLBACKS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "callback_type",
@@ -512,8 +512,8 @@ pub(crate) static MEM_KERNEL_CALLBACKS_FIELDS: &[FieldSchema] = &[
 /// module-list resolution failure or an unloaded-driver context, so corroborate
 /// before concluding a hook.
 ///
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/callbacks.py
-/// Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntddk/nf-ntddk-pssetcreateprocessnotifyroutineex
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/callbacks.py>
+/// Source: <https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntddk/nf-ntddk-pssetcreateprocessnotifyroutineex>
 pub(crate) static MEM_KERNEL_CALLBACKS: ArtifactDescriptor = ArtifactDescriptor {
     id: "mem_kernel_callbacks",
     name: "Kernel Callbacks / SSDT / Driver Scan (Memory)",
@@ -576,8 +576,8 @@ hiding — corroborate, as pool scans can surface stale or partially-valid drive
 /// pid/ppid/name/offset/create_time/exit_time come from `windows.psscan` (which
 /// defaults to a VIRTUAL offset, physical only with `--physical`); `in_pslist`
 /// is a DERIVED cross-view against `windows.pslist`, not a psscan column.
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/psscan.py
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/pslist.py
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/psscan.py>
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/pslist.py>
 pub(crate) static MEM_HIDDEN_PROCESSES_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "pid",
@@ -639,9 +639,9 @@ pub(crate) static MEM_HIDDEN_PROCESSES_FIELDS: &[FieldSchema] = &[
 /// ExitTime. `in_pslist` is not a psscan column — it is the derived psscan-vs-
 /// pslist diff.
 ///
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/psscan.py
-/// Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/pslist.py
-/// Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-eprocess
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/psscan.py>
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/pslist.py>
+/// Source: <https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-eprocess>
 pub(crate) static MEM_HIDDEN_PROCESSES: ArtifactDescriptor = ArtifactDescriptor {
     id: "mem_hidden_processes",
     name: "DKOM-Hidden Processes (Memory psscan Cross-View)",

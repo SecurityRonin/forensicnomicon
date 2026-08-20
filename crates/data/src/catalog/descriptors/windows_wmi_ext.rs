@@ -24,8 +24,8 @@ use super::super::types::{
 /// payload come from the CIM repository objects; the runtime field
 /// (`wmi_activity_operation`) comes from the WMI-Activity/Operational event log
 /// — a separate source that records execution, not the persistence definition.
-/// Source: https://learn.microsoft.com/en-us/windows/win32/wmisdk/monitoring-events
-/// Source: https://github.com/mandiant/flare-wmi/tree/master/python-cim
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/wmisdk/monitoring-events>
+/// Source: <https://github.com/mandiant/flare-wmi/tree/master/python-cim>
 pub(crate) static WMI_PERSISTENCE_CIM_REPOSITORY_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "namespace",
@@ -98,8 +98,8 @@ pub(crate) static WMI_PERSISTENCE_CIM_REPOSITORY_FIELDS: &[FieldSchema] = &[
 /// subscription operations at runtime. A subscription is *active* only when all
 /// three objects are present and bound.
 ///
-/// Source: https://learn.microsoft.com/en-us/windows/win32/wmisdk/monitoring-events
-/// Source: https://github.com/mandiant/flare-wmi/tree/master/python-cim
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/wmisdk/monitoring-events>
+/// Source: <https://github.com/mandiant/flare-wmi/tree/master/python-cim>
 pub(crate) static WMI_PERSISTENCE_CIM_REPOSITORY: ArtifactDescriptor = ArtifactDescriptor {
     id: "wmi_persistence_cim_repository",
     name: "WMI Persistence (CIM Repository Event Subscription)",

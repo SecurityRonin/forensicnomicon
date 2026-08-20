@@ -654,8 +654,8 @@ pub(crate) static ONEDRIVE_METADATA: ArtifactDescriptor = ArtifactDescriptor {
 ///
 /// macOS equivalent at `/Users/<USER>/Library/Logs/OneDrive/`.
 ///
-/// Source: http://www.swiftforensics.com/2022/02/reading-onedrive-logs.html
-/// Source: http://www.swiftforensics.com/2022/11/reading-onedrive-logs-part-2.html
+/// Source: <http://www.swiftforensics.com/2022/02/reading-onedrive-logs.html>
+/// Source: <http://www.swiftforensics.com/2022/11/reading-onedrive-logs-part-2.html>
 pub(crate) static ONEDRIVE_ODL_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     id: "onedrive_odl_logs",
     name: "OneDrive ODL Diagnostic Logs",
@@ -2031,8 +2031,8 @@ pub(crate) static WINDOWS_DEFENDER_MPWPPTRACING: ArtifactDescriptor = ArtifactDe
 /// the on-disk file, whose presence and MFT birth (B) timestamp prove the host was the
 /// target of PsExec and date the execution.
 ///
-/// Source: https://learn.microsoft.com/en-us/sysinternals/downloads/psexec (behaviour)
-/// Source: https://www.sans.org/blog/protecting-privileged-domain-accounts-psexec-deep-dive (artifact set)
+/// Source: <https://learn.microsoft.com/en-us/sysinternals/downloads/psexec> (behaviour)
+/// Source: <https://www.sans.org/blog/protecting-privileged-domain-accounts-psexec-deep-dive> (artifact set)
 /// MITRE: T1569.002 (Service Execution), T1570 (Lateral Tool Transfer), T1021.002 (SMB/Admin Shares)
 pub(crate) static PSEXESVC_DROPPED_BINARY: ArtifactDescriptor = ArtifactDescriptor {
     id: "psexesvc_dropped_binary",
@@ -2107,9 +2107,9 @@ service install.",
 /// (crash dumps): this is the attacker-produced full-memory dump that Task Manager's
 /// "Create dump file" writes, from which credentials are extracted offline.
 ///
-/// Source: https://attack.mitre.org/techniques/T1003/001/ (LSASS Memory)
-/// Source: https://www.atomicredteam.io/docs/atomics/T1003.001 (Task Manager variant)
-/// Source: https://thedfirreport.com/ (Diavol case — taskmgr.exe -> lsass.DMP Sigma rule)
+/// Source: <https://attack.mitre.org/techniques/T1003/001/> (LSASS Memory)
+/// Source: <https://www.atomicredteam.io/docs/atomics/T1003.001> (Task Manager variant)
+/// Source: <https://thedfirreport.com/> (Diavol case — taskmgr.exe -> lsass.DMP Sigma rule)
 pub(crate) static LSASS_DUMP_FILE: ArtifactDescriptor = ArtifactDescriptor {
     id: "lsass_dump_file",
     name: "Task-Manager LSASS dump (lsass.DMP)",

@@ -5,7 +5,7 @@
 //! plus a `"cxsparse"` dynamic-disk header for sparse/differencing variants.
 //!
 //! Source: Microsoft Virtual Hard Disk Image Format Specification (VHD)
-//!   https://www.microsoft.com/en-us/download/details.aspx?id=23850
+//!   <https://www.microsoft.com/en-us/download/details.aspx?id=23850>
 
 /// 8-byte footer cookie `"conectix"` (present at end-of-file on every VHD; also
 /// mirrored at offset 0 for dynamic/differencing disks).

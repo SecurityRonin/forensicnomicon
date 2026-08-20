@@ -448,7 +448,7 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
     // 1. LOLBin search
     let lolbas_hits: Vec<(&LolbasEntry, &str)> = ALL_PLATFORMS
         .iter()
-        .filter(|(p, _, _)| platform.map_or(true, |pf| pf == *p))
+        .filter(|(p, _, _)| platform.is_none_or(|pf| pf == *p))
         .filter_map(|(_, label, dataset)| lolbas_entry(dataset, term).map(|e| (e, *label)))
         .collect();
 

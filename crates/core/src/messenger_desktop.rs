@@ -168,19 +168,19 @@ pub struct ProfilePath {
 #[cfg_attr(feature = "serde", derive(serde::Serialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct WebClient {
-    /// Serialized web origin, e.g. `https://discord.com`.
+    /// Serialized web origin, e.g. `<https://discord.com`.>
     pub origin: &'static str,
     /// Additional origins the same app serves (release channels, legacy hosts).
     pub alt_origins: &'static [&'static str],
     /// Analyst note: which browser-profile stores carry this origin's evidence.
     pub note: &'static str,
-    /// Authoritative sources (all `https://`).
+    /// Authoritative sources (all `<https://`>).
     pub sources: &'static [&'static str],
 }
 
 impl WebClient {
     /// Chromium's per-origin IndexedDB directory, relative to a browser profile
-    /// root — e.g. `https://discord.com` → `IndexedDB/https_discord.com_0.indexeddb.leveldb`.
+    /// root — e.g. `<https://discord.com`> → `IndexedDB/https_discord.com_0.indexeddb.leveldb`.
     ///
     /// Chromium names the directory `<scheme>_<host>_<port>.indexeddb.leveldb`
     /// (port `0` is the default-port placeholder). Join under any Chromium
@@ -212,7 +212,7 @@ pub struct MessengerSpec {
     pub web: Option<WebClient>,
     /// Spec-level caveat (e.g. "no local message DB").
     pub note: &'static str,
-    /// Authoritative sources that informed this spec (all `https://`).
+    /// Authoritative sources that informed this spec (all `<https://`>).
     pub sources: &'static [&'static str],
 }
 

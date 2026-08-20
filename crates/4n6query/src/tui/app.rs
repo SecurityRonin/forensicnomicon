@@ -40,7 +40,7 @@ impl CritFilter {
 
 /// Windows version sub-filter — active only when `platform_mask` contains Windows.
 ///
-/// Alt-w cycles: off → [`All`] → [`Win10Plus`] → [`Win11Plus`] → off.
+/// Alt-w cycles: off → `All` → `Win10Plus` → `Win11Plus` → off.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum WinVersionFilter {
     /// All Windows versions (XP / 7 / 8 / 10 / 11).
@@ -138,7 +138,7 @@ impl App {
 
     /// Advance the platform filter one step forward.
     ///
-    /// Cycle: off → [Win] → [W10] → [W11] → [Mac] → [Lin] → off.
+    /// Cycle: off → `Win` → `W10` → `W11` → `Mac` → `Lin` → off.
     /// Only one platform is active at a time (no multi-select).
     pub fn cycle_platform_filter(&mut self) {
         if self.platform_mask.is_empty() {

@@ -5,7 +5,7 @@
 //! (`information.turtle`) and `aff4:ImageStream` data split into chunked "bevies".
 //!
 //! Source: AFF4 Standard v1.0 (Schatz Forensic)
-//!   https://github.com/aff4/Standard
+//!   <https://github.com/aff4/Standard>
 
 /// ZIP local-file-header signature `PK\x03\x04` — present at offset 0 of every AFF4
 /// image (AFF4 is a ZIP container).

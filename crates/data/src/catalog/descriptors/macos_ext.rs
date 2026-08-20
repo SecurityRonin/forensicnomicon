@@ -1199,7 +1199,7 @@ pub(crate) static HEIC_IMAGE_FILE: ArtifactDescriptor = ArtifactDescriptor {
 ///          ZQUERY, ZLOCATIONDISPLAY, ZLATITUDE, ZLONGITUDE,
 ///          ZROUTEREQUESTSTORAGE, ZMAPITEMSTORAGE
 ///   FROM ZHISTORYITEM LEFT JOIN ZMIXINMAPITEM ON ZMIXINMAPITEM.Z_PK=ZHISTORYITEM.ZMAPITEM;
-/// Source: https://cheeky4n6monkey.blogspot.com/2020/11/ios14-maps-history-blob-script.html
+/// Source: <https://cheeky4n6monkey.blogspot.com/2020/11/ios14-maps-history-blob-script.html>
 pub(crate) static IOS14_MAPS_HISTORY_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "z_pk",
@@ -1324,7 +1324,7 @@ pub(crate) static IOS14_MAPS_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
 // ── Uber iOS LevelDB trip/location history ──────────────────────────────────
 
 /// Field schema for Uber iOS LevelDB location records.
-/// Source: https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/uberLeveldb.py
+/// Source: <https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/uberLeveldb.py>
 pub(crate) static UBER_IOS_LEVELDB_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "timestamp",
@@ -1409,8 +1409,8 @@ pub(crate) static UBER_IOS_LEVELDB_FIELDS: &[FieldSchema] = &[
 /// contains GPS coordinates, speed, city, horizontal accuracy, timestamps, UI
 /// state, and active trip information. Parsed by iLEAPP's uberLeveldb module.
 ///
-/// Source: https://abrignoni.blogspot.com/2024/04/new-parser-for-uber-app-geo-locatios-in.html
-/// Source: https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/uberLeveldb.py
+/// Source: <https://abrignoni.blogspot.com/2024/04/new-parser-for-uber-app-geo-locatios-in.html>
+/// Source: <https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/uberLeveldb.py>
 pub(crate) static UBER_IOS_LEVELDB: ArtifactDescriptor = ArtifactDescriptor {
     id: "uber_ios_leveldb",
     name: "Uber iOS LevelDB Location/Trip History",
@@ -1461,7 +1461,7 @@ LevelDB libraries.",
 // ── iOS Google Chat cacheV0.db ──────────────────────────────────────────────
 
 /// Field schema for the `cache` table in cacheV0.db.
-/// Source: https://abrignoni.blogspot.com/2024/02/what-is-cachev0db-and-why-are-there.html
+/// Source: <https://abrignoni.blogspot.com/2024/02/what-is-cachev0db-and-why-are-there.html>
 pub(crate) static IOS_GOOGLE_CHAT_CACHEV0_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "id",
@@ -1533,7 +1533,7 @@ pub(crate) static IOS_GOOGLE_CHAT_CACHEV0_FIELDS: &[FieldSchema] = &[
 /// - `/private/var/mobile/Containers/Data/InternalDaemon/<UUID>/`
 /// - `/private/var/mobile/Containers/Data/PluginKitPlugin/<UUID>/`
 ///
-/// Source: http://www.swiftforensics.com/2021/01/ios-application-groups-shared-data.html
+/// Source: <http://www.swiftforensics.com/2021/01/ios-application-groups-shared-data.html>
 pub(crate) static IOS_MOBILE_CONTAINER_MANAGER: ArtifactDescriptor = ArtifactDescriptor {
     id: "ios_mobile_container_manager",
     name: "iOS Mobile Container Manager (containers.sqlite3)",

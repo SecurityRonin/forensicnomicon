@@ -2,7 +2,11 @@
 name = "ingest"
 version = "0.1.0"
 edition.workspace = true
-rust-version = "1.75"
+# NOT the workspace/library floor of 1.75. This crate is BINARY-ONLY, so nothing
+# can pin it as a library dependency and it has no MSRV promise to keep. It
+# cannot keep 1.75 either: hashbrown 0.17 requires edition2024, which needs
+# cargo 1.85+. Per fleet policy an app declares the pinned toolchain.
+rust-version = "1.96.0"
 description = "Mass-import ingestion pipeline for the forensicnomicon artifact catalog"
 license = "Apache-2.0"
 publish = false

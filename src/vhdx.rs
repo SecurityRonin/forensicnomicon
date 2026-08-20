@@ -4,7 +4,7 @@
 //! header geometry of the Hyper-V VHDX format (Windows 8+, WSL2, Azure).
 //!
 //! Source: [MS-VHDX] Virtual Hard Disk v2 File Format
-//!   https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-vhdx/
+//!   <https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-vhdx/>
 
 /// 8-byte file type identifier at offset 0: ASCII `"vhdxfile"`.
 pub const FILE_IDENTIFIER: &[u8; 8] = b"vhdxfile";
