@@ -3,8 +3,13 @@
     "title": "Windows Incident Response",
     "html_url": "https://windowsir.blogspot.com/",
     "xml_url": "https://windowsir.blogspot.com/feeds/posts/default",
-    "checked_at": "2026-08-20T04:01:35Z",
+    "checked_at": "2026-08-30T01:51:50Z",
     "entries": [
+      {
+        "title": "True Lies",
+        "url": "https://windowsir.blogspot.com/2026/08/true-lies.html",
+        "published": "2026-08-21T08:41:35-05:00"
+      },
       {
         "title": "Finding Initial Access",
         "url": "https://windowsir.blogspot.com/2026/07/finding-initial-access.html",
@@ -49,11 +54,6 @@
         "title": "Views on AI & the Anthropic Report",
         "url": "https://windowsir.blogspot.com/2026/01/views-on-ai-anthropic-report.html",
         "published": "2026-01-20T08:26:21-05:00"
-      },
-      {
-        "title": "What's on your clipboard?",
-        "url": "https://windowsir.blogspot.com/2026/01/whats-on-your-clipboard.html",
-        "published": "2026-01-10T16:13:59-05:00"
       }
     ],
     "error": null
@@ -62,7 +62,7 @@
     "title": "dfir.blog",
     "html_url": "https://dfir.blog/",
     "xml_url": "https://dfir.blog/",
-    "checked_at": "2026-08-20T04:01:36Z",
+    "checked_at": "2026-08-30T01:51:51Z",
     "entries": [
       {
         "title": "Unfurl",
@@ -121,7 +121,7 @@
     "title": "Another Forensics Blog",
     "html_url": "https://az4n6.blogspot.com/",
     "xml_url": "https://az4n6.blogspot.com/feeds/posts/default",
-    "checked_at": "2026-08-20T04:01:36Z",
+    "checked_at": "2026-08-30T01:51:52Z",
     "entries": [
       {
         "title": "Detecting Lateral Movement with WinSCP",
@@ -180,66 +180,15 @@
     "title": "DFIR Diva",
     "html_url": "https://dfirdiva.com/",
     "xml_url": "https://dfirdiva.com/feed",
-    "checked_at": "2026-08-20T04:01:38Z",
-    "entries": [
-      {
-        "title": "The Events Site is Being Rebuilt",
-        "url": "https://dfirdiva.com/the-events-site-is-being-rebuilt/",
-        "published": "2026-07-28T01:53:25+00:00"
-      },
-      {
-        "title": "My Experience with Alias by SockPuppet",
-        "url": "https://dfirdiva.com/my-experience-with-alias-by-sockpuppet/",
-        "published": "2025-11-30T06:00:00+00:00"
-      },
-      {
-        "title": "Free & Affordable Training News: Black Friday 2025 Edition",
-        "url": "https://dfirdiva.com/free-affordable-training-news-black-friday-2025-edition/",
-        "published": "2025-11-29T04:39:45+00:00"
-      },
-      {
-        "title": "Techno Security & Digital Forensics Conference: October 27-29, 2025",
-        "url": "https://dfirdiva.com/techno-security-digital-forensics-conference-october-27-29-2025/",
-        "published": "2025-10-01T04:47:39+00:00"
-      },
-      {
-        "title": "Upcoming Techno Security & Digital Forensics Conference",
-        "url": "https://dfirdiva.com/upcoming-techno-security-digital-forensics-conference-2/",
-        "published": "2025-05-28T02:49:49+00:00"
-      },
-      {
-        "title": "Free & Affordable Training News Monthly: Feb – Mar 2025",
-        "url": "https://dfirdiva.com/free-affordable-training-news-monthly-feb-march-2025/",
-        "published": "2025-03-10T05:47:02+00:00"
-      },
-      {
-        "title": "Free & Affordable Training News Monthly: Dec 2024 – Feb 2025",
-        "url": "https://dfirdiva.com/free-amp-affordable-training-news-monthly-dec-2024-feb-2025/",
-        "published": "2025-02-03T09:18:55+00:00"
-      },
-      {
-        "title": "Free & Affordable Training News Monthly: Nov – Dec, 2024",
-        "url": "https://dfirdiva.com/free-affordable-training-news-monthly-nov-dec-2024/",
-        "published": "2024-12-01T19:45:17+00:00"
-      },
-      {
-        "title": "Free & Affordable Training News: Black Friday 2024 Edition",
-        "url": "https://dfirdiva.com/free-affordable-training-news-black-friday-2024-edition/",
-        "published": "2024-11-26T20:48:47+00:00"
-      },
-      {
-        "title": "Free & Affordable Training News Monthly: Oct – Nov, 2024",
-        "url": "https://dfirdiva.com/free-affordable-training-news-monthly-oct-nov-2024/",
-        "published": "2024-11-11T21:14:18+00:00"
-      }
-    ],
-    "error": null
+    "checked_at": "2026-08-30T01:51:52Z",
+    "entries": [],
+    "error": "not well-formed (invalid token): line 1, column 116"
   },
   "https://www.mac4n6.com/blog?format=rss": {
     "title": "mac4n6",
     "html_url": "https://www.mac4n6.com/",
     "xml_url": "https://www.mac4n6.com/blog?format=rss",
-    "checked_at": "2026-08-20T04:01:38Z",
+    "checked_at": "2026-08-30T01:51:52Z",
     "entries": [
       {
         "title": "New Presentation - Using Apple Intelligence (AI) Data in Investigations",
@@ -298,7 +247,7 @@
     "title": "binary foray",
     "html_url": "https://binaryforay.blogspot.com/",
     "xml_url": "https://binaryforay.blogspot.com/feeds/posts/default",
-    "checked_at": "2026-08-20T04:01:38Z",
+    "checked_at": "2026-08-30T01:51:52Z",
     "entries": [
       {
         "title": "KAPE 0.9.2.0 released!",
@@ -357,8 +306,23 @@
     "title": "Andrea Fortuna",
     "html_url": "https://andreafortuna.org/",
     "xml_url": "https://andreafortuna.org/feed.xml",
-    "checked_at": "2026-08-20T04:01:39Z",
+    "checked_at": "2026-08-30T01:51:53Z",
     "entries": [
+      {
+        "title": "Your SIM card can give orders to your phone, and you can’t turn it off",
+        "url": "https://andreafortuna.org/2026/08/26/hostile-sim-at-commands-catana/",
+        "published": "2026-08-26T00:00:00+00:00"
+      },
+      {
+        "title": "The day ctrl-alt-delete stopped killing things and started letting them in",
+        "url": "https://andreafortuna.org/2026/08/24/ctrl-alt-delete-windows-nt4-thirty-years/",
+        "published": "2026-08-24T00:00:00+00:00"
+      },
+      {
+        "title": "Weekly Wire #6: Hidden Cameras, Rogue Agents",
+        "url": "https://andreafortuna.org/2026/08/23/weekly-wire-6/",
+        "published": "2026-08-23T00:00:00+00:00"
+      },
       {
         "title": "The underscore that destroyed a life, and what it says about us",
         "url": "https://andreafortuna.org/2026/08/19/underscore-that-destroyed-a-life/",
@@ -393,21 +357,6 @@
         "title": "Blameless does not mean consequence-free in post-incident review",
         "url": "https://andreafortuna.org/2026/08/04/post-incident-review-blameless/",
         "published": "2026-08-04T00:00:00+00:00"
-      },
-      {
-        "title": "What the P.E.T. guide teaches digital forensics investigators",
-        "url": "https://andreafortuna.org/2026/08/03/pet-guide-forensics/",
-        "published": "2026-08-03T00:00:00+00:00"
-      },
-      {
-        "title": "Weekly Wire #3: Agents on the Loose",
-        "url": "https://andreafortuna.org/2026/08/02/weekly-wire-3/",
-        "published": "2026-08-02T00:00:00+00:00"
-      },
-      {
-        "title": "What Copilot and Gemini Leave Behind",
-        "url": "https://andreafortuna.org/2026/07/28/browser-ai-forensics/",
-        "published": "2026-07-28T00:00:00+00:00"
       }
     ],
     "error": null
@@ -416,7 +365,7 @@
     "title": "Salt Forensics",
     "html_url": "https://salt4n6.com/",
     "xml_url": "https://salt4n6.com/feed/",
-    "checked_at": "2026-08-20T04:01:39Z",
+    "checked_at": "2026-08-30T01:51:53Z",
     "entries": [
       {
         "title": "iOS 13 – Swipe to Type",
@@ -475,7 +424,7 @@
     "title": "Cheeky4n6Monkey",
     "html_url": "https://cheeky4n6monkey.blogspot.com/",
     "xml_url": "https://cheeky4n6monkey.blogspot.com/feeds/posts/default",
-    "checked_at": "2026-08-20T04:01:39Z",
+    "checked_at": "2026-08-30T01:51:53Z",
     "entries": [
       {
         "title": "Monkey Attempts To Digest Some Google Takeout (DetectedActivitys)",
@@ -534,7 +483,7 @@
     "title": "ThinkDFIR",
     "html_url": "https://thinkdfir.com/",
     "xml_url": "https://thinkdfir.com/feed/",
-    "checked_at": "2026-08-20T04:01:40Z",
+    "checked_at": "2026-08-30T01:51:53Z",
     "entries": [
       {
         "title": "A question about arbitrary values in USB registry keys",
@@ -593,7 +542,7 @@
     "title": "Seth Enoka — DFIR",
     "html_url": "https://sethenoka.com/windows-artefacts/",
     "xml_url": "https://sethenoka.com/index.xml",
-    "checked_at": "2026-08-20T04:01:40Z",
+    "checked_at": "2026-08-30T01:51:53Z",
     "entries": [
       {
         "title": "Windows Persistence Forensics: Services, Scheduled Tasks, and Autoruns",
@@ -652,7 +601,7 @@
     "title": "DoubleBlak",
     "html_url": "https://www.doubleblak.com/",
     "xml_url": "https://www.doubleblak.com/blogRSS.xml",
-    "checked_at": "2026-08-20T04:01:40Z",
+    "checked_at": "2026-08-30T01:51:54Z",
     "entries": [
       {
         "title": "Safari Walkthrough",
@@ -711,7 +660,7 @@
     "title": "The Binary Hick",
     "html_url": "https://thebinaryhick.blog/",
     "xml_url": "https://thebinaryhick.blog/feed/",
-    "checked_at": "2026-08-20T04:01:41Z",
+    "checked_at": "2026-08-30T01:51:54Z",
     "entries": [
       {
         "title": "Timestamped",
@@ -770,7 +719,7 @@
     "title": "forensicmike1",
     "html_url": "https://forensicmike1.com/",
     "xml_url": "https://forensicmike1.com/",
-    "checked_at": "2026-08-20T04:01:41Z",
+    "checked_at": "2026-08-30T01:51:54Z",
     "entries": [
       {
         "title": "Welcome to the New Site",
@@ -829,7 +778,7 @@
     "title": "HECF / Hacking Exposed Computer Forensics Blog",
     "html_url": "https://www.hecfblog.com/",
     "xml_url": "https://www.hecfblog.com/feeds/posts/default",
-    "checked_at": "2026-08-20T04:01:41Z",
+    "checked_at": "2026-08-30T01:51:54Z",
     "entries": [
       {
         "title": "Daily Blog #815: I missed a day",
@@ -888,7 +837,7 @@
     "title": "tisiphone.net",
     "html_url": "https://tisiphone.net/",
     "xml_url": "https://tisiphone.net/feed/",
-    "checked_at": "2026-08-20T04:01:42Z",
+    "checked_at": "2026-08-30T01:51:55Z",
     "entries": [
       {
         "title": "We Wrote an Academic Paper on Conficker in 2026",
@@ -947,8 +896,13 @@
     "title": "Smarter Forensics",
     "html_url": "https://smarterforensics.com/",
     "xml_url": "https://smarterforensics.com/feed/",
-    "checked_at": "2026-08-20T04:01:43Z",
+    "checked_at": "2026-08-30T01:51:55Z",
     "entries": [
+      {
+        "title": "AI-Assisted. Human-Led. Why DFIR Needed Its Own AI Frameworks.",
+        "url": "https://smarterforensics.com/2026/08/ai-assisted-human-led-why-dfir-needed-its-own-ai-frameworks/",
+        "published": "2026-08-27T21:37:12+00:00"
+      },
       {
         "title": "The Idaho Murders: Remembering Kaylee, Xana, Maddie, and Ethan",
         "url": "https://smarterforensics.com/2026/08/the-idaho-murders-remembering-kaylee-xana-maddie-and-ethan/",
@@ -993,11 +947,6 @@
         "title": "2020 Forensic 4Cast Nominations are open!",
         "url": "https://smarterforensics.com/2020/03/2020-forensic-4cast-nominations-are-open/",
         "published": "2020-03-19T20:13:25+00:00"
-      },
-      {
-        "title": "iOS 13 – Summary for those of you who enjoy the cliffsnotes",
-        "url": "https://smarterforensics.com/2019/09/ios-13-summary-for-those-of-you-who-enjoy-the-cliffsnotes/",
-        "published": "2019-09-26T20:58:45+00:00"
       }
     ],
     "error": null
@@ -1006,7 +955,7 @@
     "title": "Initialization Vectors",
     "html_url": "https://abrignoni.blogspot.com/",
     "xml_url": "https://abrignoni.blogspot.com/feeds/posts/default",
-    "checked_at": "2026-08-20T04:01:43Z",
+    "checked_at": "2026-08-30T01:51:56Z",
     "entries": [
       {
         "title": "LEAPPs.org - Latest changes!",
@@ -1065,7 +1014,7 @@
     "title": "Brett Shavers",
     "html_url": "https://brettshavers.com/brett-s-blog",
     "xml_url": "https://feeds.feedburner.com/brettshavers/oSyq",
-    "checked_at": "2026-08-20T04:01:43Z",
+    "checked_at": "2026-08-30T01:51:56Z",
     "entries": [
       {
         "title": "DFIR (as we use it) started as a hashtag.",
@@ -1089,7 +1038,7 @@
     "title": "Yogesh Khatri's forensic blog",
     "html_url": "https://www.swiftforensics.com/",
     "xml_url": "https://www.swiftforensics.com/feeds/posts/default",
-    "checked_at": "2026-08-20T04:01:44Z",
+    "checked_at": "2026-08-30T01:51:56Z",
     "entries": [
       {
         "title": "New Wifi database from Apple intelligence",
@@ -1148,7 +1097,7 @@
     "title": "Forensic Focus",
     "html_url": "https://www.forensicfocus.com/",
     "xml_url": "https://www.forensicfocus.com/rss/news2.php",
-    "checked_at": "2026-08-20T04:01:46Z",
+    "checked_at": "2026-08-30T01:51:58Z",
     "entries": [],
     "error": "HTTP 404"
   },
@@ -1156,7 +1105,7 @@
     "title": "Forensic Multimedia Analysis Blog",
     "html_url": "https://forensicphotoshop.blogspot.com/",
     "xml_url": "https://forensicphotoshop.blogspot.com/feeds/posts/default",
-    "checked_at": "2026-08-20T04:01:46Z",
+    "checked_at": "2026-08-30T01:51:58Z",
     "entries": [
       {
         "title": "Coming Out of Retirement for This One: On AI, Authorship, and the Erosion of Ground Truth",
@@ -1215,8 +1164,18 @@
     "title": "Magnet Forensics",
     "html_url": "https://www.magnetforensics.com/",
     "xml_url": "https://www.magnetforensics.com/feed/",
-    "checked_at": "2026-08-20T04:01:46Z",
+    "checked_at": "2026-08-30T01:51:58Z",
     "entries": [
+      {
+        "title": "Investigating at scale: Lessons from three DFIR leaders",
+        "url": "https://www.magnetforensics.com/blog/investigating-at-scale-lessons-from-three-dfir-leaders/",
+        "published": "2026-08-27T15:57:59+00:00"
+      },
+      {
+        "title": "Protecting the people doing the hardest jobs",
+        "url": "https://www.magnetforensics.com/blog/protecting-the-people-doing-the-hardest-jobs/",
+        "published": "2026-08-20T17:51:10+00:00"
+      },
       {
         "title": "The data-driven approach: Drafting cloud search warrants around the data providers actually keep",
         "url": "https://www.magnetforensics.com/blog/the-data-driven-approach-drafting-cloud-search-warrants-around-the-data-providers-actually-keep/",
@@ -1256,16 +1215,6 @@
         "title": "Digital forensics and eDiscovery: Lessons from a prosecutor and an FBI Special Agent",
         "url": "https://www.magnetforensics.com/blog/digital-forensics-and-ediscovery-your-questions-answered/",
         "published": "2026-07-24T20:09:20+00:00"
-      },
-      {
-        "title": "Don’t be the anchor: Rethinking the DFIR workflow loop",
-        "url": "https://www.magnetforensics.com/blog/dont-be-the-anchor-rethinking-the-dfir-workflow-loop/",
-        "published": "2026-07-23T17:48:57+00:00"
-      },
-      {
-        "title": "Why Bates numbering still matters in modern investigations and eDiscovery",
-        "url": "https://www.magnetforensics.com/blog/why-bates-numbering-still-matters-in-modern-investigations-and-ediscovery/",
-        "published": "2026-07-20T19:57:39+00:00"
       }
     ],
     "error": null
@@ -1274,7 +1223,7 @@
     "title": "The DFIR Report",
     "html_url": "https://thedfirreport.com/",
     "xml_url": "https://thedfirreport.com/feed/",
-    "checked_at": "2026-08-20T04:01:47Z",
+    "checked_at": "2026-08-30T01:51:59Z",
     "entries": [
       {
         "title": "From Bing Search to Ransomware: Bumblebee and AdaptixC2 Deliver Akira",
@@ -1333,65 +1282,116 @@
     "title": "13cubed (YouTube)",
     "html_url": "https://www.youtube.com/@13cubed",
     "xml_url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q",
-    "checked_at": "2026-08-20T04:01:47Z",
-    "entries": [],
-    "error": "HTTP 404"
+    "checked_at": "2026-08-30T01:51:59Z",
+    "entries": [
+      {
+        "title": "Want to Get Into Threat Hunting? Start Here!",
+        "url": "https://www.youtube.com/shorts/B_iHFonaOHg",
+        "published": "2026-08-27T12:08:13+00:00"
+      },
+      {
+        "title": "The Threat Hunting Course I Wish I Had",
+        "url": "https://www.youtube.com/watch?v=cFxwYz5TOk0",
+        "published": "2026-08-10T11:52:37+00:00"
+      },
+      {
+        "title": "Automate Volatility 3 Memory Analysis with This Tool",
+        "url": "https://www.youtube.com/watch?v=0GMTydimOP4",
+        "published": "2026-07-25T06:18:54+00:00"
+      },
+      {
+        "title": "How the USN Journal Really Works",
+        "url": "https://www.youtube.com/watch?v=eSLHyqZlglk",
+        "published": "2026-08-14T19:55:24+00:00"
+      },
+      {
+        "title": "The Korvath Incident: A macOS Forensics Challenge",
+        "url": "https://www.youtube.com/watch?v=tRvw13e3Qn0",
+        "published": "2026-07-08T07:33:38+00:00"
+      },
+      {
+        "title": "Hunting Copy Fail: 732 Bytes to Root",
+        "url": "https://www.youtube.com/watch?v=ZVmpK-9rP0Q",
+        "published": "2026-08-15T19:57:31+00:00"
+      },
+      {
+        "title": "The AI Conversation I've Been Avoiding",
+        "url": "https://www.youtube.com/watch?v=wKn-9sKBqX8",
+        "published": "2026-04-24T09:44:12+00:00"
+      },
+      {
+        "title": "Mac Imaging Made Easy with Fuji",
+        "url": "https://www.youtube.com/watch?v=9ZkLdFodhzM",
+        "published": "2026-05-28T20:26:20+00:00"
+      },
+      {
+        "title": "Tracking Program Execution with a Little Known Registry Key",
+        "url": "https://www.youtube.com/watch?v=yoFkF-NHZvo",
+        "published": "2026-04-23T00:04:55+00:00"
+      },
+      {
+        "title": "The Truth About Windows Explorer Timestamps",
+        "url": "https://www.youtube.com/watch?v=PdyVkmhMcOA",
+        "published": "2026-05-28T20:27:51+00:00"
+      }
+    ],
+    "error": null
   },
   "https://isc.sans.edu/rssfeed_full.xml": {
     "title": "SANS Internet Storm Center",
     "html_url": "https://isc.sans.edu/",
     "xml_url": "https://isc.sans.edu/rssfeed_full.xml",
-    "checked_at": "2026-08-20T04:01:47Z",
+    "checked_at": "2026-08-30T01:51:59Z",
     "entries": [
       {
-        "title": "ISC Stormcast For Thursday, August 20th, 2026 https://isc.sans.edu/podcastdetail/10060, (Thu, Aug 20th)",
-        "url": "https://isc.sans.edu/diary/rss/33262",
-        "published": "2026-08-20T02:00:03+00:00"
+        "title": "Some Malicious PE Stats, (Thu, Aug 27th)",
+        "url": "https://isc.sans.edu/diary/rss/33292",
+        "published": "2026-08-28T07:04:13+00:00"
       },
       {
-        "title": "Simple Scans for Cloud Metadata Service, (Wed, Aug 19th)",
-        "url": "https://isc.sans.edu/diary/rss/33260",
-        "published": "2026-08-19T14:24:58+00:00"
+        "title": "ISC Stormcast For Friday, August 28th, 2026 https://isc.sans.edu/podcastdetail/10072, (Fri, Aug 28th)",
+        "url": "https://isc.sans.edu/diary/rss/33294",
+        "published": "2026-08-28T02:00:02+00:00"
       },
       {
-        "title": "ISC Stormcast For Wednesday, August 19th, 2026 https://isc.sans.edu/podcastdetail/10058, (Wed, Aug 19th)",
-        "url": "https://isc.sans.edu/diary/rss/33258",
-        "published": "2026-08-19T02:00:03+00:00"
+        "title": "A polymorphic phishing page (that occasionally breaks itself), (Thu, Aug 27th)",
+        "url": "https://isc.sans.edu/diary/rss/33290",
+        "published": "2026-08-27T09:57:28+00:00"
       },
       {
-        "title": "ISC Stormcast For Tuesday, August 18th, 2026 https://isc.sans.edu/podcastdetail/10056, (Tue, Aug 18th)",
-        "url": "https://isc.sans.edu/diary/rss/33256",
-        "published": "2026-08-18T02:00:03+00:00"
+        "title": "ISC Stormcast For Thursday, August 27th, 2026 https://isc.sans.edu/podcastdetail/10070, (Thu, Aug 27th)",
+        "url": "https://isc.sans.edu/diary/rss/33286",
+        "published": "2026-08-27T02:00:03+00:00"
       },
       {
-        "title": "Apple Patches iOS and macOS, (Mon, Aug 17th)",
-        "url": "https://isc.sans.edu/diary/rss/33254",
-        "published": "2026-08-17T20:26:39+00:00"
+        "title": "Who Has Admin Rights in your Entra ID Directory&#x3f;, (Wed, Aug 26th)",
+        "url": "https://isc.sans.edu/diary/rss/33284",
+        "published": "2026-08-26T15:58:15+00:00"
       },
       {
-        "title": "Apple Screen Sharing Security, (Mon, Aug 17th)",
-        "url": "https://isc.sans.edu/diary/rss/33252",
-        "published": "2026-08-17T14:33:58+00:00"
+        "title": "ISC Stormcast For Wednesday, August 26th, 2026 https://isc.sans.edu/podcastdetail/10068, (Wed, Aug 26th)",
+        "url": "https://isc.sans.edu/diary/rss/33282",
+        "published": "2026-08-26T02:40:13+00:00"
       },
       {
-        "title": "ISC Stormcast For Monday, August 17th, 2026 https://isc.sans.edu/podcastdetail/10054, (Mon, Aug 17th)",
-        "url": "https://isc.sans.edu/diary/rss/33250",
-        "published": "2026-08-17T02:00:02+00:00"
+        "title": "Obfuscating IP Addresses as Hostnames, (Tue, Aug 25th)",
+        "url": "https://isc.sans.edu/diary/rss/33280",
+        "published": "2026-08-25T15:03:33+00:00"
       },
       {
-        "title": "Wireshark 4.6.8 Released, (Sun, Aug 16th)",
-        "url": "https://isc.sans.edu/diary/rss/33248",
-        "published": "2026-08-16T21:31:48+00:00"
+        "title": "ISC Stormcast For Tuesday, August 25th, 2026 https://isc.sans.edu/podcastdetail/10066, (Tue, Aug 25th)",
+        "url": "https://isc.sans.edu/diary/rss/33278",
+        "published": "2026-08-25T02:00:03+00:00"
       },
       {
-        "title": "ISC Stormcast For Friday, August 14th, 2026 https://isc.sans.edu/podcastdetail/10052, (Fri, Aug 14th)",
-        "url": "https://isc.sans.edu/diary/rss/33246",
-        "published": "2026-08-14T02:00:03+00:00"
+        "title": "DOUBLECUP's PNG Payload, (Mon, Aug 24th)",
+        "url": "https://isc.sans.edu/diary/rss/33274",
+        "published": "2026-08-24T07:23:16+00:00"
       },
       {
-        "title": "ISC Stormcast For Thursday, August 13th, 2026 https://isc.sans.edu/podcastdetail/10050, (Thu, Aug 13th)",
-        "url": "https://isc.sans.edu/diary/rss/33244",
-        "published": "2026-08-13T02:00:03+00:00"
+        "title": "ISC Stormcast For Monday, August 24th, 2026 https://isc.sans.edu/podcastdetail/10064, (Mon, Aug 24th)",
+        "url": "https://isc.sans.edu/diary/rss/33276",
+        "published": "2026-08-24T02:00:03+00:00"
       }
     ],
     "error": null
@@ -1400,66 +1400,15 @@
     "title": "DFIR Training Blog",
     "html_url": "https://www.dfir.training/blog",
     "xml_url": "https://www.dfir.training/blog",
-    "checked_at": "2026-08-20T04:01:49Z",
-    "entries": [
-      {
-        "title": "Training",
-        "url": "https://www.dfir.training/training",
-        "published": ""
-      },
-      {
-        "title": "Tools",
-        "url": "https://www.dfir.training/dfir-tools",
-        "published": ""
-      },
-      {
-        "title": "Library",
-        "url": "https://www.dfir.training/resources",
-        "published": ""
-      },
-      {
-        "title": "Sponsors",
-        "url": "https://www.dfir.training/sponsors",
-        "published": ""
-      },
-      {
-        "title": "Blog",
-        "url": "https://www.dfir.training/blog",
-        "published": ""
-      },
-      {
-        "title": "Contact",
-        "url": "https://www.dfir.training/contact-form",
-        "published": ""
-      },
-      {
-        "title": "Where Are Digital Investigations Breaking Down?",
-        "url": "https://www.dfir.training/blog/where-are-digital-investigations-breaking-down",
-        "published": ""
-      },
-      {
-        "title": "The Marketplace for the DFIR Community",
-        "url": "https://www.dfir.training/blog/the-marketplace-for-the-dfir-community",
-        "published": ""
-      },
-      {
-        "title": "AI in DFIR Did Not Start When You Noticed It",
-        "url": "https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it",
-        "published": ""
-      },
-      {
-        "title": "DFIR + AI Is Moving From Chatbot to Workflow Layer",
-        "url": "https://www.dfir.training/blog/dfir-ai-is-moving-from-chatbot-to-workflow-layer",
-        "published": ""
-      }
-    ],
+    "checked_at": "2026-08-30T01:51:59Z",
+    "entries": [],
     "error": null
   },
   "https://www.msab.com/feed/": {
     "title": "MSAB",
     "html_url": "https://www.msab.com/",
     "xml_url": "https://www.msab.com/feed/",
-    "checked_at": "2026-08-20T04:01:50Z",
+    "checked_at": "2026-08-30T01:52:00Z",
     "entries": [
       {
         "title": "Q2 2026 Major Release is now available",
@@ -1518,8 +1467,43 @@
     "title": "AboutDFIR",
     "html_url": "https://aboutdfir.com/",
     "xml_url": "https://aboutdfir.com/feed/",
-    "checked_at": "2026-08-20T04:01:50Z",
+    "checked_at": "2026-08-30T01:52:01Z",
     "entries": [
+      {
+        "title": "InfoSec News Nuggets – 08/28/2026",
+        "url": "https://aboutdfir.com/infosec-news-nuggets-08-28-2026/",
+        "published": "2026-08-28T10:23:56+00:00"
+      },
+      {
+        "title": "InfoSec News Nuggets – 08/27/2026",
+        "url": "https://aboutdfir.com/infosec-news-nuggets-08-27-2026/",
+        "published": "2026-08-27T13:13:09+00:00"
+      },
+      {
+        "title": "InfoSec News Nuggets – 08/26/2026",
+        "url": "https://aboutdfir.com/infosec-news-nuggets-08-26-2026/",
+        "published": "2026-08-26T10:39:38+00:00"
+      },
+      {
+        "title": "InfoSec News Nuggets – 08/25/2026",
+        "url": "https://aboutdfir.com/infosec-news-nuggets-08-25-2026/",
+        "published": "2026-08-25T10:37:13+00:00"
+      },
+      {
+        "title": "InfoSec News Nuggets – 08/24/2026",
+        "url": "https://aboutdfir.com/infosec-news-nuggets-08-24-2026/",
+        "published": "2026-08-24T10:47:30+00:00"
+      },
+      {
+        "title": "InfoSec News Nuggets – 08/21/2026",
+        "url": "https://aboutdfir.com/infosec-news-nuggets-08-21-2026/",
+        "published": "2026-08-21T12:24:12+00:00"
+      },
+      {
+        "title": "Infosec News Nuggets — August 20, 2026",
+        "url": "https://aboutdfir.com/infosec-news-nuggets-august-20-2026/",
+        "published": "2026-08-20T10:42:12+00:00"
+      },
       {
         "title": "Infosec News Nuggets — August 19, 2026",
         "url": "https://aboutdfir.com/infosec-news-nuggets-august-19-2026/",
@@ -1534,41 +1518,6 @@
         "title": "Infosec News Nuggets — August 17, 2026",
         "url": "https://aboutdfir.com/infosec-news-nuggets-august-17-2026/",
         "published": "2026-08-17T10:16:01+00:00"
-      },
-      {
-        "title": "Infosec News Nuggets — August 14, 2026",
-        "url": "https://aboutdfir.com/infosec-news-nuggets-august-14-2026/",
-        "published": "2026-08-14T11:08:40+00:00"
-      },
-      {
-        "title": "Infosec News Nuggets — August 13, 2026",
-        "url": "https://aboutdfir.com/infosec-news-nuggets-august-13-2026/",
-        "published": "2026-08-13T10:13:15+00:00"
-      },
-      {
-        "title": "Infosec News Nuggets — August 12, 2026",
-        "url": "https://aboutdfir.com/infosec-news-nuggets-august-12-2026/",
-        "published": "2026-08-12T10:11:48+00:00"
-      },
-      {
-        "title": "Infosec News Nuggets — August 11, 2026",
-        "url": "https://aboutdfir.com/infosec-news-nuggets-august-11-2026/",
-        "published": "2026-08-11T10:29:41+00:00"
-      },
-      {
-        "title": "Infosec News Nuggets — August 10, 2026",
-        "url": "https://aboutdfir.com/infosec-news-nuggets-august-10-2026/",
-        "published": "2026-08-10T10:11:38+00:00"
-      },
-      {
-        "title": "InfoSec News Nuggets – 08/06/2026",
-        "url": "https://aboutdfir.com/infosec-news-nuggets-08-06-2026/",
-        "published": "2026-08-06T12:59:52+00:00"
-      },
-      {
-        "title": "Infosec News Nuggets — August 5, 2026",
-        "url": "https://aboutdfir.com/infosec-news-nuggets-august-5-2026/",
-        "published": "2026-08-05T12:20:19+00:00"
       }
     ],
     "error": null
@@ -1577,7 +1526,7 @@
     "title": "Forensic 4cast",
     "html_url": "https://forensic4cast.com/blog/",
     "xml_url": "https://forensic4cast.com/feed/",
-    "checked_at": "2026-08-20T04:01:51Z",
+    "checked_at": "2026-08-30T01:52:02Z",
     "entries": [
       {
         "title": "New Software: Perceptor",
@@ -1636,8 +1585,13 @@
     "title": "This Week In 4n6",
     "html_url": "https://thisweekin4n6.com/",
     "xml_url": "https://thisweekin4n6.wordpress.com/feed/",
-    "checked_at": "2026-08-20T04:01:51Z",
+    "checked_at": "2026-08-30T01:52:02Z",
     "entries": [
+      {
+        "title": "Week 34 – 2026",
+        "url": "https://thisweekin4n6.com/2026/08/23/week-34-2026/",
+        "published": "2026-08-23T12:11:24+00:00"
+      },
       {
         "title": "Week 33 – 2026",
         "url": "https://thisweekin4n6.com/2026/08/16/week-33-2026/",
@@ -1682,11 +1636,6 @@
         "title": "Week 25 – 2026",
         "url": "https://thisweekin4n6.com/2026/06/21/week-25-2026/",
         "published": "2026-06-21T11:31:58+00:00"
-      },
-      {
-        "title": "Week 24 – 2026",
-        "url": "https://thisweekin4n6.com/2026/06/14/week-24-2026/",
-        "published": "2026-06-14T12:18:49+00:00"
       }
     ],
     "error": null
@@ -1695,7 +1644,7 @@
     "title": "The Sleuth Kit updates",
     "html_url": "https://www.sleuthkit.org/",
     "xml_url": "https://www.sleuthkit.org/rss.xml",
-    "checked_at": "2026-08-20T04:01:52Z",
+    "checked_at": "2026-08-30T01:52:03Z",
     "entries": [
       {
         "title": "The Sleuth Kit 4.12.1 is available",
@@ -1754,7 +1703,7 @@
     "title": "Amped Software blog",
     "html_url": "https://blog.ampedsoftware.com/",
     "xml_url": "https://blog.ampedsoftware.com/feed/",
-    "checked_at": "2026-08-20T04:01:54Z",
+    "checked_at": "2026-08-30T01:52:05Z",
     "entries": [
       {
         "title": "Amped DVRConv and Engine Update 41489: Video Libraries Improvements and Support for Many New Proprietary Formats",
@@ -1813,8 +1762,13 @@
     "title": "Didier Stevens Blog",
     "html_url": "https://blog.didierstevens.com/",
     "xml_url": "https://blog.didierstevens.com/feed/",
-    "checked_at": "2026-08-20T04:01:54Z",
+    "checked_at": "2026-08-30T01:52:05Z",
     "entries": [
+      {
+        "title": "Update: base64dump.py Version 0.0.31",
+        "url": "https://blog.didierstevens.com/2026/08/23/update-base64dump-py-version-0-0-31/",
+        "published": "2026-08-23T17:44:05+00:00"
+      },
       {
         "title": "Overview of Content Published in July",
         "url": "https://blog.didierstevens.com/2026/08/01/overview-of-content-published-in-july-11/",
@@ -1859,11 +1813,6 @@
         "title": "Update: oledump.py Version 0.0.85",
         "url": "https://blog.didierstevens.com/2026/03/17/update-oledump-py-version-0-0-85/",
         "published": "2026-03-17T00:00:00+00:00"
-      },
-      {
-        "title": "Update: oledump.py Version 0.0.84",
-        "url": "https://blog.didierstevens.com/2026/03/14/update-oledump-py-version-0-0-84/",
-        "published": "2026-03-14T00:00:00+00:00"
       }
     ],
     "error": null
@@ -1872,7 +1821,7 @@
     "title": "Hexordia",
     "html_url": "https://www.hexordia.com/blog/",
     "xml_url": "https://www.hexordia.com/blog?format=rss",
-    "checked_at": "2026-08-20T04:01:55Z",
+    "checked_at": "2026-08-30T01:52:05Z",
     "entries": [
       {
         "title": "Checking out Evanole VM v20260603: Introducing EVM!",
@@ -1931,7 +1880,7 @@
     "title": "Hexacorn",
     "html_url": "https://www.hexacorn.com/blog/",
     "xml_url": "https://www.hexacorn.com/blog/feed/",
-    "checked_at": "2026-08-20T04:01:55Z",
+    "checked_at": "2026-08-30T01:52:05Z",
     "entries": [
       {
         "title": "little secret of msconfig.exe",
@@ -1965,7 +1914,7 @@
     "title": "The DFIR Spot",
     "html_url": "https://www.thedfirspot.com/",
     "xml_url": "https://www.thedfirspot.com/blog-feed.xml",
-    "checked_at": "2026-08-20T04:01:55Z",
+    "checked_at": "2026-08-30T01:52:05Z",
     "entries": [
       {
         "title": "From Chaos to Chronology: The Power of Forensic Timelines",
@@ -2024,7 +1973,7 @@
     "title": "4n6k",
     "html_url": "https://www.4n6k.com/",
     "xml_url": "https://www.4n6k.com/feeds/posts/default",
-    "checked_at": "2026-08-20T04:01:55Z",
+    "checked_at": "2026-08-30T01:52:06Z",
     "entries": [
       {
         "title": "Forensics Quickie: Identifying an Unknown GUID with Shellbags Explorer, Detailing Shell Item Extension Block 0xbeef0026, & Creative Cloud GUID Behavior",
@@ -2083,7 +2032,7 @@
     "title": "Embee Research",
     "html_url": "https://embee-research.ghost.io/",
     "xml_url": "https://embee-research.ghost.io/rss/",
-    "checked_at": "2026-08-20T04:01:56Z",
+    "checked_at": "2026-08-30T01:52:06Z",
     "entries": [
       {
         "title": "Practical Examples of URL Hunting Queries - Part 1",
@@ -2142,7 +2091,7 @@
     "title": "Digital Forensics Tips",
     "html_url": "https://www.digitalforensicstips.com/",
     "xml_url": "https://www.digitalforensicstips.com/feeds/posts/default",
-    "checked_at": "2026-08-20T04:01:56Z",
+    "checked_at": "2026-08-30T01:52:07Z",
     "entries": [
       {
         "title": "Leveling Up Your OSINT Game: Creating a Professional Email on a Budget",
@@ -2201,8 +2150,13 @@
     "title": "Objective-See",
     "html_url": "https://objective-see.org/blog.html",
     "xml_url": "https://objective-see.org/rss.xml",
-    "checked_at": "2026-08-20T04:01:56Z",
+    "checked_at": "2026-08-30T01:52:07Z",
     "entries": [
+      {
+        "title": "Detecting (Evil) Dylibs",
+        "url": "https://objective-see.org/blog/blog_0x89.html",
+        "published": "2026-08-23T00:00:00+00:00"
+      },
       {
         "title": "Catching macOS Stealers in the Wild",
         "url": "https://objective-see.org/blog/blog_0x88.html",
@@ -2247,11 +2201,6 @@
         "title": "TCCing is Believing: Apple finally adds TCC events to Endpoint Security!",
         "url": "https://objective-see.org/blog/blog_0x7F.html",
         "published": "2025-03-27T00:00:00-05:00"
-      },
-      {
-        "title": "Leaking Passwords (and more!) on macOS",
-        "url": "https://objective-see.org/blog/blog_0x7E.html",
-        "published": "2025-03-20T00:00:00-05:00"
       }
     ],
     "error": null
@@ -2260,57 +2209,57 @@
     "title": "The Eclectic Light Company",
     "html_url": "https://eclecticlight.co/",
     "xml_url": "https://eclecticlight.co/feed/",
-    "checked_at": "2026-08-20T04:01:57Z",
+    "checked_at": "2026-08-30T01:52:07Z",
     "entries": [
       {
-        "title": "In the shadow: Overview and contents",
-        "url": "https://eclecticlight.co/2026/08/19/in-the-shadow-overview-and-contents/",
-        "published": "2026-08-19T11:30:00+00:00"
+        "title": "An unnatural history of footwear in paintings 1",
+        "url": "https://eclecticlight.co/2026/08/29/an-unnatural-history-of-footwear-in-paintings-1/",
+        "published": "2026-08-29T11:30:00+00:00"
       },
       {
-        "title": "Find what you want in the log",
-        "url": "https://eclecticlight.co/2026/08/19/find-what-you-want-in-the-log/",
-        "published": "2026-08-19T06:30:00+00:00"
+        "title": "Saturday Mac riddles 375",
+        "url": "https://eclecticlight.co/2026/08/29/saturday-mac-riddles-375/",
+        "published": "2026-08-29T08:00:00+00:00"
       },
       {
-        "title": "Apple has released an update to Safari 26.6.1 for Sequoia and Sonoma",
-        "url": "https://eclecticlight.co/2026/08/18/apple-has-released-an-update-to-safari-26-6-1-for-sequoia-and-sonoma/",
-        "published": "2026-08-18T20:54:31+00:00"
+        "title": "Visual shocks in past macOS upgrades",
+        "url": "https://eclecticlight.co/2026/08/29/visual-shocks-in-past-macos-upgrades/",
+        "published": "2026-08-29T07:00:00+00:00"
+      },
+      {
+        "title": "Painting a good story: Origins",
+        "url": "https://eclecticlight.co/2026/08/28/painting-a-good-story-origins/",
+        "published": "2026-08-28T11:30:00+00:00"
+      },
+      {
+        "title": "Golden Gate and forthcoming updates",
+        "url": "https://eclecticlight.co/2026/08/28/golden-gate-and-forthcoming-updates/",
+        "published": "2026-08-28T06:30:00+00:00"
+      },
+      {
+        "title": "Orient: the bicentenary of Alberto Pasini 1",
+        "url": "https://eclecticlight.co/2026/08/27/orient-the-bicentenary-of-alberto-pasini-1/",
+        "published": "2026-08-27T11:30:00+00:00"
+      },
+      {
+        "title": "Why can purging snapshots fail?",
+        "url": "https://eclecticlight.co/2026/08/27/why-can-purging-snapshots-fail/",
+        "published": "2026-08-27T06:30:00+00:00"
       },
       {
         "title": "Apple has just released an update to XProtect for all macOS",
-        "url": "https://eclecticlight.co/2026/08/18/apple-has-just-released-an-update-to-xprotect-for-all-macos-20/",
-        "published": "2026-08-18T18:33:53+00:00"
+        "url": "https://eclecticlight.co/2026/08/26/apple-has-just-released-an-update-to-xprotect-for-all-macos-21/",
+        "published": "2026-08-26T21:26:41+00:00"
       },
       {
-        "title": "Portraits of trees: Camille Corot",
-        "url": "https://eclecticlight.co/2026/08/18/portraits-of-trees-camille-corot/",
-        "published": "2026-08-18T11:30:00+00:00"
+        "title": "Apple has just released an update to XProtect for macOS Sequoia and later",
+        "url": "https://eclecticlight.co/2026/08/26/apple-has-just-released-an-update-to-xprotect-for-macos-sequoia-and-later/",
+        "published": "2026-08-26T18:44:46+00:00"
       },
       {
-        "title": "Recover Recovery",
-        "url": "https://eclecticlight.co/2026/08/18/recover-recovery/",
-        "published": "2026-08-18T06:30:00+00:00"
-      },
-      {
-        "title": "Apple has released a security update to macOS Tahoe 26.6.2",
-        "url": "https://eclecticlight.co/2026/08/17/apple-has-released-a-security-update-to-macos-tahoe-26-6-2/",
-        "published": "2026-08-17T18:34:51+00:00"
-      },
-      {
-        "title": "Hero or hooligan: Odysseus restored",
-        "url": "https://eclecticlight.co/2026/08/17/hero-or-hooligan-odysseus-restored/",
-        "published": "2026-08-17T11:30:00+00:00"
-      },
-      {
-        "title": "Solutions to Saturday Mac riddles 373",
-        "url": "https://eclecticlight.co/2026/08/17/solutions-to-saturday-mac-riddles-373/",
-        "published": "2026-08-17T08:00:00+00:00"
-      },
-      {
-        "title": "How long until my backup storage is full? DeltaFree can inform you",
-        "url": "https://eclecticlight.co/2026/08/17/how-long-until-my-backup-storage-is-full-deltafree-can-inform-you/",
-        "published": "2026-08-17T06:30:00+00:00"
+        "title": "Brushstrokes: Swirls of Vincent van Gogh",
+        "url": "https://eclecticlight.co/2026/08/26/brushstrokes-swirls-of-vincent-van-gogh/",
+        "published": "2026-08-26T11:30:00+00:00"
       }
     ],
     "error": null
@@ -2319,7 +2268,7 @@
     "title": "JPCERT/CC",
     "html_url": "https://blogs.jpcert.or.jp/en/",
     "xml_url": "https://blogs.jpcert.or.jp/en/atom.xml",
-    "checked_at": "2026-08-20T04:01:58Z",
+    "checked_at": "2026-08-30T01:52:08Z",
     "entries": [
       {
         "title": "TSUBAME Report Overflow (Jan-Mar 2026)",
@@ -2378,7 +2327,7 @@
     "title": "DFIR Review",
     "html_url": "https://dfir.pubpub.org/",
     "xml_url": "https://dfir.pubpub.org/rss.xml",
-    "checked_at": "2026-08-20T04:01:58Z",
+    "checked_at": "2026-08-30T01:52:09Z",
     "entries": [
       {
         "title": "Analyzing Google's Map cache",
@@ -2437,8 +2386,13 @@
     "title": "Elcomsoft Blog",
     "html_url": "https://blog.elcomsoft.com/",
     "xml_url": "https://blog.elcomsoft.com/feed/",
-    "checked_at": "2026-08-20T04:02:00Z",
+    "checked_at": "2026-08-30T01:52:10Z",
     "entries": [
+      {
+        "title": "The True Meaning of Consent in ‘Consent Extractions’",
+        "url": "https://blog.elcomsoft.com/2026/08/the-true-meaning-of-consent-in-consent-extractions/",
+        "published": "2026-08-24T09:12:57+00:00"
+      },
       {
         "title": "Write Blockers in Forensics: What Controls How You Use Them?",
         "url": "https://blog.elcomsoft.com/2026/08/write-blockers-in-forensics-what-controls-how-you-use-them/",
@@ -2483,11 +2437,6 @@
         "title": "The RAR Mystery: Breaking RAR4 and RAR5 Encryption",
         "url": "https://blog.elcomsoft.com/2026/07/the-rar-mystery-breaking-rar4-and-rar5-encryption/",
         "published": "2026-07-23T10:14:45+00:00"
-      },
-      {
-        "title": "An AI agent broke into Hugging Face. Five days later, OpenAI said it was theirs",
-        "url": "https://blog.elcomsoft.com/2026/07/an-ai-agent-broke-into-hugging-face-five-days-later-openai-said-it-was-theirs/",
-        "published": "2026-07-22T09:46:03+00:00"
       }
     ],
     "error": null
@@ -2496,57 +2445,57 @@
     "title": "Huntress Blog",
     "html_url": "https://www.huntress.com/blog",
     "xml_url": "https://www.huntress.com/blog/rss.xml",
-    "checked_at": "2026-08-20T04:02:00Z",
+    "checked_at": "2026-08-30T01:52:10Z",
     "entries": [
       {
-        "title": "MacSync Stealer: How a Google Search for Claude Led to a macOS Infostealer",
-        "url": "https://www.huntress.com/blog/fake-claude-macsync",
-        "published": "2026-08-17T04:00:00+00:00"
+        "title": "Next-Gen Phishing Tactics Users Aren’t Ready For | Huntress",
+        "url": "https://www.huntress.com/blog/advanced-phishing-tradecraft",
+        "published": "2026-08-28T16:00:00+00:00"
       },
       {
-        "title": "10 Hacker Summer Camp Standouts at Black Hat and DEF CON",
-        "url": "https://www.huntress.com/blog/black-hat-def-con-standouts",
-        "published": "2026-08-14T04:00:00+00:00"
+        "title": "Teach Yourself to Phish | Huntress",
+        "url": "https://www.huntress.com/blog/teach-yourself-to-phish-the-strategy-behind-phishing-simulations",
+        "published": "2026-08-28T16:00:00+00:00"
       },
       {
-        "title": "Education Under Attack: The Pattern Behind Recent University Breaches",
-        "url": "https://www.huntress.com/blog/why-is-education-under-attack",
-        "published": "2026-08-13T15:00:00+00:00"
+        "title": "A Beginner’s Guide to Phishing Simulation Training for Employees | Huntress",
+        "url": "https://www.huntress.com/blog/a-beginners-guide-to-phishing-simulation-training-for-employees",
+        "published": "2026-08-28T16:00:00+00:00"
       },
       {
-        "title": "Fake Refund Scam Hits Shopify Shop App Users",
-        "url": "https://www.huntress.com/blog/shopify-fake-refund-scam",
-        "published": "2026-08-13T13:00:00+00:00"
+        "title": "PaperCut Zero-Day: Active Exploitation and Pre-Auth RCE",
+        "url": "https://www.huntress.com/blog/papercut-actively-exploited",
+        "published": "2026-08-28T03:00:00+00:00"
       },
       {
-        "title": "Guide to Cybersecurity Budget Planning: How Much + How To | Huntress",
-        "url": "https://www.huntress.com/blog/cybersecurity-budget",
-        "published": "2026-08-12T17:00:00+00:00"
+        "title": "New Huntress Managed ITDR Dashboard: Faster Identity Investigations",
+        "url": "https://www.huntress.com/blog/managed-itdr-dashboard-redesigned",
+        "published": "2026-08-27T14:00:00+00:00"
       },
       {
-        "title": "Akira Hits Safe Mode: Ransomware Rebooting Around EDR",
-        "url": "https://www.huntress.com/blog/akira-hits-safe-mode-ransomware-rebooting-around-edr",
-        "published": "2026-08-12T13:00:00+00:00"
+        "title": "Retail Cybersecurity in ANZ: Five Decisions That Keep Trading",
+        "url": "https://www.huntress.com/blog/retail-cybersecurity-anz-five-decisions",
+        "published": "2026-08-27T13:00:00+00:00"
       },
       {
-        "title": "Five Years, 88,000 Backdoors, and a Pair of Handcuffs: Inside the Global Manhunt That Ended in an Arrest",
-        "url": "https://www.huntress.com/blog/declassified-cybercrime-episode-three",
-        "published": "2026-08-10T13:00:00+00:00"
+        "title": "The AI Attack Surface: How Threat Actors Abuse Trusted AI Platforms",
+        "url": "https://www.huntress.com/blog/ai-attack-surface",
+        "published": "2026-08-27T04:00:00+00:00"
       },
       {
-        "title": "From Screen Share to Root Access: Breaking Down CVE-2026-43760 and CVE-2026-65400 on macOS",
-        "url": "https://www.huntress.com/blog/macos-screen-sharing-rce-patched",
-        "published": "2026-08-07T19:00:00+00:00"
+        "title": "Insights into Suspected DPRK Workers",
+        "url": "https://www.huntress.com/blog/huntress-dprk-remote-worker-investigation",
+        "published": "2026-08-26T04:00:00+00:00"
       },
       {
-        "title": "Meet the Huntress MCP Server",
-        "url": "https://www.huntress.com/blog/huntress-mcp-server",
-        "published": "2026-08-07T14:00:00+00:00"
+        "title": "What Good Identity Hardening Looks Like",
+        "url": "https://www.huntress.com/blog/good-identity-hardening",
+        "published": "2026-08-25T13:00:00+00:00"
       },
       {
-        "title": "What Is Zero Trust Security? A Guide for Businesses",
-        "url": "https://www.huntress.com/blog/what-is-the-zero-trust-security-model",
-        "published": "2026-08-06T20:00:00+00:00"
+        "title": "New View for Security Incident Investigations",
+        "url": "https://www.huntress.com/blog/security-incident-investigations-partner-view",
+        "published": "2026-08-24T14:00:00+00:00"
       }
     ],
     "error": null
@@ -2555,8 +2504,13 @@
     "title": "Red Canary Blog",
     "html_url": "https://redcanary.com/blog/",
     "xml_url": "https://redcanary.com/blog/feed/",
-    "checked_at": "2026-08-20T04:02:00Z",
+    "checked_at": "2026-08-30T01:52:10Z",
     "entries": [
+      {
+        "title": "Intelligence Insights: August 2026",
+        "url": "https://redcanary.com/blog/threat-intelligence/intelligence-insights-august-2026/",
+        "published": "2026-08-20T20:09:55+00:00"
+      },
       {
         "title": "Intelligence Insights: July 2026",
         "url": "https://redcanary.com/blog/threat-intelligence/intelligence-insights-july-2026/",
@@ -2601,11 +2555,6 @@
         "title": "Grading on a curve: How to assess a pentest",
         "url": "https://redcanary.com/blog/testing-and-validation/pentesting/",
         "published": "2026-05-28T13:13:04+00:00"
-      },
-      {
-        "title": "Investigating suspicious AI workflows in Microsoft Entra Agent ID: Autonomous agents",
-        "url": "https://redcanary.com/blog/threat-detection/entra-id-ai-workflows/",
-        "published": "2026-05-27T12:58:44+00:00"
       }
     ],
     "error": null
@@ -2614,8 +2563,28 @@
     "title": "Palo Alto Unit 42",
     "html_url": "https://unit42.paloaltonetworks.com/",
     "xml_url": "https://unit42.paloaltonetworks.com/feed/",
-    "checked_at": "2026-08-20T04:02:01Z",
+    "checked_at": "2026-08-30T01:52:10Z",
     "entries": [
+      {
+        "title": "Perturbation Probing: A New Diagnostic for the Fragility of LLM Safety",
+        "url": "https://unit42.paloaltonetworks.com/perturbation-probing-llm-safety/",
+        "published": "2026-08-28T22:00:07+00:00"
+      },
+      {
+        "title": "The State of AI-Enabled Malware August 2026: From Brand Abuse to Agentic Execution",
+        "url": "https://unit42.paloaltonetworks.com/ai-enabled-malware-analysis/",
+        "published": "2026-08-25T10:00:57+00:00"
+      },
+      {
+        "title": "Connecting the Dots: Securing the Overlooked Corners of the Software Development Lifecycle (SDLC) Supply Chain",
+        "url": "https://unit42.paloaltonetworks.com/sdlc-supply-chain/",
+        "published": "2026-08-21T23:00:21+00:00"
+      },
+      {
+        "title": "Identity Abuse Through Trusted Communication Channels",
+        "url": "https://unit42.paloaltonetworks.com/communication-channel-identity-risks/",
+        "published": "2026-08-20T10:00:25+00:00"
+      },
       {
         "title": "Threat Brief: Mitigating Large-Scale Credential Attacks (Updated August 18)",
         "url": "https://unit42.paloaltonetworks.com/large-scale-credential-attacks/",
@@ -2645,26 +2614,6 @@
         "title": "Token Jacking: Cybercriminals Could Be Stealing Your AI Resources",
         "url": "https://unit42.paloaltonetworks.com/ai-token-jacking/",
         "published": "2026-08-06T10:00:49+00:00"
-      },
-      {
-        "title": "The Frontier AI Vulnerability Burst: Industrializing Autonomous Zero-Day Discovery in Open-Source Software",
-        "url": "https://unit42.paloaltonetworks.com/frontier-ai-vulnerability-burst/",
-        "published": "2026-08-04T13:00:11+00:00"
-      },
-      {
-        "title": "Almost Half of Malware Samples Communicate Direct to IP",
-        "url": "https://unit42.paloaltonetworks.com/malware-bypass-dns-direct-to-ip/",
-        "published": "2026-08-04T12:50:53+00:00"
-      },
-      {
-        "title": "Pass the Passkey: A Novel Attack Surface in Passwordless Authentication",
-        "url": "https://unit42.paloaltonetworks.com/passwordless-authentication-security-risks/",
-        "published": "2026-08-03T10:00:35+00:00"
-      },
-      {
-        "title": "The Xcode Assassin Returns: A Deep Dive Into the Latest XCSSET Version",
-        "url": "https://unit42.paloaltonetworks.com/xcsset-v40-malware-analysis/",
-        "published": "2026-07-31T10:00:18+00:00"
       }
     ],
     "error": null
@@ -2673,8 +2622,13 @@
     "title": "Mandiant Threat Intelligence",
     "html_url": "https://cloud.google.com/blog/topics/threat-intelligence",
     "xml_url": "https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v",
-    "checked_at": "2026-08-20T04:02:01Z",
+    "checked_at": "2026-08-30T01:52:10Z",
     "entries": [
+      {
+        "title": "Going with the Flow(s): Distinct Clusters Target Individuals of Interest to Russia",
+        "url": "https://cloud.google.com/blog/topics/threat-intelligence/distinct-clusters-target-individuals-of-interest-to-russia/",
+        "published": "2026-08-20T14:00:00+00:00"
+      },
       {
         "title": "Staying Ahead of Adversarial AI Through Agentic Source Code Review",
         "url": "https://cloud.google.com/blog/topics/threat-intelligence/staying-ahead-of-adversarial-ai-through-agentic-source-code-review/",
@@ -2719,11 +2673,6 @@
         "title": "The Bear Necessities: A Look at the Drivers, Dynamics, and Applications of the Pro-Russia Influence Ecosystem",
         "url": "https://cloud.google.com/blog/topics/threat-intelligence/pro-russia-influence-ecosystem/",
         "published": "2026-06-29T14:00:00+00:00"
-      },
-      {
-        "title": "STOCKSTAY Another Day: The Latest Addition to Turla’s Intelligence Gathering Apparatus",
-        "url": "https://cloud.google.com/blog/topics/threat-intelligence/stockstay-turla-intelligence-gathering/",
-        "published": "2026-06-25T14:00:00+00:00"
       }
     ],
     "error": null
@@ -2732,8 +2681,43 @@
     "title": "Cisco Talos Blog",
     "html_url": "https://blog.talosintelligence.com/",
     "xml_url": "https://blog.talosintelligence.com/rss/",
-    "checked_at": "2026-08-20T04:02:02Z",
+    "checked_at": "2026-08-30T01:52:11Z",
     "entries": [
+      {
+        "title": "“Sorry, I can’t help with that”: How your guardrails might become the attacker’s best friend",
+        "url": "https://blog.talosintelligence.com/sorry-i-cant-help-with-that-how-your-guardrails-might-become-the-attackers-best-friend/",
+        "published": "2026-08-27T18:00:24+00:00"
+      },
+      {
+        "title": "JavaScript obfuscation: From party trick to phishing kit",
+        "url": "https://blog.talosintelligence.com/javascript-obfuscation-from-party-trick-to-phishing-kit/",
+        "published": "2026-08-27T10:00:27+00:00"
+      },
+      {
+        "title": "Choose your fighter: Balancing competing requirements to select models for your AI SOC",
+        "url": "https://blog.talosintelligence.com/choose-your-fighter-balancing-competing-requirements-to-select-models-for-your-ai-soc/",
+        "published": "2026-08-26T10:00:05+00:00"
+      },
+      {
+        "title": "The safety penalty: Reclaiming operational sovereignty in the age of AI",
+        "url": "https://blog.talosintelligence.com/the-safety-penalty-reclaiming-operational-sovereignty-in-the-age-of-ai/",
+        "published": "2026-08-25T10:00:22+00:00"
+      },
+      {
+        "title": "Is Cyber missing the Marque?",
+        "url": "https://blog.talosintelligence.com/is-cyber-missing-the-marque/",
+        "published": "2026-08-20T18:00:18+00:00"
+      },
+      {
+        "title": "UAT-10147 deploys SPECTRE: A cross-platform implant with Linux rootkit and BYOVD capabilities",
+        "url": "https://blog.talosintelligence.com/uat-10147-deploys-spectre-a-cross-platform-implant-with-linux-rootkit-and-byovd-capabilities/",
+        "published": "2026-08-20T10:00:50+00:00"
+      },
+      {
+        "title": "UAT-10147: Chinese-speaking adversary integrates agentic AI into post-compromise operations",
+        "url": "https://blog.talosintelligence.com/uat-10147-chinese-speaking-adversary-integrates-agentic-ai-into-post-compromise-operations/",
+        "published": "2026-08-20T10:00:32+00:00"
+      },
       {
         "title": "Describing attacks with crime script analysis",
         "url": "https://blog.talosintelligence.com/describing-attacks-with-crime-script-analysis/",
@@ -2748,41 +2732,6 @@
         "title": "Dissecting the JWR phishing framework",
         "url": "https://blog.talosintelligence.com/dissecting-the-jwr-phishing-framework/",
         "published": "2026-08-13T10:00:35+00:00"
-      },
-      {
-        "title": "Microsoft Patch Tuesday for August 2026 — Snort rules and prominent vulnerabilities",
-        "url": "https://blog.talosintelligence.com/microsoft-patch-tuesday-for-august-2026/",
-        "published": "2026-08-11T22:21:02+00:00"
-      },
-      {
-        "title": "Why metaphor may dictate your security strategy",
-        "url": "https://blog.talosintelligence.com/why-metaphor-may-dictate-your-security-strategy/",
-        "published": "2026-08-06T18:00:01+00:00"
-      },
-      {
-        "title": "“Keep going, bro. You’ve got this!” A data-driven look at how adversaries are weaponizing AI",
-        "url": "https://blog.talosintelligence.com/keep-going-bro-youve-got-this-a-data-driven-look-at-how-adversaries-are-weaponizing-ai/",
-        "published": "2026-08-04T10:00:11+00:00"
-      },
-      {
-        "title": "[Webinar] Tales from the Frontlines: An exclusive briefing on Q2 incidents",
-        "url": "https://blog.talosintelligence.com/webinar-tales-from-the-frontlines-an-exclusive-briefing-on-q2-incidents/",
-        "published": "2026-08-03T16:00:12+00:00"
-      },
-      {
-        "title": "You were onto something with “It’s the Climb,” Miley",
-        "url": "https://blog.talosintelligence.com/you-were-onto-something-with-its-the-climb-miley/",
-        "published": "2026-07-30T18:00:35+00:00"
-      },
-      {
-        "title": "Black Hat special: Rewind and revisit",
-        "url": "https://blog.talosintelligence.com/black-hat-special-rewind-and-revisit/",
-        "published": "2026-07-30T10:00:08+00:00"
-      },
-      {
-        "title": "IR Trends Q2 2026: Phishing and weaponized remote management tools drive attack chains",
-        "url": "https://blog.talosintelligence.com/ir-trends-q2-2026/",
-        "published": "2026-07-28T10:00:01+00:00"
       }
     ],
     "error": null
@@ -2791,7 +2740,7 @@
     "title": "SANS Blog",
     "html_url": "https://www.sans.org/blog",
     "xml_url": "https://www.sans.org/blog",
-    "checked_at": "2026-08-20T04:02:02Z",
+    "checked_at": "2026-08-30T01:52:11Z",
     "entries": [
       {
         "title": "Log In",
@@ -2850,56 +2799,56 @@
     "title": "Elastic Security Labs",
     "html_url": "https://www.elastic.co/security-labs/",
     "xml_url": "https://www.elastic.co/security-labs/",
-    "checked_at": "2026-08-20T04:02:03Z",
+    "checked_at": "2026-08-30T01:52:12Z",
     "entries": [
       {
-        "title": "Observability Labs",
-        "url": "https://www.elastic.co/observability-labs",
+        "title": "Access report",
+        "url": "https://www.elastic.co/resources/security/report/forrester-xdr-wave?plcmt=global-alert-banner&amp;cta=eswp-174",
         "published": ""
       },
       {
-        "title": "Security Labs",
-        "url": "https://www.elastic.co/security-labs",
+        "title": "About us",
+        "url": "https://www.elastic.co/about",
         "published": ""
       },
       {
-        "title": "About",
-        "url": "https://www.elastic.co/security-labs/about",
+        "title": "Partners",
+        "url": "https://www.elastic.co/partners",
         "published": ""
       },
       {
-        "title": "Contact sales",
-        "url": "https://www.elastic.co/contact",
+        "title": "Support",
+        "url": "https://www.elastic.co/support",
         "published": ""
       },
       {
-        "title": "13 million tool calls: auditing every AI coding agent action with Elastic Agent",
-        "url": "https://www.elastic.co/security-labs/ai-coding-agent-audit-cursor-hooks",
+        "title": "Context engineeringGet the most relevant context to agents so that they deliver accurate and trusted outcomes",
+        "url": "https://www.elastic.co/elasticsearch/context-engineering",
         "published": ""
       },
       {
-        "title": "Living off the coding agent: Two tales of tunnels and LaunchAgentsby Mika Ayenson, PhD, Jia Yu Chan7 August 2026",
-        "url": "https://www.elastic.co/security-labs/coding-agent-launchagent-tunnel-detection",
+        "title": "Vector databaseEfficiently create, store, and search vector embeddings",
+        "url": "https://www.elastic.co/elasticsearch/vector-database",
         "published": ""
       },
       {
-        "title": "The security signal log tailing can&#x27;t see: tracking npm cooldown removals with Elastic Agentby Wieger van der Meulen7 August 2026",
-        "url": "https://www.elastic.co/security-labs/npm-cooldown-removal-detection-elastic-agent",
+        "title": "LogsCollect, search, explore, and act on large volumes",
+        "url": "https://www.elastic.co/observability/log-monitoring",
         "published": ""
       },
       {
-        "title": "Shai-Hulud strikes again: CHAINDROP worm hits 400+ npm packagesby Elastic Security Labs6 August 2026",
-        "url": "https://www.elastic.co/security-labs/shai-hulud-chaindrop-npm-supply-chain",
+        "title": "Threat protectionDetect, investigate, and remediate cyber threats at scale on real-time data",
+        "url": "https://www.elastic.co/security/investigation-response",
         "published": ""
       },
       {
-        "title": "Benchmarking the Agentic SOC: How we evaluate LLMs for security workflowsby Dhrumil Patel4 August 2026",
-        "url": "https://www.elastic.co/security-labs/llm-benchmarking-agentic-soc",
+        "title": "WorkflowsCombine scripted automation with AI reasoning natively in Elasticsearch",
+        "url": "https://www.elastic.co/elasticsearch/workflows",
         "published": ""
       },
       {
-        "title": "Subscribe to the newsletter",
-        "url": "https://www.elastic.co/elastic-security-labs/newsletter?utm_source=security-labs",
+        "title": "ElasticsearchA distributed, RESTful search and analytics engine",
+        "url": "https://www.elastic.co/elasticsearch",
         "published": ""
       }
     ],
@@ -2909,8 +2858,43 @@
     "title": "Flare.io Threat Research Blog",
     "html_url": "https://flare.io/learn/resources/blog/",
     "xml_url": "https://flare.io/learn/resources/blog/feed/",
-    "checked_at": "2026-08-20T04:02:04Z",
+    "checked_at": "2026-08-30T01:52:12Z",
     "entries": [
+      {
+        "title": "45% of Top American Research Universities Expose Computing Infrastructure to the Open Internet",
+        "url": "https://flare.io/learn/resources/blog/university-computing-infrastructure-internet-exposure",
+        "published": "2026-08-28T17:03:08+00:00"
+      },
+      {
+        "title": "Unmasking TeamPCP, King of Software Supply Chain Attacks",
+        "url": "https://flare.io/learn/resources/blog/teampcp-software-supply-chain-attacks",
+        "published": "2026-08-27T11:26:01+00:00"
+      },
+      {
+        "title": "Lookalike Domains are an Identity Problem, Not Just a Domain Problem",
+        "url": "https://flare.io/learn/resources/blog/lookalike-domains-identity-problem",
+        "published": "2026-08-26T13:56:52+00:00"
+      },
+      {
+        "title": "Is an Agent a Bot with Better PR?: 5 Questions to Ask About NHI",
+        "url": "https://flare.io/learn/resources/blog/nhi-security-agents-bots",
+        "published": "2026-08-25T15:47:37+00:00"
+      },
+      {
+        "title": "What is EvilTokens?: The PhaaS Platform That Tells Attackers What to Do After They Get In",
+        "url": "https://flare.io/learn/resources/blog/eviltokens-phaas-platform",
+        "published": "2026-08-24T15:11:24+00:00"
+      },
+      {
+        "title": "The Age of Autonomous Attacks is Here",
+        "url": "https://flare.io/learn/resources/blog/age-of-autonomous-attacks",
+        "published": "2026-08-21T14:45:05+00:00"
+      },
+      {
+        "title": "1 in 20 Stealer Log Victims are Threat Actors",
+        "url": "https://flare.io/learn/resources/blog/stealer-log-victims-1-in-20-threat-actors",
+        "published": "2026-08-19T16:32:54+00:00"
+      },
       {
         "title": "Plugged In and Exposed: The Growing Cybersecurity Threat to EV Charging Infrastructure",
         "url": "https://flare.io/learn/resources/blog/growing-cybersecurity-threat-ev-charging-infrastructure",
@@ -2925,41 +2909,6 @@
         "title": "Combined PII is Worth Thousands of Times More Than its Parts: Stolen Data Math",
         "url": "https://flare.io/learn/resources/blog/combined-pii-worth-thousands-times-more-than-its-parts",
         "published": "2026-08-05T14:10:15+00:00"
-      },
-      {
-        "title": "After the Minnesota Water System Cyberattacks: Why Every Count of Exposed Rockwell PLCs Differs",
-        "url": "https://flare.io/learn/resources/blog/minnesota-water-system-cyberattackscount-exposed-rockwell-plcs-differs",
-        "published": "2026-08-04T19:20:42+00:00"
-      },
-      {
-        "title": "Flare’s Heading to Hacker Week 2026",
-        "url": "https://flare.io/learn/resources/blog/flare-hacker-week-2026",
-        "published": "2026-07-29T14:14:33+00:00"
-      },
-      {
-        "title": "Kali365: The Phishing-as-a-Service Operation Expanding Beyond Microsoft 365",
-        "url": "https://flare.io/learn/resources/blog/kali365",
-        "published": "2026-07-27T14:00:00+00:00"
-      },
-      {
-        "title": "Detection Without Automated Response Fails: Lessons for Identity-First CTI",
-        "url": "https://flare.io/learn/resources/blog/detection-without-automated-response-fails-lessons-for-identity-first-cti",
-        "published": "2026-07-24T16:53:30+00:00"
-      },
-      {
-        "title": "Impact Analysis of Ransomware Attacks on EMEA Healthcare",
-        "url": "https://flare.io/learn/resources/blog/impact-analysis-ransomware-attacks-emea-healthcare",
-        "published": "2026-07-23T13:00:00+00:00"
-      },
-      {
-        "title": "NULLZEREPTOOL: Inside a Telegram-Controlled DDoS and Multi-Function Attack Framework",
-        "url": "https://flare.io/learn/resources/blog/nullzereptool-telegram-controlled-ddos-multi-function-attack-framework",
-        "published": "2026-07-21T18:15:44+00:00"
-      },
-      {
-        "title": "Strengthening Our Commitment to Responsible Threat Intelligence",
-        "url": "https://flare.io/learn/resources/blog/strengthening-our-commitment-to-responsible-threat-intelligence",
-        "published": "2026-07-20T21:08:45+00:00"
       }
     ],
     "error": null
@@ -2968,7 +2917,7 @@
     "title": "Binalyze Blog",
     "html_url": "https://www.binalyze.com/blog",
     "xml_url": "https://www.binalyze.com/blog/rss.xml",
-    "checked_at": "2026-08-20T04:02:04Z",
+    "checked_at": "2026-08-30T01:52:12Z",
     "entries": [],
     "error": "HTTP 404"
   },
@@ -2976,7 +2925,7 @@
     "title": "Belkasoft Blog",
     "html_url": "https://belkasoft.wordpress.com/",
     "xml_url": "https://belkasoft.wordpress.com/feed/",
-    "checked_at": "2026-08-20T04:02:04Z",
+    "checked_at": "2026-08-30T01:52:12Z",
     "entries": [
       {
         "title": "Comprehensive Skype chat analysis with Belkasoft Evidence Center",
@@ -3035,7 +2984,7 @@
     "title": "Forensafe (ArtiFast) Blog",
     "html_url": "https://www.forensafe.com/blogs/",
     "xml_url": "https://www.forensafe.com/rss.xml",
-    "checked_at": "2026-08-20T04:02:05Z",
+    "checked_at": "2026-08-30T01:52:13Z",
     "entries": [
       {
         "title": "Apple Screen Time",
@@ -3094,32 +3043,32 @@
     "title": "Cellebrite Blog",
     "html_url": "https://cellebrite.com/en/blog/",
     "xml_url": "https://cellebrite.com/en/feed/",
-    "checked_at": "2026-08-20T04:02:06Z",
+    "checked_at": "2026-08-30T01:52:14Z",
     "entries": [
       {
-        "title": "Cellebrite Genesis for Enterprise Now Generally Available, Regional Availability Expands to More Global Markets",
-        "url": "https://cellebrite.com/en/resources/cellebrite-genesis-for-enterprise-now-generally-available-regional-availability-expands-to-more-global-markets/",
-        "published": "2026-08-19T12:29:44+00:00"
+        "title": "One Device Is Not the Case",
+        "url": "https://cellebrite.com/en/resources/webinars/one-device-is-not-the-case/",
+        "published": "2026-08-27T18:06:40+00:00"
       },
       {
-        "title": "Szkolenie dla śledczych i analityków sektora publicznego Cellebrite Reader i Pathfinder: od ekstrakcji danych do ustaleń śledczych",
-        "url": "https://cellebrite.com/en/resources/webinars/szkolenie-dla-sledczych-i-analitykow-sektora-publicznegocellebrite-reader-i-pathfinder-od-ekstrakcji-danych-do-ustalen-sledczych/",
-        "published": "2026-08-18T11:55:51+00:00"
+        "title": "Cellebrite Brings Battlefield Intelligence to the Armed Forces with Launch of Portable Tactical Extraction Kit (C-TEK)",
+        "url": "https://cellebrite.com/en/resources/cellebrite-brings-battlefield-intelligence-to-the-armed-forces-with-launch-of-portable-tactical-extraction-kit-c-tek/",
+        "published": "2026-08-26T12:29:21+00:00"
       },
       {
-        "title": "The Mission Comes First:A Message from CEO Shiv Ramji",
-        "url": "https://cellebrite.com/en/blog/the-mission-comes-first/",
-        "published": "2026-08-13T14:40:39+00:00"
+        "title": "Beyond the Prompt: Modern Investigative Workflows with Cellebrite Genesis",
+        "url": "https://cellebrite.com/en/resources/webinars/beyond-the-prompt-modern-investigative-workflows-with-cellebrite-genesis/",
+        "published": "2026-08-25T21:25:26+00:00"
       },
       {
-        "title": "Cellebrite Appoints Shiven Ramji Chief Executive Officer, Succeeding Thomas E. Hogan",
-        "url": "https://cellebrite.com/en/resources/press-releases/cellebrite-appoints-shiven-ramji-chief-executive-officer-succeeding-thomas-e-hogan/",
-        "published": "2026-08-13T11:02:24+00:00"
+        "title": "A drone breaches your protected perimeter. Now what?",
+        "url": "https://cellebrite.com/en/resources/webinars/a-drone-breaches-your-protected-perimeter-now-what/",
+        "published": "2026-08-25T19:55:33+00:00"
       },
       {
-        "title": "Investigations Don’t Arrive in One Tidy Format",
-        "url": "https://cellebrite.com/en/blog/investigations-dont-arrive-in-one-tidy-format/",
-        "published": "2026-08-12T22:02:03+00:00"
+        "title": "Meet Cellebrite Genesis: From Digital Overload to Investigative Clarity",
+        "url": "https://cellebrite.com/en/resources/webinars/meet-cellebrite-genesis-from-digital-overload-to-investigative-clarity-2/",
+        "published": "2026-08-21T10:39:47+00:00"
       }
     ],
     "error": null
@@ -3128,7 +3077,7 @@
     "title": "DFIR Science",
     "html_url": "https://dfir.science/",
     "xml_url": "https://dfir.science/feed.xml",
-    "checked_at": "2026-08-20T04:02:06Z",
+    "checked_at": "2026-08-30T01:52:14Z",
     "entries": [
       {
         "title": "iLEAPP and RLEAPP updates and dev thoughts",
@@ -3187,8 +3136,13 @@
     "title": "CrowdStrike blog",
     "html_url": "https://www.crowdstrike.com/blog/",
     "xml_url": "https://www.crowdstrike.com/blog/feed/",
-    "checked_at": "2026-08-20T04:02:07Z",
+    "checked_at": "2026-08-30T01:52:14Z",
     "entries": [
+      {
+        "title": "CrowdStrike Named Strongest Overall Leader in 2026 Frost Radar&trade;: Cloud Workload Protection Platforms",
+        "url": "https://www.crowdstrike.com/en-us/blog/crowdstrike-named-strongest-overall-leader-2026-frost-radar-cwpp/",
+        "published": "2026-08-20T00:00:00-05:00"
+      },
       {
         "title": "Benchmaxxing: When the Benchmark Becomes the Target",
         "url": "https://www.crowdstrike.com/en-us/blog/benchmaxxing-when-benchmark-becomes-the-target/",
@@ -3233,11 +3187,6 @@
         "title": "Inside Astaroth's New Spambot Component",
         "url": "https://www.crowdstrike.com/en-us/blog/inside-astaroths-new-spambot-component/",
         "published": "2026-07-29T00:00:00-05:00"
-      },
-      {
-        "title": "Falcon Cloud Security July 2026 Release: Helping Security Teams Move Faster in the Cloud",
-        "url": "https://www.crowdstrike.com/en-us/blog/new-in-falcon-cloud-security-helping-security-teams-move-faster/",
-        "published": "2026-07-29T00:00:00-05:00"
       }
     ],
     "error": null
@@ -3246,57 +3195,57 @@
     "title": "Malwarebytes Labs",
     "html_url": "https://blog.malwarebytes.com/",
     "xml_url": "https://blog.malwarebytes.com/feed/",
-    "checked_at": "2026-08-20T04:02:08Z",
+    "checked_at": "2026-08-30T01:52:15Z",
     "entries": [
       {
-        "title": "41 deceptive download sites show a real link, then send you somewhere else",
-        "url": "https://www.malwarebytes.com/blog/threat-intel/2026/08/41-deceptive-download-sites-show-a-real-link-then-send-you-somewhere-else",
-        "published": "2026-08-19T18:08:35+00:00"
+        "title": "Protect your WhatsApp account with new passkey and 2FA upgrades",
+        "url": "https://www.malwarebytes.com/blog/mobile/2026/08/protect-your-whatsapp-account-with-new-passkey-and-2fa-upgrades",
+        "published": "2026-08-28T13:36:18+00:00"
       },
       {
-        "title": "Sideloading on Android: What it is, why it’s risky, and how to do it more safely",
-        "url": "https://www.malwarebytes.com/blog/how-to/2026/08/sideloading-on-android-what-it-is-why-its-risky-and-how-to-do-it-more-safely",
-        "published": "2026-08-19T15:09:52+00:00"
+        "title": "The AI agent swarm that attacked Hugging Face is a warning for the future",
+        "url": "https://www.malwarebytes.com/blog/ai/2026/08/the-ai-agent-swarm-that-attacked-hugging-face-is-a-warning-for-the-future",
+        "published": "2026-08-28T11:29:23+00:00"
       },
       {
-        "title": "Scammers are using fake crypto AML checkers to drain your wallet",
-        "url": "https://www.malwarebytes.com/blog/threat-intel/2026/08/scammers-are-using-fake-crypto-aml-checkers-to-drain-your-wallet",
-        "published": "2026-08-19T10:55:06+00:00"
+        "title": "Flock wants privacy to meet surveillance halfway",
+        "url": "https://www.malwarebytes.com/blog/privacy/2026/08/flock-wants-privacy-to-meet-surveillance-halfway",
+        "published": "2026-08-27T15:15:32+00:00"
       },
       {
-        "title": "Update Chrome now: Two critical vulnerabilities fixed",
-        "url": "https://www.malwarebytes.com/blog/bugs/2026/08/update-chrome-now-two-critical-vulnerabilities-fixed",
-        "published": "2026-08-19T10:32:04+00:00"
+        "title": "Fake listings can turn trusted platforms into scam springboards",
+        "url": "https://www.malwarebytes.com/blog/scams/2026/08/fake-listings-can-turn-trusted-platforms-into-scam-springboards",
+        "published": "2026-08-27T14:36:03+00:00"
       },
       {
-        "title": "Your polite reply to that text is worth $2 on the dark web",
-        "url": "https://www.malwarebytes.com/blog/threat-intel/2026/08/your-polite-reply-to-that-text-is-worth-2-on-the-dark-web",
-        "published": "2026-08-19T09:39:03+00:00"
+        "title": "Fake Apple Pay charge brings the classic tech support scam to your phone",
+        "url": "https://www.malwarebytes.com/blog/scams/2026/08/fake-apple-pay-charge-brings-the-classic-tech-support-scam-to-your-phone",
+        "published": "2026-08-27T12:17:21+00:00"
       },
       {
-        "title": "Apple fixes another image-processing flaw that could allow code execution",
-        "url": "https://www.malwarebytes.com/blog/bugs/2026/08/apple-fixes-another-image-processing-flaw-that-could-allow-code-execution",
-        "published": "2026-08-18T14:55:04+00:00"
+        "title": "New Instagram and Facebook rules set a default two-hour limit for teens",
+        "url": "https://www.malwarebytes.com/blog/news/2026/08/new-instagram-and-facebook-rules-will-set-a-default-two-hour-daily-limit-for-teens",
+        "published": "2026-08-27T10:23:13+00:00"
       },
       {
-        "title": "Be careful what you put in “anyone with the link” Google Docs",
-        "url": "https://www.malwarebytes.com/blog/news/2026/08/be-careful-what-you-put-in-anyone-with-the-link-google-docs",
-        "published": "2026-08-18T11:15:17+00:00"
+        "title": "Update Chrome before you browse again",
+        "url": "https://www.malwarebytes.com/blog/bugs/2026/08/update-chrome-before-you-browse-again",
+        "published": "2026-08-26T13:10:21+00:00"
       },
       {
-        "title": "Heights Finance data breach: What customers need to know",
-        "url": "https://www.malwarebytes.com/blog/data-breaches/2026/08/heights-finance-data-breach-what-customers-need-to-know",
-        "published": "2026-08-18T10:36:14+00:00"
+        "title": "Popular school apps may be sharing student data with advertisers",
+        "url": "https://www.malwarebytes.com/blog/privacy/2026/08/popular-school-apps-may-be-sharing-student-data-with-advertisers",
+        "published": "2026-08-26T12:12:09+00:00"
       },
       {
-        "title": "ShieldBreak bypasses Microsoft’s patch for earlier Defender flaw",
-        "url": "https://www.malwarebytes.com/blog/bugs/2026/08/shieldbreak-bypasses-microsofts-patch-for-earlier-defender-flaw",
-        "published": "2026-08-17T13:34:31+00:00"
+        "title": "Beware of fake Indeed interview apps used to install spyware",
+        "url": "https://www.malwarebytes.com/blog/scams/2026/08/beware-of-fake-indeed-interview-apps-used-to-install-spyware",
+        "published": "2026-08-26T08:00:00+00:00"
       },
       {
-        "title": "Fake TikTok rewards promise cash you’ll never get",
-        "url": "https://www.malwarebytes.com/blog/scams/2026/08/fake-tiktok-rewards-promise-cash-youll-never-get",
-        "published": "2026-08-17T11:15:35+00:00"
+        "title": "Grok fooled into stealing user chat, location data, and more",
+        "url": "https://www.malwarebytes.com/blog/ai/2026/08/encrypted-instructions-can-fool-ai-assistants-like-grok-and-gemini",
+        "published": "2026-08-25T11:34:18+00:00"
       }
     ],
     "error": null
@@ -3305,8 +3254,13 @@
     "title": "Krebs on Security",
     "html_url": "https://krebsonsecurity.com/",
     "xml_url": "https://krebsonsecurity.com/feed/",
-    "checked_at": "2026-08-20T04:02:08Z",
+    "checked_at": "2026-08-30T01:52:15Z",
     "entries": [
+      {
+        "title": "Two Alleged ‘TeamPCP’ Hackers Arrested in Australia",
+        "url": "https://krebsonsecurity.com/2026/08/two-alleged-teampcp-hackers-arrested-in-australia/",
+        "published": "2026-08-27T11:04:15+00:00"
+      },
       {
         "title": "Who’s Tracking You? Use This New Service to Find Out",
         "url": "https://krebsonsecurity.com/2026/08/whos-tracking-you-use-this-new-service-to-find-out/",
@@ -3351,11 +3305,6 @@
         "title": "FBI Seizes NetNut Proxy Platform, Popa Botnet",
         "url": "https://krebsonsecurity.com/2026/07/fbi-seizes-netnut-proxy-platform-popa-botnet/",
         "published": "2026-07-02T19:27:33+00:00"
-      },
-      {
-        "title": "Scattered Spider Hackers Plead Guilty on Day 1 of Trial",
-        "url": "https://krebsonsecurity.com/2026/06/scattered-spider-hackers-plead-guilty-on-day-1-of-trial/",
-        "published": "2026-06-23T16:12:49+00:00"
       }
     ],
     "error": null
@@ -3364,57 +3313,57 @@
     "title": "BleepingComputer",
     "html_url": "https://www.bleepingcomputer.com/",
     "xml_url": "https://www.bleepingcomputer.com/feed/",
-    "checked_at": "2026-08-20T04:02:08Z",
+    "checked_at": "2026-08-30T01:52:15Z",
     "entries": [
       {
-        "title": "OpenAI confirms ChatGPT is down as logins and signups fail",
-        "url": "https://www.bleepingcomputer.com/news/artificial-intelligence/openai-confirms-chatgpt-is-down-as-logins-and-signups-fail/",
-        "published": "2026-08-19T20:20:55-04:00"
+        "title": "Anthropic is cutting Claude Code's current weekly limits by 17%",
+        "url": "https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-is-cutting-claude-codes-current-weekly-limits-by-17-percent/",
+        "published": "2026-08-29T19:11:51-04:00"
       },
       {
-        "title": "Rogue ransomware affiliate poses as recovery firm to steal payments",
-        "url": "https://www.bleepingcomputer.com/news/security/rogue-ransomware-affiliate-ransom-busters-poses-as-recovery-firm/",
-        "published": "2026-08-19T16:59:58-04:00"
+        "title": "Brave browser adds email aliases to help users evade tracking",
+        "url": "https://www.bleepingcomputer.com/news/security/brave-browser-adds-email-aliases-to-help-users-evade-tracking/",
+        "published": "2026-08-29T10:19:23-04:00"
       },
       {
-        "title": "Sakura Internet hack exposes data of up to 1.36 million accounts",
-        "url": "https://www.bleepingcomputer.com/news/security/sakura-internet-hack-exposes-data-of-up-to-136-million-accounts/",
-        "published": "2026-08-19T16:53:38-04:00"
+        "title": "McKesson discloses breach after ShinyHunters claims patient data theft",
+        "url": "https://www.bleepingcomputer.com/news/security/mckesson-discloses-breach-after-shinyhunters-claims-patient-data-theft/",
+        "published": "2026-08-28T18:40:17-04:00"
       },
       {
-        "title": "Healthtech firm CareCloud data breach impacts 3.7 million patients",
-        "url": "https://www.bleepingcomputer.com/news/security/healthtech-firm-carecloud-data-breach-impacts-37-million-patients/",
-        "published": "2026-08-19T16:07:12-04:00"
+        "title": "PaperCut releases second emergency patch for exploited flaws",
+        "url": "https://www.bleepingcomputer.com/news/security/papercut-releases-second-emergency-patch-for-exploited-flaws/",
+        "published": "2026-08-28T15:08:26-04:00"
       },
       {
-        "title": "Hackers compromise 14,500 Dahua web cameras in 35-day campaign",
-        "url": "https://www.bleepingcomputer.com/news/security/hackers-compromise-14-500-dahua-web-cameras-in-35-day-campaign/",
-        "published": "2026-08-19T14:09:13-04:00"
+        "title": "GiveWP WordPress donation plugin flaw lets hackers execute server commands",
+        "url": "https://www.bleepingcomputer.com/news/security/givewp-wordpress-donation-plugin-flaw-lets-hackers-execute-server-commands/",
+        "published": "2026-08-28T14:18:55-04:00"
       },
       {
-        "title": "US warns of AI-powered attacks on Siemens PLCs in critical infrastructure",
-        "url": "https://www.bleepingcomputer.com/news/security/us-warns-of-ai-powered-attacks-on-siemens-plcs-in-critical-infrastructure/",
-        "published": "2026-08-19T13:50:01-04:00"
+        "title": "68-year-old imprisoned after making $1.3 million by pirating IPTV services",
+        "url": "https://www.bleepingcomputer.com/news/security/68-year-old-imprisoned-after-making-13-million-by-pirating-iptv-services/",
+        "published": "2026-08-28T12:36:47-04:00"
       },
       {
-        "title": "US charges Iranian hackers over $3.4 billion intellectual property theft",
-        "url": "https://www.bleepingcomputer.com/news/security/us-charges-iranian-hackers-over-34-billion-intellectual-property-theft/",
-        "published": "2026-08-19T11:56:09-04:00"
+        "title": "AI Is Accelerating Vulnerability Discovery. Can Defenders Keep Up?",
+        "url": "https://www.bleepingcomputer.com/news/security/ai-is-accelerating-vulnerability-discovery-can-defenders-keep-up/",
+        "published": "2026-08-28T10:00:10-04:00"
       },
       {
-        "title": "Password spraying attacks surge 155x as hackers exploit MFA gaps",
-        "url": "https://www.bleepingcomputer.com/news/security/password-spraying-attacks-surge-155x-as-hackers-exploit-mfa-gaps/",
-        "published": "2026-08-19T10:00:10-04:00"
+        "title": "Over 8,300 Gitea servers vulnerable to code execution attacks",
+        "url": "https://www.bleepingcomputer.com/news/security/over-8-300-gitea-servers-vulnerable-to-code-execution-attacks/",
+        "published": "2026-08-28T08:58:43-04:00"
       },
       {
-        "title": "Microsoft fixes known issue causing Windows Defender crashes",
-        "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-known-issue-causing-windows-defender-crashes/",
-        "published": "2026-08-19T07:14:28-04:00"
+        "title": "Toy-making giant Hasbro disclose data breach affecting employees",
+        "url": "https://www.bleepingcomputer.com/news/security/toy-making-giant-hasbro-disclose-data-breach-affecting-employees/",
+        "published": "2026-08-28T07:46:57-04:00"
       },
       {
-        "title": "Critical RCE flaw in Windows IKE Extension now actively exploited",
-        "url": "https://www.bleepingcomputer.com/news/security/cisa-critical-windows-ike-extension-flaw-now-exploited-in-attacks/",
-        "published": "2026-08-19T06:12:24-04:00"
+        "title": "ServiceNow warns of three max severity security vulnerabilities",
+        "url": "https://www.bleepingcomputer.com/news/security/servicenow-warns-of-three-max-severity-security-vulnerabilities/",
+        "published": "2026-08-28T06:29:42-04:00"
       }
     ],
     "error": null
@@ -3423,57 +3372,57 @@
     "title": "Dark Reading",
     "html_url": "https://www.darkreading.com/",
     "xml_url": "https://www.darkreading.com/rss.xml",
-    "checked_at": "2026-08-20T04:02:09Z",
+    "checked_at": "2026-08-30T01:52:15Z",
     "entries": [
       {
-        "title": "No-Filter 'Kriminal' AI Platform Raises Cybercrime Concerns",
-        "url": "https://www.darkreading.com/application-security/no-filter-kriminal-ai-platform-cybercrime-concerns",
-        "published": "2026-08-19T20:32:09+00:00"
+        "title": "Hundreds of OpenAI Agents Invaded Hugging Face Servers",
+        "url": "https://www.darkreading.com/cyberattacks-data-breaches/hundreds-openai-agents-invaded-hugging-face-servers",
+        "published": "2026-08-28T20:19:22+00:00"
       },
       {
-        "title": "SilkParasite Threatens Central Asian Orgs With Flurry of RATs",
-        "url": "https://www.darkreading.com/threat-intelligence/silkparasite-central-asian-orgs-flurry-rats",
-        "published": "2026-08-19T16:58:23+00:00"
+        "title": "Offensive Security Investments Surge as AI Threats Increase",
+        "url": "https://www.darkreading.com/cybersecurity-operations/offensive-security-investments-surge-ai-threats-increase",
+        "published": "2026-08-28T18:25:43+00:00"
       },
       {
-        "title": "China-Linked Hacker Shows AI Capabilities in APAC Attack",
-        "url": "https://www.darkreading.com/cyberattacks-data-breaches/china-linked-hacker-ai-capabilities-apac-attack",
-        "published": "2026-08-19T01:00:00+00:00"
+        "title": "[Virtual Event] What Every Enterprise Should Know About Securing Cloud Assets in the Age of AI",
+        "url": "https://www.darkreading.com/events/virtual-event-what-every-enterprise-know-securing-cloud-2026",
+        "published": ""
       },
       {
-        "title": "Critical GitLab Zero-Click Flaw Poses Mitigation Challenges",
-        "url": "https://www.darkreading.com/application-security/critical-gitlab-zero-click-flaw-mitigation-challenges",
-        "published": "2026-08-18T21:25:58+00:00"
+        "title": "[Virtual Event] Building a Secure AI Strategy for the Enterprise",
+        "url": "https://www.darkreading.com/events/virtual-event-building-secure-ai-strategy-enterprise-2026",
+        "published": ""
       },
       {
-        "title": "'CoSnitch' Attack Tricked Copilot Into Mapping Out Architecture",
-        "url": "https://www.darkreading.com/vulnerabilities-threats/cosnitch-attack-copilot-mapping-out-architecture",
-        "published": "2026-08-18T20:17:24+00:00"
+        "title": "You Need Cyber Deception for OT",
+        "url": "https://www.darkreading.com/ics-ot-security/you-need-cyber-deception-ot",
+        "published": "2026-08-28T14:00:00+00:00"
       },
       {
-        "title": "The 'Industrial Accidents' Behind Rogue AI Agent Attacks — and the Sandbox Failures Exposed",
-        "url": "https://www.darkreading.com/vulnerabilities-threats/industrial-accidents-rogue-ai-agent-attacks-sandbox-failures",
-        "published": "2026-08-18T19:09:51+00:00"
+        "title": "Defining an AI Kill Switch Is Hard, but Necessary",
+        "url": "https://www.darkreading.com/cybersecurity-operations/defining-ai-kill-switch-hard-but-necessary",
+        "published": "2026-08-28T13:30:00+00:00"
       },
       {
-        "title": "CISOs Break Their Silence in 'Declassified' Docuseries",
-        "url": "https://www.darkreading.com/cyber-risk/cisos-break-their-silence-in-declassified-docuseries",
-        "published": "2026-08-18T18:32:01+00:00"
+        "title": "The Vulnpocalypse Is Repricing the Bug Bounty Economy",
+        "url": "https://www.darkreading.com/vulnerabilities-threats/vulnpocalypse-repricing-bug-bounty-economy",
+        "published": "2026-08-28T13:00:00+00:00"
       },
       {
-        "title": "'Ransom Busters': Ransomware Actor Poses as Incident-Recovery Service",
-        "url": "https://www.darkreading.com/cyberattacks-data-breaches/ransom-busters-ransomware-actor-incident-recovery-service",
-        "published": "2026-08-18T13:00:00+00:00"
+        "title": "Chinese Routers Sold Worldwide Contain Backdoors",
+        "url": "https://www.darkreading.com/vulnerabilities-threats/chinese-routers-sold-worldwide-backdoors",
+        "published": "2026-08-27T19:31:45+00:00"
       },
       {
-        "title": "Silent 'TwinLoot' Cyber Threat Operates Entirely From Microsoft's Cloud",
-        "url": "https://www.darkreading.com/cloud-security/silent-twinloot-threat-operates-microsoft-cloud",
-        "published": "2026-08-18T13:00:00+00:00"
+        "title": "Agentic AI Risks, CVE Program Concerns Permeate Black Hat USA 2026",
+        "url": "https://www.darkreading.com/cybersecurity-operations/agentic-ai-risks-cve-program-concerns-black-hat-usa-2026",
+        "published": "2026-08-27T17:25:09+00:00"
       },
       {
-        "title": "Video Call Exploit Chains Two Flaws in Unisoc Modems",
-        "url": "https://www.darkreading.com/mobile-security/video-call-exploit-chains-two-flaws-unisoc-modems",
-        "published": "2026-08-17T21:37:23+00:00"
+        "title": "Russian Hackers Phish EU Officials Over Messaging Apps",
+        "url": "https://www.darkreading.com/cyberattacks-data-breaches/russian-hackers-phish-eu-officials-messaging-apps",
+        "published": "2026-08-27T11:16:01+00:00"
       }
     ],
     "error": null
@@ -3482,7 +3431,7 @@
     "title": "Volexity Blog",
     "html_url": "https://www.volexity.com/blog/",
     "xml_url": "https://www.volexity.com/blog/feed/",
-    "checked_at": "2026-08-20T04:02:10Z",
+    "checked_at": "2026-08-30T01:52:16Z",
     "entries": [],
     "error": "not well-formed (invalid token): line 16, column 68"
   },
@@ -3490,7 +3439,7 @@
     "title": "SentinelOne Labs",
     "html_url": "https://www.sentinelone.com/labs/",
     "xml_url": "https://www.sentinelone.com/labs/feed/",
-    "checked_at": "2026-08-20T04:02:10Z",
+    "checked_at": "2026-08-30T01:52:16Z",
     "entries": [
       {
         "title": "The Model Is the Malware | What Four Agentic Intrusions Tell Defenders",
@@ -3549,8 +3498,28 @@
     "title": "Microsoft Security Blog",
     "html_url": "https://www.microsoft.com/en-us/security/blog/",
     "xml_url": "https://www.microsoft.com/en-us/security/blog/feed/",
-    "checked_at": "2026-08-20T04:02:10Z",
+    "checked_at": "2026-08-30T01:52:16Z",
     "entries": [
+      {
+        "title": "TerminalFix campaign deploys a reverse tunnel through multistage intrusion",
+        "url": "https://www.microsoft.com/en-us/security/blog/2026/08/28/terminalfix-campaign-deploys-reverse-tunnel-through-multistage-intrusion/",
+        "published": "2026-08-29T03:43:27+00:00"
+      },
+      {
+        "title": "​​​​​​What’s new in Microsoft Security: August 2026",
+        "url": "https://www.microsoft.com/en-us/security/blog/2026/08/27/whats-new-in-microsoft-security-august-2026/",
+        "published": "2026-08-27T16:00:00+00:00"
+      },
+      {
+        "title": "When AI infrastructure becomes the target: Securing gateways and control points",
+        "url": "https://www.microsoft.com/en-us/security/blog/2026/08/26/when-ai-infrastructure-becomes-target-securing-gateways-control-points/",
+        "published": "2026-08-26T16:43:53+00:00"
+      },
+      {
+        "title": "The patch window is collapsing: Why security needs a new control plane",
+        "url": "https://azure.microsoft.com/en-us/blog/the-patch-window-is-collapsing-why-security-needs-a-new-control-plane/",
+        "published": "2026-08-25T16:00:00+00:00"
+      },
       {
         "title": "Microsoft named a Leader in the Frost Radar™: Cloud Workload Protection Platforms, 2026",
         "url": "https://www.microsoft.com/en-us/security/blog/2026/08/19/microsoft-named-a-leader-in-the-frost-radar-cloud-workload-protection-platforms-2026/",
@@ -3580,26 +3549,6 @@
         "title": "From open lures to cloaked gates: How a macOS ClickFix campaign learned to hide",
         "url": "https://www.microsoft.com/en-us/security/blog/2026/08/05/macos-clickfix-campaign-learned-hide/",
         "published": "2026-08-05T15:48:39+00:00"
-      },
-      {
-        "title": "ChainDrop supply chain compromise: Anatomy of a self-propagating worm",
-        "url": "https://www.microsoft.com/en-us/security/blog/2026/08/04/chaindrop-supply-chain-compromise-anatomy-self-propagating-worm/",
-        "published": "2026-08-04T23:46:41+00:00"
-      },
-      {
-        "title": "Advance Zero Trust for AI: New tools and guidance to secure AI agents and DevSecOps",
-        "url": "https://www.microsoft.com/en-us/security/blog/2026/08/04/advance-zero-trust-for-ai-new-tools-and-guidance-to-secure-ai-agents-and-devsecops/",
-        "published": "2026-08-04T18:30:00+00:00"
-      },
-      {
-        "title": "128 Seconds to disruption: Microsoft Defender stops ransomware at QNET",
-        "url": "https://www.microsoft.com/en-us/security/blog/2026/08/04/129-seconds-disruption-microsoft-defender-stops-ransomware-qnet/",
-        "published": "2026-08-04T17:54:04+00:00"
-      },
-      {
-        "title": "CaptiveCrunch: Midnight Blizzard targets travelers worldwide for malware delivery and credential theft",
-        "url": "https://www.microsoft.com/en-us/security/blog/2026/07/31/captivecrunch-midnight-blizzard-targets-travelers-worldwide-for-malware-delivery-and-credential-theft/",
-        "published": "2026-07-31T21:01:37+00:00"
       }
     ],
     "error": null
@@ -3608,8 +3557,33 @@
     "title": "HackingPassion",
     "html_url": "https://hackingpassion.com/",
     "xml_url": "https://hackingpassion.com/index.xml",
-    "checked_at": "2026-08-20T04:02:11Z",
+    "checked_at": "2026-08-30T01:52:17Z",
     "entries": [
+      {
+        "title": "Weedhack Hides Inside Fake Minecraft Clients That Outrank the Official Downloads in Google",
+        "url": "https://hackingpassion.com/weedhack-minecraft-malware-service/",
+        "published": "2026-08-29T12:53:36+02:00"
+      },
+      {
+        "title": "WhatsApp Signal Telegram and What Eight Messaging Apps Know About You",
+        "url": "https://hackingpassion.com/messaging-apps-metadata-privacy/",
+        "published": "2026-08-26T16:05:47+02:00"
+      },
+      {
+        "title": "ShieldBreak Turns Windows Defender Into a Way to SYSTEM on Fully Patched Windows 11",
+        "url": "https://hackingpassion.com/shieldbreak-defender-nightmare-eclipse/",
+        "published": "2026-08-24T15:24:22+02:00"
+      },
+      {
+        "title": "Arrayref Rust Crate Hijacked to Run Malware While Your Project Compiled",
+        "url": "https://hackingpassion.com/arrayref-rust-crate-build-script-attack/",
+        "published": "2026-08-23T14:02:40+02:00"
+      },
+      {
+        "title": "WiFi Motion Turns Millions of Home Routers Into Motion Sensors",
+        "url": "https://hackingpassion.com/wifi-motion-router-sensing/",
+        "published": "2026-08-20T14:24:31+02:00"
+      },
       {
         "title": "Zombie Card Attack Revives Expired Credit Cards for Contactless Payments",
         "url": "https://hackingpassion.com/zombie-card-expired-cards/",
@@ -3634,31 +3608,6 @@
         "title": "Pass the Passkey Attack Bypasses Entra ID MFA Using a Windows Log",
         "url": "https://hackingpassion.com/pass-the-passkey-windows-entra-mfa-bypass/",
         "published": "2026-08-11T14:15:01+02:00"
-      },
-      {
-        "title": "Linux Kernel SCTP Flaw Let Local Users Gain Root for 18 Years",
-        "url": "https://hackingpassion.com/sctphantom-linux-kernel-sctp-root/",
-        "published": "2026-08-10T12:43:52+02:00"
-      },
-      {
-        "title": "macOS Screen Sharing Flaw Let Attackers Take Over a Mac Without a Password",
-        "url": "https://hackingpassion.com/macos-screen-sharing-pre-auth-rce/",
-        "published": "2026-08-09T13:21:24+02:00"
-      },
-      {
-        "title": "Outlook CSS Attack Fakes a Microsoft Sign In to Steal Your Password",
-        "url": "https://hackingpassion.com/css-webmail-keylogger-outlook/",
-        "published": "2026-08-08T14:35:36+02:00"
-      },
-      {
-        "title": "OpenAI Anthropic and Meta Admit Their Models Hacked Companies During Safety Testing",
-        "url": "https://hackingpassion.com/ai-labs-models-escaped-cyber-evaluations/",
-        "published": "2026-08-07T13:02:54+02:00"
-      },
-      {
-        "title": "ChainDrop Worm Steals Your Keys the Moment You Run npm Install",
-        "url": "https://hackingpassion.com/chaindrop-npm-worm-keyv/",
-        "published": "2026-08-05T12:24:22+02:00"
       }
     ],
     "error": null
@@ -3667,8 +3616,18 @@
     "title": "LOLBAS Project (Windows)",
     "html_url": "https://lolbas-project.github.io/",
     "xml_url": "https://github.com/LOLBAS-Project/LOLBAS/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:11Z",
+    "checked_at": "2026-08-30T01:52:17Z",
     "entries": [
+      {
+        "title": "Add Vssadmin.exe (#520)",
+        "url": "https://github.com/LOLBAS-Project/LOLBAS/commit/67781fd49a5c8605bba0171dc3d3feec148b432e",
+        "published": "2026-08-26T18:11:50+00:00"
+      },
+      {
+        "title": "Add Applaunch.yml (#519)",
+        "url": "https://github.com/LOLBAS-Project/LOLBAS/commit/9c5e3841081cac342e7603093253cb51512c8369",
+        "published": "2026-08-21T20:34:35+00:00"
+      },
       {
         "title": "Create Mofcomp.yml (#513)",
         "url": "https://github.com/LOLBAS-Project/LOLBAS/commit/3403b338875b8a99a0cd7ba4ced5086e8d310bf7",
@@ -3708,16 +3667,6 @@
         "title": "Change Outlook command to use {REMOTEURL} placeholder",
         "url": "https://github.com/LOLBAS-Project/LOLBAS/commit/1c2234bd3aeb6eab4c288946824d5d3aecb74dde",
         "published": "2026-06-15T21:53:11+00:00"
-      },
-      {
-        "title": "Updates to scp.exe, sftp.exe and new outlook.exe entry (#265)",
-        "url": "https://github.com/LOLBAS-Project/LOLBAS/commit/8b476a5e4fc6f61e5ae42a523bda6e34a3cfc5eb",
-        "published": "2026-06-15T21:03:43+00:00"
-      },
-      {
-        "title": "Fix command description in Scp.yml",
-        "url": "https://github.com/LOLBAS-Project/LOLBAS/commit/c8939ac93dfb98f4f8f06f717bc1c097fc45c168",
-        "published": "2026-06-15T20:04:30+00:00"
       }
     ],
     "error": null
@@ -3726,7 +3675,7 @@
     "title": "GTFOBins (Linux)",
     "html_url": "https://gtfobins.github.io/",
     "xml_url": "https://github.com/GTFOBins/GTFOBins.github.io/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:12Z",
+    "checked_at": "2026-08-30T01:52:17Z",
     "entries": [
       {
         "title": "Clarify mosh-server comment",
@@ -3785,7 +3734,7 @@
     "title": "LOOBins (macOS)",
     "html_url": "https://loobins.io/",
     "xml_url": "https://github.com/infosecB/LOOBins/commits/main.atom",
-    "checked_at": "2026-08-20T04:02:12Z",
+    "checked_at": "2026-08-30T01:52:17Z",
     "entries": [
       {
         "title": "Skip missing Python interpreters in tox run (#260)",
@@ -3844,8 +3793,38 @@
     "title": "LOLDrivers (BYOVD)",
     "html_url": "https://www.loldrivers.io/",
     "xml_url": "https://github.com/magicsword-io/LOLDrivers/commits/main.atom",
-    "checked_at": "2026-08-20T04:02:13Z",
+    "checked_at": "2026-08-30T01:52:17Z",
     "entries": [
+      {
+        "title": "New site and hashes generated by GitHub Actions [ci skip]",
+        "url": "https://github.com/magicsword-io/LOLDrivers/commit/c8652a34e287988f1c826ca671909342317eaf95",
+        "published": "2026-08-28T16:41:29+00:00"
+      },
+      {
+        "title": "updating drivers count in README.md [ci skip]",
+        "url": "https://github.com/magicsword-io/LOLDrivers/commit/92c0e689e51be8958e08012a98b26492bca7825c",
+        "published": "2026-08-28T16:35:07+00:00"
+      },
+      {
+        "title": "Merge pull request #413 from magicsword-io/add-dcrcvdrv-driver-yaml-e…",
+        "url": "https://github.com/magicsword-io/LOLDrivers/commit/062148a27452f1b1d9ff3d21d41d5620f71a7ef3",
+        "published": "2026-08-28T16:34:14+00:00"
+      },
+      {
+        "title": "Add DCRCVDrv binary and metadata",
+        "url": "https://github.com/magicsword-io/LOLDrivers/commit/52293f5165e30dc86240332e9129f87126b8761f",
+        "published": "2026-08-28T16:30:54+00:00"
+      },
+      {
+        "title": "Add Alinubx driver binary and metadata",
+        "url": "https://github.com/magicsword-io/LOLDrivers/commit/1bcbebb93926e31a82f760c34cc800a35400a2fa",
+        "published": "2026-08-28T16:04:21+00:00"
+      },
+      {
+        "title": "Add BYOVD entries for Alinubx.sys and DCRCVDrv.sys abused by Crucifer…",
+        "url": "https://github.com/magicsword-io/LOLDrivers/commit/5adc7238322b71d61f13d1024bf521d2e6a48880",
+        "published": "2026-08-27T18:53:33+00:00"
+      },
       {
         "title": "New site and hashes generated by GitHub Actions [ci skip]",
         "url": "https://github.com/magicsword-io/LOLDrivers/commit/5554706c8350a7b4a8631f05f490e563cd4b6e0a",
@@ -3865,36 +3844,6 @@
         "title": "Merge pull request #405 from Element2023H/Add-KKYUM",
         "url": "https://github.com/magicsword-io/LOLDrivers/commit/7aeab8e89de242df40cec8b0a7b3f9da36f5d58e",
         "published": "2026-08-12T19:43:04+00:00"
-      },
-      {
-        "title": "Merge pull request #399 from 2XXE-SRA/main",
-        "url": "https://github.com/magicsword-io/LOLDrivers/commit/b50c89fddb9912a92170049be923a9fc9e2b4d35",
-        "published": "2026-08-12T19:42:14+00:00"
-      },
-      {
-        "title": "Add CVE-2026-68820 to Afd.sys",
-        "url": "https://github.com/magicsword-io/LOLDrivers/commit/052146e1668f1aa7da2bafca5960a6350e231242",
-        "published": "2026-08-12T06:31:40+00:00"
-      },
-      {
-        "title": "Add KKYUM.sys",
-        "url": "https://github.com/magicsword-io/LOLDrivers/commit/dc290f049f040caba3e4a3c3b17fef5b720bde09",
-        "published": "2026-08-12T03:39:41+00:00"
-      },
-      {
-        "title": "remove duplicate yaml keys",
-        "url": "https://github.com/magicsword-io/LOLDrivers/commit/43df30c2a25bc287736b244acc3279c02f3a6d91",
-        "published": "2026-07-29T14:56:02+00:00"
-      },
-      {
-        "title": "New site and hashes generated by GitHub Actions [ci skip]",
-        "url": "https://github.com/magicsword-io/LOLDrivers/commit/35d5ade5c33246ab6cc9565bded5fd7aff0e689e",
-        "published": "2026-07-10T14:41:13+00:00"
-      },
-      {
-        "title": "updating drivers count in README.md [ci skip]",
-        "url": "https://github.com/magicsword-io/LOLDrivers/commit/0970ed51fcc610b41a502b02293b7fd9b3d408db",
-        "published": "2026-07-10T14:30:34+00:00"
       }
     ],
     "error": null
@@ -3903,7 +3852,7 @@
     "title": "LOFL Project (RMM C2 indicators)",
     "html_url": "https://lofl-project.github.io/",
     "xml_url": "https://github.com/LOFL-Project/LOFL-Project.github.io/commits/main.atom",
-    "checked_at": "2026-08-20T04:02:13Z",
+    "checked_at": "2026-08-30T01:52:18Z",
     "entries": [
       {
         "title": "Migrate away from excessively expensive Azure Front Door",
@@ -3962,8 +3911,13 @@
     "title": "Blue_Team_Hunting_Field_Notes",
     "html_url": "https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes",
     "xml_url": "https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commits/main.atom",
-    "checked_at": "2026-08-20T04:02:13Z",
+    "checked_at": "2026-08-30T01:52:18Z",
     "entries": [
+      {
+        "title": "docs: update minidump workflow for dumpex 3.5.1",
+        "url": "https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/fabcfdce88b3ff7dbd2ae235ec22a10831ac7d3a",
+        "published": "2026-08-27T00:41:16+00:00"
+      },
       {
         "title": "involve 64 bit and 32 bit malware analysis into the same KB framwork",
         "url": "https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/88d263d940f88bae135b841982b7fd10810f286c",
@@ -4008,11 +3962,6 @@
         "title": "Update 3.2.01_Memory_Forensics.md",
         "url": "https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/692b98c655327f3088986aa19ce9e496e02edc53",
         "published": "2026-06-05T04:27:18+00:00"
-      },
-      {
-        "title": "Update",
-        "url": "https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commit/f18df0a95027af5759c43d6bcb22bb44dd0aa102",
-        "published": "2026-05-30T09:20:46+00:00"
       }
     ],
     "error": null
@@ -4021,7 +3970,7 @@
     "title": "kacos2000_Win10",
     "html_url": "https://github.com/kacos2000/Win10",
     "xml_url": "https://github.com/kacos2000/Win10/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:14Z",
+    "checked_at": "2026-08-30T01:52:18Z",
     "entries": [
       {
         "title": "Update keywords3.md",
@@ -4080,7 +4029,7 @@
     "title": "EZ RECmd releases",
     "html_url": "https://github.com/EricZimmerman/RECmd",
     "xml_url": "https://github.com/EricZimmerman/RECmd/releases.atom",
-    "checked_at": "2026-08-20T04:02:14Z",
+    "checked_at": "2026-08-30T01:52:18Z",
     "entries": [
       {
         "title": "0.7.0.0",
@@ -4104,7 +4053,7 @@
     "title": "EZ MFTECmd releases",
     "html_url": "https://github.com/EricZimmerman/MFTECmd",
     "xml_url": "https://github.com/EricZimmerman/MFTECmd/releases.atom",
-    "checked_at": "2026-08-20T04:02:14Z",
+    "checked_at": "2026-08-30T01:52:18Z",
     "entries": [
       {
         "title": "1.3.0.0",
@@ -4143,7 +4092,7 @@
     "title": "EZ AppCompatCacheParser releases",
     "html_url": "https://github.com/EricZimmerman/AppCompatCacheParser",
     "xml_url": "https://github.com/EricZimmerman/AppCompatCacheParser/releases.atom",
-    "checked_at": "2026-08-20T04:02:15Z",
+    "checked_at": "2026-08-30T01:52:19Z",
     "entries": [
       {
         "title": "2026.5.0",
@@ -4202,7 +4151,7 @@
     "title": "EZ AmcacheParser releases",
     "html_url": "https://github.com/EricZimmerman/AmcacheParser",
     "xml_url": "https://github.com/EricZimmerman/AmcacheParser/releases.atom",
-    "checked_at": "2026-08-20T04:02:15Z",
+    "checked_at": "2026-08-30T01:52:19Z",
     "entries": [
       {
         "title": "2026.5.3",
@@ -4261,7 +4210,7 @@
     "title": "EZ SQLECmd releases",
     "html_url": "https://github.com/EricZimmerman/SQLECmd",
     "xml_url": "https://github.com/EricZimmerman/SQLECmd/releases.atom",
-    "checked_at": "2026-08-20T04:02:16Z",
+    "checked_at": "2026-08-30T01:52:19Z",
     "entries": [
       {
         "title": "1.1.0",
@@ -4280,7 +4229,7 @@
     "title": "EZ WxTCmd releases",
     "html_url": "https://github.com/EricZimmerman/WxTCmd",
     "xml_url": "https://github.com/EricZimmerman/WxTCmd/releases.atom",
-    "checked_at": "2026-08-20T04:02:16Z",
+    "checked_at": "2026-08-30T01:52:19Z",
     "entries": [
       {
         "title": "0.2.1.0",
@@ -4304,7 +4253,7 @@
     "title": "EZ JLECmd releases",
     "html_url": "https://github.com/EricZimmerman/JLECmd",
     "xml_url": "https://github.com/EricZimmerman/JLECmd/releases.atom",
-    "checked_at": "2026-08-20T04:02:16Z",
+    "checked_at": "2026-08-30T01:52:20Z",
     "entries": [
       {
         "title": "1.2.0.0",
@@ -4363,7 +4312,7 @@
     "title": "EZ LECmd releases",
     "html_url": "https://github.com/EricZimmerman/LECmd",
     "xml_url": "https://github.com/EricZimmerman/LECmd/releases.atom",
-    "checked_at": "2026-08-20T04:02:17Z",
+    "checked_at": "2026-08-30T01:52:20Z",
     "entries": [
       {
         "title": "1.2.0.0",
@@ -4422,7 +4371,7 @@
     "title": "EZ PECmd releases",
     "html_url": "https://github.com/EricZimmerman/PECmd",
     "xml_url": "https://github.com/EricZimmerman/PECmd/releases.atom",
-    "checked_at": "2026-08-20T04:02:17Z",
+    "checked_at": "2026-08-30T01:52:20Z",
     "entries": [
       {
         "title": "1.1.0.0",
@@ -4461,7 +4410,7 @@
     "title": "EZ RBCmd releases",
     "html_url": "https://github.com/EricZimmerman/RBCmd",
     "xml_url": "https://github.com/EricZimmerman/RBCmd/releases.atom",
-    "checked_at": "2026-08-20T04:02:17Z",
+    "checked_at": "2026-08-30T01:52:20Z",
     "entries": [
       {
         "title": "1.6.0",
@@ -4475,7 +4424,7 @@
     "title": "EZ evtx releases",
     "html_url": "https://github.com/EricZimmerman/evtx",
     "xml_url": "https://github.com/EricZimmerman/evtx/releases.atom",
-    "checked_at": "2026-08-20T04:02:17Z",
+    "checked_at": "2026-08-30T01:52:20Z",
     "entries": [
       {
         "title": "2026.5.0",
@@ -4504,7 +4453,7 @@
     "title": "EZ KapeFiles commits",
     "html_url": "https://github.com/EricZimmerman/KapeFiles",
     "xml_url": "https://github.com/EricZimmerman/KapeFiles/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:18Z",
+    "checked_at": "2026-08-30T01:52:20Z",
     "entries": [
       {
         "title": "Merge pull request #1110 from randomaccess3/master",
@@ -4563,7 +4512,7 @@
     "title": "EZ RegistryPlugins commits",
     "html_url": "https://github.com/EricZimmerman/RegistryPlugins",
     "xml_url": "https://github.com/EricZimmerman/RegistryPlugins/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:18Z",
+    "checked_at": "2026-08-30T01:52:21Z",
     "entries": [
       {
         "title": "\"nuget\"",
@@ -4622,7 +4571,7 @@
     "title": "EZ RegistryExplorerBookmarks commits",
     "html_url": "https://github.com/EricZimmerman/RegistryExplorerBookmarks",
     "xml_url": "https://github.com/EricZimmerman/RegistryExplorerBookmarks/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:19Z",
+    "checked_at": "2026-08-30T01:52:21Z",
     "entries": [
       {
         "title": "Merge pull request #27 from hyuunnn/master",
@@ -4681,7 +4630,7 @@
     "title": "EZ GuidMapping commits",
     "html_url": "https://github.com/EricZimmerman/GuidMapping",
     "xml_url": "https://github.com/EricZimmerman/GuidMapping/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:19Z",
+    "checked_at": "2026-08-30T01:52:21Z",
     "entries": [
       {
         "title": "Merge remote-tracking branch 'origin/master'",
@@ -4740,7 +4689,7 @@
     "title": "EZ documentation commits",
     "html_url": "https://github.com/EricZimmerman/documentation",
     "xml_url": "https://github.com/EricZimmerman/documentation/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:19Z",
+    "checked_at": "2026-08-30T01:52:21Z",
     "entries": [
       {
         "title": "Applied updates.",
@@ -4799,7 +4748,7 @@
     "title": "EZ DFIR-SQL-Query-Repo commits",
     "html_url": "https://github.com/EricZimmerman/DFIR-SQL-Query-Repo",
     "xml_url": "https://github.com/EricZimmerman/DFIR-SQL-Query-Repo/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:20Z",
+    "checked_at": "2026-08-30T01:52:22Z",
     "entries": [
       {
         "title": "Update README.md",
@@ -4858,7 +4807,7 @@
     "title": "SigmaHQ sigma releases",
     "html_url": "https://github.com/SigmaHQ/sigma",
     "xml_url": "https://github.com/SigmaHQ/sigma/releases.atom",
-    "checked_at": "2026-08-20T04:02:20Z",
+    "checked_at": "2026-08-30T01:52:22Z",
     "entries": [
       {
         "title": "Release r2026-07-01",
@@ -4917,8 +4866,28 @@
     "title": "Hayabusa rules commits",
     "html_url": "https://github.com/Yamato-Security/hayabusa-rules",
     "xml_url": "https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom",
-    "checked_at": "2026-08-20T04:02:21Z",
+    "checked_at": "2026-08-30T01:52:22Z",
     "entries": [
+      {
+        "title": "Sigma Rule Update (2026-08-22  20:13:56) (#1062)",
+        "url": "https://github.com/Yamato-Security/hayabusa-rules/commit/a20e7a269e6ace07b3b30b607ddb0b07d19431d7",
+        "published": "2026-08-22T20:14:04+00:00"
+      },
+      {
+        "title": "Merge pull request #1061 from Yamato-Security/fix-github-actions",
+        "url": "https://github.com/Yamato-Security/hayabusa-rules/commit/efb0e9a3f5504989d3d4581fd8d2db384ae998dc",
+        "published": "2026-08-22T00:48:07+00:00"
+      },
+      {
+        "title": "Merge pull request #1050 from Yamato-Security/rules/auto-sigma-update…",
+        "url": "https://github.com/Yamato-Security/hayabusa-rules/commit/a8d944fa6fa9ea4ea3a4a4fc8a43c839fbe0f9ec",
+        "published": "2026-08-22T00:46:39+00:00"
+      },
+      {
+        "title": "chg: rename csv-timeline to dfir-timeline in workflow files",
+        "url": "https://github.com/Yamato-Security/hayabusa-rules/commit/0ac946b12363cfb07f3f2bc95e57a0dd294ac713",
+        "published": "2026-08-21T23:53:52+00:00"
+      },
       {
         "title": "Sigma Rule Supported Modifier Update (2026-08-19  21:18:40) (#1060)",
         "url": "https://github.com/Yamato-Security/hayabusa-rules/commit/44fa739d210a9f4b4c50c35197dec27beb075103",
@@ -4948,26 +4917,6 @@
         "title": "Sigma Rule Update (2026-07-28  21:01:10) (#1055)",
         "url": "https://github.com/Yamato-Security/hayabusa-rules/commit/a3e69bfec6373f205b3a99a8a12a9137c56502d2",
         "published": "2026-07-28T21:01:17+00:00"
-      },
-      {
-        "title": "Sigma Rule Supported Modifier Update (2026-07-27  21:59:21) (#1054)",
-        "url": "https://github.com/Yamato-Security/hayabusa-rules/commit/b51cae701e94255927b830afe932991f3db54831",
-        "published": "2026-07-27T21:59:29+00:00"
-      },
-      {
-        "title": "Sigma Rule Update (2026-07-27  21:04:04) (#1053)",
-        "url": "https://github.com/Yamato-Security/hayabusa-rules/commit/8b08e3403bbc8854abb0de19a10006c60284ce0d",
-        "published": "2026-07-27T21:04:12+00:00"
-      },
-      {
-        "title": "Sigma Rule Update (2026-07-25  20:43:24) (#1052)",
-        "url": "https://github.com/Yamato-Security/hayabusa-rules/commit/125f4fa375969b4cc28703c2516914288f18c37f",
-        "published": "2026-07-25T20:43:31+00:00"
-      },
-      {
-        "title": "Sigma Rule Supported Modifier Update (2026-07-24  21:58:25) (#1051)",
-        "url": "https://github.com/Yamato-Security/hayabusa-rules/commit/64f64936b324fdf80be1821e29f954fec5933301",
-        "published": "2026-07-24T21:58:33+00:00"
       }
     ],
     "error": null
@@ -4976,7 +4925,7 @@
     "title": "Hayabusa releases",
     "html_url": "https://github.com/Yamato-Security/hayabusa",
     "xml_url": "https://github.com/Yamato-Security/hayabusa/releases.atom",
-    "checked_at": "2026-08-20T04:02:22Z",
+    "checked_at": "2026-08-30T01:52:23Z",
     "entries": [
       {
         "title": "v4.0.0 - BlackHat Arsenal USA Release",
@@ -5035,8 +4984,13 @@
     "title": "Chainsaw releases",
     "html_url": "https://github.com/WithSecureLabs/chainsaw",
     "xml_url": "https://github.com/WithSecureLabs/chainsaw/releases.atom",
-    "checked_at": "2026-08-20T04:02:22Z",
+    "checked_at": "2026-08-30T01:52:23Z",
     "entries": [
+      {
+        "title": "v2.16.5",
+        "url": "https://github.com/WithSecureLabs/chainsaw/releases/tag/v2.16.5",
+        "published": "2026-08-25T19:17:44+00:00"
+      },
       {
         "title": "v2.16.4",
         "url": "https://github.com/WithSecureLabs/chainsaw/releases/tag/v2.16.4",
@@ -5081,11 +5035,6 @@
         "title": "v2.15.0",
         "url": "https://github.com/WithSecureLabs/chainsaw/releases/tag/v2.15.0",
         "published": "2026-04-27T16:52:07+00:00"
-      },
-      {
-        "title": "v2.14.1",
-        "url": "https://github.com/WithSecureLabs/chainsaw/releases/tag/v2.14.1",
-        "published": "2026-02-14T18:28:25+00:00"
       }
     ],
     "error": null
@@ -5094,8 +5043,23 @@
     "title": "Elastic detection-rules releases",
     "html_url": "https://github.com/elastic/detection-rules",
     "xml_url": "https://github.com/elastic/detection-rules/releases.atom",
-    "checked_at": "2026-08-20T04:02:22Z",
+    "checked_at": "2026-08-30T01:52:23Z",
     "entries": [
+      {
+        "title": "dev-v2.1.8",
+        "url": "https://github.com/elastic/detection-rules/releases/tag/dev-v2.1.8",
+        "published": "2026-08-24T16:16:32+00:00"
+      },
+      {
+        "title": "dev-v2.1.7",
+        "url": "https://github.com/elastic/detection-rules/releases/tag/dev-v2.1.7",
+        "published": "2026-08-21T20:01:31+00:00"
+      },
+      {
+        "title": "dev-v2.1.6",
+        "url": "https://github.com/elastic/detection-rules/releases/tag/dev-v2.1.6",
+        "published": "2026-08-20T20:32:03+00:00"
+      },
       {
         "title": "integration-v9.5.4: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6666)",
         "url": "https://github.com/elastic/detection-rules/releases/tag/integration-v9.5.4",
@@ -5130,21 +5094,6 @@
         "title": "dev-v2.1.3",
         "url": "https://github.com/elastic/detection-rules/releases/tag/dev-v2.1.3",
         "published": "2026-08-17T21:26:50+00:00"
-      },
-      {
-        "title": "dev-v2.1.2",
-        "url": "https://github.com/elastic/detection-rules/releases/tag/dev-v2.1.2",
-        "published": "2026-08-14T15:52:17+00:00"
-      },
-      {
-        "title": "integration-v9.5.3: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6630)",
-        "url": "https://github.com/elastic/detection-rules/releases/tag/integration-v9.5.3",
-        "published": "2026-08-10T18:03:11+00:00"
-      },
-      {
-        "title": "integration-v9.4.10: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6630)",
-        "url": "https://github.com/elastic/detection-rules/releases/tag/integration-v9.4.10",
-        "published": "2026-08-10T18:02:03+00:00"
       }
     ],
     "error": null
@@ -5153,7 +5102,7 @@
     "title": "regipy releases",
     "html_url": "https://github.com/mkorman90/regipy",
     "xml_url": "https://github.com/mkorman90/regipy/releases.atom",
-    "checked_at": "2026-08-20T04:02:23Z",
+    "checked_at": "2026-08-30T01:52:24Z",
     "entries": [
       {
         "title": "6.3.0",
@@ -5212,7 +5161,7 @@
     "title": "EZ Registry commits",
     "html_url": "https://github.com/EricZimmerman/Registry",
     "xml_url": "https://github.com/EricZimmerman/Registry/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:23Z",
+    "checked_at": "2026-08-30T01:52:24Z",
     "entries": [
       {
         "title": "2026.5.0",
@@ -5271,7 +5220,7 @@
     "title": "EZ MFT commits",
     "html_url": "https://github.com/EricZimmerman/MFT",
     "xml_url": "https://github.com/EricZimmerman/MFT/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:24Z",
+    "checked_at": "2026-08-30T01:52:24Z",
     "entries": [
       {
         "title": "2026.5.1",
@@ -5330,7 +5279,7 @@
     "title": "EZ Lnk commits",
     "html_url": "https://github.com/EricZimmerman/Lnk",
     "xml_url": "https://github.com/EricZimmerman/Lnk/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:24Z",
+    "checked_at": "2026-08-30T01:52:24Z",
     "entries": [
       {
         "title": "2026.5.3",
@@ -5389,7 +5338,7 @@
     "title": "EZ OleCf commits",
     "html_url": "https://github.com/EricZimmerman/OleCf",
     "xml_url": "https://github.com/EricZimmerman/OleCf/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:25Z",
+    "checked_at": "2026-08-30T01:52:24Z",
     "entries": [
       {
         "title": "Merge remote-tracking branch 'origin/master'",
@@ -5448,7 +5397,7 @@
     "title": "EZ JumpList commits",
     "html_url": "https://github.com/EricZimmerman/JumpList",
     "xml_url": "https://github.com/EricZimmerman/JumpList/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:25Z",
+    "checked_at": "2026-08-30T01:52:25Z",
     "entries": [
       {
         "title": "2026.5.2",
@@ -5507,7 +5456,7 @@
     "title": "EZ Prefetch commits",
     "html_url": "https://github.com/EricZimmerman/Prefetch",
     "xml_url": "https://github.com/EricZimmerman/Prefetch/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:25Z",
+    "checked_at": "2026-08-30T01:52:25Z",
     "entries": [
       {
         "title": "2026.5.2",
@@ -5566,7 +5515,7 @@
     "title": "EZ Srum commits",
     "html_url": "https://github.com/EricZimmerman/Srum",
     "xml_url": "https://github.com/EricZimmerman/Srum/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:26Z",
+    "checked_at": "2026-08-30T01:52:25Z",
     "entries": [
       {
         "title": "Merge pull request #24 from reece394/master",
@@ -5625,7 +5574,7 @@
     "title": "EZ RecentFileCacheParser commits",
     "html_url": "https://github.com/EricZimmerman/RecentFileCacheParser",
     "xml_url": "https://github.com/EricZimmerman/RecentFileCacheParser/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:26Z",
+    "checked_at": "2026-08-30T01:52:25Z",
     "entries": [
       {
         "title": "Delete RecentFileCacheParser.v3.ncrunchsolution",
@@ -5684,7 +5633,7 @@
     "title": "EZ WinSearchDbAnalyzer commits",
     "html_url": "https://github.com/EricZimmerman/WinSearchDbAnalyzer",
     "xml_url": "https://github.com/EricZimmerman/WinSearchDbAnalyzer/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:26Z",
+    "checked_at": "2026-08-30T01:52:26Z",
     "entries": [
       {
         "title": "Change LICENSE",
@@ -5718,7 +5667,7 @@
     "title": "EZ USBDevices commits",
     "html_url": "https://github.com/EricZimmerman/USBDevices",
     "xml_url": "https://github.com/EricZimmerman/USBDevices/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:27Z",
+    "checked_at": "2026-08-30T01:52:26Z",
     "entries": [
       {
         "title": "Merge pull request #4 from Eran-YT/master",
@@ -5777,7 +5726,7 @@
     "title": "EZ ExtensionBlocks commits",
     "html_url": "https://github.com/EricZimmerman/ExtensionBlocks",
     "xml_url": "https://github.com/EricZimmerman/ExtensionBlocks/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:27Z",
+    "checked_at": "2026-08-30T01:52:26Z",
     "entries": [
       {
         "title": "2026.5.0",
@@ -5836,7 +5785,7 @@
     "title": "EZ TLEFilePlugins commits",
     "html_url": "https://github.com/EricZimmerman/TLEFilePlugins",
     "xml_url": "https://github.com/EricZimmerman/TLEFilePlugins/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:28Z",
+    "checked_at": "2026-08-30T01:52:26Z",
     "entries": [
       {
         "title": "Merge pull request #20 from reece394/master",
@@ -5895,7 +5844,7 @@
     "title": "EZ Get-ZimmermanTools commits",
     "html_url": "https://github.com/EricZimmerman/Get-ZimmermanTools",
     "xml_url": "https://github.com/EricZimmerman/Get-ZimmermanTools/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:28Z",
+    "checked_at": "2026-08-30T01:52:26Z",
     "entries": [
       {
         "title": "ignore kape.zip",
@@ -5954,7 +5903,7 @@
     "title": "EZ KapeDocs commits",
     "html_url": "https://github.com/EricZimmerman/KapeDocs",
     "xml_url": "https://github.com/EricZimmerman/KapeDocs/commits/master.atom",
-    "checked_at": "2026-08-20T04:02:28Z",
+    "checked_at": "2026-08-30T01:52:27Z",
     "entries": [
       {
         "title": "Update 50-Frequently-asked-questions.md",
@@ -6013,7 +5962,7 @@
     "title": "MITRE ATT&CK CTI releases",
     "html_url": "https://attack.mitre.org/",
     "xml_url": "https://github.com/mitre/cti/releases.atom",
-    "checked_at": "2026-08-20T04:02:29Z",
+    "checked_at": "2026-08-30T01:52:27Z",
     "entries": [
       {
         "title": "ATT&CK version 19.2",
@@ -6072,7 +6021,7 @@
     "title": "Velociraptor releases",
     "html_url": "https://docs.velociraptor.app/",
     "xml_url": "https://github.com/Velocidex/velociraptor/releases.atom",
-    "checked_at": "2026-08-20T04:02:29Z",
+    "checked_at": "2026-08-30T01:52:27Z",
     "entries": [
       {
         "title": "Release 0.77.2",
@@ -6131,7 +6080,7 @@
     "title": "dfir-scripts DFIR Reference",
     "html_url": "https://dfir-scripts.github.io/",
     "xml_url": "https://github.com/dfir-scripts/dfir-scripts.github.io/commits/main.atom",
-    "checked_at": "2026-08-20T04:02:30Z",
+    "checked_at": "2026-08-30T01:52:27Z",
     "entries": [
       {
         "title": "Add files via upload",
@@ -6190,7 +6139,7 @@
     "title": "Microsoft Learn Windows What's New",
     "html_url": "https://learn.microsoft.com/en-us/windows/whats-new/",
     "xml_url": "https://learn.microsoft.com/en-us/windows/whats-new/",
-    "checked_at": "2026-08-20T04:02:30Z",
+    "checked_at": "2026-08-30T01:52:28Z",
     "entries": [
       {
         "title": "More info about Internet Explorer and Microsoft Edge",
@@ -6249,7 +6198,7 @@
     "title": "Sysinternals Downloads",
     "html_url": "https://learn.microsoft.com/en-us/sysinternals/downloads/",
     "xml_url": "https://learn.microsoft.com/en-us/sysinternals/downloads/",
-    "checked_at": "2026-08-20T04:02:30Z",
+    "checked_at": "2026-08-30T01:52:28Z",
     "entries": [
       {
         "title": "More info about Internet Explorer and Microsoft Edge",
@@ -6308,7 +6257,7 @@
     "title": "Apple Platform Security Guide",
     "html_url": "https://support.apple.com/guide/security/welcome/web",
     "xml_url": "https://support.apple.com/guide/security/welcome/web",
-    "checked_at": "2026-08-20T04:02:31Z",
+    "checked_at": "2026-08-30T01:52:28Z",
     "entries": [
       {
         "title": "Index",
@@ -6367,7 +6316,7 @@
     "title": "Tor Browser Manual",
     "html_url": "https://tb-manual.torproject.org/",
     "xml_url": "https://tb-manual.torproject.org/",
-    "checked_at": "2026-08-20T04:02:32Z",
+    "checked_at": "2026-08-30T01:52:30Z",
     "entries": [
       {
         "title": "العربية (ar)",
@@ -6426,7 +6375,7 @@
     "title": "Tor Protocol Specs",
     "html_url": "https://spec.torproject.org/",
     "xml_url": "https://spec.torproject.org/",
-    "checked_at": "2026-08-20T04:02:33Z",
+    "checked_at": "2026-08-30T01:52:30Z",
     "entries": [
       {
         "title": "Print.Html",
@@ -6460,57 +6409,57 @@
     "title": "MISP taxonomies",
     "html_url": "https://www.misp-project.org/",
     "xml_url": "https://github.com/MISP/misp-taxonomies/commits/main.atom",
-    "checked_at": "2026-08-20T04:02:33Z",
+    "checked_at": "2026-08-30T01:52:30Z",
     "entries": [
       {
-        "title": "Merge pull request #343 from eeee2345/fix/atr-taxonomy-licence-mit",
-        "url": "https://github.com/MISP/misp-taxonomies/commit/fee4c4f73bdfb43da5409dc9e1a85899f010ab82",
-        "published": "2026-08-18T04:20:30+00:00"
+        "title": "chg: [MANIFEST] updated",
+        "url": "https://github.com/MISP/misp-taxonomies/commit/7b66073f68b1d7323542638b38c31442b38d366b",
+        "published": "2026-08-28T05:06:52+00:00"
       },
       {
-        "title": "chore(agent-threat-rules): the licence field says Apache 2.0, ATR is MIT",
-        "url": "https://github.com/MISP/misp-taxonomies/commit/fcb1022e0db919b16c178a4ff750e18eb6fbb7e7",
-        "published": "2026-08-18T02:07:02+00:00"
+        "title": "Merge pull request #345 from monjiapawne/main",
+        "url": "https://github.com/MISP/misp-taxonomies/commit/87f3807f4c8e1b97db3aa223cbb7a0d2126a267c",
+        "published": "2026-08-28T05:06:09+00:00"
       },
       {
-        "title": "fix: [hunt-ex] jq all the things",
-        "url": "https://github.com/MISP/misp-taxonomies/commit/2082fc026e88a682aec826db83a205be8f2cab32",
-        "published": "2026-08-17T18:48:48+00:00"
+        "title": "fix: [schema] fix nesting false negative for value",
+        "url": "https://github.com/MISP/misp-taxonomies/commit/1693d7c3c701919024a33bce46bf346aa410b8a7",
+        "published": "2026-08-27T22:29:48+00:00"
       },
       {
-        "title": "Merge pull request #342 from RagS3c/add-hunt-ex-taxonomy",
-        "url": "https://github.com/MISP/misp-taxonomies/commit/6a34f1a6862198b8c0d30888db55357621c66129",
-        "published": "2026-08-17T18:45:46+00:00"
+        "title": "fix: [gen-ai-risks] fixing a not matching namespace -> directory",
+        "url": "https://github.com/MISP/misp-taxonomies/commit/6c4c5655f44b1ed421142288578ed91cc85b174c",
+        "published": "2026-08-26T05:21:57+00:00"
       },
       {
-        "title": "Update MANIFEST.json",
-        "url": "https://github.com/MISP/misp-taxonomies/commit/0c40c4885db1c742d8ba29bd8111c2b266b09c0d",
-        "published": "2026-08-17T16:26:52+00:00"
+        "title": "chg: [gen-ai-risks] added",
+        "url": "https://github.com/MISP/misp-taxonomies/commit/429c80ad03e5a70b3d012680d33a92ac2d1a3b00",
+        "published": "2026-08-26T05:19:10+00:00"
       },
       {
-        "title": "Add HUNT-EX taxonomy",
-        "url": "https://github.com/MISP/misp-taxonomies/commit/0cd8786bc157408dac3537e8f5da58a9713ab3a0",
-        "published": "2026-08-17T16:23:41+00:00"
+        "title": "Merge pull request #336 from C00kie-/genai",
+        "url": "https://github.com/MISP/misp-taxonomies/commit/fb50015319ba3b8e1657abfe58cfc11ea96994b6",
+        "published": "2026-08-26T05:18:29+00:00"
       },
       {
-        "title": "Merge pull request #341 from DocArmoryTech/more-acs-markings",
-        "url": "https://github.com/MISP/misp-taxonomies/commit/59398159af0a83b2aa4b994e313d06c04ef6a189",
-        "published": "2026-07-31T21:18:50+00:00"
+        "title": "fix: [CCCS] updatd taxonomy - UUID regeneration",
+        "url": "https://github.com/MISP/misp-taxonomies/commit/18f9fa5f6abaa64221a4915ad2925b2ca5eb042d",
+        "published": "2026-08-26T05:02:00+00:00"
       },
       {
-        "title": "update acs manifest version",
-        "url": "https://github.com/MISP/misp-taxonomies/commit/046dd83770cdf2083ad00e6d4093379aa62b38dc",
-        "published": "2026-07-31T16:04:11+00:00"
+        "title": "Merge pull request #337 from fbeaucha/main",
+        "url": "https://github.com/MISP/misp-taxonomies/commit/5351cba2e3838cf3d95631e36d453beaff1c461e",
+        "published": "2026-08-26T05:01:10+00:00"
       },
       {
-        "title": "acs-marking: add missing shareability values used by DHS AIS",
-        "url": "https://github.com/MISP/misp-taxonomies/commit/76037d2387f483e1c1de8e1eadffead1bfb0b616",
-        "published": "2026-07-31T15:57:35+00:00"
+        "title": "chg: [MANIFEST] updated",
+        "url": "https://github.com/MISP/misp-taxonomies/commit/7ce6ea7d861b2001cab2dd7895792eeae492a39d",
+        "published": "2026-08-26T04:59:31+00:00"
       },
       {
-        "title": "chg: [manifest] updated",
-        "url": "https://github.com/MISP/misp-taxonomies/commit/8ac0b8e08b9ed38b12695be6d40fdab361eca0f4",
-        "published": "2026-07-14T03:57:52+00:00"
+        "title": "Merge pull request #344 from trizzosk/main",
+        "url": "https://github.com/MISP/misp-taxonomies/commit/53458c12b695e75330d73e9761c86fd7b1222a5d",
+        "published": "2026-08-26T04:58:26+00:00"
       }
     ],
     "error": null
