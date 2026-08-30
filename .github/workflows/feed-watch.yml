@@ -7,15 +7,16 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   poll:
     name: Poll subscribed feeds
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: "3.x"
 
@@ -25,19 +26,42 @@ jobs:
       - name: Refresh feed snapshot
         run: python3 scripts/check_feed_updates.py
 
-      - name: Commit and push changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            archive/sources/source-inventory.json \
-            archive/sources/source-inventory.md \
-            archive/sources/feed-state.json \
-            archive/sources/feed-report.md \
+      # A direct push to main is structurally rejected since the branch grew a
+      # required status check ("ci / All checks") — a push carries no check, so
+      # GH006 refuses it. Land the snapshot through a PR instead: the required
+      # check runs on the PR and auto-merge completes once it is green.
+      - name: Open or update the snapshot PR
+        id: pr
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          # PRs created with the built-in GITHUB_TOKEN do NOT trigger other
+          # workflows, so "ci / All checks" would never report and auto-merge
+          # would hang forever. RELEASE_PLZ_TOKEN (the same PAT release-plz
+          # uses) makes CI run on the PR; the fallback keeps the step working
+          # (sans checks) if the secret ever disappears.
+          token: ${{ secrets.RELEASE_PLZ_TOKEN || secrets.GITHUB_TOKEN }}
+          base: main
+          branch: bot/feed-watch
+          delete-branch: true
+          add-paths: |
+            archive/sources/source-inventory.json
+            archive/sources/source-inventory.md
+            archive/sources/feed-state.json
+            archive/sources/feed-report.md
             archive/sources/pending-review.jsonl
-          if git diff --cached --quiet; then
-            echo "No changes — feed is up to date."
-          else
-            git commit -m "chore: refresh source inventory [skip ci]"
-            git push
-          fi
+          # No [skip ci] here: the marker would also suppress the PR's required
+          # check, and auto-merge would never fire.
+          commit-message: "chore: refresh source inventory"
+          title: "chore: refresh source inventory"
+          body: |
+            Automated feed snapshot from the Feed Watch workflow.
+
+            Auto-merges once `ci / All checks` is green. See
+            `archive/sources/feed-report.md` in the diff for what changed.
+
+      - name: Enable auto-merge
+        if: steps.pr.outputs.pull-request-operation == 'created' || steps.pr.outputs.pull-request-operation == 'updated'
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PLZ_TOKEN || secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.pr.outputs.pull-request-number }}
+        run: gh pr merge --squash --auto "$PR_NUMBER" --repo "$GITHUB_REPOSITORY"
