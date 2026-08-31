@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-08-30T09:19:41Z
+Generated: 2026-08-31T09:52:35Z
 
 ## Windows Incident Response
 
@@ -34,18 +34,9 @@ Generated: 2026-08-30T09:19:41Z
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-07-28T01:53:25+00:00 — [The Events Site is Being Rebuilt](https://dfirdiva.com/the-events-site-is-being-rebuilt/)
-- 2025-11-30T06:00:00+00:00 — [My Experience with Alias by SockPuppet](https://dfirdiva.com/my-experience-with-alias-by-sockpuppet/)
-- 2025-11-29T04:39:45+00:00 — [Free & Affordable Training News: Black Friday 2025 Edition](https://dfirdiva.com/free-affordable-training-news-black-friday-2025-edition/)
-- 2025-10-01T04:47:39+00:00 — [Techno Security & Digital Forensics Conference: October 27-29, 2025](https://dfirdiva.com/techno-security-digital-forensics-conference-october-27-29-2025/)
-- 2025-05-28T02:49:49+00:00 — [Upcoming Techno Security & Digital Forensics Conference](https://dfirdiva.com/upcoming-techno-security-digital-forensics-conference-2/)
-- 2025-03-10T05:47:02+00:00 — [Free & Affordable Training News Monthly: Feb – Mar 2025](https://dfirdiva.com/free-affordable-training-news-monthly-feb-march-2025/)
-- 2025-02-03T09:18:55+00:00 — [Free & Affordable Training News Monthly: Dec 2024 – Feb 2025](https://dfirdiva.com/free-amp-affordable-training-news-monthly-dec-2024-feb-2025/)
-- 2024-12-01T19:45:17+00:00 — [Free & Affordable Training News Monthly: Nov – Dec, 2024](https://dfirdiva.com/free-affordable-training-news-monthly-nov-dec-2024/)
-- 2024-11-26T20:48:47+00:00 — [Free & Affordable Training News: Black Friday 2024 Edition](https://dfirdiva.com/free-affordable-training-news-black-friday-2024-edition/)
-- 2024-11-11T21:14:18+00:00 — [Free & Affordable Training News Monthly: Oct – Nov, 2024](https://dfirdiva.com/free-affordable-training-news-monthly-oct-nov-2024/)
+- No new entries detected
 
 ## mac4n6
 
@@ -72,7 +63,7 @@ Generated: 2026-08-30T09:19:41Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-08-30T00:00:00+00:00 — [Weekly Wire #7: Rogue Agents, Poisoned Packages](https://andreafortuna.org/2026/08/30/weekly-wire-7/)
+- 2026-08-31T00:00:00+00:00 — [Autistici/Inventati, privacy and the uncomfortable politics of digital freedom](https://andreafortuna.org/2026/08/31/autistici-inventati-privacy-digital-freedom/)
 
 ## Salt Forensics
 
@@ -240,25 +231,16 @@ Generated: 2026-08-30T09:19:41Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-08-30T07:14:49+00:00 — [YARA-X 1.20.0 Release, (Sun, Aug 30th)](https://isc.sans.edu/diary/rss/33288)
+- 2026-08-31T02:00:03+00:00 — [ISC Stormcast For Monday, August 31st, 2026 https://isc.sans.edu/podcastdetail/10074, (Mon, Aug 31st)](https://isc.sans.edu/diary/rss/33296)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- unknown date — [Training](https://www.dfir.training/training)
-- unknown date — [Tools](https://www.dfir.training/dfir-tools)
-- unknown date — [Library](https://www.dfir.training/resources)
-- unknown date — [Sponsors](https://www.dfir.training/sponsors)
-- unknown date — [Blog](https://www.dfir.training/blog)
-- unknown date — [Contact](https://www.dfir.training/contact-form)
-- unknown date — [What 400 DFIR Books Tell Us About the Field](https://www.dfir.training/blog/what-400-dfir-books-tell-us-about-the-field)
-- unknown date — [Where Are Digital Investigations Breaking Down?](https://www.dfir.training/blog/where-are-digital-investigations-breaking-down)
-- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
-- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
+- No new entries detected
 
 ## MSAB
 
@@ -292,9 +274,9 @@ Generated: 2026-08-30T09:19:41Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-30T05:00:36+00:00 — [Week 35 – 2026](https://thisweekin4n6.com/2026/08/30/week-35-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
@@ -391,9 +373,11 @@ Generated: 2026-08-30T09:19:41Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 3
 
-- 2026-08-30T07:00:00+00:00 — [Last Week on My Mac: The cost of the blue from over the sea](https://eclecticlight.co/2026/08/30/last-week-on-my-mac-the-cost-of-the-blue-from-over-the-sea/)
+- 2026-08-31T08:00:00+00:00 — [Solutions to Saturday Mac riddles 375](https://eclecticlight.co/2026/08/31/solutions-to-saturday-mac-riddles-375/)
+- 2026-08-31T06:30:00+00:00 — [How security updates to Sequoia and Sonoma were changed silently](https://eclecticlight.co/2026/08/31/how-security-updates-to-sequoia-and-sonoma-were-changed-silently/)
+- 2026-08-30T11:30:00+00:00 — [An unnatural history of footwear in paintings 2](https://eclecticlight.co/2026/08/30/an-unnatural-history-of-footwear-in-paintings-2/)
 
 ## JPCERT/CC
 
@@ -550,9 +534,9 @@ Generated: 2026-08-30T09:19:41Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-31T07:01:00+00:00 — [A week in security (August 24 – August 30)](https://www.malwarebytes.com/blog/news/2026/08/a-week-in-security-august-24-august-30)
 
 ## Krebs on Security
 
@@ -568,9 +552,13 @@ Generated: 2026-08-30T09:19:41Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 5
 
-- No new entries detected
+- 2026-08-31T05:22:47-04:00 — [Nigerians extradited to US for sextortion, deaths of two teens](https://www.bleepingcomputer.com/news/security/nigerians-charged-US-over-sextortion-deaths-of-us-teens/)
+- 2026-08-31T04:29:42-04:00 — [Microsoft asks users to ignore 'Antivirus is turned off' errors](https://www.bleepingcomputer.com/news/microsoft/microsoft-asks-users-to-ignore-antivirus-is-turned-off-errors/)
+- 2026-08-30T11:00:21-04:00 — [FulcrumSec claims Manchester Airports hack, theft of 86 GB of data](https://www.bleepingcomputer.com/news/security/fulcrumsec-claims-manchester-airports-hack-theft-of-86-gb-of-data/)
+- 2026-08-30T10:30:25-04:00 — [Anthropic warns infostealer malware is hijacking Claude sessions to drain usage](https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-warns-infostealer-malware-is-hijacking-claude-sessions-to-drain-usage/)
+- 2026-08-30T10:17:44-04:00 — [Chrome Web Store extensions caught stealing crypto, browser data](https://www.bleepingcomputer.com/news/security/chrome-web-store-extensions-caught-stealing-crypto-browser-data/)
 
 ## Dark Reading
 
@@ -610,9 +598,9 @@ Generated: 2026-08-30T09:19:41Z
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-30T12:13:30+02:00 — [SLEEPWALKER Backdoor Hides in a Security Agent and Wakes Up for One Packet](https://hackingpassion.com/sleepwalker-passive-backdoor-magic-packet/)
 
 ## LOLBAS Project (Windows)
 
