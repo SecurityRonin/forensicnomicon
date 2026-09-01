@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-08-31T09:52:35Z
+Generated: 2026-09-01T08:44:44Z
 
 ## Windows Incident Response
 
@@ -33,10 +33,7 @@ Generated: 2026-08-31T09:52:35Z
 
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: not well-formed (invalid token): line 1, column 116
 
 ## mac4n6
 
@@ -61,9 +58,9 @@ Generated: 2026-08-31T09:52:35Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-31T00:00:00+00:00 — [Autistici/Inventati, privacy and the uncomfortable politics of digital freedom](https://andreafortuna.org/2026/08/31/autistici-inventati-privacy-digital-freedom/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -229,15 +226,17 @@ Generated: 2026-08-31T09:52:35Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 3
 
-- 2026-08-31T02:00:03+00:00 — [ISC Stormcast For Monday, August 31st, 2026 https://isc.sans.edu/podcastdetail/10074, (Mon, Aug 31st)](https://isc.sans.edu/diary/rss/33296)
+- 2026-09-01T02:00:03+00:00 — [ISC Stormcast For Tuesday, September 1st, 2026 https://isc.sans.edu/podcastdetail/10076, (Tue, Sep 1st)](https://isc.sans.edu/diary/rss/33302)
+- 2026-09-01T00:33:21+00:00 — [Guildma (Astaroth) malware infection from Brazilian Portuguese email, (Tue, Sep 1st)](https://isc.sans.edu/diary/rss/33300)
+- 2026-08-31T20:00:34+00:00 — [The Coding-Agent Trap: When a "Free" LLM Endpoint Is the Adversary, (Mon, Aug 31st)](https://isc.sans.edu/diary/rss/33298)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
+- Entries checked: 0
 - New since last snapshot: 0
 
 - No new entries detected
@@ -255,10 +254,7 @@ Generated: 2026-08-31T09:52:35Z
 
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 509
 
 ## Forensic 4cast
 
@@ -292,18 +288,18 @@ Generated: 2026-08-31T09:52:35Z
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-06-25T13:37:08+00:00 — [Authenticate Update 42031: Introducing Video Deepfake Detection, a New Filter for Detecting the Adobe Watermark, Faster Image Deepfake Detection, and more!](https://blog.ampedsoftware.com/2026/06/25/authenticate-update-42031)
 
 ## Didier Stevens Blog
 
 - Site: https://blog.didierstevens.com/
 - Feed: https://blog.didierstevens.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-01T08:33:35+00:00 — [Overview of Content Published in August](https://blog.didierstevens.com/2026/09/01/overview-of-content-published-in-august-11/)
 
 ## Hexordia
 
@@ -373,11 +369,10 @@ Generated: 2026-08-31T09:52:35Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-08-31T08:00:00+00:00 — [Solutions to Saturday Mac riddles 375](https://eclecticlight.co/2026/08/31/solutions-to-saturday-mac-riddles-375/)
-- 2026-08-31T06:30:00+00:00 — [How security updates to Sequoia and Sonoma were changed silently](https://eclecticlight.co/2026/08/31/how-security-updates-to-sequoia-and-sonoma-were-changed-silently/)
-- 2026-08-30T11:30:00+00:00 — [An unnatural history of footwear in paintings 2](https://eclecticlight.co/2026/08/30/an-unnatural-history-of-footwear-in-paintings-2/)
+- 2026-09-01T06:30:00+00:00 — [DeltaFree version 1.1 greatly improves its charting](https://eclecticlight.co/2026/09/01/deltafree-version-1-1-greatly-improves-its-charting/)
+- 2026-08-31T11:30:00+00:00 — [Hero or hooligan: Heracles’ labours 1-3](https://eclecticlight.co/2026/08/31/hero-or-hooligan-heracles-labours-1-3/)
 
 ## JPCERT/CC
 
@@ -429,18 +424,18 @@ Generated: 2026-08-31T09:52:35Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-31T10:00:36+00:00 — [Spring Ring: An Inside Look at Voice Phishing Campaigns in Microsoft Teams](https://unit42.paloaltonetworks.com/spring-ring-voice-phishing-campaigns/)
 
 ## Mandiant Threat Intelligence
 
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-01T14:00:00+00:00 — [Financially Motivated Threat Actor BREEZE COMET Targets Brazil](https://cloud.google.com/blog/topics/threat-intelligence/financially-motivated-threat-actor-breeze-comet-targets-brazil/)
 
 ## Cisco Talos Blog
 
@@ -474,9 +469,9 @@ Generated: 2026-08-31T09:52:35Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-31T16:07:55+00:00 — [Finding the Fleet: What SNMP Finds in the Satellite Ground Segment that HTTP Misses](https://flare.io/learn/resources/blog/snmp-satellite-ground-segment-exposure)
 
 ## Binalyze Blog
 
@@ -525,9 +520,9 @@ Generated: 2026-08-31T09:52:35Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-08-31T00:00:00-04:00 — [Agents of Chaos: A New $100K Agentic Security Challenge](https://www.crowdstrike.com/en-us/blog/agents-of-chaos-immersive-ai-security-challenge/)
 
 ## Malwarebytes Labs
 
@@ -536,7 +531,7 @@ Generated: 2026-08-31T09:52:35Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-08-31T07:01:00+00:00 — [A week in security (August 24 – August 30)](https://www.malwarebytes.com/blog/news/2026/08/a-week-in-security-august-24-august-30)
+- 2026-08-31T14:46:50+00:00 — [McKesson confirms cyber incident after ShinyHunters claims patient-data theft](https://www.malwarebytes.com/blog/news/2026/08/mckesson-confirms-cyber-incident-after-shinyhunters-claims-patient-data-theft)
 
 ## Krebs on Security
 
@@ -552,22 +547,28 @@ Generated: 2026-08-31T09:52:35Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 9
 
-- 2026-08-31T05:22:47-04:00 — [Nigerians extradited to US for sextortion, deaths of two teens](https://www.bleepingcomputer.com/news/security/nigerians-charged-US-over-sextortion-deaths-of-us-teens/)
-- 2026-08-31T04:29:42-04:00 — [Microsoft asks users to ignore 'Antivirus is turned off' errors](https://www.bleepingcomputer.com/news/microsoft/microsoft-asks-users-to-ignore-antivirus-is-turned-off-errors/)
-- 2026-08-30T11:00:21-04:00 — [FulcrumSec claims Manchester Airports hack, theft of 86 GB of data](https://www.bleepingcomputer.com/news/security/fulcrumsec-claims-manchester-airports-hack-theft-of-86-gb-of-data/)
-- 2026-08-30T10:30:25-04:00 — [Anthropic warns infostealer malware is hijacking Claude sessions to drain usage](https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-warns-infostealer-malware-is-hijacking-claude-sessions-to-drain-usage/)
-- 2026-08-30T10:17:44-04:00 — [Chrome Web Store extensions caught stealing crypto, browser data](https://www.bleepingcomputer.com/news/security/chrome-web-store-extensions-caught-stealing-crypto-browser-data/)
+- 2026-09-01T03:48:24-04:00 — [Recently patched PaperCut zero-days used in data theft attacks](https://www.bleepingcomputer.com/news/security/recently-patched-papercut-zero-days-used-in-data-theft-attacks/)
+- 2026-08-31T16:47:54-04:00 — [Cronos blockchain restarts after $74 million Tectonic exploit](https://www.bleepingcomputer.com/news/security/cronos-blockchain-restarts-after-74-million-tectonic-exploit/)
+- 2026-08-31T14:51:04-04:00 — [Microsoft warns of TerminalFix attacks deploying reverse tunnels](https://www.bleepingcomputer.com/news/security/microsoft-warns-of-terminalfix-attacks-deploying-reverse-tunnels/)
+- 2026-08-31T12:56:57-04:00 — [Massive Microsoft 365 outage causes auth issues, service failures](https://www.bleepingcomputer.com/news/microsoft/microsoft-exchange-online-outage-causes-email-failures-auth-issues/)
+- 2026-08-31T12:50:50-04:00 — [OpenAI confirms ChatGPT outage as users report errors](https://www.bleepingcomputer.com/news/artificial-intelligence/openai-confirms-chatgpt-outage-as-users-report-errors/)
+- 2026-08-31T10:52:03-04:00 — [Chinese Fire Ant hackers turn Cisco routers into spying platforms](https://www.bleepingcomputer.com/news/security/chinese-fire-ant-hackers-turn-cisco-routers-into-spying-platforms/)
+- 2026-08-31T10:00:10-04:00 — [File servers are here to stay. Here’s how to manage them securely](https://www.bleepingcomputer.com/news/security/file-servers-are-here-to-stay-heres-how-to-manage-them-securely/)
+- 2026-08-31T09:30:01-04:00 — [Berlin confirms data theft after Rhysida ransomware attack claims](https://www.bleepingcomputer.com/news/security/berlin-confirms-data-theft-after-rhysida-ransomware-attack-claims/)
+- 2026-08-31T06:23:46-04:00 — [Microsoft says Windows 11 KB5120998 update resets mouse settings](https://www.bleepingcomputer.com/news/security/microsoft-says-windows-11-kb5120998-update-resets-mouse-settings/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-08-31T21:08:46+00:00 — [Anthropic Users Hit by Infostealer Attacks, Session Thefts](https://www.darkreading.com/cyberattacks-data-breaches/anthropic-users-infostealer-attacks-session-thefts)
+- 2026-08-31T20:25:36+00:00 — ['TerminalFix' Campaign Weaponizes PowerShell for Enterprise Attacks](https://www.darkreading.com/threat-intelligence/terminalfix-campaign-weaponizes-powershell-enterprise-attacks)
+- 2026-08-31T17:34:26+00:00 — [AI Model Rules Are Not Security Controls](https://www.darkreading.com/cyber-risk/model-knowing-rules-is-not-security-control)
 
 ## Volexity Blog
 
@@ -600,7 +601,7 @@ Generated: 2026-08-31T09:52:35Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-08-30T12:13:30+02:00 — [SLEEPWALKER Backdoor Hides in a Security Agent and Wakes Up for One Packet](https://hackingpassion.com/sleepwalker-passive-backdoor-magic-packet/)
+- 2026-08-31T16:33:05+02:00 — [Hiding your WiFi name doesn't protect you. It makes you a bigger target.](https://hackingpassion.com/hidden-wifi-name-ssid-target/)
 
 ## LOLBAS Project (Windows)
 
@@ -634,9 +635,18 @@ Generated: 2026-08-31T09:52:35Z
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 10
 
-- No new entries detected
+- 2026-08-31T20:34:37+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/2ad986b10a5f0b859b22d52b1ad4afe4c4551532)
+- 2026-08-31T20:28:26+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/f31e52d069524a70bdc3fe07479e4a324b191526)
+- 2026-08-31T20:27:27+00:00 — [Merge pull request #420 from magicsword-io/add-issue-409-driver-corpus](https://github.com/magicsword-io/LOLDrivers/commit/e517e034623b2fa20d828bf2a1c9ba243e79013c)
+- 2026-08-31T20:02:20+00:00 — [Tighten driver vulnerability metadata](https://github.com/magicsword-io/LOLDrivers/commit/d91dee680f02a5da198de4af8972fa07fe8f0a90)
+- 2026-08-31T19:40:12+00:00 — [Add vetted issue 409 driver variants](https://github.com/magicsword-io/LOLDrivers/commit/dff2b1cc04c442a55d8599c43408f561b35e36e7)
+- 2026-08-31T18:16:26+00:00 — [Expand verified issue 409 driver coverage](https://github.com/magicsword-io/LOLDrivers/commit/61bb4d04df94b1803a6e6cb5d737d0034d472e82)
+- 2026-08-31T16:28:05+00:00 — [Add verified driver variants from issue 409](https://github.com/magicsword-io/LOLDrivers/commit/46a214e0c794649c392478f0bbe6f0ac30567133)
+- 2026-08-31T15:59:10+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/73ff3bfbdf0428a91ce6a8af2f819908cdc8eb60)
+- 2026-08-31T15:48:27+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/4a003d29d31b67f486b2cd45527282bdb2b91fd5)
+- 2026-08-31T15:47:23+00:00 — [Merge pull request #419 from magicsword-io/correct-neacsafe-attributi…](https://github.com/magicsword-io/LOLDrivers/commit/8f7d09346a425a725741968de47ad3d3135ae5ba)
 
 ## LOFL Project (RMM C2 indicators)
 
@@ -859,9 +869,10 @@ Generated: 2026-08-31T09:52:35Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-08-31T17:28:49+00:00 — [dev-v2.1.10](https://github.com/elastic/detection-rules/releases/tag/dev-v2.1.10)
+- 2026-08-31T11:58:58+00:00 — [dev-v2.1.9](https://github.com/elastic/detection-rules/releases/tag/dev-v2.1.9)
 
 ## regipy releases
 
