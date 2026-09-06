@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-09-05T07:44:18Z
+Generated: 2026-09-06T07:58:36Z
 
 ## Windows Incident Response
 
@@ -33,7 +33,19 @@ Generated: 2026-09-05T07:44:18Z
 
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
-- Status: error: not well-formed (invalid token): line 1, column 119
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-07-28T01:53:25+00:00 — [The Events Site is Being Rebuilt](https://dfirdiva.com/the-events-site-is-being-rebuilt/)
+- 2025-11-30T06:00:00+00:00 — [My Experience with Alias by SockPuppet](https://dfirdiva.com/my-experience-with-alias-by-sockpuppet/)
+- 2025-11-29T04:39:45+00:00 — [Free & Affordable Training News: Black Friday 2025 Edition](https://dfirdiva.com/free-affordable-training-news-black-friday-2025-edition/)
+- 2025-10-01T04:47:39+00:00 — [Techno Security & Digital Forensics Conference: October 27-29, 2025](https://dfirdiva.com/techno-security-digital-forensics-conference-october-27-29-2025/)
+- 2025-05-28T02:49:49+00:00 — [Upcoming Techno Security & Digital Forensics Conference](https://dfirdiva.com/upcoming-techno-security-digital-forensics-conference-2/)
+- 2025-03-10T05:47:02+00:00 — [Free & Affordable Training News Monthly: Feb – Mar 2025](https://dfirdiva.com/free-affordable-training-news-monthly-feb-march-2025/)
+- 2025-02-03T09:18:55+00:00 — [Free & Affordable Training News Monthly: Dec 2024 – Feb 2025](https://dfirdiva.com/free-amp-affordable-training-news-monthly-dec-2024-feb-2025/)
+- 2024-12-01T19:45:17+00:00 — [Free & Affordable Training News Monthly: Nov – Dec, 2024](https://dfirdiva.com/free-affordable-training-news-monthly-nov-dec-2024/)
+- 2024-11-26T20:48:47+00:00 — [Free & Affordable Training News: Black Friday 2024 Edition](https://dfirdiva.com/free-affordable-training-news-black-friday-2024-edition/)
+- 2024-11-11T21:14:18+00:00 — [Free & Affordable Training News Monthly: Oct – Nov, 2024](https://dfirdiva.com/free-affordable-training-news-monthly-oct-nov-2024/)
 
 ## mac4n6
 
@@ -58,9 +70,9 @@ Generated: 2026-09-05T07:44:18Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-06T00:00:00+00:00 — [Weekly Wire #8: When Trust Chains Break](https://andreafortuna.org/2026/09/06/weekly-wire-8/)
 
 ## Salt Forensics
 
@@ -85,9 +97,9 @@ Generated: 2026-09-05T07:44:18Z
 - Site: https://thinkdfir.com/
 - Feed: https://thinkdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-04T12:09:11+00:00 — [Are we going to stop calling it Amcache??](https://thinkdfir.com/2026/09/04/are-we-going-to-stop-calling-it-amcache/)
+- No new entries detected
 
 ## Seth Enoka — DFIR
 
@@ -210,7 +222,7 @@ Generated: 2026-09-05T07:44:18Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2025-06-30T00:20:06+00:00 — [Hide Your RDP: Password Spray Leads to RansomHub Deployment](https://thedfirreport.com/2025/06/30/hide-your-rdp-password-spray-leads-to-ransomhub-deployment/)
+- 2026-08-24T14:28:41+00:00 — [BengalSEO Part 1: Anatomy of the Operation](https://thedfirreport.com/2026/08/24/bengalseo-part-1-anatomy-of-the-operation/)
 
 ## 13cubed (YouTube)
 
@@ -226,18 +238,27 @@ Generated: 2026-09-05T07:44:18Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-05T03:39:52+00:00 — [numbat - AI agent observability, (Fri, Sep 4th)](https://isc.sans.edu/diary/rss/33312)
+- No new entries detected
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [What 400 DFIR Books Tell Us About the Field](https://www.dfir.training/blog/what-400-dfir-books-tell-us-about-the-field)
+- unknown date — [Where Are Digital Investigations Breaking Down?](https://www.dfir.training/blog/where-are-digital-investigations-breaking-down)
+- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
+- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
 
 ## MSAB
 
@@ -253,9 +274,9 @@ Generated: 2026-09-05T07:44:18Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-04T09:44:40+00:00 — [InfoSec News Nuggets – 09/04/2026](https://aboutdfir.com/infosec-news-nuggets-09-04-2026/)
+- No new entries detected
 
 ## Forensic 4cast
 
@@ -271,9 +292,9 @@ Generated: 2026-09-05T07:44:18Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-05T23:04:28+00:00 — [Week 36 – 2026](https://thisweekin4n6.com/2026/09/06/week-36-2026/)
 
 ## The Sleuth Kit updates
 
@@ -370,10 +391,11 @@ Generated: 2026-09-05T07:44:18Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-09-05T07:00:00+00:00 — [When the Finder’s size ‘on disk’ is misleading](https://eclecticlight.co/2026/09/05/when-the-finders-size-on-disk-is-misleading/)
-- 2026-09-04T11:30:00+00:00 — [Painting a good story: Series to 1800](https://eclecticlight.co/2026/09/04/painting-a-good-story-series-to-1800/)
+- 2026-09-06T07:00:00+00:00 — [Last Week on My Mac: Storage crisis management](https://eclecticlight.co/2026/09/06/last-week-on-my-mac-storage-crisis-management/)
+- 2026-09-05T11:30:00+00:00 — [Paintings of caves: myth and religion](https://eclecticlight.co/2026/09/05/paintings-of-caves-myth-and-religion/)
+- 2026-09-05T08:00:00+00:00 — [Saturday Mac riddles 376](https://eclecticlight.co/2026/09/05/saturday-mac-riddles-376/)
 
 ## JPCERT/CC
 
@@ -503,10 +525,9 @@ Generated: 2026-09-05T07:44:18Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-09-04T12:29:12+00:00 — [Cellebrite Announces Upcoming Investor Events in September](https://cellebrite.com/en/resources/press-releases/cellebrite-announces-upcoming-investor-events-in-september/)
-- 2026-09-04T09:05:20+00:00 — [Cellebrite Guardian: IRAP-Assessed Cloud Platform Achieves PROTECTED Level for Australian Government Agencies](https://cellebrite.com/en/blog/guardian-irap-assessment-cloud-security-for-australian-agencies-cellebrite/)
+- No new entries detected
 
 ## DFIR Science
 
@@ -531,11 +552,9 @@ Generated: 2026-09-05T07:44:18Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-09-04T17:15:42+00:00 — [The hidden work of modernizing Malwarebytes](https://www.malwarebytes.com/blog/inside-malwarebytes/2026/09/the-hidden-work-of-modernizing-malwarebytes)
-- 2026-09-04T12:29:41+00:00 — [X Money rollout linked to password-reset attacks](https://www.malwarebytes.com/blog/scams/2026/09/x-money-rollout-linked-to-password-reset-attacks)
-- 2026-09-04T09:20:48+00:00 — [Free streaming boxes may be routing criminal traffic through your home](https://www.malwarebytes.com/blog/news/2026/09/free-streaming-boxes-may-be-routing-criminal-traffic-through-your-home)
+- No new entries detected
 
 ## Krebs on Security
 
@@ -551,27 +570,19 @@ Generated: 2026-09-05T07:44:18Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 7
+- New since last snapshot: 2
 
-- 2026-09-04T12:56:45-04:00 — [IDScan sued over alleged data breach affecting 153 million drivers](https://www.bleepingcomputer.com/news/security/idscan-sued-over-alleged-data-breach-affecting-153-million-drivers/)
-- 2026-09-04T11:25:59-04:00 — [Critical Citrix NetScaler auth bypass now leveraged in attacks](https://www.bleepingcomputer.com/news/security/hackers-target-critical-citrix-netscaler-auth-bypass-in-attacks/)
-- 2026-09-04T10:30:15-04:00 — [Microsoft says some users can’t open the Teams desktop client](https://www.bleepingcomputer.com/news/microsoft/microsoft-says-some-users-cant-open-the-teams-desktop-client/)
-- 2026-09-04T10:01:11-04:00 — [39 New Methods That Compromise Passkey Authentication](https://www.bleepingcomputer.com/news/security/39-new-methods-that-compromise-passkey-authentication/)
-- 2026-09-04T09:22:01-04:00 — [New CrowdStrike 'FalconFlank' zero-day grants SYSTEM privileges](https://www.bleepingcomputer.com/news/security/new-crowdstrike-falconflank-zero-day-grants-system-privileges/)
-- 2026-09-04T08:22:30-04:00 — [Exchange Online outage causes email delays, 'Server busy' errors](https://www.bleepingcomputer.com/news/microsoft/exchange-online-outage-causes-email-delays-server-busy-errors/)
-- 2026-09-04T07:48:17-04:00 — [Google warns of new Chrome zero-day flaw exploited in attacks](https://www.bleepingcomputer.com/news/security/google-warns-of-new-chrome-zero-day-flaw-exploited-in-attacks/)
+- 2026-09-05T10:29:13-04:00 — [Over 5,400 hacked sites serve ClickFix payloads stored on the blockchain](https://www.bleepingcomputer.com/news/security/over-5-400-hacked-sites-serve-clickfix-payloads-stored-on-the-blockchain/)
+- 2026-09-05T07:11:50-04:00 — [OpenAI admits it didn't disclose rogue AI wiki hijacking incident](https://www.bleepingcomputer.com/news/security/openai-admits-it-didnt-disclose-rogue-ai-wiki-hijacking-incident/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-09-04T15:57:31+00:00 — [Companies Have 6 Months to Prepare for Automated Attacks](https://www.darkreading.com/cybersecurity-operations/companies-six-months-prepare-automated-attacks)
-- 2026-09-04T13:00:00+00:00 — [AI Is Ending the Era of Hidden Vulnerabilities — Are Vendors Ready?](https://www.darkreading.com/vulnerabilities-threats/ai-ending-era-hidden-vulnerabilities-are-vendors-ready)
-- 2026-09-04T12:15:03+00:00 — [Insurers Search for Answers to Rein in Rogue AI](https://www.darkreading.com/cyber-risk/insurers-search-answers-rogue-ai)
-- 2026-09-03T17:23:14+00:00 — [What the AI Warning Letter Completely Missed](https://www.darkreading.com/cyberattacks-data-breaches/ai-warning-letter-missed-people)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -593,9 +604,9 @@ Generated: 2026-09-05T07:44:18Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-04T19:10:10+00:00 — [How to secure edge AI in customer-owned environments](https://www.microsoft.com/en-us/security/blog/2026/09/04/secure-edge-ai-customer-owned-environments/)
+- No new entries detected
 
 ## HackingPassion
 
