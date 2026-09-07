@@ -1,15 +1,15 @@
 # Feed Update Report
 
-Generated: 2026-09-06T07:58:36Z
+Generated: 2026-09-07T08:25:37Z
 
 ## Windows Incident Response
 
 - Site: https://windowsir.blogspot.com/
 - Feed: https://windowsir.blogspot.com/feeds/posts/default
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-06T07:26:41-05:00 — [Knowledge Retention & Sharing in DF/IR](https://windowsir.blogspot.com/2026/09/knowledge-retention-sharing-in-dfir.html)
 
 ## dfir.blog
 
@@ -33,19 +33,7 @@ Generated: 2026-09-06T07:58:36Z
 
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
-- Entries checked: 10
-- New since last snapshot: 10
-
-- 2026-07-28T01:53:25+00:00 — [The Events Site is Being Rebuilt](https://dfirdiva.com/the-events-site-is-being-rebuilt/)
-- 2025-11-30T06:00:00+00:00 — [My Experience with Alias by SockPuppet](https://dfirdiva.com/my-experience-with-alias-by-sockpuppet/)
-- 2025-11-29T04:39:45+00:00 — [Free & Affordable Training News: Black Friday 2025 Edition](https://dfirdiva.com/free-affordable-training-news-black-friday-2025-edition/)
-- 2025-10-01T04:47:39+00:00 — [Techno Security & Digital Forensics Conference: October 27-29, 2025](https://dfirdiva.com/techno-security-digital-forensics-conference-october-27-29-2025/)
-- 2025-05-28T02:49:49+00:00 — [Upcoming Techno Security & Digital Forensics Conference](https://dfirdiva.com/upcoming-techno-security-digital-forensics-conference-2/)
-- 2025-03-10T05:47:02+00:00 — [Free & Affordable Training News Monthly: Feb – Mar 2025](https://dfirdiva.com/free-affordable-training-news-monthly-feb-march-2025/)
-- 2025-02-03T09:18:55+00:00 — [Free & Affordable Training News Monthly: Dec 2024 – Feb 2025](https://dfirdiva.com/free-amp-affordable-training-news-monthly-dec-2024-feb-2025/)
-- 2024-12-01T19:45:17+00:00 — [Free & Affordable Training News Monthly: Nov – Dec, 2024](https://dfirdiva.com/free-affordable-training-news-monthly-nov-dec-2024/)
-- 2024-11-26T20:48:47+00:00 — [Free & Affordable Training News: Black Friday 2024 Edition](https://dfirdiva.com/free-affordable-training-news-black-friday-2024-edition/)
-- 2024-11-11T21:14:18+00:00 — [Free & Affordable Training News Monthly: Oct – Nov, 2024](https://dfirdiva.com/free-affordable-training-news-monthly-oct-nov-2024/)
+- Status: error: not well-formed (invalid token): line 1, column 116
 
 ## mac4n6
 
@@ -70,9 +58,9 @@ Generated: 2026-09-06T07:58:36Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-06T00:00:00+00:00 — [Weekly Wire #8: When Trust Chains Break](https://andreafortuna.org/2026/09/06/weekly-wire-8/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -220,9 +208,9 @@ Generated: 2026-09-06T07:58:36Z
 - Site: https://thedfirreport.com/
 - Feed: https://thedfirreport.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-08-24T14:28:41+00:00 — [BengalSEO Part 1: Anatomy of the Operation](https://thedfirreport.com/2026/08/24/bengalseo-part-1-anatomy-of-the-operation/)
+- No new entries detected
 
 ## 13cubed (YouTube)
 
@@ -238,27 +226,18 @@ Generated: 2026-09-06T07:58:36Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-06T21:43:17+00:00 — [Critical MikroTik Vulnerability - Patch Now, (Sun, Sep 6th)](https://isc.sans.edu/diary/rss/33314)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
-- New since last snapshot: 10
+- Entries checked: 0
+- New since last snapshot: 0
 
-- unknown date — [Training](https://www.dfir.training/training)
-- unknown date — [Tools](https://www.dfir.training/dfir-tools)
-- unknown date — [Library](https://www.dfir.training/resources)
-- unknown date — [Sponsors](https://www.dfir.training/sponsors)
-- unknown date — [Blog](https://www.dfir.training/blog)
-- unknown date — [Contact](https://www.dfir.training/contact-form)
-- unknown date — [What 400 DFIR Books Tell Us About the Field](https://www.dfir.training/blog/what-400-dfir-books-tell-us-about-the-field)
-- unknown date — [Where Are Digital Investigations Breaking Down?](https://www.dfir.training/blog/where-are-digital-investigations-breaking-down)
-- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
-- unknown date — [AI in DFIR Did Not Start When You Noticed It](https://www.dfir.training/blog/ai-in-dfir-did-not-start-when-you-noticed-it)
+- No new entries detected
 
 ## MSAB
 
@@ -292,9 +271,9 @@ Generated: 2026-09-06T07:58:36Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-05T23:04:28+00:00 — [Week 36 – 2026](https://thisweekin4n6.com/2026/09/06/week-36-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
@@ -393,9 +372,9 @@ Generated: 2026-09-06T07:58:36Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-09-06T07:00:00+00:00 — [Last Week on My Mac: Storage crisis management](https://eclecticlight.co/2026/09/06/last-week-on-my-mac-storage-crisis-management/)
-- 2026-09-05T11:30:00+00:00 — [Paintings of caves: myth and religion](https://eclecticlight.co/2026/09/05/paintings-of-caves-myth-and-religion/)
-- 2026-09-05T08:00:00+00:00 — [Saturday Mac riddles 376](https://eclecticlight.co/2026/09/05/saturday-mac-riddles-376/)
+- 2026-09-07T08:00:00+00:00 — [Solutions to Saturday Mac riddles 376](https://eclecticlight.co/2026/09/07/solutions-to-saturday-mac-riddles-376/)
+- 2026-09-07T06:30:00+00:00 — [What happens when a Mac’s boot volumes run out of space?](https://eclecticlight.co/2026/09/07/what-happens-when-a-macs-boot-volumes-run-out-of-space/)
+- 2026-09-06T11:30:00+00:00 — [Paintings of caves: beauty and reality](https://eclecticlight.co/2026/09/06/paintings-of-caves-beauty-and-reality/)
 
 ## JPCERT/CC
 
@@ -525,9 +504,9 @@ Generated: 2026-09-06T07:58:36Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-07T08:14:11+00:00 — [A Prosecutor’s Guide to Digital Evidence: Building Stronger Cases](https://cellebrite.com/en/resources/whitepapers/prosecutors-guide-to-digital-evidence/)
 
 ## DFIR Science
 
@@ -552,9 +531,9 @@ Generated: 2026-09-06T07:58:36Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-07T07:01:00+00:00 — [A week in security (August 31 – September 6)](https://www.malwarebytes.com/blog/news/2026/09/a-week-in-security-august-31-september-6)
 
 ## Krebs on Security
 
@@ -570,10 +549,11 @@ Generated: 2026-09-06T07:58:36Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-09-05T10:29:13-04:00 — [Over 5,400 hacked sites serve ClickFix payloads stored on the blockchain](https://www.bleepingcomputer.com/news/security/over-5-400-hacked-sites-serve-clickfix-payloads-stored-on-the-blockchain/)
-- 2026-09-05T07:11:50-04:00 — [OpenAI admits it didn't disclose rogue AI wiki hijacking incident](https://www.bleepingcomputer.com/news/security/openai-admits-it-didnt-disclose-rogue-ai-wiki-hijacking-incident/)
+- 2026-09-07T02:17:41-04:00 — [N-able patches max severity N-central flaw amid ongoing attacks](https://www.bleepingcomputer.com/news/security/n-able-patches-max-severity-n-central-flaw-amid-ongoing-attacks/)
+- 2026-09-06T21:15:43-04:00 — [ChatGPT Astra is now rolling out to $20 Plus subscription](https://www.bleepingcomputer.com/news/artificial-intelligence/chatgpt-astra-is-now-rolling-out-to-20-plus-subscription/)
+- 2026-09-06T10:23:46-04:00 — [Attackers conceal phishing lures using invisible Unicode characters](https://www.bleepingcomputer.com/news/security/attackers-conceal-phishing-lures-using-invisible-unicode-characters/)
 
 ## Dark Reading
 
@@ -640,9 +620,9 @@ Generated: 2026-09-06T07:58:36Z
 - Site: https://loobins.io/
 - Feed: https://github.com/infosecB/LOOBins/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-06T19:50:54+00:00 — [Fix broken link references (#262)](https://github.com/infosecB/LOOBins/commit/399e3c4bdddb55c7dc49beb20bfe43490eac1184)
 
 ## LOLDrivers (BYOVD)
 
