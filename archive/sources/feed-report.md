@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-09-11T08:08:32Z
+Generated: 2026-09-12T07:59:37Z
 
 ## Windows Incident Response
 
@@ -196,9 +196,13 @@ Generated: 2026-09-11T08:08:32Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 5
 
-- No new entries detected
+- 2026-09-11T20:39:08+00:00 — [Cómo las capacidades modernas de DFIR contribuyen al cumplimiento de la Directiva NIS2](https://www.magnetforensics.com/blog/como-las-capacidades-modernas-de-dfir-contribuyen-al-cumplimiento-de-la-directiva-nis2/)
+- 2026-09-11T20:36:47+00:00 — [In che modo le moderne funzionalità DFIR contribuiscono al rispetto della direttiva NIS2](https://www.magnetforensics.com/blog/in-che-modo-le-moderne-funzionalita-dfir-contribuiscono-al-rispetto-della-direttiva-nis2/)
+- 2026-09-11T20:33:12+00:00 — [Wie moderne DFIR-Fähigkeiten zur Einhaltung der NIS2-Richtlinie beitragen](https://www.magnetforensics.com/blog/wie-moderne-dfir-fahigkeiten-zur-einhaltung-der-nis2-richtlinie-beitragen/)
+- 2026-09-11T20:24:59+00:00 — [Comment les capacités modernes en matière de DFIR contribuent au respect de la directive NIS2](https://www.magnetforensics.com/blog/comment-les-capacites-modernes-en-matiere-de-dfir-contribuent-au-respect-de-la-directive-nis2/)
+- 2026-09-11T20:05:47+00:00 — [$10 trillion vs. $300 billion: A former FBI investigator on why cybersecurity investment needs to shift toward recovery](https://www.magnetforensics.com/blog/10-trillion-vs-300-billion-a-former-fbi-investigator-on-why-cybersecurity-investment-needs-to-shift-toward-recovery/)
 
 ## The DFIR Report
 
@@ -223,11 +227,9 @@ Generated: 2026-09-11T08:08:32Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 1
 
-- 2026-09-11T02:00:02+00:00 — [ISC Stormcast For Friday, September 11th, 2026 https://isc.sans.edu/podcastdetail/10090, (Fri, Sep 11th)](https://isc.sans.edu/diary/rss/33330)
-- 2026-09-10T12:58:10+00:00 — [Redtail Payload Analysis &#x5b;Guest Diary&#x5d;, (Wed, Sep 9th)](https://isc.sans.edu/diary/rss/33326)
-- 2026-09-10T10:10:11+00:00 — [ISC Stormcast For Thursday, September 10th, 2026 https://isc.sans.edu/podcastdetail/10088, (Thu, Sep 10th)](https://isc.sans.edu/diary/rss/33328)
+- 2026-09-11T14:40:32+00:00 — [The Self-Expanding Stolen Inference Supply Chain: An AI Agent Harvesting and Re-Serving LLM Access, (Fri, Sep 11th)](https://isc.sans.edu/diary/rss/33332)
 
 ## DFIR Training Blog
 
@@ -254,7 +256,7 @@ Generated: 2026-09-11T08:08:32Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-09-10T10:28:38+00:00 — [InfoSec News Nuggets – 09/10/2026](https://aboutdfir.com/infosec-news-nuggets-09-10-2026/)
+- 2026-09-11T10:50:38+00:00 — [InfoSec News Nuggets – 09/11/2026](https://aboutdfir.com/infosec-news-nuggets-09-11-2026/)
 
 ## Forensic 4cast
 
@@ -371,8 +373,8 @@ Generated: 2026-09-11T08:08:32Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-09-11T06:30:00+00:00 — [Keychain copying, migration and upgrading VMs](https://eclecticlight.co/2026/09/11/keychain-copying-migration-and-upgrading-vms/)
-- 2026-09-10T11:30:00+00:00 — [Painting a good story: Series after 1800](https://eclecticlight.co/2026/09/10/painting-a-good-story-series-after-1800/)
+- 2026-09-12T07:00:00+00:00 — [Which of my apps for macOS Golden Gate?](https://eclecticlight.co/2026/09/12/which-of-my-apps-for-macos-golden-gate/)
+- 2026-09-11T11:30:00+00:00 — [Dennis Miller Bunker, American Impressionist](https://eclecticlight.co/2026/09/11/dennis-miller-bunker-american-impressionist/)
 
 ## JPCERT/CC
 
@@ -406,9 +408,16 @@ Generated: 2026-09-11T08:08:32Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 8
 
-- No new entries detected
+- 2026-09-15T13:00:00+00:00 — [Google Doc Sidebar Sends Mac and Windows Users Down Different Paths to Malware](https://www.huntress.com/blog/google-doc-sidebar-malware-mac-windows)
+- 2026-09-10T16:00:00+00:00 — [Credential Theft: How Attackers Steal & Use Stolen Credentials](https://www.huntress.com/blog/credential-theft-expanding-your-reach)
+- 2026-09-10T15:00:00+00:00 — [Best Practices for Good Endpoint Hardening | Huntress](https://www.huntress.com/blog/endpoint-hardening-best-practices)
+- 2026-09-10T13:00:00+00:00 — [The 20 Most Common Passwords Hackers Target in 2026](https://www.huntress.com/blog/most-common-passwords)
+- 2026-09-10T13:00:00+00:00 — [35 Actionable Password Statistics for Businesses in 2026 | Huntress](https://www.huntress.com/blog/password-statistics)
+- 2026-09-10T04:00:00+00:00 — [AD Rights Management Service (Part 2): Extraction, Offline Decryption, and the Unrotatable Key](https://www.huntress.com/blog/ad-rms-slc-encryption-key)
+- 2026-09-09T14:00:00+00:00 — [Grand Theft Auto VI hype leads to malware](https://www.huntress.com/blog/fake-gta6-download-malware-analysis)
+- 2026-09-09T13:00:00+00:00 — [Phishing Attacks Serve Browser-in-the-Browser Pages, Rogue RMM Persistence](https://www.huntress.com/blog/phishing-bitb-rmm-attacks)
 
 ## Red Canary Blog
 
@@ -424,9 +433,9 @@ Generated: 2026-09-11T08:08:32Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-10T10:00:43+00:00 — [The Machine With Many Faces: Post-Exploitation Identity Misuse in SPIFFE/SPIRE](https://unit42.paloaltonetworks.com/kubernetes-spiffe-spire-identity-spoofing/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
@@ -442,9 +451,9 @@ Generated: 2026-09-11T08:08:32Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-10T18:00:15+00:00 — [We've got one word for it, and it's usually the wrong one](https://blog.talosintelligence.com/weve-got-one-word-for-it-and-its-usually-the-wrong-one/)
+- No new entries detected
 
 ## SANS Blog
 
@@ -459,19 +468,16 @@ Generated: 2026-09-11T08:08:32Z
 
 - Site: https://www.elastic.co/security-labs/
 - Feed: https://www.elastic.co/security-labs/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 502
 
 ## Flare.io Threat Research Blog
 
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-10T13:00:11+00:00 — [Finding and Notifying a ShinyHunters Claims Impersonation Campaign Before It Activated: 61 Domains, 48 Brands](https://flare.io/learn/resources/blog/shinyhunters-claims-impersonation-campaign)
+- No new entries detected
 
 ## Binalyze Blog
 
@@ -529,12 +535,10 @@ Generated: 2026-09-11T08:08:32Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 2
 
-- 2026-09-10T15:49:13+00:00 — [BlueMoon exploit kit turns Chrome and Windows flaws into attacks](https://www.malwarebytes.com/blog/bugs/2026/09/bluemoon-exploit-kit-turns-chrome-and-windows-flaws-into-attacks)
-- 2026-09-10T12:18:51+00:00 — [Will AI kill us all within the next decade?](https://www.malwarebytes.com/blog/ai/2026/09/will-ai-kill-us-all-within-the-next-decade)
-- 2026-09-10T10:52:08+00:00 — [Update Chrome now to protect against an actively exploited vulnerability](https://www.malwarebytes.com/blog/bugs/2026/09/update-chrome-now-to-protect-against-an-actively-exploited-vulnerability)
-- 2026-09-10T09:59:35+00:00 — [Copyright scammers get Instagram accounts suspended and demand payment](https://www.malwarebytes.com/blog/scams/2026/09/copyright-scammers-get-instagram-accounts-suspended-and-demand-payment)
+- 2026-09-11T15:01:53+00:00 — [Crypto customers targeted by scammers after email marketing provider breach](https://www.malwarebytes.com/blog/news/2026/09/crypto-customers-targeted-by-scammers-after-email-marketing-provider-breach)
+- 2026-09-11T12:14:55+00:00 — [Android malware creates a hidden copy of your banking app](https://www.malwarebytes.com/blog/mobile/2026/09/android-malware-creates-a-hidden-copy-of-your-banking-app)
 
 ## Krebs on Security
 
@@ -550,29 +554,28 @@ Generated: 2026-09-11T08:08:32Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 7
 
-- 2026-09-11T03:55:15-04:00 — [Trezor: 347,000 users targeted in phishing attacks after Brevo breach](https://www.bleepingcomputer.com/news/security/trezor-347-000-users-targeted-in-phishing-attacks-after-brevo-breach/)
-- 2026-09-11T02:48:37-04:00 — [Conti ransomware gang member sentenced to 4 years in prison](https://www.bleepingcomputer.com/news/security/conti-ransomware-gang-member-sentenced-to-four-years-in-prison/)
-- 2026-09-10T17:40:43-04:00 — [New Android malware encrypts files, steals data, and harasses victims](https://www.bleepingcomputer.com/news/security/new-android-malware-encrypts-files-steals-data-and-harasses-victims/)
-- 2026-09-10T16:34:37-04:00 — [September Windows Server updates break Remote Desktop Services](https://www.bleepingcomputer.com/news/microsoft/september-windows-server-updates-break-remote-desktop-services/)
-- 2026-09-10T15:15:07-04:00 — [Surfshark VPN says hackers breached internal testing, proxy servers](https://www.bleepingcomputer.com/news/security/surfshark-vpn-says-hackers-breached-internal-testing-proxy-servers/)
-- 2026-09-10T15:07:33-04:00 — [Microsoft Excel KB5002914 update breaks copy and paste for some users](https://www.bleepingcomputer.com/news/microsoft/microsoft-excel-kb5002914-update-breaks-copy-and-paste-for-some-users/)
-- 2026-09-10T11:55:56-04:00 — [AI-powered attack exploited PaperCut flaws to hack 395 organizations](https://www.bleepingcomputer.com/news/security/ai-powered-attack-exploited-papercut-flaws-to-hack-395-organizations/)
-- 2026-09-10T11:43:58-04:00 — [Cisco FMC flaws exploited by ransomware gang, state-sponsored hackers](https://www.bleepingcomputer.com/news/security/cisco-fmc-flaws-exploited-by-ransomware-gang-state-sponsored-hackers/)
-- 2026-09-10T10:55:33-04:00 — [IDScan confirms breach tied to 153 million stolen driver’s licenses](https://www.bleepingcomputer.com/news/security/idscan-confirms-breach-tied-to-153-million-stolen-drivers-licenses/)
-- 2026-09-10T10:11:34-04:00 — [New 'BlueMoon' kit exploited Windows and Chrome zero-day flaws](https://www.bleepingcomputer.com/news/security/new-bluemoon-kit-exploited-windows-and-chrome-zero-day-flaws/)
+- 2026-09-11T16:19:09-04:00 — [Hackers abused Claude to extract secrets from 1.8M Android apps](https://www.bleepingcomputer.com/news/security/hackers-abused-claude-to-extract-secrets-from-18m-android-apps/)
+- 2026-09-11T15:00:29-04:00 — [Florida confirms DMV database breached via stolen police account](https://www.bleepingcomputer.com/news/security/florida-confirms-dmv-database-breached-via-stolen-police-account/)
+- 2026-09-11T13:26:50-04:00 — [Passkey-themed phishing attacks lead to Microsoft 365 data theft](https://www.bleepingcomputer.com/news/security/passkey-themed-phishing-attacks-lead-to-microsoft-365-data-theft/)
+- 2026-09-11T12:29:44-04:00 — [Artifactory flaws chained in attacks deploying backdoor malware](https://www.bleepingcomputer.com/news/security/artifactory-flaws-chained-in-attacks-deploying-backdoor-malware/)
+- 2026-09-11T10:01:11-04:00 — [How Threat Actors Are Turning Trusted AI Platforms Into an Attack Surface](https://www.bleepingcomputer.com/news/security/how-threat-actors-are-turning-trusted-ai-platforms-into-an-attack-surface/)
+- 2026-09-11T07:15:22-04:00 — [GitLab urges users to patch max severity path traversal flaw](https://www.bleepingcomputer.com/news/security/gitlab-urges-users-to-patch-max-severity-path-traversal-flaw/)
+- 2026-09-11T05:39:37-04:00 — [Microsoft fixes Teams, Outlook launch failures on ARM Windows PCs](https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-teams-outlook-launch-failures-on-arm-windows-pcs/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 5
 
-- 2026-09-11T01:00:00+00:00 — [Indonesia Hit by Android Banking App-Cloning Campaign](https://www.darkreading.com/mobile-security/indonesia-android-banking-app-cloning-campaign)
-- 2026-09-10T20:36:03+00:00 — [Voice Callers Exploit BYOD to Reach Microsoft 365, Corporate Data](https://www.darkreading.com/threat-intelligence/voice-callers-exploit-byod-microsoft-365-corporate-data)
-- 2026-09-10T15:29:12+00:00 — [Nightmare-Eclipse Strikes Again With 'ShieldCrash' Windows Exploit](https://www.darkreading.com/vulnerabilities-threats/nightmare-eclipse-strikes-again-shieldcrash-windows-exploit)
+- 2026-09-11T19:21:08+00:00 — [Threat Actor Generates 1M Personalized Fraud Emails in 3 Days](https://www.darkreading.com/cyberattacks-data-breaches/1m-personalized-fraud-emails-3-days)
+- 2026-09-11T18:44:03+00:00 — [CISA Calls for More Guidance, Less Spin, as Cyber Outages Escalate](https://www.darkreading.com/cyber-risk/cisa-calls-for-more-guidance-less-spin-as-cyber-outages-escalate)
+- 2026-09-11T18:14:06+00:00 — [Why AI Is So Good at Scamming Humans](https://www.darkreading.com/cyber-risk/ai-scamming-humans)
+- 2026-09-11T17:10:56+00:00 — [AI Governance Can't Wait](https://www.darkreading.com/cyber-risk/ai-governance-cannot-wait)
+- 2026-09-11T15:48:27+00:00 — [Papercut AI Swarm Attack Heralds Changes for Cyber Kill Chain](https://www.darkreading.com/cyberattacks-data-breaches/papercut-ai-swarm-attack-cyber-kill-chain)
 
 ## Volexity Blog
 
@@ -594,19 +597,18 @@ Generated: 2026-09-11T08:08:32Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-09-10T17:23:05+00:00 — [Protecting organizations from AI-assisted executive impersonation and invoice fraud](https://www.microsoft.com/en-us/security/blog/2026/09/10/protecting-organizations-ai-assisted-executive-impersonation-invoice-fraud/)
-- 2026-09-10T16:00:00+00:00 — [Detect and disrupt AI-themed attacks with Microsoft Defender](https://www.microsoft.com/en-us/security/blog/2026/09/10/detect-and-disrupt-ai-themed-attacks-with-microsoft-defender/)
+- No new entries detected
 
 ## HackingPassion
 
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-10T14:38:21+02:00 — [BlueMoon Chained Two Chrome Bugs to a Windows Flaw While the Fix Sat in Public for 27 Days](https://hackingpassion.com/bluemoon-chrome-windows-exploit-chain/)
+- No new entries detected
 
 ## LOLBAS Project (Windows)
 
@@ -615,7 +617,7 @@ Generated: 2026-09-11T08:08:32Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-09-10T17:11:43+00:00 — [Add DbgSrv.exe trusted developer utility proxy execution (#516)](https://github.com/LOLBAS-Project/LOLBAS/commit/58c62744ab84ad3049c09ba2c613f0e744d92c9c)
+- 2026-09-11T11:08:24+00:00 — [Update Dbgsrv.yml (#523)](https://github.com/LOLBAS-Project/LOLBAS/commit/645d4251fd71f4856eb9bb99da16a3b6b2f1a31d)
 
 ## GTFOBins (Linux)
 
@@ -775,9 +777,18 @@ Generated: 2026-09-11T08:08:32Z
 - Site: https://github.com/EricZimmerman/KapeFiles
 - Feed: https://github.com/EricZimmerman/KapeFiles/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 10
 
-- No new entries detected
+- 2026-09-11T13:57:24+00:00 — [Merge pull request #1114 from cert-cwatch/targets/impacket-smbexec](https://github.com/EricZimmerman/KapeFiles/commit/7ef624dbb50a5c9083195258dd84d75784d1ab03)
+- 2026-09-11T13:04:27+00:00 — [Fix Yaml](https://github.com/EricZimmerman/KapeFiles/commit/758da88c828590f81043e7df19c5b82e59b8fa07)
+- 2026-09-11T12:46:43+00:00 — [Update Target SMBExec](https://github.com/EricZimmerman/KapeFiles/commit/b01eb26e5e873cad6c8dc44113bcd20a11cdd764)
+- 2026-09-11T12:36:49+00:00 — [feat(targets): add Impacket SMBExec artifacts target](https://github.com/EricZimmerman/KapeFiles/commit/447d14427694f892605da033215fd98361644d81)
+- 2026-09-11T09:37:28+00:00 — [Merge pull request #1113 from cert-cwatch/master](https://github.com/EricZimmerman/KapeFiles/commit/7739f3455ff9eda904b7f930f3069b0202dc85d7)
+- 2026-09-11T08:01:57+00:00 — [Update Remote Admin compound](https://github.com/EricZimmerman/KapeFiles/commit/923e592e6d347a39d6c691413e880efa05dfdcad)
+- 2026-09-11T08:01:38+00:00 — [Add veyon](https://github.com/EricZimmerman/KapeFiles/commit/3e720d4077d2da819bf52b4664958b9bf68605ce)
+- 2026-09-11T08:01:24+00:00 — [Add Vizor](https://github.com/EricZimmerman/KapeFiles/commit/43bf02dc6fedc67d0b403822afea3ed160ebdea9)
+- 2026-09-11T08:01:11+00:00 — [Add TrustConnect](https://github.com/EricZimmerman/KapeFiles/commit/656fc2b8c1825fa4d048a084fe604be744af7e25)
+- 2026-09-11T08:00:57+00:00 — [Add Tiflux](https://github.com/EricZimmerman/KapeFiles/commit/42355341a7edff141a11429ed6ca3599a62c3869)
 
 ## EZ RegistryPlugins commits
 
@@ -856,19 +867,33 @@ Generated: 2026-09-11T08:08:32Z
 - Site: https://github.com/WithSecureLabs/chainsaw
 - Feed: https://github.com/WithSecureLabs/chainsaw/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 10
 
-- No new entries detected
+- 2026-08-25T19:17:44+00:00 — [v2.16.5](https://github.com/WithSecureOpenSource/chainsaw/releases/tag/v2.16.5)
+- 2026-08-19T19:35:35+00:00 — [v2.16.4](https://github.com/WithSecureOpenSource/chainsaw/releases/tag/v2.16.4)
+- 2026-08-04T17:39:34+00:00 — [v2.16.3](https://github.com/WithSecureOpenSource/chainsaw/releases/tag/v2.16.3)
+- 2026-08-02T12:06:14+00:00 — [v2.16.3-beta.2](https://github.com/WithSecureOpenSource/chainsaw/releases/tag/v2.16.3-beta.2)
+- 2026-07-30T18:11:13+00:00 — [v2.16.3-beta.1](https://github.com/WithSecureOpenSource/chainsaw/releases/tag/v2.16.3-beta.1)
+- 2026-07-26T15:00:14+00:00 — [v2.16.3-beta.0](https://github.com/WithSecureOpenSource/chainsaw/releases/tag/v2.16.3-beta.0)
+- 2026-07-09T08:18:02+00:00 — [v2.16.2](https://github.com/WithSecureOpenSource/chainsaw/releases/tag/v2.16.2)
+- 2026-07-09T08:19:06+00:00 — [v2.16.1](https://github.com/WithSecureOpenSource/chainsaw/releases/tag/v2.16.1)
+- 2026-05-09T10:11:17+00:00 — [v2.16.0](https://github.com/WithSecureOpenSource/chainsaw/releases/tag/v2.16.0)
+- 2026-04-27T16:52:07+00:00 — [v2.15.0](https://github.com/WithSecureOpenSource/chainsaw/releases/tag/v2.15.0)
 
 ## Elastic detection-rules releases
 
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 7
 
-- 2026-09-11T01:44:50+00:00 — [dev-v2.2.5](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.5)
-- 2026-09-10T15:09:00+00:00 — [dev-v2.2.4](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.4)
+- 2026-09-12T02:27:55+00:00 — [dev-v2.2.12](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.12)
+- 2026-09-12T00:02:14+00:00 — [dev-v2.2.11](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.11)
+- 2026-09-11T22:01:48+00:00 — [dev-v2.2.10](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.10)
+- 2026-09-11T21:27:02+00:00 — [dev-v2.2.9](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.9)
+- 2026-09-11T20:01:21+00:00 — [dev-v2.2.8](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.8)
+- 2026-09-11T18:49:09+00:00 — [dev-v2.2.7](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.7)
+- 2026-09-11T18:17:23+00:00 — [dev-v2.2.6](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.6)
 
 ## regipy releases
 
