@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-09-13T08:24:10Z
+Generated: 2026-09-14T09:02:56Z
 
 ## Windows Incident Response
 
@@ -34,18 +34,9 @@ Generated: 2026-09-13T08:24:10Z
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-09-11T21:01:49+00:00 — [Introducing DFIR, OSINT, & Cybersecurity Community Listings](https://dfirdiva.com/introducing-dfir-osint-cybersecurity-community-listings/)
-- 2026-07-28T01:53:25+00:00 — [The Events Site is Being Rebuilt](https://dfirdiva.com/the-events-site-is-being-rebuilt/)
-- 2025-11-30T06:00:00+00:00 — [My Experience with Alias by SockPuppet](https://dfirdiva.com/my-experience-with-alias-by-sockpuppet/)
-- 2025-11-29T04:39:45+00:00 — [Free & Affordable Training News: Black Friday 2025 Edition](https://dfirdiva.com/free-affordable-training-news-black-friday-2025-edition/)
-- 2025-10-01T04:47:39+00:00 — [Techno Security & Digital Forensics Conference: October 27-29, 2025](https://dfirdiva.com/techno-security-digital-forensics-conference-october-27-29-2025/)
-- 2025-05-28T02:49:49+00:00 — [Upcoming Techno Security & Digital Forensics Conference](https://dfirdiva.com/upcoming-techno-security-digital-forensics-conference-2/)
-- 2025-03-10T05:47:02+00:00 — [Free & Affordable Training News Monthly: Feb – Mar 2025](https://dfirdiva.com/free-affordable-training-news-monthly-feb-march-2025/)
-- 2025-02-03T09:18:55+00:00 — [Free & Affordable Training News Monthly: Dec 2024 – Feb 2025](https://dfirdiva.com/free-amp-affordable-training-news-monthly-dec-2024-feb-2025/)
-- 2024-12-01T19:45:17+00:00 — [Free & Affordable Training News Monthly: Nov – Dec, 2024](https://dfirdiva.com/free-affordable-training-news-monthly-nov-dec-2024/)
-- 2024-11-26T20:48:47+00:00 — [Free & Affordable Training News: Black Friday 2024 Edition](https://dfirdiva.com/free-affordable-training-news-black-friday-2024-edition/)
+- No new entries detected
 
 ## mac4n6
 
@@ -70,9 +61,9 @@ Generated: 2026-09-13T08:24:10Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-13T00:00:00+00:00 — [Weekly Wire #9: The Patch Race Tightens](https://andreafortuna.org/2026/09/13/weekly-wire-9/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -235,18 +226,27 @@ Generated: 2026-09-13T08:24:10Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-14T02:00:03+00:00 — [ISC Stormcast For Monday, September 14th, 2026 https://isc.sans.edu/podcastdetail/10092, (Mon, Sep 14th)](https://isc.sans.edu/diary/rss/33334)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Directory](https://www.dfir.training/providers)
+- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [What 400 DFIR Books Tell Us About the Field](https://www.dfir.training/blog/what-400-dfir-books-tell-us-about-the-field)
+- unknown date — [Where Are Digital Investigations Breaking Down?](https://www.dfir.training/blog/where-are-digital-investigations-breaking-down)
+- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
 
 ## MSAB
 
@@ -280,9 +280,9 @@ Generated: 2026-09-13T08:24:10Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-13T11:17:42+00:00 — [Week 37 – 2026](https://thisweekin4n6.com/2026/09/13/week-37-2026/)
 
 ## The Sleuth Kit updates
 
@@ -381,9 +381,9 @@ Generated: 2026-09-13T08:24:10Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-09-13T07:00:00+00:00 — [Last Week on My Mac: Still a surprise](https://eclecticlight.co/2026/09/13/last-week-on-my-mac-still-a-surprise/)
-- 2026-09-12T11:30:00+00:00 — [Anarchy in paint: the politics of Neo-Impressionism 1](https://eclecticlight.co/2026/09/12/anarchy-in-paint-the-politics-of-neo-impressionism-1/)
-- 2026-09-12T08:00:00+00:00 — [Saturday Mac riddles 377](https://eclecticlight.co/2026/09/12/saturday-mac-riddles-377/)
+- 2026-09-14T08:00:00+00:00 — [Solutions to Saturday Mac riddles 377](https://eclecticlight.co/2026/09/14/solutions-to-saturday-mac-riddles-377/)
+- 2026-09-14T06:30:00+00:00 — [How can you copy or restore keychains?](https://eclecticlight.co/2026/09/14/how-can-you-copy-or-restore-keychains/)
+- 2026-09-13T11:30:00+00:00 — [Anarchy in paint: the politics of Neo-Impressionism 2](https://eclecticlight.co/2026/09/13/anarchy-in-paint-the-politics-of-neo-impressionism-2/)
 
 ## JPCERT/CC
 
@@ -471,18 +471,9 @@ Generated: 2026-09-13T08:24:10Z
 - Site: https://www.elastic.co/security-labs/
 - Feed: https://www.elastic.co/security-labs/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- unknown date — [Access report](https://www.elastic.co/resources/security/report/forrester-xdr-wave?plcmt=global-alert-banner&amp;cta=eswp-174)
-- unknown date — [About us](https://www.elastic.co/about)
-- unknown date — [Partners](https://www.elastic.co/partners)
-- unknown date — [Support](https://www.elastic.co/support)
-- unknown date — [Context engineeringGet the most relevant context to agents so that they deliver accurate and trusted outcomes](https://www.elastic.co/elasticsearch/context-engineering)
-- unknown date — [Vector databaseEfficiently create, store, and search vector embeddings](https://www.elastic.co/elasticsearch/vector-database)
-- unknown date — [LogsCollect, search, explore, and act on large volumes](https://www.elastic.co/observability/log-monitoring)
-- unknown date — [Threat protectionDetect, investigate, and remediate cyber threats at scale on real-time data](https://www.elastic.co/security/investigation-response)
-- unknown date — [WorkflowsCombine scripted automation with AI reasoning natively in Elasticsearch](https://www.elastic.co/elasticsearch/workflows)
-- unknown date — [ElasticsearchA distributed, RESTful search and analytics engine](https://www.elastic.co/elasticsearch)
+- No new entries detected
 
 ## Flare.io Threat Research Blog
 
@@ -549,9 +540,9 @@ Generated: 2026-09-13T08:24:10Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-14T07:01:00+00:00 — [A week in security (September 7 – September 13)](https://www.malwarebytes.com/blog/news/2026/09/a-week-in-security-september-7-september-13)
 
 ## Krebs on Security
 
@@ -567,9 +558,12 @@ Generated: 2026-09-13T08:24:10Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 4
 
-- 2026-09-12T10:14:32-04:00 — [Dutch NCSC: Critical Check Point VPN flaws exploitation is imminent](https://www.bleepingcomputer.com/news/security/dutch-ncsc-critical-check-point-vpn-flaws-exploitation-is-imminent/)
+- 2026-09-14T04:48:24-04:00 — [Revolut discloses data breach exposing financial info, passports](https://www.bleepingcomputer.com/news/security/revolut-discloses-data-breach-exposing-financial-info-passports/)
+- 2026-09-14T04:08:16-04:00 — [Microsoft: September updates break audio on some Windows PCs](https://www.bleepingcomputer.com/news/microsoft/microsoft-september-updates-break-audio-on-some-windows-pcs/)
+- 2026-09-14T03:06:27-04:00 — [CISA: Hackers now exploit max severity GitLab flaw in attacks](https://www.bleepingcomputer.com/news/security/cisa-hackers-now-exploit-max-severity-gitlab-flaw-in-attacks/)
+- 2026-09-13T10:26:32-04:00 — [Hackers exploit Tencent app flaw to deploy GrayRabbit malware](https://www.bleepingcomputer.com/news/security/hackers-exploit-tencent-app-flaw-to-deploy-grayrabbit-malware/)
 
 ## Dark Reading
 
@@ -609,18 +603,18 @@ Generated: 2026-09-13T08:24:10Z
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-12T14:23:19+02:00 — [Mullvad Says Any Android App Can Send Your IP Past the VPN Kill Switch](https://hackingpassion.com/mullvad-android-vpn-kill-switch-leak/)
+- No new entries detected
 
 ## LOLBAS Project (Windows)
 
 - Site: https://lolbas-project.github.io/
 - Feed: https://github.com/LOLBAS-Project/LOLBAS/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-12T09:33:48+00:00 — [Add PKCS11Provider option for remote DLL loading in scp.yml (#517)](https://github.com/LOLBAS-Project/LOLBAS/commit/2f342eca0605b2aa9ef42ead871d271cb5c82ea2)
+- No new entries detected
 
 ## GTFOBins (Linux)
 
@@ -852,9 +846,9 @@ Generated: 2026-09-13T08:24:10Z
 - Site: https://github.com/Yamato-Security/hayabusa
 - Feed: https://github.com/Yamato-Security/hayabusa/releases.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-12T23:35:35+00:00 — [v4.1.0 - Suzumushi Release](https://github.com/Yamato-Security/hayabusa/releases/tag/v4.1.0)
+- No new entries detected
 
 ## Chainsaw releases
 
