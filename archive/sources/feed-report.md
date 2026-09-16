@@ -1,16 +1,15 @@
 # Feed Update Report
 
-Generated: 2026-09-15T08:46:51Z
+Generated: 2026-09-16T08:41:23Z
 
 ## Windows Incident Response
 
 - Site: https://windowsir.blogspot.com/
 - Feed: https://windowsir.blogspot.com/feeds/posts/default
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-09-14T07:25:56-05:00 — [Burn Out, Or Fade Away](https://windowsir.blogspot.com/2026/09/burn-out-or-fade-away.html)
-- 2026-09-14T06:20:41-05:00 — [LNK Metadata](https://windowsir.blogspot.com/2026/09/lnk-metadata.html)
+- No new entries detected
 
 ## dfir.blog
 
@@ -62,9 +61,9 @@ Generated: 2026-09-15T08:46:51Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-14T00:00:00+00:00 — [When the web shell isn’t on disk: the F5 BIG-IP rootkit that lives in memory](https://andreafortuna.org/2026/09/14/f5-big-ip-rootkit-in-memory/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -202,7 +201,7 @@ Generated: 2026-09-15T08:46:51Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-09-14T19:16:12+00:00 — [Drone forensics: a guide for investigators](https://www.magnetforensics.com/blog/drone-forensics-a-guide-for-investigators/)
+- 2026-09-15T17:40:08+00:00 — [Introducing PDF Analysis in Magnet Verify: Authenticity and provenance for document evidence](https://www.magnetforensics.com/blog/introducing-pdf-analysis-in-magnet-verify-authenticity-and-provenance-for-document-evidence/)
 
 ## The DFIR Report
 
@@ -229,17 +228,14 @@ Generated: 2026-09-15T08:46:51Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-09-15T02:25:12+00:00 — [ISC Stormcast For Tuesday, September 15th, 2026 https://isc.sans.edu/podcastdetail/10094, (Tue, Sep 15th)](https://isc.sans.edu/diary/rss/33338)
-- 2026-09-14T18:33:44+00:00 — [Apple Updates Everything, (Mon, Sep 14th)](https://isc.sans.edu/diary/rss/33336)
+- 2026-09-16T02:00:02+00:00 — [ISC Stormcast For Wednesday, September 16th, 2026 https://isc.sans.edu/podcastdetail/10096, (Wed, Sep 16th)](https://isc.sans.edu/diary/rss/33342)
+- 2026-09-15T15:23:45+00:00 — [MacOS 27 - First Boot, (Tue, Sep 15th)](https://isc.sans.edu/diary/rss/33340)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: _ssl.c:1064: The handshake operation timed out
 
 ## MSAB
 
@@ -257,7 +253,7 @@ Generated: 2026-09-15T08:46:51Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-09-14T10:01:29+00:00 — [InfoSec News Nuggets – 09/14/2026](https://aboutdfir.com/infosec-news-nuggets-09-14-2026/)
+- 2026-09-15T10:48:46+00:00 — [InfoSec News Nuggets – 09/15/2026](https://aboutdfir.com/infosec-news-nuggets-09-15-2026/)
 
 ## Forensic 4cast
 
@@ -291,9 +287,9 @@ Generated: 2026-09-15T08:46:51Z
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-15T13:30:00+00:00 — [How to Prepare Compelling and Safe Digital Multimedia Evidence for Court with Amped Replay](https://blog.ampedsoftware.com/2026/09/15/prepare-digital-multimedia-evidence-for-court-with-replay)
 
 ## Didier Stevens Blog
 
@@ -318,9 +314,9 @@ Generated: 2026-09-15T08:46:51Z
 - Site: https://www.hexacorn.com/blog/
 - Feed: https://www.hexacorn.com/blog/feed/
 - Entries checked: 5
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-14T19:11:17+00:00 — [Win11_26H2 build xta phantom libraries](https://www.hexacorn.com/blog/2026/09/14/win11_26h2-build-xta-phantom-libraries/)
+- No new entries detected
 
 ## The DFIR Spot
 
@@ -372,11 +368,10 @@ Generated: 2026-09-15T08:46:51Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-09-15T06:30:00+00:00 — [Finding your feet in Golden Gate](https://eclecticlight.co/2026/09/15/finding-your-feet-in-golden-gate/)
-- 2026-09-14T17:20:18+00:00 — [Apple has released macOS Golden Gate, and security updates to Tahoe 26.7, Sequoia 15.8](https://eclecticlight.co/2026/09/14/apple-has-released-macos-golden-gate-and-security-updates-to-tahoe-26-7-sequoia-15-8/)
-- 2026-09-14T11:30:00+00:00 — [Hero or hooligan: Heracles’ labours 9-12](https://eclecticlight.co/2026/09/14/hero-or-hooligan-heracles-labours-9-12/)
+- 2026-09-16T06:30:00+00:00 — [What has happened with XProtect](https://eclecticlight.co/2026/09/16/what-has-happened-with-xprotect/)
+- 2026-09-15T11:30:00+00:00 — [Portraits of trees: The Fallen](https://eclecticlight.co/2026/09/15/portraits-of-trees-the-fallen/)
 
 ## JPCERT/CC
 
@@ -412,7 +407,7 @@ Generated: 2026-09-15T08:46:51Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-09-14T13:00:00+00:00 — [How Attackers Abuse VSS, and How Huntress Detects It](https://www.huntress.com/blog/vss-abuse-explained)
+- 2026-09-15T14:00:00+00:00 — [Operational Resilience: IT Security Risks with Reduced Staffing | Huntress](https://www.huntress.com/blog/operational-resilience-reduced-staffing-risks)
 
 ## Red Canary Blog
 
@@ -428,9 +423,9 @@ Generated: 2026-09-15T08:46:51Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-14T10:00:01+00:00 — [Unmasking Cloud Identities: From Behavioral Clustering to Automated Detection](https://unit42.paloaltonetworks.com/behavioral-clustering-map-to-cloud-identities/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
@@ -473,9 +468,9 @@ Generated: 2026-09-15T08:46:51Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-15T13:20:17+00:00 — [Sisterhood of the Traveling Packets: How 1,300 Practitioners Hacked a Ransomware Gang’s Leak Site (Flare CTF Writeup)](https://flare.io/learn/resources/blog/sisterhood-traveling-packets-ctf-writeup)
 
 ## Binalyze Blog
 
@@ -497,20 +492,19 @@ Generated: 2026-09-15T08:46:51Z
 - Site: https://www.forensafe.com/blogs/
 - Feed: https://www.forensafe.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- Fri, 11 Sep 2026 — [iOS App Snapshots](https://forensafe.com/blogs/ios-app-snapshots.html)
+- Fri, 04 Sep 2026 — [iOS Life360](https://forensafe.com/blogs/ios-life360.html)
 
 ## Cellebrite Blog
 
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 3
+- New since last snapshot: 1
 
-- 2026-09-14T12:59:49+00:00 — [Cellebrite CTO Chris Wade to Lead Cellebrite Labs, Sharpening Focus on Mobile Research](https://cellebrite.com/en/resources/press-releases/cellebrite-cto-chris-wade-to-lead-cellebrite-labs-sharpening-focus-on-mobile-research/)
-- 2026-09-14T12:13:38+00:00 — [Security Debt: What Happens When Your Mobile Security Can’t Keep Up?](https://cellebrite.com/en/blog/what-is-security-debt/)
-- 2026-09-14T12:00:04+00:00 — [Cellebrite Initiates Plans to Redomicile in the United States](https://cellebrite.com/en/resources/press-releases/cellebrite-initiates-plans-to-redomicile-in-the-united-states/)
+- 2026-09-15T12:50:54+00:00 — [Mobile Compliance is Broken on iOS. Here’s the Fix No One’s Talking About.](https://cellebrite.com/en/resources/whitepapers/mobile-compliance-broken-on-ios/)
 
 ## DFIR Science
 
@@ -526,19 +520,21 @@ Generated: 2026-09-15T08:46:51Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-15T00:00:00-05:00 — [PhantomRaven: An LLM-Generated Information Stealer Developed for Bug Bounty Hunting](https://www.crowdstrike.com/en-us/blog/phantomraven-llm-generated-information-stealer-for-bug-bounty-hunting/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 4
 
-- 2026-09-14T14:17:44+00:00 — [Google’s new search redirects make links harder to check before you click](https://www.malwarebytes.com/blog/news/2026/09/googles-new-search-redirects-make-links-harder-to-check-before-you-click)
-- 2026-09-14T11:15:38+00:00 — [Revolut gave customer IDs and financial data to a government impostor](https://www.malwarebytes.com/blog/news/2026/09/revolut-gave-customer-ids-and-financial-data-to-a-government-impostor)
+- 2026-09-15T15:41:44+00:00 — [How to opt out of AI chatbot training](https://www.malwarebytes.com/blog/how-to/2026/09/how-to-opt-out-of-ai-chatbot-training)
+- 2026-09-15T11:51:03+00:00 — [HBO Max’s verified Reddit account hijacked to spread malware](https://www.malwarebytes.com/blog/news/2026/09/hbo-maxs-verified-reddit-account-hijacked-to-spread-malware)
+- 2026-09-15T09:44:10+00:00 — [Meta AI builds detailed profiles of children from years of family posts](https://www.malwarebytes.com/blog/family-and-parenting/2026/09/meta-ai-builds-detailed-profiles-of-children-from-years-of-family-posts)
+- 2026-09-15T08:40:22+00:00 — [Search results are sending people to fake Bitrefill checkouts](https://www.malwarebytes.com/blog/threat-intel/2026/09/search-results-are-sending-people-to-fake-bitrefill-checkouts)
 
 ## Krebs on Security
 
@@ -554,18 +550,17 @@ Generated: 2026-09-15T08:46:51Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 9
 
-- 2026-09-15T04:40:20-04:00 — [Microsoft confirms KB5002914 Excel update breaks copy and paste](https://www.bleepingcomputer.com/news/microsoft/microsoft-september-kb5002914-security-update-breaks-excel-copy-and-paste/)
-- 2026-09-15T03:31:09-04:00 — [Cisco patches Secure Email Gateway zero-day exploited in attacks](https://www.bleepingcomputer.com/news/security/new-cisco-secure-email-zero-day-exploited-to-execute-commands-as-root/)
-- 2026-09-14T16:52:18-04:00 — [Microsoft releases emergency Windows updates to fix RDS failures](https://www.bleepingcomputer.com/news/microsoft/microsoft-releases-emergency-windows-updates-to-fix-rds-failures/)
-- 2026-09-14T16:36:02-04:00 — [Japan's Digital Agency says VPN flaw exposed 246,000 personnel records](https://www.bleepingcomputer.com/news/security/japans-digital-agency-says-vpn-flaw-exposed-246-000-personnel-records/)
-- 2026-09-14T15:51:04-04:00 — [Homebrew 7.0.0 gets built-in GUI, better security controls](https://www.bleepingcomputer.com/news/security/homebrew-700-gets-built-in-gui-better-security-controls/)
-- 2026-09-14T15:03:51-04:00 — [Twitch extension with 30K installs exposes users’ OAuth tokens](https://www.bleepingcomputer.com/news/security/twitch-extension-with-30k-installs-exposes-users-oauth-tokens/)
-- 2026-09-14T14:34:16-04:00 — [Hackers hijack HBO Max Reddit account to push malware in ClickFix ads](https://www.bleepingcomputer.com/news/security/hackers-hijack-hbo-max-reddit-account-to-push-malware-in-clickfix-ads/)
-- 2026-09-14T12:15:58-04:00 — [Hackers target exposed Vite dev servers to steal AWS, Azure secrets](https://www.bleepingcomputer.com/news/security/hackers-target-exposed-vite-dev-servers-to-steal-aws-azure-secrets/)
-- 2026-09-14T10:01:11-04:00 — [Why Patch Automation Needs Brakes, Not Just an Accelerator](https://www.bleepingcomputer.com/news/security/why-patch-automation-needs-brakes-not-just-an-accelerator/)
-- 2026-09-14T08:15:23-04:00 — [Webinar: How malicious OAuth apps can lead to Google Workspace breaches](https://www.bleepingcomputer.com/news/security/webinar-how-malicious-oauth-apps-can-lead-to-google-workspace-breaches/)
+- 2026-09-16T03:00:19-04:00 — [Google fixes actively exploited Android zero-day on Pixel devices](https://www.bleepingcomputer.com/news/security/google-fixes-actively-exploited-android-zero-day-on-pixel-devices/)
+- 2026-09-15T17:37:35-04:00 — [Acronis warns of actively exploited flaw in its cPanel backup plugin](https://www.bleepingcomputer.com/news/security/acronis-warns-of-actively-exploited-flaw-in-its-cpanel-backup-plugin/)
+- 2026-09-15T16:34:15-04:00 — [Malcious Admin Menu Editor Pro plugin backdoors 1,500 WordPress sites](https://www.bleepingcomputer.com/news/security/malcious-admin-menu-editor-pro-plugin-backdoors-1-500-wordpress-sites/)
+- 2026-09-15T12:40:14-04:00 — [CenterPoint Energy confirms customer data stolen in cyberattack](https://www.bleepingcomputer.com/news/security/centerpoint-energy-confirms-customer-data-stolen-in-cyberattack/)
+- 2026-09-15T11:00:00-04:00 — [BambooToken malware controls Windows and Linux systems via MQTT](https://www.bleepingcomputer.com/news/security/bambootoken-malware-controls-windows-and-linux-systems-via-mqtt/)
+- 2026-09-15T10:45:10-04:00 — [Hackers target WordPress sites via third-party WooCommerce plugin](https://www.bleepingcomputer.com/news/security/hackers-target-wordpress-sites-via-third-party-woocommerce-plugin/)
+- 2026-09-15T09:45:54-04:00 — [What Zero-Day Response Should Be in the Post-Mythos Era](https://www.bleepingcomputer.com/news/security/what-zero-day-response-should-be-in-the-post-mythos-era/)
+- 2026-09-15T08:16:32-04:00 — [CISA: Critical VMware RCE flaw now exploited by ransomware gangs](https://www.bleepingcomputer.com/news/security/cisa-critical-vmware-vcenter-rce-flaw-now-exploited-by-ransomware-gangs/)
+- 2026-09-15T05:50:25-04:00 — [Suspected Black Axe gang leaders face cybercrime charges in the US](https://www.bleepingcomputer.com/news/security/black-axe-gang-members-extradited-to-us-face-cybercrime-charges/)
 
 ## Dark Reading
 
@@ -574,10 +569,10 @@ Generated: 2026-09-15T08:46:51Z
 - Entries checked: 10
 - New since last snapshot: 4
 
-- 2026-09-14T21:37:28+00:00 — ['Sandworm' Chains Cisco Vulnerabilities to Deploy Cyclops Blink](https://www.darkreading.com/cyberattacks-data-breaches/sandworm-chains-cisco-vulnerabilities-cyclops-blink)
-- 2026-09-14T20:19:22+00:00 — [Maximum Severity GitLab Flaw Puts Supply Chains at Risk](https://www.darkreading.com/cyberattacks-data-breaches/maximum-severity-gitlab-flaw-supply-chains-risk)
-- 2026-09-14T16:41:10+00:00 — [Anthropic CEO: Time to Shift From Improving to Controlling AI](https://www.darkreading.com/cyber-risk/anthropic-ceo-shift-from-improving-to-controlling-ai)
-- 2026-09-11T18:27:28+00:00 — [SpiderSilk Hunts External Threats With AI-Based Scanner](https://www.darkreading.com/endpoint-security/spidersilk-hunts-external-threats-ai-scanning)
+- 2026-09-16T01:00:00+00:00 — [Cyber Op Targets South Korean Media &amp; Automotive Sectors](https://www.darkreading.com/cyberattacks-data-breaches/cyber-south-korean-media-automotive)
+- 2026-09-15T20:16:00+00:00 — [Microsoft Issues Emergency Fixes After Massive Patch Tuesday](https://www.darkreading.com/application-security/microsoft-emergency-fixes-patch-tuesday)
+- 2026-09-15T19:27:19+00:00 — [Black Hat USA 2026 | The 'Breaking' News: The OpenAI–Hugging Face Incident](https://www.darkreading.com/vulnerabilities-threats/bhusa26huggingfacetalk)
+- 2026-09-15T16:45:37+00:00 — [VectraRAT Can Hack Windows Enterprises for $250 per Month](https://www.darkreading.com/endpoint-security/vectrarat-hack-windows-enterprises)
 
 ## Volexity Blog
 
@@ -610,7 +605,7 @@ Generated: 2026-09-15T08:46:51Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-09-14T14:52:52+02:00 — [Revolut Handed Over Passports, Selfies and Full Bitcoin Histories to a Fake Government Email](https://hackingpassion.com/revolut-fake-government-email-data-breach/)
+- 2026-09-15T13:27:31+02:00 — [Nightmare Eclipse Has a Name Now and ShieldCrash Broke Microsoft's Defender Patch in Two Hours](https://hackingpassion.com/nightmare-eclipse-shieldcrash-defender-patch-bypass/)
 
 ## LOLBAS Project (Windows)
 
@@ -779,13 +774,18 @@ Generated: 2026-09-15T08:46:51Z
 - Site: https://github.com/EricZimmerman/KapeFiles
 - Feed: https://github.com/EricZimmerman/KapeFiles/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 10
 
-- 2026-09-15T00:27:41+00:00 — [Merge pull request #1116 from Gear-I/directory_opus](https://github.com/EricZimmerman/KapeFiles/commit/6f8c2b5fd77fa6b0eee98feb6e93ae93a9574b83)
-- 2026-09-14T23:02:17+00:00 — [Consolidates the Directory Opus target's MRU and State Data entries f…](https://github.com/EricZimmerman/KapeFiles/commit/064d11a2c2ac87e798c5bef16d67ebd6b8737805)
-- 2026-09-14T15:28:33+00:00 — [Merge pull request #1115 from AndrewRathbun/master](https://github.com/EricZimmerman/KapeFiles/commit/fad11bddd98e99671cb982897c0220a182c6ba90)
-- 2026-09-14T15:27:54+00:00 — [Delete Modules/Windows/Amcache.tkape](https://github.com/EricZimmerman/KapeFiles/commit/0b4f225fb396baa6c32740ac6d855273a99c29f4)
-- 2026-09-14T15:27:32+00:00 — [Enhance Amcache.tkape with database targets and version update](https://github.com/EricZimmerman/KapeFiles/commit/ed78371f8542eca784973360938f524f0b12891a)
+- 2026-09-16T01:30:28+00:00 — [Merge pull request #1120 from Gear-I/Google_Earth_KML](https://github.com/EricZimmerman/KapeFiles/commit/76b1d80d4d62f9e8c1b51bf5e4700f2bbed1692e)
+- 2026-09-15T21:33:50+00:00 — [Add Google Earth Target (closes #832)](https://github.com/EricZimmerman/KapeFiles/commit/8403ace03a4c099311ef98acbd87ad3b0c3897c5)
+- 2026-09-15T21:05:19+00:00 — [Merge pull request #1119 from Gear-I/Executed_Program_List](https://github.com/EricZimmerman/KapeFiles/commit/0476205e4edbc11b6079c0707622a8221069613c)
+- 2026-09-15T20:56:13+00:00 — [Add NirSoft ExecutedProgramsList Module](https://github.com/EricZimmerman/KapeFiles/commit/1f752489ef4999bd307d1077d5eb91daea99de25)
+- 2026-09-15T20:34:31+00:00 — [Merge pull request #1118 from Gear-I/MyLastSearch_Module](https://github.com/EricZimmerman/KapeFiles/commit/ead80855c049e65d31892da31587cb88d9cd1a2e)
+- 2026-09-15T20:33:49+00:00 — [Add newline](https://github.com/EricZimmerman/KapeFiles/commit/ffd032e80ae7c0438be3bd162e71260b4bbd1329)
+- 2026-09-15T20:04:46+00:00 — [Fixed Documentation to add known limitation](https://github.com/EricZimmerman/KapeFiles/commit/85a216363d8260fd157f887f723b409c9f2d4226)
+- 2026-09-15T19:58:31+00:00 — [Add NirSoft MyLastSearch Module](https://github.com/EricZimmerman/KapeFiles/commit/581317a1a365f71eb15ce4bcc5ca8c2a01480927)
+- 2026-09-15T19:08:58+00:00 — [Merge pull request #1117 from Gear-I/NirSoft_TaskScheduler_View](https://github.com/EricZimmerman/KapeFiles/commit/b8c2f58ac3bff73d3959e1a4f192e4086eb9664d)
+- 2026-09-15T19:03:17+00:00 — [Adds a new LiveResponse module wrapping NirSoft's TaskSchedulerView](https://github.com/EricZimmerman/KapeFiles/commit/bea91ddaa35a5b695fabeb183240c9388e933ef5)
 
 ## EZ RegistryPlugins commits
 
@@ -846,9 +846,10 @@ Generated: 2026-09-15T08:46:51Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-09-15T23:21:04+00:00 — [Sigma Rule Supported Modifier Update (2026-09-15  23:20:55) (#1070)](https://github.com/Yamato-Security/hayabusa-rules/commit/10d1b6dc3ec884daf04d736a7fc78bf2ee898664)
+- 2026-09-15T22:35:28+00:00 — [Sigma Rule Update (2026-09-15  22:35:18) (#1069)](https://github.com/Yamato-Security/hayabusa-rules/commit/8331dc7e973c4aff928b8c0a89a5b983b0bf46fe)
 
 ## Hayabusa releases
 
@@ -873,9 +874,14 @@ Generated: 2026-09-15T08:46:51Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 6
 
-- No new entries detected
+- 2026-09-15T18:27:29+00:00 — [dev-v2.2.18](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.18)
+- 2026-09-15T16:29:23+00:00 — [dev-v2.2.17](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.17)
+- 2026-09-15T15:55:01+00:00 — [dev-v2.2.16](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.16)
+- 2026-09-15T14:38:13+00:00 — [dev-v2.2.15](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.15)
+- 2026-09-15T13:27:11+00:00 — [dev-v2.2.14](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.14)
+- 2026-09-15T11:27:18+00:00 — [dev-v2.2.13](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.13)
 
 ## regipy releases
 
