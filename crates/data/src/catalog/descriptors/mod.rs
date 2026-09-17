@@ -1009,9 +1009,22 @@ pub(crate) static AMCACHE_FIELDS: &[FieldSchema] = &[
         is_uid_component: true,
     },
     FieldSchema {
+        // The threshold is a hard constant, and getting it wrong breaks every
+        // hash comparison on a large file.
+        // Source: https://blog.nviso.eu/2022/03/07/amcache-contains-sha-1-hash-it-depends/
         name: "sha1",
         value_type: ValueType::Text,
-        description: "SHA1 of the first 31.25 MB (0000-prefixed)",
+        description: "SHA-1 stored in FileId / DriverId, written with a leading '0000' prefix that must be stripped before comparison. \
+                      Computed over the first 31,457,280 bytes of the file — exactly 30 MiB (0x1E00000), NOT '31.25 MB'; a range check coded from the wrong figure mis-classifies files. \
+                      The failure MODE is the misleading part: a file over the threshold does not get a null or absent hash, it gets a hash over the truncated prefix, so the recorded value is present, well-formed, and will never match a full-file SHA-1. \
+                      The Size value stored in the same key is what decides whether a given FileId is comparable at all — read it first, and treat any entry with Size > 31,457,280 as a prefix hash rather than a file hash",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        // Source: https://blog.nviso.eu/2022/03/07/amcache-contains-sha-1-hash-it-depends/
+        name: "size",
+        value_type: ValueType::UnsignedInt,
+        description: "File size in bytes recorded alongside FileId. The cross-check that makes `sha1` interpretable: at or below 31,457,280 bytes the stored hash is a whole-file SHA-1 and may be matched against a hash set; above it the stored hash covers only the leading 31,457,280 bytes and a non-match proves nothing",
         is_uid_component: false,
     },
 ];
@@ -1045,11 +1058,16 @@ pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "https://sethenoka.com/shimcache-and-amcache-program-execution-without-certainty/",
         // Richard Davis (13Cubed) — "Investigating Windows Endpoints" IWE course Q&A:
         "https://training.13cubed.com/p/courses/investigating-windows-endpoints",
+        // Source: NVISO Labs — tested the FileId SHA-1 against full-file hashes and
+        // established the 31,457,280-byte (30 MiB) input threshold and the
+        // truncated-input behaviour above it
+        "https://blog.nviso.eu/2022/03/07/amcache-contains-sha-1-hash-it-depends/",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &[
         "Presence proves file was on disk and touched by Windows; not always execution",
         "Can be populated by antivirus scans",
+        "The FileId SHA-1 covers only the first 31,457,280 bytes (30 MiB). Above that size the value is a prefix hash, not a file hash — it is present and well-formed and will never match a full-file SHA-1, so a hash-set miss on a large binary is an artefact of the threshold and not evidence the file differs. Read the stored Size before comparing",
         "AmCache last write time is NOT a reliable first-execution indicator on modern systems — the hive is updated by multiple mechanisms beyond the Compatibility Appraiser scheduled task (which is often disabled), including normal app launches and PCA activity",
         "Run AmcacheParser.exe with the -i flag to generate AssociatedFileEntries output; omitting -i produces incomplete results",
         "Transaction log files (.LOG1/.LOG2) must be co-located with the hive; AmcacheParser processes them automatically if present — without them, in-flight writes may be missing",
@@ -1160,12 +1178,53 @@ transaction logs.",
 
 // ── ShimCache (AppCompatCache) ────────────────────────────────────────────────
 
-pub(crate) static SHIMCACHE_FIELDS: &[FieldSchema] = &[FieldSchema {
-    name: "raw",
-    value_type: ValueType::Bytes,
-    description: "Raw AppCompatCache binary blob (parsed by shimcache module)",
-    is_uid_component: false,
-}];
+/// Parsed AppCompatCache entry fields.
+///
+/// Source: <https://github.com/libyal/winreg-kb/blob/main/docs/sources/system-keys/Application-compatibility-cache.md>
+///         (per-Windows-version cached-entry structures; the XP/2000-era
+///         `Session Manager\AppCompatibility` key vs `AppCompatCache` from 2003 on)
+/// Source: <https://github.com/EricZimmerman/AppCompatCacheParser> (CSV column map:
+///         `ControlSet`, `CacheEntryPosition`, `Path`, `LastModifiedTimeUTC`, `Executed`,
+///         `Duplicate`, `SourceFile`; `InsertFlags` is carried on the entry but not emitted)
+pub(crate) static SHIMCACHE_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "raw",
+        value_type: ValueType::Bytes,
+        description: "Raw AppCompatCache binary blob (parsed by shimcache module)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "cache_entry_position",
+        value_type: ValueType::UnsignedInt,
+        description: "Zero-based index of the entry in the cache array, newest first. On every post-XP format this ORDERING is the only temporal signal the cache carries: the stored FILETIME is the executable's $STANDARD_INFORMATION last-modified time, not a run time, so relative recency between two paths comes from position and from nothing else",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "path",
+        value_type: ValueType::Text,
+        description: "Executable path recorded in the entry",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "last_modified_time",
+        value_type: ValueType::Timestamp,
+        description: "FILETIME stored in the entry. winreg-kb states explicitly that this is the LAST MODIFICATION TIME OF THE FILE — on NTFS the $STANDARD_INFORMATION last-modified value — captured when the entry was written. It is not an execution time and must never be rendered as one",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "insert_flags",
+        value_type: ValueType::UnsignedInt,
+        description: "The 32-bit Insertion flags field of the cached entry (a Shim flags uint32 follows it). Present in the Vista, Windows 7, 8.0, 8.1 and Windows 10 entry structures and ABSENT from the Windows XP and Windows 2003 structures, so nothing can be derived from it on those older formats",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "executed",
+        value_type: ValueType::Bool,
+        description: "The execution-looking boolean parsers derive from `insert_flags` — AppCompatCacheParser emits it as the CSV column `Executed` while suppressing the raw `InsertFlags` it came from, which is why the derivation is invisible to the reader. \
+                      Treat it as a flag-bit reading, not as an execution finding: it exists only on the formats that carry the insertion-flags field, and the descriptor's own caveats already establish that a ShimCache entry evidences exposure rather than execution. A CSV column named 'Executed' is the single most over-read value in this artifact",
+        is_uid_component: false,
+    },
+];
 
 /// ShimCache — application compatibility cache with executable metadata.
 ///
@@ -1199,6 +1258,11 @@ pub static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/blog/mass-triage-part-4-processing-returned-files-appcache-shimcache/",
         "https://www.magnetforensics.com/blog/shimcache-vs-amcache-key-windows-forensic-artifacts/",
         "https://github.com/EricZimmerman/AppCompatCacheParser",
+        // Source: libyal winreg-kb — per-Windows-version cached-entry structures
+        // (Insertion flags + Shim flags from Vista onward, absent on XP/2003), the
+        // last-modification-time-of-the-file semantics, and the XP/2000-era
+        // Session Manager\AppCompatibility key that predates AppCompatCache
+        "https://github.com/libyal/winreg-kb/blob/main/docs/sources/system-keys/Application-compatibility-cache.md",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/06_Tool_Command_Vault/6.02_Windows_DFIR_Master_Notes.md",
         // Seth Enoka — "Shimcache and Amcache: Program Execution Without Certainty":
@@ -1214,6 +1278,10 @@ pub static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
         "Collection method matters: ShimCache records exposure, not execution — a responder browsing the live system under review (e.g. opening the folder in Explorer) can CREATE entries, making the analyst the source. Treat entries as evidence of exposure rather than proof of execution",
         "The stored value is a historical snapshot of the executable's $STANDARD_INFORMATION last-modified (last-write) FILETIME captured when the entry was created (Mandiant, 'Caching Out'). A mismatch between this ShimCache-recorded timestamp and the LIVE filesystem $SI last-modified time for the same path is CONSISTENT WITH timestomping of that file between the two capture points (SetFileTime alters on-disk $SI without changing $DATA). Direction-dependent: detectable only when the shim predates the timestomp",
         "An identical 64-bit last-modified FILETIME appearing under two or more different paths is CONSISTENT WITH the same binary having been renamed/moved (rename/move within a volume preserves $SI last-modified while each new path is re-shimmed), useful for tracing malware relocation and renamed-utility masquerading. Not proof — unrelated files could share a modified time; note the psexec exception (it rewrites its own $DATA each run, so same-name entries carry DIFFERENT timestamps)",
+        "Parsers print an execution-looking boolean: AppCompatCacheParser emits a CSV column named `Executed`, derived from the entry's 32-bit Insertion flags field while suppressing the raw `InsertFlags` value it came from. Read it as a flag bit, never as an execution finding — it contradicts nothing in the caveats above, but a column called `Executed` is routinely quoted as if it did",
+        "The Insertion flags / Shim flags fields exist only in the Vista, 7, 8.0, 8.1 and 10 entry structures; the Windows XP and Windows 2003 structures have no such field, so an `Executed` value on those formats has no underlying flag to derive from",
+        "Entries are stored NEWEST-FIRST, and on every post-XP format that array position is the only temporal ordering the cache carries — the stored FILETIME orders the files' last-modified times, not their use",
+        "os_scope is recorded as All, but the key_path here is the Windows 2003-and-later `Session Manager\\AppCompatCache` value. Windows 2000/XP hold this data under `Session Manager\\AppCompatibility` instead, in per-executable subkeys whose purpose libyal records as not established — so a collection driven by this descriptor alone reaches nothing on an XP-era image",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Registry value persists until hive is overwritten; see shimcache_memory for the Volatile in-memory counterpart",
@@ -1405,25 +1473,68 @@ pub static LSA_SECRETS: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
-    meaning: "Encrypted service credentials, auto-logon passwords, and DPAPI master key",
+    meaning: "Encrypted service credentials, auto-logon passwords, and DPAPI master key. What lands here \
+is decided by HOW an account reached the host, which is the join back to the 4624 LogonType field. \
+Microsoft's own logon-type reference states it for the two disk-persisting cases: a SCHEDULED TASK \
+(logon type 4, Batch) and a tool RUN AS A SERVICE (logon type 5, Service) each have the account's \
+'password also saved as LSA secret on disk' — the _SC_<ServiceName>-style entries under this key. \
+Interactive-class logons (type 2 console/runas, type 10 RemoteInteractive/RDP) expose reusable \
+credentials in LSASS memory instead, and a pure NETWORK logon (type 3 — net use, remote MMC, remote \
+registry, PsExec without explicit credentials) exposes none at all. That ordering is the practical \
+consequence: types 4 and 5 are the only ones recoverable from an acquired SECURITY hive after the \
+host has been powered off, so they mark which machines an intruder could harvest credentials from \
+without a memory image.",
     mitre_techniques: &["T1003.004", "T1552.002"],
     fields: LSA_FIELDS,
     retention: None,
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &["sam_users", "dpapi_system_masterkey", "dcc2_cache"],
-    sources: &["https://www.sans.org/blog/lsa-secrets/"],
+    related_artifacts: &["sam_users", "dpapi_system_masterkey", "dcc2_cache", "evtx_security"],
+    sources: &[
+        "https://www.sans.org/blog/lsa-secrets/",
+        // Source: Microsoft Learn — logon types and credential exposure. "Scheduled
+        // task | Batch | Password is also saved as LSA secret on disk." and "Run tools
+        // as a service | Service | Password is also saved as LSA secret on disk.";
+        // network logons are marked as exposing no reusable credentials
+        "https://learn.microsoft.com/en-us/windows-server/identity/securing-privileged-access/reference-tools-logon-types",
+        // Source: libyal winreg-kb — HKLM\Security\Policy\Secrets layout and the
+        // NL$KM secret that protects the cached-credential store
+        "https://github.com/libyal/winreg-kb/blob/main/docs/sources/system-keys/Local-security-authority.md",
+        // Source: LsaStorePrivateData — the documented API by which private data is
+        // written into the LSA policy database
+        "https://learn.microsoft.com/en-us/windows/win32/api/ntsecapi/nf-ntsecapi-lsastoreprivatedata",
+        // Source: Service User Accounts — a service configured with a user account must
+        // have that account's credentials stored for the SCM to log it on
+        "https://learn.microsoft.com/en-us/windows/win32/services/service-user-accounts",
+    ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["Requires SYSTEM privileges to read; encrypted at rest"],
+    evidence_caveats: &[
+        "Requires SYSTEM privileges to read; encrypted at rest",
+        "Which hosts hold recoverable secrets follows the logon type, not the account's importance: Microsoft documents logon types 4 (Batch — scheduled task) and 5 (Service) as saving the password as an LSA secret ON DISK, while interactive types 2 and 10 leave reusable material in LSASS memory only and a pure type-3 network logon leaves none. Absence of a secret for an account that connected over the network is therefore expected and is not evidence the account was never used here",
+        "A secret recovered from an acquired SECURITY hive dates to whenever the task or service was configured, not to any particular logon; it evidences a stored credential, not an authentication event. Pair with the 4624 LogonType and the service/task configuration for timing",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "System hive registry; persists until credential removed",
 };
 
-pub(crate) static DCC2_FIELDS: &[FieldSchema] = &[FieldSchema {
-    name: "slot_name",
-    value_type: ValueType::Text,
-    description: "Cache slot name (NL$1 through NL$25)",
-    is_uid_component: true,
-}];
+pub(crate) static DCC2_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "slot_name",
+        value_type: ValueType::Text,
+        description: "Cache slot name (NL$1 through NL$25) under HKLM\\Security\\Cache; the companion NL$Control value holds the cache control data and the NL$KM LSA secret holds the key that protects the entries",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        // The cache lives in SECURITY; the value that sizes it lives in SOFTWARE.
+        // Source: https://github.com/libyal/winreg-kb/blob/main/docs/sources/system-keys/Cached-credentials.md
+        // Source: https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/interactive-logon-number-of-previous-logons-to-cache-in-case-domain-controller-is-not-available
+        name: "cached_logons_count",
+        value_type: ValueType::Text,
+        description: "Depth of the cache, read from a DIFFERENT HIVE: the REG_SZ value CachedLogonsCount under HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon (note REG_SZ — the number is stored as text, not as a DWORD). \
+                      Documented range '0'-'50'; the policy default is 10. 0 disables caching outright, so a host with CachedLogonsCount = 0 holds NO recoverable domain logons however many users signed in. \
+                      Without this value the number of slots to expect is a guess, and an examiner cannot tell an empty cache from a disabled one. Collect the SOFTWARE hive alongside SECURITY or the question is unanswerable from the acquisition",
+        is_uid_component: false,
+    },
+];
 
 /// Domain Cached Credentials 2 (MS-Cache v2 / DCC2).
 ///
@@ -1440,17 +1551,35 @@ pub static DCC2_CACHE: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
-    meaning: "MS-Cache v2 (PBKDF2-SHA1) hashes enabling offline domain logon",
+    meaning: "MS-Cache v2 (PBKDF2-SHA1) hashes enabling offline domain logon when no domain controller \
+is reachable. The entries live under HKLM\\Security\\Cache as NL$1..NL$25 and are protected by the \
+NL$KM LSA secret. How many of those slots are actually used is NOT decided here: the REG_SZ value \
+CachedLogonsCount under HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon sets it, with \
+a documented range of '0' to '50' and a policy default of 10. That value therefore has to be \
+collected from the SOFTWARE hive to interpret the SECURITY hive — at 0 the machine caches nothing and \
+an empty Cache key means the feature was off, not that nobody signed in.",
     mitre_techniques: &["T1003.005"],
     fields: DCC2_FIELDS,
     retention: None,
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &[],
-    sources: &["https://www.sans.org/blog/windows-credential-storage-for-penetration-testers/"],
+    related_artifacts: &["lsa_secrets"],
+    sources: &[
+        "https://www.sans.org/blog/windows-credential-storage-for-penetration-testers/",
+        // Source: Microsoft Learn security-policy reference — "Interactive logon: Number
+        // of previous logons to cache (in case a domain controller is not available)":
+        // range and default for CachedLogonsCount
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/interactive-logon-number-of-previous-logons-to-cache-in-case-domain-controller-is-not-available",
+        // Source: libyal winreg-kb — HKLM\Software\...\Winlogon CachedLogonsCount is
+        // REG_SZ with range "0"-"50"; HKLM\Security\Cache holds NL$Control and NL$%NUMBER%
+        "https://github.com/libyal/winreg-kb/blob/main/docs/sources/system-keys/Cached-credentials.md",
+    ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
-    evidence_caveats: &["Only proves domain user logged in; not current password"],
+    evidence_caveats: &[
+        "Only proves domain user logged in; not current password",
+        "The expected slot count is set by CachedLogonsCount in the SOFTWARE hive (REG_SZ, documented range '0'-'50', default 10) — a different hive from the cache itself. Collect both, or an empty Cache key cannot be distinguished from caching disabled at 0",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
-    volatility_rationale: "Rotated; last 10 cached credentials by default",
+    volatility_rationale: "Rotated; depth set by CachedLogonsCount (default 10, documented range 0-50)",
 };
 
 // ── TypedURLsTime ─────────────────────────────────────────────────────────────
@@ -2059,8 +2188,22 @@ pub static SERVICES_IMAGEPATH: ArtifactDescriptor = ArtifactDescriptor {
               -encodedcommand <base64>, embedding obfuscated PowerShell payloads (base64-encoded \
               UTF-16LE, sometimes gzip/deflate-compressed then base64-wrapped) directly in the \
               registry. Look for -EncodedCommand, -WindowStyle Hidden, FromBase64String, \
-              GzipStream, and [IO.Compression.CompressionMode]::Decompress in ImagePath values.",
-    mitre_techniques: &["T1543.003", "T1059.001", "T1027"],
+              GzipStream, and [IO.Compression.CompressionMode]::Decompress in ImagePath values. \
+              CRITICAL LIMIT: for a DLL-hosted (shared-process) service, ImagePath names nothing \
+              useful — it reads only `svchost.exe -k <group> [-p] [-s <service>]`, which is the HOST, \
+              not the code. The binary that actually runs is named by the REG_EXPAND_SZ value \
+              ServiceDll under that service's own Parameters subkey \
+              (HKLM\\SYSTEM\\CurrentControlSet\\Services\\<name>\\Parameters\\ServiceDll, with \
+              ServiceMain naming its entry point and ServiceDllUnloadOnStop alongside). That value is \
+              the primary persistence surface behind svchost masquerading (T1543.003) and is the value \
+              an examiner must read to resolve a suspicious svchost instance to a file on disk. \
+              The `-k` group token is itself resolvable: HKLM\\SOFTWARE\\Microsoft\\Windows \
+              NT\\CurrentVersion\\Svchost enumerates the groups, each value a REG_MULTI_SZ list of its \
+              member services — which is what makes a svchost command line readable at all. Note that \
+              since Windows 10 1703 a machine with more than 3.5 GB of RAM splits services into \
+              separate svchost processes instead of grouping them, so the same service appears with a \
+              different command-line shape depending on the host's memory.",
+    mitre_techniques: &["T1543.003", "T1059.001", "T1027", "T1036.005"],
     fields: PERSIST_CMD_FIELDS,
     retention: None,
     triage_priority: TriagePriority::High,
@@ -2073,9 +2216,24 @@ pub static SERVICES_IMAGEPATH: ArtifactDescriptor = ArtifactDescriptor {
         // Source: https://az4n6.blogspot.com/2017/10/finding-and-decoding-malicious.html
         // — PowerShell encoded command abuse via sc.exe binPath, base64+gzip obfuscation
         "https://az4n6.blogspot.com/2017/10/finding-and-decoding-malicious.html",
+        // Source: Microsoft — svchost.exe service refactoring: the -k grouping, the
+        // per-service split introduced in Windows 10 1703, and the >3.5 GB RAM threshold
+        // that decides which shape a host uses
+        "https://learn.microsoft.com/en-us/windows/application-management/svchost-service-refactoring",
+        // Source: libyal winreg-kb — the Services subkey value inventory, recording
+        // ServiceDll as REG_EXPAND_SZ alongside ServiceMain and ServiceDllUnloadOnStop
+        "https://github.com/libyal/winreg-kb/blob/main/docs/sources/system-keys/Services-and-drivers.md",
+        // Source: Microsoft — ChangeServiceConfig, the API that rewrites a service's
+        // binary path and start type
+        "https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-changeserviceconfigw",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["Many legitimate services present; focus on unsigned/unusual paths"],
+    evidence_caveats: &[
+        "Many legitimate services present; focus on unsigned/unusual paths",
+        "ImagePath does not identify the code of a DLL-hosted service. For any service whose ImagePath is `svchost.exe -k <group>`, the executing binary is the REG_EXPAND_SZ ServiceDll under that service's Parameters subkey; a hunt that reads only ImagePath sees a signed Microsoft host and misses the payload entirely",
+        "ServiceDll is REG_EXPAND_SZ, so its stored value may contain unexpanded environment variables (%SystemRoot%, %ProgramData%) — compare after expansion or two references to the same file will not match",
+        "Resolving a running svchost instance to a service needs the group map at HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Svchost (each value a REG_MULTI_SZ member list), and since Windows 10 1703 hosts with more than 3.5 GB of RAM split services one-per-process, so the command line shape differs by machine rather than by service",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Registry key under SYSTEM; persists until service removed",
 };
@@ -2479,20 +2637,61 @@ pub static SCHEDULED_TASKS_DIR: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "XML task definitions; malicious tasks can run at boot, logon, or arbitrary intervals",
+    meaning: "The v1.2 task store. Each task is an EXTENSIONLESS UTF-16 XML file named for the task \
+itself, in subdirectories mirroring the task-folder tree — so the filename is a task name and a \
+directory listing alone already enumerates every scheduled task. The elements carrying the forensic \
+content, per the Task Scheduler Schema: RegistrationInfo/Date, defined as 'the date and time when the \
+task is registered' and declared xs:dateTime with minOccurs=\"0\", so it may be absent altogether and, \
+when present without a UTC-offset suffix, must be read in the machine's local time; \
+RegistrationInfo/Author, the registering identity; Principals/Principal/UserId, the RUN-AS account \
+whose credentials had to be supplied and authenticated at registration — which is why a task is also a \
+credential artefact (see lsa_secrets, where a Batch-logon task password persists on disk); Triggers, \
+where StartBoundary gives each trigger's first fire time and the calendar triggers give the repeat \
+interval; and Actions, whose Context attribute names the principal and whose Exec/Command plus \
+Arguments name what actually runs. \
+Two stores are easy to miss. A task registered by 32-BIT code is subject to the WOW64 File System \
+Redirector, which redirects %windir%\\System32 to %windir%\\SysWOW64, so it lands in \
+%SystemRoot%\\SysWOW64\\Tasks and a collection scoped to System32\\Tasks never sees it. And the \
+pre-Vista v1.0 store is BINARY .job files under %SystemRoot%\\Tasks, a format [MS-TSCH] specifies \
+alongside the XML one; those files can still appear on modern Windows.",
     mitre_techniques: &["T1053.005"],
     fields: DIR_ENTRY_FIELDS,
     retention: None,
     triage_priority: TriagePriority::High,
-    related_artifacts: &[],
+    related_artifacts: &["evtx_security", "evtx_system", "lsa_secrets"],
     sources: &[
         "https://learn.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-start-page",
         "https://redcanary.com/threat-detection-report/techniques/t1053/",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/06_Tool_Command_Vault/6.02_Windows_DFIR_Master_Notes.md",
+        // Source: Task Scheduler Schema — the element inventory a task XML is built from
+        "https://learn.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-schema",
+        // Source: RegistrationInfo/Date — "the date and time when the task is registered",
+        // xs:dateTime, minOccurs="0"
+        "https://learn.microsoft.com/en-us/windows/win32/taskschd/taskschedulerschema-date-registrationinfotype-element",
+        // Source: RegistrationInfo/Author — the registering identity recorded in the task
+        "https://learn.microsoft.com/en-us/windows/win32/taskschd/taskschedulerschema-author-registrationinfotype-element",
+        // Source: Principals/Principal/UserId — the run-as account
+        "https://learn.microsoft.com/en-us/windows/win32/taskschd/taskschedulerschema-userid-principaltype-element",
+        // Source: Triggers — StartBoundary, the first-fire boundary on every trigger type
+        "https://learn.microsoft.com/en-us/windows/win32/taskschd/taskschedulerschema-startboundary-triggerbasetype-element",
+        // Source: Actions — Exec/Command, what the task actually runs
+        "https://learn.microsoft.com/en-us/windows/win32/taskschd/taskschedulerschema-exec-actiongroup-element",
+        // Source: [MS-TSCH] Task Scheduler Service Remoting Protocol — specifies the XML
+        // task definition and the legacy binary .JOB file format
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-tsch/d1058a28-7e02-4948-8b8d-4a347fa64931",
+        // Source: WOW64 File System Redirector — %windir%\System32 is redirected to
+        // %windir%\SysWOW64 for 32-bit processes, which is why SysWOW64\Tasks exists
+        "https://learn.microsoft.com/en-us/windows/win32/winprog64/file-system-redirector",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["Task XML may be deleted after execution; check event log 4698/4702"],
+    evidence_caveats: &[
+        "Task XML may be deleted after execution; check event log 4698/4702",
+        "%SystemRoot%\\System32\\Tasks is not the whole store. A task registered by 32-bit code is redirected by WOW64 into %SystemRoot%\\SysWOW64\\Tasks, and the pre-Vista v1.0 store is binary .job files under %SystemRoot%\\Tasks per [MS-TSCH]. A collection scoped to System32\\Tasks alone returns an incomplete task list, and the shortfall is silent",
+        "RegistrationInfo/Date is OPTIONAL in the schema (minOccurs=\"0\") and is an xs:dateTime whose UTC-offset suffix is itself optional — so the element may be absent, and when present without an offset it must be read in the machine's local time. Rendering it as UTC unchecked is a whole-timezone error on a registration timestamp",
+        "Principals/Principal/UserId is the account the task RUNS AS, a different question from who registered it; the two need not be the same principal, and only the run-as account implies a stored credential",
+        "The file records CONFIGURATION, not execution: a trigger's presence does not establish that it fired. Pair with the Task Scheduler operational channel and Security 4698/4702 for registration and run events",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "XML files in tasks directory; persist until task deleted",
 };
@@ -2635,9 +2834,18 @@ pub static LASTVISITED_MRU: ArtifactDescriptor = ArtifactDescriptor {
 
 pub(crate) static MFT_FIELDS: &[FieldSchema] = &[
     FieldSchema {
+        // MFT entry header offset 0x2C, uint32 — NTFS 3.1+ only.
+        // ntfs-3g layout.h MFT_RECORD: /* 40*/ next_attr_instance (le16),
+        // /* 42*/ reserved (le16), /* 44*/ mft_record_number (le32), sizeof() = 48.
+        // 0x2A is the reserved/alignment word, NOT the record number: a parser
+        // reading at 0x2A returns that word plus the low half of the number.
+        // Source: https://github.com/tuxera/ntfs-3g/blob/edge/include/ntfs-3g/layout.h
         name: "mft_record_number",
         value_type: ValueType::Integer,
-        description: "Unique 48-bit record number within the $MFT (NTFS 3.1: explicit at header 0x2A; pre-3.1: inferred from file offset)",
+        description: "Record number within the $MFT. NTFS 3.1+: explicit uint32 at header 0x2C (0x2A is the 2-byte reserved/alignment word that precedes it, not the number). \
+                      Pre-3.1 (MFT_RECORD_OLD): the field does not exist and the number is derived from the entry's offset divided by the entry size. \
+                      Carving tell from the same change — the update-sequence array is placed immediately after the header, so the fixup offset (uint16 at 0x04) reads 0x2A on NTFS <=3.0 and 0x30 on 3.1+; \
+                      the record's first five bytes therefore carve as 'FILE*' (0x2A) versus 'FILE0' (0x30), which dates the volume format without reading the $Volume attribute",
         is_uid_component: true,
     },
     FieldSchema {
@@ -2822,6 +3030,12 @@ pub static MFT: ArtifactDescriptor = ArtifactDescriptor {
         // LSN (0x08), hard link count (0x12), record slack, USN in $SI (+64),
         // 8-timestamp dual MACE set ($SI + $FN), $Object_ID UUID creation time
         "https://github.com/kacos2000/MFT_Browser",
+        // Source: ntfs-3g layout.h — MFT_RECORD vs MFT_RECORD_OLD; the NTFS 3.1+
+        // tail is /* 42*/ le16 reserved then /* 44*/ le32 mft_record_number
+        "https://github.com/tuxera/ntfs-3g/blob/edge/include/ntfs-3g/layout.h",
+        // Source: libyal libfsntfs NTFS format documentation — MFT entry, index and
+        // attribute structure tables
+        "https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_caveats: &[
@@ -3817,12 +4031,42 @@ pub static RDP_CLIENT_DEFAULT: ArtifactDescriptor = ArtifactDescriptor {
     volatility_rationale: "",
 };
 
-pub(crate) static NTDS_FIELDS: &[FieldSchema] = &[FieldSchema {
-    name: "path",
-    value_type: ValueType::Text,
-    description: "Full path to the NTDS.dit file",
-    is_uid_component: true,
-}];
+/// NTDS.dit contents — what a dump actually yields beyond the NT hash.
+///
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/adschema/a-peklist>
+///         (Pek-List, OID 1.2.840.113556.1.4.865 — single-valued, not replicated)
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/adschema/a-supplementalcredentials>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/adschema/a-ntpwdhistory>
+pub(crate) static NTDS_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "path",
+        value_type: ValueType::Text,
+        description: "Full path to the NTDS.dit file",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "pek_list",
+        value_type: ValueType::Bytes,
+        description: "The pekList attribute on the domain naming-context head (Pek-List, OID 1.2.840.113556.1.4.865; single-valued and NOT replicated, which is why it is per-database). \
+                      It holds the Password Encryption Key, and the decryption chain is TWO-LEVEL: the SYSTEM-hive BootKey/SYSKEY unwraps pekList, and the PEK — not the BootKey — then decrypts each account secret. \
+                      Collapsing the two steps into 'the SYSTEM hive decrypts the .dit' misleads anyone writing a parser: without the pekList attribute from the database itself, the BootKey alone decrypts nothing",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "supplemental_credentials",
+        value_type: ValueType::Bytes,
+        description: "Per-account supplementalCredentials attribute. Beyond the NT hash it carries the account's KERBEROS LONG-TERM KEYS in its Primary:Kerberos-Newer-Keys package — AES256-CTS-HMAC-SHA1-96 (etype 18) and AES128-CTS-HMAC-SHA1-96 (etype 17) per RFC 3962, and RC4-HMAC (etype 23) per RFC 4757. \
+                      This is the material that makes overpass-the-hash and forged service tickets possible, and the reason an AES key cannot be derived from a stolen NT hash: the two are independent derivations from the password, so possession of one does not yield the other. A dump that extracts only NT hashes understates what the attacker obtained",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "password_history",
+        value_type: ValueType::Bytes,
+        description: "The ntPwdHistory (and legacy lmPwdHistory) attributes — PRIOR password hashes retained per account, not just the current one. \
+                      Two consequences: a forced password reset after an incident does not invalidate what a historic hash proves about an earlier period, and credential reuse across a rotation is visible in the history where the current hash alone shows nothing",
+        is_uid_component: false,
+    },
+];
 
 /// NTDS.dit — Active Directory database (DC only) (T1003.003).
 ///
@@ -3839,12 +4083,19 @@ pub static NTDS_DIT: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
-    meaning: "Domain controller AD database; contains NTLM hashes for all domain accounts. A \
+    meaning: "Domain controller AD database. It holds far more per account than the NT hash: the same \
+records carry each account's KERBEROS LONG-TERM KEYS (AES256 etype 18, AES128 etype 17, RC4 etype 23) \
+in the supplementalCredentials attribute's Primary:Kerberos-Newer-Keys package — the material behind \
+overpass-the-hash and forged service tickets, and the reason an AES key cannot be derived from a \
+stolen NT hash — plus PRIOR password hashes in ntPwdHistory/lmPwdHistory, so a post-incident reset \
+does not retire what the history proves. Decryption is TWO-LEVEL and both levels are required: the \
+SYSTEM-hive BootKey/SYSKEY unwraps the pekList attribute on the domain naming-context head, and the \
+resulting PEK — not the BootKey — decrypts each secret. A \
 ntdsutil \"ac i ntds\" \"ifm\" \"create full <path>\" dump leaves a portable copy at an ad-hoc path: the \
 target folder holds two sibling subdirs — Active Directory\\ (ntds.dit + ntds.jfm ESE flush map) and \
-registry\\ (SYSTEM + SECURITY hives) — i.e. everything offline secretsdump needs, since the SYSTEM hive \
-carries the BootKey/SYSKEY that decrypts the .dit.",
-    mitre_techniques: &["T1003.003"],
+registry\\ (SYSTEM + SECURITY hives) — i.e. everything offline secretsdump needs, because the SYSTEM \
+hive supplies the BootKey that unlocks the database's own pekList.",
+    mitre_techniques: &["T1003.003", "T1550.002", "T1558.003"],
     fields: NTDS_FIELDS,
     retention: None,
     triage_priority: TriagePriority::Critical,
@@ -3855,10 +4106,26 @@ carries the BootKey/SYSKEY that decrypts the .dit.",
         "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc732530(v=ws.11)",
         // MS — ESENT event source (Application-log 216/325/326/327 accompany the dump):
         "https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/esent-event-327-326",
+        // Source: AD schema — Pek-List (pekList), OID 1.2.840.113556.1.4.865,
+        // single-valued and FLAG_ATTR_NOT_REPLICATED: the PEK the BootKey unwraps
+        "https://learn.microsoft.com/en-us/windows/win32/adschema/a-peklist",
+        // Source: AD schema — Supplemental-Credentials, the attribute holding the
+        // Kerberos long-term key packages alongside the NT hash
+        "https://learn.microsoft.com/en-us/windows/win32/adschema/a-supplementalcredentials",
+        // Source: AD schema — Nt-Pwd-History, the retained prior password hashes
+        "https://learn.microsoft.com/en-us/windows/win32/adschema/a-ntpwdhistory",
+        // Source: RFC 3962 — AES encryption types 17 (aes128-cts-hmac-sha1-96) and
+        // 18 (aes256-cts-hmac-sha1-96) for Kerberos 5
+        "https://www.rfc-editor.org/rfc/rfc3962",
+        // Source: RFC 4757 — the RC4-HMAC Kerberos encryption type (23)
+        "https://www.rfc-editor.org/rfc/rfc4757",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_caveats: &[
         "All domain hashes present; requires parsing with secretsdump or ntdsutil",
+        "The SYSTEM hive alone does NOT decrypt the database. The chain is BootKey -> pekList (an attribute inside the .dit, single-valued and not replicated) -> per-account secrets. A collection that captures the hives but not a consistent copy of the database, or vice versa, decrypts nothing",
+        "Scoping the loss to 'NTLM hashes' understates a dump: supplementalCredentials carries the Kerberos AES256/AES128/RC4 long-term keys, which are what forged service tickets consume, and ntPwdHistory/lmPwdHistory carry prior passwords that a single reset does not retire",
+        "An AES long-term key cannot be derived from a captured NT hash — they are independent derivations from the password — so an attacker's capability depends on WHICH attribute was extracted, not merely on whether the file was taken",
         "ntdsutil IFM dump footprint: an ad-hoc target folder with sibling Active Directory\\ (ntds.dit + ntds.jfm flush map) and registry\\ (SYSTEM + SECURITY) subdirs — per the MS IFM doc the media is stored in an 'Active Directory' subfolder and full AD DS media 'includes the registry'. A ntds.dit found anywhere other than the default %SystemRoot%\\NTDS\\ is strong evidence of extraction; the non-default PATH (not the accompanying ESENT event alone) is the discriminator",
         "The Application-log ESENT events 216/325/326/327 (216=location change, 325=new DB, 326/327=database attach/detach) accompany a dump but also fire during legitimate VSS backups — corroborate the 325 destination path, not the event's mere presence",
     ],
@@ -6757,9 +7024,27 @@ pub(crate) static PREFETCH_FIELDS: &[FieldSchema] = &[
         is_uid_component: false,
     },
     FieldSchema {
+        // Per libscca's file-information tables: v17 and v23 each carry a SINGLE
+        // "Last run time" FILETIME; v26 already carries "Last run time(s)" sized
+        // 8 x 8 = 64 bytes, the first FILETIME being the most recent.
+        // Source: https://github.com/libyal/libscca/blob/main/documentation/Windows%20Prefetch%20File%20(PF)%20format.asciidoc
         name: "previous_run_times",
-        description: "Up to 7 prior execution timestamps (FILETIME array, v26/30/31 only)",
+        description: "Up to 7 prior execution timestamps (FILETIME array). Present from format version 26 onward — v26 is Windows 8.1 and ALREADY carries the full eight-entry array, so the eight-timestamp history is not a Windows 10 feature. Format versions 17 and 23 carry one last-run FILETIME and no array at all",
         value_type: ValueType::Text,
+        is_uid_component: false,
+    },
+    FieldSchema {
+        // FILESYSTEM timestamps of the .pf file itself — evidence the embedded ring
+        // cannot carry once it has wrapped.
+        // Source: Windows Internals (Russinovich/Solomon/Ionescu), memory-management
+        //         chapter — the logical prefetcher traces roughly the first ten seconds
+        //         of process start and writes the trace file after that window.
+        // Source: https://github.com/libyal/libscca/blob/main/documentation/Windows%20Prefetch%20File%20(PF)%20format.asciidoc
+        name: "pf_file_timestamps",
+        description: "The .pf file's own NTFS timestamps, which carry execution evidence the embedded array cannot. The prefetcher traces roughly the first ten seconds of a process start and only then writes the file, so .pf CREATION ~= first execution + ~10 s and .pf LAST-MODIFIED ~= most recent execution + ~10 s. \
+                      The ~10-second offset applies ONLY to these filesystem times, never to the embedded FILETIMEs, which are the process-start instants themselves. \
+                      Load-bearing consequence: once more than eight runs have occurred the embedded array has wrapped and the .pf creation time is the ONLY surviving witness of the FIRST execution; the difference between run_count and the number of stored timestamps quantifies how many intermediate executions are recoverable from neither",
+        value_type: ValueType::Timestamp,
         is_uid_component: false,
     },
     FieldSchema {
@@ -6801,8 +7086,18 @@ pub(crate) static PREFETCH_FIELDS: &[FieldSchema] = &[
         is_uid_component: false,
     },
     FieldSchema {
+        // The hash input is NOT always just the path — which is what makes several
+        // .pf files per executable name normal rather than suspicious.
+        // Source: https://github.com/libyal/libscca/blob/main/documentation/Windows%20Prefetch%20File%20(PF)%20format.asciidoc
+        //   quotes the mechanism directly: the /prefetch:# flag "is looked at by the OS
+        //   when we create the process ... We add the passed number to the hash."
+        // Source: https://www.hexacorn.com/blog/2012/06/13/prefetch-hash-calculator-a-hash-lookup-table-xpvistaw7w2k3w2k8/
+        //   per-Windows-version hash functions and the command-line handling.
         name: "prefetch_hash",
-        description: "8-hex SCCA path hash at header offset 0x4C (LE u32 of full executable device path)",
+        description: "8-hex SCCA path hash at header offset 0x4C (LE u32), and the second half of the .pf filename <EXECUTABLE>-<HASH>.pf, where the executable name is truncated to 29 characters. \
+                      Normally computed over the full executable device path (e.g. \\DEVICE\\HARDDISKVOLUME2\\...), but NOT only that: a process launched with the /prefetch:N switch has N ADDED to the hash, which is exactly how the Windows hosting binaries behave — svchost.exe, dllhost.exe, rundll32.exe, backgroundtaskhost.exe and similar. \
+                      Two consequences. (1) Several .pf files sharing one executable NAME is normal for those binaries and must not be read as the standard 'same binary ran from different directories' lead — that heuristic false-positives on every default Windows install. (2) Any attempt to recompute or verify the hash for such a name from the path alone will fail, because the path is not the whole input. \
+                      Note also that Windows 10 renders the volume as \\VOLUME{%IDENTIFIER%} while the hash still appears to be computed over the \\DEVICE\\HARDDISKVOLUME# form",
         value_type: ValueType::Text,
         is_uid_component: true,
     },
@@ -6825,7 +7120,7 @@ pub static PREFETCH_FILE: ArtifactDescriptor = ArtifactDescriptor {
               Versions: v17 (XP), v23 (Vista/7), v26 (Win8), v30/v31 (Win10+).",
     mitre_techniques: &["T1059", "T1070.004"],
     fields: PREFETCH_FIELDS,
-    retention: Some("128 entries; oldest evicted"),
+    retention: Some("Directory capped at 128 .pf files on Windows 7 and earlier, 1024 from Windows 8 onward; oldest evicted first. Within a file, run-time history is capped by format version — one FILETIME on v17/v23, eight on v26 and later"),
     triage_priority: TriagePriority::High,
     related_artifacts: &[
         "shimcache",
@@ -6843,8 +7138,14 @@ pub static PREFETCH_FILE: ArtifactDescriptor = ArtifactDescriptor {
         // kacos2000/Prefetch-Browser: MAM compressed wrapper, Volumes Information block,
         // File Metrics MFT reference flag 0x100, per-version SCCA field offsets
         "https://github.com/kacos2000/Prefetch-Browser",
-        // libscca: authoritative SCCA format specification (all versions)
+        // libscca: authoritative SCCA format specification (all versions) — per-version
+        // file-information tables (one last-run FILETIME on v17/v23; 8 x 8 = 64-byte
+        // "Last run time(s)" array from v26), the <name>-<hash>.pf naming with the
+        // 29-character truncation, and the /prefetch:# flag being added to the hash
         "https://github.com/libyal/libscca/blob/main/documentation/Windows%20Prefetch%20File%20(PF)%20format.asciidoc",
+        // Hexacorn: per-Windows-version prefetch hash functions and the command-line
+        // handling that makes several .pf files per hosting-binary name normal
+        "https://www.hexacorn.com/blog/2012/06/13/prefetch-hash-calculator-a-hash-lookup-table-xpvistaw7w2k3w2k8/",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/06_Tool_Command_Vault/6.02_Windows_DFIR_Master_Notes.md",
         // Richard Davis (13Cubed) — "Investigating Windows Endpoints" IWE course Q&A:
@@ -6857,10 +7158,13 @@ pub static PREFETCH_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "Volume Serial Number embedded in .pf files can link an executable to a specific removable media source",
         "SDelete's own .pf file records the full list of files it deleted — anti-forensic tool use leaves execution evidence of the deletion itself",
         "Deleting .pf files with Shift+Delete bypasses the Recycle Bin but leaves recoverable MFT entries; USN Journal also records the deletion",
-        "Win10+ stores up to 8 last-run timestamps per .pf file; Win7/8 stores only 1 — a single .pf covers broader history on modern Windows",
+        "The run-timestamp count follows the SCCA FORMAT VERSION, not the marketing generation: libscca's file-information tables give one last-run FILETIME for v17 (XP/2003) and v23 (Vista/7), and an eight-entry array already at v26 (Windows 8.1) and onward through v30/v31. Reading 'Win7/8 stores only 1' under-counts recoverable execution history eightfold on a Windows 8.1 image",
+        "Several .pf files for one executable NAME is expected for binaries launched with /prefetch:N — svchost.exe, dllhost.exe, rundll32.exe, backgroundtaskhost.exe — because the switch value is added into the path hash. Do not read the multiplicity as the same binary having run from several directories, and do not attempt to verify those hashes from the path alone",
+        "The .pf file's own NTFS timestamps carry what the embedded array cannot: creation ~= first execution + ~10 s (the prefetcher writes the trace only after its ~10-second window) and last-modified ~= most recent execution + ~10 s. Past eight runs the array has wrapped and the creation time is the only remaining witness of the first execution. The ~10 s offset applies to the filesystem times only, never to the embedded FILETIMEs",
+        "A .pf is produced for an execution ATTEMPT — the trace begins at process start — so its existence does not establish that the program initialised successfully or ran to completion",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
-    volatility_rationale: "Max 1024 entries, FIFO eviction on Win10+",
+    volatility_rationale: "Directory-level FIFO eviction: 128 .pf files on Windows 7 and earlier, 1024 from Windows 8 onward",
 };
 
 pub(crate) static SRUM_NET_FIELDS: &[FieldSchema] = &[
@@ -7322,7 +7626,45 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
               high-volume; fires per file/folder with RelativeTargetName + a fuller AccessMask and an \
               AccessReason SDDL trail, giving file-level visibility of what a remote account touched over \
               SMB, e.g. staged tools or exfiltrated files under an admin share), \
-              1102 (audit log cleared — high-priority anti-forensics indicator).",
+              1102 (audit log cleared — high-priority anti-forensics indicator), \
+              4648 (a logon was attempted using EXPLICIT credentials — written on the SOURCE host, so it \
+              is a lateral-movement ORIGIN artifact rather than a destination one. It carries two \
+              accounts, which is the point: Subject = the pre-existing session's account, and 'Account \
+              Whose Credentials Were Used' = the alternate credential. Microsoft documents Target Server \
+              Name as the server on which the new process was run, with the literal value 'localhost' \
+              when the explicit credential was used purely locally — runas against the same machine. \
+              The companion Additional Information field is TargetInfo in the XML, and Microsoft \
+              explicitly states there is no detailed documentation of it, so any protocol read out of it \
+              must be labelled an inference rather than a documented field. Process Information names the \
+              binary that made the attempt, and Network Information carries the address and port), \
+              4672 (special privileges assigned to new logon — fires ALONGSIDE, not instead of, the 4624 \
+              for the same session and joins to it on Logon ID, so a 4624+4672 pair is the mechanical \
+              evidence that the session received an administrator-equivalent token. Microsoft lists the \
+              triggering set as the sensitive privileges — SeTcbPrivilege, SeBackupPrivilege, \
+              SeCreateTokenPrivilege, SeDebugPrivilege, SeEnableDelegationPrivilege, SeAuditPrivilege, \
+              SeImpersonatePrivilege, SeLoadDriverPrivilege, SeSecurityPrivilege, \
+              SeSystemEnvironmentPrivilege, SeRestorePrivilege, SeTakeOwnershipPrivilege — so it records \
+              a PRIVILEGE grant, not Administrators group membership, and catches grants that group \
+              enumeration misses. SYSTEM and machine accounts emit it constantly, which is the noise \
+              floor to filter before the event means anything), \
+              5156 (the Windows Filtering Platform PERMITTED a connection — the host-side record of what \
+              an actor reached after authenticating, and the permitted counterpart to the 5152 block \
+              event above. Fields: Application as a \\device\\harddiskvolume# path, Process ID, \
+              Direction, Source/Dest address and port, Protocol, FilterRTID, LayerName/LayerRTID, \
+              RemoteUserID/RemoteMachineID. It belongs to the Audit Filtering Platform Connection \
+              subcategory, so it exists only where that subcategory is enabled — its absence separates \
+              'auditing was never on' from 'no connection occurred' and must not be read as the latter. \
+              Where it is unavailable the load falls on Sysmon EID 3, which likewise needs an explicit \
+              NetworkConnect rule, and on the firewall text log at \
+              %systemroot%\\system32\\LogFiles\\Firewall\\pfirewall.log, whose successful-connection \
+              logging is a second, independent switch), \
+              and the EventLog-service records that explain a GAP rather than an action — 1100 (the event \
+              logging service SHUT DOWN: the positive artefact a stop-recording attack leaves behind), \
+              1104 (the security log is now full), 1105 (event log automatic backup / rollover) and 1108 \
+              (the logging service errored while processing an incoming event). Microsoft states these \
+              generate automatically and are enabled by default, so they are present without any audit \
+              policy — which is what lets a silence be classified as hostile or benign instead of merely \
+              observed.",
     mitre_techniques: &["T1070.001", "T1059", "T1078", "T1555", "T1550.002", "T1021.002", "T1021.001", "T1039"],
     fields: EVTX_FIELDS,
     retention: Some("configurable; default ~20MB rolling per channel"),
@@ -7378,6 +7720,40 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
         // machine as the actor. Reproduced in EvtxECmd "Remote Host" column and Events-Ripper
         // sessions/logins plugins. Always use IpAddress for Type 10 source attribution.
         "https://www.linkedin.com/posts/ahmed-thabit_dfir-digitalforensics-incidentresponse-activity",
+        // Source: Microsoft — Event 4648 field reference: Subject, "Account Whose
+        // Credentials Were Used", Target Server Name ('localhost' when run locally),
+        // Additional Information (= TargetInfo, explicitly undocumented), Process
+        // Information, Network Information
+        "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4648",
+        // Source: Microsoft — Event 4672: the sensitive-privilege set that triggers it,
+        // and the Logon ID that correlates it with the session's 4624
+        "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4672",
+        // Source: Microsoft — Privilege Constants, the SE_*_NAME values 4672 reports
+        "https://learn.microsoft.com/en-us/windows/win32/secauthz/privilege-constants",
+        // Source: Microsoft — Event 5156 (WFP PERMITTED a connection): subcategory
+        // "Audit Filtering Platform Connection", Application/Direction/addresses/ports/
+        // Protocol/FilterRTID/LayerName/RemoteUserID fields
+        "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5156",
+        // Source: Microsoft — the Audit Filtering Platform Connection subcategory that
+        // gates whether 5156 is produced at all
+        "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-filtering-platform-connection",
+        // Source: Microsoft — Windows Firewall logging (pfirewall.log), the independent
+        // connection record when WFP auditing is off
+        "https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/configure-logging",
+        // Source: Microsoft — "Other Events": 1100 / 1102 / 1104 / 1105 / 1108 are stated
+        // to generate automatically and be enabled by default
+        "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/other-events",
+        "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1100",
+        "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1104",
+        "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1105",
+        // Source: ntsecapi.h SECURITY_LOGON_TYPE — the enumeration including
+        // CachedRemoteInteractive (12) and CachedUnlock (13)
+        "https://learn.microsoft.com/en-us/windows/win32/api/ntsecapi/ne-ntsecapi-security_logon_type",
+        // Source: Jonathon Poling, "Windows RDP-Related Event Logs: Identification,
+        // Tracking, and Investigation" — a Type 3 (NLA) leg precedes the Type 10, and a
+        // reconnect to a previously disconnected session yields Type 7 from a remote IP
+        // rather than Type 10
+        "https://www.ponderthebits.com/2018/02/windows-rdp-related-event-logs-identification-tracking-and-investigation/",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_caveats: &[
@@ -7401,6 +7777,37 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
          records the SOURCE workstation, not the destination — it also fires on workstation-unlock and \
          does NOT fire when a domain account logs on locally at a DC; a Type-3 4624 alone does not \
          attribute the NTLM source the way DC-side 4776 does",
+        "A 4624 hunt filtered to LogonType 10 SILENTLY MISSES RDP. An RDP connection that attaches to an \
+         existing DISCONNECTED session is logged as Type 7 (the workstation-unlock type), not Type 10 — \
+         which is exactly the access pattern of session resumption and hijacking — and with Network \
+         Level Authentication the pre-authentication leg surfaces as Type 3 (Poling reports Type 3 \
+         appearing for RDP even on hosts where NLA was not deliberately configured, because Windows \
+         attempts it first). Distinguish an RDP Type 7 from a console unlock by the presence of a remote \
+         source address, not by the type alone. Hunt Types 3, 7 and 10 together for RDP",
+        "The catalog's logon-type list stops at 11; SECURITY_LOGON_TYPE in ntsecapi.h also defines 12 \
+         CachedRemoteInteractive and 13 CachedUnlock, which a parser mapping only 2-11 renders as \
+         unknown",
+        "Event 4648 is written on the SOURCE host, so its absence on a compromised destination is \
+         expected and says nothing; conversely a 4648 with Target Server Name = 'localhost' is a purely \
+         local credential switch (runas), not lateral movement. Microsoft explicitly leaves the \
+         Additional Information / TargetInfo field undocumented, so a protocol inferred from it is an \
+         inference and must be labelled as one",
+        "Event 4672 is the join partner of 4624 on Logon ID, not an alternative to it — but SYSTEM and \
+         machine accounts generate it continuously, so an unfiltered 4672 hunt is dominated by noise. It \
+         reports a sensitive-PRIVILEGE assignment, which is why it catches administrator-equivalent \
+         authority granted without Administrators membership, and why a scheduled task set to run with \
+         highest privileges produces one",
+        "Event 5156 (WFP permitted a connection) exists only where the Audit Filtering Platform \
+         Connection subcategory is enabled, and it is high-volume when it is. Treat its absence as \
+         unknown rather than as evidence of no connection, and check the independent alternatives — \
+         Sysmon EID 3, which needs its own NetworkConnect rule, and pfirewall.log, whose success logging \
+         is separately switched",
+        "Events 1100 / 1104 / 1105 / 1108 are what make a GAP interpretable, and Microsoft states they \
+         are enabled by default rather than depending on audit policy: 1100 records the logging service \
+         shutting down (the positive trace of a stop-recording attack), 1104 the log becoming full, 1105 \
+         an automatic backup/rollover, 1108 a processing error. Without them a missing interval cannot be \
+         separated into hostile silence, benign rollover and dropped records — and 1102 alone only covers \
+         a deliberate clear",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Circular EVTX log; default 128 MB max",
@@ -7421,6 +7828,17 @@ pub static EVTX_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
         "System-level events. Key IDs: 7045 (service installed), 7036 (service state change), \
               7031 (Service Control Manager — service crash; analyst pivot for \
               EDR/AV agent tamper attempts and failed persistence-via-service installs), \
+              7034 (a service terminated UNEXPECTEDLY — the message carries a running count of how many \
+              times that service has done so, which is what makes a single record interpretable: the \
+              first crash of a long-running security service reads very differently from the fortieth), \
+              7035 (the Service Control Manager SENT a start or stop control to a service — the COMMAND \
+              whose outcome 7036 reports, so 7035 and 7036 form a command/effect pair and a 7035 with no \
+              matching 7036 is a control that did not take effect), \
+              7040 (a service's START TYPE was CHANGED — the event that catches a disabled security \
+              service being re-enabled, or a demand-start service flipped to auto-start so it survives \
+              reboot. It records a configuration change rather than an execution, and so complements \
+              7045: 7045 catches a service created, 7040 catches an existing one repurposed, which \
+              service-creation hunting alone misses entirely), \
               6005/6006 (event log start/stop — boot/shutdown boundary), \
               104 (System log cleared). Service installation (7045) is a primary \
               lateral-movement and persistence indicator. Attackers abuse sc.exe to create services \
@@ -7454,6 +7872,15 @@ pub static EVTX_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.sans.org/posters/windows-forensic-analysis/",
         "https://learn.microsoft.com/en-us/windows/win32/eventlog/event-logging",
         "https://github.com/EricZimmerman/evtx",
+        // Source: Microsoft — Service Control Manager. The SCM is the publisher behind
+        // the 70xx System-log family (7034 unexpected termination, 7035 control sent,
+        // 7036 state change, 7040 start-type change, 7045 service installed); the
+        // provider's message templates are enumerable on a live host with
+        // `wevtutil gp "Service Control Manager"`
+        "https://learn.microsoft.com/en-us/windows/win32/services/service-control-manager",
+        // Source: Microsoft — ChangeServiceConfig, the documented API that alters a
+        // service's start type and so produces the 7040 record
+        "https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-changeserviceconfigw",
         // Microsoft: Event 10016 (DistributedCOM) fields CLSID/APPID/SID/from-address;
         // states LocalHost/LRPC records for LOCAL SERVICE/SYSTEM are by-design "can be safely ignored":
         "https://learn.microsoft.com/en-us/troubleshoot/windows-client/application-management/event-10016-logged-when-accessing-dcom",
@@ -7592,25 +8019,55 @@ pub static EVTX_SYSMON: ArtifactDescriptor = ArtifactDescriptor {
     decoder: Decoder::Identity,
     meaning:
         "Sysmon telemetry (requires deployment). Event 1 (process create + hashes + cmdline), \
-              3 (network connection), 7 (image load), 8 (CreateRemoteThread), \
-              10 (ProcessAccess — LSASS reads), 11 (file create), 22 (DNS query). \
-              Gold standard for EDR-quality forensics without commercial tooling.",
-    mitre_techniques: &["T1059", "T1055", "T1003.001"],
+              2 (FileCreateTime — a process CHANGED a file's creation time: the most direct on-host \
+              witness of timestomping, and the counterpart to the $SI/$FN divergence this catalog \
+              already treats as primary), \
+              3 (network connection), 6 (DriverLoad — the bring-your-own-vulnerable-driver channel), \
+              7 (image load), 8 (CreateRemoteThread), \
+              9 (RawAccessRead — a raw volume read that bypasses NTFS ACLs, the signature of copying a \
+              LOCKED file such as SAM, NTDS.dit or a live .evtx), \
+              10 (ProcessAccess — LSASS reads), 11 (file create), \
+              12/13/14 (RegistryEvent: key create+delete / value set / key+value rename), \
+              15 (FileCreateStreamHash — creation of an ALTERNATE DATA STREAM, with a hash of the \
+              stream contents), \
+              17/18 (PipeEvent: Pipe Created / Pipe Connected — the on-host channel for named-pipe C2, \
+              pipe-based lateral movement and impersonation, and the only place a pipe NAME is recorded \
+              persistently once RAM is gone. The pivot runs 18 -> 17: EID 18 says which pipe was \
+              connected and when, EID 17 says which process CREATED it, which is how an IPC$ access seen \
+              in Security 5140 is resolved to the tool behind it. Windows serves this namespace through \
+              the Named Pipe File System, so live pipes are also enumerable as a directory listing of \
+              \\\\.\\pipe\\), \
+              19/20/21 (WmiEvent: filter / consumer / filter-to-consumer binding — the registration \
+              trail behind WMI event-subscription persistence), \
+              22 (DNS query), \
+              25 (ProcessTampering — process image change, which fires on hollowing and \
+              herpaderping-class image replacement: the same technique the memory-side injection hunts \
+              chase, caught at the moment it happened rather than reconstructed afterwards). \
+              Gold standard for EDR-quality forensics without commercial tooling — with the boundary \
+              that each of these event types must be turned on by a rule in the Sysmon configuration, so \
+              a default or minimal deployment records several of them not at all.",
+    mitre_techniques: &["T1059", "T1055", "T1003.001", "T1070.006", "T1564.004", "T1546.003"],
     fields: EVTX_FIELDS,
     retention: Some("configurable; default ~20MB rolling per channel"),
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &["evtx_security", "prefetch_file", "srum_app_resource"],
+    related_artifacts: &["evtx_security", "prefetch_file", "srum_app_resource", "ntfs_ads"],
     sources: &[
         "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon",
         "https://www.sans.org/blog/threat-hunting-using-sysmon/",
         "https://www.thedfirspot.com/post/sysmon-when-visibility-is-key",
         "https://github.com/EricZimmerman/evtx",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.3_Windows_Event_Core.md",
+        // Source: Microsoft Learn Win32 "Named Pipes" — the NPFS namespace behind the
+        // pipe names Sysmon EID 17/18 record
+        "https://learn.microsoft.com/en-us/windows/win32/ipc/named-pipes",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_caveats: &[
         "Requires Sysmon to be installed and configured",
         "Sysmon config determines what is logged",
+        "Several of the highest-value event types are OFF unless a rule enables them — PipeEvent (17/18), RegistryEvent (12/13/14), RawAccessRead (9), FileCreateTime (2) and NetworkConnect (3) among them. On a default or minimal deployment their absence is a configuration fact and is not evidence the activity did not occur; read the deployed config before drawing a negative",
+        "EID 2 (FileCreateTime) records that a process changed a creation time and names the process — it is the on-host complement to $SI/$FN divergence, which shows the result without the actor. Neither alone gives both",
+        "EID 18 yields the pipe name and the moment of connection; EID 17 yields the process that created the pipe. Resolving a named-pipe finding to a tool needs both, and once RAM is gone these records are the only persistent source for the pipe name",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Circular EVTX log; size depends on Sysmon config",
@@ -7654,7 +8111,20 @@ pub static EVTX_DEFENDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
               attackers add path/process exclusions before dropping malware), \
               5010 (scanning for malware disabled), 5012 (scanning for viruses disabled). \
               Channel survives the dropped malware itself: 2050's file-hash record \
-              is often the only artifact left after the malware has been cleaned.",
+              is often the only artifact left after the malware has been cleaned. \
+              The catalog's generic EVTX field set under-describes 1116/1117, whose payload Microsoft \
+              documents as Name (threat name), ID (threat ID), Severity (Low/Moderate/High/Severe), \
+              Category, Path, Detection Origin (Unknown / Local computer / Network share / Internet / \
+              Incoming traffic / Outgoing traffic), Detection Type (Heuristics / Generic / Concrete / \
+              Dynamic signature), Detection Source, User (Domain\\User), Process Name ('Process in the \
+              PID'), Signature Version and Engine Version. Three of those change what the record can \
+              answer. Detection Origin distinguishes a file that arrived over the network or from a share \
+              from one already local — provenance the path alone does not carry. Detection Source names \
+              the component that fired, and the AMSI value specifically means the detection came from a \
+              SCRIPT (PowerShell/VBS) scanned in memory rather than from a file on disk, while ELAM \
+              means it was caught in the boot sequence and IOAV at download/attachment time. Process \
+              Name identifies the process associated with the detection, which is the pivot into a \
+              memory image or into process-creation telemetry for the same host and instant.",
     mitre_techniques: &["T1562.001", "T1059", "T1027"],
     fields: EVTX_FIELDS,
     retention: Some("configurable; default ~1MB rolling per channel"),
@@ -7685,12 +8155,22 @@ pub static EVTX_DEFENDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
         //   channel and the canonical Defender event ID set (1116, 1117,
         //   2050, 5001, 5007, etc.).
         "https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/troubleshoot-microsoft-defender-antivirus",
+        // Source: current Microsoft Learn location of the same reference — the per-event
+        // field lists for 1116 (MALWAREPROTECTION_STATE_MALWARE_DETECTED) and 1117
+        // (MALWAREPROTECTION_STATE_MALWARE_ACTION_TAKEN): Name, ID, Severity, Category,
+        // Path, Detection Origin, Detection Type, Detection Source, User, Process Name
+        "https://learn.microsoft.com/en-us/defender-endpoint/troubleshoot-microsoft-defender-antivirus",
         "https://github.com/EricZimmerman/evtx",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "A 1116/1117 pair evidences that Defender DETECTED and acted on something, not that the thing executed; conversely 1118/1119 (action failed) mean the file was left on disk and the absence of a later 1117 is not remediation",
+        "The generic EVTX field triple (threat_name / file_path / action) discards most of the record. Microsoft documents Detection Origin, Detection Type, Detection Source, User and Process Name on 1116/1117, and a consumer that projects only the first three cannot answer where the file came from or which component fired",
+        "Detection Source = AMSI means the detection came from a script scanned IN MEMORY (PowerShell/VBS), so the reported Path may not correspond to a file that ever existed on disk; ELAM means boot-sequence detection and IOAV means download/attachment time. Reading Path as an on-disk artefact without checking Detection Source produces a hunt for a file that was never there",
+        "Retention on this channel is small (default ~1 MB rolling), so it wraps quickly on a noisy host — an absent detection record is weak evidence of anything",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Circular EVTX channel with a small default cap (~1 MB), so Defender records age out faster than the Security or System channels",
 };
 
 pub(crate) static TYPED_PATHS_FIELDS: &[FieldSchema] = &[FieldSchema {
@@ -8345,10 +8825,26 @@ pub static HIBERFIL_SYS: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
-    meaning: "Compressed hibernation snapshot containing a point-in-time copy of system memory, including processes, sockets, and in-memory strings.",
+    meaning: "Compressed hibernation snapshot containing a point-in-time copy of system memory, \
+including processes, sockets, and in-memory strings. Three properties decide what it is worth in a \
+given case. \
+PRESENCE is a configuration fact, not an event: the file is RESERVED on disk and sized against \
+installed RAM when hibernation is ENABLED (powercfg /hibernate, /hibernate /size) and only POPULATED \
+at the S4 transition — so its existence evidences that hibernation was turned on, never that the \
+machine hibernated. \
+COMPLETENESS turns on the format generation. The pre-Windows 8 file is identified by an 'hibr'/'wake' \
+signature at offset 0 with Xpress-compressed blocks, and that is the format Volatility 2's hibernation \
+address space targets. Windows 8 introduced a new format, carried into 10 and 11, in which resuming \
+reads the data back and can ZERO it in place — so a hiberfil pulled from a live, post-resume Windows \
+8+ host may not be a full memory image at all, and conversion tools can simply error on it. Acquire \
+before resume where that is a choice. \
+SLACK is the third: successive hibernations differ in compressed size, so the allocated file retains \
+the TAIL of an earlier, larger image beyond the current valid data length. Residual memory state from \
+a previous hibernation is recoverable from the same file, and it is a different point in time from the \
+one the header describes.",
     mitre_techniques: &["T1005"],
     fields: FILE_PATH_FIELDS,
-    retention: None,
+    retention: Some("Reserved while hibernation is enabled and rewritten at each S4 transition; the region beyond the current valid data length retains the tail of an earlier, larger image until overwritten"),
     triage_priority: TriagePriority::High,
     related_artifacts: &["pagefile_sys", "evtx_security"],
     sources: &[
@@ -8357,11 +8853,26 @@ pub static HIBERFIL_SYS: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/storport/nf-storport-storportmarkdumpmemory",
         "https://github.com/EricZimmerman/RECmd",
         "https://github.com/EricZimmerman/RegistryPlugins",
+        // Source: Sylve, Marziale & Richard III, "Modern Windows hibernation file
+        // analysis", Digital Investigation 20 (2017) 16-22 — the Windows 8+ format
+        // change, zero-on-resume behaviour, and hibernation slack
+        "https://doi.org/10.1016/j.diin.2016.12.003",
+        // Source: libyal libhibr — Windows Hibernation File (hiberfil.sys) format
+        // documentation, including the pre-Win8 signature and Xpress-compressed blocks
+        "https://github.com/libyal/libhibr",
+        // Source: Microsoft — powercfg command-line options: /hibernate enables the
+        // feature and reserves the file, /hibernate /size sets its size
+        "https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options",
     ],
-    evidence_strength: None,
-    evidence_caveats: &[],
-    volatility: None,
-    volatility_rationale: "",
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Presence of hiberfil.sys proves hibernation was ENABLED, not that the machine hibernated: the file is reserved and sized when the feature is turned on and only populated at the S4 transition. Read the header before treating it as a memory image",
+        "On Windows 8 and later the resume path reads the data back and can zero it in place, so a file collected from a live post-resume host may be partially or wholly empty and conversion tools may error rather than degrade — that is a property of the acquisition moment, not a corrupt file",
+        "The pre-Windows 8 format ('hibr'/'wake' signature at offset 0, Xpress-compressed blocks) is the one Volatility 2's hibernation address space handles; a Windows 8+ file needs a tool that understands the newer format, and feeding it to an older one yields silence rather than an error",
+        "The area beyond the current valid data length holds the tail of an EARLIER, larger hibernation image. Anything carved from there is a different point in time from the header's, and must be timestamped as such rather than attributed to the last hibernation",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "On-disk file that persists while hibernation is enabled; its contents are rewritten per S4 transition and the slack tail survives until overwritten by a larger image",
 };
 
 pub(crate) static MOUNTPOINTS2_FIELDS: &[FieldSchema] = &[
@@ -8940,24 +9451,79 @@ pub static MACOS_COREANALYTICS: ArtifactDescriptor = ArtifactDescriptor {
 
 // ── Memory forensics artifacts ───────────────────────────────────────────────
 
+/// Canonical `_EPROCESS` listing columns for the active-process list walk (pslist).
+///
+/// Source: <https://learn.microsoft.com/en-us/windows-hardware/drivers/debuggercmds/-process>
+///         (`_EPROCESS` members: `InheritedFromUniqueProcessId`, `ActiveThreads`,
+///         `ObjectTable`, `Wow64Process`, `ActiveProcessLinks`)
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/pslist.py>
+///         (the rendered column set)
 pub(crate) static MEM_RUNNING_PROCESSES_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "pid",
         value_type: ValueType::UnsignedInt,
-        description: "Process identifier",
+        description: "Process identifier (_EPROCESS.UniqueProcessId)",
         is_uid_component: true,
     },
     FieldSchema {
         name: "name",
         value_type: ValueType::Text,
-        description: "Process image name",
+        description: "Process image name from _EPROCESS.ImageFileName — a FIXED-WIDTH UCHAR[15] copy, so at most 14 characters survive and a longer name loses its extension. Match it as a PREFIX, never by equality, and never treat it as an identity: two binaries sharing the leading characters are indistinguishable here",
         is_uid_component: false,
     },
     FieldSchema {
         name: "path",
         value_type: ValueType::Text,
-        description: "Full executable path from process object",
+        description: "Full executable path. NOT from ImageFileName — the _EPROCESS field is the truncated fixed-width name. The untruncated path comes either from the PEB (RTL_USER_PROCESS_PARAMETERS.ImagePathName, user-writable and therefore spoofable) or from the kernel-resident SeAuditProcessCreationInfo image-name, which is not attacker-writable; record which source produced it",
         is_uid_component: false,
+    },
+    FieldSchema {
+        name: "ppid",
+        value_type: ValueType::UnsignedInt,
+        description: "Parent process identifier (_EPROCESS.InheritedFromUniqueProcessId). A RECORDED NUMBER, not an observed lineage: a creator may set it to any process it can open, via PROC_THREAD_ATTRIBUTE_PARENT_PROCESS in UpdateProcThreadAttribute (ATT&CK T1134.004 Parent PID Spoofing). It is also never cleaned up when the parent exits, so a PPID naming a dead or since-reused PID produces the ordinary orphan row",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "create_time",
+        value_type: ValueType::Timestamp,
+        description: "Process creation FILETIME (_EPROCESS.CreateTime) — with ppid, the pair the whole rogue-process triage rests on: a system binary created by an unexpected parent, or at an implausible time relative to boot, is the lead",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "exit_time",
+        value_type: ValueType::Timestamp,
+        description: "Process exit FILETIME (_EPROCESS.ExitTime); zero for a live process. A non-zero value on a row still reachable from the list walk marks a process that has terminated but whose object has not yet been freed",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "threads",
+        value_type: ValueType::UnsignedInt,
+        description: "Active thread count (_EPROCESS.ActiveThreads). Zero on a process with a non-zero exit time is ordinary teardown; zero on a process with no exit time is not",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "handles",
+        value_type: ValueType::UnsignedInt,
+        description: "Open handle count (_EPROCESS.ObjectTable.HandleCount); unavailable when the object table has already been torn down, which is distinct from a genuine count of zero",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "session_id",
+        value_type: ValueType::UnsignedInt,
+        description: "Terminal-services session (_EPROCESS.Session). NotApplicable when the Session pointer is NULL — a different state from session 0, and the two must not be collapsed: session 0 is the isolated service session, while NULL means no session object is attached at all (System and the earliest boot processes)",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "wow64",
+        value_type: ValueType::Bool,
+        description: "True when the process runs under WoW64 (_EPROCESS.Wow64Process non-NULL) — a 32-bit image on 64-bit Windows. Determines which PEB layout and pointer width a parser must use for the same process",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "offset",
+        value_type: ValueType::UnsignedInt,
+        description: "Offset of the _EPROCESS object in the memory image — virtual by default, physical when the tool is asked for physical offsets. The join key against a pool-scan (psscan) cross-view of the same image",
+        is_uid_component: true,
     },
 ];
 
@@ -8972,17 +9538,42 @@ pub static MEM_RUNNING_PROCESSES: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Live process list from RAM; reveals injected processes, hollowing, and malware hiding from OS APIs",
-    mitre_techniques: &["T1057", "T1055"],
+    meaning: "Live process list recovered from RAM by walking the kernel's ActiveProcessLinks list off \
+each _EPROCESS (the pslist view). Yields the canonical listing set — PID, PPID \
+(InheritedFromUniqueProcessId), image name, create and exit FILETIMEs, active thread count, handle \
+count, session, WoW64 flag and the object's offset — of which PPID and CreateTime carry the \
+rogue-process triage. Two properties decide how the rows may be read. ImageFileName is a fixed-width \
+UCHAR[15] copy, so the name is a truncating PREFIX and never an identity; the untruncated path must \
+come from the PEB (user-writable, spoofable) or from the kernel's SeAuditProcessCreationInfo (not \
+attacker-writable). PPID is a number RECORDED at creation, settable by the creator through \
+PROC_THREAD_ATTRIBUTE_PARENT_PROCESS (ATT&CK T1134.004) and never revised when the parent exits — so \
+a lineage read off this column is a claim about what was recorded, not about what spawned what. \
+Because the walk trusts the linked list, a process unlinked from it (DKOM) is absent here while still \
+scheduled; cross-view against the pool-scan listing rather than reading absence as absence.",
+    mitre_techniques: &["T1057", "T1055", "T1134.004"],
     fields: MEM_RUNNING_PROCESSES_FIELDS,
     retention: Some("RAM only; lost on power-off"),
     triage_priority: TriagePriority::Critical,
     related_artifacts: &["mem_loaded_modules", "mem_network_connections"],
     sources: &[
         "https://volatilityfoundation.org/",
+        // Source: _EPROCESS members — InheritedFromUniqueProcessId, CreateTime/ExitTime,
+        // ActiveThreads, ObjectTable, Session, Wow64Process, ActiveProcessLinks
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/debuggercmds/-process",
+        // Source: UpdateProcThreadAttribute — PROC_THREAD_ATTRIBUTE_PARENT_PROCESS, the
+        // documented API by which a creator chooses the recorded parent
+        "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-updateprocthreadattribute",
+        // Source: volatility3 pslist.py — the ActiveProcessLinks walk and its column set
+        "https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/pslist.py",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["Live RAM only; requires active acquisition"],
+    evidence_caveats: &[
+        "Live RAM only; requires active acquisition",
+        "PPID is a value recorded at creation, not an observation of lineage: PROC_THREAD_ATTRIBUTE_PARENT_PROCESS lets a creator name any process it can open (ATT&CK T1134.004), so a plausible parent does not establish the spawning chain",
+        "PPID is never revised when the parent exits and PIDs are reused, so an orphan row — or a PPID now naming an unrelated live process — is expected and is not itself an indicator",
+        "ImageFileName is UCHAR[15], so the name truncates at 14 characters and loses its extension; the descriptor's `path` therefore comes from the PEB (attacker-writable) or SeAuditProcessCreationInfo (kernel-resident), and which one was used must be recorded",
+        "This is the list-walk view: a process unlinked from ActiveProcessLinks is absent here while still running, so absence must be resolved against a pool-scan cross-view before it is reported as 'not running'",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Volatile),
     volatility_rationale: "RAM; lost on power-off",
 };
@@ -9758,6 +10349,28 @@ pub(crate) static NTFS_I30_INDEX_FIELDS: &[FieldSchema] = &[
         description: "MFT reference (entry number + sequence) of the parent directory whose $I30 index holds this entry, locating where the deleted file resided",
         is_uid_component: false,
     },
+    FieldSchema {
+        // libfsntfs: the index entry header ("INDX" record) is 24 bytes — signature 0,
+        // fix-up offset 4, fix-up count 6, LSN 8, VCN 16 — and the 16-byte INDEX NODE
+        // HEADER follows at 0x18. Its three size fields are relative to the NODE HEADER
+        // start, not to the record start, which is the arithmetic a carver gets wrong.
+        // Source: https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc
+        name: "slack_region",
+        value_type: ValueType::Bytes,
+        description: "Byte range of the INDX record that holds stale entries. The index node header starts at record offset 0x18 and its fields are NODE-RELATIVE: index values offset (uint32 at node+0), index node size = bytes in use (uint32 at node+4), allocated index node size (uint32 at node+8), index node flags (uint32 at node+12; 0x00000001 = branch node with sub nodes). \
+                      Slack is therefore the record range [0x18 + index_node_size, 0x18 + allocated_index_node_size), and 0x18 + allocated_index_node_size recovers the index-record size (commonly 4096). \
+                      Note libfsntfs's caveat that in an $INDEX_ALLOCATION entry the index node size already includes the fix-up values and their alignment padding",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        // Source: https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc
+        name: "index_value_header",
+        value_type: ValueType::Bytes,
+        description: "The 16-byte index-value (entry) header a walker steps through: file reference (8 bytes at 0), index value size (uint16 at 0x08 — how far to advance to the next entry), index key data size (uint16 at 0x0A), index value flags (uint32 at 0x0C). \
+                      Flag 0x00000001 = has sub node (an 8-byte sub-node VCN is appended); flag 0x00000002 = is last, the entry that terminates the values array. Index values are 8-byte aligned. \
+                      For $I30 the index key data is a $FILE_NAME attribute, which is why a slack entry yields a filename and the $FN MACB set",
+        is_uid_component: false,
+    },
 ];
 
 /// NTFS directory index ($I30) slack — deleted-filename recovery from B-tree slack.
@@ -9807,6 +10420,10 @@ raw disk with MFTECmd, which flags carved entries as From Slack = true.",
         "https://github.com/libyal/libfsntfs",
         "https://github.com/EricZimmerman/MFTECmd",
         "https://forensics.wiki/ntfs/",
+        // Source: libfsntfs NTFS format documentation — index entry header (24 bytes),
+        // index node header (index values offset / index node size / allocated index
+        // node size / flags, all node-relative) and the index value header + flags
+        "https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &[
@@ -9876,23 +10493,39 @@ every $DATA attribute. Legitimate ADS exist across the OS — Zone.Identifier (M
 $UsnJrnl:$J and :$Max change-journal streams, SmartScreen/Wof metadata, and Finder/SMB resource forks. \
 Abuse is the mirror image: an adversary hides a payload, script, or exfil data in a named stream so it \
 occupies no visible file, is skipped by tools scanning only unnamed streams, and can be executed \
-directly. ADS do not survive a copy to a non-NTFS volume (FAT/exFAT), most SMB shares, or many \
+directly. EXECUTION, not merely storage, is the second half: a DLL parked in a named stream is \
+launched by a signed system binary, and LOLBAS records the rundll32 form verbatim as \
+`rundll32 \"{PATH}:ADSDLL.dll\",DllMain` (use case 'Execute code from alternate data stream', \
+ATT&CK T1564.004). The quoting is load-bearing — the double quotes enclose the whole \
+<path>:<stream> token so the comma still separates the DLL argument from the exported entry point. \
+That yields a command-line-only hunt needing no filesystem access at all: a COLON appearing inside \
+the path argument of a rundll32 invocation. Keep it distinct from ordinary non-ADS rundll32 abuse, \
+which LOLBAS tags T1218.011 (System Binary Proxy Execution: Rundll32) — a different technique. \
+ADS do not survive a copy to a non-NTFS volume (FAT/exFAT), most SMB shares, or many \
 archive/email round-trips, so absence never proves a stream was never present. The presence, name, \
 size and bytes of a named stream are the facts; benign vs malicious is inferred from the name and \
 content, not from ADS presence alone.",
-    mitre_techniques: &["T1564.004"],
+    mitre_techniques: &[
+        "T1564.004", // Hide Artifacts: NTFS File Attributes — the stream itself
+        "T1218.011", // System Binary Proxy Execution: Rundll32 — the launcher that reads it
+    ],
     fields: NTFS_ADS_FIELDS,
     retention: Some("Persists with the host file on NTFS until the file, the named stream, or the $DATA attribute is removed; lost on copy to FAT/exFAT, most SMB shares, and many archive/email round-trips"),
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["mft", "mft_file", "zone_identifier", "usnjrnl"],
     sources: &[
         "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c54dec26-1551-4d3a-a0ea-4fa40f848eb3",
+        // Source: LOLBAS Rundll32 — 'Alternate data streams' entry, command template
+        // `rundll32 "{PATH}:ADSDLL.dll",DllMain`, MitreID T1564.004; the separate COM
+        // entry on the same page is T1218.011
+        "https://lolbas-project.github.io/lolbas/Binaries/Rundll32/",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &[
         "ADS presence is a filesystem fact; benign vs malicious is inferred from the stream name and its bytes, not from the mere existence of a named stream (Zone.Identifier, $UsnJrnl:$J and resource-fork streams are all legitimate)",
         "Requires an $MFT parser or raw enumeration (dir /R, Get-Item -Stream, fsutil file streams); default `dir` and Explorer hide named streams and report only the unnamed stream's size",
         "Streams are not carried to non-NTFS volumes (FAT/exFAT), most SMB/network shares, or many archive/email round-trips, so absence does not prove a stream was never present",
+        "A stream can be EXECUTED, not only hidden: `rundll32 \"<hostfile>:<streamname>\",<export>` runs a DLL held in the stream, so process-command-line telemetry alone (a colon inside a rundll32 path argument) evidences ADS execution with no filesystem access — and conversely, command lines are the only witness once the host file is gone",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "On-disk NTFS metadata; a named $DATA stream persists with the host file until the file or the named stream is deleted",
@@ -10186,9 +10819,19 @@ pub(crate) static NTFS_MACB_RULES_FIELDS: &[FieldSchema] = &[
         is_uid_component: false,
     },
     FieldSchema {
+        // A cross-volume move is TWO mechanisms with different timestamp outcomes, and
+        // which one ran depends on the API the mover used.
+        // Source: https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-movefileexw
+        //   MOVEFILE_COPY_ALLOWED — "simulates the move by using the CopyFile and
+        //   DeleteFile functions", i.e. the destination is a NEWLY CREATED file.
+        // Source: https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nn-shobjidl_core-ifileoperation
+        // Source: https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shfileoperationw
         name: "op_move_xvolume",
         value_type: ValueType::Text,
-        description: "Cross-volume move: SI A,C update to move time; M,B preserved; FN reset to move time",
+        description: "Cross-volume move — SPLIT BY MECHANISM, because the two paths do not agree. \
+                      (a) Command-line / MoveFileEx with MOVEFILE_COPY_ALLOWED: Microsoft documents this as simulating the move with CopyFile + DeleteFile, so the destination is a newly created file — SI B = the MOVE time (NOT preserved), SI M inherited from the source, SI A,C = move time, FN MACB all = move time. This is the path that yields the copy tell SI M < SI B. \
+                      (b) Explorer cut/paste, which goes through the shell's IFileOperation (SHFileOperation on legacy callers): the shell restores B from the source, so SI B is PRESERVED and the M < B tell does NOT appear. \
+                      Consequence for the analyst: absence of the M < B tell excludes mechanism (a), never a cross-volume move as such — an Explorer cut/paste across volumes leaves timestamps that look like a same-volume move",
         is_uid_component: false,
     },
     FieldSchema {
@@ -10262,12 +10905,22 @@ prove tampering (account for OS-version drift, last-access policy and File Syste
         "https://dfir.ru/2021/01/10/standard_information-vs-file_name/",
         "https://dfir.ru/2018/12/08/the-last-access-updates-are-almost-back/",
         "https://www.senturean.com/posts/19_04_22_win10_ntfs_time_rules/",
+        // Source: MoveFileExW — MOVEFILE_COPY_ALLOWED "simulates the move by using the
+        // CopyFile and DeleteFile functions", so a CLI cross-volume move CREATES the
+        // destination and SI B is the move time
+        "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-movefileexw",
+        // Source: IFileOperation — the shell path behind Explorer cut/paste, which
+        // restores the creation time on the destination
+        "https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nn-shobjidl_core-ifileoperation",
+        // Source: SHFileOperationW — the legacy shell copy/move engine IFileOperation superseded
+        "https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shfileoperationw",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
     evidence_caveats: &[
         "A deviation from the baseline is CONSISTENT WITH forgery, not proof of it — account for OS-version drift, the last-access policy, and File System Tunneling before concluding tampering",
         "Local rename rewrites $FN from the current $SI values, so $FN-vs-$SI comparison is unreliable after a rename; corroborate operation ordering with the USN journal and $LogFile",
         "The COPY tell (SI M < B) flags a cross-volume copy or crude timestomping from a single record without needing $FN; a matched, self-consistent set does not exclude a careful full-set timestomp",
+        "The COPY tell distinguishes MECHANISM, not intent: a cross-volume move via MoveFileEx/MOVEFILE_COPY_ALLOWED (the command-line path) is documented as CopyFile + DeleteFile and so produces it, while an Explorer cut/paste through IFileOperation restores the creation time and does not — absence of the tell therefore excludes the API path, never a cross-volume move",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Interpretive baseline; the underlying $MFT timestamps persist until overwritten",
@@ -10287,9 +10940,26 @@ pub(crate) static MEM_FINDEVIL_FIELDS: &[FieldSchema] = &[
         is_uid_component: false,
     },
     FieldSchema {
+        // Value enumeration taken from the vendor's own indicator table.
+        // Source: https://github.com/ufrisk/MemProcFS/wiki/FS_FindEvil
         name: "detection_type",
         value_type: ValueType::Text,
-        description: "FindEvil anomaly flag identifying the type of memory anomaly detected (e.g. PEB_MASQ, PROC_NOLINK, PE_NOLINK, PE_PATCHED, NOIMAGE_RWX); higher-severity flags sort to the top of findevil.txt",
+        description: "FindEvil anomaly flag — the Type column. TWO families share this column. \
+                      (1) STRUCTURAL indicators derived from kernel/page-table state: AV_DETECT (the analysed system's own AV flagged it), PE_INJECT, PEB_MASQ, PE_HDR_SPOOF, PEB_BAD_LDR, PROC_BAD_DTB, PROC_BASEADDR, PROC_NOLINK, PROC_PARENT, PROC_USER, PROC_DEBUG, THREAD (sub-kinds NO_IMAGE / PRIVATE_MEMORY / BAD_MODULE / LOAD_LIBRARY / SYSTEM_IMPERSONATION / NO_RTLUSERTHREADSTART), TIME_CHANGE, PE_NOLINK, PE_PATCHED, DRIVER_PATH, PRIVATE_RWX, NOIMAGE_RWX, PRIVATE_RX, NOIMAGE_RX, UM_APC, HIGH_ENTROPY. \
+                      (2) YARA indicators, ten categories emitted into the SAME column: YR_TROJAN, YR_VULNDRIVER (known-vulnerable driver — often used for evil, not malicious in itself), YR_HACKTOOL (offensive tooling, also used in audits), YR_EXPLOIT, YR_SHELLCODE, YR_ROOTKIT, YR_RANSOMWARE, YR_WIPER, YR_BACKDOOR (often legitimate remote-management software), YR_GENERIC. \
+                      The YR_* family is produced ONLY when the bundled Elastic rules are licence-accepted at launch with -license-accept-elastic-license-2-0; absent that switch the whole family is silently missing from the output and is not evidence of absence. \
+                      Rows are 'generally sorted by likelyhood and severeness', with the YARA family listed first in the vendor's own indicator table",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        // Source: https://github.com/ufrisk/MemProcFS/wiki/FS_FindEvil
+        name: "false_positive_grade",
+        value_type: ValueType::Text,
+        description: "Vendor-assigned false-positive likelihood for the row's detection_type — the field that turns a flag list into a triage ORDER. \
+                      LOW: AV_DETECT, PE_INJECT, PEB_MASQ, TIME_CHANGE, UM_APC. \
+                      MEDIUM: YR_* (rules are usually high quality but false positives exist), PROC_BASEADDR, PROC_NOLINK, PROC_PARENT (another process sharing a well-known name), PROC_USER, PROC_DEBUG, DRIVER_PATH, HIGH_ENTROPY (entropy indicates encryption whether or not it is malware — obfuscated binaries and DRM trigger it), and PRIVATE_RWX / NOIMAGE_RWX / PRIVATE_RX / NOIMAGE_RX, whose stated cause is Just-In-Time compilers legitimately producing RWX/RX in private memory. \
+                      HIGH: PEB_BAD_LDR and PE_NOLINK (corrupt, paged-out or drifted memory during acquisition, not malware), THREAD (legitimate SYSTEM_IMPERSONATION; LOAD_LIBRARY starts used by legitimate products), and PE_PATCHED, whose stated cause is RELOCATIONS, predominantly in 32-bit processes — so a JIT-only mental model mispredicts PE_PATCHED on 32-bit native processes running no managed code. \
+                      Page-level detections (PE_PATCHED and the RWX/RX family) are capped at 4 reported pages per VAD, so the row count understates extent",
         is_uid_component: false,
     },
     FieldSchema {
@@ -10351,6 +11021,10 @@ process, so the absence of a module-level flag is not exculpatory.",
         "https://github.com/ufrisk/MemProcFS/blob/master/vmm/modules/modules.h",
         "https://github.com/ufrisk/MemProcFS/wiki/FS_FindEvil",
         "https://www.forrest-orr.net/post/malicious-memory-artifacts-part-i-dll-hollowing",
+        // Source: elastic/protections-artifacts — the YARA rule corpus behind the YR_*
+        // detections, published under the Elastic License 2.0 (not an OSI-open licence),
+        // which is why the rules must be licence-accepted before they run
+        "https://github.com/elastic/protections-artifacts",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
     evidence_caveats: &[
@@ -10358,6 +11032,11 @@ process, so the absence of a module-level flag is not exculpatory.",
         "Enabled only for 64-bit Windows 10/11 targets (to keep the false-positive ratio low); not produced on 32-bit or older systems",
         "Detects user-mode anomalies; kernel/rootkit techniques and not-yet-modelled techniques are missed",
         "A process-level masquerade or unlink finding suppresses per-module hidden-module rows for the same process, so the absence of a module-level flag does not exclude a hidden module",
+        "The false-positive likelihood is per-detection-type, not uniform, so a mixed result set must be ranked before it is worked: PE_NOLINK, PEB_BAD_LDR, THREAD and PE_PATCHED are graded HIGH by the vendor, while PE_INJECT, PEB_MASQ, AV_DETECT, TIME_CHANGE and UM_APC are graded LOW — reading every row as equally significant inverts the triage order",
+        "PE_PATCHED's documented cause is image RELOCATIONS, predominantly in 32-bit processes — not only JIT — so it is expected on 32-bit native code with no managed runtime; PRIVATE_RWX / NOIMAGE_RWX / PRIVATE_RX / NOIMAGE_RX are the JIT-caused family",
+        "Page-level detections are capped at 4 reported pages per VAD, so the number of rows understates the extent of a patched or RWX region",
+        "The YR_* (YARA) family runs only when the bundled Elastic rules are accepted at start-up via -license-accept-elastic-license-2-0; on a run without that switch the entire family is absent from findevil.txt and that absence says nothing about the host",
+        "Detail for a YR_* row lives in the companion files in the same directory — yara.txt (per-detection detail) and yara_rules.txt (the rules that fired); findevil.txt alone does not carry the matching rule",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Volatile),
     volatility_rationale: "Derived from live RAM; lost on power-off and re-computed per acquisition",
@@ -10721,9 +11400,25 @@ pub(crate) static MEM_ACCESS_TOKENS_FIELDS: &[FieldSchema] = &[
         is_uid_component: false,
     },
     FieldSchema {
+        // A group SID in a token listing is NOT by itself a statement of effective rights —
+        // the SID_AND_ATTRIBUTES attribute word decides. Value enumeration below.
+        // Source: https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-sid_and_attributes
+        // Source: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/81d92bba-d22b-4a8c-908a-554ab29148ab
         name: "group_sids",
         value_type: ValueType::List,
-        description: "Group SIDs carried in the token, including any injected SID-History entries",
+        description: "Group SIDs carried in the token, including any injected SID-History entries. \
+                      Each element is a SID_AND_ATTRIBUTES pair, and the ATTRIBUTES half changes the meaning of the SID: SE_GROUP_ENABLED = the SID is active for access checks; SE_GROUP_USE_FOR_DENY_ONLY = the SID grants NOTHING and is used only to match deny ACEs; SE_GROUP_INTEGRITY / SE_GROUP_INTEGRITY_ENABLED mark the mandatory-label SID, which is why the integrity SID appears in this array without being a group membership. Report the attribute word alongside every SID — a bare SID list reads as effective rights it may not confer. \
+                      Well-known values worth recognising: S-1-5-32-544 BUILTIN\\Administrators; S-1-5-4 INTERACTIVE and S-1-2-1 CONSOLE LOGON, added only to tokens produced by an interactive/console logon, so they establish HOW the session was created from the token alone; S-1-5-113 'Local account' and S-1-5-114 'Local account and member of Administrators group', issued only to principals held in the machine's own SAM — their presence proves the S-1-5-21-x-y-z prefix is a MACHINE identifier rather than a domain one, the only reliable local-vs-domain discriminator in a memory-recovered token; S-1-1-0 Everyone; S-1-5-18 LocalSystem. \
+                      S-1-5-113/S-1-5-114 arrived with Windows 10 / Server 2016 and were backported to 7 / 8.1 / 2008 R2 / 2012 R2, so their absence on an older host is a build fact, not a domain-account finding",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        // Source: https://learn.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works
+        name: "uac_filtered",
+        value_type: ValueType::Bool,
+        description: "True when the token is the UAC-FILTERED (unelevated) half of a split-token admin logon. The recognisable shape: S-1-5-32-544 (BUILTIN\\Administrators) present in group_sids but marked SE_GROUP_USE_FOR_DENY_ONLY, together with integrity S-1-16-8192 (Medium). \
+                      In that state the Administrators SID confers no rights, so reading it as 'this process is running as an administrator' is wrong. A consent-elevated process from the SAME account shows the full token: Administrators enabled and integrity S-1-16-12288 (High). \
+                      The pair therefore distinguishes 'the user is an admin' from 'this process holds admin authority', which is the distinction that matters when attributing an action",
         is_uid_component: false,
     },
 ];
@@ -10752,7 +11447,15 @@ impersonation token whose user SID differs from its own primary token is consist
 impersonation; a Medium-integrity process with SeDebugPrivilege or SeImpersonatePrivilege enabled, or a \
 non-SYSTEM process wielding a SYSTEM (S-1-5-18) impersonation token, is consistent with privilege \
 escalation via token manipulation. The observed token facts are definitive; the theft/escalation \
-conclusion is an inference the token contents are consistent with, not proof of.",
+conclusion is an inference the token contents are consistent with, not proof of. Read the group array \
+as SID_AND_ATTRIBUTES pairs rather than as a membership list: SE_GROUP_USE_FOR_DENY_ONLY marks a SID \
+that grants nothing (the shape UAC produces for BUILTIN\\Administrators in a filtered token at Medium \
+integrity S-1-16-8192, against S-1-16-12288 High for the consent-elevated token from the same \
+account), and SE_GROUP_INTEGRITY marks the mandatory-label SID that is in the array without being a \
+group. Two well-known SID families read straight off the token: S-1-5-4 INTERACTIVE and S-1-2-1 \
+CONSOLE LOGON appear only for interactive/console logons, establishing how the session was created; \
+S-1-5-113 and S-1-5-114 are issued only to SAM-local principals, proving an S-1-5-21-x-y-z prefix is \
+a machine identifier and not a domain one.",
     mitre_techniques: &["T1134", "T1134.001", "T1134.005"],
     fields: MEM_ACCESS_TOKENS_FIELDS,
     retention: Some("RAM only; lost on power-off — present in a memory image / live capture"),
@@ -10763,12 +11466,24 @@ conclusion is an inference the token contents are consistent with, not proof of.
         "https://learn.microsoft.com/en-us/windows/win32/api/winnt/ne-winnt-security_impersonation_level",
         "https://learn.microsoft.com/en-us/windows/win32/secauthz/mandatory-integrity-control",
         "https://learn.microsoft.com/en-us/windows/win32/secauthz/well-known-sids",
+        // Source: SID_AND_ATTRIBUTES — SE_GROUP_ENABLED / SE_GROUP_USE_FOR_DENY_ONLY /
+        // SE_GROUP_INTEGRITY, the attribute word that qualifies every group SID
+        "https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-sid_and_attributes",
+        // Source: "How User Account Control works" — the split/filtered token, and the
+        // deny-only Administrators SID it produces
+        "https://learn.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works",
+        // Source: [MS-DTYP] 2.4.2.4 Well-Known SID Structures — S-1-5-4, S-1-2-1,
+        // S-1-5-113, S-1-5-114, S-1-5-32-544, S-1-1-0
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/81d92bba-d22b-4a8c-908a-554ab29148ab",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_caveats: &[
         "The token fields (type, user SID, integrity, privileges, groups) are definitive; token theft / privilege escalation is an inference the contents are CONSISTENT WITH, not proof of",
         "The integrity-level SID field is Windows Vista and later; on XP it is absent (token type and impersonation level exist since XP)",
         "A snapshot from RAM shows the token as held at capture; it does not by itself reveal HOW the token was obtained (that is a separate technique surface)",
+        "A group SID present in the token is NOT a statement of effective rights until its SID_AND_ATTRIBUTES word is read: BUILTIN\\Administrators (S-1-5-32-544) marked SE_GROUP_USE_FOR_DENY_ONLY alongside Medium integrity (S-1-16-8192) is the UAC-filtered token and confers nothing, while the elevated token from the same account shows it enabled at High integrity (S-1-16-12288)",
+        "The mandatory-label SID appears inside the groups array marked SE_GROUP_INTEGRITY; treating the array as pure group membership double-counts it as a group the account belongs to",
+        "S-1-5-113 / S-1-5-114 ('Local account', 'Local account and member of Administrators group') were introduced with Windows 10 / Server 2016 and backported to 7 / 8.1 / 2008 R2 / 2012 R2 — on a host predating the backport their absence is a build fact and does not imply a domain principal",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Volatile),
     volatility_rationale: "Kernel _TOKEN objects live in RAM and are lost on power-off",
@@ -17396,12 +18111,15 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     android_ext::SAMSUNG_GALLERY3D_LOG,
     android_ext::ANDROID_TOR_BROWSER_THUMBNAILS,
     android_ext::ANDROID_GBOARD_TRAININGCACHE,
-    // ── Memory forensics (VAD/malfind, netscan, handles/threads, callbacks, DKOM) ──
+    // ── Memory forensics (VAD/malfind, netscan, handles/threads, callbacks, DKOM,
+    //    PEB command line, PEB-vs-VAD module cross-view) ──
     windows_memory_ext::MEM_PROCESS_INJECTION,
     windows_memory_ext::MEM_NETWORK_SCAN,
     windows_memory_ext::MEM_HANDLES_THREADS,
     windows_memory_ext::MEM_KERNEL_CALLBACKS,
     windows_memory_ext::MEM_HIDDEN_PROCESSES,
+    windows_memory_ext::MEM_PROCESS_COMMAND_LINE,
+    windows_memory_ext::MEM_HIDDEN_MODULES,
     // ── Disk / NTFS / registry (timestomping, VSS, $LogFile, WMI persistence) ──
     windows_ntfs_ext::NTFS_TIMESTOMPING_SI_FN,
     windows_ntfs_ext::NTFS_LOGFILE_RECORDS,

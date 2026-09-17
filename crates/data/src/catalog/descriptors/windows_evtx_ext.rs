@@ -2581,7 +2581,8 @@ pub(crate) static EVTX_LOG_AUTO_ARCHIVE_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "auto_backup_log_files",
         value_type: ValueType::UnsignedInt,
-        description: "AutoBackupLogFiles (REG_DWORD) under the log's Eventlog key — 1 asks the service to save the log when it fills. Default 0. It is honoured only when Retention is -1 (0xFFFFFFFF); set alone it is ignored, so read the pair, never this value by itself",
+        description: "AutoBackupLogFiles (REG_DWORD) under the log's Eventlog key — 1 asks the service to save the log when it fills. Default 0. It is honoured only when Retention is -1 (0xFFFFFFFF); set alone it is ignored, so read the pair, never this value by itself. \
+                      ONE DOCUMENTED EXCEPTION, and it is a Microsoft carve-out rather than a misreading: the same Eventlog Key page records that on Windows Server 2003, Retention can be set to -1 (0xFFFFFFFF) OR 1 (0x00000001) for AutoBackupLogFiles to work, other values being ignored. The -1-only rule above is stated for this descriptor's Win7Plus scope; a Server 2003 host showing Retention = 1 alongside AutoBackupLogFiles = 1 was configured for archiving on that platform, so do not read it as a misconfiguration that produced no archives",
         is_uid_component: false,
     },
     FieldSchema {
@@ -2655,6 +2656,7 @@ pub(crate) static EVTX_LOG_AUTO_ARCHIVE: ArtifactDescriptor = ArtifactDescriptor
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_caveats: &[
         "Archives exist only where the host was configured for them: AutoBackupLogFiles set to 1 AND Retention set to never-overwrite. Either alone produces no archive",
+        "The 'Retention must be 0xFFFFFFFF' rule is stated for this descriptor's Win7Plus scope. Microsoft documents a Server 2003 carve-out on the same page — there, Retention could be -1 (0xFFFFFFFF) OR 1 (0x00000001) for AutoBackupLogFiles to work — so on a Server 2003 image Retention = 1 with AutoBackupLogFiles = 1 is a working archive configuration, not a broken one",
         "Absence of Archive-*.evtx is a configuration fact, never evidence that the missing period was quiet",
         "The File value can move a log out of winevt\\Logs, so a collection scoped to the default directory can miss both the live log and its archives",
         "A host in the 1104 state is DISCARDING new events while the log stays full — the resulting gap looks exactly like inactivity and is the opposite of it",

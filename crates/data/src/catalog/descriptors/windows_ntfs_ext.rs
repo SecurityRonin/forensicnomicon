@@ -595,14 +595,24 @@ file creation closes as FILE_CREATE|DATA_EXTEND|CLOSE = 0x80000102, and a filter
 'reason == 0x100' silently misses it. Test with a bitwise AND, always. (2) USN_REASON_CLOSE \
 (0x80000000) IS THE TERMINATOR — a final record is generated when the file or directory closes, \
 and the next change starts a new record with a new set of flags, so the CLOSE record carries the \
-accumulated summary and is the natural unit of analysis. The 23 documented flags: DATA_OVERWRITE \
+accumulated summary and is the natural unit of analysis. The 23 flags in Microsoft's documented \
+Reason table: DATA_OVERWRITE \
 0x00000001, DATA_EXTEND 0x00000002, DATA_TRUNCATION 0x00000004, NAMED_DATA_OVERWRITE 0x00000010, \
 NAMED_DATA_EXTEND 0x00000020, NAMED_DATA_TRUNCATION 0x00000040, FILE_CREATE 0x00000100, \
 FILE_DELETE 0x00000200, EA_CHANGE 0x00000400, SECURITY_CHANGE 0x00000800, RENAME_OLD_NAME \
 0x00001000, RENAME_NEW_NAME 0x00002000, INDEXABLE_CHANGE 0x00004000, BASIC_INFO_CHANGE 0x00008000, \
 HARD_LINK_CHANGE 0x00010000, COMPRESSION_CHANGE 0x00020000, ENCRYPTION_CHANGE 0x00040000, \
 OBJECT_ID_CHANGE 0x00080000, REPARSE_POINT_CHANGE 0x00100000, STREAM_CHANGE 0x00200000, \
-TRANSACTED_CHANGE 0x00400000, INTEGRITY_CHANGE 0x00800000, CLOSE 0x80000000. The detections that \
+TRANSACTED_CHANGE 0x00400000, INTEGRITY_CHANGE 0x00800000, CLOSE 0x80000000. \
+THAT COUNT IS A FACT ABOUT WHICH MICROSOFT ARTIFACT WAS READ, not about NTFS, and the three \
+disagree: the documented USN_RECORD_V2/V3/V4 Reason table lists the 23 above; the Windows SDK's \
+winioctl.h defines 24, adding USN_REASON_DESIRED_STORAGE_CLASS_CHANGE (0x01000000) — absent from \
+the 10.0.14393.0 header, present from 10.0.16299.0, matching the Windows 10 version 1709 debut of \
+the desired-storage-class attribute it reports — and [MS-FSCC] documents only 22, omitting \
+TRANSACTED_CHANGE (0x00400000). A decoder must therefore NOT treat 0x01000000 as an invalid or \
+reserved bit: it is a defined reason that never reached the documented table, and 'unused bits are \
+reserved' validation written against any one of the three counts rejects records the other two \
+accept. The detections that \
 matter live in the flags past create/delete/rename: BASIC_INFO_CHANGE fires when an attribute or \
 ONE OR MORE TIMESTAMPS is rewritten, so a timestomp appears as BASIC_INFO_CHANGE with no data flag \
 set; STREAM_CHANGE (a named stream added, removed or renamed) followed by NAMED_DATA_EXTEND is an \
@@ -637,10 +647,17 @@ ntfs_sdelete_rename_chain (a named pattern built from these flags).",
         "https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ns-winioctl-usn_record_v2",
         // Source: https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-usn (fsutil usn readjournal / enumdata / queryjournal — reading the records these flags live in)
         "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-usn",
+        // Source: https://github.com/microsoft/win32metadata/blob/main/generation/WinSDK/RecompiledIdlHeaders/um/winioctl.h (Microsoft's published SDK header — 24 USN_REASON_* defines, i.e. the documented 23 plus USN_REASON_DESIRED_STORAGE_CLASS_CHANGE (0x01000000))
+        "https://github.com/microsoft/win32metadata/blob/main/generation/WinSDK/RecompiledIdlHeaders/um/winioctl.h",
+        // Source: https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/d2a2b53e-bf78-4ef3-90c7-21b918fab304 ([MS-FSCC] USN_RECORD_V2 — a 22-flag Reason table omitting TRANSACTED_CHANGE, plus the "all unused bits are reserved for future use and MUST NOT be used" rule)
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/d2a2b53e-bf78-4ef3-90c7-21b918fab304",
+        // Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/ns-ntifs-_file_desired_storage_class_information (the desired-storage-class attribute behind USN_REASON_DESIRED_STORAGE_CLASS_CHANGE — minimum supported client Windows 10, version 1709)
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/ns-ntifs-_file_desired_storage_class_information",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &[
         "Reason accumulates per open handle, so a flag on a record says the reason occurred at some point in that handle's life — not that it happened at the instant of that record's TimeStamp",
+        "How many reason flags 'exist' is a property of the Microsoft artifact consulted, not of NTFS: 23 in the documented USN_RECORD_V2/V3/V4 Reason table, 24 in the SDK's winioctl.h (which adds USN_REASON_DESIRED_STORAGE_CLASS_CHANGE 0x01000000), 22 in [MS-FSCC] (which omits TRANSACTED_CHANGE 0x00400000). A decoder must not reject 0x01000000 as an invalid bit, and reserved-bit validation pinned to any single one of the three counts will refuse records the other two accept",
         "A flag records that a CLASS of change occurred, never its content: BASIC_INFO_CHANGE does not say which attribute or timestamp moved, and SECURITY_CHANGE does not say to what. Resolve the value elsewhere ($MFT, $Secure:$SDS) before stating it",
         "BASIC_INFO_CHANGE is generated by ordinary activity — setting the archive bit, toggling read-only, an installer stamping attributes — so it is a lead, not a timestomping finding",
         "SourceInfo can mark a change as system-driven (replication, cloud sync, storage management); ignoring it attributes routine housekeeping to a user",

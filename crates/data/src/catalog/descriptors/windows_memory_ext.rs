@@ -172,8 +172,8 @@ mapping from a patched one: an image page served by a process-private physical p
 shared page its prototype PTE names is consistent with the image having been modified after load \
 (module stomping / DLL hollowing), though copy-on-write from a debugger breakpoint or a relocation \
 fixup privatises a page the same way. Cross-reference mem_loaded_modules (a region with no \
-corresponding module is unbacked), mem_ldr_modules (an executable mapping absent from all three PEB \
-module lists), and mem_hidden_processes (injection often targets a hidden or hollowed process). \
+corresponding module is unbacked), mem_hidden_modules (an executable mapping absent from some or \
+all of the three PEB module lists), and mem_hidden_processes (injection often targets a hidden or hollowed process). \
 Absence of a disk-backed module for executable memory is the core anomaly.",
     mitre_techniques: &[
         "T1055",     // Process Injection
@@ -189,6 +189,7 @@ Absence of a disk-backed module for executable memory is the core anomaly.",
         "mem_loaded_modules",
         "mem_running_processes",
         "mem_hidden_processes",
+        "mem_hidden_modules",
     ],
     sources: &[
         // Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/malfind.py (VAD walk, protection/PrivateMemory flags, MZ/prologue check)
@@ -338,6 +339,7 @@ pslist) before concluding the process is hidden.",
     related_artifacts: &[
         "mem_network_connections",
         "mem_running_processes",
+        "mem_process_command_line",
     ],
     sources: &[
         // Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/netscan.py (TcpE/TTcb/TcpL/UdpA pool-tag scan, address/port/state/owner extraction; the _UDP_ENDPOINT branch emits the literal "*" and an empty State)
@@ -812,6 +814,7 @@ and ExitTime before concluding DKOM rather than a recently-exited process.",
         "mem_running_processes",
         "mem_kernel_callbacks",
         "mem_process_injection",
+        "mem_process_command_line",
     ],
     sources: &[
         // Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/psscan.py (_EPROCESS pool scan; Offset column is virtual by default, physical with --physical; create/exit time)
@@ -838,4 +841,359 @@ and ExitTime before concluding DKOM rather than a recently-exited process.",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Volatile),
     volatility_rationale: "_EPROCESS objects live in kernel pool in RAM; lost on power-off and overwritten as the pool is recycled",
+};
+
+// ── Process command line from the PEB (cmdline-class) ───────────────────────
+
+/// Field schema for the process parameters block reached through the PEB.
+///
+/// Every field below is read out of `_RTL_USER_PROCESS_PARAMETERS`, which the
+/// loader allocates in the process' OWN user-mode address space. Microsoft
+/// documents only `ImagePathName` and `CommandLine` (everything else in the
+/// published `winternl.h` layout is declared `Reserved`); the remaining members
+/// — `CurrentDirectory`, `DllPath`, `Environment`, `WindowTitle`, `DesktopInfo`,
+/// `ShellInfo`, `RuntimeData` — are taken from the NT layout reproduced in the
+/// ReactOS NDK headers.
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/cmdline.py>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/api/winternl/ns-winternl-rtl_user_process_parameters>
+/// Source: <https://github.com/reactos/reactos/blob/master/sdk/include/ndk/rtltypes.h>
+pub(crate) static MEM_PROCESS_COMMAND_LINE_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "pid",
+        value_type: ValueType::UnsignedInt,
+        description: "Owning process identifier (_EPROCESS UniqueProcessId; cmdline PID column)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "process",
+        value_type: ValueType::Text,
+        description: "Process image name from the kernel's fixed-width _EPROCESS.ImageFileName copy (cmdline Process column) — a lossy prefix (15 bytes on current x64 public symbols, so at most 14 characters survive); command_line and image_path_name in this same record are the untruncated strings it is a prefix of",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "command_line",
+        value_type: ValueType::Text,
+        description: "The full, untruncated invocation — image path and every argument — held as a UNICODE_STRING at _RTL_USER_PROCESS_PARAMETERS.CommandLine and emitted as the cmdline Args column. \
+                      Read it as what the process CURRENTLY PRESENTS, never as the launch value: the structure lives in the process' own user-mode memory, so the process itself, or anything holding PROCESS_VM_WRITE on it, can overwrite the string after start",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "image_path_name",
+        value_type: ValueType::Text,
+        description: "_RTL_USER_PROCESS_PARAMETERS.ImagePathName — the image path the loader recorded, in the same user-writable storage as command_line. Its kernel-resident counterpart is _EPROCESS.SeAuditProcessCreationInfo.ImageFileName (a POBJECT_NAME_INFORMATION holding the full NT path), which an in-process rewrite does not reach; a disagreement between the two is the cross-view worth reporting",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "current_directory",
+        value_type: ValueType::Text,
+        description: "_RTL_USER_PROCESS_PARAMETERS.CurrentDirectory — a CURDIR carrying a UNICODE_STRING DosPath plus an open directory handle. It resolves the relative paths in command_line and names the directory the process was working from, which is frequently the staging directory a payload ran out of",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "window_title",
+        value_type: ValueType::Text,
+        description: "_RTL_USER_PROCESS_PARAMETERS.WindowTitle — the string the creator passed as STARTUPINFO.lpTitle (for a console process the title bar text; NULL means the executable name is used instead), so it is set INDEPENDENTLY of the command line and need not agree with a rewritten one. \
+                      Two documented dwFlags make it evidential rather than cosmetic: STARTF_TITLEISLINKNAME (0x00000800) means lpTitle holds the PATH OF THE .LNK the user invoked — Microsoft states the shell typically sets this when a shortcut is double-clicked — and STARTF_TITLEISAPPID (0x00001000) means it holds an AppUserModelID instead. Neither flag is readable from this string alone, so treat a path-shaped title as a lead and corroborate against the LNK and Jump List artifacts",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "environment",
+        value_type: ValueType::Text,
+        description: "The environment block pointed at by _RTL_USER_PROCESS_PARAMETERS.Environment, in Microsoft's documented format Var1=Value1\\0Var2=Value2\\0...\\0\\0 (NUL-separated NAME=VALUE pairs closed by a double NUL). \
+                      A child inherits its parent's block by default, so it carries the launching context — USERNAME, USERDOMAIN, COMPUTERNAME, TEMP, PATH — plus anything a launcher injected. It sits in the same user-writable region as command_line and inherits the same rewrite caveat",
+        is_uid_component: false,
+    },
+];
+
+/// Untruncated process command line recovered from the PEB (cmdline-class).
+///
+/// `windows.cmdline` resolves each process' own address space, reads
+/// `_EPROCESS.Peb` as a `_PEB`, follows `ProcessParameters` to an
+/// `_RTL_USER_PROCESS_PARAMETERS`, and returns `CommandLine` — a
+/// `UNICODE_STRING` — as the Args column (PID, Process, Args). That recovers the
+/// whole invocation, image path and arguments, where `_EPROCESS.ImageFileName`
+/// offers only a 15-byte-ceiling prefix. It matters most when the log-side
+/// witnesses are not there: Security event 4688 carries a Process Command Line
+/// field only when the "Include command line in process creation events" policy
+/// is enabled, and Microsoft documents that policy's default as Not Configured
+/// (not enabled), so on a default host the command line was never written to the
+/// event log at all. Sysmon EID 1 does log the full command line for both the
+/// process and its parent, but only where Sysmon is installed — and either log
+/// can be cleared.
+///
+/// The load-bearing caveat is where the bytes live. `_RTL_USER_PROCESS_PARAMETERS`
+/// is allocated in the process' OWN user-mode address space, not in kernel
+/// memory, so a process can rewrite its own `CommandLine` after it has started,
+/// and so can anything holding `PROCESS_VM_WRITE` on it. The documented
+/// technique is to spawn suspended with benign arguments, let the PEB be
+/// initialised and logged, then patch it — ATT&CK calls it Process Argument
+/// Spoofing (T1564.010). The in-memory string is therefore what the process
+/// currently PRESENTS, not necessarily what it was launched with: corroborate it
+/// against the kernel-resident `SeAuditProcessCreationInfo.ImageFileName`, the
+/// parent's own recorded invocation of the child, 4688 / Sysmon EID 1 where they
+/// exist, and the on-disk execution artifacts of the same run.
+///
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/cmdline.py>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/api/winternl/ns-winternl-peb>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/api/winternl/ns-winternl-rtl_user_process_parameters>
+/// Source: <https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/component-updates/command-line-process-auditing>
+pub(crate) static MEM_PROCESS_COMMAND_LINE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "mem_process_command_line",
+    name: "Process Command Line (Memory PEB / cmdline)",
+    artifact_type: ArtifactLocation::MemoryRegion,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "The complete command line of a running process, recovered from memory by resolving the \
+process address space, reading _EPROCESS.Peb as a _PEB, following ProcessParameters to an \
+_RTL_USER_PROCESS_PARAMETERS, and decoding the CommandLine UNICODE_STRING (windows.cmdline emits \
+PID, Process, Args). The same structure carries ImagePathName, CurrentDirectory, WindowTitle and \
+the Environment block, so one read yields the full invocation, the working directory, the title the \
+creator supplied — which under STARTF_TITLEISLINKNAME is the path of the .LNK that was invoked — \
+and the inherited environment. This is the untruncated counterpart to the kernel's fixed-width \
+_EPROCESS.ImageFileName, which stops at 14 usable characters. Its value in an investigation is that \
+it survives the log-side gaps: Microsoft documents the 'Include command line in process creation \
+events' policy as Not Configured by default, so a default host's 4688 records carry NO command line \
+at all, and Sysmon EID 1 (which does log the full command line for the process and its parent) \
+exists only where Sysmon was deployed; both channels can also be cleared. \
+THE CAVEAT IS STRUCTURAL, NOT INCIDENTAL: _RTL_USER_PROCESS_PARAMETERS is allocated in the \
+process' OWN user-mode address space. A process can overwrite its own CommandLine after start, and \
+anything holding PROCESS_VM_WRITE on it can do the same from outside — spawn suspended with benign \
+arguments, let the PEB be initialised and logged, then patch it (MITRE ATT&CK T1564.010, Process \
+Argument Spoofing). The in-memory value is therefore what the process CURRENTLY PRESENTS, not \
+necessarily what it was launched with, and it must be reported that way. Corroborate against the \
+kernel-resident _EPROCESS.SeAuditProcessCreationInfo.ImageFileName (not writable from user mode), \
+the parent's own recorded invocation of the child, 4688 and Sysmon EID 1 where they exist, and the \
+on-disk artifacts of the same execution. Cross-reference mem_running_processes and \
+mem_hidden_processes (which name the process by the truncated kernel prefix this artifact expands), \
+mem_process_injection (a rewritten command line and injected code often accompany each other), and \
+evtx_security / evtx_sysmon for the log-side view.",
+    mitre_techniques: &[
+        "T1059",     // Command and Scripting Interpreter — what the arguments evidence
+        "T1564.010", // Hide Artifacts: Process Argument Spoofing — the PEB rewrite
+        "T1036.005", // Masquerading: Match Legitimate Name or Location
+        "T1070.001", // Indicator Removal: Clear Windows Event Logs — why memory outlives 4688
+    ],
+    fields: MEM_PROCESS_COMMAND_LINE_FIELDS,
+    retention: Some("RAM only; lost on power-off. Also recoverable from hiberfil.sys / crash dumps"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[
+        "mem_running_processes",
+        "mem_hidden_processes",
+        "mem_process_injection",
+        "evtx_security",
+        "evtx_sysmon",
+    ],
+    sources: &[
+        // Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/cmdline.py (_EPROCESS.Peb -> _PEB.ProcessParameters -> CommandLine.get_string(); PID/Process/Args columns; unreadable reads rendered as UnreadableValue rather than an empty string)
+        "https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/cmdline.py",
+        // Source: https://learn.microsoft.com/en-us/windows/win32/api/winternl/ns-winternl-peb (PEB.ProcessParameters — "a pointer to an RTL_USER_PROCESS_PARAMETERS structure that contains process parameter information such as the command line")
+        "https://learn.microsoft.com/en-us/windows/win32/api/winternl/ns-winternl-peb",
+        // Source: https://learn.microsoft.com/en-us/windows/win32/api/winternl/ns-winternl-rtl_user_process_parameters (the documented members — ImagePathName and CommandLine as UNICODE_STRINGs; everything else Reserved)
+        "https://learn.microsoft.com/en-us/windows/win32/api/winternl/ns-winternl-rtl_user_process_parameters",
+        // Source: https://github.com/reactos/reactos/blob/master/sdk/include/ndk/rtltypes.h (the full NT RTL_USER_PROCESS_PARAMETERS layout — CurrentDirectory (CURDIR), DllPath, ImagePathName, CommandLine, Environment, WindowTitle, DesktopInfo, ShellInfo, RuntimeData)
+        "https://github.com/reactos/reactos/blob/master/sdk/include/ndk/rtltypes.h",
+        // Source: https://github.com/reactos/reactos/blob/master/sdk/include/ndk/setypes.h (SE_AUDIT_PROCESS_CREATION_INFO — the kernel-resident full NT image path that a user-mode PEB rewrite cannot reach)
+        "https://github.com/reactos/reactos/blob/master/sdk/include/ndk/setypes.h",
+        // Source: https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/component-updates/command-line-process-auditing ("Include command line in process creation events" — Default setting: Not Configured (not enabled); without it 4688 carries no command line)
+        "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/component-updates/command-line-process-auditing",
+        // Source: https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon (Sysmon "logs process creation with full command line for both current and parent processes"; Event ID 1 process creation)
+        "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon",
+        // Source: https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/ns-processthreadsapi-startupinfow (lpTitle semantics; STARTF_TITLEISLINKNAME = lpTitle holds the path of the .lnk invoked, STARTF_TITLEISAPPID = an AppUserModelID)
+        "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/ns-processthreadsapi-startupinfow",
+        // Source: https://learn.microsoft.com/en-us/windows/win32/procthread/environment-variables (environment block format Var1=Value1\0...\0\0 and inheritance from the parent process)
+        "https://learn.microsoft.com/en-us/windows/win32/procthread/environment-variables",
+        // Source: https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-writeprocessmemory (an outside process holding PROCESS_VM_WRITE can write the target's user-mode memory, which is where the process parameters live)
+        "https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-writeprocessmemory",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "_RTL_USER_PROCESS_PARAMETERS lives in the process' own USER-writable memory, so the recovered command line is what the process CURRENTLY PRESENTS — argument/command-line spoofing rewrites it after start (spawn suspended with benign arguments, let the PEB be logged, then patch), and the rewritten value is indistinguishable from an honest one in this artifact alone",
+        "An unreadable command line is a READ FAILURE, not an empty invocation: vol3 renders a swapped-out page, an exited process or an incomplete memory layer as UnreadableValue, and a process with no user-mode PEB yields nothing by construction — none of those states means the program ran without arguments",
+        "Agreement with 4688 or Sysmon EID 1 is corroboration only up to the moment the PEB was patched; a spoof applied after the creation event was written reproduces exactly that agreement, so matching logs raise confidence without settling it",
+        "Absence of a command line in the event log is a policy fact, not an anti-forensic one: Microsoft documents 'Include command line in process creation events' as Not Configured by default, so on a default host 4688 never carried the command line to begin with",
+        "The Process column is still the truncated fixed-width kernel name; use the recovered command line and image_path_name for identity, and compare against the kernel-resident SeAuditProcessCreationInfo.ImageFileName before naming a program",
+        "Command lines routinely contain credentials, tokens and keys passed as arguments — Microsoft warns of exactly this for the 4688 policy; handle the extracted text as sensitive material",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "The process parameters block lives in pageable user-mode memory; lost on power-off and reclaimed when the process exits and its address space is torn down",
+};
+
+// ── Unlinked / hidden modules — PEB list vs VAD cross-view (ldrmodules) ──────
+
+/// Field schema for the PEB-list-vs-VAD module cross-view.
+///
+/// The three booleans are membership tests, one per `_PEB_LDR_DATA` list, keyed
+/// on `DllBase`; `base` and `mapped_path` come from the VAD side of the
+/// comparison. None of them is a verdict on its own — see the descriptor's
+/// caveats for the states that produce a legitimate `false`.
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/ldrmodules.py>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/api/winternl/ns-winternl-peb_ldr_data>
+pub(crate) static MEM_HIDDEN_MODULES_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "pid",
+        value_type: ValueType::UnsignedInt,
+        description: "Owning process identifier (_EPROCESS UniqueProcessId; ldrmodules Pid column)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "process",
+        value_type: ValueType::Text,
+        description: "Owning process image name from the kernel's fixed-width _EPROCESS.ImageFileName copy (ldrmodules Process column) — a truncated prefix, not an identity",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "base",
+        value_type: ValueType::UnsignedInt,
+        description: "Base virtual address of the mapped image (ldrmodules Base column) — the VAD start address, which is also the key each PEB list is searched on (LDR_DATA_TABLE_ENTRY.DllBase). The row exists because this VAD begins with an MZ DOS header (_IMAGE_DOS_HEADER.e_magic == 0x5A4D); VADs that do not are skipped before any list is consulted",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "in_load",
+        value_type: ValueType::Bool,
+        description: "Membership in _PEB_LDR_DATA.InLoadOrderModuleList — the loader's load-order list. The process EXE, ntdll and every normally-loaded DLL appear here, so a false is the strongest of the three: it means the loader has no load-order record of an image that is nevertheless mapped and MZ-headed",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "in_init",
+        value_type: ValueType::Bool,
+        description: "Membership in _PEB_LDR_DATA.InInitializationOrderModuleList. EXPECT A LEGITIMATE FALSE FOR THE MAIN EXECUTABLE: at process start the loader links the image's entry through the routine that inserts into the load-order and memory-order lists ONLY, and an entry reaches the initialisation-order list when it goes through DLL initialisation (ntdll is linked in explicitly). A DLL captured mid-load shows the same false for the same reason — it is inserted into the other two lists first",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "in_mem",
+        value_type: ValueType::Bool,
+        description: "Membership in _PEB_LDR_DATA.InMemoryOrderModuleList — the one list of the three Microsoft documents publicly. Populated from the same routine as the load-order list, so in_load and in_mem normally agree; a disagreement between them is itself worth reading as list tampering rather than as a loader state",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "mapped_path",
+        value_type: ValueType::Text,
+        description: "File name recorded on the VAD for this mapping (ldrmodules MappedPath column). It names the FILE the section was created from, never what the bytes in the region are now — a stomped or hollowed module keeps its original path. Empty for a mapping the VAD has no file object for, which is the normal state for manually mapped images",
+        is_uid_component: false,
+    },
+];
+
+/// Unlinked / hidden modules — PEB module lists versus the VAD tree.
+///
+/// `windows.ldrmodules` builds the cross-view from both sides. From the VAD
+/// side it walks each process' VAD tree and keeps only regions that begin with
+/// an `MZ` DOS header (`_IMAGE_DOS_HEADER.e_magic == 0x5A4D`) — a mapped image,
+/// whoever mapped it. From the PEB side it builds three dictionaries keyed on
+/// `LDR_DATA_TABLE_ENTRY.DllBase`, one per `_PEB_LDR_DATA` list:
+/// `InLoadOrderModuleList`, `InInitializationOrderModuleList`, and
+/// `InMemoryOrderModuleList`. Each mapped base is then looked up in all three,
+/// and the row (Pid, Process, Base, InLoad, InInit, InMem, MappedPath) records
+/// which lists own it. A mapping present in the VAD but missing from some or all
+/// of the lists is consistent with DLL unlinking (the entry was spliced out of
+/// the doubly-linked lists after load) or with reflective / manual mapping (the
+/// image was placed without the loader, so it was never listed at all).
+///
+/// The false positives are structural and must be applied before the finding.
+/// The main executable is legitimately absent from
+/// `InInitializationOrderModuleList`: at process start the loader inserts the
+/// image entry through the routine that links the load-order and memory-order
+/// lists only, while the initialisation-order list is populated for modules that
+/// go through DLL initialisation (ntdll being linked in explicitly). A DLL
+/// caught mid-load produces the same shape for the same reason. And because the
+/// lists record loader activity, ANY image placed by a section mapping rather
+/// than by the loader is absent from all three by construction, whether the
+/// placer was malicious or not. The blind spot runs the other way too: the VAD
+/// side keeps only regions that still carry an `MZ` header, so an image whose
+/// DOS header has been zeroed — routine in manual mapping — produces no row at
+/// all. Absence from a list is a lead; absence of a row is not absence of a
+/// hidden module.
+///
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/ldrmodules.py>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/api/winternl/ns-winternl-peb_ldr_data>
+/// Source: <https://github.com/reactos/reactos/blob/master/dll/ntdll/ldr/ldrutils.c>
+/// Source: <https://github.com/reactos/reactos/blob/master/dll/ntdll/ldr/ldrinit.c>
+pub(crate) static MEM_HIDDEN_MODULES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "mem_hidden_modules",
+    name: "Unlinked / Hidden Modules (Memory PEB-vs-VAD Cross-View)",
+    artifact_type: ArtifactLocation::MemoryRegion,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Mapped PE images in a process compared against the loader's own record of them. \
+windows.ldrmodules walks the VAD tree, keeps every region whose first bytes are an MZ DOS header \
+(_IMAGE_DOS_HEADER.e_magic == 0x5A4D), and looks each base up — by LDR_DATA_TABLE_ENTRY.DllBase — \
+in the three _PEB_LDR_DATA lists: InLoadOrderModuleList, InInitializationOrderModuleList and \
+InMemoryOrderModuleList. The emitted row is Pid, Process, Base, InLoad, InInit, InMem, MappedPath. \
+An image the VAD shows as mapped but that some or all of the lists do not own is consistent with \
+DLL unlinking (the LDR entry spliced out of the doubly-linked lists after load, so API-based module \
+enumeration no longer sees it) or with reflective / manual mapping (the image placed without the \
+loader, so it was never listed at all). The lists and the VAD answer different questions, which is \
+why the comparison works: the VAD is the memory manager's record of what is mapped, the PEB lists \
+are the loader's record of what it loaded, and only the second is a user-mode data structure an \
+attacker can edit. \
+THE FALSE POSITIVES ARE STRUCTURAL AND COME FIRST. The MAIN EXECUTABLE is legitimately absent from \
+InInitializationOrderModuleList: at process start the loader inserts the image's entry via the \
+routine that links the load-order and memory-order lists only, and entries reach the \
+initialisation-order list through DLL initialisation (ntdll is linked into it explicitly) — so \
+InInit = false on the process EXE is the expected state, not an anomaly. A DLL captured mid-load \
+shows the same pattern, because insertion into the other two lists happens first. Any image placed \
+by a SECTION MAPPING rather than by the loader — benign or not — is absent from all three lists by \
+construction, since the lists record loader activity and nothing else. And the cross-view has a \
+blind spot in the opposite direction: only VADs that still begin with MZ are examined, so an image \
+whose DOS header has been zeroed or overwritten (an ordinary step in manual mapping) yields NO ROW, \
+and absence of a row is not absence of a hidden module. MappedPath names the file the section came \
+from, not what the bytes are now, so a stomped module still reports its original path. Absence from \
+a list is a lead to be corroborated — dump the region and compare it against the named file, check \
+whether anything executes there, and read it beside mem_process_injection (the VAD/PTE view of the \
+same region), mem_loaded_modules (the list-based view this artifact refutes), mem_extracted_pe_images \
+(the recovered bytes) and mem_findevil (which flags the same unbacked-executable condition from \
+another tool's rule set).",
+    mitre_techniques: &[
+        "T1055.001", // Process Injection: Dynamic-link Library Injection
+        "T1055.012", // Process Injection: Process Hollowing
+        "T1620",     // Reflective Code Loading
+        "T1564",     // Hide Artifacts (module unlinking)
+    ],
+    fields: MEM_HIDDEN_MODULES_FIELDS,
+    retention: Some("RAM only; lost on power-off. Also recoverable from hiberfil.sys / crash dumps"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[
+        "mem_loaded_modules",
+        "mem_process_injection",
+        "mem_extracted_pe_images",
+        "mem_findevil",
+    ],
+    sources: &[
+        // Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/ldrmodules.py (the three DllBase-keyed dictionaries built from load_order_modules(), init_order_modules() and mem_order_modules(); the MZ filter on VADs; Pid/Process/Base/InLoad/InInit/InMem/MappedPath columns)
+        "https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/ldrmodules.py",
+        // Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/vadinfo.py (VadInfo.list_vads — the VAD side of the cross-view and the mapped file name)
+        "https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/vadinfo.py",
+        // Source: https://learn.microsoft.com/en-us/windows/win32/api/winternl/ns-winternl-peb_ldr_data (PEB_LDR_DATA and the LDR_DATA_TABLE_ENTRY entries the lists link; InMemoryOrderModuleList is the one member Microsoft documents)
+        "https://learn.microsoft.com/en-us/windows/win32/api/winternl/ns-winternl-peb_ldr_data",
+        // Source: https://learn.microsoft.com/en-us/windows/win32/api/winternl/ns-winternl-peb (PEB.Ldr — the pointer the three lists hang off)
+        "https://learn.microsoft.com/en-us/windows/win32/api/winternl/ns-winternl-peb",
+        // Source: https://github.com/reactos/reactos/blob/master/dll/ntdll/ldr/ldrutils.c (LdrpInsertMemoryTableEntry inserts into InLoadOrderModuleList and InMemoryOrderModuleList ONLY; insertion into InInitializationOrderModuleList happens later, in the DLL load path)
+        "https://github.com/reactos/reactos/blob/master/dll/ntdll/ldr/ldrutils.c",
+        // Source: https://github.com/reactos/reactos/blob/master/dll/ntdll/ldr/ldrinit.c (LdrpInitializeProcess — the main image entry is inserted via LdrpInsertMemoryTableEntry, while ntdll is additionally linked into InInitializationOrderModuleList by hand; that asymmetry is why the process EXE is absent from the init-order list)
+        "https://github.com/reactos/reactos/blob/master/dll/ntdll/ldr/ldrinit.c",
+        // Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-vad (!vad — the _MMVAD tree that supplies the mapped-image side of the comparison)
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-vad",
+        // Source: https://www.forrest-orr.net/post/malicious-memory-artifacts-part-i-dll-hollowing (module stomping / DLL hollowing — a file-backed, correctly-listed module whose bytes no longer match the named file, i.e. the case this cross-view does not catch)
+        "https://www.forrest-orr.net/post/malicious-memory-artifacts-part-i-dll-hollowing",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "The MAIN EXECUTABLE is legitimately absent from InInitializationOrderModuleList: the loader inserts the process image's entry through the routine that links only the load-order and memory-order lists, and the initialisation-order list is populated through DLL initialisation. InInit = false on the process EXE is the expected state and must not be reported as unlinking",
+        "A module captured mid-load is legitimately absent from InInitializationOrderModuleList for the same reason — it enters the load-order and memory-order lists first — so a memory image taken during a load shows a transient, benign mismatch",
+        "The PEB lists record LOADER activity, so any image placed by a section mapping rather than by the loader is absent from all three by construction whether or not it is malicious; absence from a list measures 'the loader did not load this', never 'this is malicious'",
+        "The cross-view only examines VADs that still begin with an MZ header, so an image whose DOS header has been zeroed or overwritten — routine in manual mapping — produces no row at all: absence of a row is not absence of a hidden module",
+        "MappedPath is the name of the file the section was created from, not a statement about the bytes now resident: a stomped or hollowed module reports its original, legitimate path, and this cross-view will not flag it because its LDR entry is intact",
+        "All three booleans are read out of user-mode structures in the process' own address space, so a sufficiently thorough attacker can repair the lists as well as unlink from them; agreement across all three is weak evidence of legitimacy",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "PEB module lists and the VAD tree live in RAM; lost on power-off, and an unlinked entry survives only while the process does",
 };
