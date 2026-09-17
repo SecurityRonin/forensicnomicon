@@ -10,9 +10,10 @@
 //! and the 472x-473x group events), SACL-driven object access (4656 / 4658 /
 //! 4660 / 4663 / 4670), Window Station reconnect and disconnect (4778 / 4779),
 //! the RdpCoreTS connection records, the Application-log crash pair (1000 /
-//! 1001), the PowerShell 7 channel, auto-archived logs (Archive-<Log>-*.evtx
-//! with 1104 / 1105), and the target-side process lineage that separates one
-//! remote-execution channel from another.
+//! 1001), the PowerShell 7 channel, auto-archived logs and the Eventlog
+//! provider's audit-gap records (Archive-<Log>-*.evtx with 1104 / 1105, plus
+//! the undocumented 1101 / 1106), and the target-side process lineage that
+//! separates one remote-execution channel from another.
 //!
 //! Field names, value tables and message templates are taken from the Microsoft
 //! Learn event reference, [MS-ERREF] NTSTATUS values, the Win32 and WMI
@@ -349,11 +350,12 @@ pub(crate) static EVTX_DEFENDER: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Records Defender detections (1116=malware detected, 1117=action taken), real-time protection state changes (5001=disabled), scan events, and exclusion modifications. Detection events often directly name attacker tools; disablement events are critical indicators.",
+    meaning: "Records Defender detections (1116=malware detected, 1117=action taken), real-time protection state changes (5001=disabled), scan events, and exclusion modifications. Detection events often directly name attacker tools; disablement events are critical indicators. The Path field of 1116 and 1117 is the part most often mis-parsed: Microsoft documents it as 'File path', but it is a semicolon-delimited list of typed <scheme>:_<value> references covering the file, the archive that contained it, the download URL and the downloader, the responsible process with its PID and creation time, and any Run key, Startup shortcut or scheduled task the detection touched. A tool that reports Path as a single filename loses the download URL, the responsible PID and the persistence key, and files archive-member and in-memory detections as on-disk ones. The same grammar appears on the older Microsoft Antimalware provider in the System channel, so parse both the same way. That reading is undocumented by Microsoft and is established from raw EVTX XML in unrelated 2017, 2020, 2023 and 2024 captures together with several independent parsers and mappings that agree.",
     mitre_techniques: &["T1562.001", "T1036"],
     fields: &[
         FieldSchema { name: "threat_name", value_type: ValueType::Text, description: "Malware/PUA name detected", is_uid_component: true },
-        FieldSchema { name: "file_path", value_type: ValueType::Text, description: "Path of the detected file", is_uid_component: false },
+        FieldSchema { name: "path", value_type: ValueType::Text, description: "The EVTX Path data item of 1116/1117 — NOT a file path, despite the name and despite Microsoft documenting only 'Path: File path'. It is a SEMICOLON-DELIMITED LIST of typed resource references, each <scheme>:_<value>, naming every object the detection touched. Schemes seen in raw <Data Name=\"Path\"> XML: file:_<path>, which may carry a nested-content suffix ->(<tag>) or -><member> such as ->(Zip), ->(VFS:svchost.exe) or ->(UTF-16LE); containerfile:_<archive path>, the OUTERMOST archive, whose members follow as separate file:_ segments; webfile:_<local path>|<source URL>|<downloader>, three '|'-delimited parts; process:_pid:<PID>,ProcessStart:<FILETIME>; behavior:_pid:<PID>:<N>; amsi:_<NT device path of the AMSI host process>; regkey:_ and runkey:_ over HKLM\\... or HKCU@<SID>\\...; startup:_<Startup-folder .lnk path>; taskscheduler:_<scheduled task path>. Split on ';' and TRIM — a trailing space is optional and varies by build — and match the scheme case-insensitively. The responsible process is frequently ONLY here: when Process Name reads Unknown, the PID still sits in the process:_ segment or in webfile:_'s third component. Undocumented by Microsoft; the grammar is established from raw <Data Name=\"Path\"> XML in unrelated 2017, 2020, 2023 and 2024 captures and corroborated by independent parsers and mappings", is_uid_component: false },
+        FieldSchema { name: "process_start", value_type: ValueType::Timestamp, description: "The ProcessStart: token inside the Path field's process:_ and webfile:_ segments — a standard Windows FILETIME, an unsigned decimal count of 100-nanosecond intervals since 1601-01-01T00:00:00 UTC, absolute and in UTC. It is not boot-relative, not local time, and not relative to the event. It is the creation time of the process named by the adjacent pid:, and the (PID, ProcessStart) pair exists because PIDs are recycled — join to Sysmon 1 or Security 4688 on the PAIR, never on the PID alone. Undocumented by Microsoft; the FILETIME reading was checked against each record's own clock in two unrelated captures — ProcessStart:133173854939240064 decodes to 2023-01-05T09:44:53.924Z against that record's systemTime of 2023-01-05T09:44:55.1124563Z, and ProcessStart:132441294671252668 decodes to 2020-09-09T12:51:07.125Z against an event header reading 9/9/2020 5:52:10 AM on a UTC-7 host", is_uid_component: false },
         FieldSchema { name: "action", value_type: ValueType::Text, description: "Action taken (quarantine, remove, allow)", is_uid_component: false },
     ],
     retention: Some("Default 1 MB"),
@@ -361,9 +363,46 @@ pub(crate) static EVTX_DEFENDER: ArtifactDescriptor = ArtifactDescriptor {
     related_artifacts: &["evtx_security", "evtx_system"],
     sources: &[
         "https://github.com/Yamato-Security/hayabusa-rules",
+        // Microsoft's event reference — the ONLY vendor statement about the field is
+        // "Path: File path" for both 1116 and 1117; the composite grammar is undocumented:
+        "https://learn.microsoft.com/en-us/defender-endpoint/troubleshoot-microsoft-defender-antivirus",
+        // A real 2017 1116/1117 EICAR capture carried verbatim in decoder comments — establishes
+        // the ';' separator and webfile:_<local path>|<source URL>|<downloader>:
+        "https://github.com/wazuh/wazuh/blob/master/ruleset/decoders/0380-windows_decoders.xml",
+        // A Windows 11 / 2023 capture whose own systemTime brackets
+        // ProcessStart:133173854939240064 — the independent oracle for the FILETIME reading:
+        "https://github.com/wazuh/wazuh-documentation/blob/master/source/user-manual/capabilities/malware-detection/win-defender-logs-collection.rst",
+        // Raw <Data> XML showing containerfile:_ with the ->(Zip) and ->(VFS:svchost.exe)
+        // nested-member notation, and container and members as separate segments:
+        "https://groups.google.com/g/ossec-list/c/dYC6Mk1vz4w",
+        // EvtxECmd map whose "Example Event Data" real 2020 event carries regkey:_,
+        // taskscheduler:_ and file:_...->(UTF-16LE) on the older Microsoft Antimalware provider:
+        "https://github.com/EricZimmerman/evtx/blob/master/evtx/Maps/System_Microsoft-Antimalware_1116.map",
+        // OCSF 1.2.0 maps sub-parts of Path to separate entities (file, process pid, container),
+        // independent corroboration that the field is composite rather than one path:
+        "https://github.com/ocsf/examples/blob/main/mappings/markdown/Microsoft/Windows%20Defender/README.md",
+        // Raw EVTX XML for amsi:_ with the corroborating Source Name=AMSI field:
+        "https://github.com/joetanx/sentinel/blob/main/detection/mdav-malware-events.md",
+        // An independent parser plus committed test data recovering
+        // behavior:_pid:<PID>:<N> and process:_pid:<PID>,ProcessStart:<FILETIME>:
+        "https://github.com/puffyCid/artemis-api/blob/main/src/windows/eventlogs/defender.ts",
+        // Leaked Conti/TrickBot operator chats quoting Defender 1116 alerts verbatim across many
+        // hosts and dates — the source of runkey:_, startup:_ and the HKCU@<SID> key form:
+        "https://github.com/TheParmak/conti-leaks-englished",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["Detection events survive file deletion; tamper events are highly suspicious"],
+    evidence_caveats: &[
+        "Detection events survive file deletion; tamper events are highly suspicious",
+        "Path is a LIST, not a path: semicolon-delimited <scheme>:_<value> segments. A tool reporting Path as a single filename silently loses the download URL, the responsible PID and the persistence key, and mis-buckets archive-member and in-memory detections as on-disk files",
+        "The segment separator is ';' with an OPTIONAL trailing space — both forms occur across builds. Split on ';' and trim; do not anchor a parser to '; '",
+        "Microsoft documents only 'Path: File path' for 1116 and 1117. The composite grammar recorded here is second-tier — read out of raw <Data Name=\"Path\"> XML across unrelated 2017, 2020, 2023 and 2024 captures and corroborated by independent parsers and the OCSF 1.2.0 mapping. State it as observed behaviour, never as a documented format",
+        "The scheme set is NOT proven exhaustive, and no sample was found of a segment carrying a bare path with no <scheme>:_ prefix — though none was proven impossible either. Surface an unrecognised scheme verbatim, with its full value and segment index, rather than dropping it; degrade an unprefixed segment to a file path rather than erroring",
+        "Do NOT decode the trailing number in behavior:_pid:<PID>:<N> as a time. It is not a FILETIME (every observed value falls in 1601) and it is not per-process — one value recurs across four PIDs on different hosts and dates, all carrying the same threat name, and another recurs across three PIDs. It reads as a behavior- or signature-scoped identifier, but no source establishes its meaning; carry it opaquely",
+        "webfile:_'s third '|'-delimited component changed shape between builds: a bare image name in 2017 captures, pid:<PID>,ProcessStart:<FILETIME> in 2023 ones. Accept both",
+        "amsi:_ carries an NT device path (\\Device\\HarddiskVolumeN\\...) naming the AMSI HOST process — not a DOS path, and not the malicious content; resolve the volume before joining to any DOS-path artifact. Support for this scheme is weaker than for the others: the two public samples are byte-identical, so it rests on effectively one raw capture",
+        "A published mapping records the container token capitalised (Containerfile:_) while every raw sample is lowercase — match the scheme case-insensitively",
+        "Widely deployed SIEM normalisation truncates this field: Wazuh's shipped Defender decoder strips a single scheme prefix and cannot represent a multi-segment Path, so a normalised path field is commonly a fragment. Re-parse from the raw EVTX rather than trusting it",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Event log; rotated on size limit",
 };
@@ -1516,8 +1555,16 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITYMITIGATIONSBROKER_ADMIN: Artifa
 /// two answer different questions and must not be merged into one "remote
 /// host" column.
 ///
+/// Additional Information (XML `TargetInfo`) is the third member of the Target
+/// Server block, and Microsoft declines to define it. What it carries — usually
+/// a verbatim copy of Target Server Name, less often a Service Principal Name
+/// whose host element is that same name — is established outside the vendor
+/// docs, and the field's own description says so and names the evidence.
+///
 /// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4648>
 /// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/ad/name-formats-for-unique-spns>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/adschema/a-spnmappings>
 pub(crate) static EVTX_SECURITY_EXPLICIT_CREDENTIALS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "event_id",
@@ -1558,13 +1605,15 @@ pub(crate) static EVTX_SECURITY_EXPLICIT_CREDENTIALS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "target_server_name",
         value_type: ValueType::Text,
-        description: "Target Server Name — the server the new process was run on, or 'localhost' when it ran locally. A non-localhost value is this host enumerating where it reached out TO, which no target-side event can give you",
+        description: "Target Server Name — the server the new process was run on, or 'localhost' when it ran locally. A non-localhost value is this host enumerating where it reached out TO, which no target-side event can give you. When additional_information carries a Service Principal Name, this field is that SPN's <host> element verbatim — the two are then the same host said twice, and only additional_information names the service",
         is_uid_component: false,
     },
     FieldSchema {
         name: "additional_information",
         value_type: ValueType::Text,
-        description: "Additional Information — free text about the target that Microsoft's reference explicitly leaves undocumented. Record it verbatim and reason from what it contains on the host in hand; do not assume a fixed meaning for it",
+        description: "Additional Information (XML TargetInfo) — the target name the local process handed the security package for this outbound authentication. Microsoft declines to define it (\"there is no detailed information about this field in this document\"), so everything that follows is undocumented by Microsoft and established from four lines with no shared ancestry that agree: the Microsoft-published Sentinel hunting query MultipleExplicitCredentialUsage4648Events.yaml, JPCERT/CC's Tool Analysis Result Sheet for mstsc, a real sanitised event in elastic/detection-rules#2819, and a scan of 724 4648 records across six independent public EVTX corpora. \
+                      The value takes one of two shapes. USUALLY it repeats target_server_name verbatim — 'localhost', a NetBIOS name, an FQDN, or a machine account ending '$'; that is the common case, and Microsoft's own Event XML sample for 4648 is of it. LESS OFTEN it is a Service Principal Name in Microsoft's documented <service class>/<host>[:<port>][/<service name>] grammar, and then the <host> element equals target_server_name exactly. Service classes seen in real records: cifs, ldap (also spelled LDAP), RPCSS and host in the corpus scan, and TERMSRV for RDP in the two independent RDP captures. Microsoft's own hunting query splits this field on '/' and expects cifs, ldap, RPCSS, host, HTTP, RestrictedKrbHost, TERMSRV, msomsdksvc and mssqlsvc — an expectation list, not a list of observations. \
+                      Read the class as the service the CLIENT asked Kerberos or Negotiate for, never as a wire protocol: host and RestrictedKrbHost are alias classes registered on every machine at domain join, and Microsoft's sPNMappings attribute documents 'ldap/...' SPNs as mappable to 'host/...'. Split on '/' rather than parsing the whole value as one name, and match the class case-insensitively",
         is_uid_component: false,
     },
     FieldSchema {
@@ -1614,7 +1663,7 @@ pub(crate) static EVTX_SECURITY_EXPLICIT_CREDENTIALS: ArtifactDescriptor = Artif
     scope: DataScope::System,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Written when a process attempts a logon by explicitly supplying an account's credentials — the runas case, scheduled tasks configured with stored credentials, and remote-administration tooling that takes a username and password. Gated by the Audit Logon subcategory. The record is produced on the host where that process ran, so it inverts the geometry of the rest of the logon evidence: 4624 tells you who arrived HERE, 4648 tells you where this host tried to go. Two identity blocks make it readable — Subject (the session that acted) and Account Whose Credentials Were Used (the identity put on the wire) — and Target Server Name gives the destination, or 'localhost' when the new process ran locally. Process Name is the local tool that pivoted. Subject Logon ID joins the record to the same session's other events on this host; the credentials' Logon GUID is Microsoft's documented correlator to the domain controller's 4769 and to events on the host reached. Microsoft also states plainly that 4648 occurs routinely during normal operating-system activity, so the finding is never the event alone: it is a non-localhost Target Server Name, an unexpected borrowed account, or a process name that has no business supplying credentials.",
+    meaning: "Written when a process attempts a logon by explicitly supplying an account's credentials — the runas case, scheduled tasks configured with stored credentials, and remote-administration tooling that takes a username and password. Gated by the Audit Logon subcategory. The record is produced on the host where that process ran, so it inverts the geometry of the rest of the logon evidence: 4624 tells you who arrived HERE, 4648 tells you where this host tried to go. Two identity blocks make it readable — Subject (the session that acted) and Account Whose Credentials Were Used (the identity put on the wire) — and Target Server Name gives the destination, or 'localhost' when the new process ran locally. Process Name is the local tool that pivoted. Subject Logon ID joins the record to the same session's other events on this host; the credentials' Logon GUID is Microsoft's documented correlator to the domain controller's 4769 and to events on the host reached. Microsoft also states plainly that 4648 occurs routinely during normal operating-system activity, so the finding is never the event alone: it is a non-localhost Target Server Name, an unexpected borrowed account, or a process name that has no business supplying credentials. One further read is available when Additional Information carries a service class: it names the service the local client asked Kerberos or Negotiate for — cifs for SMB, TERMSRV for RDP (Microsoft documents TERMSRV/<host> among a server's default RDP SPNs), ldap, RPCSS, HTTP — which is a lead on the movement channel and not a determination of it, because one operation emits several records with different classes and the string is composed by the client process itself. That reading is undocumented by Microsoft and rests on the sources cited against the additional_information field.",
     mitre_techniques: &["T1078", "T1021", "T1550.002"],
     fields: EVTX_SECURITY_EXPLICIT_CREDENTIALS_FIELDS,
     retention: Some("Security.evtx is a rolling channel sized by policy; on a busy host the window is hours to days"),
@@ -1632,12 +1681,37 @@ pub(crate) static EVTX_SECURITY_EXPLICIT_CREDENTIALS: ArtifactDescriptor = Artif
         // Microsoft — 4624: Logon Type 9 (NewCredentials), the session shape a runas with
         // alternate network credentials leaves beside a 4648:
         "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624",
+        // Microsoft — SPN grammar <service class>/<host>[:<port>][/<service name>] and the
+        // well-known service-class concept Additional Information is read against:
+        "https://learn.microsoft.com/en-us/windows/win32/ad/name-formats-for-unique-spns",
+        // Microsoft — the CLIENT composes the SPN, which is why the value is attacker-influenced
+        // on a compromised host rather than an assertion by the service:
+        "https://learn.microsoft.com/en-us/windows/win32/ad/how-clients-compose-a-serviceampaposs-spn",
+        // Microsoft — sPNMappings: "ldap/..." SPNs mappable to "host/...", the documented basis
+        // for treating host/ and RestrictedKrbHost/ as alias classes rather than services:
+        "https://learn.microsoft.com/en-us/windows/win32/adschema/a-spnmappings",
+        // Microsoft — TERMSRV/<host> and TERMSRV/<fqdn> registered as a server's default RDP SPNs:
+        "https://github.com/MicrosoftDocs/windowsserverdocs/blob/main/WindowsServerDocs/identity/ad-ds/manage/how-to-configure-spn.md",
+        // Microsoft-published hunting query — splits TargetInfo on '/' into a service class and a
+        // machine and names the classes it expects; the vendor's own treatment of an undocumented
+        // field, and the strongest single support for reading it as an SPN:
+        "https://github.com/Azure/Azure-Sentinel/blob/master/Solutions/Windows%20Security%20Events/Hunting%20Queries/MultipleExplicitCredentialUsage4648Events.yaml",
+        // JPCERT/CC Tool Analysis Result Sheet (mstsc) — a 2017 lab run recording Additional
+        // Information as TERMSRV/<destination host> on the SOURCE host:
+        "https://github.com/JPCERTCC/ToolAnalysisResultSheet/blob/master/details/mstsc.htm",
+        // A real sanitised 4648 carrying TargetInfo=TERMSRV/Computer1 beside
+        // TargetServerName=Computer1, reported independently of the two above:
+        "https://github.com/elastic/detection-rules/issues/2819",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &[
         "Microsoft documents 4648 as a routine occurrence during normal operating-system activity — volume alone is meaningless, and a single event proves only that credentials were supplied",
         "The event does not say the logon succeeded; corroborate with the destination host's own 4624/4625 before claiming the account reached the target",
-        "Additional Information is undocumented in Microsoft's reference — quote it, do not decode it as a service principal name or any other fixed field",
+        "Additional Information is undocumented by Microsoft, whose reference says only that \"there is no detailed information about this field in this document\". It is nonetheless readable, and the reading recorded here is second-tier — established from a Microsoft-published Sentinel hunting query, a JPCERT/CC lab sheet, a real event reported in elastic/detection-rules#2819 and a public-corpus scan, four lines that agree. State it as observed behaviour, never as a documented format",
+        "An SPN in Additional Information is the MINORITY shape. Across the public-corpus scan behind this entry the field overwhelmingly repeated target_server_name verbatim, and Microsoft's own Event XML sample does exactly that — so a rule that assumes a '/' is present matches almost nothing. The scan covered attack-sample collections with unknown sampling bias, so read the shape and not a rate",
+        "The service class is not case-normalised: 'ldap/' and 'LDAP/' were recorded on one host, from one process, ten milliseconds apart. A case-sensitive match on the class silently under-reports",
+        "One logical action emits SEVERAL 4648 records carrying different service classes — an observed WMIC run produced RPCSS/<host>, host/<host> and a bare hostname within 40 ms across two processes. Counting classes as distinct services reached, or reading one record as the whole operation, both over-count",
+        "The SPN is composed by the client process, so on a compromised host the value is attacker-influenced; combined with 4648 having no failure variant, an SPN here evidences what the caller ASKED FOR and never that the service was reached",
         "Network Address is documented as the address the attempt came FROM, not the destination; treating it as the target inverts the direction of the finding",
         "Present only where the Audit Logon subcategory was enabled at the time — absence is a policy fact until the audit configuration is established",
     ],
@@ -2606,7 +2680,14 @@ pub(crate) static EVTX_LOG_AUTO_ARCHIVE_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "event_id",
         value_type: ValueType::UnsignedInt,
-        description: "In the Security channel itself: 1105 records that the log filled and a new file was created, naming the BackupPath of the archive just written; 1104 records that the log is full under the do-not-overwrite setting. Both are written by the Eventlog provider",
+        description: "In the Security channel itself: 1105 records that the log filled and a new file was created, naming the BackupPath of the archive just written; 1104 records that the log is full under the do-not-overwrite setting. Both are written by the Eventlog provider. \
+                      The SAME provider writes two further Security records that mark a hole in the audit trail rather than an archive, and Microsoft documents neither: 1101 \"Audit events have been dropped by the transport.\" (Level 2 = win:Error, Task 101 = 'Event processing', Version 0, payload UserData/AuditEventsDropped/Reason, a single win:UInt8) and 1106 \"Events have been dropped by the event logging service.\" (payload UserData/AuditFailure/Reason). The transport in 1101 is ETW, NOT a network: the same provider's event 103 binds the same Reason field to a valueMap named DroppedEventReasons whose keys 0x20/0x21/0x22 are Microsoft's documented ETW RT_LostEvent types 32/33/34. Producer-side loss has its own documented event, 4612, which reports a COUNT of discarded messages where 1101 reports none. Undocumented by Microsoft; read from the compiled Microsoft-Windows-Eventlog manifest, dumped independently by two projects using different methods from real installs spanning Windows 7 SP1 (7601) to build 18990, and corroborated by strings in the shipping wevtsvc.dll and lsaadt.dll",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "dropped_events_reason",
+        value_type: ValueType::UnsignedInt,
+        description: "The Reason payload of 1101 (UserData/AuditEventsDropped/Reason) and 1106 (UserData/AuditFailure/Reason) — a single win:UInt8. Unlike the sibling event 103, 1101's Reason carries NO valueMap in any manifest checked from build 7600 to 18990, so the viewer prints the raw integer and no OS-side string exists for it; every published real-world 1101 located carries 0, which falls outside the enumerated DroppedEventReasons set (0x20 no free buffers, 0x21 a real-time consumer could not catch up, 0x22 the real-time backing file was corrupt after an improper shutdown). Carry the value verbatim and do not read 0 as any of those three causes",
         is_uid_component: false,
     },
 ];
@@ -2620,8 +2701,17 @@ pub(crate) static EVTX_LOG_AUTO_ARCHIVE_FIELDS: &[FieldSchema] = &[
 /// problem — but only for an examiner who knows to look, because nothing in
 /// the live channel's own name suggests the older files exist.
 ///
+/// The descriptor also carries the Eventlog provider's other Security-channel
+/// records about the same investigative question — whether the audit trail has
+/// a hole and why. 1104 (log full) and 1105 (archived) are documented; 1101
+/// (audit events dropped by the ETW transport) and 1106 (dropped by the event
+/// logging service) are not, and their entries say so and name the shipped
+/// Microsoft artefacts they were read from.
+///
 /// Source: <https://learn.microsoft.com/en-us/windows/win32/eventlog/eventlog-key>
 /// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-1105>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/etw/rt-lostevent>
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4612>
 pub(crate) static EVTX_LOG_AUTO_ARCHIVE: ArtifactDescriptor = ArtifactDescriptor {
     id: "evtx_log_auto_archive",
     name: "Auto-Archived Event Logs (Archive-<LogName>-*.evtx)",
@@ -2633,7 +2723,7 @@ pub(crate) static EVTX_LOG_AUTO_ARCHIVE: ArtifactDescriptor = ArtifactDescriptor
     scope: DataScope::System,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Where a log is set to archive when full, the event log service writes the filled log out as %SystemRoot%\\System32\\winevt\\Logs\\Archive-<LogName>-<YYYY-MM-DD-HH-MM-SS-mmm>.evtx and starts a new live file; Microsoft's own 1105 sample shows exactly that BackupPath. The archives are ordinary EVTX files, they are not pruned, and they hold the records the live channel has already rotated past — so on a host configured this way the answer to 'the Security log only covers the last two days' is that the rest is sitting in the same directory under a different name. Three registry values under each log's Eventlog key decide the behaviour and are readable from an offline SYSTEM hive: Retention (0 = always overwrite, the default; 0xFFFFFFFF = never overwrite), AutoBackupLogFiles (1 = save the log when full, default 0, and honoured ONLY when Retention is -1), and MaxSize (the fill threshold, so how much history each archive covers). The same key's File value can relocate a log away from winevt\\Logs entirely — an evidence-location question on any host, and an anti-forensics check on a suspect one. Two Security records mark the events themselves: 1105 when the log filled and was archived (naming the new file), and 1104 when the log filled under do-not-overwrite, after which new events are DISCARDED until someone clears it — a silent blind spot that looks identical to inactivity.",
+    meaning: "Where a log is set to archive when full, the event log service writes the filled log out as %SystemRoot%\\System32\\winevt\\Logs\\Archive-<LogName>-<YYYY-MM-DD-HH-MM-SS-mmm>.evtx and starts a new live file; Microsoft's own 1105 sample shows exactly that BackupPath. The archives are ordinary EVTX files, they are not pruned, and they hold the records the live channel has already rotated past — so on a host configured this way the answer to 'the Security log only covers the last two days' is that the rest is sitting in the same directory under a different name. Three registry values under each log's Eventlog key decide the behaviour and are readable from an offline SYSTEM hive: Retention (0 = always overwrite, the default; 0xFFFFFFFF = never overwrite), AutoBackupLogFiles (1 = save the log when full, default 0, and honoured ONLY when Retention is -1), and MaxSize (the fill threshold, so how much history each archive covers). The same key's File value can relocate a log away from winevt\\Logs entirely — an evidence-location question on any host, and an anti-forensics check on a suspect one. Two Security records mark the events themselves: 1105 when the log filled and was archived (naming the new file), and 1104 when the log filled under do-not-overwrite, after which new events are DISCARDED until someone clears it — a silent blind spot that looks identical to inactivity. The same Eventlog provider marks a second kind of gap, one that leaves no archive and no tamper artefact at all: Security 1101, 'Audit events have been dropped by the transport.', written when audit records were generated and never reached the Security log. Microsoft does not document it — the event-1101 reference page 404s and the Other Events page lists only 1100, 1102, 1104, 1105 and 1108 — so what follows is read from the provider's own compiled manifest (dumped independently by two projects from real installs, Windows 7 SP1 through build 18990) and from strings in the shipping wevtsvc.dll and lsaadt.dll. The transport is ETW's real-time session rather than a network: the provider's event 103 binds the same Reason field to a DroppedEventReasons map whose keys 0x20/0x21/0x22 are Microsoft's documented ETW RT_LostEvent types 32/33/34, and NEITHER forwarding provider defines a 1101 at all (Microsoft-Windows-Forwarding carries only 100-107, Microsoft-Windows-EventCollector only 1-6, 501 and 502, and the WEF drop event is 502). Windows itself treats the event as an audit failure: lsaadt.dll carries a literal subscription to 1101, 1104 and 1106 from Microsoft-Windows-Eventlog beside CrashOnAuditFail and LsapAdtInitializeCrashOnAuditFail, which are exactly the three conditions LSA's crash-on-audit-fail policy watches. Benign drivers dominate and are excluded first — audit volume outrunning the consumer, and the dirty-shutdown case at the following boot — while the adversarial reading is log starvation, flooding a host with auditable activity so genuine records fall off the transport. Either way the consequence is the same as the 1104 case and it is the reason the event is recorded here: across the window a 1101 marks, 'there is no 4624 for that account' is not evidence of absence.",
     mitre_techniques: &["T1070.001", "T1562.002"],
     fields: EVTX_LOG_AUTO_ARCHIVE_FIELDS,
     retention: Some("Archived files are not pruned by the event log service; they persist until deleted"),
@@ -2652,6 +2742,32 @@ pub(crate) static EVTX_LOG_AUTO_ARCHIVE: ArtifactDescriptor = ArtifactDescriptor
         // Microsoft — wevtutil: reads and sets a channel's log path, size and retention mode
         // on a live host:
         "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/wevtutil",
+        // Microsoft — ETW RT_LostEvent: EventType 32/33/34 = RTLostEvent / RTLostBuffer /
+        // RTLostFile, the three causes the Eventlog provider's DroppedEventReasons map mirrors at
+        // 0x20/0x21/0x22, and the basis for reading 1101's "transport" as ETW rather than a network:
+        "https://learn.microsoft.com/en-us/windows/win32/etw/rt-lostevent",
+        // Microsoft — 4612, the producer-side audit-loss sibling and the only audit-loss event
+        // Microsoft documents; it reports a COUNT of discarded messages where 1101 reports none:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4612",
+        // Microsoft — the Other Events reference, cited for what it does NOT contain: 1100, 1102,
+        // 1104, 1105 and 1108 only, which is the measured basis for calling 1101 undocumented:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/other-events",
+        // Microsoft — winmeta.xml (Windows SDK, mirrored in microsoft/perfview): win:AuditSuccess
+        // 0x0020000000000000 and win:AuditFailure 0x0010000000000000, decoding 1101's Keywords:
+        "https://github.com/microsoft/perfview/blob/main/src/related/EventRegister/winmeta.xml",
+        // Compiled Microsoft-Windows-Eventlog manifest, dump A — per-build from real installs;
+        // gives 1101's Security channel, Error level, "Event processing" task and message string,
+        // and shows neither forwarding provider defining a 1101:
+        "https://github.com/nasbench/EVTX-ETW-Resources",
+        // Compiled Microsoft-Windows-Eventlog manifest, dump B — independent author, independent
+        // (TDH) method; gives 1101's template and the DroppedEventReasons valueMap that 103 uses:
+        "https://github.com/repnz/etw-providers-docs/blob/master/Manifests-Win10-18990/Microsoft-Windows-Eventlog.xml",
+        // lsaadt.dll strings (build 10.0.22622.601) — LSA's literal XPath subscription to 1101,
+        // 1104 and 1106 from Microsoft-Windows-Eventlog, beside CrashOnAuditFail:
+        "https://github.com/WinDLLsExports/10_0_22622_601/blob/main/C/Windows/System32/lsaadt.dll.strings",
+        // MITRE Engenuity Center for Threat-Informed Defense — an independent institutional
+        // mapping of 1101 to DS0013 Sensor Health / Host Status:
+        "https://github.com/center-for-threat-informed-defense/sensor-mappings-to-attack",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_caveats: &[
@@ -2661,6 +2777,13 @@ pub(crate) static EVTX_LOG_AUTO_ARCHIVE: ArtifactDescriptor = ArtifactDescriptor
         "The File value can move a log out of winevt\\Logs, so a collection scoped to the default directory can miss both the live log and its archives",
         "A host in the 1104 state is DISCARDING new events while the log stays full — the resulting gap looks exactly like inactivity and is the opposite of it",
         "Archived files are ordinary EVTX and can be deleted like any file; their timestamps and the 1105 records should be cross-checked for gaps",
+        "Security 1101 carries NO count of what was lost, unlike the documented 4612 which reports a 'Number of audit messages discarded'. It DATES a gap and cannot SIZE it, so the evidence it supplies is probative rather than definitive and a single 1101 is not evidence of a small gap",
+        "1101's Keywords is 0x4020000000000000, which per Microsoft's winmeta.xml is win:AuditSuccess (0x0020000000000000) OR'd with a provider-defined bit at 0x4000000000000000 — so a viewer renders it as 'Audit Success' while its Level is Error. A Security-log filter on 'Audit Failure' misses it entirely; filter on Level = Error to catch it beside 1104",
+        "1101 is NOT a Windows Event Forwarding artefact, and reading it as one inverts what it says about the host: Microsoft-Windows-Forwarding defines only events 100-107, Microsoft-Windows-EventCollector only 1-6, 501 and 502, and the forwarding drop event is 502 in that provider's Operational channel",
+        "Event encyclopedias reproduce 1101 with a trailing sentence, 'The real time backup file was corrupt due to improper shutdown.' That string is the DroppedEventReasons 0x22 map entry belonging to the SIBLING event 103, not to 1101, and it is echoed downstream by several sites; the dirty-shutdown association may hold empirically, but the quoted message text is not what Windows emits. Neighbouring secondary claims are wrong outright — 1101 is not the successor of Windows 2003 event 566 (the pre-Vista audit-loss event is 516, whose successor is the documented 4612), its task is 'Event processing' rather than a service-shutdown category, and its Level is Error rather than Warning",
+        "No audit subcategory is established as gating or attributing 1101 — it is written by the event log service rather than the audit policy engine, and Microsoft's Other Events reference, which is the Other System Events documentation, omits it. Treat any subcategory attribution as unestablished rather than merely wrong",
+        "SigmaHQ carries no rule for Security 1101 (control: 30 of its files match 1102), so this signal appears only where it was collected deliberately. Absence of an alert is not absence of the condition",
+        "Microsoft-Windows-Winlogon's manifest defines a TASK numbered 1101 (WinSqmUserLogin) and no EVENT 1101 — a survey that greps provider metadata for the bare string will hit it",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Written once when a log fills and never pruned by the service; persists until explicitly deleted",

@@ -1208,7 +1208,15 @@ pub(crate) static SHIMCACHE_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "last_modified_time",
         value_type: ValueType::Timestamp,
-        description: "FILETIME stored in the entry. winreg-kb states explicitly that this is the LAST MODIFICATION TIME OF THE FILE — on NTFS the $STANDARD_INFORMATION last-modified value — captured when the entry was written. It is not an execution time and must never be rendered as one",
+        description: "FILETIME stored in the entry. winreg-kb states explicitly that this is the LAST MODIFICATION TIME OF THE FILE — on NTFS the $STANDARD_INFORMATION last-modified value — captured when the entry was written. It is not an execution time and must never be rendered as one. On the Windows XP 32-bit format this is one of TWO FILETIMEs in the entry — see last_update_time, which is the activity-bearing one",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "last_update_time",
+        value_type: ValueType::Timestamp,
+        description: "Second FILETIME at entry offset 544, present ONLY in the Windows XP 32-bit (0xDEADBEEF) format and dropped from Windows Server 2003 onward — no later format restored it. Unlike last_modified_time it is refreshed when the file is used rather than captured once, which makes it the closest thing to an execution time any AppCompatCache format carries. \
+                      Undocumented by Microsoft; established from the Mandiant 2012 reverse-engineering whitepaper plus the ShimCacheParser, Volatility 2 shimcache, RegRipper appcompatcache.pl and libyal winreg-kb implementations, which agree on the 528/536/544 offsets, and borne out on a real Windows XP SP3 32-bit memory image. \
+                      Read it as last USE, not last process start — XP entries include loaded DLLs and shell extensions, not only executed programs. Eric Zimmerman's AppCompatCacheParser parses past this field without emitting it",
         is_uid_component: false,
     },
     FieldSchema {
@@ -1263,6 +1271,31 @@ pub static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
         // last-modification-time-of-the-file semantics, and the XP/2000-era
         // Session Manager\AppCompatibility key that predates AppCompatCache
         "https://github.com/libyal/winreg-kb/blob/main/docs/sources/system-keys/Application-compatibility-cache.md",
+        // Source: Mandiant / Andrew Davis 2012, "Leveraging the Application Compatibility
+        // Cache in Forensic Investigations" — the primary reverse-engineering behind the XP
+        // 0xDEADBEEF format: 400-byte header, 552-byte entry, the 96-entry cap,
+        // ftLastUpdateTime, and its removal in Server 2003. Microsoft documents none of it.
+        // The Wayback snapshot is the only working copy — the fireeye.com URL returns 530 and
+        // the mandiant.com PDF URL is a fake 200 redirecting to a Google Cloud landing page.
+        // ReactOS's kernel cites this same snapshot.
+        "https://web.archive.org/web/20150926070918/https://dl.mandiant.com/EE/library/Whitepaper_ShimCacheParser.pdf",
+        // Source: Mandiant ShimCacheParser — XP constants 0xdeadbeef / 0x190 (400) / 0x228
+        // (552), entry count read at header offset 8, "Last Update" output column
+        "https://github.com/mandiant/ShimCacheParser/blob/master/ShimCacheParser.py",
+        // Source: Eric Zimmerman AppCompatCacheParser WindowsXP.cs — 528-byte path field, and
+        // the comment "this is last update time, its not reported yet" that explains why an XP
+        // hive analysed with this tool loses the LastUpdateTime
+        "https://github.com/EricZimmerman/AppCompatCacheParser/blob/master/AppCompatCache/WindowsXP.cs",
+        // Source: RegRipper3.0 appcompatcache.pl — appXP32Bit() reads the AppCompatibility key,
+        // 400-byte header + 552-byte entries, offsets 528/536/544, and reports updtime
+        "https://github.com/keydet89/RegRipper3.0/blob/master/plugins/appcompatcache.pl",
+        // Source: Volatility 2 shimcache.py — XP entry 0x228 with LastUpdate at 0x220 (544),
+        // NumRecords at header 0x8, and the AppCompatibility key selected for version <= 5.1
+        "https://github.com/volatilityfoundation/volatility/blob/master/volatility/plugins/registry/shimcache.py",
+        // Source: ReactOS ntoskrnl/ps/apphelp.c — SHIM_PERSISTENT_CACHE_ENTRY_52 carries no
+        // update time and MAX_SHIM_ENTRIES 0x200 corroborates the 512-entry Server 2003 cap,
+        // i.e. independent corroboration that 2003 dropped the XP LastUpdateTime
+        "https://github.com/reactos/reactos/blob/master/ntoskrnl/ps/apphelp.c",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/06_Tool_Command_Vault/6.02_Windows_DFIR_Master_Notes.md",
         // Seth Enoka — "Shimcache and Amcache: Program Execution Without Certainty":
@@ -1281,7 +1314,11 @@ pub static SHIMCACHE: ArtifactDescriptor = ArtifactDescriptor {
         "Parsers print an execution-looking boolean: AppCompatCacheParser emits a CSV column named `Executed`, derived from the entry's 32-bit Insertion flags field while suppressing the raw `InsertFlags` value it came from. Read it as a flag bit, never as an execution finding — it contradicts nothing in the caveats above, but a column called `Executed` is routinely quoted as if it did",
         "The Insertion flags / Shim flags fields exist only in the Vista, 7, 8.0, 8.1 and 10 entry structures; the Windows XP and Windows 2003 structures have no such field, so an `Executed` value on those formats has no underlying flag to derive from",
         "Entries are stored NEWEST-FIRST, and on every post-XP format that array position is the only temporal ordering the cache carries — the stored FILETIME orders the files' last-modified times, not their use",
-        "os_scope is recorded as All, but the key_path here is the Windows 2003-and-later `Session Manager\\AppCompatCache` value. Windows 2000/XP hold this data under `Session Manager\\AppCompatibility` instead, in per-executable subkeys whose purpose libyal records as not established — so a collection driven by this descriptor alone reaches nothing on an XP-era image",
+        "os_scope is recorded as All, but the key_path here is the Windows 2003-and-later `Session Manager\\AppCompatCache` value. Windows XP 32-bit stores a single binary value — also named `AppCompatCache` — under `Session Manager\\AppCompatibility` instead, in a different on-disk format (0xDEADBEEF signature, 400-byte header, fixed 552-byte entries). Windows XP 64-bit uses the Server 2003 64-bit format under `AppCompatCache`. Only Windows 2000 uses per-executable subkeys under `AppCompatibility`, and it is those 2000-era subkeys whose purpose libyal winreg-kb records as not established — not the XP value, whose format is documented in detail. A collection driven by this descriptor alone reaches nothing on a 32-bit XP image. Undocumented by Microsoft; established from the Mandiant 2012 whitepaper 'Leveraging the Application Compatibility Cache in Forensic Investigations' and libyal winreg-kb, and confirmed by direct observation of a Windows XP SP3 32-bit memory image",
+        "Windows XP 32-bit is the ONE AppCompatCache format carrying a second FILETIME: a LastUpdateTime at entry offset 544, refreshed on use, which Server 2003 dropped and no later version restored. Undocumented by Microsoft; both halves are stated in the Mandiant 2012 whitepaper — 'Since the LastUpdateTime is updated when files are executed (regardless if the entry data has changed), this data may potentially indicate the last time that the file was executed on the system', and for 2003 'The last update time that was provided in Windows XP is no longer stored in the cache in Server 2003' — and are carried by the ShimCacheParser, Volatility 2, RegRipper and libyal winreg-kb implementations, which agree on the offsets. Confirmed on a real Windows XP SP3 32-bit memory image: the same cache captured twice twelve minutes apart shows verclsid.exe advancing 02:30:34 to 02:42:36 and cscui.dll 02:31:28 to 02:42:36 while path, last-modified and file size stayed byte-identical. On that image the last-modified values collapse onto 12 distinct times dominated by the XP SP3 build stamp 2008-04-14 12:00:00 (15 of 27 entries) while the last-update values are 27 distinct 2011-2012 times — the two fields are not the same kind of evidence",
+        "Read the XP LastUpdateTime as a last-USE time, never as a last-process-start. 10 of 27 entries recovered from a real XP SP3 memory image were DLLs and shell extensions — SHELL32.dll, NETSHELL.dll, shdocvw.dll, cscui.dll, zipfldr.dll, sendmail.dll, mydocs.dll, shgina.dll, DragExt.dll, PDFShell.dll — which are loaded into a host process, never CreateProcess'd. That observation cuts against the widely repeated inference in Mandiant's 'Caching Out' that, because XP records no process-execution flag, 'it seems probable that every entry in their Shimcache was present on the system and was executed at one point in time'. One image, directly observed",
+        "The Windows XP 32-bit cache holds at most 96 entries (Server 2003 512; Vista and later 1024), so it rolls over far faster than any later format. Stated by the Mandiant 2012 whitepaper — 'The cache will contain at most 96 of these entries and the entries are each 552 bytes in size' — and confirmed both structurally and empirically: the 400-byte header is 16 bytes of fields followed by an LRU index array of exactly 96 uint32 slots (16 + 96*4 = 400), and on a real XP SP3 memory image all four recovered header copies read 96 at offset 4 with 33 live indices 0 through 32 and 63 slots holding the 0xFFFFFFFF sentinel. A dissenting figure exists and is not independent: libyal winreg-kb gives 92 (hedged as 'suggested'), and the 2023 Aalto University thesis 'Novel analysis approaches for Windows Shimcache in forensic investigations' repeats 92 citing libyal as its source — one origin, contradicted by the observed array width",
+        "Two XP-specific parser traps. First, the live entry count is the dword at header offset 8, not offset 4: on a real XP SP3 memory image offset 4 read 96 (the array capacity) while offset 8 read 33, exactly matching the number of live LRU indices. Mandiant's ShimCacheParser and Volatility 2's shimcache plugin read offset 8; Eric Zimmerman's AppCompatCacheParser and RegRipper's appcompatcache.pl read offset 4 and so walk past the live entries into residual slot data — the defect RegRipper's own changelog records on 20120817 as 'updated to address issue with residual data in XP data blocks'; libyal winreg-kb labels offset 4 'Number of cached entries' and offset 8 'Number of LRU array entries', reversed relative to what that image shows. Second, AppCompatCacheParser parses the XP LastUpdateTime but does not emit it — its WindowsXP.cs skips the field with the comment 'this is last update time, its not reported yet' — so an XP hive analysed through that tool silently loses the one execution-adjacent timestamp the format has; use ShimCacheParser.py, RegRipper or Volatility for XP. The field offsets are agreed by every implementation read; the offset-4-versus-8 finding is from one image and is reported as observed rather than settled",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Registry value persists until hive is overwritten; see shimcache_memory for the Volatile in-memory counterpart",
@@ -7652,7 +7689,26 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
               event above. Fields: Application as a \\device\\harddiskvolume# path, Process ID, \
               Direction, Source/Dest address and port, Protocol, FilterRTID, LayerName/LayerRTID, \
               RemoteUserID/RemoteMachineID. It belongs to the Audit Filtering Platform Connection \
-              subcategory, so it exists only where that subcategory is enabled — its absence separates \
+              subcategory ({0CCE9226-69AE-11D9-BED3-505054503030}, under Object Access), which is OFF BY \
+              DEFAULT on every Windows role and version — client, member server and domain controller \
+              alike, from Vista / Server 2008 through Windows 11 and Server 2025. Microsoft states it \
+              directly in the Win32 WFP auditing reference: 'By default, auditing for WFP is disabled'; \
+              the Windows 7 / Server 2008 R2 subcategory reference records 'Event volume: High' and \
+              'Default: Not configured'. There is no client-versus-server split — Microsoft's System \
+              Audit Policy recommendations table leaves the 'Windows Default' cell blank for this \
+              subcategory on BOTH its Windows Client and Windows Server tabs, and the 5156 page records \
+              'Required Server Roles: None', so no role gates it. No Windows version ever turned it on: \
+              Microsoft footnotes default changes when they occur (Audit Logon became Success and \
+              Failure by default in Windows 10 1809) and records none here, and the Windows 11 / \
+              Server 2022 change to this event family added the Filter Origin and Interface Index fields \
+              to 5157/5152 rather than a default. It also stays off under mainstream hardening — \
+              Microsoft's own Windows 11 25H2 security baseline, CIS Windows Server 2022 v3.0.0 and DISA \
+              STIG Windows Server 2022 V1R1 each enable other Object Access subcategories (Other Object \
+              Access Events, Removable Storage, File Share, Detailed File Share) and none enables this \
+              one, while older CIS guidance affirmatively required 'No Auditing' for it (established by \
+              reading those baselines' published audit-test encodings, not from a vendor statement). The \
+              reason is volume: Microsoft rates it High and says Success auditing produces 'one event \
+              for every connection that was made to the system'. Its absence therefore separates \
               'auditing was never on' from 'no connection occurred' and must not be read as the latter. \
               Where it is unavailable the load falls on Sysmon EID 3, which likewise needs an explicit \
               NetworkConnect rule, and on the firewall text log at \
@@ -7737,6 +7793,28 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
         // Source: Microsoft — the Audit Filtering Platform Connection subcategory that
         // gates whether 5156 is produced at all
         "https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-filtering-platform-connection",
+        // Source: Microsoft — Win32 WFP auditing reference: "By default, auditing for WFP is
+        // disabled", plus the table binding 5154-5159 to the Filtering Platform Connection
+        // subcategory {0CCE9226-69AE-11D9-BED3-505054503030}. This is the load-bearing
+        // statement of the default; do NOT substitute the Advanced Audit Policy Configuration
+        // page, which carries no "Default:" line for any Object Access subcategory (its
+        // "Default: No Auditing" belongs to Audit Filtering Platform POLICY CHANGE).
+        "https://learn.microsoft.com/en-us/windows/win32/fwp/auditing-and-logging",
+        // Source: Microsoft — System Audit Policy recommendations: the "Windows Default" column
+        // is blank for Audit Filtering Platform Connection on BOTH the Windows Client and the
+        // Windows Server tab, i.e. no client-vs-server split (contrast the Audit Logon 1809
+        // footnote, which is how the page records a default that DID change)
+        "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/audit-policy-recommendations",
+        // Source: Microsoft Q&A — first-hand administrator report that Malwarebytes Brute Force
+        // Protection below 1.2.0.106 enabled the Filtering Platform Connection subcategory and
+        // re-asserted it against both auditpol and GPO, i.e. 5156's presence can be a
+        // third-party side effect rather than an administrator's logging decision
+        "https://learn.microsoft.com/en-us/answers/questions/677712/windows-security-log-event-5156-5158",
+        // Source: Memset hosting documentation — an operator shipping images with the
+        // subcategory disabled and refusing telemetry from hosts that enable it: the field
+        // counterpart to "off by default", i.e. the per-host audit configuration is managed in
+        // both directions and must be established rather than assumed
+        "https://docs.memset.com/cd/Disabling-the-%22Filtering-Platform-Connection%22-Audit-Policy.199068578.html",
         // Source: Microsoft — Windows Firewall logging (pfirewall.log), the independent
         // connection record when WFP auditing is off
         "https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/configure-logging",
@@ -7797,11 +7875,44 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
          reports a sensitive-PRIVILEGE assignment, which is why it catches administrator-equivalent \
          authority granted without Administrators membership, and why a scheduled task set to run with \
          highest privileges produces one",
-        "Event 5156 (WFP permitted a connection) exists only where the Audit Filtering Platform \
-         Connection subcategory is enabled, and it is high-volume when it is. Treat its absence as \
-         unknown rather than as evidence of no connection, and check the independent alternatives — \
-         Sysmon EID 3, which needs its own NetworkConnect rule, and pfirewall.log, whose success logging \
-         is separately switched",
+        "Event 5156's absence licenses NO conclusion about network activity. The Audit Filtering \
+         Platform Connection subcategory is OFF BY DEFAULT on every Windows role and version — Microsoft \
+         states it in the Win32 WFP auditing reference ('By default, auditing for WFP is disabled') — and \
+         mainstream hardening leaves it off too: Microsoft's own Windows 11 25H2 baseline, CIS Windows \
+         Server 2022 v3.0.0 and DISA STIG Windows Server 2022 V1R1 enable other Object Access \
+         subcategories and not this one (established by reading those baselines' published audit-test \
+         encodings, not from a vendor statement). Absence is therefore the expected state of a stock AND \
+         of a hardened host: it is evidence about the audit configuration, not about connections. It \
+         supports neither 'no connection occurred' nor an anti-forensic inference — there is nothing to \
+         delete where the subcategory was never on. To make absence probative, first establish that the \
+         subcategory WAS enabled across the window in question (effective policy from auditpol output or \
+         the LSA policy in the SECURITY hive, 4719 audit-policy-change events, the governing GPO) and \
+         exclude Security-log rollover, which this subcategory's own volume accelerates. The probative \
+         pattern is a TRANSITION — 5156 present, then absent, with the policy still enabled — not blanket \
+         absence. Equally, 'off by default' is not 'almost always absent': GPOs and endpoint agents turn \
+         it on in the field (and some hosting providers ship it deliberately disabled), so the per-host \
+         audit configuration has to be established rather than assumed. Where 5156 is unavailable the \
+         load falls on Sysmon EID 3, which needs its own NetworkConnect rule, and on pfirewall.log, whose \
+         success logging is a separate switch",
+        "5156's PRESENCE is likewise not proof that an administrator chose to log connections. Endpoint \
+         security products enable the Audit Filtering Platform Connection subcategory programmatically \
+         and re-assert it against both auditpol and GPO — reported first-hand by an administrator on \
+         Microsoft Q&A for Malwarebytes Brute Force Protection below version 1.2.0.106 — so the \
+         subcategory appearing, or disappearing after a product upgrade, can be a third-party side effect \
+         rather than an audit-policy decision or anti-forensics. One first-hand report, not a vendor \
+         statement",
+        "Provenance limit on the 5156 default, and a citation trap. The load-bearing vendor statement is \
+         the Win32 WFP auditing reference sentence, NOT the System Audit Policy recommendations table: \
+         that table's 'Windows Default' cell for Audit Filtering Platform Connection is blank, and the \
+         page's legend defines a blank as 'No recommendation' — wording written for the recommendation \
+         columns, which leaves a blank in the default column formally ambiguous. It renders exactly as \
+         every other not-on-by-default Object Access subcategory does, so it is consistent with 'off' \
+         without stating it. Microsoft's Advanced Audit Policy Configuration page must not be cited for \
+         this default at all: it carries no 'Default:' line for ANY Object Access subcategory, and the \
+         'Default: No Auditing' sitting near it belongs to Audit Filtering Platform POLICY CHANGE, a \
+         different subcategory. Microsoft's filter-origin page compounds the trap by printing the enable \
+         command as /category:\"System\" — this subcategory lives under Object Access, so quote the \
+         /subcategory:\"Filtering Platform Connection\" form",
         "Events 1100 / 1104 / 1105 / 1108 are what make a GAP interpretable, and Microsoft states they \
          are enabled by default rather than depending on audit policy: 1100 records the logging service \
          shutting down (the positive trace of a stop-recording attack), 1104 the log becoming full, 1105 \
