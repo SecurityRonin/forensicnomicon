@@ -1,7 +1,7 @@
 //! Extended Linux artifact descriptors.
 //!
 //! Sources: Velociraptor Linux artifacts, ForensicArtifacts/artifacts (linux.yaml),
-//! SANS FOR508, auditd documentation, Docker/container forensics resources.
+//! auditd(8) and audit.rules(7) manual pages, Docker/container forensics resources.
 
 #![allow(clippy::too_many_lines)]
 

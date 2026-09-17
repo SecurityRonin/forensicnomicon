@@ -1,7 +1,7 @@
 //! Extended Windows file and directory artifact descriptors — Phase 2.
 //!
 //! Sources: KAPE targets (EricZimmerman/KapeFiles), Velociraptor artifact definitions,
-//! SANS FOR508, BlueTeamLabs, DFIR.blog, 13cubed research.
+//! Microsoft Learn platform documentation, BlueTeamLabs, DFIR.blog, 13cubed research.
 
 #![allow(clippy::too_many_lines)]
 

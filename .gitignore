@@ -1,3 +1,40 @@
+# ---------------------------------------------------------------------------
+# Third-party COURSEWARE-DERIVED research material — NEVER COMMIT.
+#
+# THIS REPO IS PUBLIC. The files below are exhaustive, structure-following
+# distillations of COMMERCIAL TRAINING COURSES. Individual facts are
+# uncopyrightable, but an inventory that tracks a course's own selection and
+# arrangement is a derivative of the part copyright actually protects — and the
+# source material is marked "not for publication".
+#
+# THE RULE IS BY CLASS, NOT BY VENDOR. Any paid course, courseware deck,
+# workbook, or exam-prep material — SANS/GIAC, 13cubed, Magnet, Cellebrite,
+# OffSec, or anything acquired next year — is ignored here the moment it is
+# distilled. Add the path when the material lands; do not wait for review.
+#
+# CITING a vendor's freely published research (a blog post, a conference talk,
+# a YouTube video, a tool's own docs) is NOT this. That is ordinary sourcing and
+# is encouraged. The line is PAID COURSE CONTENT vs PUBLIC RESEARCH OUTPUT.
+#
+# The publishable artifact is the DESCRIPTOR: a fact re-verified against an
+# independent primary source (Microsoft Learn, MS-* specs, libyal, MITRE ATT&CK,
+# RFCs, tool man pages) and organised BY ARTIFACT rather than by slide order.
+# Propagate into `crates/data/src/catalog/descriptors/` — never publish the raw
+# distillation. Descriptors cite the primary source, never the course.
+# ---------------------------------------------------------------------------
+
+# SANS FOR508 / GCFA
+research/gcfa-spine/
+research/gcfa-knowledge-inventory.md
+
+# 13cubed "Investigating Windows Endpoints" (paid course)
+research/iwe-knowledge-inventory.md
+research/iwe-forensicnomicon-reconciliation.md
+
+# NOT ignored, deliberately: research/ingestion-corpus.md is our own TDD
+# application log. Its course mentions are review notes ENFORCING this rule
+# ("no blog/13cubed/SANS used as authority"), not distilled course content.
+
 # Unanchored: cargo puts a `target/` under every package root, not only the repo
 # root — `bindings/python/` and `fuzz/` each have one. A leading-slash pattern
 # matches the repo root only, which is how build artifacts got committed.

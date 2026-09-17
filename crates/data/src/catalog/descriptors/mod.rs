@@ -2804,7 +2804,7 @@ pub static MFT: ArtifactDescriptor = ArtifactDescriptor {
         // Primary NTFS specification reference
         "https://learn.microsoft.com/en-us/windows/win32/fileio/master-file-table",
         // Timestomping technique + SI vs FN discrepancy
-        // SANS FOR508 — MFT analysis methodology
+        // SANS DFIR blog — NTFS Master File Table analysis (public research)
         "https://www.sans.org/blog/windows-file-system-forensics-ntfs-master-file-table/",
         // MFTECmd by Eric Zimmerman — primary parsing tool
         "https://github.com/EricZimmerman/MFTECmd",
@@ -2926,7 +2926,7 @@ pub static USNJRNL: ArtifactDescriptor = ArtifactDescriptor {
         // USN_RECORD_V2 structure specification
         "https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ns-winioctl-usn_record_v2",
         // ATT&CK file deletion technique
-        // SANS FOR508 — USN Journal forensics
+        // SANS DFIR blog — NTFS USN change journal forensics (public research)
         "https://www.sans.org/blog/ntfs-usn-change-journal-forensics/",
         // MFTECmd handles $UsnJrnl parsing
         "https://github.com/EricZimmerman/MFTECmd",

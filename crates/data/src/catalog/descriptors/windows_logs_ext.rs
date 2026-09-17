@@ -1,6 +1,6 @@
 //! Extended Windows crash dump, WER, and miscellaneous artifact descriptors — Batch I.
 //!
-//! Sources: Microsoft documentation, SANS FOR508, KAPE targets (EricZimmerman/KapeFiles),
+//! Sources: Microsoft Learn documentation, KAPE targets (EricZimmerman/KapeFiles),
 //! DFIR research on BYOVD and Windows Error Reporting forensics.
 
 #![allow(clippy::too_many_lines)]
