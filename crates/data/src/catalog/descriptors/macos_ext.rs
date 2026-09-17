@@ -2124,3 +2124,568 @@ pub(crate) static IOS_ATX_AVATAR_ANIMOJI_TEXTURE: ArtifactDescriptor = ArtifactD
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "System assets are static; per-app render caches survive reboot until cache eviction or app uninstall",
 };
+
+// ── macOS document versions (.DocumentRevisions-V100) ──────────────────────
+//
+// Every APFS/HFS+ volume that holds working documents carries a hidden version
+// store at its root, beside `.fseventsd` and `.Spotlight-V100`. AppKit's
+// document architecture writes a new version each time a document is saved by
+// an app whose NSDocument subclass reports `preservesVersions` /
+// `autosavesInPlace` — the same versions a user reaches through File > Revert
+// To and the Versions browser (`browseVersions(_:)`). A version is, in Apple's
+// own words for NSFileVersion, "a snapshot of a file at a specific point in
+// time". The daemon behind it is `revisiond(8)`, described by its macOS man
+// page as the "storage manager for document revisions" and launched from
+// GenerationalStorage.framework — which is where the `com.apple.genstore.*`
+// extended attributes on the stored copies get their prefix.
+//
+// The store splits metadata from content:
+//
+// - `db-V1/db.sqlite` — the `files` / `generations` / `storage` tables saying
+//   WHICH document was versioned, WHEN, and where the version copy sits.
+// - `PerUID/<uid>/...` (some volumes: `AllUIDs/...`) — one dataless file per
+//   version, named by UUID, carrying that version's own attributes.
+// - `.cs/ChunkStoreDatabase` + `.cs/ChunkStorage` — the bytes, cut into
+//   content-addressed chunks shared across versions and across files.
+// - `LibraryStatus` / `metadata` — small plists holding
+//   `databaseStateIsTrustable`, and `DISK_UUID` + `tookThinningOver`.
+// - `purgatory` / `staging` — normally empty; `staging` is the sticky
+//   drop-box directory versions arrive through.
+//
+// The forensic property is that this is a per-volume archive of prior document
+// content held OUTSIDE the document: earlier bytes, the original name and the
+// original path survive the document being edited, overwritten or renamed, so
+// the store carries drafts that exist nowhere else on the volume. Survival past
+// DELETION is a separate and much weaker claim: Apple ships
+// `removeOtherVersionsOfItem(at:)` to clear a file's versions from the store,
+// and freeing a document's inode is documented to take its versions with it —
+// which is why duplicate-then-delete-the-original is published as the way to
+// strip a file's version history. Read a row or copy recovered for a deleted
+// document as residue that outlived a purge, never as guaranteed behaviour.
+//
+// # Sources
+// - <https://developer.apple.com/documentation/appkit/nsdocument> — Apple:
+//   `preservesVersions`, `autosavesInPlace`, `browseVersions(_:)`,
+//   `revertToSaved(_:)` — the app-side feature that produces versions
+// - <https://developer.apple.com/documentation/foundation/nsfileversion> —
+//   Apple: NSFileVersion is "a snapshot of a file at a specific point in time"
+// - <https://github.com/log2timeline/plaso/blob/main/plaso/parsers/sqlite_plugins/macos_document_versions.py>
+//   — reference implementation carrying the verbatim `files` / `generations` /
+//   `storage` CREATE TABLE text, the storage-id join, POSIX-epoch timestamp
+//   handling, and the `/.DocumentRevisions-V100/` root prefix applied to
+//   `generation_path`
+// - <https://github.com/ydkhatri/mac_apt/blob/master/plugins/documentrevisions.py>
+//   — independent second implementation: both root paths, the `.cs` chunk
+//   tables and on-disk chunk framing, the `com.apple.genstore.*` xattrs, the
+//   `:QLThumbnailAdditionName` generation paths, and orphan-chunk recovery
+// - <https://eclecticlight.co/2025/09/08/managing-macos-versioning-and-the-documentrevisions-v100-folder/>
+//   — folder inventory, dataless-file-by-UUID storage, chunk sizing and
+//   post-startup housekeeping, and the backup/restore behaviour
+
+/// Field schema for one document-version record — one `generations` row joined
+/// to its `files` row on `file_storage_id = generation_storage_id`.
+///
+/// Column names and types are the verbatim CREATE TABLE text carried by the
+/// plaso plugin and independently queried by mac_apt; the two `genstore_*`
+/// fields are extended attributes read from the stored version copy rather than
+/// columns, and `version_exists_on_disk` is the analyst's resolve check.
+///
+/// Source: <https://github.com/log2timeline/plaso/blob/main/plaso/parsers/sqlite_plugins/macos_document_versions.py>
+/// Source: <https://github.com/ydkhatri/mac_apt/blob/master/plugins/documentrevisions.py>
+/// Source: <https://eclecticlight.co/2025/09/08/managing-macos-versioning-and-the-documentrevisions-v100-folder/>
+pub(crate) static MACOS_DOCUMENT_REVISIONS_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "file_path",
+        value_type: ValueType::Text,
+        description: "files.file_path — the full path of the ORIGINAL document as revisiond last \
+            recorded it. This is the field that makes the store worth reading: it survives the \
+            document, so a version row can name a file (and the directory it sat in) that is no \
+            longer on the volume. Treat it as the path at the moment of the last recorded save, \
+            not the current path — a later rename or move is not written back",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "file_name",
+        value_type: ValueType::Text,
+        description: "files.file_name — the original document's file name, held separately from \
+            the path. Use it to pivot when only the leaf name is known, and compare it against \
+            genstore_origdisplayname on the stored copy: a mismatch means the document was \
+            renamed between versions",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "file_inode",
+        value_type: ValueType::UnsignedInt,
+        description: "files.file_inode — the original document's inode (APFS file-system object \
+            id). The stable handle when file_path has gone stale: resolve it against the \
+            file-system catalog to recover the document's current path, or to establish that the \
+            object no longer exists",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "file_last_seen",
+        value_type: ValueType::Timestamp,
+        description: "files.file_last_seen — Unix epoch seconds, the last time revisiond saw the \
+            original file. Read beside generation_add_time: a last-seen far earlier than the \
+            newest version is the signature of a document the daemon lost track of, typically \
+            because it was deleted or moved off the volume",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "file_status",
+        value_type: ValueType::Integer,
+        description: "files.file_status — an integer flag defaulting to 1. Apple documents no \
+            value meanings and neither open implementation interprets it, so record the raw \
+            value and do NOT read deletion, trust or staleness out of it without validating \
+            against a known-good volume",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "file_storage_id",
+        value_type: ValueType::UnsignedInt,
+        description: "files.file_storage_id — the join key to generations.generation_storage_id. \
+            One storage id gathers every stored version of the same document, so it is the \
+            grouping key for 'all versions of this file'",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "generation_id",
+        value_type: ValueType::UnsignedInt,
+        description: "generations.generation_id — the per-version row id. Ascending ids under one \
+            storage id give the save ORDER independently of the clock, which is what to fall back \
+            on when timestamps are equal or suspected of tampering",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "generation_add_time",
+        value_type: ValueType::Timestamp,
+        description: "generations.generation_add_time — Unix epoch seconds, when THIS version was \
+            written to the store. The event time for the timeline: it dates a save of the named \
+            document by an app that supports version management, and the series of them \
+            reconstructs an editing session",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "generation_path",
+        value_type: ValueType::Text,
+        description: "generations.generation_path — the version copy's location, stored RELATIVE \
+            to the .DocumentRevisions-V100 root, so prefix the root before resolving it. A path \
+            ending in :QLThumbnailAdditionName names a QuickLook thumbnail addition rather than a \
+            document body — the directory holds thumbnail.png on newer macOS and thumbnail.jpeg \
+            on older, which is still a renderable picture of the document at that version",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "generation_client_id",
+        value_type: ValueType::Text,
+        description: "generations.generation_client_id — the client the version was filed under, \
+            and a component of generation_path. It groups versions by the producing subsystem \
+            (document versions against iCloud/ubiquity material, for example), so read it before \
+            assuming every row is a user-visible document save",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "generation_name",
+        value_type: ValueType::Text,
+        description: "generations.generation_name — the version's own name within the store. \
+            Carry it verbatim into the report so an extracted version file can be tied back to \
+            its database row",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "generation_size",
+        value_type: ValueType::UnsignedInt,
+        description: "generations.generation_size — the version's size in bytes. It is the \
+            integrity check on extraction: reassembling the chunks must yield exactly this many \
+            bytes, and a short or long result means chunks are missing or mis-ordered, so report \
+            the reconstruction as partial rather than as the version",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "generation_status",
+        value_type: ValueType::Integer,
+        description: "generations.generation_status — an integer flag defaulting to 1, with no \
+            published value meanings. Record it; do not infer a version's validity from it",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "generation_prunable",
+        value_type: ValueType::Bool,
+        description: "generations.generation_prunable — defaults to 0. A set flag marks the \
+            version as eligible for thinning, i.e. content whose disappearance on the next \
+            housekeeping pass is ordinary. Collect prunable versions FIRST, and expect them to be \
+            absent from any image taken later",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "genstore_origdisplayname",
+        value_type: ValueType::Text,
+        description: "Extended attribute com.apple.genstore.origdisplayname on the stored version \
+            copy — the original document's display name, recorded outside the database. It is the \
+            fallback identity when the database row is gone or the file path is empty, and its \
+            independence from files.file_name is what makes a rename visible",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "genstore_origposixname",
+        value_type: ValueType::Text,
+        description: "Extended attribute com.apple.genstore.origposixname on the stored version \
+            copy — the original POSIX file name. Compare with genstore_origdisplayname: the two \
+            diverge where the Finder-displayed name differs from the on-disk name, which is worth \
+            noting when a document's apparent extension is not its real one",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "version_exists_on_disk",
+        value_type: ValueType::Bool,
+        description: "Does the .DocumentRevisions-V100 root plus generation_path resolve on the \
+            image? A row whose copy is gone still evidences that the document existed and was \
+            saved at generation_add_time — it just cannot yield content. Absence is ordinary \
+            after thinning, so report the row as metadata-only rather than treating it as a \
+            parsing failure",
+        is_uid_component: false,
+    },
+];
+
+/// macOS document versions database — `.DocumentRevisions-V100/db-V1/db.sqlite`.
+///
+/// The per-volume index of every document version macOS has saved: which file,
+/// when, and where the stored copy lives. Its forensic weight is that the
+/// record is kept APART from its subject — the original path, the original
+/// name, the original inode and earlier content survive the document being
+/// edited, overwritten or renamed, so the store holds drafts that exist nowhere
+/// else. It is not an archive that deletion cannot reach: freeing the
+/// document's inode is documented to remove its versions with it, so a row or
+/// copy recovered for a deleted document is residue that outlived that purge
+/// and has to be reported as such.
+///
+/// Two tables carry it. `files` holds the original document
+/// (`file_name`, `file_path`, `file_inode`, `file_last_seen`, `file_status`,
+/// `file_storage_id`); `generations` holds one row per saved version
+/// (`generation_id`, `generation_path`, `generation_add_time`,
+/// `generation_name`, `generation_client_id`, `generation_size`,
+/// `generation_prunable`). They join on
+/// `files.file_storage_id = generations.generation_storage_id`, and both
+/// timestamps are Unix epoch seconds. `generation_path` is relative to the
+/// `.DocumentRevisions-V100` root, so the root must be prefixed before it
+/// resolves.
+///
+/// Source: <https://developer.apple.com/documentation/appkit/nsdocument>
+/// Source: <https://github.com/log2timeline/plaso/blob/main/plaso/parsers/sqlite_plugins/macos_document_versions.py>
+/// Source: <https://github.com/ydkhatri/mac_apt/blob/master/plugins/documentrevisions.py>
+pub(crate) static MACOS_DOCUMENT_REVISIONS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_document_revisions",
+    name: "macOS Document Versions Database (.DocumentRevisions-V100/db-V1/db.sqlite)",
+    artifact_type: ArtifactLocation::DatabaseEntry,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Path is relative to the VOLUME root, which is where it appears on a
+    // mounted image. On a live macOS 10.15+ system the Data volume is mounted
+    // at /System/Volumes/Data and this directory is NOT firmlinked into /, so
+    // the live path is /System/Volumes/Data/.DocumentRevisions-V100/...
+    file_path: Some("/.DocumentRevisions-V100/db-V1/db.sqlite"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Per-volume index of every document version macOS has stored, and the route to \
+prior content of documents that no longer exist. AppKit's document architecture writes a new \
+version on every save by an app whose NSDocument subclass supports version management \
+(preservesVersions / autosavesInPlace) — Preview, TextEdit, Pages, Numbers and most \
+document-based apps — which is the same set of versions the user reaches through File > Revert \
+To and the Versions browser. There is no per-app opt-out, so the store accumulates without the \
+user electing to archive anything. The daemon is revisiond, documented by its man page as the \
+storage manager for document revisions and shipped in GenerationalStorage.framework, which is \
+also the origin of the com.apple.genstore.* extended attributes on the stored copies. \
+db-V1/db.sqlite holds two joined tables: `files` (file_name, file_path, file_inode, \
+file_last_seen, file_status, file_storage_id) naming the original document, and `generations` \
+(generation_id, generation_storage_id, generation_name, generation_client_id, generation_path, \
+generation_add_time, generation_size, generation_prunable, generation_status) holding one row per \
+saved version, joined on file_storage_id = generation_storage_id. Both timestamps are Unix epoch \
+seconds. generation_path is stored RELATIVE to the .DocumentRevisions-V100 root and points into \
+the per-UID version tree (PerUID/<uid>/... on a multi-user Data volume, AllUIDs/... on some \
+volumes), where each version is a DATALESS file named by UUID: it carries the version's \
+attributes but not its bytes, which live in the sibling chunk store \
+(macos_document_revisions_chunkstore) and must be reassembled from there. A generation_path \
+ending in :QLThumbnailAdditionName is a QuickLook thumbnail addition rather than a document body. \
+Beside the database sit LibraryStatus (databaseStateIsTrustable) and metadata (DISK_UUID, \
+tookThinningOver), plus the normally-empty purgatory and staging directories. The whole tree is \
+root-owned and unreadable by a normal user, and on macOS 10.15+ it lives on the Data volume at \
+/System/Volumes/Data/.DocumentRevisions-V100 and is not firmlinked into /, so a collection that \
+walks only / misses it entirely.",
+    mitre_techniques: &[
+        "T1005",     // Data from Local System
+        "T1070.004", // Indicator Removal: File Deletion — version residue can outlive the document
+        "T1565.001", // Data Manipulation: Stored Data Manipulation — prior content evidences the change
+    ],
+    fields: MACOS_DOCUMENT_REVISIONS_FIELDS,
+    retention: Some(
+        "Rows and version copies persist on the volume until the user deletes the versions or \
+revisiond thinning prunes them; neither Time Machine nor third-party cloners restore the store, \
+so versions exist only on the volume that created them",
+    ),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[
+        "macos_document_revisions_chunkstore",
+        "macos_fsevents",
+        "quicklook_thumbnails",
+        "macos_spotlight_store",
+    ],
+    sources: &[
+        // Source: https://developer.apple.com/documentation/appkit/nsdocument (Apple: preservesVersions
+        // "supports version management", autosavesInPlace, browseVersions(_:) "Opens the Versions
+        // browser in the document's main window", revertToSaved(_:))
+        "https://developer.apple.com/documentation/appkit/nsdocument",
+        // Source: https://developer.apple.com/documentation/foundation/nsfileversion (Apple: a version is
+        // "a snapshot of a file at a specific point in time", carrying the associated file's location and
+        // the revision's modification date)
+        "https://developer.apple.com/documentation/foundation/nsfileversion",
+        // Source: https://github.com/log2timeline/plaso/blob/main/plaso/parsers/sqlite_plugins/macos_document_versions.py
+        // (verbatim CREATE TABLE text for files/generations/storage; the
+        // file_storage_id = generation_storage_id join; POSIX-epoch timestamps; ROOT_VERSION_PATH
+        // "/.DocumentRevisions-V100/" prefixed onto the relative generation_path)
+        "https://github.com/log2timeline/plaso/blob/main/plaso/parsers/sqlite_plugins/macos_document_versions.py",
+        // Source: https://github.com/ydkhatri/mac_apt/blob/master/plugins/documentrevisions.py
+        // (independent implementation: probes both /.DocumentRevisions-V100 and
+        // /System/Volumes/Data/.DocumentRevisions-V100; db-V1/db.sqlite; reads
+        // com.apple.genstore.origdisplayname / origposixname off the stored version; handles
+        // :QLThumbnailAdditionName paths holding thumbnail.png or thumbnail.jpeg; iOS store at
+        // /private/var/mobile/.DocumentRevisions-V100)
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/documentrevisions.py",
+        // Source: https://eclecticlight.co/2025/09/08/managing-macos-versioning-and-the-documentrevisions-v100-folder/
+        // (folder inventory .cs / AllUIDs / db-V1 / LibraryStatus / metadata / purgatory / staging;
+        // each version stored as a dataless file named by UUID; no per-app way to disable versioning;
+        // Time Machine backed the folder up until Catalina but has never restored it successfully, and
+        // Carbon Copy Cloner skips it, so restore or migration loses every version; versions are not
+        // carried by APFS clone files)
+        "https://eclecticlight.co/2025/09/08/managing-macos-versioning-and-the-documentrevisions-v100-folder/",
+        // Source: https://eclecticlight.co/2023/06/03/between-undo-and-backups-document-versions/
+        // (the removal side, and the correction to "versions outlive deletion": deleting the
+        // document by emptying the Trash or from Terminal "removes its inode from the file system,
+        // and all previous versions should be removed from the Document Revisions database"; a
+        // copy/move to another volume yields a new inode and "previous versions aren't copied
+        // across", which is why duplicate-and-delete-the-original is the published way to strip a
+        // file's version history)
+        "https://eclecticlight.co/2023/06/03/between-undo-and-backups-document-versions/",
+        // Source: https://eclecticlight.co/2024/04/04/a-short-history-of-versions/ (versions
+        // arrived with NSFileVersion in OS X 10.7; "Versions are bound to the volume of the current
+        // version of a file. When a file is moved to a different volume, its saved versions on the
+        // original volume are lost")
+        "https://eclecticlight.co/2024/04/04/a-short-history-of-versions/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "On macOS 10.15+ the store lives on the Data volume and is NOT listed in /usr/share/firmlinks, so it is reachable at /System/Volumes/Data/.DocumentRevisions-V100 and not at /. A live collection that enumerates only / returns nothing and looks like a clean result — probe both paths before recording absence",
+        "Versions are NOT documented to outlive the document. Apple exposes removeOtherVersionsOfItem(at:) to clear a file's versions from the store, freeing a document's inode is documented to remove its versions with it, and duplicate-then-delete-the-original is published as the way to strip a version history because a clone carries none. So rows or copies recovered for a document that is gone are residue that outlived a purge — report them as recovered residue, and never read an empty result as proof the document was never versioned",
+        "A generation row evidences that an app saved the named document at generation_add_time; it does not identify the human who saved it. The PerUID component yields a numeric uid, which is an account, not a person",
+        "file_path is the path revisiond last recorded, not the current one — a document renamed or moved after its final version leaves a stale path. file_inode is the more stable handle for resolving the document's real location",
+        "Absence of versions on a restored, migrated or cloned system is EXPECTED, not evidence of wiping: Time Machine backed the folder up only until Catalina and has never restored it successfully, third-party cloners skip it, and APFS clone files do not carry versions",
+        "The database is metadata only. Each version copy is a dataless file whose bytes live in .cs/ChunkStorage, so a tree copied without the .cs directory yields rows and filenames with no recoverable content",
+        "The sibling metadata plist binds the store to its volume via DISK_UUID; a store copied to another volume mis-resolves its dataless files, which is why an out-of-place .DocumentRevisions-V100 tree should not be trusted to describe the volume it was found on",
+        "file_status and generation_status are integer flags with no published value meanings — record them, and do not read deletion, trust or validity out of them without validating against a known-good volume of the same macOS version",
+        "Version count reflects app behaviour and save frequency, not user intent: versioning cannot be disabled per app, and files with well over 100 stored versions are unremarkable",
+        "The tree is root-owned and mode-restricted, so acquisition needs privileged access or an image; the only world-readable members are the small LibraryStatus and metadata plists",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale:
+        "Database rows and their version copies persist on the volume until the user deletes the \
+versions or revisiond thinning prunes them; rows flagged generation_prunable are the ones to \
+collect first",
+};
+
+/// Field schema for the document-versions chunk store — the content side of
+/// `.DocumentRevisions-V100`.
+///
+/// Column names come from the two tables mac_apt queries in
+/// `.cs/ChunkStoreDatabase`; the on-disk framing (a 25-byte header of a 4-byte
+/// big-endian total length followed by the 21-byte content id) is the framing
+/// its extractor verifies each chunk against before writing it out.
+///
+/// Source: <https://github.com/ydkhatri/mac_apt/blob/master/plugins/documentrevisions.py>
+/// Source: <https://eclecticlight.co/2025/09/08/managing-macos-versioning-and-the-documentrevisions-v100-folder/>
+pub(crate) static MACOS_DOCUMENT_REVISIONS_CHUNKSTORE_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "clt_inode",
+        value_type: ValueType::UnsignedInt,
+        description: "CSStorageChunkListTable.clt_inode — the inode of the dataless version file \
+            this chunk list reassembles. It is the bridge from a generations row to actual bytes: \
+            resolve generation_path to the version file, take its inode, and look it up here",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "clt_chunk_row_ids",
+        value_type: ValueType::Bytes,
+        description: "CSStorageChunkListTable.clt_chunkRowIDs — a packed array of little-endian \
+            64-bit CSChunkTable row ids IN ORDER. Its length must be a multiple of 8; a remainder \
+            means a truncated or corrupt list, and reassembling from it produces a plausible but \
+            wrong file, so refuse the reconstruction rather than emit it",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "clt_count",
+        value_type: ValueType::UnsignedInt,
+        description: "CSStorageChunkListTable.clt_count — how many chunks the version is built \
+            from. Cross-check it against the number of ids decoded from clt_chunk_row_ids before \
+            trusting a reconstruction",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "ct_rowid",
+        value_type: ValueType::UnsignedInt,
+        description: "CSChunkTable.ct_rowid — the chunk's row id, the value a chunk list \
+            references. Chunks are shared, so one row id appearing in several lists means the same \
+            bytes back more than one version (and, across files, more than one document)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "ft_rowid",
+        value_type: ValueType::UnsignedInt,
+        description: "CSChunkTable.ft_rowid — names the numbered container file under \
+            .cs/ChunkStorage that physically holds the chunk. The store nests those files four \
+            levels deep with integer names, so this value plus the offset is the read address",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "offset",
+        value_type: ValueType::UnsignedInt,
+        description: "CSChunkTable.offset — byte offset of the chunk inside its ChunkStorage \
+            container file. Seek here to find the chunk's 25-byte header",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "data_len",
+        value_type: ValueType::UnsignedInt,
+        description: "CSChunkTable.dataLen — bytes to read from offset, INCLUDING the 25-byte \
+            header; the payload is what remains after it. Chunks commonly run up to a little over \
+            20 MB, so a wildly larger value is a parse error rather than a large chunk",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "cid",
+        value_type: ValueType::Bytes,
+        description: "CSChunkTable.cid — the 21-byte content identifier, repeated verbatim in the \
+            chunk's on-disk header at offset+4. Compare the two before accepting the payload: a \
+            mismatch means the address is wrong or the store has drifted, and writing the bytes \
+            anyway fabricates content that was never in that version",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "chunk_timestamp",
+        value_type: ValueType::Timestamp,
+        description: "CSChunkTable.timeStamp — a per-chunk time value. Neither Apple nor the open \
+            implementations document its epoch, and mac_apt reads the column without normalising \
+            it, so establish the epoch against a chunk of known age before putting it on a \
+            timeline; generation_add_time is the dated event, this is not",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "orphan_chunk",
+        value_type: ValueType::Bool,
+        description: "Is this chunk present in ChunkStorage while no surviving chunk list \
+            references its content id? Orphans are the residue of versions and documents already \
+            removed from the database — recoverable content with no row to name it. Carve them \
+            out, but report them as unattributed: an orphan chunk carries no path, no owner and \
+            no time, and may be a fragment of a larger file",
+        is_uid_component: false,
+    },
+];
+
+/// macOS document-versions chunk store — `.DocumentRevisions-V100/.cs`.
+///
+/// The content half of the version store. A stored version is a dataless file:
+/// its bytes are not in it, but in content-addressed chunks under
+/// `.cs/ChunkStorage`, indexed by `.cs/ChunkStoreDatabase`. Recovering a
+/// version means walking `CSStorageChunkListTable` from the version file's
+/// inode to an ordered list of `CSChunkTable` rows, reading each chunk from its
+/// numbered container file at the recorded offset, verifying the 21-byte
+/// content id in the chunk's 25-byte header against the database, and
+/// concatenating the payloads.
+///
+/// Two properties earn it a separate entry from the database. Chunks are SHARED
+/// — one chunk can back several versions and content from different files lands
+/// in the same chunk — so a chunk is not evidence about a single document.
+/// And chunks are not reclaimed when a version is deleted: housekeeping runs
+/// after start-up, so content of recently-deleted versions and documents
+/// commonly survives in the store as orphans with no row to name it.
+///
+/// Source: <https://github.com/ydkhatri/mac_apt/blob/master/plugins/documentrevisions.py>
+/// Source: <https://eclecticlight.co/2025/09/08/managing-macos-versioning-and-the-documentrevisions-v100-folder/>
+pub(crate) static MACOS_DOCUMENT_REVISIONS_CHUNKSTORE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_document_revisions_chunkstore",
+    name: "macOS Document Versions Chunk Store (.DocumentRevisions-V100/.cs)",
+    artifact_type: ArtifactLocation::DatabaseEntry,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Volume-root relative, as it appears on a mounted image; on a live macOS
+    // 10.15+ system, /System/Volumes/Data/.DocumentRevisions-V100/.cs/...
+    file_path: Some("/.DocumentRevisions-V100/.cs/ChunkStoreDatabase"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Where the BYTES of macOS document versions actually live, and the only place they \
+can be recovered from. Each version listed in macos_document_revisions is stored as a dataless \
+file named by UUID: it carries the version's attributes, not its content. The content is cut into \
+content-addressed chunks (commonly up to a little over 20 MB each) held in numbered container \
+files nested four levels deep under .cs/ChunkStorage, and indexed by .cs/ChunkStoreDatabase. That \
+database has two tables that matter: CSStorageChunkListTable (clt_rowid, clt_inode, clt_count, \
+clt_chunkRowIDs — clt_chunkRowIDs being a packed array of little-endian 64-bit CSChunkTable row \
+ids in order) maps a version file's inode to its ordered chunk list, and CSChunkTable (ct_rowid, \
+ft_rowid, offset, dataLen, cid, timeStamp) gives each chunk's container file, byte offset, length \
+and 21-byte content id. On disk a chunk begins with a 25-byte header — a 4-byte big-endian total \
+length followed by the 21-byte content id — and the id must match the database before the payload \
+is accepted. Two properties drive the analysis. Chunks are SHARED: one chunk can back several \
+versions, and content from different files is lumped into the same chunk, so a chunk in isolation \
+is not evidence about one document. And chunks are NOT reclaimed when a version is deleted — \
+housekeeping runs after start-up and at intervals thereafter, so chunks belonging to versions and \
+documents already removed from the database routinely remain as ORPHANS, carvable content with no \
+surviving row to name it. That is the recovery opportunity and the attribution limit in one.",
+    mitre_techniques: &[
+        "T1005",     // Data from Local System
+        "T1070.004", // Indicator Removal: File Deletion — chunk content outlives the deleted version
+    ],
+    fields: MACOS_DOCUMENT_REVISIONS_CHUNKSTORE_FIELDS,
+    retention: Some(
+        "Chunks survive deletion of the version that referenced them until a housekeeping pass \
+runs — observed after start-up and at intervals thereafter — so orphaned content is commonly \
+present but should be collected before the system is restarted",
+    ),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_document_revisions", "quicklook_thumbnails"],
+    sources: &[
+        // Source: https://github.com/ydkhatri/mac_apt/blob/master/plugins/documentrevisions.py
+        // (CSStorageChunkListTable clt_rowid/clt_inode/clt_count/clt_chunkRowIDs unpacked as
+        // little-endian u64 row ids; CSChunkTable ct_rowid/ft_rowid/offset/dataLen/cid/timeStamp;
+        // the 25-byte on-disk chunk header of a 4-byte big-endian length plus a 21-byte cid,
+        // verified against the database before the payload is written; the four-level numbered
+        // ChunkStorage directory tree; orphan-chunk extraction for chunks whose cid no chunk list
+        // references)
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/documentrevisions.py",
+        // Source: https://eclecticlight.co/2025/09/08/managing-macos-versioning-and-the-documentrevisions-v100-folder/
+        // (.cs holds ChunkStorage with the ChunkStoreDatabase and deeply nested numbered chunk
+        // folders; a version is a dataless file whose data are restored from the ChunkStore; chunk
+        // sizes typically up to just over 20 MB; space taken by a deleted file's chunks was not
+        // released until shutdown and restart, housekeeping running after start-up and possibly at
+        // later intervals; content from different files is lumped together in the same chunk)
+        "https://eclecticlight.co/2025/09/08/managing-macos-versioning-and-the-documentrevisions-v100-folder/",
+        // Source: https://developer.apple.com/documentation/foundation/nsfileversion (Apple: the
+        // version abstraction whose stored representation this is — a snapshot of a file at a
+        // specific point in time)
+        "https://developer.apple.com/documentation/foundation/nsfileversion",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "A chunk is not evidence about one document: chunks are shared between versions, and content from different files is lumped into the same chunk. Attribution runs chunk -> chunk list -> version file inode -> generations row, and breaks if any link is missing",
+        "An ORPHAN chunk has no path, no owner and no reliable time — it is recoverable content with the attribution stripped off. Report it as unattributed residue, never as 'a version of file X'",
+        "Reassembly is only as good as the ordering: clt_chunkRowIDs must decode to a whole number of 64-bit ids and the reconstructed length must equal the row's generation_size. A short or long result is a partial reconstruction and must be labelled as one",
+        "The cid in the chunk's on-disk header is the read check. Writing a payload whose header cid does not match the database fabricates content — drop the chunk and record the mismatch instead",
+        "CSChunkTable.timeStamp has no documented epoch and is not normalised by the open implementations; generation_add_time in the versions database is the dated event, and this column must be calibrated before it goes near a timeline",
+        "Housekeeping destroys the opportunity: chunk space for deleted versions was observed to be released only after shutdown and restart, so a restart between discovery and acquisition can remove exactly the orphaned content that mattered",
+        "The whole .cs tree is root-owned and unreadable by a normal user, so recovery needs privileged access or a disk image, and neither Time Machine nor third-party cloners preserve it",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale:
+        "Chunks persist past deletion of the versions that referenced them, but revisiond \
+housekeeping after start-up and at later intervals prunes the unreferenced ones, so orphaned \
+content degrades with ordinary system use",
+};

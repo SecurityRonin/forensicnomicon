@@ -13,11 +13,16 @@ mod generated;
 mod linux_ext;
 mod macos_ext;
 mod vehicle_ext;
+mod windows_ad_ext;
 mod windows_evtx_ext;
+mod windows_evtx_format;
 mod windows_files_ext;
+mod windows_ipc_ext;
+mod windows_kerberos_ext;
 mod windows_logs_ext;
 mod windows_memory_ext;
 mod windows_ntfs_ext;
+mod windows_pe_ext;
 mod windows_registry_ext;
 mod windows_registry_ext2;
 mod windows_registry_ext3;
@@ -17383,6 +17388,8 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::IOS_ATX_POSTER_SNAPSHOT_CACHE,
     macos_ext::IOS_ATX_AVATAR_ANIMOJI_TEXTURE,
     macos_ext::MACOS_BTM_BACKGROUND_TASKS,
+    macos_ext::MACOS_DOCUMENT_REVISIONS,
+    macos_ext::MACOS_DOCUMENT_REVISIONS_CHUNKSTORE,
     windows_files_ext::ONEDRIVE_ODL_LOGS,
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,
@@ -17400,6 +17407,65 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     windows_ntfs_ext::NTFS_LOGFILE_RECORDS,
     windows_vss_ext::VSS_SNAPSHOT_ANALYSIS,
     windows_wmi_ext::WMI_PERSISTENCE_CIM_REPOSITORY,
+    // ── Windows event log — logon, service install, account mgmt, object access, RDP ───
+    windows_evtx_ext::EVTX_SECURITY_EXPLICIT_CREDENTIALS,
+    windows_evtx_ext::EVTX_SECURITY_LOGON_FAILURE,
+    windows_evtx_ext::EVTX_SECURITY_SERVICE_INSTALL,
+    windows_evtx_ext::EVTX_SECURITY_ACCOUNT_MANAGEMENT,
+    windows_evtx_ext::EVTX_SECURITY_OBJECT_ACCESS,
+    windows_evtx_ext::EVTX_SECURITY_SESSION_RECONNECT,
+    windows_evtx_ext::EVTX_RDP_CORE_TS,
+    windows_evtx_ext::EVTX_APPLICATION_CRASH,
+    windows_evtx_ext::EVTX_POWERSHELL_CORE_OPERATIONAL,
+    windows_evtx_ext::EVTX_LOG_AUTO_ARCHIVE,
+    windows_evtx_ext::EVTX_REMOTE_EXECUTION_HOST_LINEAGE,
+    // ── Kerberos account-logon events (4768/4769/4771) and encryption types ─────
+    windows_kerberos_ext::EVTX_KERBEROS_TGT_REQUEST,
+    windows_kerberos_ext::EVTX_KERBEROS_SERVICE_TICKET,
+    windows_kerberos_ext::EVTX_KERBEROS_PREAUTH_FAILED,
+    // ── EVTX file structure — chunk integrity and record unlinking ──────────────
+    windows_evtx_format::EVTX_FILE_STRUCTURE_INTEGRITY,
+    windows_evtx_format::EVTX_RECORD_UNLINKING,
+    // ── NTFS internals — multi-sector fixup, USN reason flags, $Secure/$SDS ─────
+    windows_ntfs_ext::NTFS_MULTI_SECTOR_FIXUP,
+    windows_ntfs_ext::NTFS_USN_REASON_FLAGS,
+    windows_ntfs_ext::NTFS_USNJRNL_MAX,
+    windows_ntfs_ext::NTFS_SECURE_SDS,
+    windows_ntfs_ext::NTFS_SDELETE_RENAME_CHAIN,
+    // ── DLL search order — SafeDllSearchMode ────────────────────────────────────
+    windows_registry_ext::SAFE_DLL_SEARCH_MODE,
+    // ── Host policy — SMB signing, PowerShell logging, admin shares ─────────────
+    windows_registry_ext2::NTFS_8DOT3_NAME_CREATION,
+    windows_registry_ext2::SMB_SERVER_REQUIRE_SIGNING,
+    windows_registry_ext2::SMB_CLIENT_REQUIRE_SIGNING,
+    windows_registry_ext2::LOCAL_ACCOUNT_TOKEN_FILTER_POLICY,
+    windows_registry_ext2::REMOTE_REGISTRY_SERVICE,
+    windows_registry_ext2::SECURE_PIPE_SERVERS_WINREG,
+    windows_registry_ext2::POWERSHELL_SCRIPT_BLOCK_LOGGING_POLICY,
+    windows_registry_ext2::POWERSHELL_MODULE_LOGGING_POLICY,
+    windows_registry_ext2::POWERSHELL_TRANSCRIPTION_POLICY,
+    windows_registry_ext2::LANMAN_AUTO_SHARE_ADMIN,
+    // ── Service persistence — failure actions, trigger start, UAC/LSA policy ────
+    windows_registry_ext3::SERVICE_FAILURE_ACTIONS,
+    windows_registry_ext3::SERVICE_TRIGGER_INFO,
+    windows_registry_ext3::SYSTEM_RESTORE_SCOPE_SNAPSHOTS,
+    windows_registry_ext3::UAC_REMOTE_RESTRICTION_POLICY,
+    windows_registry_ext3::LSA_LM_COMPATIBILITY_LEVEL,
+    windows_registry_ext3::CRASH_CONTROL,
+    windows_registry_ext3::WINDOWS_BUILD_IDENTIFICATION,
+    windows_registry_ext3::CAPABILITY_ACCESS_MANAGER_CONSENT_STORE,
+    windows_registry_ext3::EXPLORER_PROGRAMS_CACHE,
+    // ── Named pipes — IPC objects and null-session exposure ─────────────────────
+    windows_ipc_ext::NAMED_PIPE_OBJECT,
+    windows_ipc_ext::NULL_SESSION_PIPES,
+    // ── Active Directory — account delegation configuration ─────────────────────
+    windows_ad_ext::AD_ACCOUNT_DELEGATION_CONFIG,
+    // ── PE/COFF — compile timestamp vs on-disk timestamps ───────────────────────
+    windows_pe_ext::PE_COFF_TIMEDATESTAMP,
+    // ── WMI — autorecover MOF registration ──────────────────────────────────────
+    windows_wmi_ext::WMI_AUTORECOVER_MOFS,
+    // ── Entra / PKU2U logon events ──────────────────────────────────────────────
+    cloud_ext::EVTX_ENTRA_PKU2U_LOGON,
     // ── Cloud services (Google Takeout, AWS CloudTrail) ────────────────────
     cloud_ext::GOOGLE_TAKEOUT_LOCATION_RECORDS,
     cloud_ext::GOOGLE_TAKEOUT_SEMANTIC_LOCATION_HISTORY,

@@ -8,11 +8,13 @@
 //! diff area), and applying the relevant newer stores in order onto the current
 //! volume. This
 //! complements the registry-only `vss_files_not_to_backup` exclusion keys with
-//! the on-disk store/diff-area analysis a GCFA/FOR508-class exam relies on for
-//! recovering deleted or timestomped prior file states.
+//! the on-disk store/diff-area analysis used to recover deleted or timestomped
+//! prior file states.
 //!
 //! Field descriptions are written from the libyal libvshadow on-disk format
-//! specification and the Microsoft VSS overview; no third-party prose is copied.
+//! specification and the Microsoft VSS documentation (the service overview and
+//! the `VSS_VOLUME_SNAPSHOT_ATTRIBUTES` enumeration in `vss.h`); no third-party
+//! prose is copied.
 
 use super::super::types::{
     ArtifactDescriptor, ArtifactLocation, DataScope, Decoder, FieldSchema, OsScope, TriagePriority,
@@ -24,8 +26,11 @@ use super::super::types::{
 /// The snapshot identity fields (store GUID, shadow-copy set GUID, snapshot
 /// context) come from the catalog entry (type 0x02) and the store information;
 /// the differential-recovery fields (original/store data-block offsets) come
-/// from the store block descriptors that implement copy-on-write.
+/// from the store block descriptors that implement copy-on-write. The attribute
+/// flags at store-information offset 56 are the `VSS_VOLUME_SNAPSHOT_ATTRIBUTES`
+/// (`VSS_VOLSNAP_ATTR_*`) bitmask declared in `vss.h`.
 /// Source: <https://github.com/libyal/libvshadow/blob/main/documentation/Volume%20Shadow%20Snapshot%20>(VSS)%20format.asciidoc
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/api/vss/ne-vss-vss_volume_snapshot_attributes>
 pub(crate) static VSS_SNAPSHOT_ANALYSIS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "store_guid",
@@ -66,7 +71,12 @@ pub(crate) static VSS_SNAPSHOT_ANALYSIS_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "attribute_flags",
         value_type: ValueType::UnsignedInt,
-        description: "Store attribute flags (store information, offset 56) describing snapshot properties (persistent, client-accessible, differential, etc.)",
+        description: "Store attribute flags (store information, offset 56) — a VSS_VOLUME_SNAPSHOT_ATTRIBUTES \
+(VSS_VOLSNAP_ATTR_*) bitmask giving the snapshot's provenance: 0x00000001 PERSISTENT (survives reboot), \
+0x00000004 CLIENT_ACCESSIBLE (a Previous Versions / Shared Folders copy), 0x00000008 NO_AUTO_RELEASE \
+(outlives the requesting process), 0x00000010 NO_WRITERS (created without VSS writer coordination, so not a \
+writer-coordinated application-consistent backup), 0x00020000 DIFFERENTIAL (copy-on-write provider), \
+0x00400000 AUTORECOVER. Two stores on one volume whose flags differ were made by different mechanisms",
         is_uid_component: false,
     },
     FieldSchema {
@@ -132,7 +142,23 @@ store data-block offset (offset 16) preserving that block's pre-change content. 
 file version applies the relevant newer stores in order (most recent down to the target snapshot, \
 respecting each block descriptor's flags) onto the current volume, so changed blocks resolve to \
 their preserved copy-on-write copies. This recovers deleted files, pre-timestomp/pre-wipe states, \
-and prior registry hives that live only inside the shadow copy. Cross-reference \
+and prior registry hives that live only inside the shadow copy. The attribute flags are a \
+VSS_VOLUME_SNAPSHOT_ATTRIBUTES (VSS_VOLSNAP_ATTR_*) bitmask and carry per-snapshot provenance: \
+0x00000001 PERSISTENT (persists across reboots), 0x00000002 NO_AUTORECOVERY (frozen read-only at \
+creation, with no writer/application post-snapshot update), 0x00000004 CLIENT_ACCESSIBLE (a Shadow \
+Copies for Shared Folders / Previous Versions copy), 0x00000008 NO_AUTO_RELEASE (not deleted when the \
+requesting process ends — removal takes an explicit DeleteSnapshots call), 0x00000010 NO_WRITERS \
+(created with no VSS writer involvement, so not a writer-coordinated application-consistent backup), \
+0x00000020 TRANSPORTABLE, 0x00000040 NOT_SURFACED (set unless the copy is explicitly exposed or \
+mounted), 0x00000080 NOT_TRANSACTED, 0x00010000 HARDWARE_ASSISTED (hardware provider), 0x00020000 \
+DIFFERENTIAL (differential/copy-on-write provider — the software-provider case this descriptor \
+parses), 0x00040000 PLEX (mirror-split provider), 0x00080000 IMPORTED (imported onto this machine \
+rather than created on it), 0x00100000 EXPOSED_LOCALLY and 0x00200000 EXPOSED_REMOTELY (neither set \
+means the copy is hidden), 0x00400000 AUTORECOVER, 0x00800000 ROLLBACK_RECOVERY (created for a \
+non-backup purpose such as data mining), 0x01000000 DELAYED_POSTSNAPSHOT, 0x02000000 TXF_RECOVERY, \
+0x04000000 FILE_SHARE. VSS sets most bits from the creation context, and the snapshot context at \
+offset 48 is itself a combination of these bits, so the two fields corroborate each other and two \
+stores on one volume with differing flags were produced by different mechanisms. Cross-reference \
 vss_files_not_to_backup (the registry exclusion list, NOT the snapshot data), mft/mft_file, and \
 ntfs_timestomping_si_fn (a snapshot that predates a forgery may preserve earlier timestamp state).",
     mitre_techniques: &[
@@ -148,12 +174,16 @@ ntfs_timestomping_si_fn (a snapshot that predates a forgery may preserve earlier
         "https://github.com/libyal/libvshadow/blob/main/documentation/Volume%20Shadow%20Snapshot%20(VSS)%20format.asciidoc",
         // Source: https://learn.microsoft.com/en-us/windows/win32/vss/volume-shadow-copy-service-overview (VSS copy-on-write differential model, shadow-copy set semantics)
         "https://learn.microsoft.com/en-us/windows/win32/vss/volume-shadow-copy-service-overview",
+        // Source: https://learn.microsoft.com/en-us/windows/win32/api/vss/ne-vss-vss_volume_snapshot_attributes (VSS_VOLUME_SNAPSHOT_ATTRIBUTES in vss.h — the store attribute-flag bit values and their documented meanings)
+        "https://learn.microsoft.com/en-us/windows/win32/api/vss/ne-vss-vss_volume_snapshot_attributes",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &[
         "A shadow copy captures only blocks changed since the snapshot; unchanged blocks read through to the live volume, so a 'recovered' file may mix snapshot and current data if the mapping is misapplied",
         "vssadmin/wmic shadow-copy deletion (T1490) removes the diff area — absence of snapshots can itself be evidence of anti-forensics, not evidence of no prior activity",
         "Store-block offset semantics carry low-bit sub-fields (libvshadow notes bits reused for other purposes); validate the flags before trusting a raw offset",
+        "Microsoft documents most VSS_VOLSNAP_ATTR_* bits as ones a requester should not set explicitly — VSS derives them from the snapshot context — so the attribute flags evidence the mechanism that created the snapshot, not an operator's stated intent",
+        "The libvshadow format notes mark 0x00000002 NO_AUTORECOVERY, 0x00000080 NOT_TRANSACTED, 0x01000000 DELAYED_POSTSNAPSHOT and 0x02000000 TXF_RECOVERY as not shown by vssadmin, so a live-tool listing understates the on-disk flags; read them from the store information",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Shadow-copy stores persist on the volume until retention policy, space pressure, or deliberate deletion removes them",

@@ -2,6 +2,22 @@
 //!
 //! Sources: Hayabusa rules, Chainsaw, SigmaHQ, EVTX-ATTACK-SAMPLES,
 //! Microsoft event documentation, Yamato-Security hayabusa-rules.
+//!
+//! The hand-written descriptors in Group D carry the Security-log families and
+//! channel records the generated channel stubs cannot: explicit-credential
+//! logons (4648), logon-failure status decoding (4625), service installation
+//! (4697), account and group management (4720 / 4722-4726 / 4738 / 4798 / 4799
+//! and the 472x-473x group events), SACL-driven object access (4656 / 4658 /
+//! 4660 / 4663 / 4670), Window Station reconnect and disconnect (4778 / 4779),
+//! the RdpCoreTS connection records, the Application-log crash pair (1000 /
+//! 1001), the PowerShell 7 channel, auto-archived logs (Archive-<Log>-*.evtx
+//! with 1104 / 1105), and the target-side process lineage that separates one
+//! remote-execution channel from another.
+//!
+//! Field names, value tables and message templates are taken from the Microsoft
+//! Learn event reference, [MS-ERREF] NTSTATUS values, the Win32 and WMI
+//! documentation, and mechanical dumps of the providers' own manifests; every
+//! description is written here rather than copied.
 
 #![allow(clippy::too_many_lines)]
 
@@ -20,20 +36,38 @@ pub(crate) static EVTX_TASK_SCHEDULER: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Records scheduled task lifecycle: task registered (4698), enabled (4700), disabled (4701), updated (4702), and task action executed (4698/106). Critical for detecting persistence via scheduled tasks and T1053.005 activity.",
-    mitre_techniques: &["T1053.005"],
+    meaning: "Records scheduled task lifecycle and execution on the TaskScheduler provider's OWN channel. Its event ids are three digits, not the four-digit Security-log task events (4698 create / 4699 delete / 4700 enable / 4701 disable / 4702 update live in Security.evtx and are gated by an audit subcategory — cross-check both logs, they fail independently). The channel's own ids, read from the provider manifest: 106 task registered (records the registering account and the task path), 140 task registration updated, 141 task registration deleted, 142 task disabled, 129 a task process was created (names the task, the instance and the new PROCESS ID), 200 an action was launched (names the action — the executable the task runs — with the task name and instance id), 201 the action completed (repeats the action and adds the process RETURN CODE), 102 the task instance finished. Registration (106/140) and execution (129/200/201) are separate questions: a task registered and never run leaves only 106, and a task deleted after use leaves 141 with the 200/201 pair still recording what it ran. 141 is the cleanup step an actor takes after execution, so a 141 with no surviving task definition on disk is the shape to hunt.",
+    mitre_techniques: &["T1053.005", "T1070.001"],
     fields: &[
-        FieldSchema { name: "task_name", value_type: ValueType::Text, description: "Scheduled task name", is_uid_component: true },
-        FieldSchema { name: "action_path", value_type: ValueType::Text, description: "Executable path the task runs", is_uid_component: false },
+        FieldSchema { name: "task_name", value_type: ValueType::Text, description: "Scheduled task name (the \\Folder\\TaskName path) — the join key across 106/140/141/200/201 and to the task XML on disk", is_uid_component: true },
+        FieldSchema { name: "action_path", value_type: ValueType::Text, description: "Executable path the task runs, as recorded in the ActionName of events 200/201 — the binary to hash, timeline and check against the task XML still on disk", is_uid_component: false },
+        FieldSchema { name: "event_id", value_type: ValueType::UnsignedInt, description: "106=registered, 140=registration updated, 141=registration deleted, 142=disabled, 129=task process created, 200=action started, 201=action completed, 102=task instance completed", is_uid_component: false },
+        FieldSchema { name: "user_context", value_type: ValueType::Text, description: "Account that registered (106), updated (140) or deleted (141) the task — the attribution the execution events do not carry", is_uid_component: false },
+        FieldSchema { name: "task_instance_id", value_type: ValueType::Guid, description: "Instance GUID joining one run's 129/200/201/102 records together; use it to pair an action with its own return code rather than pairing by time", is_uid_component: false },
+        FieldSchema { name: "result_code", value_type: ValueType::UnsignedInt, description: "Process return code from event 201 — 0 is a clean exit; a non-zero value says the launched binary ran and failed, which still proves execution", is_uid_component: false },
+        FieldSchema { name: "process_id", value_type: ValueType::UnsignedInt, description: "PID of the process the scheduler launched (event 129) — the pivot into process-creation records and into memory for the same run", is_uid_component: false },
     ],
     retention: Some("Default 1 MB, overwritten"),
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &["scheduled_tasks_dir", "scheduled_task_registry_cache"],
+    related_artifacts: &["scheduled_tasks_dir", "scheduled_task_registry_cache", "evtx_security"],
     sources: &[
         "https://github.com/Yamato-Security/hayabusa-rules",
+        // Mechanical dump of the Microsoft-Windows-TaskScheduler provider manifest — the
+        // channel, task name and message template of ids 102/106/129/140/141/142/200/201:
+        "https://github.com/nasbench/EVTX-ETW-Resources",
+        // Microsoft — 4699(S): A scheduled task was deleted (the Security-log counterpart):
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4699",
+        // Microsoft — wevtutil: `gl <channel>` reads a channel's enabled state and size,
+        // `sl <channel> /e:true` turns it on:
+        "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/wevtutil",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["Event log; may be cleared by attackers"],
+    evidence_caveats: &[
+        "Event log; may be cleared by attackers",
+        "The channel can be turned off, and an empty log is then a configuration fact, not an empty task history — read the channel's own enabled state (wevtutil gl Microsoft-Windows-TaskScheduler/Operational) before reporting that nothing ran",
+        "The literal channel name contains no space: Microsoft-Windows-TaskScheduler/Operational, stored as Microsoft-Windows-TaskScheduler%4Operational.evtx — a collector configured with a space matches no file and returns nothing",
+        "Registration events (106/140/141) name the account; the execution events (129/200/201) do not — do not attribute a run to the registering user without the task definition or a separate process-creation record",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Event log; rotated on size limit",
 };
@@ -172,20 +206,41 @@ pub(crate) static EVTX_WMI_ACTIVITY: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Records WMI query and operation events (5857-5861). WMI is heavily abused for lateral movement, persistence (subscriptions), and reconnaissance. Event 5861 records new permanent event subscriptions — critical persistence indicator.",
+    meaning: "Records WMI operation and subscription events (5857-5861). WMI is heavily abused for lateral movement, persistence (subscriptions), and reconnaissance. Read the manifest's own message templates rather than the id alone. 5857: a provider started — '{ProviderName} provider started with result code {Code}. HostProcess = {HostProcess}; ProcessID = {ProcessID}; ProviderPath = {ProviderPath}', so it names the provider BINARY loaded into the host process; a provider path outside %SystemRoot%\\System32\\wbem is the detection surface for a registered malicious provider. 5858: an operation failed — 'Id; ClientMachine; User; ClientProcessId; Component; Operation; ResultCode; PossibleCause', and ClientMachine + User is the field pair that attributes a WMI call to a REMOTE origin host and account, while ResultCode decodes against the WBEM_E_* error constants. 5859/5860 record notification-query (temporary subscription) registration with the namespace, the query, the owner/user and the client machine; 5861 records a permanent consumer binding (Namespace; Eventfilter; Consumer) — the persistence triple. Pivot from a subscription to the process that RUNS it: an ActiveScriptEventConsumer body executes in scrcons.exe (Microsoft lists Scrcons.exe as the class's server), so a scrcons.exe execution record dates a subscription firing even when the consumer object has been deleted.",
     mitre_techniques: &["T1047", "T1546.003"],
     fields: &[
-        FieldSchema { name: "namespace", value_type: ValueType::Text, description: "WMI namespace targeted", is_uid_component: true },
-        FieldSchema { name: "query", value_type: ValueType::Text, description: "WQL query executed (5858)", is_uid_component: false },
+        FieldSchema { name: "namespace", value_type: ValueType::Text, description: "WMI namespace targeted (5859/5860/5861) — root\\subscription hosts the documented permanent subscriptions, but any namespace can, so enumerate rather than assume", is_uid_component: true },
+        FieldSchema { name: "query", value_type: ValueType::Text, description: "The notification (WQL) query registered, from the NotificationQuery item of 5859/5860 — the trigger condition in the subscriber's own words", is_uid_component: false },
+        FieldSchema { name: "event_id", value_type: ValueType::UnsignedInt, description: "5857=provider started, 5858=operation failed, 5859/5860=notification query registered, 5861=permanent consumer bound", is_uid_component: false },
+        FieldSchema { name: "client_machine", value_type: ValueType::Text, description: "ClientMachine from 5858/5860 — the host the WMI call came FROM. On a 5858 recorded on a server this is the origin of remote WMI, the single field that turns an unattributed WMI operation into a lateral-movement source", is_uid_component: false },
+        FieldSchema { name: "user", value_type: ValueType::Text, description: "The account the operation ran as (User/OwnerName). Pair with client_machine to name who reached this host over WMI", is_uid_component: false },
+        FieldSchema { name: "client_process_id", value_type: ValueType::UnsignedInt, description: "ClientProcessId from 5858 — the PID on the CLIENT side, not this host; join it against that host's process records, never this one's", is_uid_component: false },
+        FieldSchema { name: "operation", value_type: ValueType::Text, description: "The failed WMI operation text from 5858 (method call, class or query) — shows what was attempted even though it failed, which is often the recon itself", is_uid_component: false },
+        FieldSchema { name: "result_code", value_type: ValueType::Text, description: "ResultCode from 5858 — decode against the WBEM_E_* constants; an access-denied result still proves the attempt and names the caller", is_uid_component: false },
+        FieldSchema { name: "provider_path", value_type: ValueType::Text, description: "ProviderPath from 5857 — the provider DLL loaded into the WMI host process. Hash it and check its location: a provider registered from a user-writable path is a WMI extension the host was made to load", is_uid_component: false },
+        FieldSchema { name: "host_process", value_type: ValueType::Text, description: "HostProcess and ProcessID from 5857 — the process hosting the provider, the pivot into process-creation records and memory for the same moment", is_uid_component: false },
     ],
     retention: Some("Default 1 MB"),
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &["wmi_subscriptions", "wmi_mof_dir", "evtx_security"],
+    related_artifacts: &["wmi_subscriptions", "wmi_mof_dir", "evtx_security", "evtx_remote_execution_host_lineage"],
     sources: &[
         "https://www.fireeye.com/blog/threat-research/2019/03/windows-management-instrumentation-wmi-offense-defense-and-forensics.html",
+        // Mechanical dump of the Microsoft-Windows-WMI-Activity provider manifest — the exact
+        // message templates and data-item names of 5857/5858/5859/5860/5861:
+        "https://github.com/nasbench/EVTX-ETW-Resources",
+        // Microsoft — WMI error constants, the WBEM_E_* space a 5858 ResultCode decodes against:
+        "https://learn.microsoft.com/en-us/windows/win32/wmisdk/wmi-error-constants",
+        // Microsoft — ActiveScriptEventConsumer: the class's server is Scrcons.exe, and the
+        // consumer does not run under Windows Script Host:
+        "https://learn.microsoft.com/en-us/windows/win32/wmisdk/activescripteventconsumer",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["5861 = permanent WMI subscription — near-certain persistence"],
+    evidence_caveats: &[
+        "5861 = permanent WMI subscription — near-certain persistence",
+        "5858 is an operation-FAILED record: a quiet log means operations succeeded, not that no remote WMI occurred — absence of 5858 is not absence of activity",
+        "ClientProcessId in 5858 belongs to the calling host, so resolving it against this host's process list produces a false attribution",
+        "5857 fires for every provider start, including the stock providers loaded during ordinary management traffic; the discriminator is the ProviderPath and its signer, not the event",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Event log; rotated on size limit",
 };
@@ -650,20 +705,39 @@ pub(crate) static EVTX_POWERSHELL_CLASSIC: ArtifactDescriptor = ArtifactDescript
     scope: DataScope::System,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "Legacy PowerShell event log (pre-5.0 style). Events 400 (engine start) and 600 (provider start) record PowerShell session initiation and can show HostApplication (the full command line). Complements the Operational log for older PowerShell versions.",
-    mitre_techniques: &["T1059.001"],
+    meaning: "Legacy PowerShell event log (pre-5.0 style). Events 400 (engine start) and 600 (provider start) record PowerShell session initiation and can show HostApplication (the full command line). Complements the Operational log for older PowerShell versions. Event 400 is the engine-lifecycle record and it carries the EngineVersion — the field that answers 'the PowerShell logs are empty'. Script-block logging, transcription and the 4103/4104 records only exist from engine version 5.0, so an execution routed through an older engine produces none of them while still writing a 400 here. Reading EngineVersion on every 400 and flagging any value below 5.0 is therefore the host-side detection for a deliberately downgraded engine; the engine's own author published exactly that query. Two routes reach the old engine: the -Version switch on powershell.exe, and a host application compiled against the v2 reference assemblies (so the loading binary, not the command line, chooses the engine). The engine-lifecycle records come in a PAIR that brackets a session — 400 when the engine becomes available and 403 when it stops — and both carry HostName, the name of the PSHost implementation that loaded the engine, alongside HostVersion. That field separates a session someone typed at (HostName ConsoleHost) from one the remoting stack created: ServerRemoteHost is the host class the engine ships for the remoting server side, so a 400/403 pair carrying it brackets a session built on the remoting infrastructure ON THIS HOST. Read it as a lead rather than a finding — local background jobs run on the same infrastructure and report the same host name — so corroborate against evtx_winrm and a Security 4624 Logon Type 3 before calling a session inbound. The pair also bounds the session in time when nothing else does: on a downgraded engine there is no transcript and no 4103/4104, and 400/403 are the only records of when it started and ended.",
+    mitre_techniques: &["T1059.001", "T1562.002", "T1021.006"],
     fields: &[
         FieldSchema { name: "host_application", value_type: ValueType::Text, description: "Command or script that launched PowerShell", is_uid_component: true },
+        FieldSchema { name: "event_id", value_type: ValueType::UnsignedInt, description: "400=engine lifecycle (engine became available), 403=engine lifecycle (engine stopped) — the two bracket one session, 600=provider lifecycle (provider started)", is_uid_component: false },
+        FieldSchema { name: "engine_version", value_type: ValueType::Text, description: "EngineVersion from event 400 — the PowerShell engine actually loaded. A value below 5.0 means the session ran on an engine that predates script-block logging and transcription, so the absence of 4103/4104 records for that session is explained by the engine, not by inactivity", is_uid_component: false },
+        FieldSchema { name: "host_name", value_type: ValueType::Text, description: "HostName from events 400/403 — the PSHost implementation that loaded the engine, not the computer name. ConsoleHost is an interactive console; ServerRemoteHost is the engine's own remoting server-side host class, marking a session the remoting stack created on this host. Use it to sort sessions by how they were started, then establish direction elsewhere: the value does not distinguish an inbound remoting session from a local background job", is_uid_component: false },
+        FieldSchema { name: "runspace_id", value_type: ValueType::Guid, description: "RunspaceId carried by the engine-lifecycle records — the key that pairs one session's 400 with its own 403 rather than pairing them by time, which matters on a host running several sessions at once", is_uid_component: false },
     ],
     retention: Some("Default 15 MB"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["evtx_powershell", "powershell_history"],
+    related_artifacts: &["evtx_powershell", "powershell_history", "evtx_powershell_core_operational"],
     sources: &[
         "https://www.sans.org/blog/powershell-logging-for-the-blue-team/",
         "https://github.com/Yamato-Security/hayabusa-rules",
+        // Lee Holmes (PowerShell engine developer) — event 400 is the engine-lifecycle record
+        // carrying EngineVersion, the two routes to the v2 engine, and the detection query:
+        "https://www.leeholmes.com/detecting-and-preventing-powershell-downgrade-attacks/",
+        // PowerShell engine source — ServerRemoteHost is the PSHost the remoting server side
+        // constructs, which is where the HostName value in a remoting session's 400/403 comes from:
+        "https://github.com/PowerShell/PowerShell/blob/master/src/System.Management.Automation/engine/remoting/server/ServerRemoteHost.cs",
+        // PowerShell issue tracker — a local background job also runs on the remoting
+        // infrastructure and reports the same host name, which is why ServerRemoteHost alone
+        // does not establish that a session arrived over the network:
+        "https://github.com/PowerShell/PowerShell/issues/11293",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
-    evidence_caveats: &["Legacy log; modern PowerShell activity is in PowerShell/Operational and Microsoft-Windows-PowerShell/Operational"],
+    evidence_caveats: &[
+        "Legacy log; modern PowerShell activity is in PowerShell/Operational and Microsoft-Windows-PowerShell/Operational",
+        "A low EngineVersion is not by itself proof of evasion: the v2 engine also loads for an application legitimately built against the v2 reference assemblies, and on Windows 10 and later it requires the .NET Framework 2.0 feature to be present at all — so establish whether that feature was installed before calling it a downgrade",
+        "HostName = ServerRemoteHost does NOT prove an inbound remoting session: PowerShell runs local background jobs on the same remoting infrastructure, so they report the identical host name. Corroborate with the WinRM channel and a network logon before reporting remote execution",
+        "A 403 can be missing for a session that did start — an engine killed with its host process, or a log that rotated between the two records, leaves a 400 with no partner. Treat an unpaired 400 as an unbounded session, not as a session that never ended",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "EVTX channel; oldest records purged when size limit reached",
 };
@@ -1427,4 +1501,1283 @@ pub(crate) static EVTX_MICROSOFT_WINDOWS_SECURITYMITIGATIONSBROKER_ADMIN: Artifa
     evidence_caveats: &["Windows Security audit log; check Policy log for channel disable events"],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Event log rotates on size limit; Security channel is high-value",
+};
+
+// ── Group D: hand-written Security-log families and channel records ──────────
+
+/// Field schema for Security event 4648 — a logon was attempted using explicit
+/// credentials.
+///
+/// The record carries TWO identities, and keeping them apart is the whole
+/// value of the event: the Subject block is the session that acted, and the
+/// "Account Whose Credentials Were Used" block is the identity it borrowed.
+/// Target Server Name is the documented destination field; Microsoft defines
+/// Network Address as the machine the logon attempt was performed FROM, so the
+/// two answer different questions and must not be merged into one "remote
+/// host" column.
+///
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4648>
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624>
+pub(crate) static EVTX_SECURITY_EXPLICIT_CREDENTIALS_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "event_id",
+        value_type: ValueType::UnsignedInt,
+        description: "Always 4648. Success-only: Microsoft documents no failure variant, so this event says credentials were supplied, never that they worked",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "timestamp",
+        value_type: ValueType::Timestamp,
+        description: "When the credentials were supplied on THIS host — the start of an outbound movement, earlier than the destination's own logon record",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "subject_account",
+        value_type: ValueType::Text,
+        description: "Subject Account Name and Domain — the logged-on identity whose session launched the process. This is who was at the keyboard or owned the running session, not the identity used on the wire",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "subject_logon_id",
+        value_type: ValueType::Text,
+        description: "Subject Logon ID — joins this event to other records of the same session on this host, 4624 among them. A runas with alternate network credentials also mints a Logon Type 9 (NewCredentials) session, which is the 4624 to look for beside this record",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "credentials_account",
+        value_type: ValueType::Text,
+        description: "Account Whose Credentials Were Used — the borrowed identity that will appear on the DESTINATION host's logon record. Comparing it with subject_account separates ordinary self-service activity from one account reaching out as another",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "credentials_logon_guid",
+        value_type: ValueType::Guid,
+        description: "Logon GUID of the credentials used — Microsoft names it as the correlator to the domain controller's 4769 service-ticket record and to events on the host reached, which is what ties this origin-side record to the rest of the chain",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "target_server_name",
+        value_type: ValueType::Text,
+        description: "Target Server Name — the server the new process was run on, or 'localhost' when it ran locally. A non-localhost value is this host enumerating where it reached out TO, which no target-side event can give you",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "additional_information",
+        value_type: ValueType::Text,
+        description: "Additional Information — free text about the target that Microsoft's reference explicitly leaves undocumented. Record it verbatim and reason from what it contains on the host in hand; do not assume a fixed meaning for it",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "process_name",
+        value_type: ValueType::Text,
+        description: "Full path of the LOCAL process that supplied the credentials — runas.exe, a remote-admin tool, a script host. This names the tool used to pivot and is the reason the event is worth collecting on every workstation, not just servers",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "process_id",
+        value_type: ValueType::UnsignedInt,
+        description: "PID of that local process; join to the same host's process-creation record (4688 New Process ID) to recover its command line and parent",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "network_address",
+        value_type: ValueType::Text,
+        description: "Network Address as Microsoft defines it: the IP of the machine the logon attempt was performed from (::1 or 127.0.0.1 meaning localhost). Read it as provenance of the attempt, and take the destination from target_server_name instead",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "network_port",
+        value_type: ValueType::UnsignedInt,
+        description: "Source port of the attempt; 0 for interactive logons. A zero here is normal and is not a sign of a truncated record",
+        is_uid_component: false,
+    },
+];
+
+/// Security event 4648 — the origin-side record of an explicit-credential logon.
+///
+/// Every other lateral-movement event in this catalog is written where the
+/// movement LANDS. 4648 is written where it STARTS: the process supplying the
+/// credentials is local, and the server it reached is named in the record. One
+/// compromised host's Security log therefore enumerates the outbound movement
+/// attempted from it, including attempts that never authenticated anywhere.
+///
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4648>
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624>
+pub(crate) static EVTX_SECURITY_EXPLICIT_CREDENTIALS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "evtx_security_explicit_credentials",
+    name: "Explicit-Credential Logon (Security 4648)",
+    artifact_type: ArtifactLocation::EventLog,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Security.evtx"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Written when a process attempts a logon by explicitly supplying an account's credentials — the runas case, scheduled tasks configured with stored credentials, and remote-administration tooling that takes a username and password. Gated by the Audit Logon subcategory. The record is produced on the host where that process ran, so it inverts the geometry of the rest of the logon evidence: 4624 tells you who arrived HERE, 4648 tells you where this host tried to go. Two identity blocks make it readable — Subject (the session that acted) and Account Whose Credentials Were Used (the identity put on the wire) — and Target Server Name gives the destination, or 'localhost' when the new process ran locally. Process Name is the local tool that pivoted. Subject Logon ID joins the record to the same session's other events on this host; the credentials' Logon GUID is Microsoft's documented correlator to the domain controller's 4769 and to events on the host reached. Microsoft also states plainly that 4648 occurs routinely during normal operating-system activity, so the finding is never the event alone: it is a non-localhost Target Server Name, an unexpected borrowed account, or a process name that has no business supplying credentials.",
+    mitre_techniques: &["T1078", "T1021", "T1550.002"],
+    fields: EVTX_SECURITY_EXPLICIT_CREDENTIALS_FIELDS,
+    retention: Some("Security.evtx is a rolling channel sized by policy; on a busy host the window is hours to days"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[
+        "evtx_security",
+        "evtx_remote_execution_host_lineage",
+        "evtx_security_logon_failure",
+        "evtx_winrm",
+    ],
+    sources: &[
+        // Microsoft — 4648: the field blocks, Target Server Name semantics, the Logon ID and
+        // Logon GUID correlations, and the statement that the event occurs routinely:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4648",
+        // Microsoft — 4624: Logon Type 9 (NewCredentials), the session shape a runas with
+        // alternate network credentials leaves beside a 4648:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Microsoft documents 4648 as a routine occurrence during normal operating-system activity — volume alone is meaningless, and a single event proves only that credentials were supplied",
+        "The event does not say the logon succeeded; corroborate with the destination host's own 4624/4625 before claiming the account reached the target",
+        "Additional Information is undocumented in Microsoft's reference — quote it, do not decode it as a service principal name or any other fixed field",
+        "Network Address is documented as the address the attempt came FROM, not the destination; treating it as the target inverts the direction of the finding",
+        "Present only where the Audit Logon subcategory was enabled at the time — absence is a policy fact until the audit configuration is established",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when the configured maximum size is reached",
+};
+
+/// Field schema for Security event 4625 — an account failed to log on.
+///
+/// The event carries a Status and a Sub Status, both NTSTATUS values from the
+/// same space ([MS-ERREF] 2.3.1). Status is the reason the logon failed and
+/// Sub Status is the additional detail; Microsoft's own sample record shows
+/// Status carrying the real cause with Sub Status at 0x0, so a decoder must
+/// read both rather than assuming one is always the informative one.
+///
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4625>
+/// Source: <https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55>
+pub(crate) static EVTX_SECURITY_LOGON_FAILURE_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "event_id",
+        value_type: ValueType::UnsignedInt,
+        description: "Always 4625, and always a Failure record — the successful counterpart is 4624",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "timestamp",
+        value_type: ValueType::Timestamp,
+        description: "When the attempt failed. The inter-event spacing across a run of these is what separates a human retyping a password from an automated sweep",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "target_account",
+        value_type: ValueType::Text,
+        description: "Account Name and Account Domain specified in the attempt — the identity that was tried. Attribute failed logons on this pair, never on the SID (see target_sid)",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "target_sid",
+        value_type: ValueType::Text,
+        description: "Security ID of the specified account. Microsoft's published sample carries the NULL SID S-1-0-0 here while the account name resolves normally, so a correlator keyed on SID silently drops failed logons",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "status",
+        value_type: ValueType::Text,
+        description: "Status — the NTSTATUS reason the logon failed. 0xC000006D STATUS_LOGON_FAILURE is the deliberately vague generic ('either due to a bad username or authentication information'), which is when the sub_status carries the real cause",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "sub_status",
+        value_type: ValueType::Text,
+        description: "Sub Status — the discriminating NTSTATUS: 0xC0000064 STATUS_NO_SUCH_USER (the account does not exist), 0xC000006A STATUS_WRONG_PASSWORD (it exists, the password was wrong), 0xC000006E STATUS_ACCOUNT_RESTRICTION, 0xC000006F STATUS_INVALID_LOGON_HOURS, 0xC0000070 STATUS_INVALID_WORKSTATION, 0xC0000071 STATUS_PASSWORD_EXPIRED, 0xC0000072 STATUS_ACCOUNT_DISABLED, 0xC0000193 STATUS_ACCOUNT_EXPIRED, 0xC0000234 STATUS_ACCOUNT_LOCKED_OUT. Separating 0xC0000064 from 0xC000006A tells spraying a wordlist of invented usernames apart from guessing against a real account, without touching the account database",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "failure_reason",
+        value_type: ValueType::Text,
+        description: "Failure Reason — Microsoft's rendered explanation of the Status value (a %%-prefixed message id in the raw XML). Convenient for reading, but the hex codes are what a rule should match, since the rendered string is locale-dependent",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "logon_type",
+        value_type: ValueType::UnsignedInt,
+        description: "Logon Type of the failed attempt — 3 network, 10 RemoteInteractive (RDP), 2 interactive, 5 service. It says which door was tried and therefore which other log to open next",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "workstation_name",
+        value_type: ValueType::Text,
+        description: "Network Information Workstation Name — the name the client SUPPLIED, so it is attacker-controllable free text and can be absent; treat it as a claim, corroborated only by source_network_address",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "source_network_address",
+        value_type: ValueType::Text,
+        description: "Source Network Address and Port of the attempt — the observable to pivot on for a remote failure, and the field that separates one noisy source from a distributed sweep",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "authentication_package",
+        value_type: ValueType::Text,
+        description: "Authentication Package (and Package Name for NTLM) — names the protocol that refused. NTLM failures also leave a 4776 on the computer authoritative for the account, carrying an Error Code from this same NTSTATUS space",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "caller_process_name",
+        value_type: ValueType::Text,
+        description: "Full path of the process that attempted the logon, when the attempt was local — a local brute force names its own tool here, while a network attempt typically leaves it empty",
+        is_uid_component: false,
+    },
+];
+
+/// Security event 4625 — a failed logon, with the status pair that says WHY.
+///
+/// The value is in the decode, not the count. Status and Sub Status come from
+/// the NTSTATUS space, and the distinction between "no such user" and "wrong
+/// password" is recorded in every failure — which is what lets an examiner
+/// tell a username-enumeration sweep from targeted password guessing straight
+/// out of the log.
+///
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4625>
+/// Source: <https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55>
+pub(crate) static EVTX_SECURITY_LOGON_FAILURE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "evtx_security_logon_failure",
+    name: "Failed Logon with Status Decode (Security 4625)",
+    artifact_type: ArtifactLocation::EventLog,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Security.evtx"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Records a logon that failed, with a Status and Sub Status pair drawn from the NTSTATUS space that Microsoft's own reference points at for decoding. Status is the reason; Sub Status is the additional detail, and it is the field that carries the discriminator when Status is the generic 0xC000006D STATUS_LOGON_FAILURE, whose rendered text ('unknown user name or bad password') deliberately tells an attacker nothing. Decoded, the log answers a question the raw count cannot: a run of 0xC0000064 STATUS_NO_SUCH_USER is a sweep against names that do not exist (enumeration or a spray from a wordlist), whereas a run of 0xC000006A STATUS_WRONG_PASSWORD is guessing against accounts that DO exist, and 0xC0000234 STATUS_ACCOUNT_LOCKED_OUT marks where a lockout policy caught it. The remaining codes are policy facts rather than credential facts — 0xC000006F invalid logon hours, 0xC0000070 invalid workstation, 0xC0000071 expired password, 0xC0000072 disabled account, 0xC0000193 expired account — and each says the credentials may have been correct while something else refused. Microsoft's sample record shows the Status carrying the cause with Sub Status at 0x0, so read the pair, never one alone. The same NTSTATUS space appears as the Error Code of 4776, so NTLM failures can be decoded with the same table on the authenticating host.",
+    mitre_techniques: &["T1110.001", "T1110.003", "T1087.002", "T1078"],
+    fields: EVTX_SECURITY_LOGON_FAILURE_FIELDS,
+    retention: Some("Security.evtx is a rolling channel sized by policy; failure bursts fill it quickly"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[
+        "evtx_security",
+        "evtx_ntlm",
+        "evtx_security_explicit_credentials",
+        "evtx_rdp_core_ts",
+    ],
+    sources: &[
+        // Microsoft — 4625: the Status/Sub Status field definitions, the monitoring table of
+        // codes, the NULL SID in the published sample, and the pointer to NTSTATUS Values:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4625",
+        // [MS-ERREF] 2.3.1 NTSTATUS Values — the symbolic names and definitions behind the
+        // 0xC00000xx codes this event reports:
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "A failed logon is an attempt, not an intrusion: expired passwords, stale mapped drives, saved credentials in a service and a mistyped username all generate the same event",
+        "Sub Status is frequently 0x0, with the cause in Status — a decoder that reads only Sub Status reports 'unknown' on well-formed records",
+        "Workstation Name is supplied by the client and is not authenticated; only the source network address is an observable",
+        "The published sample shows the NULL SID S-1-0-0 in the target account's Security ID — joining failed to successful logons on SID loses the link",
+        "Absence of 4625 does not mean no attempt: Failure auditing for the Logon subcategory can be off, and a protocol may refuse before reaching this host at all",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; a failure burst is exactly the traffic that rotates the window shut",
+};
+
+/// Field schema for Security event 4697 — a service was installed in the system.
+///
+/// The Service Start Type values are the same numbering the Service Control
+/// Manager takes in `CreateService`, and the same numbering stored as the
+/// `Start` value under the service's own registry key — so the event, the API
+/// and the hive all speak one vocabulary.
+///
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4697>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-createservicew>
+/// Source: <https://learn.microsoft.com/en-us/windows/application-management/per-user-services-in-windows>
+pub(crate) static EVTX_SECURITY_SERVICE_INSTALL_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "event_id",
+        value_type: ValueType::UnsignedInt,
+        description: "Always 4697. The System-log counterpart written by the Service Control Manager is 7045 — different log, different gate, so check for both",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "timestamp",
+        value_type: ValueType::Timestamp,
+        description: "When the service was registered with the Service Control Manager — an installation time, not a first-run time",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "subject_account",
+        value_type: ValueType::Text,
+        description: "Subject Account Name, Domain and Logon ID — the security context the registration ran in. Microsoft's own sample shows the machine account with Logon ID 0x3e7 (SYSTEM), which is the common case: the installer's own account is often absent here, so attribution needs the 7045 record or the process that created it",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "service_name",
+        value_type: ValueType::Text,
+        description: "Service Name as registered — the key name under the services hive and the string to hunt for in the registry, task and network evidence. Attacker-chosen free text, so it is a label, never a verdict",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "service_file_name",
+        value_type: ValueType::Text,
+        description: "Service File Name — the binary path AND its arguments, the highest-signal field in the record. A service hosted by svchost.exe shows the host with its -k group; a path in a user-writable directory, an interpreter with an encoded argument, or a binary under a temp path is what separates a real installation from the operating system's own",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "service_type",
+        value_type: ValueType::Text,
+        description: "Service Type — whether the installed thing is a user-mode service or a KERNEL DRIVER. A driver install is the BYOVD/rootkit shape and deserves its own path: hash the file and check its signature",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "service_start_type",
+        value_type: ValueType::UnsignedInt,
+        description: "Service Start Type, same numbering as the registry Start value: 0 Boot (driver loaded by the system loader), 1 System (driver loaded during kernel initialisation), 2 Automatic (started by the SCM at startup, including delayed auto-start), 3 Manual (started on demand), 4 Disabled. 0/1 on a newly installed driver means it will load before most defensive software",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "service_account",
+        value_type: ValueType::Text,
+        description: "Service Account — the security context the service will run AS. LocalSystem gives the service the machine's identity on the network, which is what makes a service install a privilege and persistence step rather than merely a start-up entry",
+        is_uid_component: false,
+    },
+];
+
+/// Security event 4697 — a service was installed, recorded in the Security log.
+///
+/// The catalog already carries the System-log 7045. 4697 is the Security-log
+/// counterpart, and the two fail independently: 7045 is written by the Service
+/// Control Manager and survives whatever the audit policy says, while 4697
+/// exists only under the Audit Security System Extension subcategory but sits
+/// in the same log as the logon events, so no cross-log join is needed to put
+/// an installation beside the session that preceded it.
+///
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4697>
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/audit-security-system-extension>
+pub(crate) static EVTX_SECURITY_SERVICE_INSTALL: ArtifactDescriptor = ArtifactDescriptor {
+    id: "evtx_security_service_install",
+    name: "Service Installed (Security 4697)",
+    artifact_type: ArtifactLocation::EventLog,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Security.evtx"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "Generated when a service is registered with the Service Control Manager, under the Audit Security System Extension subcategory (Microsoft's stated reason for recommending Success auditing of that subcategory is this very event). It records the service name, the binary path and arguments, the service type, the start type and the account the service will run as — the whole definition of a new execution path that survives reboot. Two things make it worth carrying separately from the System log's 7045. First, it lives in the same log as the logon and process events, so the session that installed it is in the same file and the same rotation window. Second, the subject it records is the context the registration ran in, which on Microsoft's own sample is the machine account rather than the human who initiated it — so 4697 and 7045 are cross-checked to keep attribution honest. The base rate is the trap: Windows 10 and Server 2016 and later mint a per-logon instance of each per-user service template, named <TemplateServiceName>_<LUID> (both the service name and the display name carry the same LUID suffix), and each fresh instance is a service the Security log has never seen before. Filter that noise on the service_file_name — the template family's host binary — rather than on the underscore in the name, which is trivially imitated.",
+    mitre_techniques: &["T1543.003", "T1569.002", "T1068"],
+    fields: EVTX_SECURITY_SERVICE_INSTALL_FIELDS,
+    retention: Some("Security.evtx is a rolling channel sized by policy"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["evtx_security", "evtx_system", "evtx_security_account_management"],
+    sources: &[
+        // Microsoft — 4697: the subcategory, the field list, the Service Start Type table and
+        // the sample showing the machine account as Subject:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4697",
+        // Microsoft — Audit Security System Extension: what the subcategory covers and why
+        // Success auditing is recommended for it:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/audit-security-system-extension",
+        // Microsoft — CreateServiceW: the dwStartType constants the event's numbering follows:
+        "https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-createservicew",
+        // Microsoft — Per-user services in Windows: the <service name>_LUID instance naming
+        // that produces the benign 4697 volume:
+        "https://learn.microsoft.com/en-us/windows/application-management/per-user-services-in-windows",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Exists only where the Audit Security System Extension subcategory was configured — absence is a policy fact, and the System log's 7045 is the record that survives without it",
+        "The Subject is the context the registration ran in, which is frequently a system account; reading it as the initiating user misattributes the install",
+        "Per-user service instances (<TemplateServiceName>_<LUID>) generate a 4697 per logon session, so raw 4697 volume is dominated by benign operating-system instances",
+        "Microsoft documents this event from Windows 10 / Server 2016 onward; on earlier builds the Service Control Manager's 7045 is the only record",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when the channel's maximum size is reached",
+};
+
+/// Field schema for the Security-log account and group management family.
+///
+/// One `net user /add` is not one event: the subcategories emit a cluster
+/// inside the same second, and the CLUSTER is the signature. The group events
+/// encode the group's scope in the id itself — Microsoft documents the global
+/// and universal variants as identical to the local ones except for scope —
+/// so 4732 / 4728 / 4756 answer "which kind of group" before a single field is
+/// read.
+///
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/audit-user-account-management>
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/audit-security-group-management>
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4798>
+pub(crate) static EVTX_SECURITY_ACCOUNT_MANAGEMENT_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "event_id",
+        value_type: ValueType::UnsignedInt,
+        description: "Which account-management act this is. User account management: 4720 created, 4722 enabled, 4723 password changed BY THE ACCOUNT ITSELF, 4724 password RESET by another principal, 4725 disabled, 4726 deleted, 4738 changed, 4740 locked out, 4767 unlocked, 4781 renamed, 4798 the user's local group membership was enumerated. Security group management: 4731/4734/4735 local group created/deleted/changed, 4732/4733 member added/removed from a local group, 4727/4730/4737 and 4728/4729 the same acts on a GLOBAL group, 4754/4756 on a UNIVERSAL group, 4764 group type changed, 4799 a group's membership was enumerated",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "timestamp",
+        value_type: ValueType::Timestamp,
+        description: "When the act occurred. Cluster the events by second: a single account creation via the built-in tooling emits a create, an enable, a password set and a change record together, so the burst shape — not the lone 4720 — is what the analyst matches",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "subject_account",
+        value_type: ValueType::Text,
+        description: "Subject Account Name, Domain and Logon ID — WHO performed the act. Join the Logon ID back to the session's 4624 to place the change inside a specific logon, remote or local",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "target_account",
+        value_type: ValueType::Text,
+        description: "Target Account Name, Domain and SID — the account acted upon. For 4723 the subject and target are the same principal (a self-service password change); for 4724 they differ, which is an administrative reset of someone else's password and a very different fact",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "target_group",
+        value_type: ValueType::Text,
+        description: "Group Name, Domain and SID for the group events — the privilege actually granted. Read the SID rather than the name for the built-in groups, because names are localised and renameable while S-1-5-32-544 is not",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "member_name",
+        value_type: ValueType::Text,
+        description: "Member Name / Member SID on 4732/4728/4756 and their removal counterparts — the principal added to or removed from the group. The added member is the account that inherits the group's rights at its next logon",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "process_name",
+        value_type: ValueType::Text,
+        description: "Full path of the process that performed the enumeration on 4798/4799 — the field that makes those two usable. It separates a shell or scripting host walking the local Administrators membership from the management, shell and service processes that do the same thing as background work",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "process_id",
+        value_type: ValueType::UnsignedInt,
+        description: "PID of that process; join to the same host's process-creation record to recover its command line and parent, which is where the recon's intent actually shows",
+        is_uid_component: false,
+    },
+];
+
+/// Security-log account and group management — creation, enablement, password
+/// changes, group membership and the two enumeration events.
+///
+/// The catalog previously named only 4720 and 4732 in a summary string. This
+/// descriptor carries the family, including the pair that distinguishes a
+/// self-service password change (4723) from an administrative reset (4724),
+/// the group ids that encode scope, and 4798/4799 — the enumeration events
+/// that record the CALLING PROCESS, which is what makes local-group recon
+/// visible at all.
+///
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/audit-user-account-management>
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/audit-security-group-management>
+pub(crate) static EVTX_SECURITY_ACCOUNT_MANAGEMENT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "evtx_security_account_management",
+    name: "Account and Group Management (Security 4720-4799 family)",
+    artifact_type: ArtifactLocation::EventLog,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Security.evtx"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Two subcategories write this family. Audit User Account Management covers the account lifecycle — 4720 created, 4722 enabled, 4723 an attempt to CHANGE an account's password, 4724 an attempt to RESET one, 4725 disabled, 4726 deleted, 4738 changed, 4740 locked out, 4767 unlocked, 4781 renamed — plus 4798, a user's local group membership was enumerated. Audit Security Group Management covers the groups — local groups as 4731 created, 4732 member added, 4733 member removed, 4734 deleted, 4735 changed; the identical acts on GLOBAL groups as 4727/4728/4729/4730/4737 and on UNIVERSAL groups as 4754/4756/4757/4758/4755, both of which Microsoft notes generate only for domain groups; 4764 a group's type changed; and 4799, a security-enabled local group's membership was enumerated. Microsoft documents the global and universal events as the same event with the same fields, differing only in the scope of the group — so the event id itself already tells an examiner whether a membership change reached a domain-wide privilege. Three readings are worth naming. 4723 versus 4724 separates a user changing their own password from someone resetting another account's, which is the difference between housekeeping and an account takeover step. A creation performed with the built-in tooling emits several of these ids inside the same second, so the burst — create, enable, password set, change — is the recognisable shape, not the lone 4720. And 4798/4799 are the only records that name the PROCESS that read a group's membership, which is what lets a shell enumerating the local administrators be separated from the management and shell processes that do it constantly as background work.",
+    mitre_techniques: &["T1136.001", "T1098", "T1087.001", "T1069.001", "T1078"],
+    fields: EVTX_SECURITY_ACCOUNT_MANAGEMENT_FIELDS,
+    retention: Some("Security.evtx is a rolling channel sized by policy"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["evtx_security", "evtx_security_service_install", "evtx_security_object_access"],
+    sources: &[
+        // Microsoft — Audit User Account Management: the subcategory's own event list
+        // (4720/4722/4723/4724/4725/4726/4738/4740/4767/4781/4798 and more):
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/audit-user-account-management",
+        // Microsoft — Audit Security Group Management: the event list and the statement that
+        // the global/universal events are identical to the local ones but for group scope:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/audit-security-group-management",
+        // Microsoft — 4798: a user's local group membership was enumerated, with the calling
+        // Process ID and Process Name (documented from Windows 10 / Server 2016):
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4798",
+        // Microsoft — 4799: the group-side enumeration event, under the group subcategory:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4799",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "4798 and 4799 are documented from Windows 10 / Server 2016 onward — on earlier builds local-group enumeration leaves no event at all, and its absence says nothing",
+        "4798/4799 are high-volume on a normal desktop: shell, management console and service processes enumerate group membership routinely, so the calling process is the discriminator, never the event count",
+        "Each event is gated by its own subcategory (user account management or security group management), so half the family can be present while the other half is silent",
+        "The group's display name is localised and can be renamed; match built-in groups on their well-known SID instead",
+        "An account created and deleted between two collections leaves only these records — and only until the channel rotates",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; account-management records are low volume but share the rotation window with high-volume logon traffic",
+};
+
+/// Field schema for the Security-log object access family (4656 / 4658 / 4660 /
+/// 4663 / 4670).
+///
+/// These events exist only where an object's SACL carries the matching ACE
+/// *and* the relevant audit subcategory is on — two independent switches, both
+/// off by default on a stock host. Where both are set, 4663 is the only
+/// event-level record that a named account actually exercised a given access
+/// right against a given object.
+///
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4663>
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4656>
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4660>
+pub(crate) static EVTX_SECURITY_OBJECT_ACCESS_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "event_id",
+        value_type: ValueType::UnsignedInt,
+        description: "4656 a handle to an object was requested (Success or Failure — it records the request and its result, not the use), 4663 an access right was USED (Success only), 4658 the handle was closed, 4660 an object was deleted, 4670 permissions on an object were changed",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "timestamp",
+        value_type: ValueType::Timestamp,
+        description: "When the access happened. With 4656 and 4658 bracketing it, the pair also bounds how long the handle was held — Microsoft's stated reason for 4658 existing",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "subject_account",
+        value_type: ValueType::Text,
+        description: "Subject Account Name, Domain, SID and Logon ID — the account that touched the object. The Logon ID places the access inside one session, so a file read can be tied back to the logon that opened it",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "object_type",
+        value_type: ValueType::Text,
+        description: "Object Type — File, Key, SAM, Process, Token, Directory and the rest of the kernel object types. It says which subcategory produced the record and how to read Object Name",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "object_name",
+        value_type: ValueType::Text,
+        description: "The object touched: a full file path, a registry key path, or a SAM object path. This is the evidentiary payload — the named thing a named account read, wrote or deleted",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "handle_id",
+        value_type: ValueType::Text,
+        description: "Handle ID — the join key across the family. The same handle links 4656 (requested), 4663 (used) and 4658 (closed), and it is the ONLY identifier on 4660, which does not carry the deleted object's name; recover that name from the matching 4656/4663",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "accesses",
+        value_type: ValueType::Text,
+        description: "Accesses — the rights actually exercised, rendered as names: ReadData/ListDirectory (0x1), WriteData/AddFile (0x2), AppendData/AddSubdirectory (0x4), ReadEA (0x8), WriteEA (0x10), Execute/Traverse (0x20), DELETE, WriteDAC, WriteOwner and so on. For registry objects the same bits carry the key-specific names (query value, set value, enumerate sub-keys). This is the field that separates a file being READ from a file being MODIFIED",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "access_mask",
+        value_type: ValueType::Text,
+        description: "The same rights as the raw bitmask. Match rules on the mask rather than on the rendered Accesses text, which is locale-dependent",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "process_name",
+        value_type: ValueType::Text,
+        description: "Full path and PID of the process that performed the access — names the tool, which is what turns 'this account read the file' into 'this account read it with an archiver at 02:00'",
+        is_uid_component: false,
+    },
+];
+
+/// Security-log object access — the SACL-driven record that a named account
+/// read, wrote or deleted a named object.
+///
+/// The whole family is conditional: an object SACL with the right ACE, plus
+/// the subcategory. Where those were configured, this is the only per-event
+/// evidence that a specific file was opened by a specific account — the
+/// question timestamps alone can never answer.
+///
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4663>
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4670>
+pub(crate) static EVTX_SECURITY_OBJECT_ACCESS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "evtx_security_object_access",
+    name: "Object Access — SACL Audit (Security 4656/4658/4660/4663/4670)",
+    artifact_type: ArtifactLocation::EventLog,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Security.evtx"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "The object-access family records what a named account did to a named file, registry key or kernel object. 4656 is the handle REQUEST and its outcome (it has Failure variants, so a denied attempt is recorded); 4663 is an access right being USED, which Microsoft draws as the distinction from 4656, and it has no Failure variant; 4658 closes the handle, bounding how long it was held; 4660 records a deletion but carries only the Handle ID, so the name of the deleted object comes from the matching 4656/4663 — Microsoft's own guidance is to track deletions as 4663 with DELETE access instead; 4670 records a permission change on an object, though not a change to the SACL itself. Two switches gate all of it: the object's SACL must carry an ACE for the access in question, and the corresponding subcategory (Audit File System, Audit Registry, Audit Kernel Object, Audit Removable Storage, Audit Handle Manipulation for 4658) must be enabled. Neither is on for ordinary data on a stock host, which is why these events are usually absent — and why, where an organisation did configure them on a sensitive share, they are the strongest available answer to 'did this account open this document'. Read the Accesses/Access Mask to tell reading from writing, and the process name to tell the tool used.",
+    mitre_techniques: &["T1005", "T1083", "T1222.001", "T1070.004"],
+    fields: EVTX_SECURITY_OBJECT_ACCESS_FIELDS,
+    retention: Some("Security.evtx is a rolling channel; object auditing on a busy path is high volume and shortens the window sharply"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["evtx_security", "evtx_security_account_management"],
+    sources: &[
+        // Microsoft — 4663: the SACL precondition, the subcategories, the Accesses table with
+        // hex values, Object Type, Handle ID and the difference from 4656:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4663",
+        // Microsoft — 4656: the handle-request event, with Failure variants:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4656",
+        // Microsoft — 4658: handle closed, gated by Audit Handle Manipulation:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4658",
+        // Microsoft — 4660: deletion, Handle ID only, and the recommendation to use 4663 with
+        // DELETE access instead:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4660",
+        // Microsoft — 4670: permissions changed on an object, and what it does NOT cover:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4670",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Absent unless BOTH the object's SACL and the audit subcategory were configured before the activity — absence is a configuration fact and proves nothing about access",
+        "4656 records that access was requested and the result, not that the operation was performed; 4663 is the record of a right actually being used",
+        "4660 does not name the deleted object — only the Handle ID; resolving it requires the paired 4656/4663 to still be in the log",
+        "Indexing, backup and antimalware components exercise exactly the same rights against the same objects as a person does — the subject account and the process name are what separate a user's read from a service's",
+        "Auditing a busy path generates enormous volume and rotates the rest of the Security log out of existence — check the channel's size and its earliest record before treating a gap as inactivity",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; object-access auditing is the highest-volume Security traffic when enabled",
+};
+
+/// Field schema for Security events 4778 and 4779 — a session was reconnected
+/// to, or disconnected from, a Window Station.
+///
+/// Additional Information carries Client Name and Client Address: the true
+/// client identity as the destination host saw it, which is the repair for a
+/// Workstation Name that a network logon record never establishes. Session
+/// Name is what keeps the pair honest — a console session is Fast User
+/// Switching, not RDP.
+///
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4778>
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4779>
+pub(crate) static EVTX_SECURITY_SESSION_RECONNECT_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "event_id",
+        value_type: ValueType::UnsignedInt,
+        description: "4778 a session was reconnected to a Window Station, 4779 a session was disconnected from one. Together they bracket every period a disconnected session was actually in use",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "timestamp",
+        value_type: ValueType::Timestamp,
+        description: "When the session was picked up or dropped. A logon followed by several 4778/4779 pairs is one session used across several sittings, which a single logon/logoff pair would flatten into one continuous block",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "account_name",
+        value_type: ValueType::Text,
+        description: "Account Name and Account Domain of the session that was reconnected or disconnected — the identity already logged on, not a fresh authentication",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "logon_id",
+        value_type: ValueType::Text,
+        description: "Logon ID of the session — Microsoft names it as the correlator to recent events carrying the same value, 4624 among them, which is how a reconnect is tied back to the logon that created the session",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "session_name",
+        value_type: ValueType::Text,
+        description: "Session Name: RDP-Tcp#N for a Terminal Services session, 'Console' for the Fast User Switching case, and an identifier ending in #N for a Hyper-V Enhanced Session. Read it before calling a 4778 an RDP reconnection — not every one is",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "client_name",
+        value_type: ValueType::Text,
+        description: "Additional Information Client Name — the computer name the user reconnected FROM, as reported to this host; 'Unknown' for a console session. This is the client-identity field the network logon record does not give you",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "client_address",
+        value_type: ValueType::Text,
+        description: "Additional Information Client Address — the IP of the client, in IPv6 or ::ffff:IPv4 form, with ::1 or 127.0.0.1 meaning localhost and the literal 'LOCAL' for a console session. Pair it with client_name to place the reconnect on a source host",
+        is_uid_component: false,
+    },
+];
+
+/// Security events 4778 / 4779 — the reconnect and disconnect pair that brackets
+/// an RDP session's actual periods of use on the destination host.
+///
+/// A logon record says a session was created; these say when it was being
+/// used. They also carry Client Name and Client Address, so a session resumed
+/// from a different machine than it was created from is visible — and the
+/// Session Name distinguishes RDP from Fast User Switching, which a rule
+/// keyed on the event id alone would conflate.
+///
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4778>
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4779>
+pub(crate) static EVTX_SECURITY_SESSION_RECONNECT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "evtx_security_session_reconnect",
+    name: "Session Reconnected / Disconnected (Security 4778/4779)",
+    artifact_type: ArtifactLocation::EventLog,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Security.evtx"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Written on the DESTINATION host under the Audit Other Logon/Logoff Events subcategory when a user reconnects to an existing session (4778) or disconnects from one (4779). Microsoft documents three cases that produce them: reconnecting to a Terminal Services session, switching to an existing desktop via Fast User Switching, and reconnecting to a Hyper-V Enhanced Session — so the Session Name is load-bearing: RDP-Tcp#N is RDP, 'Console' is Fast User Switching. The forensic value is twofold. First, an RDP session is commonly disconnected rather than logged off, so the logon and logoff records bound a session that may have sat idle for days; the 4778/4779 pairs inside it are the periods it was actually being driven. Second, Additional Information carries Client Name and Client Address — the client computer name and IP as this host saw them — which is a truer statement of where the operator sat than a workstation name supplied during authentication, and it exposes a session resumed from a second machine. The Logon ID is Microsoft's documented correlator to the session's other records, including its 4624.",
+    mitre_techniques: &["T1021.001", "T1563.002", "T1078"],
+    fields: EVTX_SECURITY_SESSION_RECONNECT_FIELDS,
+    retention: Some("Security.evtx is a rolling channel sized by policy"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[
+        "evtx_security",
+        "evtx_rdp_session",
+        "evtx_terminal_services",
+        "evtx_rdp_core_ts",
+    ],
+    sources: &[
+        // Microsoft — 4778: the subcategory, the three generating cases, Session Name examples
+        // (RDP-Tcp#N / Console / Hyper-V Enhanced Session), Client Name and Client Address:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4778",
+        // Microsoft — 4779: the disconnect counterpart with the same field blocks:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4779",
+        // Practitioner reference already used by the RDP descriptors here, for how these
+        // events pair with LocalSessionManager 24/25 in a session timeline:
+        "https://ponderthebits.com/2018/02/windows-rdp-related-event-logs-identification-tracking-and-investigation/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Not every 4778 is RDP: Fast User Switching produces one with Session Name 'Console', Client Name 'Unknown' and Client Address 'LOCAL'",
+        "Gated by the Audit Other Logon/Logoff Events subcategory — absence is a policy fact, and the TerminalServices-LocalSessionManager channel's 24/25 records cover the same ground independently",
+        "Client Name is the name the client reported; corroborate it with Client Address before treating it as the identity of a machine",
+        "These events mark reconnection to an EXISTING session, so the account was authenticated earlier — the authentication evidence is the session's original logon record, not this one",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; oldest records purged when the channel's maximum size is reached",
+};
+
+/// Field schema for Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Operational.
+///
+/// The message templates come from the provider's own manifest, which settles
+/// the direction question: id 131 reads "The server accepted a new {ConnType}
+/// connection from client {ClientIP}" — a DESTINATION-side record naming the
+/// client's address, not a source-side one.
+///
+/// Source: <https://github.com/nasbench/EVTX-ETW-Resources>
+/// Source: <https://ponderthebits.com/2018/02/windows-rdp-related-event-logs-identification-tracking-and-investigation/>
+pub(crate) static EVTX_RDP_CORE_TS_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "event_id",
+        value_type: ValueType::UnsignedInt,
+        description: "65 a connection object was created, 98 connection established (opcode EstablishConnection), 131 the server accepted a new connection from a client, 140 a connection failed because the user name or password was wrong, 102 the connection was closed, 103 the disconnect reason code",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "timestamp",
+        value_type: ValueType::Timestamp,
+        description: "When the transport-level connection was accepted or refused — earlier than any logon record for the same attempt, and present even when no logon follows",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "client_ip",
+        value_type: ValueType::Text,
+        description: "The connecting client's address, from the ClientIP item of 131 (and IPString on 140). This is the destination host's own record of who connected, which survives when the Security log and LocalSessionManager have rotated",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "connection_type",
+        value_type: ValueType::Text,
+        description: "ConnType from 131 — the transport the client negotiated (TCP or UDP). A pair of records for one session is normal, not two sessions",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "disconnect_reason",
+        value_type: ValueType::UnsignedInt,
+        description: "ReasonCode from 103 — the numeric disconnect reason, useful to separate a user-initiated disconnect from a dropped transport when reconstructing why a session ended",
+        is_uid_component: false,
+    },
+];
+
+/// Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Operational — the
+/// destination host's transport-level record of RDP connections.
+///
+/// This channel sits below the credential check, so it records connections
+/// that never authenticate and therefore leave nothing in the session manager
+/// or the Security log. It supersedes the generated stub for the same channel,
+/// which carries no event ids and no fields.
+///
+/// Source: <https://github.com/nasbench/EVTX-ETW-Resources>
+/// Source: <https://ponderthebits.com/2018/02/windows-rdp-related-event-logs-identification-tracking-and-investigation/>
+pub(crate) static EVTX_RDP_CORE_TS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "evtx_rdp_core_ts",
+    name: "RDP Core TS Operational Log (destination-side connections)",
+    artifact_type: ArtifactLocation::EventLog,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Microsoft-Windows-RemoteDesktopServices-RdpCoreTS%4Operational.evtx"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "The RDP stack's own operational channel on the machine being connected TO. Its key record is 131, whose manifest text is 'The server accepted a new {ConnType} connection from client {ClientIP}' — a destination-side statement carrying the client's IP, written when the transport is accepted and before any credential check succeeds. That placement is the point: a connection that fails authentication, or that is probed and abandoned, produces a 131 here while leaving nothing in TerminalServices-LocalSessionManager and nothing in the Security log. 140 goes further and records that a connection from a named client address failed because the user name or password was wrong — a destination-side failed-RDP record independent of Security-log auditing. 98 (opcode EstablishConnection) and 102 (CloseConnection) carry no message text in the manifest at all, so a dumped record shows as blank rather than missing; read their data items directly instead of concluding the log is damaged. 103 carries the numeric disconnect reason. The channel has its own size limit, so its retained window is independent of Security.evtx and of the session-manager channel: read all three earliest records before deciding a date is out of range, because this one can still hold the connection after the others have rotated past it.",
+    mitre_techniques: &["T1021.001", "T1110.001"],
+    fields: EVTX_RDP_CORE_TS_FIELDS,
+    retention: Some("Separate channel with its own size limit; commonly reaches back further than Security.evtx on the same host"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[
+        "evtx_rdp_inbound",
+        "evtx_rdp_session",
+        "evtx_terminal_services",
+        "evtx_security_session_reconnect",
+        "evtx_security_logon_failure",
+    ],
+    sources: &[
+        // Mechanical dump of the RdpCoreTS provider manifest — the channel, opcodes and the
+        // message templates of 65/98/102/103/131/140:
+        "https://github.com/nasbench/EVTX-ETW-Resources",
+        // Practitioner reference already cited by the sibling RDP descriptors, for how this
+        // channel fills the gaps left by the other RDP logs:
+        "https://ponderthebits.com/2018/02/windows-rdp-related-event-logs-identification-tracking-and-investigation/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "131 records that the server ACCEPTED a transport connection — it is not an authentication, and on its own proves reachability, not access",
+        "Events 98 and 102 have no message template in the provider manifest, so tooling renders them without a description; that is the manifest's shape, not a corrupted record",
+        "Internet-facing hosts accumulate 131 records from untargeted scanning; the client address matters, the event count does not",
+        "One session can produce more than one 131 (the client may negotiate more than one transport) — counting 131s overcounts sessions",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; rotates on its own size limit, independently of Security.evtx",
+};
+
+/// Field schema for the Application-log crash pair — Application Error (1000)
+/// and Windows Error Reporting (1001).
+///
+/// The two records come from DIFFERENT sources in the same channel, and they
+/// carry the same attribution twice: 1000 in named fields, 1001 in the
+/// report's problem-signature parameters. Either can survive the other.
+///
+/// Source: <https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/troubleshoot-application-service-crashing-behavior>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/wer/windows-error-reporting>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/api/werapi/nf-werapi-werreportsetparameter>
+pub(crate) static EVTX_APPLICATION_CRASH_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "event_id",
+        value_type: ValueType::UnsignedInt,
+        description: "1000 the crash itself, from the Application Error source; 1001 the error report, from the Windows Error Reporting source. Filter on the source name as well as the id — other providers also write 1000 into this channel",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "source_name",
+        value_type: ValueType::Text,
+        description: "The event source: 'Application Error' for 1000, 'Windows Error Reporting' for 1001. The pair is what makes the record identifiable, since the ids are not unique within the Application channel",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "faulting_application_name",
+        value_type: ValueType::Text,
+        description: "Faulting application name, with its version and PE time stamp — the executable that died. This is execution evidence for a binary that may no longer exist on disk, and the version/time-stamp pair identifies WHICH build ran",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "faulting_application_path",
+        value_type: ValueType::Text,
+        description: "Full path of the faulting executable — the location matters as much as the name: the same filename under a temp or profile directory is a different fact from the one in System32",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "faulting_module_name",
+        value_type: ValueType::Text,
+        description: "Faulting module name, version and time stamp, with the module path — the DLL (or the executable itself) executing when the fault hit. Microsoft notes it is often a heavily used system module such as ntdll.dll or kernelbase.dll, so a system module here does not implicate that module",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "exception_code",
+        value_type: ValueType::Text,
+        description: "Exception code — 0xc0000005 is an access violation, the usual shape of both an ordinary bug and a failed exploit attempt. It classifies the crash; it does not attribute it",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "fault_offset",
+        value_type: ValueType::Text,
+        description: "Offset within the faulting module where execution stopped — with the module version, this is what makes two crashes comparable across hosts",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "faulting_process_id",
+        value_type: ValueType::UnsignedInt,
+        description: "PID of the crashed process, for joining to process-creation records and to any dump written for the same run",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "faulting_application_start_time",
+        value_type: ValueType::Timestamp,
+        description: "Raw FILETIME of when the crashed process STARTED — a process start time recovered from a crash record, independent of the event's own rendered time, and often the only surviving evidence of when a short-lived process ran",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "report_id",
+        value_type: ValueType::Guid,
+        description: "Report Id — joins the 1000 record to the 1001 error report and to the report directory on disk, so a crash can be followed into the WER report and any dump it kept",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "problem_signature",
+        value_type: ValueType::List,
+        description: "Problem-signature parameters P1..P10 carried by the 1001 report. Their meaning is defined per report type by whatever created the report (the Win32 API sets them by index), so read them against the report's own event/bucket name rather than assuming a fixed order — for crash reports they repeat the application and module identity that the 1000 record holds in named fields",
+        is_uid_component: false,
+    },
+];
+
+/// Application.evtx crash records — the execution evidence of last resort.
+///
+/// Where process-creation auditing was never enabled, a crash still names the
+/// executable, its path, its build and the time its process STARTED. The
+/// generated `evtx_application` stub describes the channel; this descriptor
+/// carries the two records worth reading in it.
+///
+/// Source: <https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/troubleshoot-application-service-crashing-behavior>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/wer/windows-error-reporting>
+pub(crate) static EVTX_APPLICATION_CRASH: ArtifactDescriptor = ArtifactDescriptor {
+    id: "evtx_application_crash",
+    name: "Application Crash Records (Application 1000 / 1001)",
+    artifact_type: ArtifactLocation::EventLog,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Application.evtx"),
+    scope: DataScope::Mixed,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Two records in the Application channel turn a crash into execution evidence. Event 1000, from the 'Application Error' source, is the crash itself: it names the faulting application (name, version, PE time stamp and full path), the faulting module (name, version, time stamp and path), the exception code, the fault offset, the faulting process id, the Report Id, and — the field most often overlooked — the faulting application's START time as a raw FILETIME. That start time is a process-execution timestamp recovered from a log that nobody has to enable, which is why this channel is the fallback when process-creation auditing was never configured and Prefetch is disabled or absent. Event 1001, from the 'Windows Error Reporting' source, is the report raised for the same fault; it preserves the same identity in the report's problem-signature parameters and links to the report on disk by Report Id, so the attribution can survive even if the 1000 record has rotated out. Microsoft's own guidance pairs the two ids when diagnosing repeated crashes. Read the module name with care: a system module such as ntdll.dll or kernelbase.dll is the usual bearer of a fault raised by someone else's code.",
+    mitre_techniques: &["T1203", "T1055", "T1562.001"],
+    fields: EVTX_APPLICATION_CRASH_FIELDS,
+    retention: Some("Application.evtx is a rolling channel sized by policy and written by every application on the host"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["evtx_application", "wer_report_queue", "windows_minidump", "evtx_system"],
+    sources: &[
+        // Microsoft — the crash-troubleshooting guidance that reproduces a full 1000 record
+        // (source name, faulting application/module fields, exception code, fault offset,
+        // faulting process id, faulting application start time, Report Id) and pairs it with 1001:
+        "https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/troubleshoot-application-service-crashing-behavior",
+        // Microsoft — Windows Error Reporting: what the 1001 report is and what it retains:
+        "https://learn.microsoft.com/en-us/windows/win32/wer/windows-error-reporting",
+        // Microsoft — WerReportSetParameter: the P1..P10 problem-signature parameters and the
+        // fact that their meaning is set per report by the reporting code:
+        "https://learn.microsoft.com/en-us/windows/win32/api/werapi/nf-werapi-werreportsetparameter",
+        // Microsoft — Collecting user-mode dumps: the LocalDumps configuration that decides
+        // whether a dump for this crash was also written to disk:
+        "https://learn.microsoft.com/en-us/windows/win32/wer/collecting-user-mode-dumps",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "A crash proves the binary RAN; it says nothing about who started it or why it failed — most 1000 records are ordinary software defects",
+        "Event id 1000 is not unique in the Application channel: other sources write it too, so match on the source name as well",
+        "The faulting module is usually a widely used system DLL; treating it as the malicious component is the standard misreading of this record",
+        "The report's problem-signature parameters are positional and their meaning is defined by the reporting code, so decoding them without the report type invents field names",
+        "Every application on the host writes to this channel, so its retained window can be shorter than the Security log's — read the channel's configured size and its earliest record rather than assuming the crash is still there",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; a chatty application can rotate the crash record out within hours",
+};
+
+/// Field schema for the PowerShell 7 (PowerShell Core) operational channel.
+///
+/// The channel is `PowerShellCore/Operational`, which on disk is
+/// `PowerShellCore%4Operational.evtx` — the `%4` is how the event log escapes
+/// the `/` in a channel name. A collector configured with a literal space or
+/// slash in that filename matches nothing and returns silently.
+///
+/// Source: <https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows>
+pub(crate) static EVTX_POWERSHELL_CORE_OPERATIONAL_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "event_id",
+        value_type: ValueType::UnsignedInt,
+        description: "4104 (0x1008) is the script-block logging record Microsoft documents for this channel — the executed script text, in PowerShell 7's own log rather than Windows PowerShell's",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "timestamp",
+        value_type: ValueType::Timestamp,
+        description: "When the script block was processed. PowerShell 7 runs side by side with Windows PowerShell 5.1, so build a single timeline across both channels before concluding what ran when",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "script_block_text",
+        value_type: ValueType::Text,
+        description: "The content of the processed script block — the payload itself, including text that was decoded or generated at run time and therefore never existed on disk",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "script_block_id",
+        value_type: ValueType::Guid,
+        description: "Identifier shared by the fragments of one script block, with the message-number pair that orders them; reassemble on this before reading a long payload, or the text will be read out of order",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "path",
+        value_type: ValueType::Text,
+        description: "Script path when the block came from a file, empty when it was entered or generated in memory — an empty path is itself the observation that the code never touched the filesystem",
+        is_uid_component: false,
+    },
+];
+
+/// PowerShell 7 / PowerShell Core operational channel — the second PowerShell
+/// log a modern host can have.
+///
+/// PowerShell 7 installs alongside Windows PowerShell 5.1 and logs to its OWN
+/// channel under its OWN policy. Two consequences an examiner has to hold:
+/// script-block logging enabled for 5.1 does nothing for 7, and on Windows the
+/// provider has to be REGISTERED before any event can be written at all — so
+/// an empty channel may mean the provider was never registered, not that
+/// PowerShell 7 was never used.
+///
+/// Source: <https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows>
+pub(crate) static EVTX_POWERSHELL_CORE_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
+    id: "evtx_powershell_core_operational",
+    name: "PowerShell 7 (PowerShellCore) Operational Log",
+    artifact_type: ArtifactLocation::EventLog,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\PowerShellCore%4Operational.evtx"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "Microsoft documents PowerShell 7's logging as its own event log, named PowerShellCore (ETW provider {f90714a8-5509-434a-bf6d-b1624c8a19a2}), with script-block logging writing event id 4104 to PowerShellCore/Operational — separate from the Windows PowerShell channels an examiner normally opens. Three facts follow, and each one has produced a wrong 'no PowerShell activity' conclusion. First, PowerShell 7 installs SIDE BY SIDE with Windows PowerShell 5.1 rather than replacing it, so a host can have two engines and two logs, and only reviewing both gives the full picture. Second, the policy is separate: PowerShell 7's script-block logging is enabled under its own Group Policy node and its own registry path (HKLM\\Software\\Policies\\Microsoft\\PowerShellCore\\ScriptBlockLogging), so an organisation that enabled logging for Windows PowerShell has enabled nothing here. Third — and this one has no counterpart in 5.1 — Windows requires PowerShell 7's event provider to be REGISTERED before events can be written at all, via the RegisterManifest.ps1 script shipped in the install directory; on a host where that was never run, the channel is empty no matter what was executed. The channel name contains a slash, which the event log stores as the %4 escape: the file is PowerShellCore%4Operational.evtx, and a collection rule written with a literal space or slash matches no file and reports nothing.",
+    mitre_techniques: &["T1059.001", "T1562.002"],
+    fields: EVTX_POWERSHELL_CORE_OPERATIONAL_FIELDS,
+    retention: Some("Separate channel with its own size limit; absent entirely on hosts where PowerShell 7 was never installed"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["evtx_powershell", "evtx_powershell_classic", "powershell_history"],
+    sources: &[
+        // Microsoft — about_Logging_Windows (PowerShell 7): the PowerShellCore log name and
+        // provider GUID, the 4104 record on PowerShellCore/Operational, the mandatory provider
+        // registration via RegisterManifest.ps1, and the separate PowerShellCore policy node:
+        "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "An empty or missing channel is not evidence that PowerShell 7 was unused: the provider must be registered on Windows before any event is written, and script-block logging must be enabled under the separate PowerShellCore policy",
+        "Enabling script-block logging for Windows PowerShell 5.1 does not cover PowerShell 7 — the two engines read different policy paths",
+        "A dual-engine host needs BOTH this channel and the Windows PowerShell channels reviewed before any statement about what was run",
+        "Script-block records can contain credentials and other sensitive data supplied to a script; handle the extracted text accordingly",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "EVTX channel; script-block logging is verbose and rotates its own channel quickly",
+};
+
+/// Field schema for auto-archived event logs (`Archive-<LogName>-*.evtx`) and
+/// the per-log retention values that decide whether they exist.
+///
+/// The archive behaviour is a pair of registry values, not one:
+/// `AutoBackupLogFiles` only takes effect when `Retention` says never
+/// overwrite. Reading the flag alone reports archiving on a host that does not
+/// archive.
+///
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/eventlog/eventlog-key>
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-1105>
+pub(crate) static EVTX_LOG_AUTO_ARCHIVE_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "archive_path",
+        value_type: ValueType::Text,
+        description: "Full path of an archived log, in the form %SystemRoot%\\System32\\winevt\\Logs\\Archive-<LogName>-YYYY-MM-DD-HH-MM-SS-mmm.evtx. The embedded timestamp is when the archive was cut, so the file name alone orders the host's log history",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "source_channel",
+        value_type: ValueType::Text,
+        description: "The channel the archive came from, taken from the <LogName> component (Archive-Security-*, Archive-System-*, Archive-Application-*). Each archive holds records OLDER than the live channel — the pre-rotation history a live-log-only collection misses entirely",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "auto_backup_log_files",
+        value_type: ValueType::UnsignedInt,
+        description: "AutoBackupLogFiles (REG_DWORD) under the log's Eventlog key — 1 asks the service to save the log when it fills. Default 0. It is honoured only when Retention is -1 (0xFFFFFFFF); set alone it is ignored, so read the pair, never this value by itself",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "retention",
+        value_type: ValueType::UnsignedInt,
+        description: "Retention (REG_DWORD) — 0, the default, means records are always overwritten (the ordinary circular behaviour); 0xFFFFFFFF or any non-zero value means records are never overwritten and new events are discarded once the log is full until it is cleared. This value decides whether the host keeps history or drops it",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "max_size",
+        value_type: ValueType::UnsignedInt,
+        description: "MaxSize (REG_DWORD, bytes) — the size at which the log fills, and therefore how much history one archive covers. Compare it against the observed record rate to judge how far back the live channel can possibly reach",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "file",
+        value_type: ValueType::Text,
+        description: "File (REG_SZ/REG_EXPAND_SZ) — the fully qualified path of the log, optional and defaulting to the winevt\\Logs directory. A non-default value RELOCATES the evidence, so an examiner who collects only the default directory silently misses the log; it is equally an anti-forensic lever worth checking",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "event_id",
+        value_type: ValueType::UnsignedInt,
+        description: "In the Security channel itself: 1105 records that the log filled and a new file was created, naming the BackupPath of the archive just written; 1104 records that the log is full under the do-not-overwrite setting. Both are written by the Eventlog provider",
+        is_uid_component: false,
+    },
+];
+
+/// Auto-archived Windows event logs — the pre-rotation history most collections
+/// never take.
+///
+/// When a log is configured to archive rather than overwrite, Windows writes
+/// `Archive-<LogName>-<timestamp>.evtx` beside the live log and does not prune
+/// it. That directly answers the "the Security log only reaches back two days"
+/// problem — but only for an examiner who knows to look, because nothing in
+/// the live channel's own name suggests the older files exist.
+///
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/eventlog/eventlog-key>
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-1105>
+pub(crate) static EVTX_LOG_AUTO_ARCHIVE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "evtx_log_auto_archive",
+    name: "Auto-Archived Event Logs (Archive-<LogName>-*.evtx)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Archive-*.evtx"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Where a log is set to archive when full, the event log service writes the filled log out as %SystemRoot%\\System32\\winevt\\Logs\\Archive-<LogName>-<YYYY-MM-DD-HH-MM-SS-mmm>.evtx and starts a new live file; Microsoft's own 1105 sample shows exactly that BackupPath. The archives are ordinary EVTX files, they are not pruned, and they hold the records the live channel has already rotated past — so on a host configured this way the answer to 'the Security log only covers the last two days' is that the rest is sitting in the same directory under a different name. Three registry values under each log's Eventlog key decide the behaviour and are readable from an offline SYSTEM hive: Retention (0 = always overwrite, the default; 0xFFFFFFFF = never overwrite), AutoBackupLogFiles (1 = save the log when full, default 0, and honoured ONLY when Retention is -1), and MaxSize (the fill threshold, so how much history each archive covers). The same key's File value can relocate a log away from winevt\\Logs entirely — an evidence-location question on any host, and an anti-forensics check on a suspect one. Two Security records mark the events themselves: 1105 when the log filled and was archived (naming the new file), and 1104 when the log filled under do-not-overwrite, after which new events are DISCARDED until someone clears it — a silent blind spot that looks identical to inactivity.",
+    mitre_techniques: &["T1070.001", "T1562.002"],
+    fields: EVTX_LOG_AUTO_ARCHIVE_FIELDS,
+    retention: Some("Archived files are not pruned by the event log service; they persist until deleted"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["evtx_security", "evtx_system", "evtx_application"],
+    sources: &[
+        // Microsoft — Eventlog Key: the File, MaxSize, Retention and AutoBackupLogFiles values,
+        // their defaults, and the rule that auto-backup applies only when Retention is -1:
+        "https://learn.microsoft.com/en-us/windows/win32/eventlog/eventlog-key",
+        // Microsoft — 1105: the log filled and a new file was created, with the Archive-<Log>-
+        // <timestamp>.evtx BackupPath in the sample record:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-1105",
+        // Microsoft — 1104: the security log is now full, the do-not-overwrite condition under
+        // which subsequent events are discarded:
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-1104",
+        // Microsoft — wevtutil: reads and sets a channel's log path, size and retention mode
+        // on a live host:
+        "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/wevtutil",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_caveats: &[
+        "Archives exist only where the host was configured for them: AutoBackupLogFiles set to 1 AND Retention set to never-overwrite. Either alone produces no archive",
+        "Absence of Archive-*.evtx is a configuration fact, never evidence that the missing period was quiet",
+        "The File value can move a log out of winevt\\Logs, so a collection scoped to the default directory can miss both the live log and its archives",
+        "A host in the 1104 state is DISCARDING new events while the log stays full — the resulting gap looks exactly like inactivity and is the opposite of it",
+        "Archived files are ordinary EVTX and can be deleted like any file; their timestamps and the 1105 records should be cross-checked for gaps",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Written once when a log fills and never pruned by the service; persists until explicitly deleted",
+};
+
+/// Field schema for target-side remote-execution host lineage.
+///
+/// A 4624 Logon Type 3 looks the same whichever remote-execution channel
+/// produced it. The process that hosts the payload does not: WinRM-based
+/// PowerShell remoting runs it under the PowerShell host process, and a WMI
+/// provider call runs under the WMI provider host. Naming the host process is
+/// what turns "something authenticated over the network" into "this channel
+/// was used".
+///
+/// Source: <https://learn.microsoft.com/en-us/powershell/scripting/security/remoting/powershell-remoting-faq>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/wmisdk/provider-hosting-and-security>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/wmisdk/activescripteventconsumer>
+pub(crate) static EVTX_REMOTE_EXECUTION_HOST_LINEAGE_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "host_process_name",
+        value_type: ValueType::Text,
+        description: "The process hosting the remotely requested work. Wsmprovhost.exe is the PowerShell host process that WS-Management starts on the remote computer for a fan-out PowerShell remoting session. Wmiprvse.exe is the WMI provider host, the process providers are loaded into and the parent of work performed through them. Scrcons.exe is the server for ActiveScriptEventConsumer, so it appears when a WMI subscription payload fires rather than when a user connects",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "child_process_name",
+        value_type: ValueType::Text,
+        description: "What the host process started. This is the payload and it is the thing worth hashing and timelining; the host process only says which channel delivered it",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "parent_chain",
+        value_type: ValueType::Text,
+        description: "The ancestry between the payload and the host process. Do not assume it is one link: a channel that starts a command interpreter first leaves the interpreter as the payload's immediate parent, so a rule matching only the direct parent misses the case. Walk ancestors, not the parent field",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "logon_id",
+        value_type: ValueType::Text,
+        description: "Logon ID of the session the host process runs under — the join from this process lineage back to the 4624 that authenticated it, and therefore to the source address and account",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "process_id",
+        value_type: ValueType::UnsignedInt,
+        description: "PID of the host process, for joining process-creation records, handle tables and a memory image of the same moment",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "timestamp",
+        value_type: ValueType::Timestamp,
+        description: "When the host process started. Compare it with the session's 4624 and with the channel's own log (WinRM or WMI-Activity) to confirm the three views describe one event",
+        is_uid_component: false,
+    },
+];
+
+/// Target-side process lineage that names WHICH remote-execution channel was
+/// used.
+///
+/// The catalog already covers the authentication side and the channel logs.
+/// This is the third view: on the destination host, the host process under
+/// which remotely requested work executes. It is what separates PowerShell
+/// remoting from a WMI method call when both show up as an otherwise identical
+/// network logon.
+///
+/// Source: <https://learn.microsoft.com/en-us/powershell/scripting/security/remoting/powershell-remoting-faq>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/wmisdk/provider-hosting-and-security>
+pub(crate) static EVTX_REMOTE_EXECUTION_HOST_LINEAGE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "evtx_remote_execution_host_lineage",
+    name: "Remote-Execution Host Process Lineage (target side)",
+    artifact_type: ArtifactLocation::EventLog,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%SystemRoot%\\System32\\winevt\\Logs\\Security.evtx"),
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Read against process-creation records on the host that was reached. A network logon tells an examiner that an account authenticated; it does not say through which channel, because every remote-execution mechanism produces the same Logon Type 3. The host process does say. Microsoft documents that for fan-out PowerShell remoting, WS-Management starts the PowerShell host process Wsmprovhost.exe on the remote computer — so a payload whose ancestry runs back to Wsmprovhost.exe arrived over WinRM. WMI providers are loaded into the WMI provider host Wmiprvse.exe, so work performed through a WMI provider is parented there rather than under the service that authenticated the caller. A WMI permanent subscription with an ActiveScriptEventConsumer runs its body in Scrcons.exe, which is a persistence firing rather than an interactive connection, and dates the subscription's execution even after the consumer object is gone. DCOM-based activation is brokered by the RPC/DCOM service (RpcSs) that Microsoft describes as coordinating requests from other services using RPC or DCOM over port 135, so a DCOM-launched server is parented under the service host running it and not under the caller. Two traps: match ANCESTORS rather than the immediate parent, because a channel that starts a command interpreter first leaves that interpreter as the payload's direct parent; and remember that PowerShell remoting over SSH does not use WinRM at all, so it produces no Wsmprovhost.exe and the lineage runs back to the SSH daemon instead.",
+    mitre_techniques: &["T1021.006", "T1047", "T1021.003", "T1059.001", "T1546.003"],
+    fields: EVTX_REMOTE_EXECUTION_HOST_LINEAGE_FIELDS,
+    retention: Some("Derived from process-creation records and live process state; bounded by the Security channel's rotation or by the memory image"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &[
+        "evtx_security",
+        "evtx_winrm",
+        "evtx_wmi_activity",
+        "evtx_security_explicit_credentials",
+        "wmi_subscriptions",
+    ],
+    sources: &[
+        // Microsoft — PowerShell Remoting FAQ: WS-Management starts the PowerShell host process
+        // Wsmprovhost.exe on the remote computer for fan-out remoting, while the fan-in (IIS)
+        // configuration runs all sessions in one host process instead:
+        "https://learn.microsoft.com/en-us/powershell/scripting/security/remoting/powershell-remoting-faq",
+        // Microsoft — PowerShell remoting over SSH: the transport that does NOT use WinRM, and
+        // therefore does not produce the WinRM host process:
+        "https://learn.microsoft.com/en-us/powershell/scripting/security/remoting/ssh-remoting-in-powershell",
+        // Microsoft — Provider Hosting and Security: providers are loaded into Wmiprvse.exe:
+        "https://learn.microsoft.com/en-us/windows/win32/wmisdk/provider-hosting-and-security",
+        // Microsoft — ActiveScriptEventConsumer: Scrcons.exe is the class's server, the process
+        // a subscription payload executes in:
+        "https://learn.microsoft.com/en-us/windows/win32/wmisdk/activescripteventconsumer",
+        // Microsoft — winrs: the Windows Remote Shell client that runs a command on a remote
+        // host over WS-Management:
+        "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/winrs",
+        // Microsoft — service and port reference: the RPC service (RpcSs) coordinates requests
+        // from services using RPC or DCOM, on port 135:
+        "https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/service-overview-and-network-port-requirements",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "This lineage exists only where process creation was recorded (audit policy or an endpoint agent) or where a memory image was taken — without one of those there is nothing to read",
+        "Match ancestors, not the immediate parent: a channel that launches a command interpreter first leaves the interpreter as the payload's direct parent, and a parent-only filter misses the whole class",
+        "The host processes are legitimate Windows binaries that run during ordinary administration; their presence is a channel identification, never a finding on its own",
+        "Microsoft documents a fan-in remoting configuration in which all PowerShell sessions share one host process rather than one process per session — counting host processes does not count sessions",
+        "PowerShell remoting over SSH bypasses WinRM entirely, so absence of the WinRM host process does not rule out PowerShell remoting",
+        "Microsoft's published reference does not name a target-side host binary for the winrs client, so establish that process name on the host under examination rather than assuming one",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Live process ancestry is lost on process exit or reboot; only the recorded process-creation events or a memory image preserve it",
 };

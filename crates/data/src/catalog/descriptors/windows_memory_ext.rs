@@ -22,7 +22,13 @@ use super::super::types::{
 // ── Code injection / malicious VAD regions (malfind-class) ──────────────────
 
 /// Field schema for private, executable VAD regions flagged as injected code.
+///
+/// `protection` is the allocation-time value recorded in the `_MMVAD`;
+/// `pte_protection`, `vad_pte_mismatch` and `image_page_privatized` come from
+/// the per-page hardware page-table entries, which carry the protection the CPU
+/// actually enforces and the private-vs-prototype backing of each page.
 /// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/malfind.py>
+/// Source: <https://doi.org/10.1016/j.diin.2019.04.008>
 pub(crate) static MEM_PROCESS_INJECTION_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "pid",
@@ -51,7 +57,25 @@ pub(crate) static MEM_PROCESS_INJECTION_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "protection",
         value_type: ValueType::Text,
-        description: "VAD page protection from the VadS/VadF Flags.Protection field (e.g. PAGE_EXECUTE_READWRITE); an executable, non-image-backed region is consistent with injection — corroborate with the region contents",
+        description: "VAD page protection from the VadS/VadF Flags.Protection field (e.g. PAGE_EXECUTE_READWRITE) — the protection requested when the region was ALLOCATED or mapped, not the protection in force now; an executable, non-image-backed region is consistent with injection — corroborate with the region contents",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "pte_protection",
+        value_type: ValueType::Text,
+        description: "CURRENT per-page protection decoded from the hardware page-table entries covering the region (the no-execute and write bits the CPU enforces). This is the ground truth for what can execute right now; read it, not the VAD, when deciding whether a region is executable",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "vad_pte_mismatch",
+        value_type: ValueType::Bool,
+        description: "True when a page's PTE-derived protection differs from the VAD's recorded protection. Allocating a region without WRITE or EXECUTE and adding the right per-page afterwards (VirtualProtect/NtProtectVirtualMemory) leaves the VAD untouched, so the mismatch is itself the artifact — and a VAD-protection filter is structurally blind to it",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "image_page_privatized",
+        value_type: ValueType::Bool,
+        description: "True when a page inside a file-backed IMAGE mapping resolves to a process-private physical page instead of the shared page the kernel's prototype PTE points at — consistent with the image having been modified after it was loaded (module stomping / DLL hollowing). A debugger breakpoint or a relocation fixup privatises a page the same way, so diff the page against the on-disk image before calling it a patch",
         is_uid_component: false,
     },
     FieldSchema {
@@ -98,8 +122,23 @@ pub(crate) static MEM_PROCESS_INJECTION_FIELDS: &[FieldSchema] = &[
 /// Columns emitted: PID, Process, Start VPN, End VPN, Tag, Protection,
 /// CommitCharge, PrivateMemory, plus a hexdump/disassembly of the region head.
 ///
+/// The VAD and the page tables answer different questions, and the gap between
+/// them is itself evidence. `Flags.Protection` records what was requested when
+/// the region was allocated or mapped; the protection the CPU enforces lives in
+/// the per-page hardware PTE and can be changed afterwards
+/// (`VirtualProtect`/`NtProtectVirtualMemory`) without the VAD following. Code
+/// can therefore be written into a region allocated without WRITE or EXECUTE —
+/// or into unused space in an existing benign VAD — and the execute right added
+/// page by page, which is invisible to a VAD-protection filter (Block & Dewald,
+/// DFRWS USA 2019). Enumerating PTEs recovers both the current protection and
+/// the backing of each page, so an image page served by a process-private
+/// physical page rather than the shared page its prototype PTE names stands out
+/// as an image modified after load.
+///
 /// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/malfind.py>
 /// Source: <https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-vad>
+/// Source: <https://doi.org/10.1016/j.diin.2019.04.008>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect>
 pub(crate) static MEM_PROCESS_INJECTION: ArtifactDescriptor = ArtifactDescriptor {
     id: "mem_process_injection",
     name: "Injected Code Regions (Memory VAD / malfind)",
@@ -122,9 +161,20 @@ loading, process hollowing, in-place .text patching — often produces such regi
 module on disk. The determination is made from the _MMVAD node's Flags.Protection, \
 Flags.PrivateMemory, and Flags.CommitCharge fields together with the VAD pool tag. A region \
 beginning with an MZ header or a valid instruction prologue in executable private memory is \
-consistent with a mapped PE or shellcode. Cross-reference mem_loaded_modules (a region with no \
-corresponding module is unbacked) and mem_hidden_processes (injection often targets a hidden or \
-hollowed process). Absence of a disk-backed module for executable memory is the core anomaly.",
+consistent with a mapped PE or shellcode. The VAD answers what was requested at allocation time and \
+the hardware page-table entry answers what the CPU enforces now: a later \
+VirtualProtect/NtProtectVirtualMemory changes the PTE without updating the VAD, so code can be \
+written into a region allocated without WRITE or EXECUTE (or into unused space in an existing \
+benign VAD) and the execute right added page by page, defeating a VAD-protection filter. That makes \
+a VAD-vs-PTE protection mismatch an artifact in its own right, and makes PTE enumeration — not the \
+VAD — the ground truth for what is executable. The same page-level view separates a clean image \
+mapping from a patched one: an image page served by a process-private physical page instead of the \
+shared page its prototype PTE names is consistent with the image having been modified after load \
+(module stomping / DLL hollowing), though copy-on-write from a debugger breakpoint or a relocation \
+fixup privatises a page the same way. Cross-reference mem_loaded_modules (a region with no \
+corresponding module is unbacked), mem_ldr_modules (an executable mapping absent from all three PEB \
+module lists), and mem_hidden_processes (injection often targets a hidden or hollowed process). \
+Absence of a disk-backed module for executable memory is the core anomaly.",
     mitre_techniques: &[
         "T1055",     // Process Injection
         "T1055.001", // Dynamic-link Library Injection
@@ -145,11 +195,22 @@ hollowed process). Absence of a disk-backed module for executable memory is the 
         "https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/malfind.py",
         // Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-vad (!vad — _MMVAD tree, protection, commit charge)
         "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-vad",
+        // Source: Block & Dewald, "Windows Memory Forensics: Detecting (Un)Intentionally Hidden Injected Code by Examining Page Table Entries", Digital Investigation 29(S), DFRWS USA 2019 (VAD protection is allocation-time and attacker-controllable; per-page PTE bits are the ground truth)
+        "https://doi.org/10.1016/j.diin.2019.04.008",
+        // Source: https://github.com/f-block/DFRWS-USA-2019 (paper repository — the ptenum PTE-enumeration implementation)
+        "https://github.com/f-block/DFRWS-USA-2019",
+        // Source: https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect (protection of committed pages can be changed after allocation)
+        "https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect",
+        // Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-pte (!pte — the hardware page-table entry behind a virtual address)
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-pte",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &[
         "Legitimate JIT engines (JavaScript, .NET, Java) also allocate private RWX memory — corroborate with the region contents and the hosting process",
         "Modern injection may set RW then flip to RX (avoiding a persistent RWX VAD), so an RWX filter alone can miss it — inspect RX private regions too",
+        "The VAD records the protection requested at allocation/mapping time and is not updated when protection is changed later, so a VAD-only view can report a region as non-executable while its pages are executable — read the per-page PTE before calling a region clean",
+        "A VAD-vs-PTE protection mismatch is an anomaly, not a verdict: legitimate loaders and JITs also allocate writable and re-protect executable, so weight the region contents and the owning module",
+        "An image page backed by a private physical page instead of its prototype page is consistent with a post-load patch, but copy-on-write from a debugger breakpoint or a relocation fixup produces the identical divergence — diff against the on-disk image",
         "Region contents are the ground truth; protection flags alone are circumstantial",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Volatile),
@@ -183,20 +244,20 @@ pub(crate) static MEM_NETWORK_SCAN_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "foreign_addr",
         value_type: ValueType::Text,
-        description: "Remote IP address; unset for listeners",
+        description: "Remote IP address; unset for listeners. On a UDP row vol3 emits the literal '*' — a hard-coded placeholder meaning 'a datagram socket has no peer', never 'the address failed to decode'",
         is_uid_component: true,
     },
     FieldSchema {
         name: "foreign_port",
         value_type: ValueType::UnsignedInt,
-        description: "Remote port; unset for listeners",
+        description: "Remote port; unset for listeners. Emitted as 0 on UDP rows for the same not-applicable reason as foreign_addr, so a 0 there is not a decode failure",
         is_uid_component: false,
     },
     FieldSchema {
         name: "state",
         value_type: ValueType::Text,
         description:
-            "TCP state string (ESTABLISHED, LISTENING, CLOSED, TIME_WAIT, etc.); blank for UDP",
+            "TCP state decoded through the tcpip.sys state enumeration (LISTENING=1, SYN_SENT=2, SYN_RCVD=3, ESTABLISHED=4, …, TIME_WAIT=12, DELETE_TCB=13). CLOSED is the enumeration's ZERO value, which is also what a zeroed, freed or partly-overwritten allocation decodes to — so a carved CLOSED row carries materially less weight than an ESTABLISHED one and must not be read as 'a connection that completed'. Blank on UDP rows by construction: a datagram socket has no state to report",
         is_uid_component: false,
     },
     FieldSchema {
@@ -208,7 +269,7 @@ pub(crate) static MEM_NETWORK_SCAN_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "owner",
         value_type: ValueType::Text,
-        description: "Owning process image name, resolved via the owning-process pointer",
+        description: "Owning process image name, resolved via the owning-process pointer — the kernel's fixed-width _EPROCESS.ImageFileName copy (15 bytes on current x64 public symbols, so at most 14 characters survive). Match it as a PREFIX, never by equality: a long name loses its extension here, and two binaries sharing the leading characters are indistinguishable. Resolve the endpoint's owner against mem_process_command_line before naming a program",
         is_uid_component: false,
     },
     FieldSchema {
@@ -274,16 +335,26 @@ pslist) before concluding the process is hidden.",
     fields: MEM_NETWORK_SCAN_FIELDS,
     retention: Some("RAM only; closed endpoints survive only until the pool allocation is reused"),
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &["mem_network_connections", "mem_running_processes"],
+    related_artifacts: &[
+        "mem_network_connections",
+        "mem_running_processes",
+    ],
     sources: &[
-        // Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/netscan.py (TcpE/TTcb/TcpL/UdpA pool-tag scan, address/port/state/owner extraction)
+        // Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/netscan.py (TcpE/TTcb/TcpL/UdpA pool-tag scan, address/port/state/owner extraction; the _UDP_ENDPOINT branch emits the literal "*" and an empty State)
         "https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/netscan.py",
+        // Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/symbols/windows/netscan/netscan-win10-19041-x64.json (TCPStateEnum — CLOSED=0, LISTENING=1, SYN_SENT=2, SYN_RCVD=3, ESTABLISHED=4, TIME_WAIT=12, DELETE_TCB=13)
+        "https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/symbols/windows/netscan/netscan-win10-19041-x64.json",
         // Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-poolused (kernel pool tags and allocation tagging)
         "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-poolused",
+        // Source: https://www.geoffchappell.com/studies/windows/km/ntoskrnl/inc/ntos/ps/eprocess/index.htm (_EPROCESS layout per build — ImageFileName is a fixed-width byte array)
+        "https://www.geoffchappell.com/studies/windows/km/ntoskrnl/inc/ntos/ps/eprocess/index.htm",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &[
         "Pool scanning yields false positives from stale/overwritten allocations — validate address/port/state sanity before relying on a carved endpoint",
+        "CLOSED is the zero value of the TCP state enumeration, so a zeroed or partly-overwritten allocation decodes to CLOSED: grade a carved CLOSED row below an ESTABLISHED one and corroborate before reporting it as a completed connection",
+        "On UDP rows the '*' foreign address and blank State are hard-coded placeholders for 'not applicable', not fields that failed to decode — do not report them as missing data",
+        "The owner name is the kernel's truncated fixed-width ImageFileName copy; distinct binaries sharing the leading characters collide, so treat it as a prefix and resolve the full path elsewhere",
         "A recovered endpoint proves a socket existed, not that data flowed; correlate with process and payload evidence",
         "Owning-process resolution can fail if the referenced _EPROCESS allocation was already reused",
     ],
@@ -575,9 +646,17 @@ hiding — corroborate, as pool scans can surface stale or partially-valid drive
 ///
 /// pid/ppid/name/offset/create_time/exit_time come from `windows.psscan` (which
 /// defaults to a VIRTUAL offset, physical only with `--physical`); `in_pslist`
-/// is a DERIVED cross-view against `windows.pslist`, not a psscan column.
+/// is a DERIVED cross-view against `windows.pslist`, not a psscan column. The
+/// remaining `in_*` booleans are the other independent enumeration sources a
+/// psxview-class cross-view consults — vol3's plugin implements four of them
+/// (pslist, psscan, thrdscan, csrss handles) and states in its own source that
+/// the PspCidTable, session and desktop-thread methods are omitted; the vol2
+/// plugin implements all seven and carries the known-good rules recorded in the
+/// field descriptions.
 /// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/psscan.py>
 /// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/pslist.py>
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/psxview.py>
+/// Source: <https://github.com/volatilityfoundation/volatility/blob/master/volatility/plugins/malware/psxview.py>
 pub(crate) static MEM_HIDDEN_PROCESSES_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "pid",
@@ -594,7 +673,7 @@ pub(crate) static MEM_HIDDEN_PROCESSES_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "name",
         value_type: ValueType::Text,
-        description: "Process image name (_EPROCESS ImageFileName, up to 15 chars)",
+        description: "Process image name (_EPROCESS ImageFileName) — a fixed-width, NUL-terminated byte array (15 bytes on current x64 public symbols, so at most 14 characters survive). The KERNEL truncates it at process creation, so it is a lossy PREFIX, not an identity: a long name loses its extension, a hunt written as 'name ends in .exe' misses every long-named process, and two binaries sharing the leading characters are indistinguishable here — a masquerading surface. A stored value at the ceiling is the truncation tell. The untruncated name lives in _EPROCESS.SeAuditProcessCreationInfo.ImageFileName (a kernel-resident full NT path) or, attacker-writable, in the PEB's RTL_USER_PROCESS_PARAMETERS.ImagePathName",
         is_uid_component: false,
     },
     FieldSchema {
@@ -621,6 +700,36 @@ pub(crate) static MEM_HIDDEN_PROCESSES_FIELDS: &[FieldSchema] = &[
         description: "DERIVED cross-view, not a psscan column: True when the same _EPROCESS also appears in the active-process linked-list walk (windows.pslist); False marks a process visible only to the pool scan — the DKOM-hidden / unlinked signal. Computed by the analyst/tool by diffing psscan against pslist.",
         is_uid_component: false,
     },
+    FieldSchema {
+        name: "in_thrdscan",
+        value_type: ValueType::Bool,
+        description: "DERIVED: True when a scanned _ETHREAD names this process as its owner (Cid.UniqueProcess). Threads are allocated separately from the process object, so a rootkit that unlinks _EPROCESS usually leaves its threads discoverable — an independent witness to a process the list walk denies",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "in_csrss_handles",
+        value_type: ValueType::Bool,
+        description: "DERIVED: True when csrss.exe holds an open handle to this process. csrss does not open handles to System, smss.exe or csrss.exe itself, so a False on those is structurally normal and not an anomaly; a False on an exited process is likewise expected",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "in_pspcid",
+        value_type: ValueType::Bool,
+        description: "DERIVED: True when the process is present in the kernel's PspCidTable (the PID-to-object handle table). Hiding from it takes more than an ActiveProcessLinks unlink, so a True here beside a False in_pslist narrows the technique to a plain list unlink",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "in_session",
+        value_type: ValueType::Bool,
+        description: "DERIVED: True when the process appears in a session's process list. Processes that start before smss.exe (System, smss.exe) have no session entry, so a False on those is expected — as it is for an exited process",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "in_deskthrd",
+        value_type: ValueType::Bool,
+        description: "DERIVED: True when a desktop-attached thread belongs to this process. Shares the pre-smss.exe blind spot (System, smss.exe) and returns nothing for processes with no GUI thread, so it confirms rather than refutes",
+        is_uid_component: false,
+    },
 ];
 
 /// DKOM-hidden process detection — `_EPROCESS` pool scan vs pslist cross-view.
@@ -639,8 +748,23 @@ pub(crate) static MEM_HIDDEN_PROCESSES_FIELDS: &[FieldSchema] = &[
 /// ExitTime. `in_pslist` is not a psscan column — it is the derived psscan-vs-
 /// pslist diff.
 ///
+/// Two sources make the cross-view binary; more make it diagnostic. Beyond
+/// pslist and psscan there are five further independent enumerations — thread
+/// owners (`_ETHREAD.Cid.UniqueProcess`), the kernel's `PspCidTable`, csrss.exe's
+/// handle table, the session process lists, and desktop-attached threads — and
+/// the PATTERN of which ones see a process narrows WHICH technique hid it: a
+/// process missing only from pslist while present in the thread, PspCidTable,
+/// csrss and session views is an `ActiveProcessLinks` unlink specifically, since
+/// a technique that also unhooked `PspCidTable` would flip that column. Several
+/// sources have documented benign blind spots — csrss.exe holds no handle to
+/// System, smss.exe or csrss.exe, and processes started before smss.exe have no
+/// session or desktop entry — so a False there is expected, not suspicious, and
+/// an exited process is legitimately absent from most of them.
+///
 /// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/psscan.py>
 /// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/pslist.py>
+/// Source: <https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/psxview.py>
+/// Source: <https://github.com/volatilityfoundation/volatility/blob/master/volatility/plugins/malware/psxview.py>
 /// Source: <https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-eprocess>
 pub(crate) static MEM_HIDDEN_PROCESSES: ArtifactDescriptor = ArtifactDescriptor {
     id: "mem_hidden_processes",
@@ -662,10 +786,20 @@ a process seen by psscan but not by pslist is unlinked (actively hidden or recen
 scan also recovers terminated processes whose _EPROCESS allocation is not yet reused (non-zero \
 ExitTime), providing historical process evidence. Each object yields PID, PPID, image name, \
 offset (virtual by default, physical with --physical), and create/exit FILETIMEs; in_pslist is a \
-derived psscan-vs-pslist cross-view, not a psscan column. Cross-reference mem_running_processes \
-(the list view) and mem_kernel_callbacks (DKOM frequently accompanies a loaded rootkit driver). A \
-False in_pslist with a zero ExitTime is suspicious; corroborate with the process-object validity \
-(sane PID/PPID/pointers) and ExitTime before concluding DKOM rather than a recently-exited process.",
+derived psscan-vs-pslist cross-view, not a psscan column. Five further independent enumerations \
+turn the cross-view from binary into diagnostic — thread owners (_ETHREAD.Cid.UniqueProcess), the \
+kernel's PspCidTable, csrss.exe's handle table, the session process lists, and desktop-attached \
+threads — because the PATTERN of which sources see a process narrows which technique hid it: absent \
+from pslist but present in the thread, PspCidTable, csrss and session views is an \
+ActiveProcessLinks unlink specifically, while a technique that also unhooked PspCidTable would flip \
+that column. Some sources have documented benign blind spots: csrss.exe holds no handle to System, \
+smss.exe or csrss.exe, and processes started before smss.exe have no session or desktop entry, so a \
+False there is normal rather than suspicious. The image name is the kernel's truncated fixed-width \
+copy and must be treated as a prefix, not an identity. Cross-reference mem_running_processes (the \
+list view), mem_process_command_line (the untruncated image path and arguments), and \
+mem_kernel_callbacks (DKOM frequently accompanies a loaded rootkit driver). A False in_pslist with \
+a zero ExitTime is suspicious; corroborate with the process-object validity (sane PID/PPID/pointers) \
+and ExitTime before concluding DKOM rather than a recently-exited process.",
     mitre_techniques: &[
         "T1014",     // Rootkit
         "T1055",     // Process Injection (hollowed/hidden host)
@@ -684,13 +818,22 @@ False in_pslist with a zero ExitTime is suspicious; corroborate with the process
         "https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/psscan.py",
         // Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/pslist.py (ActiveProcessLinks list walk — the pslist half of the in_pslist cross-view)
         "https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/pslist.py",
+        // Source: https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/psxview.py (cross-view over four sources — pslist, psscan, thrdscan, csrss handles; documents the omission of the PspCidTable, session and desktop-thread methods)
+        "https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malware/psxview.py",
+        // Source: https://github.com/volatilityfoundation/volatility/blob/master/volatility/plugins/malware/psxview.py (all seven sources — pslist/psscan/thrdproc/pspcid/csrss/session/deskthrd — and the known-good rules: System, smss.exe and csrss.exe absent from the csrss view; System and smss.exe absent from the session and desktop views; exited processes absent from most)
+        "https://github.com/volatilityfoundation/volatility/blob/master/volatility/plugins/malware/psxview.py",
         // Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-eprocess (!process — _EPROCESS fields, ActiveProcessLinks)
         "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/-eprocess",
+        // Source: https://github.com/reactos/reactos/blob/master/sdk/include/ndk/setypes.h (SE_AUDIT_PROCESS_CREATION_INFO carries a POBJECT_NAME_INFORMATION — the full NT image path, kernel-resident and not attacker-writable)
+        "https://github.com/reactos/reactos/blob/master/sdk/include/ndk/setypes.h",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_caveats: &[
         "A psscan-only hit is often a legitimately exited process (allocation not yet reused), not a hidden one — check ExitTime before concluding DKOM",
         "Pool scanning yields false positives from stale/overwritten _EPROCESS allocations; validate PID/name/pointers before trusting a carved object",
+        "Several cross-view sources have benign blind spots: csrss.exe holds no handle to System, smss.exe or csrss.exe, and processes started before smss.exe have no session or desktop-thread entry — a False in those columns for those processes is expected, not evidence of hiding",
+        "An exited process is legitimately absent from most enumeration sources, so read the ExitTime column before reading the True/False pattern",
+        "The image name is a kernel-truncated fixed-width prefix; two binaries agreeing on the leading characters look identical in this view — resolve the full path before attributing behaviour to a named program",
         "Absence of an unlinked process does not prove no rootkit — some hide via callback filtering rather than DKOM (see mem_kernel_callbacks)",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Volatile),

@@ -749,23 +749,46 @@ pub(crate) static TASKCACHE_TASKS_PATH: ArtifactDescriptor = ArtifactDescriptor 
     scope: DataScope::System,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Registry tree mirroring the Task Scheduler folder hierarchy. Each subkey is a task path with an Id GUID and SD (security descriptor). Attackers create scheduled tasks here for persistence; the registry copy survives deletion of the XML task file and is faster to parse than the XML store.",
-    mitre_techniques: &["T1053.005"],
-    fields: &[FieldSchema {
-        name: "task_path",
-        value_type: ValueType::Text,
-        description: "Full scheduled task path (subkey hierarchy relative to Tree)",
-        is_uid_component: true,
-    }],
+    meaning: "Registry tree mirroring the Task Scheduler folder hierarchy. Each subkey is a task path with an Id GUID and SD (security descriptor). Attackers create scheduled tasks here for persistence; the registry copy survives deletion of the XML task file and is faster to parse than the XML store. Microsoft reported intrusions in which the actor deleted the SD value from a task's Tree subkey: the task then stops appearing in `schtasks /query` and in the Task Scheduler UI while continuing to run on its schedule, so enumerating tasks through those tools cannot support a negative finding. Read the Tree subkeys directly and treat a task subkey that carries an Id but no SD as hidden rather than absent.",
+    mitre_techniques: &["T1053.005", "T1564"],
+    fields: &[
+        FieldSchema {
+            name: "task_path",
+            value_type: ValueType::Text,
+            description: "Full scheduled task path (subkey hierarchy relative to Tree)",
+            is_uid_component: true,
+        },
+        // Source: https://www.microsoft.com/en-us/security/blog/2022/04/12/tarrask-malware-uses-scheduled-tasks-for-defense-evasion/
+        FieldSchema {
+            name: "task_id",
+            value_type: ValueType::Guid,
+            description: "Id value on the task's Tree subkey — the GUID naming the matching TaskCache\\Tasks subkey that holds the task's actions, path and triggers. Use it to join a Tree entry to the definition that says what the task actually runs",
+            is_uid_component: false,
+        },
+        // Source: https://www.microsoft.com/en-us/security/blog/2022/04/12/tarrask-malware-uses-scheduled-tasks-for-defense-evasion/
+        FieldSchema {
+            name: "task_sd",
+            value_type: ValueType::Bytes,
+            description: "SD value — the task's security descriptor, controlling who may run it. Deleting this value hides the task from schtasks and the Task Scheduler UI while it keeps running, so an Id present with SD missing is the hiding pattern: enumerate the Tree subkeys and flag every task subkey with no SD",
+            is_uid_component: false,
+        },
+    ],
     retention: Some("Persistent until task deletion"),
     triage_priority: TriagePriority::Critical,
     related_artifacts: &["ifeo_silent_exit", "startup_approved_run_system"],
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
         "https://nasbench.medium.com/a-deep-dive-into-windows-scheduled-tasks-and-the-processes-running-them-218d1eed4cce",
+        // Deleting the SD value under TaskCache\Tree\<task> removes the task from
+        // `schtasks /query` and Task Scheduler while the task still runs.
+        "https://www.microsoft.com/en-us/security/blog/2022/04/12/tarrask-malware-uses-scheduled-tasks-for-defense-evasion/",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
-    evidence_caveats: &["Many legitimate tasks present; suspicious tasks have random names or reside outside \\Microsoft\\"],
+    evidence_caveats: &[
+        "Many legitimate tasks present; suspicious tasks have random names or reside outside \\Microsoft\\",
+        "A task-enumeration tool that returns nothing does not establish that no task is scheduled — a task whose Tree subkey lost its SD value keeps running but is not listed by schtasks or the Task Scheduler UI; compare the Tree subkeys, the Tasks GUID subkeys and the on-disk XML store against each other",
+        "Deleting the SD value requires SYSTEM-level access, so the hiding pattern also implies the actor already held or stole that privilege",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Registry key; persistent until task deletion",
 };
@@ -1007,4 +1030,517 @@ pub(crate) static EVENT_LOG_CHANNEL_STATUS: ArtifactDescriptor = ArtifactDescrip
     evidence_caveats: &["Disabled Security or Sysmon channel during an incident is near-certain evidence of tampering"],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Registry key; persistent until channel re-enabled",
+};
+
+// ── NTFS 8.3 short-name creation policy ───────────────────────────────────────
+
+/// `NtfsDisable8dot3NameCreation` — the volume policy that decides whether a
+/// DOS-namespace `$FILE_NAME` exists at all.
+///
+/// Source: <https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-8dot3name>
+/// Source: <https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc>
+pub(crate) static NTFS_8DOT3_NAME_CREATION: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ntfs_8dot3_name_creation",
+    name: "NTFS 8.3 Short-Name Creation Policy",
+    artifact_type: ArtifactLocation::RegistryValue,
+    hive: Some(HiveTarget::HklmSystem),
+    key_path: r"CurrentControlSet\Control\FileSystem",
+    value_name: Some("NtfsDisable8dot3NameCreation"),
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "The system-wide default for 8.3 (short) name creation, which `fsutil 8dot3name set <defaultvalue>` writes here. It decides whether a file gets a second, DOS-namespace name in addition to its long name — so it is the setting to read before calling a missing short name an anomaly. Consult it in two situations: when a file has no DOS-namespace $FILE_NAME (on a volume where creation is disabled that is the expected state, not tampering or timestomping), and when building a directory listing from a $I30 index, where a file holding both a Win32 and a DOS name produces two entries and inflates the count unless entries are collapsed on the file reference rather than on the name. `fsutil 8dot3name query [<volumepath>]` reports the effective state, and `fsutil 8dot3name strip` removes existing short names from a directory tree, writing a log to %temp%\\8dot3_removal_log@(GMT <timestamp>).log unless /l redirects it — that log is itself a lead that short names were removed after the fact.",
+    mitre_techniques: &[],
+    fields: &[FieldSchema {
+        name: "disable_8dot3_name_creation",
+        value_type: ValueType::Integer,
+        description: "0 = 8.3 name creation enabled on all volumes; 1 = disabled on all volumes; 2 = set per volume (the per-volume flag on the volume decides, and the default must be 2 before a volume can be set individually); 3 = disabled on all volumes except the system volume. Use it to decide whether an absent DOS-namespace name is policy or an anomaly",
+        is_uid_component: true,
+    }],
+    retention: Some("Persistent until the value is changed; existing short names survive a later policy change"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["mft", "ntfs_i30_index", "ntfs_last_access_status"],
+    sources: &[
+        // Names the registry key and value, the four default values, and the
+        // query/scan/set/strip subcommands including the strip log location.
+        "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-8dot3name",
+        // $FILE_NAME namespace and the file reference carried by each index entry.
+        "https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "The value states the policy in force when it was read, not the policy in force when a given file was created — short names created under an earlier setting persist unchanged",
+        "With the default set to 2 the answer is per volume, so this value alone does not decide the question for the volume under examination",
+        "Absence of a DOS-namespace $FILE_NAME is a volume-policy fact; do not report it as evidence of name manipulation without reading this value",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicitly changed",
+};
+
+// ── SMB signing (relay feasibility) ───────────────────────────────────────────
+
+/// `RequireSecuritySignature` on the Server service — inbound SMB signing.
+///
+/// Source: <https://learn.microsoft.com/en-us/windows-server/storage/file-server/smb-signing-overview>
+pub(crate) static SMB_SERVER_REQUIRE_SIGNING: ArtifactDescriptor = ArtifactDescriptor {
+    id: "smb_server_require_signing",
+    name: "SMB Server Signing Required (LanmanServer RequireSecuritySignature)",
+    artifact_type: ArtifactLocation::RegistryValue,
+    hive: Some(HiveTarget::HklmSystem),
+    key_path: r"CurrentControlSet\Services\LanmanServer\Parameters",
+    value_name: Some("RequireSecuritySignature"),
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "The registry form of the security policy 'Microsoft network server: Digitally sign communications (always)' — REG_DWORD, 0 disables and 1 enables the requirement that inbound SMB traffic to this host be signed. Signing binds a message to the session key and to the identities of sender and recipient, which is what Microsoft describes as protecting against relay and spoofing, so this value answers whether authentication coerced out of another host could have been relayed into SMB on this one. Microsoft states that SMB is signed whenever either end requires it and is unsigned only when both ends are set to 0, so a conclusion about a specific session needs the peer's value as well as this host's. Recoverable from an offline SYSTEM hive.",
+    mitre_techniques: &["T1557.001", "T1187"],
+    fields: &[FieldSchema {
+        name: "require_security_signature",
+        value_type: ValueType::Integer,
+        description: "0 = inbound SMB signing not required on this host (a relay into SMB here is not blocked by signing); 1 = required. Pair it with the initiating host's client-side value before concluding anything about a particular session",
+        is_uid_component: true,
+    }],
+    retention: Some("Persistent until the value is changed"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["smb_client_require_signing", "network_shares_server", "lanman_auto_share_admin"],
+    sources: &[
+        // Policy-to-registry mapping (LanManServer\Parameters, RequireSecuritySignature,
+        // REG_DWORD 0/1), the either-end rule, the DC default, and the note that
+        // EnableSecuritySignature is ignored for SMB2 and later.
+        "https://learn.microsoft.com/en-us/windows-server/storage/file-server/smb-signing-overview",
+        // Per-edition signing requirements introduced with Windows 11 24H2 / Windows Server 2025.
+        "https://learn.microsoft.com/en-us/windows-server/storage/file-server/smb-signing",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "The sibling EnableSecuritySignature value is ignored by SMB2 and later and applies only to SMB1 — do not read it as a signing state for a modern session",
+        "Domain controllers require SMB signing of connecting clients by default, so a DC is not described by this value alone",
+        "Per-edition defaults differ: Windows 11 24H2 Enterprise, Pro and Education require both outbound and inbound signing, Windows Server 2025 requires outbound only, and 24H2 Home requires neither — use the pair of values as a version corroboration point, not as proof of deliberate weakening",
+        "Signing prevents relay of the session; it does not prevent the credential coercion that precedes it",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicitly changed",
+};
+
+/// `RequireSecuritySignature` on the Workstation service — outbound SMB signing.
+///
+/// Source: <https://learn.microsoft.com/en-us/windows-server/storage/file-server/smb-signing-overview>
+pub(crate) static SMB_CLIENT_REQUIRE_SIGNING: ArtifactDescriptor = ArtifactDescriptor {
+    id: "smb_client_require_signing",
+    name: "SMB Client Signing Required (LanmanWorkstation RequireSecuritySignature)",
+    artifact_type: ArtifactLocation::RegistryValue,
+    hive: Some(HiveTarget::HklmSystem),
+    key_path: r"CurrentControlSet\Services\LanmanWorkstation\Parameters",
+    value_name: Some("RequireSecuritySignature"),
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "The registry form of the security policy 'Microsoft network client: Digitally sign communications (always)' — REG_DWORD, 0 disables and 1 enables the requirement that outbound SMB traffic from this host be signed. It is read on the side that was made to authenticate: if this host's sessions had to be signed, an intercepted authentication could not be replayed into an SMB session elsewhere. Because Microsoft documents that signing happens when either end requires it, the question 'was this session signed' is answered by this value together with the destination server's. Recoverable from an offline SYSTEM hive.",
+    mitre_techniques: &["T1557.001", "T1187"],
+    fields: &[FieldSchema {
+        name: "require_security_signature",
+        value_type: ValueType::Integer,
+        description: "0 = outbound SMB signing not required from this host; 1 = required. Read together with the destination server's value to decide whether a specific session would have been signed",
+        is_uid_component: true,
+    }],
+    retention: Some("Persistent until the value is changed"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["smb_server_require_signing", "network_shares_server"],
+    sources: &[
+        // Policy-to-registry mapping (LanManWorkstation\Parameters,
+        // RequireSecuritySignature, REG_DWORD 0/1) and the either-end rule.
+        "https://learn.microsoft.com/en-us/windows-server/storage/file-server/smb-signing-overview",
+        // Per-edition signing requirements introduced with Windows 11 24H2 / Windows Server 2025.
+        "https://learn.microsoft.com/en-us/windows-server/storage/file-server/smb-signing",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "The sibling EnableSecuritySignature value is ignored by SMB2 and later and applies only to SMB1",
+        "Connecting by IP address or CNAME causes NTLM rather than Kerberos to be used, which changes the exposure independently of this value",
+        "A host set to 0 still produced signed sessions against any server that required signing — the value bounds the possibility, it does not record what happened",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicitly changed",
+};
+
+// ── Remote UAC token filtering ────────────────────────────────────────────────
+
+/// `LocalAccountTokenFilterPolicy` — whether a local administrator keeps a full
+/// token over the network.
+///
+/// Source: <https://learn.microsoft.com/en-us/troubleshoot/windows-server/windows-security/user-account-control-and-remote-restriction>
+pub(crate) static LOCAL_ACCOUNT_TOKEN_FILTER_POLICY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "local_account_token_filter_policy",
+    name: "LocalAccountTokenFilterPolicy (Remote UAC Token Filtering)",
+    artifact_type: ArtifactLocation::RegistryValue,
+    hive: Some(HiveTarget::HklmSoftware),
+    key_path: r"Microsoft\Windows\CurrentVersion\Policies\System",
+    value_name: Some("LocalAccountTokenFilterPolicy"),
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Controls UAC remote restrictions. Microsoft documents the value as a DWORD that is 0 by default, which builds a filtered token with the administrator credentials removed, and 1, which builds an elevated token; setting it to 1 is the documented way to disable UAC remote restrictions. With the default in force, a member of the local Administrators group connecting over the network — the `net use \\\\host\\Share$` case Microsoft gives — does not connect as a full administrator and cannot perform administrative tasks, which is what frustrates remote use of a local account's credentials or hash. A single DWORD set to 1 restores full remote administrative use of every local account on the host, so read it whenever local-account access to admin shares is in question. The asymmetry matters: Microsoft states that a domain user in the local Administrators group runs with a full administrator token on the remote computer and UAC is not in effect, so this value changes nothing for domain accounts.",
+    mitre_techniques: &["T1112", "T1078.003"],
+    fields: &[FieldSchema {
+        name: "local_account_token_filter_policy",
+        value_type: ValueType::Integer,
+        description: "1 = elevated token built for local administrators authenticating over the network (remote UAC restrictions disabled — local-account admin access to C$/ADMIN$ becomes possible); 0 or absent = the documented default filtered token. Treat a 1 on a workstation as a configuration change that needs an owner",
+        is_uid_component: true,
+    }],
+    retention: Some("Persistent until the value is changed or deleted"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["restricted_admin_rdp", "network_shares_server", "lanman_auto_share_admin"],
+    sources: &[
+        // KB951016: the key, the value name, the 0/1 table, and the local-account
+        // versus domain-account asymmetry.
+        "https://learn.microsoft.com/en-us/troubleshoot/windows-server/windows-security/user-account-control-and-remote-restriction",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Management, backup and deployment tooling legitimately sets this value to 1 — establish whether the change is attributable to such a product before calling it attacker activity",
+        "The value governs only local (SAM) accounts; a domain account holding local administrator rights is unaffected either way, so a 0 here does not mean remote administrative access was impossible",
+        "The key's LastWrite time dates the most recent change to any value in the key, not to this value specifically",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicitly changed",
+};
+
+// ── Remote registry write path (MS-RRP) ───────────────────────────────────────
+
+/// The RemoteRegistry service key — the server side of a `reg add \\HOST\HKLM\…`.
+///
+/// Source: <https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-rrp/01e7fc6d-0c96-425a-a26a-6b75c67ca77d>
+/// Source: <https://learn.microsoft.com/en-us/windows-hardware/drivers/install/hklm-system-currentcontrolset-services-registry-tree>
+pub(crate) static REMOTE_REGISTRY_SERVICE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "remote_registry_service",
+    name: "Remote Registry Service (MS-RRP endpoint)",
+    artifact_type: ArtifactLocation::RegistryKey,
+    hive: Some(HiveTarget::HklmSystem),
+    key_path: r"CurrentControlSet\Services\RemoteRegistry",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "The service that answers the Windows Remote Registry Protocol, and therefore the host-side precondition for any registry write performed across the network (the `reg add \\\\HOST\\HKLM\\...` pattern). MS-RRP is an RPC protocol whose server is identified by the well-known endpoint \\PIPE\\winreg with RPC over SMB as the protocol sequence, so a remote registry write rides the same SMB session and IPC$ named-pipe surface as other lateral-movement traffic rather than opening a port of its own. Read the Start value to establish whether the service could have answered at all, and read it together with the ACL key CurrentControlSet\\Control\\SecurePipeServers\\winreg, which is what an application references to decide remote access. The commit artifact left on the target is the modified key's LastWrite FILETIME, which Windows maintains per KEY: Microsoft documents the last-write time as the last time the key OR ANY OF ITS VALUE ENTRIES was modified, so a Run-key write updates the key's timestamp but cannot on its own be attributed to a particular value.",
+    mitre_techniques: &["T1112", "T1021.002"],
+    fields: &[
+        // Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/install/hklm-system-currentcontrolset-services-registry-tree
+        FieldSchema {
+            name: "start",
+            value_type: ValueType::Integer,
+            description: "Start REG_DWORD: 0 = boot, 1 = system, 2 = automatic (started by the Service Control Manager at startup), 3 = demand, 4 = disabled. A 4 means the host could not have answered a remote registry call while that setting was in force; a 2 or 3 means it could",
+            is_uid_component: true,
+        },
+        // Source: https://learn.microsoft.com/en-us/windows-hardware/drivers/install/hklm-system-currentcontrolset-services-registry-tree
+        FieldSchema {
+            name: "image_path",
+            value_type: ValueType::Text,
+            description: "ImagePath — the service binary. Compare against the expected host process to catch a service key repurposed to run something else",
+            is_uid_component: false,
+        },
+        // Source: https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regqueryinfokeyw
+        FieldSchema {
+            name: "key_last_write",
+            value_type: ValueType::Timestamp,
+            description: "The key's last-write FILETIME, documented as the last time the key or any of its value entries was modified. It dates the most recent change to the key as a whole — never attribute it to one named value without corroboration from another source",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Persistent until the service configuration is changed"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["secure_pipe_servers_winreg", "network_shares_server", "evtx_system"],
+    sources: &[
+        // MS-RRP Server: the \PIPE\winreg well-known endpoint and RPC over SMB.
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-rrp/01e7fc6d-0c96-425a-a26a-6b75c67ca77d",
+        // Services registry tree: Start, Type, ErrorControl, ImagePath value semantics.
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/install/hklm-system-currentcontrolset-services-registry-tree",
+        // RegQueryInfoKey lpftLastWriteTime — "the last time that the key or any of
+        // its value entries is modified", i.e. per key, not per value.
+        "https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regqueryinfokeyw",
+        // IPC$ is the share that carries the named pipes used for communication
+        // between programs — the surface \PIPE\winreg is reached through.
+        "https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/remove-administrative-shares",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "The Start value read from an image describes the configuration at acquisition, not necessarily at the time of the activity under examination",
+        "Remote registry access is a normal management path — inventory, monitoring and configuration tools use it, so an enabled service is a capability finding, not an intrusion finding",
+        "A key's LastWrite time is per key: it cannot show which value changed, nor how many times, nor by whom",
+        "The registry stores no record of the account or source host behind a remote write; that attribution has to come from the SMB/authentication logs on the target",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until the service configuration is changed",
+};
+
+/// `SecurePipeServers\winreg` — the ACL and exemption list for remote registry access.
+///
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-access-remotely-accessible-registry-paths-and-subpaths>
+/// Source: <https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-2000-server/cc959392(v=technet.10)>
+pub(crate) static SECURE_PIPE_SERVERS_WINREG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "secure_pipe_servers_winreg",
+    name: "SecurePipeServers winreg (Remote Registry Access Control)",
+    artifact_type: ArtifactLocation::RegistryKey,
+    hive: Some(HiveTarget::HklmSystem),
+    key_path: r"CurrentControlSet\Control\SecurePipeServers\winreg",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "The key an application or process references to determine who may read the registry of this host across the network. Its own security descriptor is the gate; the AllowedPaths subkey holds a list of registry paths that all users can reach remotely even without permission on the winreg key, and Microsoft notes those listed paths can be accessed anonymously. Two uses in an examination: establish the reachable surface at the time of an alleged remote-registry pivot (the winreg ACL plus whatever AllowedPaths exempts), and spot a widened list — a path added to AllowedPaths quietly exposes that subtree to unauthenticated readers. Microsoft's default exemptions are a short, well-known list (printer, Eventlog, Perflib, Terminal Server and similar keys); entries outside it deserve an explanation. Remote access also requires the Remote Registry service to be enabled, so neither key answers the question alone.",
+    mitre_techniques: &["T1012", "T1112"],
+    fields: &[
+        // Source: https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-2000-server/cc959392(v=technet.10)
+        FieldSchema {
+            name: "allowed_path",
+            value_type: ValueType::Text,
+            description: "One registry path listed under the AllowedPaths subkey — reachable remotely by all users regardless of the winreg key's permissions, and documented as accessible anonymously. Compare the list against Microsoft's documented defaults and treat additions as a widened exposure",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "winreg_security_descriptor",
+            value_type: ValueType::Bytes,
+            description: "The security descriptor on the winreg key itself — the ACL deciding which users and groups may connect to this host's registry remotely. Parse it to state who had remote read access; the absence of the key means per-key permissions govern instead",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Persistent until the key or its permissions are changed"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["remote_registry_service", "network_shares_server"],
+    sources: &[
+        // The WinReg key's role, the documented default remotely accessible paths,
+        // and the statement that remote access also requires the Remote Registry service.
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-access-remotely-accessible-registry-paths-and-subpaths",
+        // AllowedPaths subkey under SecurePipeServers\winreg and its anonymous-access note.
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-2000-server/cc959392(v=technet.10)",
+        // MS-RRP Server: the \PIPE\winreg endpoint this key protects.
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-rrp/01e7fc6d-0c96-425a-a26a-6b75c67ca77d",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Management products legitimately extend the list — remote management tooling depends on remote registry reads, so an added path needs attribution before it is called tampering",
+        "The key describes what was reachable, not what was read; it records no access history",
+        "Group Policy can overwrite these entries at the next refresh, so the observed list may be the policy's rather than a local change",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry key; persists until the key or its permissions are changed",
+};
+
+// ── PowerShell logging policy (did 4103/4104/transcripts exist?) ──────────────
+
+/// `ScriptBlockLogging\EnableScriptBlockLogging` — whether 4104 records could exist.
+///
+/// Source: <https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging?view=powershell-5.1>
+pub(crate) static POWERSHELL_SCRIPT_BLOCK_LOGGING_POLICY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "powershell_script_block_logging_policy",
+    name: "PowerShell Script Block Logging Policy",
+    artifact_type: ArtifactLocation::RegistryValue,
+    hive: Some(HiveTarget::HklmSoftware),
+    key_path: r"Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging",
+    value_name: Some("EnableScriptBlockLogging"),
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "The registry switch Microsoft documents for turning on Windows PowerShell script block logging, set to 1 under HKLM\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging. With it enabled PowerShell records the content of every script block it processes to the Microsoft-Windows-PowerShell/Operational log as Event ID 4104. Read it out of an offline SOFTWARE hive to answer the prior question in any PowerShell investigation — should 4104 records have existed at all? — because an empty Operational log means nothing until the policy state is known. It is also a direct target for impairing defences: an actor who sets the value to 0 blinds script block logging for every session started afterwards, while sessions already running are unaffected. On PowerShell 7 the equivalent switch lives under Policies\\Microsoft\\PowerShellCore\\ScriptBlockLogging and logs to the PowerShellCore/Operational channel, so check both before concluding logging was off.",
+    mitre_techniques: &["T1562.002", "T1059.001"],
+    fields: &[FieldSchema {
+        name: "enable_script_block_logging",
+        value_type: ValueType::Integer,
+        description: "1 = script block logging on, so absence of 4104 records for an interval is meaningful; 0 or absent = the log was never going to hold them and an empty Operational log proves nothing about what ran",
+        is_uid_component: true,
+    }],
+    retention: Some("Persistent until the value is changed or the policy is reapplied"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[
+        "powershell_module_logging_policy",
+        "powershell_transcription_policy",
+        "powershell_transcripts",
+        "event_log_channel_status",
+    ],
+    sources: &[
+        // Names the HKLM:\Software\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging
+        // key, the EnableScriptBlockLogging value, Event ID 4104 and the
+        // Microsoft-Windows-PowerShell/Operational channel.
+        "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging?view=powershell-5.1",
+        // PowerShell 7 equivalent under Policies\Microsoft\PowerShellCore\ScriptBlockLogging.
+        "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "The value states the policy at acquisition; a value set back to 1 after an intrusion leaves the same reading as one that was never touched — corroborate with the key's LastWrite time and with Group Policy history",
+        "The setting takes effect for sessions started after the change, so an interval of missing 4104 records can coincide with a still-running session",
+        "The same policy offers an additional invocation-logging option that records the start and stop of each command, script block, function or script; its absence explains missing start/stop events without implying script block logging was off",
+        "A Group Policy refresh can restore or overwrite the value, so the current reading may not be the value in force during the period examined",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until changed or reapplied by policy",
+};
+
+/// `ModuleLogging\EnableModuleLogging` — whether pipeline execution events could exist.
+///
+/// Source: <https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-powershellexecutionpolicy>
+pub(crate) static POWERSHELL_MODULE_LOGGING_POLICY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "powershell_module_logging_policy",
+    name: "PowerShell Module Logging Policy",
+    artifact_type: ArtifactLocation::RegistryValue,
+    hive: Some(HiveTarget::HklmSoftware),
+    key_path: r"Policies\Microsoft\Windows\PowerShell\ModuleLogging",
+    value_name: Some("EnableModuleLogging"),
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "The 'Turn on Module Logging' policy, which Microsoft documents as the value EnableModuleLogging under the registry key Software\\Policies\\Microsoft\\Windows\\PowerShell\\ModuleLogging. Enabled, it records pipeline execution events for the selected modules to the Windows PowerShell log; disabled, no module records execution events. Not configured is the third state and the usual one: each module's own LogPipelineExecutionDetails property then decides, and Microsoft documents that property as False by default for all modules — so the absence of pipeline records is the expected reading on an unconfigured host, not a sign that records were deleted. The policy also carries the list of modules selected for logging, which bounds what could have been recorded even when the switch is on: a module absent from the list produced nothing.",
+    mitre_techniques: &["T1562.002", "T1059.001"],
+    fields: &[FieldSchema {
+        name: "enable_module_logging",
+        value_type: ValueType::Integer,
+        description: "1 = pipeline execution events recorded for the selected modules; 0 = logging disabled for all modules; absent = not configured, each module's LogPipelineExecutionDetails decides and defaults to off. Use it to decide whether missing pipeline records are meaningful",
+        is_uid_component: true,
+    }],
+    retention: Some("Persistent until the value is changed or the policy is reapplied"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[
+        "powershell_script_block_logging_policy",
+        "powershell_transcription_policy",
+        "event_log_channel_status",
+    ],
+    sources: &[
+        // ADMX mapping: Registry Key Name Software\Policies\Microsoft\Windows\PowerShell\ModuleLogging,
+        // Registry Value Name EnableModuleLogging.
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-powershellexecutionpolicy",
+        // Enabled / disabled / not-configured semantics and the LogPipelineExecutionDetails default.
+        "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_group_policy_settings",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Absent is the common state and is not evidence of tampering — module logging is off by default",
+        "Enabling the policy without selecting modules records nothing, so the switch alone does not establish that a given module's activity would have been logged",
+        "The setting exists under both Computer and User configuration, and Microsoft documents the computer setting as taking precedence — read both before stating the effective policy",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until changed or reapplied by policy",
+};
+
+/// `Transcription\EnableTranscripting` — whether transcripts were written, and where.
+///
+/// Source: <https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-powershellexecutionpolicy>
+pub(crate) static POWERSHELL_TRANSCRIPTION_POLICY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "powershell_transcription_policy",
+    name: "PowerShell Transcription Policy",
+    artifact_type: ArtifactLocation::RegistryValue,
+    hive: Some(HiveTarget::HklmSoftware),
+    key_path: r"Policies\Microsoft\Windows\PowerShell\Transcription",
+    value_name: Some("EnableTranscripting"),
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "The 'Turn on PowerShell Transcription' policy, documented as the value EnableTranscripting under the registry key Software\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription. Enabled, PowerShell captures the input and output of commands for PowerShell, the ISE and anything else hosting the PowerShell engine — the equivalent of calling Start-Transcript in every session. Two answers come out of this key. First, whether transcripts should exist for the period under examination. Second, and available from no other artifact, WHERE they were written: the policy's OutputDirectory setting redirects transcripts away from the documented default of each user's Documents directory, and a remote or attacker-chosen directory means the transcripts an examiner needs are not on the host at all. Microsoft warns that a shared OutputDirectory exposes one user's transcripts to others, which is also why a redirected directory is worth reading as an exposure, not just as a path.",
+    mitre_techniques: &["T1562.002", "T1059.001"],
+    fields: &[
+        FieldSchema {
+            name: "enable_transcripting",
+            value_type: ValueType::Integer,
+            description: "1 = transcription on for every PowerShell host on the system, so transcripts should exist for the period; 0 or absent = transcripts were written only where Start-Transcript was called explicitly",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "output_directory",
+            value_type: ValueType::Text,
+            description: "The policy's OutputDirectory setting — where transcripts were written. Absent means the documented default, a file under each user's Documents directory whose name includes PowerShell_transcript plus computer name and start time. A UNC or non-default path tells the examiner to collect from there, and is the only artifact that reveals the redirection",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Persistent until the value is changed or the policy is reapplied"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &[
+        "powershell_transcripts",
+        "powershell_script_block_logging_policy",
+        "powershell_module_logging_policy",
+    ],
+    sources: &[
+        // ADMX mapping: Registry Key Name Software\Policies\Microsoft\Windows\PowerShell\Transcription,
+        // Registry Value Name EnableTranscripting; names the OutputDirectory setting
+        // and the default transcript location and filename pattern.
+        "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-powershellexecutionpolicy",
+        // Policy description: transcription applies to any application hosting the
+        // PowerShell engine, and the OutputDirectory shared-location warning.
+        "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_group_policy_settings",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "Transcription can also be started per session with Start-Transcript, so transcripts may exist with the policy disabled",
+        "A redirected OutputDirectory means the host holds no transcripts for the period even though transcription was on — read the path before reporting that transcripts are missing",
+        "The setting exists under both Computer and User configuration, with the computer setting documented as taking precedence",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until changed or reapplied by policy",
+};
+
+// ── Default administrative shares ─────────────────────────────────────────────
+
+/// `AutoShareServer` / `AutoShareWks` — whether C$ and ADMIN$ were published.
+///
+/// Source: <https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/remove-administrative-shares>
+/// Source: <https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/problems-administrative-shares-missing>
+pub(crate) static LANMAN_AUTO_SHARE_ADMIN: ArtifactDescriptor = ArtifactDescriptor {
+    id: "lanman_auto_share_admin",
+    name: "Administrative Share Policy (AutoShareServer / AutoShareWks)",
+    artifact_type: ArtifactLocation::RegistryKey,
+    hive: Some(HiveTarget::HklmSystem),
+    key_path: r"CurrentControlSet\Services\LanmanServer\Parameters",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "The two REG_DWORD values that decide whether Windows automatically publishes the hidden administrative shares — <DriveLetter>$ for each shared root volume and ADMIN$ for remote administration. Microsoft documents AutoShareServer set to 0 as the way to stop Windows automatically creating administrative shares, notes that this does not apply to IPC$ or to manually created shares, and states that when the values do not exist there is no need to create them because the default behaviour is to create the administrative shares automatically. This is the precondition behind any `net use \\\\host\\C$` pivot: a 0 here means the administrative shares were not published automatically, a different question from the explicitly created shares enumerated under LanmanServer\\Shares — read both keys rather than inferring one from the other. The values also read in the other direction — Microsoft's guidance treats administrative shares that stay missing even with the values set to 1 as a sign the host is running malicious software that removes them at startup.",
+    mitre_techniques: &["T1021.002", "T1070"],
+    fields: &[
+        // Source: https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/remove-administrative-shares
+        FieldSchema {
+            name: "auto_share_server",
+            value_type: ValueType::Integer,
+            description: "REG_DWORD documented for Windows Server: 0 = Windows does not automatically create the administrative shares (IPC$ and manually created shares are unaffected); 1 or absent = they are created automatically. Read it before accepting that C$/ADMIN$ were reachable for an alleged SMB pivot",
+            is_uid_component: true,
+        },
+        // Source: https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/problems-administrative-shares-missing
+        FieldSchema {
+            name: "auto_share_wks",
+            value_type: ValueType::Integer,
+            description: "The workstation-side counterpart checked under the same key: 0 suppresses automatic creation, 1 or absent leaves the default in force. Microsoft's own procedure inspects both values together, so report the pair rather than one",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Persistent until the values are changed; the Server service must be restarted for a change to take effect"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[
+        "network_shares_server",
+        "local_account_token_filter_policy",
+        "smb_server_require_signing",
+    ],
+    sources: &[
+        // Registry subkey, REG_DWORD type, the value-0 behaviour, and the exclusion
+        // of IPC$ and manually created shares.
+        "https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/remove-administrative-shares",
+        // KB842715: both values checked under LanmanServer\Parameters, the absent-means-default
+        // statement, and the malware interpretation when shares stay missing.
+        "https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/problems-administrative-shares-missing",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_caveats: &[
+        "Absence of both values is the default state and means the administrative shares were published — do not read a missing value as 'shares disabled'",
+        "Hardening baselines legitimately set these to 0, so a 0 is a configuration finding rather than an intrusion finding on its own",
+        "The values describe the configuration at acquisition; a change takes effect only after the Server service restarts, so the running state during the period examined may differ",
+        "IPC$ is unaffected by these values, so named-pipe access (and the remote-registry and service-control paths that ride it) can persist with the admin shares suppressed",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry values; persist until explicitly changed",
 };

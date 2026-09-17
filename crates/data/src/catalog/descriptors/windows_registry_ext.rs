@@ -88,6 +88,117 @@ pub(crate) static KNOWN_DLLS: ArtifactDescriptor = ArtifactDescriptor {
     volatility_rationale: "Registry key; persists until explicit deletion",
 };
 
+/// Field schema for the `SafeDllSearchMode` loader-configuration value.
+///
+/// The DWORD picks between the two standard DLL search orders Microsoft
+/// documents for unpackaged apps. They are identical but for one entry: where
+/// "the current folder" sits. Everything an analyst does with this value follows
+/// from that single move, so the derived position is carried as its own field.
+///
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-security>
+pub(crate) static SAFE_DLL_SEARCH_MODE_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "safe_dll_search_mode",
+        value_type: ValueType::Integer,
+        description: "REG_DWORD selecting the loader's standard search order. 1, or the value \
+            ABSENT, means safe DLL search mode is on — the documented default from Windows XP \
+            SP2 onward. 0 means it is off, a state Microsoft documents as reached by deliberately \
+            creating this value and setting it to zero. Read it before concluding which DLL a \
+            given process on this host would actually have loaded",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "current_folder_search_position",
+        value_type: ValueType::Integer,
+        description: "Derived from the DWORD: where \"the current folder\" falls in the standard \
+            unpackaged-app search order. 11 when safe search mode is on — after the Windows \
+            folder and immediately before the PATH directories. 8 when it is off — immediately \
+            after the folder the application loaded from, and so AHEAD of the system folder, the \
+            16-bit system folder and the Windows folder. At 8 an attacker-controlled working \
+            directory outranks System32 for every unqualified load on the host",
+        is_uid_component: false,
+    },
+];
+
+/// Safe DLL search mode — the switch that decides which search order ran.
+///
+/// `KnownDLLs` (above) says which libraries the loader never searches for at
+/// all; `SafeDllSearchMode` says how the search proceeds for everything else. It
+/// selects between the two standard orders Microsoft publishes for unpackaged
+/// apps, which differ in exactly one place — the current folder at position 11
+/// when the mode is on, position 8 when it is off. Because the mode is on by
+/// default from Windows XP SP2 and the value is normally absent, a stored 0 is
+/// simultaneously an enabler (an attacker-writable working directory now
+/// outranks the system folder) and a tamper indicator. The value alone does not
+/// settle the effective order inside any one process: `SetDllDirectory`,
+/// `LoadLibraryEx` with `LOAD_WITH_ALTERED_SEARCH_PATH`, the
+/// `LOAD_LIBRARY_SEARCH_*` flags and `SetDefaultDllDirectories` all change it at
+/// run time.
+///
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order>
+/// Source: <https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-security>
+pub(crate) static SAFE_DLL_SEARCH_MODE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "safe_dll_search_mode",
+    name: "Safe DLL Search Mode",
+    artifact_type: ArtifactLocation::RegistryValue,
+    hive: Some(HiveTarget::HklmSystem),
+    key_path: "CurrentControlSet\\Control\\Session Manager",
+    value_name: Some("SafeDllSearchMode"),
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::All,
+    decoder: Decoder::DwordLe,
+    meaning: "SafeDllSearchMode decides WHICH of the two documented standard search orders the \
+loader uses when an unpackaged app calls LoadLibrary without a fully qualified path. Safe DLL \
+search mode is enabled by default starting with Windows XP SP2, and Microsoft documents disabling \
+it as creating this REG_DWORD under Session Manager and setting it to 0. The two orders are \
+identical but for one entry: with the mode ON the current folder is probed at position 11, after \
+the folder the application loaded from (7), the system folder (8), the 16-bit system folder (9) \
+and the Windows folder (10), and just before the PATH directories (12); with the mode OFF the \
+current folder moves to position 8, immediately after the application's own folder and therefore \
+ahead of System32. A stored 0 is two findings at once — it widens the DLL search-order hijack \
+surface for every process on the host, and, since the default is on and the value normally \
+absent, its presence is itself a configuration-tamper indicator. This is the companion value to \
+KnownDLLs: KnownDLLs lists the libraries exempt from searching altogether, SafeDllSearchMode \
+governs the search for everything else. Without it the catalog cannot answer 'which DLL would \
+actually have loaded on this host'.",
+    mitre_techniques: &["T1574.001", "T1112"],
+    fields: SAFE_DLL_SEARCH_MODE_FIELDS,
+    retention: Some("Persistent until registry modification"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["known_dlls", "services_imagepath"],
+    sources: &[
+        // Source: the SafeDllSearchMode value, "enabled by default", the 12-step standard order,
+        // and the current folder moving from position 11 to position 8 when the mode is disabled
+        "https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order",
+        // Source: DLL preloading / binary planting, and "enabled by default starting with
+        // Windows XP with Service Pack 2 (SP2)" under the Session Manager key
+        "https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-security",
+        // Source: Microsoft-hosted engineering archive giving the value's type explicitly —
+        // Session Manager: SafeProcessSearchMode (dword) 1, SafeDllSearchMode (dword) 1
+        "https://learn.microsoft.com/en-us/archive/blogs/yongrhee/best-practices-on-a-windows-server-2003-terminal-server",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_caveats: &[
+        "An ABSENT value is the default-ENABLED state, not a disabled one — safe DLL search mode \
+         is on by default from Windows XP SP2 onward, so absence is the normal reading and must \
+         never be scored as 0",
+        "The value sets the system default, not the effective per-process order: SetDllDirectory \
+         effectively disables safe search mode while the named folder is in that process's search \
+         path, and LoadLibraryEx with LOAD_WITH_ALTERED_SEARCH_PATH, the LOAD_LIBRARY_SEARCH_* \
+         flags, and SetDefaultDllDirectories each set an order independently of this value — a \
+         hijack is therefore possible on a host where this reads 1",
+        "Applies to the standard search order for UNPACKAGED apps only; the packaged-app order \
+         does not include the current folder at any position, so this value says nothing about a \
+         packaged app's loads",
+        "The Session Manager key LastWrite bounds when ANY value under that key changed, not this \
+         one specifically — it cannot date the modification on its own",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Registry value; persists until explicit modification",
+};
+
 pub(crate) static CMD_AUTORUN_HKLM: ArtifactDescriptor = ArtifactDescriptor {
     id: "cmd_autorun_hklm",
     name: "Command Processor AutoRun (HKLM)",
@@ -707,7 +818,6 @@ pub(crate) static USB_STOR_ENUM: ArtifactDescriptor = ArtifactDescriptor {
     related_artifacts: &["usb_enum", "portable_devices", "setupapi_dev_log", "mountpoints2", "mounted_devices"],
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
-        "https://www.sans.org/blog/computer-forensic-guide-to-profiling-usb-device-thumbdrives-on-win7-xp-2003/",
         // Microsoft Windows 10 SDK devpkey.h — GUID {83da6326-...} + property IDs 0x64-0x67 = DEVPROP_TYPE_FILETIME:
         "https://github.com/tpn/winsdk-10/blob/master/Include/10.0.16299.0/shared/devpkey.h",
         // Yogesh Khatri — RE writeup: forensic Last-Insertion/Last-Removal meaning + Win8 introduction:
@@ -725,31 +835,149 @@ pub(crate) static USB_STOR_ENUM: ArtifactDescriptor = ArtifactDescriptor {
     volatility_rationale: "Registry key; survives device removal",
 };
 
+/// Field schema for one device-installation section of `setupapi.dev.log`.
+///
+/// The fields are the four elements of Microsoft's documented text-log section
+/// grammar: the header pair `>>>  [section_title - instance_identifier]` /
+/// `>>>  yyyy/mm/dd hh:mm:ss.sss: Section start`, and the footer pair
+/// `<<<  [yyyy/mm/dd hh:mm:ss.sss: Section end]` / `<<<  [Exit Status(0xhhhhhhhh)]`.
+/// Both timestamps are LOCAL system time on a 24-hour clock and carry no offset
+/// designator — see the descriptor's caveats before normalising them.
+///
+/// Source: <https://learn.microsoft.com/en-us/windows-hardware/drivers/install/format-of-a-text-log-section-header>
+/// Source: <https://learn.microsoft.com/en-us/windows-hardware/drivers/install/format-of-a-text-log-section-footer>
+pub(crate) static SETUPAPI_DEV_LOG_FIELDS: &[FieldSchema] = &[
+    FieldSchema {
+        name: "device_id",
+        value_type: ValueType::Text,
+        description: "Device instance ID, carried as the instance_identifier field of the section \
+            header `>>>  [section_title - instance_identifier]`. Joins this section to the \
+            matching CurrentControlSet\\Enum subkey (for removable storage, the USBSTOR \
+            <device>\\<serial> key) so a driver install can be tied to a named device",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "section_title",
+        value_type: ValueType::Text,
+        description: "The section_title field of the header — the operation the section records, \
+            e.g. \"Device Install\". Tells the analyst which sections are device installs worth \
+            timelining and which are unrelated SetupAPI operations",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "install_time",
+        value_type: ValueType::Timestamp,
+        description: "Section-start time, from `>>>  yyyy/mm/dd hh:mm:ss.sss: Section start`. For \
+            the first section naming a given device instance ID this is the first-ever install of \
+            that device on this host. LOCAL SYSTEM TIME on a 24-hour clock with NO offset \
+            designator in the string — do not normalise it as UTC, and state the assumed offset \
+            whenever the value is reported",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "section_end_time",
+        value_type: ValueType::Timestamp,
+        description:
+            "Section-end time, from `<<<  [yyyy/mm/dd hh:mm:ss.sss: Section end]`, in the \
+            same LOCAL-time format. Paired with install_time it bounds how long the install ran, \
+            which separates a quick re-enumeration of a known device from a first-time driver \
+            install that fetched and staged a package",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "exit_status",
+        value_type: ValueType::Text,
+        description:
+            "Result from `<<<  [Exit Status(0xhhhhhhhh)]`, an 8-digit hexadecimal status; \
+            0x00000000 is success. Absent when the footer takes the bare `<<<  [Exit]` form. A \
+            NON-ZERO status still evidences physical connection — the device was present and the \
+            install was attempted, it merely did not complete, so a failed section is not a reason \
+            to drop the device from the timeline",
+        is_uid_component: false,
+    },
+];
+
+/// SetupAPI device-installation text log — and the one Windows timestamp that is
+/// not UTC.
+///
+/// `%SystemRoot%\INF\setupapi.dev.log` is an ANSI plain-text log written by the
+/// PnP manager and SetupAPI from Windows Vista onward. It opens with a text log
+/// header naming the OS version and architecture, then carries zero or more
+/// sections, one per device installation, each framed by the documented
+/// `>>>` / `<<<` grammar. Its section timestamps are recorded in LOCAL system
+/// time with no offset designator, which makes it both a trap and a tool: read
+/// as UTC every USB first-connect shifts by the host's offset, but differenced
+/// against the UTC FILETIME the same install wrote to the device's USBSTOR
+/// `Properties\{83da6326-97a6-4088-9453-a1923f573b29}\0064`/`0065` property it
+/// recovers the offset actually in force at that instant.
+///
+/// Source: <https://learn.microsoft.com/en-us/windows-hardware/drivers/install/setupapi-text-logs>
+/// Source: <https://learn.microsoft.com/en-us/windows-hardware/drivers/install/format-of-a-text-log-section-header>
 pub(crate) static SETUPAPI_DEV_LOG: ArtifactDescriptor = ArtifactDescriptor {
     id: "setupapi_dev_log",
     name: "SetupAPI Device Installation Log",
     artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
-    value_name: None,    file_path: Some("%SystemRoot%\\INF\\setupapi.dev.log"),
+    value_name: None,
+    file_path: Some("%SystemRoot%\\INF\\setupapi.dev.log"),
     scope: DataScope::System,
-    os_scope: OsScope::Win10Plus,
+    os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Plain-text log of all device driver installations with timestamps. Cross-reference with USBSTOR registry to establish first USB connection time — the log timestamp is the first time a device was ever seen on this system.",
+    meaning: "ANSI plain-text log of device and driver installations, written by the Plug and Play \
+manager and SetupAPI and located by default in %SystemRoot%\\INF. Cross-reference with USBSTOR to \
+establish first USB connection time — the first section naming a device instance ID is the first \
+time that device was ever seen on this system. Documented structure: a text log header carrying \
+the OS version and computer architecture, then zero or more text log SECTIONS, one per device \
+installation. A section opens with the pair `>>>  [section_title - instance_identifier]` and \
+`>>>  yyyy/mm/dd hh:mm:ss.sss: Section start`, and closes with `<<<  [yyyy/mm/dd hh:mm:ss.sss: \
+Section end]` followed by `<<<  [Exit Status(0xhhhhhhhh)]` (or a bare `<<<  [Exit]` when no status \
+is supplied). Entries that belong to no section are interspersed between them in write order. \
+CRITICAL TIMESTAMP SEMANTICS: Microsoft documents the time_stamp subfields as a LOCAL 24-hour \
+clock, and the string carries no offset or zone designator — this is one of the very few Windows \
+artifacts that is not UTC, and treating it as UTC displaces every first-connect by the host's \
+offset. The same property is exploitable: differencing a section-start time against the UTC \
+FILETIME the same install wrote to the device's USBSTOR Properties\\{83da6326-97a6-4088-9453-\
+a1923f573b29}\\0064 (InstallDate) or \\0065 (FirstInstallDate) yields the UTC offset actually in \
+force at that moment — including the DST state of the day — independently of whatever the current \
+TimeZoneInformation key says.",
     mitre_techniques: &["T1052.001"],
-    fields: &[
-        FieldSchema { name: "device_id", value_type: ValueType::Text, description: "Device instance ID", is_uid_component: true },
-        FieldSchema { name: "install_time", value_type: ValueType::Timestamp, description: "First installation timestamp", is_uid_component: false },
-    ],
+    fields: SETUPAPI_DEV_LOG_FIELDS,
     retention: Some("Rotated; setupapi.dev.log.bak may exist"),
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &["usb_stor_enum", "usb_enum"],
+    related_artifacts: &["usb_stor_enum", "usb_enum", "system_timezone"],
     sources: &[
-        "https://www.sans.org/blog/computer-forensic-guide-to-profiling-usb-device-thumbdrives-on-win7-xp-2003/",
+        // Source: Vista-and-later applicability, ANSI plain text, default %SystemRoot%\inf
+        // location, and the header + sections internal structure
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/install/setupapi-text-logs",
+        // Source: the `>>>  [section_title - instance_identifier]` / `>>>  time_stamp Section
+        // start` grammar, the yyyy/mm/dd hh:mm:ss.sss format, and the LOCAL-time subfields
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/install/format-of-a-text-log-section-header",
+        // Source: the `<<<  [time_stamp Section end]` / `<<<  [Exit Status(0xhhhhhhhh)]` footer
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/install/format-of-a-text-log-section-footer",
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
-    evidence_caveats: &["First connection timestamps are reliable; log may be cleared"],
+    evidence_caveats: &[
+        "First connection timestamps are reliable; log may be cleared",
+        "Section timestamps are LOCAL SYSTEM TIME, not UTC, and the string carries no offset or \
+         zone designator — Microsoft documents the time_stamp subfields as a 24-hour local clock. \
+         Normalising them as UTC shifts every first-connect by the host's offset, silently and in \
+         a direction that looks plausible; always report the assumed offset alongside the value",
+        "That local-time property is also a capability: the SAME install is recorded here in local \
+         time and in the device's USBSTOR Properties\\{83da6326-97a6-4088-9453-a1923f573b29}\\0064 \
+         / \\0065 FILETIME in UTC, so their difference IS the host's UTC offset at that instant — \
+         a per-event offset covering DST, independent of the current TimeZoneInformation setting. \
+         It holds only where both records describe the same install event, so match on the device \
+         instance ID and reject pairs whose difference is not a plausible whole- or half-hour \
+         offset rather than forcing a fit",
+        "Applies from Windows Vista onward — Microsoft scopes SetupAPI text logging as \"Windows \
+         Vista and later versions of Windows\". Win7Plus is the nearest floor this catalog's \
+         OsScope enum can express, so Vista hosts are in scope despite the label; pre-Vista \
+         systems log device installs to a different SetupAPI log file and not to this path",
+        "A section records that an installation was ATTEMPTED, not that it succeeded — read the \
+         `Exit Status(0x...)` footer before treating a section as a completed driver install",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Log file; retained until manually cleared",
 };

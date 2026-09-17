@@ -292,6 +292,83 @@ pub(crate) static PSREADLINE_HISTORY_SYSTEM: ArtifactDescriptor = ArtifactDescri
     volatility_rationale: "Oldest lines evicted at 4096-line limit",
 };
 
+/// Field schema for a PowerShell transcript, including the fixed header block.
+///
+/// The header is not free text: the PowerShell engine formats it from one
+/// resource string, `TranscriptPrologue`, so the field names and their order are
+/// fixed and parseable. The engine substitutes `DateTime.Now` — LOCAL system
+/// time, rendered `yyyyMMddHHmmss` with no offset — and passes
+/// `string.Join(" ", Environment.GetCommandLineArgs())` for `Host Application`,
+/// which is why that field carries the launching process's whole command line.
+///
+/// Source: <https://github.com/PowerShell/PowerShell/blob/master/src/System.Management.Automation/resources/InternalHostUserInterfaceStrings.resx>
+/// Source: <https://github.com/PowerShell/PowerShell/blob/master/src/System.Management.Automation/engine/hostifaces/MshHostUserInterface.cs>
+/// Source: <https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.host/start-transcript>
+pub(crate) static POWERSHELL_TRANSCRIPT_FIELDS: &[FieldSchema] = &[
+    FieldSchema { name: "command", value_type: ValueType::Text, description: "PowerShell command with full output transcript", is_uid_component: true },
+    FieldSchema { name: "username", value_type: ValueType::Text, description: "User context for the transcript session", is_uid_component: false },
+    FieldSchema {
+        name: "transcript_start_time",
+        value_type: ValueType::Timestamp,
+        description: "Header `Start time:` — yyyyMMddHHmmss in LOCAL system time (the engine formats DateTime.Now), carrying no timezone designator. Convert to UTC with the host's offset before correlating against EVTX or memory timestamps, which are UTC; skipping the conversion shifts the whole session on the timeline",
+        is_uid_component: true,
+    },
+    FieldSchema {
+        name: "header_username",
+        value_type: ValueType::Text,
+        description: "Header `Username:` — DOMAIN\\user of the session, or the remote caller's identity when the session arrived over PSRemoting. Compare against `runas_user` to spot a session running under a different identity from the one that opened it",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "runas_user",
+        value_type: ValueType::Text,
+        description: "Header `RunAs User:` — the identity the engine actually runs as. A value that differs from `header_username` is the signature of delegation or a constrained endpoint's RunAs account, and names the privilege the commands executed with",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "configuration_name",
+        value_type: ValueType::Text,
+        description: "Header `Configuration Name:` — the PSRemoting session configuration the runspace is bound to (empty for a local session). A non-empty value tells you the session came in over WinRM and which endpoint admitted it",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "machine",
+        value_type: ValueType::Text,
+        description: "Header `Machine:` — computer name followed by the OS version string in parentheses. Identifies which host produced the transcript when transcripts from many hosts land in one collection directory",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "host_application",
+        value_type: ValueType::Text,
+        description: "Header `Host Application:` — the FULL command line of the process hosting the engine (the engine emits Environment.GetCommandLineArgs() joined by spaces). The highest-signal header field: anything other than powershell.exe/pwsh.exe means an unmanaged or embedded host rather than the shell (T1059.001 via a non-shell host), and an encoded command appears here verbatim. A path under \\sysnative\\ further implies a 32-bit launching process resolving the 64-bit System32",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "process_id",
+        value_type: ValueType::UnsignedInt,
+        description: "Header `Process ID:` — PID of the hosting process, the join key to a Sysmon/4688 process-creation record and to the parent chain",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "version_info_footer",
+        value_type: ValueType::Text,
+        description: "Trailing header block the engine appends after Process ID: PSVersion, PSEdition, PSCompatibleVersions, BuildVersion/CLRVersion (Windows PowerShell) or GitCommitId/OS/Platform (PowerShell 7+), WSManStackVersion, PSRemotingProtocolVersion and SerializationVersion. Establishes which engine ran — e.g. a 2.0 PSVersion on a modern host is a downgrade",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "command_start_time",
+        value_type: ValueType::Timestamp,
+        description: "Per-command `Command start time:` marker written between asterisk rules when -IncludeInvocationHeader (or the transcription policy) is set. Same yyyyMMddHHmmss LOCAL-time format as the header; it is what lets a single command be dated rather than only the session",
+        is_uid_component: false,
+    },
+    FieldSchema {
+        name: "transcript_filename",
+        value_type: ValueType::Text,
+        description: "PowerShell_transcript.<computername>.<random>.<timestamp>.txt. The embedded computer name is what keeps a shared or UNC output directory attributable, and the random token prevents collisions between simultaneous sessions; the trailing timestamp repeats the local-time start",
+        is_uid_component: false,
+    },
+];
+
 pub(crate) static POWERSHELL_TRANSCRIPTS: ArtifactDescriptor = ArtifactDescriptor {
     id: "powershell_transcripts",
     name: "PowerShell Transcript Logs",
@@ -303,21 +380,48 @@ pub(crate) static POWERSHELL_TRANSCRIPTS: ArtifactDescriptor = ArtifactDescripto
     scope: DataScope::User,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
-    meaning: "PowerShell transcript files (PowerShell_transcript.*.txt) generated when script block transcription is enabled via Group Policy or $Transcript. Contain timestamped full session output including command output — richer than PSReadLine history. Filenames include hostname and datetime. Malware cleanup operations often fail to delete these.",
-    mitre_techniques: &["T1059.001"],
-    fields: &[
-        FieldSchema { name: "command", value_type: ValueType::Text, description: "PowerShell command with full output transcript", is_uid_component: true },
-        FieldSchema { name: "username", value_type: ValueType::Text, description: "User context for the transcript session", is_uid_component: false },
-    ],
+    meaning: "PowerShell transcript files (PowerShell_transcript.<computername>.<random>.<timestamp>.txt) \
+generated when transcription is enabled via the 'Turn on PowerShell Transcription' Group Policy, the \
+$Transcript preference variable, or an explicit Start-Transcript. Contain full session output including \
+command output — richer than PSReadLine history. Default location is the user's Documents folder; the \
+policy's OutputDirectory can redirect them to a share. Each file opens with a FIXED, parseable header \
+block the engine formats from one resource string: Start time, Username, RunAs User, Configuration Name, \
+Machine, Host Application, Process ID, then PSVersion/PSEdition/BuildVersion/CLRVersion/WSManStackVersion/\
+PSRemotingProtocolVersion/SerializationVersion. Host Application carries the complete command line of the \
+process hosting the engine, so a value other than powershell.exe/pwsh.exe evidences PowerShell run from an \
+unmanaged or embedded host rather than the shell. TIMESTAMP SEMANTIC: Start time and each 'Command start \
+time:' are yyyyMMddHHmmss in LOCAL system time with no offset (the engine formats DateTime.Now), whereas \
+EVTX records are UTC — correlating the two without converting shifts the timeline by the host's offset. \
+Because the header strings are fixed, they double as carving anchors: a transcript that was never flushed \
+to disk can still be recovered from process memory or the page file by searching for the banner and the \
+'Start time:'/'Host Application:' labels. Malware cleanup operations often fail to delete these.",
+    mitre_techniques: &["T1059.001", "T1218.011"],
+    fields: POWERSHELL_TRANSCRIPT_FIELDS,
     retention: Some("Persistent; accumulate indefinitely unless cleared by policy"),
     triage_priority: TriagePriority::Critical,
     related_artifacts: &["psreadline_history", "evtx_powershell"],
     sources: &[
-        "https://www.sans.org/blog/powershell-forensics-auditing/",
+        // Source: Start-Transcript reference — default location, the
+        // PowerShell_transcript.<computername>.<random>.<timestamp>.txt filename,
+        // -IncludeInvocationHeader and -OutputDirectory.
+        "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.host/start-transcript",
+        // Source: the engine's own resource string TranscriptPrologue — the literal,
+        // fixed header field names and the {0:yyyyMMddHHmmss} format.
+        "https://github.com/PowerShell/PowerShell/blob/master/src/System.Management.Automation/resources/InternalHostUserInterfaceStrings.resx",
+        // Source: MshHostUserInterface.cs — substitutes DateTime.Now (LOCAL time) and
+        // Environment.GetCommandLineArgs() for Host Application; emits Command start time.
+        "https://github.com/PowerShell/PowerShell/blob/master/src/System.Management.Automation/engine/hostifaces/MshHostUserInterface.cs",
+        // Source: about_Group_Policy_Settings — the "Turn on PowerShell Transcription" policy.
+        "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_group_policy_settings",
         "https://devblogs.microsoft.com/powershell/powershell-the-blue-team/",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
-    evidence_caveats: &["Requires transcript policy to be enabled; attacker may disable policy before activity"],
+    evidence_caveats: &[
+        "Requires transcript policy to be enabled; attacker may disable policy before activity",
+        "Start time and Command start time are LOCAL system time with no offset recorded — correlating them against UTC EVTX or memory timestamps without converting silently shifts the timeline",
+        "Configuration Name is empty for local sessions, so an empty value is not evidence the session was local-only — read it with the Host Application command line",
+        "-UseMinimalHeader (PowerShell 6.2+) writes only the banner and Start time, so an absent Host Application field means the header was suppressed, not that the host was ordinary",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Accumulate indefinitely; not auto-rotated",
 };
