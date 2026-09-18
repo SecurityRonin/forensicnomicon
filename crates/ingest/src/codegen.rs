@@ -126,6 +126,7 @@ pub fn generate_static(rec: &IngestRecord) -> String {
     related_artifacts: &[],
     sources: {sources},
     evidence_strength: None,
+    evidence_tier: None,
     evidence_caveats: &[],
     volatility: None,
     volatility_rationale: "",

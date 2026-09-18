@@ -297,6 +297,7 @@ that joins this TGT to the 4769 requests later made with it.",
         "https://www.rfc-editor.org/rfc/rfc4757",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Generated only on domain controllers and only when the Audit Kerberos Authentication Service subcategory is enabled — absence proves nothing about authentication until the audit policy in force at the time is established",
         "Every DC keeps its own Security log, so one DC's log is a partial view of domain authentication; a complete account timeline needs the logs of every DC that could have served the account",
@@ -548,6 +549,7 @@ Request ticket hash equals the Response ticket hash of the 4768 that issued the 
         "https://www.rfc-editor.org/rfc/rfc4757",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Generated only on domain controllers and only under the Audit Kerberos Service Ticket Operations subcategory; on member servers and workstations the subcategory produces nothing at all",
         "A service ticket was ISSUED, not used — 4769 proves the KDC granted a credential for the destination, not that the destination was reached; the 4624 carrying the same Logon GUID on that host is what closes the loop",
@@ -724,6 +726,7 @@ those accounts, look to 4768 with Pre-Authentication Type 0 instead.",
         "https://www.rfc-editor.org/rfc/rfc4120",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "NOT generated for an account with 'Do not require Kerberos preauthentication' set — the AS-REP-roastable accounts are invisible to this event by construction, and their failures must be sought in 4768 with Pre-Authentication Type 0",
         "Generated only on domain controllers and only under the Audit Kerberos Authentication Service subcategory; establish the audit policy in force before reading absence as absence of attempts",

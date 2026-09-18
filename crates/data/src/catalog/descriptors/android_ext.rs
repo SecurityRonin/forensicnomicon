@@ -175,6 +175,7 @@ pub(crate) static SAMSUNG_GALLERY3D_TRASH: ArtifactDescriptor = ArtifactDescript
         "https://cheeky4n6monkey.blogspot.com/2022/01/mike-monkey-dumpster-dive-into-samsung.html",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Schema varies across Samsung Gallery versions",
         "Entries auto-deleted after configurable retention period",
@@ -256,6 +257,7 @@ pub(crate) static SAMSUNG_GALLERY3D_LOG: ArtifactDescriptor = ArtifactDescriptor
         "https://cheeky4n6monkey.blogspot.com/2022/01/mike-monkey-dumpster-dive-into-samsung.html",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Format varies between APK versions (v10 vs v11)",
         "Base64 paths may use non-standard padding",
@@ -357,6 +359,7 @@ pub(crate) static ANDROID_TOR_BROWSER_THUMBNAILS: ArtifactDescriptor = ArtifactD
         "https://thebinaryhick.blog/2021/12/17/android-12-image-now-available/",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Cache may be cleared by the user or app on tab close",
         "Only captures tabs that were rendered with thumbnails",
@@ -474,6 +477,7 @@ pub(crate) static ANDROID_GBOARD_TRAININGCACHE: ArtifactDescriptor = ArtifactDes
         "https://github.com/abrignoni/ALEAPP",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Caches periodically pruned and size-limited — not all historical input retained",
         "Password fields excluded by the keyboard",

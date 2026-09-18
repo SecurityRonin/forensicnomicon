@@ -230,6 +230,7 @@ volume. The Court may draw its own conclusions from the pattern.",
         "https://learn.microsoft.com/en-us/sysinternals/downloads/sigcheck",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: None,
     evidence_caveats: &[
         "A deterministic build makes the field meaningless as a time: where the debug directory carries an IMAGE_DEBUG_TYPE_REPRO entry, the stamp holds bits of a content hash by design. Comparing that value against a file time is a category error, not a finding — test for the REPRO entry before reporting any ordering",
         "A stamp of 0 or 0xFFFFFFFF is documented as not a real or meaningful date. The Go linker writes 0 into every PE it produces, so a zero stamp on a Go binary is the toolchain behaving correctly and says nothing about timestomping",

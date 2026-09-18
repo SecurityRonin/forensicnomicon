@@ -80,6 +80,7 @@ pub(crate) static HONDA_ACCORD_RECENTSTOPS: ArtifactDescriptor = ArtifactDescrip
         "honda_accord_bluetooth",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Trigger for entry creation not confirmed — entries correlate with driven routes but interpretation requires care",
         "Limited to specific Honda Accord 2016 Clarion infotainment",
@@ -190,6 +191,7 @@ pub(crate) static HONDA_ACCORD_CRM_ECO_LOGS: ArtifactDescriptor = ArtifactDescri
         "honda_accord_bluetooth",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Units for mileage/odometer/fuel/range not confirmed",
         "Limited to specific Honda Accord 2016 Clarion infotainment",
@@ -311,6 +313,7 @@ pub(crate) static HONDA_ACCORD_PHONEDB: ArtifactDescriptor = ArtifactDescriptor 
         "honda_accord_crm_eco_logs",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Reflects only data synced from paired phones, not vehicle-originated calls",
         "WAL file may contain additional uncommitted records",
@@ -380,6 +383,7 @@ pub(crate) static HONDA_ACCORD_BLUETOOTH: ArtifactDescriptor = ArtifactDescripto
         "honda_accord_crm_eco_logs",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_tier: None,
     evidence_caveats: &[
         "Records all paired devices regardless of recent connection — no last-connect timestamp",
     ],
@@ -466,6 +470,7 @@ pub(crate) static GARMIN_NUVI_VOICE_LOG: ArtifactDescriptor = ArtifactDescriptor
     ],
     related_artifacts: &[],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Tested only on Garmin nuvi 56LM; coverage on other models unconfirmed",
         "Voice phrases use template variables — actual instruction values may need correlation",

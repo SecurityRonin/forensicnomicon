@@ -365,6 +365,26 @@ pub enum ClockSource {
 
 ---
 
+### 2.3b Tool Behaviour Layer
+
+**Problem:** the catalog describes artifacts as they exist on disk. Examiners never see them that way — they see them through a parser, and the parser can differ from the artifact. Where it does, the difference is forensic knowledge with no home, so it ends up wedged into an `evidence_caveats` string on an unrelated descriptor.
+
+Three established cases, all currently homeless:
+
+- **AppCompatCacheParser silently drops `LastUpdateTime`** on the Windows XP 32-bit format. The timestamp is present in the data and absent only from the output, so an examiner concludes the XP shim cache carries no execution-time information.
+- **Two XP parsers read the live-entry count from the wrong offset** (4 rather than 8) and walk into residual slot data, inflating the entry list with stale records.
+- **MemProcFS FindEvil's leading `#` is a base-16 presentation ordinal** that renumbers whenever any finding is added or removed. Cite `#0042` in a report and the reference silently points somewhere else on the next run.
+
+The common shape is not "the tool has a bug" but **"the tool produces a confident wrong reading"** — which is the field that earns the type (`ToolBehaviour::consequence`).
+
+**Solution:** `core::knowledge::ToolBehaviour` — tool, affected version range, the artifact it parses, a `ToolBehaviourKind` discriminator (`SilentlyDropsField` / `MisreadsStructure` / `UnstableIdentifier` / `RequiresFlag` / `OutputHidesDetail`), the wrong conclusion it induces, and the mitigation. Types landed; data population pending.
+
+**Why it matters:** an examiner who trusts a single parser inherits its blind spots without ever seeing them. This layer makes "cross-read with a second implementation" a queryable recommendation rather than folklore.
+
+**Effort:** Low for the type (done); Medium for population, which requires reading parser source rather than documentation.
+
+---
+
 ### 2.4 Anti-Forensics Awareness Layer
 
 **Problem:** `antiforensics.rs` lists indicators, but artifacts themselves don't know whether they are susceptible to tampering, timestomping, or deletion. An analyst looking at a Prefetch entry doesn't know "this can be trivially deleted by a local admin, and attackers commonly do so."

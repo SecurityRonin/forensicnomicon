@@ -215,6 +215,7 @@ credential material in the same database.",
         "https://learn.microsoft.com/en-us/windows/win32/api/ntdsapi/ns-ntdsapi-ds_repl_attr_meta_data",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Delegation is a supported product feature with legitimate deployments — IIS/SQL tiers, print and file servers, and management tooling routinely use constrained delegation. The configuration establishes EXPOSURE, not that it was abused; corroborate with ticket-request evidence before concluding use",
         "TRUSTED_FOR_DELEGATION on a domain controller computer account is the documented default, not an anomaly: Microsoft gives the default domain-controller userAccountControl as 0x82000, which is SERVER_TRUST_ACCOUNT (0x2000) plus TRUSTED_FOR_DELEGATION (0x80000)",

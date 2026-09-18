@@ -178,6 +178,7 @@ ntfs_timestomping_si_fn (a snapshot that predates a forgery may preserve earlier
         "https://learn.microsoft.com/en-us/windows/win32/api/vss/ne-vss-vss_volume_snapshot_attributes",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "A shadow copy captures only blocks changed since the snapshot; unchanged blocks read through to the live volume, so a 'recovered' file may mix snapshot and current data if the mapping is misapplied",
         "vssadmin/wmic shadow-copy deletion (T1490) removes the diff area — absence of snapshots can itself be evidence of anti-forensics, not evidence of no prior activity",

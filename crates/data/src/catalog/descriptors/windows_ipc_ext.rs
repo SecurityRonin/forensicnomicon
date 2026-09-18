@@ -246,6 +246,7 @@ mem_handles_threads for the handle-table view and evtx_sysmon for the telemetry 
         "https://github.com/PowerShell/PowerShell/blob/master/src/System.Management.Automation/engine/remoting/common/RemoteSessionNamedPipe.cs",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: None,
     evidence_caveats: &[
         "A pipe name is free text chosen by whoever created it — any character but a backslash, up to 256 characters, case-insensitive. It can impersonate a stock name exactly, so a name is a lead and the owning process is the attribution",
         "Named pipes are ordinary Windows plumbing: the operating system, RPC, printing, SQL Server and most endpoint agents all create them. Volume alone is meaningless; the discriminator is a name/owner pairing absent from a known-good build of the same OS and vendor stack",
@@ -394,6 +395,7 @@ Recoverable from an offline SYSTEM hive. Cross-reference named_pipe_object for t
         "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-wpo/4de75e21-36fd-440a-859b-75accc74487c",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: None,
     evidence_caveats: &[
         "The list without its gate supports no conclusion. RestrictNullSessAccess set to 1 is what makes the list exhaustive; absent or 0, reporting a short list as 'anonymous access restricted' inverts the actual state",
         "A populated list is configuration, not activity: it records what an anonymous client was PERMITTED to open, never that one did. Pair it with authentication and share-access telemetry before describing anything as anonymous access having occurred",

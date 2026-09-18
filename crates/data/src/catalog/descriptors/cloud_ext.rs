@@ -151,6 +151,7 @@ Files can be very large (hundreds of MB); use streaming JSON parsers (e.g. Pytho
         "https://thebinaryhick.blog/2021/02/20/using-google-takeout-for-dfir/",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Requires user-initiated Takeout export — not directly extractable from device",
         "User can delete location history server-side",
@@ -211,6 +212,7 @@ Cross-reference with Records.json for raw coordinate and DetectedActivity detail
         "https://cheeky4n6monkey.blogspot.com/2022/02/monkey-attempts-to-digest-some-google.html",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Server-side inferences may be inaccurate",
         "Requires user-initiated Takeout export",
@@ -374,6 +376,7 @@ organization trails and custom S3 lifecycle policies may extend or shorten"),
         "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-global-service-events",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_tier: None,
     evidence_caveats: &[
         "CloudTrail logs can be disabled or deleted by an attacker with sufficient IAM permissions",
         "Log delivery latency of 1-3 minutes means near-real-time events may not yet appear",
@@ -586,6 +589,7 @@ authenticate against an on-premises domain is the finding.",
         "https://datatracker.ietf.org/doc/html/draft-zhu-pku2u-09",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Microsoft's 4624 reference names NTLM, Kerberos and Negotiate as the common authentication \
          packages and does not enumerate the PKU2U pair. NegoExtender is documented in the event-4622 \

@@ -388,6 +388,14 @@ pub struct ArtifactDescriptor {
     pub sources: &'static [&'static str],
     /// How strongly this artifact proves a fact in isolation, or `None` if not yet assessed.
     pub evidence_strength: Option<crate::evidence::EvidenceStrength>,
+    /// How this descriptor's own claims are established — vendor documentation,
+    /// source code / multiple independent implementations, or a single secondary
+    /// source. `None` means not yet assessed, which is NOT the same as
+    /// `VendorDocumented`: an unassessed entry makes no provenance claim at all.
+    ///
+    /// Orthogonal to [`Self::evidence_strength`], which rates the artifact's
+    /// probative weight rather than the reliability of what we say about it.
+    pub evidence_tier: Option<crate::evidence::EvidenceTier>,
     /// Known caveats, edge cases, or false-positive scenarios for this artifact.
     pub evidence_caveats: &'static [&'static str],
     /// How quickly this artifact is overwritten or lost, or `None` if not yet assessed.
@@ -910,6 +918,7 @@ mod tests {
         related_artifacts: &[],
         sources: &[],
         evidence_strength: None,
+        evidence_tier: None,
         evidence_caveats: &[],
         volatility: None,
         volatility_rationale: "",
@@ -926,6 +935,7 @@ mod tests {
             mitre_techniques: &["T1547"],
             triage_priority: TriagePriority::Low,
             evidence_strength: Some(EvidenceStrength::Strong),
+            evidence_tier: None,
             meaning: "Autostart persistence via Run key.",
             ..TEMPLATE
         },
@@ -939,6 +949,7 @@ mod tests {
             mitre_techniques: &["T1059", "T1552"],
             triage_priority: TriagePriority::Critical,
             evidence_strength: None,
+            evidence_tier: None,
             meaning: "Shell command history.",
             ..TEMPLATE
         },
@@ -952,6 +963,7 @@ mod tests {
             mitre_techniques: &["T1204"],
             triage_priority: TriagePriority::High,
             evidence_strength: None,
+            evidence_tier: None,
             meaning: "GUI program execution counts.",
             ..TEMPLATE
         },

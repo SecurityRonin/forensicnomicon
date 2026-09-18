@@ -26,6 +26,7 @@ pub(crate) static BROWSER_CHROME_HISTORY: ArtifactDescriptor = ArtifactDescripto
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: None,
     evidence_caveats: &[
         "URL visited, not necessarily user-initiated; could be redirect or prefetch",
         "History can be cleared by user or extensions; absence is not evidence of non-visit",
@@ -54,6 +55,7 @@ pub(crate) static BROWSER_CHROME_COOKIES: ArtifactDescriptor = ArtifactDescripto
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: None,
     evidence_caveats: &[
         "Cookie presence proves domain contact, not user intent; third-party cookies common",
         "Expiration and creation timestamps useful for timeline reconstruction",
@@ -81,6 +83,7 @@ pub(crate) static BROWSER_CHROME_DOWNLOADS: ArtifactDescriptor = ArtifactDescrip
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "File was downloaded; user may not have opened or executed it",
         "Download record persists even if file was deleted from disk",
@@ -108,6 +111,7 @@ pub(crate) static BROWSER_CHROME_BOOKMARKS: ArtifactDescriptor = ArtifactDescrip
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Circumstantial),
+    evidence_tier: None,
     evidence_caveats: &[
         "Bookmark proves awareness of URL, not visit frequency",
         "May be synced from another device; check sync metadata",
@@ -135,6 +139,7 @@ pub(crate) static BROWSER_CHROME_EXTENSIONS: ArtifactDescriptor = ArtifactDescri
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: None,
     evidence_caveats: &[
         "Extension installed, possibly auto-installed by enterprise policy",
         "Extension version and update timestamps useful for timeline",
@@ -163,6 +168,7 @@ pub(crate) static BROWSER_CHROME_LOGIN_DATA_V2: ArtifactDescriptor = ArtifactDes
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Credential saved; timestamp shows last use; passwords encrypted by OS credential store",
         "Presence proves user entered credentials on the site at least once",
@@ -190,6 +196,7 @@ pub(crate) static BROWSER_CHROME_AUTOFILL: ArtifactDescriptor = ArtifactDescript
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: None,
     evidence_caveats: &[
         "Form data was saved; may have been auto-populated not manually typed",
         "Timestamps show when autofill entry was created and last used",
@@ -217,6 +224,7 @@ pub(crate) static BROWSER_CHROME_CACHE: ArtifactDescriptor = ArtifactDescriptor 
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: None,
     evidence_caveats: &[
         "Cache entry proves resource was fetched; evicted under size pressure",
         "Response headers (Last-Modified, ETag) may reveal server-side timestamps",
@@ -244,6 +252,7 @@ pub(crate) static BROWSER_CHROME_SESSION: ArtifactDescriptor = ArtifactDescripto
     related_artifacts: &["browser_chrome_session_memory"],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: None,
     evidence_caveats: &[
         "Tab state reflects last browser close; unreliable if crash occurred",
         "SNSS format is binary and partially documented",
@@ -276,6 +285,7 @@ pub(crate) static BROWSER_CHROME_SESSION_MEMORY: ArtifactDescriptor = ArtifactDe
         "https://github.com/SecurityRonin/memory-forensic",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: None,
     evidence_caveats: &[
         "Requires live memory acquisition; not obtainable from disk image alone",
         "URL strings in heap reflect current session; may include pre-rendered tabs",
@@ -307,6 +317,7 @@ pub(crate) static BROWSER_FIREFOX_SESSION_MEMORY: ArtifactDescriptor = ArtifactD
         "https://github.com/SecurityRonin/memory-forensic",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: None,
     evidence_caveats: &[
         "Requires live memory acquisition; not obtainable from disk image alone",
         "URL strings in heap reflect current session; sessionstore-backups.jsonlz4 is the on-disk equivalent",
@@ -335,6 +346,7 @@ pub(crate) static BROWSER_FIREFOX_HISTORY: ArtifactDescriptor = ArtifactDescript
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Mozilla_Firefox"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: None,
     evidence_caveats: &[
         "Same caveats as Chrome history; stored in places.sqlite",
         "Firefox uses moz_places + moz_historyvisits join for full timeline",
@@ -362,6 +374,7 @@ pub(crate) static BROWSER_FIREFOX_COOKIES: ArtifactDescriptor = ArtifactDescript
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Mozilla_Firefox"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: None,
     evidence_caveats: &[
         "Same caveats as Chrome cookies; stored in cookies.sqlite",
         "Firefox stores isHttpOnly and sameSite flags useful for security analysis",
@@ -389,6 +402,7 @@ pub(crate) static BROWSER_FIREFOX_DOWNLOADS: ArtifactDescriptor = ArtifactDescri
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Mozilla_Firefox"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Same caveats as Chrome downloads; stored in places.sqlite moz_annos",
         "Download annotations reference moz_places entries",
@@ -416,6 +430,7 @@ pub(crate) static BROWSER_SAFARI_HISTORY: ArtifactDescriptor = ArtifactDescripto
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Apple_Safari"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: None,
     evidence_caveats: &[
         "Same caveats as Chrome history; stored in History.db",
         "Safari has history_tombstones table tracking deleted URLs with timestamps",
@@ -452,6 +467,7 @@ pub(crate) static BROWSERS_FIREFOX_LOGINS: ArtifactDescriptor = ArtifactDescript
     related_artifacts: &[],
     sources: &["https://forensicswiki.xyz/wiki/index.php?title=Mozilla_Firefox"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
+    evidence_tier: None,
     evidence_caveats: &[
         "Encrypted browser passwords; key in OS credential store; timestamp shows last use",
     ],

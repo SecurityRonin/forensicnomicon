@@ -31,6 +31,7 @@ pub(crate) static WINDOWS_CRASH_DUMP: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/complete-memory-dump",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Only present after BSOD or manual trigger; may be disabled or set to minidump-only",
         "Single dump overwritten on next BSOD",
@@ -60,6 +61,7 @@ pub(crate) static WINDOWS_MINIDUMP: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/minidump-files",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &["Limited to kernel context; user-mode crash details require WER reports"],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Minidumps accumulate in directory; oldest deleted by retention policy",
@@ -247,6 +249,7 @@ pub(crate) static AMCACHE_DRIVER: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/AmcacheParser/blob/master/Amcache/AmcacheNew.cs",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Records driver load time, not execution time; SHA1 hash allows reputation lookup",
         "DriverId is the SHA-1 with four leading `0` characters — comparing it raw against a hash list or reputation feed matches nothing",
@@ -284,6 +287,7 @@ pub(crate) static WER_REPORT_QUEUE: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/win32/wer/windows-error-reporting",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &["Queue drained when reports successfully upload; surviving entries are bounded"],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Queue drained as reports upload to Microsoft; transient retention",
@@ -313,6 +317,7 @@ pub(crate) static WINDOWS_NOTIFICATION_DB: ArtifactDescriptor = ArtifactDescript
         "https://learn.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/windows-push-notification-services--wns--overview",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: None,
     evidence_caveats: &[
         "Notifications can be disabled per-app or system-wide",
         "User can clear notification history",
@@ -345,6 +350,7 @@ pub(crate) static AMCACHE_SHORTCUT: ArtifactDescriptor = ArtifactDescriptor {
         "https://learn.microsoft.com/en-us/windows/compatibility/application-compatibility-toolkit-documentation",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: None,
     evidence_caveats: &[
         "Presence indicates a shortcut existed, not necessarily that the target was executed",
         "Periodic AmCache rebuild may lose history",

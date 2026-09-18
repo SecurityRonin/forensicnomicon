@@ -143,6 +143,7 @@ mod tests {
             related_artifacts: &[],
             sources: &["https://example.com/test"],
             evidence_strength: None,
+            evidence_tier: None,
             evidence_caveats: &[],
             volatility: None,
             volatility_rationale: "",
