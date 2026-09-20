@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-09-19T03:32:07Z
+Generated: 2026-09-20T03:34:00Z
 
 ## Windows Incident Response
 
@@ -16,9 +16,9 @@ Generated: 2026-09-19T03:32:07Z
 - Site: https://dfir.blog/
 - Feed: https://dfir.blog/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- unknown date — [Introducing Hindsight Foundry](https://dfir.blog/blog/introducing-hindsight-foundry)
+- No new entries detected
 
 ## Another Forensics Blog
 
@@ -33,10 +33,7 @@ Generated: 2026-09-19T03:32:07Z
 
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: not well-formed (invalid token): line 1, column 116
 
 ## mac4n6
 
@@ -168,7 +165,7 @@ Generated: 2026-09-19T03:32:07Z
 
 - Site: https://brettshavers.com/brett-s-blog
 - Feed: https://feeds.feedburner.com/brettshavers/oSyq
-- Status: error: undefined entity: line 1, column 606
+- Status: error: undefined entity: line 1, column 549
 
 ## Yogesh Khatri's forensic blog
 
@@ -223,15 +220,15 @@ Generated: 2026-09-19T03:32:07Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-18T06:05:26+00:00 — [HTTP QUERY Method: The Grey Zone Between GET And POST., (Fri, Sep 18th)](https://isc.sans.edu/diary/rss/33352)
+- No new entries detected
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
+- Entries checked: 0
 - New since last snapshot: 0
 
 - No new entries detected
@@ -250,9 +247,9 @@ Generated: 2026-09-19T03:32:07Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-18T12:57:28+00:00 — [InfoSec News Nuggets – 09/18/2026](https://aboutdfir.com/infosec-news-nuggets-09-18-2026/)
+- No new entries detected
 
 ## Forensic 4cast
 
@@ -369,18 +366,18 @@ Generated: 2026-09-19T03:32:07Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-09-18T18:17:26+00:00 — [Apple has released an update to XProtect Remediator](https://eclecticlight.co/2026/09/18/apple-has-released-an-update-to-xprotect-remediator-5/)
-- 2026-09-18T11:30:00+00:00 — [Henri Regnault’s too brief history paintings](https://eclecticlight.co/2026/09/18/henri-regnaults-too-brief-history-paintings/)
-- 2026-09-18T06:30:00+00:00 — [How did Golden Gate affect free disk space?](https://eclecticlight.co/2026/09/18/how-did-golden-gate-affect-free-disk-space/)
+- 2026-09-19T11:30:00+00:00 — [Painting la Manche: Calais to Étretat](https://eclecticlight.co/2026/09/19/painting-la-manche-calais-to-etretat/)
+- 2026-09-19T08:00:00+00:00 — [Saturday Mac riddles 378](https://eclecticlight.co/2026/09/19/saturday-mac-riddles-378/)
+- 2026-09-19T07:00:00+00:00 — [macOS Tahoe 26.4 changed boot volume structure](https://eclecticlight.co/2026/09/19/macos-tahoe-26-4-changed-boot-volume-structure/)
 
 ## JPCERT/CC
 
 - Site: https://blogs.jpcert.or.jp/en/
 - Feed: https://blogs.jpcert.or.jp/en/atom.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-18T05:01:27+00:00 — [TSUBAME Report Overflow (Apr-Jun 2026)](https://blogs.jpcert.or.jp/en/2026/09/tsubame_overflow_2026-04-06.html)
+- No new entries detected
 
 ## DFIR Review
 
@@ -423,9 +420,9 @@ Generated: 2026-09-19T03:32:07Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-18T10:00:36+00:00 — [A Vault with a Heap-View: The Uncomfortable Space Between AgentCore Harness and Identity](https://unit42.paloaltonetworks.com/securing-aws-agentcore-harness-credentials/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
@@ -468,9 +465,9 @@ Generated: 2026-09-19T03:32:07Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-18T18:44:50+00:00 — [77% of Flock Safety’s Public DNS Namespace is Development Infrastructure](https://flare.io/learn/resources/blog/passive-dns-flock-safety-development-infrastructure)
+- No new entries detected
 
 ## Binalyze Blog
 
@@ -501,10 +498,9 @@ Generated: 2026-09-19T03:32:07Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-09-18T12:30:26+00:00 — [The Mobile Security Playbook: Staying Ahead on iOS Releases](https://cellebrite.com/en/resources/whitepapers/the-corellium-mobile-security-playbook/)
-- 2026-09-18T10:26:24+00:00 — [Mobile App Security Checklist: A 30-Day Plan for iOS and Android](https://cellebrite.com/en/blog/mobile-app-security-checklist/)
+- No new entries detected
 
 ## DFIR Science
 
@@ -529,11 +525,9 @@ Generated: 2026-09-19T03:32:07Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-09-18T15:37:04+00:00 — [New Android malware uses AI to steal bank logins and PINs](https://www.malwarebytes.com/blog/news/2026/09/new-android-malware-uses-ai-to-steal-bank-logins-and-pins)
-- 2026-09-18T14:18:20+00:00 — [Did an AI really try to break free from human control?](https://www.malwarebytes.com/blog/ai/2026/09/did-an-ai-really-try-to-break-free-from-human-control)
-- 2026-09-18T07:44:22+00:00 — [Fake parcel delivery messages steal your card and bank details](https://www.malwarebytes.com/blog/scams/2026/09/fake-parcel-delivery-messages-steal-your-card-and-bank-details)
+- No new entries detected
 
 ## Krebs on Security
 
@@ -549,29 +543,21 @@ Generated: 2026-09-19T03:32:07Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 8
+- New since last snapshot: 4
 
-- 2026-09-18T12:00:38-04:00 — [Gyazo server flaw exploited to steal 23.6 million user records](https://www.bleepingcomputer.com/news/security/gyazo-server-flaw-exploited-to-steal-236-million-user-records/)
-- 2026-09-18T11:19:06-04:00 — [Fake LastPass Authenticator GitHub repos push new Rapuncel infostealer](https://www.bleepingcomputer.com/news/security/fake-lastpass-authenticator-github-repos-push-new-rapuncel-infostealer/)
-- 2026-09-18T10:00:10-04:00 — [Secure enterprise sharing with access reviews for Microsoft 365](https://www.bleepingcomputer.com/news/security/secure-enterprise-sharing-with-access-reviews-for-microsoft-365/)
-- 2026-09-18T09:58:40-04:00 — [Microsoft Teams will let admins block custom file extensions](https://www.bleepingcomputer.com/news/security/microsoft-teams-will-let-admins-block-custom-file-extensions/)
-- 2026-09-18T09:10:19-04:00 — [Webinar: Which Google Workspace security controls actually matter?](https://www.bleepingcomputer.com/news/security/webinar-which-google-workspace-security-controls-actually-matter/)
-- 2026-09-18T08:16:32-04:00 — [Microsoft fixes bug behind ‘Defender Antivirus is turned off’ alerts](https://www.bleepingcomputer.com/news/security/microsoft-fixes-bug-behind-defender-antivirus-is-turned-off-alerts/)
-- 2026-09-18T05:34:33-04:00 — [New Check Point flaw lets hackers execute code with root privileges](https://www.bleepingcomputer.com/news/security/check-point-warns-critical-flaw-lets-hackers-execute-code-as-root/)
-- 2026-09-18T03:35:31-04:00 — [Microsoft fixes broken copy and paste for Excel 2016 users](https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-broken-copy-and-paste-for-excel-2016-users/)
+- 2026-09-19T10:56:31-04:00 — [BragJack attacks hijack AI browser agents through malicious extensions](https://www.bleepingcomputer.com/news/security/bragjack-attacks-hijack-ai-browser-agents-through-malicious-extensions/)
+- 2026-09-19T10:05:15-04:00 — [North Korean WaterPlum hackers infected 30,000 devices worldwide](https://www.bleepingcomputer.com/news/security/north-korean-waterplum-hackers-infected-30-000-devices-worldwide/)
+- 2026-09-19T09:48:32-04:00 — [ShinyHunters hacks Clop leak site, threatens to extort ransomware gang](https://www.bleepingcomputer.com/news/security/shinyhunters-hacks-clop-leak-site-threatens-to-extort-ransomware-gang/)
+- 2026-09-19T07:38:20-04:00 — [Viral AI actress' hotline face-scans every caller, watches their mood](https://www.bleepingcomputer.com/news/security/viral-ai-actress-hotline-face-scans-every-caller-watches-their-mood/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 0
 
-- 2026-09-18T20:24:51+00:00 — [Vectra AI Launches Ascent to Help Address New Era of AI-Driven Attacks](https://www.darkreading.com/cyberattacks-data-breaches/vectra-ai-launches-ascent-new-era-ai-driven-attacks)
-- 2026-09-18T19:26:47+00:00 — [Cisco Zero-Day Highlights API Endpoint Authentication Issues](https://www.darkreading.com/vulnerabilities-threats/cisco-zero-day-api-endpoint-authentication-issues)
-- 2026-09-18T19:23:48+00:00 — [EY Survey Finds Autonomous AI Implementation Outpaces Oversight](https://www.darkreading.com/cyberattacks-data-breaches/ey-survey-autonomous-ai-implementation-outpaces-oversight)
-- 2026-09-18T18:15:20+00:00 — [MFA Won't Save You From OAuth Consent Abuse](https://www.darkreading.com/vulnerabilities-threats/mfa-oauth-consent-abuse)
-- 2026-09-18T07:00:00+00:00 — [AI Agent Breaches Spanish Organization, Modifies Personal Data](https://www.darkreading.com/cyberattacks-data-breaches/ai-agent-breaches-spanish-organization-personal-data)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -584,9 +570,9 @@ Generated: 2026-09-19T03:32:07Z
 - Site: https://www.sentinelone.com/labs/
 - Feed: https://www.sentinelone.com/labs/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-18T17:00:16+00:00 — [Don’t Call Us, We’ll Call Your APIs | TraderTraitor Backdoors Resurface on Victim With No Crypto Ties](https://www.sentinelone.com/labs/dont-call-us-well-call-your-apis-tradertraitor-backdoors-resurface-on-victim-with-no-crypto-ties/)
+- No new entries detected
 
 ## Microsoft Security Blog
 
@@ -602,9 +588,9 @@ Generated: 2026-09-19T03:32:07Z
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-19T13:31:19+02:00 — [Headphones Lamps and Fans Leak Your Audio and Your Daily Routine to the InjectEave Radio Attack](https://hackingpassion.com/headphones-lamps-fans-injecteave-radio-attack/)
 
 ## LOLBAS Project (Windows)
 
@@ -638,18 +624,9 @@ Generated: 2026-09-19T03:32:07Z
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-09-18T16:36:42+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/67ac4a76a641d94c1c14e169df4ee7ca2754f20a)
-- 2026-09-18T16:26:47+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/9cc69c936b3cd46cd1d4601559d0e732c60af609)
-- 2026-09-18T16:25:46+00:00 — [Merge pull request #436 from magicsword-io/add-reviewed-september-dri…](https://github.com/magicsword-io/LOLDrivers/commit/34a1c3913de33ad216d86899c8cf594021b02cdf)
-- 2026-09-18T16:25:19+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/b3f6ec39ee01287e926d8fe5132c16d43429f002)
-- 2026-09-18T16:14:05+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/b815e65d735116bdf72dd003236ce8216e95f36b)
-- 2026-09-18T16:13:49+00:00 — [Merge remote-tracking branch 'origin/main' into add-reviewed-septembe…](https://github.com/magicsword-io/LOLDrivers/commit/2538963f4d98e03c82c68a646125910422bbfea8)
-- 2026-09-18T16:12:57+00:00 — [Merge pull request #431 from magicsword-io/research-sak-crosscrush](https://github.com/magicsword-io/LOLDrivers/commit/a15c3aad85c928acb233c2e8d422bcd34942d536)
-- 2026-09-18T16:12:26+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/3a11594ea7da12a11a88b49bc23b9d85aef41583)
-- 2026-09-18T16:01:46+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/df9e0cd4c7e211c7b0e99d1e547d4e4e13f9d208)
-- 2026-09-18T16:01:01+00:00 — [Merge remote-tracking branch 'origin/main' into research-sak-crosscrush](https://github.com/magicsword-io/LOLDrivers/commit/3ac9ce22e471fc3ffcf1750f514636e584d033ea)
+- No new entries detected
 
 ## LOFL Project (RMM C2 indicators)
 
@@ -872,11 +849,9 @@ Generated: 2026-09-19T03:32:07Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 1
 
-- 2026-09-18T22:43:29+00:00 — [dev-v2.2.22](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.22)
-- 2026-09-18T20:22:40+00:00 — [dev-v2.2.21](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.21)
-- 2026-09-18T15:18:55+00:00 — [dev-v2.2.20](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.20)
+- 2026-09-19T11:53:48+00:00 — [dev-v2.2.23](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.23)
 
 ## regipy releases
 
