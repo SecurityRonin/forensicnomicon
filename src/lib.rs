@@ -158,6 +158,7 @@ pub mod cloud_ranges;
 pub mod temporal_formats;
 pub mod timestamp_artifacts;
 pub use forensicnomicon_data::catalog;
+pub use forensicnomicon_data::knowledge;
 pub mod chainsaw;
 pub use forensicnomicon_core::chromium_indexeddb;
 pub use forensicnomicon_core::chromium_local_storage;
