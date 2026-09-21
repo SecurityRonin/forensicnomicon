@@ -27,6 +27,12 @@ use forensicnomicon_core::evidence::EvidenceTier;
 /// - `README.txt`: the project is archived ("See Volatility 3 for modern
 ///   investigations") and Windows support stops at "64-bit Windows 10
 ///   (including at least 10.0.19041)".
+/// - Issue #763 (still open): on build 18363, netscan decoded UDP
+///   addresses and ports incorrectly until `tcpip_vtypes.py` offsets were
+///   hand-patched — public record that the structures move per build and
+///   the plugin neither notices nor warns.
+/// - Issue #29 (title of record): "Netscan no TCP Endpoints on Windows
+///   8/2012" — the silent-zero-rows shape reported in the wild.
 ///
 /// Design limit, not a bug: pool scanning requires per-build structure
 /// definitions, and an archived tool's definitions stopped moving while
@@ -38,27 +44,32 @@ pub static VOL2_NETSCAN_SILENT_GAPS: ToolBehaviour = ToolBehaviour {
     artifact_id: None,
     kind: ToolBehaviourKind::SilentlyIncomplete,
     detail: "netscan pool-scans for tcpip.sys pool tags (TcpE, TcpL, UdpA) and decodes \
-             candidates against structure definitions frozen when Volatility 2 was still \
-             maintained (declared support ends at Windows 10 build 19041). On newer builds, \
-             candidates whose fields no longer sit at the expected offsets fail the plugin's \
-             is_valid() sanity checks and are dropped without any diagnostic: the scan \
-             completes cleanly and renders whatever subset still happens to decode. This is \
-             the documented consequence of pool scanning with an archived tool's vtypes, not \
-             a defect in the scan.",
-    consequence: "The examiner reads the short listing as the complete set of network \
-                  endpoints in the image — a connection absent from output is treated as \
-                  absent from memory — on exactly the OS generations (recent Windows 10/11) \
-                  where the tool sees least. Volatility 3, which builds its structures from \
-                  Microsoft's debug symbols, returns far more rows from the same image, and \
-                  nothing in the Volatility 2 run signals the difference.",
-    mitigation: "Use Volatility 3 windows.netscan / windows.netstat (symbol-table driven) on \
-                 any post-2016 Windows image, and treat a Volatility 2 listing as a floor, \
-                 never a census. If two tools disagree on row count, the disagreement is the \
-                 finding to chase.",
+             candidates against per-build structure definitions (tcpip_vtypes.py) that \
+             stopped being updated when the project was archived (declared support ends at \
+             Windows 10 build 19041). When tcpip.sys structures move between builds — \
+             publicly documented for build 18363, where UDP addresses and ports decoded \
+             incorrectly until offsets were hand-patched (issue #763, never merged) — \
+             candidates decode wrongly or fail the plugin's is_valid() sanity checks and are \
+             dropped without any diagnostic: the scan completes cleanly with whatever subset \
+             still decodes (issue #29 records the zero-TCP-endpoints shape). This is the \
+             documented consequence of pool scanning with an archived tool's vtypes, not a \
+             defect in the scan.",
+    consequence: "The examiner reads the listing as the complete set of network endpoints in \
+                  the image: an endpoint missing because its structure no longer decodes is \
+                  indistinguishable from an endpoint that never existed, and a wrongly \
+                  decoded address or port renders as confidently as a correct one — with no \
+                  diagnostic in either case, on exactly the OS generations (recent Windows \
+                  10/11) where the frozen definitions fit worst.",
+    mitigation: "Use Volatility 3 windows.netscan / windows.netstat (symbol-table driven \
+                 from Microsoft's debug symbols) on any post-2016 Windows image, and treat a \
+                 Volatility 2 listing as a floor, never a census. If two tools disagree on \
+                 row count, the disagreement is the finding to chase.",
     evidence_tier: EvidenceTier::SourceOrMultiImpl,
     sources: &[
         "https://github.com/volatilityfoundation/volatility/blob/master/volatility/plugins/netscan.py",
         "https://github.com/volatilityfoundation/volatility/blob/master/README.txt",
+        "https://github.com/volatilityfoundation/volatility/issues/763",
+        "https://github.com/volatilityfoundation/volatility/issues/29",
     ],
 };
 
