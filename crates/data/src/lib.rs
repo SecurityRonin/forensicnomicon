@@ -17,6 +17,9 @@
 //! - [`evidence`] / [`volatility`] — the `EvidenceStrength` / `VolatilityClass`
 //!   rating enums (re-exported from core) plus the catalog-querying helpers
 //!   (`evidence_for`, `volatility_for`, `acquisition_order`, …).
+//! - [`knowledge`] — assembled instances of the knowledge-layer types
+//!   (`ToolBehaviour`, …) whose *schema* lives in `forensicnomicon-core`, same
+//!   split as the catalog: types in core, entries here.
 //!
 //! The umbrella `forensicnomicon` crate re-exports this crate, so existing
 //! `forensicnomicon::catalog::CATALOG` / `forensicnomicon::evidence::evidence_for`
@@ -24,4 +27,5 @@
 
 pub mod catalog;
 pub mod evidence;
+pub mod knowledge;
 pub mod volatility;

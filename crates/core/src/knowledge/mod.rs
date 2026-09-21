@@ -96,6 +96,14 @@ pub enum ToolBehaviourKind {
     RequiresFlag,
     /// Summarises or truncates in a way that hides detail the examiner needs.
     OutputHidesDetail,
+    /// Returns fewer records than the evidence contains, with no error — an
+    /// incomplete listing indistinguishable from a complete one. The most
+    /// dangerous kind: a missed artifact reads as an absent artifact.
+    SilentlyIncomplete,
+    /// Routinely flags benign data as suspicious. The inverse of
+    /// [`Self::SilentlyIncomplete`]: a hit is a lead to corroborate, never a
+    /// finding on its own.
+    FalsePositiveProne,
 }
 
 /// A documented divergence between an artifact and how a tool presents it.
