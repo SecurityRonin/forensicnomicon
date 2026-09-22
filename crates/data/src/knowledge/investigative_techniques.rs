@@ -313,7 +313,122 @@ pub static ICD203_ESTIMATIVE_LANGUAGE: InvestigativeTechnique = InvestigativeTec
     ],
 };
 
+/// Beaconing detection by interval regularity, and the discriminator the
+/// literature does NOT contain.
+///
+/// # Sources actually read
+///
+/// - Hu, Jang, Stoecklin, Wang, Schales, Kirat & Rao, "BAYWATCH: Robust
+///   Beaconing Detection to Identify Infected Hosts in Large-Scale
+///   Enterprise Networks", IEEE/IFIP DSN 2016 (doi:10.1109/DSN.2016.50).
+///   The full text is paywalled; the claims drawn from it here are
+///   ABSTRACT-level only, verified on the authors' employer's publication
+///   page: beaconing "is also employed by legitimate applications (such as
+///   updates checks)", and the method is "an 8-step filtering approach to
+///   iteratively refine and eliminate legitimate beaconing traffic".
+/// - RITA (Active Countermeasures), read from source: the beacon score in
+///   `analysis/beacons.go` is a weighted combination of interval regularity
+///   (skew, median absolute deviation), data-size consistency, a 24-hour
+///   coverage histogram and duration — every input a property of the
+///   connection pair's own regularity, none of intent. The benign/malicious
+///   separation lives OUTSIDE the score, in documented modifiers keyed to
+///   context: prevalence (how many internal hosts contact the destination)
+///   raises or lowers the threat score, and threat-intel hits override the
+///   category.
+///
+/// # The finding the lead asked for
+///
+/// The literature holds a real tension — regularity is the malice signal in
+/// one framing and benign background (update checks, pollers) in the other —
+/// and in the treatments verified here, NO published discriminator separates
+/// the two cases from the interval statistics alone. Both treatments resolve
+/// it exogenously: BAYWATCH by iteratively filtering known-legitimate
+/// periodic traffic, RITA by destination prevalence and intel context. That
+/// absence is recorded as a failure mode below, because an analyst told "low
+/// jitter means malware" has been handed a discriminator that does not
+/// exist.
+pub static BEACONING_INTERVAL_REGULARITY: InvestigativeTechnique = InvestigativeTechnique {
+    id: "beaconing_interval_regularity_triage",
+    name: "Beaconing triage by communication-interval regularity",
+    question: "Which of this network's regular communicators warrant investigation as possible \
+               command-and-control callbacks?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "Collect per source-destination pair connection timestamps over a long \
+                     window and derive the interval series. Regularity statistics need a \
+                     floor of data: RITA's scorer refuses pairs with fewer than 4 timestamps \
+                     or fewer than 3 non-zero intervals.",
+            artifact_id: None,
+            yields: "An interval (and payload-size) distribution per communicating pair.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Score each pair's REGULARITY: interval dispersion (skew, median absolute \
+                     deviation), data-size consistency, temporal coverage across the window \
+                     (RITA's timestamp/data-size/histogram/duration subscores; BAYWATCH's \
+                     periodicity analysis).",
+            artifact_id: None,
+            yields: "A ranked list of regular communicators — candidates, in which benign \
+                     pollers and C2 callbacks are still mixed.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Separate benign from suspect candidates using context EXOGENOUS to the \
+                     intervals: destination prevalence inside the network, allowlisting or \
+                     iterative filtering of known-legitimate periodic services, domain age \
+                     and threat intelligence.",
+            artifact_id: None,
+            yields: "The shortlist an examiner investigates — produced by the context layer, \
+                     not by the regularity score.",
+        },
+    ],
+    artifacts_used: &[],
+    preconditions: &[
+        "A long observation window with enough events per pair to make interval statistics \
+         meaningful (BAYWATCH: long-term temporal analysis at several granularities; RITA: \
+         at least 4 timestamps and 3 non-zero intervals).",
+        "The callback pattern is periodic enough, within the window, to surface — the \
+         BAYWATCH abstract itself notes malware authors 'employ various strategies to hide \
+         beaconing behavior'.",
+    ],
+    failure_modes: &[
+        "Reading regularity as malice. The BAYWATCH abstract states the opposite in terms — \
+         beaconing 'is also employed by legitimate applications (such as updates checks)' — \
+         and RITA's score inputs are regularity properties only, so NTP, update pollers and \
+         mail checkers score exactly like disciplined C2. The score ranks candidates; it \
+         cannot classify intent.",
+        "Believing an interval-statistics discriminator exists. In the treatments verified \
+         here, none is published: BAYWATCH separates the cases by iteratively eliminating \
+         legitimate periodic traffic, RITA by prevalence and threat-intel modifiers applied \
+         after the timing score. A confident 'this jitter profile is malicious' asserts a \
+         discriminator the sources do not contain.",
+        "Reading absence from the candidate list as absence of C2. A callback jittered or \
+         slowed past the window's statistics never becomes a candidate; the ranking is over \
+         what beaconed detectably, not over what communicated.",
+        "Trusting the popularity heuristic structurally. RITA's documented prevalence \
+         modifier DECREASES the score of destinations many internal hosts contact — which \
+         equally down-scores C2 fronted by a widely-used cloud service. 'Popular therefore \
+         benign' is a tuning heuristic in the published config, not a property of the \
+         traffic.",
+    ],
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    mitre_techniques: &[
+        "T1071", // Application Layer Protocol (C2 channels this triage surfaces)
+    ],
+    sources: &[
+        "https://doi.org/10.1109/DSN.2016.50",
+        "https://research.ibm.com/publications/baywatch-robust-beaconing-detection-to-identify-infected-hosts-in-large-scale-enterprise-networks",
+        "https://github.com/activecm/rita/blob/main/analysis/beacons.go",
+        "https://github.com/activecm/rita/blob/main/docs/Configuration.md",
+    ],
+};
+
 /// Every registered investigative technique. Lookup and iteration read this
 /// slice; a static not referenced here is invisible to every consumer.
-pub static INVESTIGATIVE_TECHNIQUES: &[InvestigativeTechnique] =
-    &[PYRAMID_OF_PAIN, DIAMOND_MODEL, ICD203_ESTIMATIVE_LANGUAGE];
+pub static INVESTIGATIVE_TECHNIQUES: &[InvestigativeTechnique] = &[
+    PYRAMID_OF_PAIN,
+    DIAMOND_MODEL,
+    ICD203_ESTIMATIVE_LANGUAGE,
+    BEACONING_INTERVAL_REGULARITY,
+];
