@@ -670,9 +670,12 @@ mod tests {
     // ── render_heatmap ────────────────────────────────────────────────────
 
     #[test]
-    fn heatmap_always_14_spans() {
+    fn heatmap_span_count_matches_tactic_count() {
+        // Derived, not literal: the rendered width must follow the tactic
+        // table, or a change in ATT&CK's tactic count silently desynchronises
+        // the bar from what it claims to show.
         let line = render_heatmap(&["T1059"], default_theme());
-        assert_eq!(line.spans.len(), 14);
+        assert_eq!(line.spans.len(), crate::tui::heatmap::TACTIC_COUNT);
     }
 
     #[test]

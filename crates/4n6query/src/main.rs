@@ -93,10 +93,12 @@ struct Cli {
     #[arg(long, value_name = "SCENARIO")]
     scenario: Option<String>,
 
-    /// ATT&CK tactic filter (use with --triage).
+    /// ATT&CK tactic filter (use with --triage), ATT&CK v19 names.
     /// Valid values: execution, persistence, lateral-movement, credential-access,
-    /// defense-evasion, discovery, collection, exfiltration, command-and-control,
-    /// privilege-escalation
+    /// stealth, defense-impairment, discovery, collection, exfiltration,
+    /// command-and-control, privilege-escalation
+    /// [deprecated: defense-evasion — v19 split it into stealth and
+    /// defense-impairment; still accepted, matches both]
     #[arg(long = "type", value_name = "TACTIC")]
     tactic: Option<String>,
 
@@ -730,8 +732,17 @@ fn techniques_for_tactic(tactic: &str) -> Option<&'static [&'static str]> {
             "T1053", "T1547", "T1543", "T1546", "T1136", "T1505", "T1197",
         ]),
         "privilege-escalation" => Some(&["T1548", "T1134", "T1611", "T1068"]),
+        // ATT&CK v19 split the former Defense Evasion by adversary intent:
+        // Stealth keeps TA0005 and covers hiding from defences that remain
+        // intact; Defense Impairment (TA0112) covers breaking them.
+        "stealth" => Some(&["T1027", "T1036", "T1055", "T1070", "T1218", "T1564"]),
+        "defense-impairment" => Some(&["T1685", "T1686", "T1688"]),
+        // Deprecated pre-v19 spelling, retained so existing scripts keep
+        // working. Spans both halves of the split — returning nothing here
+        // would read as "no matching artifacts" rather than as a renamed
+        // tactic, which is the more misleading failure.
         "defense-evasion" => Some(&[
-            "T1027", "T1036", "T1055", "T1070", "T1218", "T1685", "T1564",
+            "T1027", "T1036", "T1055", "T1070", "T1218", "T1564", "T1685", "T1686", "T1688",
         ]),
         "credential-access" => Some(&["T1003", "T1040", "T1555", "T1552", "T1558", "T1110"]),
         "discovery" => Some(&["T1012", "T1018", "T1082", "T1083", "T1087", "T1217"]),
@@ -783,8 +794,10 @@ fn run_triage(
         } else {
             eprintln!(
                 "error: unknown tactic '{t}'. Valid values: execution, persistence, lateral-movement, \
-                 credential-access, defense-evasion, discovery, collection, exfiltration, \
-                 command-and-control, privilege-escalation"
+                 credential-access, stealth, defense-impairment, discovery, collection, \
+                 exfiltration, command-and-control, privilege-escalation\n\
+                 note: 'defense-evasion' is the pre-v19 name; ATT&CK v19 split it into \
+                 'stealth' (TA0005) and 'defense-impairment' (TA0112). It is still accepted."
             );
             return 1;
         }
