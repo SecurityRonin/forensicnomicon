@@ -1,4 +1,5 @@
-//! Integrity tests over [`TOOL_BEHAVIOURS`].
+//! Integrity tests over [`TOOL_BEHAVIOURS`], [`ANTI_FORENSIC_METHODS`] and
+//! the correlation-hint slice.
 
 use super::*;
 
@@ -71,6 +72,62 @@ fn every_entry_records_a_version() {
         );
     }
 }
+
+// ── Anti-forensic methods ────────────────────────────────────────────────────
+
+/// The exact number of registered anti-forensic methods — the single place
+/// the count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
+const EXPECTED_ANTI_FORENSIC_METHOD_LEN: usize = 1;
+
+#[test]
+fn anti_forensic_len_matches_expected() {
+    assert_eq!(
+        ANTI_FORENSIC_METHODS.len(),
+        EXPECTED_ANTI_FORENSIC_METHOD_LEN
+    );
+}
+
+#[test]
+fn anti_forensic_no_duplicate_ids() {
+    let mut seen = std::collections::HashSet::new();
+    for m in ANTI_FORENSIC_METHODS {
+        assert!(seen.insert(m.id), "duplicate anti-forensic id: {}", m.id);
+    }
+}
+
+/// The filesystem-timestamp absorption batch: every id absorbed so far.
+#[test]
+fn timestamp_forgery_batch_is_present() {
+    for id in ["ext4_utimensat_timestomp"] {
+        assert!(
+            ANTI_FORENSIC_METHODS.iter().any(|m| m.id == id),
+            "missing anti-forensic method: {id}"
+        );
+    }
+}
+
+/// Every entry must be independently verifiable, and must carry its residue
+/// story: `residue` non-empty (or the emptiness deliberate — none absorbed so
+/// far are), `detection` non-empty, every source a resolvable HTTPS reference.
+#[test]
+fn every_anti_forensic_entry_is_verifiable() {
+    for m in ANTI_FORENSIC_METHODS {
+        assert!(!m.name.is_empty(), "{}: empty name", m.id);
+        assert!(!m.method.is_empty(), "{}: empty method", m.id);
+        assert!(!m.residue.is_empty(), "{}: empty residue", m.id);
+        assert!(!m.detection.is_empty(), "{}: empty detection", m.id);
+        assert!(!m.sources.is_empty(), "{}: no sources", m.id);
+        for s in m.sources {
+            assert!(
+                s.starts_with("https://"),
+                "{}: source is not an https URL: {s}",
+                m.id
+            );
+        }
+    }
+}
+
+// ── Tool behaviours ──────────────────────────────────────────────────────────
 
 /// A tool that under-reports and a tool that over-reports mislead in opposite
 /// directions; the `kind` field must keep them distinguishable. malfind is a

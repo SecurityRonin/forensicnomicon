@@ -12,10 +12,14 @@
 //! frozen structure definitions), the entry says so: a design limit filed as a
 //! bug misleads as surely as a bug filed as a design limit.
 
-pub use forensicnomicon_core::knowledge::{ToolBehaviour, ToolBehaviourKind};
+pub use forensicnomicon_core::knowledge::{
+    AntiForensicMethod, CorrelationHint, CorrelationRelation, ToolBehaviour, ToolBehaviourKind,
+};
 
+mod anti_forensic_methods;
 mod tool_behaviours;
 
+pub use anti_forensic_methods::ANTI_FORENSIC_METHODS;
 pub use tool_behaviours::TOOL_BEHAVIOURS;
 
 #[cfg(test)]
