@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6828;
+const EXPECTED_CATALOG_LEN: usize = 6836;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -12850,6 +12850,54 @@ mod tests_disk_gcfa_ext {
         assert!(
             zsh.sources.iter().any(|s| s.contains("zsh.sourceforge.io")),
             "zsh history semantics must cite the zsh manual"
+        );
+    }
+
+    /// Service-log batch: web servers (RHEL httpd dir, Debian vhost log,
+    /// Tomcat, Squid), firewalls (UFW, firewalld), HAProxy, and Sysmon for
+    /// Linux. Every entry states path, provenance tier and non-empty sources.
+    #[test]
+    fn linux_service_log_batch_is_cataloged() {
+        for (id, path) in [
+            ("linux_httpd_access_log", "/var/log/httpd/access_log"),
+            (
+                "linux_apache_other_vhosts_log",
+                "/var/log/apache2/other_vhosts_access.log",
+            ),
+            (
+                "linux_tomcat_catalina_out",
+                "$CATALINA_BASE/logs/catalina.out",
+            ),
+            ("linux_squid_access_log", "/var/log/squid/access.log"),
+            ("linux_ufw_log", "/var/log/ufw.log"),
+            ("linux_firewalld_config", "/etc/firewalld/"),
+            ("linux_haproxy_log", "/var/log/haproxy.log"),
+            ("linux_sysmon_events", "/var/log/syslog"),
+        ] {
+            let d = CATALOG
+                .by_id(id)
+                .unwrap_or_else(|| panic!("descriptor '{id}' missing from catalog"));
+            assert_eq!(d.file_path, Some(path), "{id}: wrong file_path");
+            assert!(
+                d.evidence_tier.is_some(),
+                "{id}: new entries must state how the claim is known"
+            );
+            assert!(!d.sources.is_empty(), "{id}: sources must not be empty");
+            assert!(
+                !d.evidence_caveats.is_empty(),
+                "{id}: service-log locations are packaging/config claims and need caveats"
+            );
+        }
+        // Squid's upstream compiled-in default differs from the packaged
+        // path — the descriptor must say so rather than present the
+        // packaged path as universal.
+        let squid = CATALOG.by_id("linux_squid_access_log").unwrap();
+        assert!(
+            squid
+                .evidence_caveats
+                .iter()
+                .any(|c| c.contains("/usr/local/squid")),
+            "squid: the source-build default location must be named"
         );
     }
 }
