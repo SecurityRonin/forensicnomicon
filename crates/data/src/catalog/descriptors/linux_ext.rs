@@ -1152,15 +1152,18 @@ pub(crate) static LINUX_FAILLOG: ArtifactDescriptor = ArtifactDescriptor {
     ],
     retention: Some("Persistent binary file; not affected by logrotate unless explicitly configured"),
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &["linux_auth_log", "linux_utmp", "linux_wtmp"],
+    related_artifacts: &["linux_auth_log", "linux_utmp", "linux_wtmp", "linux_faillock_dir"],
     sources: &[
         "https://man7.org/linux/man-pages/man5/faillog.5.html",
         "https://man7.org/linux/man-pages/man8/faillog.8.html",
+        "https://man7.org/linux/man-pages/man8/pam_faillock.8.html",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
     evidence_caveats: &[
         "Many modern distributions have deprecated faillog in favor of pam_tally2/pam_faillock",
+        "Nothing updates faillog unless a PAM tally module is configured, so all-zero counters do NOT mean no failed logins occurred",
+        "Modern lockout state lives in /var/run/faillock/ (pam_faillock), not here — check both before reporting a negative",
         "Fixed-size structure overwritten on each failure",
     ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
@@ -1561,4 +1564,122 @@ contexts in the future.",
     evidence_caveats: &["Modified timestamps on system binaries indicate trojanized files"],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "System binary directory persists until package update",
+};
+
+// ── Batch: Linux account & lockout artifacts ─────────────────────────────────
+
+pub(crate) static LINUX_GSHADOW: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_gshadow",
+    name: "Shadowed Group File (/etc/gshadow)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/etc/gshadow"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "Shadowed information for group accounts, colon-separated per line: group name, \
+        encrypted group password (crypt(3) format; '!' or '*' means no usable password, a \
+        leading '!' before a hash means locked), administrators (comma-separated, may change \
+        the password and members), and members (gain group permissions without a password). \
+        Completes the account ground truth alongside /etc/passwd, /etc/shadow and /etc/group: \
+        an unexpected administrator or member entry here grants group privileges that a review \
+        of /etc/group alone will miss, and a set group password lets a non-member enter the \
+        group via newgrp(1).",
+    mitre_techniques: &["T1003.008"],
+    fields: &[
+        FieldSchema { name: "group_name", value_type: ValueType::Text, description: "Group name, must exist on the system", is_uid_component: true },
+        FieldSchema { name: "encrypted_password", value_type: ValueType::Text, description: "crypt(3) hash, or '!'/'*' when no unix password applies", is_uid_component: false },
+        FieldSchema { name: "administrators", value_type: ValueType::Text, description: "Comma-separated users who may change the group password and members", is_uid_component: false },
+        FieldSchema { name: "members", value_type: ValueType::Text, description: "Comma-separated users who gain group permissions without a password", is_uid_component: false },
+    ],
+    retention: Some("Persistent configuration file"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["linux_shadow", "linux_passwd", "linux_etc_group"],
+    sources: &["https://man7.org/linux/man-pages/man5/gshadow.5.html"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Must not be readable by regular users; world-readable permissions are themselves a finding",
+        "Group passwords are rarely used in practice, so a populated password field is unusual and worth explaining",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration file; persists until edited",
+};
+
+pub(crate) static LINUX_PWQUALITY_CONF: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_pwquality_conf",
+    name: "Password Quality Policy (/etc/security/pwquality.conf)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/etc/security/pwquality.conf"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "Default password-quality requirements for system passwords, read by the \
+        libpwquality library and the pam_pwquality PAM module: minimum length (minlen), \
+        required character classes (minclass, dcredit/ucredit/lcredit/ocredit), and \
+        dictionary/similarity checks. Establishes what password policy was actually in force \
+        on the box — a weakened or commented-out policy is a finding in its own right, and \
+        the policy in force bounds how plausible a brute-force success was.",
+    mitre_techniques: &["T1110"],
+    fields: &[FieldSchema {
+        name: "option",
+        value_type: ValueType::Text,
+        description: "key = value policy line (minlen, minclass, dcredit, ...)",
+        is_uid_component: false,
+    }],
+    retention: Some("Persistent configuration file"),
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &["linux_pam_d", "linux_shadow"],
+    sources: &["https://linux.die.net/man/5/pwquality.conf"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Only effective where pam_pwquality is wired into the PAM stack (/etc/pam.d); the file's presence alone does not prove enforcement",
+        "Drop-in overrides may exist under /etc/security/pwquality.conf.d/ on newer versions",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration file; persists until edited",
+};
+
+pub(crate) static LINUX_FAILLOCK_DIR: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_faillock_dir",
+    name: "pam_faillock Tally Directory (/var/run/faillock/)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/run/faillock/"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "Per-user tally files written by pam_faillock, the PAM module that locks accounts \
+        after consecutive authentication failures (the successor to pam_tally2 on RHEL-family \
+        systems). One file per user records the authentication failures counted toward lockout. \
+        On a live system, read with 'faillock --user <name>'. This — not /var/log/faillog — is \
+        where modern failed-login lockout state lives, so brute-force tallies on a RHEL-family \
+        host are answered here.",
+    mitre_techniques: &["T1110"],
+    fields: &[FieldSchema {
+        name: "username",
+        value_type: ValueType::Text,
+        description: "Tally filename equals the account name being counted",
+        is_uid_component: true,
+    }],
+    retention: Some("Cleared on successful authentication; lost at reboot when /var/run is tmpfs"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["linux_faillog", "linux_auth_log", "linux_btmp"],
+    sources: &["https://man7.org/linux/man-pages/man8/pam_faillock.8.html"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Files disappear after reboot when /var/run/faillock sits on virtual memory (tmpfs); a persistent dir= can be set in /etc/security/faillock.conf",
+        "Empty on Debian-family systems unless pam_faillock has been configured into the PAM stack",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Tally files live under /var/run, typically tmpfs; lost at reboot",
 };

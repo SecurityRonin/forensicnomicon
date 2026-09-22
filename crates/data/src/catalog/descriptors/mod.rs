@@ -18565,6 +18565,10 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     linux_ext::ESXI_ATTESTD_LOG,
     linux_ext::ESXI_ESXTOKEND_LOG,
     linux_ext::ESXI_KMXA_LOG,
+    // ── Linux account & lockout artifacts ──
+    linux_ext::LINUX_GSHADOW,
+    linux_ext::LINUX_PWQUALITY_CONF,
+    linux_ext::LINUX_FAILLOCK_DIR,
     // ── dfir_scripts_generated (374 entries) ─── dfir-scripts.github.io registry artifacts
     generated::dfir_scripts_generated::DFIR_SCRIPTS_COMMON_OPEN_FIND,
     generated::dfir_scripts_generated::DFIR_SCRIPTS_MICROSOFT_OFFICE_14_0,
