@@ -71,7 +71,14 @@ pub static EXT4_UTIMENSAT_TIMESTOMP: AntiForensicMethod = AntiForensicMethod {
                 the unmounted image — and cross-view them: mtime < crtime, zeroed fractions on \
                 atime/mtime beside a nanosecond-bearing ctime, and a ctime far later than mtime \
                 with no metadata operation to explain it are each consistent with stomping; \
-                corroborate against copy/extract explanations before concluding. RESIDUE ABSENT: \
+                corroborate against copy/extract explanations before concluding. INSTRUMENT \
+                CAVEAT: a blank Birth field from stat(1) means the TOOL cannot read crtime, not \
+                that the filesystem lacks it — the kernel's own ext4 documentation states \
+                crtime is not accessible through the regular stat() interface though debugfs \
+                reports it, and coreutils stat only gained the statx() call (which needs Linux \
+                >=4.11 and glibc >=2.28) in release 8.32 (2020-03-05, per the coreutils NEWS \
+                file); reading that blank as absence manufactures a negative finding. RESIDUE \
+                ABSENT: \
                 a clock-rollback stomp (set the system clock back, then write/create) forges \
                 ctime and crtime too, and is caught only by external records (auth/audit logs, \
                 journald entries around date/timedatectl, NTP step logs); on 128-byte-inode \
