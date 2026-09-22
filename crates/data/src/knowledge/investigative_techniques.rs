@@ -218,6 +218,102 @@ pub static DIAMOND_MODEL: InvestigativeTechnique = InvestigativeTechnique {
     ],
 };
 
+/// Estimative probability language: ODNI, Intelligence Community Directive
+/// 203, "Analytic Standards", signed January 2, 2015, as amended. The bands
+/// below were read from the ODNI-served document itself, not a retelling.
+///
+/// # The published table, verbatim
+///
+/// "For expressions of likelihood or probability, an analytic product must
+/// use one of the following sets of terms": almost no chance / remote
+/// (01-05%), very unlikely / highly improbable (05-20%), unlikely /
+/// improbable (improbably) (20-45%), roughly even chance / roughly even odds
+/// (45-55%), likely / probable (probably) (55-80%), very likely / highly
+/// probable (80-95%), almost certain(ly) / nearly certain (95-99%). As
+/// printed, the scale runs 01% to 99% — expressions of certainty sit outside
+/// it.
+///
+/// # The floating band this entry exists to pin down
+///
+/// The widely-circulated wider band for the middle term is real, and it is
+/// Sherman Kent's, not ICD 203's: Kent's "Words of Estimative Probability"
+/// (Studies in Intelligence, 1964; CIA Historical Review Program release)
+/// charts "chances about even" as 50% give or take about 10% — 40-60% —
+/// where the published standard says 45-55%. A reader calibrated to one
+/// chart decoding a writer using the other silently shifts the claim, and a
+/// band that floats between retellings defeats the one thing the scale is
+/// for.
+pub static ICD203_ESTIMATIVE_LANGUAGE: InvestigativeTechnique = InvestigativeTechnique {
+    id: "icd203_estimative_probability_language",
+    name: "ICD 203 estimative probability language",
+    question: "How do I express the likelihood of an event so the reader decodes the words back \
+               to the probability band I assessed — and no other?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "Separate the two dimensions the standard keeps apart: the LIKELIHOOD of \
+                     the event or development, and the analyst's CONFIDENCE in the basis for \
+                     the judgment (logic, evidentiary base, source quantity and quality).",
+            artifact_id: None,
+            yields: "Each statement classified as a likelihood expression or a confidence \
+                     expression, never a blend.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Express likelihood using a term from ONE row of the published table: \
+                     almost no chance / remote (01-05%), very unlikely / highly improbable \
+                     (05-20%), unlikely / improbable (20-45%), roughly even chance / roughly \
+                     even odds (45-55%), likely / probable (55-80%), very likely / highly \
+                     probable (80-95%), almost certain(ly) / nearly certain (95-99%).",
+            artifact_id: None,
+            yields: "A verbal expression that carries its published percentage band with it.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Keep confidence levels and likelihood terms out of the same sentence (the \
+                     standard's own prohibition, 'to avoid confusion'), note the causes of \
+                     uncertainty, and identify indicators that would alter the level of \
+                     uncertainty.",
+            artifact_id: None,
+            yields: "A judgment a reader can decode back to a band and knows what would move \
+                     it.",
+        },
+    ],
+    artifacts_used: &[],
+    preconditions: &[
+        "Writer and reader are calibrated to the SAME published table. The word-to-band \
+         mapping is a convention, not a property of the words: 'likely' carries 55-80% only \
+         because ICD 203 says so.",
+        "The directive governs analytic products of US Intelligence Community elements; \
+         outside that scope the table binds only if adopted explicitly.",
+    ],
+    failure_modes: &[
+        "Decoding against the wrong chart. The published band for 'roughly even chance' is \
+         45-55%; the widely-circulated 40-60% is Sherman Kent's 1964 'chances about even' \
+         (50% give or take about 10%), from the earlier chart the standard descends from. \
+         Both parties are confident, both cite 'the' standard, and the claim silently \
+         shifts by up to 5 points at each edge.",
+        "Mixing terms from different rows. The standard strongly encourages against it and \
+         requires a disclaimer where rows are mixed; unmarked mixing invites the reader to \
+         hear a distinction between synonyms ('probable' vs 'likely') that the table says \
+         does not exist.",
+        "Combining a confidence level and a likelihood in one sentence — prohibited by the \
+         standard because 'high confidence that X is likely' reads as a single stronger \
+         claim than either dimension supports.",
+        "Expressing likelihood in words the table does not contain. The standard's \
+         requirement is 'must use one of the following sets of terms'; hedges like \
+         'possible', 'may' or 'could' appear in neither row and therefore decode to no band \
+         at all.",
+    ],
+    evidence_tier: EvidenceTier::VendorDocumented,
+    mitre_techniques: &[],
+    sources: &[
+        "https://www.dni.gov/files/documents/ICD/ICD-203.pdf",
+        "https://www.cia.gov/resources/csi/static/Words-of-Estimative-Probability.pdf",
+    ],
+};
+
 /// Every registered investigative technique. Lookup and iteration read this
 /// slice; a static not referenced here is invisible to every consumer.
-pub static INVESTIGATIVE_TECHNIQUES: &[InvestigativeTechnique] = &[PYRAMID_OF_PAIN, DIAMOND_MODEL];
+pub static INVESTIGATIVE_TECHNIQUES: &[InvestigativeTechnique] =
+    &[PYRAMID_OF_PAIN, DIAMOND_MODEL, ICD203_ESTIMATIVE_LANGUAGE];
