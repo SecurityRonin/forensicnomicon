@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6805;
+const EXPECTED_CATALOG_LEN: usize = 6809;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -124,6 +124,33 @@ mod catalog_integrity {
             "file_path must point at the App.MenuItem Biome stream"
         );
         assert_eq!(d.os_scope, crate::catalog::types::OsScope::MacOS);
+    }
+
+    /// macOS download-provenance batch: the quarantine xattr itself (distinct
+    /// from the QuarantineEventsV2 database already cataloged), the
+    /// kMDItemWhereFroms / lastuseddate xattrs, and syspolicyd's ExecPolicy
+    /// database. The quarantine descriptor must record that user approval
+    /// REWRITES the flag value and retains the xattr — the removal claim
+    /// circulating in training material is refuted by Oakley's published
+    /// research — or an analyst reading the catalog inherits the wrong rule.
+    #[test]
+    fn macos_download_provenance_batch_is_cataloged() {
+        for id in [
+            "macos_quarantine_xattr",
+            "macos_wherefroms_xattr",
+            "macos_lastuseddate_xattr",
+            "macos_exec_policy_db",
+        ] {
+            assert!(
+                CATALOG.by_id(id).is_some(),
+                "macOS download-provenance descriptor {id} must be cataloged"
+            );
+        }
+        let q = CATALOG.by_id("macos_quarantine_xattr").unwrap();
+        assert!(
+            q.meaning.contains("rewritten") || q.meaning.contains("retained"),
+            "quarantine xattr descriptor must state the flag is rewritten/retained on approval, not removed"
+        );
     }
 
     /// `edge_webcache` must point at the WebCacheV01.dat ESE database
