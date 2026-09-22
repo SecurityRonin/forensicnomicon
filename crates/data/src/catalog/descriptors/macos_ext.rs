@@ -2973,3 +2973,375 @@ pub(crate) static MACOS_EXEC_POLICY_DB: ArtifactDescriptor = ArtifactDescriptor 
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "SQLite database accumulates evaluation rows; not routinely pruned",
 };
+
+// ── macOS usage-telemetry batch ──────────────────────────────────────────────
+
+/// The Biome stream store as a whole — the successor to knowledgeC.db for
+/// usage telemetry. The catalog's `macos_biome_app_menuitem` entry covers one
+/// stream; this entry covers the store's layout.
+///
+/// # Sources
+/// - <https://github.com/cclgroupltd/ccl-segb> — SEGB v1/v2 container format
+///   reader (auto-detects version); records expose offset, Written/Deleted
+///   state (deleted records typically zeroed), timestamp1 (+ timestamp2 on v1).
+/// - <https://www.magnetforensics.com/blog/bringing-it-back-with-biome-data/> —
+///   `local` folders hold this device's SEGB files; `remote` folders hold
+///   streams synced from the user's other Apple devices, organised by
+///   originating-device UUID.
+/// - <https://blog.d204n6.com/2022/09/ios-16-breaking-down-biomes-part-4.html> —
+///   the "Breaking Down the Biomes" series: streams/restricted layout and
+///   per-stream protobuf content.
+pub(crate) static MACOS_BIOME_STREAMS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_biome_streams",
+    name: "Apple Biome Stream Store (SEGB)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Biome/streams/"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Apple's Biome framework stores usage telemetry as many per-topic streams of \
+        SEGB (segmented binary) container files wrapping protobuf records — app focus, \
+        app install state, device state, Safari activity and a growing stream list — the \
+        data that migrated out of knowledgeC.db on modern macOS/iOS. Two roots exist and \
+        both must be examined: the per-user store under ~/Library/Biome/streams/ and the \
+        system store under /private/var/db/biome. Streams divide into public/ and \
+        restricted/; inside a stream, local/ holds records generated on this machine \
+        while remote/ holds records synced from the user's OTHER Apple devices on the \
+        same Apple ID, organised in folders named by originating-device UUID — evidence \
+        about an iPhone can therefore sit on the Mac being examined, and vice versa. \
+        SEGB records carry a Written/Deleted state (deleted records are typically \
+        zeroed) and one or two timestamps whose event-vs-write semantics differ per \
+        stream — establish the meaning per stream before building a timeline. Parse with \
+        ccl-segb or equivalent; most SEGB content is absent from Time Machine-style \
+        backups, so full filesystem images or live full-disk-access collection are the \
+        acquisition paths.",
+    mitre_techniques: &["T1217"],
+    fields: &[
+        FieldSchema { name: "stream_name", value_type: ValueType::Text, description: "Stream (topic) directory name, e.g. App.InFocus", is_uid_component: true },
+        FieldSchema { name: "record_state", value_type: ValueType::Text, description: "SEGB record state: Written (live) or Deleted (typically zeroed)", is_uid_component: false },
+        FieldSchema { name: "timestamp1", value_type: ValueType::Timestamp, description: "First SEGB record timestamp; event-time vs write-time semantics vary per stream", is_uid_component: false },
+        FieldSchema { name: "origin_device", value_type: ValueType::Text, description: "local, or the originating-device UUID folder for remote (synced) records", is_uid_component: false },
+    ],
+    retention: Some("Streams rotate; retention varies per stream from days to months"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_biome_app_menuitem", "macos_knowledgec", "macos_screen_time_db"],
+    sources: &[
+        "https://github.com/cclgroupltd/ccl-segb",
+        "https://www.magnetforensics.com/blog/bringing-it-back-with-biome-data/",
+        "https://blog.d204n6.com/2022/09/ios-16-breaking-down-biomes-part-4.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Per-stream timestamp semantics (event time vs record-write time) must be established stream by stream",
+        "remote/ records describe activity on ANOTHER device — attribute them to the originating device UUID, not this machine",
+        "Stream set churns with every OS release; absence of a stream is not evidence of inactivity",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "SEGB stream files rotate; deleted records are zeroed in place before file rotation",
+};
+
+/// Saved Application State ("Resume") — per-app window-restoration state whose
+/// window titles and Terminal contents reconstruct user activity.
+///
+/// # Sources
+/// - <https://www.crowdstrike.com/en-us/blog/reconstructing-command-line-activity-on-macos/> —
+///   UI Preservation state under ~/Library/Saved Application State/ used to
+///   reconstruct Terminal command-line activity; data.data is encrypted with a
+///   per-app key stored in windows.plist.
+/// - <https://mothersruin.com/software/Archaeology/reverse/appstate.html> —
+///   windows.plist holds top-level metadata about each restorable window
+///   (including titles); data.data holds the encrypted per-window archives.
+pub(crate) static MACOS_SAVED_APPLICATION_STATE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_saved_application_state",
+    name: "Saved Application State (Resume)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Saved Application State/*.savedState/"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Per-application window-restoration state written by macOS UI Preservation \
+        (Resume): each <bundle-id>.savedState directory holds windows.plist — top-level \
+        metadata for every restorable window, including window TITLES — and data.data, \
+        encrypted per-window archives whose AES key is stored alongside in \
+        windows.plist, making them recoverable offline. Window titles alone leak document \
+        names, browsed folders and remote hosts; for Terminal, published research \
+        reconstructs on-screen command-line activity from the decrypted state — a \
+        substitute for shell history after the history file is cleared. Snapshot \
+        reflects the state when each app last closed with the feature active.",
+    mitre_techniques: &["T1083"],
+    fields: &[
+        FieldSchema { name: "bundle_id", value_type: ValueType::Text, description: "Application bundle id from the .savedState directory name", is_uid_component: true },
+        FieldSchema { name: "window_title", value_type: ValueType::Text, description: "Restorable window title from windows.plist", is_uid_component: false },
+        FieldSchema { name: "state_mtime", value_type: ValueType::Timestamp, description: "Filesystem mtime of the saved state — when the state was last written", is_uid_component: false },
+    ],
+    retention: Some("Rewritten as apps close; persists until the app next rewrites or the user clears it"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_bash_sessions", "macos_zsh_sessions", "macos_knowledgec"],
+    sources: &[
+        "https://www.crowdstrike.com/en-us/blog/reconstructing-command-line-activity-on-macos/",
+        "https://mothersruin.com/software/Archaeology/reverse/appstate.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Apps can opt out of state restoration; secure-input fields are excluded",
+        "Reflects last-close state only, not a continuous record",
+        "On recent macOS (Sequoia 15.4-era onward) the directory has been reported absent or relocated into per-app containers — verify presence for the version at hand",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Rewritten on application close; prior state is overwritten",
+};
+
+/// Spotlight's per-user application inventory `appList.dat`.
+///
+/// # Sources
+/// - <https://github.com/ydkhatri/mac_apt/blob/master/plugins/applist.py> —
+///   reads `~/Library/Application Support/com.apple.spotlight/appList.dat` as
+///   an NSKeyedArchiver plist and extracts displayName, bundleID and URL per
+///   application (code-read).
+pub(crate) static MACOS_APPLIST_DAT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_applist_dat",
+    name: "Spotlight Application List (appList.dat)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Application Support/com.apple.spotlight/appList.dat"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Per-user serialized plist (NSKeyedArchiver) maintained by Spotlight listing \
+        applications known for that user: display name, bundle identifier and file URL \
+        per app. A quick per-user software inventory that includes apps installed \
+        outside /Applications (e.g. under ~/Applications), catching games, tooling and \
+        unwanted software that a system-wide receipt sweep misses. Layout is established \
+        by parser source (mac_apt appList plugin), not vendor documentation.",
+    mitre_techniques: &["T1518"],
+    fields: &[
+        FieldSchema {
+            name: "display_name",
+            value_type: ValueType::Text,
+            description: "Application display name",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "bundle_id",
+            value_type: ValueType::Text,
+            description: "Application bundle identifier",
+            is_uid_component: true,
+        },
+        FieldSchema {
+            name: "url",
+            value_type: ValueType::Text,
+            description: "File URL of the application bundle",
+            is_uid_component: false,
+        },
+    ],
+    retention: Some("Maintained by Spotlight; reflects current index state"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[
+        "macos_install_history",
+        "macos_installer_receipts",
+        "macos_spotlight_store",
+    ],
+    sources: &["https://github.com/ydkhatri/mac_apt/blob/master/plugins/applist.py"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Reflects Spotlight's current view — uninstalled apps may drop out on reindex",
+        "Format known from parser source only; no vendor documentation",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Rewritten by Spotlight as the application set changes",
+};
+
+/// Per-interface DHCP lease plists — network identity and SSID with lease
+/// timing.
+///
+/// # Sources
+/// - <https://github.com/ydkhatri/mac_apt/blob/master/plugins/networking.py> —
+///   parses /private/var/db/dhcpclient/leases/ plists extracting IPAddress,
+///   LeaseLength, LeaseStartDate, RouterIPAddress, RouterHardwareAddress,
+///   SSID and raw PacketData (code-read).
+pub(crate) static MACOS_DHCP_LEASES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_dhcp_leases",
+    name: "DHCP Client Lease Plists",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/private/var/db/dhcpclient/leases/*"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Per-interface plists recording the machine's most recent DHCP lease: \
+        assigned IP address, lease start time and length, gateway IP and MAC, the SSID \
+        for Wi-Fi interfaces, and the raw DHCP packet. Places the machine on a named \
+        network with a specific address at a specific time — the local half of a \
+        network-correlation with router/DHCP-server logs, and corroboration for Wi-Fi \
+        join history. Filenames encode the interface (and often the interface MAC).",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema {
+            name: "ip_address",
+            value_type: ValueType::Text,
+            description: "IP address assigned by the lease",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "lease_start",
+            value_type: ValueType::Timestamp,
+            description: "Lease start timestamp",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "router_ip",
+            value_type: ValueType::Text,
+            description: "Gateway/router IP address",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "router_mac",
+            value_type: ValueType::Text,
+            description: "Gateway/router hardware (MAC) address",
+            is_uid_component: false,
+        },
+        FieldSchema {
+            name: "ssid",
+            value_type: ValueType::Text,
+            description: "Wi-Fi network SSID for wireless interfaces",
+            is_uid_component: true,
+        },
+    ],
+    retention: Some("One current lease per interface; overwritten on renewal"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_wifi_plist", "macos_wifi_intelligence"],
+    sources: &["https://github.com/ydkhatri/mac_apt/blob/master/plugins/networking.py"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Holds only the most recent lease per interface — historical leases are overwritten",
+        "Static-IP configurations leave no lease plist",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Overwritten on each DHCP renewal or network change",
+};
+
+/// Per-session zsh history — Apple Terminal's session-restoration mechanism,
+/// which survives `.zsh_history` clearing.
+///
+/// # Sources
+/// - <https://dfir.ch/posts/today_i_learned_zsh_sessions/> — ~/.zsh_sessions/
+///   layout: UUID-named .history per-session command history and .session
+///   restore metadata carrying a timestamp.
+/// - <https://www.swiftforensics.com/2018/05/bash-sessions-in-macos.html> —
+///   the Terminal session-persistence mechanism (documented for
+///   ~/.bash_sessions, mirrored by zsh after Catalina): per-session history
+///   files and how they outlive the main history file.
+pub(crate) static MACOS_ZSH_SESSIONS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_zsh_sessions",
+    name: "Zsh Per-Session History (.zsh_sessions)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/.zsh_sessions/"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Apple Terminal's session-restoration store for zsh (the default shell since \
+        Catalina), driven by the shipped /etc/zshrc_Apple_Terminal: for each Terminal \
+        session a UUID-named .history file holds that session's command history and a \
+        .session file holds restore metadata including a session timestamp. Because each \
+        session's commands are duplicated here, a cleared or tampered ~/.zsh_history \
+        does not remove them — per-session files are the redundancy that survives \
+        history cleanup, and their file timestamps date each session. The \
+        _expiration_check_timestamp file tracks the expiry sweep. The equivalent \
+        ~/.bash_sessions mechanism (already cataloged) applies where bash was used.",
+    mitre_techniques: &["T1059.004", "T1070.003"],
+    fields: &[
+        FieldSchema { name: "session_uuid", value_type: ValueType::Text, description: "Terminal session UUID (file stem of the .history/.session pair)", is_uid_component: true },
+        FieldSchema { name: "command", value_type: ValueType::Text, description: "Command line from the per-session .history file", is_uid_component: false },
+        FieldSchema { name: "session_time", value_type: ValueType::Timestamp, description: "Session timestamp from the .session metadata / file timestamps", is_uid_component: false },
+    ],
+    retention: Some("Per-session files pruned by Terminal's expiration sweep; window typically days to weeks"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_bash_sessions", "macos_saved_application_state"],
+    sources: &[
+        "https://dfir.ch/posts/today_i_learned_zsh_sessions/",
+        "https://www.swiftforensics.com/2018/05/bash-sessions-in-macos.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Only Terminal.app sessions write here — SSH sessions and third-party terminals that do not source the Apple Terminal shell hooks leave nothing",
+        "History is written on clean shell exit; a crashed or killed session may leave a partial or empty .history",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Session files accumulate per Terminal session and are pruned by the expiration check",
+};
+
+/// XProtect's behavioural database (XPdb) — suspicious-behaviour events
+/// recorded by XProtectBehaviorService against Apple's Bastion rules.
+///
+/// # Sources
+/// - <https://eclecticlight.co/2024/06/28/what-do-xprotect-behaviourservice-and-bastion-rules-do/> —
+///   XProtectBehaviorService records rule-violating behaviour (e.g. processes
+///   touching browser cookie stores or other protected paths) into its
+///   database rather than blocking.
+/// - <https://www.picussecurity.com/resource/blog/securing-macos-a-closer-look-at-built-in-macos-application-security> —
+///   database path /var/protected/xprotect/XPdb.
+/// - <https://clo.ng/blog/osquery-xpdb/> — querying XPdb with osquery; row
+///   content (violated rule, offending process path, timestamp).
+pub(crate) static MACOS_XPROTECT_BEHAVIORAL_DB: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_xprotect_behavioral_db",
+    name: "XProtect Behavioural Database (XPdb)",
+    artifact_type: ArtifactLocation::DatabaseEntry,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/private/var/protected/xprotect/XPdb"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS13Plus,
+    decoder: Decoder::Identity,
+    meaning: "SQLite database in which XProtectBehaviorService records behaviour that \
+        violates Apple's Bastion rules — for example a process reading another app's \
+        protected data such as browser cookie stores — with the offending process path, \
+        the rule violated, and a timestamp. Detection telemetry, not enforcement: events \
+        are recorded silently with no user-visible alert, so the database can hold \
+        evidence of information-stealer behaviour that nothing else surfaced. Present on \
+        Ventura-era macOS onward as the behaviour service rolled out; a 2026 XProtect \
+        update moved the file into a db/ subfolder under /var/protected/xprotect/ — \
+        check both locations. Root-protected; read from an image or privileged \
+        collection.",
+    mitre_techniques: &["T1005", "T1555.003"],
+    fields: &[
+        FieldSchema { name: "process_path", value_type: ValueType::Text, description: "Path of the process whose behaviour matched a Bastion rule", is_uid_component: true },
+        FieldSchema { name: "rule", value_type: ValueType::Text, description: "Bastion rule / protected resource involved", is_uid_component: false },
+        FieldSchema { name: "timestamp", value_type: ValueType::Timestamp, description: "When the behaviour was recorded", is_uid_component: false },
+    ],
+    retention: Some("Accumulates recorded events; pruning behaviour undocumented"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_unified_log", "macos_tcc_system_db"],
+    sources: &[
+        "https://eclecticlight.co/2024/06/28/what-do-xprotect-behaviourservice-and-bastion-rules-do/",
+        "https://www.picussecurity.com/resource/blog/securing-macos-a-closer-look-at-built-in-macos-application-security",
+        "https://clo.ng/blog/osquery-xpdb/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Rule set (Bastion) is Apple-updated and undocumented — an empty database means no rule matched, not that no theft occurred",
+        "Location is version-bound: originally /var/protected/xprotect/XPdb, moved into a db/ subfolder by a 2026 XProtect update",
+        "Records behaviour observations, not verdicts — corroborate before treating a row as malicious activity",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Event rows accumulate in the protected database until pruned by the service",
+};
