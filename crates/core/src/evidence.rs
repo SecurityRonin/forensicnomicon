@@ -64,6 +64,23 @@ mod tests {
     fn tier_ordering_is_consistent() {
         assert!(EvidenceTier::VendorDocumented > EvidenceTier::SourceOrMultiImpl);
         assert!(EvidenceTier::SourceOrMultiImpl > EvidenceTier::SingleSecondary);
+        assert!(EvidenceTier::SingleSecondary > EvidenceTier::SearchedNotFound);
+    }
+
+    /// A claim we looked for and could NOT source must still be recordable.
+    ///
+    /// Without this tier the only choices are to assert an unverifiable claim
+    /// or to drop it, and dropping destroys real work: a dropped lead is
+    /// indistinguishable from a lead nobody ever had, so the next reader runs
+    /// the same search, hits the same dead end, and drops it again. "No primary
+    /// source documents this" is itself a finding, and an expensive one.
+    ///
+    /// It is the WEAKEST tier rather than an absence, because the search
+    /// happened - that is exactly what distinguishes it from silence.
+    #[test]
+    fn a_searched_but_unsourced_claim_is_the_weakest_tier_not_an_absence() {
+        assert!(EvidenceTier::SearchedNotFound < EvidenceTier::SingleSecondary);
+        assert!(EvidenceTier::SearchedNotFound < EvidenceTier::VendorDocumented);
     }
 
     #[test]
