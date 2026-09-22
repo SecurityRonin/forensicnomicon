@@ -96,6 +96,68 @@ pub static EXT4_UTIMENSAT_TIMESTOMP: AntiForensicMethod = AntiForensicMethod {
     ],
 };
 
+/// NTFS `$STANDARD_INFORMATION`-only timestomping: user-space timestamp
+/// setters reach one of the two MACB sets a base MFT record stores; the
+/// `$FILE_NAME` set survives until the next rename.
+///
+/// # Verification (two independent implementations agree)
+///
+/// - ntfs-3g `include/ntfs-3g/layout.h`, `STANDARD_INFORMATION` (0x10):
+///   four times at offsets 0/8/16/24 (creation, data change, MFT change,
+///   access). `FILE_NAME_ATTR` (0x30): four times at 0x08–0x20 after the
+///   8-byte parent reference, with the load-bearing comment: "All fields,
+///   except the parent_directory, are only updated when the filename is
+///   changed. Until then, they just become out of sync with reality and the
+///   more up to date values are present in the standard information
+///   attribute." (Both structures verified there "by practical
+///   experimentation on Windows NT4 SP6a".)
+/// - libfsntfs's NTFS format documentation records the same two attribute
+///   layouts independently.
+///
+/// The cross-view derived from this is already a catalog artifact
+/// (`ntfs_timestomping_si_fn`); this entry records the technique side —
+/// what the stomp touches, and the conditions under which the residue is
+/// gone.
+pub static NTFS_SI_ONLY_TIMESTOMP: AntiForensicMethod = AntiForensicMethod {
+    id: "ntfs_si_only_timestomp",
+    name: "NTFS $STANDARD_INFORMATION-only timestomping",
+    suppresses: &["mft", "mft_file"],
+    method: "A base NTFS MFT record stores two MACB timestamp sets: four in \
+             $STANDARD_INFORMATION (offsets 0/8/16/24) and four in $FILE_NAME (offsets \
+             0x08-0x20, after the parent reference). User-space timestamp APIs write the \
+             $STANDARD_INFORMATION set — which is what file listers and most timeline tools \
+             display — so a timestomp through them back-dates only $SI. The $FILE_NAME set is \
+             not updated by ordinary reads or writes; per the ntfs-3g layout source, all its \
+             fields except the parent reference change only when the filename is changed.",
+    residue: &[
+        "The four $FILE_NAME timestamps keep their pre-stomp, kernel-written values until the \
+         next rename/move, so a $SI value earlier than its $FN counterpart survives the stomp. \
+         CAUTION — archive extraction, restore-from-backup and volume provisioning legitimately \
+         produce $SI earlier than $FN (the extractor restores $SI from the archive while $FN \
+         reflects extraction time); corroborate, never conclude from the mismatch alone.",
+        "A stomp tool that writes whole seconds leaves a zeroed 100 ns fraction in $SI while \
+         $FN carries precision; a tool that copies a real high-precision timestamp leaves no \
+         such tell.",
+    ],
+    detection: "Parse the MFT record and cross-view the two sets per the \
+                ntfs_timestomping_si_fn catalog artifact; corroborate with $LogFile/$UsnJrnl \
+                change history where retained. RESIDUE ABSENT: renaming or moving the file \
+                AFTER the stomp causes $FILE_NAME's fields to be rewritten, discarding the \
+                pre-stomp values the comparison depends on; and an actor writing the MFT \
+                record directly (raw disk or kernel access) can forge both sets, so a \
+                consistent $SI/$FN pair does not clear a host.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    mitre_techniques: &[
+        "T1070.006", // Indicator Removal: Timestomp
+        "T1070",     // Indicator Removal on Host
+    ],
+    sources: &[
+        "https://github.com/tuxera/ntfs-3g/blob/edge/include/ntfs-3g/layout.h",
+        "https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc",
+    ],
+};
+
 /// Every registered anti-forensic method. Lookup and iteration read this
 /// slice; a static not referenced here is invisible to every consumer.
-pub static ANTI_FORENSIC_METHODS: &[AntiForensicMethod] = &[EXT4_UTIMENSAT_TIMESTOMP];
+pub static ANTI_FORENSIC_METHODS: &[AntiForensicMethod] =
+    &[EXT4_UTIMENSAT_TIMESTOMP, NTFS_SI_ONLY_TIMESTOMP];
