@@ -190,7 +190,7 @@ fn every_correlation_entry_is_verifiable() {
 
 /// The exact number of registered investigative techniques — the single place
 /// the count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 1;
+const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 2;
 
 #[test]
 fn investigative_len_matches_expected() {
@@ -215,7 +215,10 @@ fn investigative_no_duplicate_ids() {
 /// The analytic-frameworks absorption batch: every id absorbed so far.
 #[test]
 fn analytic_frameworks_batch_is_present() {
-    for id in ["pyramid_of_pain_indicator_prioritisation"] {
+    for id in [
+        "pyramid_of_pain_indicator_prioritisation",
+        "diamond_model_intrusion_analysis",
+    ] {
         assert!(
             INVESTIGATIVE_TECHNIQUES.iter().any(|t| t.id == id),
             "missing investigative technique: {id}"
