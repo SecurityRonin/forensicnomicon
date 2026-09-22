@@ -123,6 +123,7 @@ pub forensicnomicon_core::catalog::types::ArtifactDescriptor::artifact_type: for
 pub forensicnomicon_core::catalog::types::ArtifactDescriptor::decoder: forensicnomicon_core::catalog::types::Decoder
 pub forensicnomicon_core::catalog::types::ArtifactDescriptor::evidence_caveats: &'static [&'static str]
 pub forensicnomicon_core::catalog::types::ArtifactDescriptor::evidence_strength: core::option::Option<forensicnomicon_core::evidence::EvidenceStrength>
+pub forensicnomicon_core::catalog::types::ArtifactDescriptor::evidence_tier: core::option::Option<forensicnomicon_core::evidence::EvidenceTier>
 pub forensicnomicon_core::catalog::types::ArtifactDescriptor::fields: &'static [forensicnomicon_core::catalog::types::FieldSchema]
 pub forensicnomicon_core::catalog::types::ArtifactDescriptor::file_path: core::option::Option<&'static str>
 pub forensicnomicon_core::catalog::types::ArtifactDescriptor::hive: core::option::Option<forensicnomicon_core::catalog::types::HiveTarget>
@@ -351,6 +352,7 @@ pub forensicnomicon_core::catalog::ArtifactDescriptor::artifact_type: forensicno
 pub forensicnomicon_core::catalog::ArtifactDescriptor::decoder: forensicnomicon_core::catalog::types::Decoder
 pub forensicnomicon_core::catalog::ArtifactDescriptor::evidence_caveats: &'static [&'static str]
 pub forensicnomicon_core::catalog::ArtifactDescriptor::evidence_strength: core::option::Option<forensicnomicon_core::evidence::EvidenceStrength>
+pub forensicnomicon_core::catalog::ArtifactDescriptor::evidence_tier: core::option::Option<forensicnomicon_core::evidence::EvidenceTier>
 pub forensicnomicon_core::catalog::ArtifactDescriptor::fields: &'static [forensicnomicon_core::catalog::types::FieldSchema]
 pub forensicnomicon_core::catalog::ArtifactDescriptor::file_path: core::option::Option<&'static str>
 pub forensicnomicon_core::catalog::ArtifactDescriptor::hive: core::option::Option<forensicnomicon_core::catalog::types::HiveTarget>
@@ -564,6 +566,10 @@ pub forensicnomicon_core::evidence::EvidenceStrength::Corroborative = 2
 pub forensicnomicon_core::evidence::EvidenceStrength::Definitive = 4
 pub forensicnomicon_core::evidence::EvidenceStrength::Strong = 3
 pub forensicnomicon_core::evidence::EvidenceStrength::Unreliable = 0
+#[non_exhaustive] pub enum forensicnomicon_core::evidence::EvidenceTier
+pub forensicnomicon_core::evidence::EvidenceTier::SingleSecondary = 0
+pub forensicnomicon_core::evidence::EvidenceTier::SourceOrMultiImpl = 1
+pub forensicnomicon_core::evidence::EvidenceTier::VendorDocumented = 2
 pub mod forensicnomicon_core::file_id
 #[non_exhaustive] pub enum forensicnomicon_core::file_id::FileId
 pub forensicnomicon_core::file_id::FileId::ApfsOid
@@ -619,6 +625,68 @@ pub forensicnomicon_core::filesystems::FsSignature::offset: usize
 pub const forensicnomicon_core::filesystems::FILESYSTEM_SIGNATURES: &[forensicnomicon_core::filesystems::FsSignature]
 pub fn forensicnomicon_core::filesystems::detect_name(&[u8]) -> core::option::Option<&'static str>
 pub fn forensicnomicon_core::filesystems::detect_zfs(&[u8]) -> bool
+pub mod forensicnomicon_core::knowledge
+#[non_exhaustive] pub enum forensicnomicon_core::knowledge::CorrelationRelation
+pub forensicnomicon_core::knowledge::CorrelationRelation::BoundsGap
+pub forensicnomicon_core::knowledge::CorrelationRelation::Contradicts
+pub forensicnomicon_core::knowledge::CorrelationRelation::Corroborates
+pub forensicnomicon_core::knowledge::CorrelationRelation::SameEventTwoSources
+pub forensicnomicon_core::knowledge::CorrelationRelation::TemporalOrdering
+#[non_exhaustive] pub enum forensicnomicon_core::knowledge::ToolBehaviourKind
+pub forensicnomicon_core::knowledge::ToolBehaviourKind::FalsePositiveProne
+pub forensicnomicon_core::knowledge::ToolBehaviourKind::MisreadsStructure
+pub forensicnomicon_core::knowledge::ToolBehaviourKind::OutputHidesDetail
+pub forensicnomicon_core::knowledge::ToolBehaviourKind::RequiresFlag
+pub forensicnomicon_core::knowledge::ToolBehaviourKind::SilentlyDropsField
+pub forensicnomicon_core::knowledge::ToolBehaviourKind::SilentlyIncomplete
+pub forensicnomicon_core::knowledge::ToolBehaviourKind::UnstableIdentifier
+pub struct forensicnomicon_core::knowledge::AntiForensicMethod
+pub forensicnomicon_core::knowledge::AntiForensicMethod::detection: &'static str
+pub forensicnomicon_core::knowledge::AntiForensicMethod::evidence_tier: forensicnomicon_core::evidence::EvidenceTier
+pub forensicnomicon_core::knowledge::AntiForensicMethod::id: &'static str
+pub forensicnomicon_core::knowledge::AntiForensicMethod::method: &'static str
+pub forensicnomicon_core::knowledge::AntiForensicMethod::mitre_techniques: &'static [&'static str]
+pub forensicnomicon_core::knowledge::AntiForensicMethod::name: &'static str
+pub forensicnomicon_core::knowledge::AntiForensicMethod::residue: &'static [&'static str]
+pub forensicnomicon_core::knowledge::AntiForensicMethod::sources: &'static [&'static str]
+pub forensicnomicon_core::knowledge::AntiForensicMethod::suppresses: &'static [&'static str]
+pub struct forensicnomicon_core::knowledge::CorrelationHint
+pub forensicnomicon_core::knowledge::CorrelationHint::agreement_means: &'static str
+pub forensicnomicon_core::knowledge::CorrelationHint::artifacts: &'static [&'static str]
+pub forensicnomicon_core::knowledge::CorrelationHint::divergence_means: &'static str
+pub forensicnomicon_core::knowledge::CorrelationHint::evidence_tier: forensicnomicon_core::evidence::EvidenceTier
+pub forensicnomicon_core::knowledge::CorrelationHint::id: &'static str
+pub forensicnomicon_core::knowledge::CorrelationHint::mitre_techniques: &'static [&'static str]
+pub forensicnomicon_core::knowledge::CorrelationHint::name: &'static str
+pub forensicnomicon_core::knowledge::CorrelationHint::relation: forensicnomicon_core::knowledge::CorrelationRelation
+pub forensicnomicon_core::knowledge::CorrelationHint::sources: &'static [&'static str]
+pub struct forensicnomicon_core::knowledge::InvestigativeTechnique
+pub forensicnomicon_core::knowledge::InvestigativeTechnique::artifacts_used: &'static [&'static str]
+pub forensicnomicon_core::knowledge::InvestigativeTechnique::evidence_tier: forensicnomicon_core::evidence::EvidenceTier
+pub forensicnomicon_core::knowledge::InvestigativeTechnique::failure_modes: &'static [&'static str]
+pub forensicnomicon_core::knowledge::InvestigativeTechnique::id: &'static str
+pub forensicnomicon_core::knowledge::InvestigativeTechnique::mitre_techniques: &'static [&'static str]
+pub forensicnomicon_core::knowledge::InvestigativeTechnique::name: &'static str
+pub forensicnomicon_core::knowledge::InvestigativeTechnique::preconditions: &'static [&'static str]
+pub forensicnomicon_core::knowledge::InvestigativeTechnique::question: &'static str
+pub forensicnomicon_core::knowledge::InvestigativeTechnique::sources: &'static [&'static str]
+pub forensicnomicon_core::knowledge::InvestigativeTechnique::steps: &'static [forensicnomicon_core::knowledge::TechniqueStep]
+pub struct forensicnomicon_core::knowledge::TechniqueStep
+pub forensicnomicon_core::knowledge::TechniqueStep::action: &'static str
+pub forensicnomicon_core::knowledge::TechniqueStep::artifact_id: core::option::Option<&'static str>
+pub forensicnomicon_core::knowledge::TechniqueStep::order: u8
+pub forensicnomicon_core::knowledge::TechniqueStep::yields: &'static str
+pub struct forensicnomicon_core::knowledge::ToolBehaviour
+pub forensicnomicon_core::knowledge::ToolBehaviour::artifact_id: core::option::Option<&'static str>
+pub forensicnomicon_core::knowledge::ToolBehaviour::consequence: &'static str
+pub forensicnomicon_core::knowledge::ToolBehaviour::detail: &'static str
+pub forensicnomicon_core::knowledge::ToolBehaviour::evidence_tier: forensicnomicon_core::evidence::EvidenceTier
+pub forensicnomicon_core::knowledge::ToolBehaviour::id: &'static str
+pub forensicnomicon_core::knowledge::ToolBehaviour::kind: forensicnomicon_core::knowledge::ToolBehaviourKind
+pub forensicnomicon_core::knowledge::ToolBehaviour::mitigation: &'static str
+pub forensicnomicon_core::knowledge::ToolBehaviour::sources: &'static [&'static str]
+pub forensicnomicon_core::knowledge::ToolBehaviour::tool: &'static str
+pub forensicnomicon_core::knowledge::ToolBehaviour::version_range: core::option::Option<&'static str>
 pub mod forensicnomicon_core::messenger_desktop
 #[non_exhaustive] pub enum forensicnomicon_core::messenger_desktop::AppKind
 pub forensicnomicon_core::messenger_desktop::AppKind::Electron

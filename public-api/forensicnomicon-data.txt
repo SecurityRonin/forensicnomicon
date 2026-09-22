@@ -9,6 +9,10 @@ pub mod forensicnomicon_data::evidence
 pub use forensicnomicon_data::evidence::EvidenceStrength
 pub fn forensicnomicon_data::evidence::artifacts_with_strength(forensicnomicon_core::evidence::EvidenceStrength) -> alloc::vec::Vec<&'static forensicnomicon_core::catalog::types::ArtifactDescriptor>
 pub fn forensicnomicon_data::evidence::evidence_for(&str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ArtifactDescriptor>
+pub mod forensicnomicon_data::knowledge
+pub use forensicnomicon_data::knowledge::ToolBehaviour
+pub use forensicnomicon_data::knowledge::ToolBehaviourKind
+pub static forensicnomicon_data::knowledge::TOOL_BEHAVIOURS: &[forensicnomicon_core::knowledge::ToolBehaviour]
 pub mod forensicnomicon_data::volatility
 pub use forensicnomicon_data::volatility::VolatilityClass
 pub fn forensicnomicon_data::volatility::acquisition_order() -> alloc::vec::Vec<&'static forensicnomicon_core::catalog::types::ArtifactDescriptor>
