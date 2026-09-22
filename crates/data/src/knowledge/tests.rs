@@ -1,5 +1,5 @@
-//! Integrity tests over [`TOOL_BEHAVIOURS`], [`ANTI_FORENSIC_METHODS`] and
-//! the correlation-hint slice.
+//! Integrity tests over [`TOOL_BEHAVIOURS`], [`ANTI_FORENSIC_METHODS`],
+//! [`INVESTIGATIVE_TECHNIQUES`] and the correlation-hint slice.
 
 use super::*;
 
@@ -181,6 +181,97 @@ fn every_correlation_entry_is_verifiable() {
                 s.starts_with("https://"),
                 "{}: source is not an https URL: {s}",
                 h.id
+            );
+        }
+    }
+}
+
+// ── Investigative techniques ─────────────────────────────────────────────────
+
+/// The exact number of registered investigative techniques — the single place
+/// the count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
+const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 1;
+
+#[test]
+fn investigative_len_matches_expected() {
+    assert_eq!(
+        INVESTIGATIVE_TECHNIQUES.len(),
+        EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN
+    );
+}
+
+#[test]
+fn investigative_no_duplicate_ids() {
+    let mut seen = std::collections::HashSet::new();
+    for t in INVESTIGATIVE_TECHNIQUES {
+        assert!(
+            seen.insert(t.id),
+            "duplicate investigative technique id: {}",
+            t.id
+        );
+    }
+}
+
+/// The analytic-frameworks absorption batch: every id absorbed so far.
+#[test]
+fn analytic_frameworks_batch_is_present() {
+    for id in ["pyramid_of_pain_indicator_prioritisation"] {
+        assert!(
+            INVESTIGATIVE_TECHNIQUES.iter().any(|t| t.id == id),
+            "missing investigative technique: {id}"
+        );
+    }
+}
+
+/// Every entry must be independently verifiable, and must carry its
+/// mislead story: `steps` non-empty and 1-based-ordered, `failure_modes`
+/// non-empty (a technique with no recorded way to yield a confident wrong
+/// answer has not been researched, only transcribed), every source a
+/// resolvable HTTPS reference, and any artifact id resolvable in the catalog.
+#[test]
+fn every_investigative_entry_is_verifiable() {
+    let catalog_has = |id: &str| crate::catalog::CATALOG.by_id(id).is_some();
+    for t in INVESTIGATIVE_TECHNIQUES {
+        assert!(!t.name.is_empty(), "{}: empty name", t.id);
+        assert!(!t.question.is_empty(), "{}: empty question", t.id);
+        assert!(!t.steps.is_empty(), "{}: no steps", t.id);
+        for (i, s) in t.steps.iter().enumerate() {
+            assert_eq!(
+                usize::from(s.order),
+                i + 1,
+                "{}: step order not sequential from 1",
+                t.id
+            );
+            assert!(
+                !s.action.is_empty(),
+                "{}: step {} empty action",
+                t.id,
+                s.order
+            );
+            assert!(
+                !s.yields.is_empty(),
+                "{}: step {} empty yields",
+                t.id,
+                s.order
+            );
+            if let Some(a) = s.artifact_id {
+                assert!(
+                    catalog_has(a),
+                    "{}: step artifact not in catalog: {a}",
+                    t.id
+                );
+            }
+        }
+        for a in t.artifacts_used {
+            assert!(catalog_has(a), "{}: artifact id not in catalog: {a}", t.id);
+        }
+        assert!(!t.failure_modes.is_empty(), "{}: no failure modes", t.id);
+        assert!(!t.sources.is_empty(), "{}: no sources", t.id);
+        for s in t.sources {
+            assert!(
+                s.starts_with("https://"),
+                "{}: source is not an https URL: {s}",
+                t.id
             );
         }
     }
