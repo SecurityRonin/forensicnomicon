@@ -347,3 +347,38 @@ fn an_unsourced_entry_records_where_it_was_looked_for() {
         );
     }
 }
+
+/// Knowledge that was ESTABLISHED and then lost must come back.
+///
+/// `coreutils_stat_ext4_birth_blank` was fully verified during the
+/// anti-forensics absorption - kernel docs, coreutils NEWS, statx(2) and
+/// e2fsprogs source all read - and then never landed, because the file it
+/// belonged in was locked by a concurrent agent. It was handed over in a
+/// report and nobody actioned it.
+///
+/// That is worse than a dropped lead: a drop reflects a decision, this was
+/// forgetting, and the catalog looks identical either way.
+#[test]
+fn verified_knowledge_lost_to_tooling_is_recovered() {
+    assert!(
+        TOOL_BEHAVIOURS
+            .iter()
+            .any(|b| b.id == "coreutils_stat_ext4_birth_blank"),
+        "ext4 Birth-time visibility was verified and then lost; it must be recorded"
+    );
+}
+
+/// An entry recording a blank field must say the ABSENCE is the tool's, not
+/// the filesystem's - that inversion is the whole reason it is worth having.
+#[test]
+fn the_ext4_birth_entry_distinguishes_tool_silence_from_absent_data() {
+    let b = TOOL_BEHAVIOURS
+        .iter()
+        .find(|b| b.id == "coreutils_stat_ext4_birth_blank")
+        .expect("entry missing");
+    let body = format!("{} {}", b.detail, b.consequence);
+    assert!(
+        body.contains("debugfs"),
+        "must name the tool that CAN read it, or the entry is a dead end"
+    );
+}
