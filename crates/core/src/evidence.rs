@@ -45,15 +45,27 @@ pub enum EvidenceStrength {
 #[non_exhaustive]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum EvidenceTier {
+    /// Looked for, and NOT found. A claim worth recording whose primary source
+    /// could not be located — the search happened and came back empty.
+    ///
+    /// This is deliberately not an absence. Dropping such a claim makes it
+    /// indistinguishable from one nobody ever investigated, so the next reader
+    /// repeats the same failed search and drops it again; "no primary source
+    /// documents this" is itself a finding, and an expensive one to establish.
+    ///
+    /// An entry at this tier MUST record where it was looked for, so the next
+    /// person can search somewhere new rather than somewhere already exhausted.
+    /// It is a research lead, never something to act on in casework.
+    SearchedNotFound = 0,
     /// A single secondary source (one blog, one forum post). Record as a lead;
     /// do not assert it as established.
-    SingleSecondary = 0,
+    SingleSecondary = 1,
     /// Read out of source code, or corroborated by two or more INDEPENDENT
     /// implementations or captures that agree. Three articles copying one
     /// original are one source, not three.
-    SourceOrMultiImpl = 1,
+    SourceOrMultiImpl = 2,
     /// The vendor or a normative specification documents it.
-    VendorDocumented = 2,
+    VendorDocumented = 3,
 }
 
 #[cfg(test)]

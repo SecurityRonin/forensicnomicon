@@ -567,9 +567,10 @@ pub forensicnomicon_core::evidence::EvidenceStrength::Definitive = 4
 pub forensicnomicon_core::evidence::EvidenceStrength::Strong = 3
 pub forensicnomicon_core::evidence::EvidenceStrength::Unreliable = 0
 #[non_exhaustive] pub enum forensicnomicon_core::evidence::EvidenceTier
-pub forensicnomicon_core::evidence::EvidenceTier::SingleSecondary = 0
-pub forensicnomicon_core::evidence::EvidenceTier::SourceOrMultiImpl = 1
-pub forensicnomicon_core::evidence::EvidenceTier::VendorDocumented = 2
+pub forensicnomicon_core::evidence::EvidenceTier::SearchedNotFound = 0
+pub forensicnomicon_core::evidence::EvidenceTier::SingleSecondary = 1
+pub forensicnomicon_core::evidence::EvidenceTier::SourceOrMultiImpl = 2
+pub forensicnomicon_core::evidence::EvidenceTier::VendorDocumented = 3
 pub mod forensicnomicon_core::file_id
 #[non_exhaustive] pub enum forensicnomicon_core::file_id::FileId
 pub forensicnomicon_core::file_id::FileId::ApfsOid
