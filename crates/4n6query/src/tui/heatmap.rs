@@ -289,9 +289,68 @@ mod tests {
     use super::*;
 
     #[test]
-    fn tactics_has_14_entries() {
-        assert_eq!(TACTIC_COUNT, 14);
-        assert_eq!(TACTICS.len(), 14);
+    fn tactics_has_15_entries() {
+        // ATT&CK v19 split Defense Evasion into Stealth (TA0005, same ID) and
+        // Defense Impairment (TA0112, new), taking Enterprise from 14 to 15.
+        assert_eq!(TACTIC_COUNT, 15);
+        assert_eq!(TACTICS.len(), 15);
+    }
+
+    #[test]
+    fn ta0005_uses_the_v19_name_stealth() {
+        let (_, name) = TACTICS
+            .iter()
+            .find(|(id, _)| *id == "TA0005")
+            .expect("TA0005 must still be present — v19 renamed it, it was not retired");
+        assert_eq!(
+            *name, "Stealth",
+            "TA0005 is named Stealth in v19; 'Defense Evasion' is the pre-split name \
+             for a broader category that no longer exists"
+        );
+    }
+
+    #[test]
+    fn defense_impairment_tactic_is_present() {
+        assert!(
+            TACTICS
+                .iter()
+                .any(|(id, name)| *id == "TA0112" && *name == "Defense Impairment"),
+            "v19 added TA0112 Defense Impairment; without it, techniques that \
+             moved there render on another tactic's slot"
+        );
+    }
+
+    #[test]
+    fn impairment_techniques_map_to_ta0112_not_ta0005() {
+        // These three moved out of the old Defense Evasion in v19. Asserting on
+        // tactic IDs rather than bit positions: an index assertion would still
+        // pass if the slot ordering silently shifted underneath it.
+        for tid in ["T1685", "T1686", "T1688"] {
+            let ids = active_tactic_ids(tactic_mask(&[tid]));
+            assert_eq!(
+                ids,
+                vec!["TA0112"],
+                "{tid} belongs to Defense Impairment (TA0112) in v19"
+            );
+        }
+    }
+
+    #[test]
+    fn stealth_techniques_stay_on_ta0005() {
+        // The other half of the split: these did NOT move.
+        for tid in ["T1027", "T1036", "T1218", "T1564"] {
+            let ids = active_tactic_ids(tactic_mask(&[tid]));
+            assert_eq!(ids, vec!["TA0005"], "{tid} remains under TA0005 (Stealth)");
+        }
+    }
+
+    #[test]
+    fn unrelated_tactics_survive_the_insertion() {
+        // Inserting a tactic mid-table renumbers every slot after it. These
+        // pin a sample on both sides of the insertion point.
+        assert_eq!(active_tactic_ids(tactic_mask(&["T1059"])), vec!["TA0002"]);
+        assert_eq!(active_tactic_ids(tactic_mask(&["T1003"])), vec!["TA0006"]);
+        assert_eq!(active_tactic_ids(tactic_mask(&["T1041"])), vec!["TA0010"]);
     }
 
     #[test]
@@ -343,15 +402,18 @@ mod tests {
     #[test]
     fn render_bar_all_zeros_is_all_miss() {
         let bar = render_bar(0);
-        assert_eq!(bar.chars().count(), 14);
+        // Derived from TACTIC_COUNT, not a literal: a hardcoded width is what
+        // let the bar silently disagree with the tactic table when ATT&CK
+        // changed the number of tactics.
+        assert_eq!(bar.chars().count(), TACTIC_COUNT);
         assert!(bar.chars().all(|c| c == BLOCK_MISS));
     }
 
     #[test]
     fn render_bar_all_ones_is_all_hit() {
-        let mask: u16 = (1 << 14) - 1;
+        let mask: u16 = (1 << TACTIC_COUNT) - 1;
         let bar = render_bar(mask);
-        assert_eq!(bar.chars().count(), 14);
+        assert_eq!(bar.chars().count(), TACTIC_COUNT);
         assert!(bar.chars().all(|c| c == BLOCK_HIT));
     }
 

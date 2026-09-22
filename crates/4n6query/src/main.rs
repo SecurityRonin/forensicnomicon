@@ -1285,4 +1285,52 @@ mod event_lookup_tests {
         assert!(lookup_events("certutil.exe").is_empty());
         assert!(lookup_events("99999").is_empty());
     }
+
+    // ── ATT&CK v19 tactic vocabulary ───────────────────────────────────────
+    //
+    // v19 split Defense Evasion: TA0005 kept its ID and was renamed Stealth,
+    // and the behaviours that BREAK defences moved to a new TA0112 Defense
+    // Impairment. The filter must speak the current names, while still
+    // honouring the old spelling so existing scripts keep working.
+
+    #[test]
+    fn stealth_is_an_accepted_tactic() {
+        let t = techniques_for_tactic("stealth").expect("v19 name for TA0005 must be accepted");
+        assert!(t.contains(&"T1027"), "obfuscation is Stealth");
+        assert!(t.contains(&"T1036"), "masquerading is Stealth");
+        assert!(
+            !t.contains(&"T1685"),
+            "T1685 moved to Defense Impairment in v19 and must not be returned for Stealth"
+        );
+    }
+
+    #[test]
+    fn defense_impairment_is_an_accepted_tactic() {
+        let t = techniques_for_tactic("defense-impairment")
+            .expect("TA0112 is a v19 tactic and must be selectable");
+        assert!(t.contains(&"T1685"), "disable or modify tools");
+        assert!(t.contains(&"T1686"), "disable or modify system firewall");
+    }
+
+    #[test]
+    fn legacy_defense_evasion_still_resolves() {
+        // Deprecated alias: it must keep working rather than silently
+        // returning nothing, which would read as "no matching artifacts".
+        let legacy = techniques_for_tactic("defense-evasion")
+            .expect("the pre-v19 spelling must remain accepted");
+        let stealth = techniques_for_tactic("stealth").unwrap();
+        let impair = techniques_for_tactic("defense-impairment").unwrap();
+        for tid in stealth.iter().chain(impair.iter()) {
+            assert!(
+                legacy.contains(tid),
+                "{tid} is reachable under the current names but not under the legacy alias, \
+                 so an existing script would silently lose coverage"
+            );
+        }
+    }
+
+    #[test]
+    fn unknown_tactic_still_returns_none() {
+        assert!(techniques_for_tactic("not-a-tactic").is_none());
+    }
 }
