@@ -82,30 +82,35 @@ pub static VOL2_NETSCAN_SILENT_GAPS: ToolBehaviour = ToolBehaviour {
 ///   for `<base>.vmss` then `<base>.vmsn`; when neither opens it returns
 ///   `None` — the VMware layer is simply not stacked and the `.vmem` falls
 ///   through to raw-image handling. The run continues and exits 0.
-/// - Commit history of that file: the user-visible warning ("No metadata
-///   file found alongside VMEM file…") was added 2023-10-11; releases up to
-///   v2.5.0 (2023-09-27) predate it and record the miss only at the VVVV
-///   debug log level.
+/// - Commit `310b6508db30` ("vmware: Add warning when no metadata file is
+///   found for a vmem file", 2023-10-11): the user-visible warning's birth;
+///   releases up to v2.5.0 (2023-09-27) predate it and record the miss only
+///   at the VVVV debug log level.
+/// - The sidecar carries the snapshot's region table (`regionsCount` /
+///   `regionPPN` tags in `_read_header`) mapping file offsets to physical
+///   pages; a bare `.vmem` is read without it.
 pub static VOL3_VMWARE_VMEM_MISSING_METADATA: ToolBehaviour = ToolBehaviour {
     id: "vol3_vmware_vmem_missing_metadata",
     tool: "Volatility 3 (VMware .vmem ingestion)",
     version_range: Some(
-        "Volatility 3 <=2.5.0: debug-level log only; later releases (warning added \
-         2023-10-11): console warning, still non-fatal",
+        "Volatility 3 <=2.5.0: debug-level log only; since commit 310b6508 (2023-10-11): \
+         console warning, still non-fatal. Verified at v2.28.2 (2026-09-17)",
     ),
     artifact_id: None,
     kind: ToolBehaviourKind::SilentlyIncomplete,
     detail: "When a .vmem is analysed without its sidecar snapshot metadata (.vmss/.vmsn), \
              VmwareLayer.stack() declines and the file is processed as a raw flat image \
              instead. The run continues and exits 0. Through v2.5.0 the only trace was a \
-             maximum-verbosity debug log; since the 2023-10-11 change a console warning is \
-             printed, but processing still proceeds. On VMs whose .vmem is not a flat \
-             physical map, the resulting address space is assembled without the snapshot's \
-             region table, and plugins render their column headers with few or zero rows.",
-    consequence: "Headers-plus-zero-rows is read as 'this memory contains no such artifacts' \
-                  when it means 'the address space was assembled wrongly'. A negative \
-                  finding is manufactured by the missing sidecar file, and (on affected \
-                  versions) nothing on screen says so.",
+             maximum-verbosity debug log; commit 310b6508db30 (2023-10-11) added a console \
+             warning, but processing still proceeds. The sidecar is what carries the \
+             snapshot's region table mapping file offsets to physical pages, so on VMs whose \
+             .vmem is not a flat physical map the raw fallback places reads at wrong \
+             physical addresses and downstream plugins silently return incomplete or wrong \
+             results.",
+    consequence: "Sparse or empty plugin output is read as 'this memory contains no such \
+                  artifacts' when it means 'the address space was assembled without the \
+                  snapshot's region map'. A negative finding is manufactured by a missing \
+                  sidecar file, and on affected versions nothing on screen says so.",
     mitigation: "Always collect and co-locate the .vmsn/.vmss with the .vmem (same basename, \
                  same directory). Treat near-empty plugin output from a bare .vmem as an \
                  ingestion failure to re-run with metadata, not as a negative finding — and \
@@ -113,6 +118,7 @@ pub static VOL3_VMWARE_VMEM_MISSING_METADATA: ToolBehaviour = ToolBehaviour {
     evidence_tier: EvidenceTier::SourceOrMultiImpl,
     sources: &[
         "https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/layers/vmware.py",
+        "https://github.com/volatilityfoundation/volatility3/commit/310b6508db30",
         "https://github.com/volatilityfoundation/volatility3/releases",
     ],
 };
