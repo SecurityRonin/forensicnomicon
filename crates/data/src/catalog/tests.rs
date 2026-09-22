@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6820;
+const EXPECTED_CATALOG_LEN: usize = 6823;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -12723,5 +12723,56 @@ mod tests_disk_gcfa_ext {
                  (libyal format spec, settled community reference, or Microsoft/Mandiant docs)"
             );
         }
+    }
+
+    /// Linux account/lockout batch: `/etc/gshadow` (group password hashes),
+    /// `/etc/security/pwquality.conf` (password policy), and the
+    /// `pam_faillock` tally directory `/var/run/faillock/`.
+    ///
+    /// Each claim is independently sourced from its man page, so every entry
+    /// carries `EvidenceTier::VendorDocumented` and a non-empty `sources`.
+    #[test]
+    fn linux_account_lockout_batch_is_cataloged() {
+        use crate::evidence::EvidenceTier;
+        for (id, path) in [
+            ("linux_gshadow", "/etc/gshadow"),
+            ("linux_pwquality_conf", "/etc/security/pwquality.conf"),
+            ("linux_faillock_dir", "/var/run/faillock/"),
+        ] {
+            let d = CATALOG
+                .by_id(id)
+                .unwrap_or_else(|| panic!("descriptor '{id}' missing from catalog"));
+            assert_eq!(d.file_path, Some(path), "{id}: wrong file_path");
+            assert_eq!(
+                d.evidence_tier,
+                Some(EvidenceTier::VendorDocumented),
+                "{id}: man-page-documented claims are VendorDocumented"
+            );
+            assert!(!d.sources.is_empty(), "{id}: sources must not be empty");
+            assert!(
+                d.sources.iter().all(|s| s.starts_with("https://")),
+                "{id}: every source must be a URL"
+            );
+        }
+    }
+
+    /// `linux_faillog` must warn that modern lockout state lives in the
+    /// `pam_faillock` directory, not in faillog — an examiner who reads an
+    /// empty faillog as "no failed logins" has been misled by the artifact.
+    #[test]
+    fn linux_faillog_names_faillock_as_the_modern_successor() {
+        let d = CATALOG
+            .by_id("linux_faillog")
+            .expect("linux_faillog must be cataloged");
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("/var/run/faillock")),
+            "linux_faillog must point at /var/run/faillock in its caveats"
+        );
+        assert!(
+            d.related_artifacts.contains(&"linux_faillock_dir"),
+            "linux_faillog must cross-link linux_faillock_dir"
+        );
     }
 }
