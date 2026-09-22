@@ -18580,6 +18580,15 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     linux_ext::LINUX_CRON_LOG,
     linux_ext::LINUX_MAIL_LOG,
     linux_ext::LINUX_MAILLOG_RHEL,
+    // ── service logs (web, firewall, proxy, Sysmon) ──
+    linux_ext::LINUX_HTTPD_ACCESS_LOG,
+    linux_ext::LINUX_APACHE_OTHER_VHOSTS_LOG,
+    linux_ext::LINUX_TOMCAT_CATALINA_OUT,
+    linux_ext::LINUX_SQUID_ACCESS_LOG,
+    linux_ext::LINUX_UFW_LOG,
+    linux_ext::LINUX_FIREWALLD_CONFIG,
+    linux_ext::LINUX_HAPROXY_LOG,
+    linux_ext::LINUX_SYSMON_EVENTS,
     // ── dfir_scripts_generated (374 entries) ─── dfir-scripts.github.io registry artifacts
     generated::dfir_scripts_generated::DFIR_SCRIPTS_COMMON_OPEN_FIND,
     generated::dfir_scripts_generated::DFIR_SCRIPTS_MICROSOFT_OFFICE_14_0,

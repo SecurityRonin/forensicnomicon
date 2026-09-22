@@ -1873,3 +1873,312 @@ pub(crate) static LINUX_MAILLOG_RHEL: ArtifactDescriptor = ArtifactDescriptor {
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Text log rotated by logrotate",
 };
+
+// ── Batch: service logs (web, firewall, proxy, Sysmon) ──────────────────────
+
+pub(crate) static LINUX_HTTPD_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_httpd_access_log",
+    name: "Apache Access Log (/var/log/httpd, RHEL family)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/httpd/access_log"),
+    scope: DataScope::System,
+    os_scope: OsScope::LinuxRhel,
+    decoder: Decoder::Identity,
+    meaning: "Apache HTTP Server request log under the Red Hat packaging convention: logs live \
+        in /var/log/httpd/ (access_log, error_log; per-vhost CustomLog/ErrorLog lines in \
+        /etc/httpd/conf/httpd.conf point here too). Same evidence as Debian's \
+        /var/log/apache2/access.log — client IP, authenticated user, request line, status, \
+        bytes, and in combined format referer and user-agent — for webshell drops, exploit \
+        attempts and scanner noise on RHEL-family web servers.",
+    mitre_techniques: &["T1190"],
+    fields: &[
+        FieldSchema { name: "remote_addr", value_type: ValueType::Text, description: "Client IP address", is_uid_component: true },
+        FieldSchema { name: "request", value_type: ValueType::Text, description: "Method, URI and protocol of the request", is_uid_component: false },
+        FieldSchema { name: "status", value_type: ValueType::UnsignedInt, description: "HTTP response status code", is_uid_component: false },
+    ],
+    retention: Some("Rotated by logrotate"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["linux_apache_access_log", "linux_apache_error_log"],
+    sources: &[
+        "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/deploying_different_types_of_servers/setting-apache-http-server_deploying-different-types-of-servers",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Red Hat packaging convention; Debian family uses /var/log/apache2/ and openSUSE mixes /etc/apache2/ with the httpd.conf filename",
+        "Log location and format are set by CustomLog directives — read the config before trusting the default path",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Text log rotated by logrotate",
+};
+
+pub(crate) static LINUX_APACHE_OTHER_VHOSTS_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_apache_other_vhosts_log",
+    name: "Apache Other-VHosts Access Log (Debian family)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/apache2/other_vhosts_access.log"),
+    scope: DataScope::System,
+    os_scope: OsScope::LinuxDebian,
+    decoder: Decoder::Identity,
+    meaning: "Debian/Ubuntu's catch-all access log for VirtualHosts that do not define their \
+        own log file: the apache2 package ships conf-available/other-vhosts-access-log.conf \
+        with 'CustomLog ${APACHE_LOG_DIR}/other_vhosts_access.log vhost_combined'. The \
+        vhost_combined format prepends the serving vhost:port to each combined-format line — \
+        so requests to secondary or attacker-added vhosts that never appear in access.log \
+        are found here, with the vhost that served them.",
+    mitre_techniques: &["T1190"],
+    fields: &[
+        FieldSchema { name: "vhost", value_type: ValueType::Text, description: "VirtualHost name:port that served the request (vhost_combined prefix)", is_uid_component: true },
+        FieldSchema { name: "remote_addr", value_type: ValueType::Text, description: "Client IP address", is_uid_component: false },
+        FieldSchema { name: "request", value_type: ValueType::Text, description: "Method, URI and protocol of the request", is_uid_component: false },
+    ],
+    retention: Some("Rotated by logrotate"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["linux_apache_access_log", "linux_httpd_access_log"],
+    sources: &[
+        "https://sources.debian.org/src/apache2/latest/debian/config-dir/conf-available/other-vhosts-access-log.conf/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Debian-family packaging; the conf must be enabled (conf-enabled symlink, on by default) and a vhost with its own CustomLog never writes here",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Text log rotated by logrotate",
+};
+
+pub(crate) static LINUX_TOMCAT_CATALINA_OUT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_tomcat_catalina_out",
+    name: "Apache Tomcat Console Log (catalina.out)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("$CATALINA_BASE/logs/catalina.out"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "Tomcat's captured stdout/stderr: console output (System.out/System.err and the \
+        default ConsoleHandler) is redirected into catalina.out by the startup scripts, \
+        alongside the java.util.logging AsyncFileHandler files (catalina.<date>.log, \
+        localhost.<date>.log) and any AccessLogValve access logs in the same logs/ directory. \
+        Application exceptions, deployment records and webshell-drop side effects from a \
+        compromised Tomcat land here.",
+    mitre_techniques: &["T1190", "T1505.003"],
+    fields: &[FieldSchema {
+        name: "line",
+        value_type: ValueType::Text,
+        description: "Captured stdout/stderr line (JULI log record or raw application output)",
+        is_uid_component: false,
+    }],
+    retention: Some("Not rotated by Tomcat itself; rotation is deployment-specific"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["linux_apache_access_log", "linux_nginx_access_log"],
+    sources: &["https://tomcat.apache.org/tomcat-9.0-doc/logging.html"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Location is $CATALINA_BASE/logs: /opt/tomcat/logs on common manual installs, /var/log/tomcat<N>/ under distro packaging — resolve CATALINA_BASE before searching",
+        "Console output only reaches catalina.out when Tomcat is started via the shipped scripts; systemd units may route it to the journal instead",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Grows with activity; rotation depends on deployment",
+};
+
+pub(crate) static LINUX_SQUID_ACCESS_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_squid_access_log",
+    name: "Squid Proxy Access Log",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/squid/access.log"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "One line per HTTP/ICP transaction through the Squid proxy — timestamp, elapsed \
+        time, client IP, cache result/status, bytes, method, URL, and user where \
+        authentication is on. On a network egressing through Squid this is the closest thing \
+        to a full outbound web history: C2 beacons, exfil uploads and staging downloads all \
+        transit it. cache.log in the same directory holds the daemon's own status/debug \
+        messages.",
+    mitre_techniques: &["T1071.001"],
+    fields: &[
+        FieldSchema { name: "client_addr", value_type: ValueType::Text, description: "Requesting client IP", is_uid_component: true },
+        FieldSchema { name: "url", value_type: ValueType::Text, description: "Requested URL", is_uid_component: false },
+        FieldSchema { name: "result_code", value_type: ValueType::Text, description: "Squid cache result and HTTP status (e.g. TCP_MISS/200)", is_uid_component: false },
+    ],
+    retention: Some("Rotated via 'squid -k rotate', count set by logfile_rotate"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["linux_haproxy_log", "linux_nginx_access_log"],
+    sources: &[
+        "https://wiki.squid-cache.org/SquidFaq/SquidLogs",
+        "http://www.squid-cache.org/Doc/config/access_log/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "/var/log/squid/ is the distro-packaging location; the upstream compiled-in default is /usr/local/squid/var/logs/access.log on source builds — read the access_log directive in squid.conf",
+        "access_log none disables it entirely; an absent log on a configured proxy is a finding, not an absence of traffic",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Rotated by squid -k rotate / logrotate",
+};
+
+pub(crate) static LINUX_UFW_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_ufw_log",
+    name: "UFW Firewall Log (/var/log/ufw.log)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/ufw.log"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "Packet verdicts from the Uncomplicated Firewall: kernel-format lines tagged \
+        [UFW BLOCK]/[UFW ALLOW]/[UFW AUDIT] with the netfilter fields (IN=/OUT= interface, \
+        SRC=/DST= addresses, SPT=/DPT= ports, PROTO=). ufw logs via the LOG_KERN syslog \
+        facility; on rsyslog-configured systems (Ubuntu default) those lines are split into \
+        /var/log/ufw.log. Inbound scans, blocked C2 callbacks and allowed sessions through \
+        the host firewall are reconstructed from here.",
+    mitre_techniques: &["T1562.004"],
+    fields: &[
+        FieldSchema { name: "action", value_type: ValueType::Text, description: "[UFW BLOCK] / [UFW ALLOW] / [UFW AUDIT] verdict tag", is_uid_component: false },
+        FieldSchema { name: "src", value_type: ValueType::Text, description: "Source IP (SRC=)", is_uid_component: true },
+        FieldSchema { name: "dpt", value_type: ValueType::UnsignedInt, description: "Destination port (DPT=)", is_uid_component: false },
+    ],
+    retention: Some("Rotated by logrotate"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["linux_iptables_rules", "linux_kern_log", "linux_firewalld_config"],
+    sources: &["https://manpages.debian.org/bookworm/ufw/ufw.8.en.html"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Only rsyslog-configured systems split ufw lines into this file; otherwise they stay in the kernel-facility log (kern.log/syslog/journal)",
+        "Logging is off until 'ufw logging on'; default level 'low' logs blocked packets, not allowed ones — absence of ALLOW lines is a level artifact",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Text log rotated by logrotate",
+};
+
+pub(crate) static LINUX_FIREWALLD_CONFIG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_firewalld_config",
+    name: "firewalld System Configuration (/etc/firewalld/)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/etc/firewalld/"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "firewalld's system configuration: XML zone, service and icmptype definitions \
+        created by the administrator (or an attacker) that overload the package defaults in \
+        /usr/lib/firewalld/. Diffing the two directories isolates every local change to the \
+        host firewall — an added zone, a widened service, or a permanent allow rule planted \
+        for C2. Runtime-only changes never touch these files, so runtime state must be \
+        captured live (firewall-cmd) before shutdown.",
+    mitre_techniques: &["T1562.004"],
+    fields: &[FieldSchema {
+        name: "zone_xml",
+        value_type: ValueType::Text,
+        description: "Zone/service/icmptype XML definition overriding the defaults",
+        is_uid_component: false,
+    }],
+    retention: Some("Persistent configuration; runtime changes are separate and lost at reload/reboot"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["linux_iptables_rules", "linux_nftables_conf", "linux_ufw_log"],
+    sources: &["https://firewalld.org/documentation/man-pages/firewalld.html"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Default on RHEL-family distros; installable elsewhere — presence of the directory does not prove the service was running",
+        "Permanent config only: runtime rules added without --permanent exist solely in the running daemon (inspect via journalctl -u firewalld / firewall-cmd live)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration directory; persists until edited",
+};
+
+pub(crate) static LINUX_HAPROXY_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_haproxy_log",
+    name: "HAProxy Log (/var/log/haproxy.log)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/haproxy.log"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "Load-balancer traffic log: HAProxy emits per-connection/per-request lines \
+        (client address, frontend, backend/server chosen, timers, status, bytes) via syslog \
+        only — it does not write files itself. Debian's packaging ships an rsyslog rule \
+        (programname startswith 'haproxy') that files those lines into /var/log/haproxy.log, \
+        rotated daily with 7 kept. On a proxied service this log attributes which backend \
+        actually served an attacker's request.",
+    mitre_techniques: &["T1071.001"],
+    fields: &[
+        FieldSchema { name: "client_addr", value_type: ValueType::Text, description: "Client IP:port of the connection", is_uid_component: true },
+        FieldSchema { name: "backend_server", value_type: ValueType::Text, description: "backend/server that handled the request", is_uid_component: false },
+        FieldSchema { name: "status", value_type: ValueType::UnsignedInt, description: "HTTP status code returned", is_uid_component: false },
+    ],
+    retention: Some("Debian packaging: rotated daily, 7 rotations kept"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["linux_squid_access_log", "linux_nginx_access_log"],
+    sources: &[
+        "https://sources.debian.org/src/haproxy/latest/debian/rsyslog.conf/",
+        "https://sources.debian.org/src/haproxy/latest/debian/logrotate.conf/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "The file path is Debian rsyslog packaging, not an HAProxy default — HAProxy logs only via syslog, so other distros/configs put these lines elsewhere",
+        "The log target and verbosity are set by 'log' directives in haproxy.cfg; a chroot'ed HAProxy needs the packaged /var/lib/haproxy/dev/log socket to log at all",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Rotated daily by logrotate (Debian packaging)",
+};
+
+pub(crate) static LINUX_SYSMON_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_sysmon_events",
+    name: "Sysmon for Linux Events (in syslog)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/syslog"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "Microsoft's Sysmon ported to Linux (built on SysinternalsEBPF) writes its events \
+        — process creation/termination, network connections, file events, using the same \
+        configuration schema as the Windows version — as XML records into the local syslog \
+        stream. On Debian-family systems they interleave with normal traffic in \
+        /var/log/syslog; the bundled /opt/sysmon/sysmonLogView extracts and renders them. \
+        Any syslog acquisition from a Sysmon-instrumented host therefore already contains \
+        this high-fidelity telemetry.",
+    mitre_techniques: &["T1562.001"],
+    fields: &[
+        FieldSchema { name: "event_xml", value_type: ValueType::Text, description: "Sysmon event record serialized as XML inside the syslog line", is_uid_component: false },
+        FieldSchema { name: "command_line", value_type: ValueType::Text, description: "CommandLine of process-creation events (Event ID 1)", is_uid_component: false },
+    ],
+    retention: Some("Inherits the host syslog rotation policy"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["linux_syslog", "linux_messages_log", "linux_auditd_log"],
+    sources: &["https://github.com/microsoft/SysmonForLinux"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Events land wherever the host's syslog daemon routes them: /var/log/syslog on Debian family, /var/log/messages on RHEL family",
+        "Coverage is configuration-dependent — with no config only a subset of event types is collected, and syslog daemons may truncate large (>1-8KB) event records",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Lives inside the rotated syslog stream",
+};
