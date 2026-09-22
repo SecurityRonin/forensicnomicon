@@ -11,7 +11,7 @@
 //! 4660 / 4663 / 4670), Window Station reconnect and disconnect (4778 / 4779),
 //! the RdpCoreTS connection records, the Application-log crash pair (1000 /
 //! 1001), the PowerShell 7 channel, auto-archived logs and the Eventlog
-//! provider's audit-gap records (Archive-<Log>-*.evtx with 1104 / 1105, plus
+//! provider's audit-gap records (`Archive-<Log>-*.evtx` with 1104 / 1105, plus
 //! the undocumented 1101 / 1106), and the target-side process lineage that
 //! separates one remote-execution channel from another.
 //!
@@ -2791,7 +2791,7 @@ pub(crate) static EVTX_LOG_AUTO_ARCHIVE: ArtifactDescriptor = ArtifactDescriptor
         // Microsoft — Eventlog Key: the File, MaxSize, Retention and AutoBackupLogFiles values,
         // their defaults, and the rule that auto-backup applies only when Retention is -1:
         "https://learn.microsoft.com/en-us/windows/win32/eventlog/eventlog-key",
-        // Microsoft — 1105: the log filled and a new file was created, with the Archive-<Log>-
+        // Microsoft — 1105: the log filled and a new file was created, with the `Archive-<Log>-`
         // <timestamp>.evtx BackupPath in the sample record:
         "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-1105",
         // Microsoft — 1104: the security log is now full, the do-not-overwrite condition under
