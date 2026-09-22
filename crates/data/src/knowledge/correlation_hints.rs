@@ -57,6 +57,55 @@ pub static LNK_TRACKER_DROID_VOLUME_MATCH: CorrelationHint = CorrelationHint {
     ],
 };
 
+/// A Prefetch file's recorded volume serial number ties the execution
+/// record to a specific filesystem volume's boot record.
+///
+/// # Verification
+///
+/// - libscca's Prefetch format documentation: every volume information
+///   entry (format versions 17, 23, 26 and 30 alike) carries the volume
+///   device path, the volume creation time (FILETIME) and a 4-byte volume
+///   serial number.
+/// - ntfs-3g `layout.h` `NTFS_BOOT_SECTOR`: the on-disk `volume_serial_number`
+///   is a 64-bit field in the boot sector.
+/// - libfsntfs's NTFS format documentation reconciles the widths: "the lower
+///   32-bit part of the NTFS volume serial number is the WINAPI volume
+///   serial number" — the 32-bit value Windows APIs (and therefore Prefetch)
+///   record.
+pub static PREFETCH_VOLUME_SERIAL_BOOT_SECTOR: CorrelationHint = CorrelationHint {
+    id: "prefetch_volume_serial_boot_sector",
+    name: "Prefetch volume serial number vs filesystem volume boot record",
+    artifacts: &["prefetch_file", "emdmgmt_readyboost"],
+    relation: CorrelationRelation::Corroborates,
+    agreement_means: "Each volume information entry in a Prefetch file records the volume \
+                      device path, volume creation time and a 32-bit volume serial number for \
+                      every volume the executable touched. That serial matching the lower 32 \
+                      bits of an in-evidence volume's boot-sector serial (NTFS stores 64 bits; \
+                      the WINAPI serial is the low half) is consistent with the recorded \
+                      execution having used THAT volume — including a volume that is no longer \
+                      attached, which is how a Prefetch file testifies about a since-removed \
+                      USB device. The same 32-bit serial appears in decimal at the end of \
+                      EMDMgmt subkey names (emdmgmt_readyboost), giving a registry-side hop \
+                      from serial to device identity and volume label.",
+    divergence_means: "A serial in Prefetch matching no volume in evidence means the \
+                       executable ran from media that was never imaged — a concrete \
+                       acquisition gap, not an empty result. A path that looks like an \
+                       in-evidence volume but whose serial does not match refutes the assumed \
+                       identity: same drive letter, different volume (reformatting rewrites \
+                       the serial, so a mismatch can also mean the volume was reformatted \
+                       between run and acquisition).",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    mitre_techniques: &[],
+    sources: &[
+        "https://github.com/libyal/libscca/blob/main/documentation/Windows%20Prefetch%20File%20(PF)%20format.asciidoc",
+        "https://github.com/tuxera/ntfs-3g/blob/edge/include/ntfs-3g/layout.h",
+        "https://github.com/libyal/libfsntfs/blob/main/documentation/New%20Technologies%20File%20System%20(NTFS).asciidoc",
+    ],
+};
+
 /// Every registered correlation hint. Lookup and iteration read this slice;
 /// a static not referenced here is invisible to every consumer.
-pub static CORRELATION_HINTS: &[CorrelationHint] = &[LNK_TRACKER_DROID_VOLUME_MATCH];
+pub static CORRELATION_HINTS: &[CorrelationHint] = &[
+    LNK_TRACKER_DROID_VOLUME_MATCH,
+    PREFETCH_VOLUME_SERIAL_BOOT_SECTOR,
+];
