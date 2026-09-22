@@ -77,7 +77,7 @@ fn every_entry_records_a_version() {
 
 /// The exact number of registered anti-forensic methods — the single place
 /// the count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_ANTI_FORENSIC_METHOD_LEN: usize = 1;
+const EXPECTED_ANTI_FORENSIC_METHOD_LEN: usize = 2;
 
 #[test]
 fn anti_forensic_len_matches_expected() {
@@ -98,7 +98,7 @@ fn anti_forensic_no_duplicate_ids() {
 /// The filesystem-timestamp absorption batch: every id absorbed so far.
 #[test]
 fn timestamp_forgery_batch_is_present() {
-    for id in ["ext4_utimensat_timestomp"] {
+    for id in ["ext4_utimensat_timestomp", "ntfs_si_only_timestomp"] {
         assert!(
             ANTI_FORENSIC_METHODS.iter().any(|m| m.id == id),
             "missing anti-forensic method: {id}"
