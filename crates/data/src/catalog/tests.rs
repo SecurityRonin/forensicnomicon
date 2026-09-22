@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6809;
+const EXPECTED_CATALOG_LEN: usize = 6815;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -151,6 +151,27 @@ mod catalog_integrity {
             q.meaning.contains("rewritten") || q.meaning.contains("retained"),
             "quarantine xattr descriptor must state the flag is rewritten/retained on approval, not removed"
         );
+    }
+
+    /// macOS usage-telemetry batch: the general Biome stream store (the
+    /// catalog previously held only the App.MenuItem stream), Saved
+    /// Application State, the Spotlight appList.dat inventory, DHCP lease
+    /// plists, per-session zsh history, and the XProtect behavioural database.
+    #[test]
+    fn macos_usage_telemetry_batch_is_cataloged() {
+        for id in [
+            "macos_biome_streams",
+            "macos_saved_application_state",
+            "macos_applist_dat",
+            "macos_dhcp_leases",
+            "macos_zsh_sessions",
+            "macos_xprotect_behavioral_db",
+        ] {
+            assert!(
+                CATALOG.by_id(id).is_some(),
+                "macOS usage-telemetry descriptor {id} must be cataloged"
+            );
+        }
     }
 
     /// `edge_webcache` must point at the WebCacheV01.dat ESE database
