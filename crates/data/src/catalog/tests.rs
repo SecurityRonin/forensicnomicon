@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6815;
+const EXPECTED_CATALOG_LEN: usize = 6820;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -172,6 +172,33 @@ mod catalog_integrity {
                 "macOS usage-telemetry descriptor {id} must be cataloged"
             );
         }
+    }
+
+    /// macOS persistence + Finder batch: PrivilegedHelperTools, the
+    /// SystemExtensions activation database, legacy login/logout hooks,
+    /// .DS_Store, and the Trash. The Trash descriptor must RECORD the negative
+    /// finding about external-volume put-back references (searched, not
+    /// sourced) rather than staying silent — a dropped negative is
+    /// indistinguishable from a question nobody asked.
+    #[test]
+    fn macos_persistence_finder_batch_is_cataloged() {
+        for id in [
+            "macos_privileged_helper_tools",
+            "macos_system_extensions_db",
+            "macos_login_logout_hooks",
+            "macos_ds_store",
+            "macos_trash",
+        ] {
+            assert!(
+                CATALOG.by_id(id).is_some(),
+                "macOS persistence/Finder descriptor {id} must be cataloged"
+            );
+        }
+        let t = CATALOG.by_id("macos_trash").unwrap();
+        assert!(
+            t.meaning.contains("not established") || t.meaning.contains("NOT established"),
+            "macos_trash must record the unresolved external-volume put-back question in its own text"
+        );
     }
 
     /// `edge_webcache` must point at the WebCacheV01.dat ESE database
