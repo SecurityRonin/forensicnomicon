@@ -8,7 +8,7 @@ use super::*;
 /// The exact number of registered tool behaviours — the single place the
 /// count is written down. Adding an entry updates this constant and nothing
 /// else; every other test asserts presence or invariants, not size.
-const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 7;
+const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 8;
 
 #[test]
 fn no_duplicate_ids() {
@@ -381,4 +381,59 @@ fn the_ext4_birth_entry_distinguishes_tool_silence_from_absent_data() {
         body.contains("debugfs"),
         "must name the tool that CAN read it, or the entry is a dead end"
     );
+}
+
+/// Every lead that was researched and came back unsourceable must be present
+/// at `SearchedNotFound`, not absent.
+///
+/// These two were dropped during the memory-forensics absorption. Dropping
+/// was a decision, but an invisible one: the catalog reads the same whether a
+/// claim was investigated and found wanting or never considered, so the next
+/// reader runs the same searches and drops them again.
+#[test]
+fn unsourceable_memory_forensics_leads_are_recorded() {
+    assert!(
+        TOOL_BEHAVIOURS
+            .iter()
+            .any(|b| b.id == "malfind_benign_process_names"),
+        "the named-benign-process claim was researched and found unsourceable; \
+         record it, do not drop it"
+    );
+
+    // The netscan under-reporting was ALSO reported as unsourceable, and that
+    // turned out to be wrong: upstream issue 363 documents it. It is folded
+    // into vol2_netscan_silent_gaps rather than recorded as a dead end, which
+    // is why it is asserted here as a citation and not as an entry.
+    let netscan = TOOL_BEHAVIOURS
+        .iter()
+        .find(|b| b.id == "vol2_netscan_silent_gaps")
+        .expect("vol2_netscan_silent_gaps missing");
+    assert!(
+        netscan.sources.iter().any(|s| s.contains("issues/363")),
+        "the observed under-reporting has an upstream report; cite it"
+    );
+}
+
+/// An unsourced tool behaviour must be unmistakable at the point of use.
+///
+/// These entries sit in the same slice as verified ones and are read the same
+/// way. The tier alone is not enough - a reader scanning `detail` has to see
+/// the status without checking a field.
+#[test]
+fn unsourced_tool_behaviours_announce_themselves_in_the_text() {
+    for b in TOOL_BEHAVIOURS
+        .iter()
+        .filter(|b| b.evidence_tier == EvidenceTier::SearchedNotFound)
+    {
+        assert!(
+            b.detail.contains("UNVERIFIED"),
+            "{}: an unsourced entry must say so in its detail text",
+            b.id
+        );
+        assert!(
+            b.detail.contains("Searched") || b.detail.contains("searched"),
+            "{}: must record where the search already went",
+            b.id
+        );
+    }
 }

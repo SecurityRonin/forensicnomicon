@@ -66,6 +66,7 @@ pub static VOL2_NETSCAN_SILENT_GAPS: ToolBehaviour = ToolBehaviour {
                  row count, the disagreement is the finding to chase.",
     evidence_tier: EvidenceTier::SourceOrMultiImpl,
     sources: &[
+        "https://github.com/volatilityfoundation/volatility/issues/363",
         "https://github.com/volatilityfoundation/volatility/blob/master/volatility/plugins/netscan.py",
         "https://github.com/volatilityfoundation/volatility/blob/master/README.txt",
         "https://github.com/volatilityfoundation/volatility/issues/763",
@@ -360,6 +361,60 @@ pub static COREUTILS_STAT_EXT4_BIRTH_BLANK: ToolBehaviour = ToolBehaviour {
     ],
 };
 
+/// The claim that malfind's benign hits are a KNOWN, NAMEABLE set.
+///
+/// Recorded rather than dropped. The false-positive mechanism is documented
+/// and lives in `vol3_malfind_fp_profile`; what no source establishes is the
+/// specific list of processes an examiner should expect to see and wave past.
+///
+/// WHERE THE SEARCH ALREADY WENT, so the next attempt can go somewhere new:
+/// - Volatility 3 `malware/malfind.py`: no allowlist of any kind. The plugin
+///   flags every committed private+executable VAD by construction, which is
+///   precisely why it cannot name its own false positives.
+/// - The Volatility 2 wiki's Command-Reference-Mal page: documents the
+///   detection logic, names no benign processes.
+/// - Published practitioner writeups: report that the benign hits are
+///   "practically always the same" across images, and attribute them to JIT
+///   and .NET runtimes allocating private executable memory legitimately -
+///   but stop short of listing the processes.
+///
+/// So the SHAPE of the false positives is established (JIT-heavy and managed
+/// runtimes) while the roster is folklore. Naming processes in a catalog on
+/// that basis would hand an examiner a list to wave past - and an attacker a
+/// list of names to borrow.
+pub static MALFIND_BENIGN_PROCESS_NAMES: ToolBehaviour = ToolBehaviour {
+    id: "malfind_benign_process_names",
+    tool: "Volatility 3 windows.malfind (benign-hit roster)",
+    version_range: Some("Claim examined against Volatility 3 v2.28.2 (2026-09-17)"),
+    artifact_id: None,
+    kind: ToolBehaviourKind::FalsePositiveProne,
+    detail: "UNVERIFIED LEAD, searched and not sourced. It is widely said that malfind's \
+             benign hits are a stable, nameable set - Defender's engine, RuntimeBroker and \
+             similar - such that an examiner can recognise and skip them. Searched: the \
+             plugin's own source, which carries no allowlist and flags every committed \
+             private+executable VAD by construction; the Volatility 2 wiki's malware \
+             command reference, which documents the logic and names nothing; and published \
+             practitioner writeups, which report the benign hits are 'practically always \
+             the same' and attribute them to JIT and managed runtimes, without listing \
+             them. The MECHANISM is established; the roster is not.",
+    consequence: "Treating a remembered roster as authoritative invites two errors. An \
+                  examiner may wave past a process because its name is on a list they half \
+                  recall, when the list was never established - and an attacker who \
+                  masquerades under one of those names inherits the same free pass. Build \
+                  the expected set per environment from a known-clean baseline and diff \
+                  against it; that is checkable, and a remembered list is not.",
+    mitigation: "Baseline malfind output on a known-clean host of the same build and image \
+                 the diff, rather than recalling names. For any individual hit, dump the \
+                 full region rather than reading the 64-byte preview, and check whether it \
+                 carries a PE header - private executable memory holding a PE is a far \
+                 stronger signal than the RWX permission alone.",
+    evidence_tier: EvidenceTier::SearchedNotFound,
+    sources: &[
+        "https://github.com/volatilityfoundation/volatility3/blob/develop/volatility3/framework/plugins/windows/malfind.py",
+        "https://github.com/volatilityfoundation/volatility/wiki/Command-Reference-Mal",
+    ],
+};
+
 /// Every registered tool behaviour. Lookup and iteration read this slice;
 /// a static not referenced here is invisible to every consumer.
 pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
@@ -370,4 +425,5 @@ pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
     MEMPROCFS_FINDEVIL_ELASTIC_GATE,
     VOL3_MALFIND_FP_PROFILE,
     COREUTILS_STAT_EXT4_BIRTH_BLANK,
+    MALFIND_BENIGN_PROCESS_NAMES,
 ];
