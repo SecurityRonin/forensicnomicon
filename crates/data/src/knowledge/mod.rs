@@ -17,9 +17,11 @@ pub use forensicnomicon_core::knowledge::{
 };
 
 mod anti_forensic_methods;
+mod correlation_hints;
 mod tool_behaviours;
 
 pub use anti_forensic_methods::ANTI_FORENSIC_METHODS;
+pub use correlation_hints::CORRELATION_HINTS;
 pub use tool_behaviours::TOOL_BEHAVIOURS;
 
 #[cfg(test)]

@@ -127,6 +127,62 @@ fn every_anti_forensic_entry_is_verifiable() {
     }
 }
 
+// ── Correlation hints ────────────────────────────────────────────────────────
+
+/// The exact number of registered correlation hints — the single place the
+/// count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
+const EXPECTED_CORRELATION_HINT_LEN: usize = 1;
+
+#[test]
+fn correlation_len_matches_expected() {
+    assert_eq!(CORRELATION_HINTS.len(), EXPECTED_CORRELATION_HINT_LEN);
+}
+
+#[test]
+fn correlation_no_duplicate_ids() {
+    let mut seen = std::collections::HashSet::new();
+    for h in CORRELATION_HINTS {
+        assert!(seen.insert(h.id), "duplicate correlation hint id: {}", h.id);
+    }
+}
+
+/// The volume-provenance absorption batch: every id absorbed so far.
+#[test]
+fn volume_provenance_batch_is_present() {
+    for id in ["lnk_tracker_droid_volume_match"] {
+        assert!(
+            CORRELATION_HINTS.iter().any(|h| h.id == id),
+            "missing correlation hint: {id}"
+        );
+    }
+}
+
+/// A correlation is a join between at least two artifacts, both sides
+/// resolvable in the catalog; and both directions — agreement and
+/// divergence — must be stated, since the divergence side is usually the
+/// reason the pair is worth pairing.
+#[test]
+fn every_correlation_entry_is_verifiable() {
+    let catalog_has = |id: &str| crate::catalog::CATALOG.by_id(id).is_some();
+    for h in CORRELATION_HINTS {
+        assert!(!h.name.is_empty(), "{}: empty name", h.id);
+        assert!(h.artifacts.len() >= 2, "{}: fewer than two artifacts", h.id);
+        for a in h.artifacts {
+            assert!(catalog_has(a), "{}: artifact id not in catalog: {a}", h.id);
+        }
+        assert!(!h.agreement_means.is_empty(), "{}: empty agreement", h.id);
+        assert!(!h.divergence_means.is_empty(), "{}: empty divergence", h.id);
+        assert!(!h.sources.is_empty(), "{}: no sources", h.id);
+        for s in h.sources {
+            assert!(
+                s.starts_with("https://"),
+                "{}: source is not an https URL: {s}",
+                h.id
+            );
+        }
+    }
+}
+
 // ── Tool behaviours ──────────────────────────────────────────────────────────
 
 /// A tool that under-reports and a tool that over-reports mislead in opposite
