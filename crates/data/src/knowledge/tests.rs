@@ -190,7 +190,7 @@ fn every_correlation_entry_is_verifiable() {
 
 /// The exact number of registered investigative techniques — the single place
 /// the count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 3;
+const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 4;
 
 #[test]
 fn investigative_len_matches_expected() {
@@ -219,6 +219,7 @@ fn analytic_frameworks_batch_is_present() {
         "pyramid_of_pain_indicator_prioritisation",
         "diamond_model_intrusion_analysis",
         "icd203_estimative_probability_language",
+        "beaconing_interval_regularity_triage",
     ] {
         assert!(
             INVESTIGATIVE_TECHNIQUES.iter().any(|t| t.id == id),
