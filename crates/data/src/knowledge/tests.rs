@@ -133,7 +133,7 @@ fn every_anti_forensic_entry_is_verifiable() {
 
 /// The exact number of registered correlation hints — the single place the
 /// count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_CORRELATION_HINT_LEN: usize = 2;
+const EXPECTED_CORRELATION_HINT_LEN: usize = 3;
 
 #[test]
 fn correlation_len_matches_expected() {

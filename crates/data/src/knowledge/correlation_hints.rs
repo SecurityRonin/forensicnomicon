@@ -103,9 +103,49 @@ pub static PREFETCH_VOLUME_SERIAL_BOOT_SECTOR: CorrelationHint = CorrelationHint
     ],
 };
 
+/// A join that was researched and could NOT be sourced.
+///
+/// Recorded rather than dropped, because a dropped lead is indistinguishable
+/// from one nobody investigated: the next reader runs the same searches, hits
+/// the same dead end, and drops it again.
+///
+/// WHERE THE SEARCH ALREADY WENT, so the next attempt can go somewhere new:
+/// - Microsoft documents neither `USBSTOR` nor `SWD\WPDBUSENUM` as a
+///   structure; the keys exist in the wild but carry no normative reference.
+/// - RegRipper's `wpdbusenum.pl` - the only open-source parser located that
+///   reads the key - confirms the `SWD\WPDBUSENUM` path and its property-key
+///   GUIDs, and does NOT implement or mention the claimed cross-key join.
+/// - No primary source was found describing a "USBSTOR bookmark value" that
+///   holds a device GUID matchable against a WPDBUSENUM subkey name.
+///
+/// The claim may still be true. It is not established, and nothing here should
+/// be relied on in casework - it is a research lead with its dead ends mapped.
+pub static USBSTOR_WPDBUSENUM_DEVICE_GUID: CorrelationHint = CorrelationHint {
+    id: "usbstor_wpdbusenum_device_guid",
+    name: "UNVERIFIED: device GUID shared between USBSTOR and WPDBUSENUM keys",
+    artifacts: &["usb_stor_enum", "portable_devices"],
+    relation: CorrelationRelation::Corroborates,
+    agreement_means: "UNVERIFIED LEAD, searched and not sourced. The claim is that a device \
+                      identifier recorded under USBSTOR also appears inside a WPDBUSENUM \
+                      subkey name, letting one physical device be tracked across both keys. \
+                      Searched: Microsoft documentation, which describes neither key \
+                      normatively; and RegRipper's wpdbusenum.pl, the only open-source \
+                      parser located, which reads the key and neither implements nor \
+                      mentions the join. Treat as a research lead only - do not rely on it \
+                      in casework.",
+    divergence_means: "Not established either way. Because the join itself is unsourced, an \
+                       absence of matching values says nothing: it may mean the devices \
+                       differ, or that the two keys simply do not record a common identifier \
+                       in the form the claim assumes.",
+    evidence_tier: EvidenceTier::SearchedNotFound,
+    mitre_techniques: &[],
+    sources: &["https://github.com/keydet89/RegRipper3.0/blob/master/plugins/wpdbusenum.pl"],
+};
+
 /// Every registered correlation hint. Lookup and iteration read this slice;
 /// a static not referenced here is invisible to every consumer.
 pub static CORRELATION_HINTS: &[CorrelationHint] = &[
     LNK_TRACKER_DROID_VOLUME_MATCH,
     PREFETCH_VOLUME_SERIAL_BOOT_SECTOR,
+    USBSTOR_WPDBUSENUM_DEVICE_GUID,
 ];
