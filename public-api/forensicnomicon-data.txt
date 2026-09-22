@@ -7,6 +7,7 @@ pub fn forensicnomicon_data::catalog::container_signature_for_artifact(&str) -> 
 pub fn forensicnomicon_data::catalog::record_signatures_for_artifact(&str) -> alloc::vec::Vec<&'static forensicnomicon_core::catalog::types::RecordSignature>
 pub mod forensicnomicon_data::evidence
 pub use forensicnomicon_data::evidence::EvidenceStrength
+pub use forensicnomicon_data::evidence::EvidenceTier
 pub fn forensicnomicon_data::evidence::artifacts_with_strength(forensicnomicon_core::evidence::EvidenceStrength) -> alloc::vec::Vec<&'static forensicnomicon_core::catalog::types::ArtifactDescriptor>
 pub fn forensicnomicon_data::evidence::evidence_for(&str) -> core::option::Option<&'static forensicnomicon_core::catalog::types::ArtifactDescriptor>
 pub mod forensicnomicon_data::knowledge

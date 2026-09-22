@@ -2727,3 +2727,249 @@ present but should be collected before the system is restarted",
 housekeeping after start-up and at later intervals prunes the unreferenced ones, so orphaned \
 content degrades with ordinary system use",
 };
+
+// ── macOS download-provenance batch ──────────────────────────────────────────
+
+/// The `com.apple.quarantine` extended attribute itself — the per-file mark
+/// that drives Gatekeeper, distinct from the per-user QuarantineEventsV2
+/// database (`macos_quarantine_events`) its UUID field points into.
+///
+/// Semicolon-delimited UTF-8 string: `flags;hex-epoch;agent;event-UUID`,
+/// e.g. `0083;675d1b26;Safari;96C3F539-AC7D-4387-BD6C-286F90341408`.
+///
+/// # Sources
+/// - <https://eclecticlight.co/2021/12/11/explainer-quarantine/> — after
+///   Gatekeeper's first-run checks "the flag is changed to show that it has
+///   passed those checks … but the flag remains"; quarantine introduced in
+///   Mac OS X 10.5 (2007); scheme is voluntary (curl et al. do not set it).
+/// - <https://eclecticlight.co/2020/10/29/quarantine-and-the-quarantine-flag/> —
+///   flag values: 0081/0082/0083 on fresh downloads; 00c3 after an executable
+///   passes Gatekeeper; 00e3 (passed + previously run) seen on Sierra and
+///   earlier, discontinued by Mojave; string field layout; UUID joins
+///   QuarantineEventsV2.
+/// - <https://en.wikipedia.org/wiki/Gatekeeper_(macOS)> — Gatekeeper shipped in
+///   phases: `spctl` CLI in Mac OS X Lion 10.7.3, GUI in OS X Mountain Lion
+///   10.8, back-ported to Lion in the 10.7.5 update.
+pub(crate) static MACOS_QUARANTINE_XATTR: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_quarantine_xattr",
+    name: "Quarantine Extended Attribute (com.apple.quarantine)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Per-file extended attribute macOS attaches to downloaded content: a \
+        semicolon-delimited string of hex flags, hex Unix-epoch download time, downloading \
+        agent, and a UUID keying the per-user QuarantineEventsV2 database. Freshly \
+        downloaded files carry flag values such as 0081/0082/0083. When the user approves a \
+        quarantined executable and it passes Gatekeeper, the xattr is NOT removed: the flag \
+        value is rewritten (0083 becomes 00c3 on modern macOS; 00e3 additionally marked \
+        prior execution on Sierra and earlier, discontinued by Mojave) and the attribute is \
+        retained as a record that checking succeeded. A claim that approval removes the \
+        attribute circulates in training material and is contradicted by published \
+        research — an approved-and-run file still carries its download provenance. The \
+        scheme is voluntary: files fetched by curl/wget or other non-participating tools \
+        carry no quarantine xattr, so absence proves nothing about origin. The flag \
+        propagates aggressively — archive extraction and AirDrop transfer mark the \
+        results. Quarantine dates to Mac OS X 10.5 (2007); Gatekeeper enforcement arrived \
+        in phases (spctl CLI in 10.7.3, GUI in 10.8, back-ported to 10.7.5).",
+    mitre_techniques: &["T1553.001"],
+    fields: &[
+        FieldSchema { name: "flags", value_type: ValueType::Text, description: "Hex flag field; 0081/0082/0083 fresh download, 00c3 passed Gatekeeper (00e3 passed+executed, pre-Mojave only)", is_uid_component: false },
+        FieldSchema { name: "download_time", value_type: ValueType::Timestamp, description: "Download time as hex Unix epoch (second field of the xattr string)", is_uid_component: false },
+        FieldSchema { name: "agent_name", value_type: ValueType::Text, description: "Application or agent that attached the flag (e.g. Safari, Chrome)", is_uid_component: false },
+        FieldSchema { name: "event_uuid", value_type: ValueType::Guid, description: "UUID joining the per-user com.apple.LaunchServices.QuarantineEventsV2 database row, which holds the origin URL", is_uid_component: true },
+    ],
+    retention: Some("Persists with the file until explicitly stripped (xattr -d) or the file moves to a filesystem without xattr support"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_quarantine_events", "macos_gatekeeper_logs", "macos_wherefroms_xattr", "macos_exec_policy_db"],
+    sources: &[
+        "https://eclecticlight.co/2021/12/11/explainer-quarantine/",
+        "https://eclecticlight.co/2020/10/29/quarantine-and-the-quarantine-flag/",
+        "https://en.wikipedia.org/wiki/Gatekeeper_(macOS)",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Voluntary scheme: absence of the xattr does not mean the file was not downloaded (curl, wget and other non-participating tools set no flag)",
+        "Trivially stripped by any user with write access (xattr -d com.apple.quarantine)",
+        "Flag-value semantics are reverse-engineered and version-bound; Apple documents no normative flag table",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Extended attribute travels with the file; survives approval (value rewritten, not removed)",
+};
+
+/// Download-origin metadata xattrs: `com.apple.metadata:kMDItemWhereFroms`
+/// (origin URL + referrer, binary plist) and
+/// `com.apple.metadata:kMDItemDownloadedDate`.
+///
+/// # Sources
+/// - <https://developer.apple.com/documentation/coreservices/kmditemwherefroms> —
+///   Apple: where the item was obtained from; for downloaded files the URL of
+///   the resource, and possibly the referrer.
+/// - <https://eclecticlight.co/2020/10/29/quarantine-and-the-quarantine-flag/> —
+///   co-occurrence with com.apple.quarantine on browser downloads.
+pub(crate) static MACOS_WHEREFROMS_XATTR: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_wherefroms_xattr",
+    name: "Download Origin Xattrs (kMDItemWhereFroms / kMDItemDownloadedDate)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Spotlight metadata extended attributes attached to downloaded files: \
+        com.apple.metadata:kMDItemWhereFroms is a binary plist array holding the download \
+        URL and (when available) the referrer page; \
+        com.apple.metadata:kMDItemDownloadedDate is a binary plist date of the download. \
+        Together with com.apple.quarantine they establish where a specific file on disk \
+        came from and when — provenance that survives after browser history is cleared, \
+        and that rides along in AppleDouble (._) sidecar files when the file is copied to \
+        non-APFS/HFS+ media such as FAT/exFAT USB sticks. Decode with \
+        `xattr -px <attr> <file> | xxd -r -p | plutil -p -`.",
+    mitre_techniques: &["T1105"],
+    fields: &[
+        FieldSchema { name: "wherefroms_urls", value_type: ValueType::Text, description: "Array of origin URLs (download URL, then referrer when recorded)", is_uid_component: true },
+        FieldSchema { name: "downloaded_date", value_type: ValueType::Timestamp, description: "Download timestamp from kMDItemDownloadedDate (plist date, UTC)", is_uid_component: false },
+    ],
+    retention: Some("Persists with the file until stripped; not set on every download path"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_quarantine_xattr", "macos_quarantine_events", "macos_safari_downloads"],
+    sources: &[
+        "https://developer.apple.com/documentation/coreservices/kmditemwherefroms",
+        "https://eclecticlight.co/2020/10/29/quarantine-and-the-quarantine-flag/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Set only by cooperating applications — a file downloaded by curl or a custom tool carries neither attribute",
+        "User-writable metadata: can be edited or stripped with xattr, so corroborate against QuarantineEventsV2 and browser history",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Extended attributes travel with the file until explicitly removed",
+};
+
+/// `com.apple.lastuseddate#PS` — last-used timestamp xattr behind Finder's
+/// "Date Last Opened", named with the `#P` (persist) / `#S` (sync) xattr-flag
+/// suffix convention.
+///
+/// # Sources
+/// - <https://eclecticlight.co/2020/11/02/controlling-metadata-tricks-with-persistence/> —
+///   the `#PS` suffix is Apple's xattr-flags mechanism controlling persistence
+///   through copies; com.apple.lastuseddate#PS as the worked example.
+/// - <https://mjtsai.com/blog/2025/12/18/extended-attributes-flags-in-tahoe/> —
+///   the full name renders as com.apple.lastuseddate#PS; flag semantics.
+///
+/// Encoding accounts DISAGREE across secondary sources (16-byte timespec of
+/// little-endian seconds + nanoseconds vs. "64-bit" single-value readings);
+/// no Apple documentation of the payload was located. Tier is SingleSecondary
+/// and the encoding must be validated against a known file before use.
+pub(crate) static MACOS_LASTUSEDDATE_XATTR: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_lastuseddate_xattr",
+    name: "Last-Used-Date Xattr (com.apple.lastuseddate#PS)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Extended attribute recording when a file was last opened/used — the value \
+        behind Finder's 'Date Last Opened' column — kept even where POSIX atime is \
+        unreliable. The '#PS' tail is not part of the attribute's base name but Apple's \
+        xattr-flags suffix (P = persist through copies, S = sync), documented in public \
+        research. The binary payload starts with a little-endian Unix-epoch seconds value; \
+        secondary sources disagree on the full encoding (timespec seconds+nanoseconds vs a \
+        single 64-bit value), and no Apple documentation of the payload was located — \
+        validate the decode against a file whose last-open time is independently known \
+        before relying on it. Useful as a user-interaction signal on documents and \
+        applications, including files on read-only or externally-mounted evidence copies \
+        where live atime is meaningless.",
+    mitre_techniques: &["T1083"],
+    fields: &[
+        FieldSchema { name: "last_used_time", value_type: ValueType::Timestamp, description: "Last-used timestamp; little-endian Unix epoch seconds lead the payload — full encoding unsettled across sources, validate before use", is_uid_component: false },
+    ],
+    retention: Some("Persists with the file; #P flag keeps it through copies"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["quicklook_thumbnails", "macos_sfl2_recent_items"],
+    sources: &[
+        "https://eclecticlight.co/2020/11/02/controlling-metadata-tricks-with-persistence/",
+        "https://mjtsai.com/blog/2025/12/18/extended-attributes-flags-in-tahoe/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SingleSecondary),
+    evidence_caveats: &[
+        "Payload encoding is not vendor-documented and secondary accounts conflict (timespec vs single 64-bit value) — validate against a known-time file before reporting a decoded value",
+        "Updated by user-space frameworks, not the kernel: absence or staleness does not prove non-use",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Rewritten on each qualifying open; travels with the file via the #P persistence flag",
+};
+
+/// syspolicyd's ExecPolicy database — Gatekeeper's own ledger of executable
+/// evaluations, and (since Ventura) the store behind the com.apple.provenance
+/// xattr.
+///
+/// # Sources
+/// - <https://knight.sc/reverse%20engineering/2019/02/20/syspolicyd-internals.html> —
+///   syspolicyd writes evaluation state into
+///   /var/db/SystemPolicyConfiguration/ExecPolicy (legacy_exec_history_v4 and
+///   related tables).
+/// - <https://redcanary.com/blog/threat-detection/gatekeeper/> — tables include
+///   executable_measurements_v2 and provenance_tracking.
+/// - <https://eclecticlight.co/2023/05/10/how-macos-now-tracks-the-provenance-of-apps/> —
+///   macOS 13 Ventura's com.apple.provenance xattr, backed by the
+///   provenance_tracking table (cdhash, team identifier).
+pub(crate) static MACOS_EXEC_POLICY_DB: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_exec_policy_db",
+    name: "ExecPolicy Database (syspolicyd / Gatekeeper evaluations)",
+    artifact_type: ArtifactLocation::DatabaseEntry,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/private/var/db/SystemPolicyConfiguration/ExecPolicy"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "SQLite database written by syspolicyd recording Gatekeeper's evaluations of \
+        executables: measurement rows carrying code-directory hash (cdhash), signing \
+        identifier, team identifier and evaluation timestamps \
+        (executable_measurements_v2), historical execution-approval state \
+        (legacy_exec_history_v4 and successors), and — from macOS 13 Ventura — the \
+        provenance_tracking table that backs the com.apple.provenance extended attribute \
+        stamped on apps at first launch. Evidence that a given binary was evaluated (and \
+        so launched or staged for launch) on this system, surviving deletion of the binary \
+        itself; the recorded team/signing identity distinguishes signed vendor software \
+        from unsigned tooling. Root-owned and SIP-protected on a live system — read from \
+        an image or a full-disk-access collection.",
+    mitre_techniques: &["T1553.001", "T1204.002"],
+    fields: &[
+        FieldSchema { name: "cdhash", value_type: ValueType::Text, description: "Code-directory hash of the evaluated executable", is_uid_component: true },
+        FieldSchema { name: "signing_identifier", value_type: ValueType::Text, description: "Code-signing identifier (bundle/binary identity) recorded at evaluation", is_uid_component: false },
+        FieldSchema { name: "team_identifier", value_type: ValueType::Text, description: "Developer team ID; null/absent for unsigned code", is_uid_component: false },
+        FieldSchema { name: "timestamp", value_type: ValueType::Timestamp, description: "Evaluation/measurement timestamp", is_uid_component: false },
+    ],
+    retention: Some("Persistent database; rows survive deletion of the evaluated binaries"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_quarantine_xattr", "macos_gatekeeper_logs", "macos_unified_log"],
+    sources: &[
+        "https://knight.sc/reverse%20engineering/2019/02/20/syspolicyd-internals.html",
+        "https://redcanary.com/blog/threat-detection/gatekeeper/",
+        "https://eclecticlight.co/2023/05/10/how-macos-now-tracks-the-provenance-of-apps/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Schema is reverse-engineered and churns across macOS releases (v2/v3/v4 table suffixes) — confirm the table set on the version at hand",
+        "provenance_tracking and the com.apple.provenance xattr exist only on macOS 13 Ventura and later",
+        "Records evaluation, not proof of successful execution — correlate with unified log syspolicyd/ExecPolicy messages",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "SQLite database accumulates evaluation rows; not routinely pruned",
+};

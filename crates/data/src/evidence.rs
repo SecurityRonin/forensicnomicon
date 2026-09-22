@@ -10,7 +10,7 @@
 //! [`crate::catalog::CATALOG`]) to find gaps sorted by
 //! triage priority.
 
-pub use forensicnomicon_core::evidence::EvidenceStrength;
+pub use forensicnomicon_core::evidence::{EvidenceStrength, EvidenceTier};
 
 /// Returns the descriptor for a given artifact ID if it has been assessed.
 ///

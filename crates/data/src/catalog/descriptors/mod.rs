@@ -18446,6 +18446,10 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::MACOS_BTM_BACKGROUND_TASKS,
     macos_ext::MACOS_DOCUMENT_REVISIONS,
     macos_ext::MACOS_DOCUMENT_REVISIONS_CHUNKSTORE,
+    macos_ext::MACOS_QUARANTINE_XATTR,
+    macos_ext::MACOS_WHEREFROMS_XATTR,
+    macos_ext::MACOS_LASTUSEDDATE_XATTR,
+    macos_ext::MACOS_EXEC_POLICY_DB,
     windows_files_ext::ONEDRIVE_ODL_LOGS,
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,
