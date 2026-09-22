@@ -131,7 +131,7 @@ fn every_anti_forensic_entry_is_verifiable() {
 
 /// The exact number of registered correlation hints — the single place the
 /// count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_CORRELATION_HINT_LEN: usize = 1;
+const EXPECTED_CORRELATION_HINT_LEN: usize = 2;
 
 #[test]
 fn correlation_len_matches_expected() {
@@ -149,7 +149,10 @@ fn correlation_no_duplicate_ids() {
 /// The volume-provenance absorption batch: every id absorbed so far.
 #[test]
 fn volume_provenance_batch_is_present() {
-    for id in ["lnk_tracker_droid_volume_match"] {
+    for id in [
+        "lnk_tracker_droid_volume_match",
+        "prefetch_volume_serial_boot_sector",
+    ] {
         assert!(
             CORRELATION_HINTS.iter().any(|h| h.id == id),
             "missing correlation hint: {id}"
