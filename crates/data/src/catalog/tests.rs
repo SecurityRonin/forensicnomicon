@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6836;
+const EXPECTED_CATALOG_LEN: usize = 6845;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -12898,6 +12898,75 @@ mod tests_disk_gcfa_ext {
                 .iter()
                 .any(|c| c.contains("/usr/local/squid")),
             "squid: the source-build default location must be named"
+        );
+    }
+
+    /// Virtualization batch: the four core ESXi host logs plus the vCenter
+    /// appliance log tree (all Broadcom-documented), the VMware snapshot
+    /// memory pair (.vmem needs its .vmss/.vmsn — read from Volatility 3's
+    /// vmware layer), and the three WSL artifacts (Microsoft-documented).
+    #[test]
+    fn virtualization_and_wsl_batch_is_cataloged() {
+        use crate::evidence::EvidenceTier;
+        for (id, path, tier) in [
+            (
+                "esxi_hostd_log",
+                Some("/var/log/hostd.log"),
+                EvidenceTier::VendorDocumented,
+            ),
+            (
+                "esxi_vpxa_log",
+                Some("/var/log/vpxa.log"),
+                EvidenceTier::VendorDocumented,
+            ),
+            (
+                "esxi_shell_log",
+                Some("/var/log/shell.log"),
+                EvidenceTier::VendorDocumented,
+            ),
+            (
+                "esxi_auth_log",
+                Some("/var/log/auth.log"),
+                EvidenceTier::VendorDocumented,
+            ),
+            (
+                "vcenter_vpxd_log",
+                Some("/var/log/vmware/vpxd/vpxd.log"),
+                EvidenceTier::VendorDocumented,
+            ),
+            (
+                "vmware_vmem_snapshot",
+                None,
+                EvidenceTier::SourceOrMultiImpl,
+            ),
+            (
+                "wsl_ext4_vhdx",
+                Some("%LOCALAPPDATA%\\Packages\\<PackageFamilyName>\\LocalState\\ext4.vhdx"),
+                EvidenceTier::VendorDocumented,
+            ),
+            (
+                "linux_wsl_conf",
+                Some("/etc/wsl.conf"),
+                EvidenceTier::VendorDocumented,
+            ),
+            (
+                "windows_wslconfig",
+                Some("%UserProfile%\\.wslconfig"),
+                EvidenceTier::VendorDocumented,
+            ),
+        ] {
+            let d = CATALOG
+                .by_id(id)
+                .unwrap_or_else(|| panic!("descriptor '{id}' missing from catalog"));
+            assert_eq!(d.file_path, path, "{id}: wrong file_path");
+            assert_eq!(d.evidence_tier, Some(tier), "{id}: wrong evidence tier");
+            assert!(!d.sources.is_empty(), "{id}: sources must not be empty");
+        }
+        // The .vmem-alone trap is the reason the snapshot-pair entry exists.
+        let vmem = CATALOG.by_id("vmware_vmem_snapshot").unwrap();
+        assert!(
+            vmem.meaning.contains(".vmsn") && vmem.meaning.contains(".vmss"),
+            "vmware_vmem_snapshot must name the required metadata files"
         );
     }
 }
