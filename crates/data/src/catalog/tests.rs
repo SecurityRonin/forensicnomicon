@@ -1586,7 +1586,7 @@ mod catalog_integrity {
         const CRON_POST: &str =
             "pberba.github.io/security/2022/01/30/linux-threat-hunting-for-persistence-systemd-timers-cron";
         // Artifact IDs where the cron post is a legitimate citation.
-        // linux_at_queue uses `at` (T1053.001) — same scheduled-task family as
+        // linux_at_queue uses `at` (T1053.002) — same scheduled-task family as
         // cron (T1053.003) and systemd timers (T1053.006); pberba covers all three.
         const ALLOWED: &[&str] = &[
             "linux_crontab_system",
@@ -3554,7 +3554,7 @@ mod tests_batch_d {
         assert_eq!(EVTX_DIR.id, "evtx_dir");
         assert_eq!(EVTX_DIR.artifact_type, ArtifactLocation::Directory);
         assert_eq!(EVTX_DIR.scope, DataScope::System);
-        assert!(EVTX_DIR.mitre_techniques.contains(&"T1070.001"));
+        assert!(EVTX_DIR.mitre_techniques.contains(&"T1685.005"));
     }
     #[test]
     fn usn_journal_md() {
@@ -3753,7 +3753,7 @@ mod tests_batch_d {
         assert_eq!(LINUX_AT_QUEUE.id, "linux_at_queue");
         assert_eq!(LINUX_AT_QUEUE.artifact_type, ArtifactLocation::Directory);
         assert_eq!(LINUX_AT_QUEUE.scope, DataScope::System);
-        assert!(LINUX_AT_QUEUE.mitre_techniques.contains(&"T1053.001"));
+        assert!(LINUX_AT_QUEUE.mitre_techniques.contains(&"T1053.002"));
     }
     #[test]
     fn linux_sshd_config_md() {
@@ -4176,7 +4176,7 @@ mod tests_batch_d {
         assert_eq!(EVTX_SECURITY.id, "evtx_security");
         assert_eq!(EVTX_SECURITY.artifact_type, ArtifactLocation::File);
         assert_eq!(EVTX_SECURITY.scope, DataScope::System);
-        assert!(EVTX_SECURITY.mitre_techniques.contains(&"T1070.001"));
+        assert!(EVTX_SECURITY.mitre_techniques.contains(&"T1685.005"));
     }
     #[test]
     fn evtx_system_md() {
@@ -5215,7 +5215,7 @@ mod phase2_registry_tests {
     fn windows_defender_exclusions_local_exists() {
         let d = CATALOG.by_id("windows_defender_exclusions_local").unwrap();
         assert_eq!(d.triage_priority, TriagePriority::Critical);
-        assert!(d.mitre_techniques.contains(&"T1562.001"));
+        assert!(d.mitre_techniques.contains(&"T1685"));
     }
 
     #[test]
@@ -5250,7 +5250,7 @@ mod phase2_registry_tests {
     fn event_log_channel_status_exists() {
         let d = CATALOG.by_id("event_log_channel_status").unwrap();
         assert_eq!(d.triage_priority, TriagePriority::Critical);
-        assert!(d.mitre_techniques.contains(&"T1562.002"));
+        assert!(d.mitre_techniques.contains(&"T1685.001"));
     }
 
     #[test]
@@ -5278,7 +5278,7 @@ mod phase2_registry_tests {
     fn firewall_rules_exists() {
         let d = CATALOG.by_id("firewall_rules").unwrap();
         assert_eq!(d.triage_priority, TriagePriority::High);
-        assert!(d.mitre_techniques.contains(&"T1562.004"));
+        assert!(d.mitre_techniques.contains(&"T1686"));
     }
 
     #[test]
@@ -7979,8 +7979,8 @@ mod tests_ios_unified_log {
     fn ios_unified_log_has_mitre_techniques() {
         let d = CATALOG.by_id("ios_unified_log").unwrap();
         assert!(
-            d.mitre_techniques.contains(&"T1070.001"),
-            "ios_unified_log must include T1070.001 (Indicator Removal: Clear Logs)"
+            d.mitre_techniques.contains(&"T1685.006"),
+            "ios_unified_log must include T1685.006 (Clear Linux or Mac System Logs)"
         );
     }
 
@@ -10502,14 +10502,14 @@ mod tests_windows_hosts_file {
     }
 
     #[test]
-    fn windows_hosts_file_mitre_t1562_or_t1565() {
+    fn windows_hosts_file_mitre_t1685_or_t1565() {
         let d = CATALOG.by_id("windows_hosts_file").unwrap();
-        // T1562.001 Impair Defenses: Disable or Modify Tools (covers EDR silencing)
+        // T1685 Disable or Modify Tools (covers EDR silencing)
         // T1565.001 Stored Data Manipulation also reasonable
         assert!(
-            d.mitre_techniques.iter().any(|t| t.starts_with("T1562"))
+            d.mitre_techniques.iter().any(|t| t.starts_with("T1685"))
                 || d.mitre_techniques.iter().any(|t| t.starts_with("T1565")),
-            "must map to T1562 (Impair Defenses) or T1565 (Data Manipulation); got: {:?}",
+            "must map to T1685 (Disable or Modify Tools) or T1565 (Data Manipulation); got: {:?}",
             d.mitre_techniques
         );
     }
@@ -10816,11 +10816,11 @@ mod tests_dns_policy_config_nrpt {
     }
 
     #[test]
-    fn dns_policy_config_nrpt_mitre_t1562() {
+    fn dns_policy_config_nrpt_mitre_t1685() {
         let d = CATALOG.by_id("dns_policy_config_nrpt").unwrap();
         assert!(
-            d.mitre_techniques.iter().any(|t| t.starts_with("T1562")),
-            "must map to T1562 (Impair Defenses); got: {:?}",
+            d.mitre_techniques.iter().any(|t| t.starts_with("T1685")),
+            "must map to T1685 (Disable or Modify Tools); got: {:?}",
             d.mitre_techniques
         );
     }
@@ -12158,11 +12158,11 @@ mod tests_firewall_authorized_apps {
     }
 
     #[test]
-    fn firewall_authorized_apps_mitre_t1562_004() {
+    fn firewall_authorized_apps_mitre_t1686() {
         let d = CATALOG.by_id("firewall_authorized_apps").unwrap();
         assert!(
-            d.mitre_techniques.contains(&"T1562.004"),
-            "must map T1562.004 (Disable or Modify System Firewall)"
+            d.mitre_techniques.contains(&"T1686"),
+            "must map T1686 (Disable or Modify System Firewall)"
         );
     }
 
