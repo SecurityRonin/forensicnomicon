@@ -5289,11 +5289,13 @@ pub static LINUX_BASH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     related_artifacts: &[],
     sources: &[
         "https://bromiley.medium.com/torvalds-tuesday-bash-history-in-linux-forensics-7cc4c9b4db9f",
+        "https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Circumstantial),
     evidence_tier: None,
     evidence_caveats: &[
-        "Trivially disabled with HISTSIZE=0 or HISTFILE=/dev/null",
+        "No timestamps by default: bash writes time stamps to the history file only when HISTTIMEFORMAT is set, and only prospectively - ordering is known, wall-clock time is not",
+        "Trivially disabled with HISTSIZE=0 or HISTFILE=/dev/null; if HISTFILE is unset or null the shell saves no history at exit",
         "Written at shell exit; killed shells leave no history",
         "Root can modify or delete",
     ],
@@ -5321,10 +5323,13 @@ pub static LINUX_ZSH_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     related_artifacts: &[],
     sources: &[
         "https://bromiley.medium.com/torvalds-tuesday-bash-history-in-linux-forensics-7cc4c9b4db9f",
+        "https://zsh.sourceforge.io/Doc/Release/Options.html",
     ],
     evidence_strength: None,
     evidence_tier: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "No timestamps by default: with setopt EXTENDED_HISTORY each entry is prefixed ': <epoch>:<elapsed>;<command>' - and only prospectively from when the option was set",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
@@ -18569,6 +18574,12 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     linux_ext::LINUX_GSHADOW,
     linux_ext::LINUX_PWQUALITY_CONF,
     linux_ext::LINUX_FAILLOCK_DIR,
+    // ── journald & syslog facility routing ──
+    linux_ext::LINUX_JOURNALD_CONF,
+    linux_ext::LINUX_JOURNAL_RUNTIME,
+    linux_ext::LINUX_CRON_LOG,
+    linux_ext::LINUX_MAIL_LOG,
+    linux_ext::LINUX_MAILLOG_RHEL,
     // ── dfir_scripts_generated (374 entries) ─── dfir-scripts.github.io registry artifacts
     generated::dfir_scripts_generated::DFIR_SCRIPTS_COMMON_OPEN_FIND,
     generated::dfir_scripts_generated::DFIR_SCRIPTS_MICROSOFT_OFFICE_14_0,

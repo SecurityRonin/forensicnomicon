@@ -1683,3 +1683,193 @@ pub(crate) static LINUX_FAILLOCK_DIR: ArtifactDescriptor = ArtifactDescriptor {
     volatility: Some(crate::volatility::VolatilityClass::Volatile),
     volatility_rationale: "Tally files live under /var/run, typically tmpfs; lost at reboot",
 };
+
+// ── Batch: journald & syslog facility routing ────────────────────────────────
+
+pub(crate) static LINUX_JOURNALD_CONF: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_journald_conf",
+    name: "systemd Journal Configuration (/etc/systemd/journald.conf)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/etc/systemd/journald.conf"),
+    scope: DataScope::System,
+    os_scope: OsScope::LinuxSystemd,
+    decoder: Decoder::Identity,
+    meaning: "Controls where and how long the systemd journal keeps log data. Storage= decides \
+        everything an examiner will find: 'persistent' writes below /var/log/journal, \
+        'volatile' keeps entries only below /run/log/journal (lost at reboot), 'auto' (the \
+        common packaged default) behaves as persistent only if /var/log/journal exists, and \
+        'none' drops all stored log data. SystemMaxUse=/RuntimeMaxUse= cap disk usage (default \
+        10% of the filesystem, capped at 4G) and so bound retention. Reviewing this file \
+        explains why a journal is missing, short, or memory-only — before that absence is \
+        misread as tampering.",
+    mitre_techniques: &["T1562.001"],
+    fields: &[
+        FieldSchema { name: "Storage", value_type: ValueType::Text, description: "volatile | persistent | auto | none", is_uid_component: false },
+        FieldSchema { name: "SystemMaxUse", value_type: ValueType::Text, description: "Disk-usage cap for /var/log/journal; bounds retention", is_uid_component: false },
+    ],
+    retention: Some("Persistent configuration file; drop-ins in journald.conf.d/ override it"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["linux_journal_dir", "linux_journal_runtime"],
+    sources: &["https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Storage=none silently drops all stored log data while forwarding still works — a deliberate anti-logging setting worth flagging",
+        "Drop-in files under /etc/systemd/journald.conf.d/ and /run/systemd/journald.conf.d/ override this file; read all of them",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration file; persists until edited",
+};
+
+pub(crate) static LINUX_JOURNAL_RUNTIME: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_journal_runtime",
+    name: "Volatile Runtime Journal (/run/log/journal/)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/run/log/journal/"),
+    scope: DataScope::System,
+    os_scope: OsScope::LinuxSystemd,
+    decoder: Decoder::Identity,
+    meaning: "The systemd journal's volatile storage: <machine-id>/*.journal files under /run, \
+        used when /var/log/journal does not exist or Storage=volatile is set — the default \
+        posture on some RHEL-family installs. Everything here is lost at reboot, so on such a \
+        host the journal must be collected live (or via journalctl/raw copy) before power-down, \
+        and its absence from a dead-box image means the logs were volatile, not wiped. \
+        journald also starts here on every boot until systemd-journal-flush.service moves \
+        entries to persistent storage.",
+    mitre_techniques: &[],
+    fields: &[FieldSchema {
+        name: "machine_id",
+        value_type: ValueType::Text,
+        description: "Subdirectory name; matches /etc/machine-id",
+        is_uid_component: true,
+    }],
+    retention: Some("Lost at reboot; size-capped by RuntimeMaxUse= (default 10%/15% of the fs, capped 4G)"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["linux_journal_dir", "linux_journald_conf", "linux_machine_id"],
+    sources: &[
+        "https://www.freedesktop.org/software/systemd/man/latest/systemd-journald.service.html",
+        "https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Which journal a host uses is decided by Storage= and the existence of /var/log/journal — check /etc/systemd/journald.conf before concluding anything from absence",
+        "Corrupted or uncleanly-closed files are renamed with a .journal~ suffix and remain readable",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "/run is tmpfs; the runtime journal does not survive a reboot",
+};
+
+pub(crate) static LINUX_CRON_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_cron_log",
+    name: "Cron Log (/var/log/cron, RHEL family)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/cron"),
+    scope: DataScope::System,
+    os_scope: OsScope::LinuxRhel,
+    decoder: Decoder::Identity,
+    meaning: "Scheduled-task execution log on RHEL-family systems: the stock rsyslog \
+        configuration routes the cron facility to /var/log/cron ('cron.*'). Records each \
+        crontab job launch (user, command), crontab edits, and anacron runs — the primary \
+        timeline for cron-based persistence firing, complementing the crontab files that \
+        only show what WOULD run.",
+    mitre_techniques: &["T1053.003"],
+    fields: &[
+        FieldSchema { name: "user", value_type: ValueType::Text, description: "Account the job ran as", is_uid_component: true },
+        FieldSchema { name: "command", value_type: ValueType::Text, description: "Command line the cron daemon executed (CMD ...)", is_uid_component: false },
+    ],
+    retention: Some("Rotated by logrotate"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["linux_crontab_system", "linux_user_crontab", "linux_cron_d"],
+    sources: &["https://gitlab.com/redhat/centos-stream/rpms/rsyslog/-/raw/c9s/rsyslog.conf"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "RHEL-family rsyslog packaging default; Debian-family ships the cron.* rule commented out, so cron lines land in /var/log/syslog there",
+        "Timestamps are in the system's local time zone — normalize before correlating",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Text log rotated by logrotate",
+};
+
+pub(crate) static LINUX_MAIL_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_mail_log",
+    name: "Mail Log (/var/log/mail.log, Debian family)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/mail.log"),
+    scope: DataScope::System,
+    os_scope: OsScope::LinuxDebian,
+    decoder: Decoder::Identity,
+    meaning: "Mail-facility syslog on Debian-family systems: the stock rsyslog configuration \
+        routes 'mail.*' to /var/log/mail.log. Records MTA activity (postfix/exim/sendmail): \
+        message accept/relay/delivery, sender and recipient addresses, and connecting hosts — \
+        evidence for phishing origin, mail exfiltration, and abuse of a compromised host as \
+        a relay.",
+    mitre_techniques: &["T1114"],
+    fields: &[FieldSchema {
+        name: "message",
+        value_type: ValueType::Text,
+        description: "MTA log line (queue id, from=, to=, relay=, status=)",
+        is_uid_component: false,
+    }],
+    retention: Some("Rotated by logrotate"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["linux_maillog_rhel", "linux_syslog"],
+    sources: &["https://sources.debian.org/src/rsyslog/latest/debian/rsyslog.conf/"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Debian-family rsyslog packaging default; RHEL family writes /var/log/maillog instead",
+        "Only exists where an MTA actually logs; a minimal server may have neither file",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Text log rotated by logrotate",
+};
+
+pub(crate) static LINUX_MAILLOG_RHEL: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_maillog_rhel",
+    name: "Mail Log (/var/log/maillog, RHEL family)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/maillog"),
+    scope: DataScope::System,
+    os_scope: OsScope::LinuxRhel,
+    decoder: Decoder::Identity,
+    meaning: "Mail-facility syslog on RHEL-family systems: the stock rsyslog configuration \
+        routes 'mail.*' to /var/log/maillog (written with sync on). Same MTA evidence as \
+        Debian's /var/log/mail.log — message accept/relay/delivery, sender/recipient, \
+        connecting hosts — under the Red Hat naming convention.",
+    mitre_techniques: &["T1114"],
+    fields: &[FieldSchema {
+        name: "message",
+        value_type: ValueType::Text,
+        description: "MTA log line (queue id, from=, to=, relay=, status=)",
+        is_uid_component: false,
+    }],
+    retention: Some("Rotated by logrotate"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["linux_mail_log", "linux_messages_log"],
+    sources: &["https://gitlab.com/redhat/centos-stream/rpms/rsyslog/-/raw/c9s/rsyslog.conf"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "RHEL-family rsyslog packaging default; Debian family writes /var/log/mail.log instead",
+        "Only exists where an MTA actually logs; a minimal server may have neither file",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Text log rotated by logrotate",
+};
