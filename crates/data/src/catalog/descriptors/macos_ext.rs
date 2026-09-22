@@ -3345,3 +3345,288 @@ pub(crate) static MACOS_XPROTECT_BEHAVIORAL_DB: ArtifactDescriptor = ArtifactDes
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Event rows accumulate in the protected database until pruned by the service",
 };
+
+// ── macOS persistence + Finder batch ─────────────────────────────────────────
+
+/// Root-running helper binaries installed via `SMJobBless` — a Launch Daemon
+/// by another name, and a high-value persistence surface.
+///
+/// # Sources
+/// - <https://developer.apple.com/documentation/servicemanagement/smjobbless(_:_:_:_:)> —
+///   Apple: the helper is installed into /Library/PrivilegedHelperTools and
+///   registered with a launchd property list in /Library/LaunchDaemons.
+/// - <https://www.sentinelone.com/blog/how-malware-persists-on-macos/> —
+///   abuse of privileged helpers for persistence.
+pub(crate) static MACOS_PRIVILEGED_HELPER_TOOLS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_privileged_helper_tools",
+    name: "Privileged Helper Tools",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/PrivilegedHelperTools/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Mach-O helper binaries installed through the ServiceManagement framework \
+        (SMJobBless) so applications can perform privileged work without prompting each \
+        time. Apple documents the pairing: the helper binary lives in \
+        /Library/PrivilegedHelperTools and a launchd plist in /Library/LaunchDaemons \
+        names it in Program/ProgramArguments (with MachServices entries) — the helper IS \
+        a root Launch Daemon. Review triangle: code signature (legitimate helpers carry \
+        a full Developer ID chain and TeamIdentifier — but a signature is necessary, not \
+        sufficient, given stolen certificates), birth/modification timestamps against \
+        the incident window, and the PLIST'S ACTUAL TARGET — a legitimately-named plist \
+        edited to point at a different binary is the subtle variant. Root is required to \
+        plant one; the payoff is root execution surviving reboot.",
+    mitre_techniques: &["T1543.004", "T1548"],
+    fields: &[
+        FieldSchema { name: "helper_path", value_type: ValueType::Text, description: "Path of the helper binary under /Library/PrivilegedHelperTools", is_uid_component: true },
+        FieldSchema { name: "team_identifier", value_type: ValueType::Text, description: "Code-signing team ID; unsigned or unexpected identity warrants inspection", is_uid_component: false },
+        FieldSchema { name: "launchd_plist", value_type: ValueType::Text, description: "Paired plist in /Library/LaunchDaemons whose Program points at the helper", is_uid_component: false },
+    ],
+    retention: Some("Persistent until uninstalled"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["macos_launch_daemons", "macos_btm_background_tasks"],
+    sources: &[
+        "https://developer.apple.com/documentation/servicemanagement/smjobbless(_:_:_:_:)",
+        "https://www.sentinelone.com/blog/how-malware-persists-on-macos/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "A valid signature does not clear a helper — stolen certificates and compromised developer accounts defeat that check",
+        "Verify the paired plist's Program target, not just the helper directory: a known-good plist name can point at a malicious binary",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Helper binary and paired plist persist on disk until removed",
+};
+
+/// The SystemExtensions activation database — which user-space extensions
+/// (the kext successors, macOS 10.15+) are staged, approved and activated.
+///
+/// # Sources
+/// - <https://developer.apple.com/documentation/systemextensions> — Apple:
+///   the System Extensions framework (user-space replacements for kexts;
+///   signing, notarization and user-approval requirements).
+/// - <https://gist.github.com/nstrauss/ebca31a8110f6429ea4f2f91f4a7257b> —
+///   community documentation of /Library/SystemExtensions/db.plist contents
+///   (extension records with state, identifier, team) and the staged bundle
+///   directories alongside it.
+pub(crate) static MACOS_SYSTEM_EXTENSIONS_DB: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_system_extensions_db",
+    name: "System Extensions Database (db.plist)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/SystemExtensions/db.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Property list tracking system extensions (macOS 10.15+ user-space \
+        successors to kernel extensions): per-extension records with bundle identifier, \
+        team identifier, and activation state, alongside the staged extension bundles in \
+        UUID-named directories under /Library/SystemExtensions/. An approved extension — \
+        network filters and endpoint monitors included — reloads automatically at boot, \
+        making this a reboot-surviving persistence and traffic-interception surface for \
+        an attacker who obtains signing plus user approval (or social-engineers the \
+        click-through). Enumerate live with `systemextensionsctl list`; on an image, \
+        db.plist is the record. Unknown team IDs, extensions matching no installed \
+        product, and activation timestamps inside the incident window are the flags. \
+        The db.plist layout rests on community documentation, not vendor \
+        documentation — the framework itself is Apple-documented.",
+    mitre_techniques: &["T1547.006"],
+    fields: &[
+        FieldSchema { name: "bundle_id", value_type: ValueType::Text, description: "Extension bundle identifier", is_uid_component: true },
+        FieldSchema { name: "team_id", value_type: ValueType::Text, description: "Developer team identifier of the extension's signer", is_uid_component: false },
+        FieldSchema { name: "state", value_type: ValueType::Text, description: "Activation state (e.g. activated_enabled) recorded for the extension", is_uid_component: false },
+    ],
+    retention: Some("Persistent until the extension is uninstalled/deactivated"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_launch_daemons", "macos_btm_background_tasks"],
+    sources: &[
+        "https://developer.apple.com/documentation/systemextensions",
+        "https://gist.github.com/nstrauss/ebca31a8110f6429ea4f2f91f4a7257b",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SingleSecondary),
+    evidence_caveats: &[
+        "db.plist internal layout is community-documented only — verify field readings against systemextensionsctl output on a matching macOS version",
+        "Removal via systemextensionsctl does not clean associated files; a resident app can re-install its extension",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Activation records and staged bundles persist across reboots until deactivated",
+};
+
+/// Legacy loginwindow hooks — root-executed scripts at login/logout,
+/// deprecated by Apple yet still honoured.
+///
+/// # Sources
+/// - <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CustomLogin.html> —
+///   Apple: LoginHook/LogoutHook keys in the loginwindow preferences run a
+///   script as root at login/logout; deprecated in favour of launchd.
+/// - <https://theevilbit.github.io/beyond/beyond_0022/> — abuse as a
+///   persistence mechanism and where the setting lives on disk.
+pub(crate) static MACOS_LOGIN_LOGOUT_HOOKS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_login_logout_hooks",
+    name: "Login / Logout Hooks (com.apple.loginwindow)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/private/var/root/Library/Preferences/com.apple.loginwindow.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Deprecated-but-functional mechanism: a LoginHook or LogoutHook key in the \
+        loginwindow preferences (set via `sudo defaults write com.apple.loginwindow \
+        LoginHook /path/to/script`) makes loginwindow execute the named script AS ROOT \
+        at every user login or logout. Apple has deprecated the mechanism in favour of \
+        launchd for two decades, which is precisely why it is overlooked: a hook \
+        configured on an upgraded or long-lived system keeps firing. Any value present \
+        is worth explaining — modern software has no legitimate reason to use it. Check \
+        the root-domain preferences (sudo defaults read com.apple.loginwindow) and \
+        per-user copies under ~/Library/Preferences, then chase the referenced script's \
+        content and timestamps.",
+    mitre_techniques: &["T1037.002"],
+    fields: &[
+        FieldSchema { name: "login_hook", value_type: ValueType::Text, description: "Path of the script run as root at login (LoginHook key)", is_uid_component: true },
+        FieldSchema { name: "logout_hook", value_type: ValueType::Text, description: "Path of the script run as root at logout (LogoutHook key)", is_uid_component: false },
+    ],
+    retention: Some("Persistent until the key is cleared"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_launch_agents_user", "macos_launch_daemons", "macos_login_items_plist"],
+    sources: &[
+        "https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CustomLogin.html",
+        "https://theevilbit.github.io/beyond/beyond_0022/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Deprecated mechanism — absence is the norm; any configured hook needs a documented justification",
+        "The plist key names the script but the payload is the script file itself — preserve both",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Preference key persists until explicitly removed",
+};
+
+/// `.DS_Store` — Finder's per-folder metadata file, the closest macOS
+/// analogue to ShellBags: proof of GUI interaction with a folder, and a
+/// record of item names including items no longer present.
+///
+/// # Sources
+/// - <https://eclecticlight.co/2021/11/27/explainer-ds_store-files/> —
+///   what Finder stores per folder; Trash .DS_Store holds filenames and
+///   original paths of trashed items.
+/// - <https://papers.put.as/papers/macosx/2019/summit_archive_1565288427.pdf> —
+///   Nicole Ibrahim, "DS_Stores: Like Shellbags but for Macs" (SANS DFIR
+///   Summit 2019): record types incl. Iloc/put-back fields; forensic use.
+/// - <https://ponderthebits.com/2017/01/mac-dumpster-diving-identifying-deleted-file-references-in-the-trash-ds_store-files-part-1/> —
+///   deleted-file references recoverable from .DS_Store files.
+pub(crate) static MACOS_DS_STORE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_ds_store",
+    name: ".DS_Store (Finder folder metadata)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/**/.DS_Store"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Hidden per-folder file in a bespoke binary B-tree format where Finder \
+        stores folder-view state: view style, window geometry, sort keys, icon \
+        positions, labels and comments — keyed BY ITEM NAME, so it names files and \
+        subfolders of the folder, including items since deleted or moved (ghost \
+        records). Presence is evidence the folder was interacted with through the \
+        Finder GUI; a .DS_Store inside a zip or on a non-Mac system indicates the \
+        content passed through a Mac. Absence proves little: Terminal-only access \
+        writes none, and Finder does not create one for every view. The file itself \
+        carries no internal timestamps — timing comes from its filesystem birth/mtime. \
+        Also written to external media and network shares (unless disabled by \
+        preference), leaving Mac fingerprints on foreign volumes.",
+    mitre_techniques: &["T1083"],
+    fields: &[
+        FieldSchema { name: "item_name", value_type: ValueType::Text, description: "Name of a folder item the record describes — may reference items no longer present", is_uid_component: true },
+        FieldSchema { name: "record_type", value_type: ValueType::Text, description: "Four-char record type (e.g. Iloc icon location, view-style records, ptbL/ptbN in the Trash)", is_uid_component: false },
+    ],
+    retention: Some("No rotation; stale entries persist until Finder rewrites the file"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_trash", "macos_fsevents", "macos_spotlight_store"],
+    sources: &[
+        "https://eclecticlight.co/2021/11/27/explainer-ds_store-files/",
+        "https://papers.put.as/papers/macosx/2019/summit_archive_1565288427.pdf",
+        "https://ponderthebits.com/2017/01/mac-dumpster-diving-identifying-deleted-file-references-in-the-trash-ds_store-files-part-1/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Ghost entries are weak, corroborating evidence — not a complete historical record of folder contents",
+        "Absence proves nothing: Finder view mode and access path determine whether one is written",
+        "No user attribution inside the file — the owning home directory and filesystem metadata supply it",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Rewritten as Finder view state changes; stale item records linger until then",
+};
+
+/// The Trash — per-user on the boot volume, per-UID on other volumes, with
+/// put-back records that outlive the trashed files.
+///
+/// # Sources
+/// - <https://ponderthebits.com/2017/01/mac-dumpster-diving-identifying-deleted-file-references-in-the-trash-ds_store-files-part-1/> —
+///   Trash .DS_Store put-back records give the pre-deletion path; references
+///   persist for files no longer in the Trash.
+/// - <https://papers.put.as/papers/macosx/2019/summit_archive_1565288427.pdf> —
+///   Ibrahim: ptbL (put-back location) / ptbN (put-back name) record fields.
+/// - <https://github.com/SecurityRonin/trash-forensic> — open-source parser
+///   decoding macOS Trash .DS_Store put-back records (ptbN/ptbL).
+pub(crate) static MACOS_TRASH: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_trash",
+    name: "Trash (.Trash / .Trashes) with Put-Back Records",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/.Trash/"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Finder deletion is a move into the per-user hidden ~/.Trash; on non-boot \
+        volumes, into <volume>/.Trashes/<numeric-UID>/. Three reads in one place: the \
+        trashed files themselves; the Trash's .DS_Store, whose per-item ptbL (put-back \
+        location — the original parent path) and ptbN (put-back name) records power \
+        Finder's Put Back and PERSIST AFTER the item leaves the Trash, naming files \
+        that no longer exist anywhere; and POSIX timestamps — the move updates the \
+        file's ctime while leaving mtime and birth time untouched, so ctime marks the \
+        trashing moment. On FAT/exFAT media, AppleDouble ._ sidecars carry the xattrs \
+        (quarantine, WhereFroms download URLs) the foreign filesystem cannot hold. \
+        Where macOS keeps the put-back reference for files trashed FROM AN EXTERNAL \
+        volume — Put Back stops being offered after the volume is ejected and \
+        remounted — is not established by any source located (searched: Ibrahim's \
+        DFIR-summit material, the ponderthebits series, Apple documentation); treat \
+        that one mechanism as an open research question, not a place to assert from.",
+    mitre_techniques: &["T1070.004"],
+    fields: &[
+        FieldSchema { name: "ptbl_original_path", value_type: ValueType::Text, description: "Put-back location: original parent directory of the trashed item (persists after the item is gone)", is_uid_component: false },
+        FieldSchema { name: "ptbn_original_name", value_type: ValueType::Text, description: "Put-back name: original filename of the trashed item", is_uid_component: true },
+        FieldSchema { name: "ctime", value_type: ValueType::Timestamp, description: "Metadata-change time of a trashed file — marks the trashing moment (mtime/birth stay untouched)", is_uid_component: false },
+    ],
+    retention: Some("Files until Trash is emptied; ptbL/ptbN ghost records until Finder rewrites the Trash .DS_Store"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_ds_store", "macos_fsevents", "macos_quarantine_xattr"],
+    sources: &[
+        "https://ponderthebits.com/2017/01/mac-dumpster-diving-identifying-deleted-file-references-in-the-trash-ds_store-files-part-1/",
+        "https://papers.put.as/papers/macosx/2019/summit_archive_1565288427.pdf",
+        "https://github.com/SecurityRonin/trash-forensic",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "TCC blocks live reads of another user's .Trash even for admins — grant Full Disk Access or work from an image",
+        "Cloud-sync trashes exist separately (e.g. per-provider under ~/Library/CloudStorage); a remote-originated deletion may leave no local Trash entry",
+        "External-volume put-back reference location is an open question — recorded here so the search is not repeated from zero",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Contents cleared on empty; ghost put-back records linger in the Trash .DS_Store until rewritten",
+};

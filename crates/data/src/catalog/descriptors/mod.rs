@@ -18456,6 +18456,11 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::MACOS_DHCP_LEASES,
     macos_ext::MACOS_ZSH_SESSIONS,
     macos_ext::MACOS_XPROTECT_BEHAVIORAL_DB,
+    macos_ext::MACOS_PRIVILEGED_HELPER_TOOLS,
+    macos_ext::MACOS_SYSTEM_EXTENSIONS_DB,
+    macos_ext::MACOS_LOGIN_LOGOUT_HOOKS,
+    macos_ext::MACOS_DS_STORE,
+    macos_ext::MACOS_TRASH,
     windows_files_ext::ONEDRIVE_ODL_LOGS,
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,
