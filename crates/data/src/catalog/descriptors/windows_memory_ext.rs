@@ -618,7 +618,7 @@ hiding — corroborate, as pool scans can surface stale or partially-valid drive
     mitre_techniques: &[
         "T1547.006", // Boot or Logon Autostart Execution: Kernel Modules and Extensions
         "T1014",     // Rootkit
-        "T1562.001", // Impair Defenses: Disable or Modify Tools
+        "T1685", // Disable or Modify Tools
         "T1068",     // Exploitation for Privilege Escalation (vulnerable-driver loading)
     ],
     fields: MEM_KERNEL_CALLBACKS_FIELDS,
@@ -981,7 +981,7 @@ evtx_security / evtx_sysmon for the log-side view.",
         "T1059",     // Command and Scripting Interpreter — what the arguments evidence
         "T1564.010", // Hide Artifacts: Process Argument Spoofing — the PEB rewrite
         "T1036.005", // Masquerading: Match Legitimate Name or Location
-        "T1070.001", // Indicator Removal: Clear Windows Event Logs — why memory outlives 4688
+        "T1685.005", // Clear Windows Event Logs — why memory outlives 4688
     ],
     fields: MEM_PROCESS_COMMAND_LINE_FIELDS,
     retention: Some("RAM only; lost on power-off. Also recoverable from hiberfil.sys / crash dumps"),

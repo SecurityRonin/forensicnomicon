@@ -1278,7 +1278,7 @@ pub(crate) static RUN_SERVICES_ONCE_HKCU: ArtifactDescriptor = ArtifactDescripto
     volatility_rationale: "Registry key; persists while present — self-deletion on execution is captured in retention, not volatility class",
 };
 
-// ── Windows Firewall Authorized Applications (T1562.004) ─────────────────────
+// ── Windows Firewall Authorized Applications (T1686) ─────────────────────
 
 /// Windows Firewall AuthorizedApplications list.
 ///
@@ -1302,7 +1302,7 @@ pub(crate) static FIREWALL_AUTHORIZED_APPS: ArtifactDescriptor = ArtifactDescrip
         EyePyramid. Check all four path variants: StandardProfile and DomainProfile under both \
         SOFTWARE\\Policies\\Microsoft\\WindowsFirewall and \
         SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy.",
-    mitre_techniques: &["T1562.004"],
+    mitre_techniques: &["T1686"],
     fields: &[FieldSchema {
         name: "application_path",
         value_type: ValueType::Text,

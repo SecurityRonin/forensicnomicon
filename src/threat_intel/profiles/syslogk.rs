@@ -16,7 +16,7 @@ pub static SYSLOGK: MalwareProfile = MalwareProfile {
                   Magic-packet activated via TCP port knock. Hides the Rekoobe PID and its port. \
                   Pure kernel-space: no LD_PRELOAD, no PAM hooks. Discovered by Avast 2022.",
     malware_class: MalwareClass::LkmRootkit,
-    mitre_techniques: &["T1215", "T1014", "T1205.001", "T1059"],
+    mitre_techniques: &["T1547.006", "T1014", "T1205.001", "T1059"],
     signals: &[
         ProfileSignal {
             id: SYSTEM_KERNEL_TAINT_OOT,

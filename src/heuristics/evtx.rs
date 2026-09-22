@@ -418,7 +418,7 @@ pub const EID_REGISTRY_VALUE_SET: u32 = 4657;
 // ── HVCI / Driver Blocklist registry value names ──────────────────────────────
 // Modifying these values disables kernel-mode exploit mitigations.
 // QWCrypt/RedCurl uses reg edits to disable HVCI and the Vulnerable Driver
-// Blocklist before installing the Zemana BYOVD driver (T1562.001).
+// Blocklist before installing the Zemana BYOVD driver (T1685).
 
 /// Registry value names whose modification indicates HVCI/Driver Blocklist tampering.
 pub const HVCI_REGISTRY_VALUE_NAMES: &[&str] = &[
@@ -684,7 +684,7 @@ pub const WMIC_SHADOW_DELETE_PATTERNS: &[&str] = &["shadowcopy delete", "shadows
 // ── bcdedit recovery-tamper CommandLine patterns ──────────────────────────────
 
 /// CommandLine substrings that disable Windows boot recovery options.
-/// Covers the three most common ransomware bcdedit calls (T1490/T1562.009).
+/// Covers the three most common ransomware bcdedit calls (T1490/T1688).
 pub const BCDEDIT_RECOVERY_DISABLE_PATTERNS: &[&str] = &[
     "recoveryenabled no",
     "bootstatuspolicy ignoreallfailures",

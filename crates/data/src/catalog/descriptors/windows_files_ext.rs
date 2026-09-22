@@ -1579,7 +1579,7 @@ pub(crate) static CBS_LOG: ArtifactDescriptor = ArtifactDescriptor {
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
     meaning: "Component Based Servicing log recording Windows Update, hotfix, and feature-on-demand activity. Each entry includes a timestamp, severity (Info/Warning/Error), component name, and message. Forensically valuable for: (1) correlating KB installation times with compromise timelines, (2) detecting update suppression (expected patches absent), (3) identifying tampering with system binary integrity (CBS validates component hashes — corruption messages indicate file replacement). Rotates to CBS.persist.log when it exceeds ~50 MB.",
-    mitre_techniques: &["T1562.001"],
+    mitre_techniques: &["T1685"],
     fields: &[
         FieldSchema { name: "timestamp", value_type: ValueType::Timestamp, description: "Log entry timestamp (YYYY-MM-DD HH:MM:SS, local time)", is_uid_component: false },
         FieldSchema { name: "severity", value_type: ValueType::Text, description: "Entry type: Info, Warning, Error", is_uid_component: false },
@@ -1823,7 +1823,7 @@ pub(crate) static APPX_INSTALL_LOG: ArtifactDescriptor = ArtifactDescriptor {
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
     meaning: "DISM (Deployment Image Servicing and Management) operation log. Records Windows optional feature enable/disable, package install/remove, and image servicing operations. Forensically significant for: (1) LOLBin coverage — enabling Windows Subsystem for Linux, .NET Framework, Hyper-V, or IIS via DISM provides legitimate-looking infrastructure for staging attacks, (2) detecting feature manipulation to weaken defenses (disabling Windows Defender feature), (3) timeline of when WSL or other optional components were enabled.",
-    mitre_techniques: &["T1218", "T1562.001"],
+    mitre_techniques: &["T1218", "T1685"],
     fields: &[
         FieldSchema { name: "timestamp", value_type: ValueType::Timestamp, description: "Operation timestamp", is_uid_component: false },
         FieldSchema { name: "operation", value_type: ValueType::Text, description: "DISM operation type (EnableFeature, AddPackage, etc.)", is_uid_component: false },
@@ -1890,8 +1890,8 @@ pub(crate) static WINDOWS_UPDATE_SESSION: ArtifactDescriptor = ArtifactDescripto
     scope: DataScope::System,
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
-    meaning: "Tab-delimited log of Windows Update agent operations. Each line: {timestamp}\\t{agent}\\t{status}\\t{update_title}\\t{kb_number}\\t{error_code}. Forensically critical for correlating the patch state of a system with the compromise timeline: if a known CVE was exploited, verify whether the relevant KB was installed before or after the intrusion. Absence of expected updates indicates suppression (T1562.001). Also reveals when Windows Defender definition updates were applied.",
-    mitre_techniques: &["T1562.001", "T1190"],
+    meaning: "Tab-delimited log of Windows Update agent operations. Each line: {timestamp}\\t{agent}\\t{status}\\t{update_title}\\t{kb_number}\\t{error_code}. Forensically critical for correlating the patch state of a system with the compromise timeline: if a known CVE was exploited, verify whether the relevant KB was installed before or after the intrusion. Absence of expected updates indicates suppression (T1685). Also reveals when Windows Defender definition updates were applied.",
+    mitre_techniques: &["T1685", "T1190"],
     fields: &[
         FieldSchema { name: "timestamp", value_type: ValueType::Timestamp, description: "Update event time (ISO 8601 UTC)", is_uid_component: false },
         FieldSchema { name: "agent", value_type: ValueType::Text, description: "WU agent component (WindowsUpdateClient, AutomaticUpdates, etc.)", is_uid_component: false },

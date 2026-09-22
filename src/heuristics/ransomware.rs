@@ -262,7 +262,7 @@ pub const RANSOM_NOTE_FILENAMES: &[&str] = &[
 ///
 /// Used with `RANSOMWARE_KILL_CLUSTER_THRESHOLD` — a cluster of ≥N kills from
 /// this list within `RANSOMWARE_KILL_WINDOW_NS` is near-zero-FP for ransomware
-/// staging (T1562.001 / T1489).  Single kills have medium FP risk.
+/// staging (T1685 / T1489).  Single kills have medium FP risk.
 pub const RANSOMWARE_KILL_PROCESSES: &[&str] = &[
     // SQL / database
     "sql.exe",

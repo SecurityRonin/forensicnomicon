@@ -195,7 +195,7 @@ a parser that stops at the declared count loses them silently. The limit that ma
 none of this detects per-record unlinking, which recalculates both header checksums as part of the \
 edit — see evtx_record_unlinking.",
     mitre_techniques: &[
-        "T1070.001", // Indicator Removal: Clear Windows Event Logs
+        "T1685.005", // Clear Windows Event Logs
     ],
     fields: EVTX_FILE_STRUCTURE_INTEGRITY_FIELDS,
     retention: Some("Header and chunk fields persist for the life of the .evtx file; an archived or backed-up copy of a channel carries its own independent header state"),
@@ -396,7 +396,7 @@ scanning a chunk's free space for records whose size and copy-of-size agree, dis
 identifier is already live, because free space commonly holds a superseded version of a record \
 still in the log. Report the two separately.",
     mitre_techniques: &[
-        "T1070.001", // Indicator Removal: Clear Windows Event Logs
+        "T1685.005", // Clear Windows Event Logs
         "T1565.001", // Data Manipulation: Stored Data Manipulation
     ],
     fields: EVTX_RECORD_UNLINKING_FIELDS,

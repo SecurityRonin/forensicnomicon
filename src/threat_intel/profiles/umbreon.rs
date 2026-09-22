@@ -16,7 +16,7 @@ pub static UMBREON: MalwareProfile = MalwareProfile {
                   PAM backdoor grants root via magic password; creates hidden 'evildoer' user. \
                   VDSO patching for additional evasion.",
     malware_class: MalwareClass::LkmRootkit,
-    mitre_techniques: &["T1574.006", "T1014", "T1215", "T1556.003"],
+    mitre_techniques: &["T1574.006", "T1014", "T1547.006", "T1556.003"],
     signals: &[
         ProfileSignal {
             id: ELF_HOOKS_PROCESS_HIDING,

@@ -607,7 +607,7 @@ pub(crate) static MACOS_ASL_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
     meaning: "Legacy Apple System Log binary files (pre-Unified Log, macOS 10.11 and earlier, but may persist on upgraded systems). Contains authentication, kext load, sudo, and daemon messages useful for historical analysis on older Mac images.",
-    mitre_techniques: &["T1562.002"],
+    mitre_techniques: &["T1685.006"], // v19: T1685.006 Clear Linux or Mac System Logs; the Windows-only predecessor never fit this artifact
     fields: &[
         FieldSchema { name: "sender", value_type: ValueType::Text, description: "Process that generated the message", is_uid_component: true },
         FieldSchema { name: "message", value_type: ValueType::Text, description: "Log message text", is_uid_component: false },
@@ -1063,7 +1063,7 @@ pub(crate) static IOS_UNIFIED_LOG: ArtifactDescriptor = ArtifactDescriptor {
         _lava_artifacts.db for querying. Primary timeline source on iOS — \
         equivalent to macos_unified_log but with iOS-specific subsystems \
         and extraction workflow.",
-    mitre_techniques: &["T1070.001", "T1059"],
+    mitre_techniques: &["T1685.006", "T1059"], // v19: T1685.006 (Mac system logs), not the Windows T1685.005
     fields: IOS_UNIFIED_LOG_FIELDS,
     retention: Some("Rotated by OS; typically days to weeks depending on device activity"),
     triage_priority: TriagePriority::Critical,

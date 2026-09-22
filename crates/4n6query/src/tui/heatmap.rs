@@ -125,7 +125,8 @@ fn technique_to_tactic_idx(technique: &str) -> Option<usize> {
         ("T1222", 6),
         ("T1497", 6),
         ("T1553", 6),
-        ("T1562", 6),
+        ("T1685", 6), // v19 Defense Impairment, shown on the historical TA0005 slot
+        ("T1686", 6), // v19 Defense Impairment, shown on the historical TA0005 slot
         ("T1564", 6),
         ("T1599", 6),
         ("T1600", 6),
@@ -227,7 +228,6 @@ fn technique_to_tactic_idx(technique: &str) -> Option<usize> {
         // TA0040 Impact (13)
         ("T1485", 13),
         ("T1486", 13),
-        ("T1487", 13),
         ("T1489", 13),
         ("T1490", 13),
         ("T1491", 13),

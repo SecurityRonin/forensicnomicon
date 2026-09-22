@@ -14,7 +14,7 @@ pub static LKM_GENERIC: MalwareProfile = MalwareProfile {
                   itself from /proc/modules. Includes Diamorphine, Reptile, Suterusu, \
                   and similar kernel-space implants.",
     malware_class: MalwareClass::LkmRootkit,
-    mitre_techniques: &["T1215", "T1014"],
+    mitre_techniques: &["T1547.006", "T1014"],
     signals: &[
         ProfileSignal {
             id: SYSTEM_KERNEL_TAINT_OOT,

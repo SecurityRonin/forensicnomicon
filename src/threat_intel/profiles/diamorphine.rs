@@ -15,7 +15,7 @@ pub static DIAMORPHINE: MalwareProfile = MalwareProfile {
                   module visibility; signal 64 grants root. Files with DIAMORPHINE_SECRET prefix hidden. \
                   No netfilter, no network hiding, no PAM. Widely used by TeamTNT and Rocke.",
     malware_class: MalwareClass::LkmRootkit,
-    mitre_techniques: &["T1215", "T1014", "T1548"],
+    mitre_techniques: &["T1547.006", "T1014", "T1548"],
     signals: &[
         ProfileSignal { id: SYSTEM_KERNEL_TAINT_OOT,      weight: 30, required: true  },
         ProfileSignal { id: SYSTEM_PROC_MODULES_SUSPECT,  weight: 30, required: true  },

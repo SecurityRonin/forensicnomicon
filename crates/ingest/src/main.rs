@@ -6,6 +6,7 @@
         clippy::needless_raw_string_hashes
     )
 )]
+mod attack_remap;
 mod codegen;
 mod dedup;
 mod github;
@@ -966,7 +967,7 @@ mod tests {
                     "dfir_scripts",
                     key,
                     "Policies System — a longer meaning, so this record wins the key path.",
-                    &["T1562.001", "T1003.001"],
+                    &["T1685", "T1003.001"],
                 ),
                 described(
                     "dfir_scripts_currentversion_policies_system_2",
@@ -991,7 +992,7 @@ mod tests {
         assert_eq!(kept.len(), 1, "one descriptor per key path");
         assert_eq!(
             kept[0].mitre_techniques,
-            vec!["T1562.001", "T1003.001", "T1486", "T1548.002"],
+            vec!["T1685", "T1003.001", "T1486", "T1548.002"],
             "the survivor must answer for every technique the key was mapped to, \
              its own first and without repeats"
         );

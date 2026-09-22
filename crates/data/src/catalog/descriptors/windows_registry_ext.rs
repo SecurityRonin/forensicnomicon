@@ -348,7 +348,7 @@ pub(crate) static WER_RUNTIME_EXCEPTION_HELPER: ArtifactDescriptor = ArtifactDes
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
     meaning: "DLLs registered here are loaded by WER into any crashing process as a debugger helper. Malicious entries execute arbitrary code in the context of crashed processes — a covert DLL injection technique.",
-    mitre_techniques: &["T1574.002"],
+    mitre_techniques: &["T1574.001"],
     fields: &[FieldSchema { name: "helper_dll_path", value_type: ValueType::Text, description: "Full path of the registered WER helper DLL", is_uid_component: true }],
     retention: Some("Persistent"),
     triage_priority: TriagePriority::High,

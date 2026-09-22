@@ -183,12 +183,12 @@ pub const SIGNAL_META: &[SignalMeta] = &[
     SignalMeta {
         id: SYSTEM_KERNEL_TAINT_OOT,
         description: "Kernel taint flag O set — out-of-tree module loaded",
-        mitre_technique: Some("T1215"),
+        mitre_technique: Some("T1547.006"),
     },
     SignalMeta {
         id: SYSTEM_KERNEL_TAINT_FORCED,
         description: "Kernel taint flag F set — module loaded with force flag",
-        mitre_technique: Some("T1215"),
+        mitre_technique: Some("T1547.006"),
     },
     SignalMeta {
         id: SYSTEM_CPU_ANOMALY_HIGH,

@@ -193,7 +193,7 @@ pub(crate) static WINDOWS_DEFENDER_EXCLUSIONS_LOCAL: ArtifactDescriptor = Artifa
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
     meaning: "Stores Defender exclusion paths, extensions, processes, and IP ranges. Attackers add exclusions to hide malware payloads and C2 tools from real-time scanning. Presence of attacker-controlled paths, temp directories, or suspicious tool names is a strong IOC.",
-    mitre_techniques: &["T1562.001"],
+    mitre_techniques: &["T1685"],
     fields: &[FieldSchema {
         name: "exclusion_entry",
         value_type: ValueType::Text,
@@ -226,7 +226,7 @@ pub(crate) static WINDOWS_DEFENDER_DISABLED_AV: ArtifactDescriptor = ArtifactDes
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
     meaning: "DisableAntiVirus=1 via Group Policy disables Windows Defender completely. Attackers set this via policy key (not the service key) to bypass Tamper Protection. A value of 1 in this location is a near-certain indicator of deliberate AV disabling.",
-    mitre_techniques: &["T1562.001"],
+    mitre_techniques: &["T1685"],
     fields: &[FieldSchema {
         name: "disable_anti_virus",
         value_type: ValueType::Integer,
@@ -259,7 +259,7 @@ pub(crate) static WINDOWS_DEFENDER_REALTIME: ArtifactDescriptor = ArtifactDescri
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
     meaning: "Contains individual real-time protection component disable flags (DisableRealtimeMonitoring, DisableBehaviorMonitoring, DisableIOAVProtection, etc.). Attackers disable individual components to evade detection while leaving the service nominally running.",
-    mitre_techniques: &["T1562.001"],
+    mitre_techniques: &["T1685"],
     fields: &[FieldSchema {
         name: "protection_flag",
         value_type: ValueType::Integer,
@@ -1003,7 +1003,7 @@ pub(crate) static FIREWALL_RULES: ArtifactDescriptor = ArtifactDescriptor {
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
     meaning: "All Windows Firewall rules as pipe-delimited strings. Attackers add rules to allow inbound C2 connections, permit lateral movement tools (PSExec, WMI), or expose services. Suspicious patterns: rules named after common attacker tools, rules allowing all ports for a specific executable, or rules disabling the firewall.",
-    mitre_techniques: &["T1562.004"],
+    mitre_techniques: &["T1686"],
     fields: &[FieldSchema {
         name: "firewall_rule",
         value_type: ValueType::Text,
@@ -1041,7 +1041,7 @@ pub(crate) static EVENT_LOG_CHANNEL_STATUS: ArtifactDescriptor = ArtifactDescrip
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
     meaning: "Each subkey is an event log channel with an Enabled DWORD value. Attackers disable Security, System, Microsoft-Windows-Sysmon/Operational, or PowerShell channels to suppress evidence of their activity. A disabled Security or Sysmon channel found during an incident is a strong indicator of defensive tampering.",
-    mitre_techniques: &["T1562.002"],
+    mitre_techniques: &["T1685.001"],
     fields: &[FieldSchema {
         name: "channel_enabled",
         value_type: ValueType::Integer,
@@ -1384,7 +1384,7 @@ pub(crate) static POWERSHELL_SCRIPT_BLOCK_LOGGING_POLICY: ArtifactDescriptor = A
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
     meaning: "The registry switch Microsoft documents for turning on Windows PowerShell script block logging, set to 1 under HKLM\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging. With it enabled PowerShell records the content of every script block it processes to the Microsoft-Windows-PowerShell/Operational log as Event ID 4104. Read it out of an offline SOFTWARE hive to answer the prior question in any PowerShell investigation — should 4104 records have existed at all? — because an empty Operational log means nothing until the policy state is known. It is also a direct target for impairing defences: an actor who sets the value to 0 blinds script block logging for every session started afterwards, while sessions already running are unaffected. On PowerShell 7 the equivalent switch lives under Policies\\Microsoft\\PowerShellCore\\ScriptBlockLogging and logs to the PowerShellCore/Operational channel, so check both before concluding logging was off.",
-    mitre_techniques: &["T1562.002", "T1059.001"],
+    mitre_techniques: &["T1685.001", "T1059.001"],
     fields: &[FieldSchema {
         name: "enable_script_block_logging",
         value_type: ValueType::Integer,
@@ -1434,7 +1434,7 @@ pub(crate) static POWERSHELL_MODULE_LOGGING_POLICY: ArtifactDescriptor = Artifac
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
     meaning: "The 'Turn on Module Logging' policy, which Microsoft documents as the value EnableModuleLogging under the registry key Software\\Policies\\Microsoft\\Windows\\PowerShell\\ModuleLogging. Enabled, it records pipeline execution events for the selected modules to the Windows PowerShell log; disabled, no module records execution events. Not configured is the third state and the usual one: each module's own LogPipelineExecutionDetails property then decides, and Microsoft documents that property as False by default for all modules — so the absence of pipeline records is the expected reading on an unconfigured host, not a sign that records were deleted. The policy also carries the list of modules selected for logging, which bounds what could have been recorded even when the switch is on: a module absent from the list produced nothing.",
-    mitre_techniques: &["T1562.002", "T1059.001"],
+    mitre_techniques: &["T1685.001", "T1059.001"],
     fields: &[FieldSchema {
         name: "enable_module_logging",
         value_type: ValueType::Integer,
@@ -1481,7 +1481,7 @@ pub(crate) static POWERSHELL_TRANSCRIPTION_POLICY: ArtifactDescriptor = Artifact
     os_scope: OsScope::Win7Plus,
     decoder: Decoder::Identity,
     meaning: "The 'Turn on PowerShell Transcription' policy, documented as the value EnableTranscripting under the registry key Software\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription. Enabled, PowerShell captures the input and output of commands for PowerShell, the ISE and anything else hosting the PowerShell engine — the equivalent of calling Start-Transcript in every session. Two answers come out of this key. First, whether transcripts should exist for the period under examination. Second, and available from no other artifact, WHERE they were written: the policy's OutputDirectory setting redirects transcripts away from the documented default of each user's Documents directory, and a remote or attacker-chosen directory means the transcripts an examiner needs are not on the host at all. Microsoft warns that a shared OutputDirectory exposes one user's transcripts to others, which is also why a redirected directory is worth reading as an exposure, not just as a path.",
-    mitre_techniques: &["T1562.002", "T1059.001"],
+    mitre_techniques: &["T1685.001", "T1059.001"],
     fields: &[
         FieldSchema {
             name: "enable_transcripting",

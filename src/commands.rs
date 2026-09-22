@@ -122,9 +122,9 @@ pub fn is_download_tool_usage(cmd: &str) -> bool {
 /// - MITRE ATT&CK T1021.006 — Remote Services: Windows Remote Management (WMI lateral
 ///   movement via `wmic /node:`):
 ///   <https://attack.mitre.org/techniques/T1021/006/>
-/// - MITRE ATT&CK T1562.001 — Impair Defenses: Disable or Modify Tools (`wmic product`
+/// - MITRE ATT&CK T1685 — Disable or Modify Tools (`wmic product`
 ///   used to silently uninstall AV/EDR):
-///   <https://attack.mitre.org/techniques/T1562/001/>
+///   <https://attack.mitre.org/techniques/T1685/>
 /// - Red Canary — "Detecting WMI-Based Command Execution" (process creation via
 ///   `Win32_Process.Create`, type-accelerator abuse):
 ///   <https://redcanary.com/blog/threat-detection/wmi-command-execution/>
@@ -134,7 +134,7 @@ pub const WMI_ABUSE_PATTERNS: &[&str] = &[
     "Invoke-WMIMethod",         // T1047: WMI method dispatch (typically Win32_Process.Create)
     "Invoke-CimMethod",         // T1047: CIM method dispatch
     "[wmiclass]", // T1047: PowerShell WMI type-accelerator (e.g. [wmiclass]"Win32_Process")
-    "wmic product where", // T1562.001: silent AV/EDR uninstall via WMI product call
+    "wmic product where", // T1685: silent AV/EDR uninstall via WMI product call
 ];
 
 pub const CREDENTIAL_DUMP_PATTERNS: &[&str] = &[
@@ -205,7 +205,7 @@ pub const LATERAL_MOVEMENT_PATTERNS: &[&str] = &[
 
 /// Substrings indicative of security-control tampering — disabling or
 /// excluding AV/EDR, turning off the host firewall, and silencing event-log
-/// channels (T1562.001 / T1562.002 / T1562.004).
+/// channels (T1685 / T1685.001 / T1686).
 ///
 /// Recovery-inhibition commands (shadow-copy and backup destruction, T1490)
 /// are **not** listed here: their single home is
@@ -214,12 +214,12 @@ pub const LATERAL_MOVEMENT_PATTERNS: &[&str] = &[
 /// always give the same verdict.
 ///
 /// Sources:
-/// - MITRE ATT&CK T1562.001 — Impair Defenses: Disable or Modify Tools:
-///   <https://attack.mitre.org/techniques/T1562/001/>
-/// - MITRE ATT&CK T1562.002 — Impair Defenses: Disable Windows Event Logging:
-///   <https://attack.mitre.org/techniques/T1562/002/>
-/// - MITRE ATT&CK T1562.004 — Impair Defenses: Disable or Modify System Firewall:
-///   <https://attack.mitre.org/techniques/T1562/004/>
+/// - MITRE ATT&CK T1685 — Disable or Modify Tools:
+///   <https://attack.mitre.org/techniques/T1685/>
+/// - MITRE ATT&CK T1685.001 — Disable or Modify Windows Event Log:
+///   <https://attack.mitre.org/techniques/T1685/001/>
+/// - MITRE ATT&CK T1686 — Disable or Modify System Firewall:
+///   <https://attack.mitre.org/techniques/T1686/>
 pub const DEFENSE_EVASION_PATTERNS: &[&str] = &[
     "Set-MpPreference -DisableRealtimeMonitoring",
     "Set-MpPreference -DisableAntiSpyware",

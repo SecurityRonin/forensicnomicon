@@ -77,16 +77,25 @@ pub fn generate_static(rec: &IngestRecord) -> String {
         _ => "DataScope::Mixed",
     };
 
-    // MITRE techniques slice
-    let mitre = if rec.mitre_techniques.is_empty() {
-        "&[]".to_string()
-    } else {
-        let items: Vec<String> = rec
-            .mitre_techniques
-            .iter()
-            .map(|t| format!("\"{}\"", escape_rust_str(t)))
-            .collect();
-        format!("&[{}]", items.join(", "))
+    // MITRE techniques slice — upstream corpora still emit pre-v19 revoked
+    // IDs; normalize to the live successor at the emission choke point.
+    let mitre = {
+        let mut live: Vec<&str> = Vec::new();
+        for t in &rec.mitre_techniques {
+            let cur = crate::attack_remap::live_attack_id(t);
+            if !live.contains(&cur) {
+                live.push(cur);
+            }
+        }
+        if live.is_empty() {
+            "&[]".to_string()
+        } else {
+            let items: Vec<String> = live
+                .iter()
+                .map(|t| format!("\"{}\"", escape_rust_str(t)))
+                .collect();
+            format!("&[{}]", items.join(", "))
+        }
     };
 
     // Sources slice

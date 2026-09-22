@@ -6,6 +6,14 @@
 //! fast-moving **data** — the ~6.5k assembled artifact descriptors — and wires
 //! them into the compile-time global [`CATALOG`].
 //!
+//! # ATT&CK conformance
+//!
+//! `mitre_techniques` IDs conform to **MITRE ATT&CK v19.2** (checked
+//! 2026-09-22 against MITRE's STIX data). `T1430` is a Mobile ATT&CK
+//! technique; all others are Enterprise. Revoked/deprecated IDs are kept
+//! out by `tests/attack_id_currency.rs` at the workspace root — update
+//! that guard's deny table when adopting a newer ATT&CK release.
+//!
 //! The whole engine surface is re-exported here, so existing
 //! `forensicnomicon::catalog::*` (and crate-internal `crate::catalog::*`) paths —
 //! including the `types` submodule the generated descriptors reference — resolve

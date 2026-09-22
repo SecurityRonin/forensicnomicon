@@ -33,7 +33,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
                       System records the clearing of ANY channel here (the message names the cleared \
                       {Channel}); Security additionally records its own clearing in the Security channel \
                       itself via event 1102",
-        mitre_techniques: &["T1070.001"],
+        mitre_techniques: &["T1685.005"],
         artifact_ids: &["evtx_system"],
         high_value: true,
         caveats: "",
@@ -45,7 +45,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
                       SubjectUserSid/SubjectLogonId of the account that cleared it). Unlike other \
                       channels, whose clearing is recorded by System event 104, Security records its \
                       own clearing here via 1102",
-        mitre_techniques: &["T1070.001"],
+        mitre_techniques: &["T1685.005"],
         artifact_ids: &["evtx_security"],
         high_value: true,
         caveats: "",
@@ -565,7 +565,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         event_id: 7,
         channel: "Microsoft-Windows-Sysmon/Operational",
         description: "Image loaded — a module/DLL was loaded into a process (signature + hashes); surfaces DLL side-loading and unsigned-module injection",
-        mitre_techniques: &["T1574.002"],
+        mitre_techniques: &["T1574.001"],
         artifact_ids: &["evtx_sysmon"],
         high_value: true,
         caveats: "Very high volume — usually scoped by config to specific images/paths",
@@ -646,7 +646,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         event_id: 16,
         channel: "Microsoft-Windows-Sysmon/Operational",
         description: "Sysmon configuration state changed — the running Sysmon configuration was updated; an attacker altering config can blind the sensor (defense evasion)",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         artifact_ids: &["evtx_sysmon"],
         high_value: true,
         caveats: "",
@@ -848,7 +848,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
     // --- Microsoft Defender Antivirus (Microsoft-Windows-Windows Defender/Operational) ---
     // Verified against Microsoft Learn (defender-endpoint/troubleshoot-microsoft-defender-antivirus):
     // symbolic name + message per event. The 5001/5007/5010/5012 "disabled/changed"
-    // events are prime defense-evasion (T1562.001) indicators.
+    // events are prime defense-impairment (T1685) indicators.
     EventIdEntry {
         event_id: 1006,
         channel: "Microsoft-Windows-Windows Defender/Operational",
@@ -871,7 +871,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         event_id: 5001,
         channel: "Microsoft-Windows-Windows Defender/Operational",
         description: "Microsoft Defender Antivirus real-time protection was disabled — defense evasion (MALWAREPROTECTION_RTP_DISABLED)",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         artifact_ids: &["evtx_defender_operational"],
         high_value: true,
         caveats: "",
@@ -880,7 +880,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         event_id: 5007,
         channel: "Microsoft-Windows-Windows Defender/Operational",
         description: "Microsoft Defender Antivirus configuration changed (old value -> new value) — may indicate an attacker weakening AV, e.g. adding scan exclusions (MALWAREPROTECTION_CONFIG_CHANGED)",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         artifact_ids: &["evtx_defender_operational"],
         high_value: true,
         caveats: "",
@@ -889,7 +889,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         event_id: 5010,
         channel: "Microsoft-Windows-Windows Defender/Operational",
         description: "Microsoft Defender Antivirus scanning for malware and spyware was disabled — defense evasion (MALWAREPROTECTION_ANTISPYWARE_DISABLED)",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         artifact_ids: &["evtx_defender_operational"],
         high_value: true,
         caveats: "",
@@ -898,7 +898,7 @@ pub static EVENT_ID_TABLE: &[EventIdEntry] = &[
         event_id: 5012,
         channel: "Microsoft-Windows-Windows Defender/Operational",
         description: "Microsoft Defender Antivirus scanning for viruses was disabled — defense evasion (MALWAREPROTECTION_ANTIVIRUS_DISABLED)",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         artifact_ids: &["evtx_defender_operational"],
         high_value: true,
         caveats: "",

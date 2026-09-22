@@ -470,7 +470,7 @@ pub static WINDOWS_HOSTS_FILE: ArtifactDescriptor = ArtifactDescriptor {
               the EDR process — a stealthier alternative to WFP filters that nonetheless \
               leaves a trivially-collected on-disk artifact. Any non-default entry warrants \
               triage during incident response.",
-    mitre_techniques: &["T1562.001", "T1565.001"],
+    mitre_techniques: &["T1685", "T1565.001"],
     fields: &[FieldSchema {
         name: "value",
         value_type: ValueType::Text,
@@ -531,7 +531,7 @@ pub static DNS_POLICY_CONFIG_NRPT: ArtifactDescriptor = ArtifactDescriptor {
               or C2 hostname to 127.0.0.1 to blackhole agent telemetry. Benign \
               uses include VPN clients (e.g. Tailscale) that redirect DNS for \
               split-DNS configurations.",
-    mitre_techniques: &["T1562.001", "T1562.006"],
+    mitre_techniques: &["T1685"],
     fields: &[
         FieldSchema {
             // Source: https://cloudbrothers.info/en/edr-silencers-exploring-methods-block-edr-communication-part-1/
@@ -5868,7 +5868,7 @@ pub static EVTX_DIR: ArtifactDescriptor = ArtifactDescriptor {
     decoder: Decoder::Identity,
     meaning: "Binary EVTX log files — Security.evtx (4624/4625/4688), System.evtx, \
               PowerShell/Operational.evtx. Primary execution, logon, and process-creation record.",
-    mitre_techniques: &["T1070.001", "T1059.001"],
+    mitre_techniques: &["T1685.005", "T1059.001"],
     fields: DIR_ENTRY_FIELDS,
     retention: Some("configurable; default ~20MB rolling per channel"),
     triage_priority: TriagePriority::Medium,
@@ -6514,7 +6514,7 @@ pub static LINUX_AT_QUEUE: ArtifactDescriptor = ArtifactDescriptor {
     decoder: Decoder::Identity,
     meaning: "One-shot delayed execution jobs from the `at` command; each file contains a shell \
               script to run at a specified time, used for stealthy one-shot persistence.",
-    mitre_techniques: &["T1053.001"],
+    mitre_techniques: &["T1053.002"],
     fields: CRON_LINE_FIELDS,
     retention: None,
     triage_priority: TriagePriority::Medium,
@@ -7892,7 +7892,7 @@ pub static EVTX_SECURITY: ArtifactDescriptor = ArtifactDescriptor {
               generate automatically and are enabled by default, so they are present without any audit \
               policy — which is what lets a silence be classified as hostile or benign instead of merely \
               observed.",
-    mitre_techniques: &["T1070.001", "T1059", "T1078", "T1555", "T1550.002", "T1021.002", "T1021.001", "T1039"],
+    mitre_techniques: &["T1685.005", "T1059", "T1078", "T1555", "T1550.002", "T1021.002", "T1021.001", "T1039"],
     fields: EVTX_FIELDS,
     retention: Some("configurable; default ~20MB rolling per channel"),
     triage_priority: TriagePriority::Critical,
@@ -8146,7 +8146,7 @@ pub static EVTX_SYSTEM: ArtifactDescriptor = ArtifactDescriptor {
               ShellExperienceHost and generic shell CLSIDs as expected and safely ignored. Filter \
               10016/10036 to the forensic subset: 'from address' = a REMOTE host (not LocalHost / \
               (Using LRPC)) paired with an interactive or domain user SID and a non-standard CLSID.",
-    mitre_techniques: &["T1543.003", "T1070.001", "T1059.001", "T1021.003"],
+    mitre_techniques: &["T1543.003", "T1685.005", "T1059.001", "T1021.003"],
     fields: EVTX_FIELDS,
     retention: Some("configurable; default ~20MB rolling per channel"),
     triage_priority: TriagePriority::High,
@@ -8412,7 +8412,7 @@ pub static EVTX_DEFENDER_OPERATIONAL: ArtifactDescriptor = ArtifactDescriptor {
               means it was caught in the boot sequence and IOAV at download/attachment time. Process \
               Name identifies the process associated with the detection, which is the pivot into a \
               memory image or into process-creation telemetry for the same host and instant.",
-    mitre_techniques: &["T1562.001", "T1059", "T1027"],
+    mitre_techniques: &["T1685", "T1059", "T1027"],
     fields: EVTX_FIELDS,
     retention: Some("configurable; default ~1MB rolling per channel"),
     triage_priority: TriagePriority::High,
@@ -9298,7 +9298,7 @@ pub static MACOS_UNIFIED_LOG: ArtifactDescriptor = ArtifactDescriptor {
     os_scope: OsScope::MacOS12Plus,
     decoder: Decoder::Identity,
     meaning: "Apple Unified Logging system. Contains all system and application logs since macOS 10.12. Provides timestamped, structured log entries for process activity, crashes, and security events.",
-    mitre_techniques: &["T1070.001", "T1059"],
+    mitre_techniques: &["T1685.006", "T1059"], // v19: T1685.006 (Mac system logs), not the Windows T1685.005
     fields: &[],
     retention: Some("Rotated by OS; typically weeks to months"),
     triage_priority: TriagePriority::High,

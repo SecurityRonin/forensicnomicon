@@ -1,10 +1,10 @@
 /// Command substrings indicative of log-wiping activity.
 ///
 /// Sources:
-/// - MITRE ATT&CK T1070.001 — Indicator Removal: Clear Windows Event Logs:
-///   <https://attack.mitre.org/techniques/T1070/001/>
-/// - MITRE ATT&CK T1070.002 — Indicator Removal: Clear Linux or Mac System Logs:
-///   <https://attack.mitre.org/techniques/T1070/002/>
+/// - MITRE ATT&CK T1685.005 — Clear Windows Event Logs:
+///   <https://attack.mitre.org/techniques/T1685/005/>
+/// - MITRE ATT&CK T1685.006 — Clear Linux or Mac System Logs:
+///   <https://attack.mitre.org/techniques/T1685/006/>
 /// - Harlan Carvey — "Timestomping Registry Keys" (Apr 2022), covers clearing
 ///   Windows Event Logs as a parallel anti-forensic technique alongside registry
 ///   key timestamp manipulation:

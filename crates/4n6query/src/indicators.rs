@@ -150,7 +150,7 @@ pub(crate) const INDICATOR_SOURCES: &[IndicatorSource] = &[
     IndicatorSource {
         label: "defense-evasion command",
         kind: Pattern,
-        mitre: &["T1562"],
+        mitre: &["T1685"],
         table: DEFENSE_EVASION_PATTERNS,
     },
     IndicatorSource {
@@ -180,7 +180,7 @@ pub(crate) const INDICATOR_SOURCES: &[IndicatorSource] = &[
     IndicatorSource {
         label: "log-wipe command",
         kind: Pattern,
-        mitre: &["T1070.001"],
+        mitre: &["T1685.005"],
         table: LOG_WIPE_COMMANDS,
     },
     IndicatorSource {
@@ -216,13 +216,13 @@ pub(crate) const INDICATOR_SOURCES: &[IndicatorSource] = &[
     IndicatorSource {
         label: "AMSI bypass",
         kind: Pattern,
-        mitre: &["T1562.001"],
+        mitre: &["T1685"],
         table: AMSI_BYPASS_PATTERNS,
     },
     IndicatorSource {
         label: "Defender tamper",
         kind: Pattern,
-        mitre: &["T1562.001"],
+        mitre: &["T1685"],
         table: DEFENDER_TAMPER_PATTERNS,
     },
     IndicatorSource {

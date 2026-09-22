@@ -16,7 +16,7 @@ pub static REPTILE: MalwareProfile = MalwareProfile {
                   and netfilter magic-packet backdoor (ipt_REPTILE). Operator control via /proc/reptile. \
                   Deployed by Rocke, Andariel, and multiple APT groups.",
     malware_class: MalwareClass::LkmRootkit,
-    mitre_techniques: &["T1215", "T1014", "T1205.001", "T1059"],
+    mitre_techniques: &["T1547.006", "T1014", "T1205.001", "T1059"],
     signals: &[
         ProfileSignal { id: SYSTEM_KERNEL_TAINT_OOT,       weight: 30, required: true  },
         ProfileSignal { id: SYSTEM_PROC_MODULES_SUSPECT,   weight: 30, required: true  },

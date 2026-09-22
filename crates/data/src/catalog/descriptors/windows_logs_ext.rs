@@ -275,7 +275,7 @@ pub(crate) static WER_REPORT_QUEUE: ArtifactDescriptor = ArtifactDescriptor {
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::Identity,
     meaning: "Windows Error Reporting queued crash reports waiting for upload. Each report contains a Report.wer text file with the faulting module, exception code, and timestamp. Process crash artifacts indicate: (1) AV/EDR crashes induced by attackers, (2) injected process crashes revealing injection target, (3) exploit-crashed processes showing the attacked binary.",
-    mitre_techniques: &["T1562.001", "T1055"],
+    mitre_techniques: &["T1685", "T1055"],
     fields: &[
         FieldSchema { name: "FaultingModule", value_type: ValueType::Text, description: "Module that caused the crash", is_uid_component: true },
         FieldSchema { name: "ExceptionCode", value_type: ValueType::Text, description: "Win32 exception code", is_uid_component: false },

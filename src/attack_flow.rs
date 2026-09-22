@@ -175,9 +175,9 @@ static BLACK_BASTA_ACTIONS: &[FlowAction] = &[
     },
     // [11] Disable or Modify Tools
     FlowAction {
-        technique_id: "T1562.001",
-        tactic: "defense-evasion",
-        name: "Impair Defenses: Disable or Modify Tools",
+        technique_id: "T1685",
+        tactic: "defense-impairment",
+        name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[13],
     },
@@ -231,9 +231,9 @@ static BLACK_BASTA_ACTIONS: &[FlowAction] = &[
     },
     // [18] Disable security tools pre-encryption
     FlowAction {
-        technique_id: "T1562",
-        tactic: "defense-evasion",
-        name: "Impair Defenses: Disable or Modify System Firewall",
+        technique_id: "T1685",
+        tactic: "defense-impairment",
+        name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[20],
     },
@@ -507,17 +507,17 @@ static SOLARWINDS_ACTIONS: &[FlowAction] = &[
     },
     // [11] Disable Windows Event Logging
     FlowAction {
-        technique_id: "T1562",
-        tactic: "defense-evasion",
-        name: "Impair Defenses: Disable Windows Event Logging",
+        technique_id: "T1685",
+        tactic: "defense-impairment",
+        name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[12],
     },
     // [12] Disable or Modify Tools (AV/EDR)
     FlowAction {
-        technique_id: "T1562.001",
-        tactic: "defense-evasion",
-        name: "Impair Defenses: Disable or Modify Tools",
+        technique_id: "T1685",
+        tactic: "defense-impairment",
+        name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[13, 14],
     },
@@ -699,9 +699,9 @@ static CONTI_RANSOMWARE_ACTIONS: &[FlowAction] = &[
     },
     // [13] Disable or Modify Tools (AV before encryption)
     FlowAction {
-        technique_id: "T1562.001",
-        tactic: "defense-evasion",
-        name: "Impair Defenses: Disable or Modify Tools",
+        technique_id: "T1685",
+        tactic: "defense-impairment",
+        name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[14],
     },
@@ -1180,10 +1180,10 @@ static CISA_IRANIAN_APT_ACTIONS: &[FlowAction] = &[
         ],
         leads_to: &[2],
     },
-    // [2] T1562.001
+    // [2] T1685
     FlowAction {
-        technique_id: "T1562.001",
-        tactic: "defense-evasion",
+        technique_id: "T1685",
+        tactic: "defense-impairment",
         name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[3],
@@ -1284,10 +1284,10 @@ static CISA_IRANIAN_APT_ACTIONS: &[FlowAction] = &[
         artifact_ids: &["evtx_rdp_inbound", "evtx_rdp_client", "evtx_security"],
         leads_to: &[15],
     },
-    // [15] T1562.001
+    // [15] T1685
     FlowAction {
-        technique_id: "T1562.001",
-        tactic: "defense-evasion",
+        technique_id: "T1685",
+        tactic: "defense-impairment",
         name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[16],
@@ -1391,9 +1391,9 @@ static CONTI_CISA_ALERT_ACTIONS: &[FlowAction] = &[
         artifact_ids: &["evtx_security", "chrome_history"],
         leads_to: &[5, 6],
     },
-    // [4] T1076
+    // [4] T1021.001
     FlowAction {
-        technique_id: "T1076",
+        technique_id: "T1021.001",
         tactic: "lateral-movement",
         name: "Remote Desktop Protocol",
         artifact_ids: &["evtx_rdp_inbound", "evtx_rdp_client", "evtx_security"],
@@ -1653,10 +1653,10 @@ static EQUIFAX_BREACH_ACTIONS: &[FlowAction] = &[
         artifact_ids: &["evtx_security", "vpn_ras_phonebook"],
         leads_to: &[10, 11],
     },
-    // [10] T1070.001
+    // [10] T1685.005
     FlowAction {
-        technique_id: "T1070.001",
-        tactic: "defense-evasion",
+        technique_id: "T1685.005",
+        tactic: "defense-impairment",
         name: "Clear Windows Event Logs",
         artifact_ids: &["evtx_security", "evtx_system", "usn_journal"],
         leads_to: &[],
@@ -2099,10 +2099,10 @@ static FIN13_CASE_1_ACTIONS: &[FlowAction] = &[
         artifact_ids: &["evtx_security", "dpapi_masterkey_user"],
         leads_to: &[14],
     },
-    // [12] T1070.002
+    // [12] T1685.006
     FlowAction {
-        technique_id: "T1070.002",
-        tactic: "defense-evasion",
+        technique_id: "T1685.006",
+        tactic: "defense-impairment",
         name: "Clear Linux or Mac System Logs",
         artifact_ids: &["evtx_security", "usn_journal"],
         leads_to: &[14],
@@ -2597,10 +2597,10 @@ static GOOTLOADER_ACTIONS: &[FlowAction] = &[
         ],
         leads_to: &[12],
     },
-    // [12] T1562.001
+    // [12] T1685
     FlowAction {
-        technique_id: "T1562.001",
-        tactic: "defense-evasion",
+        technique_id: "T1685",
+        tactic: "defense-impairment",
         name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[13],
@@ -2677,10 +2677,10 @@ static GOOTLOADER_ACTIONS: &[FlowAction] = &[
         artifact_ids: &["evtx_rdp_inbound", "evtx_rdp_client", "evtx_security"],
         leads_to: &[21],
     },
-    // [21] T1562.001
+    // [21] T1685
     FlowAction {
-        technique_id: "T1562.001",
-        tactic: "defense-evasion",
+        technique_id: "T1685",
+        tactic: "defense-impairment",
         name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[22],
@@ -2709,10 +2709,10 @@ static GOOTLOADER_ACTIONS: &[FlowAction] = &[
         artifact_ids: &["evtx_rdp_inbound", "evtx_rdp_client", "evtx_security"],
         leads_to: &[25, 26, 27],
     },
-    // [25] T1562.001
+    // [25] T1685
     FlowAction {
-        technique_id: "T1562.001",
-        tactic: "defense-evasion",
+        technique_id: "T1685",
+        tactic: "defense-impairment",
         name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[28],
@@ -2757,10 +2757,10 @@ static GOOTLOADER_ACTIONS: &[FlowAction] = &[
         ],
         leads_to: &[32],
     },
-    // [30] T1562.001
+    // [30] T1685
     FlowAction {
-        technique_id: "T1562.001",
-        tactic: "defense-evasion",
+        technique_id: "T1685",
+        tactic: "defense-impairment",
         name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[32],
@@ -3051,19 +3051,19 @@ static IVANTI_VULNERABILITIES_ACTIONS: &[FlowAction] = &[
         artifact_ids: &["evtx_security"],
         leads_to: &[],
     },
-    // [5] T1070.002
+    // [5] T1685.006
     FlowAction {
-        technique_id: "T1070.002",
-        tactic: "defense-evasion",
+        technique_id: "T1685.006",
+        tactic: "defense-impairment",
         name: "Clear Linux or Mac System Logs",
         artifact_ids: &["evtx_security", "usn_journal"],
         leads_to: &[],
     },
-    // [6] T1562
+    // [6] T1685
     FlowAction {
-        technique_id: "T1562",
-        tactic: "defense-evasion",
-        name: "Impair Defenses",
+        technique_id: "T1685",
+        tactic: "defense-impairment",
+        name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[],
     },
@@ -3697,19 +3697,19 @@ Unix Shell",
         artifact_ids: &["evtx_security", "srum_network_usage"],
         leads_to: &[15, 16],
     },
-    // [15] T1562.001
+    // [15] T1685
     FlowAction {
-        technique_id: "T1562.001",
+        technique_id: "T1685",
         tactic: "unknown",
-        name: "Impair Defense: Disable or Modify Tools",
+        name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[16],
     },
-    // [16] T1562.001
+    // [16] T1685
     FlowAction {
-        technique_id: "T1562.001",
+        technique_id: "T1685",
         tactic: "unknown",
-        name: "Impair Defenses: Disable or Modify Tools",
+        name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[17],
     },
@@ -4281,10 +4281,10 @@ static NOTPETYA_ACTIONS: &[FlowAction] = &[
         artifact_ids: &["mft_file", "usn_journal", "recycle_bin"],
         leads_to: &[20],
     },
-    // [20] T1070.001
+    // [20] T1685.005
     FlowAction {
-        technique_id: "T1070.001",
-        tactic: "defense-evasion",
+        technique_id: "T1685.005",
+        tactic: "defense-impairment",
         name: "Clear Windows Event Logs",
         artifact_ids: &["evtx_security", "evtx_system", "usn_journal"],
         leads_to: &[21],
@@ -5100,10 +5100,10 @@ static SWIFT_HEIST_ACTIONS: &[FlowAction] = &[
         artifact_ids: &["recycle_bin", "usn_journal", "mft_file"],
         leads_to: &[9],
     },
-    // [9] T1562.001
+    // [9] T1685
     FlowAction {
-        technique_id: "T1562.001",
-        tactic: "defense-evasion",
+        technique_id: "T1685",
+        tactic: "defense-impairment",
         name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[10],
@@ -6702,10 +6702,10 @@ static WHISPERGATE_ACTIONS: &[FlowAction] = &[
         artifact_ids: &["prefetch_dir", "evtx_sysmon"],
         leads_to: &[8],
     },
-    // [8] T1562.001
+    // [8] T1685
     FlowAction {
-        technique_id: "T1562.001",
-        tactic: "defense-evasion",
+        technique_id: "T1685",
+        tactic: "defense-impairment",
         name: "Disable or Modify Tools",
         artifact_ids: &["evtx_security", "evtx_system"],
         leads_to: &[9],

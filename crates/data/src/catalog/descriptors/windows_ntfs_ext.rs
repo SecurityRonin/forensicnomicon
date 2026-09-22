@@ -927,7 +927,7 @@ ntfs_usn_reason_flags (USN_REASON_SECURITY_CHANGE 0x800 records WHEN rights chan
 records what they became).",
     mitre_techniques: &[
         "T1222.001", // File and Directory Permissions Modification: Windows
-        "T1562.002", // Impair Defenses: Disable Windows Event Logging (SACL removal)
+        "T1685.001", // Disable or Modify Windows Event Log (SACL removal)
         "T1070",     // Indicator Removal on Host
     ],
     fields: NTFS_SECURE_SDS_FIELDS,

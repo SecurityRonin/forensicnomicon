@@ -21,7 +21,7 @@ pub(crate) static LINUX_AUDITD_LOG: ArtifactDescriptor = ArtifactDescriptor {
     os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Linux Audit daemon log recording syscall-level events: file access, process execution (execve), privilege escalation, network connections, and authentication. The highest-fidelity forensic source on Linux when configured — provides a comprehensive record equivalent to Sysmon on Windows.",
-    mitre_techniques: &["T1562.001", "T1059", "T1078"],
+    mitre_techniques: &["T1685.004", "T1059", "T1078"], // v19: T1685.004 Disable or Modify Linux Audit System Log
     fields: &[
         FieldSchema { name: "type", value_type: ValueType::Text, description: "Audit record type (SYSCALL, EXECVE, etc.)", is_uid_component: true },
         FieldSchema { name: "pid", value_type: ValueType::UnsignedInt, description: "Process ID", is_uid_component: false },
@@ -52,7 +52,7 @@ pub(crate) static LINUX_AUDIT_RULES: ArtifactDescriptor = ArtifactDescriptor {
     os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Active auditd ruleset defining what syscalls and file accesses are monitored. Reviewing rules reveals coverage gaps and attacker-planted rule deletions that silently disable monitoring of specific activity.",
-    mitre_techniques: &["T1562.001"],
+    mitre_techniques: &["T1685.004"], // v19: T1685.004 Disable or Modify Linux Audit System Log
     fields: &[FieldSchema { name: "rule", value_type: ValueType::Text, description: "Audit rule definition", is_uid_component: true }],
     retention: Some("Persistent configuration"),
     triage_priority: TriagePriority::High,
@@ -76,7 +76,7 @@ pub(crate) static LINUX_SYSLOG: ArtifactDescriptor = ArtifactDescriptor {
     os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Main system log on Debian/Ubuntu aggregating messages from most daemons (cron, NetworkManager, rsyslogd, kernel, etc.). Broad-spectrum timeline reconstruction source — often the first log checked in Linux IR.",
-    mitre_techniques: &["T1562.002"],
+    mitre_techniques: &["T1685.006"], // v19: T1685.006 Clear Linux or Mac System Logs; the Windows-only predecessor never fit this artifact
     fields: &[
         FieldSchema { name: "facility", value_type: ValueType::Text, description: "Syslog facility (auth, kern, daemon, etc.)", is_uid_component: false },
         FieldSchema { name: "message", value_type: ValueType::Text, description: "Log message body", is_uid_component: true },
@@ -106,7 +106,7 @@ pub(crate) static LINUX_MESSAGES_LOG: ArtifactDescriptor = ArtifactDescriptor {
     os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Main system log on RHEL/CentOS/Fedora (equivalent to /var/log/syslog on Debian). Contains daemon messages, hardware events, and network activity. Primary starting point for Linux IR on Red Hat-family systems.",
-    mitre_techniques: &["T1562.002"],
+    mitre_techniques: &["T1685.006"], // v19: T1685.006 Clear Linux or Mac System Logs; the Windows-only predecessor never fit this artifact
     fields: &[FieldSchema { name: "message", value_type: ValueType::Text, description: "Log message body", is_uid_component: true }],
     retention: Some("Rotated; 4 rotations kept"),
     triage_priority: TriagePriority::High,
@@ -344,7 +344,7 @@ pub(crate) static LINUX_SELINUX_CONFIG: ArtifactDescriptor = ArtifactDescriptor 
     os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "SELinux mode configuration (Enforcing/Permissive/Disabled). An attacker who sets SELINUX=permissive or disabled removes mandatory access control enforcement — this file persists the change across reboots and is a clear indicator of defense evasion.",
-    mitre_techniques: &["T1562"],
+    mitre_techniques: &["T1685"],
     fields: &[FieldSchema { name: "selinux_mode", value_type: ValueType::Text, description: "SELinux mode (enforcing/permissive/disabled)", is_uid_component: true }],
     retention: Some("Persistent"),
     triage_priority: TriagePriority::Critical,
@@ -371,7 +371,7 @@ pub(crate) static LINUX_APPARMOR_PROFILES: ArtifactDescriptor = ArtifactDescript
     os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "AppArmor mandatory access control profiles for confined processes. Attacker modification of profiles can silently grant confined processes expanded file, network, or capability permissions — effective defense evasion on Ubuntu/Debian systems.",
-    mitre_techniques: &["T1562"],
+    mitre_techniques: &["T1685"],
     fields: &[FieldSchema { name: "profile_name", value_type: ValueType::Text, description: "AppArmor profile name (usually process path)", is_uid_component: true }],
     retention: Some("Persistent configuration"),
     triage_priority: TriagePriority::High,
@@ -398,7 +398,7 @@ pub(crate) static LINUX_IPTABLES_RULES: ArtifactDescriptor = ArtifactDescriptor 
     os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Persisted IPv4 iptables ruleset (Debian/Ubuntu). Reveals firewall configuration including port redirections, ACCEPT/DROP rules, and logging targets. Attacker modification can open ports for C2 reverse shells or disable egress filtering.",
-    mitre_techniques: &["T1562.004"],
+    mitre_techniques: &["T1686"],
     fields: &[FieldSchema { name: "rule", value_type: ValueType::Text, description: "iptables rule definition", is_uid_component: true }],
     retention: Some("Persistent"),
     triage_priority: TriagePriority::High,
@@ -428,7 +428,7 @@ pub(crate) static LINUX_NFTABLES_CONF: ArtifactDescriptor = ArtifactDescriptor {
     os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "nftables firewall configuration (modern replacement for iptables on RHEL 8+/Debian 10+). Modification reveals firewall tampering for defense evasion or lateral movement facilitation.",
-    mitre_techniques: &["T1562.004"],
+    mitre_techniques: &["T1686"],
     fields: &[FieldSchema { name: "rule", value_type: ValueType::Text, description: "nftables rule definition", is_uid_component: true }],
     retention: Some("Persistent"),
     triage_priority: TriagePriority::High,
@@ -606,7 +606,7 @@ pub(crate) static LINUX_DOCKER_DAEMON_JSON: ArtifactDescriptor = ArtifactDescrip
     os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Docker daemon configuration. Modification can enable insecure registries, disable content trust, expose the Docker API socket via TCP (unauthenticated), or configure privileged containers — all high-value attacker persistence and escalation techniques.",
-    mitre_techniques: &["T1610", "T1562"],
+    mitre_techniques: &["T1610", "T1685"],
     fields: &[FieldSchema { name: "config_key", value_type: ValueType::Text, description: "Configuration parameter", is_uid_component: true }],
     retention: Some("Persistent"),
     triage_priority: TriagePriority::High,
@@ -1045,7 +1045,7 @@ pub(crate) static LINUX_SYSCTL_CONF: ArtifactDescriptor = ArtifactDescriptor {
     os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Kernel parameter configuration applied at boot. Attackers modify sysctl parameters for persistence or evasion: disabling core dumps (kernel.core_pattern for malicious handler), enabling IP forwarding for routing attacks (net.ipv4.ip_forward=1), or modifying memory protection (kernel.randomize_va_space=0 to disable ASLR).",
-    mitre_techniques: &["T1562.006", "T1547.011"],
+    mitre_techniques: &["T1685"], // v19: T1685; dropped macOS-only Plist Modification — never applicable to sysctl
     fields: &[],
     retention: Some("Persistent configuration file"),
     triage_priority: TriagePriority::High,
@@ -1300,7 +1300,7 @@ pub(crate) static ESXI_ATTESTD_LOG: ArtifactDescriptor = ArtifactDescriptor {
         unauthorized firmware changes, or a host being removed from a trusted cluster. \
         Relevant in vTA deployments; cross-reference with esxtokend.log and kmxa.log for \
         full Trust Authority chain visibility.",
-    mitre_techniques: &["T1562"],
+    mitre_techniques: &["T1685"],
     fields: &[FieldSchema {
         name: "log_entry",
         value_type: ValueType::Text,
@@ -1340,7 +1340,7 @@ pub(crate) static ESXI_ESXTOKEND_LOG: ArtifactDescriptor = ArtifactDescriptor {
         Unexpected or high-volume token requests, authentication failures, or service restarts \
         may indicate credential harvesting against the ESXi trust chain. \
         Correlate with attestd.log and kmxa.log for full vTA event reconstruction.",
-    mitre_techniques: &["T1552", "T1562"],
+    mitre_techniques: &["T1552", "T1685"],
     fields: &[FieldSchema {
         name: "log_entry",
         value_type: ValueType::Text,
@@ -1705,7 +1705,7 @@ pub(crate) static LINUX_JOURNALD_CONF: ArtifactDescriptor = ArtifactDescriptor {
         10% of the filesystem, capped at 4G) and so bound retention. Reviewing this file \
         explains why a journal is missing, short, or memory-only — before that absence is \
         misread as tampering.",
-    mitre_techniques: &["T1562.001"],
+    mitre_techniques: &["T1685"],
     fields: &[
         FieldSchema { name: "Storage", value_type: ValueType::Text, description: "volatile | persistent | auto | none", is_uid_component: false },
         FieldSchema { name: "SystemMaxUse", value_type: ValueType::Text, description: "Disk-usage cap for /var/log/journal; bounds retention", is_uid_component: false },
@@ -2048,7 +2048,7 @@ pub(crate) static LINUX_UFW_LOG: ArtifactDescriptor = ArtifactDescriptor {
         facility; on rsyslog-configured systems (Ubuntu default) those lines are split into \
         /var/log/ufw.log. Inbound scans, blocked C2 callbacks and allowed sessions through \
         the host firewall are reconstructed from here.",
-    mitre_techniques: &["T1562.004"],
+    mitre_techniques: &["T1686"],
     fields: &[
         FieldSchema { name: "action", value_type: ValueType::Text, description: "[UFW BLOCK] / [UFW ALLOW] / [UFW AUDIT] verdict tag", is_uid_component: false },
         FieldSchema { name: "src", value_type: ValueType::Text, description: "Source IP (SRC=)", is_uid_component: true },
@@ -2085,7 +2085,7 @@ pub(crate) static LINUX_FIREWALLD_CONFIG: ArtifactDescriptor = ArtifactDescripto
         host firewall — an added zone, a widened service, or a permanent allow rule planted \
         for C2. Runtime-only changes never touch these files, so runtime state must be \
         captured live (firewall-cmd) before shutdown.",
-    mitre_techniques: &["T1562.004"],
+    mitre_techniques: &["T1686"],
     fields: &[FieldSchema {
         name: "zone_xml",
         value_type: ValueType::Text,
@@ -2164,7 +2164,7 @@ pub(crate) static LINUX_SYSMON_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
         /var/log/syslog; the bundled /opt/sysmon/sysmonLogView extracts and renders them. \
         Any syslog acquisition from a Sysmon-instrumented host therefore already contains \
         this high-fidelity telemetry.",
-    mitre_techniques: &["T1562.001"],
+    mitre_techniques: &["T1685"],
     fields: &[
         FieldSchema { name: "event_xml", value_type: ValueType::Text, description: "Sysmon event record serialized as XML inside the syslog line", is_uid_component: false },
         FieldSchema { name: "command_line", value_type: ValueType::Text, description: "CommandLine of process-creation events (Event ID 1)", is_uid_component: false },

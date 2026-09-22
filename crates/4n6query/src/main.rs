@@ -708,7 +708,7 @@ fn run_query(term: &str, platform: Option<Platform>, format: Format) -> i32 {
 fn techniques_for_scenario(scenario: &str) -> Option<&'static [&'static str]> {
     match scenario {
         "ransomware" => Some(&[
-            "T1486", "T1490", "T1489", "T1059", "T1204", "T1070", "T1562", "T1003",
+            "T1486", "T1490", "T1489", "T1059", "T1204", "T1070", "T1685", "T1003",
         ]),
         "data-breach" => Some(&[
             "T1048", "T1041", "T1537", "T1567", "T1005", "T1003", "T1555",
@@ -731,7 +731,7 @@ fn techniques_for_tactic(tactic: &str) -> Option<&'static [&'static str]> {
         ]),
         "privilege-escalation" => Some(&["T1548", "T1134", "T1611", "T1068"]),
         "defense-evasion" => Some(&[
-            "T1027", "T1036", "T1055", "T1070", "T1218", "T1562", "T1564",
+            "T1027", "T1036", "T1055", "T1070", "T1218", "T1685", "T1564",
         ]),
         "credential-access" => Some(&["T1003", "T1040", "T1555", "T1552", "T1558", "T1110"]),
         "discovery" => Some(&["T1012", "T1018", "T1082", "T1083", "T1087", "T1217"]),

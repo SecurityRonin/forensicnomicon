@@ -75,6 +75,16 @@ def clean(s, n=64):
     s=re.sub(r'[^\x20-\x7e]', '', (s or "")).replace('\\','').replace('"',"'").strip()
     return s[:n].strip()
 
+# Revoked ATT&CK IDs still emitted by the upstream LOLDrivers feed, mapped
+# to their v19 successors. Authority: tests/attack_id_currency.rs.
+REVOKED_REMAP={"T1562":"T1685","T1562.001":"T1685","T1562.002":"T1685.001",
+ "T1562.003":"T1690","T1562.004":"T1686","T1562.006":"T1685",
+ "T1562.007":"T1686.001","T1562.008":"T1685.002","T1562.009":"T1688",
+ "T1562.010":"T1689","T1562.011":"T1685.003","T1562.012":"T1685.004",
+ "T1562.013":"T1686.002","T1070.001":"T1685.005","T1070.002":"T1685.006",
+ "T1053.001":"T1053.002","T1547.011":"T1647","T1574.002":"T1574.001",
+ "T1076":"T1021.001","T1215":"T1547.006","T1487":"T1561.002"}
+
 def build(path):
     data=json.load(open(path))
     m={}
@@ -116,7 +126,7 @@ def emit(m):
         cat="Malicious" if d["cat"].startswith("malicious") else "Vulnerable"
         svc=SERVICE_NAMES.get(b, [])
         sha=sorted(set(d["sha"]))[:SHA_CAP]
-        cve=sorted(d["cve"]); mitre=sorted(d["mitre"]) or (["T1068"] if not d["guid"] else [])
+        cve=sorted(d["cve"]); mitre=sorted({REVOKED_REMAP.get(t,t) for t in d["mitre"]}) or (["T1068"] if not d["guid"] else [])
         ek="true" if b in EDR_KILLER else "false"
         hvci="true" if d["hvci"] else "false"
         lbl=LABEL_OVERRIDE.get(b) or clean(d["label"]) or b[:-4]

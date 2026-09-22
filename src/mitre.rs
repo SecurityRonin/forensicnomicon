@@ -6,6 +6,13 @@
 //! - [`lookup_attack_for_rule_name`] — map a YARA rule name prefix to its
 //!   ATT&CK technique, for enriching YARA scan results without embedding
 //!   forensic knowledge in the calling tool
+//!
+//! Technique IDs conform to **MITRE ATT&CK v19.2** (checked 2026-09-22
+//! against MITRE's STIX data); `tests/attack_id_currency.rs` enforces
+//! this across the workspace. Tactic strings: techniques moved to the
+//! v19 Defense Impairment tactic (TA0112) say "defense-impairment";
+//! TA0005 entries keep the legacy "defense-evasion" spelling of what
+//! v19 renames Stealth.
 
 /// A resolved MITRE ATT&CK technique entry.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -147,9 +154,9 @@ static ATTACK_PREFIXES: &[(&[u8], &str, &str, &str)] = &[
     ), // botnet_
     (
         &[0xc6, 0xc9, 0xd3, 0xce, 0xc6, 0xd1, 0xf8],
-        "T1562",
-        "defense-evasion",
-        "Impair Defenses",
+        "T1685",
+        "defense-impairment",
+        "Disable or Modify Tools",
     ), // antiav_
     (
         &[0xd3, 0xd5, 0xc8, 0xcd, 0xc6, 0xc9, 0xf8],
@@ -1776,9 +1783,9 @@ static ATTACK_PREFIXES: &[(&[u8], &str, &str, &str)] = &[
     ), // timestomp_
     (
         &[0xcb, 0xc8, 0xc0, 0xc4, 0xcb, 0xc2, 0xc6, 0xd5, 0xf8],
-        "T1070.001",
-        "defense-evasion",
-        "Indicator Removal: Clear Windows Event Logs",
+        "T1685.005",
+        "defense-impairment",
+        "Disable or Modify Tools: Clear Windows Event Logs",
     ), // logclear_
     (
         &[0xd2, 0xc6, 0xc4, 0xc5, 0xde, 0xd7, 0xc6, 0xd4, 0xd4, 0xf8],
@@ -1796,9 +1803,9 @@ static ATTACK_PREFIXES: &[(&[u8], &str, &str, &str)] = &[
         &[
             0xc3, 0xcb, 0xcb, 0xd4, 0xce, 0xc3, 0xc2, 0xcb, 0xc8, 0xc6, 0xc3, 0xf8,
         ],
-        "T1574.002",
+        "T1574.001",
         "defense-evasion",
-        "Hijack Execution Flow: DLL Side-Loading",
+        "Hijack Execution Flow: DLL",
     ), // dllsideload_
     (
         &[
@@ -1838,49 +1845,49 @@ static ATTACK_PREFIXES: &[(&[u8], &str, &str, &str)] = &[
     ), // sign_forge_
     (
         &[0xd2, 0xc9, 0xcf, 0xc8, 0xc8, 0xcc, 0xf8],
-        "T1562.001",
-        "defense-evasion",
-        "Impair Defenses: Disable or Modify Tools",
+        "T1685",
+        "defense-impairment",
+        "Disable or Modify Tools",
     ), // unhook_
     (
         &[
             0xc2, 0xc3, 0xd5, 0xf8, 0xc5, 0xde, 0xd7, 0xc6, 0xd4, 0xd4, 0xf8,
         ],
-        "T1562.001",
-        "defense-evasion",
-        "Impair Defenses: Disable or Modify Tools",
+        "T1685",
+        "defense-impairment",
+        "Disable or Modify Tools",
     ), // edr_bypass_
     (
         &[
             0xc6, 0xca, 0xd4, 0xce, 0xf8, 0xc5, 0xde, 0xd7, 0xc6, 0xd4, 0xd4, 0xf8,
         ],
-        "T1562.001",
-        "defense-evasion",
-        "Impair Defenses: Disable or Modify Tools",
+        "T1685",
+        "defense-impairment",
+        "Disable or Modify Tools",
     ), // amsi_bypass_
     (
         &[
             0xc4, 0xcb, 0xca, 0xf8, 0xc5, 0xde, 0xd7, 0xc6, 0xd4, 0xd4, 0xf8,
         ],
-        "T1562",
-        "defense-evasion",
-        "Impair Defenses",
+        "T1685",
+        "defense-impairment",
+        "Disable or Modify Tools",
     ), // clm_bypass_
     (
         &[
             0xc2, 0xd3, 0xd0, 0xf8, 0xc5, 0xde, 0xd7, 0xc6, 0xd4, 0xd4, 0xf8,
         ],
-        "T1562.006",
-        "defense-evasion",
-        "Impair Defenses: Disable or Modify Cloud Logs",
+        "T1685",
+        "defense-impairment",
+        "Disable or Modify Tools",
     ), // etw_bypass_
     (
         &[
             0xc3, 0xc2, 0xc1, 0xc2, 0xc9, 0xc3, 0xc2, 0xd5, 0xf8, 0xcc, 0xce, 0xcb, 0xcb, 0xf8,
         ],
-        "T1562.001",
-        "defense-evasion",
-        "Impair Defenses: Disable or Modify Tools",
+        "T1685",
+        "defense-impairment",
+        "Disable or Modify Tools",
     ), // defender_kill_
     (
         &[0xcb, 0xc8, 0xcb, 0xc5, 0xce, 0xc9, 0xf8],
@@ -1952,9 +1959,9 @@ static ATTACK_PREFIXES: &[(&[u8], &str, &str, &str)] = &[
         &[
             0xc0, 0xcf, 0xc8, 0xd4, 0xd3, 0xd0, 0xd5, 0xce, 0xd3, 0xc2, 0xf8,
         ],
-        "T1055.016",
+        "T1055",
         "defense-evasion",
-        "Process Injection: Process Ghostwriting",
+        "Process Injection",
     ), // ghostwrite_
     (
         &[
@@ -3122,10 +3129,10 @@ mod tests {
             ("antivm_cpuid", "T1497"),
             ("antisandbox_sleep", "T1497"),
             ("timestomp_mace", "T1070.006"),
-            ("logclear_evtx", "T1070.001"),
+            ("logclear_evtx", "T1685.005"),
             ("uacbypass_fodhelper", "T1548.002"),
             ("dllhijack_phantom", "T1574.001"),
-            ("dllsideload_teams", "T1574.002"),
+            ("dllsideload_teams", "T1574.001"),
             ("antiforensic_wipe", "T1070"),
         ];
         for (rule, expected_id) in cases {

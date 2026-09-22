@@ -380,7 +380,7 @@ pub const LOLBAS_WINDOWS: &[LolbasEntry] = &[
     // ── T1070 — Indicator Removal ─────────────────────────────────────────────
     LolbasEntry {
         name: "wevtutil.exe",
-        mitre_techniques: &["T1070.001"],
+        mitre_techniques: &["T1685.005"],
         use_cases: UC_DEFENSE_EVASION,
         description: "Windows event log utility; abused to clear event logs.",
     },
@@ -513,7 +513,7 @@ pub const LOLBAS_WINDOWS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "taskkill.exe",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "Terminate processes; kill AV/EDR processes for defense evasion.",
     },
@@ -569,10 +569,10 @@ pub const LOLBAS_WINDOWS: &[LolbasEntry] = &[
         use_cases: UC_NETWORK,
         description: "Robust file copy; mass file staging and exfiltration via shares.",
     },
-    // ── T1562.001 — Disable Security Tools ────────────────────────────────────
+    // ── T1685 — Disable Security Tools ────────────────────────────────────
     LolbasEntry {
         name: "netsh.exe",
-        mitre_techniques: &["T1562.004", "T1090"],
+        mitre_techniques: &["T1686", "T1090"],
         use_cases: UC_DEFENSE_EVASION | UC_NETWORK,
         description: "Network shell; firewall rule manipulation and port forwarding.",
     },
@@ -631,7 +631,7 @@ pub const LOLBAS_WINDOWS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "pskill.exe",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "",
     },
@@ -679,7 +679,7 @@ pub const LOLBAS_WINDOWS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "pssuspend.exe",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "",
     },
@@ -717,13 +717,13 @@ pub const LOLBAS_WINDOWS: &[LolbasEntry] = &[
     LolbasEntry { name: "dsmove.exe", mitre_techniques: &["T1098"], use_cases: UC_RECON, description: "" },
     LolbasEntry { name: "dsquery.exe", mitre_techniques: &["T1087.002"], use_cases: UC_RECON, description: "AD query tool; enumerate users, groups, OUs for lateral movement targeting." },
     LolbasEntry { name: "dsrm.exe", mitre_techniques: &["T1098"], use_cases: UC_RECON, description: "" },
-    LolbasEntry { name: "eventcreate.exe", mitre_techniques: &["T1070.001"], use_cases: UC_DEFENSE_EVASION, description: "" },
+    LolbasEntry { name: "eventcreate.exe", mitre_techniques: &["T1685.005"], use_cases: UC_DEFENSE_EVASION, description: "" },
     LolbasEntry { name: "finger.exe", mitre_techniques: &["T1087"], use_cases: UC_RECON, description: "" },
     LolbasEntry { name: "getmac.exe", mitre_techniques: &["T1016"], use_cases: UC_RECON, description: "" },
     LolbasEntry { name: "gpfixup.exe", mitre_techniques: &["T1484.001"], use_cases: UC_RECON, description: "" },
     LolbasEntry { name: "gpresult.exe", mitre_techniques: &["T1615"], use_cases: UC_RECON, description: "Resultant Set of Policy; enumerate effective GPO settings." },
     LolbasEntry { name: "ldifde.exe", mitre_techniques: &["T1087.002"], use_cases: UC_RECON, description: "" },
-    LolbasEntry { name: "logman.exe", mitre_techniques: &["T1562.006"], use_cases: UC_DEFENSE_EVASION, description: "" },
+    LolbasEntry { name: "logman.exe", mitre_techniques: &["T1685"], use_cases: UC_DEFENSE_EVASION, description: "" },
     LolbasEntry { name: "logoff.exe", mitre_techniques: &["T1529"], use_cases: UC_EXECUTE, description: "" },
     LolbasEntry { name: "manage-bde.exe", mitre_techniques: &["T1486"], use_cases: UC_EXECUTE, description: "BitLocker management; abused to encrypt drives for ransomware impact." },
     LolbasEntry { name: "mofcomp.exe", mitre_techniques: &["T1047"], use_cases: UC_PERSIST, description: "WMI MOF compiler; establish WMI persistence via MOF file import." },
@@ -757,7 +757,7 @@ pub const LOLBAS_WINDOWS: &[LolbasEntry] = &[
     LolbasEntry { name: "srvinfo.exe", mitre_techniques: &["T1082"], use_cases: UC_RECON, description: "" },
     LolbasEntry { name: "takeown.exe", mitre_techniques: &["T1222"], use_cases: UC_BYPASS, description: "" },
     LolbasEntry { name: "tsdiscon.exe", mitre_techniques: &["T1021.001"], use_cases: UC_NETWORK, description: "" },
-    LolbasEntry { name: "tskill.exe", mitre_techniques: &["T1562.001"], use_cases: UC_DEFENSE_EVASION, description: "" },
+    LolbasEntry { name: "tskill.exe", mitre_techniques: &["T1685"], use_cases: UC_DEFENSE_EVASION, description: "" },
     LolbasEntry { name: "typeperf.exe", mitre_techniques: &["T1082"], use_cases: UC_RECON, description: "" },
     LolbasEntry { name: "volrest.exe", mitre_techniques: &["T1490"], use_cases: UC_EXECUTE, description: "" },
     LolbasEntry { name: "waitfor.exe", mitre_techniques: &["T1059.003"], use_cases: UC_EXECUTE, description: "" },
@@ -802,7 +802,7 @@ pub const LOLBAS_WINDOWS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "MpCmdRun.exe",
-        mitre_techniques: &["T1218", "T1562.001"],
+        mitre_techniques: &["T1218", "T1685"],
         use_cases: UC_DOWNLOAD | UC_EXECUTE | UC_BYPASS,
         description: "Windows Defender CLI; downloads payloads via -DownloadFile, executes arbitrary DLLs.",
     },
@@ -900,7 +900,7 @@ pub const LOLBAS_WINDOWS: &[LolbasEntry] = &[
     // Sigma rule 47a69e6a-7829-4014-817b-148846e51f55: Antivirus Disabling via SystemSettingsAdminFlows
     LolbasEntry {
         name: "SystemSettingsAdminFlows.exe",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "Legitimate Windows system-settings binary; abused by LockBit-affiliated threat actors to disable Windows Defender settings on target hosts without triggering standard AV-disable alerts.",
     },
@@ -2573,7 +2573,7 @@ pub const LOLBAS_LINUX: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "nft",
-        mitre_techniques: &["T1562.004"],
+        mitre_techniques: &["T1686"],
         use_cases: UC_DEFENSE_EVASION | UC_NETWORK,
         description: "",
     },
@@ -3902,7 +3902,7 @@ pub const LOLBAS_LINUX: &[LolbasEntry] = &[
 /// | T1548.001 Setuid | find, cp, tee, dd |
 /// | T1553.001 Code Signing | codesign, spctl |
 /// | T1553.004 Trust Bypass | security |
-/// | T1562.001 Disable AV | launchctl (unload MRTd), defaults |
+/// | T1685 Disable AV | launchctl (unload MRTd), defaults |
 /// | T1543.004 Launch Daemon | launchctl, plutil |
 /// | T1036 Masquerading | ditto, cp |
 /// | T1070 Indicator Removal | rm, diskutil |
@@ -4069,7 +4069,7 @@ pub const LOLBAS_MACOS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "defaults",
-        mitre_techniques: &["T1082", "T1562.001"],
+        mitre_techniques: &["T1082", "T1685"],
         use_cases: UC_RECON | UC_DEFENSE_EVASION,
         description: "Read/write plist preferences; config enumeration and modification.",
     },
@@ -4247,7 +4247,7 @@ pub const LOLBAS_MACOS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "pkill",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "Kill processes by name; disable security tools.",
     },
@@ -4855,13 +4855,13 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "Add-EtwTraceProvider",
-        mitre_techniques: &["T1562.006"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "",
     },
     LolbasEntry {
         name: "Add-MpPreference",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "Add Defender exclusion; bypass AV scanning for payloads.",
     },
@@ -4903,7 +4903,7 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "Clear-Eventlog",
-        mitre_techniques: &["T1070.001"],
+        mitre_techniques: &["T1685.005"],
         use_cases: UC_DEFENSE_EVASION,
         description: "Clear Windows event logs; evidence destruction.",
     },
@@ -4945,13 +4945,13 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "Disable-NetAdapter",
-        mitre_techniques: &["T1562.007"],
+        mitre_techniques: &["T1686.001"],
         use_cases: UC_DEFENSE_EVASION,
         description: "",
     },
     LolbasEntry {
         name: "Disable-NetFirewallRule",
-        mitre_techniques: &["T1562.004"],
+        mitre_techniques: &["T1686"],
         use_cases: UC_DEFENSE_EVASION,
         description: "Disable firewall rules; open network for C2.",
     },
@@ -4969,7 +4969,7 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "Enable-NetFirewallRule",
-        mitre_techniques: &["T1562.004"],
+        mitre_techniques: &["T1686"],
         use_cases: UC_NETWORK,
         description: "",
     },
@@ -5233,13 +5233,13 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "Get-EtwTraceProvider",
-        mitre_techniques: &["T1562.006"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_RECON,
         description: "",
     },
     LolbasEntry {
         name: "Get-EtwTraceSession",
-        mitre_techniques: &["T1562.006"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_RECON,
         description: "",
     },
@@ -5629,7 +5629,7 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "New-EtwTraceSession",
-        mitre_techniques: &["T1562.006"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "",
     },
@@ -5653,7 +5653,7 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "New-NetFirewallRule",
-        mitre_techniques: &["T1562.004"],
+        mitre_techniques: &["T1686"],
         use_cases: UC_NETWORK,
         description: "Create firewall rule; open ports for C2 or lateral movement.",
     },
@@ -5749,13 +5749,13 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "Remove-MpPreference",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "Remove Defender settings; weaken AV protection.",
     },
     LolbasEntry {
         name: "Remove-MpThreat",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "",
     },
@@ -5869,7 +5869,7 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "Set-DhcpServerAuditLog",
-        mitre_techniques: &["T1562.006"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "",
     },
@@ -5881,7 +5881,7 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "Set-MpPreference",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "Configure Defender exclusions; bypass AV scanning.",
     },
@@ -5893,19 +5893,19 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "Set-NetFirewallProfile",
-        mitre_techniques: &["T1562.004"],
+        mitre_techniques: &["T1686"],
         use_cases: UC_DEFENSE_EVASION,
         description: "",
     },
     LolbasEntry {
         name: "Set-NetFirewallRule",
-        mitre_techniques: &["T1562.004"],
+        mitre_techniques: &["T1686"],
         use_cases: UC_DEFENSE_EVASION,
         description: "",
     },
     LolbasEntry {
         name: "Set-NetFirewallSetting",
-        mitre_techniques: &["T1562.004"],
+        mitre_techniques: &["T1686"],
         use_cases: UC_DEFENSE_EVASION,
         description: "",
     },
@@ -5989,7 +5989,7 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "Stop-EtwTraceSession",
-        mitre_techniques: &["T1562.006"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "",
     },
@@ -6031,7 +6031,7 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "Write-EventLog",
-        mitre_techniques: &["T1070.001"],
+        mitre_techniques: &["T1685.005"],
         use_cases: UC_DEFENSE_EVASION,
         description: "",
     },
@@ -6277,7 +6277,7 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "Clear-EventLog",
-        mitre_techniques: &["T1070.001"],
+        mitre_techniques: &["T1685.005"],
         use_cases: UC_DEFENSE_EVASION,
         description: "Wipe Windows event logs; evidence destruction.",
     },
@@ -6580,13 +6580,13 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     // Process/service
     LolbasEntry {
         name: "spps",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "Stop-Process alias; kill security processes.",
     },
     LolbasEntry {
         name: "kill",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "Stop-Process alias; terminate AV/EDR processes.",
     },
@@ -6598,7 +6598,7 @@ pub const LOLBAS_WINDOWS_CMDLETS: &[LolbasEntry] = &[
     },
     LolbasEntry {
         name: "spsv",
-        mitre_techniques: &["T1562.001"],
+        mitre_techniques: &["T1685"],
         use_cases: UC_DEFENSE_EVASION,
         description: "Stop-Service alias; disable security services.",
     },
@@ -7017,7 +7017,7 @@ pub const LOLBAS_WINDOWS_MMC: &[LolbasEntry] = &[
     // Firewall / WMI / WSUS
     LolbasEntry {
         name: "WF.msc",
-        mitre_techniques: &["T1218.014", "T1562.004"],
+        mitre_techniques: &["T1218.014", "T1686"],
         use_cases: UC_RECON | UC_DEFENSE_EVASION,
         description: "Windows Firewall with Advanced Security.",
     },
@@ -7235,10 +7235,10 @@ pub const LOLBAS_WINDOWS_WMI: &[LolbasEntry] = &[
         use_cases: UC_RECON,
         description: "Security product enumeration via SecurityCenter2 namespace; AV detection.",
     },
-    // T1562.004 — Impair Defenses: Disable or Modify System Firewall
+    // T1686 — Disable or Modify System Firewall
     LolbasEntry {
         name: "MSFT_NetFirewallProfile",
-        mitre_techniques: &["T1562.004"],
+        mitre_techniques: &["T1686"],
         use_cases: UC_RECON | UC_DEFENSE_EVASION,
         description: "Firewall profile enumeration and disable via WMI; impair network defenses.",
     },
@@ -7899,7 +7899,7 @@ mod tests {
     }
     #[test]
     fn lolbas_windows_contains_mpcmdrun() {
-        // T1218/T1562.001 — Windows Defender command-line; download + bypass
+        // T1218/T1685 — Windows Defender command-line; download + bypass
         assert!(LOLBAS_WINDOWS.iter().any(|e| e.name == "MpCmdRun.exe"));
     }
     #[test]
@@ -7967,7 +7967,7 @@ mod tests {
     }
     #[test]
     fn lolbas_wmi_contains_msft_netfirewallprofile() {
-        // T1562.004 — firewall rule enumeration and disable
+        // T1686 — firewall rule enumeration and disable
         assert!(LOLBAS_WINDOWS_WMI
             .iter()
             .any(|e| e.name == "MSFT_NetFirewallProfile"));
@@ -8053,7 +8053,7 @@ mod tests {
     // Source: https://thedfirreport.com/2026/02/23/apache-activemq-exploit-leads-to-lockbit-ransomware/
     #[test]
     fn lolbas_windows_contains_systemsettingsadminflows() {
-        // T1562.001 — legitimate Windows binary used to disable Windows Defender settings
+        // T1685 — legitimate Windows binary used to disable Windows Defender settings
         // Sigma rule: 47a69e6a-7829-4014-817b-148846e51f55 (Antivirus Disabling via SystemSettingsAdminFlows)
         assert!(LOLBAS_WINDOWS
             .iter()

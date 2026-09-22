@@ -149,7 +149,7 @@ pub const PACKED_SECTION_NAMES: &[&str] = &[
 // ── AV exclusion path / registry fragments ───────────────────────────────────
 
 /// Path and registry key fragments appearing in PE string tables of binaries
-/// that manipulate AV exclusion lists (T1562.001).
+/// that manipulate AV exclusion lists (T1685).
 ///
 /// Match these against ASCII/UTF-16 strings extracted from PE .data/.rdata sections.
 pub const AV_EXCLUSION_PATH_FRAGMENTS: &[&str] = &[
