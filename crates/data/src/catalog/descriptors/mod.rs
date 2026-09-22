@@ -18589,6 +18589,16 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     linux_ext::LINUX_FIREWALLD_CONFIG,
     linux_ext::LINUX_HAPROXY_LOG,
     linux_ext::LINUX_SYSMON_EVENTS,
+    // ── VMware ESXi / vCenter / snapshot memory / WSL ──
+    linux_ext::ESXI_HOSTD_LOG,
+    linux_ext::ESXI_VPXA_LOG,
+    linux_ext::ESXI_SHELL_LOG,
+    linux_ext::ESXI_AUTH_LOG,
+    linux_ext::VCENTER_VPXD_LOG,
+    linux_ext::VMWARE_VMEM_SNAPSHOT,
+    linux_ext::WSL_EXT4_VHDX,
+    linux_ext::LINUX_WSL_CONF,
+    linux_ext::WINDOWS_WSLCONFIG,
     // ── dfir_scripts_generated (374 entries) ─── dfir-scripts.github.io registry artifacts
     generated::dfir_scripts_generated::DFIR_SCRIPTS_COMMON_OPEN_FIND,
     generated::dfir_scripts_generated::DFIR_SCRIPTS_MICROSOFT_OFFICE_14_0,

@@ -2182,3 +2182,333 @@ pub(crate) static LINUX_SYSMON_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Lives inside the rotated syslog stream",
 };
+
+// ── Batch: VMware ESXi / vCenter / snapshot memory / WSL ─────────────────────
+
+pub(crate) static ESXI_HOSTD_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "esxi_hostd_log",
+    name: "ESXi Host Management Log (hostd.log)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/hostd.log"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "Log of the ESXi host management service (hostd): virtual machine and host tasks \
+        and events, communication with the vSphere Client and the vCenter agent (vpxa), and \
+        SDK connections. On a ransomware-hit hypervisor this is where VM power-offs, \
+        unregistered VMs, datastore browsing and mass snapshot deletions performed through \
+        the management plane are recorded.",
+    mitre_techniques: &["T1486"],
+    fields: &[FieldSchema {
+        name: "log_entry",
+        value_type: ValueType::Text,
+        description: "Timestamped hostd log line (task/event/SDK connection)",
+        is_uid_component: false,
+    }],
+    retention: Some("Rotated on the host; older rotations compressed under /var/log/"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["esxi_vpxa_log", "esxi_shell_log", "esxi_auth_log"],
+    sources: &["https://knowledge.broadcom.com/external/article/306962/location-of-esxi-log-files.html"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "ESXi is VMware's own kernel (VMkernel), not a Linux distribution — the /var/log paths are ESXi-specific",
+        "On hosts without persistent scratch storage, /var/log may live on a ramdisk and be lost at reboot",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Rotated log; may sit on a ramdisk on scratchless hosts",
+};
+
+pub(crate) static ESXI_VPXA_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "esxi_vpxa_log",
+    name: "ESXi vCenter Agent Log (vpxa.log)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/vpxa.log"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "Log of vpxa, the vCenter Server agent on the ESXi host: communication between \
+        vCenter and the host's hostd service. Distinguishes actions driven through vCenter \
+        from actions taken directly on the host — an operation in hostd.log with no vpxa \
+        counterpart was done against the host directly, which matters when vCenter \
+        credentials are not the ones compromised.",
+    mitre_techniques: &[],
+    fields: &[FieldSchema {
+        name: "log_entry",
+        value_type: ValueType::Text,
+        description: "Timestamped vpxa log line (vCenter-to-host traffic)",
+        is_uid_component: false,
+    }],
+    retention: Some("Rotated on the host"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["esxi_hostd_log", "vcenter_vpxd_log"],
+    sources: &[
+        "https://knowledge.broadcom.com/external/article/306962/location-of-esxi-log-files.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &["Only present when the host is (or was) managed by a vCenter Server"],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Rotated log; may sit on a ramdisk on scratchless hosts",
+};
+
+pub(crate) static ESXI_SHELL_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "esxi_shell_log",
+    name: "ESXi Shell Command Log (shell.log)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/shell.log"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "ESXi Shell usage log: shell enable/disable events and every command entered in \
+        the ESXi Shell. On a compromised hypervisor this answers 'what did they type' \
+        directly — ransomware operators' encryption binaries, datastore enumeration and \
+        log-clearing attempts all appear as typed commands with timestamps.",
+    mitre_techniques: &["T1059.004"],
+    fields: &[
+        FieldSchema { name: "command", value_type: ValueType::Text, description: "Command line entered in the ESXi Shell", is_uid_component: false },
+        FieldSchema { name: "shell_state", value_type: ValueType::Text, description: "Shell enable/disable event", is_uid_component: false },
+    ],
+    retention: Some("Rotated on the host"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["esxi_auth_log", "esxi_hostd_log"],
+    sources: &["https://knowledge.broadcom.com/external/article/306962/location-of-esxi-log-files.html"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Only captures the ESXi Shell (local/SSH); API-driven actions never appear here — read hostd.log for those",
+        "An attacker with shell access can also clear this log; correlate with remote syslog if configured",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Rotated log; may sit on a ramdisk on scratchless hosts",
+};
+
+pub(crate) static ESXI_AUTH_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "esxi_auth_log",
+    name: "ESXi Shell Authentication Log (auth.log)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/auth.log"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "ESXi Shell authentication successes and failures — who reached the hypervisor's \
+        shell, from where, and when. Paired with shell.log it gives the who-then-what of a \
+        hypervisor intrusion: authenticate here, commands there. Brute-force attempts \
+        against SSH on the host also land here.",
+    mitre_techniques: &["T1078", "T1110"],
+    fields: &[
+        FieldSchema { name: "user", value_type: ValueType::Text, description: "Account authenticating to the shell/SSH", is_uid_component: true },
+        FieldSchema { name: "outcome", value_type: ValueType::Text, description: "Authentication success or failure", is_uid_component: false },
+    ],
+    retention: Some("Rotated on the host"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["esxi_shell_log", "esxi_hostd_log"],
+    sources: &["https://knowledge.broadcom.com/external/article/306962/location-of-esxi-log-files.html"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Same path as the Debian-family Linux auth.log but a different system — do not apply Linux PAM line grammar expectations to it",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Rotated log; may sit on a ramdisk on scratchless hosts",
+};
+
+pub(crate) static VCENTER_VPXD_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "vcenter_vpxd_log",
+    name: "vCenter Server Main Log (vpxd.log, VCSA)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/vmware/vpxd/vpxd.log"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "The main vCenter Server log on the vCenter Server Appliance: vSphere Client and \
+        WebServices connections, internal tasks and events, and communication with the vpxa \
+        agent on every managed ESXi host. vCenter logs group under /var/log/vmware/<service>/ \
+        on the appliance. Management-plane attacks — mass VM operations, permission changes, \
+        host additions — are reconstructed from here across the whole cluster at once.",
+    mitre_techniques: &["T1078"],
+    fields: &[FieldSchema {
+        name: "log_entry",
+        value_type: ValueType::Text,
+        description: "Timestamped vpxd log line (task/event/connection)",
+        is_uid_component: false,
+    }],
+    retention: Some("Rotated and compressed under /var/log/vmware/vpxd/"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["esxi_vpxa_log", "esxi_hostd_log"],
+    sources: &["https://knowledge.broadcom.com/external/article?legacyId=1021804"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "VCSA (Photon OS) path; the deprecated Windows vCenter wrote C:\\ProgramData\\VMware\\vCenterServer\\Logs\\ instead",
+        "The path is lowercase /var/log/vmware/ — case matters on the appliance filesystem",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Rotated and compressed by the appliance",
+};
+
+pub(crate) static VMWARE_VMEM_SNAPSHOT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "vmware_vmem_snapshot",
+    name: "VMware Snapshot Memory Pair (.vmem + .vmss/.vmsn)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "Guest RAM captured by a VMware snapshot or suspend: the .vmem file holds the \
+        memory pages, but it is not self-describing — Volatility 3's VMware layer looks for \
+        a same-named .vmss or .vmsn metadata file beside it and warns that one 'may be \
+        required to correctly process a VMEM file'. Collect BOTH files from the datastore, \
+        from the same snapshot. Snapshotting a running VM with its memory checkbox ticked \
+        is a hypervisor-level memory acquisition that needs no agent in the guest.",
+    mitre_techniques: &[],
+    fields: &[
+        FieldSchema { name: "vmem", value_type: ValueType::Bytes, description: "Guest physical memory pages", is_uid_component: false },
+        FieldSchema { name: "vmss_vmsn", value_type: ValueType::Bytes, description: "Suspend/snapshot metadata: run groups and memory region offsets", is_uid_component: false },
+    ],
+    retention: Some("Persists on the datastore until the snapshot is deleted/consolidated"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["esxi_hostd_log"],
+    sources: &[
+        "https://raw.githubusercontent.com/volatilityfoundation/volatility3/develop/volatility3/framework/layers/vmware.py",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "A snapshot taken WITHOUT the memory option produces no .vmem — verify before relying on it",
+        "The metadata file must share the .vmem's base name and directory for tooling to auto-pair them",
+        "The same pair appears on Workstation/Fusion host filesystems, not only ESXi datastores",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Datastore files; persist until snapshot deletion/consolidation",
+};
+
+pub(crate) static WSL_EXT4_VHDX: ArtifactDescriptor = ArtifactDescriptor {
+    id: "wsl_ext4_vhdx",
+    name: "WSL2 Distribution Disk (ext4.vhdx)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%LOCALAPPDATA%\\Packages\\<PackageFamilyName>\\LocalState\\ext4.vhdx"),
+    scope: DataScope::User,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "The entire filesystem of a WSL2 Linux distribution inside one Windows file: a \
+        VHDX containing an ext4 volume, one per installed distro, under that distro package's \
+        LocalState folder. The authoritative per-distro path is the BasePath value under \
+        HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Lxss. Pull this file and every \
+        Linux dead-box technique applies to a 'Windows' endpoint — shell history, cron, SSH \
+        keys, logs all live inside it at their normal distro-specific locations.",
+    mitre_techniques: &["T1564.006"],
+    fields: &[FieldSchema {
+        name: "vhdx",
+        value_type: ValueType::Bytes,
+        description: "VHDX-wrapped ext4 filesystem of the distro",
+        is_uid_component: false,
+    }],
+    retention: Some("Persists until the distro is unregistered"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["linux_wsl_conf", "windows_wslconfig", "linux_bash_history"],
+    sources: &["https://learn.microsoft.com/en-us/windows/wsl/disk-space"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "WSL2 only; a WSL1 distro stores its files directly on NTFS instead of inside a vhdx",
+        "The package folder name varies per distro/vendor — resolve it from the Lxss registry key rather than guessing",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Disk image file; persists until the distro is unregistered",
+};
+
+pub(crate) static LINUX_WSL_CONF: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_wsl_conf",
+    name: "WSL Per-Distribution Config (/etc/wsl.conf)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/etc/wsl.conf"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "Per-distribution WSL settings, stored inside the Linux distro: boot command \
+        (boot.command runs at distro start — a persistence spot), automount of Windows \
+        drives, networking, Windows-interop enablement, systemd usage, and the default \
+        user. In any WSL-focused examination this file says how tightly the Linux \
+        environment was coupled to the host and whether anything launches at distro boot.",
+    mitre_techniques: &["T1564.006"],
+    fields: &[FieldSchema {
+        name: "setting",
+        value_type: ValueType::Text,
+        description: "INI-style key under [automount]/[network]/[interop]/[user]/[boot]",
+        is_uid_component: false,
+    }],
+    retention: Some("Persistent file inside the distro filesystem"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["wsl_ext4_vhdx", "windows_wslconfig"],
+    sources: &["https://learn.microsoft.com/en-us/windows/wsl/wsl-config"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Only meaningful inside a WSL distribution; a bare-metal Linux host has no use for it",
+        "Not present by default — absence is normal, presence means someone configured the distro",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration file inside the distro vhdx",
+};
+
+pub(crate) static WINDOWS_WSLCONFIG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "windows_wslconfig",
+    name: "WSL Global Config (%UserProfile%\\.wslconfig)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("%UserProfile%\\.wslconfig"),
+    scope: DataScope::User,
+    os_scope: OsScope::Win10Plus,
+    decoder: Decoder::Identity,
+    meaning: "Global WSL2 settings on the Windows side of the boundary: VM resources (memory, \
+        processors), a custom kernel to boot (kernel= pointing at an attacker-supplied \
+        kernel is a hiding/persistence avenue), swap file location, and feature toggles for \
+        every WSL2 distro of that user. Lives in the Windows user profile root and applies \
+        across all distros, where /etc/wsl.conf is per-distro.",
+    mitre_techniques: &["T1564.006"],
+    fields: &[FieldSchema {
+        name: "setting",
+        value_type: ValueType::Text,
+        description: "INI-style key under [wsl2] (memory, processors, kernel, swap, ...)",
+        is_uid_component: false,
+    }],
+    retention: Some("Persistent file in the user profile"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["wsl_ext4_vhdx", "linux_wsl_conf"],
+    sources: &["https://learn.microsoft.com/en-us/windows/wsl/wsl-config"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Not present by default; settings apply to WSL2 distros only",
+        "A kernel= line pointing outside the default Microsoft kernel is worth pulling and examining",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration file; persists until edited",
+};
