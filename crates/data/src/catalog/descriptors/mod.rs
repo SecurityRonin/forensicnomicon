@@ -18599,6 +18599,11 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     linux_ext::WSL_EXT4_VHDX,
     linux_ext::LINUX_WSL_CONF,
     linux_ext::WINDOWS_WSLCONFIG,
+    // ── memory acquisition sources & package-manager logs ──
+    linux_ext::LINUX_PROC_KCORE,
+    linux_ext::LINUX_DEV_SHM,
+    linux_ext::LINUX_DNF_LOG,
+    linux_ext::LINUX_CILIUM_LOG,
     // ── dfir_scripts_generated (374 entries) ─── dfir-scripts.github.io registry artifacts
     generated::dfir_scripts_generated::DFIR_SCRIPTS_COMMON_OPEN_FIND,
     generated::dfir_scripts_generated::DFIR_SCRIPTS_MICROSOFT_OFFICE_14_0,

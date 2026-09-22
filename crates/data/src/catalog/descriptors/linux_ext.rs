@@ -2512,3 +2512,155 @@ pub(crate) static WINDOWS_WSLCONFIG: ArtifactDescriptor = ArtifactDescriptor {
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Configuration file; persists until edited",
 };
+
+// ── Batch: memory acquisition sources & package-manager logs ────────────────
+
+pub(crate) static LINUX_PROC_KCORE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_proc_kcore",
+    name: "Kernel Core Interface (/proc/kcore)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/proc/kcore"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "Pseudo-file exposing the system's physical memory in ELF core format — total \
+        length is RAM size plus 4 KiB. The standard live memory-acquisition source now that \
+        raw /dev/mem access is restricted on modern kernels: AVML iterates /dev/crash, \
+        /proc/kcore and /dev/mem and takes the first functional source, and GDB can walk \
+        kernel structures through it with an unstripped vmlinux. Exists only on a live \
+        system — there is nothing to collect from a dead-box image.",
+    mitre_techniques: &["T1003.007"],
+    fields: &[FieldSchema {
+        name: "elf_core",
+        value_type: ValueType::Bytes,
+        description: "Physical memory exposed as an ELF core image",
+        is_uid_component: false,
+    }],
+    retention: Some("Live only; ceases to exist at power-off"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["linux_dmesg_ring_buffer", "linux_proc_kallsyms"],
+    sources: &[
+        "https://man7.org/linux/man-pages/man5/proc_kcore.5.html",
+        "https://github.com/microsoft/avml",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "With the kernel_lockdown feature enabled, memory acquisition through these interfaces is blocked (AVML documents it cannot acquire under lockdown)",
+        "Reading it perturbs the very memory being acquired; capture order matters",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "Window onto RAM; gone at power-off",
+};
+
+pub(crate) static LINUX_DEV_SHM: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_dev_shm",
+    name: "POSIX Shared-Memory tmpfs (/dev/shm/)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/dev/shm/"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "World-writable tmpfs mount that glibc expects for POSIX shared memory \
+        (shm_open). Because tmpfs keeps every file in virtual memory and nothing here \
+        touches disk, it is a favourite staging/execution directory for attackers: payloads \
+        dropped and run from /dev/shm leave no filesystem residue after reboot. Enumerate \
+        it live and capture contents before power-down; on a dead-box image it will always \
+        be empty.",
+    mitre_techniques: &["T1074.001"],
+    fields: &[FieldSchema {
+        name: "entry",
+        value_type: ValueType::Text,
+        description: "File or directory staged in the shared-memory mount",
+        is_uid_component: false,
+    }],
+    retention: Some("Lost at unmount/reboot; contents can be swapped out if swap is enabled"),
+    triage_priority: TriagePriority::Critical,
+    related_artifacts: &["linux_proc_kcore"],
+    sources: &["https://www.kernel.org/doc/html/latest/filesystems/tmpfs.html"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Empty on any dead-box image — absence of files there proves nothing about live-time use",
+        "Pages may survive in a memory image or in swap even after deletion from the mount",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Volatile),
+    volatility_rationale: "tmpfs lives in virtual memory; lost at reboot",
+};
+
+pub(crate) static LINUX_DNF_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_dnf_log",
+    name: "DNF Package Manager Log (/var/log/dnf.log)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/dnf.log"),
+    scope: DataScope::System,
+    os_scope: OsScope::LinuxRhel,
+    decoder: Decoder::Identity,
+    meaning: "Operation log of DNF, the RHEL/Fedora-family package manager (yum's \
+        successor): dnf's logdir defaults to /var/log, producing dnf.log, dnf.librepo.log \
+        and hawkey.log. An under-used timeline of what software appeared on the box and \
+        when — attacker-installed tools, dependency pulls and removals all leave dated \
+        entries, complementing /var/log/dpkg.log on the Debian side and the RPM database's \
+        install times.",
+    mitre_techniques: &["T1072"],
+    fields: &[
+        FieldSchema { name: "timestamp", value_type: ValueType::Timestamp, description: "Operation time", is_uid_component: false },
+        FieldSchema { name: "message", value_type: ValueType::Text, description: "Install/remove/update operation detail", is_uid_component: false },
+    ],
+    retention: Some("Rotated log_rotate times (dnf default 4), at log_size threshold"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["linux_dpkg_log", "linux_rpm_db"],
+    sources: &["https://dnf.readthedocs.io/en/latest/conf_ref.html"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "RHEL/Fedora family; pre-dnf systems logged to /var/log/yum.log instead",
+        "Packages installed via rpm directly (not dnf) do not appear here — cross-check the RPM database",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Rotated by dnf's own log_rotate setting",
+};
+
+pub(crate) static LINUX_CILIUM_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "linux_cilium_log",
+    name: "Cilium Host Log Directory (/var/log/cilium/) — UNSOURCED LEAD",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/log/cilium/"),
+    scope: DataScope::System,
+    os_scope: OsScope::Linux,
+    decoder: Decoder::Identity,
+    meaning: "Research lead, not an established location: the claim is that Cilium (the \
+        eBPF-based container networking/security layer) writes host-side logs to \
+        /var/log/cilium by default. No primary source could be located for that default. \
+        What IS documented: Cilium agent logs are reached through the container runtime \
+        (kubectl logs / cilium-dbg), the agent's state directory is /var/run/cilium, and \
+        Hubble flow logs can be exported to node-local files at configured paths. Treat a \
+        populated /var/log/cilium as deployment-specific configuration, and capture Cilium \
+        evidence via the runtime log path instead.",
+    mitre_techniques: &[],
+    fields: &[],
+    retention: None,
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &["linux_docker_container_logs"],
+    sources: &["https://docs.cilium.io/en/stable/operations/troubleshooting/"],
+    evidence_strength: None,
+    evidence_tier: Some(crate::evidence::EvidenceTier::SearchedNotFound),
+    evidence_caveats: &[
+        "Searched docs.cilium.io (stable: operations/troubleshooting) and the cilium/cilium agent command reference on GitHub, plus a web search for a documented /var/log/cilium default (2026-09): agent logging is documented via the container runtime, the state directory is /var/run/cilium, and no fixed host log directory is documented",
+        "Do not act on this path in casework; if a deployment writes here it is that deployment's configuration, not a Cilium default",
+    ],
+    volatility: None,
+    volatility_rationale: "",
+};
