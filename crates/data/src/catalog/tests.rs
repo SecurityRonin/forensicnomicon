@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6845;
+const EXPECTED_CATALOG_LEN: usize = 6849;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -12967,6 +12967,63 @@ mod tests_disk_gcfa_ext {
         assert!(
             vmem.meaning.contains(".vmsn") && vmem.meaning.contains(".vmss"),
             "vmware_vmem_snapshot must name the required metadata files"
+        );
+    }
+
+    /// Memory-acquisition & package-manager batch: /proc/kcore, /dev/shm,
+    /// and /var/log/dnf.log — each from kernel/man/vendor documentation.
+    #[test]
+    fn linux_memory_and_misc_batch_is_cataloged() {
+        use crate::evidence::EvidenceTier;
+        for (id, path) in [
+            ("linux_proc_kcore", "/proc/kcore"),
+            ("linux_dev_shm", "/dev/shm/"),
+            ("linux_dnf_log", "/var/log/dnf.log"),
+        ] {
+            let d = CATALOG
+                .by_id(id)
+                .unwrap_or_else(|| panic!("descriptor '{id}' missing from catalog"));
+            assert_eq!(d.file_path, Some(path), "{id}: wrong file_path");
+            assert_eq!(
+                d.evidence_tier,
+                Some(EvidenceTier::VendorDocumented),
+                "{id}: documented in kernel docs / man pages / vendor docs"
+            );
+            assert!(!d.sources.is_empty(), "{id}: sources must not be empty");
+        }
+    }
+
+    /// A researched-but-unsourced Linux lead must be RECORDED, not dropped.
+    ///
+    /// The claim that Cilium writes host logs to /var/log/cilium by default
+    /// could not be sourced: current Cilium documentation routes agent logs
+    /// through the container runtime / kubectl, and the agent's documented
+    /// state directory is /var/run/cilium. Dropping the lead would make the
+    /// catalog read identically to one where nobody ever looked — so it is
+    /// kept at `SearchedNotFound`, and its caveats must NAME where the
+    /// search already went.
+    #[test]
+    fn cilium_host_log_lead_is_recorded_at_searched_not_found() {
+        use crate::evidence::EvidenceTier;
+        let d = CATALOG
+            .by_id("linux_cilium_log")
+            .expect("linux_cilium_log must be recorded, not dropped");
+        assert_eq!(
+            d.evidence_tier,
+            Some(EvidenceTier::SearchedNotFound),
+            "unsourced lead must carry the SearchedNotFound tier"
+        );
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("Searched") || c.contains("searched")),
+            "a SearchedNotFound entry must name where it was looked for"
+        );
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("docs.cilium.io")),
+            "the exhausted search locations must be named concretely"
         );
     }
 }
