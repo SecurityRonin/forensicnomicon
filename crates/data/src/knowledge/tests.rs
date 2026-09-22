@@ -1,6 +1,8 @@
 //! Integrity tests over [`TOOL_BEHAVIOURS`], [`ANTI_FORENSIC_METHODS`],
 //! [`INVESTIGATIVE_TECHNIQUES`] and the correlation-hint slice.
 
+use forensicnomicon_core::evidence::EvidenceTier;
+
 use super::*;
 
 /// The exact number of registered tool behaviours — the single place the
@@ -303,4 +305,45 @@ fn kind_distinguishes_fp_profile_from_silent_incompleteness() {
         by_id("vol2_netscan_silent_gaps").kind,
         ToolBehaviourKind::SilentlyIncomplete
     );
+}
+
+/// A lead that was researched and could NOT be sourced must still be present.
+///
+/// Four absorption agents each dropped such leads, which is what their briefs
+/// asked for and the briefs were wrong: a dropped lead is indistinguishable
+/// from one nobody investigated, so the next reader repeats the same failed
+/// search. `EvidenceTier::SearchedNotFound` exists to keep the negative
+/// result, and the result is only kept if an entry actually carries it.
+#[test]
+fn researched_but_unsourced_leads_are_recorded_not_dropped() {
+    let unsourced: Vec<&str> = CORRELATION_HINTS
+        .iter()
+        .filter(|h| h.evidence_tier == EvidenceTier::SearchedNotFound)
+        .map(|h| h.id)
+        .collect();
+
+    assert!(
+        unsourced.contains(&"usbstor_wpdbusenum_device_guid"),
+        "the USBSTOR/WPDBUSENUM device-GUID join was researched and found \
+         unsourceable; it must be RECORDED at SearchedNotFound, not dropped"
+    );
+}
+
+/// An unsourced entry is only useful if it says where the search already went.
+///
+/// "Unverified" on its own tells the next reader nothing. Naming the places
+/// already exhausted is what turns a dead end into a saved afternoon.
+#[test]
+fn an_unsourced_entry_records_where_it_was_looked_for() {
+    for h in CORRELATION_HINTS
+        .iter()
+        .filter(|h| h.evidence_tier == EvidenceTier::SearchedNotFound)
+    {
+        let body = format!("{} {}", h.agreement_means, h.divergence_means);
+        assert!(
+            body.contains("searched") || body.contains("Searched"),
+            "{}: an unsourced entry must record where it was looked for",
+            h.id
+        );
+    }
 }
