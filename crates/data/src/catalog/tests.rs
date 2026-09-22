@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6823;
+const EXPECTED_CATALOG_LEN: usize = 6828;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -12773,6 +12773,83 @@ mod tests_disk_gcfa_ext {
         assert!(
             d.related_artifacts.contains(&"linux_faillock_dir"),
             "linux_faillog must cross-link linux_faillock_dir"
+        );
+    }
+
+    /// journald & syslog-routing batch: the journald config, the volatile
+    /// runtime journal under /run, and the three facility-routed files whose
+    /// paths differ by distro family (cron/mail on RHEL, mail on Debian).
+    #[test]
+    fn linux_journald_and_syslog_routing_batch_is_cataloged() {
+        use crate::catalog::types::OsScope;
+        for (id, path, scope) in [
+            (
+                "linux_journald_conf",
+                "/etc/systemd/journald.conf",
+                OsScope::LinuxSystemd,
+            ),
+            (
+                "linux_journal_runtime",
+                "/run/log/journal/",
+                OsScope::LinuxSystemd,
+            ),
+            ("linux_cron_log", "/var/log/cron", OsScope::LinuxRhel),
+            ("linux_mail_log", "/var/log/mail.log", OsScope::LinuxDebian),
+            ("linux_maillog_rhel", "/var/log/maillog", OsScope::LinuxRhel),
+        ] {
+            let d = CATALOG
+                .by_id(id)
+                .unwrap_or_else(|| panic!("descriptor '{id}' missing from catalog"));
+            assert_eq!(d.file_path, Some(path), "{id}: wrong file_path");
+            assert_eq!(
+                d.os_scope, scope,
+                "{id}: distro/init-system scope is part of the claim"
+            );
+            assert!(
+                d.evidence_tier.is_some(),
+                "{id}: new entries must state how the claim is known"
+            );
+            assert!(!d.sources.is_empty(), "{id}: sources must not be empty");
+        }
+        // The runtime journal is the volatile one — lost at reboot.
+        let runtime = CATALOG.by_id("linux_journal_runtime").unwrap();
+        assert_eq!(
+            runtime.volatility,
+            Some(crate::volatility::VolatilityClass::Volatile),
+            "the /run journal is lost at reboot"
+        );
+    }
+
+    /// Shell-history descriptors must state the timestamp semantics an
+    /// examiner needs: neither bash nor zsh records times by default, and
+    /// both have a documented opt-in (HISTTIMEFORMAT / EXTENDED_HISTORY).
+    #[test]
+    fn shell_history_descriptors_document_timestamp_semantics() {
+        let bash = CATALOG
+            .by_id("linux_bash_history")
+            .expect("linux_bash_history must be cataloged");
+        assert!(
+            bash.evidence_caveats
+                .iter()
+                .any(|c| c.contains("HISTTIMEFORMAT")),
+            "bash history: timestamp opt-in (HISTTIMEFORMAT) must be a caveat"
+        );
+        assert!(
+            bash.sources.iter().any(|s| s.contains("gnu.org")),
+            "bash history semantics must cite the GNU Bash manual"
+        );
+        let zsh = CATALOG
+            .by_id("linux_zsh_history")
+            .expect("linux_zsh_history must be cataloged");
+        assert!(
+            zsh.evidence_caveats
+                .iter()
+                .any(|c| c.contains("EXTENDED_HISTORY")),
+            "zsh history: timestamp opt-in (EXTENDED_HISTORY) must be a caveat"
+        );
+        assert!(
+            zsh.sources.iter().any(|s| s.contains("zsh.sourceforge.io")),
+            "zsh history semantics must cite the zsh manual"
         );
     }
 }
