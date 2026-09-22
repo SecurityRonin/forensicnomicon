@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-09-20T03:34:00Z
+Generated: 2026-09-22T03:34:24Z
 
 ## Windows Incident Response
 
@@ -58,9 +58,10 @@ Generated: 2026-09-20T03:34:00Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-09-21T00:00:00+00:00 — [An AI breaks its cage, and the industry sells you a ghost story instead](https://andreafortuna.org/2026/09/21/ai-agents-ghost-story-bubble/)
+- 2026-09-20T00:00:00+00:00 — [Weekly Wire #10: The Impersonation Economy](https://andreafortuna.org/2026/09/20/weekly-wire-10/)
 
 ## Salt Forensics
 
@@ -220,9 +221,10 @@ Generated: 2026-09-20T03:34:00Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-09-21T10:33:53+00:00 — [TerminalFix: PNG Steganography, (Mon, Sep 21st)](https://isc.sans.edu/diary/rss/33318)
+- 2026-09-21T05:15:12+00:00 — [ISC Stormcast For Monday, September 21st, 2026 https://isc.sans.edu/podcastdetail/10102, (Mon, Sep 21st)](https://isc.sans.edu/diary/rss/33354)
 
 ## DFIR Training Blog
 
@@ -247,9 +249,9 @@ Generated: 2026-09-20T03:34:00Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-21T10:22:36+00:00 — [InfoSec News Nuggets – 09/21/2026](https://aboutdfir.com/infosec-news-nuggets-09-21-2026/)
 
 ## Forensic 4cast
 
@@ -265,9 +267,9 @@ Generated: 2026-09-20T03:34:00Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-20T12:08:48+00:00 — [Week 38 – 2026](https://thisweekin4n6.com/2026/09/20/week-38-2026/)
 
 ## The Sleuth Kit updates
 
@@ -364,11 +366,13 @@ Generated: 2026-09-20T03:34:00Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 5
 
-- 2026-09-19T11:30:00+00:00 — [Painting la Manche: Calais to Étretat](https://eclecticlight.co/2026/09/19/painting-la-manche-calais-to-etretat/)
-- 2026-09-19T08:00:00+00:00 — [Saturday Mac riddles 378](https://eclecticlight.co/2026/09/19/saturday-mac-riddles-378/)
-- 2026-09-19T07:00:00+00:00 — [macOS Tahoe 26.4 changed boot volume structure](https://eclecticlight.co/2026/09/19/macos-tahoe-26-4-changed-boot-volume-structure/)
+- 2026-09-21T11:30:00+00:00 — [Hero or hooligan: Heracles in drag](https://eclecticlight.co/2026/09/21/hero-or-hooligan-heracles-in-drag/)
+- 2026-09-21T08:00:00+00:00 — [Solutions to Saturday Mac riddles 378](https://eclecticlight.co/2026/09/21/solutions-to-saturday-mac-riddles-378/)
+- 2026-09-21T06:30:00+00:00 — [When to use a new container, volume or folder](https://eclecticlight.co/2026/09/21/when-to-use-a-new-container-volume-or-folder/)
+- 2026-09-20T11:30:00+00:00 — [Painting la Manche: le Havre to Ouessant](https://eclecticlight.co/2026/09/20/painting-la-manche-le-havre-to-ouessant/)
+- 2026-09-20T07:00:00+00:00 — [Last Week on My Mac: Is AI worth 30 GB?](https://eclecticlight.co/2026/09/20/last-week-on-my-mac-is-ai-worth-30-gb/)
 
 ## JPCERT/CC
 
@@ -420,9 +424,9 @@ Generated: 2026-09-20T03:34:00Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-21T10:00:13+00:00 — [From Exposure to Lockdown: How AWS Neutralizes Compromised IAM Credentials through Managed Policies](https://unit42.paloaltonetworks.com/detecting-exposed-aws-iam-credentials/)
 
 ## Mandiant Threat Intelligence
 
@@ -525,9 +529,13 @@ Generated: 2026-09-20T03:34:00Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 5
 
-- No new entries detected
+- 2026-09-21T16:30:29+00:00 — [The AI plot to scan and destroy books (Lock and Code S07E19)](https://www.malwarebytes.com/blog/podcast/2026/09/the-ai-plot-to-scan-and-destroy-books-lock-and-code-s07e19)
+- 2026-09-21T15:38:26+00:00 — [The fake sites using a cheap toolkit to sell $2,000 AI subscriptions](https://www.malwarebytes.com/blog/threat-intel/2026/09/the-fake-sites-using-a-cheap-toolkit-to-sell-2000-ai-subscriptions)
+- 2026-09-21T14:21:38+00:00 — [Gemini’s breach of real companies exposes an AI guardrail problem](https://www.malwarebytes.com/blog/ai/2026/09/geminis-breach-of-real-companies-exposes-an-ai-guardrail-problem)
+- 2026-09-21T10:17:09+00:00 — [ShinyHunters hacks rival extortion gang and takes over its dark web site](https://www.malwarebytes.com/blog/news/2026/09/shinyhunters-hacks-rival-extortion-gang-and-takes-over-its-dark-web-site)
+- 2026-09-21T07:02:00+00:00 — [A week in security (September 14 – September 20)](https://www.malwarebytes.com/blog/news/2026/09/a-week-in-security-september-14-september-20)
 
 ## Krebs on Security
 
@@ -543,21 +551,30 @@ Generated: 2026-09-20T03:34:00Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 10
 
-- 2026-09-19T10:56:31-04:00 — [BragJack attacks hijack AI browser agents through malicious extensions](https://www.bleepingcomputer.com/news/security/bragjack-attacks-hijack-ai-browser-agents-through-malicious-extensions/)
-- 2026-09-19T10:05:15-04:00 — [North Korean WaterPlum hackers infected 30,000 devices worldwide](https://www.bleepingcomputer.com/news/security/north-korean-waterplum-hackers-infected-30-000-devices-worldwide/)
-- 2026-09-19T09:48:32-04:00 — [ShinyHunters hacks Clop leak site, threatens to extort ransomware gang](https://www.bleepingcomputer.com/news/security/shinyhunters-hacks-clop-leak-site-threatens-to-extort-ransomware-gang/)
-- 2026-09-19T07:38:20-04:00 — [Viral AI actress' hotline face-scans every caller, watches their mood](https://www.bleepingcomputer.com/news/security/viral-ai-actress-hotline-face-scans-every-caller-watches-their-mood/)
+- 2026-09-21T17:18:49-04:00 — [BigCommerce alerts merchants of data breach linked to Ribon apps](https://www.bleepingcomputer.com/news/security/bigcommerce-alerts-merchants-of-data-breach-linked-to-ribon-apps/)
+- 2026-09-21T16:12:17-04:00 — [CISA alerts of active exploitation of three Linux kernel flaws](https://www.bleepingcomputer.com/news/security/cisa-alerts-of-active-exploitation-of-three-linux-kernel-flaws/)
+- 2026-09-21T14:23:11-04:00 — [WordPress Click2Shell flaw lets hackers execute PHP on the server](https://www.bleepingcomputer.com/news/security/wordpress-click2shell-flaw-lets-hackers-execute-php-on-the-server/)
+- 2026-09-21T13:54:49-04:00 — [Microsoft to retire Microsoft 365 Companion apps in December](https://www.bleepingcomputer.com/news/microsoft/microsoft-to-retire-microsoft-365-companion-apps-in-december/)
+- 2026-09-21T11:41:22-04:00 — [Google fined €403 million over location data privacy violations](https://www.bleepingcomputer.com/news/security/google-fined-403-million-over-location-data-privacy-violations/)
+- 2026-09-21T10:42:37-04:00 — [Microsoft fixes broken Excel copy and paste for all Office users](https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-broken-excel-copy-and-paste-for-all-office-users/)
+- 2026-09-21T10:02:12-04:00 — [FBI's CJIS v6.1: What Security Teams Need to Know.](https://www.bleepingcomputer.com/news/security/fbis-cjis-v61-what-security-teams-need-to-know/)
+- 2026-09-21T09:16:20-04:00 — [Microsoft reminds admins to migrate Entra ID users to passkeys](https://www.bleepingcomputer.com/news/microsoft/microsoft-reminds-admins-to-migrate-entra-id-users-to-passkeys/)
+- 2026-09-21T07:45:54-04:00 — [Microsoft: September updates break File History backup feature](https://www.bleepingcomputer.com/news/microsoft/microsoft-september-updates-break-file-history-backup-feature/)
+- 2026-09-20T10:11:21-04:00 — [Malicious npm packages evade install-script defenses at runtime](https://www.bleepingcomputer.com/news/security/malicious-npm-packages-evade-install-script-defenses-at-runtime/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-09-21T21:39:59+00:00 — [How AI Agents Can Trigger Runaway Costs for Enterprises](https://www.darkreading.com/application-security/how-ai-agents-can-trigger-runaway-costs)
+- 2026-09-21T20:07:56+00:00 — [ShinyHunters Hacked Clop. Now What About Clop's Victims?](https://www.darkreading.com/cyberattacks-data-breaches/shinyhunters-hacked-clop-what-about-clops-victims)
+- 2026-09-21T19:11:26+00:00 — [Cybercriminals Are Hiding New Malware in Torrents for Popular Films](https://www.darkreading.com/cyberattacks-data-breaches/cybercriminals-hiding-new-malware-torrents-popular-films)
+- 2026-09-21T14:47:19+00:00 — [Rogue Behavior: OpenAI Reveals More Model Misalignment Incidents](https://www.darkreading.com/cyber-risk/rogue-behavior-openai-more-model-misalignment-incidents)
 
 ## Volexity Blog
 
@@ -588,9 +605,10 @@ Generated: 2026-09-20T03:34:00Z
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-09-19T13:31:19+02:00 — [Headphones Lamps and Fans Leak Your Audio and Your Daily Routine to the InjectEave Radio Attack](https://hackingpassion.com/headphones-lamps-fans-injecteave-radio-attack/)
+- 2026-09-21T13:46:51+02:00 — [Anon Eye](https://hackingpassion.com/anon-eye/)
+- 2026-09-20T15:33:32+02:00 — [PowerShell Malware Hid in the Registry and Pulled Its Miner Out of DNS Records a PNG and Four WAV Files](https://hackingpassion.com/powershell-registry-dns-png-wav-xmrig-miner/)
 
 ## LOLBAS Project (Windows)
 
@@ -849,9 +867,12 @@ Generated: 2026-09-20T03:34:00Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 4
 
-- 2026-09-19T11:53:48+00:00 — [dev-v2.2.23](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.23)
+- 2026-09-21T05:39:57+00:00 — [integration-v9.3.22: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6843)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.3.22)
+- 2026-09-21T05:39:06+00:00 — [integration-v8.19.34: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6843)](https://github.com/elastic/detection-rules/releases/tag/integration-v8.19.34)
+- 2026-09-21T14:44:20+00:00 — [dev-v2.2.25](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.25)
+- 2026-09-21T05:37:47+00:00 — [dev-v2.2.24](https://github.com/elastic/detection-rules/releases/tag/dev-v2.2.24)
 
 ## regipy releases
 
