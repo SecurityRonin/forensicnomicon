@@ -8,7 +8,7 @@ use super::*;
 /// The exact number of registered tool behaviours — the single place the
 /// count is written down. Adding an entry updates this constant and nothing
 /// else; every other test asserts presence or invariants, not size.
-const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 6;
+const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 7;
 
 #[test]
 fn no_duplicate_ids() {

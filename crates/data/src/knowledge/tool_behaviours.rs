@@ -306,6 +306,60 @@ pub static VOL3_MALFIND_FP_PROFILE: ToolBehaviour = ToolBehaviour {
     ],
 };
 
+/// `stat` prints no Birth time for an ext4 file whose crtime the filesystem
+/// is holding perfectly well.
+///
+/// Verified against:
+/// - kernel ext4 documentation, verbatim: "Neither crtime nor dtime are
+///   accessible through the regular stat() interface, though debugfs will
+///   report them". The field lives at `i_crtime`/`i_crtime_extra` in the
+///   extra inode space, so a 128-byte inode has nowhere to store it at all.
+/// - coreutils NEWS: `stat` gained `statx()` - and with it Birth - in 8.32
+///   (2020-03-05). Older builds have no route to the field.
+/// - statx(2) HISTORY: the syscall arrived in Linux 4.11 and glibc 2.28, so
+///   the kernel and libc floors bind independently of the coreutils version.
+/// - e2fsprogs `debugfs.c`: prints crtime, gated on the inode being large
+///   enough to carry it.
+pub static COREUTILS_STAT_EXT4_BIRTH_BLANK: ToolBehaviour = ToolBehaviour {
+    id: "coreutils_stat_ext4_birth_blank",
+    tool: "GNU coreutils stat (ext4 crtime)",
+    version_range: Some(
+        "Blank on coreutils <8.32, Linux <4.11 or glibc <2.28; also blank on any \
+         128-byte-inode ext4 filesystem regardless of tool version",
+    ),
+    artifact_id: None,
+    kind: ToolBehaviourKind::SilentlyDropsField,
+    detail: "ext4 stores a creation time (crtime) in the extra inode space, but the \
+             stat() interface has never exposed it; `stat` reads Birth through statx() \
+             instead, which it only gained in coreutils 8.32, and which itself needs \
+             Linux 4.11 and glibc 2.28. Where any of those floors is unmet the Birth \
+             line renders empty - or as '-' - with no error and no indication that the \
+             value exists on disk. `debugfs -R \"stat <inode>\"` reads the same field \
+             from the same filesystem. Separately, an ext4 volume formatted with \
+             128-byte inodes genuinely has no crtime, and that case is \
+             indistinguishable from the tooling one by looking at `stat` alone.",
+    consequence: "A blank Birth field is read as 'this filesystem does not record \
+                  creation time' when it usually means 'this build of stat cannot ask \
+                  for it'. An examiner then reports a creation time as unavailable, or \
+                  - worse for the timestomping case - concludes that mtime cannot be \
+                  compared against crtime, and abandons the one comparison that catches \
+                  a touch-based stomp. Confirm with debugfs before recording the \
+                  absence; only a 128-byte inode makes it a real absence.",
+    mitigation: "Read the field with `debugfs -R \"stat <inode>\" /dev/<dev>` before \
+                 recording a creation time as unavailable; it reports crtime out of the \
+                 same inode stat() declines to expose. Check the three floors \
+                 independently - coreutils >=8.32, Linux >=4.11, glibc >=2.28 - since any \
+                 one of them blanks the field on its own. Only a 128-byte-inode \
+                 filesystem, confirmed with `tune2fs -l`, makes the absence real.",
+    evidence_tier: EvidenceTier::VendorDocumented,
+    sources: &[
+        "https://docs.kernel.org/filesystems/ext4/inodes.html",
+        "https://git.savannah.gnu.org/cgit/coreutils.git/plain/NEWS",
+        "https://man7.org/linux/man-pages/man2/statx.2.html",
+        "https://github.com/tytso/e2fsprogs/blob/master/debugfs/debugfs.c",
+    ],
+};
+
 /// Every registered tool behaviour. Lookup and iteration read this slice;
 /// a static not referenced here is invisible to every consumer.
 pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
@@ -315,4 +369,5 @@ pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
     VOL3_DUMPFILES_ZERO_FILL,
     MEMPROCFS_FINDEVIL_ELASTIC_GATE,
     VOL3_MALFIND_FP_PROFILE,
+    COREUTILS_STAT_EXT4_BIRTH_BLANK,
 ];
