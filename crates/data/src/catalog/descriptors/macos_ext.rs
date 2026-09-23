@@ -4093,3 +4093,61 @@ pub(crate) static MACOS_TRASH: ArtifactDescriptor = ArtifactDescriptor {
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Contents cleared on empty; ghost put-back records linger in the Trash .DS_Store until rewritten",
 };
+
+/// `/Users/Shared/Relocated Items/` and older `Previously Relocated Items`
+/// folders left by macOS installs.
+///
+/// # Sources
+/// - <https://support.apple.com/guide/mac-help/mchl8ae423a3/mac> — Apple: files
+///   that could not be moved to their new locations during an upgrade are placed
+///   in a Relocated Items folder in /Users/Shared, with a Desktop alias and an
+///   explanatory PDF.
+/// - <https://www.macrumors.com/guide/relocated-items/> — origin in Catalina's
+///   read-only system volume / Data volume split.
+/// - <https://www.jessesquires.com/blog/2020/04/11/previously-previously-previously-relocated-items-in-macos-catalina/> —
+///   the folder reappears with point releases and supplemental updates, with
+///   earlier ones kept as "Previously Relocated Items".
+pub(crate) static MACOS_RELOCATED_ITEMS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_relocated_items",
+    name: "Relocated Items Folders (macOS install / upgrade)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Source: https://support.apple.com/guide/mac-help/mchl8ae423a3/mac
+    file_path: Some("/Users/Shared/Relocated Items/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Folder the macOS installer creates in /Users/Shared when files (in user \
+        reports, mostly modified system configuration files) cannot be moved to their new location during \
+        an upgrade, with an alias on the Desktop and an explanatory PDF inside. It arrived \
+        with Catalina's split into a read-only system volume and a Data volume, and \
+        recurs on later installs, including point releases and supplemental updates; the \
+        previous folder is kept alongside as \"Previously Relocated Items\", with further \
+        numbered copies after repeated installs. The folders' creation dates therefore \
+        mark macOS install or update events on this Data volume, independent of the \
+        installer logs and install receipts, and the configuration files inside show \
+        what had been customised before that install.",
+    mitre_techniques: &[],
+    fields: &[
+        FieldSchema { name: "folder_created", value_type: ValueType::Timestamp, description: "Creation time of each Relocated Items / Previously Relocated Items folder: an OS install or update event", is_uid_component: true },
+    ],
+    retention: Some("Persists until the user deletes it; accumulates across installs"),
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &["macos_installer_receipts"],
+    sources: &[
+        "https://support.apple.com/guide/mac-help/mchl8ae423a3/mac",
+        "https://www.macrumors.com/guide/relocated-items/",
+        "https://www.jessesquires.com/blog/2020/04/11/previously-previously-previously-relocated-items-in-macos-catalina/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Apple documents the Relocated Items folder, not the Previously Relocated Items naming or numbering; that comes from user reports and was observed (with numbered folders and the notice PDF in several languages) on one macOS Big Sur 11.7 image",
+        "Apple describes the folder as created when files could not be moved, so an install that relocates nothing need not leave one and absence does not prove no upgrade took place; corroborate with install receipts and the install log",
+        "Folder dates are only as good as the clock at install time and move if the folder is copied off the volume",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Created at install time and left until the user deletes it",
+};
