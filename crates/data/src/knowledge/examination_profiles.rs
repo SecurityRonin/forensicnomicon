@@ -244,9 +244,31 @@ pub static MACOS_FULL: ExaminationProfile = ExaminationProfile {
         },
         // ── Connections ──────────────────────────────────────────────────
         ProfileMember {
+            artifact_id: "macos_network_interfaces",
+            category: Cat::Connections,
+            rationale: "NetworkInterfaces.plist: which physical interfaces the Mac has and their \
+                        hardware MACs (IOMACAddress) — the anchor tying a captured MAC or \
+                        router record to a specific interface.",
+        },
+        ProfileMember {
+            artifact_id: "macos_network_preferences",
+            category: Cat::Connections,
+            rationale: "preferences.plist: per-service IPv4 ConfigMethod (DHCP/Manual/BOOTP), \
+                        static addresses, and the service order / primary interface — how the \
+                        Mac was configured to reach the network.",
+        },
+        ProfileMember {
             artifact_id: "macos_wifi_plist",
             category: Cat::Connections,
-            rationale: "Known Wi-Fi networks the Mac has joined.",
+            rationale: "Known Wi-Fi networks the Mac has joined (legacy pre-Big Sur airport \
+                        preferences format).",
+        },
+        ProfileMember {
+            artifact_id: "macos_wifi_known_networks",
+            category: Cat::Connections,
+            rationale: "com.apple.wifi.known-networks.plist (Big Sur+): remembered Wi-Fi networks \
+                        with per-AP BSSID list (LEAKY_AP_BSSID), channel history and join times — \
+                        the BSSIDs are the geolocation handle.",
         },
         ProfileMember {
             artifact_id: "macos_wifi_intelligence",
@@ -256,7 +278,9 @@ pub static MACOS_FULL: ExaminationProfile = ExaminationProfile {
         ProfileMember {
             artifact_id: "macos_dhcp_leases",
             category: Cat::Connections,
-            rationale: "DHCP leases: networks and IP addresses the Mac obtained.",
+            rationale: "DHCP leases: internal IP, gateway and gateway MAC, the Wi-Fi SSID joined, \
+                        and when — the LAN side of network correlation (macOS does not store the \
+                        public IP).",
         },
         ProfileMember {
             artifact_id: "macos_locationd_clients",
@@ -467,6 +491,19 @@ pub static MACOS_DATA_LEAKAGE: ExaminationProfile = ExaminationProfile {
             category: Cat::Connections,
             rationale: "Recently connected file servers and network shares — a common exfiltration \
                         destination.",
+        },
+        ProfileMember {
+            artifact_id: "macos_dhcp_leases",
+            category: Cat::Connections,
+            rationale: "DHCP leases: the internal IP, gateway and Wi-Fi SSID the Mac held, and \
+                        when — placing the machine on a named network at a specific time for \
+                        egress correlation (LAN side only; macOS stores no public IP).",
+        },
+        ProfileMember {
+            artifact_id: "macos_wifi_known_networks",
+            category: Cat::Connections,
+            rationale: "Remembered Wi-Fi networks with per-AP BSSIDs — the location-exposure \
+                        surface: the BSSIDs geolocate the networks the device was carried onto.",
         },
         ProfileMember {
             artifact_id: "macos_icloud_drive_db",
