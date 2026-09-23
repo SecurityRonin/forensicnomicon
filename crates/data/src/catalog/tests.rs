@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6853;
+const EXPECTED_CATALOG_LEN: usize = 6854;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -322,6 +322,33 @@ mod catalog_integrity {
         );
         assert!(r.meaning.contains("Optimize Mac Storage"));
         assert!(d.related_artifacts.contains(&"macos_photos_derivatives"));
+    }
+
+    /// Screenshot provenance xattrs set by macOS's screencapture: the three
+    /// kMDItem* attribute names, the configurable/localised default name and
+    /// location, and the iCloud Desktop caveat (a Desktop screenshot may have
+    /// been taken on a different Mac).
+    #[test]
+    fn macos_screenshot_xattrs_is_cataloged() {
+        let d = CATALOG
+            .by_id("macos_screenshot_xattrs")
+            .expect("macos_screenshot_xattrs must be cataloged");
+        for attr in [
+            "com.apple.metadata:kMDItemIsScreenCapture",
+            "kMDItemScreenCaptureType",
+            "kMDItemScreenCaptureGlobalRect",
+        ] {
+            assert!(d.meaning.contains(attr), "meaning must name {attr}");
+        }
+        assert!(d.mitre_techniques.contains(&"T1113"));
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains("iCloud")),
+            "must warn that iCloud Desktop sync can bring in another Mac's screenshots"
+        );
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains("localised")),
+            "default file-name prefix is localised"
+        );
     }
 
     /// `edge_webcache` must point at the WebCacheV01.dat ESE database
