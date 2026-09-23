@@ -3273,6 +3273,108 @@ pub(crate) static MACOS_SCREENSHOT_XATTRS: ArtifactDescriptor = ArtifactDescript
     volatility_rationale: "Extended attributes travel with the file until explicitly removed",
 };
 
+/// Sandboxed Safari's WebKit network cache in the com.apple.Safari container.
+///
+/// # Sources
+/// - <https://www.cyberengage.org/post/analyzing-safari-browser-apple-mail-data-and-recents-database-artifacts-on-macos> —
+///   macOS path `~/Library/Containers/com.apple.Safari/Data/Library/Caches/com.apple.Safari/WebKitCache/`;
+///   Records, Resources and Blobs directories.
+/// - <https://github.com/WebKit/WebKit/blob/main/Source/WebKit/NetworkProcess/cache/NetworkCacheStorage.cpp> —
+///   `Version <n>/Records/`, `Blobs/`, `-blob` suffix.
+/// - <https://github.com/WebKit/WebKit/blob/main/Source/WebKit/NetworkProcess/cache/NetworkCache.cpp> —
+///   cache key = partition, record type ("Resource"), range, request URL.
+pub(crate) static MACOS_SAFARI_WEBKIT_CACHE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_safari_webkit_cache",
+    name: "Safari WebKit Network Cache (sandboxed container)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Containers/com.apple.Safari/Data/Library/Caches/com.apple.Safari/WebKitCache/"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "WebKit disk cache of sandboxed Safari: WebKitCache/Version <n>/Records/<partition \
+        hash>/Resource/<key hash> record files (with -blob siblings) plus a Blobs/ directory \
+        of larger bodies. Each record carries its cache key, which includes the cache \
+        partition (top-level site) and the request URL, together with the stored \
+        response headers and, for small bodies, the body itself. Recovers pages, images \
+        and scripts the browser fetched, with their URLs, after history is cleared. The \
+        container's Cache.db (CFNetwork cfurl_cache_response tables) sits beside it.",
+    mitre_techniques: &["T1217"],
+    fields: &[
+        FieldSchema { name: "url", value_type: ValueType::Text, description: "Request URL from the record's cache key", is_uid_component: true },
+        FieldSchema { name: "partition", value_type: ValueType::Text, description: "Cache partition (top-level site) from the key", is_uid_component: false },
+        FieldSchema { name: "response_headers", value_type: ValueType::Text, description: "Stored HTTP response headers (Date, Content-Type, ...)", is_uid_component: false },
+    ],
+    retention: Some("Size-capped cache; evicted as it fills and cleared with website data"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_safari_tab_snapshots", "fa_file_com_apple_safari_cache_db_2"],
+    sources: &[
+        "https://www.cyberengage.org/post/analyzing-safari-browser-apple-mail-data-and-recents-database-artifacts-on-macos",
+        "https://github.com/WebKit/WebKit/blob/main/Source/WebKit/NetworkProcess/cache/NetworkCacheStorage.cpp",
+        "https://github.com/WebKit/WebKit/blob/main/Source/WebKit/NetworkProcess/cache/NetworkCache.cpp",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "A cached resource shows the browser fetched it, not that the user viewed it: pages load images, scripts and prefetches the user never looked at",
+        "Layout is read from current WebKit source; the Version <n> directory and record encoding change across Safari releases, so check the version on the image",
+        "Older, unsandboxed Safari used ~/Library/Caches/com.apple.Safari/; collect both locations",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Cache entries are added and evicted with browsing",
+};
+
+/// Sandboxed Safari page-image caches: `TabSnapshots/` (+ `Metadata.db`) and
+/// `Webpage Previews/` in the com.apple.Safari container.
+///
+/// # Sources
+/// - <https://www.cyberengage.org/post/analyzing-safari-browser-apple-mail-data-and-recents-database-artifacts-on-macos> —
+///   `~/Library/Containers/com.apple.Safari/Data/Library/Caches/com.apple.Safari/TabSnapshots/Metadata.db`
+///   stores cached tab screenshots with metadata; each snapshot's UUID links to its image file.
+/// - <http://forensicsfromthesausagefactory.blogspot.com/2010/06/safari-internet-history-round-up.html> —
+///   `Webpage Previews` holds Top Sites and Quick Look images of pages, named by the
+///   MD5 of the URL (2010, unsandboxed Safari).
+pub(crate) static MACOS_SAFARI_TAB_SNAPSHOTS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_safari_tab_snapshots",
+    name: "Safari Tab Snapshots and Webpage Previews (sandboxed container)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Containers/com.apple.Safari/Data/Library/Caches/com.apple.Safari/TabSnapshots/"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Rendered images of web pages that sandboxed Safari keeps in its container \
+        caches. TabSnapshots/ holds tab snapshot images with a Metadata.db SQLite \
+        database whose rows link each snapshot UUID to its image file; the sibling \
+        Webpage Previews/ folder holds page images used for Top Sites and Quick Look \
+        previews, historically named by the MD5 of the page URL. These show what a page \
+        looked like when Safari rendered it, which the history database alone cannot.",
+    mitre_techniques: &["T1217"],
+    fields: &[
+        FieldSchema { name: "snapshot_uuid", value_type: ValueType::Guid, description: "Snapshot identifier in Metadata.db linking to the image file", is_uid_component: true },
+    ],
+    retention: Some("Cache; replaced as tabs change and cleared with Safari caches"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["fa_file_tabsnapshots_metadata_db", "macos_safari_webkit_cache"],
+    sources: &[
+        "https://www.cyberengage.org/post/analyzing-safari-browser-apple-mail-data-and-recents-database-artifacts-on-macos",
+        "http://forensicsfromthesausagefactory.blogspot.com/2010/06/safari-internet-history-round-up.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SingleSecondary),
+    evidence_caveats: &[
+        "The generated entry fa_file_tabsnapshots_metadata_db gives only the unsandboxed ~/Library/Caches/com.apple.Safari/ path; sandboxed Safari writes here, observed on one macOS Big Sur 11.7 image with PNG snapshots beside Metadata.db",
+        "Webpage Previews naming (MD5 of URL) is from a 2010 account of unsandboxed Safari; confirm against the image before relying on it",
+        "A snapshot or preview shows a page was rendered in Safari, not how long it was viewed or who viewed it",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Snapshots are rewritten as tabs change",
+};
+
 /// syspolicyd's ExecPolicy database — Gatekeeper's own ledger of executable
 /// evaluations, and (since Ventura) the store behind the com.apple.provenance
 /// xattr.
