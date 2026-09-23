@@ -5086,3 +5086,158 @@ pub(crate) static MACOS_HEIC_IMAGE: ArtifactDescriptor = ArtifactDescriptor {
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Image file persists on storage until explicit deletion",
 };
+
+// ── Network configuration: interfaces, services, known Wi-Fi ──────────────
+//
+// Curated for the examination-profile Connections layer: which physical
+// interfaces the Mac has and their MACs (NetworkInterfaces.plist), how the
+// uplink is configured and which service is primary (preferences.plist), and
+// the remembered Wi-Fi networks whose access-point BSSIDs are the geolocation
+// handle (com.apple.wifi.known-networks.plist, Big Sur+). The DHCP lease store
+// (MACOS_DHCP_LEASES) and the legacy airport preferences (MACOS_WIFI_PLIST)
+// already exist; these complete the layer.
+
+pub(crate) static MACOS_NETWORK_INTERFACES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_network_interfaces",
+    name: "Network Interfaces (NetworkInterfaces.plist)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/Preferences/SystemConfiguration/NetworkInterfaces.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "SystemConfiguration store mapping each BSD interface name (enN, and bridge/utun \
+        interfaces) to the underlying hardware. Per interface it records the IOMACAddress (the \
+        interface's own hardware MAC, as a data blob), the SCNetworkInterfaceType (IEEE80211 for \
+        Wi-Fi, Ethernet, Bluetooth PAN, Thunderbolt/bridge), the SCNetworkInterfaceInfo \
+        UserDefinedName (\"Wi-Fi\", \"Ethernet\", ...), the Active flag, and the IOPathMatch \
+        hardware path. Establishes which physical interfaces the Mac has and their MAC addresses \
+        — the anchor for tying a captured MAC or a DHCP/router record to a specific interface. \
+        The enN-to-hardware mapping is per-machine and must be read from SCNetworkInterfaceType / \
+        IOMACAddress rather than assumed: en0 is the built-in Ethernet on Intel Macs but is often \
+        Wi-Fi (IEEE80211) on Apple Silicon, where the wired port is a Thunderbolt/USB adapter.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "bsd_name", value_type: ValueType::Text, description: "BSD interface name (en0, en1, ...)", is_uid_component: true },
+        FieldSchema { name: "interface_type", value_type: ValueType::Text, description: "SCNetworkInterfaceType (IEEE80211=Wi-Fi, Ethernet, Bluetooth PAN, ...)", is_uid_component: false },
+        FieldSchema { name: "mac_address", value_type: ValueType::Text, description: "IOMACAddress — the interface's own hardware MAC", is_uid_component: false },
+        FieldSchema { name: "user_defined_name", value_type: ValueType::Text, description: "SCNetworkInterfaceInfo UserDefinedName (\"Wi-Fi\", \"Ethernet\")", is_uid_component: false },
+        FieldSchema { name: "active", value_type: ValueType::Bool, description: "Whether the interface is marked Active", is_uid_component: false },
+    ],
+    retention: Some("Persists until the interface set is reconfigured; historical interfaces linger"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_network_preferences", "macos_dhcp_leases", "macos_wifi_known_networks"],
+    sources: &[
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/networking.py",
+        "https://medium.com/@piyushkkr12/task-5account-activity-e30497e89266",
+        "https://www.sans.org/cyber-security-courses/mac-and-ios-forensic-analysis-and-incident-response/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "The enN-to-hardware mapping is not fixed across models — read SCNetworkInterfaceType/IOMACAddress, never assume en0=Ethernet",
+        "IOMACAddress is the interface hardware MAC; it is not the randomized per-network client MAC used for Wi-Fi association",
+        "Retired interfaces can remain listed, so presence is not proof the interface is currently installed",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Rewritten only when network interfaces are added, removed or reconfigured",
+};
+
+pub(crate) static MACOS_NETWORK_PREFERENCES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_network_preferences",
+    name: "Network Preferences (preferences.plist)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/Preferences/SystemConfiguration/preferences.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "SystemConfiguration store of configured network services and their priority. Under \
+        NetworkServices, one entry per service keyed by UUID carries the bound Interface \
+        (DeviceName such as en0, Hardware, Type, UserDefinedName), the per-service IPv4 and IPv6 \
+        ConfigMethod (DHCP, Manual, BOOTP, INFORM), any statically configured addresses and \
+        router when the method is Manual, DNS servers and Proxies. The active Set's ServiceOrder \
+        array ranks the services, which determines the PrimaryInterface — the uplink actually \
+        used for default traffic. Establishes how each interface obtains its address and which \
+        service the Mac routed through, complementing the DHCP lease record and the interface \
+        hardware map.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "service_uuid", value_type: ValueType::Guid, description: "NetworkServices entry UUID", is_uid_component: true },
+        FieldSchema { name: "service_name", value_type: ValueType::Text, description: "Service UserDefinedName", is_uid_component: false },
+        FieldSchema { name: "device_name", value_type: ValueType::Text, description: "Bound BSD interface (Interface.DeviceName, e.g. en0)", is_uid_component: false },
+        FieldSchema { name: "ipv4_config_method", value_type: ValueType::Text, description: "IPv4 ConfigMethod (DHCP / Manual / BOOTP / INFORM)", is_uid_component: false },
+        FieldSchema { name: "manual_address", value_type: ValueType::Text, description: "Statically configured IPv4 address, when ConfigMethod is Manual", is_uid_component: false },
+    ],
+    retention: Some("Persists until the network configuration is changed"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_network_interfaces", "macos_dhcp_leases", "macos_wifi_known_networks"],
+    sources: &[
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/networking.py",
+        "https://medium.com/@piyushkkr12/task-5account-activity-e30497e89266",
+        "https://www.sans.org/cyber-security-courses/mac-and-ios-forensic-analysis-and-incident-response/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Records the CONFIGURED state, not a per-connection history — the current ConfigMethod, not every address ever held",
+        "A DHCP ConfigMethod leaves the assigned address in the lease plist, not here; a Manual method records the static address here",
+        "ServiceOrder sets priority, but link availability at runtime determines the interface actually used",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Rewritten only when the user or MDM changes the network configuration",
+};
+
+pub(crate) static MACOS_WIFI_KNOWN_NETWORKS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_wifi_known_networks",
+    name: "Known Wi-Fi Networks (com.apple.wifi.known-networks.plist)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/Preferences/com.apple.wifi.known-networks.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "The Big Sur (11) and later store of remembered Wi-Fi networks, one dict per network \
+        keyed `wifi.network.ssid.<name>`: the SSID, SupportedSecurityTypes, AddedAt with an \
+        AddReason (e.g. \"Cloud Sync\"), JoinedByUserAt and JoinedBySystemAtWeek join timestamps, \
+        UpdatedAt, and an `__OSSpecific__` sub-dict holding ChannelHistory (Channel + Timestamp \
+        pairs), CollocatedGroup and RoamingProfileType. The per-network access-point BSSID list — \
+        stored under the internal `LEAKY_AP_BSSID` key — is the geolocation handle: each BSSID is \
+        an access-point MAC that resolves to physical coordinates through a Wi-Fi positioning \
+        system (see the wifi_bssid_geolocation technique). This supersedes the pre-Big Sur \
+        com.apple.airport.preferences.plist (macos_wifi_plist), which held the same SSID/BSSID/ \
+        last-join data in the older airport format. On iOS the equivalent lives at \
+        /private/var/preferences/com.apple.wifi.known-networks.plist.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "ssid", value_type: ValueType::Text, description: "Network SSID (record key wifi.network.ssid.<name>)", is_uid_component: true },
+        FieldSchema { name: "bssid", value_type: ValueType::Text, description: "Access-point MAC(s) the network was seen on (LEAKY_AP_BSSID) — the geolocation handle", is_uid_component: false },
+        FieldSchema { name: "added_at", value_type: ValueType::Timestamp, description: "AddedAt: when the network was first added", is_uid_component: false },
+        FieldSchema { name: "joined_by_user_at", value_type: ValueType::Timestamp, description: "JoinedByUserAt: last user-initiated join", is_uid_component: false },
+        FieldSchema { name: "add_reason", value_type: ValueType::Text, description: "AddReason (e.g. \"Cloud Sync\") — how the entry was created", is_uid_component: false },
+        FieldSchema { name: "channel_history", value_type: ValueType::Text, description: "__OSSpecific__ ChannelHistory: Channel + Timestamp of observations", is_uid_component: false },
+    ],
+    retention: Some("Persists until the network is forgotten; entries accrete across the device's life"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_wifi_plist", "macos_dhcp_leases", "macos_airdrop_sharingd"],
+    sources: &[
+        "https://forensafe.com/blogs/AppleKnownWifi.html",
+        "https://forge-work.com/dfir/knowledge/artifacts/ios-wifi-known-networks",
+        "https://medium.com/@piyushkkr12/task-5account-activity-e30497e89266",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "An entry with AddReason \"Cloud Sync\" was synced from another Apple device, not joined on this Mac, and often carries no BSSID — presence is not proof this device was at the location",
+        "Client MAC randomization (macOS/iOS 14+) changes the device's own association MAC, not the AP BSSID recorded here, so the BSSID remains a valid location handle",
+        "A shared SSID (e.g. a chain's guest Wi-Fi) spans many locations; only the BSSID ties a record to a specific access point",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated as networks are joined, roamed and synced; entries removed only on forget",
+};

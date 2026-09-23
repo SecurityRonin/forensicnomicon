@@ -18489,6 +18489,9 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::MACOS_USB_MASS_STORAGE_LOG,
     macos_ext::MACOS_SAFARI_COOKIES,
     macos_ext::MACOS_HEIC_IMAGE,
+    macos_ext::MACOS_NETWORK_INTERFACES,
+    macos_ext::MACOS_NETWORK_PREFERENCES,
+    macos_ext::MACOS_WIFI_KNOWN_NETWORKS,
     windows_files_ext::ONEDRIVE_ODL_LOGS,
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,
