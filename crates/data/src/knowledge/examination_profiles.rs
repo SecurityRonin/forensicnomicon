@@ -12,16 +12,24 @@
 //! [`crate::catalog::CATALOG`]; that referential integrity is the load-bearing
 //! correctness property and is enforced in `tests.rs`. Where an examination
 //! area has no catalog descriptor yet, the gap is left out and recorded in the
-//! review notes rather than papered over with an invented id — for macOS the
-//! known gaps are the OpenBSM audit trail (`/var/audit`), the `dslocal` local
-//! account store, AirDrop/`sharingd` transfer history, and dedicated
-//! removable/USB volume history, none of which have a descriptor.
+//! review notes rather than papered over with an invented id.
+//!
+//! The macOS gaps this profile work first flagged — the OpenBSM audit trail
+//! (`/var/audit`), the `dslocal` local account store, AirDrop/`sharingd`
+//! transfer history, and removable/USB volume history — now have curated
+//! descriptors (`macos_openbsm_audit`, `macos_dslocal_users`,
+//! `macos_airdrop_sharingd`, `macos_usb_mass_storage_log`) and are wired in
+//! below. Safari cookies are represented by the curated `macos_safari_cookies`
+//! rather than the generated `browsers_safari_cookies`, which is mis-scoped
+//! `OsScope::Win7Plus` in the auto-generated catalog (a known defect in the
+//! generated data that must not be hand-edited; the curated descriptor carries
+//! the correct macOS path and scope).
 //!
 //! Members prefer curated `macos_*` descriptors. A handful of auto-generated
-//! `fa_file_*` descriptors are used where they are the only representation of a
+//! `fa_file_*` descriptors remain where they are the only representation of a
 //! named artifact (Accounts4, MobileMeAccounts, the loginwindow prefs, the Mail
 //! envelope index, periodic/cron, kext Info.plist) and are correctly scoped to
-//! macOS.
+//! macOS — no curated `macos_*` equivalent exists to replace them.
 
 use super::{
     ExaminationFocus, ExaminationProfile, InvestigativeCategory, ProfileKind, ProfileMember,
@@ -69,6 +77,20 @@ pub static MACOS_FULL: ExaminationProfile = ExaminationProfile {
             artifact_id: "fa_file_preferences_loginwindow_plist",
             category: Cat::AccountUse,
             rationale: "com.apple.loginwindow: last logged-in user and auto-login configuration.",
+        },
+        ProfileMember {
+            artifact_id: "macos_dslocal_users",
+            category: Cat::AccountUse,
+            rationale: "dslocal account store: the authoritative inventory of local accounts on \
+                        the Mac — uid, generateduid, realname, home, shell — establishing who has \
+                        an account and their identity attributes.",
+        },
+        ProfileMember {
+            artifact_id: "macos_openbsm_audit",
+            category: Cat::AccountUse,
+            rationale: "OpenBSM audit trail: login/logout, account creation, and boot/audit-start \
+                        history — the artifact used to establish account creation and when the Mac \
+                        was used (where still enabled; deprecated Big Sur, disabled Sonoma).",
         },
         ProfileMember {
             artifact_id: "macos_login_items_plist",
@@ -251,6 +273,19 @@ pub static MACOS_FULL: ExaminationProfile = ExaminationProfile {
             category: Cat::Connections,
             rationale: "SFL2 recent servers: recently connected file-share servers.",
         },
+        ProfileMember {
+            artifact_id: "macos_usb_mass_storage_log",
+            category: Cat::Connections,
+            rationale: "USBMSC unified-log entries: removable USB mass-storage devices attached to \
+                        the Mac, with vendor/product/serial — the honest (log-only, no USBSTOR) \
+                        macOS record of external media use.",
+        },
+        ProfileMember {
+            artifact_id: "macos_airdrop_sharingd",
+            category: Cat::Connections,
+            rationale: "AirDrop/sharingd activity in the unified log: peer devices files were \
+                        AirDropped to or from, by device name and AirDrop ID.",
+        },
         // ── Communications ───────────────────────────────────────────────
         ProfileMember {
             artifact_id: "macos_sms_db",
@@ -322,6 +357,12 @@ pub static MACOS_FULL: ExaminationProfile = ExaminationProfile {
             artifact_id: "macos_safari_localstorage",
             category: Cat::WebActivity,
             rationale: "Safari LocalStorage: per-site persisted web state.",
+        },
+        ProfileMember {
+            artifact_id: "macos_safari_cookies",
+            category: Cat::WebActivity,
+            rationale: "Safari cookies (Cookies.binarycookies): sites visited and live session \
+                        tokens; curated macOS-scoped descriptor, not the mis-scoped generated one.",
         },
         // ── Cloud storage ────────────────────────────────────────────────
         ProfileMember {
@@ -398,15 +439,28 @@ pub static MACOS_DATA_LEAKAGE: ExaminationProfile = ExaminationProfile {
     description: "Focused macOS profile for suspected data exfiltration: external and network \
                   volume use, cloud-sync containers, printing, and browser downloads, plus the \
                   quarantine and where-from provenance that traces where a file came from. \
-                  Dedicated removable/USB volume history and AirDrop/sharingd transfer logs have \
-                  no catalog descriptor yet, so fseventsd and recent-servers stand in for volume \
-                  and share activity.",
+                  Removable/USB device history (USBMSC unified-log entries) and AirDrop/sharingd \
+                  transfer activity are now carried by dedicated descriptors, with fseventsd and \
+                  recent-servers still standing in for on-volume file activity and share access.",
     members: &[
         ProfileMember {
             artifact_id: "macos_fsevents",
             category: Cat::FileActivity,
             rationale: "fseventsd records mounts and writes under /Volumes — evidence of external \
                         or removable media use and files copied out to it.",
+        },
+        ProfileMember {
+            artifact_id: "macos_usb_mass_storage_log",
+            category: Cat::Connections,
+            rationale: "USBMSC unified-log entries: which removable USB mass-storage devices were \
+                        attached (vendor/product/serial) — the device side of copy-to-USB \
+                        exfiltration, weaker and shorter-lived than Windows USBSTOR.",
+        },
+        ProfileMember {
+            artifact_id: "macos_airdrop_sharingd",
+            category: Cat::Connections,
+            rationale: "AirDrop/sharingd activity in the unified log: files sent off-device to a \
+                        peer over AirDrop — a wireless egress path invisible to network monitoring.",
         },
         ProfileMember {
             artifact_id: "macos_sfl2_recent_servers",
@@ -452,6 +506,12 @@ pub static MACOS_DATA_LEAKAGE: ExaminationProfile = ExaminationProfile {
             category: Cat::WebActivity,
             rationale: "Safari downloads: an ingress vector, and a record of the upload endpoints \
                         visited.",
+        },
+        ProfileMember {
+            artifact_id: "macos_safari_cookies",
+            category: Cat::WebActivity,
+            rationale: "Safari cookies: live session tokens for webmail and file-sharing sites, \
+                        and evidence of authenticated sessions used to move data out.",
         },
         ProfileMember {
             artifact_id: "macos_quarantine_xattr",
