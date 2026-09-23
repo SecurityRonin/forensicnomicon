@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6860;
+const EXPECTED_CATALOG_LEN: usize = 6862;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -426,6 +426,31 @@ mod catalog_integrity {
             .expect("macos_cups_logs must be cataloged");
         assert_eq!(logs.file_path, Some("/private/var/log/cups/"));
         assert!(logs.meaning.contains("page_log"));
+    }
+
+    /// Calendar keeps one .ics file per event under
+    /// `~/Library/Calendars/<UUID>.calendar/Events/`, with the calendar's
+    /// Info.plist beside it; File > Export > Calendar Archive writes a .icbu
+    /// bundle. The generated fa_file_calendars_calendar_cache entry covers only
+    /// the Calendar Cache database.
+    #[test]
+    fn macos_calendar_store_and_archive_are_cataloged() {
+        let store = CATALOG
+            .by_id("macos_calendar_store")
+            .expect("macos_calendar_store must be cataloged");
+        assert_eq!(store.file_path, Some("/Users/*/Library/Calendars/"));
+        assert!(store.meaning.contains("Events") && store.meaning.contains("Info.plist"));
+        assert!(store
+            .related_artifacts
+            .contains(&"fa_file_calendars_calendar_cache"));
+        let archive = CATALOG
+            .by_id("macos_calendar_archive_icbu")
+            .expect("macos_calendar_archive_icbu must be cataloged");
+        assert!(archive.meaning.contains(".icbu"));
+        assert!(archive
+            .sources
+            .iter()
+            .any(|s| s.contains("support.apple.com") && s.contains("icl1023")));
     }
 
     /// `edge_webcache` must point at the WebCacheV01.dat ESE database
