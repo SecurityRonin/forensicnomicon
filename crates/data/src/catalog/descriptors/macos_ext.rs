@@ -339,31 +339,66 @@ pub(crate) static MACOS_SMS_DB: ArtifactDescriptor = ArtifactDescriptor {
     volatility_rationale: "SQLite DB; persistent until deleted",
 };
 
+/// Apple Notes store, `NoteStore.sqlite` in the `group.com.apple.notes` group
+/// container (OS X El Capitan onward).
+///
+/// # Sources
+/// - <http://www.swiftforensics.com/2018/02/reading-notes-database-on-macos.html> —
+///   Khatri: two locations; NoteStore.sqlite seen on El Capitan, Sierra and High
+///   Sierra; ZICNOTEDATA.ZDATA is gzip compressed; legacy NotesV1/V2/V4/V6/V7
+///   .storedata in the com.apple.Notes container; attachment join via
+///   ZICCLOUDSYNCINGOBJECT ZNOTE/ZMEDIA.
+/// - <https://ciofecaforensics.com/2020/01/10/apple-notes-revisited/> — the
+///   decompressed ZDATA is a protobuf; parser rewrite.
+/// - <https://github.com/threeplanetssoftware/apple_cloud_notes_parser> — Mac
+///   mode takes the group.com.apple.notes folder and computes NoteStore.sqlite;
+///   gunzips ZDATA and parses the protobuf inside.
 pub(crate) static MACOS_NOTES_DB: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_notes_db",
-    name: "Apple Notes Database",
-    artifact_type: ArtifactLocation::Directory,
+    name: "Apple Notes Database (NoteStore.sqlite)",
+    artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
-    value_name: None,    file_path: Some("/Users/*/Library/Containers/com.apple.Notes/Data/Library/CoreData/ExternalRecords/"),
+    value_name: None,
+    // Source: http://www.swiftforensics.com/2018/02/reading-notes-database-on-macos.html ("Location 2")
+    file_path: Some("/Users/*/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite"),
     scope: DataScope::User,
     os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
-    meaning: "Apple Notes CoreData store. Notes content (including attachments) and modification timestamps. Frequently used by users to store sensitive information (passwords, plans, communications) — important for insider threat and fraud cases.",
+    meaning: "Apple Notes Core Data store (SQLite, with -wal/-shm siblings that must be \
+        collected together) in the group.com.apple.notes group container. Note, folder and \
+        account metadata (titles, snippets, creation/modification times in Mac absolute \
+        time) are rows in ZICCLOUDSYNCINGOBJECT; the note body is a gzip-compressed \
+        protobuf in ZICNOTEDATA.ZDATA and must be gunzipped and protobuf-decoded to read \
+        the text. Attachments are NOT stored in the database: ZICCLOUDSYNCINGOBJECT holds \
+        attachment rows (ZNOTE points to the note, ZMEDIA to a media row whose \
+        ZIDENTIFIER names the on-disk folder and ZFILENAME the file) while the bytes live \
+        as separate files under the same group container. Frequently used to store \
+        sensitive information (passwords, plans, communications).",
     mitre_techniques: &["T1005"],
     fields: &[
-        FieldSchema { name: "title", value_type: ValueType::Text, description: "Note title", is_uid_component: true },
-        FieldSchema { name: "modification_date", value_type: ValueType::Timestamp, description: "Last modification timestamp", is_uid_component: false },
+        FieldSchema { name: "title", value_type: ValueType::Text, description: "Note title (ZICCLOUDSYNCINGOBJECT; column suffix varies by version, e.g. ZTITLE1)", is_uid_component: true },
+        FieldSchema { name: "modification_date", value_type: ValueType::Timestamp, description: "Last modification timestamp (Mac absolute time, seconds since 2001-01-01 UTC)", is_uid_component: false },
+        FieldSchema { name: "note_data", value_type: ValueType::Bytes, description: "ZICNOTEDATA.ZDATA: gzip-compressed protobuf holding the note text and embedded-object references", is_uid_component: false },
     ],
     retention: Some("Persistent; syncs via iCloud"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["macos_sms_db"],
-    sources: &["https://github.com/mac4n6/APOLLO"],
+    related_artifacts: &["macos_sms_db", "fa_file_notes_notesv_storedata"],
+    sources: &[
+        "http://www.swiftforensics.com/2018/02/reading-notes-database-on-macos.html",
+        "https://ciofecaforensics.com/2020/01/10/apple-notes-revisited/",
+        "https://github.com/threeplanetssoftware/apple_cloud_notes_parser",
+    ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
-    evidence_tier: None,
-    evidence_caveats: &["Notes encrypted with user password are not directly readable"],
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Version scope: NoteStore.sqlite is documented from OS X El Capitan onward; Mountain Lion to High Sierra also used legacy NotesV1/V2/V4/V6/V7.storedata stores under /Users/*/Library/Containers/com.apple.Notes/Data/Library/Notes/ (attachments under .../CoreData/Attachments/<UUID>/), so older or upgraded Macs can hold both",
+        "Body text is not plaintext in the database: ZICNOTEDATA.ZDATA must be gunzipped and protobuf-decoded; a string search of the raw file misses note text",
+        "Collect NoteStore.sqlite-wal and -shm with the database; recent edits may exist only in the WAL",
+        "Locked (password-protected) notes are encrypted in the store and their attachments are encrypted on disk",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
-    volatility_rationale: "CoreData store persists until note deletion",
+    volatility_rationale: "SQLite store persists until note deletion",
 };
 
 pub(crate) static MACOS_PHOTOS_DB: ArtifactDescriptor = ArtifactDescriptor {
