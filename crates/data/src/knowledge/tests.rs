@@ -195,7 +195,7 @@ fn every_correlation_entry_is_verifiable() {
 
 /// The exact number of registered investigative techniques — the single place
 /// the count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 4;
+const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 5;
 
 #[test]
 fn investigative_len_matches_expected() {
@@ -231,6 +231,39 @@ fn analytic_frameworks_batch_is_present() {
             "missing investigative technique: {id}"
         );
     }
+}
+
+/// The Wi-Fi BSSID geolocation technique must be registered, and it must be
+/// wired to the network artifacts it consumes: the remembered-network store
+/// whose access-point BSSIDs are the geolocation handle, and the DHCP lease
+/// whose RouterHardwareAddress is a second BSSID source. A technique that
+/// names no artifact is analytic folklore with no catalog anchor.
+#[test]
+fn wifi_bssid_geolocation_is_present_and_wired_to_artifacts() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "wifi_bssid_geolocation")
+        .expect("wifi_bssid_geolocation technique must be registered");
+    assert!(
+        t.artifacts_used.contains(&"macos_wifi_known_networks"),
+        "must consume the remembered-network store (BSSID source)"
+    );
+    assert!(
+        t.artifacts_used.contains(&"macos_dhcp_leases"),
+        "must consume the DHCP lease (RouterHardwareAddress BSSID source)"
+    );
+    let body = format!("{} {}", t.question, t.failure_modes.join(" "));
+    assert!(
+        body.contains("gs-loc.apple.com")
+            || t.steps
+                .iter()
+                .any(|s| s.action.contains("gs-loc.apple.com")),
+        "must name Apple's WPS endpoint, the unauthenticated BSSID -> location service"
+    );
+    assert!(
+        t.failure_modes.iter().any(|f| f.contains("-180")),
+        "must record the -180 sentinel Apple returns for an unknown BSSID"
+    );
 }
 
 /// Every entry must be independently verifiable, and must carry its
