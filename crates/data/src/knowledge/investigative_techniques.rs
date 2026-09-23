@@ -424,6 +424,115 @@ pub static BEACONING_INTERVAL_REGULARITY: InvestigativeTechnique = Investigative
     ],
 };
 
+/// Wi-Fi BSSID geolocation via a Wi-Fi Positioning System (WPS).
+///
+/// # Sources actually read
+///
+/// - iSniff-GPS (hubert3), README and `iSniff_GPS/wloc.py` (code-read): the
+///   `QueryBSSID()` function POSTs to `https://gs-loc.apple.com/clls/wloc`
+///   and parses the protobuf response, scaling the returned integer
+///   latitude/longitude by `pow(10, -8)` (`lat = wifi.location.latitude *
+///   pow(10,-8)`), and "will return the coordinates of the MAC queried for
+///   and usually an additional 400 nearby BSSIDs and their coordinates". A
+///   companion `wigle_api.py` queries wigle.net for an SSID.
+/// - Rye & Levin, "Surveilling the Masses with Wi-Fi-Based Positioning
+///   Systems", IEEE S&P 2024 (arXiv:2405.14975): Apple's API, queried with a
+///   BSSID, returns that BSSID's location PLUS up to several hundred nearby
+///   BSSIDs Apple knows about; it returns a sentinel of -180 (an invalid
+///   coordinate) for a BSSID it cannot locate; Google's API instead requires
+///   at least two BSSIDs and returns only a computed client position.
+/// - Google Maps Platform Geolocation API docs: keyed service taking
+///   `wifiAccessPoints` (each a `macAddress`) and returning a position.
+///
+/// # What this establishes, and what it does not
+///
+/// A WPS turns an access-point BSSID into physical coordinates. The BSSIDs
+/// come from the device's own network artifacts — the per-network AP list in
+/// `macos_wifi_known_networks` and the `RouterHardwareAddress` in
+/// `macos_dhcp_leases`. It locates the ACCESS POINT, not the device: the
+/// device may merely have passed near an AP, or have a cloud-synced
+/// known-network entry it never joined. Those limits live in the failure
+/// modes below, because an analyst told "the BSSID geolocates to X" has been
+/// handed the AP's location, not the device's.
+pub static WIFI_BSSID_GEOLOCATION: InvestigativeTechnique = InvestigativeTechnique {
+    id: "wifi_bssid_geolocation",
+    name: "Wi-Fi BSSID geolocation via a positioning system",
+    question: "Where is the physical location of a remembered Wi-Fi access point, given its \
+               BSSID from a device's network artifacts, using a Wi-Fi Positioning System such as \
+               Apple's gs-loc.apple.com service, Google's Geolocation API, or WiGLE?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "Extract candidate BSSIDs from the device: the per-network access-point \
+                     BSSID list in the remembered-networks store (the LEAKY_AP_BSSID key of \
+                     com.apple.wifi.known-networks.plist, and the legacy airport preferences), \
+                     and the RouterHardwareAddress recorded in each DHCP lease plist.",
+            artifact_id: Some("macos_wifi_known_networks"),
+            yields: "A set of access-point MAC addresses (BSSIDs) the device recorded, each a \
+                     geolocation handle, with any join/lease timestamps attached.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Submit each BSSID to a Wi-Fi Positioning System: Apple's \
+                     https://gs-loc.apple.com/clls/wloc (unauthenticated; returns the queried \
+                     BSSID's latitude/longitude as integers scaled by 10^-8, plus up to several \
+                     hundred neighbouring APs), Google's Geolocation API (API key required, \
+                     needs at least two BSSIDs and returns only a computed position), or the \
+                     WiGLE crowdsourced wardriving database (keyed).",
+            artifact_id: None,
+            yields: "Coordinates for each BSSID the provider knows, and a sentinel for those it \
+                     does not.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Filter Apple's -180 sentinel (returned for a BSSID it cannot locate), treat \
+                     a real returned position as the ACCESS POINT's location, then corroborate \
+                     against the join/added timestamps (macos_wifi_known_networks) and the lease \
+                     start time (macos_dhcp_leases) to place the device in time.",
+            artifact_id: Some("macos_dhcp_leases"),
+            yields: "Located access points with a time context, keeping WHERE the device was \
+                     distinct from WHERE it merely remembered a network.",
+        },
+    ],
+    artifacts_used: &["macos_wifi_known_networks", "macos_dhcp_leases"],
+    preconditions: &[
+        "The BSSID is one a WPS has already observed. A never-wardriven access point (a new or \
+         private home router unseen by Apple/Google/WiGLE) resolves to nothing, and absence of a \
+         hit is not evidence the AP does not exist.",
+        "The recorded BSSID is the real access-point hardware address. Client MAC randomization \
+         (macOS/iOS 14+) changes the device's own association MAC, not the AP BSSID; but a MAC \
+         captured from a device acting as a personal hotspot can be ephemeral and geolocate to \
+         wherever that hotspot last was.",
+    ],
+    failure_modes: &[
+        "Reading the AP's location as the device's current position. A WPS places the ACCESS \
+         POINT, not the device: the device can remember an AP it merely passed near, and a \
+         cloud-synced known-network entry (AddReason \"Cloud Sync\") was never joined on this \
+         device at all. The coordinate answers 'where is this network', not 'where was this \
+         device'.",
+        "Treating -180 as a coordinate. Apple's service returns latitude/longitude of -180 — an \
+         invalid value — for a BSSID it has no record of; parsed as a number rather than a \
+         sentinel it plots a false point off Antarctica and manufactures a location that was \
+         never returned.",
+        "Forgetting that the query itself discloses the BSSID to the provider. Submitting a \
+         subject's remembered BSSIDs to Apple, Google or WiGLE tells that provider which \
+         networks are of interest, and Apple's endpoint returns hundreds of NEARBY APs per query \
+         (Rye & Levin), a disclosure with its own privacy and operational-security cost.",
+        "Trusting a single crowdsourced or dated hit. WiGLE coverage is uneven and ages; an AP \
+         that moved — a replaced router, a mobile hotspot, transit Wi-Fi — resolves to a stale \
+         or meaningless location, so a lone hit is a lead to corroborate, not a fix.",
+    ],
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    mitre_techniques: &[],
+    sources: &[
+        "https://github.com/hubert3/iSniff-GPS",
+        "https://github.com/hubert3/iSniff-GPS/blob/master/iSniff_GPS/wloc.py",
+        "https://arxiv.org/abs/2405.14975",
+        "https://developers.google.com/maps/documentation/geolocation/overview",
+        "https://api.wigle.net/",
+    ],
+};
+
 /// Every registered investigative technique. Lookup and iteration read this
 /// slice; a static not referenced here is invisible to every consumer.
 pub static INVESTIGATIVE_TECHNIQUES: &[InvestigativeTechnique] = &[
@@ -431,4 +540,5 @@ pub static INVESTIGATIVE_TECHNIQUES: &[InvestigativeTechnique] = &[
     DIAMOND_MODEL,
     ICD203_ESTIMATIVE_LANGUAGE,
     BEACONING_INTERVAL_REGULARITY,
+    WIFI_BSSID_GEOLOCATION,
 ];
