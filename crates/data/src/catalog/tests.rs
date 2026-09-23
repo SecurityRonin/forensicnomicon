@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6857;
+const EXPECTED_CATALOG_LEN: usize = 6860;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -395,6 +395,37 @@ mod catalog_integrity {
             .sources
             .iter()
             .any(|s| s.contains("support.apple.com") && s.contains("mchl8ae423a3")));
+    }
+
+    /// CUPS keeps per-job IPP control files (`c#####`) and submitted-document
+    /// data files (`d#####-###`) in its spool, the printer list in
+    /// printers.conf, and access/error/page logs. The generated
+    /// fa_file_cache_job_cache_2 entry covers only job.cache.
+    #[test]
+    fn macos_cups_print_artifacts_are_cataloged() {
+        let spool = CATALOG
+            .by_id("macos_cups_spool_jobs")
+            .expect("macos_cups_spool_jobs must be cataloged");
+        assert_eq!(spool.file_path, Some("/private/var/spool/cups/"));
+        assert!(spool.meaning.contains("job-originating-user-name"));
+        assert!(spool.meaning.contains("PreserveJobFiles"));
+        assert!(spool
+            .related_artifacts
+            .contains(&"fa_file_cache_job_cache_2"));
+        assert!(spool
+            .sources
+            .iter()
+            .any(|s| s == &"https://www.cups.org/doc/spec-design.html"));
+        let printers = CATALOG
+            .by_id("macos_cups_printers_conf")
+            .expect("macos_cups_printers_conf must be cataloged");
+        assert_eq!(printers.file_path, Some("/private/etc/cups/printers.conf"));
+        assert!(printers.meaning.contains("DeviceURI"));
+        let logs = CATALOG
+            .by_id("macos_cups_logs")
+            .expect("macos_cups_logs must be cataloged");
+        assert_eq!(logs.file_path, Some("/private/var/log/cups/"));
+        assert!(logs.meaning.contains("page_log"));
     }
 
     /// `edge_webcache` must point at the WebCacheV01.dat ESE database
