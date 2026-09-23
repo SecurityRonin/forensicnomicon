@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6851;
+const EXPECTED_CATALOG_LEN: usize = 6852;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -261,6 +261,40 @@ mod catalog_integrity {
         assert!(db
             .related_artifacts
             .contains(&"macos_notes_attachment_media"));
+    }
+
+    /// Locked (password-protected) Apple Notes: the flag and crypto columns
+    /// must be named, and the descriptor must warn that locked-note
+    /// attachments are ciphertext on disk, so `file` misidentification and
+    /// text decoding are noise, not content.
+    #[test]
+    fn macos_notes_locked_notes_is_cataloged() {
+        let d = CATALOG
+            .by_id("macos_notes_locked_notes")
+            .expect("macos_notes_locked_notes must be cataloged");
+        for col in [
+            "ZISPASSWORDPROTECTED",
+            "ZCRYPTOSALT",
+            "ZCRYPTOITERATIONCOUNT",
+            "ZCRYPTOWRAPPEDKEY",
+        ] {
+            assert!(
+                d.meaning.contains(col),
+                "locked-notes meaning must name {col}"
+            );
+        }
+        assert!(d.meaning.contains("AES-GCM") && d.meaning.contains("PBKDF2"));
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("file utility")),
+            "must warn that the file utility misidentifies encrypted attachments"
+        );
+        assert!(CATALOG
+            .by_id("macos_notes_attachment_media")
+            .unwrap()
+            .related_artifacts
+            .contains(&"macos_notes_locked_notes"));
     }
 
     /// `edge_webcache` must point at the WebCacheV01.dat ESE database
