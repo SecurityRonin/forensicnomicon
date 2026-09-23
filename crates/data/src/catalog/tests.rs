@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6865;
+const EXPECTED_CATALOG_LEN: usize = 6866;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -522,6 +522,22 @@ mod catalog_integrity {
                 .iter()
                 .any(|c| c.contains("not the person")));
         }
+    }
+
+    /// `CloudDocs/session/containers/` lists the iCloud Drive app containers
+    /// (`iCloud.<bundle-id>` entries) known to the signed-in account, beside
+    /// the CloudDocs client.db already catalogued as macos_icloud_drive_db.
+    #[test]
+    fn macos_icloud_drive_containers_is_cataloged() {
+        let d = CATALOG
+            .by_id("macos_icloud_drive_containers")
+            .expect("macos_icloud_drive_containers must be cataloged");
+        assert_eq!(
+            d.file_path,
+            Some("/Users/*/Library/Application Support/CloudDocs/session/containers/")
+        );
+        assert!(d.meaning.contains("iCloud."));
+        assert!(d.related_artifacts.contains(&"macos_icloud_drive_db"));
     }
 
     /// `edge_webcache` must point at the WebCacheV01.dat ESE database
