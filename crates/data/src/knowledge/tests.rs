@@ -625,3 +625,77 @@ fn full_profile_is_broader_than_focused_profiles() {
         );
     }
 }
+
+/// The curated macOS gap-fill artifacts must now be wired into the full
+/// profile: the OpenBSM audit trail and dslocal account store (account use),
+/// USB mass-storage and AirDrop history (removable/peer transfer), and the
+/// correctly-scoped Safari cookie jar. Before the descriptors existed these
+/// areas were excluded from the profile; now that they resolve, the profile
+/// must reference them.
+#[test]
+fn macos_full_references_curated_gap_fill_artifacts() {
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    let has = |id: &str| full.members.iter().any(|m| m.artifact_id == id);
+    for id in [
+        "macos_openbsm_audit",
+        "macos_dslocal_users",
+        "macos_usb_mass_storage_log",
+        "macos_airdrop_sharingd",
+        "macos_safari_cookies",
+    ] {
+        assert!(
+            has(id),
+            "macos_full must reference curated descriptor: {id}"
+        );
+    }
+}
+
+/// The data-leakage profile is where removable media, peer transfer and
+/// browser state matter most: it must reference USB mass-storage history,
+/// AirDrop/sharingd activity, and the Safari cookie jar.
+#[test]
+fn macos_data_leakage_references_removable_airdrop_and_cookies() {
+    let leakage = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_data_leakage")
+        .expect("macos_data_leakage missing");
+    let has = |id: &str| leakage.members.iter().any(|m| m.artifact_id == id);
+    for id in [
+        "macos_usb_mass_storage_log",
+        "macos_airdrop_sharingd",
+        "macos_safari_cookies",
+    ] {
+        assert!(
+            has(id),
+            "macos_data_leakage must reference curated descriptor: {id}"
+        );
+    }
+}
+
+/// No profile may reference the mis-scoped generated `browsers_safari_cookies`
+/// (OsScope::Win7Plus) now that the correctly macOS-scoped `macos_safari_cookies`
+/// exists — the curated descriptor must be used in its place.
+#[test]
+fn profiles_use_curated_not_mis_scoped_safari_cookies() {
+    for p in EXAMINATION_PROFILES {
+        assert!(
+            p.members
+                .iter()
+                .all(|m| m.artifact_id != "browsers_safari_cookies"),
+            "{}: must reference the curated macos_safari_cookies, not the \
+             mis-scoped generated browsers_safari_cookies",
+            p.id
+        );
+    }
+    let cookies = crate::catalog::CATALOG
+        .by_id("macos_safari_cookies")
+        .expect("macos_safari_cookies must exist");
+    assert_eq!(
+        cookies.os_scope,
+        crate::catalog::OsScope::MacOS,
+        "the curated Safari cookie descriptor must be macOS-scoped"
+    );
+}
