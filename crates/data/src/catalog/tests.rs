@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6854;
+const EXPECTED_CATALOG_LEN: usize = 6856;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -349,6 +349,36 @@ mod catalog_integrity {
             d.evidence_caveats.iter().any(|c| c.contains("localised")),
             "default file-name prefix is localised"
         );
+    }
+
+    /// Sandboxed Safari keeps its caches under the com.apple.Safari container.
+    /// The generated SafariTabSnapshotsMetadataSQLiteDatabaseFile lists only
+    /// the non-container path, so hand-written descriptors must cover the
+    /// container's WebKitCache and TabSnapshots / Webpage Previews.
+    #[test]
+    fn macos_safari_container_caches_are_cataloged() {
+        let w = CATALOG
+            .by_id("macos_safari_webkit_cache")
+            .expect("macos_safari_webkit_cache must be cataloged");
+        assert_eq!(
+            w.file_path,
+            Some("/Users/*/Library/Containers/com.apple.Safari/Data/Library/Caches/com.apple.Safari/WebKitCache/")
+        );
+        assert!(w.meaning.contains("Records") && w.meaning.contains("Blobs"));
+        let t = CATALOG
+            .by_id("macos_safari_tab_snapshots")
+            .expect("macos_safari_tab_snapshots must be cataloged");
+        assert_eq!(
+            t.file_path,
+            Some("/Users/*/Library/Containers/com.apple.Safari/Data/Library/Caches/com.apple.Safari/TabSnapshots/")
+        );
+        assert!(t.meaning.contains("Metadata.db") && t.meaning.contains("Webpage Previews"));
+        assert!(t
+            .related_artifacts
+            .contains(&"fa_file_tabsnapshots_metadata_db"));
+        assert!(w
+            .related_artifacts
+            .contains(&"fa_file_com_apple_safari_cache_db_2"));
     }
 
     /// `edge_webcache` must point at the WebCacheV01.dat ESE database
