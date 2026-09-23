@@ -4549,3 +4549,148 @@ pub(crate) static IWORK_DOCUMENT_PACKAGE: ArtifactDescriptor = ArtifactDescripto
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Stored inside the document itself",
 };
+
+/// OOXML (Word/Excel/PowerPoint 2007+) document properties:
+/// `docProps/core.xml` (core properties) and `docProps/app.xml` (extended
+/// properties) inside the document zip.
+///
+/// # Sources
+/// - <https://ecma-international.org/publications-and-standards/standards/ecma-376/> —
+///   ECMA-376; Part 2 (Open Packaging Conventions) defines the core properties.
+/// - <https://learn.microsoft.com/en-us/dotnet/api/system.io.packaging.packageproperties> —
+///   core-property semantics: Creator, LastModifiedBy, Revision, LastPrinted,
+///   Created, Modified.
+/// - <https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.extendedproperties.company> —
+///   ap:Company, "the name of a company associated with the document"
+///   (ISO/IEC 29500-1 §22.2); sibling Application and AppVersion elements.
+/// - <https://exiftool.org/TagNames/OOXML.html> — properties read from the
+///   "docProps" directory, incl. LastModifiedBy, LastPrinted, Company, AppVersion.
+/// - <https://support.microsoft.com/en-us/word/change-the-author-name-for-documents-presentations-or-workbooks> —
+///   Word, Excel and PowerPoint set Author on new documents from the User name
+///   setting; editable per document.
+pub(crate) static OOXML_CORE_PROPERTIES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ooxml_core_properties",
+    name: "OOXML Document Properties (docProps/core.xml, docProps/app.xml)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("<any OOXML document: .docx, .xlsx, .pptx and macro/template variants>"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Authorship metadata stored inside an Office Open XML package, which is a zip. \
+        docProps/core.xml holds the ECMA-376 core properties: dc:creator (who created the \
+        content), cp:lastModifiedBy (who last modified it), cp:revision (revision number), \
+        cp:lastPrinted, dcterms:created and dcterms:modified, plus title, subject and keywords. \
+        docProps/app.xml holds extended properties, among them Application (the producing \
+        application), AppVersion and Company. These values travel with the file through \
+        copying, email and download, so they record where and by whom, in the application's \
+        terms, a document was written and saved, independently of the file-system times on \
+        this Mac. Comparing dcterms:created and dcterms:modified with file-system dates, and \
+        creator with lastModifiedBy, shows whether a document was authored here or arrived \
+        from elsewhere.",
+    mitre_techniques: &[],
+    fields: &[
+        FieldSchema { name: "creator", value_type: ValueType::Text, description: "dc:creator: author name as set by the creating application", is_uid_component: false },
+        FieldSchema { name: "last_modified_by", value_type: ValueType::Text, description: "cp:lastModifiedBy: user name of the application that last saved", is_uid_component: false },
+        FieldSchema { name: "revision", value_type: ValueType::Text, description: "cp:revision: revision number", is_uid_component: false },
+        FieldSchema { name: "created", value_type: ValueType::Timestamp, description: "dcterms:created (W3CDTF)", is_uid_component: false },
+        FieldSchema { name: "modified", value_type: ValueType::Timestamp, description: "dcterms:modified (W3CDTF)", is_uid_component: false },
+        FieldSchema { name: "last_printed", value_type: ValueType::Timestamp, description: "cp:lastPrinted", is_uid_component: false },
+        FieldSchema { name: "application", value_type: ValueType::Text, description: "app.xml Application", is_uid_component: false },
+        FieldSchema { name: "app_version", value_type: ValueType::Text, description: "app.xml AppVersion", is_uid_component: false },
+        FieldSchema { name: "company", value_type: ValueType::Text, description: "app.xml Company", is_uid_component: false },
+    ],
+    retention: Some("Part of the document; persists as long as the file does"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["ole2_summary_information"],
+    sources: &[
+        "https://ecma-international.org/publications-and-standards/standards/ecma-376/",
+        "https://learn.microsoft.com/en-us/dotnet/api/system.io.packaging.packageproperties",
+        "https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.extendedproperties.company",
+        "https://exiftool.org/TagNames/OOXML.html",
+        "https://support.microsoft.com/en-us/word/change-the-author-name-for-documents-presentations-or-workbooks",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Circumstantial),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "creator and lastModifiedBy are the user-name setting of the application that wrote them, not the person at the keyboard; Microsoft documents that Office sets Author from its User name setting and that the value can be edited per document",
+        "A document downloaded or copied to this Mac carries the metadata of the machine that authored it elsewhere; its presence here says nothing about authorship on this Mac",
+        "The docProps/ part names are the convention Office writes; the package relationships (_rels/.rels) are authoritative for where the core and extended properties live",
+        "Times are written by the saving application from its own clock and can be edited or stripped without trace",
+        "The format is platform-independent; it is catalogued under macOS because the catalogue's OsScope has no cross-platform value",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Stored inside the document itself",
+};
+
+/// OLE2 (Word/Excel/PowerPoint 97-2003) SummaryInformation property set in the
+/// `\005SummaryInformation` stream.
+///
+/// # Sources
+/// - <https://learn.microsoft.com/en-us/openspecs/office_file_formats/ms-oshared/11b56127-35f4-4bfa-a23f-23935a6edf54> —
+///   MS-OSHARED 2.3.3.2.1: FMTID_SummaryInformation, stream "\005SummaryInformation".
+/// - <https://learn.microsoft.com/en-us/openspecs/office_file_formats/ms-oshared/87667163-ea1e-4d67-9eec-47cad74e8030> —
+///   PIDSI: AUTHOR 0x04, LASTAUTHOR 0x08, REVNUMBER 0x09, LASTPRINTED 0x0B,
+///   CREATE_DTM 0x0C, LASTSAVE_DTM 0x0D (VT_FILETIME, UTC); CODEPAGE must be written.
+/// - <https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-oleps/f7933d28-2cc4-4b36-bc23-8861cbcd37c4> —
+///   MS-OLEPS SummaryInformation property table.
+/// - <https://exiftool.org/TagNames/FlashPix.html> — the same properties read
+///   from DOC/XLS/PPT (Author, LastModifiedBy, RevisionNumber, LastPrinted,
+///   CreateDate, ModifyDate, CodePage).
+/// - <https://support.microsoft.com/en-us/word/change-the-author-name-for-documents-presentations-or-workbooks> —
+///   Author comes from the Office User name setting.
+pub(crate) static OLE2_SUMMARY_INFORMATION: ArtifactDescriptor = ArtifactDescriptor {
+    id: "ole2_summary_information",
+    name: "OLE2 SummaryInformation Property Set (legacy .doc/.xls/.ppt)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("<any OLE2 compound file: .doc, .xls, .ppt and their template variants>"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Authorship metadata inside a Compound File Binary (OLE2) document, stored as the \
+        SummaryInformation property set (FMTID {F29F85E0-4FF9-1068-AB91-08002B27B3D9}) in the \
+        stream named \\005SummaryInformation. MS-OSHARED defines PIDSI_AUTHOR (0x04, document \
+        author), PIDSI_LASTAUTHOR (0x08, who last modified it), PIDSI_REVNUMBER (0x09, revision \
+        number), PIDSI_LASTPRINTED (0x0B), PIDSI_CREATE_DTM (0x0C, created) and \
+        PIDSI_LASTSAVE_DTM (0x0D, last saved), the three times being FILETIME values in UTC. \
+        The CODEPAGE property must be present and gives the code page of every 8-bit string in \
+        the set, so author names written on a non-Latin system decode correctly only with it. \
+        Like its OOXML successor, the set travels with the file and records the writing \
+        application's view of who created and last saved the document and when.",
+    mitre_techniques: &[],
+    fields: &[
+        FieldSchema { name: "author", value_type: ValueType::Text, description: "PIDSI_AUTHOR (0x04)", is_uid_component: false },
+        FieldSchema { name: "last_author", value_type: ValueType::Text, description: "PIDSI_LASTAUTHOR (0x08): last saved by", is_uid_component: false },
+        FieldSchema { name: "revision_number", value_type: ValueType::Text, description: "PIDSI_REVNUMBER (0x09), a decimal string", is_uid_component: false },
+        FieldSchema { name: "last_printed", value_type: ValueType::Timestamp, description: "PIDSI_LASTPRINTED (0x0B), FILETIME UTC", is_uid_component: false },
+        FieldSchema { name: "create_dtm", value_type: ValueType::Timestamp, description: "PIDSI_CREATE_DTM (0x0C), FILETIME UTC", is_uid_component: false },
+        FieldSchema { name: "lastsave_dtm", value_type: ValueType::Timestamp, description: "PIDSI_LASTSAVE_DTM (0x0D), FILETIME UTC", is_uid_component: false },
+        FieldSchema { name: "codepage", value_type: ValueType::UnsignedInt, description: "CODEPAGE property (id 0x01): code page of the set's 8-bit strings", is_uid_component: false },
+    ],
+    retention: Some("Part of the document; persists as long as the file does"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["ooxml_core_properties"],
+    sources: &[
+        "https://learn.microsoft.com/en-us/openspecs/office_file_formats/ms-oshared/11b56127-35f4-4bfa-a23f-23935a6edf54",
+        "https://learn.microsoft.com/en-us/openspecs/office_file_formats/ms-oshared/87667163-ea1e-4d67-9eec-47cad74e8030",
+        "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-oleps/f7933d28-2cc4-4b36-bc23-8861cbcd37c4",
+        "https://exiftool.org/TagNames/FlashPix.html",
+        "https://support.microsoft.com/en-us/word/change-the-author-name-for-documents-presentations-or-workbooks",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Circumstantial),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "PIDSI_AUTHOR and PIDSI_LASTAUTHOR are the user-name setting of the application that wrote them, not the person at the keyboard; the value can be edited per document",
+        "A document downloaded or copied to this Mac carries the metadata of the machine that authored it elsewhere; its presence here says nothing about authorship on this Mac",
+        "All properties are optional and writable by any tool; absent or blank values are not evidence of tampering by themselves",
+        "Decode 8-bit strings with the set's CODEPAGE, not the examiner's locale, or names in non-Latin scripts are mis-rendered",
+        "The format is platform-independent; it is catalogued under macOS because the catalogue's OsScope has no cross-platform value",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Stored inside the document itself",
+};
