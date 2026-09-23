@@ -18474,6 +18474,9 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::MACOS_SAFARI_WEBKIT_CACHE,
     macos_ext::MACOS_SAFARI_TAB_SNAPSHOTS,
     macos_ext::MACOS_RELOCATED_ITEMS,
+    macos_ext::MACOS_CUPS_SPOOL_JOBS,
+    macos_ext::MACOS_CUPS_PRINTERS_CONF,
+    macos_ext::MACOS_CUPS_LOGS,
     windows_files_ext::ONEDRIVE_ODL_LOGS,
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,

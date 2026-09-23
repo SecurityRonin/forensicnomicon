@@ -4151,3 +4151,215 @@ pub(crate) static MACOS_RELOCATED_ITEMS: ArtifactDescriptor = ArtifactDescriptor
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Created at install time and left until the user deletes it",
 };
+
+/// CUPS print spool: per-job IPP control files (`c#####`) and submitted-document
+/// data files (`d#####-###`) in `/private/var/spool/cups/`.
+///
+/// # Sources
+/// - <https://www.cups.org/doc/spec-design.html> — control files are IPP
+///   messages based on the original Print-Job or Create-Job request, data files
+///   are the original print files submitted; control files normally cleaned out
+///   after the 500th job, data files removed after a successful print, both
+///   configurable.
+/// - <https://www.cups.org/doc/man-cupsd.conf.html> — PreserveJobFiles default
+///   "86400" (preserve 1 day); PreserveJobHistory default "Yes" (kept until the
+///   MaxJobs limit); MaxJobs default "500".
+/// - <https://github.com/apple/cups/blob/v2.3.3/scheduler/cupsd.h> —
+///   `DEFAULT_FILES 86400`, the compiled default since CUPS 1.6 (previously 0).
+/// - <https://digitalbitbybit.blogspot.com/2012/11/mac-osx-printer-forensics.html> —
+///   decoded macOS control file: job-name, job-originating-user-name,
+///   job-originating-host-name, printer-uri, time-at-* values,
+///   com.apple.print.JobInfo.PMApplicationName.
+/// - <https://papers.put.as/papers/macosx/2015/RHUL-MA-2015-8.pdf> — Moreno
+///   Garijo, "Mac OS X Forensics" (RHUL MSc, 2015), section 6.6: binary IPP
+///   layout, time-at-* stored as integers, most valuable attributes.
+/// - <https://github.com/log2timeline/plaso/blob/main/plaso/parsers/cups_ipp.py> —
+///   independent parser mapping the same attributes and the three job times.
+pub(crate) static MACOS_CUPS_SPOOL_JOBS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_cups_spool_jobs",
+    name: "CUPS Print Spool Control and Data Files",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Source: https://www.cups.org/doc/man-cups-files.conf.html (RequestRoot default /var/spool/cups)
+    file_path: Some("/private/var/spool/cups/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "The CUPS scheduler's job spool. Each job known to the system has one control file \
+        named c followed by the job number (c00001, c00002, ...), an IPP message based on the \
+        original Print-Job or Create-Job request, and zero or more data files named d<job>-<doc> \
+        (d00001-001) holding the documents as submitted for printing. Decoded control files carry \
+        job-id, job-name (the title the printing application gave the job, usually the document \
+        name), job-originating-user-name (the local account that submitted it), \
+        job-originating-host-name (localhost for a job printed from this Mac), printer-uri and \
+        job-printer-uri, document-format, copies, job-state, job-media-sheets-completed, and \
+        time-at-creation, time-at-processing and time-at-completed as Unix-epoch integers. macOS \
+        adds Apple print attributes such as com.apple.print.JobInfo.PMApplicationName (the \
+        application that printed) and com.apple.print.JobInfo.PMJobOwner (the account's full \
+        name). Because a local job is created on this host by a named account, each control file \
+        is a timestamped record of on-machine activity. Retention is set in cupsd.conf: with \
+        PreserveJobHistory at its default of Yes, control files are kept until the MaxJobs limit \
+        (default 500) is reached, so a lightly used Mac can hold years of print history; \
+        PreserveJobFiles controls data files. The CUPS design description says data files are \
+        removed immediately after a successful print, but since CUPS 1.6 the compiled default for \
+        PreserveJobFiles is 86400 seconds, keeping them for one day after printing. A data file \
+        still present long after its job's time-at-completed therefore usually belongs to a job \
+        that never completed (held, stopped, cancelled or failed) or to a non-default \
+        configuration, and it may be the only surviving copy of the printed document.",
+    mitre_techniques: &[],
+    fields: &[
+        FieldSchema { name: "job_id", value_type: ValueType::UnsignedInt, description: "job-id; also the number in the c#####/d#####-### file names", is_uid_component: true },
+        FieldSchema { name: "job_name", value_type: ValueType::Text, description: "job-name: title supplied by the printing application, usually the document name, not its path", is_uid_component: false },
+        FieldSchema { name: "job_originating_user_name", value_type: ValueType::Text, description: "Account that submitted the job", is_uid_component: false },
+        FieldSchema { name: "job_originating_host_name", value_type: ValueType::Text, description: "Host the job came from: localhost for a job printed on this Mac, another host for a job received through printer sharing", is_uid_component: false },
+        FieldSchema { name: "printer_uri", value_type: ValueType::Text, description: "printer-uri / job-printer-uri: the queue and the device the job went to", is_uid_component: false },
+        FieldSchema { name: "document_format", value_type: ValueType::Text, description: "MIME type of the submitted document (e.g. application/pdf)", is_uid_component: false },
+        FieldSchema { name: "time_at_creation", value_type: ValueType::Timestamp, description: "When the job was created (Unix seconds)", is_uid_component: false },
+        FieldSchema { name: "time_at_processing", value_type: ValueType::Timestamp, description: "When the job started processing (Unix seconds)", is_uid_component: false },
+        FieldSchema { name: "time_at_completed", value_type: ValueType::Timestamp, description: "When the job finished (Unix seconds); absent for a job that never completed", is_uid_component: false },
+        FieldSchema { name: "job_media_sheets_completed", value_type: ValueType::UnsignedInt, description: "Sheets reported printed", is_uid_component: false },
+        FieldSchema { name: "pm_application_name", value_type: ValueType::Text, description: "com.apple.print.JobInfo.PMApplicationName: application that printed", is_uid_component: false },
+    ],
+    retention: Some("Control files kept until MaxJobs (default 500) under the default PreserveJobHistory Yes; data files kept one day after printing under the default PreserveJobFiles 86400"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["fa_file_cache_job_cache_2", "macos_cups_printers_conf", "macos_cups_logs"],
+    sources: &[
+        "https://www.cups.org/doc/spec-design.html",
+        "https://www.cups.org/doc/man-cupsd.conf.html",
+        "https://github.com/apple/cups/blob/v2.3.3/scheduler/cupsd.h",
+        "https://digitalbitbybit.blogspot.com/2012/11/mac-osx-printer-forensics.html",
+        "https://papers.put.as/papers/macosx/2015/RHUL-MA-2015-8.pdf",
+        "https://github.com/log2timeline/plaso/blob/main/plaso/parsers/cups_ipp.py",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "The CUPS design description (data files removed immediately after a successful print) predates the CUPS 1.6 change of the PreserveJobFiles default to one day; read the image's cupsd.conf for PreserveJobFiles, PreserveJobHistory and MaxJobs before inferring anything from what is present or absent",
+        "The reading of a long-retained data file as a job that never completed is an inference from the default retention rules, not a recorded flag; confirm with job-state and time-at-completed in the matching control file",
+        "job-originating-user-name names the account that submitted the job, not the person at the keyboard; a job-originating-host-name other than localhost means the job came from another machine through printer sharing and is not activity on this Mac",
+        "Apple com.apple.print.* attribute names come from decoded examples in secondary sources (2012-2015), not from Apple documentation; confirm they are present on the image",
+        "job-name is whatever title the application supplied; it is not the document's path and may not match its file name",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Oldest control files are purged once MaxJobs is reached; data files expire after PreserveJobFiles",
+};
+
+/// CUPS printer list: `/private/etc/cups/printers.conf`.
+///
+/// # Sources
+/// - <https://www.cups.org/doc/man-printers.conf.html> — defines the local
+///   printers; maintained by cupsd, not meant to be edited; name, location and
+///   format are an implementation detail.
+/// - <https://www.cups.org/doc/man-cups-files.conf.html> — printers.conf is
+///   masked to the scheduler user because device URIs can contain
+///   authentication information.
+/// - <https://www.cups.org/doc/network.html> — Bonjour (DNS-SD) device URIs of the
+///   form `dnssd://<service name>._ipp._tcp.local./?uuid=<uuid>`.
+/// - <https://www.magnetforensics.com/blog/cups-artifact-support-for-macos/> —
+///   printers.conf and /Library/Preferences/org.cups.printers.plist as the
+///   macOS printer list.
+pub(crate) static MACOS_CUPS_PRINTERS_CONF: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_cups_printers_conf",
+    name: "CUPS printers.conf (configured printers)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/private/etc/cups/printers.conf"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "The scheduler-maintained list of local print queues, one section per printer, each \
+        with its DeviceURI: the address the queue prints to. For network printers found over \
+        Bonjour the DeviceURI takes the dnssd:// form, carrying the printer's advertised service \
+        name and a uuid query parameter (dnssd://<name>._ipp._tcp.local./?uuid=<uuid>), which \
+        identifies the device independently of its IP address; ipp://, ipps:// and \
+        socket:// URIs carry a host name or address instead. Together with printer-uri \
+        in the spool control files this ties a print job to a specific device, and the set of \
+        queues shows which printers, and so which networks, the Mac was set up to use. \
+        /Library/Preferences/org.cups.printers.plist stores similar information.",
+    mitre_techniques: &[],
+    fields: &[
+        FieldSchema { name: "printer_name", value_type: ValueType::Text, description: "Queue name; matches the /printers/<name> part of printer-uri in spool control files", is_uid_component: true },
+        FieldSchema { name: "device_uri", value_type: ValueType::Text, description: "DeviceURI: dnssd service name and uuid, or host/address, of the device", is_uid_component: false },
+    ],
+    retention: Some("Queues persist until removed in Printers & Scanners"),
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &["macos_cups_spool_jobs", "macos_cups_logs"],
+    sources: &[
+        "https://www.cups.org/doc/man-printers.conf.html",
+        "https://www.cups.org/doc/man-cups-files.conf.html",
+        "https://www.cups.org/doc/network.html",
+        "https://www.magnetforensics.com/blog/cups-artifact-support-for-macos/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "CUPS documents the file's format as an implementation detail that can change between releases; parse it defensively",
+        "A configured queue shows the printer was added, not that anything was printed on it; use the spool control files and logs for jobs",
+        "DeviceURI values can contain credentials (CUPS masks the file to root for that reason); redact before reporting",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Configuration file rewritten when queues change",
+};
+
+/// CUPS logs: `/private/var/log/cups/{access_log,error_log,page_log}`.
+///
+/// # Sources
+/// - <https://www.cups.org/doc/man-cups-files.conf.html> — AccessLog, ErrorLog,
+///   PageLog defaults /var/log/cups/access_log, error_log, page_log.
+/// - <https://www.cups.org/doc/man-cupsd.conf.html> — AccessLogLevel default
+///   "actions" (jobs submitted, held, released, modified, cancelled); MaxLogSize
+///   default 1 MB before rotation; PageLogFormat.
+/// - <https://github.com/apple/cups/blob/v2.3.3/scheduler/conf.c> — compiled
+///   PageLogFormat default "%p %u %j %T %P %C %{job-billing}
+///   %{job-originating-host-name} %{job-name} %{media} %{sides}".
+/// - <https://digitalbitbybit.blogspot.com/2012/11/mac-osx-printer-forensics.html> —
+///   the three logs under /private/var/log/cups on macOS.
+pub(crate) static MACOS_CUPS_LOGS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_cups_logs",
+    name: "CUPS Access, Error and Page Logs",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/private/var/log/cups/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Text logs written by the CUPS scheduler. access_log records requests, by default at \
+        AccessLogLevel actions: print jobs submitted, held, released, modified or cancelled, and \
+        printer configuration changes. error_log records scheduler messages at LogLevel (default \
+        warn), with far more detail at debug levels. page_log, when enabled, writes one \
+        line per page or job in PageLogFormat; the CUPS 2.3 source's default format is printer, \
+        user, job id, time, page number, copies, billing, originating host, job name, media and \
+        sides. These logs corroborate the spool control files and outlast them once the job \
+        history is purged, within the logs' own rotation.",
+    mitre_techniques: &[],
+    fields: &[
+        FieldSchema { name: "timestamp", value_type: ValueType::Timestamp, description: "Log time in common log format, local time with offset", is_uid_component: true },
+        FieldSchema { name: "printer", value_type: ValueType::Text, description: "Queue name (page_log %p; access_log request path)", is_uid_component: false },
+        FieldSchema { name: "user", value_type: ValueType::Text, description: "Submitting user (page_log %u; access_log user field)", is_uid_component: false },
+        FieldSchema { name: "job_id", value_type: ValueType::UnsignedInt, description: "Job id linking to the c##### control file", is_uid_component: false },
+    ],
+    retention: Some("Rotated when a log reaches MaxLogSize (default 1 MB)"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_cups_spool_jobs", "macos_cups_printers_conf"],
+    sources: &[
+        "https://www.cups.org/doc/man-cups-files.conf.html",
+        "https://www.cups.org/doc/man-cupsd.conf.html",
+        "https://github.com/apple/cups/blob/v2.3.3/scheduler/conf.c",
+        "https://digitalbitbybit.blogspot.com/2012/11/mac-osx-printer-forensics.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "The current cupsd.conf man page says the PageLogFormat default is empty (page logging disabled), while the CUPS 2.3.3 source sets the standard format by default; whether page_log exists depends on the CUPS build and configuration on the image",
+        "Rotation at 1 MB by default means only recent activity survives on a heavily used system",
+        "Log times are local time with an offset, unlike the Unix-epoch time-at-* values in control files",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Size-based rotation discards older entries",
+};
