@@ -4753,3 +4753,336 @@ pub(crate) static MACOS_ICLOUD_DRIVE_CONTAINERS: ArtifactDescriptor = ArtifactDe
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Account session state; not rewritten by ordinary use",
 };
+
+// ── OpenBSM audit trail ──────────────────────────────────────────────────
+//
+// Curated for the examination-profile account-use gap: the artifact used to
+// establish account creation, login/logout and boot history on a Mac.
+
+pub(crate) static MACOS_OPENBSM_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_openbsm_audit",
+    name: "OpenBSM Audit Trail (/var/audit)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/private/var/audit/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "OpenBSM (Basic Security Module) audit trail — macOS's kernel-level security \
+        event log, the McAfee-authored OpenBSM implementation Apple ships. Trail files sit in \
+        /private/var/audit named StartTime.EndTime in UTC (YYYYMMDDHHMMSS.YYYYMMDDHHMMSS); the \
+        `current` symlink points at the active trail, and a still-open trail on an unclean \
+        shutdown is renamed with a .crash_recovery suffix. Records are BSM token streams read \
+        with praudit(1) (and reduced with auditreduce(1)); which events are captured is set by \
+        the audit classes in /etc/security/audit_control. It records user login and logout \
+        (login_logout class, including SSH, credential authentication and failed logins), \
+        creation and removal of user accounts and other administrative actions (administrative \
+        class), process exec, file and network events, and audit-subsystem start at boot — which \
+        is why it is the artifact used to establish account creation and boot/login history on a \
+        Mac. Deprecated since macOS Big Sur (11), disabled by default in Sonoma (14), and slated \
+        for removal, so it may be absent or empty on newer systems; Apple's replacement is the \
+        Endpoint Security framework.",
+    mitre_techniques: &["T1136.001", "T1078.003", "T1070"],
+    fields: &[
+        FieldSchema { name: "event_time", value_type: ValueType::Timestamp, description: "Timestamp of the audited event (from the header token)", is_uid_component: true },
+        FieldSchema { name: "event_type", value_type: ValueType::Text, description: "Audit event type (AUE_* event, e.g. AUE_lw_login, AUE_audit_startup)", is_uid_component: true },
+        FieldSchema { name: "event_class", value_type: ValueType::Text, description: "Audit class the event belongs to (lo=login_logout, ad=administrative, pc=process, ...)", is_uid_component: false },
+        FieldSchema { name: "auid", value_type: ValueType::UnsignedInt, description: "Audit user ID — the login identity, preserved across setuid, from the subject token", is_uid_component: false },
+        FieldSchema { name: "uid", value_type: ValueType::UnsignedInt, description: "Effective user ID of the subject", is_uid_component: false },
+        FieldSchema { name: "return_status", value_type: ValueType::Text, description: "Return token: success or failure of the operation", is_uid_component: false },
+        FieldSchema { name: "subject", value_type: ValueType::Text, description: "Subject token: acting process, terminal and session", is_uid_component: false },
+        FieldSchema { name: "text", value_type: ValueType::Text, description: "Text token: event-specific free text (e.g. the account name for a login)", is_uid_component: false },
+    ],
+    retention: Some("Finite: trails are rotated by auditd when the file fills or free space drops below audit_control minfree; only the retained trail files survive"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_unified_log", "macos_dslocal_users"],
+    sources: &[
+        "https://crucialsecurity.wordpress.com/2012/05/17/reading-mac-bsm-audit-logs-2/",
+        "https://github.com/openbsm/openbsm",
+        "https://leancrew.com/all-this/man/man4/audit.html",
+        "https://theevilbit.github.io/beyond/beyond_0031/",
+        "https://boberito.medium.com/auditd-the-logs-we-need-not-the-logs-we-deserve-cf1d8c83d15d",
+        "https://www.sans.org/cyber-security-courses/mac-and-ios-forensic-analysis-and-incident-response/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Deprecated since macOS Big Sur and disabled by default in Sonoma 14 — absent or empty on many modern systems, so absence is not proof of no login or account creation",
+        "What is captured depends on the audit_control flags; an event class not selected leaves no record",
+        "Trails are rotated and can be deleted or cleared, so the trail on the image is not necessarily the full history",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Audit trails are rotated by auditd as they fill or as free space drops",
+};
+
+// ── dslocal local-account store ──────────────────────────────────────────
+//
+// Curated for the examination-profile account-use gap: the authoritative
+// inventory of local user accounts on a Mac.
+
+pub(crate) static MACOS_DSLOCAL_USERS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_dslocal_users",
+    name: "dslocal Local User Accounts",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/private/var/db/dslocal/nodes/Default/users/*.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Open Directory local (\"Default\") node account store: one binary plist per local \
+        account under /private/var/db/dslocal/nodes/Default/users/, the authoritative inventory of \
+        local users on the Mac (dscl and Directory Utility read the same records live). Each plist \
+        holds the short name, uid, primary gid, realname (full name / GECOS), home directory, login \
+        shell, and generateduid — the account's GUID that ties it to ACLs, keychains and group \
+        membership across the system — plus the ShadowHashData blob holding the password hash \
+        (SALTED-SHA512-PBKDF2). There is no explicit account-creation timestamp field: creation is \
+        inferred from the plist's file-system birth/modification time or corroborated with the \
+        OpenBSM audit trail. Establishes which accounts exist, admin vs standard, and their identity \
+        attributes.",
+    mitre_techniques: &["T1087.001", "T1136.001"],
+    fields: &[
+        FieldSchema { name: "name", value_type: ValueType::Text, description: "Account short name (record name)", is_uid_component: true },
+        FieldSchema { name: "uid", value_type: ValueType::UnsignedInt, description: "Numeric user ID", is_uid_component: true },
+        FieldSchema { name: "gid", value_type: ValueType::UnsignedInt, description: "Primary group ID", is_uid_component: false },
+        FieldSchema { name: "realname", value_type: ValueType::Text, description: "Full name / GECOS", is_uid_component: false },
+        FieldSchema { name: "home", value_type: ValueType::Text, description: "Home directory path", is_uid_component: false },
+        FieldSchema { name: "shell", value_type: ValueType::Text, description: "Login shell", is_uid_component: false },
+        FieldSchema { name: "generateduid", value_type: ValueType::Guid, description: "Account GUID (generateduid) used across ACLs, groups and keychains", is_uid_component: false },
+        FieldSchema { name: "shadowhash_present", value_type: ValueType::Bool, description: "Whether a ShadowHashData password hash is stored for the account", is_uid_component: false },
+    ],
+    retention: Some("Persists for the life of the account; removed when the account is deleted"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_openbsm_audit", "macos_keychain_user"],
+    sources: &[
+        "https://hacktricks.wiki/en/macos-hardening/macos-security-and-privilege-escalation/macos-files-folders-and-binaries/macos-sensitive-locations.html",
+        "https://apple.stackexchange.com/questions/421405/reading-user-plist-files-from-var-db-dslocal-nodes-default-users",
+        "https://www.sans.org/cyber-security-courses/mac-and-ios-forensic-analysis-and-incident-response/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "No stored account-creation timestamp — creation time is inferred from the plist file's birth/modification time, which mounting or imaging tools can perturb",
+        "A UID freed by a deleted account can be reused, so uid alone is not a durable identity — prefer generateduid",
+        "ShadowHashData is a password hash, not an activity record; it says nothing about when the account was last used",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Account records change only when accounts are created, edited or deleted",
+};
+
+// ── AirDrop / sharingd activity ──────────────────────────────────────────
+//
+// Curated for the examination-profile gap: AirDrop leaves no dedicated
+// persistent transfer database on macOS — its history is in the unified log.
+
+pub(crate) static MACOS_AIRDROP_SHARINGD: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_airdrop_sharingd",
+    name: "AirDrop / sharingd Activity (Unified Log)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/db/diagnostics/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "AirDrop transfer history on macOS is not written to any dedicated persistent \
+        database — it survives only in the unified log (/var/db/diagnostics/), attributed to the \
+        `sharingd` process, alongside the wirelessproxd, bluetoothd and AWDL (Apple Wireless Direct \
+        Link) activity AirDrop rides on. The log records peer discovery, connections to a named \
+        peer device / AirDrop ID, and file send/receive; query it with `log show --info --predicate \
+        'process == \"sharingd\"'` (the --info/--debug levels are usually needed on macOS). The \
+        per-user ~/Library/Preferences/com.apple.sharingd.plist holds the current AirDrop ID and \
+        sharing configuration, but the AirDrop ID rotates and can be blank after inactivity, so it \
+        is state, not history. Provenance of a received file is additionally recorded in the \
+        com.apple.quarantine and kMDItemWhereFroms extended attributes on the saved file.",
+    mitre_techniques: &["T1011"],
+    fields: &[
+        FieldSchema { name: "event_time", value_type: ValueType::Timestamp, description: "Unified-log timestamp of the sharingd event", is_uid_component: true },
+        FieldSchema { name: "process", value_type: ValueType::Text, description: "Emitting process (sharingd)", is_uid_component: false },
+        FieldSchema { name: "airdrop_id", value_type: ValueType::Text, description: "AirDrop ID of the local or peer device (rotates over time)", is_uid_component: false },
+        FieldSchema { name: "peer_device_name", value_type: ValueType::Text, description: "Advertised name of the peer device in the transfer", is_uid_component: false },
+        FieldSchema { name: "event_message", value_type: ValueType::Text, description: "Full unified-log event message", is_uid_component: false },
+    ],
+    retention: Some("Unified-log rotation window only (typically days to a few weeks); the sharingd.plist keeps configuration, not transfer history"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_unified_log", "macos_quarantine_xattr", "macos_wherefroms_xattr"],
+    sources: &[
+        "https://www.mac4n6.com/blog/2018/12/3/airdrop-analysis-of-the-udp-unsolicited-dick-pic",
+        "http://www.mac4n6.com/blog/2020/6/5/analysis-of-apple-unified-logs-quarantine-edition-entry-11-airdropping-some-knowledge",
+        "https://www.jamf.com/blog/stop-potential-airdrop-transfer-data-leaks-with-jamf-protect/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "No persistent transfer-history store — the record lives only in the unified log and ages out on rotation, so absence never proves a transfer did not happen",
+        "The --info/--debug log levels needed for detail are not always retained",
+        "The AirDrop ID rotates and can be blank; the com.apple.sharingd.plist path given is macOS per-user (iOS uses /private/var/mobile/Library/Preferences/)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Backed by the unified log, which rotates on a rolling window",
+};
+
+// ── USB mass-storage device history ──────────────────────────────────────
+//
+// Curated for the examination-profile gap: the honest macOS removable-media
+// story — there is no USBSTOR-equivalent persistent registry.
+
+pub(crate) static MACOS_USB_MASS_STORAGE_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_usb_mass_storage_log",
+    name: "USB Mass-Storage Device History (Unified Log)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/db/diagnostics/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "macOS has no USBSTOR-equivalent persistent registry of attached removable devices, so \
+        per-device attach history is far weaker and shorter-lived than on Windows. The strongest \
+        per-device record is the unified log (/var/db/diagnostics/): when a USB Mass Storage Class \
+        device is inserted, entries containing the keyword `USBMSC` record a non-unique identifier \
+        (usually, but not guaranteed to be, the device serial number), the vendor ID, product ID and \
+        version — query with `log show --predicate \"eventMessage contains 'USBMSC'\"`. Because this \
+        lives in the unified log it only covers the log's rotation window. Complementary evidence of \
+        removable/external volume use: fseventsd mount and write records under /Volumes \
+        (macos_fsevents), and recently connected network shares (macos_sfl2_recent_servers).",
+    mitre_techniques: &["T1052.001", "T1091"],
+    fields: &[
+        FieldSchema { name: "event_time", value_type: ValueType::Timestamp, description: "Unified-log timestamp of the USBMSC attach event", is_uid_component: true },
+        FieldSchema { name: "serial_number", value_type: ValueType::Text, description: "Device non-unique identifier — usually the serial number (Apple notes it may not be unique)", is_uid_component: false },
+        FieldSchema { name: "vendor_id", value_type: ValueType::Text, description: "USB vendor ID", is_uid_component: false },
+        FieldSchema { name: "product_id", value_type: ValueType::Text, description: "USB product ID", is_uid_component: false },
+        FieldSchema { name: "version", value_type: ValueType::Text, description: "Device version reported in the USBMSC entry", is_uid_component: false },
+    ],
+    retention: Some("Unified-log rotation window only (typically days to a few weeks)"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_fsevents", "macos_unified_log", "macos_sfl2_recent_servers"],
+    sources: &[
+        "http://www.mac4n6.com/blog/2020/5/4/analysis-of-apple-unified-logs-quarantine-edition-entry-7-exploring-usbmsc-devices-with-style",
+        "https://kieczkowska.wordpress.com/2020/05/11/usb-forensics/",
+        "https://www.sans.org/cyber-security-courses/mac-and-ios-forensic-analysis-and-incident-response/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "No persistent USBSTOR-equivalent registry on macOS — absence in the log is not proof a device was never attached, and history is limited to the unified-log rotation window",
+        "The USBMSC identifier is explicitly non-unique per Apple; do not treat it as a guaranteed serial",
+        "MTP/PTP devices (phones, cameras) do not present as USB Mass Storage and will not appear under USBMSC",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Backed by the unified log, which rotates on a rolling window",
+};
+
+// ── Safari cookies (macOS) ───────────────────────────────────────────────
+//
+// Curated to supersede the auto-generated `browsers_safari_cookies`, which is
+// mis-scoped OsScope::Win7Plus in the generated catalog (fa/browsers). Safari
+// is macOS/iOS; the generated file must not be hand-edited, so the correction
+// lives here and the profile references this id.
+
+pub(crate) static MACOS_SAFARI_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_safari_cookies",
+    name: "Safari Cookies (macOS)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Containers/com.apple.Safari/Data/Library/Cookies/Cookies.binarycookies"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Safari's cookie jar in the proprietary Cookies.binarycookies binary format: per-site \
+        cookies with name, value, domain, path and creation/expiry timestamps, and may include live \
+        session tokens. Since Safari was sandboxed (Safari 13, macOS Catalina) the file lives inside \
+        the app container at ~/Library/Containers/com.apple.Safari/Data/Library/Cookies/; on Safari \
+        12 and earlier it was at the legacy ~/Library/Cookies/Cookies.binarycookies. This curated \
+        descriptor supersedes the auto-generated `browsers_safari_cookies`, which is mis-scoped \
+        OsScope::Win7Plus in the generated catalog — Safari cookies are macOS/iOS, never Windows. On \
+        iOS the equivalent lives in the MobileSafari/WebKit container.",
+    mitre_techniques: &["T1539"],
+    fields: &[
+        FieldSchema { name: "domain", value_type: ValueType::Text, description: "Cookie domain / host", is_uid_component: true },
+        FieldSchema { name: "name", value_type: ValueType::Text, description: "Cookie name", is_uid_component: true },
+        FieldSchema { name: "value", value_type: ValueType::Text, description: "Cookie value (may be a session token)", is_uid_component: false },
+        FieldSchema { name: "path", value_type: ValueType::Text, description: "Cookie path scope", is_uid_component: false },
+        FieldSchema { name: "creation_time", value_type: ValueType::Timestamp, description: "Cookie creation time", is_uid_component: false },
+        FieldSchema { name: "expiry_time", value_type: ValueType::Timestamp, description: "Cookie expiry time", is_uid_component: false },
+    ],
+    retention: Some("Until cookie expiry or user/site clearing"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_safari_history", "macos_safari_localstorage"],
+    sources: &[
+        "https://www.foxtonforensics.com/browser-history-examiner/safari-history-location",
+        "https://lapcatsoftware.com/articles/containers.html",
+        "https://github.com/mdegrazia/Safari-Binary-Cookie-Parser",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Path moved into the sandbox container with Safari 13 / macOS Catalina; on Safari 12 and earlier it is at the legacy ~/Library/Cookies/Cookies.binarycookies",
+        "Cookies.binarycookies is a proprietary, undocumented binary format — parse defensively",
+        "The generated browsers_safari_cookies descriptor for the same file is mis-scoped OsScope::Win7Plus; this descriptor is the macOS-correct one",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Rewritten as the user browses and as cookies are set, updated and expired",
+};
+
+// ── HEIC image (macOS) ───────────────────────────────────────────────────
+//
+// Curated companion to `heic_image_file` (OsScope::IOS). OsScope is a single
+// value per descriptor and the HEIC container bytes are identical on iOS and
+// macOS, so rather than drop iOS from the format descriptor, this adds the
+// macOS-applicable image with the macOS paths and cross-references the format.
+
+pub(crate) static MACOS_HEIC_IMAGE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_heic_image",
+    name: "HEIC Image (macOS Photos / saved)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Pictures/*.photoslibrary/originals/**/*.heic"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "HEIF/HEIC images on macOS. macOS High Sierra (10.13) and later can view, edit and \
+        store HEIC — the same ISO Base Media File Format container Apple captures on iPhones (see \
+        heic_image_file for the ftyp/meta/iloc box structure and EXIF/GPS extraction; the bytes are \
+        identical). On a Mac these land chiefly in the Photos library originals folder \
+        (~/Pictures/<library>.photoslibrary/originals/) — imported from an iOS device via iCloud \
+        Photos or Continuity Camera, or captured — and anywhere the user saves or exports HEIC. \
+        macOS screenshots are PNG by default, not HEIC. Embedded EXIF including GPS, camera model \
+        and original capture time is preserved and extractable (ExifTool; sips or ffmpeg to \
+        transcode to JPEG for legacy tools).",
+    mitre_techniques: &["T1005"],
+    fields: &[
+        FieldSchema { name: "major_brand", value_type: ValueType::Text, description: "ftyp box major brand (typically 'heic')", is_uid_component: false },
+        FieldSchema { name: "handler_type", value_type: ValueType::Text, description: "hdlr box handler type ('pict' for still image)", is_uid_component: false },
+        FieldSchema { name: "exif_gps_latitude", value_type: ValueType::Text, description: "GPS latitude from embedded EXIF, when present", is_uid_component: false },
+        FieldSchema { name: "exif_gps_longitude", value_type: ValueType::Text, description: "GPS longitude from embedded EXIF, when present", is_uid_component: false },
+        FieldSchema { name: "exif_datetime_original", value_type: ValueType::Timestamp, description: "Original capture time from EXIF DateTimeOriginal", is_uid_component: false },
+        FieldSchema { name: "exif_camera_model", value_type: ValueType::Text, description: "Camera model from EXIF Model tag", is_uid_component: false },
+    ],
+    retention: Some("Persistent until user deletion; syncs via iCloud Photos"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["heic_image_file", "macos_photos_db", "macos_photos_derivatives"],
+    sources: &[
+        "https://support.apple.com/en-us/HT207022",
+        "https://cheeky4n6monkey.blogspot.com/2017/10/monkey-takes-heic.html",
+        "https://eshop.macsales.com/blog/45124-quick-tip-how-to-access-master-image-files-in-macos-photos-app/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "HEIC on a Mac is predominantly synced or imported from iOS rather than natively captured, so presence is not proof of capture on this device",
+        "EXIF (including GPS) can be stripped on export or by messaging apps",
+        "The container bytes are identical to iOS HEIC (heic_image_file); some legacy forensic tools do not parse HEIC",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Image file persists on storage until explicit deletion",
+};
