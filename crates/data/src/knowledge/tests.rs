@@ -195,7 +195,7 @@ fn every_correlation_entry_is_verifiable() {
 
 /// The exact number of registered investigative techniques — the single place
 /// the count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 5;
+const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 6;
 
 #[test]
 fn investigative_len_matches_expected() {
@@ -263,6 +263,42 @@ fn wifi_bssid_geolocation_is_present_and_wired_to_artifacts() {
     assert!(
         t.failure_modes.iter().any(|f| f.contains("-180")),
         "must record the -180 sentinel Apple returns for an unknown BSSID"
+    );
+}
+
+/// The network-neighbour enumeration technique must be registered and wired to
+/// the peer-discovery artifacts it consumes: the Bluetooth device store, the
+/// SMB identity, the connect-to-server history, the remembered Wi-Fi networks
+/// and the DHCP lease. Its critical limit — a dead disk shows only persisted
+/// past interactions, while the live ARP/neighbour table and the mDNS/Bonjour
+/// responder cache are in-memory and lost at power-off — must be recorded as a
+/// failure mode, or the technique over-claims what a static image can prove.
+#[test]
+fn network_neighbour_enumeration_is_present_and_wired_to_artifacts() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "network_neighbour_enumeration")
+        .expect("network_neighbour_enumeration technique must be registered");
+    for id in [
+        "macos_bluetooth_devices",
+        "macos_smb_server_identity",
+        "macos_connect_to_server_history",
+        "macos_wifi_known_networks",
+        "macos_dhcp_leases",
+    ] {
+        assert!(
+            t.artifacts_used.contains(&id),
+            "must consume the peer-discovery artifact: {id}"
+        );
+    }
+    let body = t.failure_modes.join(" ");
+    assert!(
+        body.contains("ARP") && (body.contains("mDNS") || body.contains("Bonjour")),
+        "must record that the live ARP/neighbour table and mDNS/Bonjour cache are lost at power-off"
+    );
+    assert!(
+        body.to_lowercase().contains("in-memory") || body.to_lowercase().contains("power-off"),
+        "must record that a dead disk shows only persisted past interactions"
     );
 }
 
@@ -753,6 +789,50 @@ fn macos_data_leakage_references_dhcp_and_known_networks() {
             "macos_data_leakage must reference network descriptor: {id}"
         );
     }
+}
+
+/// The full macOS profile must carry the peer-device / network-neighbour layer
+/// under Connections: the Bluetooth device store, the advertised SMB identity,
+/// and the connect-to-server host history. These are the persisted traces of
+/// the Mac's immediate peer neighbourhood.
+#[test]
+fn macos_full_references_peer_discovery_layer() {
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    let member = |id: &str| full.members.iter().find(|m| m.artifact_id == id);
+    for id in [
+        "macos_bluetooth_devices",
+        "macos_smb_server_identity",
+        "macos_connect_to_server_history",
+    ] {
+        let m = member(id)
+            .unwrap_or_else(|| panic!("macos_full must reference peer-discovery descriptor: {id}"));
+        assert_eq!(
+            m.category,
+            InvestigativeCategory::Connections,
+            "peer-discovery descriptor {id} belongs under Connections"
+        );
+    }
+}
+
+/// The data-leakage profile is where remote-share egress matters: it must
+/// reference the connect-to-server host history (a common exfiltration
+/// destination whose sibling mounted-server list is already carried).
+#[test]
+fn macos_data_leakage_references_connect_to_server_history() {
+    let leakage = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_data_leakage")
+        .expect("macos_data_leakage missing");
+    assert!(
+        leakage
+            .members
+            .iter()
+            .any(|m| m.artifact_id == "macos_connect_to_server_history"),
+        "macos_data_leakage must reference macos_connect_to_server_history"
+    );
 }
 
 /// No profile may reference the mis-scoped generated `browsers_safari_cookies`

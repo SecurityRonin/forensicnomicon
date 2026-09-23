@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6875;
+const EXPECTED_CATALOG_LEN: usize = 6878;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -13801,5 +13801,222 @@ mod tests_macos_wifi_known_networks {
     fn has_sources() {
         let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
         assert!(!d.sources.is_empty());
+    }
+}
+
+// ── macOS network-neighbour / peer-device discovery layer ──────────────────
+// The persisted traces of the Mac's peer neighbourhood: bonded/seen Bluetooth
+// devices, the SMB/NetBIOS name the Mac advertised, and the Connect-to-Server
+// host history. These complete the network descriptors above with the
+// peer-device side a dead-disk examination can recover.
+
+#[cfg(test)]
+mod tests_macos_bluetooth_devices {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_bluetooth_devices").is_some(),
+            "catalog must contain 'macos_bluetooth_devices'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_bluetooth_devices").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_bluetooth_plist() {
+        let d = CATALOG.by_id("macos_bluetooth_devices").unwrap();
+        assert!(d.file_path.unwrap().contains("com.apple.Bluetooth.plist"));
+    }
+
+    #[test]
+    fn meaning_names_paired_devices_and_device_cache() {
+        let d = CATALOG.by_id("macos_bluetooth_devices").unwrap();
+        assert!(
+            d.meaning.contains("PairedDevices"),
+            "must name the PairedDevices bonded-device array"
+        );
+        assert!(
+            d.meaning.contains("DeviceCache"),
+            "must name the DeviceCache paired-or-seen dict"
+        );
+    }
+
+    #[test]
+    fn has_mac_and_name_fields() {
+        let d = CATALOG.by_id("macos_bluetooth_devices").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(names.contains(&"device_mac"));
+        assert!(names.contains(&"name"));
+    }
+
+    #[test]
+    fn caveats_note_name_is_a_user_assigned_label() {
+        let d = CATALOG.by_id("macos_bluetooth_devices").unwrap();
+        let body = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+        assert!(
+            body.contains("user-assigned") || body.to_lowercase().contains("not proof"),
+            "the device Name is a user-assigned label, not a verified owner — say so"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_bluetooth_devices").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_smb_server_identity {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_smb_server_identity").is_some(),
+            "catalog must contain 'macos_smb_server_identity'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_smb_server_identity").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_smb_server_plist() {
+        let d = CATALOG.by_id("macos_smb_server_identity").unwrap();
+        assert!(d.file_path.unwrap().contains("com.apple.smb.server.plist"));
+    }
+
+    #[test]
+    fn meaning_names_the_netbios_advertised_identity() {
+        let d = CATALOG.by_id("macos_smb_server_identity").unwrap();
+        assert!(
+            d.meaning.contains("NetBIOSName"),
+            "must name the NetBIOSName the Mac advertised to SMB neighbours"
+        );
+    }
+
+    #[test]
+    fn has_netbios_name_field() {
+        let d = CATALOG.by_id("macos_smb_server_identity").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(names.contains(&"netbios_name"));
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_smb_server_identity").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_connect_to_server_history {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_connect_to_server_history").is_some(),
+            "catalog must contain 'macos_connect_to_server_history'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_connect_to_server_history").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_under_sharedfilelist() {
+        let d = CATALOG.by_id("macos_connect_to_server_history").unwrap();
+        assert!(d.file_path.unwrap().contains("com.apple.sharedfilelist"));
+    }
+
+    #[test]
+    fn meaning_names_recent_hosts_and_favorite_volumes() {
+        let d = CATALOG.by_id("macos_connect_to_server_history").unwrap();
+        assert!(
+            d.meaning.contains("RecentHosts"),
+            "must name the RecentHosts.sfl connect-to-server host history"
+        );
+        assert!(
+            d.meaning.contains("FavoriteVolumes"),
+            "must name the FavoriteVolumes.sfl2 favourite network volumes"
+        );
+    }
+
+    #[test]
+    fn cross_references_mounted_server_list() {
+        let d = CATALOG.by_id("macos_connect_to_server_history").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"macos_sfl2_recent_servers"),
+            "must cross-reference the mounted-server list (RecentServers.sfl2)"
+        );
+    }
+
+    #[test]
+    fn caveats_note_entries_are_undated() {
+        let d = CATALOG.by_id("macos_connect_to_server_history").unwrap();
+        let body = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+        assert!(
+            body.to_lowercase().contains("undated") || body.to_lowercase().contains("empty"),
+            "SFL entries are undated and an empty archive is a meaningful negative — say so"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_connect_to_server_history").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+/// The already-cataloged QuarantineEventsV2 database must now also carry the
+/// AirDrop-sender angle: for an AirDropped file the quarantine agent is
+/// `sharingd` and `LSQuarantineSenderName` records the sending device's name,
+/// which makes the database an enumerator of nearby AirDrop peers, not only a
+/// download-provenance store.
+#[cfg(test)]
+mod tests_macos_quarantine_events_airdrop_sender {
+    use super::*;
+
+    #[test]
+    fn meaning_or_fields_name_the_sharingd_airdrop_sender() {
+        let d = CATALOG.by_id("macos_quarantine_events").unwrap();
+        let field_body = d
+            .fields
+            .iter()
+            .map(|f| format!("{} {}", f.name, f.description))
+            .collect::<Vec<_>>()
+            .join(" ");
+        let body = format!("{} {}", d.meaning, field_body);
+        assert!(
+            body.contains("sharingd"),
+            "must name the sharingd agent that marks an AirDropped file"
+        );
+        assert!(
+            body.contains("LSQuarantineSenderName") || body.to_lowercase().contains("sender"),
+            "must record that the sending device's name is captured for AirDrop transfers"
+        );
+    }
+
+    #[test]
+    fn relates_to_airdrop_log_artifact() {
+        let d = CATALOG.by_id("macos_quarantine_events").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"macos_airdrop_sharingd"),
+            "the AirDrop-sender angle must cross-reference the unified-log AirDrop artifact"
+        );
     }
 }
