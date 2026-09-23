@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6849;
+const EXPECTED_CATALOG_LEN: usize = 6851;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -223,6 +223,44 @@ mod catalog_integrity {
             d.evidence_caveats.iter().any(|c| c.contains("NotesV")),
             "the legacy NotesV*.storedata stores must be version-scoped in a caveat"
         );
+    }
+
+    /// Apple Notes attachment files: originals under `Accounts/<UUID>/Media/`
+    /// and derived renders under `Previews/` / `FallbackImages/`. The media
+    /// descriptor must carry the database linkage (ZNOTE/ZMEDIA/ZIDENTIFIER/
+    /// ZFILENAME) and the caveat that file-system dates on a Mac copy are not
+    /// capture times; the previews descriptor must warn that a preview can be
+    /// a render of a web-link (public.url) attachment, not a user photo.
+    #[test]
+    fn macos_notes_attachment_files_are_cataloged() {
+        let m = CATALOG
+            .by_id("macos_notes_attachment_media")
+            .expect("macos_notes_attachment_media must be cataloged");
+        assert_eq!(
+            m.file_path,
+            Some("/Users/*/Library/Group Containers/group.com.apple.notes/Accounts/*/Media/")
+        );
+        for col in ["ZNOTE", "ZMEDIA", "ZIDENTIFIER", "ZFILENAME", "ZTYPEUTI"] {
+            assert!(m.meaning.contains(col), "media meaning must name {col}");
+        }
+        assert!(m.meaning.contains("com.apple.notes.gallery"));
+        assert!(
+            m.evidence_caveats.iter().any(|c| c.contains("EXIF")),
+            "capture time/device comes from EXIF, not file-system dates"
+        );
+        let p = CATALOG
+            .by_id("macos_notes_attachment_previews")
+            .expect("macos_notes_attachment_previews must be cataloged");
+        assert_eq!(
+            p.file_path,
+            Some("/Users/*/Library/Group Containers/group.com.apple.notes/Accounts/*/Previews/")
+        );
+        assert!(p.meaning.contains("FallbackImages"));
+        assert!(p.evidence_caveats.iter().any(|c| c.contains("public.url")));
+        let db = CATALOG.by_id("macos_notes_db").unwrap();
+        assert!(db
+            .related_artifacts
+            .contains(&"macos_notes_attachment_media"));
     }
 
     /// `edge_webcache` must point at the WebCacheV01.dat ESE database
