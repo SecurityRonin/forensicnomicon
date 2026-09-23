@@ -4694,3 +4694,62 @@ pub(crate) static OLE2_SUMMARY_INFORMATION: ArtifactDescriptor = ArtifactDescrip
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Stored inside the document itself",
 };
+
+/// iCloud Drive app-container list: per-container entries in
+/// `~/Library/Application Support/CloudDocs/session/containers/`.
+///
+/// # Sources
+/// - <https://developer.apple.com/documentation/xcode/configuring-icloud-services> —
+///   iCloud container names must begin with `iCloud.` followed by a unique
+///   reverse-DNS string.
+/// - <https://www.mac4n6.com/blog/2018/11/25/do-it-live-dynamic-ios-forensic-testing> —
+///   iOS: `.../CloudDocs/session/containers/57T9237FN3.net.whatsapp.WhatsApp` as an
+///   iCloud artefact of the WhatsApp app (team-ID-prefixed container name).
+/// - <https://forum.affinity.serif.com/index.php?/topic/195584-confusing-use-of-affinity-icloud-folders/> —
+///   macOS: `iCloud.com.seriflabs.affinitypublisher.plist` in
+///   `~/Library/Application Support/CloudDocs/session/containers/`, and the
+///   matching `~/Library/Mobile Documents/iCloud~com~seriflabs~...` folders,
+///   including ones for app versions no longer installed.
+pub(crate) static MACOS_ICLOUD_DRIVE_CONTAINERS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_icloud_drive_containers",
+    name: "iCloud Drive App Container List (CloudDocs session)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Application Support/CloudDocs/session/containers/"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "The iCloud Drive daemon's per-container records for the signed-in account: one entry \
+        (a folder and/or a <container>.plist) per iCloud Drive app container, named by the \
+        container identifier, which is iCloud.<reverse-DNS bundle id> or, for some apps, \
+        <Team ID>.<bundle id>. Containers belong to the iCloud account, not to \
+        this Mac, so the list can name apps that store documents in the user's iCloud from \
+        another device (an iPhone messaging app, for example) and apps since removed, which \
+        points at devices and apps to look for elsewhere. The documents themselves sync to \
+        ~/Library/Mobile Documents/<container with ~ for .>/; client.db in the sibling db/ folder \
+        records item-level sync state.",
+    mitre_techniques: &[],
+    fields: &[
+        FieldSchema { name: "container_id", value_type: ValueType::Text, description: "Container identifier from the entry name (iCloud.<bundle id> or <Team ID>.<bundle id>)", is_uid_component: true },
+        FieldSchema { name: "entry_mtime", value_type: ValueType::Timestamp, description: "File-system modification time of the container entry", is_uid_component: false },
+    ],
+    retention: Some("Undocumented; a user report shows entries lingering for app versions no longer installed"),
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &["macos_icloud_drive_db"],
+    sources: &[
+        "https://developer.apple.com/documentation/xcode/configuring-icloud-services",
+        "https://www.mac4n6.com/blog/2018/11/25/do-it-live-dynamic-ios-forensic-testing",
+        "https://forum.affinity.serif.com/index.php?/topic/195584-confusing-use-of-affinity-icloud-folders/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Circumstantial),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SingleSecondary),
+    evidence_caveats: &[
+        "Apple does not document this folder; its macOS contents come from one user forum report and an iOS path from mac4n6, and the entries for apps not installed on the Mac (including a messaging app) were observed on one macOS 10.14-11.7-era image",
+        "An entry shows the account has, or had, an iCloud Drive container for that app; it does not show the app was installed or used on this Mac, or when",
+        "The plist keys inside each entry are undocumented; parse defensively and report them as observed",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Account session state; not rewritten by ordinary use",
+};

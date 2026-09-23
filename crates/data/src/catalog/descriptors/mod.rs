@@ -18482,6 +18482,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::IWORK_DOCUMENT_PACKAGE,
     macos_ext::OOXML_CORE_PROPERTIES,
     macos_ext::OLE2_SUMMARY_INFORMATION,
+    macos_ext::MACOS_ICLOUD_DRIVE_CONTAINERS,
     windows_files_ext::ONEDRIVE_ODL_LOGS,
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,
