@@ -18469,6 +18469,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::MACOS_NOTES_ATTACHMENT_MEDIA,
     macos_ext::MACOS_NOTES_ATTACHMENT_PREVIEWS,
     macos_ext::MACOS_NOTES_LOCKED_NOTES,
+    macos_ext::MACOS_PHOTOS_DERIVATIVES,
     windows_files_ext::ONEDRIVE_ODL_LOGS,
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,
