@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6856;
+const EXPECTED_CATALOG_LEN: usize = 6857;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -379,6 +379,22 @@ mod catalog_integrity {
         assert!(w
             .related_artifacts
             .contains(&"fa_file_com_apple_safari_cache_db_2"));
+    }
+
+    /// `/Users/Shared/Relocated Items/` (and the numbered "Previously
+    /// Relocated Items" folders) are created by macOS installs; their dates
+    /// mark OS upgrade/update events.
+    #[test]
+    fn macos_relocated_items_is_cataloged() {
+        let d = CATALOG
+            .by_id("macos_relocated_items")
+            .expect("macos_relocated_items must be cataloged");
+        assert_eq!(d.file_path, Some("/Users/Shared/Relocated Items/"));
+        assert!(d.meaning.contains("Previously Relocated Items"));
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("support.apple.com") && s.contains("mchl8ae423a3")));
     }
 
     /// `edge_webcache` must point at the WebCacheV01.dat ESE database
