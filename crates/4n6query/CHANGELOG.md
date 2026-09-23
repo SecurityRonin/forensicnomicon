@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.13](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-cli-v0.1.12...forensicnomicon-cli-v0.1.13) - 2026-09-23
+
+### Added
+
+- *(4n6query)* GREEN - speak ATT&CK v19 tactic names, and all 15 of them
+
+### Fixed
+
+- remap revoked MITRE ATT&CK IDs to their v19 successors, workspace-wide
+
 ## [0.1.12](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-cli-v0.1.11...forensicnomicon-cli-v0.1.12) - 2026-08-06
 
 ### Fixed
