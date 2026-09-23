@@ -9465,15 +9465,27 @@ pub static MACOS_QUARANTINE_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::User,
     os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
-    meaning: "SQLite database recording all files downloaded from the internet with their origin URL, download date, and quarantine agent. Proves a file was downloaded even after deletion.",
+    meaning: "SQLite database (table LSQuarantineEvent) recording files downloaded or received from \
+        external sources, with their origin URL (LSQuarantineDataURLString / \
+        LSQuarantineOriginURLString), download date, and quarantine agent (LSQuarantineAgentName). \
+        Proves a file arrived even after deletion. It is also an AirDrop-provenance store: for a \
+        file received over AirDrop the agent is `sharingd`, the origin/data URLs are empty, and \
+        LSQuarantineSenderName carries the sending device's (Apple ID) name — which turns the \
+        database into an enumerator of nearby AirDrop peers, not only a download record. The Cocoa \
+        LSQuarantineTimeStamp is seconds since 2001-01-01 (add 978307200 for Unix epoch).",
     mitre_techniques: &["T1204.002"],
-    fields: &[],
-    retention: Some("Persistent; entries accumulate unless cleared"),
+    fields: &[
+        FieldSchema { name: "agent_name", value_type: ValueType::Text, description: "LSQuarantineAgentName — the app that introduced the file; `sharingd` marks an AirDrop transfer", is_uid_component: false },
+        FieldSchema { name: "sender_name", value_type: ValueType::Text, description: "LSQuarantineSenderName — the sending device's name, populated only for AirDrop (sharingd) transfers", is_uid_component: false },
+        FieldSchema { name: "data_url", value_type: ValueType::Text, description: "LSQuarantineDataURLString — the download source URL (empty for AirDrop)", is_uid_component: false },
+    ],
+    retention: Some("Persistent; entries accumulate unless cleared (outlasts the unified-log AirDrop trail)"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["macos_safari_downloads"],
+    related_artifacts: &["macos_safari_downloads", "macos_airdrop_sharingd", "macos_quarantine_xattr"],
     sources: &[
         "https://www.jaiminton.com/cheatsheet/DFIR/#quarantine-events",
         "https://eclecticlight.co/2021/06/05/checking-quarantine-flags-in-big-sur/",
+        "https://kieczkowska.wordpress.com/2020/06/29/airdrop-forensics-2/",
     ],
     evidence_strength: None,
     evidence_tier: None,
@@ -18492,6 +18504,9 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::MACOS_NETWORK_INTERFACES,
     macos_ext::MACOS_NETWORK_PREFERENCES,
     macos_ext::MACOS_WIFI_KNOWN_NETWORKS,
+    macos_ext::MACOS_BLUETOOTH_DEVICES,
+    macos_ext::MACOS_SMB_SERVER_IDENTITY,
+    macos_ext::MACOS_CONNECT_TO_SERVER_HISTORY,
     windows_files_ext::ONEDRIVE_ODL_LOGS,
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,

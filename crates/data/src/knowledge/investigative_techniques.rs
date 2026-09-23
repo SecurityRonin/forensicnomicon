@@ -533,6 +533,118 @@ pub static WIFI_BSSID_GEOLOCATION: InvestigativeTechnique = InvestigativeTechniq
     ],
 };
 
+/// Reconstructing a macOS host's network / peer neighbourhood from a dead disk.
+///
+/// # Sources actually read
+///
+/// - osxripper `plugins/osx/BluetoothPlist.py` (code-read): parses
+///   `/Library/Preferences/com.apple.Bluetooth.plist`, iterating the
+///   `PairedDevices` array and the `DeviceCache` dict (keyed by device MAC,
+///   each entry carrying a Name and LMP / page-scan attributes).
+/// - Kinga Kieczkowska, "AirDrop Forensics 2" (2020): for an AirDropped file
+///   the `LSQuarantineEvent` row has `LSQuarantineAgentName = 'sharingd'` and
+///   `LSQuarantineSenderName` populated with the sending device's name; the
+///   quarantine database outlasts the unified-log AirDrop trail (observed to
+///   persist only ~a week).
+/// - mac4n6 and Eclectic Light on SharedFileList stores: RecentHosts /
+///   RecentServers / FavoriteVolumes under
+///   `~/Library/Application Support/com.apple.sharedfilelist/`, NSKeyedArchiver
+///   bookmarks, entries undated.
+///
+/// # What this establishes, and what it does not
+///
+/// A powered-off Mac's disk retains only the PERSISTED residue of past peer
+/// interactions — remembered access points and router, mounted-share and
+/// connect-to-server history, Bluetooth pairings and seen devices, and AirDrop
+/// sender names. The live layer that a running host would show — the ARP /
+/// neighbour table and the mDNS / Bonjour responder cache — is in memory and is
+/// lost at power-off. Every recovered identifier is a user-assigned label or a
+/// spoofable address, not a verified owner. Those limits live in the failure
+/// modes, because an analyst told "these were the Mac's neighbours" has been
+/// handed a historical, partial, label-based picture.
+pub static NETWORK_NEIGHBOUR_ENUMERATION: InvestigativeTechnique = InvestigativeTechnique {
+    id: "network_neighbour_enumeration",
+    name: "Network-neighbour / peer-device enumeration from a dead macOS disk",
+    question:
+        "Which networks, remote shares and peer devices did this Mac interact with, as far as \
+               a powered-off disk image can show?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "Enumerate the network side: the remembered Wi-Fi access points and their \
+                     BSSIDs (macos_wifi_known_networks), and the internal IP / gateway / gateway \
+                     MAC / joined SSID from each DHCP lease (macos_dhcp_leases) — placing the Mac \
+                     on named networks over time.",
+            artifact_id: Some("macos_wifi_known_networks"),
+            yields: "The access points and LAN segments the Mac joined, with join / lease times.",
+        },
+        TechniqueStep {
+            order: 2,
+            action:
+                "Enumerate the remote-share side: the hosts entered into Connect-to-Server and \
+                     the favourite network volumes (macos_connect_to_server_history), the servers \
+                     actually mounted (macos_sfl2_recent_servers), and the SMB / NetBIOS name the \
+                     Mac itself advertised to neighbours (macos_smb_server_identity).",
+            artifact_id: Some("macos_connect_to_server_history"),
+            yields: "The remote file servers this Mac reached, and the name it presented to peers \
+                     — one side keyed to correlate against a peer's own share-access logs.",
+        },
+        TechniqueStep {
+            order: 3,
+            action:
+                "Enumerate the peer-device side: the bonded and seen Bluetooth devices by name \
+                     and MAC (macos_bluetooth_devices), and the AirDrop sender names recorded in \
+                     the quarantine database (LSQuarantineSenderName where the agent is sharingd, \
+                     macos_bluetooth_devices' AirDrop sibling) alongside the unified-log AirDrop \
+                     trail while it survives.",
+            artifact_id: Some("macos_bluetooth_devices"),
+            yields:
+                "Named peripherals and AirDrop peers seen beside the Mac, each a user-assigned \
+                     label rather than a verified owner.",
+        },
+    ],
+    artifacts_used: &[
+        "macos_bluetooth_devices",
+        "macos_smb_server_identity",
+        "macos_connect_to_server_history",
+        "macos_wifi_known_networks",
+        "macos_dhcp_leases",
+    ],
+    preconditions: &[
+        "The examination is of a dead disk image; this technique reconstructs PERSISTED past \
+         interactions, not the live network state.",
+        "The stores exist and were not cleared: SFL lists are process-gated and undated, the \
+         Bluetooth cache is not pruned on unpair, and the quarantine database persists longer than \
+         the unified-log AirDrop trail.",
+    ],
+    failure_modes: &[
+        "Reading the reconstruction as the LIVE neighbourhood. A powered-off disk shows only \
+         persisted residue; the live ARP / neighbour table and the mDNS / Bonjour responder cache \
+         are in-memory and lost at power-off, so present-tense neighbours are simply absent — an \
+         absence that is the acquisition method's, not the network's.",
+        "Treating a recorded name as a verified owner. Bluetooth DeviceCache Names, the AirDrop \
+         LSQuarantineSenderName and Connect-to-Server host labels are user-assigned strings; a MAC \
+         or BSSID is spoofable and, under randomization, ephemeral. They identify a label, not a \
+         person.",
+        "Reading DeviceCache presence as pairing, or a RecentHosts entry as a successful mount. \
+         DeviceCache holds devices merely SEEN nearby (the PairedDevices array is the bonded set), \
+         and RecentHosts records hosts ENTERED, not necessarily mounted (RecentServers is the \
+         mounted record).",
+        "Dating the picture from the artifacts. SFL entries are undated (only the file mtime \
+         bounds them) and can be extremely old; the quarantine timestamp is a Cocoa epoch needing \
+         +978307200. Assigning a time from an undated store manufactures precision the source does \
+         not carry.",
+    ],
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    mitre_techniques: &["T1016"],
+    sources: &[
+        "https://github.com/bolodev/osxripper/blob/master/plugins/osx/BluetoothPlist.py",
+        "https://kieczkowska.wordpress.com/2020/06/29/airdrop-forensics-2/",
+        "https://www.mac4n6.com/blog/2016/6/21/introduction-to-sfl-and-sfl2-files",
+        "https://eclecticlight.co/2017/08/10/recent-items-launch-services-and-sharedfilelists/",
+    ],
+};
+
 /// Every registered investigative technique. Lookup and iteration read this
 /// slice; a static not referenced here is invisible to every consumer.
 pub static INVESTIGATIVE_TECHNIQUES: &[InvestigativeTechnique] = &[
@@ -541,4 +653,5 @@ pub static INVESTIGATIVE_TECHNIQUES: &[InvestigativeTechnique] = &[
     ICD203_ESTIMATIVE_LANGUAGE,
     BEACONING_INTERVAL_REGULARITY,
     WIFI_BSSID_GEOLOCATION,
+    NETWORK_NEIGHBOUR_ENUMERATION,
 ];

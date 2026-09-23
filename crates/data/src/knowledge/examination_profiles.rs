@@ -310,6 +310,28 @@ pub static MACOS_FULL: ExaminationProfile = ExaminationProfile {
             rationale: "AirDrop/sharingd activity in the unified log: peer devices files were \
                         AirDropped to or from, by device name and AirDrop ID.",
         },
+        ProfileMember {
+            artifact_id: "macos_bluetooth_devices",
+            category: Cat::Connections,
+            rationale: "com.apple.Bluetooth.plist: bonded (PairedDevices) and paired-or-seen \
+                        (DeviceCache) peripherals by name and MAC — the peer devices in the Mac's \
+                        immediate physical vicinity (phones, laptops, input/audio peripherals).",
+        },
+        ProfileMember {
+            artifact_id: "macos_smb_server_identity",
+            category: Cat::Connections,
+            rationale: "com.apple.smb.server.plist: the NetBIOSName and ServerDescription the Mac \
+                        advertised to SMB/NetBIOS neighbours — the name to look for when \
+                        correlating this Mac against a peer's share-access logs.",
+        },
+        ProfileMember {
+            artifact_id: "macos_connect_to_server_history",
+            category: Cat::Connections,
+            rationale: "sharedfilelist RecentHosts.sfl / FavoriteVolumes.sfl2: the smb/afp/nfs \
+                        hosts entered into Connect-to-Server and pinned network volumes — the \
+                        remote peers this Mac treated as file servers (undated; empty is a \
+                        meaningful negative).",
+        },
         // ── Communications ───────────────────────────────────────────────
         ProfileMember {
             artifact_id: "macos_sms_db",
@@ -491,6 +513,13 @@ pub static MACOS_DATA_LEAKAGE: ExaminationProfile = ExaminationProfile {
             category: Cat::Connections,
             rationale: "Recently connected file servers and network shares — a common exfiltration \
                         destination.",
+        },
+        ProfileMember {
+            artifact_id: "macos_connect_to_server_history",
+            category: Cat::Connections,
+            rationale: "Connect-to-Server host history (RecentHosts.sfl) and favourite network \
+                        volumes (FavoriteVolumes.sfl2): the remote shares the user reached out to, \
+                        a copy-to-share egress path complementing the mounted-server list.",
         },
         ProfileMember {
             artifact_id: "macos_dhcp_leases",

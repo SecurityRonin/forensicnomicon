@@ -5241,3 +5241,142 @@ pub(crate) static MACOS_WIFI_KNOWN_NETWORKS: ArtifactDescriptor = ArtifactDescri
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Updated as networks are joined, roamed and synced; entries removed only on forget",
 };
+
+// ── macOS network-neighbour / peer-device discovery layer ──────────────────
+// The persisted traces of the Mac's immediate peer neighbourhood, complementing
+// the remembered-network and DHCP layer above with the peer-device side. The
+// Bluetooth store enumerates bonded and seen peripherals; the SMB identity is
+// the name the Mac advertised to file-sharing neighbours; the connect-to-server
+// history holds the remote hosts the user reached out to. All three are
+// dead-disk-recoverable; the live ARP/neighbour table and the mDNS/Bonjour
+// responder cache are in-memory and lost at power-off (see the
+// network_neighbour_enumeration technique).
+
+pub(crate) static MACOS_BLUETOOTH_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_bluetooth_devices",
+    name: "Bluetooth Paired & Cached Devices (com.apple.Bluetooth.plist)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/Preferences/com.apple.Bluetooth.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "System Bluetooth preferences. PairedDevices is an array of the hardware MAC \
+        addresses (dash-delimited, e.g. 00-1b-dc-06-cd-b8) of devices bonded to this Mac. \
+        DeviceCache is a dict keyed by that same MAC, each entry carrying a user-assigned Name \
+        and device attributes (VendorID, LMPVersion / LMPSubversion, page-scan parameters, and \
+        LastServicesUpdate / LastInquiryUpdate times) — covering devices paired OR merely seen \
+        nearby. Together they enumerate the peer devices in the Mac's immediate physical vicinity: \
+        phones, laptops, keyboards, mice, headsets and speakers, each by name and MAC. This is the \
+        peer-device layer of a network-neighbour reconstruction, placing named hardware beside the \
+        Mac. On newer macOS the Bluetooth-LE side is held separately in a CoreBluetoothCache keyed \
+        by an obscured device UUID rather than the MAC, and the DeviceCache key may be absent.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "device_mac", value_type: ValueType::Text, description: "Device hardware MAC — a PairedDevices array entry and the DeviceCache key (dash-delimited)", is_uid_component: true },
+        FieldSchema { name: "name", value_type: ValueType::Text, description: "DeviceCache Name — the user-assigned device label, not a verified owner", is_uid_component: false },
+        FieldSchema { name: "paired", value_type: ValueType::Bool, description: "Whether the MAC is in the PairedDevices (bonded) array, vs DeviceCache only (paired-or-seen)", is_uid_component: false },
+        FieldSchema { name: "last_seen", value_type: ValueType::Timestamp, description: "LastInquiryUpdate / LastServicesUpdate — when the device was last seen or its services read", is_uid_component: false },
+    ],
+    retention: Some("Persists until the device is removed; the cache accretes seen devices and is not pruned on unpair"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_airdrop_sharingd", "macos_wifi_known_networks", "macos_network_interfaces"],
+    sources: &[
+        "https://github.com/bolodev/osxripper/blob/master/plugins/osx/BluetoothPlist.py",
+        "https://forge-work.com/dfir/knowledge/artifacts/macos-bluetooth",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "The Name is a user-assigned label on the peer device, not proof of who owns it or that it belongs to the Mac's user",
+        "DeviceCache holds devices merely SEEN nearby as well as bonded ones — presence there is not proof of pairing; the PairedDevices array is the bonded set",
+        "BLE MAC randomization inflates the cache with many entries for one physical device, and the BLE CoreBluetoothCache keys by an obscured UUID rather than the MAC",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Rewritten as devices are paired, seen or removed; entries linger after unpairing",
+};
+
+pub(crate) static MACOS_SMB_SERVER_IDENTITY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_smb_server_identity",
+    name: "SMB Server Identity (com.apple.smb.server.plist)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/Preferences/SystemConfiguration/com.apple.smb.server.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "The SMB / NetBIOS identity the Mac advertised to file-sharing neighbours. NetBIOSName \
+        is the short name the Mac announced on the SMB / NetBIOS network; ServerDescription is the \
+        human-readable label (usually derived from the computer name); DOSCodePage records the code \
+        page used for legacy SMB (e.g. 437). Establishes how the Mac would have appeared in another \
+        host's network browser or SMB connection log — the name to look for when correlating this \
+        Mac against a peer's share-access records. A LocalKerberosRealm (LKDC:SHA1...) value, when \
+        present, is a further semi-stable host identifier.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "netbios_name", value_type: ValueType::Text, description: "NetBIOSName — the SMB / NetBIOS short name the Mac advertised", is_uid_component: true },
+        FieldSchema { name: "server_description", value_type: ValueType::Text, description: "ServerDescription — human-readable server label", is_uid_component: false },
+        FieldSchema { name: "dos_code_page", value_type: ValueType::Text, description: "DOSCodePage — code page for legacy SMB (e.g. 437)", is_uid_component: false },
+    ],
+    retention: Some("Persists until the sharing name is changed; may be regenerated from the computer name"),
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &["macos_network_preferences", "macos_connect_to_server_history", "macos_sfl2_recent_servers"],
+    sources: &[
+        "https://gist.github.com/algal/0dd167c196b4af3dc06c2b57d6f05245",
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/networking.py",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "The value can be regenerated from the computer name and may revert after a reboot — cross-reference the SystemConfiguration preferences.plist rather than treating this plist as authoritative",
+        "NetBIOSName is not necessarily derived from the hostname or Bonjour LocalHostName, so it need not match the Mac's other names",
+        "Managed (MDM/Jamf) environments can reset these names on a schedule, which can explain an unexpected value or change time",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Rewritten only when the SMB sharing name is changed or regenerated",
+};
+
+pub(crate) static MACOS_CONNECT_TO_SERVER_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_connect_to_server_history",
+    name: "Connect-to-Server History & Favourite Volumes (sharedfilelist)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentHosts.sfl"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "The user's Finder \"Connect to Server\" neighbourhood, held as SharedFileList bookmarks \
+        under ~/Library/Application Support/com.apple.sharedfilelist/: RecentHosts.sfl is the list \
+        of hosts entered into the Connect-to-Server dialog, and FavoriteVolumes.sfl2 the pinned \
+        network volumes. Entries are NSKeyedArchiver bookmark blobs recording the smb://, afp:// or \
+        nfs:// hosts and shares the user reached out to — the remote peers this Mac treated as file \
+        servers. Complements the mounted-server list (macos_sfl2_recent_servers, RecentServers.sfl2): \
+        RecentServers records servers actually mounted, RecentHosts the hosts entered. An empty or \
+        absent archive is a meaningful negative — no Connect-to-Server neighbourhood was built.",
+    mitre_techniques: &["T1021.002"],
+    fields: &[
+        FieldSchema { name: "host_or_volume", value_type: ValueType::Text, description: "smb/afp/nfs host or share URL from a RecentHosts / FavoriteVolumes bookmark", is_uid_component: true },
+    ],
+    retention: Some("Capped, undated list maintained only while the owning process runs; can retain very old URLs"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_sfl2_recent_servers", "macos_network_interfaces", "macos_dhcp_leases"],
+    sources: &[
+        "https://www.mac4n6.com/blog/2016/6/21/introduction-to-sfl-and-sfl2-files",
+        "https://eclecticlight.co/2017/08/10/recent-items-launch-services-and-sharedfilelists/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "SFL / SFL2 entries are undated — only the file's own modification time bounds when the list last changed",
+        "The list is maintained only while its owning process is open, so it can retain extremely old host URLs and is not a complete connection history",
+        "RecentHosts records hosts ENTERED in the dialog, not necessarily successfully mounted — the mounted-server record is RecentServers (macos_sfl2_recent_servers)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated as the user connects to servers; entries evicted only as the capped list rolls",
+};
