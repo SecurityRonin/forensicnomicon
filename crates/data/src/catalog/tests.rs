@@ -13366,3 +13366,259 @@ mod tests_disk_gcfa_ext {
         );
     }
 }
+
+// ── Curated macOS gap-fill descriptors ───────────────────────────────────
+//
+// Curated `macos_*` descriptors authored for the examination-profile gaps:
+// artifacts the profile work had to fall back on `fa_file_*` for, or exclude
+// entirely, because no curated descriptor existed (the OpenBSM audit trail,
+// the dslocal local-account store, AirDrop/sharingd transfer activity,
+// removable/USB device history, and a correctly-scoped Safari cookie jar and
+// macOS HEIC image).
+
+#[cfg(test)]
+mod tests_macos_openbsm_audit {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_openbsm_audit").is_some(),
+            "catalog must contain 'macos_openbsm_audit'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_openbsm_audit").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_var_audit() {
+        let d = CATALOG.by_id("macos_openbsm_audit").unwrap();
+        assert!(d.file_path.unwrap().contains("/var/audit"));
+    }
+
+    #[test]
+    fn meaning_records_login_and_account_creation() {
+        let d = CATALOG.by_id("macos_openbsm_audit").unwrap();
+        let m = d.meaning.to_lowercase();
+        assert!(m.contains("login"), "must record login/logout events");
+        assert!(
+            m.contains("account") || m.contains("created"),
+            "must record account creation — the reason this artifact is pulled"
+        );
+    }
+
+    #[test]
+    fn caveats_note_deprecation() {
+        let d = CATALOG.by_id("macos_openbsm_audit").unwrap();
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("Big Sur") || c.contains("Sonoma") || c.contains("deprecat")),
+            "the audit trail is deprecated/disabled on newer macOS — say so"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_openbsm_audit").unwrap();
+        assert!(!d.sources.is_empty());
+        assert!(
+            d.sources.iter().any(|s| s.contains("openbsm")),
+            "must cite the OpenBSM project"
+        );
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_dslocal_users {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_dslocal_users").is_some(),
+            "catalog must contain 'macos_dslocal_users'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_dslocal_users").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_dslocal_users() {
+        let d = CATALOG.by_id("macos_dslocal_users").unwrap();
+        assert!(d.file_path.unwrap().contains("dslocal/nodes/Default/users"));
+    }
+
+    #[test]
+    fn has_account_fields() {
+        let d = CATALOG.by_id("macos_dslocal_users").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(names.contains(&"uid"));
+        assert!(names.contains(&"generateduid"));
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_dslocal_users").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_airdrop_sharingd {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_airdrop_sharingd").is_some(),
+            "catalog must contain 'macos_airdrop_sharingd'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_airdrop_sharingd").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn meaning_names_sharingd_and_says_log_only() {
+        let d = CATALOG.by_id("macos_airdrop_sharingd").unwrap();
+        assert!(
+            d.meaning.contains("sharingd"),
+            "must name the sharingd process"
+        );
+        let m = d.meaning.to_lowercase();
+        assert!(
+            m.contains("unified log"),
+            "AirDrop transfer history lives in the unified log — say so"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_airdrop_sharingd").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_usb_mass_storage_log {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_usb_mass_storage_log").is_some(),
+            "catalog must contain 'macos_usb_mass_storage_log'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_usb_mass_storage_log").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn caveats_note_no_usbstor_equivalent() {
+        let d = CATALOG.by_id("macos_usb_mass_storage_log").unwrap();
+        let body = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+        assert!(
+            body.contains("USBSTOR") || body.to_lowercase().contains("no persistent"),
+            "macOS has no USBSTOR-equivalent registry — the caveat must say the \
+             per-device history is weaker than Windows"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_usb_mass_storage_log").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_safari_cookies {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_safari_cookies").is_some(),
+            "catalog must contain 'macos_safari_cookies'"
+        );
+    }
+
+    /// The whole point of this descriptor: the generated `browsers_safari_cookies`
+    /// is mis-scoped `OsScope::Win7Plus`; Safari cookies are macOS/iOS.
+    #[test]
+    fn os_scope_is_macos_not_windows() {
+        let d = CATALOG.by_id("macos_safari_cookies").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_binarycookies() {
+        let d = CATALOG.by_id("macos_safari_cookies").unwrap();
+        assert!(d.file_path.unwrap().contains("Cookies.binarycookies"));
+    }
+
+    #[test]
+    fn meaning_supersedes_mis_scoped_generated() {
+        let d = CATALOG.by_id("macos_safari_cookies").unwrap();
+        assert!(
+            d.meaning.contains("browsers_safari_cookies"),
+            "must record that it supersedes the mis-scoped generated descriptor"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_safari_cookies").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_heic_image {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_heic_image").is_some(),
+            "catalog must contain 'macos_heic_image'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_heic_image").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn references_the_ios_format_descriptor() {
+        let d = CATALOG.by_id("macos_heic_image").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"heic_image_file"),
+            "must cross-reference the iOS HEIC format descriptor for the byte structure"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_heic_image").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
