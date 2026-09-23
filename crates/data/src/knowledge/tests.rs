@@ -708,6 +708,53 @@ fn macos_data_leakage_references_removable_airdrop_and_cookies() {
     }
 }
 
+/// The full macOS profile must carry the complete network-configuration layer
+/// under Connections: the interface hardware map, the service configuration,
+/// the DHCP lease, and the remembered Wi-Fi networks. The lease was already a
+/// member; the interface map, service configuration and known-networks store
+/// are the network descriptors this batch added.
+#[test]
+fn macos_full_references_network_configuration_layer() {
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    let member = |id: &str| full.members.iter().find(|m| m.artifact_id == id);
+    for id in [
+        "macos_network_interfaces",
+        "macos_network_preferences",
+        "macos_dhcp_leases",
+        "macos_wifi_known_networks",
+    ] {
+        let m = member(id)
+            .unwrap_or_else(|| panic!("macos_full must reference network descriptor: {id}"));
+        assert_eq!(
+            m.category,
+            InvestigativeCategory::Connections,
+            "network descriptor {id} belongs under Connections"
+        );
+    }
+}
+
+/// The data-leakage profile is where location exposure and network egress
+/// matter: it must reference the DHCP lease (internal IP / gateway / joined
+/// Wi-Fi and when) and the remembered Wi-Fi networks (the BSSID location
+/// handle), both under Connections.
+#[test]
+fn macos_data_leakage_references_dhcp_and_known_networks() {
+    let leakage = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_data_leakage")
+        .expect("macos_data_leakage missing");
+    let has = |id: &str| leakage.members.iter().any(|m| m.artifact_id == id);
+    for id in ["macos_dhcp_leases", "macos_wifi_known_networks"] {
+        assert!(
+            has(id),
+            "macos_data_leakage must reference network descriptor: {id}"
+        );
+    }
+}
+
 /// No profile may reference the mis-scoped generated `browsers_safari_cookies`
 /// (OsScope::Win7Plus) now that the correctly macOS-scoped `macos_safari_cookies`
 /// exists — the curated descriptor must be used in its place.
