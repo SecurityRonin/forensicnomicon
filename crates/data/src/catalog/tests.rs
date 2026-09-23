@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6852;
+const EXPECTED_CATALOG_LEN: usize = 6853;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -295,6 +295,33 @@ mod catalog_integrity {
             .unwrap()
             .related_artifacts
             .contains(&"macos_notes_locked_notes"));
+    }
+
+    /// The Photos library bundle name is localised (and user-choosable), so
+    /// the path must glob the bundle rather than hard-code the English
+    /// "Photos Library.photoslibrary", and say why in a caveat. The
+    /// resources/derivatives render cache must be cataloged: it can be what
+    /// remains on the Mac when originals are optimised off to iCloud.
+    #[test]
+    fn macos_photos_library_path_is_not_hardcoded_english() {
+        let d = CATALOG.by_id("macos_photos_db").expect("macos_photos_db");
+        assert_eq!(
+            d.file_path,
+            Some("/Users/*/Pictures/*.photoslibrary/database/Photos.sqlite")
+        );
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains("localised")),
+            "the localised bundle name must be stated as a caveat"
+        );
+        let r = CATALOG
+            .by_id("macos_photos_derivatives")
+            .expect("macos_photos_derivatives must be cataloged");
+        assert_eq!(
+            r.file_path,
+            Some("/Users/*/Pictures/*.photoslibrary/resources/derivatives/")
+        );
+        assert!(r.meaning.contains("Optimize Mac Storage"));
+        assert!(d.related_artifacts.contains(&"macos_photos_derivatives"));
     }
 
     /// `edge_webcache` must point at the WebCacheV01.dat ESE database
