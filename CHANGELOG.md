@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.11.1...forensicnomicon-v1.12.0) - 2026-09-23
+
+### Added
+
+- *(catalog)* GREEN - macOS download-provenance descriptors, independently sourced
+- *(evidence)* GREEN - SearchedNotFound, so an unsourced lead survives
+- *(knowledge)* populate ToolBehaviour with six verified memory-forensics entries (GREEN)
+- *(knowledge)* add EvidenceTier and four non-artifact knowledge types
+
+### Fixed
+
+- remap revoked MITRE ATT&CK IDs to their v19 successors, workspace-wide
+
 ## [1.11.1](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-v1.11.0...forensicnomicon-v1.11.1) - 2026-08-06
 
 ### Fixed

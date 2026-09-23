@@ -7,6 +7,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-data-v1.4.0...forensicnomicon-data-v1.5.0) - 2026-09-23
+
+### Added
+
+- *(catalog)* GREEN - iCloud Drive app container list
+- *(catalog)* GREEN - OOXML and OLE2 document authorship metadata
+- *(catalog)* GREEN - iWork document package format
+- *(catalog)* GREEN - Calendar event store and .icbu archives
+- *(catalog)* GREEN - CUPS spool jobs, printers.conf and logs
+- *(catalog)* GREEN - Relocated Items folders as OS install markers
+- *(catalog)* GREEN - sandboxed Safari WebKitCache and tab snapshots
+- *(catalog)* GREEN - screenshot provenance xattrs
+- *(catalog)* GREEN - locked Apple Notes and their encrypted attachments
+- *(catalog)* GREEN - Notes attachment originals and derived renders
+- *(knowledge)* GREEN - memory acquisition sources, dnf log, and the Cilium lead kept
+- *(catalog)* GREEN - virtualization & WSL Linux artifacts
+- *(knowledge)* GREEN - service logs: web, firewall, proxy, and Sysmon for Linux
+- *(knowledge)* GREEN - journald storage semantics and distro-specific syslog routing
+- *(knowledge)* GREEN - Linux account & lockout artifacts, sourced from man pages
+- *(catalog)* GREEN - macOS persistence + Finder descriptors, independently sourced
+- *(catalog)* GREEN - macOS usage-telemetry descriptors, independently sourced
+- *(catalog)* GREEN - macOS download-provenance descriptors, independently sourced
+- *(knowledge)* recover two dropped leads - one sourceable after all
+- *(knowledge)* GREEN - recover the ext4 Birth-time entry that was lost
+- *(knowledge)* GREEN - keep the USBSTOR/WPDBUSENUM lead as SearchedNotFound
+- *(knowledge)* absorb beaconing triage and the discriminator that is absent (GREEN)
+- *(knowledge)* absorb ICD 203 estimative language with its verbatim bands (GREEN)
+- *(knowledge)* absorb the Diamond Model with its own axioms and scope (GREEN)
+- *(knowledge)* absorb the Pyramid of Pain as published, not as retold (GREEN)
+- *(knowledge)* GREEN — Prefetch volume serial vs the volume's boot record
+- *(knowledge)* GREEN — LNK tracker droid-volume join, stated as observable
+- *(knowledge)* GREEN — NTFS $SI-only timestomp, with the $FN residue
+- *(knowledge)* the blank-Birth instrument caveat, inside the ext4 stomp entry
+- *(knowledge)* GREEN — ext4 utimensat/touch -t timestomp, with its residue
+- *(knowledge)* populate ToolBehaviour with six verified memory-forensics entries (GREEN)
+- *(knowledge)* add EvidenceTier and four non-artifact knowledge types
+- *(catalog)* add two memory descriptors, deepen 29 more, record source-count provenance
+- *(catalog)* backfill 49 artifact descriptors from a coverage audit
+
+### Documentation
+
+- *(knowledge)* pin the vmware-vmem behaviour to its commit and region table
+
+### Fixed
+
+- *(catalog)* GREEN - Photos library path globs the localised bundle name
+- *(catalog)* GREEN - macos_notes_db points at NoteStore.sqlite; attachments are files
+- remap revoked MITRE ATT&CK IDs to their v19 successors, workspace-wide
+- *(docs)* wrap Archive-<Log> in code spans so rustdoc stops parsing it as HTML
+- *(knowledge)* source vol2_netscan_silent_gaps to the public issue tracker
+- *(catalog)* land six researched findings, correcting three wrong statements
+
 ## [1.4.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-data-v1.3.3...forensicnomicon-data-v1.4.0) - 2026-08-04
 
 ### Added

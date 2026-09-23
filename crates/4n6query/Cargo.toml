@@ -1,6 +1,6 @@
 [package]
 name = "forensicnomicon-cli"
-version = "0.1.12"
+version = "0.1.13"
 edition.workspace = true
 # NOT the workspace/library floor of 1.75. This crate is BINARY-ONLY, so nothing
 # can pin it as a library dependency and it has no MSRV promise to keep. It
