@@ -4859,7 +4859,7 @@ pub(crate) static MACOS_DSLOCAL_USERS: ArtifactDescriptor = ArtifactDescriptor {
     related_artifacts: &["macos_openbsm_audit", "macos_keychain_user"],
     sources: &[
         "https://hacktricks.wiki/en/macos-hardening/macos-security-and-privilege-escalation/macos-files-folders-and-binaries/macos-sensitive-locations.html",
-        "https://apple.stackexchange.com/questions/421405/reading-user-plist-files-from-var-db-dslocal-nodes-default-users",
+        "https://medium.com/@piyushkkr12/task-5account-activity-e30497e89266",
         "https://www.sans.org/cyber-security-courses/mac-and-ios-forensic-analysis-and-incident-response/",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
