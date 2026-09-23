@@ -449,7 +449,7 @@ pub(crate) static MACOS_NOTES_ATTACHMENT_MEDIA: ArtifactDescriptor = ArtifactDes
     ],
     retention: Some("Kept while the attachment exists in a note; synced from iCloud for iCloud accounts"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["macos_notes_db", "macos_notes_attachment_previews"],
+    related_artifacts: &["macos_notes_db", "macos_notes_attachment_previews", "macos_notes_locked_notes"],
     sources: &[
         "http://www.swiftforensics.com/2018/02/reading-notes-database-on-macos.html",
         "https://github.com/threeplanetssoftware/apple_cloud_notes_parser/blob/master/lib/AppleNotesEmbeddedObject.rb",
@@ -522,6 +522,74 @@ pub(crate) static MACOS_NOTES_ATTACHMENT_PREVIEWS: ArtifactDescriptor = Artifact
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Render cache persists with the attachment; may be regenerated",
+};
+
+/// Locked (password-protected) Apple Notes and their encrypted attachments.
+///
+/// # Sources
+/// - <https://support.apple.com/guide/security/secure-features-in-the-notes-app-sec1782bcab1/web> —
+///   Apple Platform Security: 16-byte key from the passphrase via PBKDF2 +
+///   SHA-256; note and attachments encrypted with AES-GCM; new records store
+///   ciphertext, tag and IV, then the unencrypted originals are deleted.
+/// - <https://support.apple.com/guide/notes/lock-your-notes-not28c5f5468/mac> —
+///   which attachment kinds a locked note can hold (tables, images, drawings,
+///   scanned documents, maps, web attachments; not video, audio, PDF or documents).
+/// - <https://www.ciofecaforensics.com/2020/07/31/apple-notes-revisited-encrypted-notes/> —
+///   ZCRYPTOSALT / ZCRYPTOITERATIONCOUNT / ZCRYPTOWRAPPEDKEY / ZCRYPTOTAG /
+///   ZCRYPTOINITIALIZATIONVECTOR; image bytes encrypted in the file on disk
+///   (ZASSETCRYPTOTAG / ZASSETCRYPTOINITIALIZATIONVECTOR), filename kept in
+///   ZENCRYPTEDVALUESJSON; old rows marked for deletion and ZDATA overwritten.
+/// - <https://github.com/threeplanetssoftware/apple_cloud_notes_parser> —
+///   password-list decryption; iOS 16+ device-passcode mode not handled.
+pub(crate) static MACOS_NOTES_LOCKED_NOTES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_notes_locked_notes",
+    name: "Apple Notes Locked (Password-Protected) Notes",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "A locked note is a ZICCLOUDSYNCINGOBJECT row with ZISPASSWORDPROTECTED = 1 \
+        and its key material populated: ZCRYPTOSALT, ZCRYPTOITERATIONCOUNT and \
+        ZCRYPTOWRAPPEDKEY (with ZCRYPTOTAG and ZCRYPTOINITIALIZATIONVECTOR). Apple \
+        derives a 16-byte key from the user's passphrase with PBKDF2 and SHA-256 and \
+        encrypts the note and its attachments with AES-GCM; the note's ZICNOTEDATA.ZDATA \
+        is ciphertext, and each attachment's bytes on disk are encrypted too (media rows \
+        carry their own ZASSETCRYPTOTAG / ZASSETCRYPTOINITIALIZATIONVECTOR, and the \
+        original file name moves into encrypted ZENCRYPTEDVALUESJSON). The flag and \
+        populated crypto columns prove a note was locked; its content needs the \
+        passphrase. A locked note can hold only tables, images, drawings, scanned \
+        documents, maps and web attachments, so its attachment rows are limited to those \
+        kinds.",
+    mitre_techniques: &["T1005"],
+    fields: &[
+        FieldSchema { name: "is_password_protected", value_type: ValueType::Bool, description: "ZISPASSWORDPROTECTED = 1 on a locked note", is_uid_component: false },
+        FieldSchema { name: "crypto_salt", value_type: ValueType::Bytes, description: "ZCRYPTOSALT: PBKDF2 salt", is_uid_component: false },
+        FieldSchema { name: "crypto_iteration_count", value_type: ValueType::UnsignedInt, description: "ZCRYPTOITERATIONCOUNT: PBKDF2 iterations", is_uid_component: false },
+        FieldSchema { name: "crypto_wrapped_key", value_type: ValueType::Bytes, description: "ZCRYPTOWRAPPEDKEY: key wrapped under the passphrase-derived key", is_uid_component: false },
+    ],
+    retention: Some("Persistent while the note exists; ciphertext syncs via iCloud"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_notes_db", "macos_notes_attachment_media", "macos_notes_attachment_previews"],
+    sources: &[
+        "https://support.apple.com/guide/security/secure-features-in-the-notes-app-sec1782bcab1/web",
+        "https://support.apple.com/guide/notes/lock-your-notes-not28c5f5468/mac",
+        "https://www.ciofecaforensics.com/2020/07/31/apple-notes-revisited-encrypted-notes/",
+        "https://github.com/threeplanetssoftware/apple_cloud_notes_parser",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "An encrypted attachment file has no image header; the file utility can misidentify it (observed on one macOS Big Sur 11.7 image: reported as \"OpenPGP Secret Key\"), consistent with a signature false match on random-looking ciphertext; it is not evidence of a PGP key",
+        "Decoding encrypted attachment or ZDATA bytes as text yields noise; any \"words\" found that way are coincidence, not note content",
+        "Recovery needs the note passphrase (the parser accepts a password list); notes locked with the device passcode (iOS 16 onward) are not handled by apple_cloud_notes_parser",
+        "Locking creates new encrypted rows and marks the unencrypted ones for deletion with ZDATA overwritten, so plaintext remnants in the live store are not to be expected; freelist or WAL remnants are a separate question",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Rows and encrypted files persist until the note is deleted",
 };
 
 pub(crate) static MACOS_PHOTOS_DB: ArtifactDescriptor = ArtifactDescriptor {
