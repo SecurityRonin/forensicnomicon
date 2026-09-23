@@ -1,7 +1,10 @@
 //! Integrity tests over [`TOOL_BEHAVIOURS`], [`ANTI_FORENSIC_METHODS`],
-//! [`INVESTIGATIVE_TECHNIQUES`] and the correlation-hint slice.
+//! [`INVESTIGATIVE_TECHNIQUES`], the correlation-hint slice, and
+//! [`EXAMINATION_PROFILES`].
 
 use forensicnomicon_core::evidence::EvidenceTier;
+
+use crate::catalog::Platform;
 
 use super::*;
 
@@ -434,6 +437,191 @@ fn unsourced_tool_behaviours_announce_themselves_in_the_text() {
             b.detail.contains("Searched") || b.detail.contains("searched"),
             "{}: must record where the search already went",
             b.id
+        );
+    }
+}
+
+// ── Examination profiles ─────────────────────────────────────────────────────
+
+/// The exact number of registered examination profiles — the single place the
+/// count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
+const EXPECTED_EXAMINATION_PROFILE_LEN: usize = 3;
+
+#[test]
+fn examination_len_matches_expected() {
+    assert_eq!(EXAMINATION_PROFILES.len(), EXPECTED_EXAMINATION_PROFILE_LEN);
+}
+
+#[test]
+fn examination_no_duplicate_ids() {
+    let mut seen = std::collections::HashSet::new();
+    for p in EXAMINATION_PROFILES {
+        assert!(
+            seen.insert(p.id),
+            "duplicate examination profile id: {}",
+            p.id
+        );
+    }
+}
+
+/// The macOS profile batch: the first profiles the type ever held, and their
+/// intended shape. A `Full` profile must carry `FullExamination`; a `Focused`
+/// profile must carry any focus other than `FullExamination`.
+#[test]
+fn macos_profiles_present_with_expected_shape() {
+    let by_id = |id: &str| {
+        EXAMINATION_PROFILES
+            .iter()
+            .find(|p| p.id == id)
+            .unwrap_or_else(|| panic!("missing examination profile: {id}"))
+    };
+
+    let full = by_id("macos_full");
+    assert_eq!(full.platform, Platform::MacOS);
+    assert_eq!(full.kind, ProfileKind::Full);
+    assert_eq!(full.focus, ExaminationFocus::FullExamination);
+
+    let leakage = by_id("macos_data_leakage");
+    assert_eq!(leakage.platform, Platform::MacOS);
+    assert_eq!(leakage.kind, ProfileKind::Focused);
+    assert_eq!(leakage.focus, ExaminationFocus::DataLeakage);
+
+    let malware = by_id("macos_malware");
+    assert_eq!(malware.platform, Platform::MacOS);
+    assert_eq!(malware.kind, ProfileKind::Focused);
+    assert_eq!(malware.focus, ExaminationFocus::Malware);
+}
+
+/// The load-bearing correctness property: every member of every profile
+/// references a catalog artifact id that actually resolves. A profile pointing
+/// at an id no descriptor defines is a dangling checklist entry — an artifact
+/// the examiner is told to pull that the catalog cannot describe.
+#[test]
+fn every_profile_member_resolves_in_catalog() {
+    for p in EXAMINATION_PROFILES {
+        for m in p.members {
+            assert!(
+                crate::catalog::CATALOG.by_id(m.artifact_id).is_some(),
+                "{}: member artifact id not in catalog: {}",
+                p.id,
+                m.artifact_id
+            );
+        }
+    }
+}
+
+/// Proves the referential-integrity gate can fail: the exact predicate the
+/// check above relies on must REJECT a profile whose member points at an id no
+/// descriptor defines. A check that has never been shown to fail is not known
+/// to work.
+#[test]
+fn an_unknown_member_id_is_rejected_by_the_integrity_predicate() {
+    let bogus = ExaminationProfile {
+        id: "test_only_bogus_profile",
+        name: "bogus",
+        platform: Platform::MacOS,
+        kind: ProfileKind::Focused,
+        focus: ExaminationFocus::Malware,
+        description: "fixture used only to prove the integrity check can fail",
+        members: &[ProfileMember {
+            artifact_id: "this_artifact_id_is_not_defined_by_any_descriptor",
+            category: InvestigativeCategory::Persistence,
+            rationale: "fixture",
+        }],
+        sources: &["https://example.invalid/"],
+    };
+
+    let all_resolve = bogus
+        .members
+        .iter()
+        .all(|m| crate::catalog::CATALOG.by_id(m.artifact_id).is_some());
+    assert!(
+        !all_resolve,
+        "the referential-integrity predicate must reject an unknown member id"
+    );
+}
+
+/// Every profile is well-formed: non-empty prose, at least one member, every
+/// member carries a rationale, sources are resolvable HTTPS references, and no
+/// artifact id is listed twice within a single profile.
+#[test]
+fn every_examination_profile_is_well_formed() {
+    for p in EXAMINATION_PROFILES {
+        assert!(!p.name.is_empty(), "{}: empty name", p.id);
+        assert!(!p.description.is_empty(), "{}: empty description", p.id);
+        assert!(!p.members.is_empty(), "{}: no members", p.id);
+        assert!(!p.sources.is_empty(), "{}: no sources", p.id);
+        for s in p.sources {
+            assert!(
+                s.starts_with("https://"),
+                "{}: source is not an https URL: {s}",
+                p.id
+            );
+        }
+
+        // Kind and focus must agree: a Full profile is the comprehensive
+        // FullExamination; a Focused profile is anything narrower.
+        match p.kind {
+            ProfileKind::Full => assert_eq!(
+                p.focus,
+                ExaminationFocus::FullExamination,
+                "{}: a Full profile must have FullExamination focus",
+                p.id
+            ),
+            ProfileKind::Focused => assert_ne!(
+                p.focus,
+                ExaminationFocus::FullExamination,
+                "{}: a Focused profile must not have FullExamination focus",
+                p.id
+            ),
+        }
+
+        let mut seen = std::collections::HashSet::new();
+        for m in p.members {
+            assert!(
+                !m.rationale.is_empty(),
+                "{}: member {} has no rationale",
+                p.id,
+                m.artifact_id
+            );
+            assert!(
+                seen.insert(m.artifact_id),
+                "{}: member artifact id listed twice: {}",
+                p.id,
+                m.artifact_id
+            );
+        }
+    }
+}
+
+/// A `Full` profile is comprehensive by construction: it must span several
+/// investigative categories and carry more members than any focused profile
+/// for the same platform, or "full" is a label with nothing behind it.
+#[test]
+fn full_profile_is_broader_than_focused_profiles() {
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+
+    let distinct_categories: std::collections::HashSet<_> =
+        full.members.iter().map(|m| m.category).collect();
+    assert!(
+        distinct_categories.len() >= 6,
+        "a full examination profile must span many investigative categories, found {}",
+        distinct_categories.len()
+    );
+
+    for focused in EXAMINATION_PROFILES
+        .iter()
+        .filter(|p| p.kind == ProfileKind::Focused && p.platform == full.platform)
+    {
+        assert!(
+            full.members.len() > focused.members.len(),
+            "full profile ({} members) must be broader than focused {} ({} members)",
+            full.members.len(),
+            focused.id,
+            focused.members.len()
         );
     }
 }
