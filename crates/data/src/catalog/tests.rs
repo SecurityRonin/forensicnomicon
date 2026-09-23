@@ -13622,3 +13622,184 @@ mod tests_macos_heic_image {
         assert!(!d.sources.is_empty());
     }
 }
+
+// Curated `macos_*` network-configuration descriptors: the Wi-Fi / DHCP /
+// interface layer that establishes which physical interfaces a Mac has and
+// their MACs (NetworkInterfaces.plist), how the uplink is configured and which
+// service is primary (preferences.plist), and the remembered Wi-Fi networks
+// whose access-point BSSIDs are the geolocation handle (known-networks.plist).
+// The DHCP lease store (`macos_dhcp_leases`) and the legacy airport preferences
+// (`macos_wifi_plist`) already exist; these fill the rest of the layer.
+
+#[cfg(test)]
+mod tests_macos_network_interfaces {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_network_interfaces").is_some(),
+            "catalog must contain 'macos_network_interfaces'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_network_interfaces").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_network_interfaces_plist() {
+        let d = CATALOG.by_id("macos_network_interfaces").unwrap();
+        assert!(d
+            .file_path
+            .unwrap()
+            .contains("SystemConfiguration/NetworkInterfaces.plist"));
+    }
+
+    #[test]
+    fn has_interface_and_mac_fields() {
+        let d = CATALOG.by_id("macos_network_interfaces").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(
+            names.contains(&"bsd_name"),
+            "must map the BSD interface name"
+        );
+        assert!(
+            names.contains(&"mac_address"),
+            "must record the IOMACAddress per interface"
+        );
+        assert!(
+            names.contains(&"interface_type"),
+            "must record the SCNetworkInterfaceType (IEEE80211, Ethernet, ...)"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_network_interfaces").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_network_preferences {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_network_preferences").is_some(),
+            "catalog must contain 'macos_network_preferences'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_network_preferences").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_preferences_plist() {
+        let d = CATALOG.by_id("macos_network_preferences").unwrap();
+        assert!(d
+            .file_path
+            .unwrap()
+            .contains("SystemConfiguration/preferences.plist"));
+    }
+
+    #[test]
+    fn meaning_records_config_method_and_service_order() {
+        let d = CATALOG.by_id("macos_network_preferences").unwrap();
+        assert!(
+            d.meaning.contains("ConfigMethod"),
+            "must record the per-service IPv4 ConfigMethod (DHCP/Manual/BOOTP)"
+        );
+        assert!(
+            d.meaning.contains("ServiceOrder") || d.meaning.contains("service order"),
+            "must record the service priority / primary-interface ordering"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_network_preferences").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_wifi_known_networks {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_wifi_known_networks").is_some(),
+            "catalog must contain 'macos_wifi_known_networks'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_known_networks_plist() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        assert!(d
+            .file_path
+            .unwrap()
+            .contains("com.apple.wifi.known-networks.plist"));
+    }
+
+    #[test]
+    fn meaning_names_the_bssid_geolocation_handle() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        assert!(
+            d.meaning.contains("BSSID"),
+            "the per-network access-point BSSID list is the reason this artifact matters"
+        );
+        assert!(
+            d.meaning.contains("LEAKY_AP_BSSID"),
+            "must name the internal key holding the access-point BSSID list"
+        );
+    }
+
+    #[test]
+    fn has_ssid_and_bssid_fields() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(names.contains(&"ssid"));
+        assert!(names.contains(&"bssid"));
+    }
+
+    #[test]
+    fn caveats_note_cloud_synced_entries() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        let body = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+        assert!(
+            body.contains("Cloud Sync") || body.to_lowercase().contains("synced"),
+            "a cloud-synced known-network entry was never joined on this Mac — say so"
+        );
+    }
+
+    #[test]
+    fn cross_references_legacy_airport_preferences() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"macos_wifi_plist"),
+            "must cross-reference the pre-Big Sur airport preferences descriptor"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
