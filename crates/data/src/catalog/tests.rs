@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6863;
+const EXPECTED_CATALOG_LEN: usize = 6865;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -479,6 +479,49 @@ mod catalog_integrity {
             .sources
             .iter()
             .any(|s| s.contains("github.com/obriensp/iWorkFileFormat")));
+    }
+
+    /// Office authorship metadata travels inside the document: OOXML
+    /// docProps/core.xml + docProps/app.xml, and the OLE2 SummaryInformation
+    /// property set. Format-level descriptors, like pe_coff_timedatestamp.
+    #[test]
+    fn office_document_authorship_metadata_is_cataloged() {
+        let ooxml = CATALOG
+            .by_id("ooxml_core_properties")
+            .expect("ooxml_core_properties must be cataloged");
+        for needle in [
+            "docProps/core.xml",
+            "lastModifiedBy",
+            "docProps/app.xml",
+            "Company",
+        ] {
+            assert!(ooxml.meaning.contains(needle), "ooxml missing {needle}");
+        }
+        assert!(ooxml
+            .sources
+            .iter()
+            .any(|s| s.contains("ecma-international.org") && s.contains("ecma-376")));
+        let ole = CATALOG
+            .by_id("ole2_summary_information")
+            .expect("ole2_summary_information must be cataloged");
+        for needle in [
+            "PIDSI_AUTHOR",
+            "PIDSI_LASTAUTHOR",
+            "PIDSI_REVNUMBER",
+            "CODEPAGE",
+        ] {
+            assert!(ole.meaning.contains(needle), "ole2 missing {needle}");
+        }
+        assert!(ole
+            .sources
+            .iter()
+            .any(|s| s.contains("learn.microsoft.com") && s.contains("ms-oshared")));
+        for d in [ooxml, ole] {
+            assert!(d
+                .evidence_caveats
+                .iter()
+                .any(|c| c.contains("not the person")));
+        }
     }
 
     /// `edge_webcache` must point at the WebCacheV01.dat ESE database
