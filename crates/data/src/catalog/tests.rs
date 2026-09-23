@@ -201,6 +201,30 @@ mod catalog_integrity {
         );
     }
 
+    /// `macos_notes_db` must point at the modern Notes store
+    /// (`Group Containers/group.com.apple.notes/NoteStore.sqlite`, El Capitan
+    /// onward per Khatri), not the Notes sandbox container, and must not claim
+    /// attachments live inside the database: the note body is a gzip-compressed
+    /// protobuf in `ZICNOTEDATA.ZDATA`, attachments are separate files.
+    #[test]
+    fn macos_notes_db_points_at_group_container_notestore() {
+        let d = CATALOG.by_id("macos_notes_db").expect("macos_notes_db");
+        assert_eq!(
+            d.file_path,
+            Some("/Users/*/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite")
+        );
+        assert_eq!(d.artifact_type, ArtifactLocation::File);
+        assert!(d.meaning.contains("ZICNOTEDATA.ZDATA") && d.meaning.contains("gzip"));
+        assert!(
+            !d.meaning.contains("including attachments"),
+            "attachments are files outside NoteStore.sqlite, not database content"
+        );
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains("NotesV")),
+            "the legacy NotesV*.storedata stores must be version-scoped in a caveat"
+        );
+    }
+
     /// `edge_webcache` must point at the WebCacheV01.dat ESE database
     /// (`%LOCALAPPDATA%\Microsoft\Windows\WebCache\WebCacheV01.dat`), not the
     /// `INetCache` cached-content folder. Sources: Forensic Focus (ESE DB in IE10+),
