@@ -3200,6 +3200,79 @@ pub(crate) static MACOS_LASTUSEDDATE_XATTR: ArtifactDescriptor = ArtifactDescrip
     volatility_rationale: "Rewritten on each qualifying open; travels with the file via the #P persistence flag",
 };
 
+/// Screenshot provenance xattrs written by macOS's screen-capture tool:
+/// `com.apple.metadata:kMDItemIsScreenCapture`, `kMDItemScreenCaptureType`,
+/// `kMDItemScreenCaptureGlobalRect`.
+///
+/// # Sources
+/// - <https://support.apple.com/en-hk/102646> — Apple: screenshots save to the
+///   desktop by default as "Screen Shot [date] at [time]"; save location is
+///   changeable.
+/// - <https://eternalstorms.wordpress.com/2016/09/10/deconstructing-and-reimplementing-macos-screencapture-cli/> —
+///   screencapture adds kMDItemIsScreenCapture (present only on screenshots),
+///   kMDItemScreenCaptureType ("display"/"window"/"selection") and
+///   kMDItemScreenCaptureGlobalRect.
+/// - <https://www.cool3c.com/article/107337> — zh-Hant default name
+///   "螢幕快照 <date/time>.png"; `defaults write com.apple.screencapture name|location`.
+/// - <https://support.apple.com/en-us/109344> — Desktop & Documents Folders:
+///   the Desktop is stored in iCloud Drive; a second Mac's Desktop appears in a
+///   folder named after that Mac.
+/// - <https://eclecticlight.co/2018/05/03/going-for-icloud-drive-or-the-whole-way-with-desktop-documents-folders/> —
+///   on-disk placement relative to ~/Library/Mobile Documents is inconsistent.
+///
+/// Apple developer documentation for these three keys was searched for
+/// (developer.apple.com/documentation/coreservices/kmditemisscreencapture
+/// returned HTTP 404, 2026-09); the attribute semantics rest on the
+/// reverse-engineering write-up above.
+pub(crate) static MACOS_SCREENSHOT_XATTRS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_screenshot_xattrs",
+    name: "Screenshot Provenance Xattrs (kMDItemIsScreenCapture)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: None,
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Extended attributes the macOS screen-capture tool writes on the image it \
+        saves: com.apple.metadata:kMDItemIsScreenCapture (true; absent rather than false \
+        on other images), com.apple.metadata:kMDItemScreenCaptureType (\"display\" for \
+        the whole screen, \"window\" for a window, \"selection\" for a dragged region) and \
+        com.apple.metadata:kMDItemScreenCaptureGlobalRect (capture position on screen; \
+        reported in 2016 to hold only the origin x value). Together they mark a file as a screenshot taken on a Mac and say which \
+        capture mode was used, independent of the file name. Apple documents the default: \
+        saved to the Desktop as \"Screen Shot [date] at [time]\", with the location \
+        user-changeable. Read with `xattr -l` or `mdls` (Spotlight: \
+        kMDItemIsScreenCapture:1).",
+    mitre_techniques: &["T1113"],
+    fields: &[
+        FieldSchema { name: "is_screen_capture", value_type: ValueType::Bool, description: "kMDItemIsScreenCapture; present (true) only on screenshots", is_uid_component: false },
+        FieldSchema { name: "capture_type", value_type: ValueType::Text, description: "kMDItemScreenCaptureType: display, window or selection", is_uid_component: false },
+        FieldSchema { name: "capture_rect", value_type: ValueType::Text, description: "kMDItemScreenCaptureGlobalRect: capture coordinates (encoding not vendor-documented)", is_uid_component: false },
+    ],
+    retention: Some("Travels with the file on xattr-capable file systems until stripped or the image is re-saved"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_lastuseddate_xattr", "macos_spotlight_store", "macos_quarantine_xattr"],
+    sources: &[
+        "https://support.apple.com/en-hk/102646",
+        "https://eternalstorms.wordpress.com/2016/09/10/deconstructing-and-reimplementing-macos-screencapture-cli/",
+        "https://www.cool3c.com/article/107337",
+        "https://support.apple.com/en-us/109344",
+        "https://eclecticlight.co/2018/05/03/going-for-icloud-drive-or-the-whole-way-with-desktop-documents-folders/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SingleSecondary),
+    evidence_caveats: &[
+        "With iCloud Drive Desktop & Documents Folders on, the Desktop is stored in iCloud and shared across the user's Macs (Apple: a second Mac's Desktop appears in a folder named after that Mac), so a screenshot on the Desktop may have been taken on another Mac; establish whether the feature was on before attributing the capture to this machine. Where it sits on disk varies by macOS version: a ~/Library/Mobile Documents/com~apple~CloudDocs/Desktop folder was observed on one macOS Big Sur 11.7 image, while Eclectic Light (2018) reports Desktop and Documents are not placed consistently under ~/Library/Mobile Documents",
+        "The default file-name prefix is localised and changeable (defaults write com.apple.screencapture name); older Traditional Chinese systems use 螢幕快照, so file-name searches miss screenshots that the xattr still identifies",
+        "Semantics come from a 2016 reverse-engineering write-up, not Apple; kMDItemScreenCaptureGlobalRect's encoding in particular is unsettled, so validate against a known capture on the same macOS version",
+        "Absence proves nothing: third-party capture tools need not set these attributes, and xattr -d removes them",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Extended attributes travel with the file until explicitly removed",
+};
+
 /// syspolicyd's ExecPolicy database — Gatekeeper's own ledger of executable
 /// evaluations, and (since Ventura) the store behind the com.apple.provenance
 /// xattr.
