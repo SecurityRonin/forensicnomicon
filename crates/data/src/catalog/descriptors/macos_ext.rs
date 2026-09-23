@@ -4476,3 +4476,76 @@ pub(crate) static MACOS_CALENDAR_ARCHIVE_ICBU: ArtifactDescriptor = ArtifactDesc
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "User-created backup file; persists until deleted",
 };
+
+/// iWork '13-and-later document container (Pages `.pages`, Numbers `.numbers`,
+/// Keynote `.key`): a package directory or a single zip file.
+///
+/// # Sources
+/// - <https://github.com/obriensp/iWorkFileFormat/blob/master/Docs/index.md> —
+///   bundle layout (Data/, Index.zip of Index/*.iwa, Metadata/
+///   BuildVersionHistory.plist + DocumentIdentifier + Properties.plist,
+///   preview.jpg / preview-web.jpg / preview-micro.jpg); IWA = Protobuf stream
+///   in Snappy framing without the Stream Identifier chunk or CRC-32C;
+///   password-locked documents AES-128 (PKCS7) encrypted.
+/// - <https://github.com/masaccio/numbers-parser/blob/main/src/numbers_parser/iwork.py> —
+///   opens both the package form (Index.zip) and the single-file zip form
+///   (Index/*.iwa at the top level); reads fileFormatVersion from
+///   Metadata/Properties.plist.
+/// - <https://github.com/masaccio/numbers-parser/issues/89> — "Pre-BNC storage
+///   is unsupported" raised for tables not last saved in BNC storage; maintainer:
+///   not planned.
+/// - <https://github.com/Cocoanetics/SwiftText/blob/main/Sources/SwiftTextPages/PagesImageCatalog.swift> —
+///   treats Data/ files named PresetImageFill* and *bullet* as theme/template
+///   decorations rather than document content.
+pub(crate) static IWORK_DOCUMENT_PACKAGE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "iwork_document_package",
+    name: "iWork Document Package (Pages / Numbers / Keynote, iWork '13+)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("<any iWork '13+ document: .pages, .numbers, .key (package directory or zip)>"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Container format of Pages, Numbers and Keynote since iWork '13, saved either as a \
+        package directory or as a single zip file. The document's objects are stored as .iwa \
+        (iWork Archive) files under Index/ (inside an uncompressed Index.zip in the package \
+        form): each is a Protobuf stream wrapped in Snappy framing that omits the Stream \
+        Identifier chunk and the CRC-32C checksums, so a strict Snappy framing decoder will not \
+        accept it and the chunks must be read directly. Data/ holds media inserted into the document (images and \
+        video), alongside theme and template media such as PresetImageFill*.jpg fills and \
+        bullet images that ship with the template and are not user content. preview.jpg, \
+        preview-web.jpg and preview-micro.jpg at the top level are ordinary JPEG renders of the \
+        document, viewable when the .iwa objects cannot be parsed. Metadata/ holds \
+        Properties.plist (including fileFormatVersion), DocumentIdentifier (the document's \
+        identifier) and BuildVersionHistory.plist, the list of application builds that have \
+        saved the document, which dates a document's editing history to app versions and shows \
+        whether it was last saved by an older or newer iWork release than the one on this Mac.",
+    mitre_techniques: &[],
+    fields: &[
+        FieldSchema { name: "document_identifier", value_type: ValueType::Text, description: "Contents of Metadata/DocumentIdentifier", is_uid_component: true },
+        FieldSchema { name: "file_format_version", value_type: ValueType::Text, description: "fileFormatVersion from Metadata/Properties.plist", is_uid_component: false },
+        FieldSchema { name: "build_version_history", value_type: ValueType::List, description: "Application build strings from Metadata/BuildVersionHistory.plist", is_uid_component: false },
+        FieldSchema { name: "data_media", value_type: ValueType::List, description: "Files under Data/, excluding template decorations (PresetImageFill*, bullets)", is_uid_component: false },
+    ],
+    retention: Some("Part of the document; persists as long as the file does"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &[],
+    sources: &[
+        "https://github.com/obriensp/iWorkFileFormat/blob/master/Docs/index.md",
+        "https://github.com/masaccio/numbers-parser/blob/main/src/numbers_parser/iwork.py",
+        "https://github.com/masaccio/numbers-parser/issues/89",
+        "https://github.com/Cocoanetics/SwiftText/blob/main/Sources/SwiftTextPages/PagesImageCatalog.swift",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Apple publishes no specification; the layout comes from reverse engineering (obriensp) and independent parsers (numbers-parser, SwiftText) that agree on it",
+        "numbers-parser raises \"Pre-BNC storage is unsupported\" for Numbers tables not last saved in the newer BNC storage, which older iWork '13-era files can hit; the maintainer does not plan support, so fall back to the preview JPEGs and a raw IWA decode",
+        "A password-locked document has nearly all files in the bundle AES-128 encrypted (PKCS7 padding); without the password only the unencrypted parts can be examined, and whether the previews survive encryption should be checked on the file",
+        "The Metadata/BuildVersionHistory.plist reading as a list of saving app builds, and the previews as a render of the first page or slide, are observed behaviour rather than documented",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Stored inside the document itself",
+};
