@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6862;
+const EXPECTED_CATALOG_LEN: usize = 6863;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -451,6 +451,34 @@ mod catalog_integrity {
             .sources
             .iter()
             .any(|s| s.contains("support.apple.com") && s.contains("icl1023")));
+    }
+
+    /// iWork '13+ documents (Pages, Numbers, Keynote) are packages or zips of
+    /// Snappy-framed Protobuf .iwa objects, a Data/ media folder, preview
+    /// JPEGs and Metadata/ plists. Catalogued as a format-level artefact.
+    #[test]
+    fn iwork_document_package_is_cataloged() {
+        let d = CATALOG
+            .by_id("iwork_document_package")
+            .expect("iwork_document_package must be cataloged");
+        for needle in [
+            ".iwa",
+            "Snappy",
+            "preview.jpg",
+            "BuildVersionHistory.plist",
+            "PresetImageFill",
+            "Pre-BNC",
+            "AES",
+        ] {
+            assert!(
+                d.meaning.contains(needle) || d.evidence_caveats.iter().any(|c| c.contains(needle)),
+                "missing {needle}"
+            );
+        }
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("github.com/obriensp/iWorkFileFormat")));
     }
 
     /// `edge_webcache` must point at the WebCacheV01.dat ESE database
