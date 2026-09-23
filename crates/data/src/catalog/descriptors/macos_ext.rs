@@ -4363,3 +4363,116 @@ pub(crate) static MACOS_CUPS_LOGS: ArtifactDescriptor = ArtifactDescriptor {
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Size-based rotation discards older entries",
 };
+
+/// Calendar's on-disk event store: `~/Library/Calendars/<UUID>.calendar/`
+/// folders, each with `Info.plist` and `Events/*.ics`.
+///
+/// # Sources
+/// - <https://stackoverflow.com/a/71159901> — script that iterates
+///   `~/Library/Calendars/*.calendar`, matches the calendar's name as a
+///   `<string>` in `<calendar>/Info.plist`, and copies `<calendar>/Events/*`;
+///   a 2025 comment reports the store moved to
+///   `~/Library/Group Containers/group.com.apple.calendar` on macOS 15.
+/// - <https://apple.stackexchange.com/a/162262> — `find ~/Library/Calendars -name "*.ics"`
+///   lists the events of all calendars, subscribed ones included.
+/// - <https://www.rfc-editor.org/rfc/rfc5545> — iCalendar: UID (3.8.4.7),
+///   CREATED (3.8.7.1), DTSTAMP (3.8.7.2), LAST-MODIFIED (3.8.7.3).
+pub(crate) static MACOS_CALENDAR_STORE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_calendar_store",
+    name: "Calendar Event Store (.calendar folders and per-event .ics)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Calendars/"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Per-calendar folders named <UUID>.calendar, each holding an Info.plist that describes the calendar (its title, and for a \
+        subscribed calendar its type and subscription URL) and an Events/ folder with one \
+        iCalendar .ics file per event. Each .ics is plain text carrying the event's UID, SUMMARY, \
+        DTSTART/DTEND and, where set, LOCATION, ORGANIZER and ATTENDEE lines, with the iCalendar CREATED, DTSTAMP and \
+        LAST-MODIFIED times, so events can be read without the Calendar Cache SQLite database \
+        that sits beside them, and a deleted event's .ics may be recoverable from unallocated \
+        space or backups. Subscribed calendars (holidays, sports, shared feeds) appear here too, \
+        so the Info.plist type and URL separate calendars the user keeps from feeds they only \
+        subscribe to.",
+    mitre_techniques: &[],
+    fields: &[
+        FieldSchema { name: "calendar_uuid", value_type: ValueType::Guid, description: "UUID in the <UUID>.calendar folder name", is_uid_component: true },
+        FieldSchema { name: "calendar_title", value_type: ValueType::Text, description: "Calendar name from Info.plist", is_uid_component: false },
+        FieldSchema { name: "event_uid", value_type: ValueType::Text, description: "iCalendar UID of the event (RFC 5545 3.8.4.7)", is_uid_component: true },
+        FieldSchema { name: "summary", value_type: ValueType::Text, description: "Event title (SUMMARY)", is_uid_component: false },
+        FieldSchema { name: "dtstart", value_type: ValueType::Timestamp, description: "Event start (DTSTART)", is_uid_component: false },
+        FieldSchema { name: "created", value_type: ValueType::Timestamp, description: "CREATED: when the calendar user agent first created the event", is_uid_component: false },
+        FieldSchema { name: "last_modified", value_type: ValueType::Timestamp, description: "LAST-MODIFIED: when the event was last revised", is_uid_component: false },
+    ],
+    retention: Some("Events persist until deleted; synced calendars mirror the server"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["fa_file_calendars_calendar_cache", "macos_calendar_archive_icbu"],
+    sources: &[
+        "https://stackoverflow.com/a/71159901",
+        "https://apple.stackexchange.com/a/162262",
+        "https://www.rfc-editor.org/rfc/rfc5545",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SingleSecondary),
+    evidence_caveats: &[
+        "Apple does not document this layout; the .calendar/Info.plist/Events structure comes from user reports, and the UUID folder names, one VEVENT per .ics, and the Info.plist Title/Type (e.g. Subscription)/subscription URL keys were observed on one macOS image from the 10.14-11.7 era",
+        "A user report places the store in ~/Library/Group Containers/group.com.apple.calendar (with a Calendar.sqlitedb) on macOS 15; check both locations and the OS version",
+        "For iCloud, Exchange or Google calendars these files are a local copy of server data, so an event present here may have been created on another device or by another person",
+        "CREATED, DTSTAMP and LAST-MODIFIED are written by whichever client created or changed the event and carry that client's clock",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Event files persist until the event is deleted or the account removed",
+};
+
+/// Calendar Archive bundles (`.icbu`) written by File > Export > Calendar Archive.
+///
+/// # Sources
+/// - <https://support.apple.com/guide/calendar/import-or-export-calendars-icl1023/mac> —
+///   exporting all calendars writes a calendar archive (.icbu); importing one
+///   replaces all current calendar information.
+/// - <https://www.macworld.com/article/232324/what-you-get-when-you-export-calendar-and-reminders-in-macos.html> —
+///   the .icbu is a package holding all calendars, events and reminders in ICS
+///   form, named "Calendars and Reminders" plus the current date and time.
+pub(crate) static MACOS_CALENDAR_ARCHIVE_ICBU: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_calendar_archive_icbu",
+    name: "Calendar Archive (.icbu) backup bundle",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/**/*.icbu"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Package written when the user chooses File > Export > Calendar Archive: a .icbu \
+        bundle containing every calendar, its events and reminders as ICS files, in the same \
+        structure as the live store. Its default name is \"Calendars and Reminders\" followed by \
+        the export date and time, so the name alone dates a deliberate backup by the user. An \
+        archive preserves calendar content as it stood at export, including events since \
+        deleted from the live store or the server, and can be imported on another Mac, where \
+        it replaces all existing calendar data.",
+    mitre_techniques: &[],
+    fields: &[
+        FieldSchema { name: "archive_name", value_type: ValueType::Text, description: "Bundle name; default embeds the export date and time", is_uid_component: true },
+        FieldSchema { name: "bundle_created", value_type: ValueType::Timestamp, description: "File-system creation time of the bundle", is_uid_component: false },
+    ],
+    retention: Some("Persists wherever the user saved it until deleted"),
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &["macos_calendar_store", "fa_file_calendars_calendar_cache"],
+    sources: &[
+        "https://support.apple.com/guide/calendar/import-or-export-calendars-icl1023/mac",
+        "https://www.macworld.com/article/232324/what-you-get-when-you-export-calendar-and-reminders-in-macos.html",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Apple documents the .icbu export and import; the default name with date and time and the inner ICS layout come from Macworld (2019), not Apple",
+        "The name is editable in the save dialog, so a date in it is only the default and a renamed archive carries none; use file-system times as well",
+        "A .icbu found on this Mac may have been copied from another machine; its contents describe the exporting Mac's calendars",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "User-created backup file; persists until deleted",
+};

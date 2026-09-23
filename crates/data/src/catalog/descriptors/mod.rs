@@ -18477,6 +18477,8 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::MACOS_CUPS_SPOOL_JOBS,
     macos_ext::MACOS_CUPS_PRINTERS_CONF,
     macos_ext::MACOS_CUPS_LOGS,
+    macos_ext::MACOS_CALENDAR_STORE,
+    macos_ext::MACOS_CALENDAR_ARCHIVE_ICBU,
     windows_files_ext::ONEDRIVE_ODL_LOGS,
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,
