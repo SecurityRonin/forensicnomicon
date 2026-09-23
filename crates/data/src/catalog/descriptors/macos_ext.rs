@@ -383,7 +383,7 @@ pub(crate) static MACOS_NOTES_DB: ArtifactDescriptor = ArtifactDescriptor {
     ],
     retention: Some("Persistent; syncs via iCloud"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["macos_sms_db", "fa_file_notes_notesv_storedata"],
+    related_artifacts: &["macos_notes_attachment_media", "macos_notes_attachment_previews", "fa_file_notes_notesv_storedata", "macos_sms_db"],
     sources: &[
         "http://www.swiftforensics.com/2018/02/reading-notes-database-on-macos.html",
         "https://ciofecaforensics.com/2020/01/10/apple-notes-revisited/",
@@ -399,6 +399,129 @@ pub(crate) static MACOS_NOTES_DB: ArtifactDescriptor = ArtifactDescriptor {
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "SQLite store persists until note deletion",
+};
+
+/// Apple Notes attachment originals: `Accounts/<account-UUID>/Media/<media-UUID>/<file>`
+/// in the `group.com.apple.notes` group container.
+///
+/// # Sources
+/// - <http://www.swiftforensics.com/2018/02/reading-notes-database-on-macos.html> —
+///   El Capitan to High Sierra: attachments in `group.com.apple.notes/Media/<UUID>/`;
+///   SQL joining ZICCLOUDSYNCINGOBJECT attachment rows (ZNOTE, ZMEDIA, ZTYPEUTI)
+///   to the media row (ZIDENTIFIER = media UUID, ZFILENAME).
+/// - <https://github.com/threeplanetssoftware/apple_cloud_notes_parser/blob/master/lib/AppleNotesEmbeddedObject.rb> —
+///   `Accounts/<account>/Media/<media UUID>/[<generation>/]<ZFILENAME>`; locked
+///   media named by the media UUID; UTI dispatch (public.url,
+///   com.apple.notes.gallery, com.apple.notes.table, com.apple.paper.doc.scan,
+///   com.apple.drawing).
+/// - <https://github.com/threeplanetssoftware/apple_cloud_notes_parser/blob/master/lib/AppleNotesEmbeddedGallery.rb> —
+///   com.apple.notes.gallery = a document scanned in by taking a picture.
+/// - <https://ciofecaforensics.com/2020/01/10/apple-notes-revisited/> — sample
+///   parser output listing `Accounts/LocalAccount/Media/<UUID>/<file>`.
+pub(crate) static MACOS_NOTES_ATTACHMENT_MEDIA: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_notes_attachment_media",
+    name: "Apple Notes Attachment Originals (Accounts/*/Media)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Group Containers/group.com.apple.notes/Accounts/*/Media/"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Original files attached to Apple Notes, one folder per media object: \
+        Accounts/<account-UUID>/Media/<media-UUID>/<file name>. The bytes are not in \
+        NoteStore.sqlite; the database links them. In ZICCLOUDSYNCINGOBJECT an attachment \
+        row carries ZNOTE (the owning note), ZTYPEUTI (what kind of attachment) and ZMEDIA \
+        (Z_PK of a media row); that media row's ZIDENTIFIER is the Media folder name and \
+        its ZFILENAME the file inside it. ZTYPEUTI values include public.jpeg and other \
+        image types (a photo or picture), public.url (a web link shared into the note), \
+        com.apple.notes.gallery (a document-scanner item whose pages are child image \
+        objects), com.apple.notes.table (a table; its content is in the database, not a \
+        file), com.apple.paper.doc.scan and com.apple.drawing variants. Resolve every file \
+        through this join before attributing it to a note.",
+    mitre_techniques: &["T1005"],
+    fields: &[
+        FieldSchema { name: "media_uuid", value_type: ValueType::Guid, description: "Media folder name = ZIDENTIFIER of the media row in ZICCLOUDSYNCINGOBJECT", is_uid_component: true },
+        FieldSchema { name: "file_name", value_type: ValueType::Text, description: "File inside the media folder = ZFILENAME of the media row", is_uid_component: false },
+        FieldSchema { name: "type_uti", value_type: ValueType::Text, description: "ZTYPEUTI of the attachment row (public.jpeg, public.url, com.apple.notes.gallery, com.apple.notes.table, ...)", is_uid_component: false },
+        FieldSchema { name: "note_pk", value_type: ValueType::UnsignedInt, description: "ZNOTE of the attachment row: Z_PK of the owning note", is_uid_component: false },
+    ],
+    retention: Some("Kept while the attachment exists in a note; synced from iCloud for iCloud accounts"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_notes_db", "macos_notes_attachment_previews"],
+    sources: &[
+        "http://www.swiftforensics.com/2018/02/reading-notes-database-on-macos.html",
+        "https://github.com/threeplanetssoftware/apple_cloud_notes_parser/blob/master/lib/AppleNotesEmbeddedObject.rb",
+        "https://github.com/threeplanetssoftware/apple_cloud_notes_parser/blob/master/lib/AppleNotesEmbeddedGallery.rb",
+        "https://ciofecaforensics.com/2020/01/10/apple-notes-revisited/",
+        "https://www.ciofecaforensics.com/2020/07/31/apple-notes-revisited-encrypted-notes/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Version scope: on El Capitan to High Sierra Khatri documents group.com.apple.notes/Media/<UUID>/ with no Accounts/<UUID>/ level; the parser handles both layouts, and newer versions may add a generation sub-folder (Media/<UUID>/<generation>/<file>)",
+        "File-system timestamps on a Mac's copy record when that Mac wrote the file (for an iCloud account, when it was synced down), not when a photo was taken; observed on one macOS Big Sur 11.7 image, not vendor-documented",
+        "Capture device and capture time come from EXIF inside the image when present, not from the Notes database or the file dates",
+        "Attachments of locked (password-protected) notes are stored encrypted, named by the media UUID rather than the original file name; the original name is in the encrypted ZENCRYPTEDVALUESJSON",
+        "Scanner and gallery items are several rows: the gallery attachment plus child image objects; do not count files as separate user actions without the join",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Files persist with the attachment until removed from the note",
+};
+
+/// Apple Notes derived renders: `Accounts/<UUID>/Previews/` thumbnails and
+/// `FallbackImages/` / `FallbackPDFs/` renders.
+///
+/// # Sources
+/// - <https://github.com/threeplanetssoftware/apple_cloud_notes_parser/blob/master/lib/AppleNotesEmbeddedThumbnail.rb> —
+///   `Previews/{parent_uuid}-1-{W}x{H}-0.(png|jpg)`, `.encrypted` suffix for
+///   locked notes, newer `-0/{generation}/Preview.png` / `OrientedPreview.jpeg`.
+/// - <https://github.com/threeplanetssoftware/apple_cloud_notes_parser/blob/master/lib/AppleNotesEmbeddedDrawing.rb> —
+///   `FallbackImages/{uuid}.(jpeg|png|jpg)` for drawings.
+/// - <https://ciofecaforensics.com/2020/01/10/apple-notes-revisited/> — sample
+///   output with Previews/ and FallbackImages/ files.
+pub(crate) static MACOS_NOTES_ATTACHMENT_PREVIEWS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_notes_attachment_previews",
+    name: "Apple Notes Attachment Previews and Fallback Renders",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Group Containers/group.com.apple.notes/Accounts/*/Previews/"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Images Notes generates from attachments, beside the originals in the same \
+        account folder. Previews/ holds thumbnails named \
+        <attachment-UUID>-1-<W>x<H>-0.jpg or .png (newer versions: a \
+        <attachment-UUID>-1-<W>x<H>-0/<generation>/Preview.png or OrientedPreview.jpeg \
+        folder); the UUID is the ZIDENTIFIER of the attachment row, which ties the \
+        thumbnail to a note through ZICCLOUDSYNCINGOBJECT.ZNOTE. FallbackImages/ holds \
+        rendered images of drawings and FallbackPDFs/ rendered PDFs of scanned \
+        documents. These are renders derived from an attachment, not originals.",
+    mitre_techniques: &["T1005"],
+    fields: &[
+        FieldSchema { name: "attachment_uuid", value_type: ValueType::Guid, description: "Leading UUID of the preview name = ZIDENTIFIER of the attachment row", is_uid_component: true },
+        FieldSchema { name: "dimensions", value_type: ValueType::Text, description: "<W>x<H> render size encoded in the file name", is_uid_component: false },
+    ],
+    retention: Some("Regenerated by Notes; persists with the attachment"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_notes_attachment_media", "macos_notes_db"],
+    sources: &[
+        "https://github.com/threeplanetssoftware/apple_cloud_notes_parser/blob/master/lib/AppleNotesEmbeddedThumbnail.rb",
+        "https://github.com/threeplanetssoftware/apple_cloud_notes_parser/blob/master/lib/AppleNotesEmbeddedDrawing.rb",
+        "https://ciofecaforensics.com/2020/01/10/apple-notes-revisited/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "A preview can belong to a web-link (public.url) attachment and then shows a render of the linked page, not a photo the user took; check the attachment row's ZTYPEUTI before describing the image (observed on one macOS Big Sur 11.7 image)",
+        "Previews of locked notes carry an .encrypted suffix and are not viewable without the note password",
+        "File-system dates reflect when this Mac generated or synced the render, not when the attachment was created",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Render cache persists with the attachment; may be regenerated",
 };
 
 pub(crate) static MACOS_PHOTOS_DB: ArtifactDescriptor = ArtifactDescriptor {
