@@ -659,7 +659,7 @@ fn evidence_container_tool_batch_is_present() {
 
 /// The exact number of registered examination profiles — the single place the
 /// count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_EXAMINATION_PROFILE_LEN: usize = 3;
+const EXPECTED_EXAMINATION_PROFILE_LEN: usize = 4;
 
 #[test]
 fn examination_len_matches_expected() {
@@ -1157,4 +1157,61 @@ fn profiles_use_curated_not_mis_scoped_safari_cookies() {
         crate::catalog::OsScope::MacOS,
         "the curated Safari cookie descriptor must be macOS-scoped"
     );
+}
+
+/// The Windows user-attribution profile: shared versus exclusive use of a
+/// Windows computer. Every member must say, in its own rationale, that the
+/// artefact attributes to an account, SID, device or system and not to a
+/// person, because that is the error this examination most often makes.
+#[test]
+fn windows_user_attribution_profile_is_present_and_caveated() {
+    let p = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "windows_user_attribution")
+        .expect("windows_user_attribution profile missing");
+    assert_eq!(p.platform, Platform::Windows);
+    assert_eq!(p.kind, ProfileKind::Focused);
+    assert_eq!(p.focus, ExaminationFocus::UserAttribution);
+    assert!(p.description.contains("one SID"));
+
+    for m in p.members {
+        assert!(
+            m.rationale.contains("not a person") || m.rationale.contains("not the person"),
+            "{}: rationale must state the artefact does not identify a person",
+            m.artifact_id
+        );
+    }
+
+    for (id, cat) in [
+        ("sam_user_f_record", InvestigativeCategory::AccountUse),
+        ("profile_list_users", InvestigativeCategory::AccountUse),
+        ("evtx_security", InvestigativeCategory::AccountUse),
+        ("bam_user", InvestigativeCategory::ApplicationUse),
+        ("amcache_app_file", InvestigativeCategory::ApplicationUse),
+        ("prefetch_file", InvestigativeCategory::ApplicationUse),
+        ("shellbags_user", InvestigativeCategory::FileActivity),
+        ("ntfs_secure_sds", InvestigativeCategory::FileActivity),
+        ("mountpoints2", InvestigativeCategory::Connections),
+        (
+            "evtx_partition_diagnostic_1006",
+            InvestigativeCategory::Connections,
+        ),
+        (
+            "wechat_windows_files",
+            InvestigativeCategory::Communications,
+        ),
+        (
+            "ooxml_core_properties",
+            InvestigativeCategory::DocumentAuthorship,
+        ),
+        ("chrome_login_data", InvestigativeCategory::WebActivity),
+        ("onedrive_metadata", InvestigativeCategory::CloudStorage),
+    ] {
+        let m = p
+            .members
+            .iter()
+            .find(|m| m.artifact_id == id)
+            .unwrap_or_else(|| panic!("windows_user_attribution must include {id}"));
+        assert_eq!(m.category, cat, "{id} is in the wrong category");
+    }
 }
