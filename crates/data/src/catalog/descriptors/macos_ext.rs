@@ -5413,12 +5413,13 @@ pub(crate) static MACOS_WIFI_DRIVER_LOG: ArtifactDescriptor = ArtifactDescriptor
         prefixed ARPT: from the process /kernel. Two carry the access point's BSSID in plain text: \
         `SetCryptoKey() bcmerr[0]: ea[<BSSID>] ...`, written when the pairwise key is installed \
         on association or reassociation, and `wl0: Roamed or switched channel, reason #N, bssid \
-        <BSSID>, last RSSI -NN`, written on a roam or channel change; other driver entries carry \
-        the SSID in plain text. That is unlike most of the unified log, where Apple's logging \
-        API redacts dynamic strings as <private> by default, and it is why the common assumption \
-        that the unified log always hides Wi-Fi network names fails for these entries. \
-        Aggregated per day, the BSSIDs and SSIDs give a day-by-day record of which access points, \
-        and so which networks, the Mac was associated with, for as long as the log is retained. \
+        <BSSID>, last RSSI -NN`, written on a roam or channel change. The driver entries carry \
+        BSSIDs only; network names (SSIDs) are written by userland processes \
+        (macos_wifi_ssid_unified_log). That the BSSIDs are in plain text is unlike most of the \
+        unified log, where Apple's logging API redacts dynamic strings as <private> by default, \
+        and it is why the common assumption that the unified log always hides Wi-Fi identifiers \
+        fails for these entries. Aggregated per day, the BSSIDs give a day-by-day record of which \
+        access points the Mac was associated with, for as long as the log is retained. \
         To read them from a disk image, export /private/var/db/diagnostics/ together with \
         /private/var/db/uuidtext/ (the format strings without which entries do not decode) into \
         one logarchive directory, parse it with Mandiant's macos-UnifiedLogs \
@@ -5427,13 +5428,12 @@ pub(crate) static MACOS_WIFI_DRIVER_LOG: ArtifactDescriptor = ArtifactDescriptor
     fields: &[
         FieldSchema { name: "event_time", value_type: ValueType::Timestamp, description: "Unified-log timestamp of the driver entry", is_uid_component: true },
         FieldSchema { name: "bssid", value_type: ValueType::Text, description: "Access-point BSSID from ea[...] or `bssid`; may be written with or without zero padding", is_uid_component: false },
-        FieldSchema { name: "ssid", value_type: ValueType::Text, description: "SSID where the driver entry carries it", is_uid_component: false },
         FieldSchema { name: "rssi", value_type: ValueType::Text, description: "`last RSSI` on a roam entry", is_uid_component: false },
         FieldSchema { name: "event_message", value_type: ValueType::Text, description: "Full driver message", is_uid_component: false },
     ],
     retention: Some("Unified-log rotation window only; weeks on the observed image"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["macos_unified_log", "fa_file__7", "macos_wifi_log", "macos_wifi_known_networks", "macos_dhcp_leases", "macos_network_interfaces"],
+    related_artifacts: &["macos_unified_log", "fa_file__7", "macos_wifi_ssid_unified_log", "macos_wifi_log", "macos_wifi_known_networks", "macos_dhcp_leases", "macos_network_interfaces"],
     sources: &[
         "https://developer.apple.com/documentation/os/generating-log-messages-from-your-code",
         "https://github.com/mandiant/macos-UnifiedLogs",
@@ -5442,11 +5442,80 @@ pub(crate) static MACOS_WIFI_DRIVER_LOG: ArtifactDescriptor = ArtifactDescriptor
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
     evidence_tier: Some(crate::evidence::EvidenceTier::SearchedNotFound),
     evidence_caveats: &[
-        "The driver messages, and that they carry BSSIDs and SSIDs in plain text, are observed on one macOS Big Sur 11.7 image with a Broadcom Wi-Fi chip. Searched (2026-09) the web for ARPT and SetCryptoKey together with unified log, BSSID and forensics, the mandiant/macos-UnifiedLogs README, mac4n6 and the Mandiant/Google Cloud unified-log blog: no public description of these entries was found. Message text is driver-version-specific; other releases and non-Broadcom (Apple silicon) Wi-Fi may differ",
+        "The driver messages, and that they carry BSSIDs in plain text, are observed on one macOS Big Sur 11.7 image with a Broadcom Wi-Fi chip. Searched (2026-09) the web for ARPT and SetCryptoKey together with unified log, BSSID and forensics, the mandiant/macos-UnifiedLogs README, mac4n6 and the Mandiant/Google Cloud unified-log blog: no public description of these entries was found. Message text is driver-version-specific; other releases and non-Broadcom (Apple silicon) Wi-Fi may differ",
         "Verify per image with a control before reading a missing BSSID as absence: the Mac's own Wi-Fi MAC (macos_network_interfaces) or a BSSID known from the remembered-network store should appear in plain text in these entries; if it appears only as <private>, the image redacts them",
         "The same BSSID can be written zero-padded (0a:0b:...) and unpadded (a:b:...); normalise every octet to two hex digits before matching",
         "Retention is the unified log's rotation window, weeks on the observed image; absence before the oldest retained entry says nothing about association",
         "A BSSID locates the access point, not the Mac; association shows the Mac was in radio range of that AP at that time",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Backed by the unified log, which rotates on a rolling window",
+};
+
+/// Userland unified-log entries naming the joined Wi-Fi network (SSID).
+///
+/// # Sources
+/// - <https://github.com/apple-oss-distributions/bootp/blob/bootp-413.80.1/IPConfiguration.bproj/ipconfigd.c>
+///   — `my_log(LOG_NOTICE, "%@: SSID %@ BSSID %s Security %s", ...)` when
+///   the interface's Wi-Fi association is read (code-read).
+/// - <https://github.com/apple-oss-distributions/bootp/blob/bootp-534.120.2/IPConfiguration.bproj/ipconfigd.c>
+///   — `S_copy_wifi_info` logs `"%@: SSID %@ BSSID %@ Security %s
+///   ConnectionID %u"` with SSID and BSSID passed through `hide_wifi_string`,
+///   which on macOS substitutes `<redacted>` unless the HideWiFiInfo
+///   preference is set or the build is Apple-internal / verbose (code-read).
+///   `hide_wifi_string` is absent from ipconfigd.c at every tag checked
+///   through bootp-494.120.6 and present from bootp-494.140.4.
+///
+/// The captive (`com.apple.captive`) and CoreUtils (`SysMon: WiFi join
+/// started`) messages are closed-source; they are observed on one Big Sur
+/// 11.7 image, as are unredacted IPConfiguration lines.
+pub(crate) static MACOS_WIFI_SSID_UNIFIED_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_wifi_ssid_unified_log",
+    name: "Wi-Fi Network Name (SSID) Entries (Unified Log)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/db/diagnostics/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Unified-log entries from userland processes that name the Wi-Fi network the Mac \
+        joined. The kernel driver's ARPT: entries (macos_wifi_driver_log) carry BSSIDs only; the \
+        SSIDs come from these: /usr/libexec/configd, subsystem com.apple.IPConfiguration, \
+        `<if>: SSID <name> BSSID <bssid> Security WPA2_PSK` (Apple's bootp source: format \
+        \"%@: SSID %@ BSSID %@ Security %s\" in ipconfigd.c), which pairs the network name with \
+        the access point and is the best single source; /usr/libexec/configd, subsystem \
+        com.apple.captive, `<if>: SSID '<name>' setting interface rank ...`; and \
+        /usr/libexec/sharingd and /usr/libexec/rapportd, subsystem com.apple.CoreUtils, \
+        `SysMon: WiFi join started: SSID \"<name>\"`. Joined with the driver's BSSIDs by time \
+        and BSSID, they name each dated access point. Export /private/var/db/diagnostics/ with \
+        /private/var/db/uuidtext/ into one logarchive directory and parse it with Mandiant's \
+        `unifiedlog_iterator -m log-archive`, filtering on process and subsystem.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "event_time", value_type: ValueType::Timestamp, description: "Unified-log timestamp of the entry", is_uid_component: true },
+        FieldSchema { name: "process", value_type: ValueType::Text, description: "Emitting process: /usr/libexec/configd, /usr/libexec/sharingd or /usr/libexec/rapportd", is_uid_component: false },
+        FieldSchema { name: "subsystem", value_type: ValueType::Text, description: "com.apple.IPConfiguration, com.apple.captive or com.apple.CoreUtils", is_uid_component: false },
+        FieldSchema { name: "ssid", value_type: ValueType::Text, description: "Network name as written in the entry", is_uid_component: false },
+        FieldSchema { name: "bssid", value_type: ValueType::Text, description: "Access-point BSSID (IPConfiguration entries only)", is_uid_component: false },
+        FieldSchema { name: "security", value_type: ValueType::Text, description: "Security type (IPConfiguration entries only), e.g. WPA2_PSK", is_uid_component: false },
+    ],
+    retention: Some("Unified-log rotation window only; weeks on the observed image"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_wifi_driver_log", "macos_unified_log", "fa_file__7", "macos_wifi_known_networks", "macos_dhcp_leases"],
+    sources: &[
+        "https://github.com/apple-oss-distributions/bootp/blob/bootp-413.80.1/IPConfiguration.bproj/ipconfigd.c",
+        "https://github.com/apple-oss-distributions/bootp/blob/bootp-534.120.2/IPConfiguration.bproj/ipconfigd.c",
+        "https://github.com/mandiant/macos-UnifiedLogs/blob/main/examples/unifiedlog_iterator/src/main.rs",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "The IPConfiguration message format is read from Apple's bootp source; the captive and CoreUtils messages are closed-source and observed on one macOS Big Sur 11.7 image only. Message text can change between releases",
+        "Later IPConfiguration passes SSID and BSSID through hide_wifi_string, which logs <redacted> by default on macOS: absent through bootp-494.120.6, present from bootp-494.140.4. Which macOS release first ships that bootp is not established here; on a newer image expect <redacted> and check before reading a missing name as absence",
+        "An SSID names a network, not a place: many networks share common names. Pair it with the BSSID (the IPConfiguration line does) before geolocating",
+        "Retention is the unified log's rotation window; absence before the oldest retained entry says nothing about association",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Backed by the unified log, which rotates on a rolling window",

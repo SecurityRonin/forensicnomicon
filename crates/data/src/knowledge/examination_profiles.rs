@@ -293,9 +293,16 @@ pub static MACOS_FULL: ExaminationProfile = ExaminationProfile {
         ProfileMember {
             artifact_id: "macos_wifi_driver_log",
             category: Cat::Connections,
-            rationale: "Wi-Fi driver entries in the unified log: BSSIDs and SSIDs in plain text \
-                        on association and roam — which network the Mac was on, day by day, for \
-                        the log's retention (verify with a control per image).",
+            rationale: "Wi-Fi driver entries in the unified log: BSSIDs in plain text on \
+                        association and roam — which access point the Mac was on, day by day, \
+                        for the log's retention (verify with a control per image).",
+        },
+        ProfileMember {
+            artifact_id: "macos_wifi_ssid_unified_log",
+            category: Cat::Connections,
+            rationale: "Userland unified-log entries naming the joined network: configd \
+                        IPConfiguration pairs SSID with BSSID, naming the driver's access \
+                        points; captive and CoreUtils entries add join times.",
         },
         ProfileMember {
             artifact_id: "macos_wifi_log",
