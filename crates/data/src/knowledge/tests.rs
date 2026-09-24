@@ -772,6 +772,56 @@ fn macos_full_references_network_configuration_layer() {
     }
 }
 
+/// After the Big Sur migration the legacy known-network records survive only
+/// in the airport preferences `.backup`; the full profile must collect it.
+#[test]
+fn macos_full_references_legacy_wifi_backup() {
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    let m = full
+        .members
+        .iter()
+        .find(|m| m.artifact_id == "macos_wifi_plist_backup")
+        .expect("macos_full must reference macos_wifi_plist_backup");
+    assert_eq!(m.category, InvestigativeCategory::Connections);
+}
+
+/// The remembered-network BSSIDList carries no per-BSSID timestamp, so an
+/// access point cannot be dated from it, nor attributed to one SSID when the
+/// same BSSID sits under two networks. Both techniques that read BSSIDs from
+/// that store must say so.
+#[test]
+fn bssid_techniques_record_that_bssid_list_is_undated() {
+    for id in ["wifi_bssid_geolocation", "network_neighbour_enumeration"] {
+        let t = INVESTIGATIVE_TECHNIQUES
+            .iter()
+            .find(|t| t.id == id)
+            .unwrap_or_else(|| panic!("{id} missing"));
+        let body = t.failure_modes.join(" ");
+        assert!(
+            body.contains("BSSIDList") && body.to_lowercase().contains("no per-bssid timestamp"),
+            "{id}: must record that BSSIDList entries are undated"
+        );
+    }
+}
+
+/// Step 3 of the geolocation technique corroborates against join/added
+/// timestamps; on a migrated network AddedAt is the legacy last-join time,
+/// not a first-join date.
+#[test]
+fn wifi_bssid_geolocation_warns_added_at_is_migrated() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "wifi_bssid_geolocation")
+        .expect("wifi_bssid_geolocation missing");
+    assert!(t
+        .failure_modes
+        .iter()
+        .any(|f| f.contains("AddedAt") && f.to_lowercase().contains("migrat")));
+}
+
 /// The data-leakage profile is where location exposure and network egress
 /// matter: it must reference the DHCP lease (internal IP / gateway / joined
 /// Wi-Fi and when) and the remembered Wi-Fi networks (the BSSID location

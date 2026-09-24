@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6878;
+const EXPECTED_CATALOG_LEN: usize = 6879;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -13801,6 +13801,110 @@ mod tests_macos_wifi_known_networks {
     fn has_sources() {
         let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
         assert!(!d.sources.is_empty());
+    }
+
+    // On a network migrated from the legacy airport store, AddedAt repeats
+    // the legacy last-join time, so it is not a first-join date. Without this
+    // caveat an examiner reads the upgrade date as the date a network was
+    // first used.
+    #[test]
+    fn caveats_warn_added_at_is_rewritten_by_migration() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        let body = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+        assert!(body.contains("AddedAt"));
+        assert!(
+            body.to_lowercase().contains("migrat"),
+            "must say AddedAt on a migrated network is set by the migration"
+        );
+        assert!(
+            body.contains("LastConnected") || body.contains("LastAutoJoinAt"),
+            "must name the legacy field AddedAt is copied from"
+        );
+        assert!(
+            body.contains("ChannelHistory"),
+            "must point at ChannelHistory as the better evidence of when a network was used"
+        );
+    }
+
+    // BSSIDList entries carry no per-BSSID timestamp or channel, so when an
+    // access point was used cannot be read from them.
+    #[test]
+    fn caveats_state_bssid_list_is_undated() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        let body = d.evidence_caveats.join(" ");
+        assert!(
+            body.contains("LEAKY_AP_LEARNED_DATA"),
+            "must name the only other key in a BSSIDList entry"
+        );
+        assert!(
+            body.to_lowercase().contains("no per-bssid timestamp"),
+            "must say a BSSIDList entry carries no timestamp"
+        );
+    }
+
+    #[test]
+    fn cross_references_the_migrated_legacy_backup() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        assert!(d.related_artifacts.contains(&"macos_wifi_plist_backup"));
+    }
+}
+
+// The Big Sur upgrade migrates the legacy airport store into
+// com.apple.wifi.known-networks.plist; on the observed image the full legacy
+// store survived beside it as a `.backup` file while the live airport plist
+// was cut down to Counter/DeviceUUID/Version. The descriptor model holds one
+// file_path per descriptor, so the `.backup` is its own entry.
+#[cfg(test)]
+mod tests_macos_wifi_plist_backup {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(CATALOG.by_id("macos_wifi_plist_backup").is_some());
+    }
+
+    #[test]
+    fn file_path_is_the_backup_plist() {
+        let d = CATALOG.by_id("macos_wifi_plist_backup").unwrap();
+        assert_eq!(
+            d.file_path,
+            Some("/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist.backup")
+        );
+    }
+
+    #[test]
+    fn meaning_names_the_legacy_structure() {
+        let d = CATALOG.by_id("macos_wifi_plist_backup").unwrap();
+        for key in ["KnownNetworks", "PreferredOrder", "wifi.ssid.", "BSSIDList"] {
+            assert!(d.meaning.contains(key), "meaning must name {key}");
+        }
+    }
+
+    #[test]
+    fn cross_references_both_wifi_stores() {
+        let d = CATALOG.by_id("macos_wifi_plist_backup").unwrap();
+        assert!(d.related_artifacts.contains(&"macos_wifi_plist"));
+        assert!(d.related_artifacts.contains(&"macos_wifi_known_networks"));
+    }
+
+    #[test]
+    fn cites_an_implementation_that_reads_it() {
+        let d = CATALOG.by_id("macos_wifi_plist_backup").unwrap();
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("ydkhatri/mac_apt") && s.contains("airport_preferences.py")));
+    }
+
+    #[test]
+    fn legacy_descriptor_points_at_the_backup() {
+        let d = CATALOG.by_id("macos_wifi_plist").unwrap();
+        assert!(d.related_artifacts.contains(&"macos_wifi_plist_backup"));
+        let body = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+        assert!(
+            body.contains("com.apple.airport.preferences.plist.backup"),
+            "the live plist is reduced after the Big Sur migration; say where the data went"
+        );
     }
 }
 
