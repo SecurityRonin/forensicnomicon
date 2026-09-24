@@ -76,6 +76,19 @@ pub fn parse_velociraptor_yaml(content: &str) -> Vec<IngestRecord> {
     records
 }
 
+/// `OsScope` variant for a Velociraptor artifact, from the platform its name
+/// starts with (`MacOS.System.TimeMachine`, `Linux.Forensics.Journal`,
+/// `Windows.Registry.AppCompatCache`). Names with no single-OS prefix
+/// (`Generic.`, `Server.`, `Elastic.`) keep the historical `Win7Plus`: the
+/// catalog has no cross-platform scope to give them.
+fn os_scope_for(artifact_name: &str) -> &'static str {
+    match artifact_name.split('.').next() {
+        Some("MacOS") => "MacOS",
+        Some("Linux") => "Linux",
+        _ => "Win7Plus",
+    }
+}
+
 fn try_parse_as_registry(
     value: &str,
     artifact_name: &str,
@@ -162,7 +175,7 @@ fn try_parse_as_file(
         hive: None,
         key_path: String::new(),
         value_name: None,
-        os_scope: "Win7Plus".to_string(),
+        os_scope: os_scope_for(artifact_name).to_string(),
         file_path: Some(value.to_string()),
         meaning: description.to_string(),
         mitre_techniques: Vec::new(),

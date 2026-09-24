@@ -1417,7 +1417,7 @@ pub(crate) static VELOCIRAPTOR_FILE_LOG_AUTH_LOG: ArtifactDescriptor = ArtifactD
     value_name: None,
     file_path: Some("/var/log/auth.log"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "A monitoring artifact which detects a successful SSH login preceded by some
 failed attempts within the last hour.
@@ -1451,7 +1451,7 @@ pub(crate) static VELOCIRAPTOR_FILE_SYSLOGTIMESTAMP_TIMESTAMP_SYSLOGFACILITY_S: 
     value_name: None,
     file_path: Some("%{SYSLOGTIMESTAMP:timestamp} (?:%{SYSLOGFACILITY} )?%{SYSLOGHOST:logsource} %{SYSLOGPROG}: %{DATA:event} %{DATA:method} for (invalid user )?%{DATA:user} from %{IPORHOST:ip} port %{NUMBER:port} ssh2(: %{GREEDYDATA:system.auth.ssh.signature})?"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "A monitoring artifact which detects a successful SSH login preceded by some
 failed attempts within the last hour.
@@ -1484,7 +1484,7 @@ pub(crate) static VELOCIRAPTOR_FILE_SSH_PEM_ID_RSA_ID_DSA: ArtifactDescriptor =
         value_name: None,
         file_path: Some("/home/*/.ssh/{*.pem,id_rsa,id_dsa}"),
         scope: DataScope::Mixed,
-        os_scope: OsScope::Win7Plus,
+        os_scope: OsScope::Linux,
         decoder: Decoder::Identity,
         meaning: "SSH Private keys can be either encrypted or unencrypted. Unencrypted
 private keys are more risky because an attacker can use them without
@@ -1529,7 +1529,7 @@ pub(crate) static VELOCIRAPTOR_FILE_USR: ArtifactDescriptor = ArtifactDescriptor
     value_name: None,
     file_path: Some("/usr/**"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Searches for applications that have the `setuid` or `setgid` bits set.
 

@@ -74,9 +74,11 @@ pub static MACOS_FULL: ExaminationProfile = ExaminationProfile {
                         user and the services it enables.",
         },
         ProfileMember {
-            artifact_id: "fa_file_preferences_loginwindow_plist",
+            artifact_id: "fa_file_preferences_com_apple_loginwindow_plist",
             category: Cat::AccountUse,
-            rationale: "com.apple.loginwindow: last logged-in user and auto-login configuration.",
+            rationale: "/Library/Preferences/com.apple.loginwindow.plist, the system-wide \
+                        loginwindow settings: the last logged-in user (lastUserName) and the \
+                        auto-login account (autoLoginUser), as read by mac_apt.",
         },
         ProfileMember {
             artifact_id: "macos_dslocal_users",
@@ -496,6 +498,7 @@ pub static MACOS_FULL: ExaminationProfile = ExaminationProfile {
         "https://www.sans.org/cyber-security-courses/mac-and-ios-forensic-analysis-and-incident-response/",
         "https://github.com/pstirparo/mac4n6",
         "https://support.apple.com/guide/security/welcome/web",
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/basicinfo.py",
     ],
 };
 
