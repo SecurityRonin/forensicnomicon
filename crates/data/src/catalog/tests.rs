@@ -14648,3 +14648,107 @@ mod tests_windows_attribution_caveats {
             .any(|c| c.contains("does not identify") && c.contains("user")));
     }
 }
+
+// ── macOS contradictions: DHCP lease files, AirDrop history, APFS offsets ──
+// Three descriptors asserted things their own sources, or Apple's, contradict.
+// DHCP: Apple's IPConfiguration names the lease file two ways across bootp
+// releases, and the newer code never removes the older file, so a pre-upgrade
+// lease can survive. AirDrop: QuarantineEventsV2 keeps a persistent row per
+// AirDropped file (agent sharingd, LSQuarantineSenderName). APFS: the offset
+// multiplier is the disk's logical sector size from the partition table, not
+// APFS's 4096-byte block size.
+#[cfg(test)]
+mod tests_macos_contradictions {
+    use super::*;
+
+    #[test]
+    fn dhcp_leases_names_both_bootp_filename_formats() {
+        let d = CATALOG.by_id("macos_dhcp_leases").unwrap();
+        assert!(
+            d.meaning.contains("<ifname>.plist") && d.meaning.contains("<ifname>-<client-id>"),
+            "must name both lease-file formats (DHCPCLIENT_LEASE_FILE_FMT across bootp releases)"
+        );
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("apple-oss-distributions/bootp") && s.contains("359.50.1")),
+            "must cite Apple's bootp DHCPLease.c for the old format"
+        );
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("apple-oss-distributions/bootp") && s.contains("534.120.2")),
+            "must cite Apple's bootp DHCPLease.c for the current format"
+        );
+    }
+
+    #[test]
+    fn dhcp_leases_no_longer_claims_history_is_always_overwritten() {
+        let d = CATALOG.by_id("macos_dhcp_leases").unwrap();
+        let body = d.evidence_caveats.join(" ");
+        assert!(
+            !body.contains("historical leases are overwritten"),
+            "an old-format lease file can survive an OS upgrade holding a pre-upgrade lease"
+        );
+        assert!(
+            body.contains("survive") && body.contains("upgrade"),
+            "must record that the old-format file can survive an OS upgrade"
+        );
+        assert!(
+            !d.retention.unwrap_or("").contains("overwritten on renewal"),
+            "retention must describe expiry deletion and the orphaned old-format file"
+        );
+    }
+
+    #[test]
+    fn airdrop_sharingd_points_at_the_persistent_quarantine_store() {
+        let d = CATALOG.by_id("macos_airdrop_sharingd").unwrap();
+        let text = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+        assert!(
+            !text.contains("No persistent transfer-history store"),
+            "QuarantineEventsV2 holds persistent AirDrop rows"
+        );
+        assert!(
+            !text.contains("survives only in the unified log"),
+            "QuarantineEventsV2 holds persistent AirDrop rows"
+        );
+        assert!(text.contains("QuarantineEventsV2"));
+        assert!(text.contains("LSQuarantineSenderName"));
+        assert!(d.related_artifacts.contains(&"macos_quarantine_events"));
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("kieczkowska.wordpress.com")),
+            "must cite the QuarantineEventsV2 AirDrop analysis"
+        );
+    }
+
+    #[test]
+    fn apfs_container_offset_uses_disk_sector_size_not_apfs_block_size() {
+        let d = CATALOG.by_id("apfs_container").unwrap();
+        assert!(
+            !d.meaning.contains("typically 4096"),
+            "the multiplier is the disk's sector size from the partition table"
+        );
+        let bps = d
+            .fields
+            .iter()
+            .find(|f| f.name == "bytes_per_sector")
+            .expect("bytes_per_sector field");
+        assert!(
+            !bps.description.contains("typically 4096 for APFS"),
+            "4096 is APFS's block size, not the disk's sector size"
+        );
+        assert!(bps.description.contains("512"));
+        assert!(
+            d.meaning.contains("nx_block_size") && d.meaning.contains("512"),
+            "must separate APFS's block size from the disk's sector size"
+        );
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("Apple-File-System-Reference.pdf")),
+            "must cite the Apple File System Reference for nx_block_size"
+        );
+    }
+}
