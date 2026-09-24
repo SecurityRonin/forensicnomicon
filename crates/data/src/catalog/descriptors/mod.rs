@@ -9295,14 +9295,15 @@ pub static MACOS_UNIFIED_LOG: ArtifactDescriptor = ArtifactDescriptor {
     value_name: None,
     file_path: Some("/var/db/diagnostics/"),
     scope: DataScope::System,
-    os_scope: OsScope::MacOS12Plus,
+    // macOS 10.12 Sierra and later; `MacOS12Plus` would mean Monterey.
+    os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
-    meaning: "Apple Unified Logging system. Contains all system and application logs since macOS 10.12. Provides timestamped, structured log entries for process activity, crashes, and security events.",
+    meaning: "Apple Unified Logging system. Contains all system and application logs since macOS 10.12. Provides timestamped, structured log entries for process activity, crashes, and security events. The .tracev3 files here decode only with the format strings in /private/var/db/uuidtext/, so collect both directories together (as a logarchive) from a disk image.",
     mitre_techniques: &["T1685.006", "T1059"], // v19: T1685.006 (Mac system logs), not the Windows T1685.005
     fields: &[],
     retention: Some("Rotated by OS; typically weeks to months"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["macos_install_history"],
+    related_artifacts: &["macos_install_history", "fa_file__7", "macos_wifi_driver_log"],
     sources: &[
         "https://www.mandiant.com/resources/blog/reviewing-macos-unified-logs",
         "https://developer.apple.com/documentation/os/logging",
@@ -18505,6 +18506,8 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::MACOS_NETWORK_PREFERENCES,
     macos_ext::MACOS_WIFI_KNOWN_NETWORKS,
     macos_ext::MACOS_WIFI_PLIST_BACKUP,
+    macos_ext::MACOS_WIFI_DRIVER_LOG,
+    macos_ext::MACOS_WIFI_LOG,
     macos_ext::MACOS_BLUETOOTH_DEVICES,
     macos_ext::MACOS_SMB_SERVER_IDENTITY,
     macos_ext::MACOS_CONNECT_TO_SERVER_HISTORY,

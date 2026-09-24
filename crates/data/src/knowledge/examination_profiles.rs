@@ -155,6 +155,12 @@ pub static MACOS_FULL: ExaminationProfile = ExaminationProfile {
                         retention, collect early).",
         },
         ProfileMember {
+            artifact_id: "fa_file__7",
+            category: Cat::ApplicationUse,
+            rationale: "/private/var/db/uuidtext: the format strings the unified log needs to \
+                        decode; collect with /private/var/db/diagnostics or the log is unreadable.",
+        },
+        ProfileMember {
             artifact_id: "quicklook_thumbnails",
             category: Cat::ApplicationUse,
             rationale: "QuickLook thumbnail cache: files the user previewed, with their paths.",
@@ -281,6 +287,19 @@ pub static MACOS_FULL: ExaminationProfile = ExaminationProfile {
             artifact_id: "macos_wifi_intelligence",
             category: Cat::Connections,
             rationale: "WiFi intelligence: association history and location hints.",
+        },
+        ProfileMember {
+            artifact_id: "macos_wifi_driver_log",
+            category: Cat::Connections,
+            rationale: "Wi-Fi driver entries in the unified log: BSSIDs and SSIDs in plain text \
+                        on association and roam — which network the Mac was on, day by day, for \
+                        the log's retention (verify with a control per image).",
+        },
+        ProfileMember {
+            artifact_id: "macos_wifi_log",
+            category: Cat::Connections,
+            rationale: "wifi.log and its bz2 archives: per-BSSID disconnection lines and driver \
+                        initialisation at boot, over a few weeks.",
         },
         ProfileMember {
             artifact_id: "macos_dhcp_leases",
@@ -540,6 +559,19 @@ pub static MACOS_DATA_LEAKAGE: ExaminationProfile = ExaminationProfile {
             category: Cat::Connections,
             rationale: "Remembered Wi-Fi networks with per-AP BSSIDs — the location-exposure \
                         surface: the BSSIDs geolocate the networks the device was carried onto.",
+        },
+        ProfileMember {
+            artifact_id: "macos_wifi_driver_log",
+            category: Cat::Connections,
+            rationale: "Wi-Fi driver entries in the unified log: which access point the Mac was \
+                        associated with on each day, for egress correlation within the log's \
+                        retention.",
+        },
+        ProfileMember {
+            artifact_id: "macos_wifi_log",
+            category: Cat::Connections,
+            rationale: "wifi.log: per-BSSID disconnection times, bounding when the Mac left a \
+                        network.",
         },
         ProfileMember {
             artifact_id: "macos_icloud_drive_db",

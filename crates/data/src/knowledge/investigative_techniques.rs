@@ -528,6 +528,10 @@ pub static WIFI_BSSID_GEOLOCATION: InvestigativeTechnique = InvestigativeTechniq
          on a network migrated from the legacy airport store at the Big Sur upgrade, AddedAt can \
          repeat the legacy last-join time rather than record a first join; use ChannelHistory \
          and the legacy .backup record instead.",
+        "Assuming the position is contemporary. The service returns a position with no date of \
+         observation (iSniff-GPS's wloc.py reads only latitude and longitude), so when the AP \
+         was seen there is undisclosed: a router moved to new premises geolocates to where it is \
+         now, not to where the device met it.",
     ],
     evidence_tier: EvidenceTier::SourceOrMultiImpl,
     mitre_techniques: &[],
@@ -656,6 +660,150 @@ pub static NETWORK_NEIGHBOUR_ENUMERATION: InvestigativeTechnique = Investigative
     ],
 };
 
+/// Dating when a Mac was on a given Wi-Fi network, and bridging networks
+/// through printers reached over mDNS.
+///
+/// # Sources actually read
+///
+/// - Apple, "Generating log messages from your code": dynamic strings are
+///   redacted by default, which is the general `<private>` behaviour the
+///   Broadcom driver entries do not show.
+/// - Mandiant macos-UnifiedLogs, `unifiedlog_iterator` (code-read): `Mode`
+///   is a clap `ValueEnum` of `Live`, `LogArchive`, `SingleFile`, hence
+///   `-m log-archive`.
+/// - RFC 6762 section 3 (".local." names are link-local, "meaningful only on
+///   the link where they originate"), RFC 8011 section 5.3.7 (job-state 9 is
+///   'completed'), RFC 9562 section 5.1 (a UUIDv1 node field is an IEEE 802
+///   MAC address).
+/// - An Apple Community post (Sierra) showing the `RSNSupplicant: Releasing
+///   authenticator for` wifi.log line, and a 2016 blog listing daily
+///   `wifi.log.N.bz2` archives.
+///
+/// # Evidence status
+///
+/// The load-bearing step, the driver entries' plain-text BSSIDs in the
+/// unified log, is observed on one Big Sur 11.7 image and no public source
+/// was found (see `macos_wifi_driver_log`). One capture is below the two
+/// independent captures `SourceOrMultiImpl` requires, so the entry is graded
+/// `SingleSecondary`, the weakest load-bearing link, although the mDNS, IPP
+/// and UUID facts it rests on are specification-documented.
+pub static WIFI_PRESENCE_TIMELINE: InvestigativeTechnique = InvestigativeTechnique {
+    id: "wifi_presence_timeline",
+    name: "Wi-Fi presence timeline: when was the Mac on network X",
+    question: "On which days was this Mac associated with a given Wi-Fi network (and so, with \
+               geolocation, where was it), and can networks that cannot be geolocated be tied \
+               to ones that can?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "Export /private/var/db/diagnostics/ and /private/var/db/uuidtext/ into one \
+                     logarchive directory, parse it with Mandiant's unifiedlog_iterator \
+                     -m log-archive, and keep process /kernel entries prefixed ARPT: \
+                     (SetCryptoKey ea[<BSSID>], 'Roamed or switched channel ... bssid <BSSID>') \
+                     plus driver entries naming the SSID. Normalise every BSSID octet to two hex \
+                     digits. Run the control first: the Mac's own Wi-Fi MAC \
+                     (macos_network_interfaces) must appear in plain text.",
+            artifact_id: Some("macos_wifi_driver_log"),
+            yields: "Timestamped BSSIDs and SSIDs from the driver, verified unredacted on this \
+                     image.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Aggregate per day: the set of BSSIDs and SSIDs seen each day, with first \
+                     and last entry times.",
+            artifact_id: None,
+            yields: "A day-by-day record of which access points and networks the Mac was \
+                     associated with, over the unified log's retention window.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Add /private/var/log/wifi.log and its wifi.log.N.bz2 archives: \
+                     'RSNSupplicant: Releasing authenticator for <BSSID>' lines mark the end of \
+                     an association with that AP, and driver (re)initialisation lines \
+                     (_bsdDriver_init) mark boots to check against the audit trail \
+                     (macos_openbsm_audit). Supply the year and zone, which the lines lack.",
+            artifact_id: Some("macos_wifi_log"),
+            yields: "Independent per-BSSID dates over wifi.log's own retention, and boot \
+                     corroboration.",
+        },
+        TechniqueStep {
+            order: 4,
+            action: "Name the networks and extend the window: map BSSIDs to SSIDs through the \
+                     remembered-network store (BSSIDList, undated) and DHCP leases, read \
+                     ChannelHistory and join times for earlier periods, and geolocate the \
+                     BSSIDs (wifi_bssid_geolocation).",
+            artifact_id: Some("macos_wifi_known_networks"),
+            yields: "Which network each dated BSSID belongs to and, where a positioning system \
+                     knows it, where that access point is.",
+        },
+        TechniqueStep {
+            order: 5,
+            action: "Bridge networks through printers: read each dnssd://....local./?uuid= \
+                     queue in printers.conf, then the spool control files' job-printer-uri, \
+                     job-state (9 = completed), time-at-creation and time-at-completed. A \
+                     completed job places the printer on the Mac's local network at completion \
+                     time; the same printer uuid completed while the Mac was on two different \
+                     networks ties the printer, and plausibly the premises, to both.",
+            artifact_id: Some("macos_cups_spool_jobs"),
+            yields: "Dated LAN co-presence with identified printers, linking a network that \
+                     cannot be geolocated to one that can.",
+        },
+    ],
+    artifacts_used: &[
+        "macos_wifi_driver_log",
+        "macos_unified_log",
+        "fa_file__7",
+        "macos_wifi_log",
+        "macos_openbsm_audit",
+        "macos_network_interfaces",
+        "macos_wifi_known_networks",
+        "macos_wifi_plist_backup",
+        "macos_dhcp_leases",
+        "macos_cups_printers_conf",
+        "macos_cups_spool_jobs",
+    ],
+    preconditions: &[
+        "The unified log and wifi.log still cover the period in question; both keep only weeks.",
+        "The driver entries are unredacted on this image, shown by the control in step 1.",
+    ],
+    failure_modes: &[
+        "Reading the retention edge as the start of presence. The unified log and wifi.log each \
+         keep only weeks; before the oldest retained entry there is no record either way.",
+        "Skipping the control. The plain-text driver entries were observed on one Big Sur 11.7 \
+         image with a Broadcom chip; on another release or Wi-Fi chip they may be redacted or \
+         worded differently, and a search that cannot match the Mac's own MAC measures the \
+         instrument, not the network history.",
+        "Missing a BSSID written unpadded (a:b:...) when searching for the padded form \
+         (0a:0b:...), and so reporting a day without association that had one.",
+        "Treating the remembered-network store as complete. It keeps only networks not removed \
+         by the user; a forgotten network leaves no record there, only in the logs while they \
+         last.",
+        "Reading AddedAt as a first join. On a network migrated from the legacy airport store at \
+         the Big Sur upgrade, AddedAt repeats the legacy last-join time.",
+        "Assuming the geolocated position is contemporary. The WPS position date is \
+         undisclosed, so an access point that has moved places the Mac at the AP's current \
+         home.",
+        "Reading a stable network as a stable place. A router and the device can move together \
+         (a travel router, a phone hotspot, a household that relocates with its router), so \
+         the same BSSID on two dates does not prove the same location.",
+        "Treating a printer as a fixed place. A .local. printer can be moved, and an mDNS \
+         reflector or Bonjour gateway extends .local. beyond one link; a shared printer uuid \
+         links two networks only while the printer stayed put, and a print job identifies \
+         reachability, not the operator.",
+    ],
+    evidence_tier: EvidenceTier::SingleSecondary,
+    mitre_techniques: &["T1016"],
+    sources: &[
+        "https://developer.apple.com/documentation/os/generating-log-messages-from-your-code",
+        "https://github.com/mandiant/macos-UnifiedLogs/blob/main/examples/unifiedlog_iterator/src/main.rs",
+        "https://discussions.apple.com/thread/7957554",
+        "https://blog.frd.mn/disable-wifi-debug-logging/",
+        "https://www.rfc-editor.org/rfc/rfc6762#section-3",
+        "https://www.rfc-editor.org/rfc/rfc8011#section-5.3.7",
+        "https://www.rfc-editor.org/rfc/rfc9562#section-5.1",
+    ],
+};
+
 /// Every registered investigative technique. Lookup and iteration read this
 /// slice; a static not referenced here is invisible to every consumer.
 pub static INVESTIGATIVE_TECHNIQUES: &[InvestigativeTechnique] = &[
@@ -665,4 +813,5 @@ pub static INVESTIGATIVE_TECHNIQUES: &[InvestigativeTechnique] = &[
     BEACONING_INTERVAL_REGULARITY,
     WIFI_BSSID_GEOLOCATION,
     NETWORK_NEIGHBOUR_ENUMERATION,
+    WIFI_PRESENCE_TIMELINE,
 ];

@@ -4213,7 +4213,13 @@ pub(crate) static MACOS_CUPS_SPOOL_JOBS: ArtifactDescriptor = ArtifactDescriptor
         PreserveJobFiles is 86400 seconds, keeping them for one day after printing. A data file \
         still present long after its job's time-at-completed therefore usually belongs to a job \
         that never completed (held, stopped, cancelled or failed) or to a non-default \
-        configuration, and it may be the only surviving copy of the printed document.",
+        configuration, and it may be the only surviving copy of the printed document. \
+        job-state 9 is completed (RFC 8011 section 5.3.7; 3 pending, 4 pending-held, 5 \
+        processing, 6 processing-stopped, 7 canceled, 8 aborted). A completed job to a network printer means the printer was \
+        reachable from the Mac at time-at-completed; a job created in one period and completed \
+        much later shows when the printer became reachable again, which for a dnssd .local. \
+        queue (macos_cups_printers_conf) is when the Mac was back on the printer's local \
+        network.",
     mitre_techniques: &[],
     fields: &[
         FieldSchema { name: "job_id", value_type: ValueType::UnsignedInt, description: "job-id; also the number in the c#####/d#####-### file names", is_uid_component: true },
@@ -4230,7 +4236,7 @@ pub(crate) static MACOS_CUPS_SPOOL_JOBS: ArtifactDescriptor = ArtifactDescriptor
     ],
     retention: Some("Control files kept until MaxJobs (default 500) under the default PreserveJobHistory Yes; data files kept one day after printing under the default PreserveJobFiles 86400"),
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &["fa_file_cache_job_cache_2", "macos_cups_printers_conf", "macos_cups_logs"],
+    related_artifacts: &["fa_file_cache_job_cache_2", "macos_cups_printers_conf", "macos_cups_logs", "macos_wifi_driver_log"],
     sources: &[
         "https://www.cups.org/doc/spec-design.html",
         "https://www.cups.org/doc/man-cupsd.conf.html",
@@ -4238,6 +4244,7 @@ pub(crate) static MACOS_CUPS_SPOOL_JOBS: ArtifactDescriptor = ArtifactDescriptor
         "https://digitalbitbybit.blogspot.com/2012/11/mac-osx-printer-forensics.html",
         "https://papers.put.as/papers/macosx/2015/RHUL-MA-2015-8.pdf",
         "https://github.com/log2timeline/plaso/blob/main/plaso/parsers/cups_ipp.py",
+        "https://www.rfc-editor.org/rfc/rfc8011#section-5.3.7",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
@@ -4247,6 +4254,7 @@ pub(crate) static MACOS_CUPS_SPOOL_JOBS: ArtifactDescriptor = ArtifactDescriptor
         "job-originating-user-name names the account that submitted the job, not the person at the keyboard; a job-originating-host-name other than localhost means the job came from another machine through printer sharing and is not activity on this Mac",
         "Apple com.apple.print.* attribute names come from decoded examples in secondary sources (2012-2015), not from Apple documentation; confirm they are present on the image",
         "job-name is whatever title the application supplied; it is not the document's path and may not match its file name",
+        "A completed job shows the printer was reachable from the Mac, not who was at the keyboard; printing to a network printer does not identify the operator, and a job held until the network returned completes without anyone present",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Oldest control files are purged once MaxJobs is reached; data files expire after PreserveJobFiles",
@@ -4285,7 +4293,14 @@ pub(crate) static MACOS_CUPS_PRINTERS_CONF: ArtifactDescriptor = ArtifactDescrip
         socket:// URIs carry a host name or address instead. Together with printer-uri \
         in the spool control files this ties a print job to a specific device, and the set of \
         queues shows which printers, and so which networks, the Mac was set up to use. \
-        /Library/Preferences/org.cups.printers.plist stores similar information.",
+        /Library/Preferences/org.cups.printers.plist stores similar information. A .local. \
+        name is link-local under Multicast DNS (RFC 6762): it resolves only on the link where it \
+        originates, so a job that reached a dnssd://....local. queue shows the printer was on \
+        the Mac's local network at that time. The uuid is often a version-1 UUID, whose node \
+        field is an IEEE 802 MAC address (RFC 9562), so it can carry the printer's MAC. The same \
+        uuid reached while the Mac was on two different Wi-Fi networks ties the printer, and \
+        plausibly the premises, to both networks, which links a network that cannot be \
+        geolocated to one that can.",
     mitre_techniques: &[],
     fields: &[
         FieldSchema { name: "printer_name", value_type: ValueType::Text, description: "Queue name; matches the /printers/<name> part of printer-uri in spool control files", is_uid_component: true },
@@ -4293,12 +4308,14 @@ pub(crate) static MACOS_CUPS_PRINTERS_CONF: ArtifactDescriptor = ArtifactDescrip
     ],
     retention: Some("Queues persist until removed in Printers & Scanners"),
     triage_priority: TriagePriority::Low,
-    related_artifacts: &["macos_cups_spool_jobs", "macos_cups_logs"],
+    related_artifacts: &["macos_cups_spool_jobs", "macos_cups_logs", "macos_wifi_driver_log", "macos_wifi_log"],
     sources: &[
         "https://www.cups.org/doc/man-printers.conf.html",
         "https://www.cups.org/doc/man-cups-files.conf.html",
         "https://www.cups.org/doc/network.html",
         "https://www.magnetforensics.com/blog/cups-artifact-support-for-macos/",
+        "https://www.rfc-editor.org/rfc/rfc6762#section-3",
+        "https://www.rfc-editor.org/rfc/rfc9562#section-5.1",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
     evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
@@ -4306,6 +4323,9 @@ pub(crate) static MACOS_CUPS_PRINTERS_CONF: ArtifactDescriptor = ArtifactDescrip
         "CUPS documents the file's format as an implementation detail that can change between releases; parse it defensively",
         "A configured queue shows the printer was added, not that anything was printed on it; use the spool control files and logs for jobs",
         "DeviceURI values can contain credentials (CUPS masks the file to root for that reason); redact before reporting",
+        "Only a version-1 uuid (third group starting 1) has a MAC node field, and RFC 9562 allows a randomly derived node instead; check the value against the IEEE OUI registry and any MAC fragment in the service name before reading it as the printer's MAC. A printer with wired and Wi-Fi interfaces may embed only one of their MACs",
+        "Co-presence is of the printer, not of a place: a printer can be moved between premises, so the same uuid on two networks links the networks only for the period the printer stayed put",
+        "An mDNS reflector or Bonjour gateway (common on enterprise Wi-Fi controllers) extends .local. discovery across subnets, so 'same local network' means the same mDNS domain, not necessarily the same link",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Configuration file rewritten when queues change",
@@ -5298,6 +5318,141 @@ pub(crate) static MACOS_WIFI_PLIST_BACKUP: ArtifactDescriptor = ArtifactDescript
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "A static copy; not updated by later joins",
+};
+
+// ── macOS Wi-Fi presence timeline layer ─────────────────────────────────────
+// The remembered-network stores above say which networks a Mac knows, and
+// barely when. These two say on which days it was actually associated, for as
+// long as each log is retained (see the wifi_presence_timeline technique).
+
+/// Broadcom Wi-Fi driver entries in the unified log.
+///
+/// # Sources
+/// - <https://developer.apple.com/documentation/os/generating-log-messages-from-your-code> —
+///   "By default, the system doesn't redact integer, floating-point and
+///   Boolean values, but it does redact the contents of dynamic strings and
+///   complex dynamic objects": the general `<private>` redaction these driver
+///   entries do not show.
+/// - <https://github.com/mandiant/macos-UnifiedLogs> and its
+///   `examples/unifiedlog_iterator/src/main.rs` — `Mode` is a clap
+///   `ValueEnum` of `Live`, `LogArchive`, `SingleFile`, so the export is read
+///   with `-m log-archive --input <dir>`.
+///
+/// The driver-message content itself (ARPT:, SetCryptoKey, "Roamed or
+/// switched channel", BSSIDs in plain text) is observed on one Big Sur 11.7
+/// image; no public source was found, hence `SearchedNotFound`.
+pub(crate) static MACOS_WIFI_DRIVER_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_wifi_driver_log",
+    name: "Wi-Fi Driver Association Entries (Unified Log)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/db/diagnostics/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Entries written to the unified log by the Broadcom Wi-Fi kernel driver: messages \
+        prefixed ARPT: from the process /kernel. Two carry the access point's BSSID in plain text: \
+        `SetCryptoKey() bcmerr[0]: ea[<BSSID>] ...`, written when the pairwise key is installed \
+        on association or reassociation, and `wl0: Roamed or switched channel, reason #N, bssid \
+        <BSSID>, last RSSI -NN`, written on a roam or channel change; other driver entries carry \
+        the SSID in plain text. That is unlike most of the unified log, where Apple's logging \
+        API redacts dynamic strings as <private> by default, and it is why the common assumption \
+        that the unified log always hides Wi-Fi network names fails for these entries. \
+        Aggregated per day, the BSSIDs and SSIDs give a day-by-day record of which access points, \
+        and so which networks, the Mac was associated with, for as long as the log is retained. \
+        To read them from a disk image, export /private/var/db/diagnostics/ together with \
+        /private/var/db/uuidtext/ (the format strings without which entries do not decode) into \
+        one logarchive directory, parse it with Mandiant's macos-UnifiedLogs \
+        `unifiedlog_iterator -m log-archive`, and filter for process /kernel and ARPT:.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "event_time", value_type: ValueType::Timestamp, description: "Unified-log timestamp of the driver entry", is_uid_component: true },
+        FieldSchema { name: "bssid", value_type: ValueType::Text, description: "Access-point BSSID from ea[...] or `bssid`; may be written with or without zero padding", is_uid_component: false },
+        FieldSchema { name: "ssid", value_type: ValueType::Text, description: "SSID where the driver entry carries it", is_uid_component: false },
+        FieldSchema { name: "rssi", value_type: ValueType::Text, description: "`last RSSI` on a roam entry", is_uid_component: false },
+        FieldSchema { name: "event_message", value_type: ValueType::Text, description: "Full driver message", is_uid_component: false },
+    ],
+    retention: Some("Unified-log rotation window only; weeks on the observed image"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_unified_log", "fa_file__7", "macos_wifi_log", "macos_wifi_known_networks", "macos_dhcp_leases", "macos_network_interfaces"],
+    sources: &[
+        "https://developer.apple.com/documentation/os/generating-log-messages-from-your-code",
+        "https://github.com/mandiant/macos-UnifiedLogs",
+        "https://github.com/mandiant/macos-UnifiedLogs/blob/main/examples/unifiedlog_iterator/src/main.rs",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SearchedNotFound),
+    evidence_caveats: &[
+        "The driver messages, and that they carry BSSIDs and SSIDs in plain text, are observed on one macOS Big Sur 11.7 image with a Broadcom Wi-Fi chip. Searched (2026-09) the web for ARPT and SetCryptoKey together with unified log, BSSID and forensics, the mandiant/macos-UnifiedLogs README, mac4n6 and the Mandiant/Google Cloud unified-log blog: no public description of these entries was found. Message text is driver-version-specific; other releases and non-Broadcom (Apple silicon) Wi-Fi may differ",
+        "Verify per image with a control before reading a missing BSSID as absence: the Mac's own Wi-Fi MAC (macos_network_interfaces) or a BSSID known from the remembered-network store should appear in plain text in these entries; if it appears only as <private>, the image redacts them",
+        "The same BSSID can be written zero-padded (0a:0b:...) and unpadded (a:b:...); normalise every octet to two hex digits before matching",
+        "Retention is the unified log's rotation window, weeks on the observed image; absence before the oldest retained entry says nothing about association",
+        "A BSSID locates the access point, not the Mac; association shows the Mac was in radio range of that AP at that time",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Backed by the unified log, which rotates on a rolling window",
+};
+
+/// The text Wi-Fi log, `/private/var/log/wifi.log`, and its rotated archives.
+///
+/// # Sources
+/// - <https://discussions.apple.com/thread/7957554> — a macOS Sierra 10.12.3
+///   user's Wi-Fi log excerpt containing `RSNSupplicant: Releasing
+///   authenticator for <MAC>` (the line format).
+/// - <https://blog.frd.mn/disable-wifi-debug-logging/> — `ls` of
+///   /var/log/wifi.log beside wifi.log.0.bz2 ... wifi.log.10.bz2, each
+///   archive dated 00:30 on consecutive days (nightly rotation, pre-Big Sur).
+///
+/// Both are single secondary sources on earlier releases; the Big Sur
+/// content (BSSIDs unredacted, SSIDs redacted, `_bsdDriver_init` lines at
+/// boot) is observed on one Big Sur 11.7 image.
+pub(crate) static MACOS_WIFI_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_wifi_log",
+    name: "Wi-Fi Text Log (/private/var/log/wifi.log)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/private/var/log/wifi.log*"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "The Wi-Fi subsystem's plain-text log, the live wifi.log plus rotated archives \
+        wifi.log.N.bz2 (rotated about daily, with a limited number of archives kept). Lines \
+        `RSNSupplicant: Releasing authenticator for <BSSID>` are written when the WPA \
+        supplicant for that access point is torn down, on disconnection, sleep or rejoin, so \
+        they show the Mac was associated with that BSSID just before. Driver (re)initialisation \
+        lines such as `_bsdDriver_init` and `Usb Host Notification ... driver available` \
+        coincide with boots and can corroborate boot times from the audit trail \
+        (macos_openbsm_audit). On the observed Big Sur image the SSIDs in this log are \
+        redacted while BSSIDs are not, so it dates access points that the remembered-network \
+        store or the driver entries in the unified log tie to a network name.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "timestamp", value_type: ValueType::Text, description: "Local-time timestamp: weekday, month, day and time, with no year", is_uid_component: true },
+        FieldSchema { name: "bssid", value_type: ValueType::Text, description: "Access-point BSSID from `Releasing authenticator for`", is_uid_component: false },
+        FieldSchema { name: "message", value_type: ValueType::Text, description: "Full log line", is_uid_component: false },
+    ],
+    retention: Some("Rotated about daily into wifi.log.N.bz2; only weeks retained on the observed image"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_wifi_driver_log", "macos_wifi_known_networks", "macos_openbsm_audit", "macos_dhcp_leases"],
+    sources: &[
+        "https://discussions.apple.com/thread/7957554",
+        "https://blog.frd.mn/disable-wifi-debug-logging/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SingleSecondary),
+    evidence_caveats: &[
+        "Timestamps are local time with no year and no zone; take the year from the archive's position in the rotation sequence and the file times, and the zone from the image's configured time zone",
+        "SSIDs are redacted in this log on the observed Big Sur 11.7 image while BSSIDs are not; map a BSSID to its network through the remembered-network store or the unified-log driver entries",
+        "Retention is weeks: rotation keeps a limited number of wifi.log.N.bz2 archives, and older days are gone",
+        "A Releasing authenticator line marks the end of an association, not its start; its time bounds presence from above only",
+        "The line formats are sourced from single secondary sources on earlier macOS releases (Sierra; a 2016 blog) and observed on one Big Sur 11.7 image; confirm the lines on the image before relying on them",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Rotated about daily, with only a limited number of archives kept",
 };
 
 // ── macOS network-neighbour / peer-device discovery layer ──────────────────
