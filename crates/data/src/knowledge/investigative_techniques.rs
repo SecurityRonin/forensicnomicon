@@ -804,6 +804,560 @@ pub static WIFI_PRESENCE_TIMELINE: InvestigativeTechnique = InvestigativeTechniq
     ],
 };
 
+// ── Evidence handling (EWF/L01/AD1) and Windows attribution ─────────────────
+//
+// The techniques below come from one class of problem: evidence arrives as a
+// container (E01, L01, AD1), and the question is who used a Windows machine or
+// a removable device. Their failure modes are where a container, a hash or an
+// artefact is made to carry a claim it cannot support. Where the method rests
+// on observation in casework rather than a published source, the tier says so.
+
+/// Establishing who acquired an image, with what, when, and whether it is a
+/// whole-device physical image — from the evidence itself.
+///
+/// The EWF header values (case number, examiner, acquisition and system
+/// dates, software version, media type, "is physical", sector geometry,
+/// stored hashes) are documented in libewf's EWF specification and printed
+/// by ewfinfo; FTK Imager's User Guide documents the Evidence Item
+/// Information `.txt` and directory-listing `.csv` it writes beside an image.
+pub static ACQUISITION_PROVENANCE_FROM_EVIDENCE: InvestigativeTechnique = InvestigativeTechnique {
+    id: "acquisition_provenance_from_evidence",
+    name: "Acquisition provenance from the evidence container and its sidecars",
+    question:
+        "Who acquired this image, with what tool and version, when, and is it a whole-device \
+               physical image or a logical export?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "Run ewfinfo on the first segment and record the header values: case and \
+                     evidence number, examiner, notes, acquisition and system dates, acquiry \
+                     software and version, format, media type and 'is physical', bytes per \
+                     sector and sector count, and the stored MD5/SHA-1.",
+            artifact_id: None,
+            yields: "The acquiring tool's own record of the acquisition, including media size \
+                     (sector count x bytes per sector).",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Read every sidecar beside the image: FTK Imager's '<image>.E01.txt' or \
+                     '<image>.ad1.txt' (examiner, drive model and serial, acquisition start and \
+                     finish, computed hashes, and for AD1 the Custom Content Sources lines naming \
+                     the source image and partition) and '.csv' listings; search the container \
+                     for embedded tool reports and verification logs.",
+            artifact_id: None,
+            yields: "Operator, device identity (model, hardware serial) and hashes stated \
+                     independently of any witness statement, and whether a logical export was \
+                     cut from a physical image.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Compare the media size with the seized device's capacity and the container \
+                     dates (segment modification times, acquisition dates) with the imaging \
+                     dates in witness statements.",
+            artifact_id: None,
+            yields: "Whether the image covers the whole device, and which act (imaging, later \
+                     export, copying) each date belongs to.",
+        },
+    ],
+    artifacts_used: &[],
+    preconditions: &[
+        "All segment files of the set are present and readable (see \
+         working_copy_integrity_before_findings).",
+    ],
+    failure_modes: &[
+        "Copying a production drive rewrites file modification times, so segment mtimes can \
+         reflect the copy rather than the acquisition; corroborate from the header's own dates.",
+        "A size mismatch between the image and the device's nominal capacity can reflect an \
+         incomplete image, a host-protected area or device configuration overlay, or only the \
+         difference between marketed and addressable capacity; do not report it as \
+         incompleteness without the sector count of the source.",
+        "OCR of a printed log clips build numbers and serials; read the native text file.",
+        "Initials or an examiner field can name an operator who has given no statement: record \
+         the attribution as coming from the sidecar, and do not extend that operator to other \
+         devices without their own records.",
+        "Reporting 'no acquisition hash' because a witness statement omits it, when the hash sits \
+         in the container header or a sidecar.",
+    ],
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    mitre_techniques: &[],
+    sources: &[
+        "https://github.com/libyal/libewf/tree/main/documentation",
+        "https://github.com/libyal/libewf/blob/main/manuals/ewfinfo.1",
+        "https://d1kpmuwb7gvu1i.cloudfront.net/Imager/4_7_1/FTKImager_UserGuide.pdf",
+    ],
+};
+
+/// What interval each hash in a custody chain covers.
+///
+/// NIST SP 800-86 §3.1.2 describes hashing the original media before and
+/// after imaging and comparing it with the copy's digest; a hash stored in
+/// an EWF container is computed over the acquired data at acquisition
+/// (libewf documentation), and FTK Imager's Verify compares a recomputed
+/// hash with that stored value (FTK Imager User Guide).
+pub static EVIDENCE_HASH_SCOPE: InvestigativeTechnique = InvestigativeTechnique {
+    id: "evidence_hash_scope",
+    name: "Scope of each hash in the custody chain",
+    question: "What interval does each available hash actually cover, and is any part of the \
+               chain from seizure to examination unhashed?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "List every hash available: the acquisition hash stored in the container, \
+                     any hash of the source device taken at seizure or before imaging, hashes of \
+                     files, archives or discs produced later, and tool extraction-list hashes.",
+            artifact_id: None,
+            yields: "An inventory of hashes with what each was computed over and when.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Classify each: a stored acquisition hash re-verified (ewfverify, FTK Imager \
+                     Verify) proves the image equals itself since acquisition; a source-device \
+                     hash taken at seizure bridges seizure to imaging; file or disc hashes prove \
+                     the output of a later extraction; an extraction list's hashes prove only \
+                     self-consistency.",
+            artifact_id: None,
+            yields: "The interval each hash bridges.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Mark any interval no hash covers, typically seizure to imaging, and list \
+                     the events recorded inside it (power-on, boot, connection).",
+            artifact_id: None,
+            yields: "The unhashed intervals, stated as such.",
+        },
+    ],
+    artifacts_used: &[],
+    preconditions: &[
+        "The container, its sidecars and any embedded tool logs have been searched for hashes \
+         before any hash is reported absent.",
+    ],
+    failure_modes: &[
+        "Reading a successful verify as proof the device was unchanged at seizure: it proves the \
+         image matches its own acquisition hash, and nothing about the interval between seizure \
+         and imaging.",
+        "Reporting 'no hash' when one sits in the container header, an embedded report or a \
+         sidecar; the absence belongs to the witness statement that omits it, not to the \
+         evidence.",
+        "Treating a later file or archive hash as an acquisition hash; it covers only what was \
+         extracted and when.",
+        "Reading a zero-filled stored hash as a mismatch (see \
+         ftk_imager_verify_unstored_hash_mismatch).",
+    ],
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    mitre_techniques: &[],
+    sources: &[
+        "https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-86.pdf",
+        "https://github.com/libyal/libewf/blob/main/manuals/ewfverify.1",
+        "https://d1kpmuwb7gvu1i.cloudfront.net/Imager/4_7_1/FTKImager_UserGuide.pdf",
+    ],
+};
+
+/// Inferring the rule that selected the files in a logical container.
+///
+/// Logical containers hold what was selected (FTK Imager User Guide: Custom
+/// Content Images built by selection, wildcard search or owner SID). The
+/// extension-set inference is a casework method, not a published one; its
+/// tier reflects that.
+pub static LOGICAL_EXPORT_SELECTION_RULE: InvestigativeTechnique = InvestigativeTechnique {
+    id: "logical_export_selection_rule",
+    name: "Inferring a logical export's selection rule",
+    question: "What rule selected the files in this logical container, and what can it therefore \
+               not contain?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "Enumerate every entry of an integrity-checked container, counting files and \
+                     directories separately.",
+            artifact_id: None,
+            yields: "A complete listing and its totals.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Tabulate the distinct file extensions and their counts.",
+            artifact_id: None,
+            yields: "The extension set.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Test candidate rules against it: a small closed set of document and media \
+                     types indicates a type whitelist; a privilege or relevance filter would keep \
+                     unrelated system files of retained types; an owner-SID selection keeps \
+                     files of every type under one owner.",
+            artifact_id: None,
+            yields: "The selection rule most consistent with the listing.",
+        },
+        TechniqueStep {
+            order: 4,
+            action: "State what the rule excludes: under a document whitelist, registry hives, \
+                     event logs, $MFT and $UsnJrnl, Amcache, SRUM and Prefetch are absent by \
+                     construction.",
+            artifact_id: None,
+            yields: "A scoped list of what the container cannot answer.",
+        },
+    ],
+    artifacts_used: &[],
+    preconditions: &["The container's own integrity check (for an L01, the ltree MD5) passed."],
+    failure_modes: &[
+        "Under an extension whitelist a folder appears only if it held a selected file, so a \
+         folder or account (for example a messenger account folder) missing from the export may \
+         still exist on the device.",
+        "Production labels such as 'Full Image' describe the producer's intent, not the \
+         container; read the container.",
+        "Stating that only N of something existed when the export reproduces N: the export \
+         reproduces N, the device may hold more.",
+    ],
+    evidence_tier: EvidenceTier::SingleSecondary,
+    mitre_techniques: &[],
+    sources: &[
+        "https://d1kpmuwb7gvu1i.cloudfront.net/Imager/4_7_1/FTKImager_UserGuide.pdf",
+        "https://github.com/libyal/libewf/tree/main/documentation",
+    ],
+};
+
+/// Scoped negatives with positive controls, and mapping each finding to the
+/// artefact it needs.
+///
+/// Where the Windows hive files live is documented by Microsoft ("Registry
+/// Hives": most supporting files in %SystemRoot%\System32\Config). The
+/// method of pairing every negative with a positive control is casework
+/// practice; its tier reflects that.
+pub static CONTAINER_SCOPE_REPRODUCIBILITY_CHECK: InvestigativeTechnique = InvestigativeTechnique {
+    id: "container_scope_reproducibility_check",
+    name: "Scoped negatives and finding-to-source reproducibility",
+    question: "Does this container hold the artefacts a stated finding depends on, and is a \
+               negative search result a fact about the device or only about this container?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "Map each finding to its source artefact: install date to SOFTWARE \
+                     InstallDate, last logon and logon count to the SAM F record, the account \
+                     table to SAM and ProfileList, logon history to Security.evtx, file history to \
+                     $MFT and $UsnJrnl, messenger account counts to the account folders.",
+            artifact_id: Some("sam_user_f_record"),
+            yields: "The artefact each finding needs.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Search the container for each artefact by every name it can take (SAM, \
+                     SOFTWARE, SYSTEM, SECURITY, NTUSER.DAT, UsrClass.dat, System32\\config, \
+                     RegBack, .LOG1/.LOG2, .evtx), and run a positive control in the same query \
+                     (paths certain to exist, such as Windows, System32, Users).",
+            artifact_id: None,
+            yields: "For each artefact: present, or absent with a control proving the search \
+                     could have found it.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Explain every hit that is not the artefact (a file named 'config' that is an \
+                     image), then state each negative scoped to the container.",
+            artifact_id: None,
+            yields: "Negatives worded as 'not in this container', and the findings the container \
+                     cannot reproduce.",
+        },
+    ],
+    artifacts_used: &[
+        "sam_users",
+        "sam_user_f_record",
+        "windows_install_date",
+        "profile_list_users",
+        "evtx_security",
+        "mft_file",
+        "usnjrnl",
+        "wechat_windows_files",
+    ],
+    preconditions: &["The enumeration of the container is complete and integrity-checked."],
+    failure_modes: &[
+        "A negative with no positive control measures the search, not the container: a wrong \
+         path separator, case or encoding returns zero just as absence does.",
+        "Scoping a negative to the device when it holds only for the container: a logical export \
+         missing the SAM says nothing about whether the device had one.",
+        "Counting a false-positive hit (an unrelated file sharing a hive's name) as the artefact.",
+    ],
+    evidence_tier: EvidenceTier::SingleSecondary,
+    mitre_techniques: &[],
+    sources: &["https://learn.microsoft.com/en-us/windows/win32/sysinfo/registry-hives"],
+};
+
+/// Verifying every working copy before findings are drawn from it.
+///
+/// ewfverify recomputes and compares the stored digest; ewfexport's export
+/// loop stops with "unexpected end of data" when the segment data ends short
+/// of the declared media size (export_handle.c).
+pub static WORKING_COPY_INTEGRITY_BEFORE_FINDINGS: InvestigativeTechnique =
+    InvestigativeTechnique {
+        id: "working_copy_integrity_before_findings",
+        name: "Verify working copies before findings, and re-query negatives after repair",
+        question:
+            "Is the copy I am reading the evidence, and do findings drawn from an earlier copy \
+               still hold?",
+        steps: &[
+            TechniqueStep {
+                order: 1,
+                action: "Run ewfverify over the full segment set of each working copy and require \
+                     the stored and calculated MD5 to match over the whole declared media size.",
+                artifact_id: None,
+                yields: "A verified copy, or a failed one.",
+            },
+            TechniqueStep {
+                order: 2,
+                action: "Check that any raw export's size equals the declared media size.",
+                artifact_id: None,
+                yields: "Whether the export is complete.",
+            },
+            TechniqueStep {
+                order: 3,
+                action: "After any repair or re-copy, re-verify, re-extract, and re-query the \
+                     data-bearing artefacts, comparing each value with what was recorded before.",
+                artifact_id: None,
+                yields: "Findings confirmed on the verified copy, or corrected.",
+            },
+            TechniqueStep {
+                order: 4,
+                action: "Re-examine every negative finding drawn from an unverified copy.",
+                artifact_id: None,
+                yields: "Negatives that hold on the verified copy.",
+            },
+        ],
+        artifacts_used: &[],
+        preconditions: &["The original segment set is available to re-copy from."],
+        failure_modes: &[
+            "Zero-padding a short export to the declared size lets it attach and parse, but the \
+         missing region reads as zeros, which looks exactly like absence; padding is not repair.",
+            "Trusting a wrapper script's exit status over the inner tool's: a wrapper can report \
+         success around a failed export.",
+            "Inferring that a value read from an old, unverified copy is correct because the new \
+         copy's hash verifies; re-read it from the verified copy.",
+            "A short raw export hides any partition that runs past its end.",
+        ],
+        evidence_tier: EvidenceTier::SourceOrMultiImpl,
+        mitre_techniques: &[],
+        sources: &[
+            "https://github.com/libyal/libewf/blob/main/manuals/ewfverify.1",
+            "https://github.com/libyal/libewf/blob/main/manuals/ewfexport.1",
+            "https://github.com/libyal/libewf/blob/20231119/ewftools/export_handle.c",
+        ],
+    };
+
+/// Correlating a seized removable device with host computers by serial.
+///
+/// The host-side join keys are documented per descriptor; the 1006 event's
+/// Vbr0 snapshot and the per-file-system volume-serial offsets are from
+/// ElcomSoft (2026) and agree with the exFAT specification's
+/// VolumeSerialNumber offset (100).
+pub static USB_EXHIBIT_HOST_CORRELATION: InvestigativeTechnique = InvestigativeTechnique {
+    id: "usb_exhibit_host_correlation",
+    name: "USB exhibit to host correlation",
+    question: "Which computers, and under which accounts, did this seized removable device \
+               connect to, and when?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "From the device side, take the hardware serial (acquisition sidecar or \
+                     device descriptor), the volume serial from the boot sector (fsstat 'Volume \
+                     ID') and the volume label.",
+            artifact_id: Some("fat_exfat_directory_entry"),
+            yields: "The join keys: hardware serial, volume serial, label.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "On each Windows host image, search USBSTOR and USB enumeration, \
+                     MountedDevices, setupapi.dev.log, ReadyBoost EMDMgmt (volume serial in \
+                     decimal) and Partition/Diagnostic 1006 (hardware serial; volume serial from \
+                     Vbr0).",
+            artifact_id: Some("usb_stor_enum"),
+            yields: "Which hosts saw the device and when.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Attribute each connection to a profile through MountPoints2 in each \
+                     NTUSER.DAT, and look for files opened from the volume in LNK files and jump \
+                     lists (volume serial, removable drive type).",
+            artifact_id: Some("mountpoints2"),
+            yields: "Which profiles mounted it and what they opened from it.",
+        },
+        TechniqueStep {
+            order: 4,
+            action: "On macOS hosts, search the unified-log USB mass-storage entries and \
+                     FSEvents for the device and volume.",
+            artifact_id: Some("macos_usb_mass_storage_log"),
+            yields: "Mac connections, with the weaker retention macOS offers.",
+        },
+        TechniqueStep {
+            order: 5,
+            action: "Tabulate device x host x profile x time.",
+            artifact_id: None,
+            yields: "The connection matrix.",
+        },
+    ],
+    artifacts_used: &[
+        "usb_stor_enum",
+        "usb_enum",
+        "mounted_devices",
+        "mountpoints2",
+        "setupapi_dev_log",
+        "emdmgmt_readyboost",
+        "evtx_partition_diagnostic_1006",
+        "lnk_files",
+        "jump_list_auto",
+        "fat_exfat_directory_entry",
+        "macos_usb_mass_storage_log",
+        "macos_fsevents",
+    ],
+    preconditions: &[
+        "Full host images with registry hives, event logs and user profiles; a logical export of \
+         documents contains none of the host-side join records.",
+    ],
+    failure_modes: &[
+        "A reformat of the volume changes its volume serial, so a volume-serial miss does not \
+         exclude the device; search the hardware serial too.",
+        "A hardware serial that is not unique across devices of one model joins the wrong device; \
+         confirm the serial is device-specific before relying on it.",
+        "MountPoints2 attributes a mount to a profile, not a person; a shared account produces \
+         one SID.",
+        "A device seized while attached shows one connection at one moment, not its history.",
+        "Absence from USBSTOR or 1006 is weak: logs roll over, updates clear channels, and \
+         keys can be removed.",
+    ],
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    mitre_techniques: &["T1052.001"],
+    sources: &[
+        "https://blog.elcomsoft.com/2026/02/usb-device-forensics-on-windows-10-and-11/",
+        "https://forensics.wiki/usb_history_viewing/",
+        "https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification",
+    ],
+};
+
+/// Which operating system a removable volume was used on, from residue the
+/// OS leaves on the volume.
+///
+/// macOS writes .DS_Store files in folders Finder visits, including on FAT32
+/// thumb drives (Poling, ponderthebits 2017), and moves deleted files on
+/// non-boot volumes to <volume>/.Trashes/<UID>/ (see macos_trash).
+pub static REMOVABLE_VOLUME_HOST_OS_RESIDUE: InvestigativeTechnique = InvestigativeTechnique {
+    id: "removable_volume_host_os_residue",
+    name: "Host-OS residue on a removable volume",
+    question: "Was this removable volume written by a Mac, by Windows, or by both?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "List the volume root and every folder, including hidden and deleted \
+                     entries, for .Trashes/<UID>, .fseventsd, .Spotlight-V100, .DS_Store, \
+                     AppleDouble ._ files, and System Volume Information.",
+            artifact_id: Some("fat_exfat_directory_entry"),
+            yields: "The residue present on the volume.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Read .Trashes/<UID> for the numeric user ID of the macOS account that \
+                     deleted files there, and .DS_Store files for names of files once shown.",
+            artifact_id: Some("macos_trash"),
+            yields: "Evidence of a writable Mac mount and the deleting account's UID.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Corroborate from the host side by volume serial or label: the Mac's unified \
+                     log and FSEvents, and the Windows join records.",
+            artifact_id: Some("macos_fsevents"),
+            yields: "Which host the residue came from.",
+        },
+    ],
+    artifacts_used: &[
+        "fat_exfat_directory_entry",
+        "macos_trash",
+        "macos_fsevents",
+        "macos_spotlight_store",
+    ],
+    preconditions: &["A physical image of the volume, so hidden and deleted entries are visible."],
+    failure_modes: &[
+        "Absence of Mac residue is weak: a read-only mount, disabled indexing or a cleaned volume \
+         leaves none, and a Mac that only read files may write nothing.",
+        "Mac residue shows a writable Mac mount, not which person used the Mac; the Trashes UID \
+         names an account on that Mac.",
+        "Whether Windows creates System Volume Information on removable FAT volumes was searched \
+         for and no primary source was found (searched: Microsoft's Volume Shadow Copy \
+         documentation, which covers NTFS system volumes; only third-party claims otherwise). \
+         Do not rest a 'used on Windows' finding on its presence or absence.",
+    ],
+    evidence_tier: EvidenceTier::SingleSecondary,
+    mitre_techniques: &["T1052.001"],
+    sources: &[
+        "https://ponderthebits.com/2017/01/mac-dumpster-diving-identifying-deleted-file-references-in-the-trash-ds_store-files-part-1/",
+        "https://papers.put.as/papers/macosx/2019/summit_archive_1565288427.pdf",
+        "https://www.mac4n6.com/blog/2016/2/1/the-hitchhikers-guide-to-the-fseventsd",
+    ],
+};
+
+/// Reconstructing local accounts that existed and were deleted.
+///
+/// RIDs are never reused on a standalone machine and 4720/4726 record
+/// account creation and deletion (Microsoft). The joins across SAM,
+/// ProfileList, $SDS and VSS follow from the descriptors cited.
+pub static WINDOWS_DELETED_ACCOUNT_RECONSTRUCTION: InvestigativeTechnique = InvestigativeTechnique {
+    id: "windows_deleted_account_reconstruction",
+    name: "Windows deleted local account reconstruction",
+    question: "Did other local accounts exist on this machine and get deleted?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "List the SIDs the SAM holds now, with RIDs from each F record.",
+            artifact_id: Some("sam_user_f_record"),
+            yields: "Current accounts and their RIDs.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Diff them against SIDs found elsewhere: ProfileList subkeys, C:\\Users \
+                     folder names, owner SIDs in $SDS, and SID-keyed records such as BAM and \
+                     MountPoints2 in hives.",
+            artifact_id: Some("profile_list_users"),
+            yields: "SIDs that appear on the machine but not in the SAM.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Search the Security log for 4720 (created), 4726 (deleted) and 4738 \
+                     (changed), and for 1102 (log cleared).",
+            artifact_id: Some("evtx_security_account_management"),
+            yields: "Dated account lifecycle events, where retained.",
+        },
+        TechniqueStep {
+            order: 4,
+            action: "Recover earlier SAM and NTUSER.DAT copies from Volume Shadow Copies.",
+            artifact_id: Some("vss_snapshot_analysis"),
+            yields: "Accounts as they stood at each snapshot.",
+        },
+    ],
+    artifacts_used: &[
+        "sam_users",
+        "sam_user_f_record",
+        "profile_list_users",
+        "user_account_sid",
+        "evtx_security_account_management",
+        "evtx_security",
+        "ntfs_secure_sds",
+        "vss_snapshot_analysis",
+        "bam_user",
+        "mountpoints2",
+    ],
+    preconditions: &["A physical image with the SAM, SOFTWARE and SYSTEM hives and the NTFS metadata."],
+    failure_modes: &[
+        "Reading a RID gap as deleted people: on OEM installs a sole owner at RID 1002 is ordinary \
+         because setup issues and deletes placeholder accounts (see sam_user_f_record).",
+        "ProfileList can be cleaned and profile folders deleted, so their absence does not show \
+         an account never existed.",
+        "Security-log retention is short on a busy machine; absence of 4726 is weak.",
+        "An owner SID in $SDS absent from the SAM can belong to another machine's account carried \
+         over by a copy that preserved owners.",
+        "Using Amcache to find accounts: it is a system-wide inventory of programs and records no \
+         user, so it cannot show which accounts existed.",
+    ],
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    mitre_techniques: &["T1531", "T1087.001"],
+    sources: &[
+        "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-identifiers",
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4720",
+        "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4726",
+    ],
+};
+
 /// Every registered investigative technique. Lookup and iteration read this
 /// slice; a static not referenced here is invisible to every consumer.
 pub static INVESTIGATIVE_TECHNIQUES: &[InvestigativeTechnique] = &[
@@ -814,4 +1368,12 @@ pub static INVESTIGATIVE_TECHNIQUES: &[InvestigativeTechnique] = &[
     WIFI_BSSID_GEOLOCATION,
     NETWORK_NEIGHBOUR_ENUMERATION,
     WIFI_PRESENCE_TIMELINE,
+    ACQUISITION_PROVENANCE_FROM_EVIDENCE,
+    EVIDENCE_HASH_SCOPE,
+    LOGICAL_EXPORT_SELECTION_RULE,
+    CONTAINER_SCOPE_REPRODUCIBILITY_CHECK,
+    WORKING_COPY_INTEGRITY_BEFORE_FINDINGS,
+    USB_EXHIBIT_HOST_CORRELATION,
+    REMOVABLE_VOLUME_HOST_OS_RESIDUE,
+    WINDOWS_DELETED_ACCOUNT_RECONSTRUCTION,
 ];
