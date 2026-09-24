@@ -1046,7 +1046,14 @@ pub(crate) static AMCACHE_FIELDS: &[FieldSchema] = &[
     },
 ];
 
-/// Amcache InventoryApplicationFile — program execution evidence with hashes.
+/// Amcache InventoryApplicationFile — inventory of executables present on or
+/// registered with the system, with hashes. Presence, not by itself execution.
+///
+/// Per ANSSI (Blanche Lagny, "Analysis of the AmCache v2", 2019, §8) the key
+/// lists three categories of PE: executed shimmed EXEs with a GUI, EXE/SYS
+/// files installed with a program, and EXEs found in the folders the
+/// Compatibility Appraiser scans (Program Files, Program Files (x86),
+/// Desktop). Only the first category proves execution.
 pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
     id: "amcache_app_file",
     name: "Amcache InventoryApplicationFile",
@@ -1058,7 +1065,7 @@ pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win8Plus,
     decoder: Decoder::Identity,
-    meaning: "Program execution evidence with file hash; persists after binary deletion",
+    meaning: "Inventory of executable files present on or registered with the system (SHA-1, PE metadata, path); presence and inventory, not by itself execution. Persists after binary deletion",
     mitre_techniques: &["T1218", "T1204.002"],
     fields: AMCACHE_FIELDS,
     retention: None,
@@ -1079,11 +1086,17 @@ pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
         // established the 31,457,280-byte (30 MiB) input threshold and the
         // truncated-input behaviour above it
         "https://blog.nviso.eu/2022/03/07/amcache-contains-sha-1-hash-it-depends/",
+        // Source: ANSSI (Blanche Lagny), "Analysis of the AmCache v2", 2019 —
+        // §8: InventoryApplicationFile lists three PE categories; execution is
+        // ascertainable only for executed shimmed GUI EXEs
+        "https://cyber.gouv.fr/documents/634/anssi-coriin_2019-analysis_amcache.pdf",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
     evidence_caveats: &[
         "Presence proves file was on disk and touched by Windows; not always execution",
+        "ANSSI finds the key lists three categories: executed shimmed EXEs with a GUI, EXE/SYS files installed with a program, and EXEs present in folders the Compatibility Appraiser scans (Program Files, Program Files (x86), Desktop). Only the first proves execution; the others are inventory of files that may never have run",
+        "Amcache.hve is a system-wide hive: an entry carries no user SID, so it gives no per-user attribution of presence or execution",
         "Can be populated by antivirus scans",
         "The FileId SHA-1 covers only the first 31,457,280 bytes (30 MiB). Above that size the value is a prefix hash, not a file hash — it is present and well-formed and will never match a full-file SHA-1, so a hash-set miss on a large binary is an artefact of the threshold and not evidence the file differs. Read the stored Size before comparing",
         "AmCache last write time is NOT a reliable first-execution indicator on modern systems — the hive is updated by multiple mechanisms beyond the Compatibility Appraiser scheduled task (which is often disabled), including normal app launches and PCA activity",
@@ -1396,7 +1409,7 @@ pub(crate) static BAM_FIELDS: &[FieldSchema] = &[FieldSchema {
     is_uid_component: false,
 }];
 
-/// Background Activity Moderator — per-user background process execution times.
+/// Background Activity Moderator — per-SID last-execution times of locally run executables.
 ///
 /// Each value under a SID sub-key is the executable path; value data is an
 /// 8-byte FILETIME of the last execution. Win10 1709+.
@@ -1411,7 +1424,7 @@ pub static BAM_USER: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::Mixed,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::FiletimeAt { offset: 0 },
-    meaning: "Last execution time of background/UWP processes per-user SID",
+    meaning: "Last execution time (FILETIME) of locally run executables, one value per executable path under each user SID sub-key",
     mitre_techniques: &["T1059", "T1204"],
     fields: BAM_FIELDS,
     retention: Some("~7 days rolling window"),
@@ -1426,7 +1439,12 @@ pub static BAM_USER: ArtifactDescriptor = ArtifactDescriptor {
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
-    evidence_caveats: &["Granularity is per-day; precise execution time not available"],
+    evidence_caveats: &[
+        "Each value's data begins with an 8-byte FILETIME of the executable's last run under that SID (100 ns resolution, UTC), so the last-run time is precise to the event, not rounded to a day",
+        "Entries older than about 7 days are removed when Windows boots, and an entry is removed when its executable is removed from its original location, so absence is weak evidence of non-execution",
+        "Only locally run executables are recorded: programs launched from network shares or removable media, and console applications, do not generate entries (forensafe)",
+        "The SID sub-key names an account context, not a person: several people sharing one account produce one SID",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Rotated by OS on background activity manager flush",
 };
