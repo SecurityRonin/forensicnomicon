@@ -16,6 +16,14 @@
 //! is established, and it is set honestly: a widely-repeated model that was
 //! never empirically evaluated is recorded as such, not inflated because the
 //! paper is famous.
+//!
+//! The examination-method batch (signature sweep, controlled negative search,
+//! acquisition scope, logical-export selection rule, IP-to-subscriber
+//! attribution, roaming IP interpretation, VPN/proxy egress, shared-account
+//! hypothesis testing) is different in kind: these are procedures built in
+//! casework, where the error each one prevents was first made and then
+//! caught. Their mechanisms are cited to standards and measurement papers;
+//! the procedures themselves are practice, and the tier says so.
 
 use super::{InvestigativeTechnique, TechniqueStep};
 use forensicnomicon_core::evidence::EvidenceTier;
@@ -804,6 +812,717 @@ pub static WIFI_PRESENCE_TIMELINE: InvestigativeTechnique = InvestigativeTechniq
     ],
 };
 
+/// Whole-volume file-signature sweep as the first step of a device
+/// examination, before any record-by-record or checklist pass.
+///
+/// # Sources actually read
+///
+/// - NIST SP 800-86 §4.3: "analysts should not assume that file extensions
+///   are accurate"; the file header's signature "identifies the type of data
+///   that particular file contains" (FF D8 for JPEG in the worked figure).
+/// - POSIX `open()`: "If O_NONBLOCK is clear, an open() for reading-only
+///   shall block the calling thread until a thread opens the file for
+///   writing" - the reason a recursive content read hangs on a FIFO.
+///
+/// # Basis for the ordering
+///
+/// Practice, not a standard: the ordering was adopted after a
+/// database-by-database examination marked note records "attachment only"
+/// and never opened the attachments, which turned out to be the most
+/// identity-relevant content on the disk. The sweep is what finds content
+/// no parser was pointed at.
+pub static WHOLE_VOLUME_SIGNATURE_SWEEP: InvestigativeTechnique = InvestigativeTechnique {
+    id: "whole_volume_signature_sweep",
+    name: "Whole-volume file-signature sweep before record analysis",
+    question: "What user content does this volume actually hold - images, documents, \
+               archives - regardless of which application databases reference it or what \
+               the files are named?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "Walk every regular file on the read-only mounted volume (stat first; \
+                     skip FIFOs, sockets and device nodes, and count them) and classify each \
+                     by magic bytes, not extension: JPEG, PNG, GIF, HEIC/HEIF (ftyp brand), \
+                     TIFF, WebP, PDF, RTF; OLE2 split by stream name; ZIP split by internal \
+                     structure (OOXML, ODF, EPUB, iWork, plain zip); package directories as \
+                     units. Count unreadable files as their own category.",
+            artifact_id: None,
+            yields: "A census of every content file by true type, with the unreadable and \
+                     special-file counts that bound it.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Group the census by location to separate software artwork (application \
+                     bundles, framework resources, browser and thumbnail caches) from \
+                     user-area content, resolving symlinks and de-duplicating by inode so \
+                     sandbox containers are not counted twice.",
+            artifact_id: None,
+            yields: "A short list of user-area content, usually a small fraction of the \
+                     total, with its paths.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Recurse into every container - plain zips included, and images embedded \
+                     in documents and PDFs - and filter template decoration by name pattern \
+                     rather than by discarding the container.",
+            artifact_id: None,
+            yields: "Content nested inside archives and documents, listed alongside \
+                     top-level files.",
+        },
+        TechniqueStep {
+            order: 4,
+            action: "Map application attachments to their parent records, then actually view \
+                     the images (contact sheets) and read the document text. Any record \
+                     labelled 'attachment only', 'empty', 'encrypted' or 'did not decode' is \
+                     an open lead to follow to its payload.",
+            artifact_id: None,
+            yields: "Findings about content, and a list of leads closed or still open.",
+        },
+        TechniqueStep {
+            order: 5,
+            action: "Only then write negatives, scoped to what was swept, viewed and read, \
+                     and stating the unreadable and skipped counts.",
+            artifact_id: None,
+            yields: "Negative findings with a stated scope instead of an implied universal.",
+        },
+    ],
+    artifacts_used: &[],
+    preconditions: &[
+        "The volume is mounted read-only (or read through a parser) with the user-data \
+         volume actually mounted: a system-only mount makes the user area look empty.",
+        "The classifier recognises the formats in scope. A classifier that knows only \
+         office-zip structures and drops everything else silently loses plain zip archives.",
+    ],
+    failure_modes: &[
+        "Record-first examination: a note, message or mail row labelled 'attachment only' or \
+         'empty' is written up as having no content, when the attachment file on disk is the \
+         evidence. The label is a lead, not a finding.",
+        "The walk hangs on a FIFO (a mail-spool or daemon pipe): open() for reading blocks \
+         until a writer appears, the sweep stalls with no error, and a partial census gets \
+         reported as complete. Guard with stat and S_ISREG before opening.",
+        "Encrypted or unparsable files are counted as empty (see the pdftotext behaviour): \
+         the documents someone chose to protect fall out of the review.",
+        "Counting all image files on the volume as user content: most images on a desktop \
+         OS are application artwork and cache entries, and a raw count overstates user \
+         activity by orders of magnitude.",
+    ],
+    evidence_tier: EvidenceTier::SingleSecondary,
+    mitre_techniques: &[],
+    sources: &[
+        "https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-86.pdf",
+        "https://pubs.opengroup.org/onlinepubs/9699919799/functions/open.html",
+    ],
+};
+
+/// A negative search ("X is not in this container") run with positive
+/// controls, anchored patterns and every near-miss explained.
+///
+/// # Sources actually read
+///
+/// - NIST CFTT Forensic String Searching Tool Requirements Specification
+///   (draft 1, 2008): SS-BR-01 "The response returned by a query is equal to
+///   the match set for the query"; SS-BR-02 the tool "shall search using one
+///   or more specified character representations" - a search is only as
+///   complete as the representations and patterns it was given.
+/// - NIST SP 800-86 §4.3 on extensions and headers (names do not establish
+///   type).
+///
+/// # Basis
+///
+/// Practice: each failure mode below was made and caught on a real file
+/// listing (a wrong path separator returning zero, a hive-name grep matching
+/// thousands of `System32` substrings, app-named files that were phone
+/// screenshots).
+pub static CONTROLLED_NEGATIVE_SEARCH: InvestigativeTechnique = InvestigativeTechnique {
+    id: "controlled_negative_search",
+    name: "Controlled negative search with positive control",
+    question: "Is artefact X genuinely absent from this listing or container, or did my \
+               search fail to find it?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "Write the full synonym set for the artefact (for Windows registry \
+                     hives: SAM, SYSTEM, SOFTWARE, SECURITY, NTUSER.DAT, UsrClass.dat, \
+                     RegBack copies, .LOG1/.LOG2 transaction logs) and express each as an \
+                     anchored exact-path or exact-name pattern using the listing's own path \
+                     separator.",
+            artifact_id: None,
+            yields: "Patterns that match the artefact and not substrings of other names.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Run a positive control in the SAME listing with the SAME tool: patterns \
+                     for things certain to be present (the parent folders of the target, or \
+                     a known sibling file). A zero on the control means the instrument is \
+                     broken, not that the listing is empty.",
+            artifact_id: None,
+            yields: "Proof that the search can return hits on this data.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Examine every near-miss hit and classify it by path: substring matches, \
+                     files named after an application that are not its data (screenshots \
+                     named after the foreground app inside a phone backup), and look-alike \
+                     assets.",
+            artifact_id: None,
+            yields: "Each hit explained as the artefact or as a documented false match.",
+        },
+        TechniqueStep {
+            order: 4,
+            action: "State the negative scoped to the container searched, naming the \
+                     patterns, the control results and what the container could not hold.",
+            artifact_id: None,
+            yields: "A negative finding bounded by its own search, reproducible by another \
+                     examiner.",
+        },
+    ],
+    artifacts_used: &[],
+    preconditions: &[
+        "The listing is complete for the container (files and directories counted \
+         separately and reconciled to the container's own totals).",
+        "The search runs over the text the listing actually contains: paths decoded in the \
+         right character set and extracted without line-wrapping or truncation.",
+    ],
+    failure_modes: &[
+        "Wrong path separator: a pattern written with backslashes against a listing that \
+         uses forward slashes returns zero, and the zero is reported as absence.",
+        "Unanchored substring patterns: a search for a hive name matches every path \
+         containing it as a substring (SYSTEM inside System32), and a count of thousands is \
+         reported as presence.",
+        "Name is not content: files named after an application are counted as that \
+         application's data when they are something else (screenshots, exports, installers) \
+         sitting in an unrelated folder.",
+        "Scope creep: a negative established over a logical export or a filtered listing is \
+         written as a statement about the device.",
+    ],
+    evidence_tier: EvidenceTier::SingleSecondary,
+    mitre_techniques: &[],
+    sources: &[
+        "https://www.nist.gov/system/files/documents/2017/05/09/ss-req-sc-draft-v1_0.pdf",
+        "https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-86.pdf",
+    ],
+};
+
+/// Establishing what a production actually is - a full physical image, a
+/// partial image, or a logical collection - before relying on it.
+///
+/// # Sources actually read
+///
+/// - NIST SP 800-86 §4.2.1: a logical backup "copies the directories and
+///   files of a logical volume. It does not capture other data that may be
+///   present on the media, such as deleted files or residual data stored in
+///   slack space"; bit stream imaging "generates a bit-for-bit copy of the
+///   original media, including free space and slack space". §4.2 lists
+///   the Host Protected Area among places data hides.
+/// - NIST SP 800-101r1 §3.1: mobile acquisition levels - logical extraction
+///   (level 2) captures "logical storage objects (e.g., directories and
+///   files)"; physical methods (levels 3-5) copy the physical store, which is
+///   what exposes deleted objects and unallocated space.
+/// - libewf EWF format documentation: the EnCase Logical Evidence File
+///   (LVF, EWF-L01) is stored in the EWF format but holds selected files,
+///   not a media image; the volume section records bytes per sector and the
+///   sector count.
+pub static ACQUISITION_SCOPE_VERIFICATION: InvestigativeTechnique = InvestigativeTechnique {
+    id: "acquisition_scope_verification",
+    name: "Acquisition scope verification",
+    question: "Is what was produced a complete physical image of the device, or something \
+               less - and what can it therefore not contain?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "Separate the two questions: container FORMAT (E01/Ex01, AFF4, raw, \
+                     L01/Lx01, AD1, a zip of files) and acquisition SCOPE (physical, \
+                     partition, logical, targeted). An E01 can hold a physical image; an \
+                     L01 in the same EWF family holds selected files only.",
+            artifact_id: None,
+            yields: "The format and the claimed scope, as two recorded facts.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Compare the image's sector count x bytes per sector (from the container \
+                     header or imaging log) with the device's capacity from its make, model \
+                     and label. A shortfall points to an incomplete image, a partition-only \
+                     image, or an HPA/DCO region not captured.",
+            artifact_id: None,
+            yields: "Whether the image geometry matches a whole physical device.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Record encryption state (full-disk or volume encryption, and whether a \
+                     key or decrypted image was supplied) and, for mobile devices, the \
+                     extraction type as the tool named it (logical, full file system, \
+                     physical) and whether an agent was installed on the device.",
+            artifact_id: None,
+            yields: "What the image can decrypt and what the extraction method could reach.",
+        },
+        TechniqueStep {
+            order: 4,
+            action: "List the artefact classes the scope excludes (unallocated and slack, \
+                     deleted records, volume shadow copies and snapshots, file-system \
+                     metadata such as $MFT, logs and registry hives if not selected) and \
+                     carry that list into every negative finding.",
+            artifact_id: None,
+            yields: "A scope statement that bounds every later 'not found'.",
+        },
+    ],
+    artifacts_used: &[],
+    preconditions: &[
+        "The device's make, model, serial and capacity are known independently of the \
+         imaging log (label, seizure record or photograph).",
+    ],
+    failure_modes: &[
+        "Treating the container format as the scope: 'it is an E01, so it is a full image' \
+         when the file is a logical L01/Lx01 or a partition image in the same family.",
+        "Trusting a folder or exhibit label ('Full Image') over the container's own \
+         structure and sector count.",
+        "Treating a mobile 'full file system' extraction as equivalent to a physical image \
+         of a computer disk: it excludes unallocated space and many deleted records.",
+        "Treating an extraction report's hashes as proof of coverage: a hash over the \
+         produced files proves they are unchanged since hashing, not that they are all the \
+         device held.",
+    ],
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    mitre_techniques: &[],
+    sources: &[
+        "https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-86.pdf",
+        "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-101r1.pdf",
+        "https://raw.githubusercontent.com/libyal/libewf/main/documentation/Expert%20Witness%20Compression%20Format%20(EWF).asciidoc",
+    ],
+};
+
+/// Inferring the rule that selected the files in a logical export (L01,
+/// AD1, a zip of collected files) from what it contains.
+///
+/// # Sources actually read
+///
+/// - libewf EWF documentation: EWF-L01 (LVF) holds a selection of logical
+///   files with their metadata, not the media.
+/// - NIST SP 800-86 §4.2.1: a logical copy does not capture deleted files or
+///   residual data.
+///
+/// # Basis
+///
+/// Practice: the census below distinguished an extension whitelist from a
+/// privilege filter on a real production whose folder was labelled as a
+/// full image. The method is generic to any logical collection; it is not a
+/// statement about any one tool's export options.
+pub static LOGICAL_EXPORT_SELECTION_RULE_INFERENCE: InvestigativeTechnique =
+    InvestigativeTechnique {
+        id: "logical_export_selection_rule_inference",
+        name: "Logical export selection-rule inference",
+        question: "What rule decided which files went into this logical collection, and \
+                   what does that rule guarantee is missing?",
+        steps: &[
+            TechniqueStep {
+                order: 1,
+                action: "Enumerate every entry in the container; count files and directories \
+                         separately and reconcile both to the container's own totals.",
+                artifact_id: None,
+                yields: "A complete, reconciled entry list.",
+            },
+            TechniqueStep {
+                order: 2,
+                action: "Count files per extension across the whole container and check the \
+                         per-extension counts sum to the file total; sum bytes per top-level \
+                         folder.",
+                artifact_id: None,
+                yields: "The extension distribution. A small closed set (documents, images, \
+                         archives only) is the signature of an extension whitelist.",
+            },
+            TechniqueStep {
+                order: 3,
+                action: "Inspect an operating-system folder inside the export. Under an \
+                         extension whitelist it holds only files that happen to match \
+                         (icons, logos, document templates) and no binaries, hives or logs; \
+                         under a content-based filter (privilege, keyword, custodian) \
+                         non-matching system files would remain.",
+                artifact_id: None,
+                yields: "A test between a type-based and a content-based selection rule.",
+            },
+            TechniqueStep {
+                order: 4,
+                action: "State the rule inferred and list the artefact classes it excludes by \
+                         construction (event logs, registry hives, file-system metadata, \
+                         execution artefacts), leading with the ones the examination \
+                         question needs.",
+                artifact_id: None,
+                yields: "A scope statement explaining which questions the export cannot \
+                         answer.",
+            },
+        ],
+        artifacts_used: &[],
+        preconditions: &[
+            "The container was read completely by a reader that verified it (stored hash \
+             checked); a reader that aborts partway yields a partial census.",
+        ],
+        failure_modes: &[
+            "Reading an extension whitelist as a privilege or relevance filter, or the \
+             reverse, from the export's label instead of its contents.",
+            "Conflating files with entries: directory entries inflate the total and the \
+             per-extension counts then fail to reconcile.",
+            "Treating absence from the export as absence from the device: a whitelist drops \
+             whole application folders that held no whitelisted file type.",
+        ],
+        evidence_tier: EvidenceTier::SingleSecondary,
+        mitre_techniques: &[],
+        sources: &[
+            "https://raw.githubusercontent.com/libyal/libewf/main/documentation/Expert%20Witness%20Compression%20Format%20(EWF).asciidoc",
+            "https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-86.pdf",
+        ],
+    };
+
+/// Tracing a logged public IP address to a subscriber, including behind
+/// carrier-grade NAT.
+///
+/// # Sources actually read
+///
+/// - RFC 6888 §2 (BCP 127): a CGN is "used to share the same IPv4 address
+///   among several subscribers".
+/// - RFC 6598: 100.64.0.0/10 is the Shared Address Space for CGN.
+/// - RFC 6269 §13.1 (Informational): "IPv4 address X has done something bad
+///   at time T0. This is not enough information to uniquely identify the
+///   subscriber responsible for the abuse when that IPv4 address is shared by
+///   more than one subscriber."
+/// - RFC 7620 §10.2 (Informational, Independent Submission; weight it
+///   accordingly): cellular operators assign private addresses and NAT them,
+///   so "there is no correlation between the internal IP address and the
+///   external address:port assigned by the NAT function".
+/// - MaxMind geolocation accuracy: GeoIP data "is never precise enough to
+///   identify or locate a specific household, individual, or street address".
+/// - RIPEstat announced-prefixes: what an AS actually announces, as distinct
+///   from what is registered to it.
+pub static IP_ADDRESS_SUBSCRIBER_ATTRIBUTION: InvestigativeTechnique = InvestigativeTechnique {
+    id: "ip_address_subscriber_attribution",
+    name: "IP address to subscriber attribution (including CGN)",
+    question: "Which subscriber line held this public IP address when the logged activity \
+               happened - and can that be established at all?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "From the service's own logs, establish exactly what was recorded: the \
+                     event and what it means (login, upload, page view), the timestamp with \
+                     its UTC offset and clock-sync status, the public source IP and SOURCE \
+                     PORT, and whether the logged address is the client or a proxy or \
+                     load-balancer value (X-Forwarded-For).",
+            artifact_id: None,
+            yields: "An (IP, port, protocol, UTC instant) tuple and its reliability.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Identify the holder and routing of the address at that instant: RIR \
+                     registration (whois, parsed per object), the prefix actually announced \
+                     and by which AS (RIPEstat or BGP archives for historic dates), and \
+                     whether the range is CGN or mobile (shared address space, operator \
+                     disclosure of port blocks).",
+            artifact_id: None,
+            yields: "The operator to ask, and whether address-only attribution is even \
+                     possible.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Obtain the operator's records: subscriber assignment at the instant \
+                     (lease start and end, static or dynamic), the operator's time zone, and \
+                     under CGN the translation log keyed by public IP, public port and time.",
+            artifact_id: None,
+            yields: "The subscriber account that held the tuple, or a documented reason it \
+                     cannot be resolved.",
+        },
+        TechniqueStep {
+            order: 4,
+            action: "Corroborate on the device only what the device can show: its private \
+                     address, gateway, DHCP lease, known networks, VPN or proxy clients, and \
+                     application artefacts matching the logged event. A device image rarely \
+                     holds its own public IP.",
+            artifact_id: None,
+            yields: "Consistency or inconsistency between the subscriber finding and the \
+                     device.",
+        },
+    ],
+    artifacts_used: &[],
+    preconditions: &[
+        "The service log, the operator's records and the device evidence are three \
+         different custodians' records; each must be obtained, and none substitutes for \
+         another.",
+        "All timestamps are normalised to UTC with their original offsets recorded; a \
+         one-hour zone or DST error can select a different subscriber.",
+    ],
+    failure_modes: &[
+        "Attributing a CGN address from IP and time alone: without the source port (and \
+         the operator's translation log) the address was shared by many subscribers at that \
+         instant, and naming one of them is a guess.",
+        "Treating registration as location or routing: whois says who holds a range; a \
+         geolocation database gives a probabilistic area, never a household; and a prefix \
+         registered to one operator can be announced by another.",
+        "Clock and zone error: an unsynchronised server clock or a mis-read offset moves \
+         the instant into another lease and another subscriber.",
+        "Ending at a person: the chain terminates at a subscriber account or line, never a \
+         person; who used the connection is a separate question the network records do not \
+         answer.",
+    ],
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    mitre_techniques: &[],
+    sources: &[
+        "https://www.rfc-editor.org/rfc/rfc6888.txt",
+        "https://www.rfc-editor.org/rfc/rfc6598.txt",
+        "https://www.rfc-editor.org/rfc/rfc6269.txt",
+        "https://www.rfc-editor.org/rfc/rfc7620.txt",
+        "https://support.maxmind.com/hc/en-us/articles/4407630607131-Geolocation-Accuracy",
+        "https://stat.ripe.net/docs/data-api/api-endpoints/announced-prefixes",
+    ],
+};
+
+/// Interpreting the public IP address of a mobile device that may have been
+/// roaming.
+///
+/// # Sources actually read
+///
+/// - RFC 7445 §2.1.1: in home-routed mode "the subscriber's UE gets IP
+///   addresses from the home network. All traffic belonging to that UE is
+///   therefore routed to the home network"; §2.1.2: in local breakout "IP
+///   addresses are assigned by the visited network".
+/// - 3GPP TS 23.401 (ETSI TS 123 401 v19.6.0) §5.3.1.1: "a) The HPLMN
+///   allocates the IP address to the UE when the default bearer is
+///   activated ... b) The VPLMN allocates the IP address".
+/// - Mandalari et al., "Experience: Implications of Roaming in Europe",
+///   MobiCom 2018: names three configurations - home-routed (HR), local
+///   breakout (LBO) and IPX hub breakout (IHBO); "HR was used by all 16 MNOs"
+///   measured; roaming added "latency penalties of ~60 ms or more, depending
+///   on geographical distance". European measurements only.
+/// - 3GPP TS 32.298 (ETSI TS 132 298 v18.8.0): charging records carry
+///   `servingNodePLMNIdentifier`, `userLocationInformation` and `rATType`,
+///   separate from the address the gateway assigned.
+pub static MOBILE_ROAMING_IP_INTERPRETATION: InvestigativeTechnique = InvestigativeTechnique {
+    id: "mobile_roaming_ip_interpretation",
+    name: "Mobile roaming IP interpretation",
+    question: "Does a home-country mobile IP address show the device was in its home \
+               country, or could it have been roaming abroad?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "Identify the roaming mode in force for that SIM, APN/DNN and date. In \
+                     home-routed roaming the home network assigns the address and all \
+                     traffic exits at the home operator's gateway; in local breakout the \
+                     visited network assigns it; in IPX hub breakout traffic exits at an \
+                     inter-operator hub that may be in neither country.",
+            artifact_id: None,
+            yields: "Which network's address space the device would present under each mode.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Request the operator's charging and session records for the instant: \
+                     serving network (servingNodePLMNIdentifier), user location \
+                     information, radio access type, APN/DNN, the assigned address, gateway \
+                     identity and NAT logs, with the records' time source.",
+            artifact_id: None,
+            yields: "The serving (location) side and the egress (address) side as separate \
+                     facts.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "If latency is argued, compute the penalty as a path difference - \
+                     home-routed path minus local-breakout path to the same server - not as \
+                     an absolute round-trip time.",
+            artifact_id: None,
+            yields: "A latency figure tied to the actual endpoints, or a statement that it \
+                     cannot discriminate.",
+        },
+    ],
+    artifacts_used: &[],
+    preconditions: &[
+        "The operator's configuration for that subscriber and date is obtainable; \
+         prevalence studies establish what is common, not what applied.",
+    ],
+    failure_modes: &[
+        "Reading a home-operator IP as presence in the home country: under home-routed \
+         roaming a SIM abroad presents exactly that address.",
+        "Assuming a binary: home-routed versus local breakout omits IPX hub breakout, whose \
+         exit can be in a third country.",
+        "Generalising prevalence: the measurements showing home routing as near-universal \
+         are largely European and several share authors; they establish capability and \
+         common practice, not the configuration of a given operator.",
+        "Treating absolute round-trip time as the roaming penalty, which confounds server \
+         distance with the roaming detour.",
+        "Treating the records as identifying a user: they identify the SIM and its session.",
+    ],
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    mitre_techniques: &[],
+    sources: &[
+        "https://www.rfc-editor.org/rfc/rfc7445.txt",
+        "https://www.etsi.org/deliver/etsi_ts/123400_123499/123401/19.06.00_60/ts_123401v190600p.pdf",
+        "https://vaibhavbajpai.com/documents/papers/proceedings/roaming-mobicom-2018.pdf",
+        "https://www.etsi.org/deliver/etsi_ts/132200_132299/132298/18.08.00_60/ts_132298v180800p.pdf",
+    ],
+};
+
+/// Classifying a logged egress address as a commercial VPN exit, a
+/// residential or mobile proxy, or an ordinary subscriber connection.
+///
+/// # Sources actually read
+///
+/// - RFC 4301 §5.1.2 (tunnel mode): "The outer IP header Source Address and
+///   Destination Address identify the 'endpoints' of the tunnel" - a service
+///   behind a VPN logs the exit.
+/// - Khan et al., "An Empirical Analysis of the Commercial VPN Ecosystem",
+///   IMC 2018: vantage points on "well-known hosting providers like Digital
+///   Ocean, LeaseWeb and Softlayer", "easy to blacklist and block".
+/// - Mi et al., "Resident Evil: Understanding Residential IP Proxy as a Dark
+///   Service", IEEE S&P 2019: 6 million residential proxy IPs across 230+
+///   countries and 52K+ ISPs, with only 2.20% found in public blacklists.
+/// - MaxMind Anonymous IP database documentation: classifies VPN, hosting and
+///   residential-proxy addresses as separate categories.
+pub static VPN_AND_RESIDENTIAL_PROXY_EGRESS_CLASSIFICATION: InvestigativeTechnique =
+    InvestigativeTechnique {
+        id: "vpn_and_residential_proxy_egress_classification",
+        name: "VPN and residential-proxy egress classification",
+        question: "Does the logged address show a VPN or proxy was - or was not - in use?",
+        steps: &[
+            TechniqueStep {
+                order: 1,
+                action: "Classify the address's network at the material date: hosting or \
+                         data-centre ASN, fixed-line ISP, or mobile operator, using registry \
+                         and routing data plus a dated IP-intelligence classification.",
+                artifact_id: None,
+                yields: "The network class of the egress address.",
+            },
+            TechniqueStep {
+                order: 2,
+                action: "Test the address against the published relay lists of mainstream \
+                         VPN providers as at the material date, recording the list, its \
+                         retrieval date and its size.",
+                artifact_id: None,
+                yields: "A positive match, or a bounded non-match against named lists.",
+            },
+            TechniqueStep {
+                order: 3,
+                action: "Look for VPN or proxy use on the device and in session evidence \
+                         (clients installed, tunnel interfaces, configuration, logs \
+                         overlapping the instant), since network-side classification cannot \
+                         settle it.",
+                artifact_id: None,
+                yields: "Device-side evidence for or against tunnelling at the instant.",
+            },
+        ],
+        artifacts_used: &[],
+        preconditions: &[
+            "Classifications and relay lists are dated to the material time; both change \
+             continuously.",
+        ],
+        failure_modes: &[
+            "Concluding 'no VPN or proxy' from a mobile-operator or residential address: \
+             residential and mobile proxy networks relay through genuine subscriber \
+             addresses, are rarely blacklisted, and cannot be enumerated.",
+            "Treating absence from published VPN lists as exclusion: lists are incomplete \
+             and change, and self-hosted VPNs terminating on a home or mobile line never \
+             appear on them.",
+            "Ignoring the ordinary alternatives: the VPN was off, disconnected, or split \
+             tunnelling excluded the application whose log is being read.",
+            "Treating a hosting-ASN address as proof of a particular person's VPN use: one \
+             exit serves many users.",
+        ],
+        evidence_tier: EvidenceTier::SourceOrMultiImpl,
+        mitre_techniques: &["T1090"],
+        sources: &[
+            "https://www.rfc-editor.org/rfc/rfc4301.txt",
+            "https://dspace.networks.imdea.org/bitstream/handle/20.500.12761/619/imc18-final198.pdf",
+            "https://conferences.computer.org/sp/pdfs/sp/2019/ResidentEvilUnderstandingResidentialIPProxyasa.pdf",
+            "https://dev.maxmind.com/geoip/docs/databases/anonymous-ip/",
+        ],
+    };
+
+/// Testing one-person, several-account and shared-account hypotheses
+/// against a device, instead of asserting exclusive or shared use.
+///
+/// # Sources actually read
+///
+/// - ENFSI Guideline for Evaluative Reporting in Forensic Science (2015):
+///   "The findings should be evaluated given at least one pair of
+///   propositions ... If no alternative can be formulated, the value of the
+///   findings cannot be assessed."
+/// - Microsoft, "Security identifiers": a SID identifies a "security
+///   principal", which "can represent any entity that the operating system
+///   can authenticate" - an account, not a human.
+///
+/// # Basis
+///
+/// Practice: the three-hypothesis frame and the layer list were built in
+/// casework and tested by an adversarial reviewer, which is where the
+/// account-is-not-a-person point was independently confirmed. A
+/// single-local-account machine later showed several online identities over
+/// its lifetime, overturning an early "single user" reading.
+pub static SHARED_ACCOUNT_HYPOTHESIS_TESTING: InvestigativeTechnique = InvestigativeTechnique {
+    id: "shared_account_hypothesis_testing",
+    name: "Shared-account hypothesis testing",
+    question: "Was this device or account used by one person exclusively, by several people \
+               with separate accounts, or by several people through one account?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "Frame at least three hypotheses: H1 one human, one account; H2 several \
+                     humans with separate accounts; H3 several humans sharing one account or \
+                     session (at once or one after another).",
+            artifact_id: None,
+            yields: "Competing propositions against which each finding is weighed.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Examine the layers from determinable to inferential, each with a \
+                     current and a historical sub-layer: local accounts; deleted accounts; \
+                     several identities inside one account (online accounts, autofill \
+                     identities, input languages, paired phones, activity at incompatible \
+                     times); remote logons; authenticated remote resources; peripherals and \
+                     networks; content and provenance multiplicity; historical states \
+                     (snapshots, shadow copies); concealment residue.",
+            artifact_id: None,
+            yields: "Per layer and per hypothesis: expected, found, absent, unavailable, or \
+                     excluded by acquisition scope.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Weigh concurrency and physical impossibility highest (two activities at \
+                     once, activity while a person is shown elsewhere), then identity \
+                     multiplicity inside one account, then content multiplicity.",
+            artifact_id: None,
+            yields: "The hypotheses the evidence supports, weakens or cannot separate.",
+        },
+        TechniqueStep {
+            order: 4,
+            action: "Keep association (whose content and accounts the device holds) separate \
+                     from attribution (who operated it at a given instant), and word the \
+                     conclusion at the level reached, e.g. 'use by X is established; \
+                     exclusive use is not'.",
+            artifact_id: None,
+            yields: "A conclusion that does not promote an account-level finding to a \
+                     person-level one.",
+        },
+    ],
+    artifacts_used: &[],
+    preconditions: &[
+        "The acquisition scope is known (see acquisition_scope_verification): a logical \
+         export or short-retention source cannot show the layers it excludes, and those \
+         cells must be marked excluded by acquisition scope rather than absent.",
+    ],
+    failure_modes: &[
+        "Counting accounts as people: one local account can carry several online identities \
+         used by different people, and several accounts can belong to one person.",
+        "Reading an artefact as attributing to a human: logons, profiles and SIDs attribute \
+         to a security context; who sat at the keyboard is a further inference.",
+        "Treating absence of multi-user traces as proof of exclusive use: absence in a \
+         filtered, short-retention or logical source says nothing about the device, and \
+         even on a full image it shows only that sharing left no trace.",
+        "Forcing a binary: testing only 'exclusive' against 'shared' drops H3, the case a \
+         single-account machine most often presents.",
+        "Treating content multiplicity (other people's documents or photos) as proof of \
+         other users: it is consistent with shared use and equally with received or synced \
+         content.",
+    ],
+    evidence_tier: EvidenceTier::SingleSecondary,
+    mitre_techniques: &[],
+    sources: &[
+        "https://enfsi.eu/wp-content/uploads/2016/09/m1_guideline.pdf",
+        "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-identifiers",
+    ],
+};
+
 // ── Evidence handling (EWF/L01/AD1) and Windows attribution ─────────────────
 //
 // The techniques below come from one class of problem: evidence arrives as a
@@ -1368,6 +2087,14 @@ pub static INVESTIGATIVE_TECHNIQUES: &[InvestigativeTechnique] = &[
     WIFI_BSSID_GEOLOCATION,
     NETWORK_NEIGHBOUR_ENUMERATION,
     WIFI_PRESENCE_TIMELINE,
+    WHOLE_VOLUME_SIGNATURE_SWEEP,
+    CONTROLLED_NEGATIVE_SEARCH,
+    ACQUISITION_SCOPE_VERIFICATION,
+    LOGICAL_EXPORT_SELECTION_RULE_INFERENCE,
+    IP_ADDRESS_SUBSCRIBER_ATTRIBUTION,
+    MOBILE_ROAMING_IP_INTERPRETATION,
+    VPN_AND_RESIDENTIAL_PROXY_EGRESS_CLASSIFICATION,
+    SHARED_ACCOUNT_HYPOTHESIS_TESTING,
     ACQUISITION_PROVENANCE_FROM_EVIDENCE,
     EVIDENCE_HASH_SCOPE,
     LOGICAL_EXPORT_SELECTION_RULE,

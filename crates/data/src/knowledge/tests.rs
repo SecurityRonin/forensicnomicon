@@ -11,7 +11,7 @@ use super::*;
 /// The exact number of registered tool behaviours — the single place the
 /// count is written down. Adding an entry updates this constant and nothing
 /// else; every other test asserts presence or invariants, not size.
-const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 12;
+const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 20;
 
 #[test]
 fn no_duplicate_ids() {
@@ -195,7 +195,7 @@ fn every_correlation_entry_is_verifiable() {
 
 /// The exact number of registered investigative techniques — the single place
 /// the count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 15;
+const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 23;
 
 #[test]
 fn investigative_len_matches_expected() {
@@ -602,6 +602,122 @@ fn unsourced_tool_behaviours_announce_themselves_in_the_text() {
             "{}: must record where the search already went",
             b.id
         );
+    }
+}
+
+fn tool_behaviour(id: &str) -> &'static ToolBehaviour {
+    TOOL_BEHAVIOURS
+        .iter()
+        .find(|b| b.id == id)
+        .unwrap_or_else(|| panic!("missing tool behaviour: {id}"))
+}
+
+/// The cross-platform examination-tool batch: SQLite readers, PDF tooling,
+/// OpenBSM's praudit, ZIP member-name decoding and RIR whois — each a tool
+/// whose output an examiner reads as the evidence when it is not.
+#[test]
+fn cross_platform_tool_batch_is_present() {
+    for id in [
+        "sqlite_immutable_uri_ignores_wal",
+        "sqlite_main_file_only_copy_drops_wal",
+        "sqlite_open_missing_path_creates_empty_db",
+        "qpdf_show_encryption_blank_user_password",
+        "poppler_pdftotext_encrypted_pdf_empty_stdout",
+        "praudit_resolves_ids_on_analysis_host",
+        "zip_legacy_codepage_member_names_misdecoded",
+        "apnic_whois_first_country_is_not_the_asn_holder",
+    ] {
+        tool_behaviour(id);
+    }
+}
+
+/// `immutable=1` was once recorded as THE safe way to read an evidence
+/// database. It is not: it skips the WAL, so committed-but-uncheckpointed rows
+/// vanish. The corrected rule must be present, graded on the SQLite source
+/// that proves it, and must hand the examiner the read that works.
+#[test]
+fn sqlite_immutable_is_recorded_as_lossy_not_safe() {
+    let b = tool_behaviour("sqlite_immutable_uri_ignores_wal");
+    assert_eq!(b.kind, ToolBehaviourKind::SilentlyIncomplete);
+    assert!(b.evidence_tier >= EvidenceTier::SourceOrMultiImpl);
+    assert!(
+        b.sources.iter().any(|s| s.contains("pager.c")),
+        "the WAL skip is in pager.c (immutable -> act_like_temp_file); cite it"
+    );
+    for needle in ["-wal", "-shm", "copy"] {
+        assert!(
+            b.mitigation.contains(needle),
+            "mitigation must name the db + -wal + -shm copy; missing {needle}"
+        );
+    }
+}
+
+/// Copying only the main file loses the same rows by a different route, and
+/// the safe read must never be run against the original: the last connection
+/// to close checkpoints and deletes the WAL.
+#[test]
+fn sqlite_main_file_copy_warns_against_opening_the_original() {
+    let b = tool_behaviour("sqlite_main_file_only_copy_drops_wal");
+    assert_eq!(b.kind, ToolBehaviourKind::SilentlyIncomplete);
+    assert!(b.mitigation.contains("original"));
+    assert!(format!("{} {}", b.detail, b.mitigation).contains("checkpoint"));
+}
+
+/// A mistyped path must not read as an empty or schema-less database.
+#[test]
+fn sqlite_missing_path_entry_names_mode_ro() {
+    let b = tool_behaviour("sqlite_open_missing_path_creates_empty_db");
+    assert!(b.mitigation.contains("mode=ro"));
+    assert!(b.consequence.contains("no such table"));
+}
+
+/// The blank `User password =` line is only safe to read with the line above
+/// it; the entry must name that discriminating line.
+#[test]
+fn qpdf_entry_names_the_discriminating_line() {
+    let b = tool_behaviour("qpdf_show_encryption_blank_user_password");
+    assert_eq!(b.kind, ToolBehaviourKind::OutputHidesDetail);
+    assert!(b.detail.contains("Incorrect password supplied"));
+    assert!(b.mitigation.contains("--requires-password"));
+}
+
+/// An encrypted PDF must not be recordable as "blank" by a pipeline that
+/// reads only stdout.
+#[test]
+fn pdftotext_entry_points_at_exit_status() {
+    let b = tool_behaviour("poppler_pdftotext_encrypted_pdf_empty_stdout");
+    assert!(b.detail.contains("Incorrect password"));
+    assert!(b.mitigation.contains("exit"));
+}
+
+/// praudit renders numeric ids through the ANALYSIS host's account database;
+/// the entry must be wired to the audit-trail descriptor and name `-n`.
+#[test]
+fn praudit_entry_is_wired_to_the_audit_trail() {
+    let b = tool_behaviour("praudit_resolves_ids_on_analysis_host");
+    assert_eq!(b.kind, ToolBehaviourKind::RequiresFlag);
+    assert_eq!(b.artifact_id, Some("macos_openbsm_audit"));
+    assert!(
+        crate::catalog::CATALOG
+            .by_id("macos_openbsm_audit")
+            .is_some(),
+        "artifact_id must resolve"
+    );
+    assert!(b.mitigation.contains("-n"));
+    assert!(b.mitigation.contains("TZ=UTC"));
+}
+
+/// Every artifact_id a tool behaviour names must resolve in the catalog.
+#[test]
+fn every_tool_behaviour_artifact_id_resolves() {
+    for b in TOOL_BEHAVIOURS {
+        if let Some(a) = b.artifact_id {
+            assert!(
+                crate::catalog::CATALOG.by_id(a).is_some(),
+                "{}: artifact_id not in catalog: {a}",
+                b.id
+            );
+        }
     }
 }
 
@@ -1173,6 +1289,136 @@ fn profiles_use_curated_not_mis_scoped_safari_cookies() {
         cookies.os_scope,
         crate::catalog::OsScope::MacOS,
         "the curated Safari cookie descriptor must be macOS-scoped"
+    );
+}
+
+// ── Examination-method techniques ────────────────────────────────────────────
+
+fn technique(id: &str) -> &'static InvestigativeTechnique {
+    INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == id)
+        .unwrap_or_else(|| panic!("missing investigative technique: {id}"))
+}
+
+/// Everything a technique says, in one string, for content assertions.
+fn technique_text(t: &InvestigativeTechnique) -> String {
+    let mut s = format!("{} {}", t.name, t.question);
+    for step in t.steps {
+        s.push(' ');
+        s.push_str(step.action);
+        s.push(' ');
+        s.push_str(step.yields);
+    }
+    for p in t.preconditions.iter().chain(t.failure_modes) {
+        s.push(' ');
+        s.push_str(p);
+    }
+    s
+}
+
+/// The examination-method batch: disk-image handling, validation controls,
+/// network/IP attribution and multi-user attribution - the technique classes
+/// the catalog had no entries for.
+#[test]
+fn examination_method_batch_is_present() {
+    for id in [
+        "whole_volume_signature_sweep",
+        "controlled_negative_search",
+        "acquisition_scope_verification",
+        "logical_export_selection_rule_inference",
+        "ip_address_subscriber_attribution",
+        "mobile_roaming_ip_interpretation",
+        "vpn_and_residential_proxy_egress_classification",
+        "shared_account_hypothesis_testing",
+    ] {
+        technique(id);
+    }
+}
+
+/// A sweep that stops at record-level labels ("attachment only",
+/// "encrypted") reports leads as findings; and a naive walk hangs on a FIFO.
+#[test]
+fn signature_sweep_treats_labels_as_leads_and_guards_special_files() {
+    let text = technique_text(technique("whole_volume_signature_sweep"));
+    for needle in ["attachment only", "FIFO", "magic"] {
+        assert!(text.contains(needle), "sweep must mention {needle}");
+    }
+}
+
+/// A negative search is only as good as the positive control run beside it.
+#[test]
+fn controlled_negative_search_requires_a_positive_control() {
+    let t = technique("controlled_negative_search");
+    let text = technique_text(t);
+    assert!(text.contains("positive control"));
+    assert!(text.contains("substring"));
+    assert!(
+        t.failure_modes.iter().any(|f| f.contains("separator")),
+        "the wrong-path-separator zero must be a recorded failure mode"
+    );
+}
+
+/// Container format and acquisition scope are two different questions.
+#[test]
+fn acquisition_scope_separates_format_from_scope() {
+    let text = technique_text(technique("acquisition_scope_verification"));
+    for needle in ["sector count", "HPA", "logical"] {
+        assert!(text.contains(needle), "scope check must mention {needle}");
+    }
+}
+
+/// Under CGN an IP and a time do not identify a subscriber; the port does.
+#[test]
+fn ip_attribution_requires_source_port_under_cgn() {
+    let t = technique("ip_address_subscriber_attribution");
+    let text = technique_text(t);
+    assert!(text.contains("source port"));
+    assert!(text.contains("CGN"));
+    assert!(t.sources.iter().any(|s| s.contains("rfc6269")));
+    assert!(
+        t.failure_modes
+            .iter()
+            .any(|f| f.contains("subscriber") && f.contains("person")),
+        "must record that the chain ends at a subscriber, not a person"
+    );
+}
+
+/// Roaming has three modes, not two.
+#[test]
+fn roaming_interpretation_names_all_three_modes() {
+    let text = technique_text(technique("mobile_roaming_ip_interpretation"));
+    for needle in ["home-routed", "local breakout", "IPX hub breakout"] {
+        assert!(text.contains(needle), "roaming must name {needle}");
+    }
+}
+
+/// A mobile-operator IP argues against a mainstream VPN; it does not
+/// exclude a residential or mobile proxy.
+#[test]
+fn vpn_classification_does_not_exclude_residential_proxies() {
+    let t = technique("vpn_and_residential_proxy_egress_classification");
+    assert!(
+        t.failure_modes.iter().any(|f| f.contains("residential")),
+        "the residential/mobile proxy exception must be a failure mode"
+    );
+}
+
+/// One account is not one person: at least three hypotheses, and absence of
+/// multi-use evidence never proves exclusive use.
+#[test]
+fn shared_account_testing_frames_three_hypotheses() {
+    let t = technique("shared_account_hypothesis_testing");
+    let text = technique_text(t);
+    for needle in ["H1", "H2", "H3", "excluded by acquisition scope"] {
+        assert!(
+            text.contains(needle),
+            "hypothesis frame must mention {needle}"
+        );
+    }
+    assert!(
+        t.failure_modes.iter().any(|f| f.contains("exclusive use")),
+        "absence of multi-use evidence must be recorded as not proving exclusive use"
     );
 }
 

@@ -10,6 +10,14 @@
 //! Each doc comment separates BUG from DESIGN LIMIT: a list-walking or
 //! pool-scanning plugin missing what its method cannot see is the documented
 //! consequence of the method, and filing it as a defect would mislead.
+//!
+//! Cross-platform examination-tool batch: the general-purpose readers an
+//! examiner reaches for on any platform (SQLite, qpdf, poppler, praudit, ZIP
+//! decoders, RIR whois). None of these is a forensic tool, and each one's
+//! default behaviour is correct for its ordinary users and wrong for evidence.
+//! Every entry was reproduced on the stated version with a positive control
+//! (the same run shown to return the data when it is read correctly), and the
+//! mechanism was read in the tool's own source or documentation.
 
 use super::{ToolBehaviour, ToolBehaviourKind};
 use forensicnomicon_core::evidence::EvidenceTier;
@@ -415,6 +423,412 @@ pub static MALFIND_BENIGN_PROCESS_NAMES: ToolBehaviour = ToolBehaviour {
     ],
 };
 
+/// SQLite `immutable=1`: the write-ahead log is never opened, so rows
+/// committed to the WAL but not yet checkpointed are invisible.
+///
+/// # Verification
+///
+/// - `src/pager.c`, `sqlite3PagerOpen()`: when the `immutable` URI boolean is
+///   set the pager jumps to `act_like_temp_file`, which sets `tempFile = 1`;
+///   `pagerOpenWalIfPresent()` begins `if( !pPager->tempFile )`, so the WAL
+///   existence check is never made for an immutable database.
+/// - sqlite.org/uri.html: `immutable=1` declares the file "held on read-only
+///   media and cannot be modified", and SQLite "skips all file locking and
+///   change detection". It says nothing about the WAL, which is why it reads
+///   as the safe evidence-reading option.
+/// - Reproduced (SQLite 3.50.4, Python 3.11): a copied db + `-wal` + `-shm`
+///   trio holding 5 WAL-only rows returned 0 rows under `immutable=1` and 5
+///   under `mode=ro` on the same copy (the positive control).
+/// - Field observation, reported by the examiner who ran it and not re-run
+///   for this entry: on one real macOS Big Sur image, 168 of 207 databases
+///   with a non-empty WAL gave different row counts with and without the WAL
+///   applied, including a Notes store (3 more note bodies with the WAL) and a
+///   keychain trusted-peer store (0 peers without, 5 with).
+///
+/// Design, not a bug: an immutable file is by definition one nobody is
+/// writing, and SQLite reads it as such. The error is using it on a database
+/// that was live when imaged. Supersedes an earlier note that recommended
+/// `immutable=1` as the safe read pattern with no stated limit.
+pub static SQLITE_IMMUTABLE_URI_IGNORES_WAL: ToolBehaviour = ToolBehaviour {
+    id: "sqlite_immutable_uri_ignores_wal",
+    tool: "SQLite (immutable=1 URI parameter; any binding: sqlite3 CLI, Python sqlite3)",
+    version_range: Some(
+        "Reproduced on SQLite 3.50.4; the WAL skip is in pager.c on master as of 2026-09. \
+         The immutable parameter was added in 3.8.5 (2014-06-04)",
+    ),
+    artifact_id: None,
+    kind: ToolBehaviourKind::SilentlyIncomplete,
+    detail: "Opening a database with the URI parameter immutable=1 makes the pager treat \
+             it like a temporary file (pager.c: immutable -> act_like_temp_file -> \
+             tempFile = 1), and pagerOpenWalIfPresent() only looks for a -wal file when \
+             tempFile is 0. The WAL is therefore never read: every transaction committed \
+             to the WAL but not yet checkpointed into the main file is invisible, and the \
+             query succeeds with no warning. On a copy of a live database this is common, \
+             not rare - WAL-mode stores checkpoint only at about 1000 pages or when the \
+             last connection closes, and a device imaged while running rarely got that \
+             close. SQLite's own documentation of immutable=1 speaks of read-only media \
+             and skipped locking, and does not mention the WAL.",
+    consequence: "Recent rows - the newest messages, notes, history entries, keychain \
+                  records - are reported as absent when they are sitting in the -wal file \
+                  beside the database. Because immutable=1 looks like the most \
+                  evidence-preserving option available, the loss is chosen deliberately \
+                  and then trusted: a negative ('no such record') and a count ('N rows') \
+                  are both understated with nothing on screen to say so.",
+    mitigation: "Copy the database together with its -wal and -shm files (same basename, \
+                 same directory) to scratch storage, and open the copy normally or with \
+                 mode=ro - never the original, because the last connection to close \
+                 checkpoints and deletes the WAL. Where the uncommitted state matters, \
+                 report both views: main-file-only and WAL-applied row counts, per table.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/sqlite/sqlite/blob/master/src/pager.c",
+        "https://www.sqlite.org/uri.html",
+        "https://www.sqlite.org/wal.html",
+    ],
+};
+
+/// A SQLite database copied without its `-wal` (and `-shm`) is the
+/// checkpointed state only; the newest committed rows stay behind.
+///
+/// # Verification
+///
+/// - sqlite.org/wal.html: in WAL mode changes are appended to the separate
+///   WAL file and moved into the database only at a checkpoint (by default at
+///   about 1000 pages, or when the last connection closes); "When the last
+///   connection to a database closes, that connection does one last
+///   checkpoint and then deletes the WAL and its associated shared-memory
+///   file".
+/// - Reproduced (SQLite 3.50.4): the main file copied alone returned 0 of 5
+///   committed rows under `mode=ro`; the same main file copied with its
+///   `-wal` and `-shm` returned all 5 (the positive control).
+///
+/// Design, not a bug: the WAL is part of the database while the database is
+/// in WAL mode. The failure is in the collection step, which is why the
+/// consequence belongs to every tool that opens the copy.
+pub static SQLITE_MAIN_FILE_ONLY_COPY_DROPS_WAL: ToolBehaviour = ToolBehaviour {
+    id: "sqlite_main_file_only_copy_drops_wal",
+    tool: "SQLite (any reader of a copied main database file)",
+    version_range: Some("All WAL-capable versions (3.7.0 onward); reproduced on SQLite 3.50.4"),
+    artifact_id: None,
+    kind: ToolBehaviourKind::SilentlyIncomplete,
+    detail: "In WAL mode a commit is written to <db>-wal and reaches the main file only \
+             at a checkpoint. Copying or exporting only <db> - a file-by-file extraction \
+             that selects by name or extension, a manual cp of the .db/.sqlite file, an \
+             artifact collector that knows only the main path - produces a database that \
+             opens cleanly and contains only the last checkpointed state. SQLite has no \
+             way to know a WAL existed, so no reader can warn. Opening the ORIGINAL with \
+             write access to 'apply' the WAL is not a fix: the last connection to close \
+             runs a checkpoint and deletes the WAL and -shm, altering the evidence.",
+    consequence: "Rows committed after the last checkpoint are reported as never having \
+                  existed, and two examiners reading the 'same' database get different \
+                  counts depending on whether their extraction carried the sidecars. \
+                  Anyone who then opens the original to reconcile the difference may \
+                  checkpoint it and destroy the WAL they needed.",
+    mitigation: "Collect <db>, <db>-wal and <db>-shm together, hash all three, and open \
+                 only a scratch copy of the trio. Never open the original read-write: \
+                 closing it checkpoints and deletes the WAL. When given an extraction, \
+                 check whether the sidecars came with it before relying on any count or \
+                 negative, and state which state (checkpointed or WAL-applied) a finding \
+                 was read from.",
+    evidence_tier: EvidenceTier::VendorDocumented,
+    sources: &["https://www.sqlite.org/wal.html"],
+};
+
+/// Opening a SQLite path that does not exist creates an empty database, so a
+/// typo reads as "no such table" instead of "no such file".
+///
+/// # Verification
+///
+/// - sqlite.org/c3ref/open.html: the default flags for `sqlite3_open()` are
+///   `SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE`.
+/// - sqlite.org/uri.html: `mode=ro` opens read-only (`mode=rwc` is the
+///   create-if-missing mode).
+/// - Python `sqlite3` documentation: `mode=rw` on a missing file raises
+///   `OperationalError: unable to open database file` instead of creating it.
+/// - Reproduced (SQLite 3.50.4, Python 3.11): `sqlite3.connect("missing.db")`
+///   then `SELECT * FROM t` raised `no such table: t` and left a new empty file
+///   with 0 schema rows; `file:missing2.db?mode=ro` raised `unable to open
+///   database file` and created nothing.
+pub static SQLITE_OPEN_MISSING_PATH_CREATES_EMPTY_DB: ToolBehaviour = ToolBehaviour {
+    id: "sqlite_open_missing_path_creates_empty_db",
+    tool: "SQLite default open (sqlite3 CLI, Python sqlite3.connect and other bindings)",
+    version_range: Some(
+        "All versions using the default SQLITE_OPEN_READWRITE|SQLITE_OPEN_CREATE flags; \
+         reproduced on SQLite 3.50.4 via Python 3.11",
+    ),
+    artifact_id: None,
+    kind: ToolBehaviourKind::SilentlyIncomplete,
+    detail: "The default open mode is read-write-create. A path that does not exist - a \
+             mistyped mount point, a copy that failed with its error discarded, a \
+             database that is absent on this image - is created as a new, empty \
+             database, and the open succeeds. The first query then fails with 'no such \
+             table', or a query against sqlite_master returns zero rows, both of which \
+             read as facts about the evidence's schema. The stray empty file is also \
+             left behind, where a later run can find it.",
+    consequence: "A missing or mis-addressed database is reported as present-but-empty or \
+                  as a schema change between versions ('no such table' reads like an app \
+                  that never used that table), and a negative finding is written about \
+                  evidence that was never opened.",
+    mitigation: "Open evidence databases with a URI and mode=ro (for example \
+                 file:/path/db?mode=ro with uri=True), which refuses a missing file with \
+                 'unable to open database file'. Assert the path exists and is non-empty \
+                 before opening, and never discard the stderr of the copy step that \
+                 produced it.",
+    evidence_tier: EvidenceTier::VendorDocumented,
+    sources: &[
+        "https://www.sqlite.org/c3ref/open.html",
+        "https://www.sqlite.org/uri.html",
+        "https://docs.python.org/3/library/sqlite3.html",
+    ],
+};
+
+/// qpdf `--show-encryption` prints `User password = ` blank for a PDF whose
+/// open password it simply does not know.
+///
+/// # Verification
+///
+/// - `libqpdf/QPDFJob.cc`: on a password exception with `--show-encryption`
+///   set, `createQPDF()` logs "Incorrect password supplied" and still calls
+///   `showEncryption()`, which prints `"User password = " <<
+///   getTrimmedUserPassword()` - empty when nothing was recovered - and prints
+///   "Supplied password is user password" only when the supplied password
+///   matched.
+/// - qpdf manual (cli.html): `--show-encryption` "also shows the document's
+///   user password if the owner password is given"; `--requires-password`
+///   exits 0 when a password is required, 3 when encrypted but openable
+///   without one, 2 when not encrypted.
+/// - Reproduced (qpdf 12.4.1, pikepdf-made R=4 files): with a real user
+///   password, output began "Incorrect password supplied" then "User password
+///   = " (blank), exit 0, all on stdout; with an owner-only file the blank line
+///   was followed by "Supplied password is user password". `--requires-password`
+///   exited 0 and 3 respectively, and 2 on an unencrypted control.
+pub static QPDF_SHOW_ENCRYPTION_BLANK_USER_PASSWORD: ToolBehaviour = ToolBehaviour {
+    id: "qpdf_show_encryption_blank_user_password",
+    tool: "qpdf --show-encryption",
+    version_range: Some("Reproduced on qpdf 12.4.1; logic read in QPDFJob.cc on main, 2026-09"),
+    artifact_id: None,
+    kind: ToolBehaviourKind::OutputHidesDetail,
+    detail: "Run without a password on an encrypted PDF, qpdf --show-encryption prints \
+             the line 'User password = ' with an empty value in two different \
+             situations: when the file has NO open password (owner-password-only \
+             restrictions), and when it HAS one that qpdf does not know. In the second \
+             case the output is preceded by 'Incorrect password supplied'; in the first \
+             it is followed by 'Supplied password is user password'. The field shows the \
+             recovered value, not whether one exists, and the command exits 0 in both \
+             cases.",
+    consequence: "A file protected by a real open password is recorded as 'no user \
+                  password' from the blank field, so the examiner reports it as readable \
+                  (or its unreadability as a tool fault) instead of as locked evidence \
+                  needing a password or a recovery attempt.",
+    mitigation: "Read the discriminating line, not the field: 'Incorrect password \
+                 supplied' means an open password exists and is unknown. For scripts, use \
+                 qpdf --requires-password (exit 0 = password required, 3 = encrypted but \
+                 openable, 2 = not encrypted), and confirm by attempting \
+                 --password= --decrypt on a copy.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/qpdf/qpdf/blob/main/libqpdf/QPDFJob.cc",
+        "https://qpdf.readthedocs.io/en/stable/cli.html",
+    ],
+};
+
+/// poppler `pdftotext` on a user-password PDF writes nothing to stdout and
+/// reports only on stderr and the exit status.
+///
+/// # Verification
+///
+/// - `utils/pdftotext.cc`: after `createPDFDoc(fileName, ownerPW, userPW)`,
+///   `if (!doc->isOk()) { return 1; }` - before any output is opened.
+/// - `utils/pdftotext.1`, EXIT CODES: "1 Error opening a PDF file".
+/// - Reproduced (poppler 26.09.0): on a pikepdf-made R=4 file with a user
+///   password, stdout was empty, stderr read "Command Line Error: Incorrect
+///   password", exit 1, and with an output path no .txt file was created. The
+///   same text in an unencrypted control and an owner-password-only file was
+///   extracted normally. `file` described the locked file only as "PDF
+///   document, version 1.6", with no mention of encryption.
+///
+/// The tool is loud; the silence is in any pipeline that reads only stdout,
+/// which is the ordinary way a bulk text sweep is written. That is why the
+/// kind is SilentlyIncomplete and not a tool bug.
+pub static POPPLER_PDFTOTEXT_ENCRYPTED_PDF_EMPTY_STDOUT: ToolBehaviour = ToolBehaviour {
+    id: "poppler_pdftotext_encrypted_pdf_empty_stdout",
+    tool: "poppler pdftotext",
+    version_range: Some("Reproduced on poppler 26.09.0; exit-code contract in pdftotext.1"),
+    artifact_id: None,
+    kind: ToolBehaviourKind::SilentlyIncomplete,
+    detail: "Given a PDF with an open (user) password and no -upw, pdftotext writes \
+             nothing to stdout, prints 'Command Line Error: Incorrect password' to \
+             stderr and exits 1; writing to a file, it creates no output file at all. \
+             A bulk sweep that captures stdout (or globs the .txt outputs) and discards \
+             stderr sees exactly what it would see for a PDF with no text layer: empty \
+             text. `file` does not flag the encryption, so nothing earlier in a typical \
+             pipeline distinguishes the two.",
+    consequence: "A password-protected document is recorded as blank or image-only and \
+                  drops out of every keyword search and review list, so the locked \
+                  documents - often the ones someone chose to protect - are the ones a \
+                  text sweep reports as containing nothing.",
+    mitigation: "Check pdftotext's exit status and stderr for every file and count \
+                 non-zero exits separately from empty text. Test encryption first with \
+                 qpdf --requires-password or pdfinfo, list locked files as their own \
+                 category, and only call a PDF blank when it opened cleanly and still \
+                 yielded no text.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://gitlab.freedesktop.org/poppler/poppler/-/raw/master/utils/pdftotext.cc",
+        "https://gitlab.freedesktop.org/poppler/poppler/-/raw/master/utils/pdftotext.1",
+    ],
+};
+
+/// OpenBSM `praudit` prints audit-record user and group ids as names looked
+/// up on the machine running praudit, and times in that machine's zone.
+///
+/// # Verification
+///
+/// - `libbsm/bsm_io.c`, `print_user()`: unless `AU_OFLAG_RAW` or
+///   `AU_OFLAG_NORESOLVE` is set it calls `getpwuid(usr)` and prints the name
+///   found, falling back to the number only when the lookup fails; group ids
+///   are handled the same way. Timestamps go through `ctime_r()`, i.e. local
+///   time with no zone printed.
+/// - `bin/praudit/praudit.c`: `-n` sets `AU_OFLAG_NORESOLVE`. praudit(1): "-n
+///   Do not convert user and group IDs to their names but leave in their
+///   numeric forms."
+/// - Reproduced (macOS praudit, 2026-09): a synthetic trail with a subject
+///   token for uid 501 / gid 20 printed the analysis machine's own account and
+///   group names by default and "501,501,20,501,20" with -n; the header time
+///   rendered in the analysis host's zone, and as UTC under TZ=UTC.
+pub static PRAUDIT_RESOLVES_IDS_ON_ANALYSIS_HOST: ToolBehaviour = ToolBehaviour {
+    id: "praudit_resolves_ids_on_analysis_host",
+    tool: "OpenBSM praudit (macOS, FreeBSD)",
+    version_range: Some(
+        "OpenBSM praudit on master as of 2026-09; reproduced with macOS praudit (where the \
+         man page marks the tool deprecated)",
+    ),
+    artifact_id: Some("macos_openbsm_audit"),
+    kind: ToolBehaviourKind::RequiresFlag,
+    detail: "praudit renders the uid/gid fields of subject, process and attribute tokens \
+             by calling getpwuid()/getgrgid() on the machine running praudit, printing \
+             the name found there. For an audit trail copied off another system, uid 501 \
+             is printed as whichever account holds 501 on the examiner's workstation, \
+             and a number is printed only when the workstation has no such id. Record \
+             times are printed through ctime_r() in the workstation's time zone with no \
+             zone marker. Only -n (or -r) keeps the ids numeric.",
+    consequence: "Audit events are attributed to account names that belong to the \
+                  examiner's own machine - on macOS, where the first user is uid 501 on \
+                  almost every system, the examiner's own username appears as the actor \
+                  in someone else's audit trail - and event times silently shift by the \
+                  offset between the analysis host and the evidence.",
+    mitigation: "Always run praudit -n (for machine parsing, praudit -xn) under TZ=UTC, \
+                 then resolve uids and gids against the EVIDENCE system's own account \
+                 database (for macOS, the dslocal user records on the image) rather than \
+                 the analysis host's.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/openbsm/openbsm/blob/master/libbsm/bsm_io.c",
+        "https://github.com/openbsm/openbsm/blob/master/bin/praudit/praudit.c",
+        "https://man.freebsd.org/cgi/man.cgi?query=praudit&sektion=1",
+    ],
+};
+
+/// ZIP member names written in a legacy code page (GBK, Shift-JIS, ...)
+/// without the UTF-8 flag decode as CP437 mojibake - differently in each tool.
+///
+/// # Verification
+///
+/// - PKWARE APPNOTE 6.3.10 §4.4.4: general-purpose bit 11 (EFS) set means the
+///   file name "MUST be encoded using UTF-8"; Appendix D: without it the name
+///   is in the original IBM PC code page (CP437).
+/// - CPython `Lib/zipfile/__init__.py`: `filename.decode(self.metadata_encoding
+///   or 'cp437')` when bit 11 is clear; the zipfile documentation adds the
+///   `metadata_encoding` parameter in 3.11.
+/// - Reproduced: a zip whose single member name was GBK-encoded with bit 11
+///   clear listed under Python 3.11 zipfile as CP437 mojibake (a search for
+///   the original characters returned no match), and as two further, different
+///   garblings under macOS unzip and bsdtar; ZipFile(..., metadata_encoding=
+///   "gbk") recovered the name. A Python-written zip with the same name set
+///   bit 11 (0x800).
+///
+/// Spec-conformant, not a bug: CP437 is the specified default. The archiver
+/// that wrote a local code page without saying so is the source; every reader
+/// is then guessing.
+pub static ZIP_LEGACY_CODEPAGE_MEMBER_NAMES_MISDECODED: ToolBehaviour = ToolBehaviour {
+    id: "zip_legacy_codepage_member_names_misdecoded",
+    tool: "ZIP readers (Python zipfile, Info-ZIP unzip, bsdtar/libarchive)",
+    version_range: Some(
+        "Python zipfile all versions (metadata_encoding override from 3.11); reproduced on \
+         Python 3.11 and the macOS unzip/bsdtar of 2026-09",
+    ),
+    artifact_id: None,
+    kind: ToolBehaviourKind::MisreadsStructure,
+    detail: "A ZIP member name is UTF-8 only when general-purpose flag bit 11 (0x800) is \
+             set; otherwise the specification says CP437. Archives made by tools on \
+             systems with a legacy default code page (for example GBK or Shift-JIS \
+             Windows locales) store names in that code page without setting bit 11, so \
+             a conforming reader decodes them as CP437 and produces mojibake. Readers \
+             disagree on the fallback: the same GBK name came out as three different \
+             garblings in Python zipfile, unzip and bsdtar. The file content is intact; \
+             only the names are wrong.",
+    consequence: "A filename keyword search in the original script returns zero hits \
+                  against an archive that contains exactly that file, and listings from \
+                  two tools cannot be matched name-for-name, so a member looks missing \
+                  from one of them. Reported names in a listing are not the names the \
+                  user saw.",
+    mitigation: "Read each member's flag bits before trusting its name. Where bit 11 is \
+                 clear and names contain bytes >= 0x80, decode the raw name bytes with \
+                 the likely source code page (Python: ZipFile(path, \
+                 metadata_encoding='gbk'), or the -O option of Info-ZIP unzip builds that \
+                 support it), record the encoding chosen, and keep the raw name bytes in \
+                 the listing.",
+    evidence_tier: EvidenceTier::VendorDocumented,
+    sources: &[
+        "https://pkwaredownloads.blob.core.windows.net/pem/APPNOTE.txt",
+        "https://github.com/python/cpython/blob/main/Lib/zipfile/__init__.py",
+        "https://docs.python.org/3/library/zipfile.html",
+    ],
+};
+
+/// APNIC whois for an AS number returns the enclosing `as-block` and APNIC's
+/// own administrative objects first, so the first `country:` line is often
+/// not the ASN holder's.
+///
+/// # Verification
+///
+/// - APNIC whois object templates: `as-block` and `aut-num` both carry an
+///   optional `country:` attribute, so a response holding both objects holds
+///   two or more `country:` lines.
+/// - Observed live (whois.apnic.net, 2026-09-24): for six of seven
+///   Asia-Pacific ASNs queried, the response opened with the enclosing
+///   `as-block` ("APNIC ASN block") and its APNIC administrative objects, and
+///   the first `country:` line was AU; each `aut-num` object further down
+///   carried the holder's own country. The seventh returned the `aut-num`
+///   first. So the order depends on the record and cannot be assumed.
+/// - RIPEstat as-overview returns the holder name from the registry directly.
+pub static APNIC_WHOIS_FIRST_COUNTRY_IS_NOT_THE_ASN_HOLDER: ToolBehaviour = ToolBehaviour {
+    id: "apnic_whois_first_country_is_not_the_asn_holder",
+    tool: "whois (whois.apnic.net ASN queries)",
+    version_range: Some("APNIC whois responses as observed 2026-09-24; response layout may change"),
+    artifact_id: None,
+    kind: ToolBehaviourKind::OutputHidesDetail,
+    detail: "whois -h whois.apnic.net AS<n> often returns the enclosing as-block object \
+             ('APNIC ASN block', 'further assigned by APNIC to APNIC members') and \
+             APNIC's own contact objects before the aut-num object. Those carry APNIC's \
+             country (AU), so the first country: line in the response is the registry's, \
+             not the network holder's. Other responses start with the aut-num, so the \
+             position of the right line is not fixed.",
+    consequence: "A script or examiner taking the first country: line attributes an \
+                  Asia-Pacific network to Australia, and an IP-attribution or \
+                  jurisdiction finding is built on the registry's own address.",
+    mitigation: "Parse the aut-num object explicitly (the block beginning 'aut-num:') and \
+                 read its as-name, descr and country, or query RIPEstat as-overview for \
+                 the holder. Record the query time: registration data changes, and it \
+                 states who holds the number, not where traffic originated.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://www.apnic.net/manage-ip/using-whois/guide/as-block/",
+        "https://www.apnic.net/manage-ip/using-whois/guide/aut-num/",
+        "https://stat.ripe.net/docs/data-api/api-endpoints/as-overview",
+    ],
+};
+
 /// libewf: the whole open of a real EnCase L01 aborts at a strict
 /// short-name size check.
 ///
@@ -627,6 +1041,14 @@ pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
     VOL3_MALFIND_FP_PROFILE,
     COREUTILS_STAT_EXT4_BIRTH_BLANK,
     MALFIND_BENIGN_PROCESS_NAMES,
+    SQLITE_IMMUTABLE_URI_IGNORES_WAL,
+    SQLITE_MAIN_FILE_ONLY_COPY_DROPS_WAL,
+    SQLITE_OPEN_MISSING_PATH_CREATES_EMPTY_DB,
+    QPDF_SHOW_ENCRYPTION_BLANK_USER_PASSWORD,
+    POPPLER_PDFTOTEXT_ENCRYPTED_PDF_EMPTY_STDOUT,
+    PRAUDIT_RESOLVES_IDS_ON_ANALYSIS_HOST,
+    ZIP_LEGACY_CODEPAGE_MEMBER_NAMES_MISDECODED,
+    APNIC_WHOIS_FIRST_COUNTRY_IS_NOT_THE_ASN_HOLDER,
     LIBEWF_LEF_SHORT_NAME_OPEN_FAILURE,
     LIBEWF_DAMAGED_SEGMENT_ERROR_SEMANTICS,
     FTK_IMAGER_VERIFY_UNSTORED_HASH_MISMATCH,
